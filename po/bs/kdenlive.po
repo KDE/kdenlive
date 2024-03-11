@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-10 00:37+0000\n"
+"POT-Creation-Date: 2024-03-11 00:37+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -15914,47 +15914,56 @@ msgstr "Pokaži/sakrij opcije"
 
 #: src/pythoninterfaces/speechtotext.cpp:64
 #, kde-format
-msgid "Tiny (72Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny (72MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:65
 #, kde-format
-msgid "Base (140Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base (140MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:66
 #, kde-format
-msgid "Small (460Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small (460MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:67
 #, fuzzy, kde-format
-msgid "Medium (1.4Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium (1.4GB)"
 msgstr "Medijski reproduktor"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
 #, kde-format
-msgid "Large (2.9Gb)"
+msgctxt "Model file to download, large one"
+msgid "Large (2.9GB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:69
 #, kde-format
-msgid "Tiny - English only (39Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny - English only (39MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:70
 #, kde-format
-msgid "Base - English only (74Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base - English only (74MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:71
 #, kde-format
-msgid "Small - English only (244Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small - English only (244MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:72
 #, kde-format
-msgid "Medium - English only (1.5Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium - English only (1.5GB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:79

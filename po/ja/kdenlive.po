@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-10 00:37+0000\n"
+"POT-Creation-Date: 2024-03-11 00:37+0000\n"
 "PO-Revision-Date: 2023-07-08 21:38-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -15918,50 +15918,59 @@ msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:64
 #, kde-format
-msgid "Tiny (72Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny (72MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:65
 #, kde-format
-msgid "Base (140Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base (140MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:66
 #, fuzzy, kde-format
 #| msgid "Small (%1x%2)"
-msgid "Small (460Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small (460MB)"
 msgstr "小 (%1x%2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
 #, fuzzy, kde-format
 #| msgid "Medium (%1x%2)"
-msgid "Medium (1.4Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium (1.4GB)"
 msgstr "中 (%1x%2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
 #, fuzzy, kde-format
 #| msgid "Large (%1x%2)"
-msgid "Large (2.9Gb)"
+msgctxt "Model file to download, large one"
+msgid "Large (2.9GB)"
 msgstr "大 (%1x%2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
 #, kde-format
-msgid "Tiny - English only (39Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny - English only (39MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:70
 #, kde-format
-msgid "Base - English only (74Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base - English only (74MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:71
 #, kde-format
-msgid "Small - English only (244Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small - English only (244MB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:72
 #, kde-format
-msgid "Medium - English only (1.5Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium - English only (1.5GB)"
 msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:79

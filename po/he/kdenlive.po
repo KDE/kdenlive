@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-10 00:37+0000\n"
-"PO-Revision-Date: 2024-03-10 00:45+0200\n"
+"POT-Creation-Date: 2024-03-11 00:37+0000\n"
+"PO-Revision-Date: 2024-03-10 17:19+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -57,7 +57,7 @@ msgstr "חישוב משרעת השמע."
 #: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
-msgstr ""
+msgstr "להשתמש בסולם IEC 60268-18 "
 
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
@@ -68,7 +68,7 @@ msgstr "מסנן המחשת רמת שמע"
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
-msgstr ""
+msgstr "מסנן המחשת שמע שמצייר מד עוצמת שמע על התמונה."
 
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
@@ -163,7 +163,7 @@ msgstr "מרובע"
 #: data/effects/audiolevelgraph.xml:38 data/effects/audiospectrum.xml:31
 #, kde-format
 msgid "Defines the rectangle that the waveform(s) should be drawn in."
-msgstr ""
+msgstr "מגדיר את הריבוע בו צורות הגלים אמורות להצטייר."
 
 #: data/effects/audiolevelgraph.xml:41 data/effects/audiospectrum.xml:38
 #, kde-format
@@ -173,7 +173,7 @@ msgstr "מראה"
 #: data/effects/audiolevelgraph.xml:42 data/effects/audiospectrum.xml:39
 #, kde-format
 msgid "Mirror the spectrum about the center of the rectangle."
-msgstr ""
+msgstr "היפוך הספקטרום סביב מרכז הריבוע."
 
 #: data/effects/audiolevelgraph.xml:45 data/effects/audiospectrum.xml:42
 #: data/transitions/dissolve.xml:13 data/transitions/luma.xml:23
@@ -215,12 +215,12 @@ msgstr "מספר הערוצים להצגה."
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr ""
+msgstr "פער מקטעים"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
-msgstr ""
+msgstr "הרווח בפיקסלים בין המקטעים."
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
@@ -305,7 +305,7 @@ msgstr "מסנן מנעד שמע"
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio spectrum on the image."
-msgstr ""
+msgstr "מסנן המחשת שמע שמצייר ספקטרום שמע על התמונה."
 
 #: data/effects/audiospectrum.xml:9
 #, kde-format
@@ -322,7 +322,7 @@ msgstr "סוג התרשים להצגת המנעד."
 msgid ""
 "The background color to be applied to the entire frame. The default color is "
 "transparent."
-msgstr ""
+msgstr "צבע הרקע שיחול על כל התמונה. צבע ברירת המחדל הוא שקוף."
 
 #: data/effects/audiospectrum.xml:18
 #, kde-format
@@ -340,6 +340,7 @@ msgid ""
 "The thickness of the line used to draw the waveform for line graph. The "
 "thickness of the bar for bar graph."
 msgstr ""
+"עובי הקו שמשמש לציור צורות הגלים מתרשים הקו. עובי העמודה בתרשים עמודות."
 
 #: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:23
 #: data/transitions/region.xml:21
@@ -352,12 +353,12 @@ msgstr "מילוי"
 msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
 "line graph type."
-msgstr ""
+msgstr "האם למלא בצבע את השטח שמתחת לצורת הגל. חל רק על סוג תרשים קו."
 
 #: data/effects/audiospectrum.xml:43
 #, kde-format
 msgid "Draw the points starting with the highest frequency first."
-msgstr ""
+msgstr "ציור הנקודות החל מהתדירות הגבוהה ביותר תחילה."
 
 #: data/effects/audiospectrum.xml:46
 #, kde-format
@@ -386,7 +387,7 @@ msgstr "נקודות"
 msgid ""
 "The number of bands to draw in the spectrum. Each band shows up as a data "
 "point in the graph."
-msgstr ""
+msgstr "מספר הרצועות לציור בספקטרום. כל רצועה מופיעה כנקודת נתון בתרשים."
 
 #: data/effects/audiospectrum.xml:54 data/effects/dance.xml:8
 #, kde-format
@@ -476,7 +477,7 @@ msgstr "טשטוש בתיבה"
 #: data/effects/boxblur.xml:5
 #, kde-format
 msgid "Box blur (separate horizontal and vertical blur)"
-msgstr ""
+msgstr "טשטוש בתיבה (הפרדת טשטוש אופקי ואנכי)"
 
 #: data/effects/box_blur.xml:9 data/effects/box_blur.xml:23
 #: data/effects/boxblur.xml:8
@@ -633,17 +634,17 @@ msgstr "העתקת ערוץ השמע לערוץ אחר."
 #: data/effects/copychannelstostereo.xml:12
 #, kde-format
 msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-msgstr ""
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 
 #: data/effects/copychannelstostereo.xml:9
 #, kde-format
 msgid "FROM"
-msgstr ""
+msgstr "התחלה"
 
 #: data/effects/copychannelstostereo.xml:13
 #, kde-format
 msgid "TO"
-msgstr "אל"
+msgstr "עד"
 
 #: data/effects/crop.xml:4
 #, kde-format
@@ -670,7 +671,7 @@ msgstr "שמאל"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:14 src/ui/configmisc_ui.ui:125
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bottom"
 msgstr "תחתון"
 
@@ -706,7 +707,7 @@ msgstr "ריקוד"
 msgid ""
 "An audio visualization filter that moves the image around proportional to "
 "the magnitude of the audio spectrum."
-msgstr ""
+msgstr "מסנן המחשת שמע שמזיז את התמונה סביב ביחס לעוצמת משיכת ספקטרום השמע."
 
 #: data/effects/dance.xml:17 data/effects/lightshow.xml:17
 #, fuzzy, kde-format
@@ -857,7 +858,7 @@ msgstr "יישור אופקי"
 #: data/transitions/composite.xml:25
 #, kde-format
 msgid "Top,Middle,Bottom"
-msgstr ""
+msgstr "למעלה,מרכז,למטה"
 
 #: data/effects/dynamictext.xml:40 data/effects/timer.xml:43
 #, kde-format
@@ -1080,7 +1081,7 @@ msgstr "עדכונים לשנייה"
 #, kde-format
 msgctxt "Grain Effect Name"
 msgid "Grain"
-msgstr ""
+msgstr "גרגרים"
 
 #: data/effects/grain.xml:5
 #, kde-format
@@ -1130,7 +1131,7 @@ msgstr "היפוך צבעים"
 #: data/effects/lift_gamma_gain.xml:4
 #, kde-format
 msgid "Lift/gamma/gain"
-msgstr ""
+msgstr "הגבהה/גמא/שבח4"
 
 #: data/effects/lift_gamma_gain.xml:7
 #, kde-format
@@ -1278,7 +1279,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
 msgid "Rectangle,Ellipse,Triangle,Diamond"
-msgstr ""
+msgstr "ריבוע,אליפסה,משולש,יהלום"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:9
 #: data/effects/mask_start_frei0r_select0r.xml:22
@@ -1468,10 +1469,9 @@ msgid "Feathering passes"
 msgstr "הסט אלפא"
 
 #: data/effects/mask_start_shape.xml:4
-#, fuzzy, kde-format
-#| msgid "Slope Alpha"
+#, kde-format
 msgid "Shape Alpha (Mask)"
-msgstr "מדרון אלפא"
+msgstr "שקיפות צורה (מסכה)"
 
 #: data/effects/mask_start_shape.xml:5
 #, kde-format
@@ -1734,9 +1734,9 @@ msgid "Transform"
 msgstr "התמרה"
 
 #: data/effects/qtblend.xml:6 data/effects/qtblend.xml:24
-#, fuzzy, kde-format
+#, kde-format
 msgid "Position, scale and opacity."
-msgstr "הסט וזום"
+msgstr "מקום, קנה מידה ואטימות."
 
 #: data/effects/qtblend.xml:12 data/effects/qtblend.xml:30
 #: data/transitions/qtblend.xml:11
@@ -1781,7 +1781,7 @@ msgstr ""
 msgid ""
 "This filter crops the image to a rounded rectangle or circle by padding it "
 "with a color."
-msgstr ""
+msgstr "המסנן הזה חותך את התמונה לריבוע מעוגל או עיגול על ידי ריפודו בצבע."
 
 #: data/effects/qtcrop.xml:11
 #, kde-format
@@ -1794,9 +1794,9 @@ msgid "Circle"
 msgstr "עיגול"
 
 #: data/effects/qtcrop.xml:17
-#, fuzzy, kde-format
+#, kde-format
 msgid "Padding Color"
-msgstr "טוען"
+msgstr "צבע ריפוד"
 
 #: data/effects/rboctaveshift.xml:4
 #, kde-format
@@ -7319,10 +7319,9 @@ msgid "Burmese"
 msgstr "בורמית"
 
 #: src/dialogs/speechdialog.cpp:461
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Cantonese"
-msgstr "סינית"
+msgstr "קנטונית"
 
 #: src/dialogs/speechdialog.cpp:462 src/pythoninterfaces/speechtotext.cpp:96
 #, kde-format
@@ -7451,11 +7450,9 @@ msgid "Indonesian"
 msgstr "אינדונזית"
 
 #: src/dialogs/speechdialog.cpp:487
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Iris Box"
+#, kde-format
 msgid "Irish"
-msgstr "תיבת קשתית"
+msgstr "אירית"
 
 #: src/dialogs/speechdialog.cpp:488 src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
@@ -7508,10 +7505,9 @@ msgid "Lithuanian"
 msgstr "ליטאית"
 
 #: src/dialogs/speechdialog.cpp:498
-#, fuzzy, kde-format
-#| msgid "Lao"
+#, kde-format
 msgid "Luo"
-msgstr "לאית"
+msgstr "לואו"
 
 #: src/dialogs/speechdialog.cpp:499 src/pythoninterfaces/speechtotext.cpp:136
 #, kde-format
@@ -7519,10 +7515,9 @@ msgid "Macedonian"
 msgstr "מקדונית"
 
 #: src/dialogs/speechdialog.cpp:500
-#, fuzzy, kde-format
-#| msgid "Swahili"
+#, kde-format
 msgid "Maithili"
-msgstr "סוואהילי"
+msgstr "מאיטהילית"
 
 #: src/dialogs/speechdialog.cpp:501 src/pythoninterfaces/speechtotext.cpp:139
 #, kde-format
@@ -7535,10 +7530,9 @@ msgid "Maltese"
 msgstr "מלטית"
 
 #: src/dialogs/speechdialog.cpp:503 src/dialogs/speechdialog.cpp:504
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Mandarin Chinese"
-msgstr "סינית"
+msgstr "סינית מנדרינית"
 
 #: src/dialogs/speechdialog.cpp:505 src/pythoninterfaces/speechtotext.cpp:142
 #, kde-format
@@ -7571,10 +7565,9 @@ msgid "Nigerian Fulfulde"
 msgstr ""
 
 #: src/dialogs/speechdialog.cpp:511
-#, fuzzy, kde-format
-#| msgid "Azerbaijani"
+#, kde-format
 msgid "North Azerbaijani"
-msgstr "אזרית"
+msgstr "אזרית צפונית"
 
 #: src/dialogs/speechdialog.cpp:512
 #, kde-format
@@ -7582,16 +7575,14 @@ msgid "Northern Uzbek"
 msgstr ""
 
 #: src/dialogs/speechdialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Bokmål"
-msgstr "נורווגית"
+msgstr "נורבגית בוקמול"
 
 #: src/dialogs/speechdialog.cpp:514
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Nynorsk"
-msgstr "נורווגית"
+msgstr "נורבגית נינורשק"
 
 #: src/dialogs/speechdialog.cpp:515
 #, fuzzy, kde-format
@@ -7670,10 +7661,9 @@ msgid "Spanish"
 msgstr "ספרדית"
 
 #: src/dialogs/speechdialog.cpp:530
-#, fuzzy, kde-format
-#| msgid "Latvian"
+#, kde-format
 msgid "Standard Latvian"
-msgstr "לטבית"
+msgstr "לטבית תקנית"
 
 #: src/dialogs/speechdialog.cpp:531
 #, kde-format
@@ -7746,10 +7736,9 @@ msgid "West Central Oromo"
 msgstr ""
 
 #: src/dialogs/speechdialog.cpp:545
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "Western Persian"
-msgstr "פרסית"
+msgstr "פרסית מערבית"
 
 #: src/dialogs/speechdialog.cpp:546 src/pythoninterfaces/speechtotext.cpp:189
 #, kde-format
@@ -8325,10 +8314,9 @@ msgid "Recursive search: done in %1 s"
 msgstr "חפש"
 
 #: src/doc/dcresolvedialog.cpp:149
-#, fuzzy, kde-format
-#| msgid "Enter new location for file"
+#, kde-format
 msgid "Enter new location for folder"
-msgstr "הכנס מיקום חדש עבור קובץ"
+msgstr "נא למלא מקום חדש לתיקייה"
 
 #: src/doc/dcresolvedialog.cpp:160
 #, kde-format
@@ -8411,9 +8399,9 @@ msgid "Applying fixes…"
 msgstr "הוחלו תיקונים…"
 
 #: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
-#, fuzzy, kde-format
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "תצורת התקן"
+msgstr "מתבצע איתור פריטים חסרים…"
 
 #: src/doc/documentchecker.cpp:162
 #, kde-format
@@ -9135,11 +9123,10 @@ msgid "Use effect zone"
 msgstr "להשתמש בקטע אפקט"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:175
-#, fuzzy, kde-kuit-format
-#| msgid "update values in timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
-msgstr "עדכן ערכים בציר הזמן"
+msgstr "מחליף את תצוגת קטע האפקט."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
@@ -9227,19 +9214,19 @@ msgid "Item is not an animation clip"
 msgstr "הפריט אינו סרטון הנפשה"
 
 #: src/jobs/audiolevelstask.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Audio thumbs"
-msgstr "הראה צלמיות שמע"
+msgstr "דוגמיות שמע"
 
 #: src/jobs/audiolevelstask.cpp:75 src/jobs/audiolevelstask.cpp:144
-#, fuzzy, kde-format
+#, kde-format
 msgid "Audio thumbs: cannot open file %1"
-msgstr "לא ניתן להעביר אפקט"
+msgstr "דוגמיות שמע: לא ניתן לפתוח את הקובץ %1"
 
 #: src/jobs/audiolevelstask.cpp:83
-#, fuzzy, kde-format
+#, kde-format
 msgid "Audio thumbs: unknown file length for %1"
-msgstr "לא ניתן להעביר אפקט"
+msgstr "דוגמיות שמע: אורך הקובץ %1 לא ידוע"
 
 #: src/jobs/cachetask.cpp:31 src/jobs/cliploadtask.cpp:44
 #, kde-format
@@ -10376,7 +10363,7 @@ msgstr "הפרדת ערוצים"
 #: src/mainwindow.cpp:664
 #, kde-format
 msgid "Normalize Audio Thumbnails"
-msgstr ""
+msgstr "נרמול דוגמיות שמע"
 
 #: src/mainwindow.cpp:671
 #, kde-format
@@ -10634,16 +10621,15 @@ msgstr "עדכן ערכים בציר הזמן"
 #: src/mainwindow.cpp:1315
 #, kde-format
 msgid "Show Audio Thumbnails"
-msgstr "הצגת תמונות ממוזערות של שמע"
+msgstr "הצגת דוגמיות שמע"
 
 #: src/mainwindow.cpp:1316
-#, fuzzy, kde-kuit-format
-#| msgid "update values in timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of audio thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr "עדכן ערכים בציר הזמן"
+msgstr "החלפת תצוגת דוגמיות השמע לסרטונים בציר הזמן (ברירת המחדל היא פעיל)."
 
 #: src/mainwindow.cpp:1322
 #, kde-format
@@ -10685,22 +10671,22 @@ msgstr "התאמת התקריב למיזם"
 msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
-msgstr ""
+msgstr "מכוון את המרחק כך שכל המיזם יופיע בחלונות ציר הזמן."
 
 #: src/mainwindow.cpp:1368
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
-msgstr ""
+msgstr "עיבוד מעבד גרפי ניסיוני פעיל - לא מומלץ לעבודה שוטפת עדיין"
 
 #: src/mainwindow.cpp:1378 src/mainwindow.cpp:3415
 #, kde-format
 msgid "Multicam"
-msgstr ""
+msgstr "ריבוי מצלמות"
 
 #: src/mainwindow.cpp:1379
 #, kde-format
 msgid "Active tool and editing mode"
-msgstr ""
+msgstr "כלי פעיל ומצב עריכה"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
@@ -10719,12 +10705,12 @@ msgstr "OpenGL"
 #: src/mainwindow.cpp:1440
 #, kde-format
 msgid "DirectX (ANGLE)"
-msgstr ""
+msgstr "DirectX (ANGLE)"
 
 #: src/mainwindow.cpp:1445
 #, kde-format
 msgid "Software OpenGL"
-msgstr ""
+msgstr "OpenGL תוכנתי"
 
 #: src/mainwindow.cpp:1455
 #, kde-format
@@ -10834,42 +10820,42 @@ msgstr "רזולוציה מלאה (1:1)"
 #: src/mainwindow.cpp:1540 src/monitor/monitor.cpp:216
 #, kde-format
 msgid "720p"
-msgstr ""
+msgstr "720p"
 
 #: src/mainwindow.cpp:1544 src/monitor/monitor.cpp:216
 #, kde-format
 msgid "540p"
-msgstr ""
+msgstr "540p"
 
 #: src/mainwindow.cpp:1548 src/monitor/monitor.cpp:217
 #, kde-format
 msgid "360p"
-msgstr ""
+msgstr "360p"
 
 #: src/mainwindow.cpp:1552 src/monitor/monitor.cpp:217
 #, kde-format
 msgid "270p"
-msgstr ""
+msgstr "270p"
 
 #: src/mainwindow.cpp:1583
-#, fuzzy, kde-format
+#, kde-format
 msgid "Real Time (drop frames)"
-msgstr "‫זמן אמת (השמט מסגרות)"
+msgstr "‫זמן אמת (השמטת תמוניות)"
 
 #: src/mainwindow.cpp:1589
-#, fuzzy, kde-format
+#, kde-format
 msgid "Monitor Gamma"
-msgstr "צג"
+msgstr "גמא של צג"
 
 #: src/mainwindow.cpp:1590
 #, kde-format
 msgid "sRGB (computer)"
-msgstr ""
+msgstr "sRGB (מחשב)"
 
 #: src/mainwindow.cpp:1591
 #, kde-format
 msgid "Rec. 709 (TV)"
-msgstr ""
+msgstr "Rec. 709 (טלוויזיה)"
 
 #: src/mainwindow.cpp:1597
 #, kde-format
@@ -10877,11 +10863,10 @@ msgid "Insert Zone in Project Bin"
 msgstr "הוספת קטע לסל המיזם"
 
 #: src/mainwindow.cpp:1599
-#, fuzzy, kde-kuit-format
-#| msgid "Select a clip if you want to apply an effect"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
-msgstr "בחר סרטון, על מנת להוסיף אפקט"
+msgstr "יצירת סרטון חדש בסל המיזם מהקטע המוגדר"
 
 #: src/mainwindow.cpp:1602
 #, kde-format
@@ -10916,12 +10901,12 @@ msgstr "מעבר לקו המנחה הבא"
 #: src/mainwindow.cpp:1615
 #, kde-format
 msgid "Align Playhead to Mouse Position"
-msgstr ""
+msgstr "יישור ראש הנגינה למקום העכבר"
 
 #: src/mainwindow.cpp:1618
 #, kde-format
 msgid "Grab Current Item"
-msgstr ""
+msgstr "לכידת הפריט הנוכחי"
 
 #: src/mainwindow.cpp:1621
 #, kde-format
@@ -10929,9 +10914,9 @@ msgid "Automatic Transition"
 msgstr "מעברון אוטומטי"
 
 #: src/mainwindow.cpp:1628
-#, fuzzy, kde-format
+#, kde-format
 msgid "Overwrite Clip Zone in Timeline"
-msgstr "הכנס קטע ברצף הזמן"
+msgstr "שכתוב קטע סרטון בציר הזמן"
 
 #: src/mainwindow.cpp:1630
 #, kde-kuit-format
@@ -10941,11 +10926,13 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and overwritten."
 msgstr ""
+"כשנלחץ הקטע של הסרטון שנבחר כרגע בסל המיזם נוסף למיקום ראש הנגינה בציר הזמן "
+"הפעיל. סרטונים במקום ההוספה נחתכים ונדרסים."
 
 #: src/mainwindow.cpp:1632
-#, fuzzy, kde-format
+#, kde-format
 msgid "Insert Clip Zone in Timeline"
-msgstr "הכנס קטע ברצף הזמן"
+msgstr "הוספת קטע סרטון בציר הזמן"
 
 #: src/mainwindow.cpp:1634
 #, kde-kuit-format
@@ -10955,6 +10942,8 @@ msgid ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and shifted to the right."
 msgstr ""
+"כשנלחץ הקטע של הסרטון שנבחר כרגע בסל המיזם נוסף למיקום ראש הנגינה בציר הזמן "
+"הפעיל. סרטונים במקום ההוספה מוסטים ימינה."
 
 #: src/mainwindow.cpp:1636
 #, kde-format
@@ -10967,7 +10956,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "are shifted left."
-msgstr ""
+msgstr "לחיצה תמחק את קטע ציר הזמן מציר הזמן. כל הסרטונים מימין מוסטים שמאלה."
 
 #: src/mainwindow.cpp:1639
 #, kde-format
@@ -10980,7 +10969,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "stay in position."
-msgstr ""
+msgstr "לחיצה תמחק את קטע ציר הזמן מציר הזמן. כל הסרטונים מימין יישארו במקומם."
 
 #: src/mainwindow.cpp:1642
 #, kde-format
@@ -11080,7 +11069,7 @@ msgstr "מחיקת כל הסמנים"
 #: src/mainwindow.cpp:1678
 #, kde-format
 msgid "Add Marker/Guide quickly"
-msgstr ""
+msgstr "הוספת סמן/קו מנחה במהירות"
 
 #: src/mainwindow.cpp:1682
 #, kde-format
@@ -11145,7 +11134,7 @@ msgstr "החלפת מהירות"
 #: src/mainwindow.cpp:1741
 #, kde-format
 msgid "Time Remap"
-msgstr ""
+msgstr "מיפוי זמן מחדש"
 
 #: src/mainwindow.cpp:1748
 #, kde-format
@@ -11285,7 +11274,7 @@ msgstr ""
 #: src/mainwindow.cpp:1885
 #, kde-format
 msgid "Manage Cached Data…"
-msgstr ""
+msgstr "ניהול נתונים במטמון…"
 
 #: src/mainwindow.cpp:1888
 #, kde-format
@@ -11391,7 +11380,7 @@ msgstr ""
 #: src/mainwindow.cpp:1956
 #, kde-format
 msgid "Copy Debug Information"
-msgstr ""
+msgstr "העתקת פרטי ניפוי תקלות"
 
 #: src/mainwindow.cpp:1958
 #, kde-format
@@ -11725,7 +11714,7 @@ msgstr "מתמירים"
 #: src/mainwindow.cpp:3841
 #, kde-format
 msgid "-merged"
-msgstr ""
+msgstr "-ממוזג"
 
 #: src/mainwindow.cpp:3844
 #, kde-format
@@ -11751,7 +11740,7 @@ msgstr "קבצים להתמרה"
 #: src/mainwindow.cpp:4108
 #, kde-format
 msgid "Project file could not be saved for archiving."
-msgstr ""
+msgstr "לא ניתן לשמור קובץ מיזם לארכיון."
 
 #: src/mainwindow.cpp:4114
 #, kde-format
@@ -11772,22 +11761,22 @@ msgstr "ברירת מחדל"
 #: src/mainwindow.cpp:4295 src/mainwindow.cpp:4323
 #, kde-format
 msgid "Small (%1x%2)"
-msgstr ""
+msgstr "קטן (%1×%2)"
 
 #: src/mainwindow.cpp:4297 src/mainwindow.cpp:4325
 #, kde-format
 msgid "Medium (%1x%2)"
-msgstr ""
+msgstr "בינוני (%1×%2)"
 
 #: src/mainwindow.cpp:4299 src/mainwindow.cpp:4327
 #, kde-format
 msgid "Large (%1x%2)"
-msgstr ""
+msgstr "גדול (%1×%2)"
 
 #: src/mainwindow.cpp:4301 src/mainwindow.cpp:4329
 #, kde-format
 msgid "Huge (%1x%2)"
-msgstr ""
+msgstr "ענק (%1×%2)"
 
 #: src/mainwindow.cpp:4386
 #, kde-format
@@ -11806,6 +11795,7 @@ msgstr "הסתרת סרגל תפריטים"
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
+"יש להפעיל את Kdenlive מחדש כדי להחיל את שינוי ערכת הסמלים. להפעיל מחדש כעת?"
 
 #: src/mainwindow.cpp:4646 src/timeline2/view/timelinecontroller.cpp:5056
 #, kde-format
@@ -11815,12 +11805,12 @@ msgstr "אין כתוביות במיזם הנוכחי"
 #: src/mainwindow.cpp:4742
 #, kde-format
 msgid "Project Bin %1"
-msgstr ""
+msgstr "סל המיזם %1"
 
 #: src/mainwindow.cpp:4828
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "מעבר לעמוד ההורדה"
 
 #: src/mainwindow.cpp:4831
 #, kde-format
@@ -11832,13 +11822,13 @@ msgstr "לא לבדוק שוב"
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
-msgstr ""
+msgstr "גרסת ה־Kdenlive שלך בת יותר משנה, אנו ממליצים בחום לשדרג"
 
 #: src/mainwindow.cpp:4837
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
-msgstr ""
+msgstr "גרסת ה־Kdenlive שלך בת יותר מחצי שנה, אנו ממליצים בחום לשדרג"
 
 #: src/mainwindow.cpp:4880
 #, kde-format
@@ -11861,7 +11851,7 @@ msgstr "פרופילי ה־MLT שלך לא נמצאו, נא לספק את הנת
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
-msgstr ""
+msgstr "קסל״ש"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:261
 #, kde-format
@@ -12101,7 +12091,7 @@ msgstr "מלא (JPEG)"
 #: src/mltcontroller/clippropertiescontroller.cpp:993
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
-msgstr ""
+msgstr "הקובץ משתמש בקצב תמוניות משתנה, לא מומלץ"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1024
 #, kde-format
@@ -12112,7 +12102,7 @@ msgstr "פרטי קובץ"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
-msgstr ""
+msgstr "הצגת מידע מפורט על הקובץ."
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
@@ -12126,7 +12116,7 @@ msgstr "מאפיינים"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
-msgstr ""
+msgstr "הצגת מידע מפורט על המפענח/נתונים של הווידאו."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1030
 #, kde-format
@@ -12137,7 +12127,7 @@ msgstr "מאפייני שמע"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
-msgstr ""
+msgstr "הצגת מידע מפורט על התזרימים/נתונים/מפענח של השמע."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/mltcontroller/clippropertiescontroller.cpp:1033
@@ -12332,7 +12322,7 @@ msgstr "%1%"
 #: src/monitor/monitor.cpp:212
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
-msgstr ""
+msgstr "רזולוציית תצוגה מקדימה - ככל שהיא קטנה יותר כך היא תהיה מהירה יותר"
 
 #: src/monitor/monitor.cpp:213
 #, kde-kuit-format
@@ -12392,6 +12382,7 @@ msgid ""
 "Opens the list of project/clip monitor options (e.g. audio volume, monitor "
 "size)."
 msgstr ""
+"פותח את רשימת אפשרויות הצג של המיזם/סרטון (למשל: עוצמת השמע, גודל הצג)."
 
 #: src/monitor/monitor.cpp:409
 #, kde-format
@@ -12469,10 +12460,9 @@ msgid "Set current image as thumbnail"
 msgstr "הגדרת התמונה הנוכחית כייצוגית"
 
 #: src/monitor/monitor.cpp:671
-#, fuzzy, kde-format
-#| msgid "Show audio thumbnails"
+#, kde-format
 msgid "Always show audio thumbnails"
-msgstr "הראה צלמיות שמע"
+msgstr "תמיד להציג דוגמיות שמע"
 
 #: src/monitor/monitor.cpp:688
 #, kde-format
@@ -12513,18 +12503,18 @@ msgid "Export image using source resolution"
 msgstr "ייצוא תמונה באמצעות רזולוציית המקור"
 
 #: src/monitor/monitor.cpp:1827 src/monitor/monitor.cpp:1975
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
-msgstr[0] "רצועת שמע"
-msgstr[1] "רצועת שמע"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "תזרים שמע"
+msgstr[1] "שני תזרימי שמע"
+msgstr[2] "%1 תזרימי שמע"
+msgstr[3] "%1 תזרימי שמע"
 
 #: src/monitor/monitor.cpp:2309
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
-msgstr ""
+msgstr "לא ניתן להפעיל את מנהל ה־GLSL של Movit, נא להשבית את Movit"
 
 #: src/monitor/monitor.cpp:2351 src/monitor/monitor.cpp:2408
 #, kde-format
@@ -12532,6 +12522,7 @@ msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
+"מסנן alphagrad נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive מחדש"
 
 #: src/monitor/monitor.cpp:2371
 #, kde-format
@@ -12549,25 +12540,27 @@ msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
+"מעברון cairoblend נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive "
+"מחדש"
 
 #: src/monitor/monitor.cpp:2461
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
-msgstr ""
+msgstr "יש להפעיל מצב עריכה בצג כדי לערוך אפקט"
 
 #: src/monitor/monitormanager.cpp:200
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
 "timeline?"
-msgstr ""
+msgstr "<a href=\"#clipmonitor\">להציג את צג הסרטונים</a> כדי לצפות בציר הזמן?"
 
 #: src/monitor/monitormanager.cpp:219
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
 "view timeline?"
-msgstr ""
+msgstr "<a href=\"#projectmonitor\">להציג את צג המיזם</a> כדי לצפות בציר הזמן?"
 
 #: src/monitor/monitormanager.cpp:499
 #, kde-format
@@ -12622,7 +12615,7 @@ msgstr "תצוגת ריבוי רצועות"
 #: src/monitor/monitormanager.cpp:557
 #, kde-format
 msgid "Perform Multitrack Operation"
-msgstr ""
+msgstr "ביצוע פעולות מרוכזות על רצועות"
 
 #: src/monitor/monitormanager.cpp:561
 #, kde-format
@@ -12655,12 +12648,12 @@ msgstr "ביון"
 #: src/monitor/monitormanager.cpp:587
 #, kde-format
 msgid "Nearest Neighbor (fast)"
-msgstr ""
+msgstr "שכן קרוב (מהיר)"
 
 #: src/monitor/monitormanager.cpp:590
 #, kde-format
 msgid "Hyper/Lanczos (best)"
-msgstr ""
+msgstr "Hyper/Lanczos (הכי טוב)"
 
 #: src/monitor/monitormanager.cpp:604
 #, fuzzy, kde-format
@@ -12827,7 +12820,7 @@ msgstr ""
 #: src/monitor/view/kdenlivemonitor.qml:199
 #, kde-format
 msgid "%1fps"
-msgstr ""
+msgstr "%1 תמוניות לשנייה"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:557
 #, kde-format
@@ -12875,6 +12868,8 @@ msgid ""
 "<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
 "to close shape."
 msgstr ""
+"<shortcut>לחיצה</shortcut> תוסיף נקודות, <shortcut>לחיצה ימנית</shortcut> "
+"תסגור את הצורה."
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
@@ -12890,7 +12885,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
-msgstr ""
+msgstr "<shortcut>Shift עם גרירה של ידית</shortcut> תשנה בהתאם למרכז"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:376
 #, kde-format
@@ -12898,6 +12893,8 @@ msgid ""
 "Click to add points,\n"
 "right click to close shape."
 msgstr ""
+"נא ללחוץ כדי להוסיף נקודות,\n"
+"לחצן ימני לסגירת הצורה."
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -12956,7 +12953,7 @@ msgstr ""
 #: src/onlineresources/resourcewidget.cpp:188
 #, kde-format
 msgid "Media provided by %1"
-msgstr ""
+msgstr "מדיה סופקה על ידי %1"
 
 #: src/onlineresources/resourcewidget.cpp:218
 #, kde-format
@@ -12979,7 +12976,7 @@ msgstr "לא נמצאו פריטים."
 #, kde-format
 msgctxt "@info:progress"
 msgid "Parsing item %1 of %2…"
-msgstr ""
+msgstr "מפוענח פריט %1 מתוך %2…"
 
 #: src/onlineresources/resourcewidget.cpp:272
 #, kde-format
@@ -12991,12 +12988,12 @@ msgstr "נוצר על ידי %1"
 #, kde-format
 msgctxt "the url link pointing to a web page"
 msgid "link"
-msgstr ""
+msgstr "קישור"
 
 #: src/onlineresources/resourcewidget.cpp:389
 #, kde-format
 msgid "Created by <a href=\"%1\">"
-msgstr ""
+msgstr "נוצר על ידי <a href=\"%1\">"
 
 #: src/onlineresources/resourcewidget.cpp:393
 #: src/project/dialogs/projectsettings.cpp:224
@@ -13012,7 +13009,7 @@ msgstr "נוצר על ידי %1"
 #: src/onlineresources/resourcewidget.cpp:403
 #, kde-format
 msgid "Size: %1 x %2"
-msgstr ""
+msgstr "גודל: %1 × %2"
 
 #: src/onlineresources/resourcewidget.cpp:406
 #, kde-format
@@ -13099,10 +13096,10 @@ msgid "CC BY-NC-ND"
 msgstr ""
 
 #: src/onlineresources/resourcewidget.cpp:454
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons 0"
-msgstr "חתוך קבוצה"
+msgstr "Creative Commons 0"
 
 #: src/onlineresources/resourcewidget.cpp:455
 #, kde-format
@@ -13125,17 +13122,17 @@ msgstr "רישיון CC לא ידוע"
 #: src/onlineresources/resourcewidget.cpp:460
 #, kde-format
 msgid "Unknown Creative Commons License"
-msgstr ""
+msgstr "רישיון Creative Commons לא ידוע"
 
 #: src/onlineresources/resourcewidget.cpp:480
 #, kde-format
 msgid "Pexels License"
-msgstr ""
+msgstr "רישיון Pexels"
 
 #: src/onlineresources/resourcewidget.cpp:482
 #, kde-format
 msgid "Pixabay License"
-msgstr ""
+msgstr "רישיון Pixabay"
 
 #: src/onlineresources/resourcewidget.cpp:485
 #, kde-format
@@ -13145,7 +13142,7 @@ msgstr "רישיון לא ידוע"
 #: src/onlineresources/resourcewidget.cpp:522
 #, kde-format
 msgid "It maybe takes a while until the preview is loaded"
-msgstr ""
+msgstr "יכול לקחת זמן עד שהתצוגה המקדימה תיטען"
 
 #: src/onlineresources/resourcewidget.cpp:530
 #, kde-format
@@ -13161,7 +13158,7 @@ msgstr "נא לבחור גרסת קובץ"
 #: src/onlineresources/resourcewidget.cpp:552
 #, kde-format
 msgid "Please choose the version you want to download"
-msgstr ""
+msgstr "נא לבחור את הגרסה להורדה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, enable_image)
 #: src/onlineresources/resourcewidget.cpp:599 src/ui/clipjobmanager_ui.ui:395
@@ -13176,11 +13173,13 @@ msgid ""
 "or law!\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
+"נא לשים לב שהשימוש במשאב הזה יכול להיות מוגבל ברישיון או בחוק!\n"
+"להוסיף "
 
 #: src/onlineresources/resourcewidget.cpp:617
 #, kde-format
 msgid "Remember this decision"
-msgstr ""
+msgstr "לזכור את ההחלטה הזאת"
 
 #: src/onlineresources/resourcewidget.cpp:619
 #, kde-format
@@ -13189,6 +13188,8 @@ msgid ""
 "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of "
 "this license, visit %5"
 msgstr ""
+"הווידאו הזה משתמש ב־„%1” (%2) מאת „%3” שכפוף לרישיון %4. כדי לצפות בעותק של "
+"הרישיון ניתן לבקר בכתובת %5"
 
 #: src/onlineresources/resourcewidget.cpp:660
 #, kde-format
@@ -13214,7 +13215,7 @@ msgstr "הנתונים יובאו"
 #: src/onlineresources/resourcewidget.cpp:699
 #, kde-format
 msgid "Try importing again to obtain a new connection"
-msgstr ""
+msgstr "כדי לנסות לייבא שוב כדי למשוך חיבור חדש"
 
 #: src/onlineresources/resourcewidget.cpp:700
 #, kde-format
@@ -13225,7 +13226,7 @@ msgstr "שגיאה במשיכת אסימון הגישה מתוך %1."
 #, kde-format
 msgctxt "frames per second"
 msgid "fps"
-msgstr ""
+msgstr "תמוניות לשנייה"
 
 #: src/profiles/profileinfo.cpp:105
 #, kde-format
@@ -13235,37 +13236,37 @@ msgstr " שזור"
 #: src/profiles/profilemodel.cpp:168
 #, kde-format
 msgid "The project profile is invalid (%1x%2), it was adjusted to %3x%4."
-msgstr ""
+msgstr "פרופיל המיזם שגוי (%1×%2), הוא כוון ל־%3×%4."
 
 #: src/profiles/tree/profiletreemodel.cpp:46
 #, kde-format
 msgid "5K (Wide 2160)"
-msgstr ""
+msgstr "5K (רחב 2160)"
 
 #: src/profiles/tree/profiletreemodel.cpp:47
 #, kde-format
 msgid "4K UHD 2160"
-msgstr ""
+msgstr "4K UHD 2160"
 
 #: src/profiles/tree/profiletreemodel.cpp:48
 #, kde-format
 msgid "4K DCI 2160"
-msgstr ""
+msgstr "4K DCI 2160"
 
 #: src/profiles/tree/profiletreemodel.cpp:49
 #, kde-format
 msgid "2.5K QHD 1440"
-msgstr ""
+msgstr "2.5K QHD 1440"
 
 #: src/profiles/tree/profiletreemodel.cpp:50
 #, kde-format
 msgid "Full HD 1080"
-msgstr ""
+msgstr "HD מלא 1080"
 
 #: src/profiles/tree/profiletreemodel.cpp:51
 #, kde-format
 msgid "HD 720"
-msgstr ""
+msgstr "HD 720"
 
 #: src/profiles/tree/profiletreemodel.cpp:52
 #, fuzzy, kde-format
@@ -13275,7 +13276,7 @@ msgstr "NTSC 16:9"
 #: src/profiles/tree/profiletreemodel.cpp:53
 #, kde-format
 msgid "SD/DVD Widescreen"
-msgstr ""
+msgstr "SD/DVD למסך רחב"
 
 #: src/project/clipstabilize.cpp:36
 #, kde-format
@@ -13622,7 +13623,7 @@ msgstr "למחוק את %1 הסמנים שמשתמשים בקטגוריה הזא
 #: src/project/dialogs/guidecategories.cpp:158
 #, kde-format
 msgid "Reassign the markers to :"
-msgstr ""
+msgstr "הקצאת הסמנים מחדש אל:"
 
 #: src/project/dialogs/guideslist.cpp:85
 #, kde-format
@@ -13723,7 +13724,7 @@ msgstr "טעינת סמני סרטון"
 #: src/project/dialogs/guideslist.cpp:174
 #, kde-format
 msgid "Marker file is larger than 1MB, are you sure you want to import ?"
-msgstr ""
+msgstr "קובץ הסמנים גדול ממגה בית, לייבא אותו?"
 
 #: src/project/dialogs/guideslist.cpp:247
 #, kde-format
@@ -13772,7 +13773,7 @@ msgstr ""
 #: src/project/dialogs/profilewidget.cpp:33
 #, kde-format
 msgid "Fps:"
-msgstr ""
+msgstr "תמוניות לשנייה:"
 
 #: src/project/dialogs/profilewidget.cpp:49
 #, kde-format
@@ -13791,12 +13792,12 @@ msgstr ""
 #: src/project/dialogs/profilewidget.cpp:140
 #, kde-format
 msgid "Any"
-msgstr ""
+msgstr "כלשהו"
 
 #: src/project/dialogs/profilewidget.cpp:190
 #, kde-format
 msgid "No profile selected"
-msgstr ""
+msgstr "לא נבחר פרופיל"
 
 #: src/project/dialogs/profilewidget.cpp:194
 #, kde-format
@@ -13806,7 +13807,7 @@ msgstr "הגדרות וידאו"
 #: src/project/dialogs/profilewidget.cpp:197
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
-msgstr ""
+msgstr "גודל תמונית: %1 × %2 (%3:%4)"
 
 #: src/project/dialogs/profilewidget.cpp:198
 #, kde-format
@@ -13832,7 +13833,7 @@ msgstr "לא"
 #: src/project/dialogs/profilewidget.cpp:204
 #, kde-format
 msgid "yes"
-msgstr ""
+msgstr "כן"
 
 #: src/project/dialogs/profilewidget.cpp:204
 #, kde-format
@@ -13857,7 +13858,7 @@ msgstr "סדר שדות: %1"
 #: src/project/dialogs/projectsettings.cpp:71
 #, kde-format
 msgid "Select the profile (preset) of the project"
-msgstr ""
+msgstr "נא לבחור את פרופיל (ערכת) המיזם"
 
 #: src/project/dialogs/projectsettings.cpp:74
 #, kde-format
@@ -13867,7 +13868,7 @@ msgstr "ברירת מחדל: %1"
 #: src/project/dialogs/projectsettings.cpp:142
 #, kde-format
 msgid "Cache Data"
-msgstr ""
+msgstr "נתוני מטמון"
 
 #: src/project/dialogs/projectsettings.cpp:191
 #, fuzzy, kde-format
@@ -13897,7 +13898,7 @@ msgstr "נא לבחור פרופיל מצלמת וידאו"
 #: src/project/dialogs/projectsettings.cpp:230
 #, kde-format
 msgid "Artist"
-msgstr ""
+msgstr "אומן"
 
 #: src/project/dialogs/projectsettings.cpp:236
 #, kde-format
@@ -13912,7 +13913,7 @@ msgstr "שנה"
 #: src/project/dialogs/projectsettings.cpp:383
 #, kde-format
 msgid "No files to delete on your drive."
-msgstr ""
+msgstr "אין קבצים למחיקה בכונן שלך."
 
 #: src/project/dialogs/projectsettings.cpp:391
 #, kde-format
@@ -13921,6 +13922,9 @@ msgid ""
 "This action cannot be undone, only use if you know what you are doing.\n"
 "Are you sure you want to continue?"
 msgstr ""
+"הפעולה הזאת תסיר את הקבצים הבאים מהכונן הקשיח שלך.\n"
+"זאת פעולה בלתי הפיכה, כדאי להשתמש רק אם ברורות לך ההשלכות שלה.\n"
+"להמשיך?"
 
 #: src/project/dialogs/projectsettings.cpp:393
 #, kde-format
@@ -13969,6 +13973,9 @@ msgid ""
 "timeline previews for this project.\n"
 " Are you sure you want to proceed?"
 msgstr ""
+"שינית את פרופיל התצוגה המקדימה של ציר הזמן. הפעולה הזאת תסיר את כל התצוגות "
+"המקדימות הקיימות בציר הזמן למיזם הזה.\n"
+"להמשיך?"
 
 #: src/project/dialogs/projectsettings.cpp:542
 #: src/project/dialogs/projectsettings.cpp:552
@@ -13984,6 +13991,10 @@ msgid ""
 "might cause some corruption in transitions.\n"
 "Are you sure you want to proceed?"
 msgstr ""
+"החלפת פרופיל המיזם שלך היא בלתי הפיכה.\n"
+"מומלץ לשמור את המיזם שלך לפני ביצוע הפעולה הזאת שעלולה לגרום לפגיעה "
+"במעברונים.\n"
+"להמשיך?"
 
 #: src/project/dialogs/projectsettings.cpp:779
 #: src/project/dialogs/projectsettings.cpp:794
@@ -14015,7 +14026,7 @@ msgstr "פרופיל מיזם: %1"
 #: src/project/dialogs/projectsettings.cpp:809
 #, kde-format
 msgid "Total clips: %1 (%2 used in timeline)."
-msgstr ""
+msgstr "סך כל הסרטונים: %1 (%2 כבר נכללים בציר הזמן)."
 
 #: src/project/dialogs/projectsettings.cpp:863
 #, kde-format
@@ -14155,6 +14166,9 @@ msgid ""
 "%1\n"
 "This folder contains the data for audio thumbnails in this project."
 msgstr ""
+"למחוק את כל הנתונים בתיקיית מטמון השמע:\n"
+"%1\n"
+"התיקייה הזאת מכילה את הנתונים לדוגמיות שמע במיזם הזה."
 
 #: src/project/dialogs/temporarydata.cpp:508
 #, kde-format
@@ -14291,11 +14305,13 @@ msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
 "Do you want to save your changes?"
 msgstr ""
+"המיזם <b>„%1”</b> השתנה.\n"
+"לשמור את השינויים שלך?"
 
 #: src/project/projectmanager.cpp:535
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr ""
+msgstr "שמירת קובץ המיזם <br><b>%1</B> נכשלה"
 
 #: src/project/projectmanager.cpp:568
 #, kde-format
@@ -14309,6 +14325,9 @@ msgid ""
 "of the project file to save temporary files. This will move all temporary "
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
+"מקום קובץ המיזם השתנה. בחרת להשתמש במקום של קובץ המיזם כדי לשמור קבצים "
+"זמניים. הפעולה הזאת תעביר את כל הקבצים הזמניים מ־<b>%1</b> אל <b>%2</b>, "
+"קובץ המיזם ייטען לאחר מכן"
 
 #: src/project/projectmanager.cpp:622
 #, kde-format
@@ -14478,7 +14497,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:1895
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
-msgstr ""
+msgstr "מתבצע ייבוא של סרטון רצף, זה כרגע במצב ניסיוני"
 
 #: src/project/projectmanager.cpp:2078
 #, kde-format
@@ -14509,27 +14528,27 @@ msgstr "התקנת תלויות חסרות"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:34
 #, kde-format
 msgid "Abort installation"
-msgstr ""
+msgstr "ביטול ההתקנה"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:49
 #, kde-format
 msgid "Everything is properly configured."
-msgstr ""
+msgstr "הכול מוגדר כראוי."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:51
 #, kde-format
 msgid "%1 is properly configured."
-msgstr ""
+msgstr "%1 מוגדר כראוי."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:55
 #, kde-format
 msgid "Everything is configured: %1"
-msgstr ""
+msgstr "הכול מוגדר: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:57
 #, kde-format
 msgid "%1 is configured: %2"
-msgstr ""
+msgstr "%1 מוגדר: %2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
@@ -14560,6 +14579,8 @@ msgid ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
+"לא ניתן למצוא את python3, נא להתקין אותה במערכת שלך.\n"
+"אם היא כבר מותקנת, נא לבדוק שהיא מותקנת בתיקייה שמופיע במשתנה הסביבה PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:212
 #, kde-format
@@ -14568,11 +14589,13 @@ msgid ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
+"לא ניתן למצוא את pip3, נא להתקין אותה במערכת שלך.\n"
+"אם היא כבר מותקנת, נא לבדוק שהיא מותקנת בתיקייה שמופיע במשתנה הסביבה PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:221
 #, kde-format
 msgid "Using python from %1"
-msgstr ""
+msgstr "נעשה שימוש ב־python מתוך %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:229
 #, kde-format
@@ -14582,7 +14605,7 @@ msgstr "לא נמצאה סביבה וירטואלית (venv) של Python"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:242
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "גודל venv של Python‏: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:285
 #, kde-format
@@ -14590,21 +14613,23 @@ msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
 msgstr ""
+"לא ניתן למצוא סביבה וירטואלית (venv) של python, נא להתקין אותה במערכת שלך. "
+"נסוג לברירת המחדל של python של המערכת."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:325
 #, kde-format
 msgid "The %1 script was not found, check your install."
-msgstr ""
+msgstr "הסקריפט %1 לא נמצא, נא לבדוק שההתקנה שלך תקינה."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:374
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
-msgstr ""
+msgstr "מודול ה־python‏ <application>%1</application> נחוץ."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:376
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required for %2."
-msgstr ""
+msgstr "מודול ה־python‏ <application>%1</application> נחוץ לטובת %2."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
@@ -14613,6 +14638,8 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive יכול להתקין את המודולים החסרים של Python בסביבה וירטואלית תחת %1.\n"
+"כך, לא יתבצע שינוי בספריות המערכת שלך."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, kde-format
@@ -14622,7 +14649,7 @@ msgstr "סביבת Python"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:416
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "להשתמש בסביבה וירטואלית (מומלץ)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:417
 #, kde-format
@@ -14644,7 +14671,7 @@ msgstr "שגיאה בבדיקת גרסת המודול %1"
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
-msgstr ""
+msgstr "נדרשת לפחות גרסה %1 של המודול %2, אך הגרסה הנוכחית שלך היא %3"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:461
 #, kde-format
@@ -14702,6 +14729,8 @@ msgid ""
 "Please check the otio scripts are installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
+"לא ניתן למצוא את הסקריפט „otioconvernt” למרות שהותקן דרך pip3.\n"
+"נא לבדוק שהסקריפטים של otio מותקנים בתיקייה שמופיע במשתנה הסביבה PATH"
 
 #: src/pythoninterfaces/otioconvertions.cpp:47
 #, kde-format
@@ -14779,6 +14808,8 @@ msgid ""
 "The current project has not been saved\n"
 "Do you want to load imported project abandoning latest changes?"
 msgstr ""
+"המיזם הנוכחי לא נשמר\n"
+"לטעון את המיזם המיובא ולנטוש את השינויים האחרונים?"
 
 #: src/pythoninterfaces/speechtotext.cpp:22
 #: src/pythoninterfaces/speechtotext.cpp:36
@@ -14805,10 +14836,9 @@ msgstr "תשתית ללמידת מכונה"
 #: src/pythoninterfaces/speechtotext.cpp:41
 #: src/pythoninterfaces/speechtotext.cpp:42
 #: src/pythoninterfaces/speechtotext.cpp:43
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "SeamlessM4T translation"
-msgstr "בחירת מעברון"
+msgstr "תרגום SeamlessM4T"
 
 #: src/pythoninterfaces/speechtotext.cpp:49
 #, kde-format
@@ -14816,54 +14846,67 @@ msgid "Speech to text"
 msgstr "הכתבה"
 
 #: src/pythoninterfaces/speechtotext.cpp:64
-#, kde-format
-msgid "Tiny (72Mb)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Tiny (72Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny (72MB)"
+msgstr "זעיר (72 מ״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:65
-#, kde-format
-msgid "Base (140Mb)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Base (140Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base (140MB)"
+msgstr "בסיסי (140 מ״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:66
-#, kde-format
-msgid "Small (460Mb)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Small (460Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small (460MB)"
+msgstr "קטן (460 מ״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
 #, fuzzy, kde-format
-#| msgid "Medium"
-msgid "Medium (1.4Gb)"
-msgstr "בינוני"
+#| msgid "Medium (1.4Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium (1.4GB)"
+msgstr "בינוני (1.4 ג״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, kde-format
-msgid "Large (2.9Gb)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Large (2.9Gb)"
+msgctxt "Model file to download, large one"
+msgid "Large (2.9GB)"
+msgstr "גדול (2.9 ג״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
 #, fuzzy, kde-format
-#| msgid "Tiny - English only"
-msgid "Tiny - English only (39Mb)"
-msgstr "מזערית - אנגלית בלבד"
+#| msgid "Tiny - English only (39Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny - English only (39MB)"
+msgstr "זעיר - אנגלית בלבד (39 מ״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:70
 #, fuzzy, kde-format
-#| msgid "Base - English only"
-msgid "Base - English only (74Mb)"
-msgstr "בסיסית - אנגלית בלבד"
+#| msgid "Base - English only (74Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base - English only (74MB)"
+msgstr "בסיסי - אנגלית בלבד (74 מ״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
 #, fuzzy, kde-format
-#| msgid "Small - English only"
-msgid "Small - English only (244Mb)"
-msgstr "קטנה - אנגלית בלבד"
+#| msgid "Small - English only (244Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small - English only (244MB)"
+msgstr "קטן - אנגלית בלבד (224 מ״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:72
 #, fuzzy, kde-format
-#| msgid "Medium - English only"
-msgid "Medium - English only (1.5Gb)"
-msgstr "בינונית - אנגלית בלבד"
+#| msgid "Medium - English only (1.5Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium - English only (1.5GB)"
+msgstr "בינוני - אנגלית בלבד (1.5 ג״ב)"
 
 #: src/pythoninterfaces/speechtotext.cpp:79
 #, kde-format
@@ -15685,17 +15728,15 @@ msgstr ""
 
 #: src/timeline2/model/builders/meltBuilder.cpp:893
 #: src/timeline2/model/builders/meltBuilder.cpp:935
-#, fuzzy, kde-format
-#| msgid "Invalid clip removed from track %1 at %2\n"
+#, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
-msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
+msgstr "סרטון שגוי %1 נמצא ברצועה %2 ב־%3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:895
 #: src/timeline2/model/builders/meltBuilder.cpp:940
-#, fuzzy, kde-format
-#| msgid "Invalid clip removed from track %1 at %2\n"
+#, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
-msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
+msgstr "%1 סרטון שגוי (%2) נמצא והוסר"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:917
 #, fuzzy, kde-format
@@ -18361,7 +18402,7 @@ msgstr "השבתת ספירה לאחור לפני הקלטה"
 #: src/ui/configcolors_ui.ui:21
 #, kde-format
 msgid "Audio thumbnail colors:"
-msgstr "צבעי תמונת שמע ממוזערת:"
+msgstr "צבעי דוגמית שמע:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:41
@@ -19981,7 +20022,7 @@ msgstr "תצוגה מקדימה של ציר הזמן:"
 #: src/ui/managecache_ui.ui:199
 #, kde-format
 msgid "Audio thumbnails:"
-msgstr "תמונות ממוזערות של שמע:"
+msgstr "דוגמיות שמע:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentPath)
 #: src/ui/managecache_ui.ui:220

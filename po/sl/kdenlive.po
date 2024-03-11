@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-10 00:37+0000\n"
-"PO-Revision-Date: 2024-03-07 08:07+0100\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"POT-Creation-Date: 2024-03-11 00:37+0000\n"
+"PO-Revision-Date: 2024-03-10 09:50+0100\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -6745,6 +6745,8 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"Ob prvem zagonu programa bo Whisper <b>prenesel izbrani model</b>. Po tem bo "
+"obdelava potekala brez povezave. Obdelava CPE je zelo počasna."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1756
 #, kde-format
@@ -6752,6 +6754,8 @@ msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
 "that, translations will happen offline."
 msgstr ""
+"Ob prvem zagonu bo SeamlessM4T <b>prenesel 9 Gb podatkov modela</b>. Po tem "
+"se bodo prevodi zgodili brez povezave."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7474,15 +7478,14 @@ msgid "Speech recognition failed"
 msgstr "Razpoznavanje govora ni uspelo"
 
 #: src/dialogs/speechdialog.cpp:438
-#, fuzzy, kde-format
-#| msgid "Translate text to English"
+#, kde-format
 msgid "Translating text to %1"
-msgstr "Prevedi besedilo v angleški jezik"
+msgstr "Prevajanje besedila v %1 jezik"
 
 #: src/dialogs/speechdialog.cpp:440
 #, kde-format
 msgid "Initializing translation model"
-msgstr ""
+msgstr "Inicializacija prevajalskega modela"
 
 #: src/dialogs/speechdialog.cpp:451 src/pythoninterfaces/speechtotext.cpp:80
 #, kde-format
@@ -7535,10 +7538,9 @@ msgid "Burmese"
 msgstr "burmanski"
 
 #: src/dialogs/speechdialog.cpp:461
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Cantonese"
-msgstr "kitajski"
+msgstr "kantonski"
 
 #: src/dialogs/speechdialog.cpp:462 src/pythoninterfaces/speechtotext.cpp:96
 #, kde-format
@@ -7548,12 +7550,12 @@ msgstr "katalonski"
 #: src/dialogs/speechdialog.cpp:463
 #, kde-format
 msgid "Cebuano"
-msgstr ""
+msgstr "cebuanski"
 
 #: src/dialogs/speechdialog.cpp:464
 #, kde-format
 msgid "Central Kurdish"
-msgstr ""
+msgstr "kurdski, centralni"
 
 #: src/dialogs/speechdialog.cpp:465 src/pythoninterfaces/speechtotext.cpp:98
 #, kde-format
@@ -7578,7 +7580,7 @@ msgstr "nizozemski"
 #: src/dialogs/speechdialog.cpp:469
 #, kde-format
 msgid "Egyptian Arabic"
-msgstr ""
+msgstr "arabski, egiptovski"
 
 #: src/dialogs/speechdialog.cpp:470 src/pythoninterfaces/speechtotext.cpp:102
 #, kde-format
@@ -7608,7 +7610,7 @@ msgstr "galicijski"
 #: src/dialogs/speechdialog.cpp:475
 #, kde-format
 msgid "Ganda"
-msgstr ""
+msgstr "gandajski"
 
 #: src/dialogs/speechdialog.cpp:476 src/pythoninterfaces/speechtotext.cpp:109
 #, kde-format
@@ -7631,10 +7633,9 @@ msgid "Gujarati"
 msgstr "gudžaratski"
 
 #: src/dialogs/speechdialog.cpp:480
-#, fuzzy, kde-format
-#| msgid "Mongolian"
+#, kde-format
 msgid "Halh Mongolian"
-msgstr "mongolski"
+msgstr "mongolski, Haih"
 
 #: src/dialogs/speechdialog.cpp:481 src/pythoninterfaces/speechtotext.cpp:117
 #, kde-format
@@ -7659,7 +7660,7 @@ msgstr "islandski"
 #: src/dialogs/speechdialog.cpp:485
 #, kde-format
 msgid "Igbo"
-msgstr ""
+msgstr "igbojski"
 
 #: src/dialogs/speechdialog.cpp:486 src/pythoninterfaces/speechtotext.cpp:121
 #, kde-format
@@ -7667,11 +7668,9 @@ msgid "Indonesian"
 msgstr "indonezijski"
 
 #: src/dialogs/speechdialog.cpp:487
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Iris Box"
+#, kde-format
 msgid "Irish"
-msgstr "Okvir zaslonke"
+msgstr "irski"
 
 #: src/dialogs/speechdialog.cpp:488 src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
@@ -7711,7 +7710,7 @@ msgstr "korejski"
 #: src/dialogs/speechdialog.cpp:495
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "kirgiški"
 
 #: src/dialogs/speechdialog.cpp:496 src/pythoninterfaces/speechtotext.cpp:129
 #, kde-format
@@ -7724,10 +7723,9 @@ msgid "Lithuanian"
 msgstr "litvanski"
 
 #: src/dialogs/speechdialog.cpp:498
-#, fuzzy, kde-format
-#| msgid "Lao"
+#, kde-format
 msgid "Luo"
-msgstr "laoški"
+msgstr "luoški"
 
 #: src/dialogs/speechdialog.cpp:499 src/pythoninterfaces/speechtotext.cpp:136
 #, kde-format
@@ -7735,10 +7733,9 @@ msgid "Macedonian"
 msgstr "makedonski"
 
 #: src/dialogs/speechdialog.cpp:500
-#, fuzzy, kde-format
-#| msgid "Swahili"
+#, kde-format
 msgid "Maithili"
-msgstr "svahilski"
+msgstr "maitilski"
 
 #: src/dialogs/speechdialog.cpp:501 src/pythoninterfaces/speechtotext.cpp:139
 #, kde-format
@@ -7751,10 +7748,9 @@ msgid "Maltese"
 msgstr "malteški"
 
 #: src/dialogs/speechdialog.cpp:503 src/dialogs/speechdialog.cpp:504
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Mandarin Chinese"
-msgstr "kitajski"
+msgstr "kitajski, mandarinski"
 
 #: src/dialogs/speechdialog.cpp:505 src/pythoninterfaces/speechtotext.cpp:142
 #, kde-format
@@ -7764,17 +7760,17 @@ msgstr "maratski"
 #: src/dialogs/speechdialog.cpp:506
 #, kde-format
 msgid "Meitei"
-msgstr ""
+msgstr "meitejski"
 
 #: src/dialogs/speechdialog.cpp:507
 #, kde-format
 msgid "Modern Standard Arabic"
-msgstr ""
+msgstr "arabski, moderni standardni"
 
 #: src/dialogs/speechdialog.cpp:508
 #, kde-format
 msgid "Moroccan Arabic"
-msgstr ""
+msgstr "arabski, maroški"
 
 #: src/dialogs/speechdialog.cpp:509 src/pythoninterfaces/speechtotext.cpp:147
 #, kde-format
@@ -7784,41 +7780,37 @@ msgstr "nepalski"
 #: src/dialogs/speechdialog.cpp:510
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr ""
+msgstr "fulfuldski, nigerijski"
 
 #: src/dialogs/speechdialog.cpp:511
-#, fuzzy, kde-format
-#| msgid "Azerbaijani"
+#, kde-format
 msgid "North Azerbaijani"
-msgstr "azerbajdžanski"
+msgstr "azerbajdžanski, severni"
 
 #: src/dialogs/speechdialog.cpp:512
 #, kde-format
 msgid "Northern Uzbek"
-msgstr ""
+msgstr "uzbeški, severni"
 
 #: src/dialogs/speechdialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Bokmål"
-msgstr "norveški"
+msgstr "norveški, bokmål"
 
 #: src/dialogs/speechdialog.cpp:514
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Nynorsk"
-msgstr "norveški"
+msgstr "norveški, nynorsk"
 
 #: src/dialogs/speechdialog.cpp:515
-#, fuzzy, kde-format
-#| msgid "Panjabi"
+#, kde-format
 msgid "Nyanja"
-msgstr "pandžabski"
+msgstr "njandžski"
 
 #: src/dialogs/speechdialog.cpp:516
 #, kde-format
 msgid "Odia"
-msgstr ""
+msgstr "odijski"
 
 #: src/dialogs/speechdialog.cpp:517 src/pythoninterfaces/speechtotext.cpp:154
 #, kde-format
@@ -7878,7 +7870,7 @@ msgstr "somalski"
 #: src/dialogs/speechdialog.cpp:528
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "paštunski, južni"
 
 #: src/dialogs/speechdialog.cpp:529 src/pythoninterfaces/speechtotext.cpp:169
 #, kde-format
@@ -7886,15 +7878,14 @@ msgid "Spanish"
 msgstr "španski"
 
 #: src/dialogs/speechdialog.cpp:530
-#, fuzzy, kde-format
-#| msgid "Latvian"
+#, kde-format
 msgid "Standard Latvian"
-msgstr "latvijski"
+msgstr "latvijski, standardni"
 
 #: src/dialogs/speechdialog.cpp:531
 #, kde-format
 msgid "Standard Malay"
-msgstr ""
+msgstr "malajski, standardni"
 
 #: src/dialogs/speechdialog.cpp:532 src/pythoninterfaces/speechtotext.cpp:171
 #, kde-format
@@ -7959,13 +7950,12 @@ msgstr "valižanski"
 #: src/dialogs/speechdialog.cpp:544
 #, kde-format
 msgid "West Central Oromo"
-msgstr ""
+msgstr "oromski, zahodno osrednji"
 
 #: src/dialogs/speechdialog.cpp:545
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "Western Persian"
-msgstr "perzijski"
+msgstr "perzijski, zahodni"
 
 #: src/dialogs/speechdialog.cpp:546 src/pythoninterfaces/speechtotext.cpp:189
 #, kde-format
@@ -7975,7 +7965,7 @@ msgstr "jorubski"
 #: src/dialogs/speechdialog.cpp:547
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "zulujski"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
@@ -15355,10 +15345,9 @@ msgstr "ogrodje za strojno učenje"
 #: src/pythoninterfaces/speechtotext.cpp:41
 #: src/pythoninterfaces/speechtotext.cpp:42
 #: src/pythoninterfaces/speechtotext.cpp:43
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "SeamlessM4T translation"
-msgstr "Izberi prehod"
+msgstr "Prevajanje SeamlessM4T"
 
 #: src/pythoninterfaces/speechtotext.cpp:49
 #, kde-format
@@ -15366,56 +15355,67 @@ msgid "Speech to text"
 msgstr "Govor v besedilo"
 
 #: src/pythoninterfaces/speechtotext.cpp:64
-#, kde-format
-msgid "Tiny (72Mb)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Tiny (72Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny (72MB)"
+msgstr "Droben (72Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:65
-#, kde-format
-msgid "Base (140Mb)"
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Base (140Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base (140MB)"
+msgstr "Osnovni (140Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:66
 #, fuzzy, kde-format
-#| msgid "Small (%1x%2)"
-msgid "Small (460Mb)"
-msgstr "Majhna (%1x%2)"
+#| msgid "Small (460Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small (460MB)"
+msgstr "Majhen (460 Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
 #, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
-msgid "Medium (1.4Gb)"
-msgstr "Srednja (%1x%2)"
+#| msgid "Medium (1.4Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium (1.4GB)"
+msgstr "Srednji (1,4 Gb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
 #, fuzzy, kde-format
-#| msgid "Large (%1x%2)"
-msgid "Large (2.9Gb)"
-msgstr "Velika (%1x%2)"
+#| msgid "Large (2.9Gb)"
+msgctxt "Model file to download, large one"
+msgid "Large (2.9GB)"
+msgstr "Velik (2,9 Gb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
 #, fuzzy, kde-format
-#| msgid "Tiny - English only"
-msgid "Tiny - English only (39Mb)"
-msgstr "Droben - samo za angleščino"
+#| msgid "Tiny - English only (39Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny - English only (39MB)"
+msgstr "Droben - samo angleščina (39 Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:70
 #, fuzzy, kde-format
-#| msgid "Base - English only"
-msgid "Base - English only (74Mb)"
-msgstr "Osnovni - samo za angleščino"
+#| msgid "Base - English only (74Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base - English only (74MB)"
+msgstr "Osnovni - samo angleščina (74 Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
 #, fuzzy, kde-format
-#| msgid "Small - English only"
-msgid "Small - English only (244Mb)"
-msgstr "Majhen - samo za angleščino"
+#| msgid "Small - English only (244Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small - English only (244MB)"
+msgstr "Majhen - samo angleščina (244 Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:72
 #, fuzzy, kde-format
-#| msgid "Medium - English only"
-msgid "Medium - English only (1.5Gb)"
-msgstr "Srednji - samo za angleščino"
+#| msgid "Medium - English only (1.5Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium - English only (1.5GB)"
+msgstr "Srednji - samo angleščina (1,5 Gb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:79
 #, kde-format
@@ -19778,7 +19778,7 @@ msgstr "Obdelava šepeta je na CPE zelo počasna"
 #: src/ui/configspeech_ui.ui:281
 #, kde-format
 msgid "Enable translation through SeamlessM4T"
-msgstr ""
+msgstr "Omogoči prevajanje prek SeamlessM4T"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:308
@@ -21735,24 +21735,21 @@ msgstr "Največje število znakov na vrstico"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_seamless)
 #: src/ui/speechdialog_ui.ui:162
-#, fuzzy, kde-format
-#| msgid "Translate to English"
+#, kde-format
 msgid "Translate with SeamlessM4T"
-msgstr "Prevedi v angleški jezik"
+msgstr "Prevedi s SeamlessM4T"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_out_label)
 #: src/ui/speechdialog_ui.ui:178
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output language"
-msgstr "Izhodna datoteka"
+msgstr "Izhodni jezik"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_in_label)
 #: src/ui/speechdialog_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Speech language"
+#, kde-format
 msgid "Input language"
-msgstr "Govorjeni jezik"
+msgstr "Vhodni jezik"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -22397,18 +22394,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Tiny"
-#~ msgstr "Droben"
-
-#~ msgid "Base"
-#~ msgstr "Osnoven"
-
-#~ msgid "Small"
-#~ msgstr "Majhen"
-
-#~ msgid "Medium"
-#~ msgstr "Srednji"
-
-#~ msgid "Large"
-#~ msgstr "Velik"

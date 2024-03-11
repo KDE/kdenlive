@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-10 00:37+0000\n"
+"POT-Creation-Date: 2024-03-11 00:37+0000\n"
 "PO-Revision-Date: 2024-03-09 09:22+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -15270,48 +15270,66 @@ msgid "Speech to text"
 msgstr "Parolado al teksto"
 
 #: src/pythoninterfaces/speechtotext.cpp:64
-#, kde-format
-msgid "Tiny (72Mb)"
+#, fuzzy, kde-format
+#| msgid "Tiny (72Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny (72MB)"
 msgstr "Eta (72Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:65
-#, kde-format
-msgid "Base (140Mb)"
+#, fuzzy, kde-format
+#| msgid "Base (140Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base (140MB)"
 msgstr "Baza (140Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:66
-#, kde-format
-msgid "Small (460Mb)"
+#, fuzzy, kde-format
+#| msgid "Small (460Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small (460MB)"
 msgstr "Malgranda (460Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, kde-format
-msgid "Medium (1.4Gb)"
+#, fuzzy, kde-format
+#| msgid "Medium (1.4Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium (1.4GB)"
 msgstr "Meza (1.4Gb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, kde-format
-msgid "Large (2.9Gb)"
+#, fuzzy, kde-format
+#| msgid "Large (2.9Gb)"
+msgctxt "Model file to download, large one"
+msgid "Large (2.9GB)"
 msgstr "Granda (2.9Gb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
-#, kde-format
-msgid "Tiny - English only (39Mb)"
+#, fuzzy, kde-format
+#| msgid "Tiny - English only (39Mb)"
+msgctxt "Model file to download, smallest one"
+msgid "Tiny - English only (39MB)"
 msgstr "Eta - nur la angla (39Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:70
-#, kde-format
-msgid "Base - English only (74Mb)"
+#, fuzzy, kde-format
+#| msgid "Base - English only (74Mb)"
+msgctxt "Model file to download, basic one"
+msgid "Base - English only (74MB)"
 msgstr "Baza - nur la angla (74Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
-#, kde-format
-msgid "Small - English only (244Mb)"
+#, fuzzy, kde-format
+#| msgid "Small - English only (244Mb)"
+msgctxt "Model file to download, small one"
+msgid "Small - English only (244MB)"
 msgstr "Malgranda - nur la angla (244Mb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:72
-#, kde-format
-msgid "Medium - English only (1.5Gb)"
+#, fuzzy, kde-format
+#| msgid "Medium - English only (1.5Gb)"
+msgctxt "Model file to download, medium one"
+msgid "Medium - English only (1.5GB)"
 msgstr "Meznivela - nur la angla (1.5Gb)"
 
 #: src/pythoninterfaces/speechtotext.cpp:79
