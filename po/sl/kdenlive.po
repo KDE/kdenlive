@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-10 03:03+0000\n"
-"PO-Revision-Date: 2024-03-09 10:20+0100\n"
+"PO-Revision-Date: 2024-03-10 09:53+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -14259,9 +14259,7 @@ msgid "Loading Project"
 msgstr "Nalaganje projekta"
 
 #: src/project/projectmanager.cpp:813
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Loading Project"
+#, kde-format
 msgid "Loading project"
 msgstr "Nalaganje projekta"
 
@@ -14746,52 +14744,47 @@ msgstr "Govor v besedilo"
 #: src/pythoninterfaces/speechtotext.cpp:52
 #, kde-format
 msgid "Tiny"
-msgstr ""
+msgstr "Droben"
 
 #: src/pythoninterfaces/speechtotext.cpp:53
 #, kde-format
 msgid "Base"
-msgstr ""
+msgstr "Osnoven"
 
 #: src/pythoninterfaces/speechtotext.cpp:54
 #, kde-format
 msgid "Small"
-msgstr ""
+msgstr "Majhen"
 
 #: src/pythoninterfaces/speechtotext.cpp:55
-#, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
+#, kde-format
 msgid "Medium"
-msgstr "Srednja (%1x%2)"
+msgstr "Srednji"
 
 #: src/pythoninterfaces/speechtotext.cpp:56
 #, kde-format
 msgid "Large"
-msgstr ""
+msgstr "Velik"
 
 #: src/pythoninterfaces/speechtotext.cpp:57
-#, fuzzy, kde-format
-#| msgid "Tiny - English only (39Mb)"
+#, kde-format
 msgid "Tiny - English only"
-msgstr "Droben - samo angleščina (39 Mb)"
+msgstr "Droben - samo za angleščino"
 
 #: src/pythoninterfaces/speechtotext.cpp:58
-#, fuzzy, kde-format
-#| msgid "Base - English only (74Mb)"
+#, kde-format
 msgid "Base - English only"
-msgstr "Osnovni - samo angleščina (74 Mb)"
+msgstr "Osnovni - samo za angleščino"
 
 #: src/pythoninterfaces/speechtotext.cpp:59
-#, fuzzy, kde-format
-#| msgid "Small - English only (244Mb)"
+#, kde-format
 msgid "Small - English only"
-msgstr "Majhen - samo angleščina (244 Mb)"
+msgstr "Majhen - samo za angleščino"
 
 #: src/pythoninterfaces/speechtotext.cpp:60
-#, fuzzy, kde-format
-#| msgid "Medium - English only (1.5Gb)"
+#, kde-format
 msgid "Medium - English only"
-msgstr "Srednji - samo angleščina (1,5 Gb)"
+msgstr "Srednji - samo za angleščino"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
 #, kde-format
@@ -22043,217 +22036,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Default Target Folder for Audio Captures"
-#~ msgstr "Privzeta ciljna mapa za zvočne zajeme"
-
-#~ msgid "Reading project clips…"
-#~ msgstr "Branje posnetkov projekta …"
-
-#~ msgid "Edit Custom Camcorder Proxy Profiles"
-#~ msgstr "Uredi profile po meri posrednih posnetkov kamkorderja"
-
-#~ msgid "You can input several profiles in a preset, separated by a semicolon"
-#~ msgstr "V prednastavitev lahko vnesete več profilov, ločenih s podpičjem"
-
-#~ msgid "Preset already exists, enter a new name:"
-#~ msgstr "Prednastavitev že obstaja, vnesite novo ime:"
-
-#~ msgid ""
-#~ "This will delete all custom camcorder profiles and reset values to the "
-#~ "default settings"
-#~ msgstr ""
-#~ "S tem boste izbrisali vse profile kamkorderja po meri in ponastavili "
-#~ "vrednosti na privzete nastavitve"
-
-#~ msgid ""
-#~ "You are using multiple presets in one profile, ensure you have the same "
-#~ "count of semicolon in each parameter. This profile will not be saved."
-#~ msgstr ""
-#~ "V enem profilu uporabljate več prednastavitev, zagotovite, da imate v "
-#~ "vsakem parametru enako število podpičij. Ta profil ne bo shranjen."
-
-#~ msgid ""
-#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
-#~ "processing will happen offline. Cpu processing is very slow."
-#~ msgstr ""
-#~ "Ob prvem zagonu programa bo Whisper <b>prenesel izbrani model</b>. Po tem "
-#~ "bo obdelava potekala brez povezave. Obdelava CPE je zelo počasna."
-
-#~ msgid ""
-#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
-#~ "that, translations will happen offline."
-#~ msgstr ""
-#~ "Ob prvem zagonu bo SeamlessM4T <b>prenesel 9 Gb podatkov modela</b>. Po "
-#~ "tem se bodo prevodi zgodili brez povezave."
-
-#~ msgid "Models folder"
-#~ msgstr "Mapa modelov"
-
-#~ msgid "Translating text to %1"
-#~ msgstr "Prevajanje besedila v %1 jezik"
-
-#~ msgid "Initializing translation model"
-#~ msgstr "Inicializacija prevajalskega modela"
-
-#~ msgid "Cantonese"
-#~ msgstr "kantonski"
-
-#~ msgid "Cebuano"
-#~ msgstr "cebuanski"
-
-#~ msgid "Central Kurdish"
-#~ msgstr "kurdski, centralni"
-
-#~ msgid "Egyptian Arabic"
-#~ msgstr "arabski, egiptovski"
-
-#~ msgid "Ganda"
-#~ msgstr "gandajski"
-
-#~ msgid "Halh Mongolian"
-#~ msgstr "mongolski, Haih"
-
-#~ msgid "Igbo"
-#~ msgstr "igbojski"
-
-#~ msgid "Irish"
-#~ msgstr "irski"
-
-#~ msgid "Kyrgyz"
-#~ msgstr "kirgiški"
-
-#~ msgid "Luo"
-#~ msgstr "luoški"
-
-#~ msgid "Maithili"
-#~ msgstr "maitilski"
-
-#~ msgid "Mandarin Chinese"
-#~ msgstr "kitajski, mandarinski"
-
-#~ msgid "Meitei"
-#~ msgstr "meitejski"
-
-#~ msgid "Modern Standard Arabic"
-#~ msgstr "arabski, moderni standardni"
-
-#~ msgid "Moroccan Arabic"
-#~ msgstr "arabski, maroški"
-
-#~ msgid "Nigerian Fulfulde"
-#~ msgstr "fulfuldski, nigerijski"
-
-#~ msgid "North Azerbaijani"
-#~ msgstr "azerbajdžanski, severni"
-
-#~ msgid "Northern Uzbek"
-#~ msgstr "uzbeški, severni"
-
-#~ msgid "Norwegian Bokmål"
-#~ msgstr "norveški, bokmål"
-
-#~ msgid "Norwegian Nynorsk"
-#~ msgstr "norveški, nynorsk"
-
-#~ msgid "Nyanja"
-#~ msgstr "njandžski"
-
-#~ msgid "Odia"
-#~ msgstr "odijski"
-
-#~ msgid "Southern Pashto"
-#~ msgstr "paštunski, južni"
-
-#~ msgid "Standard Latvian"
-#~ msgstr "latvijski, standardni"
-
-#~ msgid "Standard Malay"
-#~ msgstr "malajski, standardni"
-
-#~ msgid "West Central Oromo"
-#~ msgstr "oromski, zahodno osrednji"
-
-#~ msgid "Western Persian"
-#~ msgstr "perzijski, zahodni"
-
-#~ msgid "Zulu"
-#~ msgstr "zulujski"
-
-#~ msgid "Applying fixes…"
-#~ msgstr "Uveljavljanje popravkov …"
-
-#~ msgid "Checking for missing items…"
-#~ msgstr "Preverjanje manjkajočih elementov …"
-
-#~ msgid "Validating project…"
-#~ msgstr "Potrjevanje projekta …"
-
-#~ msgid "Upgrading project version…"
-#~ msgstr "Nadgradnja različice projekta …"
-
-#~ msgctxt "@label:textbox"
-#~ msgid ""
-#~ "The project uses a non standard framerate (%1), this will result in "
-#~ "misplaced clips and frame offset."
-#~ msgstr ""
-#~ "Projekt uporablja nestandardno hitrost (%1), kar bo povzročilo napačno "
-#~ "umeščene posnetke in zamik v sličicah."
-
-#~ msgid "Loading timeline…"
-#~ msgstr "Nalaganje časovnice …"
-
-#~ msgid "Building sequences…"
-#~ msgstr "Gradnja zaporedij …"
-
-#~ msgid "adjust subtitles length"
-#~ msgstr "Prilagodi dolžino podnaslovov"
-
-#~ msgid "SeamlessM4T translation"
-#~ msgstr "Prevajanje SeamlessM4T"
-
-#~ msgid "Tiny (72Mb)"
-#~ msgstr "Droben (72Mb)"
-
-#~ msgid "Base (140Mb)"
-#~ msgstr "Osnovni (140Mb)"
-
-#~ msgid "Small (460Mb)"
-#~ msgstr "Majhen (460 Mb)"
-
-#~ msgid "Medium (1.4Gb)"
-#~ msgstr "Srednji (1,4 Gb)"
-
-#~ msgid "Large (2.9Gb)"
-#~ msgstr "Velik (2,9 Gb)"
-
-#~ msgctxt "@info:status"
-#~ msgid "Cannot cut overlapping subtitles"
-#~ msgstr "Prekrivajočih se podnaslovov ni možno rezati"
-
-#~ msgid "Enable translation through SeamlessM4T"
-#~ msgstr "Omogoči prevajanje prek SeamlessM4T"
-
-#~ msgid "Add new profile"
-#~ msgstr "Dodaj nov profil"
-
-#~ msgid "Reset all profiles"
-#~ msgstr "Ponastavi vse profile"
-
-#~ msgid "Bold"
-#~ msgstr "Krepko"
-
-#~ msgid "Italic"
-#~ msgstr "Ležeče"
-
-#~ msgid "Maximum characters per line"
-#~ msgstr "Največje število znakov na vrstico"
-
-#~ msgid "Translate with SeamlessM4T"
-#~ msgstr "Prevedi s SeamlessM4T"
-
-#~ msgid "Output language"
-#~ msgstr "Izhodni jezik"
-
-#~ msgid "Input language"
-#~ msgstr "Vhodni jezik"
