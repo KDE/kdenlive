@@ -228,6 +228,8 @@ private Q_SLOTS:
     /** @brief Report progress of folder move operation. */
     void slotMoveProgress(KJob *, unsigned long progress);
     void slotMoveFinished(KJob *job);
+    /** @brief Collect MLT's warning logs. */
+    void handleLog(const QString &message);
 
 Q_SIGNALS:
     void docOpened(KdenliveDoc *document);
@@ -254,6 +256,7 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog{nullptr};
+    QStringList m_mltWarnings;
     /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
     bool m_loading{false};
     void saveRecentFiles();

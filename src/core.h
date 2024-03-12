@@ -447,4 +447,6 @@ Q_SIGNALS:
     void stopProgressTask();
     /** @brief A project clip was deleted */
     void binClipDeleted(int cid);
+    /** @brief An MLT warning was issued */
+    void mltWarning(const QString &message);
 };
