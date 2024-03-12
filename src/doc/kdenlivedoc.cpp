@@ -978,9 +978,9 @@ void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender
                 i.next();
                 QString finalName = basePath;
                 if (i.key().first > 0) {
-                    basePath.append(QStringLiteral("-%1").arg(i.key().first));
+                    finalName.append(QStringLiteral("-%1").arg(i.key().first));
                 }
-                QFileInfo info(basePath);
+                QFileInfo info(finalName);
                 QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
                 j.value()->getSubtitleModel()->copySubtitle(subPath, i.key().first, checkOverwrite, true);
             }
@@ -2366,10 +2366,51 @@ const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final)
     }
 }
 
+void KdenliveDoc::duplicateSequenceProperty(const QUuid &destUuid, const QUuid &srcUuid, const QString &subsData)
+{
+    QJsonArray list;
+    QMap<std::pair<int, QString>, QString> currentSubs = JSonToSubtitleList(subsData);
+    QMapIterator<std::pair<int, QString>, QString> s(currentSubs);
+    while (s.hasNext()) {
+        s.next();
+        const QString newSubPath = pCore->currentDoc()->subTitlePath(destUuid, s.key().first, false);
+        QJsonObject currentSubtitle;
+        currentSubtitle.insert(QLatin1String("name"), QJsonValue(s.key().second));
+        currentSubtitle.insert(QLatin1String("id"), QJsonValue(s.key().first));
+        currentSubtitle.insert(QLatin1String("file"), QJsonValue(newSubPath));
+        QString srcSub = s.value();
+        if (QFileInfo(srcSub).isRelative()) {
+            srcSub.prepend(m_documentRoot);
+        }
+        QFile src(srcSub);
+        if (!src.exists()) {
+            srcSub = pCore->currentDoc()->subTitlePath(srcUuid, s.key().first, true);
+            if (QFileInfo(srcSub).isRelative()) {
+                srcSub.prepend(m_documentRoot);
+            }
+            src.setFileName(srcSub);
+        }
+        if (!src.exists()) {
+            qDebug() << "SUBTITLE SRC FILE: " << srcSub << " DOES NOT EXIST";
+        } else {
+            src.copy(newSubPath);
+        }
+        list.push_back(currentSubtitle);
+    }
+    QJsonDocument json(list);
+    const QString subsJson = QString::fromUtf8(json.toJson());
+    setSequenceProperty(destUuid, QStringLiteral("subtitlesList"), subsJson);
+}
+
 QMap<std::pair<int, QString>, QString> KdenliveDoc::multiSubtitlePath(const QUuid &uuid)
 {
-    QMap<std::pair<int, QString>, QString> results;
     const QString data = getSequenceProperty(uuid, QStringLiteral("subtitlesList"));
+    return KdenliveDoc::JSonToSubtitleList(data);
+}
+
+QMap<std::pair<int, QString>, QString> KdenliveDoc::JSonToSubtitleList(const QString &data)
+{
+    QMap<std::pair<int, QString>, QString> results;
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
