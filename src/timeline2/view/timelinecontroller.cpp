@@ -148,6 +148,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
         loadSubtitleIndex();
     }
     connect(m_model.get(), &TimelineItemModel::subtitleModelInitialized, this, &TimelineController::loadSubtitleIndex);
+    connect(m_model.get(), &TimelineItemModel::subtitlesListChanged, this, &TimelineController::subtitlesListChanged);
 }
 
 void TimelineController::loadSubtitleIndex()
@@ -5028,7 +5029,7 @@ void TimelineController::importSubtitle(const QString &path)
         if (d->create_track->isChecked()) {
             // Create a new subtitle entry
             int ix = subtitleModel->createNewSubtitle(d->track_name->text());
-            subtitlesListChanged();
+            Q_EMIT subtitlesListChanged();
             // Activate the newly created subtitle track
             subtitlesMenuActivated(ix - 1);
         }

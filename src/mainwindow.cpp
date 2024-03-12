@@ -4598,6 +4598,8 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
             Q_EMIT getCurrentTimeline()->controller()->subtitlesDisabledChanged();
         }
         getCurrentTimeline()->connectSubtitleModel(true);
+        // Update subtitle track combo list
+        Q_EMIT getCurrentTimeline()->controller()->subtitlesListChanged();
     } else {
         KdenliveSettings::setShowSubtitles(m_buttonSubtitleEditTool->isChecked());
         getCurrentTimeline()->connectSubtitleModel(false);

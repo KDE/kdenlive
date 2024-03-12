@@ -178,6 +178,8 @@ public:
     void importSequenceProperties(const QUuid uuid, const QStringList properties);
     /** @brief Get the list of subtitles in a timeline. */
     QMap<std::pair<int, QString>, QString> multiSubtitlePath(const QUuid &uuid);
+    void duplicateSequenceProperty(const QUuid &destUuid, const QUuid &srcUuid, const QString &subsData);
+    QMap<std::pair<int, QString>, QString> JSonToSubtitleList(const QString &data);
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap<QString, QString> getRenderProperties() const;

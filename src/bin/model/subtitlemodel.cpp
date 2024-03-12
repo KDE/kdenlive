@@ -40,7 +40,7 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const 
     , m_lock(QReadWriteLock::Recursive)
     , m_subtitleFilter(new Mlt::Filter(pCore->getProjectProfile(), "avfilter.subtitles"))
 {
-    qDebug() << "subtitle constructor";
+    qDebug() << "Subtitle constructor";
     // Ensure the subtitle also covers transparent zones (useful for timeline sequences)
     m_subtitleFilter->set("av.alpha", 1);
     if (m_timeline->tractor() != nullptr) {
@@ -69,16 +69,24 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const 
     const QString subPath = pCore->currentDoc()->subTitlePath(timeline->uuid(), id, true);
     const QString workPath = pCore->currentDoc()->subTitlePath(timeline->uuid(), id, false);
     registerSnap(snapModel);
-    QFile subFile(subPath);
-    if (subFile.exists()) {
-        subFile.copy(workPath);
-        parseSubtitle(workPath);
-    }
+
+    // Load multiple subtitle data
     QMap<std::pair<int, QString>, QString> multiSubs = pCore->currentDoc()->multiSubtitlePath(timeline->uuid());
     m_subtitlesList = multiSubs;
     if (m_subtitlesList.isEmpty()) {
         m_subtitlesList.insert({0, i18n("Subtitles")}, subPath);
     }
+    QFile subFile(subPath);
+    if (subFile.exists()) {
+        subFile.copy(workPath);
+    }
+    if (!QFile::exists(workPath)) {
+        QFile newSub(workPath);
+        newSub.open(QIODevice::WriteOnly);
+        newSub.close();
+        qDebug() << "MISSING SUBTITLE FILE, create tmp: " << workPath;
+    }
+    parseSubtitle(workPath);
 }
 
 void SubtitleModel::setStyle(const QString &style)
@@ -386,7 +394,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         turn = 0;
         r = 0;
     }
-    if (initialCount == m_subtitleList.size()) {
+    if (initialCount == m_subtitleList.size() && externalImport) {
         // Nothing imported
         pCore->displayMessage(i18n("The selected file %1 is invalid.", filePath), ErrorMessage);
         return;
@@ -404,7 +412,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
 
 void SubtitleModel::parseSubtitle(const QString &workPath)
 {
-    qDebug() << "Parsing started";
+    qDebug() << "Parsing started for: " << workPath;
     if (!workPath.isEmpty()) {
         m_subtitleFilter->set("av.filename", workPath.toUtf8().constData());
     }
@@ -1169,6 +1177,8 @@ void SubtitleModel::copySubtitle(const QString &path, int ix, bool checkOverwrit
         if (updateFilter) {
             m_subtitleFilter->set("av.filename", path.toUtf8().constData());
         }
+    } else {
+        qDebug() << "/// SUB FILE " << srcFile << " NOT FOUND!!!";
     }
 }
 
@@ -1671,6 +1681,7 @@ void SubtitleModel::updateModelName(int ix, const QString &name)
     } else {
         qDebug() << "COULD NOT FIND SUBTITLE TO EDIT, CNT:" << m_subtitlesList.size();
     }
+    Q_EMIT m_timeline->subtitlesListChanged();
 }
 
 int SubtitleModel::createNewSubtitle(const QString subtitleName, int id)
@@ -1705,6 +1716,7 @@ int SubtitleModel::createNewSubtitle(const QString subtitleName, int id)
         }
         QFile::copy(source, newPath);
     }
+    Q_EMIT m_timeline->subtitlesListChanged();
     return m_subtitlesList.size();
 }
 
@@ -1731,6 +1743,7 @@ bool SubtitleModel::deleteSubtitle(int ix)
         // Remove entry from our subtitles list
         m_subtitlesList.remove(matchingItem);
     }
+    Q_EMIT m_timeline->subtitlesListChanged();
     return success;
 }
 

@@ -115,4 +115,5 @@ Q_SIGNALS:
     void trackVisibilityChanged();
     void showTrackEffectStack(int tid);
     void subtitleModelInitialized();
+    void subtitlesListChanged();
 };

@@ -81,7 +81,6 @@ void ManageSubtitles::updateSubtitle(QTreeWidgetItem *item, int column)
     if (column == 0) {
         // An item was renamed
         m_model->updateModelName(item->data(0, Qt::UserRole).toInt(), item->text(0));
-        m_controller->subtitlesListChanged();
         m_controller->refreshSubtitlesComboIndex();
     }
 }
@@ -89,7 +88,6 @@ void ManageSubtitles::updateSubtitle(QTreeWidgetItem *item, int column)
 void ManageSubtitles::addSubtitle(const QString name)
 {
     m_model->createNewSubtitle(name);
-    m_controller->subtitlesListChanged();
     parseList();
     // Makes last item active
     subtitlesList->setCurrentItem(subtitlesList->topLevelItem(subtitlesList->topLevelItemCount() - 1));
@@ -98,7 +96,6 @@ void ManageSubtitles::addSubtitle(const QString name)
 void ManageSubtitles::duplicateSubtitle()
 {
     m_model->createNewSubtitle(QString(), subtitlesList->currentItem()->data(0, Qt::UserRole).toInt());
-    m_controller->subtitlesListChanged();
     parseList();
     // Makes last item active
     subtitlesList->setCurrentItem(subtitlesList->topLevelItem(subtitlesList->topLevelItemCount() - 1));
@@ -123,7 +120,6 @@ void ManageSubtitles::deleteSubtitle()
         nextId = subtitlesList->topLevelItem(ix - 1)->data(0, Qt::UserRole).toInt();
     }
     if (m_model->deleteSubtitle(id)) {
-        m_controller->subtitlesListChanged();
         parseList(nextId);
         int ix = subtitlesList->indexOfTopLevelItem(subtitlesList->currentItem());
         if (ix > -1) {
