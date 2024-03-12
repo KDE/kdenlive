@@ -228,6 +228,8 @@ private Q_SLOTS:
     /** @brief Report progress of folder move operation. */
     void slotMoveProgress(KJob *, unsigned long progress);
     void slotMoveFinished(KJob *job);
+    /** @brief Collect MLT's warning logs. */
+    void handleLog(const QString &message);
 
 Q_SIGNALS:
     void docOpened(KdenliveDoc *document);
@@ -253,6 +255,7 @@ private:
     QAction *m_fileRevert;
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
+    QStringList m_mltWarnings;
     void saveRecentFiles();
     /** @brief Something went wrong, stop loading file */
     void abortLoading();
