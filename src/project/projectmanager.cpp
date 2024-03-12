@@ -879,9 +879,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
     Q_EMIT pCore->loadingMessageNewStage(i18n("Loading timeline…"), 0);
     qApp->processEvents();
-    if (!updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
-                        m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
-                        m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
+    bool timelineResult = updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
+                                         m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
+                                         m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
+    disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
+    if (!timelineResult) {
         Q_EMIT pCore->loadingMessageHide();
         // Don't propose to save corrupted doc
         m_project->setModified(false);
@@ -890,20 +892,17 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                                                             KGuiItem(i18n("Open Backup")), KStandardGuiItem::cancel(), QString(), KMessageBox::Notify);
         if (answer == KMessageBox::Continue) {
             // Open Backup
-            disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
             m_mltWarnings.clear();
             delete m_project;
             m_project = nullptr;
             slotOpenBackup(url);
             return;
         }
-        disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
         m_mltWarnings.clear();
         // Open default blank document
         newFile(false);
         return;
     }
-    disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
     m_mltWarnings.clear();
 
     // Re-open active timelines
