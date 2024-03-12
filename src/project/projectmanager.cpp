@@ -900,10 +900,12 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     connect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog, Qt::QueuedConnection);
     pCore->monitorManager()->projectMonitor()->locked = true;
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
+    bool timelineResult = updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
+                                         m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
+                                         m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
+    disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
 
-    if (!updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
-                        m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
-                        m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
+    if (!timelineResult) {
         delete m_progressDialog;
         m_progressDialog = nullptr;
         // Don't propose to save corrupted doc
@@ -913,20 +915,17 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                                                             KGuiItem(i18n("Open Backup")), KStandardGuiItem::cancel(), QString(), KMessageBox::Notify);
         if (answer == KMessageBox::Continue) {
             // Open Backup
-            disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
             m_mltWarnings.clear();
             delete m_project;
             m_project = nullptr;
             slotOpenBackup(url);
             return;
         }
-        disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
         m_mltWarnings.clear();
         // Open default blank document
         newFile(false);
         return;
     }
-    disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
     m_mltWarnings.clear();
 
     // Re-open active timelines
