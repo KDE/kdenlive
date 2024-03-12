@@ -1395,7 +1395,9 @@ void ProjectManager::slotMoveFinished(KJob *job)
 void ProjectManager::requestBackup(const QString &errorMessage)
 {
     KMessageBox::ButtonCode res = KMessageBox::warningContinueCancel(qApp->activeWindow(), errorMessage);
-    pCore->window()->getCurrentTimeline()->loading = false;
+    if (pCore->window()->getCurrentTimeline()) {
+        pCore->window()->getCurrentTimeline()->loading = false;
+    }
     m_project->setModified(false);
     if (res == KMessageBox::Continue) {
         // Try opening backup
