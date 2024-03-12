@@ -47,8 +47,24 @@
   <name xml:lang="zh-CN">Kdenlive</name>
   <name xml:lang="zh-TW">Kdenlive</name>
   <summary>Video editor</summary>
+  <summary xml:lang="ca">Editor de vídeo</summary>
+  <summary xml:lang="ka">ვიდეორედაქტორი</summary>
+  <summary xml:lang="nl">Videobewerker</summary>
+  <summary xml:lang="sl">Program za videomontažo</summary>
+  <summary xml:lang="tr">Video Düzenleyicisi</summary>
+  <summary xml:lang="uk">Відеоредактор</summary>
+  <summary xml:lang="x-test">xxVideo editorxx</summary>
+  <summary xml:lang="zh-TW">影片編輯軟體</summary>
   <description>
     <p>Kdenlive is a video editing application with support for many audio and video formats. It offers advanced editing features, a variety of effects and transitions, color correction, audio post-production and subtitling tools. Additionally, it provides the flexibility to render into practically any format of your choice.</p>
+    <p xml:lang="ca">El Kdenlive és una aplicació d'edició de vídeo amb suport per a molts formats d'àudio i vídeo. Ofereix funcions avançades d'edició, una gran varietat d'efectes i transicions, correcció de color, postproducció d'àudio i eines de subtitulació. A més, proporciona la flexibilitat per a convertir pràcticament a qualsevol format de la vostra elecció.</p>
+    <p xml:lang="ka">Kdenlive ვიდეორედაქტორია ბევრი აუდიო და ვიდეოფორმატების მხარდაჭერით. ის გთავაზობთ დამატებითი ჩასწორების ფუნქციებს, მრავალ ეფექტსა და გადასვლას, ფერის შესწორებას, აუდიოს პოსტ-პროდაქშენს და სუბტიტრების მორგებას. დამატებით, ის გაძლევთ საშუალებას, დაარენდეროთ პრაქტიკულად ნებისმიერ ფორმატში, რომელსაც აირჩევთ.</p>
+    <p xml:lang="nl">Kdenlive is een toepassing voor video bewerken met ondersteuning voor vele audio- en videoformaten. Het biedt geavanceerde bewerkingsfuncties, een verscheidenheid aan effecten en transities, kleurcorrectie, audio nabewerking en hulpmiddelen voor ondertiteling. Bovendien levert het de flexibiliteit om te renderen in praktisch elk formaat van uw keuze.</p>
+    <p xml:lang="sl">Kdenlive je program za montažo videoposnetkov s podporo za številne zvokovne in video zapise. Ponuja napredne funkcije montaže, urejanja, različne učinke in prehode, korekcijo barv, poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru.</p>
+    <p xml:lang="tr">Kdenlive, birçok ses ve video biçimini destekleyen bir video düzenleme uygulamasıdır. Gelişmiş düzenleme özellikleri, çeşitli efektler ve geçişler, renk düzeltme, ses post prodüksiyon ve altyazı araçları sunar. Ek olarak, neredeyse seçtiğiniz herhangi bir biçime dönüştürme esnekliği de sağlar.</p>
+    <p xml:lang="uk">Kdenlive — програма для редагування відео із підтримкою багатьох форматів даних відео та звуку. У ній реалізовано широкі можливості з редагування, спектр ефектів та переходів, виправлення кольорів, остаточну обробку звуку та засоби субтитрування. Крім того, програма здатна гнучко обробляти дані практично до будь-якого вибраного вами формату.</p>
+    <p xml:lang="x-test">xxKdenlive is a video editing application with support for many audio and video formats. It offers advanced editing features, a variety of effects and transitions, color correction, audio post-production and subtitling tools. Additionally, it provides the flexibility to render into practically any format of your choice.xx</p>
+    <p xml:lang="zh-TW">Kdenlive 是支援許多音訊與影片格式的影片編輯軟體。它提供進階的剪輯功能、許多的效果、轉場特效、顏色校正、音效後製與字幕工具等等。它也支援輸出到基本上任何您所想要使用的格式。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
     <p xml:lang="az">İmkanlar:</p>
@@ -89,12 +105,66 @@
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Nested Sequences</li>
+      <li xml:lang="ca">Seqüències imbricades</li>
+      <li xml:lang="ka">ერთმანეთში ჩალაგებული მიმდევრობები</li>
+      <li xml:lang="nl">Geneste sequenties</li>
+      <li xml:lang="sl">Ugnezdena zaporedja</li>
+      <li xml:lang="tr">İç içe geçmiş sekanslar</li>
+      <li xml:lang="uk">Вкладені послідовності</li>
+      <li xml:lang="x-test">xxNested Sequencesxx</li>
       <li>Configurable interface and shortcuts</li>
+      <li xml:lang="ca">Interfície i dreceres configurables</li>
+      <li xml:lang="ka">მორგებადი ინტერფეისი და მალსახმობები</li>
+      <li xml:lang="nl">Te configureren interface en sneltoetsen</li>
+      <li xml:lang="sl">Nastavljiv vmesnik in bližnjice</li>
+      <li xml:lang="tr">Yapılandırılabilir arayüz ve kısayollar</li>
+      <li xml:lang="uk">Можливість налаштовування інтерфейсу та клавіатурних скорочень</li>
+      <li xml:lang="x-test">xxConfigurable interface and shortcutsxx</li>
+      <li xml:lang="zh-TW">可調整的介面與快捷鍵</li>
       <li>Scopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meter</li>
+      <li xml:lang="ca">Vectoscopis: Histograma, Vectoscopi, Histograma RGB, Forma d'ona i Mesurador d'àudio</li>
+      <li xml:lang="ka">მზომები: ჰისტოგრამა, ვექტორსკოპი, RGB პარადი, Waveform და აუდიომეტრი</li>
+      <li xml:lang="nl">Scopes: Histogram, Vectorscope, RGB Parade, golfvorm en Audio-meter</li>
+      <li xml:lang="sl">Merilniki: histogram, vektroskop, parada RGB, signalna oblika in merilnik jakosti zvoka</li>
+      <li xml:lang="tr">Kapsamlar: Histogram, Vektörskop, RGB Geçidi, Dalga Biçimi ve Ses Ölçeri</li>
+      <li xml:lang="uk">Області: гістограма, векторскоп, розкладка RGB, форма хвилі та рівень звуку</li>
+      <li xml:lang="x-test">xxScopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meterxx</li>
       <li>Proxy editing</li>
+      <li xml:lang="ca">Edició d'intermediaris</li>
+      <li xml:lang="ka">პროქსი ჩასწორება</li>
+      <li xml:lang="nl">Proxy-bewerking</li>
+      <li xml:lang="sl">Montaža posrednih posnetkov</li>
+      <li xml:lang="tr">Vekilli düzenleme</li>
+      <li xml:lang="uk">Редагування із проміжними кліпами</li>
+      <li xml:lang="x-test">xxProxy editingxx</li>
+      <li xml:lang="zh-TW">代理編輯</li>
       <li>Free online assets and templates</li>
+      <li xml:lang="ca">Recursos i plantilles lliures en línia</li>
+      <li xml:lang="ka">უფასო მასალები და ნიმუშები ინტერნეტში</li>
+      <li xml:lang="nl">Vrij online bezit en sjablonen</li>
+      <li xml:lang="sl">Brezplačna spletna sredstva in predloge</li>
+      <li xml:lang="tr">Ücretsiz çevrimiçi kaynaklar ve şablonlar</li>
+      <li xml:lang="uk">Безкоштовні ресурси та шаблони в інтернеті</li>
+      <li xml:lang="x-test">xxFree online assets and templatesxx</li>
+      <li xml:lang="zh-TW">免費線上資源與範本</li>
       <li>Motion tracking</li>
+      <li xml:lang="ca">Seguiment de moviment</li>
+      <li xml:lang="ka">მოძრაობის ტრეკინგი</li>
+      <li xml:lang="nl">Volgen van beweging</li>
+      <li xml:lang="sl">Sledenje gibanju</li>
+      <li xml:lang="tr">Hareket izlemesi</li>
+      <li xml:lang="uk">Стеження за рухом</li>
+      <li xml:lang="x-test">xxMotion trackingxx</li>
+      <li xml:lang="zh-TW">動態追蹤</li>
       <li>AI powered tools</li>
+      <li xml:lang="ca">Eines que funcionen amb IA</li>
+      <li xml:lang="ka">ფუნქციები AI-ით</li>
+      <li xml:lang="nl">AI aangedreven hulpmiddelen</li>
+      <li xml:lang="sl">Orodja, ki jih poganja umetna inteligenca</li>
+      <li xml:lang="tr">Yapay Zeka destekli araçlar</li>
+      <li xml:lang="uk">Інструменти на основі ШІ</li>
+      <li xml:lang="x-test">xxAI powered toolsxx</li>
+      <li xml:lang="zh-TW">利用 AI 的工具</li>
     </ul>
   </description>
   <releases>
@@ -114,26 +184,72 @@
   <screenshots>
     <screenshot type="default">
       <caption>Dark theme</caption>
+      <caption xml:lang="ca">Tema fosc</caption>
+      <caption xml:lang="ka">ბნელი თემა</caption>
+      <caption xml:lang="nl">Donker thema</caption>
+      <caption xml:lang="sl">Temna tema</caption>
+      <caption xml:lang="tr">Koyu tema</caption>
+      <caption xml:lang="uk">Темна тема</caption>
+      <caption xml:lang="x-test">xxDark themexx</caption>
+      <caption xml:lang="zh-TW">暗色主題</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Default interface</caption>
+      <caption xml:lang="ca">Interfície predeterminada</caption>
+      <caption xml:lang="ka">ნაგულისხმევი ინტერფეისი</caption>
+      <caption xml:lang="nl">Standaard interface</caption>
+      <caption xml:lang="sl">Privzeti vmesnik</caption>
+      <caption xml:lang="tr">Öntanımlı arayüz</caption>
+      <caption xml:lang="uk">Типовий інтерфейс</caption>
+      <caption xml:lang="x-test">xxDefault interfacexx</caption>
+      <caption xml:lang="zh-TW">預設介面</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k6.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Color correction</caption>
+      <caption xml:lang="ca">Correcció del color</caption>
+      <caption xml:lang="ka">ფერების კორექცია</caption>
+      <caption xml:lang="nl">Kleurcorrectie</caption>
+      <caption xml:lang="sl">Korekcija barv</caption>
+      <caption xml:lang="tr">Renk düzeltmesi</caption>
+      <caption xml:lang="uk">Виправлення кольорів</caption>
+      <caption xml:lang="x-test">xxColor correctionxx</caption>
+      <caption xml:lang="zh-TW">顏色校正</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Configurable interface</caption>
+      <caption xml:lang="ca">Interfície configurable</caption>
+      <caption xml:lang="ka">მორგებადი ინტერფეისი</caption>
+      <caption xml:lang="nl">Te configureren interface</caption>
+      <caption xml:lang="sl">Nastavljiv vmesnik</caption>
+      <caption xml:lang="tr">Yapılandırılabilir arayüz</caption>
+      <caption xml:lang="uk">Придатний до налаштовування інтерфейс</caption>
+      <caption xml:lang="x-test">xxConfigurable interfacexx</caption>
+      <caption xml:lang="zh-TW">可自訂的介面</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k4.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Titling</caption>
+      <caption xml:lang="ca">Titulació</caption>
+      <caption xml:lang="ka">დასათაურება</caption>
+      <caption xml:lang="nl">Titels toevoegen</caption>
+      <caption xml:lang="sl">Naslavljanje</caption>
+      <caption xml:lang="tr">Başlıklandırma</caption>
+      <caption xml:lang="uk">Титрування</caption>
+      <caption xml:lang="x-test">xxTitlingxx</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k5.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Time remapping and same-track transitions</caption>
+      <caption xml:lang="ca">Reassignació del temps i transicions de la mateixa pista</caption>
+      <caption xml:lang="ka">დროის თავიდან ასახვა და გადასვლები იგივე ტრეკში</caption>
+      <caption xml:lang="nl">Snelheid van video wijzigen (time remapping) en overgangen in dezelfde track</caption>
+      <caption xml:lang="sl">Preslikava časa in prehodi na isti stezi</caption>
+      <caption xml:lang="tr">Zaman eşlemlemesi ve aynı izde geçişler</caption>
+      <caption xml:lang="uk">Переприв'язка за часом та переходи на одній доріжці</caption>
+      <caption xml:lang="x-test">xxTime remapping and same-track transitionsxx</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>
   </screenshots>
