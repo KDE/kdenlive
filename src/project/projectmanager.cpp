@@ -884,7 +884,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                                          m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
     disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
 
-    if(!timelineResult)) {
+    if(!timelineResult) {
         Q_EMIT pCore->loadingMessageHide();
 
         // Don't propose to save corrupted doc
