@@ -1178,7 +1178,7 @@ void SubtitleModel::copySubtitle(const QString &path, int ix, bool checkOverwrit
             m_subtitleFilter->set("av.filename", path.toUtf8().constData());
         }
     } else {
-        qDebug() << "/// SUB FILE " << srcFile << " NOT FOUND!!!";
+        qDebug() << "/// SUB FILE " << srcFile.fileName() << " NOT FOUND!!!";
     }
 }
 
