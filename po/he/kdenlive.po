@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:37+0000\n"
-"PO-Revision-Date: 2024-03-10 17:19+0200\n"
+"POT-Creation-Date: 2024-03-14 00:37+0000\n"
+"PO-Revision-Date: 2024-03-13 11:58+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4567,8 +4567,8 @@ msgstr "רשימת נגינה"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1482
-#: src/project/projectmanager.cpp:1484 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1480
+#: src/project/projectmanager.cpp:1482 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "רצפים"
@@ -6220,7 +6220,7 @@ msgstr "ייצוא נתוני קווים מנחים"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1772 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1770 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5074
@@ -6286,7 +6286,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "במקרה של ספק, עדיף לנסות :<br/><b>יוניקוד (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1665
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1663
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -7254,7 +7254,7 @@ msgstr "כתוביות יובאו"
 #: src/dialogs/speechdialog.cpp:404
 #, kde-format
 msgid "Speech recognition failed"
-msgstr ""
+msgstr "זיהוי הדיבור נכשל"
 
 #: src/dialogs/speechdialog.cpp:438
 #, fuzzy, kde-format
@@ -7331,12 +7331,12 @@ msgstr "קטלאנית"
 #: src/dialogs/speechdialog.cpp:463
 #, kde-format
 msgid "Cebuano"
-msgstr ""
+msgstr "סבואנו"
 
 #: src/dialogs/speechdialog.cpp:464
 #, kde-format
 msgid "Central Kurdish"
-msgstr ""
+msgstr "כורדית מרכזית"
 
 #: src/dialogs/speechdialog.cpp:465 src/pythoninterfaces/speechtotext.cpp:98
 #, kde-format
@@ -7361,7 +7361,7 @@ msgstr "הולנדית"
 #: src/dialogs/speechdialog.cpp:469
 #, kde-format
 msgid "Egyptian Arabic"
-msgstr ""
+msgstr "ערכית מצרית"
 
 #: src/dialogs/speechdialog.cpp:470 src/pythoninterfaces/speechtotext.cpp:102
 #, kde-format
@@ -7391,7 +7391,7 @@ msgstr "גליסית"
 #: src/dialogs/speechdialog.cpp:475
 #, kde-format
 msgid "Ganda"
-msgstr ""
+msgstr "לוגנדה"
 
 #: src/dialogs/speechdialog.cpp:476 src/pythoninterfaces/speechtotext.cpp:109
 #, kde-format
@@ -7442,7 +7442,7 @@ msgstr "איסלנדית"
 #: src/dialogs/speechdialog.cpp:485
 #, kde-format
 msgid "Igbo"
-msgstr ""
+msgstr "איגבו"
 
 #: src/dialogs/speechdialog.cpp:486 src/pythoninterfaces/speechtotext.cpp:121
 #, kde-format
@@ -7492,7 +7492,7 @@ msgstr "קוריאנית"
 #: src/dialogs/speechdialog.cpp:495
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "קירגיזית"
 
 #: src/dialogs/speechdialog.cpp:496 src/pythoninterfaces/speechtotext.cpp:129
 #, kde-format
@@ -7542,17 +7542,17 @@ msgstr "מראטהית"
 #: src/dialogs/speechdialog.cpp:506
 #, kde-format
 msgid "Meitei"
-msgstr ""
+msgstr "מיטיי"
 
 #: src/dialogs/speechdialog.cpp:507
 #, kde-format
 msgid "Modern Standard Arabic"
-msgstr ""
+msgstr "ערבית תקנית מודרנית"
 
 #: src/dialogs/speechdialog.cpp:508
 #, kde-format
 msgid "Moroccan Arabic"
-msgstr ""
+msgstr "ערבית מרוקאית"
 
 #: src/dialogs/speechdialog.cpp:509 src/pythoninterfaces/speechtotext.cpp:147
 #, kde-format
@@ -7562,7 +7562,7 @@ msgstr "נפאלית"
 #: src/dialogs/speechdialog.cpp:510
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr ""
+msgstr "פולפולדה ניגרית"
 
 #: src/dialogs/speechdialog.cpp:511
 #, kde-format
@@ -7572,7 +7572,7 @@ msgstr "אזרית צפונית"
 #: src/dialogs/speechdialog.cpp:512
 #, kde-format
 msgid "Northern Uzbek"
-msgstr ""
+msgstr "אוזבקית צפונית"
 
 #: src/dialogs/speechdialog.cpp:513
 #, kde-format
@@ -7593,7 +7593,7 @@ msgstr "פנג׳אבי"
 #: src/dialogs/speechdialog.cpp:516
 #, kde-format
 msgid "Odia"
-msgstr ""
+msgstr "אורייה"
 
 #: src/dialogs/speechdialog.cpp:517 src/pythoninterfaces/speechtotext.cpp:154
 #, kde-format
@@ -7653,7 +7653,7 @@ msgstr "סומלית"
 #: src/dialogs/speechdialog.cpp:528
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "פשטו דרומית"
 
 #: src/dialogs/speechdialog.cpp:529 src/pythoninterfaces/speechtotext.cpp:169
 #, kde-format
@@ -7668,7 +7668,7 @@ msgstr "לטבית תקנית"
 #: src/dialogs/speechdialog.cpp:531
 #, kde-format
 msgid "Standard Malay"
-msgstr ""
+msgstr "מלאית תקנית"
 
 #: src/dialogs/speechdialog.cpp:532 src/pythoninterfaces/speechtotext.cpp:171
 #, kde-format
@@ -7733,7 +7733,7 @@ msgstr "ולשית"
 #: src/dialogs/speechdialog.cpp:544
 #, kde-format
 msgid "West Central Oromo"
-msgstr ""
+msgstr "אורומו מרכז מערבית"
 
 #: src/dialogs/speechdialog.cpp:545
 #, kde-format
@@ -7748,12 +7748,12 @@ msgstr "יורובה"
 #: src/dialogs/speechdialog.cpp:547
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "זולו"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
 msgid "Made by KDE"
-msgstr ""
+msgstr "נוצר על ידי KDE"
 
 #: src/dialogs/subtitleedit.cpp:108
 #, kde-format
@@ -7895,7 +7895,7 @@ msgstr "אין דיבור"
 #: src/dialogs/textbasededit.cpp:620 src/ui/speechdialog_ui.ui:169
 #, kde-format
 msgid "Translate to English"
-msgstr ""
+msgstr "תרגום לאנגלית"
 
 #: src/dialogs/textbasededit.cpp:623
 #, kde-format
@@ -7915,7 +7915,7 @@ msgstr "הוספת הבחירה לציר הזמן"
 #: src/dialogs/textbasededit.cpp:656
 #, kde-format
 msgid "Save edited text in a playlist file"
-msgstr ""
+msgstr "שמירת הטקסט שנערך בקובץ רשימת נגינה"
 
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
@@ -7957,7 +7957,7 @@ msgstr ""
 #: src/dialogs/textbasededit.cpp:952
 #, kde-format
 msgid "Please install a language model."
-msgstr ""
+msgstr "נא להתקין מודל שפה."
 
 #: src/dialogs/textbasededit.cpp:960
 #, kde-format
@@ -7993,7 +7993,7 @@ msgstr "מופעל מנגנון זיהוי קולי על %1."
 #: src/dialogs/textbasededit.cpp:1131
 #, kde-format
 msgid "Error, please check the speech to text configuration."
-msgstr ""
+msgstr "שגיאה, נא לבדוק את הגדרות ההקראה."
 
 #: src/dialogs/textbasededit.cpp:1133
 #, kde-format
@@ -8040,25 +8040,25 @@ msgstr "לא ניתן להעביר את תמונת מפתח המקור האחר�
 #: src/dialogs/timeremap.cpp:555 src/dialogs/timeremap.cpp:765
 #, kde-format
 msgid "Cannot move first source keyframe before clip start"
-msgstr ""
+msgstr "לא ניתן להעביר את תמונית מפתח המקור לפני תחילת הסרטון"
 
 #: src/dialogs/timeremap.cpp:1702 src/dialogs/timeremap.cpp:1727
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Inserts a keyframe at the current playhead position/frame."
-msgstr ""
+msgstr "מוסיף תמונית מפתח במקום/תמונית ראש הנגינה."
 
 #: src/dialogs/timeremap.cpp:1705
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "מעביר את ראש הנגינה לתמונית המפתח הבאה מימין."
 
 #: src/dialogs/timeremap.cpp:1708
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "מעביר את ראש הנגינה לתמונית המפתח הבאה משמאל."
 
 #: src/dialogs/timeremap.cpp:1713 src/dialogs/timeremap.cpp:1715
 #, kde-kuit-format
@@ -8070,7 +8070,7 @@ msgstr "מעביר את תמוניות המפתח הנבחרות למקום/תמ
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "מוחק את תמונית המפתח במקום הנוכחי של ראש הנגינה."
 
 #: src/dialogs/timeremap.cpp:1824
 #, kde-format
@@ -8096,7 +8096,7 @@ msgstr "ברוך בואך ל־Kdenlive %1"
 #: src/dialogs/wizard.cpp:77
 #, kde-format
 msgid "Using MLT %1"
-msgstr ""
+msgstr "נעשה שימוש ב־MLT %1"
 
 #: src/dialogs/wizard.cpp:87 src/project/cliptranscode.cpp:194
 #: src/project/cliptranscode.cpp:226 src/project/dialogs/archivewidget.cpp:611
@@ -8109,22 +8109,22 @@ msgstr "ביטול"
 #: src/dialogs/wizard.cpp:88
 #, kde-format
 msgid "OK"
-msgstr ""
+msgstr "אישור"
 
 #: src/dialogs/wizard.cpp:97
 #, kde-format
 msgid "Converting old custom effects successful:"
-msgstr ""
+msgstr "המרת אפקטים ישנים שהותאמו אישית הצליחה:"
 
 #: src/dialogs/wizard.cpp:105
 #, kde-format
 msgid "Converting old custom effects failed:"
-msgstr ""
+msgstr "המרת אפקטים ישנים שהותאמו אישית נכשלה:"
 
 #: src/dialogs/wizard.cpp:114
 #, kde-format
 msgid "Startup error or warning, check our <a href='#'>online manual</a>."
-msgstr ""
+msgstr "שגיאת או אזהרת התחלה, כדאי לעיין ב<a href='#'>מדריך המקוון</a> שלנו."
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
@@ -8140,27 +8140,27 @@ msgstr "סגירה"
 #: src/dialogs/wizard.cpp:163
 #, kde-format
 msgid "Codecs have been updated, everything seems fine."
-msgstr ""
+msgstr "מפענחים עודכנו, הכול נראה בסדר."
 
 #: src/dialogs/wizard.cpp:180
 #, kde-format
 msgid "VAAPI hardware acceleration"
-msgstr ""
+msgstr "האצת חומרה VAAPI"
 
 #: src/dialogs/wizard.cpp:183
 #, kde-format
 msgid "NVIDIA hardware acceleration"
-msgstr ""
+msgstr "האצת חומרה NVIDIA"
 
 #: src/dialogs/wizard.cpp:186
 #, kde-format
 msgid "AMF hardware acceleration"
-msgstr ""
+msgstr "האצת חומרה AMF"
 
 #: src/dialogs/wizard.cpp:189
 #, kde-format
 msgid "QSV hardware acceleration"
-msgstr ""
+msgstr "האצת חומרה QSV"
 
 #: src/dialogs/wizard.cpp:192
 #, kde-format
@@ -8170,17 +8170,17 @@ msgstr ""
 #: src/dialogs/wizard.cpp:207
 #, kde-format
 msgid "Check hardware acceleration"
-msgstr ""
+msgstr "בדיקת האצת חומרה"
 
 #: src/dialogs/wizard.cpp:230
 #, kde-format
 msgid "<li>Cannot start MLT backend, check your installation</li>"
-msgstr ""
+msgstr "<li>לא ניתן להפעיל את מנגנון MLT, נא לבדוק שההתקנה שלך תקינה</li>"
 
 #: src/dialogs/wizard.cpp:236
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
-msgstr ""
+msgstr "<li>גרסת ה־MLT לא נתמכת<br/>נא <b>לשדרג</b> ל־%1.%2.%3</li>"
 
 #: src/dialogs/wizard.cpp:263
 #, kde-format
@@ -8188,6 +8188,8 @@ msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
 "many effects and transitions. Install recommended</li>"
 msgstr ""
+"<li>חסרה חבילה: אפקטים של <b>Frei0r</b>‏ (frei0r-plugins)<br/>שמספקת מגוון "
+"אפקטים ומעברונים. מומלץ להתקין</li>"
 
 #: src/dialogs/wizard.cpp:278
 #, kde-format
@@ -8195,6 +8197,7 @@ msgid ""
 "<li>Missing package: <b>AVFilter</b><br/>provides many effects. Install "
 "recommended</li>"
 msgstr ""
+"<li>חסרה חבילה: <b>AVFilter</b><br/>מספקת מגוון אפקטים. מומלץ להתקין</li>"
 
 #: src/dialogs/wizard.cpp:292
 #, kde-format
@@ -8202,6 +8205,8 @@ msgid ""
 "<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle "
 "feature. Install recommended</li>"
 msgstr ""
+"<li>חסר מסנן: <b>avfilter.subtitles</b><br/>שנחוץ ליכולת הכתוביות. מומלץ "
+"להתקין</li>"
 
 #: src/dialogs/wizard.cpp:312
 #, kde-format
@@ -8209,6 +8214,8 @@ msgid ""
 "<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides "
 "many icons used in Kdenlive. Install recommended</li>"
 msgstr ""
+"<li>חסרה חבילה: סמלי <b>Breeze</b>‏ (breeze-icon-theme)<br/>שמספקת מגוון "
+"סמלים שמשמשים גם את Kdenlive. מומלץ להתקין</li>"
 
 #: src/dialogs/wizard.cpp:341
 #, kde-format
@@ -8216,18 +8223,19 @@ msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
 "output</li>"
 msgstr ""
+"<li>חסר מודול MLT:‏ <b>sdl</b> או <b>rtaudio</b><br/>שנחוץ לפלט שמע</li>"
 
 #: src/dialogs/wizard.cpp:353
 #, kde-format
 msgid "<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"
-msgstr ""
+msgstr "<li>חסר מודול MLT:‏ <b>xml</b> <br/>שנחוץ לשמע/וידאו</li>"
 
 #: src/dialogs/wizard.cpp:363
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
 "video</li>"
-msgstr ""
+msgstr "<li>חסר מודול MLT:‏ <b>avformat</b> (FFmpeg)<br/>שנחוץ לשמע/וידאו</li>"
 
 #: src/dialogs/wizard.cpp:372
 #, kde-format
@@ -8235,13 +8243,15 @@ msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
 "images and titles</li>"
 msgstr ""
+"<li>חסר מודול MLT:‏ <b>qimage</b> או <b>pixbuf</b><br/>שנחוצים לתמונות "
+"וכותרות</li>"
 
 #: src/dialogs/wizard.cpp:379
 #, kde-format
 msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
 "li>"
-msgstr ""
+msgstr "<li>חסר מודול MLT:‏ <b>kdenlivetitle</b><br/>שנחוץ ליצירת כותרות</li>"
 
 #: src/dialogs/wizard.cpp:385
 #, kde-format
@@ -8249,11 +8259,12 @@ msgid ""
 "<li>Missing MLT module: <b>glaxnimate</b><br/>required to load Lottie "
 "animations</li>"
 msgstr ""
+"<li>חסר מודול MLT:‏ <b>glaxnimate</b><br/>שנחוץ לטעינת הנפשות Lottie</li>"
 
 #: src/dialogs/wizard.cpp:421
 #, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
-msgstr ""
+msgstr "<li>חסר יישום: <b>kdenlive_render</b><br/>שנחוץ לצלימה.</li>"
 
 #: src/dialogs/wizard.cpp:446
 #, kde-format
@@ -8697,15 +8708,15 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1357
-#: src/project/projectmanager.cpp:1393
+#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:1391
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "שגיאה בהעברת תיקיית המיזם: %1"
 
 #: src/doc/kdenlivedoc.cpp:1072 src/doc/kdenlivedoc.cpp:2301
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1606
+#: src/project/projectmanager.cpp:1604
 #, kde-format
 msgid "Untitled"
 msgstr "ללא כותרת"
@@ -14299,7 +14310,7 @@ msgstr "פתיחת קובץ גיבוי…"
 msgid "Save changes to document?"
 msgstr "לשמור שינויים למסמך‫?"
 
-#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1605
+#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1603
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14371,12 +14382,12 @@ msgstr ""
 "%1\n"
 "לפתוח את קובץ הגיבוי?"
 
-#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:893
+#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:891
 #, kde-format
 msgid "Error opening file"
 msgstr "שגיאה בפתיחת קובץ"
 
-#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:894
+#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:892
 #, kde-format
 msgid "Open Backup"
 msgstr "פתיחת גיבוי"
@@ -14402,12 +14413,12 @@ msgstr "המיזם שלך נערך עם פתיחתו, ייווצר גיבוי ע
 msgid "Loading timeline…"
 msgstr "ציר הזמן נטען…"
 
-#: src/project/projectmanager.cpp:914
+#: src/project/projectmanager.cpp:912
 #, kde-format
 msgid "Building sequences…"
 msgstr "הרצפים נבנים…"
 
-#: src/project/projectmanager.cpp:1018
+#: src/project/projectmanager.cpp:1016
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14416,7 +14427,7 @@ msgstr ""
 "לא ניתן לפתוח את קובץ המיזם. שגיאה:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1058
+#: src/project/projectmanager.cpp:1056
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14424,12 +14435,12 @@ msgid ""
 msgstr ""
 "הפעולה הזאת תמחק את השינויים שערכת מאז השמירה האחרונה של המיזם שלך. להמשיך?"
 
-#: src/project/projectmanager.cpp:1059
+#: src/project/projectmanager.cpp:1057
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "חזרה לגרסה השמורה האחרונה"
 
-#: src/project/projectmanager.cpp:1145
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14438,35 +14449,35 @@ msgstr ""
 "המיזם נפגם, אי אפשר לגבות. נא לסגור את המיזם שלך ולפתוח אותו מחדש כדי לשחזר "
 "מהגיבוי האחרון"
 
-#: src/project/projectmanager.cpp:1335
+#: src/project/projectmanager.cpp:1333
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "שגיאה בהעברת תיקיית המיזם, אי אפשר לגשת לתיקיית המטמון"
 
-#: src/project/projectmanager.cpp:1371
+#: src/project/projectmanager.cpp:1369
 #, kde-format
 msgid "Moving project folder"
 msgstr "תיקיית המיזם מועברת"
 
-#: src/project/projectmanager.cpp:1461 src/project/projectmanager.cpp:1513
-#: src/project/projectmanager.cpp:1517
+#: src/project/projectmanager.cpp:1459 src/project/projectmanager.cpp:1511
+#: src/project/projectmanager.cpp:1515
 #, kde-format
 msgid "Sequence 1"
 msgstr "רצף 1"
 
-#: src/project/projectmanager.cpp:1472
+#: src/project/projectmanager.cpp:1470
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "קובץ המיזם פגום - טעינת הרצועות נכשלה. לנסות למצוא קובץ גיבוי?"
 
-#: src/project/projectmanager.cpp:1611 src/project/projectmanager.cpp:1616
-#: src/project/projectmanager.cpp:1626 src/project/projectmanager.cpp:1640
+#: src/project/projectmanager.cpp:1609 src/project/projectmanager.cpp:1614
+#: src/project/projectmanager.cpp:1624 src/project/projectmanager.cpp:1638
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "השינוי לפרופיל המיזם בוטל"
 
-#: src/project/projectmanager.cpp:1757
+#: src/project/projectmanager.cpp:1755
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14475,12 +14486,12 @@ msgstr ""
 "קובץ הפלט %1 כבר קיים.\n"
 "לשכתב אותו?"
 
-#: src/project/projectmanager.cpp:1782
+#: src/project/projectmanager.cpp:1780
 #, kde-format
 msgid "Project profile changed"
 msgstr "פרופיל המיזם השתנה"
 
-#: src/project/projectmanager.cpp:1838
+#: src/project/projectmanager.cpp:1836
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14489,17 +14500,17 @@ msgstr ""
 "לא ניתן ליצור ציר זמן מהסרטון הזה:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1914
+#: src/project/projectmanager.cpp:1912
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "מתבצע ייבוא של סרטון רצף, זה כרגע במצב ניסיוני"
 
-#: src/project/projectmanager.cpp:2097
+#: src/project/projectmanager.cpp:2095
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "בחירת סרטון ליצירת רצף"
 
-#: src/project/projectmanager.cpp:2135
+#: src/project/projectmanager.cpp:2133
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "יצירת סרטון רצף"
@@ -15138,6 +15149,8 @@ msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
+"אי אפשר להשתמש בעיבוד סקריפטים ובייצוא מגוון רצועות שמע ביחד. הסקריפט יישמר "
+"בלי תמיכה בגיוון רצועות."
 
 #: src/render/renderrequest.cpp:302
 #, kde-format
@@ -15163,12 +15176,12 @@ msgstr ""
 #: src/render/renderserver.cpp:22 src/render/renderserver.cpp:87
 #, kde-format
 msgid "Can't open communication with render job %1"
-msgstr ""
+msgstr "אי אפשר לפתוח תקשורת עם משימת הצלימה %1"
 
 #: src/render/renderserver.cpp:52
 #, kde-format
 msgid "Communication error with render job"
-msgstr ""
+msgstr "שגיאת תקשורת עם משימת הצלימה"
 
 #: src/renderpresets/renderpresetmodel.cpp:193
 #: src/renderpresets/renderpresetmodel.cpp:279
@@ -15181,12 +15194,12 @@ msgstr "מותאם אישית"
 #: src/renderpresets/renderpresetmodel.cpp:315
 #, kde-format
 msgid "Standard (%1) not compatible with project profile (%2)"
-msgstr ""
+msgstr "התקן (%1) לא תואם לפרופיל המיזם (%2)"
 
 #: src/renderpresets/renderpresetmodel.cpp:325
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
-msgstr ""
+msgstr "קצב התמוניות (%1) לא תואם לפרופיל המיזם (%2)"
 
 #: src/renderpresets/renderpresetmodel.cpp:339
 #: src/renderpresets/renderpresetmodel.cpp:358
@@ -19486,7 +19499,7 @@ msgstr "איכות:"
 msgid ""
 "A fixed GOP means that keyframes will not be inserted at detected scene "
 "changes."
-msgstr ""
+msgstr "ק״ת קבוצה משמעה שתמוניות המפתח לא יתווספו בשינויי הסצנות המזוהים."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
@@ -19538,13 +19551,13 @@ msgstr "רזולוציה:"
 #: src/ui/editrenderpreset_ui.ui:753
 #, kde-format
 msgid "GOP = Group of Pictures"
-msgstr ""
+msgstr "ק״ת = קבוצת תמונות"
 
 #. i18n: ectx: property (text), widget (QLabel, label_26)
 #: src/ui/editrenderpreset_ui.ui:756
 #, kde-format
 msgid "GOP:"
-msgstr ""
+msgstr "ק״ת:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/editrenderpreset_ui.ui:792
@@ -19640,7 +19653,7 @@ msgstr "אפשרויות מהירות:"
 #: src/ui/editrenderpreset_ui.ui:1026
 #, kde-format
 msgid "One line of options per speedup step, from slowest to fastest"
-msgstr ""
+msgstr "שורת אפשרויות אחד לצעד האצה, מהאיטי ביותר למהיר ביותר"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/editrenderpreset_ui.ui:1036
@@ -19656,9 +19669,9 @@ msgid ""
 "ConsumerAvformat/\"><span style=\" text-decoration: underline; color:#2980b9;"
 "\">MLT documentation</span></a> for reference.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>כדאי לפנות <a href=\"https://www.mltframework.org/"
+"<html><head/><body><p>כדאי לעיין ב<a href=\"https://www.mltframework.org/"
 "plugins/ConsumerAvformat/\"><span style=\" text-decoration: underline; color:"
-"#2980b9;\">לתיעוד שלMLT</span></a> למידע בנושא.</p></body></html>"
+"#2980b9;\">תיעוד של MLT</span></a> לסימוכין.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/editrenderpreset_ui.ui:1072
