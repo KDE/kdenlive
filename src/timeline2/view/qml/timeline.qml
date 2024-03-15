@@ -1330,7 +1330,7 @@ Rectangle {
             onPressed: mouse => {
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
-                if (mouse.buttons === Qt.MidButton || ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
+                if (mouse.buttons === Qt.MiddleButton || ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
                     return
@@ -1462,7 +1462,7 @@ Rectangle {
                 }
             }
             onPositionChanged: mouse => {
-                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
+                if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
                     var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height + subtitleTrackHeader.height - scrollView.height+ horZoomBar.height)
