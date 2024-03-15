@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-14 00:37+0000\n"
-"PO-Revision-Date: 2024-03-13 11:58+0200\n"
+"PO-Revision-Date: 2024-03-14 13:19+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -17626,7 +17626,7 @@ msgstr "רצועת הרכבה:"
 #: src/ui/addtrack_ui.ui:22
 #, kde-format
 msgid "Above"
-msgstr ""
+msgstr "מעל"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
 #: src/ui/addtrack_ui.ui:27
@@ -17720,7 +17720,7 @@ msgstr "הוסף סרטון ציר זמן"
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:59
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -17898,19 +17898,19 @@ msgstr "…"
 msgid ""
 "Link the handles' position for current point.<br />Results in a natural "
 "spline."
-msgstr ""
+msgstr "קישור מקום הידיות לנקודה הנוכחית.<br />גורם לשגם טבעי."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetSpline)
 #: src/ui/bezierspline_ui.ui:118
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reset the selected spline."
-msgstr "מחק סרטונים נבחרים"
+msgstr "איפוס השגם הנוכחי."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowPixmap)
 #: src/ui/bezierspline_ui.ui:134
 #, kde-format
 msgid "Show background indicating changes caused by modifying the curve."
-msgstr ""
+msgstr "הצגת רקע שמציין שהתרחשו שינויים עקב שינוי העקומה."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonGridChange)
 #: src/ui/bezierspline_ui.ui:153
@@ -17918,13 +17918,13 @@ msgstr ""
 msgid ""
 "Increases the number of lines in the grid.<br />After 8 lines it will begin "
 "from 0 again."
-msgstr ""
+msgstr "מגדיל את מספר השורות ברשת.<br />אחרי 8 שורות מתחילים שוב מ־0."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowAllHandles)
 #: src/ui/bezierspline_ui.ui:203
 #, kde-format
 msgid "Show handles for all points or only for the selected one."
-msgstr ""
+msgstr "הצגת ידיות לכל הנקודות או רק לזו שנבחרה."
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #. i18n: ectx: property (text), widget (QLabel, param1Label)
@@ -18461,7 +18461,7 @@ msgstr ""
 #: src/ui/configenv_ui.ui:88
 #, kde-format
 msgid " MiB"
-msgstr ""
+msgstr " MiB"
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: src/ui/configenv_ui.ui:101
@@ -19164,7 +19164,7 @@ msgstr "עיבוד Whisper על מעבד הוא מאוד איטי"
 #: src/ui/configspeech_ui.ui:281
 #, kde-format
 msgid "Enable translation through SeamlessM4T"
-msgstr ""
+msgstr "הפעלת תרגום באמצעות SeamlessM4T"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:308
@@ -19207,19 +19207,19 @@ msgstr "הפרדת ערוצי שמע"
 #: src/ui/configtimeline_ui.ui:59
 #, kde-format
 msgid "Playback and Seeking:"
-msgstr ""
+msgstr "נגינה וחתירה:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:66
 #, kde-format
 msgid "Pause playback when seeking"
-msgstr ""
+msgstr "לעצור את הנגינה בעת חתירה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_jumptostart)
 #: src/ui/configtimeline_ui.ui:73
 #, kde-format
 msgid "Jump to timeline start if playback is started on last frame in timeline"
-msgstr ""
+msgstr "לקפוץ לתחילת ציר הזמן אם הנגינה התחילה בתמונית האחרונה בציר הזמן"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_seekonaddeffect)
 #: src/ui/configtimeline_ui.ui:80
@@ -21113,17 +21113,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_out_label)
 #: src/ui/speechdialog_ui.ui:178
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output language"
-msgstr "קובץ פלט"
+msgstr "שפת הפלט"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_in_label)
 #: src/ui/speechdialog_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Speech language"
+#, kde-format
 msgid "Input language"
-msgstr "שפת הזיהוי הקולי"
+msgstr "שפת הקלט"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
