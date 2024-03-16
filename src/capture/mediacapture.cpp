@@ -441,13 +441,13 @@ int MediaCapture::startCapture()
 
 void MediaCapture::setCaptureOutputLocation()
 {
-    QDir captureFolder;
-    bool audioCapture = m_videoRecorder.get() == nullptr;
-    if (KdenliveSettings::capturetoprojectfolder() < 2) {
-        captureFolder = QDir(pCore->getProjectFolderName(audioCapture));
-    } else {
-        captureFolder = QDir(KdenliveSettings::capturefolder());
+    QDir captureFolder = QDir(pCore->getProjectCaptureFolderName());
+
+    if (!captureFolder.exists()) {
+        // This returns false if it fails, but we'll just let the whole recording fail instead
+        captureFolder.mkpath(".");
     }
+
     QString extension;
     if (m_videoRecorder.get() != nullptr) {
         extension = QStringLiteral(".mpeg");

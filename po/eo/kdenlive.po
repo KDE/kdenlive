@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:37+0000\n"
+"POT-Creation-Date: 2024-03-16 00:37+0000\n"
 "PO-Revision-Date: 2024-03-09 09:22+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -3653,7 +3653,7 @@ msgstr "Forigas la nun elektitan antaŭdifinilon."
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1417
+#: src/dialogs/kdenlivesettingsdialog.cpp:1422
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -3661,7 +3661,7 @@ msgstr "Enigi Antaŭdifinitan Nomon"
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1417
+#: src/dialogs/kdenlivesettingsdialog.cpp:1422
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Enigu la nomon de ĉi tiu antaŭmeto:"
@@ -4688,8 +4688,8 @@ msgstr "Ludlisto"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1482
-#: src/project/projectmanager.cpp:1484 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1480
+#: src/project/projectmanager.cpp:1482 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekvoj"
@@ -6054,7 +6054,7 @@ msgstr "Teksta aŭdvidaĵo"
 msgid "Create Text clip"
 msgstr "Krei Tekstan tondaĵon"
 
-#: src/dialogs/clipcreationdialog.cpp:423 src/doc/kdenlivedoc.cpp:1147
+#: src/dialogs/clipcreationdialog.cpp:423 src/doc/kdenlivedoc.cpp:1157
 #, kde-format
 msgid "Template title clip"
 msgstr "Ŝablona titoltondaĵo"
@@ -6307,7 +6307,7 @@ msgstr "Aŭtomata (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:696
+#: src/dialogs/kdenlivesettingsdialog.cpp:697
 #: src/project/dialogs/projectsettings.cpp:899
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
@@ -6379,7 +6379,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1661
 #: src/dialogs/renderwidget.cpp:1688 src/doc/kdenlivedoc.cpp:758
-#: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1283
+#: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1293
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
@@ -6391,7 +6391,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1772 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1770 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5074
@@ -6457,7 +6457,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Se ne certas, provu :<br/><b>Unikodo (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1665
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1663
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -6510,7 +6510,7 @@ msgid "Misc"
 msgstr "Misc"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:254
-#: src/dialogs/kdenlivesettingsdialog.cpp:806
+#: src/dialogs/kdenlivesettingsdialog.cpp:807
 #: src/doc/documentvalidator.cpp:2250
 #: src/transitions/transitionsrepository.cpp:174
 #, kde-format
@@ -6535,18 +6535,18 @@ msgstr "Uzi defaŭltan dosierujon: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:354
 #: src/dialogs/kdenlivesettingsdialog.cpp:378
-#: src/dialogs/kdenlivesettingsdialog.cpp:1061
 #: src/dialogs/kdenlivesettingsdialog.cpp:1062
-#: src/dialogs/kdenlivesettingsdialog.cpp:1071
+#: src/dialogs/kdenlivesettingsdialog.cpp:1063
 #: src/dialogs/kdenlivesettingsdialog.cpp:1072
+#: src/dialogs/kdenlivesettingsdialog.cpp:1073
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Ĉiam uzi projektan dosierujon: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:356
 #: src/dialogs/kdenlivesettingsdialog.cpp:380
-#: src/dialogs/kdenlivesettingsdialog.cpp:1068
 #: src/dialogs/kdenlivesettingsdialog.cpp:1069
+#: src/dialogs/kdenlivesettingsdialog.cpp:1070
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Ĉiam uzi aktivan projektan dosierujon"
@@ -6599,103 +6599,103 @@ msgstr "Transkodigo"
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr "GPU-pretigo bezonas MLT kompilitan kun Movit kaj Rtaudio-moduloj"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:703
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:704
-#: src/dialogs/kdenlivesettingsdialog.cpp:757
+#: src/dialogs/kdenlivesettingsdialog.cpp:705
+#: src/dialogs/kdenlivesettingsdialog.cpp:758
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:705
+#: src/dialogs/kdenlivesettingsdialog.cpp:706
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:706
+#: src/dialogs/kdenlivesettingsdialog.cpp:707
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:708
+#: src/dialogs/kdenlivesettingsdialog.cpp:709
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound Daemon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:709
+#: src/dialogs/kdenlivesettingsdialog.cpp:710
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "ARTS-Demono"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:721
-#: src/dialogs/kdenlivesettingsdialog.cpp:722 src/mainwindow.cpp:197
+#: src/dialogs/kdenlivesettingsdialog.cpp:722
+#: src/dialogs/kdenlivesettingsdialog.cpp:723 src/mainwindow.cpp:197
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Defaŭlte"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:773
+#: src/dialogs/kdenlivesettingsdialog.cpp:774
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:785
+#: src/dialogs/kdenlivesettingsdialog.cpp:786
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:809 src/mainwindow.cpp:338
+#: src/dialogs/kdenlivesettingsdialog.cpp:810 src/mainwindow.cpp:338
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitoro %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:893
+#: src/dialogs/kdenlivesettingsdialog.cpp:894
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Enigu vojon al la aŭda redakta aplikaĵo"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:901
+#: src/dialogs/kdenlivesettingsdialog.cpp:902
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Enigu vojon al la aplikaĵo por redaktado de bildoj"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:909 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:910 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Enigu vojon al la aplikaĵo Glaxnimate"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:992
-#: src/dialogs/kdenlivesettingsdialog.cpp:1010
+#: src/dialogs/kdenlivesettingsdialog.cpp:993
+#: src/dialogs/kdenlivesettingsdialog.cpp:1011
 #: src/project/dialogs/projectsettings.cpp:531
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Bonvolu elekti videoprofilon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1272
+#: src/dialogs/kdenlivesettingsdialog.cpp:1277
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive devas esti rekomencita por ŝanĝi ĉi tiun agordon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1420
+#: src/dialogs/kdenlivesettingsdialog.cpp:1425
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profilo kun tiu nomo jam ekzistas"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1554
+#: src/dialogs/kdenlivesettingsdialog.cpp:1559
 #, kde-format
 msgid "Current settings"
 msgstr "Nunaj agordoj"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1592
-#: src/dialogs/kdenlivesettingsdialog.cpp:1628
-#: src/dialogs/kdenlivesettingsdialog.cpp:1645
+#: src/dialogs/kdenlivesettingsdialog.cpp:1597
+#: src/dialogs/kdenlivesettingsdialog.cpp:1633
+#: src/dialogs/kdenlivesettingsdialog.cpp:1650
 #: src/mltcontroller/clippropertiescontroller.cpp:540
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6704,15 +6704,15 @@ msgstr "Nunaj agordoj"
 msgid "Progressive"
 msgstr "Progresema"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1735
-#: src/dialogs/kdenlivesettingsdialog.cpp:1759
+#: src/dialogs/kdenlivesettingsdialog.cpp:1740
+#: src/dialogs/kdenlivesettingsdialog.cpp:1764
 #, kde-format
 msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1756
+#: src/dialogs/kdenlivesettingsdialog.cpp:1761
 #, kde-format
 msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
@@ -6721,54 +6721,54 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1766
-#: src/dialogs/kdenlivesettingsdialog.cpp:1781
-#: src/dialogs/kdenlivesettingsdialog.cpp:2107 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:1771
+#: src/dialogs/kdenlivesettingsdialog.cpp:1786
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
 msgstr "Dosierujo de modeloj"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1821
+#: src/dialogs/kdenlivesettingsdialog.cpp:1826
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Agordante virtualan medion…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1823
+#: src/dialogs/kdenlivesettingsdialog.cpp:1828
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Malebligante virtualan medion"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1840
+#: src/dialogs/kdenlivesettingsdialog.cpp:1845
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "Forigante la virtualmedian dosierujon."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1845
+#: src/dialogs/kdenlivesettingsdialog.cpp:1850
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Ne trovis python-venv"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1848
+#: src/dialogs/kdenlivesettingsdialog.cpp:1853
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "Malsukcesis forigi la virtualmedian dosierujon."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1853
+#: src/dialogs/kdenlivesettingsdialog.cpp:1858
 #, kde-format
 msgid "Probing..."
 msgstr "Sondante..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1908
-#: src/dialogs/kdenlivesettingsdialog.cpp:2104
+#: src/dialogs/kdenlivesettingsdialog.cpp:1913
+#: src/dialogs/kdenlivesettingsdialog.cpp:2109
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Bonvolu aldoni parolmodelon."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1941
+#: src/dialogs/kdenlivesettingsdialog.cpp:1946
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6777,28 +6777,28 @@ msgstr ""
 "Elŝutu parolmodelojn de: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1982
+#: src/dialogs/kdenlivesettingsdialog.cpp:1987
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Enigu URL por la nova vortaro"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1988
+#: src/dialogs/kdenlivesettingsdialog.cpp:1993
 #, kde-format
 msgid "Downloading model…"
 msgstr "Elŝutante modelon…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1998
+#: src/dialogs/kdenlivesettingsdialog.cpp:2003
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Ni ne permesas forigi proprajn dosierujojn, bonvolu fari ĝin permane."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2004
-#: src/dialogs/kdenlivesettingsdialog.cpp:2063
+#: src/dialogs/kdenlivesettingsdialog.cpp:2009
+#: src/dialogs/kdenlivesettingsdialog.cpp:2068
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ne povas aliri vortaran dosierujon."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2013
+#: src/dialogs/kdenlivesettingsdialog.cpp:2018
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6807,22 +6807,22 @@ msgstr ""
 "Forigi dosierujon:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2037
+#: src/dialogs/kdenlivesettingsdialog.cpp:2042
 #, kde-format
 msgid "Download error"
 msgstr "Elŝuta eraro"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
+#: src/dialogs/kdenlivesettingsdialog.cpp:2047
 #, kde-format
 msgid "Download error %1"
 msgstr "Elŝuta eraro %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2070
+#: src/dialogs/kdenlivesettingsdialog.cpp:2075
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Ekstraktante arkivon…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2077
+#: src/dialogs/kdenlivesettingsdialog.cpp:2082
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nova vortaro instalita."
@@ -8920,36 +8920,36 @@ msgstr ""
 "Via projektdosiero estis ĝisdatigita al la plej nova dokumentversio de "
 "Kdenlive, sed ne eblis krei la rezervan kopion %1."
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1357
-#: src/project/projectmanager.cpp:1393
+#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:1391
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Eraro dum la dosierujo de la projekto: %1"
 
-#: src/doc/kdenlivedoc.cpp:1072 src/doc/kdenlivedoc.cpp:2301
+#: src/doc/kdenlivedoc.cpp:1082 src/doc/kdenlivedoc.cpp:2311
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1606
+#: src/project/projectmanager.cpp:1604
 #, kde-format
 msgid "Untitled"
 msgstr "Sentitola"
 
-#: src/doc/kdenlivedoc.cpp:1133
+#: src/doc/kdenlivedoc.cpp:1143
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Enigi Ŝablonan Vojon"
 
-#: src/doc/kdenlivedoc.cpp:1290
+#: src/doc/kdenlivedoc.cpp:1300
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "La sekvaj efikoj estis importitaj de la projekto:"
 
-#: src/doc/kdenlivedoc.cpp:1327 src/doc/kdenlivedoc.cpp:1341
+#: src/doc/kdenlivedoc.cpp:1337 src/doc/kdenlivedoc.cpp:1351
 #, kde-format
 msgid "Project Folder"
 msgstr "Projekta Dosierujo"
 
-#: src/doc/kdenlivedoc.cpp:1385 src/doc/kdenlivedoc.cpp:1394
+#: src/doc/kdenlivedoc.cpp:1395 src/doc/kdenlivedoc.cpp:1404
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8958,26 +8958,26 @@ msgstr ""
 "Ne povas krei rezervan kopion:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1539
+#: src/doc/kdenlivedoc.cpp:1549
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Aldoni prokurilan tondaĵon"
 msgstr[1] "Aldoni prokurilajn tondaĵojn"
 
-#: src/doc/kdenlivedoc.cpp:1541
+#: src/doc/kdenlivedoc.cpp:1551
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Forigi prokurilan tondaĵon"
 msgstr[1] "Forigi prokurilajn tondaĵojn"
 
-#: src/doc/kdenlivedoc.cpp:1585 src/doc/kdenlivedoc.cpp:1643
+#: src/doc/kdenlivedoc.cpp:1595 src/doc/kdenlivedoc.cpp:1653
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Tondtipo ne subtenas prokurilojn"
 
-#: src/doc/kdenlivedoc.cpp:1781
+#: src/doc/kdenlivedoc.cpp:1791
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -8987,12 +8987,12 @@ msgstr ""
 "La projekto uzas nenorman kadrorapidecon (%1), tio rezultigos mislokitajn "
 "tondaĵojn kaj kadro-deŝovon."
 
-#: src/doc/kdenlivedoc.cpp:1866
+#: src/doc/kdenlivedoc.cpp:1876
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "Averto: nenormaj fps, alĝustigante al plej proksima entjero."
 
-#: src/doc/kdenlivedoc.cpp:1885
+#: src/doc/kdenlivedoc.cpp:1895
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -9002,43 +9002,43 @@ msgstr ""
 "estas %3.\n"
 "Ĉu vi volas ŝanĝi defaŭltan profilon por estontaj projektoj?"
 
-#: src/doc/kdenlivedoc.cpp:1887
+#: src/doc/kdenlivedoc.cpp:1897
 #, kde-format
 msgid "Change default project profile"
 msgstr "Ŝanĝi defaŭltan projektoprofilon"
 
-#: src/doc/kdenlivedoc.cpp:1887
+#: src/doc/kdenlivedoc.cpp:1897
 #, kde-format
 msgid "Change default to %1"
 msgstr "Ŝanĝi defaŭlton al %1"
 
-#: src/doc/kdenlivedoc.cpp:1888
+#: src/doc/kdenlivedoc.cpp:1898
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Konservi nunan defaŭltan %1"
 
-#: src/doc/kdenlivedoc.cpp:1888
+#: src/doc/kdenlivedoc.cpp:1898
 #, kde-format
 msgid "Ask me later"
 msgstr "Demandu min poste"
 
-#: src/doc/kdenlivedoc.cpp:1908
+#: src/doc/kdenlivedoc.cpp:1918
 #, kde-format
 msgid "Switch"
 msgstr "Ŝalti"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1910 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1920 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Nuligi"
 
-#: src/doc/kdenlivedoc.cpp:1912
+#: src/doc/kdenlivedoc.cpp:1922
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Ĉu ŝanĝi al tondaĵo (%1) profilo %2?"
 
-#: src/doc/kdenlivedoc.cpp:1917
+#: src/doc/kdenlivedoc.cpp:1927
 #, kde-format
 msgid ""
 "\n"
@@ -9047,7 +9047,7 @@ msgstr ""
 "\n"
 "Profilo fps alĝustigita de originala %1"
 
-#: src/doc/kdenlivedoc.cpp:1921
+#: src/doc/kdenlivedoc.cpp:1931
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -9056,13 +9056,13 @@ msgstr ""
 "Neniu profilo trovita por via tondaĵo %1.\n"
 "Ĉu krei kaj ŝanĝi al nova profilo (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2340 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2350 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Ruĝa"
 
-#: src/doc/kdenlivedoc.cpp:2341 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2351 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9070,24 +9070,24 @@ msgstr "Ruĝa"
 msgid "Green"
 msgstr "Verda"
 
-#: src/doc/kdenlivedoc.cpp:2342 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2352 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blua"
 
-#: src/doc/kdenlivedoc.cpp:2343 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2353 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Flava"
 
-#: src/doc/kdenlivedoc.cpp:2344
+#: src/doc/kdenlivedoc.cpp:2354
 #, kde-format
 msgid "Cyan"
 msgstr "Cejana"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2649 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2659 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -14706,7 +14706,7 @@ msgstr "Malfermi Rezervan Dosieron…"
 msgid "Save changes to document?"
 msgstr "Ĉu konservi ŝanĝojn al dokumento?"
 
-#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1605
+#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1603
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14779,12 +14779,12 @@ msgstr ""
 "%1\n"
 "Ĉu vi volas malfermi rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:893
+#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:891
 #, kde-format
 msgid "Error opening file"
 msgstr "Eraro dum malfermo de dosiero"
 
-#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:894
+#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:892
 #, kde-format
 msgid "Open Backup"
 msgstr "Malfermi Rezervon"
@@ -14813,12 +14813,12 @@ msgstr ""
 msgid "Loading timeline…"
 msgstr "Ŝargante templinion…"
 
-#: src/project/projectmanager.cpp:914
+#: src/project/projectmanager.cpp:912
 #, kde-format
 msgid "Building sequences…"
 msgstr "Konstruante sekvencojn…"
 
-#: src/project/projectmanager.cpp:1018
+#: src/project/projectmanager.cpp:1016
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14827,7 +14827,7 @@ msgstr ""
 "Ne povas malfermi projektdosieron. Eraro:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1058
+#: src/project/projectmanager.cpp:1056
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14836,12 +14836,12 @@ msgstr ""
 "Ĉi tio forigos ĉiujn ŝanĝojn faritajn de kiam vi laste konservis vian "
 "projekton. Ĉu vi certas, ke vi volas daŭrigi?"
 
-#: src/project/projectmanager.cpp:1059
+#: src/project/projectmanager.cpp:1057
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Reiri al la lasta konservita versio"
 
-#: src/project/projectmanager.cpp:1145
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14850,23 +14850,23 @@ msgstr ""
 "Projekto estis koruptita, ne povas rezerva. Bonvolu fermi kaj remalfermi "
 "vian projektdosieron por reakiri lastan sekurkopion"
 
-#: src/project/projectmanager.cpp:1335
+#: src/project/projectmanager.cpp:1333
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Eraro movante projektdosierujon, ne povas aliri kaŝmemordosierujon"
 
-#: src/project/projectmanager.cpp:1371
+#: src/project/projectmanager.cpp:1369
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movante projektdosierujon"
 
-#: src/project/projectmanager.cpp:1461 src/project/projectmanager.cpp:1513
-#: src/project/projectmanager.cpp:1517
+#: src/project/projectmanager.cpp:1459 src/project/projectmanager.cpp:1511
+#: src/project/projectmanager.cpp:1515
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvenco 1"
 
-#: src/project/projectmanager.cpp:1472
+#: src/project/projectmanager.cpp:1470
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -14874,13 +14874,13 @@ msgstr ""
 "Projektdosiero estas koruptita - malsukcesis ŝargi trakojn. Ĉu provi trovi "
 "rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:1611 src/project/projectmanager.cpp:1616
-#: src/project/projectmanager.cpp:1626 src/project/projectmanager.cpp:1640
+#: src/project/projectmanager.cpp:1609 src/project/projectmanager.cpp:1614
+#: src/project/projectmanager.cpp:1624 src/project/projectmanager.cpp:1638
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Ŝanĝo de la profila projekto ĉesigita"
 
-#: src/project/projectmanager.cpp:1757
+#: src/project/projectmanager.cpp:1755
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14889,12 +14889,12 @@ msgstr ""
 "Eligaĵdosiero %1 jam ekzistas.\n"
 "Ĉu vi volas anstataŭigi ĝin?"
 
-#: src/project/projectmanager.cpp:1782
+#: src/project/projectmanager.cpp:1780
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofilo ŝanĝita"
 
-#: src/project/projectmanager.cpp:1838
+#: src/project/projectmanager.cpp:1836
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14903,18 +14903,18 @@ msgstr ""
 "Ne povas krei templinion el ĉi tiu tondaĵo:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1914
+#: src/project/projectmanager.cpp:1912
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importante sekvencotondaĵon, ĉi tio estas nuntempe en eksperimenta stato"
 
-#: src/project/projectmanager.cpp:2097
+#: src/project/projectmanager.cpp:2095
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Elekti tondaĵon por krei sekvencon"
 
-#: src/project/projectmanager.cpp:2135
+#: src/project/projectmanager.cpp:2133
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Krei sekvencan aŭdvidaĵon"
@@ -19041,70 +19041,84 @@ msgstr "Kapti dosierujon:"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:254
-#: src/ui/configenv_ui.ui:278
+#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:270
+#: src/ui/configenv_ui.ui:294
 #, kde-format
 msgid "Use default folder"
 msgstr "Uzi defaŭltan dosierujon"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:283
+#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:299
 #, kde-format
 msgid "Always use project folder"
 msgstr "Ĉiam uzi projektan dosierujon"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:288
+#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:304
 #, kde-format
 msgid "Always use custom folder"
 msgstr "Ĉiam uzi propran dosierujon"
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
+#: src/ui/configenv_ui.ui:241
+#, fuzzy, kde-format
+#| msgid "Always use active project folder"
+msgid "Always use a custom subfolder of project folder"
+msgstr "Ĉiam uzi aktivan projektan dosierujon"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
+#: src/ui/configenv_ui.ui:251
+#, fuzzy, kde-format
+#| msgid "Parent folder of project file"
+msgid "Subfolder of project folder"
+msgstr "Gepatra dosierujo de projektdosiero"
+
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:247
+#: src/ui/configenv_ui.ui:263
 #, kde-format
 msgid "Library folder:"
 msgstr "Biblioteka dosierujo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:264
+#: src/ui/configenv_ui.ui:280
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
 msgstr "Dosierujo por bildigo, titoloj, skriptoj:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/configenv_ui.ui:320
+#: src/ui/configenv_ui.ui:336
 #, kde-format
 msgid "Python"
 msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:347
+#: src/ui/configenv_ui.ui:363
 #, kde-format
 msgid "Delete "
 msgstr "Forigi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:356
+#: src/ui/configenv_ui.ui:372
 #, kde-format
 msgid "Use python virtual environment (recommended)"
 msgstr "Uzi python-virtualmedion (rekomendita)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:384
+#: src/ui/configenv_ui.ui:400
 #, kde-format
 msgid "Default Apps"
 msgstr "Defaŭltaj Aplikoj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:390
+#: src/ui/configenv_ui.ui:406
 #, kde-format
 msgid "Image editing:"
 msgstr "Bilda redaktado:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:399
+#: src/ui/configenv_ui.ui:415
 #, kde-format
 msgid "Path to image editing application"
 msgstr "Vojo al aplikaĵo por redaktado de bildoj"
@@ -19112,50 +19126,50 @@ msgstr "Vojo al aplikaĵo por redaktado de bildoj"
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:409 src/ui/configenv_ui.ui:430
-#: src/ui/configenv_ui.ui:455
+#: src/ui/configenv_ui.ui:425 src/ui/configenv_ui.ui:446
+#: src/ui/configenv_ui.ui:471
 #, kde-format
 msgid "Change…"
 msgstr "Ŝanĝi…"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:420
+#: src/ui/configenv_ui.ui:436
 #, kde-format
 msgid "Path to audio editing application"
 msgstr "Vojo al sona redakta aplikaĵo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:439
+#: src/ui/configenv_ui.ui:455
 #, kde-format
 msgid "Audio editing:"
 msgstr "Audioredaktado:"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:448
+#: src/ui/configenv_ui.ui:464
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr "Vojo al Glaxnimate plenumebla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:464
+#: src/ui/configenv_ui.ui:480
 #, kde-format
 msgid "Animation editing:"
 msgstr "Animacia redaktado:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:485
+#: src/ui/configenv_ui.ui:501
 #, kde-format
 msgid "Mime types"
 msgstr "Mimspecoj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:491
+#: src/ui/configenv_ui.ui:507
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "Pliaj tondaĵaj MIME-tipoj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:505
+#: src/ui/configenv_ui.ui:521
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "Subtenataj tondaĵaj MIME-tipoj"

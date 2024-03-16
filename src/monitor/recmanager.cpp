@@ -179,11 +179,11 @@ void RecManager::slotRecord(bool record)
     m_recError.clear();
 
     QString extension = KdenliveSettings::grab_extension();
-    QDir captureFolder;
-    if (KdenliveSettings::capturetoprojectfolder() < 2) {
-        captureFolder = QDir(pCore->getProjectFolderName());
-    } else {
-        captureFolder = QDir(KdenliveSettings::capturefolder());
+    QDir captureFolder = QDir(pCore->getProjectCaptureFolderName());
+
+    if (!captureFolder.exists()) {
+        // This returns false if it fails, but we'll just let the whole recording fail instead
+        captureFolder.mkpath(".");
     }
 
     QFileInfo checkCaptureFolder(captureFolder.absolutePath());

@@ -141,8 +141,13 @@ public:
 
     /** @brief Returns the project folder, used to store project temporary files. */
     QString projectTempFolder() const;
-    /** @brief Returns the folder used to store project data files (titles, etc). */
-    QString projectDataFolder(const QString &newPath = QString(), bool folderForAudio = false) const;
+    /** @brief Returns the folder used to store project data files (titles, etc).
+     *
+     * @param newPath If the project file is being moved, this is the new location.
+    */
+    QString projectDataFolder(const QString &newPath = QString()) const;
+    /** @brief Returns the folder used to store captures (audio record tracks, etc) */
+    QString projectCaptureFolder() const;
     void setZoom(const QUuid &uuid, int horizontal, int vertical = -1);
     QPoint zoom(const QUuid &uuid) const;
     double dar() const;

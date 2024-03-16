@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 00:37+0000\n"
+"POT-Creation-Date: 2024-03-16 00:37+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -3714,7 +3714,7 @@ msgstr "Slet valgte cache"
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1417
+#: src/dialogs/kdenlivesettingsdialog.cpp:1422
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
 msgctxt "@title:window"
@@ -3723,7 +3723,7 @@ msgstr "Indtast navn til forudindstilling"
 
 #: src/assets/view/assetparameterview.cpp:329
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1417
+#: src/dialogs/kdenlivesettingsdialog.cpp:1422
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -4785,8 +4785,8 @@ msgstr "Spilleliste"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1482
-#: src/project/projectmanager.cpp:1484 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1480
+#: src/project/projectmanager.cpp:1482 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequences"
@@ -6240,7 +6240,7 @@ msgstr "Tekstklip"
 msgid "Create Text clip"
 msgstr "Opret titelklip"
 
-#: src/dialogs/clipcreationdialog.cpp:423 src/doc/kdenlivedoc.cpp:1147
+#: src/dialogs/clipcreationdialog.cpp:423 src/doc/kdenlivedoc.cpp:1157
 #, kde-format
 msgid "Template title clip"
 msgstr "Skabelon til titelklip"
@@ -6488,7 +6488,7 @@ msgstr "Automatisk"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:696
+#: src/dialogs/kdenlivesettingsdialog.cpp:697
 #: src/project/dialogs/projectsettings.cpp:899
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
@@ -6558,7 +6558,7 @@ msgstr "Importér hjælpelinjer"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1661
 #: src/dialogs/renderwidget.cpp:1688 src/doc/kdenlivedoc.cpp:758
-#: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1283
+#: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1293
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
@@ -6570,7 +6570,7 @@ msgstr "Importér hjælpelinjer"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1772 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1770 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5074
@@ -6640,7 +6640,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1665
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1663
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -6697,7 +6697,7 @@ msgid "Misc"
 msgstr "Diverse"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:254
-#: src/dialogs/kdenlivesettingsdialog.cpp:806
+#: src/dialogs/kdenlivesettingsdialog.cpp:807
 #: src/doc/documentvalidator.cpp:2250
 #: src/transitions/transitionsrepository.cpp:174
 #, kde-format
@@ -6724,10 +6724,10 @@ msgstr "Brug standardmappe"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:354
 #: src/dialogs/kdenlivesettingsdialog.cpp:378
-#: src/dialogs/kdenlivesettingsdialog.cpp:1061
 #: src/dialogs/kdenlivesettingsdialog.cpp:1062
-#: src/dialogs/kdenlivesettingsdialog.cpp:1071
+#: src/dialogs/kdenlivesettingsdialog.cpp:1063
 #: src/dialogs/kdenlivesettingsdialog.cpp:1072
+#: src/dialogs/kdenlivesettingsdialog.cpp:1073
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
@@ -6735,8 +6735,8 @@ msgstr "Brug projektmappe"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:356
 #: src/dialogs/kdenlivesettingsdialog.cpp:380
-#: src/dialogs/kdenlivesettingsdialog.cpp:1068
 #: src/dialogs/kdenlivesettingsdialog.cpp:1069
+#: src/dialogs/kdenlivesettingsdialog.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
@@ -6791,106 +6791,106 @@ msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "GPU-behandling kræver at MLT er kompileret med Movit- og Rtaudio-moduler"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:703
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:704
-#: src/dialogs/kdenlivesettingsdialog.cpp:757
+#: src/dialogs/kdenlivesettingsdialog.cpp:705
+#: src/dialogs/kdenlivesettingsdialog.cpp:758
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:705
+#: src/dialogs/kdenlivesettingsdialog.cpp:706
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:706
+#: src/dialogs/kdenlivesettingsdialog.cpp:707
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:708
+#: src/dialogs/kdenlivesettingsdialog.cpp:709
 #, fuzzy, kde-format
 #| msgid "Esound daemon"
 msgid "Esound Daemon"
 msgstr "Esound-dæmonen"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:709
+#: src/dialogs/kdenlivesettingsdialog.cpp:710
 #, fuzzy, kde-format
 #| msgid "ARTS daemon"
 msgid "ARTS Daemon"
 msgstr "ARTS-dæmonen"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:721
-#: src/dialogs/kdenlivesettingsdialog.cpp:722 src/mainwindow.cpp:197
+#: src/dialogs/kdenlivesettingsdialog.cpp:722
+#: src/dialogs/kdenlivesettingsdialog.cpp:723 src/mainwindow.cpp:197
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Standard"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:773
+#: src/dialogs/kdenlivesettingsdialog.cpp:774
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:785
+#: src/dialogs/kdenlivesettingsdialog.cpp:786
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:809 src/mainwindow.cpp:338
+#: src/dialogs/kdenlivesettingsdialog.cpp:810 src/mainwindow.cpp:338
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:893
+#: src/dialogs/kdenlivesettingsdialog.cpp:894
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:901
+#: src/dialogs/kdenlivesettingsdialog.cpp:902
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:909 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:910 src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
 #| msgid "Enter a name for the clip in Library"
 msgid "Enter path to the Glaxnimate application"
 msgstr "Indtast et navn til klippet i biblioteket"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:992
-#: src/dialogs/kdenlivesettingsdialog.cpp:1010
+#: src/dialogs/kdenlivesettingsdialog.cpp:993
+#: src/dialogs/kdenlivesettingsdialog.cpp:1011
 #: src/project/dialogs/projectsettings.cpp:531
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Vælg venligst en videoprofil"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1272
+#: src/dialogs/kdenlivesettingsdialog.cpp:1277
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive skal genstartes for at ændre indstillingen"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1420
+#: src/dialogs/kdenlivesettingsdialog.cpp:1425
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "En profil med det navn findes allerede"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1554
+#: src/dialogs/kdenlivesettingsdialog.cpp:1559
 #, kde-format
 msgid "Current settings"
 msgstr "Nuværende indstillinger"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1592
-#: src/dialogs/kdenlivesettingsdialog.cpp:1628
-#: src/dialogs/kdenlivesettingsdialog.cpp:1645
+#: src/dialogs/kdenlivesettingsdialog.cpp:1597
+#: src/dialogs/kdenlivesettingsdialog.cpp:1633
+#: src/dialogs/kdenlivesettingsdialog.cpp:1650
 #: src/mltcontroller/clippropertiescontroller.cpp:540
 #: src/mltcontroller/clippropertiescontroller.cpp:1374
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6899,15 +6899,15 @@ msgstr "Nuværende indstillinger"
 msgid "Progressive"
 msgstr "Progressiv"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1735
-#: src/dialogs/kdenlivesettingsdialog.cpp:1759
+#: src/dialogs/kdenlivesettingsdialog.cpp:1740
+#: src/dialogs/kdenlivesettingsdialog.cpp:1764
 #, kde-format
 msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1756
+#: src/dialogs/kdenlivesettingsdialog.cpp:1761
 #, kde-format
 msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
@@ -6916,90 +6916,90 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1766
-#: src/dialogs/kdenlivesettingsdialog.cpp:1781
-#: src/dialogs/kdenlivesettingsdialog.cpp:2107 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:1771
+#: src/dialogs/kdenlivesettingsdialog.cpp:1786
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, fuzzy, kde-format
 #| msgid "Custom project folder"
 msgid "Models folder"
 msgstr "Tilpasset projektmappe"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1821
+#: src/dialogs/kdenlivesettingsdialog.cpp:1826
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Setting up virtual environment…"
 msgstr "Angiv stien til MLT-miljøet"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1823
+#: src/dialogs/kdenlivesettingsdialog.cpp:1828
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1840
+#: src/dialogs/kdenlivesettingsdialog.cpp:1845
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "Angiv stien til MLT-miljøet"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1845
+#: src/dialogs/kdenlivesettingsdialog.cpp:1850
 #, fuzzy, kde-format
 #| msgid "No image found"
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Intet billede fundet"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1848
+#: src/dialogs/kdenlivesettingsdialog.cpp:1853
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1853
+#: src/dialogs/kdenlivesettingsdialog.cpp:1858
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1908
-#: src/dialogs/kdenlivesettingsdialog.cpp:2104
+#: src/dialogs/kdenlivesettingsdialog.cpp:1913
+#: src/dialogs/kdenlivesettingsdialog.cpp:2109
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "Markér overgang"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1941
+#: src/dialogs/kdenlivesettingsdialog.cpp:1946
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1982
+#: src/dialogs/kdenlivesettingsdialog.cpp:1987
 #, fuzzy, kde-format
 #| msgid "Enter a name for the clip in Library"
 msgid "Enter url for the new dictionary"
 msgstr "Indtast et navn til klippet i biblioteket"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1988
+#: src/dialogs/kdenlivesettingsdialog.cpp:1993
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Download nye vifter..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1998
+#: src/dialogs/kdenlivesettingsdialog.cpp:2003
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2004
-#: src/dialogs/kdenlivesettingsdialog.cpp:2063
+#: src/dialogs/kdenlivesettingsdialog.cpp:2009
+#: src/dialogs/kdenlivesettingsdialog.cpp:2068
 #, fuzzy, kde-format
 #| msgid "Cannot apply effects on folders"
 msgid "Cannot access dictionary folder."
 msgstr "Kan ikke anvender effekter på mapper"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2013
+#: src/dialogs/kdenlivesettingsdialog.cpp:2018
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -7007,25 +7007,25 @@ msgid ""
 "%1"
 msgstr "Slet mappe"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2037
+#: src/dialogs/kdenlivesettingsdialog.cpp:2042
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Download nye vifter..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
+#: src/dialogs/kdenlivesettingsdialog.cpp:2047
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Download nye vifter..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2070
+#: src/dialogs/kdenlivesettingsdialog.cpp:2075
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Pakker ud..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2077
+#: src/dialogs/kdenlivesettingsdialog.cpp:2082
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -9251,37 +9251,37 @@ msgstr ""
 "Din projektfil blev opgraderet til den seneste version af Kdenlive-dokument, "
 "men det var ikke muligt at oprette en backupkopi %1."
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1357
-#: src/project/projectmanager.cpp:1393
+#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1355
+#: src/project/projectmanager.cpp:1391
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fejl ved flytning af projektmappe: %1"
 
-#: src/doc/kdenlivedoc.cpp:1072 src/doc/kdenlivedoc.cpp:2301
+#: src/doc/kdenlivedoc.cpp:1082 src/doc/kdenlivedoc.cpp:2311
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1606
+#: src/project/projectmanager.cpp:1604
 #, kde-format
 msgid "Untitled"
 msgstr "Unavngivet"
 
-#: src/doc/kdenlivedoc.cpp:1133
+#: src/doc/kdenlivedoc.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Angiv skabelonsti"
 
-#: src/doc/kdenlivedoc.cpp:1290
+#: src/doc/kdenlivedoc.cpp:1300
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Følgende effekter blev importeret fra projektet:"
 
-#: src/doc/kdenlivedoc.cpp:1327 src/doc/kdenlivedoc.cpp:1341
+#: src/doc/kdenlivedoc.cpp:1337 src/doc/kdenlivedoc.cpp:1351
 #, kde-format
 msgid "Project Folder"
 msgstr "Projektmappe"
 
-#: src/doc/kdenlivedoc.cpp:1385 src/doc/kdenlivedoc.cpp:1394
+#: src/doc/kdenlivedoc.cpp:1395 src/doc/kdenlivedoc.cpp:1404
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -9290,26 +9290,26 @@ msgstr ""
 "Kan ikke oprette backup-kopi:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1539
+#: src/doc/kdenlivedoc.cpp:1549
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Tilføj proxyklip"
 msgstr[1] "Tilføj proxyklip"
 
-#: src/doc/kdenlivedoc.cpp:1541
+#: src/doc/kdenlivedoc.cpp:1551
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Fjern proxyklip"
 msgstr[1] "Fjern proxyklip"
 
-#: src/doc/kdenlivedoc.cpp:1585 src/doc/kdenlivedoc.cpp:1643
+#: src/doc/kdenlivedoc.cpp:1595 src/doc/kdenlivedoc.cpp:1653
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Kliptype understøtter ikke proxyer"
 
-#: src/doc/kdenlivedoc.cpp:1781
+#: src/doc/kdenlivedoc.cpp:1791
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -9317,12 +9317,12 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1866
+#: src/doc/kdenlivedoc.cpp:1876
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1885
+#: src/doc/kdenlivedoc.cpp:1895
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -9334,44 +9334,44 @@ msgstr ""
 "Din standardprojektprofil er %1, min dit klips profil er %2.\n"
 "Vil du skifte standardprofil for fremtidige projekter?"
 
-#: src/doc/kdenlivedoc.cpp:1887
+#: src/doc/kdenlivedoc.cpp:1897
 #, kde-format
 msgid "Change default project profile"
 msgstr "Skift standardprojektprofil"
 
-#: src/doc/kdenlivedoc.cpp:1887
+#: src/doc/kdenlivedoc.cpp:1897
 #, kde-format
 msgid "Change default to %1"
 msgstr "Skift standard til %1"
 
-#: src/doc/kdenlivedoc.cpp:1888
+#: src/doc/kdenlivedoc.cpp:1898
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Behold nuværende standard %1"
 
-#: src/doc/kdenlivedoc.cpp:1888
+#: src/doc/kdenlivedoc.cpp:1898
 #, kde-format
 msgid "Ask me later"
 msgstr "Spørg mig senere"
 
-#: src/doc/kdenlivedoc.cpp:1908
+#: src/doc/kdenlivedoc.cpp:1918
 #, kde-format
 msgid "Switch"
 msgstr "Skift"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1910 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1920 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Annullér"
 
-#: src/doc/kdenlivedoc.cpp:1912
+#: src/doc/kdenlivedoc.cpp:1922
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Skift til klipprofilen %1?"
 
-#: src/doc/kdenlivedoc.cpp:1917
+#: src/doc/kdenlivedoc.cpp:1927
 #, kde-format
 msgid ""
 "\n"
@@ -9380,7 +9380,7 @@ msgstr ""
 "\n"
 "Profilens fps justeret fra original %1"
 
-#: src/doc/kdenlivedoc.cpp:1921
+#: src/doc/kdenlivedoc.cpp:1931
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -9392,13 +9392,13 @@ msgstr ""
 "Ingen profil fundet til dit klip.\n"
 "Opret og skift til ny profil (%1x%2, %3fps)?%4"
 
-#: src/doc/kdenlivedoc.cpp:2340 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2350 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #, kde-format
 msgid "Red"
 msgstr "Rød"
 
-#: src/doc/kdenlivedoc.cpp:2341 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2351 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9406,24 +9406,24 @@ msgstr "Rød"
 msgid "Green"
 msgstr "Grøn"
 
-#: src/doc/kdenlivedoc.cpp:2342 src/scopes/colorscopes/colorplaneexport.cpp:234
+#: src/doc/kdenlivedoc.cpp:2352 src/scopes/colorscopes/colorplaneexport.cpp:234
 #: src/scopes/colorscopes/colorplaneexport.cpp:262
 #, kde-format
 msgid "Blue"
 msgstr "Blå"
 
-#: src/doc/kdenlivedoc.cpp:2343 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2353 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Gul"
 
-#: src/doc/kdenlivedoc.cpp:2344
+#: src/doc/kdenlivedoc.cpp:2354
 #, kde-format
 msgid "Cyan"
 msgstr "Cyan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2649 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2659 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -15174,7 +15174,7 @@ msgstr "Åbn backupfil"
 msgid "Save changes to document?"
 msgstr "Gem ændringer til dokument?"
 
-#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1605
+#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1603
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15255,12 +15255,12 @@ msgstr ""
 "Kan ikke åbne projektfilen,\n"
 "Vil du åbne en backupfil?"
 
-#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:893
+#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:891
 #, kde-format
 msgid "Error opening file"
 msgstr "Fejl ved åbning af fil"
 
-#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:894
+#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:892
 #, kde-format
 msgid "Open Backup"
 msgstr "Åbn backup"
@@ -15288,13 +15288,13 @@ msgstr ""
 msgid "Loading timeline…"
 msgstr "Download nye vifter..."
 
-#: src/project/projectmanager.cpp:914
+#: src/project/projectmanager.cpp:912
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Building sequences…"
 msgstr "Billedsekvens"
 
-#: src/project/projectmanager.cpp:1018
+#: src/project/projectmanager.cpp:1016
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -15302,7 +15302,7 @@ msgid ""
 "%1\n"
 msgstr "Kan ikke åbne projektfilen %1"
 
-#: src/project/projectmanager.cpp:1058
+#: src/project/projectmanager.cpp:1056
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -15311,49 +15311,49 @@ msgstr ""
 "Dette vil slette alle ændringer der er foretaget, siden du sidst gemte dit "
 "projekt. Er du sikker på, at du vil fortsætte?"
 
-#: src/project/projectmanager.cpp:1059
+#: src/project/projectmanager.cpp:1057
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Rul tilbage til senest gemte version"
 
-#: src/project/projectmanager.cpp:1145
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1335
+#: src/project/projectmanager.cpp:1333
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Fejl ved flytning af projektmappe: %1"
 
-#: src/project/projectmanager.cpp:1371
+#: src/project/projectmanager.cpp:1369
 #, kde-format
 msgid "Moving project folder"
 msgstr "Flytter projektmappe"
 
-#: src/project/projectmanager.cpp:1461 src/project/projectmanager.cpp:1513
-#: src/project/projectmanager.cpp:1517
+#: src/project/projectmanager.cpp:1459 src/project/projectmanager.cpp:1511
+#: src/project/projectmanager.cpp:1515
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "Billedsekvens"
 
-#: src/project/projectmanager.cpp:1472
+#: src/project/projectmanager.cpp:1470
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1611 src/project/projectmanager.cpp:1616
-#: src/project/projectmanager.cpp:1626 src/project/projectmanager.cpp:1640
+#: src/project/projectmanager.cpp:1609 src/project/projectmanager.cpp:1614
+#: src/project/projectmanager.cpp:1624 src/project/projectmanager.cpp:1638
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Ændring af projektprofil afbrudt"
 
-#: src/project/projectmanager.cpp:1757
+#: src/project/projectmanager.cpp:1755
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -15361,12 +15361,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Outputfilen findes allerede. Vil du overskrive den?"
 
-#: src/project/projectmanager.cpp:1782
+#: src/project/projectmanager.cpp:1780
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil ændret"
 
-#: src/project/projectmanager.cpp:1838
+#: src/project/projectmanager.cpp:1836
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -15374,18 +15374,18 @@ msgid ""
 "%1"
 msgstr "Kan ikke oprette filteret %1"
 
-#: src/project/projectmanager.cpp:1914
+#: src/project/projectmanager.cpp:1912
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2097
+#: src/project/projectmanager.cpp:2095
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Vælg et klip for at sammenligne effekten"
 
-#: src/project/projectmanager.cpp:2135
+#: src/project/projectmanager.cpp:2133
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"
@@ -19686,15 +19686,15 @@ msgstr "Mappe til indspilninger"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:254
-#: src/ui/configenv_ui.ui:278
+#: src/ui/configenv_ui.ui:226 src/ui/configenv_ui.ui:270
+#: src/ui/configenv_ui.ui:294
 #, kde-format
 msgid "Use default folder"
 msgstr "Brug standardmappe"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:283
+#: src/ui/configenv_ui.ui:231 src/ui/configenv_ui.ui:299
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder"
@@ -19702,60 +19702,74 @@ msgstr "Brug projektmappe"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:288
+#: src/ui/configenv_ui.ui:236 src/ui/configenv_ui.ui:304
 #, kde-format
 msgid "Always use custom folder"
 msgstr ""
 
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
+#: src/ui/configenv_ui.ui:241
+#, fuzzy, kde-format
+#| msgid "Use project folder"
+msgid "Always use a custom subfolder of project folder"
+msgstr "Brug projektmappe"
+
+#. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
+#: src/ui/configenv_ui.ui:251
+#, fuzzy, kde-format
+#| msgid "Default folder for project files"
+msgid "Subfolder of project folder"
+msgstr "Standard mappe til projektfiler"
+
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:247
+#: src/ui/configenv_ui.ui:263
 #, fuzzy, kde-format
 #| msgid "Library folder"
 msgid "Library folder:"
 msgstr "Mappe til bibliotek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:264
+#: src/ui/configenv_ui.ui:280
 #, fuzzy, kde-format
 #| msgid "No producer for this clip."
 msgid "Folder for rendering, titles, scripts:"
 msgstr "Ingen producent for dette klip."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/ui/configenv_ui.ui:320
+#: src/ui/configenv_ui.ui:336
 #, kde-format
 msgid "Python"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
-#: src/ui/configenv_ui.ui:347
+#: src/ui/configenv_ui.ui:363
 #, fuzzy, kde-format
 #| msgid "&Delete"
 msgid "Delete "
 msgstr "&Slet"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
-#: src/ui/configenv_ui.ui:356
+#: src/ui/configenv_ui.ui:372
 #, kde-format
 msgid "Use python virtual environment (recommended)"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:384
+#: src/ui/configenv_ui.ui:400
 #, fuzzy, kde-format
 #| msgid "Default apps"
 msgid "Default Apps"
 msgstr "Standardprogrammer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:390
+#: src/ui/configenv_ui.ui:406
 #, fuzzy, kde-format
 #| msgid "Image editing"
 msgid "Image editing:"
 msgstr "Billederedigering"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:399
+#: src/ui/configenv_ui.ui:415
 #, kde-format
 msgid "Path to image editing application"
 msgstr ""
@@ -19763,53 +19777,53 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, kp_image)
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
-#: src/ui/configenv_ui.ui:409 src/ui/configenv_ui.ui:430
-#: src/ui/configenv_ui.ui:455
+#: src/ui/configenv_ui.ui:425 src/ui/configenv_ui.ui:446
+#: src/ui/configenv_ui.ui:471
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Change…"
 msgstr "Skift"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:420
+#: src/ui/configenv_ui.ui:436
 #, kde-format
 msgid "Path to audio editing application"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:439
+#: src/ui/configenv_ui.ui:455
 #, fuzzy, kde-format
 #| msgid "Audio editing"
 msgid "Audio editing:"
 msgstr "Lydredigering"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:448
+#: src/ui/configenv_ui.ui:464
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:464
+#: src/ui/configenv_ui.ui:480
 #, fuzzy, kde-format
 #| msgid "Frame duration"
 msgid "Animation editing:"
 msgstr "Billedvarighed"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:485
+#: src/ui/configenv_ui.ui:501
 #, kde-format
 msgid "Mime types"
 msgstr "MIME-typer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:491
+#: src/ui/configenv_ui.ui:507
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "Yderligere klip MIME-typer"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:505
+#: src/ui/configenv_ui.ui:521
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "Understøttede klip-MIME-typer"

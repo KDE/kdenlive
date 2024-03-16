@@ -175,6 +175,8 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
     check_error(f);
     f->glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, width / 2, height / 2, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, image + width * height + width / 2 * height / 2);
     check_error(f);
+    // Restore the default pixel alignement .
+    f->glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 }
 
 void OpenGLVideoWidget::renderVideo()

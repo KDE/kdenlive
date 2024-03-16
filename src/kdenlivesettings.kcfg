@@ -625,6 +625,11 @@
       <default>$HOME</default>
     </entry>
 
+    <entry name="captureprojectsubfolder" type="String">
+      <label>Default subfolder of project file for captures.</label>
+      <default></default>
+    </entry>
+
     <entry name="librarytodefaultfolder" type="Bool">
       <label>Open Library in default system folder.</label>
       <default>true</default>
