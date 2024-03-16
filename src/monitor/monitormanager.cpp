@@ -480,7 +480,7 @@ AbstractMonitor *MonitorManager::activeMonitor()
 void MonitorManager::slotSwitchFullscreen()
 {
     if (m_activeMonitor) {
-        m_activeMonitor->slotSwitchFullScreen();
+        QMetaObject::invokeMethod(m_activeMonitor, "slotSwitchFullScreen", Qt::QueuedConnection);
     }
 }
 
