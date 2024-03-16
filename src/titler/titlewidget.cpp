@@ -1887,9 +1887,8 @@ void TitleWidget::slotUpdateText()
     font.setItalic(buttonItalic->isChecked());
     font.setUnderline(buttonUnder->isChecked());
     font.setWeight(QFont::Weight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt()));
-    if (letter_spacing->value() != 0) {
-        font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
-    }
+    font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
+
     QColor color = fontColorButton->color();
     QColor outlineColor = textOutlineColor->color();
     QString gradientData;
