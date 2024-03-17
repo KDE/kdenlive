@@ -49,12 +49,14 @@
   <summary xml:lang="ca">Editor de vídeo</summary>
   <summary xml:lang="ca-valencia">Editor de vídeo</summary>
   <summary xml:lang="fr">Éditeur vidéo</summary>
+  <summary xml:lang="it">Editor video</summary>
   <summary xml:lang="sl">Program za videomontažo</summary>
   <description>
     <p>Kdenlive is a video editing application with support for many audio and video formats. It offers advanced editing features, a variety of effects and transitions, color correction, audio post-production and subtitling tools. Additionally, it provides the flexibility to render into practically any format of your choice.</p>
     <p xml:lang="ca">El Kdenlive és una aplicació d'edició de vídeo amb suport per a molts formats d'àudio i vídeo. Ofereix funcions avançades d'edició, una gran varietat d'efectes i transicions, correcció de color, postproducció d'àudio i eines de subtitulació. A més, proporciona la flexibilitat per a convertir pràcticament a qualsevol format de la vostra elecció.</p>
     <p xml:lang="ca-valencia">Kdenlive és una aplicació d'edició de vídeo amb suport per a molts formats d'àudio i vídeo. Oferix funcions avançades d'edició, una gran varietat d'efectes i transicions, correcció de color, postproducció d'àudio i eines de subtitulació. A més, proporciona la flexibilitat per a convertir pràcticament a qualsevol format de la vostra elecció.</p>
     <p xml:lang="fr">Kdenlive est une application de montage vidéo prenant en charge de nombreux formats audio et vidéo. Il offre des fonctionnalités d’édition avancées, une variété d’effets et de transitions, une correction des couleurs, une post-production audio et des outils de sous-titrage. En outre, il offre la flexibilité de faire un rendu dans pratiquement n’importe quel format de votre choix.</p>
+    <p xml:lang="it">Kdenlive è un'applicazione di editing video che supporta molti formati audio e video. Offre funzionalità avanzate di modifica, un assortimento di effetti e transizioni, correzione del colore, strumenti per la post-produzione audio e la sottotitolazione. In aggiunta, fornisce la flessibilità di produrre praticamente in qualsiasi formato tu desideri.</p>
     <p xml:lang="sl">Kdenlive je program za montažo videoposnetkov s podporo za številne zvokovne in video zapise. Ponuja napredne funkcije montaže, urejanja, različne učinke in prehode, korekcijo barv, poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru.</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
@@ -98,36 +100,43 @@
       <li xml:lang="ca">Seqüències imbricades</li>
       <li xml:lang="ca-valencia">Seqüències imbricades</li>
       <li xml:lang="fr">Séquences imbriquées</li>
+      <li xml:lang="it">Sequenze annidate</li>
       <li xml:lang="sl">Ugnezdena zaporedja</li>
       <li>Configurable interface and shortcuts</li>
       <li xml:lang="ca">Interfície i dreceres configurables</li>
       <li xml:lang="ca-valencia">Interfície i dreceres configurables</li>
       <li xml:lang="fr">Interface et raccourcis configurables</li>
+      <li xml:lang="it">Scorciatoie e interfaccia configurabili</li>
       <li xml:lang="sl">Nastavljiv vmesnik in bližnjice</li>
       <li>Scopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meter</li>
       <li xml:lang="ca">Vectoscopis: Histograma, Vectoscopi, Histograma RGB, Forma d'ona i Mesurador d'àudio</li>
       <li xml:lang="ca-valencia">Vectoscopis: Histograma, Vectoscopi, Histograma RGB, Forma d'ona i Mesurador d'àudio</li>
       <li xml:lang="fr">Oscilloscopes : histogramme, oscilloscope vectoriel, défilé RVB, mesure de signaux et audiomètre</li>
+      <li xml:lang="it">Diagrammi: istogramma, Evidenza le punte massime, Esibizione RGB, Forma d'onda e Misuratore audio</li>
       <li xml:lang="sl">Merilniki: histogram, vektroskop, parada RGB, signalna oblika in merilnik jakosti zvoka</li>
       <li>Proxy editing</li>
       <li xml:lang="ca">Edició d'intermediaris</li>
       <li xml:lang="ca-valencia">Editeu intermediaris</li>
       <li xml:lang="fr">Modification du serveur mandataire</li>
+      <li xml:lang="it">Modifica del proxy</li>
       <li xml:lang="sl">Montaža posrednih posnetkov</li>
       <li>Free online assets and templates</li>
       <li xml:lang="ca">Recursos i plantilles lliures en línia</li>
       <li xml:lang="ca-valencia">Recursos i plantilles lliures en línia</li>
       <li xml:lang="fr">Produits et modèles en ligne gratuits</li>
+      <li xml:lang="it">Risorse e modelli in linea gratuiti</li>
       <li xml:lang="sl">Brezplačna spletna sredstva in predloge</li>
       <li>Motion tracking</li>
       <li xml:lang="ca">Seguiment de moviment</li>
       <li xml:lang="ca-valencia">Seguiment de moviment</li>
       <li xml:lang="fr">Suivi de déplacement</li>
+      <li xml:lang="it">Tracciatore di movimento</li>
       <li xml:lang="sl">Sledenje gibanju</li>
       <li>AI powered tools</li>
       <li xml:lang="ca">Eines que funcionen amb IA</li>
       <li xml:lang="ca-valencia">Eines que funcionen amb IA</li>
       <li xml:lang="fr">Outils alimentés par l'intelligence artificielle</li>
+      <li xml:lang="it">Strumenti alimentati dalla IA</li>
       <li xml:lang="sl">Orodja, ki jih poganja umetna inteligenca</li>
     </ul>
   </description>
@@ -151,6 +160,7 @@
       <caption xml:lang="ca">Tema fosc</caption>
       <caption xml:lang="ca-valencia">Tema fosc</caption>
       <caption xml:lang="fr">Thème sombre</caption>
+      <caption xml:lang="it">Tema scuro</caption>
       <caption xml:lang="sl">Temna tema</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
     </screenshot>
@@ -159,6 +169,7 @@
       <caption xml:lang="ca">Interfície predeterminada</caption>
       <caption xml:lang="ca-valencia">Interfície predeterminada</caption>
       <caption xml:lang="fr">Interface par défaut</caption>
+      <caption xml:lang="it">Interfaccia predefinita</caption>
       <caption xml:lang="sl">Privzeti vmesnik</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k6.png</image>
     </screenshot>
@@ -167,6 +178,7 @@
       <caption xml:lang="ca">Correcció del color</caption>
       <caption xml:lang="ca-valencia">Correcció del color</caption>
       <caption xml:lang="fr">Correction de couleurs</caption>
+      <caption xml:lang="it">Correzione del colore</caption>
       <caption xml:lang="sl">Korekcija barv</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
     </screenshot>
@@ -175,6 +187,7 @@
       <caption xml:lang="ca">Interfície configurable</caption>
       <caption xml:lang="ca-valencia">Interfície configurable</caption>
       <caption xml:lang="fr">Interface configurable</caption>
+      <caption xml:lang="it">Interfaccia configurabile</caption>
       <caption xml:lang="sl">Nastavljiv vmesnik</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k4.png</image>
     </screenshot>
@@ -183,6 +196,7 @@
       <caption xml:lang="ca">Titulació</caption>
       <caption xml:lang="ca-valencia">Titulació</caption>
       <caption xml:lang="fr">Titrage</caption>
+      <caption xml:lang="it">Titolazione</caption>
       <caption xml:lang="sl">Naslavljanje</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k5.png</image>
     </screenshot>
@@ -191,6 +205,7 @@
       <caption xml:lang="ca">Reassignació del temps i transicions de la mateixa pista</caption>
       <caption xml:lang="ca-valencia">Reassignació del temps i transicions de la mateixa pista</caption>
       <caption xml:lang="fr">Nouvelle cartographie du temps et transitions sur la même piste</caption>
+      <caption xml:lang="it">Modifica del tempo e transizioni nella stessa traccia</caption>
       <caption xml:lang="sl">Preslikava časa in prehodi na isti stezi</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>
