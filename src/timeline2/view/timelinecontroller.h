@@ -600,9 +600,6 @@ public:
     /** @brief Load timeline preview from saved doc
      */
     void loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist);
-    /** @brief Return document properties with added settings from timeline
-     */
-    QMap<QString, QString> documentProperties();
 
     /** @brief Change track compsiting mode */
     void switchCompositing(bool enable);
@@ -691,7 +688,7 @@ public:
     /** @brief Process a lift operation for multitrack operation. */
     void processMultitrackOperation(int tid, int in);
     /** @brief Save all sequence properties (timeline position, guides, groups, ..) to the timeline tractor. */
-    void saveSequenceProperties();
+    void getSequenceProperties(QMap<QString, QString> &seqProps);
     /** @brief Trigger refresh of subtitles combo menu. */
     void refreshSubtitlesComboIndex();
 

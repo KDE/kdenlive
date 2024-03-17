@@ -1236,7 +1236,12 @@ void KdenliveDoc::clearSequenceProperty(const QUuid &uuid, const QString &name)
 const QMap<QString, QString> KdenliveDoc::getSequenceProperties(const QUuid &uuid) const
 {
     if (m_sequenceProperties.contains(uuid)) {
-        return m_sequenceProperties.value(uuid);
+        QMap<QString, QString> seqProps = m_sequenceProperties.value(uuid);
+        if (pCore->window()) {
+            // Include timeline controller properties (zone, position)
+            pCore->window()->getSequenceProperties(uuid, seqProps);
+        }
+        return seqProps;
     }
     return QMap<QString, QString>();
 }

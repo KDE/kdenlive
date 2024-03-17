@@ -2720,6 +2720,9 @@ void Monitor::requestSeekIfVisible(int pos)
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
     if (locked) {
+        if (pos > -1) {
+            m_glMonitor->getControllerProxy()->setPositionAdvanced(pos, true);
+        }
         return;
     }
     m_audioMeterWidget->audioChannels = pCore->audioChannels();

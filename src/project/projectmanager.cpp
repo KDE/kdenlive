@@ -1216,7 +1216,7 @@ void ProjectManager::slotAddTextNote(const QString &text)
 
 void ProjectManager::prepareSave()
 {
-    pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getCurrentTimeline()->controller()->documentProperties(), m_project->metadata());
+    pCore->projectItemModel()->saveDocumentProperties(pCore->currentDoc()->documentProperties(), m_project->metadata());
     pCore->bin()->saveFolderState();
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.opensequences"), pCore->window()->openedSequences().join(QLatin1Char(';')));
@@ -2008,9 +2008,6 @@ void ProjectManager::doSyncTimeline(std::shared_ptr<TimelineItemModel> model, bo
         int position = -1;
         if (model == m_activeTimelineModel) {
             position = pCore->getMonitorPosition();
-            if (pCore->window()) {
-                pCore->window()->getCurrentTimeline()->controller()->saveSequenceProperties();
-            }
         }
         const QUuid &uuid = model->uuid();
         if (refresh) {
