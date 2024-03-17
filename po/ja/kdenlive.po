@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 02:23+0000\n"
+"POT-Creation-Date: 2024-03-17 03:03+0000\n"
 "PO-Revision-Date: 2023-07-08 21:38-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -5089,7 +5089,7 @@ msgstr ""
 "外部のタイトル・クリップ (%1) を編集しています。変更点をタイトルファイルに保"
 "存しますか？それとも変更点をこのプロジェクト内にのみ保存しますか？"
 
-#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2283
+#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2282
 #, kde-format
 msgid "Save Title"
 msgstr "タイトルの保存"
@@ -6525,7 +6525,7 @@ msgstr "マーカーの編集(E)"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5053
-#: src/titler/titlewidget.cpp:2296
+#: src/titler/titlewidget.cpp:2295
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "ファイル %1 に書き込むことができません"
@@ -11638,7 +11638,7 @@ msgstr "作成"
 
 #: src/mainwindow.cpp:2121 src/onlineresources/resourcewidget.cpp:617
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2279
+#: src/titler/titlewidget.cpp:2278
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -17886,7 +17886,7 @@ msgid "No available stream"
 msgstr " フレーム"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
+#: src/titler/titlewidget.cpp:3331 src/titler/titlewidget.cpp:3334
 #, kde-format
 msgid "Gradient %1"
 msgstr "グラデーション %1"
@@ -18205,18 +18205,18 @@ msgstr "-Y"
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2230
+#: src/titler/titlewidget.cpp:2229
 #, kde-format
 msgid "Load Title"
 msgstr "タイトルの読み込み"
 
-#: src/titler/titlewidget.cpp:2231
+#: src/titler/titlewidget.cpp:2230
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "Kdenlive"
 
-#: src/titler/titlewidget.cpp:2277
+#: src/titler/titlewidget.cpp:2276
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -18225,62 +18225,62 @@ msgstr ""
 "画像をこのタイトルドキュメント内に内蔵させますか？\n"
 "これは、タイトルを共有する際に必要となることの多い設定です。"
 
-#: src/titler/titlewidget.cpp:2278
+#: src/titler/titlewidget.cpp:2277
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "画像の追加"
 
-#: src/titler/titlewidget.cpp:2333
+#: src/titler/titlewidget.cpp:2332
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "選択した項目の削除"
 
-#: src/titler/titlewidget.cpp:2334 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2333 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "詳細"
 
-#: src/titler/titlewidget.cpp:2337
+#: src/titler/titlewidget.cpp:2336
 #, fuzzy, kde-format
 #| msgid "Delete selected items"
 msgid "Delete missing elements"
 msgstr "選択した項目の削除"
 
-#: src/titler/titlewidget.cpp:2397
+#: src/titler/titlewidget.cpp:2396
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "プロファイルの更新"
 
-#: src/titler/titlewidget.cpp:2400
+#: src/titler/titlewidget.cpp:2399
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "テンプレートタイトルの追加(M)"
 
-#: src/titler/titlewidget.cpp:2454
+#: src/titler/titlewidget.cpp:2453
 #, kde-format
 msgid "The following files are missing:"
 msgstr "次のファイルが見つかりません:"
 
-#: src/titler/titlewidget.cpp:2648
+#: src/titler/titlewidget.cpp:2647
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "スクリプトの起動"
 
-#: src/titler/titlewidget.cpp:2649
+#: src/titler/titlewidget.cpp:2648
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3365
+#: src/titler/titlewidget.cpp:3364
 #, fuzzy, kde-format
 #| msgid "Alpha gradient"
 msgid "Gradient"

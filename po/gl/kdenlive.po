@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-13 02:23+0000\n"
+"POT-Creation-Date: 2024-03-17 03:03+0000\n"
 "PO-Revision-Date: 2024-03-09 10:25+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -5021,7 +5021,7 @@ msgstr ""
 "Está a editar un fragmento de título externo (%1). Quere gardar os cambios "
 "no ficheiro do título ou gardar os cambios só para este proxecto?"
 
-#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2283
+#: src/bin/bin.cpp:4761 src/titler/titlewidget.cpp:2282
 #, kde-format
 msgid "Save Title"
 msgstr "Gardar o título"
@@ -6381,7 +6381,7 @@ msgstr "Exportar os datos das guías"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5053
-#: src/titler/titlewidget.cpp:2296
+#: src/titler/titlewidget.cpp:2295
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Non é posíbel escribir no ficheiro %1"
@@ -11251,7 +11251,7 @@ msgstr "Crear de novo"
 
 #: src/mainwindow.cpp:2121 src/onlineresources/resourcewidget.cpp:617
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
-#: src/titler/titlewidget.cpp:2279
+#: src/titler/titlewidget.cpp:2278
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -17287,7 +17287,7 @@ msgid "No available stream"
 msgstr "Non hai ningún fluxo dispoñíbel"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3332 src/titler/titlewidget.cpp:3335
+#: src/titler/titlewidget.cpp:3331 src/titler/titlewidget.cpp:3334
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradación %1"
@@ -17601,17 +17601,17 @@ msgstr "−Y"
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2230
+#: src/titler/titlewidget.cpp:2229
 #, kde-format
 msgid "Load Title"
 msgstr "Cargar título"
 
-#: src/titler/titlewidget.cpp:2231
+#: src/titler/titlewidget.cpp:2230
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Título de Kdenlive"
 
-#: src/titler/titlewidget.cpp:2277
+#: src/titler/titlewidget.cpp:2276
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -17620,57 +17620,57 @@ msgstr ""
 "Quere incorporar imaxes a este documento de título?\n"
 "Isto é moi necesario para compartir títulos."
 
-#: src/titler/titlewidget.cpp:2278
+#: src/titler/titlewidget.cpp:2277
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Incrustar as imaxes"
 
-#: src/titler/titlewidget.cpp:2333
+#: src/titler/titlewidget.cpp:2332
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Ao título fáltalle 1 elemento"
 msgstr[1] "Ao título fáltanlle %1 elementos"
 
-#: src/titler/titlewidget.cpp:2334 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2333 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Detalles"
 
-#: src/titler/titlewidget.cpp:2337
+#: src/titler/titlewidget.cpp:2336
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Eliminar os elementos que faltan"
 
-#: src/titler/titlewidget.cpp:2397
+#: src/titler/titlewidget.cpp:2396
 #, kde-format
 msgid "Update Title"
 msgstr "Actualizar o título"
 
-#: src/titler/titlewidget.cpp:2400
+#: src/titler/titlewidget.cpp:2399
 #, kde-format
 msgid "Add as new Title"
 msgstr "Engadir como novo título"
 
-#: src/titler/titlewidget.cpp:2454
+#: src/titler/titlewidget.cpp:2453
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Faltan os seguintes ficheiros:"
 
-#: src/titler/titlewidget.cpp:2648
+#: src/titler/titlewidget.cpp:2647
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Área de visualización inicial"
 
-#: src/titler/titlewidget.cpp:2649
+#: src/titler/titlewidget.cpp:2648
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Área de visualización final"
 
-#: src/titler/titlewidget.cpp:3365
+#: src/titler/titlewidget.cpp:3364
 #, kde-format
 msgid "Gradient"
 msgstr "Gradación"
