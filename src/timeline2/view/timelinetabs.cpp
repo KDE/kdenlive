@@ -82,7 +82,6 @@ void TimelineTabs::updateWindowTitle()
 
 bool TimelineTabs::raiseTimeline(const QUuid &uuid)
 {
-    QMutexLocker lk(&m_lock);
     for (int i = 0; i < count(); i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (timeline->getUuid() == uuid) {
@@ -119,17 +118,19 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabNa
     newTimeline->setModel(timelineModel, proxy);
     int newIndex = addTab(newTimeline, tabName);
     setCurrentIndex(newIndex);
-    connectCurrent(newIndex);
     setTabsClosable(count() > 1);
     if (count() == 2) {
         updateWindowTitle();
     }
+    lk.unlock();
+    connectCurrent(newIndex);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     return newTimeline;
 }
 
 void TimelineTabs::connectCurrent(int ix)
 {
+    QMutexLocker lk(&m_lock);
     QUuid previousTab = QUuid();
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
@@ -138,7 +139,7 @@ void TimelineTabs::connectCurrent(int ix)
         int pos = pCore->getMonitorPosition();
         m_activeTimeline->model()->updateDuration();
         int duration = m_activeTimeline->model()->duration();
-        m_activeTimeline->controller()->saveSequenceProperties();
+        // m_activeTimeline->controller()->saveSequenceProperties();
         pCore->bin()->updateSequenceClip(previousTab, duration, pos);
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
@@ -186,7 +187,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
         pCore->mixer()->unsetModel();
         pCore->window()->disableMulticam();
         m_activeTimeline->model()->updateDuration();
-        timeline->controller()->saveSequenceProperties();
+        // timeline->controller()->saveSequenceProperties();
     }
     const QString seqName = tabText(ix);
     std::shared_ptr<TimelineItemModel> model = timeline->model();
@@ -233,6 +234,7 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid)
 {
     QMutexLocker lk(&m_lock);
     int currentCount = count();
+    disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     for (int i = 0; i < currentCount; i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (uuid == timeline->getUuid()) {
@@ -257,6 +259,9 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid)
             break;
         }
     }
+    lk.unlock();
+    connectCurrent(currentIndex());
+    connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
 }
 
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)

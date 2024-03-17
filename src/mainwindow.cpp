@@ -4386,6 +4386,14 @@ TimelineWidget *MainWindow::getTimeline(const QUuid uuid) const
     return m_timelineTabs->getTimeline(uuid);
 }
 
+void MainWindow::getSequenceProperties(const QUuid &uuid, QMap<QString, QString> &props)
+{
+    TimelineWidget *w = getTimeline(uuid);
+    if (w) {
+        w->controller()->getSequenceProperties(props);
+    }
+}
+
 bool MainWindow::hasTimeline() const
 {
     return m_timelineTabs != nullptr;

@@ -850,8 +850,6 @@ void TimelineItemModel::passSequenceProperties(const QMap<QString, QString> base
     tractor()->set("kdenlive:sequenceproperties.hasVideo", tracks.second > 0 ? 1 : 0);
     tractor()->set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
 
-    tractor()->set("kdenlive:sequenceproperties.position", pCore->getMonitorPosition());
-
     if (hasTimelinePreview()) {
         QPair<QStringList, QStringList> chunks = previewManager()->previewChunks();
         tractor()->set("kdenlive:sequenceproperties.previewchunks", chunks.first.join(QLatin1Char(',')).toUtf8().constData());

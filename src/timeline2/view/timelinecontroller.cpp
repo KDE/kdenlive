@@ -2659,29 +2659,23 @@ void TimelineController::resetPreview()
     }
 }
 
-void TimelineController::saveSequenceProperties()
+void TimelineController::getSequenceProperties(QMap<QString, QString> &seqProps)
 {
     int activeTrack = m_activeTrack < 0 ? m_activeTrack : m_model->getTrackPosition(m_activeTrack);
-    m_model->tractor()->set("kdenlive:sequenceproperties.activeTrack", activeTrack);
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
-    m_model->tractor()->set("kdenlive:sequenceproperties.scrollPos", scrollPos);
-    m_model->tractor()->set("kdenlive:sequenceproperties.zonein", m_zone.x());
-    m_model->tractor()->set("kdenlive:sequenceproperties.zoneout", m_zone.y());
-    tractor()->set("kdenlive:sequenceproperties.disablepreview", m_disablePreview->isChecked());
+    seqProps.insert(QStringLiteral("position"), QString::number(m_model->tractor()->position()));
+    seqProps.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
+    seqProps.insert(QStringLiteral("scrollPos"), QString::number(scrollPos));
+    seqProps.insert(QStringLiteral("zonein"), QString::number(m_zone.x()));
+    seqProps.insert(QStringLiteral("zoneout"), QString::number(m_zone.y()));
+    seqProps.insert(QStringLiteral("disablepreview"), QString::number(m_disablePreview->isChecked()));
+
     if (m_model->hasSubtitleModel()) {
         const QString subtitlesData = m_model->getSubtitleModel()->subtitlesFilesToJson();
-        m_model->tractor()->set("kdenlive:sequenceproperties.subtitlesList", subtitlesData.toUtf8().constData());
+        seqProps.insert(QStringLiteral("subtitlesList"), subtitlesData);
     }
-}
-
-QMap<QString, QString> TimelineController::documentProperties()
-{
-    QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
-    // Ensure current timeline properties are saved (groups, guides, etc)
-    saveSequenceProperties();
-    return props;
 }
 
 int TimelineController::getMenuOrTimelinePos() const
