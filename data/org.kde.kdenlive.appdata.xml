@@ -147,7 +147,7 @@
           <ul>
             <li>Fix distorted font in some parts of the UI</li>
             <li>Fix crash editing gradients in titler</li>
-            <li>Dix adding a mix to a grouped clip could move existing cut</li>
+            <li>Fix adding a mix to a grouped clip could move existing cut</li>
             <li>Fix moving and deleting a single item in a group</li>
             <li>Fix crash in spacer tool with grouped subtitles</li>
             <li>Fix multiple issues on sequence clips (incorrectly saving changes, subtitles not duplicated)</li>
