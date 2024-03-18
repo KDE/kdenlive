@@ -4829,7 +4829,7 @@ void MainWindow::checkMaxCacheSize()
 
     KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
     // Check cached data size
-    if (KdenliveSettings::maxcachesize() <= 0) {
+    if (KdenliveSettings::maxcachesize() <= 0 || pCore->currentDoc() == nullptr) {
         return;
     }
     bool ok;
