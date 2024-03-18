@@ -143,7 +143,16 @@
   <releases>
     <release version="24.02.1" date="2024-03-21">
       <description>
-        <p>This is the first bugfix release for the 24.02 version. Some of the most noteworthy fixes: fix distorted font in some parts of the UI, Fix crash editing gradients in titler, fix adding a mix to a grouped clip could move existing cut, fix moving and deleting a single item in a group, fix crash on spacer tool with grouped subtitles, fix multiple issues on sequence clips (incorrectly saving changes, subtitles not duplicated), fix multiple issues with subtitles (multiple subtitles tracks not correctly saved or displayed)</p>
+        <p>This is the first bugfix release for the 24.02 version. Some of the most noteworthy fixes:</p>
+          <ul>
+            <li>Fix distorted font in some parts of the UI</li>
+            <li>Fix crash editing gradients in titler</li>
+            <li>Dix adding a mix to a grouped clip could move existing cut</li>
+            <li>Fix moving and deleting a single item in a group</li>
+            <li>Fix crash in spacer tool with grouped subtitles</li>
+            <li>Fix multiple issues on sequence clips (incorrectly saving changes, subtitles not duplicated)</li>
+            <li>Fix multiple issues with subtitles (multiple subtitles tracks not correctly saved or displayed)</li>
+          </ul>
       </description>
     </release>
     <release version="24.02.0" date="2024-02-28"/>
