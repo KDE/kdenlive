@@ -32,12 +32,14 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
     // Create a request
-    int tid3 = timeline->getTrackIndexFromPosition(1);
+    int tid1 = timeline->getTrackIndexFromPosition(1);
     int tid2 = timeline->getTrackIndexFromPosition(2);
+    int tid3 = timeline->getTrackIndexFromPosition(3);
 
     // Create clip with audio (40 frames long)
     // QString binId = createAVProducer(*pCore->getProjectProfile(), binModel);
     QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 100, false);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;
@@ -49,13 +51,15 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     int cid2;
     int cid3;
     int cid4;
+    int cid5;
 
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 100, cid1));
     cid2 = timeline->getClipSplitPartner(cid1);
+    REQUIRE(timeline->requestClipInsertion(binId2, tid3, 100, cid5));
 
     SECTION("Ensure all clip instances on a track use the same producer")
     {
-        REQUIRE(timeline->getItemTrackId(cid2) == tid3);
+        REQUIRE(timeline->getItemTrackId(cid2) == tid1);
         REQUIRE(timeline->getItemTrackId(cid1) == tid2);
         Mlt::Producer prod1 = *(timeline->getClipPtr(cid1));
         Mlt::Producer prod2 = *(timeline->getClipPtr(cid2));
@@ -66,7 +70,7 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
         REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 110));
         cid3 = timeline->getClipByPosition(tid2, 111);
         cid4 = timeline->getClipSplitPartner(cid3);
-        REQUIRE(timeline->getItemTrackId(cid4) == tid3);
+        REQUIRE(timeline->getItemTrackId(cid4) == tid1);
         REQUIRE(timeline->getItemTrackId(cid3) == tid2);
 
         Mlt::Producer prod3 = *(timeline->getClipPtr(cid3));
@@ -88,6 +92,21 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
         // Clips on same track shoud use the same producer
         REQUIRE(prod1.same_clip(prod3));
         REQUIRE(prod2.same_clip(prod4));
+        // Undo cut
+        undoStack->undo();
+    }
+    SECTION("Ensure selected group cut works")
+    {
+        // Set selection
+        timeline->requestSetSelection({cid1, cid5});
+
+        // Split clip
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 110));
+
+        // Undo and redo cut, then ensure the producers are still correct
+        undoStack->undo();
+        undoStack->redo();
+        undoStack->undo();
     }
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
