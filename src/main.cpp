@@ -181,15 +181,10 @@ int main(int argc, char *argv[])
 
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
-    // Register about data
+    // Set application data
     KAboutData::setApplicationData(aboutData);
-
-    // Set app stuff from about data
-    app.setApplicationName(QStringLiteral("kdenlive"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
-    app.setApplicationDisplayName(aboutData.displayName());
-    app.setOrganizationDomain(aboutData.organizationDomain());
-    app.setApplicationVersion(aboutData.version());
+
     app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
     qApp->processEvents(QEventLoop::AllEvents);
