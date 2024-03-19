@@ -184,7 +184,7 @@ kdenlive
 
 1. Set up Craft as described [here](https://community.kde.org/Craft#Setting_up_Craft). (On Windows choose MinGW as compiler!)
 2. Start building kdenlive. You can simply run `craft --option kdenlive.version=master kdenlive`
-3. Within the craft environment you running Kdenlive is as simple as `kdenlive`
+3. Within the craft environment running Kdenlive is as simple as `kdenlive`
 
 ### Tips for Craft
 
@@ -227,7 +227,7 @@ To add the `kdenlive.qch` file to Qt Creator, select **Tools** > **Options** > *
 Ninja build systems, compared to make, seems faster and better detecting which files are necessary to rebuild. You can enable it appending `-GNinja` to `cmake` line
 CCache also helps: `-DCMAKE_CXX_COMPILER_LAUNCHER=ccache`
 
-If you don't need tests, disabling them will also save build time (and disk space) use append to your `cmake` line `-DBUILD_TESTING=OFF`
+If you don't need tests, disabling them will also save build time (and disk space). Append to your `cmake` line `-DBUILD_TESTING=OFF`
 
 ### Analyzers
 
