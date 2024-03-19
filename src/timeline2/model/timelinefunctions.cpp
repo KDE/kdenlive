@@ -244,6 +244,8 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             trackToSelect = timeline->getItemTrackId(clipId);
         }
     }
+    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
+    timeline->requestClearSelection();
 
     std::unordered_set<int> topElements;
     std::transform(clips.begin(), clips.end(), std::inserter(topElements, topElements.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
@@ -275,9 +277,6 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     if (clipsToCut.isEmpty()) {
         return true;
     }
-
-    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
-    timeline->requestClearSelection();
 
     for (int cid : qAsConst(clipsToCut)) {
         count++;
