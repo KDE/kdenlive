@@ -8,8 +8,12 @@ Currently supported distributions are:
 
 * Ubuntu 22.04 LTS Focal Fossa and derivatives
 * Arch Linux
+* All platforms fulfilling the requirements described below
 
-But you should be able to build it on any platform that provides up-to-date versions of the following dependencies: Qt >= 5.15.2, KF5 >= 5.86, MLT >= 7.10.0.
+Kdenlive is in a transition from Qt5/KF5 to Qt6/KF6. Qt6 is the prefered version, while Qt5 is yet still supported (but deprecated)
+
+For Qt5 the minimum required dependencies are: Qt >= 5.15.2, KF5 >= 5.86, MLT >= 7.14.0.
+For Qt6 the minimum required dependencies are: Qt >= 6.6.0, KF6 >= 6.0, MLT >= 7.14.0.
 
 ## Build on Linux
 
@@ -36,7 +40,9 @@ sudo apt remove kdenlive kdenlive-data
 First, make sure you have the required tooling installed:
 
 ```bash
-sudo apt install build-essential git cmake extra-cmake-modules libsm-dev
+sudo apt install build-essential git cmake extra-cmake-modules libsm-dev clang-format
+# Optional for faster builds install Ninja
+sudo apt install ninja-build
 ```
 
 You can use your distribution packages information (if not too old) to easily get a complete build environment:
@@ -52,7 +58,17 @@ zypper source-install --build-deps-only mlt kdenlive
 Or install the dependencies explicitly:
 
 ```bash
-# KDE Frameworks 5, based on Qt5
+# Qt6 modules
+sudo apt install qt6-base-dev qt6-svg-dev qt6-multimedia-dev qt6-networkauth-dev
+
+# KDE Frameworks 6, based on Qt6
+sudo apt install kf6-karchive-dev kf6-kbookmarks-dev kf6-kcodecs-dev kf6-kcoreaddons-dev \
+kf6-kconfig-dev kf6-kconfigwidgets-dev kf6-kio-dev kf6-kwidgetsaddons-dev kf6-knotifyconfig-dev \
+kf6-knewstuff-dev kf6-kxmlgui-dev kf6-knotifications-dev kf6-kguiaddons-dev kf6-ktextwidgets-dev \
+kf6-kiconthemes-dev kf6-solid-dev kf6-kfilemetadata-dev kf6-purpose-dev \
+kf6-kdoctools-dev kf6-kcrash-dev kf6-kdbusaddons-dev kf6-breeze-icon-theme-dev
+
+# DEPRECATED: Qt5 modules and KDE Frameworks 5
 sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev libkf5config-dev \
 libkf5configwidgets-dev libkf5dbusaddons-dev libkf5kio-dev libkf5widgetsaddons-dev \
 libkf5notifyconfig-dev libkf5newstuff-dev libkf5xmlgui-dev libkf5declarative-dev \
@@ -70,8 +86,8 @@ sudo apt install libmlt++-dev libmlt-dev melt
 # Dependencies for localization
 sudo apt install ruby subversion gnupg2 gettext
 
-
 ```
+
 #### Clone the repositories
 
 In your development directory, run:
@@ -86,17 +102,18 @@ To build manually:
 
 ```bash
 # Install MLT dependencies
-sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev libsamplerate0-dev librubberband-dev libebur128-dev
+sudo apt install libxml++2.6-dev libavformat-dev libswscale-dev libavfilter-dev libavutil-dev libavdevice-dev libsdl1.2-dev librtaudio-dev libsox-dev libsamplerate0-dev librubberband-dev libebur128-dev libarchive-dev
 
 # Get MLT's source code
 git clone https://github.com/mltframework/mlt.git
 cd mlt
 mkdir build
 cd build
-# To build with Qt5, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
-cmake .. -GNinja -DMOD_QT=ON
-# To build with Qt6:
-cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON
+# To build with Qt6, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
+cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE=OFF -DMOD_GLAXNIMATE_QT6=ON
+# To build with Qt5 instead use
+cmake .. -GNinja -DMOD_QT=ON -DMOD_GLAXNIMATE=ON -DMOD_QT6=OFF -DMOD_GLAXNIMATE_QT6=OFF
+
 #install (use make instead of ninja if ninja is not used)
 sudo ninja install
 
@@ -130,10 +147,17 @@ make install
 # Kdenlive
 cd ../../kdenlive
 mkdir build && cd build
+
 # Even if you specified a user-writable INSTALL_PREFIX, some Qt plugins like the MLT thumbnailer are
 # going be installed in non-user-writable system paths to make them work. If you really do not want
 # to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
-cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF
+# -GNinja is optional
+
+# Qt6
+cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF -DQT_MAJOR_VERSION=6
+
+# Qt5 (deprecated alternative to Qt6)
+cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF -DQT_MAJOR_VERSION=5 -DBUILD_WITH_QT6=OFF
 ```
 
 ```bash
@@ -159,19 +183,14 @@ kdenlive
 [Craft](https://community.kde.org/Craft) is a tool to build the sources and its third-party requirements. It is an easy way to build software, but however not ideal if you want to build Kdenlive for development purposes.
 
 1. Set up Craft as described [here](https://community.kde.org/Craft#Setting_up_Craft). (On Windows choose MinGW as compiler!)
-2. Start building kdenlive. You can simply run `craft --target=master kdenlive`
-3. Within the the craft environment you can running Kdenlive is as simple as `kdenlive`
-
-_Notes for Craft on macOS with arm M1 chip_: currently (april 2022), Craft doesn't support arm toolchain to compile. Therefore, you must compile in x84_64 mode. To do this, before launching craft using the ```craftenv.sh``` script, you must enter the following command:
-```
-arch -arch x86_64 zsh -li
-```
-After this you can follow the standard Craft procedure to compile Kdenlive.
+2. Start building kdenlive. You can simply run `craft --option kdenlive.version=master kdenlive`
+3. Within the craft environment running Kdenlive is as simple as `kdenlive`
 
 ### Tips for Craft
 
 * If you want to compile kdenlive in debug mode, you can do so by running `craft --buildtype Debug kdenlive`
-* If you want to compile the stable version instead of the master with that last changes, remove `--target=master` from the craft command: `craft kdenlive`
+* If you want to compile the stable version instead of the master branch with that last changes, remove `--option kdenlive.version=master` from the craft command: `craft kdenlive`
+* If you want to compile a specific branch from the kdenlive repository use `craft --option kdenlive.version=master --option kdenlive.branch=BRANCHNAME kdenlive` where `BRANCHNAME` is the name of the branch.
 * With Craft you can also easily package Kdenlive as `.dmg`, `.exe` or `.appimage` (depending on your platform): `craft --target=master --package kdenlive` The output can be found in `CraftRoot/tmp`
 * For more instructions and tipps on Craft see https://community.kde.org/Craft
 
@@ -185,8 +204,7 @@ Having debug symbols helps getting much more useful information from crash logs 
 
 ### Running tests
 
-Kdenlive test coverage is focused mostly on timeline model code (extending tests to more parts is highly desired). To run those tests, append to `cmake` line:
-`-DBUILD_TESTING=ON`
+Kdenlive test coverage is focused mostly on timeline model code (extending tests to more parts is highly desired). To run those tests, append to `cmake` line for the build `-DBUILD_TESTING=ON` and execute `ctest` to run them.
 
 ### Fuzzer
 
@@ -208,6 +226,8 @@ To add the `kdenlive.qch` file to Qt Creator, select **Tools** > **Options** > *
 
 Ninja build systems, compared to make, seems faster and better detecting which files are necessary to rebuild. You can enable it appending `-GNinja` to `cmake` line
 CCache also helps: `-DCMAKE_CXX_COMPILER_LAUNCHER=ccache`
+
+If you don't need tests, disabling them will also save build time (and disk space). Append to your `cmake` line `-DBUILD_TESTING=OFF`
 
 ### Analyzers
 
@@ -250,7 +270,7 @@ git clone https://github.com/dyne/frei0r.git
 cd frei0r
 mkdir build
 cd build
-cmake .. -DWITHOUT_OPENCV=true -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
+cmake .. -GNinja -DWITHOUT_OPENCV=true -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX
 ```
 
 Note: as of 20.04, frei0r doesn't support recent OpenCV (and effects using it seemed not very stable)
