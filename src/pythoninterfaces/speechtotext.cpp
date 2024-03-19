@@ -33,14 +33,15 @@ SpeechToText::SpeechToText(EngineType engineType, QObject *parent)
 void SpeechToText::buildWhisperDeps(bool enableSeamless)
 {
     m_dependencies.clear();
+    m_optionalDeps.clear();
     addDependency(QStringLiteral("openai-whisper"), i18n("speech features"));
     addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
-    addDependency(QStringLiteral("srt_equalizer"), i18n("adjust subtitles length"));
+    addDependency(QStringLiteral("srt_equalizer"), i18n("adjust subtitles length"), true);
     addDependency(QStringLiteral("torch"), i18n("machine learning framework"));
     if (enableSeamless) {
-        addDependency(QStringLiteral("sentencepiece"), i18n("SeamlessM4T translation"));
-        addDependency(QStringLiteral("protobuf"), i18n("SeamlessM4T translation"));
-        addDependency(QStringLiteral("transformers"), i18n("SeamlessM4T translation"));
+        addDependency(QStringLiteral("sentencepiece"), i18n("SeamlessM4T translation"), true);
+        addDependency(QStringLiteral("protobuf"), i18n("SeamlessM4T translation"), true);
+        addDependency(QStringLiteral("transformers"), i18n("SeamlessM4T translation"), true);
     }
 }
 

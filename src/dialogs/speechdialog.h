@@ -51,4 +51,5 @@ private Q_SLOTS:
     void slotProcessProgress();
     void slotProcessWhisperProgress();
     void updateVoskModels(const QStringList models);
+    void checkDeps();
 };

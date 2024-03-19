@@ -38,6 +38,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
+    speech_info->setWordWrap(true);
     speech_info->hide();
     logOutput->setVisible(false);
     setWindowTitle(i18n("Automatic Subtitling"));
@@ -196,10 +197,19 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
             m_speechJob->kill();
         }
     });
-    m_stt->checkDependencies();
+    QTimer::singleShot(200, this, &SpeechDialog::checkDeps);
 }
 
 SpeechDialog::~SpeechDialog() {}
+
+void SpeechDialog::checkDeps()
+{
+    m_stt->checkDependencies();
+    // Only enable subtitle max size if srt_equalizer is found
+    bool equalizerAvailable = m_stt->optionalDependencyAvailable(QLatin1String("srt_equalizer"));
+    check_maxchars->setEnabled(equalizerAvailable);
+    maxChars->setEnabled(equalizerAvailable);
+}
 
 void SpeechDialog::updateVoskModels(const QStringList models)
 {
@@ -235,9 +245,14 @@ void SpeechDialog::slotProcessSpeech()
     speech_info->setText(i18nc("@label:textbox", "Checking setup…"));
     speech_info->show();
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-    if (!m_stt->checkSetup() || !m_stt->missingDependencies().isEmpty()) {
+    QStringList missingDeps = m_stt->missingDependencies();
+    if (!m_stt->checkSetup() || !missingDeps.isEmpty()) {
         speech_info->setMessageType(KMessageWidget::Warning);
-        speech_info->setText(i18n("Please configure speech to text."));
+        if (!missingDeps.isEmpty()) {
+            speech_info->setText(i18n("Please configure speech to text, missing dependencies: %1", missingDeps.join(QLatin1String(", "))));
+        } else {
+            speech_info->setText(i18n("Please configure speech to text."));
+        }
         speech_info->animatedShow();
         speech_info->addAction(m_voskConfig);
         return;
@@ -352,7 +367,7 @@ void SpeechDialog::slotProcessSpeech()
         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessWhisperProgress);
         QString language = speech_language->isEnabled() ? speech_language->currentData().toString().simplified() : QString();
         int maxCount = 0;
-        if (check_maxchars->isChecked()) {
+        if (check_maxchars->isChecked() && check_maxchars->isEnabled()) {
             maxCount = maxChars->value();
             KdenliveSettings::setWhisperMaxChars(maxCount);
         }

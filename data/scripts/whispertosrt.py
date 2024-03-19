@@ -5,7 +5,6 @@
 import datetime
 import sys
 import srt
-from srt_equalizer import srt_equalizer
 
 import whispertotext
 
@@ -95,12 +94,17 @@ def main(source, model, outfile, **kwargs):
     if max_line_width == None:
         subtitle = srt.compose(subs)
     else:
-        # Reduce line lenth in the whisper result to <= maxLength chars
-        equalized = []
-        for sub in subs:
-            equalized.extend(srt_equalizer.split_subtitle(sub, max_line_width, method=shorten_method))
-
-        subtitle = srt.compose(equalized)
+        try:
+            import srt_equalizer
+        except ModuleNotFoundError:
+            # srt equalizer not found, disable srt_equalizer
+            subtitle = srt.compose(subs)
+        else:
+            # Reduce line lenth in the whisper result to <= maxLength chars
+            equalized = []
+            for sub in subs:
+                equalized.extend(srt_equalizer.split_subtitle(sub, max_line_width, method=shorten_method))
+            subtitle = srt.compose(equalized)
 
     with open(outfile, 'w', encoding='utf8') as f:
         f.writelines(subtitle)

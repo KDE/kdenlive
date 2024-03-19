@@ -6,6 +6,7 @@
 import sys
 import subprocess
 import importlib.metadata
+import importlib.util
 
 def print_help():
     print("""
@@ -44,22 +45,32 @@ installed = {pkg.name for pkg in importlib.metadata.distributions()}
 missing = required - installed
 
 if '--check' in sys.argv:
-    if len(missing) > 0:
-        print("Missing pachages: ", missing)
+    for m in missing:
+        print("Missing: ", m)
 elif '--install' in sys.argv and len(sys.argv) > 1:
     # install missing modules
+    python = sys.executable
     if len(missing) > 0:
         print("Installing missing packages: ", missing)
-        python = sys.executable
-        subprocess.check_call([python, '-m', 'pip', 'install', *missing])
+        for m in missing:
+            try:
+                subprocess.check_call([python, '-m', 'pip', 'install', m])
+            except:
+                print("failed installing ", m)
 elif '--upgrade' in sys.argv:
     # update modules
     print("Updating packages: ", required)
     python = sys.executable
-    subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', *required])
+    for r in required:
+        try:
+            subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', r])
+        except:
+                print("failed installing ", r)
 elif '--details' in sys.argv:
     # check modules version
     python = sys.executable
+    for m in missing:
+        print("Name: ", m, " Version: missing ")
     subprocess.check_call([python, '-m', 'pip', 'show', *required])
 else:
     print_help()

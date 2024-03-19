@@ -49,6 +49,8 @@ public:
     bool removePythonVenv();
     /** @brief Python venv setup in progress. */
     bool installInProcess() const;
+    /** @brief Returns true if the optional dependency was found. */
+    bool optionalDependencyAvailable(const QString &dependency) const;
 
     friend class PythonDependencyMessage;
 
@@ -66,6 +68,7 @@ public Q_SLOTS:
 
 private:
     QStringList m_missing;
+    QStringList m_optionalMissing;
     QMap<QString, QString> *m_versions;
     bool m_disableInstall;
     bool m_dependenciesChecked;
@@ -81,8 +84,9 @@ private:
 
 protected:
     QMap<QString, QString> m_dependencies;
+    QStringList m_optionalDeps;
     QMap<QString, QString> *m_scripts;
-    void addDependency(const QString &pipname, const QString &purpose);
+    void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
     void addScript(const QString &script);
     virtual QString featureName() { return {}; };
     bool m_installInProgress{false};
