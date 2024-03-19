@@ -4414,6 +4414,14 @@ TimelineWidget *MainWindow::getTimeline(const QUuid uuid) const
     return m_timelineTabs->getTimeline(uuid);
 }
 
+void MainWindow::getSequenceProperties(const QUuid &uuid, QMap<QString, QString> &props)
+{
+    TimelineWidget *w = getTimeline(uuid);
+    if (w) {
+        w->controller()->getSequenceProperties(props);
+    }
+}
+
 bool MainWindow::hasTimeline() const
 {
     return m_timelineTabs != nullptr;
@@ -4598,6 +4606,8 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
             Q_EMIT getCurrentTimeline()->controller()->subtitlesDisabledChanged();
         }
         getCurrentTimeline()->connectSubtitleModel(true);
+        // Update subtitle track combo list
+        Q_EMIT getCurrentTimeline()->controller()->subtitlesListChanged();
     } else {
         KdenliveSettings::setShowSubtitles(m_buttonSubtitleEditTool->isChecked());
         getCurrentTimeline()->connectSubtitleModel(false);

@@ -127,10 +127,10 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
     QString transcoderExt = QLatin1Char('.') + finfo.suffix();
 
     std::function<void()> callBack = [&ui, transcoderExt]() {
-        if (ui.acodec->currentData().isNull()) {
+        if (ui.acodec->currentData().toString().isEmpty()) {
             // Video only
             ui.extra_params->setPlainText(QString("-an -c:v %1").arg(ui.vcodec->currentData().toString()));
-        } else if (ui.vcodec->currentData().isNull()) {
+        } else if (ui.vcodec->currentData().toString().isEmpty()) {
             // Audio only
             ui.extra_params->setPlainText(QString("-vn -c:a %1").arg(ui.acodec->currentData().toString()));
         } else {
@@ -138,7 +138,7 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
         }
         QString path = ui.file_url->url().toLocalFile();
         QString fileName = path.section(QLatin1Char('.'), 0, -2);
-        if (ui.acodec->currentData() == QLatin1String("copy") && ui.vcodec->currentData() == QLatin1String("copy")) {
+        if (ui.acodec->currentData().toString() == QLatin1String("copy") && ui.vcodec->currentData().toString() == QLatin1String("copy")) {
             fileName.append(transcoderExt);
         } else {
             fileName.append(QStringLiteral(".mov"));

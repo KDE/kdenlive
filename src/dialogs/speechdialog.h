@@ -43,6 +43,7 @@ private:
     QAction *m_logAction;
     QString m_errorLog;
     SpeechToText *m_stt;
+    void fillSeamlessLanguages();
 
 private Q_SLOTS:
     void slotProcessSpeech();

@@ -87,7 +87,7 @@ private Q_SLOTS:
     void slotSetTranscodeProfile();
     void slotShuttleModified();
     void slotDialogModified();
-    void slotEnableCaptureFolder(int ix);
+    void slotRevealCaptureFolder(int ix);
     void slotEnableLibraryFolder();
     void slotEnableVideoFolder(int ix);
     void slotUpdatev4lDevice();

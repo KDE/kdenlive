@@ -24,11 +24,23 @@ SpeechToText::SpeechToText(EngineType engineType, QObject *parent)
         addScript(QStringLiteral("speech.py"));
         addScript(QStringLiteral("speechtotext.py"));
     } else if (engineType == EngineType::EngineWhisper) {
-        addDependency(QStringLiteral("openai-whisper"), i18n("speech features"));
-        addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
-        addDependency(QStringLiteral("torch"), i18n("machine learning framework"));
+        buildWhisperDeps(KdenliveSettings::enableSeamless());
         addScript(QStringLiteral("whispertotext.py"));
         addScript(QStringLiteral("whispertosrt.py"));
+    }
+}
+
+void SpeechToText::buildWhisperDeps(bool enableSeamless)
+{
+    m_dependencies.clear();
+    addDependency(QStringLiteral("openai-whisper"), i18n("speech features"));
+    addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
+    addDependency(QStringLiteral("srt_equalizer"), i18n("adjust subtitles length"));
+    addDependency(QStringLiteral("torch"), i18n("machine learning framework"));
+    if (enableSeamless) {
+        addDependency(QStringLiteral("sentencepiece"), i18n("SeamlessM4T translation"));
+        addDependency(QStringLiteral("protobuf"), i18n("SeamlessM4T translation"));
+        addDependency(QStringLiteral("transformers"), i18n("SeamlessM4T translation"));
     }
 }
 
@@ -49,22 +61,22 @@ QString SpeechToText::voskModelPath()
 QList<std::pair<QString, QString>> SpeechToText::whisperModels()
 {
     QList<std::pair<QString, QString>> models;
-    models.append({i18n("Tiny"), QStringLiteral("tiny")});
-    models.append({i18n("Base"), QStringLiteral("base")});
-    models.append({i18n("Small"), QStringLiteral("small")});
-    models.append({i18n("Medium"), QStringLiteral("medium")});
-    models.append({i18n("Large"), QStringLiteral("large")});
-    models.append({i18n("Tiny - English only"), QStringLiteral("tiny.en")});
-    models.append({i18n("Base - English only"), QStringLiteral("base.en")});
-    models.append({i18n("Small - English only"), QStringLiteral("small.en")});
-    models.append({i18n("Medium - English only"), QStringLiteral("medium.en")});
+    models.append({i18nc("Model file to download, smallest one", "Tiny (72MB)"), QStringLiteral("tiny")});
+    models.append({i18nc("Model file to download, basic one", "Base (140MB)"), QStringLiteral("base")});
+    models.append({i18nc("Model file to download, small one", "Small (460MB)"), QStringLiteral("small")});
+    models.append({i18nc("Model file to download, medium one", "Medium (1.4GB)"), QStringLiteral("medium")});
+    models.append({i18nc("Model file to download, large one", "Large (2.9GB)"), QStringLiteral("large")});
+    models.append({i18nc("Model file to download, smallest one", "Tiny - English only (39MB)"), QStringLiteral("tiny.en")});
+    models.append({i18nc("Model file to download, basic one", "Base - English only (74MB)"), QStringLiteral("base.en")});
+    models.append({i18nc("Model file to download, small one", "Small - English only (244MB)"), QStringLiteral("small.en")});
+    models.append({i18nc("Model file to download, medium one", "Medium - English only (1.5GB)"), QStringLiteral("medium.en")});
     return models;
 }
 
 QMap<QString, QString> SpeechToText::whisperLanguages()
 {
     QMap<QString, QString> models;
-    models.insert(i18n("Audodetect"), QString());
+    models.insert(i18n("Autodetect"), QString());
     models.insert(i18n("Afrikaans"), QStringLiteral("Afrikaans"));
     models.insert(i18n("Albanian"), QStringLiteral("Albanian"));
     models.insert(i18n("Amharic"), QStringLiteral("Amharic"));

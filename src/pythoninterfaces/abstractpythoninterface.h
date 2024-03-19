@@ -65,7 +65,6 @@ public Q_SLOTS:
     void checkVersionsConcurrently();
 
 private:
-    QMap<QString, QString> m_dependencies;
     QStringList m_missing;
     QMap<QString, QString> *m_versions;
     bool m_disableInstall;
@@ -81,6 +80,7 @@ private:
     QString installPackage(const QStringList packageNames);
 
 protected:
+    QMap<QString, QString> m_dependencies;
     QMap<QString, QString> *m_scripts;
     void addDependency(const QString &pipname, const QString &purpose);
     void addScript(const QString &script);

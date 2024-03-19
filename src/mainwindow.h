@@ -134,6 +134,7 @@ public:
     TimelineWidget *getCurrentTimeline() const;
     /** @brief Returns a pointer to the timeline with @uuid */
     TimelineWidget *getTimeline(const QUuid uuid) const;
+    void getSequenceProperties(const QUuid &uuid, QMap<QString, QString> &props);
     void closeTimelineTab(const QUuid uuid);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;

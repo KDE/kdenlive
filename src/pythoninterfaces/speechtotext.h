@@ -23,6 +23,7 @@ public:
     QString speechScript();
     QString voskModelPath();
     QStringList parseVoskDictionaries();
+    void buildWhisperDeps(bool enableSeamless);
     static QList<std::pair<QString, QString>> whisperModels();
     static QMap<QString, QString> whisperLanguages();
 

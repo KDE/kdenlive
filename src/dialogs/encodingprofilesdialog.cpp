@@ -417,7 +417,7 @@ void EncodingTimelinePreviewProfilesChooser::filterPreviewProfiles(const QString
     if (!item || !(item->flags() & Qt::ItemIsEnabled)) {
         // Currently selected profile is not usable, switch back to automatic
         for (int i = 0; i < max; i++) {
-            if (m_profilesCombo->itemData(i).isNull()) {
+            if (m_profilesCombo->itemData(i).toString().isEmpty()) {
                 m_profilesCombo->setCurrentIndex(i);
                 m_messageWidget->setText(i18n("Selected Timeline preview profile is not compatible with the project framerate,\nreverting to Automatic."));
                 m_messageWidget->animatedShow();

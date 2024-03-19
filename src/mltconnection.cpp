@@ -43,6 +43,7 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
     } else {
         message = QString::vasprintf(format, args);
         message.replace('\n', "");
+        Q_EMIT pCore->mltWarning(message);
     }
     qDebug() << "MLT:" << message;
 }

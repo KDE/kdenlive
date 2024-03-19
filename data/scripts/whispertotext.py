@@ -26,7 +26,7 @@ import whisper
 def avoid_fp16(device):
     """fp16 doesn't work on some GPUs, such as Nvidia GTX 16xx. See bug 467573."""
     if device == "cpu": # fp16 option doesn't matter for CPU
-        return False
+        return True
     device = torch.cuda.get_device_name(device)
     if re.search(r"GTX 16\d\d", device):
         sys.stderr.write("GTX 16xx series GPU detected, disabling fp16\n")
@@ -69,7 +69,9 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
             if (len(param) > 1):
                 transcribe_kwargs[param[0]] = param[1]
 
-    if avoid_fp16(device):
+    if 'fp16' in transcribe_kwargs and transcribe_kwargs['fp16'] == 'False':
+        transcribe_kwargs["fp16"] = False
+    elif avoid_fp16(device):
         transcribe_kwargs["fp16"] = False
 
     return model.transcribe(source, **transcribe_kwargs)

@@ -480,8 +480,9 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(binModel->getClipByBinID(binId)->getFramePlaytime() == length);
         CHECK_INSERT(Once);
 
-        REQUIRE(timeline->requestItemResize(cid1, 6, true) == -1);
-        REQUIRE(timeline->requestItemResize(cid1, 6, false) == -1);
+        int currentLength = timeline->getClipPlaytime(cid1);
+        REQUIRE(timeline->requestItemResize(cid1, 6, true) == currentLength);
+        REQUIRE(timeline->requestItemResize(cid1, 6, false) == currentLength);
         REQUIRE(timeline->checkConsistency());
         NO_OTHERS();
 
@@ -621,7 +622,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state();
 
         // try to resize past the left end
-        REQUIRE(timeline->requestItemResize(cid1, length, false) == -1);
+        int currentLength = timeline->getClipPlaytime(cid1);
+        REQUIRE(timeline->requestItemResize(cid1, length, false) == currentLength);
         state();
 
         REQUIRE(timeline->requestItemResize(cid1, length - 4, true) == length - 4);
@@ -642,6 +644,9 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         // the gap between the two clips is 1 frame, we try to resize them by 2 frames
         // It will only be resized by one frame
+        currentLength = timeline->getClipPlaytime(cid1);
+        qDebug() << "::: TRYING TO RESIZE CLIP CURRENT: " << currentLength << " / RESIZE:  " << (length - 2)
+                 << ", NEXT AT: " << timeline->getClipPosition(cid2);
         REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == length - 3);
         undoStack->undo();
         state2();
@@ -664,9 +669,11 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state3();
 
         // Now the gap is 0 frames, the resize should still fail
-        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == -1);
+        currentLength = timeline->getClipPlaytime(cid1);
+        REQUIRE(timeline->requestItemResize(cid1, length - 2, true) == currentLength);
         state3();
-        REQUIRE(timeline->requestItemResize(cid2, length, false) == -1);
+        currentLength = timeline->getClipPlaytime(cid2);
+        REQUIRE(timeline->requestItemResize(cid2, length, false) == currentLength);
         state3();
 
         // We move cid1 out of the way

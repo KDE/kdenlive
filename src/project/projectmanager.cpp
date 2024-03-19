@@ -513,6 +513,11 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
         // Project filename changed
         pCore->window()->updateProjectPath(outputFileName);
     }
+    // If current sequence was modified and is used in another sequence, ensure to sync it
+    const QUuid activeUuid = m_activeTimelineModel->uuid();
+    if (m_project->sequenceThumbRequiresRefresh(activeUuid)) {
+        pCore->bin()->updateSequenceClip(activeUuid, m_activeTimelineModel->duration(), -1);
+    }
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateWorkFilesBeforeSave(outputFileName);
@@ -868,22 +873,37 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
+    m_mltWarnings.clear();
+    connect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog, Qt::QueuedConnection);
     pCore->monitorManager()->projectMonitor()->locked = true;
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
     Q_EMIT pCore->loadingMessageNewStage(i18n("Loading timeline…"), 0);
     qApp->processEvents();
-    if (!updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
-                        m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
-                        m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt())) {
-        KMessageBox::error(pCore->window(), i18n("Could not recover corrupted file."));
+    bool timelineResult = updateTimeline(true, m_project->getDocumentProperty(QStringLiteral("previewchunks")),
+                                         m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,
+                                         m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
+    disconnect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog);
+    if (!timelineResult) {
         Q_EMIT pCore->loadingMessageHide();
         // Don't propose to save corrupted doc
         m_project->setModified(false);
-        // Open default blank document
         pCore->monitorManager()->projectMonitor()->locked = false;
+        int answer = KMessageBox::warningContinueCancelList(pCore->window(), i18n("Error opening file"), m_mltWarnings, i18n("Error opening file"),
+                                                            KGuiItem(i18n("Open Backup")), KStandardGuiItem::cancel(), QString(), KMessageBox::Notify);
+        if (answer == KMessageBox::Continue) {
+            // Open Backup
+            m_mltWarnings.clear();
+            delete m_project;
+            m_project = nullptr;
+            slotOpenBackup(url);
+            return;
+        }
+        m_mltWarnings.clear();
+        // Open default blank document
         newFile(false);
         return;
     }
+    m_mltWarnings.clear();
 
     // Re-open active timelines
     QStringList openedTimelines = m_project->getDocumentProperty(QStringLiteral("opensequences")).split(QLatin1Char(';'), Qt::SkipEmptyParts);
@@ -1104,7 +1124,7 @@ void ProjectManager::slotStartAutoSave()
 
 void ProjectManager::slotAutoSave()
 {
-    if (m_project->loading) {
+    if (m_project->loading || m_project->closing) {
         // Dont start autosave if the project is still loading
         return;
     }
@@ -1196,7 +1216,7 @@ void ProjectManager::slotAddTextNote(const QString &text)
 
 void ProjectManager::prepareSave()
 {
-    pCore->projectItemModel()->saveDocumentProperties(pCore->window()->getCurrentTimeline()->controller()->documentProperties(), m_project->metadata());
+    pCore->projectItemModel()->saveDocumentProperties(pCore->currentDoc()->documentProperties(), m_project->metadata());
     pCore->bin()->saveFolderState();
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.opensequences"), pCore->window()->openedSequences().join(QLatin1Char(';')));
@@ -1375,7 +1395,9 @@ void ProjectManager::slotMoveFinished(KJob *job)
 void ProjectManager::requestBackup(const QString &errorMessage)
 {
     KMessageBox::ButtonCode res = KMessageBox::warningContinueCancel(qApp->activeWindow(), errorMessage);
-    pCore->window()->getCurrentTimeline()->loading = false;
+    if (pCore->window()->getCurrentTimeline()) {
+        pCore->window()->getCurrentTimeline()->loading = false;
+    }
     m_project->setModified(false);
     if (res == KMessageBox::Continue) {
         // Try opening backup
@@ -1391,6 +1413,7 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
 {
     pCore->taskManager.slotCancelJobs();
     const QUuid uuid = m_project->uuid();
+
     std::unique_ptr<Mlt::Producer> xmlProd(
         new Mlt::Producer(pCore->getProjectProfile().get_profile(), "xml-string", m_project->getAndClearProjectXml().constData()));
     Mlt::Service s(*xmlProd.get());
@@ -1408,7 +1431,6 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     }
     if (tractor.count() == 0) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
-        requestBackup(i18n("Project file is corrupted (no tracks). Try to find a backup file?"));
         return false;
     }
     std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uuid, m_project->commandStack());
@@ -1986,9 +2008,6 @@ void ProjectManager::doSyncTimeline(std::shared_ptr<TimelineItemModel> model, bo
         int position = -1;
         if (model == m_activeTimelineModel) {
             position = pCore->getMonitorPosition();
-            if (pCore->window()) {
-                pCore->window()->getCurrentTimeline()->controller()->saveSequenceProperties();
-            }
         }
         const QUuid &uuid = model->uuid();
         if (refresh) {
@@ -2137,4 +2156,9 @@ void ProjectManager::checkProjectIntegrity()
     // Ensure the active timeline sequence is correctly inserted in the main_bin playlist
     const QString activeSequenceId(m_activeTimelineModel->tractor()->get("id"));
     pCore->projectItemModel()->checkSequenceIntegrity(activeSequenceId);
+}
+
+void ProjectManager::handleLog(const QString &message)
+{
+    m_mltWarnings << message;
 }

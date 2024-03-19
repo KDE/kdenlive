@@ -700,11 +700,17 @@ protected:
 
     /** @brief Returns the best possible size for a clip on resize
      */
-    int requestItemResizeInfo(int itemId, int in, int out, int size, bool right, int snapDistance);
+    int requestItemResizeInfo(int itemId, int currentIn, int currentOut, int requestedSize, bool right, int snapDistance);
 
     /** @brief Returns a list of in/out of all items in the group of itemId
      */
     const std::vector<int> getBoundaries(int itemId);
+
+    /** @brief Extract selection from its group. To be used when operating on single items in a group
+     *  @returns a pair with { original group id of the element, the id of the other element
+     *  in the group if it was a 2 items group and group was deleted in the operation }
+     */
+    std::pair<int, int> extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo);
 
 public:
     /** @brief Requests the next snapped point

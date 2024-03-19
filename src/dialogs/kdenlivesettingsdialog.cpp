@@ -33,6 +33,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KArchiveDirectory>
 #include <KIO/DesktopExecParser>
 #include <KIO/FileCopyJob>
+#include <KIO/OpenFileManagerWindowJob>
+#include <kio/directorysizejob.h>
 #include <kio_version.h>
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KIO/JobUiDelegateFactory>
@@ -346,7 +348,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
-    m_configEnv.capturefolderurl->setEnabled(KdenliveSettings::capturetoprojectfolder() == 2);
+    KdenliveSettingsDialog::slotRevealCaptureFolder(KdenliveSettings::capturetoprojectfolder());
     m_configEnv.kcfg_capturetoprojectfolder->setItemText(0, i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
     if (KdenliveSettings::customprojectfolder()) {
         m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
@@ -354,7 +356,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
         m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
     }
     connect(m_configEnv.kcfg_capturetoprojectfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-            &KdenliveSettingsDialog::slotEnableCaptureFolder);
+            &KdenliveSettingsDialog::slotRevealCaptureFolder);
 
     // Library folder
     m_configEnv.libraryfolderurl->setMode(KFile::Directory);
@@ -673,9 +675,10 @@ void KdenliveSettingsDialog::slotUpdateGrabRegionStatus()
     m_configCapture.region_group->setHidden(m_configCapture.kcfg_grab_capture_type->currentIndex() != 1);
 }
 
-void KdenliveSettingsDialog::slotEnableCaptureFolder(int ix)
+void KdenliveSettingsDialog::slotRevealCaptureFolder(int ix)
 {
-    m_configEnv.capturefolderurl->setEnabled(ix == 2);
+    m_configEnv.capturefolderurl->setVisible(ix == 2);
+    m_configEnv.kcfg_captureprojectsubfolder->setVisible(ix == 3);
 }
 
 void KdenliveSettingsDialog::slotEnableLibraryFolder()
@@ -1077,6 +1080,10 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configEnv.capturefolderurl->url().toLocalFile() != KdenliveSettings::capturefolder()) {
         KdenliveSettings::setCapturefolder(m_configEnv.capturefolderurl->url().toLocalFile());
+    }
+
+    if (m_configEnv.kcfg_captureprojectsubfolder->text() != KdenliveSettings::captureprojectsubfolder()) {
+        KdenliveSettings::setCaptureprojectsubfolder(m_configEnv.kcfg_captureprojectsubfolder->text());
     }
 
     // Library default folder
@@ -1728,6 +1735,9 @@ void KdenliveSettingsDialog::initSpeechPage()
 {
     m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
     m_sttWhisper = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
+    m_configSpeech.whisperInfo->setWordWrap(true);
+    m_configSpeech.whisperInfo->setText(
+        i18n("On first run, Whisper will <b>download the chosen model</b>. After that, processing will happen offline. Cpu processing is very slow."));
     // Python env info label
     PythonDependencyMessage *pythonEnvLabel = new PythonDependencyMessage(this, m_sttWhisper, true);
     m_configEnv.message_layout_2->addWidget(pythonEnvLabel);
@@ -1743,6 +1753,48 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
     });
     m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
+    connect(m_configSpeech.kcfg_enableSeamless, &QCheckBox::toggled, [this](bool toggled) {
+        m_sttWhisper->buildWhisperDeps(toggled);
+        m_sttWhisper->checkDependencies(true);
+        if (toggled) {
+            m_configSpeech.whisperInfo->setText(
+                i18n("On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After that, translations will happen offline."));
+        } else {
+            m_configSpeech.whisperInfo->setText(
+                i18n("On first run, Whisper will <b>download the chosen model</b>. After that, processing will happen offline. Cpu processing is very slow."));
+        }
+    });
+
+    // Basic info about model folders
+    const QString whisperModelFolder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
+    if (!whisperModelFolder.isEmpty()) {
+        m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(whisperModelFolder, i18n("Models folder")));
+        m_configSpeech.model_folder_label->setVisible(true);
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(whisperModelFolder));
+        connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size]() {
+            label->setText(KIO::convertSize(job->totalSize()));
+            job->deleteLater();
+        });
+    } else {
+        m_configSpeech.model_folder_label->setVisible(false);
+    }
+    QString voskModelFolder = KdenliveSettings::vosk_folder_path();
+    if (voskModelFolder.isEmpty()) {
+        voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
+    }
+    if (!voskModelFolder.isEmpty()) {
+        m_configSpeech.modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
+        m_configSpeech.modelV_folder_label->setVisible(true);
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
+        connect(job, &KJob::result, this, [job, label = m_configSpeech.modelV_size]() {
+            label->setText(KIO::convertSize(job->totalSize()));
+            job->deleteLater();
+        });
+    } else {
+        m_configSpeech.modelV_folder_label->setVisible(false);
+    }
+    connect(m_configSpeech.modelV_folder_label, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
+    connect(m_configSpeech.model_folder_label, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
     QButtonGroup *speechEngineSelection = new QButtonGroup(this);
     speechEngineSelection->addButton(m_configSpeech.engine_vosk);
     speechEngineSelection->addButton(m_configSpeech.engine_whisper);
@@ -2043,14 +2095,29 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
     m_speechListWidget->clear();
     QStringList final = m_stt->parseVoskDictionaries();
     m_speechListWidget->addItems(final);
+    QString voskModelFolder;
     if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
         m_configSpeech.custom_vosk_folder->setChecked(true);
         m_configSpeech.vosk_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::vosk_folder_path()));
+        voskModelFolder = KdenliveSettings::vosk_folder_path();
+    } else {
+        voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
     }
     if (!final.isEmpty() && m_stt->missingDependencies().isEmpty()) {
         m_configSpeech.speech_info->animatedHide();
     } else if (final.isEmpty()) {
         doShowSpeechMessage(i18n("Please add a speech model."), KMessageWidget::Information);
+    }
+    if (!voskModelFolder.isEmpty()) {
+        m_configSpeech.modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
+        m_configSpeech.modelV_folder_label->setVisible(true);
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
+        connect(job, &KJob::result, this, [job, label = m_configSpeech.modelV_size]() {
+            label->setText(KIO::convertSize(job->totalSize()));
+            job->deleteLater();
+        });
+    } else {
+        m_configSpeech.modelV_folder_label->setVisible(false);
     }
 }
 

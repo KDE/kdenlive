@@ -933,9 +933,10 @@ void TextBasedEdit::startRecognition()
             return;
         }
         modelName = language_box->currentData().toString();
-        language = speech_language->isEnabled() && !speech_language->currentData().isNull()
-                       ? QStringLiteral("language=%1").arg(speech_language->currentData().toString())
-                       : QString();
+        language = speech_language->isEnabled() ? speech_language->currentData().toString().simplified() : QString();
+        if (!language.isEmpty()) {
+            language.prepend(QStringLiteral("language="));
+        }
         if (KdenliveSettings::whisperDisableFP16()) {
             language.append(QStringLiteral(" fp16=False"));
         }

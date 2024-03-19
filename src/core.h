@@ -241,7 +241,9 @@ public:
     bool isMediaCapturing() const;
     MediaCapture *getAudioDevice();
     /** @brief Returns Project Folder name for capture output location */
-    QString getProjectFolderName(bool folderForAudio = false);
+    QString getProjectFolderName();
+    /** @brief Returns configured folder for audio capture storage */
+    QString getProjectCaptureFolderName();
     /** @brief Returns a timeline clip's bin id */
     QString getTimelineClipBinId(int cid);
     /** @brief Returns all track ids in timeline */
@@ -451,4 +453,6 @@ Q_SIGNALS:
     void stopProgressTask();
     /** @brief A project clip was deleted */
     void binClipDeleted(int cid);
+    /** @brief An MLT warning was issued */
+    void mltWarning(const QString &message);
 };

@@ -1,15 +1,8 @@
 ![](data/pics/kdenlive-logo.png)
 
-| Jenkins CI Name | Master / Nightly | Stable |
-| --------------- | ---------------- | ------ |
-| MinGW64 | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_mingw64/) |
-| macOS | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/) | [![Build Status](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/badge/icon)](https://binary-factory.kde.org/job/Kdenlive_Stable_macos/) |
-
-For macOS builds with Apple Silicon, watch progress at https://bugs.kde.org/show_bug.cgi?id=443871
-
 # About Kdenlive
 
-[Kdenlive](https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 5. It is distributed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html) or any later version that is accepted by the KDE project.
+[Kdenlive](https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 6. It is distributed under the [GNU General Public License Version 3](https://www.gnu.org/licenses/gpl-3.0.en.html) or any later version that is accepted by the KDE project.
 
 # Building from source
 
@@ -17,14 +10,15 @@ For macOS builds with Apple Silicon, watch progress at https://bugs.kde.org/show
 
 # Testing Kdenlive via Nightly Builds
 
-- AppImage (Linux): https://binary-factory.kde.org/job/Kdenlive_Nightly_appimage-centos7/
+- AppImage (Linux): https://cdn.kde.org/ci-builds/multimedia/kdenlive/master/linux/
 - Flatpak (Linux):
   - Add the kde flatpak repository (if not already done) by typing `flatpak remote-add --if-not-exists kdeapps --from https://distribute.kde.org/kdeapps.flatpakrepo` on a command line. (This step may be optional in your version of Flatpak.)
   - Install kdenlive nightly with `flatpak install kdeapps org.kde.kdenlive`.
   - Use `flatpak update` to update if the nightly is already installed.
   - _Attention! If you use the stable kdenlive flatpak already, the `*.desktop` file (e.g. responsible for start menu entry) is maybe replaced by the nightly (and vice versa). You can still run the stable version with `flatpak run org.kde.kdenlive/x86_64/stable` and the nightly with `flatpak run org.kde.kdenlive/x86_64/master` (replace `x86_64` by `aarch64` or `arm` depending on your system)_
-- Windows: https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/
-- macOS: https://binary-factory.kde.org/job/Kdenlive_Nightly_macos/
+- Windows: https://cdn.kde.org/ci-builds/multimedia/kdenlive/master/windows/
+- macOS x86: https://cdn.kde.org/ci-builds/multimedia/kdenlive/master/macos-x86_64/
+- macOS ARM: https://cdn.kde.org/ci-builds/multimedia/kdenlive/master/macos-arm64/
 
 *Note * - nightly/daily builds are not meant to be used in production.*
 

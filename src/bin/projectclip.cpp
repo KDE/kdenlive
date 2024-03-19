@@ -106,10 +106,18 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
             // Initialize path for thumbnails playlist
             m_sequenceUuid = QUuid(m_masterProducer->get("kdenlive:uuid"));
             if (model->hasSequenceId(m_sequenceUuid)) {
-                // OOps we already have a sequence with this uuid, change it
+                // We already have a sequence with this uuid, this is probably a duplicate, update uuid
+                const QUuid prevUuid = m_sequenceUuid;
                 m_sequenceUuid = QUuid::createUuid();
                 m_masterProducer->set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
                 m_masterProducer->parent().set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
+                const QString subValue(m_masterProducer->get("kdenlive:sequenceproperties.subtitlesList"));
+
+                if (!subValue.isEmpty()) {
+                    int ix = m_masterProducer->get_int("kdenlive:sequenceproperties.kdenlive:activeSubtitleIndex");
+                    pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("kdenlive:activeSubtitleIndex"), QString::number(ix));
+                    pCore->currentDoc()->duplicateSequenceProperty(m_sequenceUuid, prevUuid, subValue);
+                }
             }
             m_sequenceThumbFile.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("thumbs-%1-XXXXXX.mlt").arg(m_binId)));
         }
@@ -2618,6 +2626,7 @@ void ProjectClip::replaceInTimeline()
     Fun redo = []() { return true; };
     bool pushUndo = false;
     QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    QMap<QUuid, int> sequencesToUpdate;
     while (i.hasNext()) {
         i.next();
         QList<int> instances = i.value();
@@ -2635,10 +2644,21 @@ void ProjectClip::replaceInTimeline()
                     pushUndo = true;
                 }
             }
+            // If this sequence is used in another sequence, update it too
+            if (auto ptr = m_model.lock()) {
+                std::shared_ptr<ProjectClip> sClip = std::static_pointer_cast<ProjectItemModel>(ptr)->getSequenceClip(i.key());
+                if (sClip && sClip->refCount() > 0) {
+                    sequencesToUpdate.insert(i.key(), timeline->duration());
+                }
+            }
         }
     }
     if (pushUndo && !m_resetTimelineOccurences) {
         pCore->pushUndo(undo, redo, i18n("Adjust timeline clips"));
+    }
+    // Update each sequence clips that embedded this clip
+    if (!sequencesToUpdate.isEmpty()) {
+        Q_EMIT pCore->bin()->requestUpdateSequences(sequencesToUpdate);
     }
     m_resetTimelineOccurences = false;
 }
