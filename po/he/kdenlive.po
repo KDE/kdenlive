@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-18 00:37+0000\n"
-"PO-Revision-Date: 2024-03-14 13:19+0200\n"
+"PO-Revision-Date: 2024-03-18 12:54+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -10034,12 +10034,12 @@ msgstr "טווחי צבע, תיקוני תקלות ועוד"
 #: src/main.cpp:164
 #, kde-format
 msgid "Eric Jiang"
-msgstr ""
+msgstr "אריק ג׳יאנג"
 
 #: src/main.cpp:164
 #, kde-format
 msgid "Bug fixing and test improvements"
-msgstr ""
+msgstr "תיקון תקלות ושיפור הבדיקות"
 
 #: src/main.cpp:166
 #, kde-format
@@ -10054,22 +10054,22 @@ msgstr "יוצר הגרסה המקורית ל־KDE 3 (אינו פעיל עוד)"
 #: src/main.cpp:168
 #, kde-format
 msgid "Farid Abdelnour"
-msgstr ""
+msgstr "פריד עבדלנור"
 
 #: src/main.cpp:168
 #, kde-format
 msgid "Logo, Promotion, testing"
-msgstr ""
+msgstr "לוגו, קידום, בדיקות"
 
 #: src/main.cpp:169
 #, kde-format
 msgid "Eugen Mohr"
-msgstr ""
+msgstr "יוג׳ין מוהר"
 
 #: src/main.cpp:169
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
-msgstr ""
+msgstr "אימות תקלות, בדיקה, תחזוקת תיעוד"
 
 #: src/main.cpp:170
 #, kde-format
@@ -10153,7 +10153,7 @@ msgstr ""
 #: src/main.cpp:209
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr ""
+msgstr "רשימה מופרדת בפסיקים של קבצים להוספה כסרטונים לסל."
 
 #: src/main.cpp:213
 #, kde-format
@@ -10163,7 +10163,7 @@ msgstr "להכין צלימה של המיזם ישירות ולצאת."
 #: src/main.cpp:216
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
-msgstr ""
+msgstr "שם ערכת צלימה של Kdenlive‏ (MP4-H264/AAC תיבחר אם לא סופקה שום ערכה)."
 
 #: src/main.cpp:221
 #, kde-format
@@ -10195,12 +10195,12 @@ msgstr "הוספת סרטון"
 #: src/mainwindow.cpp:152
 #, kde-format
 msgid "Navigation and Playback"
-msgstr ""
+msgstr "ניווט ונגינה"
 
 #: src/mainwindow.cpp:154
 #, kde-format
 msgid "Bin Tags"
-msgstr ""
+msgstr "תגיות סל"
 
 #: src/mainwindow.cpp:173
 #, kde-format
@@ -10210,7 +10210,7 @@ msgstr "סגנון"
 #: src/mainwindow.cpp:231
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
-msgstr ""
+msgstr "לא ניתן למצוא את פרופיל ברירת המחדל שלך, מוחלף ב־ATSC 1080p 25"
 
 #: src/mainwindow.cpp:289
 #, kde-format
@@ -10306,7 +10306,7 @@ msgstr "היסטוריית הסגות"
 #: src/mainwindow.cpp:475
 #, kde-format
 msgid "Force Breeze Icon Theme"
-msgstr ""
+msgstr "כפיית ערכת הסמלים בריזה"
 
 #: src/mainwindow.cpp:481 src/mainwindow.cpp:483
 #, kde-format
@@ -10317,7 +10317,7 @@ msgstr "מערבב שמע"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
-msgstr ""
+msgstr "מחליף את מצב חלון/וידג׳ט מערבל השמע."
 
 #: src/mainwindow.cpp:521
 #, kde-format
@@ -10344,7 +10344,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
-msgstr ""
+msgstr "לחיצה תציג רשימת אפקטים מועדפים. לחיצה כפולה על אפקט "
 
 #: src/mainwindow.cpp:566 src/mainwindow.cpp:1459
 #, kde-format
@@ -10490,7 +10490,7 @@ msgstr "להשתמש בקטע ציר זמן להוספה"
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
-msgstr ""
+msgstr "החלפה בין שימוש בקטע ציר זמן להכנסה (פעיל) או לא (כבוי)."
 
 #: src/mainwindow.cpp:1165
 #, kde-format
@@ -10600,7 +10600,7 @@ msgstr "כלי ריבוי מצלמות"
 #: src/mainwindow.cpp:1294
 #, kde-format
 msgid "Collapse/Expand Item"
-msgstr ""
+msgstr "צמצום/הרחבת פריט"
 
 #: src/mainwindow.cpp:1298
 #, kde-format
@@ -11260,12 +11260,12 @@ msgstr "התאמת כל הרצועות לתצוגה"
 #: src/mainwindow.cpp:1845 src/timeline2/view/timelinecontroller.cpp:4838
 #, kde-format
 msgid "Master effects"
-msgstr ""
+msgstr "אפקטי הורה"
 
 #: src/mainwindow.cpp:1852
 #, kde-format
 msgid "Switch Track Target Audio Stream"
-msgstr ""
+msgstr "החלפת תזרים שמע לרצועת היעד"
 
 #: src/mainwindow.cpp:1857
 #, kde-format
@@ -11280,7 +11280,7 @@ msgstr "הצגת פקדי הקלטה"
 #: src/mainwindow.cpp:1868
 #, kde-format
 msgid "Select All in Current Track"
-msgstr ""
+msgstr "בחירה בהכול ברצועה הנוכחית"
 
 #: src/mainwindow.cpp:1885
 #, kde-format
@@ -11334,6 +11334,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"נעילת קווים מנחים. כשהם נעולים, הקווים המנחים לא יזוזו בעת שימוש בכללי "
+"המרווח או בהוספת/הסרת קטע ריק ברצועות."
 
 #: src/mainwindow.cpp:1906
 #, kde-format
@@ -11387,6 +11389,8 @@ msgid ""
 "This switches between having a <emphasis>Menubar</emphasis> and having a "
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
+"פעולה זו מחליפה בין <emphasis>סרגל תפריטים</emphasis> לבין כפתור "
+"<interface>תפריט המבורגר</interface> בסרגל הכלים הראשי."
 
 #: src/mainwindow.cpp:1956
 #, kde-format
