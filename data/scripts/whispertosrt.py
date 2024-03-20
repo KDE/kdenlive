@@ -103,7 +103,9 @@ def main(source, model, outfile, **kwargs):
             # Reduce line lenth in the whisper result to <= maxLength chars
             equalized = []
             for sub in subs:
-                equalized.extend(srt_equalizer.split_subtitle(sub, max_line_width, method=shorten_method))
+                # shorten method was added recently so not always available
+                # equalized.extend(srt_equalizer.split_subtitle(sub, max_line_width, method=shorten_method))
+                equalized.extend(srt_equalizer.split_subtitle(sub, max_line_width))
             subtitle = srt.compose(equalized)
 
     with open(outfile, 'w', encoding='utf8') as f:
