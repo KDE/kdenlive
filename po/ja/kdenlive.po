@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-18 03:05+0000\n"
+"POT-Creation-Date: 2024-03-20 02:26+0000\n"
 "PO-Revision-Date: 2023-07-08 21:38-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -5674,7 +5674,7 @@ msgstr "正しくないクリップ"
 
 #: src/bin/projectclip.cpp:1419 src/dialogs/clipcreationdialog.cpp:213
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1424
+#: src/timeline2/model/timelinefunctions.cpp:1423
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "File already exists"
@@ -11217,7 +11217,7 @@ msgstr "マーカーの削除"
 msgid "Edit Marker…"
 msgstr "マーカーの編集"
 
-#: src/mainwindow.cpp:1669 src/timeline2/model/timelinefunctions.cpp:1141
+#: src/mainwindow.cpp:1669 src/timeline2/model/timelinefunctions.cpp:1140
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "Restore Audio"
@@ -11758,14 +11758,14 @@ msgstr "マーカーを削除する際にエラーが発生しました"
 msgid "Cannot find clip to edit marker"
 msgstr "マーカーを追加すべきクリップが見つかりません"
 
-#: src/mainwindow.cpp:2958 src/timeline2/model/timelinefunctions.cpp:719
+#: src/mainwindow.cpp:2958 src/timeline2/model/timelinefunctions.cpp:718
 #: src/timeline2/view/timelinecontroller.cpp:3104
 #, kde-format
 msgid "Overwrite zone"
 msgstr "上書き範囲(O)"
 
 #: src/mainwindow.cpp:2960 src/mainwindow.cpp:2979
-#: src/timeline2/model/timelinefunctions.cpp:721
+#: src/timeline2/model/timelinefunctions.cpp:720
 #: src/timeline2/view/timelinecontroller.cpp:3106
 #, fuzzy, kde-format
 #| msgid "Insert mode"
@@ -11778,7 +11778,7 @@ msgstr "挿入モード(I)"
 msgid "No clip selected in project bin"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/mainwindow.cpp:2977 src/timeline2/model/timelinefunctions.cpp:719
+#: src/mainwindow.cpp:2977 src/timeline2/model/timelinefunctions.cpp:718
 #: src/timeline2/view/timelinecontroller.cpp:3104
 #, kde-format
 msgid "Insert zone"
@@ -16570,61 +16570,61 @@ msgstr ""
 msgid "Insert Clips"
 msgstr "クリップの挿入"
 
-#: src/timeline2/model/timelinefunctions.cpp:266
-#: src/timeline2/model/timelinefunctions.cpp:339
-#: src/timeline2/model/timelinefunctions.cpp:358
+#: src/timeline2/model/timelinefunctions.cpp:268
+#: src/timeline2/model/timelinefunctions.cpp:338
+#: src/timeline2/model/timelinefunctions.cpp:357
 #, fuzzy, kde-format
 #| msgid "Failed to create proxy clip."
 msgid "Failed to cut clip"
 msgstr "代用クリップの作成に失敗しました。"
 
-#: src/timeline2/model/timelinefunctions.cpp:349
+#: src/timeline2/model/timelinefunctions.cpp:348
 #, kde-format
 msgid "All tracks are locked"
 msgstr "すべてのトラックがロックされています"
 
-#: src/timeline2/model/timelinefunctions.cpp:369
+#: src/timeline2/model/timelinefunctions.cpp:368
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clips to cut"
 msgstr "クリップはコピーされていません"
 
-#: src/timeline2/model/timelinefunctions.cpp:371
+#: src/timeline2/model/timelinefunctions.cpp:370
 #, fuzzy, kde-format
 #| msgid "Cut clip"
 msgid "Cut all clips"
 msgstr "クリップの切り取り"
 
-#: src/timeline2/model/timelinefunctions.cpp:613
+#: src/timeline2/model/timelinefunctions.cpp:612
 #: src/timeline2/view/timelinecontroller.cpp:1471
 #, kde-format
 msgid "Insert space"
 msgstr "スペースの挿入(I)"
 
-#: src/timeline2/model/timelinefunctions.cpp:615
+#: src/timeline2/model/timelinefunctions.cpp:614
 #: src/timeline2/view/timelinecontroller.cpp:1473
 #, kde-format
 msgid "Remove space"
 msgstr "スペースの削除(R)"
 
-#: src/timeline2/model/timelinefunctions.cpp:684
+#: src/timeline2/model/timelinefunctions.cpp:683
 #, kde-format
 msgid "Lift zone"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:684
+#: src/timeline2/model/timelinefunctions.cpp:683
 #: src/timeline2/view/timelinecontroller.cpp:710
 #, fuzzy, kde-format
 #| msgid "Extract Zone"
 msgid "Extract zone"
 msgstr "ゾーンの取り出し"
 
-#: src/timeline2/model/timelinefunctions.cpp:754
+#: src/timeline2/model/timelinefunctions.cpp:753
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "トラックのラベルをクリックしてトラックを有効化してください"
 
-#: src/timeline2/model/timelinefunctions.cpp:877
+#: src/timeline2/model/timelinefunctions.cpp:876
 #: src/timeline2/view/timelinecontroller.cpp:1210
 #: src/timeline2/view/timelinecontroller.cpp:1290
 #: src/timeline2/view/timelinecontroller.cpp:1300
@@ -16651,175 +16651,175 @@ msgstr "トラックのラベルをクリックしてトラックを有効化し
 msgid "No clip selected"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/timeline2/model/timelinefunctions.cpp:942
+#: src/timeline2/model/timelinefunctions.cpp:941
 #, fuzzy, kde-format
 #| msgid "Cannot move effect"
 msgid "Cannot move selected group"
 msgstr "効果を移動できません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1043
-#: src/timeline2/model/timelinefunctions.cpp:1047
-#: src/timeline2/model/timelinefunctions.cpp:1054
+#: src/timeline2/model/timelinefunctions.cpp:1042
+#: src/timeline2/model/timelinefunctions.cpp:1046
+#: src/timeline2/model/timelinefunctions.cpp:1053
 #: src/timeline2/view/timelinecontroller.cpp:4042
 #, kde-format
 msgid "Enable clip"
 msgstr "クリップを有効化"
 
-#: src/timeline2/model/timelinefunctions.cpp:1043
-#: src/timeline2/model/timelinefunctions.cpp:1047
-#: src/timeline2/model/timelinefunctions.cpp:1054
+#: src/timeline2/model/timelinefunctions.cpp:1042
+#: src/timeline2/model/timelinefunctions.cpp:1046
+#: src/timeline2/model/timelinefunctions.cpp:1053
 #: src/timeline2/view/timelinecontroller.cpp:4042
 #, kde-format
 msgid "Disable clip"
 msgstr "クリップを無効化"
 
-#: src/timeline2/model/timelinefunctions.cpp:1096
+#: src/timeline2/model/timelinefunctions.cpp:1095
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "一つ以上のクリップにオーディオがないか、または既にオーディオです"
 
-#: src/timeline2/model/timelinefunctions.cpp:1113
+#: src/timeline2/model/timelinefunctions.cpp:1112
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "復元操作に利用できるオーディオトラックがありません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1121
-#: src/timeline2/model/timelinefunctions.cpp:1134
+#: src/timeline2/model/timelinefunctions.cpp:1120
+#: src/timeline2/model/timelinefunctions.cpp:1133
 #, kde-format
 msgid "Audio restore failed"
 msgstr "音声の復元に失敗しました"
 
-#: src/timeline2/model/timelinefunctions.cpp:1173
+#: src/timeline2/model/timelinefunctions.cpp:1172
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "復元操作に利用できるビデオトラックがありません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1181
-#: src/timeline2/model/timelinefunctions.cpp:1194
+#: src/timeline2/model/timelinefunctions.cpp:1180
+#: src/timeline2/model/timelinefunctions.cpp:1193
 #, kde-format
 msgid "Video restore failed"
 msgstr "動画の復元に失敗しました"
 
-#: src/timeline2/model/timelinefunctions.cpp:1200
+#: src/timeline2/model/timelinefunctions.cpp:1199
 #, kde-format
 msgid "Restore Video"
 msgstr "動画を復元"
 
-#: src/timeline2/model/timelinefunctions.cpp:1247
+#: src/timeline2/model/timelinefunctions.cpp:1246
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change Composition Track"
 msgstr "中央位置 (X)"
 
-#: src/timeline2/model/timelinefunctions.cpp:1262
+#: src/timeline2/model/timelinefunctions.cpp:1261
 #, fuzzy, kde-format
 #| msgid "Cannot remove space in a locked track"
 msgid "Cannot enable multitrack view on a single track"
 msgstr "施錠されたトラック内では領域を削除できません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1416
+#: src/timeline2/model/timelinefunctions.cpp:1415
 #, fuzzy, kde-format
 #| msgid "Add clip to project"
 #| msgid_plural "Add clips to project"
 msgid "Add Clip to Library"
 msgstr "プロジェクトにクリップを追加"
 
-#: src/timeline2/model/timelinefunctions.cpp:1416
+#: src/timeline2/model/timelinefunctions.cpp:1415
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "ライブラリのクリップ名を入力してください"
 
-#: src/timeline2/model/timelinefunctions.cpp:1782
+#: src/timeline2/model/timelinefunctions.cpp:1781
 #, kde-format
 msgid "Paste clips"
 msgstr "クリップを貼り付け"
 
-#: src/timeline2/model/timelinefunctions.cpp:1796
-#: src/timeline2/model/timelinefunctions.cpp:1963
-#: src/timeline2/model/timelinefunctions.cpp:1987
-#: src/timeline2/model/timelinefunctions.cpp:2026
-#: src/timeline2/model/timelinefunctions.cpp:2302
+#: src/timeline2/model/timelinefunctions.cpp:1795
+#: src/timeline2/model/timelinefunctions.cpp:1962
+#: src/timeline2/model/timelinefunctions.cpp:1986
+#: src/timeline2/model/timelinefunctions.cpp:2025
+#: src/timeline2/model/timelinefunctions.cpp:2301
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "クリップボードに貼り付ける十分なトラックがありません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1865
+#: src/timeline2/model/timelinefunctions.cpp:1864
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1877
+#: src/timeline2/model/timelinefunctions.cpp:1876
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to process filter %1"
 msgid "No valid data in clipboard"
 msgstr "フィルタ %1 を処理すべきクリップが見つかりません"
 
-#: src/timeline2/model/timelinefunctions.cpp:1916
+#: src/timeline2/model/timelinefunctions.cpp:1915
 #, fuzzy, kde-format
 #| msgid "Not enough tracks to paste clipboard"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "クリップボードに貼り付ける十分なトラックがありません"
 
-#: src/timeline2/model/timelinefunctions.cpp:2044
-#: src/timeline2/model/timelinefunctions.cpp:2062
-#: src/timeline2/model/timelinefunctions.cpp:2093
-#: src/timeline2/model/timelinefunctions.cpp:2098
+#: src/timeline2/model/timelinefunctions.cpp:2043
+#: src/timeline2/model/timelinefunctions.cpp:2061
+#: src/timeline2/model/timelinefunctions.cpp:2092
+#: src/timeline2/model/timelinefunctions.cpp:2097
 #, kde-format
 msgid "Pasted clips"
 msgstr "貼り付けたクリップ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2082
+#: src/timeline2/model/timelinefunctions.cpp:2081
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2084
+#: src/timeline2/model/timelinefunctions.cpp:2083
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2084
+#: src/timeline2/model/timelinefunctions.cpp:2083
 #, kde-format
 msgid "Paste"
 msgstr "貼り付け"
 
-#: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2174
-#: src/timeline2/model/timelinefunctions.cpp:2240
+#: src/timeline2/model/timelinefunctions.cpp:2165
+#: src/timeline2/model/timelinefunctions.cpp:2173
+#: src/timeline2/model/timelinefunctions.cpp:2239
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not add bin clip"
 msgstr "クリップの追加"
 
-#: src/timeline2/model/timelinefunctions.cpp:2294
+#: src/timeline2/model/timelinefunctions.cpp:2293
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "すべてのクリップのコピーが成功しませんでした"
 
-#: src/timeline2/model/timelinefunctions.cpp:2344
-#: src/timeline2/model/timelinefunctions.cpp:2523
+#: src/timeline2/model/timelinefunctions.cpp:2343
+#: src/timeline2/model/timelinefunctions.cpp:2522
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "タイムライン内で値を更新する"
 
-#: src/timeline2/model/timelinefunctions.cpp:2543
+#: src/timeline2/model/timelinefunctions.cpp:2542
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste timeline clips"
 msgstr "プレイリスト・クリップ"
 
-#: src/timeline2/model/timelinefunctions.cpp:2761
+#: src/timeline2/model/timelinefunctions.cpp:2760
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "領域の削除"
 
-#: src/timeline2/model/timelinefunctions.cpp:2788
+#: src/timeline2/model/timelinefunctions.cpp:2787
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete clips on track"
