@@ -37,7 +37,4 @@ public:
 
 public Q_SLOTS:
     void reloadCustomEffect(const QString &path) override;
-
-Q_SIGNALS:
-    void reloadFavorites();
 };
