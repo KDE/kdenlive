@@ -411,7 +411,7 @@ Item {
         opacity: 0.8
         Text {
             id: label
-            text: i18n("Click to add points,\nright click to close shape.")
+            text: i18n("Click to add points,\nright click or press enter to close shape.")
             font: fixedFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
