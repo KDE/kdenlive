@@ -428,7 +428,6 @@ Item {
         objectName: "global"
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
-        anchors.bottomMargin: clipMonitorRuler.height
         property bool pointContainsMouse
         property bool centerContainsMouse
         hoverEnabled: true

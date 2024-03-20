@@ -190,9 +190,8 @@ Item {
     MouseArea {
         id: global
         objectName: "global"
-        width: root.width; height: root.height
         property bool kfrContainsMouse: false
-        anchors.centerIn: root
+        anchors.fill: parent
         hoverEnabled: true
         cursorShape: kfrContainsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
         onWheel: wheel => {
