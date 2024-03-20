@@ -71,6 +71,15 @@ Item {
     onCenterPointsTypesChanged: checkDefined()
     signal effectPolygonChanged(var points, var centers)
     signal seekToKeyframe()
+    focus: true
+    Keys.onPressed: (event)=> {
+        if (event.key == Qt.Key_Return) {
+            if (!root.isDefined && root.centerPoints.length > 2) {
+                root.closeShape()
+                event.accepted = true;
+            }
+        }
+    }
 
     function updateClickCapture() {
         if (root.isDefined) {
@@ -110,6 +119,31 @@ Item {
     FontMetrics {
         id: fontMetrics
         font.family: "Arial"
+    }
+
+    function closeShape() {
+        // close shape, define control points
+        var p0; var p1; var p2
+        for (var i = 0; i < root.centerPoints.length; i++) {
+            p1 = root.centerPoints[i]
+            if (i == 0) {
+                p0 = root.centerPoints[root.centerPoints.length - 1]
+            } else {
+                p0 = root.centerPoints[i - 1]
+            }
+            if (i == root.centerPoints.length - 1) {
+                p2 = root.centerPoints[0]
+            } else {
+                p2 = root.centerPoints[i + 1]
+            }
+            var ctrl1 = Qt.point((p0.x - p1.x) / 5, (p0.y - p1.y) / 5);
+            var ctrl2 = Qt.point((p2.x - p1.x) / 5, (p2.y - p1.y) / 5);
+            root.centerPointsTypes.push(Qt.point(p1.x + ctrl1.x, p1.y + ctrl1.y))
+            root.centerPointsTypes.push(Qt.point(p1.x + ctrl2.x, p1.y + ctrl2.y))
+        }
+        root.isDefined = true;
+        root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
+        canvas.requestPaint()
     }
 
     function refreshdar() {
@@ -155,7 +189,11 @@ Item {
             ctx.moveTo(p1.x, p1.y)
             if (!isDefined) {
                 // We are still building the shape, only draw points connected with lines
+                if (root.requestedKeyFrame == 0) {
+                    ctx.fillStyle = activePalette.highlight
+                }
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
+                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
                 for (var i = 1; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     ctx.lineTo(p1.x, p1.y);
@@ -467,28 +505,7 @@ Item {
         onClicked: mouse => {
             if (!root.isDefined) {
                 if (mouse.button == Qt.RightButton && root.centerPoints.length > 2) {
-                    // close shape, define control points
-                    var p0; var p1; var p2
-                    for (var i = 0; i < root.centerPoints.length; i++) {
-                        p1 = root.centerPoints[i]
-                        if (i == 0) {
-                            p0 = root.centerPoints[root.centerPoints.length - 1]
-                        } else {
-                            p0 = root.centerPoints[i - 1]
-                        }
-                        if (i == root.centerPoints.length - 1) {
-                            p2 = root.centerPoints[0]
-                        } else {
-                            p2 = root.centerPoints[i + 1]
-                        }
-                        var ctrl1 = Qt.point((p0.x - p1.x) / 5, (p0.y - p1.y) / 5);
-                        var ctrl2 = Qt.point((p2.x - p1.x) / 5, (p2.y - p1.y) / 5);
-                        root.centerPointsTypes.push(Qt.point(p1.x + ctrl1.x, p1.y + ctrl1.y))
-                        root.centerPointsTypes.push(Qt.point(p1.x + ctrl2.x, p1.y + ctrl2.y))
-                    }
-                    root.isDefined = true;
-                    root.effectPolygonChanged(root.centerPoints, root.centerPointsTypes)
-                    canvas.requestPaint()
+                    root.closeShape()
                 } else if (root.requestedKeyFrame < 0) {
                     var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
                     root.centerPoints.push(newPoint)
