@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 00:37+0000\n"
+"POT-Creation-Date: 2024-03-21 00:37+0000\n"
 "PO-Revision-Date: 2023-12-28 21:23+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -13282,11 +13282,14 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 "<shortcut>Skift-dra greppet</shortcut> för en centrumbaserad storleksändring"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:376
-#, kde-format
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click to add points,\n"
+#| "right click to close shape."
 msgid ""
 "Click to add points,\n"
-"right click to close shape."
+"right click or press enter to close shape."
 msgstr ""
 "Klicka för att lägga till punkter,\n"
 "högerklicka för att sluta form."

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 00:37+0000\n"
+"POT-Creation-Date: 2024-03-21 00:37+0000\n"
 "PO-Revision-Date: 2024-03-16 23:38+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -13341,11 +13341,14 @@ msgstr ""
 "<shortcut>Maiús arrastrar asa</shortcut> para cambiar de tamaño desde o "
 "centro"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:376
-#, kde-format
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click to add points,\n"
+#| "right click to close shape."
 msgid ""
 "Click to add points,\n"
-"right click to close shape."
+"right click or press enter to close shape."
 msgstr ""
 "Prema para engadir puntos,\n"
 "clic dereito para pechar a forma."

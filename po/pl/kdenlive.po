@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 00:37+0000\n"
+"POT-Creation-Date: 2024-03-21 00:37+0000\n"
 "PO-Revision-Date: 2024-03-17 11:07+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -13321,11 +13321,14 @@ msgstr ""
 "<shortcut>Przeciągnij uchwyt z shiftem</shortcut>, aby zmienić rozmiar od "
 "środka"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:376
-#, kde-format
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click to add points,\n"
+#| "right click to close shape."
 msgid ""
 "Click to add points,\n"
-"right click to close shape."
+"right click or press enter to close shape."
 msgstr ""
 "Naciśnij, aby dodać punkt,\n"
 "Naciśnij prawym, aby zamknąć kształt."

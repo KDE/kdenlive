@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 00:37+0000\n"
-"PO-Revision-Date: 2024-03-18 19:44+0300\n"
+"POT-Creation-Date: 2024-03-21 00:37+0000\n"
+"PO-Revision-Date: 2024-03-20 15:00+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7418,10 +7418,9 @@ msgid "Checking setup…"
 msgstr "Ayarlar denetleniyor…"
 
 #: src/dialogs/speechdialog.cpp:252
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "Lütfen konuşmadan metneyi yapılandırın."
+msgstr "Lütfen konuşmadan metneyi yapılandırın; eksik bağımlılıklar: %1"
 
 #: src/dialogs/speechdialog.cpp:254 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:946
@@ -13276,11 +13275,14 @@ msgstr ""
 "Merkez tabanlı yeniden boyutlandırma için tutacı <shortcut>Üst Karakter ile "
 "sürükle</shortcut>"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:376
-#, kde-format
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click to add points,\n"
+#| "right click to close shape."
 msgid ""
 "Click to add points,\n"
-"right click to close shape."
+"right click or press enter to close shape."
 msgstr ""
 "Puan eklemek için tıklayın,\n"
 "şekli kapatmak için sağ tıklayın."
@@ -14977,16 +14979,14 @@ msgid "%1 is properly configured."
 msgstr "%1 düzgünce yapılandırılmış."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:55
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Her şey yapılandırıldı: %1"
+msgstr "Her şey yapılandırıldı:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:57
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 yapılandırıldı: %2"
+msgstr "%1 yapılandırıldı:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
@@ -15123,11 +15123,10 @@ msgid "No version information available."
 msgstr "Kullanılabilir sürüm bilgisi yok."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Çizim seçenekleri"
+msgstr "eksik (isteğe bağlı)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format

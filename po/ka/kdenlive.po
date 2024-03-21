@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 00:37+0000\n"
-"PO-Revision-Date: 2024-03-16 04:16+0100\n"
+"POT-Creation-Date: 2024-03-21 00:37+0000\n"
+"PO-Revision-Date: 2024-03-20 04:48+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7357,10 +7357,9 @@ msgid "Checking setup…"
 msgstr "მორგების შემოწმება…"
 
 #: src/dialogs/speechdialog.cpp:252
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "მოირგეთ საუბრიდან-ტექსტამდე."
+msgstr "მოირგეთ საუბრიდან-ტექსტამდე. აკლია დამოკიდებულებები: %1"
 
 #: src/dialogs/speechdialog.cpp:254 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:946
@@ -13149,11 +13148,14 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:376
-#, kde-format
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click to add points,\n"
+#| "right click to close shape."
 msgid ""
 "Click to add points,\n"
-"right click to close shape."
+"right click or press enter to close shape."
 msgstr ""
 "წკაპი წერტილების დასამატებლად.\n"
 "მარჯვენა წკაპი ფიგურის დასახურად."
@@ -14839,16 +14841,14 @@ msgid "%1 is properly configured."
 msgstr "%1 სწორადაა მორგებული."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:55
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "ყველაფერი მორგებულია: %1"
+msgstr "ყველაფერი მორგებულია:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:57
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 მორგებულია: %2"
+msgstr "%1 მორგებულია: <br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
@@ -14990,11 +14990,10 @@ msgid "No version information available."
 msgstr "ვერსიის ინფორმაცია ხელმისაწვდომი არაა."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "ხატვის მორგება"
+msgstr "აკლია (არასავალდებულო)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format

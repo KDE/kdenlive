@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 00:37+0000\n"
-"PO-Revision-Date: 2024-03-16 15:11+0100\n"
+"POT-Creation-Date: 2024-03-21 00:37+0000\n"
+"PO-Revision-Date: 2024-03-20 10:36+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -7456,10 +7456,9 @@ msgid "Checking setup…"
 msgstr "Opzet controleren…"
 
 #: src/dialogs/speechdialog.cpp:252
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "Spraak naar tekst configureren."
+msgstr "Spraak naar tekst configureren, ontbrekende afhankelijkheden: %1"
 
 #: src/dialogs/speechdialog.cpp:254 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:946
@@ -13331,11 +13330,14 @@ msgstr ""
 "<shortcut>Shift sleephendel</shortcut> voor op centrum gebaseerde wijziging "
 "van grootte"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:376
-#, kde-format
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click to add points,\n"
+#| "right click to close shape."
 msgid ""
 "Click to add points,\n"
-"right click to close shape."
+"right click or press enter to close shape."
 msgstr ""
 "Klik om punten toe te voegen,\n"
 "rechts klikken om vorm te sluiten."
@@ -15042,16 +15044,14 @@ msgid "%1 is properly configured."
 msgstr "%1 is juist geconfigureerd."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:55
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Alles is geconfigureerd: %1"
+msgstr "Alles is geconfigureerd:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:57
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 is geconfigureerd: %2"
+msgstr "%1 is geconfigureerd:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
@@ -15192,11 +15192,10 @@ msgid "No version information available."
 msgstr "Geen versie-informatie beschikbaar."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Opties voor tekenen "
+msgstr "ontbrekend (optioneel)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format

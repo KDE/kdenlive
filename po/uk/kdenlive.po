@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 00:37+0000\n"
-"PO-Revision-Date: 2024-03-16 08:53+0200\n"
+"POT-Creation-Date: 2024-03-21 00:37+0000\n"
+"PO-Revision-Date: 2024-03-20 08:12+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -7489,10 +7489,10 @@ msgid "Checking setup…"
 msgstr "Перевіряємо налаштування…"
 
 #: src/dialogs/speechdialog.cpp:252
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "Будь ласка, налаштуйте озвучення тексту."
+msgstr ""
+"Будь ласка, налаштуйте озвучення тексту; залежності, які не встановлено: %1"
 
 #: src/dialogs/speechdialog.cpp:254 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:946
@@ -13418,11 +13418,14 @@ msgstr ""
 "<shortcut>Перетягніть з утриманням Shift</shortcut> для зміни розмірів із "
 "збереженням центра"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:376
-#, kde-format
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#, fuzzy, kde-format
+#| msgid ""
+#| "Click to add points,\n"
+#| "right click to close shape."
 msgid ""
 "Click to add points,\n"
-"right click to close shape."
+"right click or press enter to close shape."
 msgstr ""
 "Клацніть лівою, щоб додати точки,\n"
 "клацніть правою, щоб замкнути форму."
@@ -15156,16 +15159,14 @@ msgid "%1 is properly configured."
 msgstr "%1 налаштовано належним чином."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:55
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Усе налаштовано: %1"
+msgstr "Усе налаштовано:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:57
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "Налаштовано %1: %2"
+msgstr "Налаштовано %1:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
@@ -15312,11 +15313,10 @@ msgid "No version information available."
 msgstr "Немає даних щодо версії."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Параметри малювання"
+msgstr "не встановлено (не є обов'язковою)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format
