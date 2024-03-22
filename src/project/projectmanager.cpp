@@ -886,21 +886,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     if (!timelineResult) {
         Q_EMIT pCore->loadingMessageHide();
         // Don't propose to save corrupted doc
-        m_project->setModified(false);
-        pCore->monitorManager()->projectMonitor()->locked = false;
-        int answer = KMessageBox::warningContinueCancelList(pCore->window(), i18n("Error opening file"), m_mltWarnings, i18n("Error opening file"),
-                                                            KGuiItem(i18n("Open Backup")), KStandardGuiItem::cancel(), QString(), KMessageBox::Notify);
-        if (answer == KMessageBox::Continue) {
-            // Open Backup
-            m_mltWarnings.clear();
-            delete m_project;
-            m_project = nullptr;
-            slotOpenBackup(url);
-            return;
-        }
-        m_mltWarnings.clear();
-        // Open default blank document
-        newFile(false);
+        abortProjectLoad(url);
         return;
     }
     m_mltWarnings.clear();
@@ -918,7 +904,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         openedUuids << uuid;
         const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
         if (!binId.isEmpty()) {
-            openTimeline(binId, uuid);
+            if (!openTimeline(binId, uuid)) {
+                abortProjectLoad(url);
+                return;
+            }
         }
         Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
@@ -977,7 +966,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 return;
             }
         } else {
-            openTimeline(binId, activeUuid);
+            if (!openTimeline(binId, activeUuid)) {
+                abortProjectLoad(url);
+                return;
+            }
         }
     }
     pCore->window()->connectDocument();
@@ -1000,6 +992,27 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     checkProjectWarnings();
     pCore->projectItemModel()->missingClipTimer.start();
     Q_EMIT pCore->loadingMessageHide();
+}
+
+void ProjectManager::abortProjectLoad(const QUrl &url)
+{
+    m_project->setModified(false);
+    Q_EMIT pCore->loadingMessageHide();
+    pCore->monitorManager()->projectMonitor()->locked = false;
+    int answer = KMessageBox::warningContinueCancelList(pCore->window(), i18n("Error opening file"), m_mltWarnings, i18n("Error opening file"),
+                                                        KGuiItem(i18n("Open Backup")), KStandardGuiItem::cancel(), QString(), KMessageBox::Notify);
+    if (answer == KMessageBox::Continue) {
+        // Open Backup
+        m_mltWarnings.clear();
+        delete m_project;
+        m_project = nullptr;
+        if (slotOpenBackup(url)) {
+            return;
+        }
+    }
+    m_mltWarnings.clear();
+    // Open default blank document
+    newFile(false);
 }
 
 void ProjectManager::doOpenFileHeadless(const QUrl &url)
@@ -1827,6 +1840,10 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     bool internalLoad = false;
     if (tc != nullptr && tc->is_valid()) {
         internalLoad = true;
+        if (tc->count() == 0) {
+            // Corrupted timeline, abort and propose to open a backup
+            return false;
+        }
         if (duplicate) {
             pCore->projectItemModel()->setExtraTimelineSaved(uuid.toString());
         }
