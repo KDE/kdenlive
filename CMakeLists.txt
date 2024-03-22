@@ -45,16 +45,17 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 # Select the Qt version we want to use
 # Qt6 is the prefered one, Qt5 the fallback
-find_package(Qt6 COMPONENTS Core QUIET)
-
 if (NOT DEFINED QT_MAJOR_VERSION)
-    if (TARGET Qt6::Core)
-        set(QT_MAJOR_VERSION 6)
-    else()
-        find_package(Qt5 COMPONENTS Core QUIET)
-        if (TARGET Qt5::Core)
-          set(QT_MAJOR_VERSION 5)
-        endif()
+    if (NOT WIN32)
+      find_package(Qt6 COMPONENTS Core QUIET)
+      if (TARGET Qt6::Core)
+          set(QT_MAJOR_VERSION 6)
+      else()
+          find_package(Qt5 COMPONENTS Core QUIET)
+          if (TARGET Qt5::Core)
+            set(QT_MAJOR_VERSION 5)
+          endif()
+      endif()
     endif()
     if(NOT QT_MAJOR_VERSION)
         option(BUILD_WITH_QT6 "Build against Qt 6" ON)
@@ -65,10 +66,6 @@ if (NOT DEFINED QT_MAJOR_VERSION)
         endif()
     endif()
 endif()
-
-# We don't use this feature and it breakes the DATADIR on Windows.
-# While this is a bug in ECM and should be fixed there, we can use is as a quick (workaround) fix
-set(KDE_INSTALL_DIRS_NO_CMAKE_VARIABLES TRUE)
 
 ## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
