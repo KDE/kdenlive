@@ -511,6 +511,14 @@
       <label>Monitor used for fullscreen output.</label>
       <default></default>
     </entry>
+    <entry name="project_monitor_fullscreen" type="String">
+      <label>Monitor used for fullscreen output.</label>
+      <default></default>
+    </entry>
+    <entry name="clip_monitor_fullscreen" type="String">
+      <label>Monitor used for fullscreen output.</label>
+      <default></default>
+    </entry>
 
     <entry name="preferredcomposite" type="String">
       <label>The preferred composition for track compositing.</label>

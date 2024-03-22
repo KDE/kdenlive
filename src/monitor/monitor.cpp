@@ -543,6 +543,13 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_infoMessage = new KMessageWidget(this);
     layout->addWidget(m_infoMessage);
     m_infoMessage->hide();
+    if (m_id == Kdenlive::ProjectMonitor) {
+        if (!KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
+            slotSwitchFullScreen();
+        }
+    } else if (!KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
+        slotSwitchFullScreen();
+    }
 }
 
 Monitor::~Monitor()
@@ -1001,16 +1008,26 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
     if (!m_glWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
+            QString requestedMonitor = KdenliveSettings::fullscreen_monitor();
+            if (m_id == Kdenlive::ProjectMonitor) {
+                if (!KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
+                    requestedMonitor = KdenliveSettings::project_monitor_fullscreen();
+                }
+            } else {
+                if (!KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
+                    requestedMonitor = KdenliveSettings::clip_monitor_fullscreen();
+                }
+            }
             bool screenFound = false;
             int ix = -1;
-            if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {
+            if (!requestedMonitor.isEmpty()) {
                 // If the platform does now provide screen serial number, use indexes
                 for (const QScreen *screen : qApp->screens()) {
                     ix++;
-                    bool match = KdenliveSettings::fullscreen_monitor() == QString("%1:%2").arg(QString::number(ix), screen->serialNumber());
+                    bool match = requestedMonitor == QString("%1:%2").arg(QString::number(ix), screen->serialNumber());
                     // Check if monitor's index changed
                     if (!match && !screen->serialNumber().isEmpty()) {
-                        match = KdenliveSettings::fullscreen_monitor().section(QLatin1Char(':'), 1) == screen->serialNumber();
+                        match = requestedMonitor.section(QLatin1Char(':'), 1) == screen->serialNumber();
                     }
                     if (match) {
                         // Match
@@ -1018,21 +1035,55 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                         m_glWidget->move(screen->geometry().topLeft());
                         m_glWidget->resize(screen->geometry().size());
                         screenFound = true;
+                        if (m_id == Kdenlive::ProjectMonitor) {
+                            KdenliveSettings::setProject_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                        } else {
+                            KdenliveSettings::setClip_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                        }
                         break;
                     }
                 }
             }
             if (!screenFound) {
+                ix = 0;
                 for (const QScreen *screen : qApp->screens()) {
                     // Autodetect second monitor
                     QRect screenRect = screen->geometry();
                     if (!screenRect.contains(pCore->window()->geometry().center())) {
+                        if (qApp->screens().count() > 2) {
+                            // We have 3 monitors, use each
+                            if (m_id == Kdenlive::ProjectMonitor) {
+                                if (KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
+                                    KdenliveSettings::setProject_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                                } else {
+                                    if (KdenliveSettings::clip_monitor_fullscreen() == QString("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
+                                        continue;
+                                    }
+                                }
+                            } else {
+                                if (KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
+                                    KdenliveSettings::setClip_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                                } else {
+                                    if (KdenliveSettings::project_monitor_fullscreen() == QString("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
+                                        continue;
+                                    }
+                                }
+                            }
+
+                        } else {
+                            if (m_id == Kdenlive::ProjectMonitor) {
+                                KdenliveSettings::setProject_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                            } else {
+                                KdenliveSettings::setClip_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                            }
+                        }
                         m_glWidget->setParent(nullptr);
                         m_glWidget->move(screenRect.topLeft());
                         m_glWidget->resize(screenRect.size());
                         screenFound = true;
                         break;
                     }
+                    ix++;
                 }
             }
             if (!screenFound) {
@@ -1050,6 +1101,11 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         // With some Qt versions, focus was lost after switching back from fullscreen,
         // QApplication::setActiveWindow restores focus to the correct window
         QApplication::setActiveWindow(this);
+        if (m_id == Kdenlive::ProjectMonitor) {
+            KdenliveSettings::setProject_monitor_fullscreen(QString());
+        } else {
+            KdenliveSettings::setClip_monitor_fullscreen(QString());
+        }
         setFocus();
     }
 }
