@@ -269,4 +269,6 @@ private:
                                 TimelineWidget *timelineWidget);
     /** @brief Ensure sequences are correctly stored in our project model */
     void checkProjectIntegrity();
+    /** @brief Opening a project file failed, propose to open a backup */
+    void abortProjectLoad(const QUrl &url);
 };
