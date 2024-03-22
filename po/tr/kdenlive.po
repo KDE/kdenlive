@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-20 02:26+0000\n"
-"PO-Revision-Date: 2024-03-11 14:59+0300\n"
+"PO-Revision-Date: 2024-03-22 01:05+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7419,8 +7419,8 @@ msgid ""
 "frame."
 msgstr ""
 "Geçerli oynatma kafası konumunda/karesinde öntanımlı uzunlukta "
-"(<interface>Ayarlar->Kdenlive Uygulamasını Yapılandır…->Çeşitli</interface> "
-"içinde ayarlanır) yeni bir altyazı oluşturur."
+"(<interface>Ayarlar → Kdenlive Uygulamasını Yapılandır… → Çeşitli</"
+"interface> içinde ayarlanır) yeni bir altyazı oluşturur."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -12586,7 +12586,7 @@ msgstr ""
 #: src/monitor/view/kdenlivemonitor.qml:199
 #, kde-format
 msgid "%1fps"
-msgstr "%1fps"
+msgstr "%1 FPS"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:557
 #, kde-format
