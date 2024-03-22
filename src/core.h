@@ -71,6 +71,7 @@ public:
     Core &operator=(const Core &) = delete;
     Core(Core &&) = delete;
     Core &operator=(Core &&) = delete;
+    QMutex xmlMutex;
 
     ~Core() override;
 

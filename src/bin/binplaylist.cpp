@@ -27,7 +27,7 @@ BinPlaylist::~BinPlaylist()
 
 void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem)
 {
-    QString id = binElem->clipId();
+    const QString id = binElem->clipId();
     switch (binElem->itemType()) {
     case AbstractProjectItem::FolderItem: {
         // When a folder is inserted, we have to store its path into the properties

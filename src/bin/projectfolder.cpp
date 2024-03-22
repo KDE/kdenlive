@@ -39,7 +39,6 @@ ProjectFolder::ProjectFolder(const std::shared_ptr<ProjectItemModel> &model)
 std::shared_ptr<ProjectFolder> ProjectFolder::construct(std::shared_ptr<ProjectItemModel> model)
 {
     std::shared_ptr<ProjectFolder> self(new ProjectFolder(std::move(model)));
-
     baseFinishConstruct(self);
     return self;
 }

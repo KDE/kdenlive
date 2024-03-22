@@ -352,6 +352,8 @@ void Wizard::checkMltComponents()
             qDebug() << "Missing XML MLT module";
             m_errors.append(i18n("<li>Missing MLT module: <b>xml</b> <br/>required for audio/video</li>"));
             m_systemCheckIsOk = true;
+        } else {
+            delete consumer;
         }
         // AVformat module
         consumer = nullptr;

@@ -5530,10 +5530,12 @@ void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVec
         pl.append(*cut.get());
     }
     t.set_track(pl, 0);
+    QMutexLocker lock(&pCore->xmlMutex);
     Mlt::Consumer cons(pCore->getProjectProfile(), "xml", savePath.toUtf8().constData());
     cons.set("store", "kdenlive");
     cons.connect(t);
     cons.run();
+    lock.unlock();
     if (createNew) {
         const QString id = slotAddClipToProject(QUrl::fromLocalFile(savePath));
         // Set properties directly on the clip

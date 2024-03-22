@@ -1574,6 +1574,7 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
         }
         ix++;
     }
+    QMutexLocker lock(&pCore->xmlMutex);
     Mlt::Consumer xmlConsumer(*newTractor.profile(), ("xml:" + fullPath).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.connect(newTractor);
