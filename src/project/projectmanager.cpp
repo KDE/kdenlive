@@ -1825,7 +1825,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         m_project->setSequenceProperty(uuid, QStringLiteral("position"), position);
     }
     if (pCore->window() && pCore->window()->raiseTimeline(uuid)) {
-        return false;
+        return true;
     }
     if (!duplicate && existingModel == nullptr) {
         existingModel = m_project->getTimeline(uuid, true);
