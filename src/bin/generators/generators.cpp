@@ -176,6 +176,7 @@ QUrl Generators::getSavedClip(QString clipFolder)
         m_producer->set("length", m_timePos->getValue());
         m_producer->set_in_and_out(0, m_timePos->getValue() - 1);
         trac.set_track(*m_producer, 0);
+        QMutexLocker lock(&pCore->xmlMutex);
         Mlt::Consumer c(pCore->getProjectProfile(), "xml", url.toLocalFile().toUtf8().constData());
         c.connect(trac);
         c.run();

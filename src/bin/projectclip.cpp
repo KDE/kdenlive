@@ -1371,6 +1371,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
 void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
 {
     QMutexLocker lk(&m_producerMutex);
+    QMutexLocker lock(&pCore->xmlMutex);
     Mlt::Consumer c(m_masterProducer->get_profile(), "xml", path.toUtf8().constData());
     // Mlt::Service s(m_masterProducer->get_service());
     /*int ignore = s.get_int("ignore_points");
@@ -1441,6 +1442,7 @@ void ProjectClip::saveZone(QPoint zone, const QDir &dir)
     } else {
         xmlConsumer.connect(m_masterProducer->parent());
     }
+    QMutexLocker xmlLock(&pCore->xmlMutex);
     xmlConsumer.run();
 }
 
@@ -1451,6 +1453,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
     Mlt::Consumer c(pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
     m_masterProducer->lock();
+    QMutexLocker lock(&pCore->xmlMutex);
     int ignore = s.get_int("ignore_points");
     if (ignore) {
         s.set("ignore_points", 0);
@@ -1466,6 +1469,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
     if (ignore) {
         s.set("ignore_points", ignore);
     }
+    lock.unlock();
     m_masterProducer->unlock();
     const QByteArray clipXml = c.get("string");
     std::shared_ptr<Mlt::Producer> prod(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", clipXml.constData()));
@@ -1528,6 +1532,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
+    QMutexLocker lock(&pCore->xmlMutex);
     Mlt::Consumer c(pCore->getProjectProfile(), "xml", "string");
     Mlt::Service s(producer->get_service());
     int ignore = s.get_int("ignore_points");
@@ -1541,7 +1546,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<
     c.set("no_profile", 1);
     c.set("root", "/");
     c.set("store", "kdenlive");
-    c.start();
+    c.run();
     if (ignore) {
         s.set("ignore_points", ignore);
     }

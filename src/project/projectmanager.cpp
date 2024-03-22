@@ -1535,7 +1535,8 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     timelineModel->setUndoStack(m_project->commandStack());
 
     // Reset locale to C to ensure numbers are serialised correctly
-    LocaleHandling::resetLocale();
+    // QMutexLocker lock(&pCore->xmlMutex);
+    // LocaleHandling::resetLocale();
     return true;
 }
 

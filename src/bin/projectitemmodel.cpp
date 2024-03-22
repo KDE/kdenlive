@@ -747,9 +747,14 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
 void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     QWriteLocker locker(&m_lock);
-    auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
-    m_binPlaylist->manageBinItemInsertion(clip);
     AbstractTreeModel::registerItem(item);
+    auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
+    if (clip == nullptr || clip->clipId().toInt() == -1) {
+        // Root item, no need to register it
+        return;
+    }
+    Q_ASSERT(m_binPlaylist != nullptr);
+    m_binPlaylist->manageBinItemInsertion(clip);
     m_allIds.append(clip->clipId().toInt());
     if (clip->itemType() == AbstractProjectItem::ClipItem) {
         auto clipItem = std::static_pointer_cast<ProjectClip>(clip);
@@ -1482,6 +1487,7 @@ std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
 
 const QString ProjectItemModel::sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration)
 {
+    QMutexLocker lock(&pCore->xmlMutex);
     LocaleHandling::resetLocale();
     QString playlist;
     Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
@@ -1496,7 +1502,6 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fu
     // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
     // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
     // xmlConsumer.set("no_meta", 1);
-
     // Add active timeline as playlist of the main tractor so that when played through melt, the .kdenlive file reads the playlist
     if (m_projectTractor->count() > 0) {
         m_projectTractor->remove_track(0);

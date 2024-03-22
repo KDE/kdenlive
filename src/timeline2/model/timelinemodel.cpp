@@ -5832,6 +5832,7 @@ std::shared_ptr<Mlt::Producer> TimelineModel::producer()
 
 const QString TimelineModel::sceneList(const QString &root, const QString &fullPath, const QString &filterData)
 {
+    QMutexLocker lock(&pCore->xmlMutex);
     LocaleHandling::resetLocale();
     QString playlist;
     Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());

@@ -167,6 +167,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
 
 const QString ClipController::producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
 {
+    QMutexLocker lock(&pCore->xmlMutex);
     Mlt::Consumer c(*producer.profile(), "xml", "string");
     if (!producer.is_valid()) {
         return QString();
