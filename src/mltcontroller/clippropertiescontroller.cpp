@@ -482,7 +482,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder…"), this);
         connect(ac, &QAction::triggered, this, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
-            QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(pxy).path()));
+            KIO::highlightInFileManager({QUrl::fromLocalFile(pxy)});
         });
         pMenu->addAction(ac);
         ac = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Play proxy clip"), this);

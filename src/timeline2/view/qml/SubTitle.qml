@@ -79,7 +79,7 @@ Item {
             property double delta: -1
             property double oldDelta: 0
             property bool startMove: false
-            visible: root.activeTool === 0
+            visible: root.activeTool === ProjectTool.SelectTool
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
             drag.axis: Drag.XAxis
@@ -244,7 +244,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             enabled: true
-            visible: root.activeTool === 0
+            visible: root.activeTool === ProjectTool.SelectTool
             property int newStart: subtitleRoot.startFrame
             property int newDuration: subtitleRoot.duration
             property int originalDuration: subtitleRoot.duration
@@ -339,7 +339,7 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             enabled: true
-            visible: root.activeTool === 0
+            visible: root.activeTool === ProjectTool.SelectTool
             property bool sizeChanged: false
             property int oldMouseX
             acceptedButtons: Qt.LeftButton
