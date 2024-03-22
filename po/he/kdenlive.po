@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-21 00:37+0000\n"
-"PO-Revision-Date: 2024-03-19 08:54+0200\n"
+"PO-Revision-Date: 2024-03-21 13:29+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -10518,7 +10518,7 @@ msgstr "החלפה בין שימוש בקטע ציר זמן להכנסה (פעי
 #: src/mainwindow.cpp:1165
 #, kde-format
 msgid "Enable Track Compositing"
-msgstr ""
+msgstr "הפעלת הרכבת רצועות"
 
 #: src/mainwindow.cpp:1171
 #, kde-format
@@ -10584,6 +10584,8 @@ msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 msgstr ""
+"כשהאפשרות מסומנת, לחיצה וגרירה עם העכבר על הקבוצות הזמניות בציר הזמן מפרידות "
+"בין הסרטונים ומסירות רווחים בין סרטונים."
 
 #: src/mainwindow.cpp:1253
 #, kde-format

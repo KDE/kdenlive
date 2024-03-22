@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-21 00:37+0000\n"
-"PO-Revision-Date: 2024-03-20 09:39+0100\n"
+"PO-Revision-Date: 2024-03-21 11:46+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -13393,16 +13393,13 @@ msgstr ""
 "el centre"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click to add points,\n"
-#| "right click to close shape."
+#, kde-format
 msgid ""
 "Click to add points,\n"
 "right click or press enter to close shape."
 msgstr ""
 "Feu clic per a afegir punts,\n"
-"clic dret per a tancar la forma."
+"clic dret o premeu retorn per a tancar la forma."
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
