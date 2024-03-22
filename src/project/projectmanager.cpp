@@ -923,6 +923,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
         if (!binId.isEmpty()) {
             if (!openTimeline(binId, uuid)) {
+                qDebug() << ":::: OPENING TIMELINE: " << uuid << " FAILED !!!!";
                 abortProjectLoad(url);
                 return;
             }
@@ -982,6 +983,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
             }
         } else {
             if (!openTimeline(binId, activeUuid)) {
+                qDebug() << ":::: OPENING TIMELINE: " << activeUuid << " FAILED !!!!";
                 abortProjectLoad(url);
                 return;
             }
@@ -1846,7 +1848,7 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         m_project->setSequenceProperty(uuid, QStringLiteral("position"), position);
     }
     if (pCore->window() && pCore->window()->raiseTimeline(uuid)) {
-        return false;
+        return true;
     }
     if (!duplicate && existingModel == nullptr) {
         existingModel = m_project->getTimeline(uuid, true);
