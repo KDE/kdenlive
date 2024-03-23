@@ -749,7 +749,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     }
     QString composite = TransitionsRepository::get()->getCompositingTransition();
     bool hasMixer = pCore->mixer() != nullptr;
-    if (hasMixer) {
+    if (hasMixer && !m_closing) {
         pCore->mixer()->cleanup();
     }
     int videoTracks = 0;

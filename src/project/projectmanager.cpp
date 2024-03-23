@@ -462,6 +462,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (m_project) {
         pCore->taskManager.slotCancelJobs(true);
         m_project->closing = true;
+        if (m_activeTimelineModel) {
+            m_activeTimelineModel->m_closing = true;
+        }
         if (guiConstructed && !quit && !qApp->isSavingSession()) {
             pCore->bin()->abortOperations();
         }
