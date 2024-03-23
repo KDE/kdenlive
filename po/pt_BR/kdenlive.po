@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 02:26+0000\n"
+"POT-Creation-Date: 2024-03-23 02:26+0000\n"
 "PO-Revision-Date: 2023-08-11 23:48-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -4722,8 +4722,8 @@ msgstr "Lista de reprodução"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1497
-#: src/project/projectmanager.cpp:1499 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1517
+#: src/project/projectmanager.cpp:1519 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sequências"
@@ -6390,7 +6390,7 @@ msgstr "Exportar dados das guias"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1787 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1807 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5047
@@ -6457,7 +6457,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Se não tiver certeza, tente:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1680
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1700
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -8460,15 +8460,15 @@ msgstr ""
 "Seu arquivo de projeto foi atualizado para a última versão de arquivos do "
 "Kdenlive, não foi possível criar a cópia de segurança %1."
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1407
+#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1391
+#: src/project/projectmanager.cpp:1427
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Erro ao mover a pasta do projeto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1072 src/doc/kdenlivedoc.cpp:2297
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1621
+#: src/project/projectmanager.cpp:1641
 #, kde-format
 msgid "Untitled"
 msgstr "Sem título"
@@ -14422,7 +14422,7 @@ msgstr "Abrir arquivo de backup"
 msgid "Save changes to document?"
 msgstr "Salvar as alterações do documento?"
 
-#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1620
+#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1640
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14511,12 +14511,12 @@ msgstr ""
 "Não foi possível abrir o arquivo do projeto %1.\n"
 "Deseja abrir o arquivo de backup?"
 
-#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:914
+#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:1025
 #, kde-format
 msgid "Error opening file"
 msgstr "Erro abrindo arquivo"
 
-#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:915
+#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:1026
 #, kde-format
 msgid "Open Backup"
 msgstr "Abrir Backup"
@@ -14541,7 +14541,7 @@ msgstr ""
 "Seu projeto foi modificado na abertura, um backup será criado no próximo "
 "salvamento"
 
-#: src/project/projectmanager.cpp:1032
+#: src/project/projectmanager.cpp:1052
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -14549,7 +14549,7 @@ msgid ""
 "%1\n"
 msgstr "Não foi possível abrir o arquivo de projeto %1"
 
-#: src/project/projectmanager.cpp:1072
+#: src/project/projectmanager.cpp:1092
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14558,12 +14558,12 @@ msgstr ""
 "Isto irá excluir todas as alterações efetuadas desde a última vez que você "
 "salvou o projeto. Deseja continuar?"
 
-#: src/project/projectmanager.cpp:1073
+#: src/project/projectmanager.cpp:1093
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Reverter para a última versão salva"
 
-#: src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:1179
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14572,25 +14572,25 @@ msgstr ""
 "O projeto foi corrompido, não é possível fazer backup. Feche e reabra o "
 "arquivo do projeto para recuperar o último backup"
 
-#: src/project/projectmanager.cpp:1349
+#: src/project/projectmanager.cpp:1369
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Erro ao mover a pasta do projeto: %1"
 
-#: src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1405
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movendo pasta do projeto"
 
-#: src/project/projectmanager.cpp:1475 src/project/projectmanager.cpp:1528
-#: src/project/projectmanager.cpp:1532
+#: src/project/projectmanager.cpp:1495 src/project/projectmanager.cpp:1548
+#: src/project/projectmanager.cpp:1552
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Nome da sequência"
 
-#: src/project/projectmanager.cpp:1487
+#: src/project/projectmanager.cpp:1507
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
@@ -14599,13 +14599,13 @@ msgstr ""
 "O arquivo de projeto está corrompido (sem faixas). Tentar encontrar um "
 "arquivo de backup?"
 
-#: src/project/projectmanager.cpp:1626 src/project/projectmanager.cpp:1631
-#: src/project/projectmanager.cpp:1641 src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:1646 src/project/projectmanager.cpp:1651
+#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1675
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Alteração do perfil do projeto abortada"
 
-#: src/project/projectmanager.cpp:1772
+#: src/project/projectmanager.cpp:1792
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14614,12 +14614,12 @@ msgstr ""
 "Arquivo de saída %1 já existe.\n"
 "Você deseja sobrescrevê-lo?"
 
-#: src/project/projectmanager.cpp:1797
+#: src/project/projectmanager.cpp:1817
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil do projeto alterado"
 
-#: src/project/projectmanager.cpp:1853
+#: src/project/projectmanager.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -14627,18 +14627,18 @@ msgid ""
 "%1"
 msgstr "Não foi possível criar o filtro %1"
 
-#: src/project/projectmanager.cpp:1930
+#: src/project/projectmanager.cpp:1954
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Importando um clipe em sequência, atualmente em estado experimental"
 
-#: src/project/projectmanager.cpp:2110
+#: src/project/projectmanager.cpp:2134
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Selecione um clipe para comparar o efeito"
 
-#: src/project/projectmanager.cpp:2148
+#: src/project/projectmanager.cpp:2172
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -17108,13 +17108,13 @@ msgstr "Aparecer: %1"
 msgid "Slip Clip"
 msgstr "Selecionar clipe"
 
-#: src/timeline2/view/qml/Composition.qml:243
+#: src/timeline2/view/qml/Composition.qml:244
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Posição: %2, Duração: %3"
 
-#: src/timeline2/view/qml/Composition.qml:311
-#: src/timeline2/view/qml/Composition.qml:373
+#: src/timeline2/view/qml/Composition.qml:312
+#: src/timeline2/view/qml/Composition.qml:374
 #: src/timeline2/view/qml/SubTitle.qml:301
 #: src/timeline2/view/qml/SubTitle.qml:402
 #, kde-format

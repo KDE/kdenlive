@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 02:26+0000\n"
+"POT-Creation-Date: 2024-03-23 02:26+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -4707,8 +4707,8 @@ msgstr "प्ले यादी"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1497
-#: src/project/projectmanager.cpp:1499 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1517
+#: src/project/projectmanager.cpp:1519 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 msgid "Sequences"
 msgstr "प्रतिमेचा आकार"
@@ -6367,7 +6367,7 @@ msgstr "आयात"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1787 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1807 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5047
@@ -6433,7 +6433,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1680
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1700
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 msgid "Cannot read file %1"
@@ -8302,15 +8302,15 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1407
+#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1391
+#: src/project/projectmanager.cpp:1427
 #, fuzzy, kde-format
 msgid "Error moving project folder: %1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
 #: src/doc/kdenlivedoc.cpp:1072 src/doc/kdenlivedoc.cpp:2297
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1621
+#: src/project/projectmanager.cpp:1641
 #, kde-format
 msgid "Untitled"
 msgstr "शिर्षकहीन"
@@ -14015,7 +14015,7 @@ msgstr ""
 msgid "Save changes to document?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1620
+#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1640
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14091,12 +14091,12 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:914
+#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:1025
 #, fuzzy, kde-format
 msgid "Error opening file"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:915
+#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:1026
 #, kde-format
 msgid "Open Backup"
 msgstr ""
@@ -14117,90 +14117,90 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1032
+#: src/project/projectmanager.cpp:1052
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/project/projectmanager.cpp:1072
+#: src/project/projectmanager.cpp:1092
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1073
+#: src/project/projectmanager.cpp:1093
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:1179
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1349
+#: src/project/projectmanager.cpp:1369
 #, fuzzy, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1405
 #, fuzzy, kde-format
 msgid "Moving project folder"
 msgstr "संग्रह करत आहे"
 
-#: src/project/projectmanager.cpp:1475 src/project/projectmanager.cpp:1528
-#: src/project/projectmanager.cpp:1532
+#: src/project/projectmanager.cpp:1495 src/project/projectmanager.cpp:1548
+#: src/project/projectmanager.cpp:1552
 #, fuzzy, kde-format
 msgid "Sequence 1"
 msgstr "प्रतिमेचा आकार"
 
-#: src/project/projectmanager.cpp:1487
+#: src/project/projectmanager.cpp:1507
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1626 src/project/projectmanager.cpp:1631
-#: src/project/projectmanager.cpp:1641 src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:1646 src/project/projectmanager.cpp:1651
+#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1675
 #, kde-format
 msgid "Project profile change aborted"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1772
+#: src/project/projectmanager.cpp:1792
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1797
+#: src/project/projectmanager.cpp:1817
 #, kde-format
 msgid "Project profile changed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1853
+#: src/project/projectmanager.cpp:1877
 #, fuzzy, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
 "%1"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/project/projectmanager.cpp:1930
+#: src/project/projectmanager.cpp:1954
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2110
+#: src/project/projectmanager.cpp:2134
 #, fuzzy, kde-format
 msgid "Select a clip to create sequence"
 msgstr "निवड साधन (&S)"
 
-#: src/project/projectmanager.cpp:2148
+#: src/project/projectmanager.cpp:2172
 #, fuzzy, kde-format
 msgid "Create Sequence Clip"
 msgstr "प्रतिमेचा आकार"
@@ -16536,13 +16536,13 @@ msgstr "फीके"
 msgid "Slip Clip"
 msgstr "संचयीका"
 
-#: src/timeline2/view/qml/Composition.qml:243
+#: src/timeline2/view/qml/Composition.qml:244
 #, fuzzy, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "स्थिती"
 
-#: src/timeline2/view/qml/Composition.qml:311
-#: src/timeline2/view/qml/Composition.qml:373
+#: src/timeline2/view/qml/Composition.qml:312
+#: src/timeline2/view/qml/Composition.qml:374
 #: src/timeline2/view/qml/SubTitle.qml:301
 #: src/timeline2/view/qml/SubTitle.qml:402
 #, kde-format

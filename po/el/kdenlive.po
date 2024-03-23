@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-20 02:26+0000\n"
+"POT-Creation-Date: 2024-03-23 02:26+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4850,8 +4850,8 @@ msgstr "Κλιπ λίστας αναπαραγωγής"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1497
-#: src/project/projectmanager.cpp:1499 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1517
+#: src/project/projectmanager.cpp:1519 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -6598,7 +6598,7 @@ msgstr "Προσθήκη δείκτη"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1787 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1807 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5047
@@ -6667,7 +6667,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1680
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1700
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -8678,8 +8678,8 @@ msgstr ""
 "Το αρχείο του έργου σας αναβαθμίστηκε στην τελευταία έκδοση εγγράφων του "
 "Kdenlive, όμως δεν κατέστη δυνατή η δημιουργία του εφεδρικού αντιγράφου %1."
 
-#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1407
+#: src/doc/kdenlivedoc.cpp:882 src/project/projectmanager.cpp:1391
+#: src/project/projectmanager.cpp:1427
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -8687,7 +8687,7 @@ msgstr "Φάκελος έργου: %1"
 
 #: src/doc/kdenlivedoc.cpp:1072 src/doc/kdenlivedoc.cpp:2297
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1621
+#: src/project/projectmanager.cpp:1641
 #, kde-format
 msgid "Untitled"
 msgstr "Χωρίς τίτλο"
@@ -14732,7 +14732,7 @@ msgstr "Άνοιγμα εφεδρικού αρχείου"
 msgid "Save changes to document?"
 msgstr "Αποθήκευση αλλαγών στο έγγραφο;"
 
-#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1620
+#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1640
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14817,12 +14817,12 @@ msgstr ""
 "%1\n"
 "Θέλετε να ανοίξετε ένα εφεδρικό αρχείο;"
 
-#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:914
+#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:1025
 #, kde-format
 msgid "Error opening file"
 msgstr "Σφάλμα στο άνοιγμα του αρχείου"
 
-#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:915
+#: src/project/projectmanager.cpp:828 src/project/projectmanager.cpp:1026
 #, kde-format
 msgid "Open Backup"
 msgstr "Άνοιγμα εφεδρικού"
@@ -14844,7 +14844,7 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1032
+#: src/project/projectmanager.cpp:1052
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -14852,7 +14852,7 @@ msgid ""
 "%1\n"
 msgstr "Αδυναμία ανοίγματος του αρχείου %1 του έργου"
 
-#: src/project/projectmanager.cpp:1072
+#: src/project/projectmanager.cpp:1092
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14861,51 +14861,51 @@ msgstr ""
 "Θα διαγραφούν οι αλλαγές μετά την τελευταία αποθήκευση του έργου σας. Είστε "
 "σίγουρος ότι επιθυμείτε να συνεχίσετε;"
 
-#: src/project/projectmanager.cpp:1073
+#: src/project/projectmanager.cpp:1093
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Επαναφορά στην τελευταία αποθηκευμένη έκδοση"
 
-#: src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:1179
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1349
+#: src/project/projectmanager.cpp:1369
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Φάκελος έργου: %1"
 
-#: src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1405
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Χρήση φακέλου έργου"
 
-#: src/project/projectmanager.cpp:1475 src/project/projectmanager.cpp:1528
-#: src/project/projectmanager.cpp:1532
+#: src/project/projectmanager.cpp:1495 src/project/projectmanager.cpp:1548
+#: src/project/projectmanager.cpp:1552
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Όνομα ακολουθίας"
 
-#: src/project/projectmanager.cpp:1487
+#: src/project/projectmanager.cpp:1507
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1626 src/project/projectmanager.cpp:1631
-#: src/project/projectmanager.cpp:1641 src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:1646 src/project/projectmanager.cpp:1651
+#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1675
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Προφίλ έργου: %1"
 
-#: src/project/projectmanager.cpp:1772
+#: src/project/projectmanager.cpp:1792
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -14913,13 +14913,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Το αρχείο υπάρχει ήδη. Επιθυμείτε την αντικατάστασή του;"
 
-#: src/project/projectmanager.cpp:1797
+#: src/project/projectmanager.cpp:1817
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Προφίλ έργου: %1"
 
-#: src/project/projectmanager.cpp:1853
+#: src/project/projectmanager.cpp:1877
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -14927,18 +14927,18 @@ msgid ""
 "%1"
 msgstr "Αδυναμία δημιουργίας καταναλωτή %1."
 
-#: src/project/projectmanager.cpp:1930
+#: src/project/projectmanager.cpp:1954
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2110
+#: src/project/projectmanager.cpp:2134
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
-#: src/project/projectmanager.cpp:2148
+#: src/project/projectmanager.cpp:2172
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -17394,14 +17394,14 @@ msgstr "Ομαλή είσοδος"
 msgid "Slip Clip"
 msgstr "Επιλογή κλιπ"
 
-#: src/timeline2/view/qml/Composition.qml:243
+#: src/timeline2/view/qml/Composition.qml:244
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "%1, Position: %2, Duration: %3"
 msgstr "Θέση: %1"
 
-#: src/timeline2/view/qml/Composition.qml:311
-#: src/timeline2/view/qml/Composition.qml:373
+#: src/timeline2/view/qml/Composition.qml:312
+#: src/timeline2/view/qml/Composition.qml:374
 #: src/timeline2/view/qml/SubTitle.qml:301
 #: src/timeline2/view/qml/SubTitle.qml:402
 #, kde-format
