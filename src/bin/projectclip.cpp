@@ -833,7 +833,8 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
     QMutexLocker lock(&m_thumbMutex);
     std::unique_ptr<Mlt::Producer> thumbProd;
     if (!m_thumbXml.isEmpty()) {
-        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.toUtf8().constData()));
+        QMutexLocker lock(&pCore->xmlMutex);
+        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
         return thumbProd;
     }
     if (KdenliveSettings::gpu_accel()) {
@@ -1373,12 +1374,6 @@ void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
     QMutexLocker lk(&m_producerMutex);
     QMutexLocker lock(&pCore->xmlMutex);
     Mlt::Consumer c(m_masterProducer->get_profile(), "xml", path.toUtf8().constData());
-    // Mlt::Service s(m_masterProducer->get_service());
-    /*int ignore = s.get_int("ignore_points");
-    if (ignore) {
-        s.set("ignore_points", 0);
-    }
-    c.connect(s);*/
     c.set("time_format", "frames");
     c.set("no_meta", 1);
     c.set("no_root", 1);
@@ -1390,7 +1385,8 @@ void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
     if (!thumbsProducer) {
         c.set("store", "kdenlive");
     }
-    c.connect(m_masterProducer->parent());
+    Mlt::Service s(m_masterProducer->get_service());
+    c.connect(s);
     c.run();
     /*if (ignore) {
         s.set("ignore_points", ignore);
@@ -2661,11 +2657,11 @@ void ProjectClip::replaceInTimeline()
     if (pushUndo && !m_resetTimelineOccurences) {
         pCore->pushUndo(undo, redo, i18n("Adjust timeline clips"));
     }
+    m_resetTimelineOccurences = false;
     // Update each sequence clips that embedded this clip
     if (!sequencesToUpdate.isEmpty()) {
         Q_EMIT pCore->bin()->requestUpdateSequences(sequencesToUpdate);
     }
-    m_resetTimelineOccurences = false;
 }
 
 void ProjectClip::updateTimelineClips(const QVector<int> &roles)

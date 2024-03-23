@@ -165,12 +165,12 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     connectEffectStack();
 }
 
-const QString ClipController::producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
+const QByteArray ClipController::producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile)
 {
     QMutexLocker lock(&pCore->xmlMutex);
     Mlt::Consumer c(*producer.profile(), "xml", "string");
     if (!producer.is_valid()) {
-        return QString();
+        return QByteArray();
     }
     c.set("time_format", "frames");
     if (!includeMeta) {
@@ -184,14 +184,14 @@ const QString ClipController::producerXml(Mlt::Producer producer, bool includeMe
     c.set("root", "/");
     c.connect(producer);
     c.run();
-    return QString::fromUtf8(c.get("string"));
+    return QByteArray(c.get("string"));
 }
 
 void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bool includeProfile)
 {
     // TODO refac this is a probable duplicate with Clip::xml
     if (m_masterProducer) {
-        QString xml = producerXml(m_masterProducer->parent(), includeMeta, includeProfile);
+        const QByteArray xml = producerXml(m_masterProducer->parent(), includeMeta, includeProfile);
         document.setContent(xml);
     } else {
         if (!m_temporaryUrl.isEmpty()) {

@@ -724,7 +724,7 @@ void ClipLoadTask::run()
     if (!m_isCanceled.loadAcquire()) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
-            const QString xmlData = ClipController::producerXml(*producer.get(), true, false);
+            const QByteArray xmlData = ClipController::producerXml(*producer.get(), true, false);
             bool replaceProxy = false;
             bool replaceName = false;
             if (producer->property_exists("_replaceproxy")) {
@@ -734,7 +734,7 @@ void ClipLoadTask::run()
                 replaceName = true;
             }
             // Reset produccer to get rid of cached frame
-            producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.toUtf8().constData()));
+            producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.constData()));
             if (replaceProxy) {
                 producer->set("_replaceproxy", 1);
             }

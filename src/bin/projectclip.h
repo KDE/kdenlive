@@ -364,7 +364,7 @@ private:
     const QString getFileHash();
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
-    QString m_thumbXml;
+    QByteArray m_thumbXml;
     const QString geometryWithOffset(const QString &data, int offset);
     QMap <QString, QByteArray> m_audioLevels;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
