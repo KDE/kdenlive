@@ -5950,10 +5950,10 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, bool forc
             properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(duration));
             clip->setProperties(properties);
             // Reset thumbs producer
-            clip->resetSequenceThumbnails();
-            ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
             m_doc->sequenceThumbUpdated(uuid);
+            clip->resetSequenceThumbnails();
             clip->reloadTimeline();
+            ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
         }
     }
 }

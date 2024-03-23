@@ -59,7 +59,7 @@ public:
 
     /** @brief Replaces the master producer and (TODO) the track producers with an updated producer, for example a proxy */
     void updateProducer(const std::shared_ptr<Mlt::Producer> &producer);
-    static const QString producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile);
+    static const QByteArray producerXml(Mlt::Producer producer, bool includeMeta, bool includeProfile);
 
     void getProducerXML(QDomDocument &document, bool includeMeta = false, bool includeProfile = true);
 
