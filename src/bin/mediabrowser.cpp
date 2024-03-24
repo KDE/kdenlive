@@ -132,19 +132,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 #endif
     m_op->setMode(KFile::ExistingOnly | KFile::Files | KFile::Directory);
     m_op->setIconSize(KdenliveSettings::mediaIconSize());
-    m_op->setInlinePreviewShown(true);
-
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    // Unconditionnaly enable video thumbnails on Windows/Mac as user can't edit the global KDE settings
-    if (m_op->previewGenerator()) {
-        QStringList enabledPlugs = m_op->previewGenerator()->enabledPlugins();
-        if (!enabledPlugs.contains(QStringLiteral("ffmpegthumbs"))) {
-            enabledPlugs << QStringLiteral("ffmpegthumbs");
-            m_op->previewGenerator()->setEnabledPlugins(enabledPlugs);
-        }
-    }
-#endif
-
     m_filterCombo = new KFileFilterCombo(this);
     m_filenameEdit = new KUrlComboBox(KUrlComboBox::Files, true, this);
     m_locationEdit = new KUrlNavigator(places, QUrl(), this);
@@ -269,6 +256,18 @@ void MediaBrowser::connectView()
 {
     connect(m_op->view(), &QAbstractItemView::doubleClicked, this, &MediaBrowser::slotViewDoubleClicked);
     m_op->view()->installEventFilter(this);
+    m_op->setInlinePreviewShown(true);
+
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
+    // Unconditionnaly enable video thumbnails on Windows/Mac as user can't edit the global KDE settings
+    if (m_op->previewGenerator()) {
+        QStringList enabledPlugs = m_op->previewGenerator()->enabledPlugins();
+        if (!enabledPlugs.contains(QStringLiteral("ffmpegthumbs"))) {
+            enabledPlugs << QStringLiteral("ffmpegthumbs");
+            m_op->previewGenerator()->setEnabledPlugins(enabledPlugs);
+        }
+    }
+#endif
     setFocusProxy(m_op->view());
     setFocusPolicy(Qt::ClickFocus);
 }
