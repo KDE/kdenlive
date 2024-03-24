@@ -9,7 +9,6 @@
 #include "doc/kdenlivedoc.h"
 
 #include "core.h"
-#include "definitions.h"
 
 using namespace fakeit;
 
@@ -32,7 +31,7 @@ TEST_CASE("Show/hide tracks", "[HideTracks]")
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
     // Audio tracks
-    int tid1 = timeline->getTrackIndexFromPosition(0);
+    /*int tid1 =*/timeline->getTrackIndexFromPosition(0);
     int tid2 = timeline->getTrackIndexFromPosition(1);
     // Video tracks
     int tid3 = timeline->getTrackIndexFromPosition(2);
@@ -50,8 +49,6 @@ TEST_CASE("Show/hide tracks", "[HideTracks]")
 
     int cid1;
     int cid2;
-    int cid3;
-    int cid4;
 
     // Create AV clip 1
     REQUIRE(timeline->requestClipInsertion(binId, tid3, 10, cid1));

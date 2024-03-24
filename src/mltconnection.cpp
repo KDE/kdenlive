@@ -329,6 +329,6 @@ void MltConnection::refreshLumas()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QtConcurrent::run(pCore.get(), &Core::buildLumaThumbs, allImagefiles);
 #else
-    QtConcurrent::run(&Core::buildLumaThumbs, pCore.get(), allImagefiles);
+    (void)QtConcurrent::run(&Core::buildLumaThumbs, pCore.get(), allImagefiles);
 #endif
 }

@@ -1276,8 +1276,8 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
                                       addToProject, useSourceResolution);
 #else
-                    QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
-                                      addToProject, useSourceResolution);
+                    (void)QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
+                                            addToProject, useSourceResolution);
 #endif
                 } else {
                     // TODO: warn user, cannot open tmp file
@@ -1358,8 +1358,8 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
                                       addToProject, useSourceResolution);
 #else
-                    QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
-                                      addToProject, useSourceResolution);
+                    (void)QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
+                                            addToProject, useSourceResolution);
 #endif
                 }
             }
