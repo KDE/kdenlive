@@ -547,7 +547,7 @@ namespace fakeit {
 
     public:
 
-        virtual ~ConcatenatedSequence() {
+        ~ConcatenatedSequence() override {
         }
 
         unsigned int size() const override {
@@ -587,7 +587,7 @@ namespace fakeit {
 
     public:
 
-        ~RepeatedSequence() {
+        ~RepeatedSequence() override {
         }
 
         unsigned int size() const override {
@@ -683,7 +683,7 @@ namespace fakeit {
 
     struct NoMoreInvocationsVerificationEvent : public VerificationEvent {
 
-        ~NoMoreInvocationsVerificationEvent() = default;
+        ~NoMoreInvocationsVerificationEvent() override = default;
 
         NoMoreInvocationsVerificationEvent(
                 std::vector<Invocation *> &allTheIvocations,
@@ -708,7 +708,7 @@ namespace fakeit {
 
     struct SequenceVerificationEvent : public VerificationEvent {
 
-        ~SequenceVerificationEvent() = default;
+        ~SequenceVerificationEvent() override = default;
 
         SequenceVerificationEvent(VerificationType aVerificationType,
                                   std::vector<Sequence *> &anExpectedPattern,
@@ -1088,7 +1088,7 @@ namespace fakeit {
 
     class AbstractFakeit : public FakeitContext {
     public:
-        virtual ~AbstractFakeit() = default;
+        ~AbstractFakeit() override = default;
 
     protected:
 
@@ -1109,7 +1109,7 @@ namespace fakeit {
                           _testingFrameworkAdapter(nullptr) {
         }
 
-        virtual ~DefaultFakeit() = default;
+        ~DefaultFakeit() override = default;
 
         void setCustomEventFormatter(fakeit::EventFormatter &customEventFormatter) {
             _customFormatter = &customEventFormatter;
@@ -1165,7 +1165,7 @@ namespace fakeit {
 namespace fakeit {
 
     struct VerificationException : public std::exception {
-        virtual ~VerificationException() FAKEIT_NO_THROWS{};
+        ~VerificationException() FAKEIT_NO_THROWS{};
 
         VerificationException(std::string format) :
             _format(format) {
@@ -1257,7 +1257,7 @@ namespace fakeit {
     class StandaloneFakeit : public DefaultFakeit {
 
     public:
-        virtual ~StandaloneFakeit() = default;
+        ~StandaloneFakeit() override = default;
 
         StandaloneFakeit() : _standaloneAdapter(*this) {
         }
@@ -6514,7 +6514,7 @@ namespace fakeit {
 namespace fakeit {
 
     struct IMatcher : Destructible {
-        ~IMatcher() = default;
+        ~IMatcher() override = default;
         virtual std::string format() const = 0;
     };
 
@@ -7225,7 +7225,7 @@ namespace fakeit {
     template<typename ... arglist>
     struct DefaultInvocationMatcher : public ActualInvocation<arglist...>::Matcher {
 
-        virtual ~DefaultInvocationMatcher() = default;
+        ~DefaultInvocationMatcher() override = default;
 
         DefaultInvocationMatcher() {
         }
@@ -7320,7 +7320,7 @@ namespace fakeit {
         RecordedMethodBody(FakeitContext &fakeit, std::string name) :
                 _fakeit(fakeit), _method{MethodInfo::nextMethodOrdinal(), name} { }
 
-        virtual ~RecordedMethodBody() FAKEIT_NO_THROWS {
+        ~RecordedMethodBody() FAKEIT_NO_THROWS override {
         }
 
         MethodInfo &getMethod() {
@@ -7520,7 +7520,7 @@ namespace fakeit {
     template<typename R, typename ... arglist>
     struct RepeatForever : public Action<R, arglist...> {
 
-        virtual ~RepeatForever() = default;
+        ~RepeatForever() override = default;
 
         RepeatForever(std::function<R(typename fakeit::test_arg<arglist>::type...)> func) :
                 f(func) {
@@ -8393,7 +8393,7 @@ namespace fakeit {
                 : _impl(std::move(other._impl)) {
         }
 
-        virtual ~MethodMockingContext() FAKEIT_NO_THROWS { }
+        virtual ~MethodMockingContext() FAKEIT_NO_THROWS = default;
 
         std::string format() const override {
             return _impl->format();
@@ -8629,7 +8629,7 @@ namespace fakeit {
             fake->getVirtualTable().setCookie(1, this);
         }
 
-        virtual ~MockImpl() FAKEIT_NO_THROWS {
+        ~MockImpl() FAKEIT_NO_THROWS override {
             _proxy.detach();
         }
 
@@ -8731,27 +8731,27 @@ namespace fakeit {
             virtual ~MethodMockingContextBase() = default;
 
             void addMethodInvocationHandler(typename ActualInvocation<arglist...>::Matcher *matcher,
-                ActualInvocationHandler<R, arglist...> *invocationHandler) {
+                ActualInvocationHandler<R, arglist...> *invocationHandler) override {
                 getRecordedMethodBody().addMethodInvocationHandler(matcher, invocationHandler);
             }
 
-            void scanActualInvocations(const std::function<void(ActualInvocation<arglist...> &)> &scanner) {
+            void scanActualInvocations(const std::function<void(ActualInvocation<arglist...> &)> &scanner) override {
                 getRecordedMethodBody().scanActualInvocations(scanner);
             }
 
-            void setMethodDetails(std::string mockName, std::string methodName) {
+            void setMethodDetails(std::string mockName, std::string methodName) override {
                 getRecordedMethodBody().setMethodDetails(mockName, methodName);
             }
 
-            bool isOfMethod(MethodInfo &method) {
+            bool isOfMethod(MethodInfo &method) override {
                 return getRecordedMethodBody().isOfMethod(method);
             }
 
-            ActualInvocationsSource &getInvolvedMock() {
+            ActualInvocationsSource &getInvolvedMock() override {
                 return _mock;
             }
 
-            std::string getMethodName() {
+            std::string getMethodName() override {
                 return getRecordedMethodBody().getMethod().name();
             }
 
@@ -9019,7 +9019,7 @@ namespace fakeit {
     class Mock : public ActualInvocationsSource {
         MockImpl<C, baseclasses...> impl;
     public:
-        virtual ~Mock() = default;
+        ~Mock() override = default;
 
         static_assert(std::is_polymorphic<C>::value, "Can only mock a polymorphic type");
 
@@ -9156,12 +9156,12 @@ namespace fakeit {
         RefCount *reference;
 
     public:
-        smart_ptr() : pData(0), reference(0) {
+        smart_ptr() : pData(0), reference(nullptr) {
             reference = new RefCount();
             reference->AddRef();
         }
 
-        smart_ptr(T *pValue) : pData(pValue), reference(0) {
+        smart_ptr(T *pValue) : pData(pValue), reference(nullptr) {
             reference = new RefCount();
             reference->AddRef();
         }
