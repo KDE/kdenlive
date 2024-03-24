@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-23 00:37+0000\n"
+"POT-Creation-Date: 2024-03-24 00:37+0000\n"
 "PO-Revision-Date: 2024-03-21 11:46+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -4743,8 +4743,8 @@ msgstr "Llista de reproducció"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1493
-#: src/project/projectmanager.cpp:1495 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1496
+#: src/project/projectmanager.cpp:1498 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Seqüències"
@@ -5005,7 +5005,7 @@ msgid "Edit Tags"
 msgstr "Editeu les etiquetes"
 
 #: src/bin/bin.cpp:4482 src/bin/projectclip.cpp:211
-#: src/bin/projectclip.cpp:2051 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/projectclip.cpp:2047 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -5595,7 +5595,7 @@ msgstr ""
 "La dimensió de la imatge és inferior a 8 píxels.\n"
 "Açò no s'admet en este entorn de treball de vídeo."
 
-#: src/bin/projectclip.cpp:940
+#: src/bin/projectclip.cpp:941
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5604,29 +5604,29 @@ msgstr ""
 "No s'han pogut extraure les metadades des de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1192 src/jobs/cliploadtask.cpp:256
+#: src/bin/projectclip.cpp:1193 src/jobs/cliploadtask.cpp:256
 #, kde-format
 msgid "Invalid"
 msgstr "No vàlida"
 
-#: src/bin/projectclip.cpp:1420 src/dialogs/clipcreationdialog.cpp:213
+#: src/bin/projectclip.cpp:1416 src/dialogs/clipcreationdialog.cpp:213
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1423
 #, kde-format
 msgid "File already exists"
 msgstr "El fitxer ja existix"
 
-#: src/bin/projectclip.cpp:2662
+#: src/bin/projectclip.cpp:2658
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Ajusta els clips de la línia de temps"
 
-#: src/bin/projectclip.cpp:2897
+#: src/bin/projectclip.cpp:2893
 #, kde-format
 msgid "Add stream effect"
 msgstr "Afig un nou de flux"
 
-#: src/bin/projectclip.cpp:2922
+#: src/bin/projectclip.cpp:2918
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Elimina l'efecte de flux"
@@ -5765,7 +5765,7 @@ msgstr ""
 "Kdenlive va fallar en l'últim inici.\n"
 "Voleu restablir els fitxers de configuració?"
 
-#: src/core.cpp:174 src/project/projectmanager.cpp:802
+#: src/core.cpp:174 src/project/projectmanager.cpp:805
 #, kde-format
 msgid "Loading project…"
 msgstr "S'està carregant el projecte…"
@@ -6458,7 +6458,7 @@ msgstr "Exporteu les dades de les guies"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1784 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1787 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5068
@@ -6525,7 +6525,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "En cas de dubte, intenteu:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1677
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1680
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -8941,8 +8941,8 @@ msgstr "Els filtres/transicions següents s'han suprimit del projecte:"
 msgid "Invalid file path"
 msgstr "Camí de fitxer no vàlid"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:786
-#: src/project/projectmanager.cpp:826
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:789
+#: src/project/projectmanager.cpp:829
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "No s'ha pogut recuperar un fitxer corrupte."
@@ -9023,15 +9023,15 @@ msgstr ""
 "El fitxer del projecte s'ha actualitzat a l'última versió de document de "
 "Kdenlive, però no ha sigut possible crear la còpia de seguretat %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1368
-#: src/project/projectmanager.cpp:1404
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1371
+#: src/project/projectmanager.cpp:1407
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "S'ha produït un error en moure la carpeta del projecte: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2317
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1618
+#: src/project/projectmanager.cpp:1621
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
@@ -11930,12 +11930,12 @@ msgstr ""
 "Mourà tots els fitxers temporals des de<br/><b>%1</b> a <b>%2</b>,<br/> i es "
 "tornarà a carregar el fitxer del projecte"
 
-#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:593
+#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:596
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "No s'ha pogut realitzar l'operació, ID del document no vàlid: %1"
 
-#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:599
+#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:602
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
@@ -14869,7 +14869,7 @@ msgstr "Obri un fitxer de còpia de seguretat…"
 msgid "Save changes to document?"
 msgstr "Voleu guardar els canvis en el document?"
 
-#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1617
+#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1620
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14878,17 +14878,17 @@ msgstr ""
 "El projecte <b>«%1»</b> ha canviat.\n"
 "Voleu guardar els canvis?"
 
-#: src/project/projectmanager.cpp:535
+#: src/project/projectmanager.cpp:538
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "No s'ha pogut guardar el fitxer <br><b>%1</b>"
 
-#: src/project/projectmanager.cpp:568
+#: src/project/projectmanager.cpp:571
 #, kde-format
 msgid "Saving successful"
 msgstr "S'ha guardat correctament"
 
-#: src/project/projectmanager.cpp:581
+#: src/project/projectmanager.cpp:584
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14900,38 +14900,38 @@ msgstr ""
 "mourà tots els fitxers temporals des de <b>%1</b> a <b>%2</b>, i es tornarà "
 "a carregar el fitxer del projecte"
 
-#: src/project/projectmanager.cpp:622
+#: src/project/projectmanager.cpp:625
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Guarda una còpia"
 
-#: src/project/projectmanager.cpp:727
+#: src/project/projectmanager.cpp:730
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Existix un fitxer guardat automàticament. Voleu recuperar-lo ara?"
 
-#: src/project/projectmanager.cpp:727
+#: src/project/projectmanager.cpp:730
 #, kde-format
 msgid "File Recovery"
 msgstr "Recuperació de fitxer"
 
-#: src/project/projectmanager.cpp:728 src/project/projectmanager.cpp:814
+#: src/project/projectmanager.cpp:731 src/project/projectmanager.cpp:817
 #, kde-format
 msgid "Recover"
 msgstr "Recupera"
 
-#: src/project/projectmanager.cpp:728
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "Do not recover"
 msgstr "No recuperes"
 
-#: src/project/projectmanager.cpp:780
+#: src/project/projectmanager.cpp:783
 #, kde-format
 msgid "Opening file %1"
 msgstr "S'està obrint el fitxer %1"
 
-#: src/project/projectmanager.cpp:813
+#: src/project/projectmanager.cpp:816
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14942,29 +14942,29 @@ msgstr ""
 "%1\n"
 "Voleu obrir un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:1002
+#: src/project/projectmanager.cpp:817 src/project/projectmanager.cpp:1005
 #, kde-format
 msgid "Error opening file"
 msgstr "S'ha produït un error en obrir el fitxer"
 
-#: src/project/projectmanager.cpp:814 src/project/projectmanager.cpp:1003
+#: src/project/projectmanager.cpp:817 src/project/projectmanager.cpp:1006
 #, kde-format
 msgid "Open Backup"
 msgstr "Obri una còpia de seguretat"
 
-#: src/project/projectmanager.cpp:830
+#: src/project/projectmanager.cpp:833
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "No s'ha pogut obrir el fitxer de còpia de seguretat del projecte."
 
-#: src/project/projectmanager.cpp:845
+#: src/project/projectmanager.cpp:848
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "El projecte s'ha actualitzat, es crearà una còpia de seguretat en el proper "
 "guardada"
 
-#: src/project/projectmanager.cpp:848
+#: src/project/projectmanager.cpp:851
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -14972,17 +14972,17 @@ msgstr ""
 "El projecte s'ha modificat en obrir-lo, es crearà una còpia de seguretat en "
 "el proper guardada"
 
-#: src/project/projectmanager.cpp:880
+#: src/project/projectmanager.cpp:883
 #, kde-format
 msgid "Loading timeline…"
 msgstr "S'està carregant la línia de temps…"
 
-#: src/project/projectmanager.cpp:898
+#: src/project/projectmanager.cpp:901
 #, kde-format
 msgid "Building sequences…"
 msgstr "S'estan construint les seqüències…"
 
-#: src/project/projectmanager.cpp:1029
+#: src/project/projectmanager.cpp:1032
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14991,7 +14991,7 @@ msgstr ""
 "No s'ha pogut obrir el fitxer de projecte. Error:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1069
+#: src/project/projectmanager.cpp:1072
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -15000,12 +15000,12 @@ msgstr ""
 "Suprimirà tots els canvis efectuats des de l'última vegada que es va guardar "
 "el projecte. Segur que voleu continuar?"
 
-#: src/project/projectmanager.cpp:1070
+#: src/project/projectmanager.cpp:1073
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Retorna a l'última versió guardada"
 
-#: src/project/projectmanager.cpp:1156
+#: src/project/projectmanager.cpp:1159
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -15015,25 +15015,25 @@ msgstr ""
 "torneu a obrir el fitxer de projecte per a recuperar l'última còpia de "
 "seguretat"
 
-#: src/project/projectmanager.cpp:1346
+#: src/project/projectmanager.cpp:1349
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "S'ha produït un error en moure la carpeta del projecte, no s'ha pogut "
 "accedir a la carpeta de memòria cau"
 
-#: src/project/projectmanager.cpp:1382
+#: src/project/projectmanager.cpp:1385
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movent la carpeta del projecte"
 
-#: src/project/projectmanager.cpp:1472 src/project/projectmanager.cpp:1525
-#: src/project/projectmanager.cpp:1529
+#: src/project/projectmanager.cpp:1475 src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1532
 #, kde-format
 msgid "Sequence 1"
 msgstr "Seqüència 1"
 
-#: src/project/projectmanager.cpp:1483
+#: src/project/projectmanager.cpp:1486
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15041,13 +15041,13 @@ msgstr ""
 "El fitxer del projecte està corromput: falla en carregar les pistes. Intente "
 "buscar un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:1623 src/project/projectmanager.cpp:1628
-#: src/project/projectmanager.cpp:1638 src/project/projectmanager.cpp:1652
+#: src/project/projectmanager.cpp:1626 src/project/projectmanager.cpp:1631
+#: src/project/projectmanager.cpp:1641 src/project/projectmanager.cpp:1655
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "S'ha interromput el canvi del perfil del projecte"
 
-#: src/project/projectmanager.cpp:1769
+#: src/project/projectmanager.cpp:1772
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15056,12 +15056,12 @@ msgstr ""
 "El fitxer d'eixida %1 ja existix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/project/projectmanager.cpp:1794
+#: src/project/projectmanager.cpp:1797
 #, kde-format
 msgid "Project profile changed"
 msgstr "S'ha canviat el perfil del projecte"
 
-#: src/project/projectmanager.cpp:1854
+#: src/project/projectmanager.cpp:1857
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15070,18 +15070,18 @@ msgstr ""
 "No s'ha pogut crear una línia de temps a partir d'este clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1930
+#: src/project/projectmanager.cpp:1933
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Actualment, la importació d'un clip de seqüència està en estat experimental"
 
-#: src/project/projectmanager.cpp:2110
+#: src/project/projectmanager.cpp:2113
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccioneu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:2148
+#: src/project/projectmanager.cpp:2151
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"
