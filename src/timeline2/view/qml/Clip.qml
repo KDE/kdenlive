@@ -1082,7 +1082,7 @@ Rectangle {
                     Text {
                         // Proxy P
                         id: proxyLabel
-                        text: "P"
+                        text: i18nc("@label The first letter of Proxy, used as abbreviation", "P")
                         font.pointSize: root.fontUnit +1
                         visible: proxyRect.visible
                         anchors {

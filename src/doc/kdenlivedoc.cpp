@@ -1217,6 +1217,17 @@ const QString KdenliveDoc::getSequenceProperty(const QUuid &uuid, const QString 
     return defaultValue;
 }
 
+const QStringList KdenliveDoc::getSequenceNames() const
+{
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> m(m_timelines);
+    QStringList sequenceNames;
+    while (m.hasNext()) {
+        m.next();
+        sequenceNames << QString(m.value()->tractor()->get("kdenlive:clipname"));
+    }
+    return sequenceNames;
+}
+
 bool KdenliveDoc::hasSequenceProperty(const QUuid &uuid, const QString &name) const
 {
     if (m_sequenceProperties.contains(uuid)) {

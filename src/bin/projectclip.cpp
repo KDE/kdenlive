@@ -573,7 +573,7 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
         font.setBold(true);
         p.setFont(font);
         p.setPen(Qt::black);
-        p.drawText(r, Qt::AlignCenter, i18nc("The first letter of Proxy, used as abbreviation", "P"));
+        p.drawText(r, Qt::AlignCenter, i18nc("@label The first letter of Proxy, used as abbreviation", "P"));
     }
     m_thumbnail = QIcon(thumb);
     if (auto ptr = m_model.lock()) {

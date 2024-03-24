@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/x-kdenlive">
+    <icon name="org.kde.kdenlive.application-x-kdenlive" />
     <comment>Kdenlive video project document</comment>
     <comment xml:lang="ar">مستند مشروع «كِيدِينلايف» فيديو</comment>
     <comment xml:lang="az">Kdenlive video layihəsi sənədi</comment>
@@ -39,6 +40,7 @@
     <glob pattern="*.kdenlive"/>
   </mime-type>
   <mime-type type="application/x-kdenlivetitle">
+    <icon name="org.kde.kdenlive.application-x-kdenlivetitle" />
     <comment>Kdenlive video title</comment>
     <comment xml:lang="ar">عنوان فيديو «كِيدِينلايف»</comment>
     <comment xml:lang="az">Kdenlive video başlığı</comment>
