@@ -135,10 +135,10 @@ void PythonDependencyMessage::checkAfterInstall()
 
 AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     : QObject{parent}
-    , m_dependencies()
     , m_versions(new QMap<QString, QString>())
     , m_disableInstall(pCore->packageType() == QStringLiteral("flatpak"))
     , m_dependenciesChecked(false)
+    , m_dependencies()
     , m_scripts(new QMap<QString, QString>())
 {
     addScript(QStringLiteral("checkpackages.py"));
@@ -347,7 +347,7 @@ void AbstractPythonInterface::checkDependenciesConcurrently()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QtConcurrent::run(this, &AbstractPythonInterface::checkDependencies, false, false);
 #else
-    QtConcurrent::run(&AbstractPythonInterface::checkDependencies, this, false, false);
+    (void)QtConcurrent::run(&AbstractPythonInterface::checkDependencies, this, false, false);
 #endif
 }
 
@@ -356,7 +356,7 @@ void AbstractPythonInterface::checkVersionsConcurrently()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QtConcurrent::run(this, &AbstractPythonInterface::checkVersions, true);
 #else
-    QtConcurrent::run(&AbstractPythonInterface::checkVersions, this, true);
+    (void)QtConcurrent::run(&AbstractPythonInterface::checkVersions, this, true);
 #endif
 }
 
@@ -456,7 +456,7 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QtConcurrent::run(this, &AbstractPythonInterface::runScript, script, args, QString(), true, false);
 #else
-    QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, false);
+    (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, false);
 #endif
 }
 
@@ -536,7 +536,7 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode, bool conc
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QtConcurrent::run(this, &AbstractPythonInterface::runScript, QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode, concurrent, true);
 #else
-        QtConcurrent::run(&AbstractPythonInterface::runScript, this, QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode, concurrent, true);
+        (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode, concurrent, true);
 #endif
         return {};
     } else {

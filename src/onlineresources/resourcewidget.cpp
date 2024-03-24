@@ -307,7 +307,7 @@ void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QtConcurrent::run(this, &ResourceWidget::slotLoadImages);
 #else
-    QtConcurrent::run(&ResourceWidget::slotLoadImages, this);
+    (void)QtConcurrent::run(&ResourceWidget::slotLoadImages, this);
 #endif
 }
 

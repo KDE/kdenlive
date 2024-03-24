@@ -53,7 +53,7 @@ ProxyTest::ProxyTest(QWidget *parent)
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QtConcurrent::run(this, &ProxyTest::startTest);
 #else
-        QtConcurrent::run(&ProxyTest::startTest, this);
+        (void)QtConcurrent::run(&ProxyTest::startTest, this);
 #endif
     });
 }

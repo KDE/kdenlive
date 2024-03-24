@@ -38,10 +38,10 @@ TEST_CASE("Replace Clip", "[ReplaceClip]")
     pCore->projectManager()->testSetActiveDocument(&document, timeline);
 
     // Create tracks
-    int tid1 = timeline->getTrackIndexFromPosition(0);
-    int tid3 = timeline->getTrackIndexFromPosition(1);
+    /*int tid1 =*/ timeline->getTrackIndexFromPosition(0);
+    /*int tid3 =*/ timeline->getTrackIndexFromPosition(1);
     int tid2 = timeline->getTrackIndexFromPosition(2);
-    int tid4 = timeline->getTrackIndexFromPosition(3);
+    /*int tid4 =*/ timeline->getTrackIndexFromPosition(3);
 
     // Create clips with audio
     QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
