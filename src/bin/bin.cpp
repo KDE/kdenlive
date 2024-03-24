@@ -3833,7 +3833,13 @@ void Bin::buildSequenceClip(int aTracks, int vTracks)
     dia_ui.setupUi(dia.data());
     dia->setWindowTitle(i18nc("@title:window", "Create New Sequence"));
     int timelinesCount = pCore->projectManager()->getTimelinesCount() + 1;
-    dia_ui.sequence_name->setText(i18n("Sequence %1", timelinesCount));
+    const QStringList seqNames = m_doc->getSequenceNames();
+    QString newSeqName = i18n("Sequence %1", timelinesCount);
+    while (seqNames.contains(newSeqName)) {
+        timelinesCount++;
+        newSeqName = i18n("Sequence %1", timelinesCount);
+    }
+    dia_ui.sequence_name->setText(newSeqName);
     dia_ui.video_tracks->setValue(vTracks == -1 ? KdenliveSettings::videotracks() : vTracks);
     dia_ui.audio_tracks->setValue(aTracks == -1 ? KdenliveSettings::audiotracks() : aTracks);
     dia_ui.sequence_name->setFocus();
