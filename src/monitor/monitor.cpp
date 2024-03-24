@@ -159,6 +159,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_glMonitor->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_glMonitor, &VideoWidget::initialize, Qt::DirectConnection);
         connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRendering, m_glMonitor, &VideoWidget::beforeRendering, Qt::DirectConnection);
         connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_glMonitor, &VideoWidget::renderVideo, Qt::DirectConnection);
+        m_glMonitor->setClearColor(KdenliveSettings::window_background());
+        // Enforce geometry recalculation
+        m_glMonitor->refreshZoom = true;
         m_glMonitor->reconnectWindow();
     };
 
