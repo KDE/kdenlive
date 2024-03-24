@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-23 02:26+0000\n"
-"PO-Revision-Date: 2024-03-09 10:33+0100\n"
+"PO-Revision-Date: 2024-03-23 12:22+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -9735,7 +9735,7 @@ msgstr "Simon A. Eugster"
 #: src/main.cpp:163
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
-msgstr "Kolore esparruak, akats zuzenketak, etab."
+msgstr "Kolore-eskopioak, akats zuzenketak, etab."
 
 #: src/main.cpp:164
 #, kde-format
@@ -12118,7 +12118,7 @@ msgstr "Audioaren bolumena"
 #: src/monitor/monitor.cpp:95 src/scopes/colorscopes/vectorscope.cpp:254
 #, kde-format
 msgid "%1%"
-msgstr "%1 %"
+msgstr "% %1"
 
 #: src/monitor/monitor.cpp:212
 #, kde-format
@@ -12553,12 +12553,12 @@ msgstr "Kapturak huts egin du, mesedez zurtatu parametroak egokiak direla"
 #: src/monitor/scopes/audiographspectrum.cpp:282
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
-msgstr "MLT-k libfftw3-rekin konpilatu behar da Audio espektroa gaitzeko"
+msgstr "MLT-k libfftw3-rekin konpilatu behar da Audio-espektroa gaitzeko"
 
 #: src/monitor/scopes/audiographspectrum.cpp:289
 #, kde-format
 msgid "Enable Audio Spectrum"
-msgstr "Audio espektroa gaitu"
+msgstr "Gaitu Audio-espektroa"
 
 #: src/monitor/view/EffectToolBar.qml:58
 #: src/monitor/view/MultiScreenToolBar.qml:56
@@ -15459,7 +15459,7 @@ msgstr ""
 #: src/scopes/abstractscopewidget.cpp:66
 #, kde-format
 msgid "Auto Refresh"
-msgstr "Freskatu automatikoki"
+msgstr "Automatikoki freskatzea"
 
 #: src/scopes/abstractscopewidget.cpp:68
 #, kde-format
@@ -15637,7 +15637,7 @@ msgstr "Fitxategiaren luzapena"
 #: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:114
 #, kde-format
 msgid "Scaling"
-msgstr "Eskala"
+msgstr "Eskaltzea"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:210
 #, kde-format
@@ -15796,7 +15796,7 @@ msgstr "Uhin-forma"
 #: src/scopes/scopemanager.cpp:295 src/ui/rgbparade_ui.ui:18
 #, kde-format
 msgid "RGB Parade"
-msgstr "RGB aurkezpena"
+msgstr "RGB parada"
 
 #: src/scopes/scopemanager.cpp:296
 #, kde-format
