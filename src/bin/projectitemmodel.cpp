@@ -1506,7 +1506,8 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fu
     if (m_projectTractor->count() > 0) {
         m_projectTractor->remove_track(0);
     }
-    m_projectTractor->insert_track(*activeTractor->cut(0, duration), 0);
+    std::unique_ptr<Mlt::Producer> cut(activeTractor->cut(0, duration));
+    m_projectTractor->insert_track(*cut.get(), 0);
 
     Mlt::Service s(m_projectTractor->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
