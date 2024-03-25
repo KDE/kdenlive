@@ -734,7 +734,9 @@ void ClipLoadTask::run()
                 replaceName = true;
             }
             // Reset produccer to get rid of cached frame
+            QMutexLocker lock(&pCore->xmlMutex);
             producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.constData()));
+            lock.unlock();
             if (replaceProxy) {
                 producer->set("_replaceproxy", 1);
             }

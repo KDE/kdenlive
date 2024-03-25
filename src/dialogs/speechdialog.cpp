@@ -282,7 +282,7 @@ void SpeechDialog::slotProcessSpeech()
     m_tmpAudio->close();
     m_timeline->sceneList(QDir::temp().absolutePath(), sceneList);
     // TODO: do the rendering in another thread to not block the UI
-
+    QMutexLocker lock(&pCore->xmlMutex);
     Mlt::Producer producer(m_timeline->tractor()->get_profile(), "xml", sceneList.toUtf8().constData());
     int tracksCount = m_timeline->tractor()->count();
     std::shared_ptr<Mlt::Service> s(new Mlt::Service(producer));

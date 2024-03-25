@@ -253,6 +253,8 @@ private Q_SLOTS:
     int reconfigure();
     void refresh();
     void switchRecordState(bool on);
+    /** @brief Enforce a zoom refresh, can be useful when switching to/from fullscreen to adjust image size/position */
+    void forceRefreshZoom();
 
 protected:
     QMutex m_contextSharedAccess;

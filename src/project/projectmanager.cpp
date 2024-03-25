@@ -158,6 +158,7 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
     m_notesPlugin = new NotesPlugin(this);
 
     m_autoSaveTimer.setSingleShot(true);
+    m_autoSaveTimer.setInterval(3000);
     connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
 }
 
@@ -1134,7 +1135,7 @@ void ProjectManager::slotStartAutoSave()
         m_autoSaveTimer.stop();
         slotAutoSave();
     } else {
-        m_autoSaveTimer.start(3000); // will trigger slotAutoSave() in 3 seconds
+        m_autoSaveTimer.start(); // will trigger slotAutoSave() in 3 seconds
     }
 }
 
@@ -1429,9 +1430,10 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
 {
     pCore->taskManager.slotCancelJobs();
     const QUuid uuid = m_project->uuid();
-
+    QMutexLocker lock(&pCore->xmlMutex);
     std::unique_ptr<Mlt::Producer> xmlProd(
         new Mlt::Producer(pCore->getProjectProfile().get_profile(), "xml-string", m_project->getAndClearProjectXml().constData()));
+    lock.unlock();
     Mlt::Service s(*xmlProd.get());
     Mlt::Tractor tractor(s);
     if (xmlProd->property_exists("kdenlive:projectTractor")) {
@@ -1855,7 +1857,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
         if (xmlProd == nullptr || !xmlProd->is_valid()) {
             qDebug() << "::: LOADING EXTRA TIMELINE ERROR\n\nXXXXXXXXXXXXXXXXXXXXXXX";
             pCore->displayBinMessage(i18n("Cannot create a timeline from this clip:\n%1", clip->url()), KMessageWidget::Information);
-            m_autoSaveTimer.start();
+            if (m_project->isModified()) {
+                m_autoSaveTimer.start();
+            }
             return false;
         }
     }
@@ -1939,7 +1943,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
             // if (!constructTimelineFromMelt(timelineModel, *tractor.get(), m_progressDialog, m_project->modifiedDecimalPoint(), chunks, dirty)) {
             //  TODO: act on project load failure
             qDebug() << "// Project failed to load!!";
-            m_autoSaveTimer.start();
+            if (m_project->isModified()) {
+                m_autoSaveTimer.start();
+            }
             return false;
         }
         qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timelineModel->tractor()->count() << "\nZZZZZZZZZZZZ";
@@ -1999,7 +2005,9 @@ bool ProjectManager::openTimeline(const QString &id, const QUuid &uuid, int posi
     }*/
     pCore->window()->raiseTimeline(timeline->getUuid());
     pCore->bin()->updateTargets();
-    m_autoSaveTimer.start();
+    if (m_project->isModified()) {
+        m_autoSaveTimer.start();
+    }
     return true;
 }
 

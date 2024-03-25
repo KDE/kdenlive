@@ -240,10 +240,15 @@ void VideoWidget::resizeEvent(QResizeEvent *event)
 {
     QQuickWidget::resizeEvent(event);
     if (refreshZoom) {
-        setZoom(m_zoom, true);
+        QMetaObject::invokeMethod(this, "forceRefreshZoom", Qt::QueuedConnection);
         refreshZoom = false;
     }
     resizeVideo(event->size().width(), event->size().height());
+}
+
+void VideoWidget::forceRefreshZoom()
+{
+    setZoom(m_zoom, true);
 }
 
 void VideoWidget::clear()

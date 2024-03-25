@@ -2218,7 +2218,9 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
             waitingBinIds << clipId;
             clipsImported = true;
+            QMutexLocker lock(&pCore->xmlMutex);
             std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", doc.toString().toUtf8().constData()));
+            lock.unlock();
             if (!xmlProd->is_valid()) {
                 qDebug() << ":::: CANNOT IMPORT SEQUENCE: " << clipId;
                 continue;

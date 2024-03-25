@@ -2229,8 +2229,10 @@ void Bin::slotDuplicateClip()
                     if (!Xml::docContentFromFile(doc, src.fileName(), false)) {
                         return;
                     }
+                    QMutexLocker lock(&pCore->xmlMutex);
                     const QByteArray result = doc.toString().toUtf8();
                     std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", result.constData()));
+                    lock.unlock();
                     QString id;
                     Fun undo = []() { return true; };
                     Fun redo = []() { return true; };
