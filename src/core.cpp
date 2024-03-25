@@ -242,10 +242,10 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         m_mainWindow->restore(1, false);
     }
     m_guiConstructed = true;
-    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
     bin->slotUpdatePalette();
     Q_EMIT m_mainWindow->GUISetupDone();
+    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
 }
 
 void Core::buildDocks()

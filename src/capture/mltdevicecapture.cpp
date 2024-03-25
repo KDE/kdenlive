@@ -4,7 +4,7 @@
 */
 
 #include "mltdevicecapture.h"
-
+#include "core.h"
 #include "kdenlivesettings.h"
 
 #include <mlt++/Mlt.h>
@@ -248,11 +248,14 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
         }
     }
     char *tmp = qstrdup(producer.toUtf8().constData());
+
+    QMutexLocker lock(&pCore->xmlMutex);
     if (xmlFormat) {
         m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
     } else {
         m_mltProducer = new Mlt::Producer(*m_mltProfile, tmp);
     }
+    lock.unlock();
     delete[] tmp;
 
     if (m_mltProducer == nullptr || !m_mltProducer->is_valid()) {
@@ -410,6 +413,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     } else {
     }
 
+    QMutexLocker lock(&pCore->xmlMutex);
     if (xmlPlaylist) {
         // create an xml producer
         m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());
@@ -417,6 +421,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         // create a producer based on mltproducer parameter
         m_mltProducer = new Mlt::Producer(*m_mltProfile, playlist.toUtf8().constData());
     }
+    lock.unlock();
 
     if (m_mltProducer == nullptr || !m_mltProducer->is_valid()) {
         // qCDebug(KDENLIVE_LOG)<<"//// ERROR CREATRING PROD";
