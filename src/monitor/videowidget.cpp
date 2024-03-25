@@ -308,6 +308,9 @@ void VideoWidget::requestSeek(int position, bool noAudioScrub)
     if (!qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->purge();
     }
+    if (!m_consumer) {
+        return;
+    }
     restartConsumer();
     m_consumer->set("refresh", 1);
     if (KdenliveSettings::audio_scrub() && !noAudioScrub) {
