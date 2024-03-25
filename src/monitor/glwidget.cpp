@@ -315,6 +315,11 @@ void VideoWidget::resizeEvent(QResizeEvent *event)
     resizeGL(event->size().width(), event->size().height());
 }
 
+void VideoWidget::forceRefreshZoom()
+{
+    // Only used for Qt6
+}
+
 void VideoWidget::createGPUAccelFragmentProg()
 {
     m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment, "uniform sampler2D tex;"
