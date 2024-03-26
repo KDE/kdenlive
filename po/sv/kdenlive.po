@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-25 00:37+0000\n"
+"POT-Creation-Date: 2024-03-26 00:37+0000\n"
 "PO-Revision-Date: 2023-12-28 21:23+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -553,7 +553,7 @@ msgstr "Till"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:840
+#: src/mltcontroller/clippropertiescontroller.cpp:852
 #, kde-format
 msgid "Swap channels"
 msgstr "Byt kanaler"
@@ -1390,7 +1390,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1398
-#: src/bin/bin.cpp:1403 src/bin/bin.cpp:2339
+#: src/bin/bin.cpp:1403 src/bin/bin.cpp:2341
 #, kde-format
 msgid "Filter"
 msgstr "Filter"
@@ -4110,7 +4110,7 @@ msgstr ""
 "Justerar ljudspårets utgångsvolym (påverkar alla ljudklipp lika mycket)."
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:522
-#: src/mltcontroller/clippropertiescontroller.cpp:892
+#: src/mltcontroller/clippropertiescontroller.cpp:904
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -4418,7 +4418,7 @@ msgstr "Ta bort korgklipp"
 msgid "Missing source clip"
 msgstr "Saknar källklipp"
 
-#: src/bin/bin.cpp:1866 src/bin/bin.cpp:2541
+#: src/bin/bin.cpp:1866 src/bin/bin.cpp:2543
 #: src/effects/effectlist/view/effectlistwidget.cpp:146
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -4426,7 +4426,7 @@ msgstr "Saknar källklipp"
 msgid "Unable to write to file %1"
 msgstr "Kan inte skriva till fil %1"
 
-#: src/bin/bin.cpp:1876 src/bin/bin.cpp:2550 src/doc/kdenlivedoc.cpp:742
+#: src/bin/bin.cpp:1876 src/bin/bin.cpp:2552 src/doc/kdenlivedoc.cpp:742
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4574,7 +4574,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Ersätt i tidslinje"
 
-#: src/bin/bin.cpp:2122 src/bin/bin.cpp:5727 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:2122 src/bin/bin.cpp:5729 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4595,70 +4595,70 @@ msgstr "Kunde inte skapa tillfällig fil i %1"
 msgid "Duplicating sequence failed"
 msgstr "Duplicera sekvens misslyckades"
 
-#: src/bin/bin.cpp:2237
+#: src/bin/bin.cpp:2239
 #, kde-format
 msgid "%1 (copy)"
 msgstr "%1 (kopia)"
 
-#: src/bin/bin.cpp:2240 src/bin/bin.cpp:2262 src/bin/bin.cpp:2264
+#: src/bin/bin.cpp:2242 src/bin/bin.cpp:2264 src/bin/bin.cpp:2266
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Duplicera klipp"
 
-#: src/bin/bin.cpp:2253
+#: src/bin/bin.cpp:2255
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (kopia)"
 
-#: src/bin/bin.cpp:2389
+#: src/bin/bin.cpp:2391
 #, kde-format
 msgid "Clear Filters"
 msgstr "Rensa filter"
 
-#: src/bin/bin.cpp:2395
+#: src/bin/bin.cpp:2397
 #, kde-format
 msgid "No Tags"
 msgstr "Inga etiketter"
 
-#: src/bin/bin.cpp:2414
+#: src/bin/bin.cpp:2416
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "%1 stjärna"
 msgstr[1] "%1 stjärnor"
 
-#: src/bin/bin.cpp:2421
+#: src/bin/bin.cpp:2423
 #, kde-format
 msgid "Filter by Usage"
 msgstr "Filtrera enligt användning"
 
-#: src/bin/bin.cpp:2424
+#: src/bin/bin.cpp:2426
 #, kde-format
 msgid "All Clips"
 msgstr "Alla klipp"
 
-#: src/bin/bin.cpp:2429
+#: src/bin/bin.cpp:2431
 #, kde-format
 msgid "Unused Clips"
 msgstr "Oanvända klipp"
 
-#: src/bin/bin.cpp:2433
+#: src/bin/bin.cpp:2435
 #, kde-format
 msgid "Used Clips"
 msgstr "Använda klipp"
 
-#: src/bin/bin.cpp:2440
+#: src/bin/bin.cpp:2442
 #, kde-format
 msgid "Filter by Type"
 msgstr "Filtrera enligt typ"
 
-#: src/bin/bin.cpp:2443
+#: src/bin/bin.cpp:2445
 #, kde-format
 msgid "AV Clip"
 msgstr "AV-klipp"
 
-#: src/bin/bin.cpp:2447
+#: src/bin/bin.cpp:2449
 #, kde-format
 msgid "Mute Video"
 msgstr "Tysta video"
@@ -4668,7 +4668,7 @@ msgstr "Tysta video"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2451 src/effects/effectlist/model/effecttreemodel.cpp:62
+#: src/bin/bin.cpp:2453 src/effects/effectlist/model/effecttreemodel.cpp:62
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:595
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:525
@@ -4678,64 +4678,64 @@ msgstr "Tysta video"
 msgid "Audio"
 msgstr "Ljud"
 
-#: src/bin/bin.cpp:2455 src/mltcontroller/clippropertiescontroller.cpp:433
+#: src/bin/bin.cpp:2457 src/mltcontroller/clippropertiescontroller.cpp:445
 #, kde-format
 msgid "Image"
 msgstr "Bild"
 
-#: src/bin/bin.cpp:2459
+#: src/bin/bin.cpp:2461
 #, kde-format
 msgid "Slideshow"
 msgstr "Bildspel"
 
-#: src/bin/bin.cpp:2463
+#: src/bin/bin.cpp:2465
 #, kde-format
 msgid "Playlist"
 msgstr "Spellista"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1496
-#: src/project/projectmanager.cpp:1498 src/ui/managecache_ui.ui:192
+#: src/bin/bin.cpp:2469 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1498
+#: src/project/projectmanager.cpp:1500 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekvenser"
 
-#: src/bin/bin.cpp:2471 src/project/dialogs/projectsettings.cpp:217
+#: src/bin/bin.cpp:2473 src/project/dialogs/projectsettings.cpp:217
 #, kde-format
 msgid "Title"
 msgstr "Titel"
 
-#: src/bin/bin.cpp:2475
+#: src/bin/bin.cpp:2477
 #, kde-format
 msgid "Title Template"
 msgstr "Titelmall"
 
-#: src/bin/bin.cpp:2479 src/layoutmanagement.cpp:38
-#: src/mltcontroller/clippropertiescontroller.cpp:347
+#: src/bin/bin.cpp:2481 src/layoutmanagement.cpp:38
+#: src/mltcontroller/clippropertiescontroller.cpp:359
 #, kde-format
 msgid "Color"
 msgstr "Färg"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2571 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2573 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Katalog"
 
-#: src/bin/bin.cpp:2572
+#: src/bin/bin.cpp:2574
 #, kde-format
 msgid "Create bin folder"
 msgstr "Skapa korgkatalog"
 
-#: src/bin/bin.cpp:2704 src/bin/bin.cpp:2717 src/bin/bin.cpp:3684
+#: src/bin/bin.cpp:2706 src/bin/bin.cpp:2719 src/bin/bin.cpp:3686
 #: src/timeline2/model/timelinemodel.cpp:2117
 #, kde-format
 msgid "Delete Clip"
 msgstr "Ta bort klipp"
 
-#: src/bin/bin.cpp:2706 src/bin/bin.cpp:2719
+#: src/bin/bin.cpp:2708 src/bin/bin.cpp:2721
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4745,37 +4745,37 @@ msgstr ""
 "Tar bort klippen som för närvarande är markerade från projektkorgen och även "
 "från tidslinjen."
 
-#: src/bin/bin.cpp:2707 src/bin/bin.cpp:2720 src/bin/bin.cpp:3660
+#: src/bin/bin.cpp:2709 src/bin/bin.cpp:2722 src/bin/bin.cpp:3662
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Ersättningsklipp"
 
-#: src/bin/bin.cpp:2711
+#: src/bin/bin.cpp:2713
 #, kde-format
 msgid "Delete Folder"
 msgstr "Ta bort katalog"
 
-#: src/bin/bin.cpp:2712
+#: src/bin/bin.cpp:2714
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Ersättningskatalog"
 
-#: src/bin/bin.cpp:2964
+#: src/bin/bin.cpp:2966
 #, kde-format
 msgid "Edit rating"
 msgstr "Redigera betyg"
 
-#: src/bin/bin.cpp:2966
+#: src/bin/bin.cpp:2968
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Kan inte ange betyg för objektet"
 
-#: src/bin/bin.cpp:3604
+#: src/bin/bin.cpp:3606
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Lägg till klipp eller katalog…"
 
-#: src/bin/bin.cpp:3605
+#: src/bin/bin.cpp:3607
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4789,103 +4789,103 @@ msgstr ""
 "en lista med källtyper att välja bland.<nl/>Klicka på medieikonen för att "
 "öppna ett fönster för att välja källfiler."
 
-#: src/bin/bin.cpp:3611
+#: src/bin/bin.cpp:3613
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Lägg till färgklipp…"
 
-#: src/bin/bin.cpp:3613
+#: src/bin/bin.cpp:3615
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Lägg till bildsekvens…"
 
-#: src/bin/bin.cpp:3615
+#: src/bin/bin.cpp:3617
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Lägg till titelklipp…"
 
-#: src/bin/bin.cpp:3617
+#: src/bin/bin.cpp:3619
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Lägg till mallklipp…"
 
-#: src/bin/bin.cpp:3619
+#: src/bin/bin.cpp:3621
 #, kde-format
 msgid "Create Animation…"
 msgstr "Skapa animering…"
 
-#: src/bin/bin.cpp:3621
+#: src/bin/bin.cpp:3623
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Lägg till sekvens…"
 
-#: src/bin/bin.cpp:3624 src/mainwindow.cpp:375
+#: src/bin/bin.cpp:3626 src/mainwindow.cpp:375
 #, kde-format
 msgid "Online Resources"
 msgstr "Nätresurser"
 
-#: src/bin/bin.cpp:3628
+#: src/bin/bin.cpp:3630
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Lokalisera klipp…"
 
-#: src/bin/bin.cpp:3633
+#: src/bin/bin.cpp:3635
 #, kde-format
 msgid "Reload Clip"
 msgstr "Uppdatera klipp"
 
-#: src/bin/bin.cpp:3639
+#: src/bin/bin.cpp:3641
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Omkodar till redigeringsvänligt format…"
 
-#: src/bin/bin.cpp:3644
+#: src/bin/bin.cpp:3646
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Ersätt klipp…"
 
-#: src/bin/bin.cpp:3650
+#: src/bin/bin.cpp:3652
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Ersätt klipp i tidslinje…"
 
-#: src/bin/bin.cpp:3655
+#: src/bin/bin.cpp:3657
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplicera klipp"
 
-#: src/bin/bin.cpp:3667 src/bin/bin.cpp:3733
+#: src/bin/bin.cpp:3669 src/bin/bin.cpp:3735
 #, kde-format
 msgid "Clip Properties"
 msgstr "Klippegenskaper"
 
-#: src/bin/bin.cpp:3672 src/mltcontroller/clippropertiescontroller.cpp:284
+#: src/bin/bin.cpp:3674 src/mltcontroller/clippropertiescontroller.cpp:296
 #, kde-format
 msgid "Edit Clip"
 msgstr "Redigera klipp"
 
-#: src/bin/bin.cpp:3689
+#: src/bin/bin.cpp:3691
 #, kde-format
 msgid "Open in new bin"
 msgstr "Öppna i ny korg"
 
-#: src/bin/bin.cpp:3701
+#: src/bin/bin.cpp:3703
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Standardkatalog för sekvenser"
 
-#: src/bin/bin.cpp:3706
+#: src/bin/bin.cpp:3708
 #, fuzzy, kde-format
 #| msgid "Default Target Folder for Sequences"
 msgid "Default Target Folder for Audio Captures"
 msgstr "Standardkatalog för sekvenser"
 
-#: src/bin/bin.cpp:3710
+#: src/bin/bin.cpp:3712
 #, kde-format
 msgid "Create Folder"
 msgstr "Skapa katalog"
 
-#: src/bin/bin.cpp:3713
+#: src/bin/bin.cpp:3715
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4895,96 +4895,96 @@ msgstr ""
 "Skapar en katalog på den nuvarande positionen i projektkorgen. Möjliggör "
 "bättre organisation av källfiler. Kataloger kan nästlas."
 
-#: src/bin/bin.cpp:3778 src/dialogs/speechdialog.cpp:50
+#: src/bin/bin.cpp:3780 src/dialogs/speechdialog.cpp:50
 #: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Visa logg"
 
-#: src/bin/bin.cpp:3781 src/dialogs/textbasededit.cpp:720
+#: src/bin/bin.cpp:3783 src/dialogs/textbasededit.cpp:720
 #, kde-format
 msgid "Detailed log"
 msgstr "Detaljerad logg"
 
-#: src/bin/bin.cpp:3841 src/bin/bin.cpp:3874
+#: src/bin/bin.cpp:3843 src/bin/bin.cpp:3876
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Skapa ny sekvens"
 
-#: src/bin/bin.cpp:3844 src/bin/bin.cpp:3847 src/bin/bin.cpp:3877
+#: src/bin/bin.cpp:3846 src/bin/bin.cpp:3849 src/bin/bin.cpp:3879
 #, kde-format
 msgid "Sequence %1"
 msgstr "Sekvens %1"
 
-#: src/bin/bin.cpp:3908
+#: src/bin/bin.cpp:3910
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Flytta klipp"
 msgstr[1] "Flytta klipp"
 
-#: src/bin/bin.cpp:3945
+#: src/bin/bin.cpp:3947
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Inget giltigt klipp att infoga"
 
-#: src/bin/bin.cpp:3958 src/timeline2/view/timelinecontroller.cpp:1535
+#: src/bin/bin.cpp:3960 src/timeline2/view/timelinecontroller.cpp:1535
 #: src/timeline2/view/timelinecontroller.cpp:3380
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Markera ett klipp för att verkställa en effekt"
 
-#: src/bin/bin.cpp:3981
+#: src/bin/bin.cpp:3983
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Kan inte utföra effekter för kataloger"
 
-#: src/bin/bin.cpp:4007 src/effects/effectstack/model/effectstackmodel.cpp:528
+#: src/bin/bin.cpp:4009 src/effects/effectstack/model/effectstackmodel.cpp:528
 #: src/effects/effectstack/model/effectstackmodel.cpp:534
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan inte lägga till effekt i klippet"
 
-#: src/bin/bin.cpp:4053 src/bin/bin.cpp:4060
+#: src/bin/bin.cpp:4055 src/bin/bin.cpp:4062
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Markera ett klipp för att lägga till en etikett"
 
-#: src/bin/bin.cpp:4199
+#: src/bin/bin.cpp:4201
 #, kde-format
 msgid "Edit Tags"
 msgstr "Redigera etiketter"
 
-#: src/bin/bin.cpp:4488 src/bin/projectclip.cpp:211
-#: src/bin/projectclip.cpp:2047 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/bin.cpp:4490 src/bin/projectclip.cpp:211
+#: src/bin/projectclip.cpp:2048 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
 msgid "Unnamed"
 msgstr "Namnlös"
 
-#: src/bin/bin.cpp:4542
+#: src/bin/bin.cpp:4544
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Ange sökväg till programmet för bildredigering"
 
-#: src/bin/bin.cpp:4554
+#: src/bin/bin.cpp:4556
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Ange ett standardprogram för att öppna bildfiler"
 
-#: src/bin/bin.cpp:4559
+#: src/bin/bin.cpp:4561
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Ange sökväg till programmet för ljudredigering"
 
-#: src/bin/bin.cpp:4571
+#: src/bin/bin.cpp:4573
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Ange ett standardprogram för att öppna ljudfiler"
 
-#: src/bin/bin.cpp:4581 src/core.cpp:313 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4583 src/core.cpp:313 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4993,12 +4993,12 @@ msgstr "Ange ett standardprogram för att öppna ljudfiler"
 msgid "Cannot open file %1"
 msgstr "Kan inte öppna filen %1"
 
-#: src/bin/bin.cpp:4761 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4763 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "(kopia)"
 
-#: src/bin/bin.cpp:4771
+#: src/bin/bin.cpp:4773
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5007,75 +5007,75 @@ msgstr ""
 "Du redigerar ett externt titelklipp (%1). Vill du spara ändringarna i "
 "titelfilen eller bara spara dem för det här projektet?"
 
-#: src/bin/bin.cpp:4774 src/titler/titlewidget.cpp:2282
+#: src/bin/bin.cpp:4776 src/titler/titlewidget.cpp:2282
 #, kde-format
 msgid "Save Title"
 msgstr "Spara titel"
 
-#: src/bin/bin.cpp:4774
+#: src/bin/bin.cpp:4776
 #, kde-format
 msgid "Save to title file"
 msgstr "Spara i titelfil"
 
-#: src/bin/bin.cpp:4775
+#: src/bin/bin.cpp:4777
 #, kde-format
 msgid "Save in project only"
 msgstr "Spara bara i projektet"
 
-#: src/bin/bin.cpp:4795 src/dialogs/clipcreationdialog.cpp:411
+#: src/bin/bin.cpp:4797 src/dialogs/clipcreationdialog.cpp:411
 #, kde-format
 msgid "Title clip"
 msgstr "Titelklipp"
 
-#: src/bin/bin.cpp:4845
+#: src/bin/bin.cpp:4847
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klippet är inte giltigt, och kommer att tas bort från projektet."
 
-#: src/bin/bin.cpp:4849
+#: src/bin/bin.cpp:4851
 #, kde-format
 msgid "Invalid clip"
 msgstr "Ogiltigt klipp"
 
-#: src/bin/bin.cpp:4972
+#: src/bin/bin.cpp:4974
 #, kde-format
 msgid "Enable proxies"
 msgstr "Aktivera ersättningar"
 
-#: src/bin/bin.cpp:4972
+#: src/bin/bin.cpp:4974
 #, kde-format
 msgid "Disable proxies"
 msgstr "Inaktivera ersättningar"
 
-#: src/bin/bin.cpp:5146
+#: src/bin/bin.cpp:5148
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Återskapa ersättningar"
 
-#: src/bin/bin.cpp:5376
+#: src/bin/bin.cpp:5378
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projektkorg"
 
-#: src/bin/bin.cpp:5392
+#: src/bin/bin.cpp:5394
 #, kde-format
 msgid "Add Tracks"
 msgstr "Lägg till spår"
 
-#: src/bin/bin.cpp:5394
+#: src/bin/bin.cpp:5396
 #, kde-format
 msgid "Edit Streams"
 msgstr "Redigera strömmar"
 
-#: src/bin/bin.cpp:5409
+#: src/bin/bin.cpp:5411
 #, kde-format
 msgid "Don't ask again"
 msgstr "Fråga inte igen"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5413
+#: src/bin/bin.cpp:5415
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5084,39 +5084,39 @@ msgstr ""
 "Projektet behöver fler ljudspår för att hantera alla strömmar. Lägg till %1 "
 "ljudströmmar?"
 
-#: src/bin/bin.cpp:5425 src/mainwindow.cpp:2720
+#: src/bin/bin.cpp:5427 src/mainwindow.cpp:2720
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Kan inte hitta klipp för att lägga till markör"
 
-#: src/bin/bin.cpp:5517
+#: src/bin/bin.cpp:5519
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Kunde inte hitta huvudklipp"
 
-#: src/bin/bin.cpp:5749
+#: src/bin/bin.cpp:5751
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klipp | "
 
-#: src/bin/bin.cpp:5751
+#: src/bin/bin.cpp:5753
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klipp (%2 markerade) | "
 
-#: src/bin/bin.cpp:5818 src/bin/bin.cpp:5895
+#: src/bin/bin.cpp:5820 src/bin/bin.cpp:5897
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Lägg till ytterligare strömmar för klipp"
 msgstr[1] "Lägg till ytterligare strömmar för klipp"
 
-#: src/bin/bin.cpp:5839
+#: src/bin/bin.cpp:5841
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importera markerade klipp"
 
-#: src/bin/bin.cpp:5841
+#: src/bin/bin.cpp:5843
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5125,34 +5125,34 @@ msgstr ""
 "Ytterligare strömmar för klipp\n"
 " %1"
 
-#: src/bin/bin.cpp:5854 src/mltcontroller/clippropertiescontroller.cpp:635
+#: src/bin/bin.cpp:5856 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videoström %1"
 
-#: src/bin/bin.cpp:5869
+#: src/bin/bin.cpp:5871
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Ljudström %1"
 
-#: src/bin/bin.cpp:5922
+#: src/bin/bin.cpp:5924
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Ta bort klippmarkörer"
 
-#: src/bin/bin.cpp:6071
+#: src/bin/bin.cpp:6073
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Vi rekommenderar att projektet sparas innan omkodningsåtgärden"
 
-#: src/bin/bin.cpp:6072
+#: src/bin/bin.cpp:6074
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Spara projekt"
 
-#: src/bin/bin.cpp:6073
+#: src/bin/bin.cpp:6075
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
@@ -5255,7 +5255,7 @@ msgstr[1] "Lägg till klipp"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
-#: src/mltcontroller/clippropertiescontroller.cpp:297
+#: src/mltcontroller/clippropertiescontroller.cpp:309
 #: src/transitions/view/mixstackview.cpp:31 src/ui/clipdurationdialog_ui.ui:58
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:226
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
@@ -5544,7 +5544,7 @@ msgstr ""
 "Bilddimension mindre än 8 bildpunkter.\n"
 "Det stöds för närvarande inte av vårt videoramverk."
 
-#: src/bin/projectclip.cpp:941
+#: src/bin/projectclip.cpp:942
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5553,29 +5553,29 @@ msgstr ""
 "Kan inte extrahera metadata från %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1193 src/jobs/cliploadtask.cpp:256
+#: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:256
 #, kde-format
 msgid "Invalid"
 msgstr "Ogiltig"
 
-#: src/bin/projectclip.cpp:1416 src/dialogs/clipcreationdialog.cpp:213
+#: src/bin/projectclip.cpp:1417 src/dialogs/clipcreationdialog.cpp:213
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1423
 #, kde-format
 msgid "File already exists"
 msgstr "Filen finns redan"
 
-#: src/bin/projectclip.cpp:2658
+#: src/bin/projectclip.cpp:2659
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Justera tidslinjeklipp"
 
-#: src/bin/projectclip.cpp:2893
+#: src/bin/projectclip.cpp:2894
 #, kde-format
 msgid "Add stream effect"
 msgstr "Lägg till strömningseffekt"
 
-#: src/bin/projectclip.cpp:2918
+#: src/bin/projectclip.cpp:2919
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ta bort strömningseffekt"
@@ -5715,12 +5715,7 @@ msgstr ""
 "Kdenlive kraschade vid senaste start.\n"
 "Vill du nollställa inställningsfilerna?"
 
-#: src/core.cpp:174 src/project/projectmanager.cpp:805
-#, kde-format
-msgid "Loading project…"
-msgstr "Läser in projekt…"
-
-#: src/core.cpp:206
+#: src/core.cpp:203
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -5729,19 +5724,19 @@ msgstr ""
 "Standardprofilen för Kdenlive är inte inställd eller är ogiltig. Klicka på "
 "Ok för att ställa in den till ett riktigt värde."
 
-#: src/core.cpp:218
+#: src/core.cpp:215
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Välj standardprofil"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:218 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:215 src/ui/profiledialog_ui.ui:38
 #, kde-format
 msgid "Profile:"
 msgstr "Profil:"
 
-#: src/core.cpp:231
+#: src/core.cpp:228
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -5749,6 +5744,11 @@ msgid ""
 msgstr ""
 "Den angivna profilen är ogiltig. Standardvärdet \"dv_pal\" har valts, men "
 "det går att ändra det i Kdenlives inställningsruta."
+
+#: src/core.cpp:248 src/project/projectmanager.cpp:806
+#, kde-format
+msgid "Loading project…"
+msgstr "Läser in projekt…"
 
 #: src/core.cpp:366
 #, kde-format
@@ -6398,7 +6398,7 @@ msgstr "Exportera flaggdata"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1787 src/render/renderrequest.cpp:269
+#: src/project/projectmanager.cpp:1789 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5068
@@ -6464,7 +6464,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Om osäker, prova:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1680
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1682
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -6595,7 +6595,7 @@ msgstr "JogShuttle"
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:504 src/dialogs/timeremap.cpp:1670
-#: src/kdenliveui.rc:88 src/mltcontroller/clippropertiescontroller.cpp:994
+#: src/kdenliveui.rc:88 src/mltcontroller/clippropertiescontroller.cpp:1006
 #: src/project/transcodeseek.cpp:41 src/project/transcodeseek.cpp:54
 #, kde-format
 msgid "Transcode"
@@ -6705,8 +6705,8 @@ msgstr "Aktuella inställningar"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1597
 #: src/dialogs/kdenlivesettingsdialog.cpp:1633
 #: src/dialogs/kdenlivesettingsdialog.cpp:1650
-#: src/mltcontroller/clippropertiescontroller.cpp:540
-#: src/mltcontroller/clippropertiescontroller.cpp:1374
+#: src/mltcontroller/clippropertiescontroller.cpp:552
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:230
 #, kde-format
@@ -8694,7 +8694,7 @@ msgid "Asset file"
 msgstr "TIllgångsfil"
 
 #: src/doc/documentchecker.cpp:1600
-#: src/mltcontroller/clippropertiescontroller.cpp:420
+#: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Ersättningsklipp"
@@ -8882,8 +8882,8 @@ msgstr "Följande filter och övertoningar togs bort från projektet:"
 msgid "Invalid file path"
 msgstr "Ogiltig filsökväg"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:789
-#: src/project/projectmanager.cpp:829
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:790
+#: src/project/projectmanager.cpp:830
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Kan inte återställa skadad fil."
@@ -8963,15 +8963,15 @@ msgstr ""
 "Projektfilen uppgraderades till den senaste Kdenlive-dokumentversion, men "
 "det var inte möjligt att skapa säkerhetskopian %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1371
-#: src/project/projectmanager.cpp:1407
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1372
+#: src/project/projectmanager.cpp:1408
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fel när projektkatalogen skulle flyttas: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2328
 #: src/project/dialogs/archivewidget.cpp:239
-#: src/project/projectmanager.cpp:1621
+#: src/project/projectmanager.cpp:1623
 #, kde-format
 msgid "Untitled"
 msgstr "Namnlös"
@@ -9632,17 +9632,17 @@ msgstr "Kan inte behandla filen %1"
 msgid "Cannot open source."
 msgstr "Kan inte öppna källa."
 
-#: src/jobs/filtertask.cpp:174
+#: src/jobs/filtertask.cpp:175
 #, kde-format
 msgid "Cannot create consumer."
 msgstr "Kan inte skapa konsument."
 
-#: src/jobs/filtertask.cpp:186
+#: src/jobs/filtertask.cpp:187
 #, kde-format
 msgid "Cannot create filter %1"
 msgstr "Kan inte skapa filter %1"
 
-#: src/jobs/filtertask.cpp:267
+#: src/jobs/filtertask.cpp:269
 #, kde-format
 msgid "Failed to filter source."
 msgstr "Misslyckades filtrera källa."
@@ -11842,12 +11842,12 @@ msgstr ""
 "Det flyttar alla tillfälliga filer från<br/><b>%1</b> till <b>%2</b>,<br/"
 ">och därefter läses projektfilen in igen"
 
-#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:596
+#: src/mainwindow.cpp:2222 src/project/projectmanager.cpp:597
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Kan inte utföra åtgärden. Ogiltigt dokumentidentifierare: %1"
 
-#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:602
+#: src/mainwindow.cpp:2227 src/project/projectmanager.cpp:603
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Kan inte utföra åtgärden. Målkatalogen finns redan: %1"
@@ -12220,94 +12220,94 @@ msgstr "Kan inte hitta programmet melt som krävs för återgivning (del av MLT)
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Kan inte hitta MLT-profiler, ange sökvägen"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:176
-#: src/mltcontroller/clippropertiescontroller.cpp:1370
-#: src/mltcontroller/clippropertiescontroller.cpp:1416
+#: src/mltcontroller/clippropertiescontroller.cpp:184
+#: src/mltcontroller/clippropertiescontroller.cpp:1382
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
 msgstr "kB/s"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:261
+#: src/mltcontroller/clippropertiescontroller.cpp:273
 #, kde-format
 msgid "Analysis data"
 msgstr "Analysdata"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:264
+#: src/mltcontroller/clippropertiescontroller.cpp:276
 #, kde-format
 msgid "Delete analysis"
 msgstr "Ta bort analys"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:265
+#: src/mltcontroller/clippropertiescontroller.cpp:277
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Tar bort datamängd(er)."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:266
+#: src/mltcontroller/clippropertiescontroller.cpp:278
 #, kde-format
 msgid "Export analysis…"
 msgstr "Exportera analys…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:267
+#: src/mltcontroller/clippropertiescontroller.cpp:279
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "Öppnar en fildialogfönster för att exportera/spara analysdata."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:268
+#: src/mltcontroller/clippropertiescontroller.cpp:280
 #, kde-format
 msgid "Import analysis…"
 msgstr "Importera analys…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:269
+#: src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "Öppnar en fildialogfönster för att importera/läsa in analysdata."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:321
-#: src/mltcontroller/clippropertiescontroller.cpp:579
+#: src/mltcontroller/clippropertiescontroller.cpp:333
+#: src/mltcontroller/clippropertiescontroller.cpp:591
 #, kde-format
 msgid "Disable autorotate"
 msgstr "Inaktivera automatisk rotation"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:337
+#: src/mltcontroller/clippropertiescontroller.cpp:349
 #, kde-format
 msgid "Enter template text here"
 msgstr "Ange malltext här"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:339
+#: src/mltcontroller/clippropertiescontroller.cpp:351
 #, kde-format
 msgid "Apply"
 msgstr "Verkställ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:369
+#: src/mltcontroller/clippropertiescontroller.cpp:381
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "Proportion:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:471
+#: src/mltcontroller/clippropertiescontroller.cpp:483
 #, kde-format
 msgid "Delete proxy file"
 msgstr "Ta bort ersättningsfil"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:477
+#: src/mltcontroller/clippropertiescontroller.cpp:489
 #, kde-format
 msgid "Proxy options"
 msgstr "Ersättningsalternativ"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:482
+#: src/mltcontroller/clippropertiescontroller.cpp:494
 #, kde-format
 msgid "Open folder…"
 msgstr "Öppna katalog…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:488
+#: src/mltcontroller/clippropertiescontroller.cpp:500
 #, kde-format
 msgid "Play proxy clip"
 msgstr "Spela ersättningsklipp"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:494
+#: src/mltcontroller/clippropertiescontroller.cpp:506
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "Kopiera filplats till klippbordet"
@@ -12315,9 +12315,9 @@ msgstr "Kopiera filplats till klippbordet"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:511
-#: src/mltcontroller/clippropertiescontroller.cpp:1359
-#: src/mltcontroller/clippropertiescontroller.cpp:1364
+#: src/mltcontroller/clippropertiescontroller.cpp:523
+#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1376
 #: src/ui/configcapture_ui.ui:114 src/ui/configcapture_ui.ui:411
 #: src/ui/profiledialog_ui.ui:115
 #, kde-format
@@ -12326,8 +12326,8 @@ msgstr "Bildfrekvens:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:535
-#: src/mltcontroller/clippropertiescontroller.cpp:1374
+#: src/mltcontroller/clippropertiescontroller.cpp:547
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #: src/project/dialogs/profilewidget.cpp:39 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:168
 #, kde-format
@@ -12337,8 +12337,8 @@ msgstr "Söker:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:539
-#: src/mltcontroller/clippropertiescontroller.cpp:1374
+#: src/mltcontroller/clippropertiescontroller.cpp:551
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/configcapture_ui.ui:170
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:225
 #, kde-format
@@ -12346,134 +12346,134 @@ msgid "Interlaced"
 msgstr "Inflätat"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:557
+#: src/mltcontroller/clippropertiescontroller.cpp:569
 #: src/ui/profiledialog_ui.ui:301
 #, kde-format
 msgid "Field order:"
 msgstr "Fältordning:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:561
+#: src/mltcontroller/clippropertiescontroller.cpp:573
 #, kde-format
 msgid "Bottom First"
 msgstr "Underkant först"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:562
+#: src/mltcontroller/clippropertiescontroller.cpp:574
 #, kde-format
 msgid "Top First"
 msgstr "Överkant först"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:601
+#: src/mltcontroller/clippropertiescontroller.cpp:613
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1 (standard)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:623
+#: src/mltcontroller/clippropertiescontroller.cpp:635
 #, kde-format
 msgid "Disable video"
 msgstr "Inaktivera video"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:623
+#: src/mltcontroller/clippropertiescontroller.cpp:635
 #, kde-format
 msgid "Enable video"
 msgstr "Aktivera video"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:631
+#: src/mltcontroller/clippropertiescontroller.cpp:643
 #, kde-format
 msgid "Video stream"
 msgstr "Videoström"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:681
+#: src/mltcontroller/clippropertiescontroller.cpp:693
 #, kde-format
 msgid "Disable audio"
 msgstr "Inaktivera ljud"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:681
+#: src/mltcontroller/clippropertiescontroller.cpp:693
 #, kde-format
 msgid "Enable audio"
 msgstr "Aktivera ljud"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:689
+#: src/mltcontroller/clippropertiescontroller.cpp:701
 #: src/monitor/monitor.cpp:287
 #, kde-format
 msgid "Audio streams"
 msgstr "Ljudströmmar"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:711
+#: src/mltcontroller/clippropertiescontroller.cpp:723
 #: src/monitor/monitor.cpp:1901
 #, kde-format
 msgid "Merge all streams"
 msgstr "Sammanfoga alla strömmar"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:822
+#: src/mltcontroller/clippropertiescontroller.cpp:834
 #, kde-format
 msgid "Normalize"
 msgstr "Normalisera"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:858
+#: src/mltcontroller/clippropertiescontroller.cpp:870
 #, kde-format
 msgid "Copy channel:"
 msgstr "Kopiera kanal:"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:859
+#: src/mltcontroller/clippropertiescontroller.cpp:871
 #: src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:860
+#: src/mltcontroller/clippropertiescontroller.cpp:872
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:889
+#: src/mltcontroller/clippropertiescontroller.cpp:901
 #, kde-format
 msgid "Gain:"
 msgstr "Förstärkning:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:916
+#: src/mltcontroller/clippropertiescontroller.cpp:928
 #, kde-format
 msgid "Audio sync:"
 msgstr "Ljudsynkronisering:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:918
+#: src/mltcontroller/clippropertiescontroller.cpp:930
 #, kde-format
 msgid "ms"
 msgstr "ms"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:937
+#: src/mltcontroller/clippropertiescontroller.cpp:949
 #, kde-format
 msgid "Color space:"
 msgstr "Färgrymd:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:970
+#: src/mltcontroller/clippropertiescontroller.cpp:982
 #, kde-format
 msgid "Color range:"
 msgstr "Färgintervall:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:975
+#: src/mltcontroller/clippropertiescontroller.cpp:987
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Utsändningsbegränsat (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:976
+#: src/mltcontroller/clippropertiescontroller.cpp:988
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Fullständigt (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:993
+#: src/mltcontroller/clippropertiescontroller.cpp:1005
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "Filen använder en variabel bildfrekvens, rekommenderas inte"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1024
+#: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
 msgid "File info"
 msgstr "Filinformation"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1025
+#: src/mltcontroller/clippropertiescontroller.cpp:1037
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -12481,200 +12481,200 @@ msgstr "Visar detaljinformation om filen."
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1027
+#: src/mltcontroller/clippropertiescontroller.cpp:1039
 #: src/ui/profiledialog_ui.ui:62 src/ui/titlewidget_ui.ui:660
 #, kde-format
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1028
+#: src/mltcontroller/clippropertiescontroller.cpp:1040
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "Visar detaljinformation om videodata/kodare."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1030
+#: src/mltcontroller/clippropertiescontroller.cpp:1042
 #, kde-format
 msgid "Audio Properties"
 msgstr "Ljudegenskaper"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1031
+#: src/mltcontroller/clippropertiescontroller.cpp:1043
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
 msgstr "Visar detaljinformation om ljudströmmar/data/kodare."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1033
+#: src/mltcontroller/clippropertiescontroller.cpp:1045
 #: src/project/dialogs/projectsettings.cpp:863 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Metadata"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1035
+#: src/mltcontroller/clippropertiescontroller.cpp:1047
 #, kde-format
 msgid "Analysis"
 msgstr "Analys"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1036
+#: src/mltcontroller/clippropertiescontroller.cpp:1048
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "Visar analysdata."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1109
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:1121
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #, kde-format
 msgid "Tracks:"
 msgstr "Spår:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1313
+#: src/mltcontroller/clippropertiescontroller.cpp:1325
 #, kde-format
 msgid "Image size:"
 msgstr "Bildstorlek:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1316
+#: src/mltcontroller/clippropertiescontroller.cpp:1328
 #, kde-format
 msgid "Image duration:"
 msgstr "Bildlängd:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1323
+#: src/mltcontroller/clippropertiescontroller.cpp:1335
 #, kde-format
 msgid "Image count:"
 msgstr "Bildantal:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1350
+#: src/mltcontroller/clippropertiescontroller.cpp:1362
 #, kde-format
 msgid "Video codec:"
 msgstr "Videoavkodare:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1354
+#: src/mltcontroller/clippropertiescontroller.cpp:1366
 #, kde-format
 msgid "Frame size:"
 msgstr "Bildrutestorlek:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1370
+#: src/mltcontroller/clippropertiescontroller.cpp:1382
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Video-bithastighet:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:1386
+#: src/mltcontroller/clippropertiescontroller.cpp:1398
 #: src/ui/configcapture_ui.ui:128 src/ui/profiledialog_ui.ui:271
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "Proportion för bildpunkter:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1388
+#: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
 msgid "Pixel format:"
 msgstr "Bildpunktsformat:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1391
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #: src/ui/configcapture_ui.ui:156 src/ui/profiledialog_ui.ui:281
 #, kde-format
 msgid "Colorspace:"
 msgstr "Färgrymd:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1394
+#: src/mltcontroller/clippropertiescontroller.cpp:1406
 #, kde-format
 msgid "B frames:"
 msgstr "B-bildrutor:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1394
+#: src/mltcontroller/clippropertiescontroller.cpp:1406
 #, kde-format
 msgid "Yes"
 msgstr "Ja"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1394
+#: src/mltcontroller/clippropertiescontroller.cpp:1406
 #, kde-format
 msgid "No"
 msgstr "Nej"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1397
+#: src/mltcontroller/clippropertiescontroller.cpp:1409
 #, kde-format
 msgid "Audio streams:"
 msgstr "Ljudströmmar:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1403
+#: src/mltcontroller/clippropertiescontroller.cpp:1415
 #, kde-format
 msgid "Audio codec:"
 msgstr "Ljudavkodare:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
+#: src/mltcontroller/clippropertiescontroller.cpp:1419
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Ljudkanaler:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#: src/mltcontroller/clippropertiescontroller.cpp:1423
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Ljudfrekvens:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1411
+#: src/mltcontroller/clippropertiescontroller.cpp:1423
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1416
+#: src/mltcontroller/clippropertiescontroller.cpp:1428
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Ljudbithastighet:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1428
+#: src/mltcontroller/clippropertiescontroller.cpp:1440
 #, kde-format
 msgid "File size:"
 msgstr "Filstorlek:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1450
-#: src/mltcontroller/clippropertiescontroller.cpp:1482
-#: src/mltcontroller/clippropertiescontroller.cpp:1514
+#: src/mltcontroller/clippropertiescontroller.cpp:1462
+#: src/mltcontroller/clippropertiescontroller.cpp:1494
+#: src/mltcontroller/clippropertiescontroller.cpp:1526
 #, kde-format
 msgid "Exif"
 msgstr "EXIF"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1535
-#: src/mltcontroller/clippropertiescontroller.cpp:1561
+#: src/mltcontroller/clippropertiescontroller.cpp:1547
+#: src/mltcontroller/clippropertiescontroller.cpp:1573
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1602
+#: src/mltcontroller/clippropertiescontroller.cpp:1614
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Spara analysdata"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1603
-#: src/mltcontroller/clippropertiescontroller.cpp:1616
+#: src/mltcontroller/clippropertiescontroller.cpp:1615
+#: src/mltcontroller/clippropertiescontroller.cpp:1628
 #: src/project/dialogs/projectsettings.cpp:801
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Textfil (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1615
+#: src/mltcontroller/clippropertiescontroller.cpp:1627
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Öppna analysdata"
 
-#: src/monitor/glwidget.cpp:1651 src/monitor/videowidget.cpp:1084
+#: src/monitor/glwidget.cpp:1656 src/monitor/videowidget.cpp:1092
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Markera en zon att spela upp"
 
-#: src/monitor/glwidget.cpp:1698 src/monitor/videowidget.cpp:1131
+#: src/monitor/glwidget.cpp:1703 src/monitor/videowidget.cpp:1139
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Välj ett klipp att spela"
 
-#: src/monitor/glwidget.cpp:1780 src/monitor/videowidget.cpp:1212
+#: src/monitor/glwidget.cpp:1785 src/monitor/videowidget.cpp:1220
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -14740,12 +14740,12 @@ msgstr "Spara kopia…"
 msgid "Open Backup File…"
 msgstr "Öppna säkerhetskopia…"
 
-#: src/project/projectmanager.cpp:431
+#: src/project/projectmanager.cpp:432
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Spara ändringar i dokument?"
 
-#: src/project/projectmanager.cpp:433 src/project/projectmanager.cpp:1620
+#: src/project/projectmanager.cpp:434 src/project/projectmanager.cpp:1622
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14754,17 +14754,17 @@ msgstr ""
 "Projektet <b>\"%1\"</b> har ändrats.\n"
 "Vill du spara ändringarna?"
 
-#: src/project/projectmanager.cpp:538
+#: src/project/projectmanager.cpp:539
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Misslyckades spara projektfilen <br><b>%1</b>"
 
-#: src/project/projectmanager.cpp:571
+#: src/project/projectmanager.cpp:572
 #, kde-format
 msgid "Saving successful"
 msgstr "Spara lyckades"
 
-#: src/project/projectmanager.cpp:584
+#: src/project/projectmanager.cpp:585
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -14775,38 +14775,38 @@ msgstr ""
 "för att spara tillfälliga filer. Det flyttar alla tillfälliga filer från <b>"
 "%1</b> till <b>%2</b> och projektfilen läses därefter in igen."
 
-#: src/project/projectmanager.cpp:625
+#: src/project/projectmanager.cpp:626
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Spara kopia"
 
-#: src/project/projectmanager.cpp:730
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Det finns en automatiskt sparad fil. Vill du återställa den nu?"
 
-#: src/project/projectmanager.cpp:730
+#: src/project/projectmanager.cpp:731
 #, kde-format
 msgid "File Recovery"
 msgstr "Återställning av filer"
 
-#: src/project/projectmanager.cpp:731 src/project/projectmanager.cpp:817
+#: src/project/projectmanager.cpp:732 src/project/projectmanager.cpp:818
 #, kde-format
 msgid "Recover"
 msgstr "Återställ"
 
-#: src/project/projectmanager.cpp:731
+#: src/project/projectmanager.cpp:732
 #, kde-format
 msgid "Do not recover"
 msgstr "Återställ inte"
 
-#: src/project/projectmanager.cpp:783
+#: src/project/projectmanager.cpp:784
 #, kde-format
 msgid "Opening file %1"
 msgstr "Öppnar fil %1"
 
-#: src/project/projectmanager.cpp:816
+#: src/project/projectmanager.cpp:817
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14817,28 +14817,28 @@ msgstr ""
 "%1\n"
 "Vill du öppna en säkerhetskopia?"
 
-#: src/project/projectmanager.cpp:817 src/project/projectmanager.cpp:1005
+#: src/project/projectmanager.cpp:818 src/project/projectmanager.cpp:1006
 #, kde-format
 msgid "Error opening file"
 msgstr "Fel när filen skulle öppnas"
 
-#: src/project/projectmanager.cpp:817 src/project/projectmanager.cpp:1006
+#: src/project/projectmanager.cpp:818 src/project/projectmanager.cpp:1007
 #, kde-format
 msgid "Open Backup"
 msgstr "Öppna säkerhetskopia"
 
-#: src/project/projectmanager.cpp:833
+#: src/project/projectmanager.cpp:834
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Kan inte öppna projektfilens säkerhetskopia."
 
-#: src/project/projectmanager.cpp:848
+#: src/project/projectmanager.cpp:849
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Projektet har uppgraderats, en säkerhetskopia skapas nästa gång det sparas"
 
-#: src/project/projectmanager.cpp:851
+#: src/project/projectmanager.cpp:852
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -14846,19 +14846,19 @@ msgstr ""
 "Projektet har ändrats när det öppnades, en säkerhetskopia skapas nästa gång "
 "det sparas"
 
-#: src/project/projectmanager.cpp:883
+#: src/project/projectmanager.cpp:884
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Loading timeline…"
 msgstr "Laddar ner modell…"
 
-#: src/project/projectmanager.cpp:901
+#: src/project/projectmanager.cpp:902
 #, fuzzy, kde-format
 #| msgid "Timeline sequence"
 msgid "Building sequences…"
 msgstr "Tidslinjesekvens"
 
-#: src/project/projectmanager.cpp:1032
+#: src/project/projectmanager.cpp:1033
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14867,7 +14867,7 @@ msgstr ""
 "Kan inte öppna projektfilen. Fel:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1072
+#: src/project/projectmanager.cpp:1073
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -14876,12 +14876,12 @@ msgstr ""
 "Detta tar bort alla ändringar som gjorts sedan projektet senast sparades. Är "
 "du säker på att du vill fortsätta?"
 
-#: src/project/projectmanager.cpp:1073
+#: src/project/projectmanager.cpp:1074
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Återgå till senast sparade version"
 
-#: src/project/projectmanager.cpp:1159
+#: src/project/projectmanager.cpp:1160
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -14890,24 +14890,24 @@ msgstr ""
 "Projektet är skadat, kan inte säkerhetskopiera. Stäng och öppna projektfilen "
 "igen för att återställa senaste säkerhetskopia."
 
-#: src/project/projectmanager.cpp:1349
+#: src/project/projectmanager.cpp:1350
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Fel när projektkatalogen skulle flyttas, kan inte komma åt cachekatalog"
 
-#: src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1386
 #, kde-format
 msgid "Moving project folder"
 msgstr "Flyttar projektkatalog"
 
-#: src/project/projectmanager.cpp:1475 src/project/projectmanager.cpp:1528
-#: src/project/projectmanager.cpp:1532
+#: src/project/projectmanager.cpp:1477 src/project/projectmanager.cpp:1530
+#: src/project/projectmanager.cpp:1534
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvens 1"
 
-#: src/project/projectmanager.cpp:1486
+#: src/project/projectmanager.cpp:1488
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -14915,13 +14915,13 @@ msgstr ""
 "Projektfilen är skadad. Misslyckades läsa in spår. Försök hitta en "
 "säkerhetskopia?"
 
-#: src/project/projectmanager.cpp:1626 src/project/projectmanager.cpp:1631
-#: src/project/projectmanager.cpp:1641 src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:1628 src/project/projectmanager.cpp:1633
+#: src/project/projectmanager.cpp:1643 src/project/projectmanager.cpp:1657
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Projektprofil ändring avbruten"
 
-#: src/project/projectmanager.cpp:1772
+#: src/project/projectmanager.cpp:1774
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14930,12 +14930,12 @@ msgstr ""
 "Utdatafilen %1 finns redan.\n"
 "Vill du skriva över den?"
 
-#: src/project/projectmanager.cpp:1797
+#: src/project/projectmanager.cpp:1799
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofil ändrad"
 
-#: src/project/projectmanager.cpp:1857
+#: src/project/projectmanager.cpp:1859
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14944,18 +14944,18 @@ msgstr ""
 "Kan inte skapa en tidslinje från klippet:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1933
+#: src/project/projectmanager.cpp:1937
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importerar ett sekvensklipp, för närvarande i ett experimentellt tillstånd"
 
-#: src/project/projectmanager.cpp:2113
+#: src/project/projectmanager.cpp:2121
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Välj ett klipp för att skapa sekvens"
 
-#: src/project/projectmanager.cpp:2151
+#: src/project/projectmanager.cpp:2159
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Skapa sekvensklipp"
@@ -16416,7 +16416,7 @@ msgstr "Klistra in klipp"
 #: src/timeline2/model/timelinefunctions.cpp:1968
 #: src/timeline2/model/timelinefunctions.cpp:1991
 #: src/timeline2/model/timelinefunctions.cpp:2030
-#: src/timeline2/model/timelinefunctions.cpp:2306
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Inte tillräckligt med spår för att klistra in klippbordet"
@@ -16468,33 +16468,33 @@ msgstr "Klistra in"
 
 #: src/timeline2/model/timelinefunctions.cpp:2170
 #: src/timeline2/model/timelinefunctions.cpp:2178
-#: src/timeline2/model/timelinefunctions.cpp:2244
+#: src/timeline2/model/timelinefunctions.cpp:2246
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Kunde inte lägga till korgklipp"
 
-#: src/timeline2/model/timelinefunctions.cpp:2298
+#: src/timeline2/model/timelinefunctions.cpp:2300
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Alla klipp kopierades inte med lyckat resultat"
 
-#: src/timeline2/model/timelinefunctions.cpp:2348
-#: src/timeline2/model/timelinefunctions.cpp:2527
+#: src/timeline2/model/timelinefunctions.cpp:2350
+#: src/timeline2/model/timelinefunctions.cpp:2529
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kunde inte klistra in objekt i tidslinje"
 
-#: src/timeline2/model/timelinefunctions.cpp:2547
+#: src/timeline2/model/timelinefunctions.cpp:2549
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Klistra in tidslinjeklipp"
 
-#: src/timeline2/model/timelinefunctions.cpp:2765
+#: src/timeline2/model/timelinefunctions.cpp:2767
 #, kde-format
 msgid "Remove space on track"
 msgstr "Ta bort mellanrum i spår"
 
-#: src/timeline2/model/timelinefunctions.cpp:2792
+#: src/timeline2/model/timelinefunctions.cpp:2794
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Ta bort klipp i spår"
