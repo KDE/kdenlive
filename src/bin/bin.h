@@ -268,7 +268,13 @@ public:
     /** @brief Update some timeline related stuff, like used clips bound, audio targets,... */
     void sequenceActivated();
 
-    void doMoveClip(const QString &id, const QString &newParentId);
+    /** @brief Move clips inside the bin (from one folder to another)
+        @param ids a map of ids: {item id, {new parent, old parent}}
+        @param redo if true, change to new parent, otherwise to old parent
+    */
+    void doMoveClips(QMap<QString, std::pair<QString, QString>> ids, bool redo);
+    /** @brief Block/unblock signals from the bin selection model, useful for operations affecting many clips */
+    void blockBin(bool block);
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu();
 

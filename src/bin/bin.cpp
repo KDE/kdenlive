@@ -2688,12 +2688,13 @@ void Bin::selectProxyModel(const QModelIndex &id)
         // return;
     }
     if (id.isValid()) {
-        if (id.column() != 0 && m_monitor->activeClipId() == QString::number(int(id.internalId()))) {
-            return;
-        }
-        QString clipService;
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(id));
         if (currentItem) {
+            if (m_monitor->activeClipId() == currentItem->clipId()) {
+                qDebug() << "//// COMPARING BIN CLIP ID - - - - - ALREADY OPENED";
+                return;
+            }
+            QString clipService;
             // Set item as current so that it displays its content in clip monitor
             setCurrent(currentItem);
             AbstractProjectItem::PROJECTITEMTYPE itemType = currentItem->itemType();
@@ -3902,6 +3903,7 @@ void Bin::slotItemDropped(const QStringList ids, const QModelIndex parent)
     auto *moveCommand = new QUndoCommand();
     moveCommand->setText(i18np("Move Clip", "Move Clips", ids.count()));
     QStringList folderIds;
+    QMap<QString, std::pair<QString, QString>> idsMap;
     for (const QString &id : ids) {
         if (id.contains(QLatin1Char('/'))) {
             // trying to move clip zone, not allowed. Ignore
@@ -3919,9 +3921,13 @@ void Bin::slotItemDropped(const QStringList ids, const QModelIndex parent)
         std::shared_ptr<AbstractProjectItem> currentParent = currentItem->parent();
         if (currentParent != parentItem) {
             // Item was dropped on a different folder
-            new MoveBinClipCommand(this, id, currentParent->clipId(), parentItem->clipId(), moveCommand);
+            idsMap.insert(id, {parentItem->clipId(), currentParent->clipId()});
         }
     }
+    if (idsMap.count() > 0) {
+        new MoveBinClipCommand(this, idsMap, moveCommand);
+    }
+
     if (!folderIds.isEmpty()) {
         for (QString id : qAsConst(folderIds)) {
             id.remove(0, 1);
@@ -4240,6 +4246,9 @@ void Bin::editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip)
         return;
     }
     if (clip) {
+        if (m_monitor->activeClipId() != clip->clipId()) {
+            setCurrent(clip);
+        }
         if (clip->itemType() == AbstractProjectItem::ClipItem) {
             std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(clip);
             Q_EMIT requestShowEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
@@ -4261,15 +4270,37 @@ void Bin::slotGotFocus()
     m_gainedFocus = true;
 }
 
-void Bin::doMoveClip(const QString &id, const QString &newParentId)
+void Bin::blockBin(bool block)
 {
-    std::shared_ptr<ProjectClip> currentItem = m_itemModel->getClipByBinID(id);
-    if (!currentItem) {
-        return;
+    m_proxyModel->selectionModel()->blockSignals(block);
+}
+
+void Bin::doMoveClips(QMap<QString, std::pair<QString, QString>> ids, bool redo)
+{
+    const QString clipId = m_monitor->activeClipId();
+    // Don't update selection in all bins while moving clips
+    if (pCore->window()) {
+        pCore->window()->blockBins(true);
     }
-    std::shared_ptr<AbstractProjectItem> currentParent = currentItem->parent();
-    std::shared_ptr<ProjectFolder> newParent = m_itemModel->getFolderByBinId(newParentId);
-    currentItem->changeParent(newParent);
+    QMapIterator<QString, std::pair<QString, QString>> i(ids);
+    qDebug() << ":::: MOVING CLIPS: " << ids.count();
+    while (i.hasNext()) {
+        i.next();
+        std::shared_ptr<ProjectClip> currentItem = m_itemModel->getClipByBinID(i.key());
+        if (!currentItem) {
+            continue;
+        }
+        std::shared_ptr<ProjectFolder> newParent = m_itemModel->getFolderByBinId(redo ? i.value().first : i.value().second);
+        if (newParent) {
+            currentItem->changeParent(newParent);
+        }
+    }
+    if (pCore->window()) {
+        pCore->window()->blockBins(false);
+    }
+    if (!clipId.isEmpty()) {
+        selectClipById(clipId);
+    }
 }
 
 void Bin::doMoveFolder(const QString &id, const QString &newParentId)

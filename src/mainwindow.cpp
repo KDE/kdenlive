@@ -4748,6 +4748,14 @@ void MainWindow::tabifyBins()
     }
 }
 
+void MainWindow::blockBins(bool block)
+{
+    pCore->bin()->blockBin(block);
+    for (auto &b : m_binWidgets) {
+        b->blockBin(block);
+    }
+}
+
 Bin *MainWindow::getBin()
 {
     if (m_binWidgets.isEmpty()) {
