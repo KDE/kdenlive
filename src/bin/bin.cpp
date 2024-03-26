@@ -5507,6 +5507,9 @@ void Bin::saveFolderState()
             expandedFolders << folder->clipId();
         }
     }
+    const QMap<QString, QString> multiBins = pCore->window()->extraBinIds();
+    m_itemModel->saveProperty(QStringLiteral("kdenlive:extraBins"), multiBins.keys().join(QLatin1Char(';')));
+    m_itemModel->saveProperty(QStringLiteral("kdenlive:extraBinsDocks"), multiBins.values().join(QLatin1Char(';')));
     m_itemModel->saveProperty(QStringLiteral("kdenlive:expandedFolders"), expandedFolders.join(QLatin1Char(';')));
     m_itemModel->saveProperty(QStringLiteral("kdenlive:binZoom"), QString::number(KdenliveSettings::bin_zoom()));
 }
@@ -6124,4 +6127,18 @@ void Bin::transcodeUsedClips()
         }
     }
     requestSelectionTranscoding(true);
+}
+
+const QString Bin::rootFolderId() const
+{
+    QModelIndex rootIndex = m_itemView->rootIndex();
+    if (rootIndex.isValid()) {
+        return rootIndex.data(AbstractProjectItem::DataId).toString();
+    }
+    return QStringLiteral("-1");
+}
+
+bool Bin::isMainBin() const
+{
+    return m_isMainBin;
 }
