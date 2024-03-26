@@ -1457,6 +1457,8 @@ void Core::addBin(const QString &id, const QString dockArea)
 
 void Core::loadExtraBins(const QStringList binIds, const QStringList extraBinsDocks)
 {
+    // Close all secondary Bins
+    m_mainWindow->closeSecondaryBins();
     int ix = 0;
     for (auto &id : binIds) {
         QString area;

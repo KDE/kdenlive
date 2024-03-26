@@ -4792,6 +4792,26 @@ void MainWindow::addBin(Bin *bin, const QString &binName, const QString dockArea
     m_binWidgets << bin;
 }
 
+void MainWindow::closeSecondaryBins()
+{
+    QList<Bin *> bins;
+    for (auto &b : m_binWidgets) {
+        if (b->isMainBin()) {
+            continue;
+        }
+        bins << b;
+    }
+    while (!bins.isEmpty()) {
+        Bin *b = bins.takeFirst();
+        m_binWidgets.removeAll(b);
+        QDockWidget *dk = qobject_cast<QDockWidget *>(b->parent());
+        if (dk) {
+            delete b;
+            delete dk;
+        }
+    }
+}
+
 void MainWindow::tabifyBins()
 {
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();

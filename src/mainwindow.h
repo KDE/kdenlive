@@ -152,6 +152,8 @@ public:
     void raiseBin();
     /** @brief Add a bin widget*/
     void addBin(Bin *bin, const QString &binName = QString(), const QString dockArea = QString());
+    /** @brief Delete all secondary bins ´*/
+    void closeSecondaryBins();
     /** @brief Get the main (first) bin*/
     Bin *getBin();
     /** @brief Block/Unblock all bin selection signals*/
