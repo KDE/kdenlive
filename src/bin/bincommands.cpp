@@ -10,24 +10,22 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <utility>
-MoveBinClipCommand::MoveBinClipCommand(Bin *bin, QString clipId, QString oldParentId, QString newParentId, QUndoCommand *parent)
+MoveBinClipCommand::MoveBinClipCommand(Bin *bin, QMap<QString, std::pair<QString, QString>> clipIds, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_bin(bin)
-    , m_clipId(std::move(clipId))
-    , m_oldParentId(std::move(oldParentId))
-    , m_newParentId(std::move(newParentId))
+    , m_clipIds(std::move(clipIds))
 {
     setText(i18nc("@action", "Move Clip"));
 }
 // virtual
 void MoveBinClipCommand::undo()
 {
-    m_bin->doMoveClip(m_clipId, m_oldParentId);
+    m_bin->doMoveClips(m_clipIds, false);
 }
 // virtual
 void MoveBinClipCommand::redo()
 {
-    m_bin->doMoveClip(m_clipId, m_newParentId);
+    m_bin->doMoveClips(m_clipIds, true);
 }
 
 MoveBinFolderCommand::MoveBinFolderCommand(Bin *bin, QString clipId, QString oldParentId, QString newParentId, QUndoCommand *parent)

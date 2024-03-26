@@ -154,6 +154,8 @@ public:
     void addBin(Bin *bin, const QString &binName = QString());
     /** @brief Get the main (first) bin*/
     Bin *getBin();
+    /** @brief Block/Unblock all bin selection signals*/
+    void blockBins(bool block);
     /** @brief Get the active (focused) bin or first one if none is active*/
     Bin *activeBin();
     /** @brief Ensure all bin widgets are tabbed together*/
