@@ -385,7 +385,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (originalPlayAction->shortcut() == QKeySequence(0)) {
         m_playAction->setToolTip(strippedTooltip);
     } else {
-        m_playAction->setToolTip(strippedTooltip + QStringLiteral(" (") + originalPlayAction->shortcut().toString() + QLatin1Char(')'));
+        m_playAction->setToolTip(strippedTooltip + QStringLiteral(" (") + originalPlayAction->shortcut().toString(QKeySequence::NativeText) + QLatin1Char(')'));
     }
     m_playMenu->addAction(m_playAction);
     connect(m_playAction, &QAction::triggered, this, &Monitor::slotSwitchPlay);

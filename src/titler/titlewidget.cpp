@@ -380,32 +380,32 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonCursor = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("transform-move")), i18n("Selection Tool"));
     m_buttonCursor->setCheckable(true);
     m_buttonCursor->setShortcut(Qt::ALT | Qt::Key_S);
-    m_buttonCursor->setToolTip(i18n("Selection Tool") + QLatin1Char(' ') + m_buttonCursor->shortcut().toString());
+    m_buttonCursor->setToolTip(i18n("Selection Tool") + QLatin1Char(' ') + m_buttonCursor->shortcut().toString(QKeySequence::NativeText));
     m_buttonCursor->setWhatsThis(xi18nc("@info:whatsthis", "When selected, a click on an asset in the timeline selects the asset (e.g. clip, composition)."));
     connect(m_buttonCursor, &QAction::triggered, this, &TitleWidget::slotSelectTool);
 
     m_buttonText = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-text")), i18n("Add Text"));
     m_buttonText->setCheckable(true);
     m_buttonText->setShortcut(Qt::ALT | Qt::Key_T);
-    m_buttonText->setToolTip(i18n("Add Text") + QLatin1Char(' ') + m_buttonText->shortcut().toString());
+    m_buttonText->setToolTip(i18n("Add Text") + QLatin1Char(' ') + m_buttonText->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonText, &QAction::triggered, this, &TitleWidget::slotTextTool);
 
     m_buttonRect = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-rect")), i18n("Add Rectangle"));
     m_buttonRect->setCheckable(true);
     m_buttonRect->setShortcut(Qt::ALT | Qt::Key_R);
-    m_buttonRect->setToolTip(i18n("Add Rectangle") + QLatin1Char(' ') + m_buttonRect->shortcut().toString());
+    m_buttonRect->setToolTip(i18n("Add Rectangle") + QLatin1Char(' ') + m_buttonRect->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonRect, &QAction::triggered, this, &TitleWidget::slotRectTool);
 
     m_buttonEllipse = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("draw-ellipse")), i18n("Add Ellipse"));
     m_buttonEllipse->setCheckable(true);
     m_buttonEllipse->setShortcut(Qt::ALT | Qt::Key_E);
-    m_buttonEllipse->setToolTip(i18n("Add Ellipse") + QLatin1Char(' ') + m_buttonEllipse->shortcut().toString());
+    m_buttonEllipse->setToolTip(i18n("Add Ellipse") + QLatin1Char(' ') + m_buttonEllipse->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonEllipse, &QAction::triggered, this, &TitleWidget::slotEllipseTool);
 
     m_buttonImage = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("insert-image")), i18n("Add Image"));
     m_buttonImage->setCheckable(false);
     m_buttonImage->setShortcut(Qt::ALT | Qt::Key_I);
-    m_buttonImage->setToolTip(i18n("Add Image") + QLatin1Char(' ') + m_buttonImage->shortcut().toString());
+    m_buttonImage->setToolTip(i18n("Add Image") + QLatin1Char(' ') + m_buttonImage->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonImage, &QAction::triggered, this, &TitleWidget::slotImageTool);
 
     m_toolbar->addSeparator();
@@ -413,18 +413,18 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Document"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL | Qt::Key_O);
-    m_buttonLoad->setToolTip(i18n("Open Document") + QLatin1Char(' ') + m_buttonLoad->shortcut().toString());
+    m_buttonLoad->setToolTip(i18n("Open Document") + QLatin1Char(' ') + m_buttonLoad->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonLoad, SIGNAL(triggered()), this, SLOT(loadTitle()));
 
     m_buttonSave = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save As"));
     m_buttonSave->setCheckable(false);
     m_buttonSave->setShortcut(Qt::CTRL | Qt::Key_S);
-    m_buttonSave->setToolTip(i18n("Save As") + QLatin1Char(' ') + m_buttonSave->shortcut().toString());
+    m_buttonSave->setToolTip(i18n("Save As") + QLatin1Char(' ') + m_buttonSave->shortcut().toString(QKeySequence::NativeText));
     connect(m_buttonSave, &QAction::triggered, [this]() { saveTitle(); });
 
     m_buttonDownload = new KNSWidgets::Action(i18n("Download New Title Templates..."), QStringLiteral(":data/kdenlive_titles.knsrc"), this);
     m_buttonDownload->setShortcut(Qt::ALT | Qt::Key_D);
-    m_buttonDownload->setToolTip(i18n("Download New Title Templates...") + QLatin1Char(' ') + m_buttonDownload->shortcut().toString());
+    m_buttonDownload->setToolTip(i18n("Download New Title Templates...") + QLatin1Char(' ') + m_buttonDownload->shortcut().toString(QKeySequence::NativeText));
     m_toolbar->addAction(m_buttonDownload);
     connect(m_buttonDownload, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
         if (changedEntries.count() > 0) {
@@ -2931,7 +2931,7 @@ void TitleWidget::slotSelectNone()
 
 QString TitleWidget::getTooltipWithShortcut(const QString &tipText, QAction *button)
 {
-    return tipText + QStringLiteral("  <b>") + button->shortcut().toString() + QStringLiteral("</b>");
+    return tipText + QStringLiteral("  <b>") + button->shortcut().toString(QKeySequence::NativeText) + QStringLiteral("</b>");
 }
 
 void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
