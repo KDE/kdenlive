@@ -275,6 +275,8 @@ public:
     void doMoveClips(QMap<QString, std::pair<QString, QString>> ids, bool redo);
     /** @brief Block/unblock signals from the bin selection model, useful for operations affecting many clips */
     void blockBin(bool block);
+    /** @brief Get the root folder id for this bin */
+    const QString rootFolderId() const;
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu();
 
@@ -371,6 +373,7 @@ public:
     const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1, QString suggestedName = QString());
     /** @brief Returns true if the project uses a clip with variable framerate. */
     bool usesVariableFpsClip();
+    bool isMainBin() const;
 
 private Q_SLOTS:
     void slotAddClip();

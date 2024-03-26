@@ -1446,13 +1446,26 @@ int Core::getNewStuff(const QString &config)
 }
 #endif
 
-void Core::addBin(const QString &id)
+void Core::addBin(const QString &id, const QString dockArea)
 {
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow, false);
     bin->setupMenu();
     bin->setMonitor(m_monitorManager->clipMonitor());
     const QString folderName = bin->setDocument(pCore->currentDoc(), id);
-    m_mainWindow->addBin(bin, folderName);
+    m_mainWindow->addBin(bin, folderName, dockArea);
+}
+
+void Core::loadExtraBins(const QStringList binIds, const QStringList extraBinsDocks)
+{
+    int ix = 0;
+    for (auto &id : binIds) {
+        QString area;
+        if (extraBinsDocks.count() > ix) {
+            area = extraBinsDocks.at(ix);
+        }
+        pCore->addBin(id, area);
+        ix++;
+    }
 }
 
 void Core::loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist)

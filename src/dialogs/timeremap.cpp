@@ -2063,7 +2063,6 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
     bool splitIsAudio = model->clipIsAudio(m_splitId);
     ObjectId oid(KdenliveObjectType::TimelineClip, m_cid, m_uuid);
     bool durationChanged = updatedKeyframes.isEmpty() ? false : updatedKeyframes.lastKey() - pCore->getItemIn(oid) + 1 != pCore->getItemDuration(oid);
-    int lastFrame = pCore->getItemDuration(oid) + pCore->getItemIn(oid);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (durationChanged) {
