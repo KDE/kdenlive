@@ -254,7 +254,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
             tb->setVisible(i.value());
         }
     }
-    pCore->window()->tabifyBins();
+    // pCore->window()->tabifyBins();
     Q_EMIT connectDocks(true);
     if (selectButton) {
         // Activate layout button

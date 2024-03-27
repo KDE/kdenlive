@@ -5507,9 +5507,8 @@ void Bin::saveFolderState()
             expandedFolders << folder->clipId();
         }
     }
-    const QMap<QString, QString> multiBins = pCore->window()->extraBinIds();
-    m_itemModel->saveProperty(QStringLiteral("kdenlive:extraBins"), multiBins.keys().join(QLatin1Char(';')));
-    m_itemModel->saveProperty(QStringLiteral("kdenlive:extraBinsDocks"), multiBins.values().join(QLatin1Char(';')));
+    const QStringList multiBins = pCore->window()->extraBinIds();
+    m_itemModel->saveProperty(QStringLiteral("kdenlive:extraBins"), pCore->window()->extraBinIds().join(QLatin1Char(';')));
     m_itemModel->saveProperty(QStringLiteral("kdenlive:expandedFolders"), expandedFolders.join(QLatin1Char(';')));
     m_itemModel->saveProperty(QStringLiteral("kdenlive:binZoom"), QString::number(KdenliveSettings::bin_zoom()));
 }

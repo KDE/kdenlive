@@ -390,9 +390,9 @@ public Q_SLOTS:
     /** @brief Refresh the monitor profile when project profile changes. */
     void updateMonitorProfile();
     /** @brief Add a new Bin Widget. */
-    void addBin(const QString &id = QString(), const QString dockArea = QString());
+    void addBin(const QString &id = QString());
     /** @brief Open bins from the project*/
-    void loadExtraBins(const QStringList binIds, const QStringList extraBinsDocks);
+    void loadExtraBins(const QStringList binIds);
     /** @brief Transcode a bin clip video. */
     void transcodeFriendlyFile(const QString &binId, bool checkProfile);
     /** @brief Reset audio  monitoring volume and channels. */

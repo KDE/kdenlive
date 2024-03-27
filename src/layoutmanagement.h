@@ -7,8 +7,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
-#include <QObject>
+#include <QDockWidget>
 #include <QMap>
+#include <QObject>
 
 class KSelectAction;
 class QAction;
@@ -24,6 +25,7 @@ public:
     explicit LayoutManagement(QObject *parent);
     /** @brief Load a layout by its name. */
     bool loadLayout(const QString &layoutId, bool selectButton);
+    /** @brief Return tab info about a dock widget in the form "DockArea#tabbed_widget". */
 
 private Q_SLOTS:
     /** @brief Saves the widget layout. */

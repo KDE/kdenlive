@@ -1446,27 +1446,21 @@ int Core::getNewStuff(const QString &config)
 }
 #endif
 
-void Core::addBin(const QString &id, const QString dockArea)
+void Core::addBin(const QString &id)
 {
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow, false);
     bin->setupMenu();
     bin->setMonitor(m_monitorManager->clipMonitor());
     const QString folderName = bin->setDocument(pCore->currentDoc(), id);
-    m_mainWindow->addBin(bin, folderName, dockArea);
+    m_mainWindow->addBin(bin, folderName);
 }
 
-void Core::loadExtraBins(const QStringList binIds, const QStringList extraBinsDocks)
+void Core::loadExtraBins(const QStringList binIds)
 {
     // Close all secondary Bins
     m_mainWindow->closeSecondaryBins();
-    int ix = 0;
     for (auto &id : binIds) {
-        QString area;
-        if (extraBinsDocks.count() > ix) {
-            area = extraBinsDocks.at(ix);
-        }
-        pCore->addBin(id, area);
-        ix++;
+        addBin(id);
     }
 }
 

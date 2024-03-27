@@ -4738,7 +4738,7 @@ void MainWindow::slotRemoveBinDock(const QString &name)
     loadDockActions();
 }
 
-void MainWindow::addBin(Bin *bin, const QString &binName, const QString dockArea)
+void MainWindow::addBin(Bin *bin, const QString &binName)
 {
     connect(bin, &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
     connect(bin, &Bin::setupTargets, this, [&](bool hasVideo, QMap<int, QString> audioStreams) {
@@ -4749,38 +4749,11 @@ void MainWindow::addBin(Bin *bin, const QString &binName, const QString dockArea
     if (!m_binWidgets.isEmpty()) {
         // This is a secondary bin widget
         int ix = binCount() + 1;
-        Qt::DockWidgetArea area = Qt::TopDockWidgetArea;
-        if (!dockArea.isEmpty()) {
-            if (dockArea.contains(QLatin1Char('#'))) {
-                area = Qt::DockWidgetArea(dockArea.section(QLatin1Char('#'), 0, 0).toInt());
-            } else {
-                area = Qt::DockWidgetArea(dockArea.toInt());
-            }
-        }
-        QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, QString("project_bin_%1").arg(ix), bin, area);
+        QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, QString("project_bin_%1").arg(ix), bin);
         bin->setupGeneratorMenu();
         connect(bin, &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
         connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties);
         connect(bin, &Bin::requestBinClose, this, [this, binDock]() { Q_EMIT removeBinDock(binDock->objectName()); });
-        if (dockArea.isEmpty()) {
-            tabifyDockWidget(m_projectBinDock, binDock);
-        } else {
-            if (dockArea.contains(QLatin1Char('#'))) {
-                QString otherDock = dockArea.section(QLatin1Char('#'), 1);
-                QDockWidget *otherDockWidget = nullptr;
-                QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-                for (auto dock : qAsConst(docks)) {
-                    if (dock->objectName() == otherDock) {
-                        // Match
-                        otherDockWidget = dock;
-                        break;
-                    }
-                }
-                if (otherDockWidget) {
-                    tabifyDockWidget(otherDockWidget, binDock);
-                }
-            }
-        }
         // Disable title bar since it is tabbed
         binDock->setTitleBarWidget(new QWidget);
         // Update dock list
@@ -4829,28 +4802,15 @@ void MainWindow::blockBins(bool block)
     }
 }
 
-const QMap<QString, QString> MainWindow::extraBinIds() const
+const QStringList MainWindow::extraBinIds() const
 {
-    QMap<QString, QString> ids;
+    QStringList ids;
     for (auto &b : m_binWidgets) {
         // Find out dock widget
         if (b->isMainBin()) {
             continue;
         }
-        const QString rootFolder = b->rootFolderId();
-        QDockWidget *dock = qobject_cast<QDockWidget *>(b->parent());
-        if (dock) {
-            Qt::DockWidgetArea area = dockWidgetArea(dock);
-            QList<QDockWidget *> tabbed = tabifiedDockWidgets(dock);
-            QString tabbedName = QString::number(int(area));
-            for (auto &d : tabbed) {
-                if (!d->objectName().startsWith(QLatin1String("project_bin_"))) {
-                    tabbedName.append(QStringLiteral("#%1").arg(d->objectName()));
-                    break;
-                }
-            }
-            ids.insert(rootFolder, tabbedName);
-        }
+        ids << b->rootFolderId();
     }
     return ids;
 }

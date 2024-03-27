@@ -18,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "lib/localeHandling.h"
 #include "macros.hpp"
+#include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "projectclip.h"
@@ -1190,7 +1191,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
 }
 
 QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                               QStringList &extraBins, QStringList &extraBinsDocks, const QUuid &activeUuid, int &zoomLevel)
+                                               QStringList &extraBins, const QUuid &activeUuid, int &zoomLevel)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1206,7 +1207,6 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
             Mlt::Properties playlistProps(playlist.get_properties());
             expandedFolders = QString(playlistProps.get("kdenlive:expandedFolders")).split(QLatin1Char(';'));
             extraBins = QString(playlistProps.get("kdenlive:extraBins")).split(QLatin1Char(';'));
-            extraBinsDocks = QString(playlistProps.get("kdenlive:extraBinsDocks")).split(QLatin1Char(';'));
             folderProperties.pass_values(playlistProps, "kdenlive:folder.");
             loadFolders(folderProperties, binIdCorresp);
             m_sequenceFolderId = -1;

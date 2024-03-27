@@ -1710,6 +1710,8 @@ QMap<QString, QString> KdenliveDoc::documentProperties(bool saveHash)
             j.value()->tractor()->set("kdenlive:sequenceproperties.timelineHash", j.value()->timelineHash().toHex().constData());
         }
     }
+    m_documentProperties.insert(QStringLiteral("projectLayout"), QString(pCore->window()->saveState().toPercentEncoding()));
+    qDebug() << " - - -- -- - RETRIEVING DOCPROPERTIES - - - - - -- - \n\n" << pCore->window()->saveState();
     return m_documentProperties;
 }
 

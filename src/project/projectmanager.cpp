@@ -916,6 +916,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
     }
+    // Restore layout
+    const QByteArray layout = QByteArray::fromPercentEncoding(m_project->getDocumentProperty(QStringLiteral("projectLayout")).toUtf8());
+    if (!layout.isEmpty()) {
+        pCore->window()->restoreState(layout);
+    }
 
     // Now that sequence clips are fully built, fetch thumbnails
     QList<QUuid> uuids = sequences.keys();
