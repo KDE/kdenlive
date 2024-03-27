@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-27 00:37+0000\n"
-"PO-Revision-Date: 2024-03-21 09:47+0100\n"
+"PO-Revision-Date: 2024-03-27 09:18+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -5523,9 +5523,7 @@ msgid "Timeline sequence"
 msgstr "Templinia sekvenco"
 
 #: src/bin/projectclip.cpp:576 src/timeline2/view/qml/Clip.qml:1085
-#, fuzzy, kde-format
-#| msgctxt "The first letter of Proxy, used as abbreviation"
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
@@ -6713,6 +6711,8 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"Ĉe la unua funkciado, Whisper <b>elŝutos la elektitan modelon</b>. Post tio, "
+"pretigo okazos eksterrete. CPU-pretigo estas tre malrapida."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1761
 #, kde-format
@@ -6720,6 +6720,8 @@ msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
 "that, translations will happen offline."
 msgstr ""
+"Je unua rulo, SeamlessM4T <b>elŝutos 9Gb de modeldatenoj</b>. Post tio, "
+"tradukoj okazos eksterrete."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
