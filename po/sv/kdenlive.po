@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-26 00:37+0000\n"
+"POT-Creation-Date: 2024-03-27 00:37+0000\n"
 "PO-Revision-Date: 2023-12-28 21:23+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -4574,7 +4574,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Ersätt i tidslinje"
 
-#: src/bin/bin.cpp:2122 src/bin/bin.cpp:5729 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:2122 src/bin/bin.cpp:5760 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4729,13 +4729,13 @@ msgstr "Katalog"
 msgid "Create bin folder"
 msgstr "Skapa korgkatalog"
 
-#: src/bin/bin.cpp:2706 src/bin/bin.cpp:2719 src/bin/bin.cpp:3686
+#: src/bin/bin.cpp:2707 src/bin/bin.cpp:2720 src/bin/bin.cpp:3687
 #: src/timeline2/model/timelinemodel.cpp:2117
 #, kde-format
 msgid "Delete Clip"
 msgstr "Ta bort klipp"
 
-#: src/bin/bin.cpp:2708 src/bin/bin.cpp:2721
+#: src/bin/bin.cpp:2709 src/bin/bin.cpp:2722
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4745,37 +4745,37 @@ msgstr ""
 "Tar bort klippen som för närvarande är markerade från projektkorgen och även "
 "från tidslinjen."
 
-#: src/bin/bin.cpp:2709 src/bin/bin.cpp:2722 src/bin/bin.cpp:3662
+#: src/bin/bin.cpp:2710 src/bin/bin.cpp:2723 src/bin/bin.cpp:3663
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Ersättningsklipp"
 
-#: src/bin/bin.cpp:2713
+#: src/bin/bin.cpp:2714
 #, kde-format
 msgid "Delete Folder"
 msgstr "Ta bort katalog"
 
-#: src/bin/bin.cpp:2714
+#: src/bin/bin.cpp:2715
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Ersättningskatalog"
 
-#: src/bin/bin.cpp:2966
+#: src/bin/bin.cpp:2967
 #, kde-format
 msgid "Edit rating"
 msgstr "Redigera betyg"
 
-#: src/bin/bin.cpp:2968
+#: src/bin/bin.cpp:2969
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Kan inte ange betyg för objektet"
 
-#: src/bin/bin.cpp:3606
+#: src/bin/bin.cpp:3607
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Lägg till klipp eller katalog…"
 
-#: src/bin/bin.cpp:3607
+#: src/bin/bin.cpp:3608
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4789,103 +4789,103 @@ msgstr ""
 "en lista med källtyper att välja bland.<nl/>Klicka på medieikonen för att "
 "öppna ett fönster för att välja källfiler."
 
-#: src/bin/bin.cpp:3613
+#: src/bin/bin.cpp:3614
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Lägg till färgklipp…"
 
-#: src/bin/bin.cpp:3615
+#: src/bin/bin.cpp:3616
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Lägg till bildsekvens…"
 
-#: src/bin/bin.cpp:3617
+#: src/bin/bin.cpp:3618
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Lägg till titelklipp…"
 
-#: src/bin/bin.cpp:3619
+#: src/bin/bin.cpp:3620
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Lägg till mallklipp…"
 
-#: src/bin/bin.cpp:3621
+#: src/bin/bin.cpp:3622
 #, kde-format
 msgid "Create Animation…"
 msgstr "Skapa animering…"
 
-#: src/bin/bin.cpp:3623
+#: src/bin/bin.cpp:3624
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Lägg till sekvens…"
 
-#: src/bin/bin.cpp:3626 src/mainwindow.cpp:375
+#: src/bin/bin.cpp:3627 src/mainwindow.cpp:375
 #, kde-format
 msgid "Online Resources"
 msgstr "Nätresurser"
 
-#: src/bin/bin.cpp:3630
+#: src/bin/bin.cpp:3631
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Lokalisera klipp…"
 
-#: src/bin/bin.cpp:3635
+#: src/bin/bin.cpp:3636
 #, kde-format
 msgid "Reload Clip"
 msgstr "Uppdatera klipp"
 
-#: src/bin/bin.cpp:3641
+#: src/bin/bin.cpp:3642
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Omkodar till redigeringsvänligt format…"
 
-#: src/bin/bin.cpp:3646
+#: src/bin/bin.cpp:3647
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Ersätt klipp…"
 
-#: src/bin/bin.cpp:3652
+#: src/bin/bin.cpp:3653
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Ersätt klipp i tidslinje…"
 
-#: src/bin/bin.cpp:3657
+#: src/bin/bin.cpp:3658
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplicera klipp"
 
-#: src/bin/bin.cpp:3669 src/bin/bin.cpp:3735
+#: src/bin/bin.cpp:3670 src/bin/bin.cpp:3736
 #, kde-format
 msgid "Clip Properties"
 msgstr "Klippegenskaper"
 
-#: src/bin/bin.cpp:3674 src/mltcontroller/clippropertiescontroller.cpp:296
+#: src/bin/bin.cpp:3675 src/mltcontroller/clippropertiescontroller.cpp:296
 #, kde-format
 msgid "Edit Clip"
 msgstr "Redigera klipp"
 
-#: src/bin/bin.cpp:3691
+#: src/bin/bin.cpp:3692
 #, kde-format
 msgid "Open in new bin"
 msgstr "Öppna i ny korg"
 
-#: src/bin/bin.cpp:3703
+#: src/bin/bin.cpp:3704
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Standardkatalog för sekvenser"
 
-#: src/bin/bin.cpp:3708
+#: src/bin/bin.cpp:3709
 #, fuzzy, kde-format
 #| msgid "Default Target Folder for Sequences"
 msgid "Default Target Folder for Audio Captures"
 msgstr "Standardkatalog för sekvenser"
 
-#: src/bin/bin.cpp:3712
+#: src/bin/bin.cpp:3713
 #, kde-format
 msgid "Create Folder"
 msgstr "Skapa katalog"
 
-#: src/bin/bin.cpp:3715
+#: src/bin/bin.cpp:3716
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4895,68 +4895,68 @@ msgstr ""
 "Skapar en katalog på den nuvarande positionen i projektkorgen. Möjliggör "
 "bättre organisation av källfiler. Kataloger kan nästlas."
 
-#: src/bin/bin.cpp:3780 src/dialogs/speechdialog.cpp:50
+#: src/bin/bin.cpp:3781 src/dialogs/speechdialog.cpp:50
 #: src/dialogs/textbasededit.cpp:719 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Visa logg"
 
-#: src/bin/bin.cpp:3783 src/dialogs/textbasededit.cpp:720
+#: src/bin/bin.cpp:3784 src/dialogs/textbasededit.cpp:720
 #, kde-format
 msgid "Detailed log"
 msgstr "Detaljerad logg"
 
-#: src/bin/bin.cpp:3843 src/bin/bin.cpp:3876
+#: src/bin/bin.cpp:3844 src/bin/bin.cpp:3877
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Skapa ny sekvens"
 
-#: src/bin/bin.cpp:3846 src/bin/bin.cpp:3849 src/bin/bin.cpp:3879
+#: src/bin/bin.cpp:3847 src/bin/bin.cpp:3850 src/bin/bin.cpp:3880
 #, kde-format
 msgid "Sequence %1"
 msgstr "Sekvens %1"
 
-#: src/bin/bin.cpp:3910
+#: src/bin/bin.cpp:3911
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Flytta klipp"
 msgstr[1] "Flytta klipp"
 
-#: src/bin/bin.cpp:3947
+#: src/bin/bin.cpp:3953
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Inget giltigt klipp att infoga"
 
-#: src/bin/bin.cpp:3960 src/timeline2/view/timelinecontroller.cpp:1535
+#: src/bin/bin.cpp:3966 src/timeline2/view/timelinecontroller.cpp:1535
 #: src/timeline2/view/timelinecontroller.cpp:3380
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Markera ett klipp för att verkställa en effekt"
 
-#: src/bin/bin.cpp:3983
+#: src/bin/bin.cpp:3989
 #, kde-format
 msgid "Cannot apply effects on folders"
 msgstr "Kan inte utföra effekter för kataloger"
 
-#: src/bin/bin.cpp:4009 src/effects/effectstack/model/effectstackmodel.cpp:528
+#: src/bin/bin.cpp:4015 src/effects/effectstack/model/effectstackmodel.cpp:528
 #: src/effects/effectstack/model/effectstackmodel.cpp:534
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan inte lägga till effekt i klippet"
 
-#: src/bin/bin.cpp:4055 src/bin/bin.cpp:4062
+#: src/bin/bin.cpp:4061 src/bin/bin.cpp:4068
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Markera ett klipp för att lägga till en etikett"
 
-#: src/bin/bin.cpp:4201
+#: src/bin/bin.cpp:4207
 #, kde-format
 msgid "Edit Tags"
 msgstr "Redigera etiketter"
 
-#: src/bin/bin.cpp:4490 src/bin/projectclip.cpp:211
+#: src/bin/bin.cpp:4521 src/bin/projectclip.cpp:211
 #: src/bin/projectclip.cpp:2048 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
@@ -4964,27 +4964,27 @@ msgstr "Redigera etiketter"
 msgid "Unnamed"
 msgstr "Namnlös"
 
-#: src/bin/bin.cpp:4544
+#: src/bin/bin.cpp:4575
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Ange sökväg till programmet för bildredigering"
 
-#: src/bin/bin.cpp:4556
+#: src/bin/bin.cpp:4587
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Ange ett standardprogram för att öppna bildfiler"
 
-#: src/bin/bin.cpp:4561
+#: src/bin/bin.cpp:4592
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Ange sökväg till programmet för ljudredigering"
 
-#: src/bin/bin.cpp:4573
+#: src/bin/bin.cpp:4604
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Ange ett standardprogram för att öppna ljudfiler"
 
-#: src/bin/bin.cpp:4583 src/core.cpp:313 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4614 src/core.cpp:313 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4993,12 +4993,12 @@ msgstr "Ange ett standardprogram för att öppna ljudfiler"
 msgid "Cannot open file %1"
 msgstr "Kan inte öppna filen %1"
 
-#: src/bin/bin.cpp:4763 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4794 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "(kopia)"
 
-#: src/bin/bin.cpp:4773
+#: src/bin/bin.cpp:4804
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5007,75 +5007,75 @@ msgstr ""
 "Du redigerar ett externt titelklipp (%1). Vill du spara ändringarna i "
 "titelfilen eller bara spara dem för det här projektet?"
 
-#: src/bin/bin.cpp:4776 src/titler/titlewidget.cpp:2282
+#: src/bin/bin.cpp:4807 src/titler/titlewidget.cpp:2282
 #, kde-format
 msgid "Save Title"
 msgstr "Spara titel"
 
-#: src/bin/bin.cpp:4776
+#: src/bin/bin.cpp:4807
 #, kde-format
 msgid "Save to title file"
 msgstr "Spara i titelfil"
 
-#: src/bin/bin.cpp:4777
+#: src/bin/bin.cpp:4808
 #, kde-format
 msgid "Save in project only"
 msgstr "Spara bara i projektet"
 
-#: src/bin/bin.cpp:4797 src/dialogs/clipcreationdialog.cpp:411
+#: src/bin/bin.cpp:4828 src/dialogs/clipcreationdialog.cpp:411
 #, kde-format
 msgid "Title clip"
 msgstr "Titelklipp"
 
-#: src/bin/bin.cpp:4847
+#: src/bin/bin.cpp:4878
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klippet är inte giltigt, och kommer att tas bort från projektet."
 
-#: src/bin/bin.cpp:4851
+#: src/bin/bin.cpp:4882
 #, kde-format
 msgid "Invalid clip"
 msgstr "Ogiltigt klipp"
 
-#: src/bin/bin.cpp:4974
+#: src/bin/bin.cpp:5005
 #, kde-format
 msgid "Enable proxies"
 msgstr "Aktivera ersättningar"
 
-#: src/bin/bin.cpp:4974
+#: src/bin/bin.cpp:5005
 #, kde-format
 msgid "Disable proxies"
 msgstr "Inaktivera ersättningar"
 
-#: src/bin/bin.cpp:5148
+#: src/bin/bin.cpp:5179
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Återskapa ersättningar"
 
-#: src/bin/bin.cpp:5378
+#: src/bin/bin.cpp:5409
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projektkorg"
 
-#: src/bin/bin.cpp:5394
+#: src/bin/bin.cpp:5425
 #, kde-format
 msgid "Add Tracks"
 msgstr "Lägg till spår"
 
-#: src/bin/bin.cpp:5396
+#: src/bin/bin.cpp:5427
 #, kde-format
 msgid "Edit Streams"
 msgstr "Redigera strömmar"
 
-#: src/bin/bin.cpp:5411
+#: src/bin/bin.cpp:5442
 #, kde-format
 msgid "Don't ask again"
 msgstr "Fråga inte igen"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5415
+#: src/bin/bin.cpp:5446
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5084,39 +5084,39 @@ msgstr ""
 "Projektet behöver fler ljudspår för att hantera alla strömmar. Lägg till %1 "
 "ljudströmmar?"
 
-#: src/bin/bin.cpp:5427 src/mainwindow.cpp:2720
+#: src/bin/bin.cpp:5458 src/mainwindow.cpp:2720
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Kan inte hitta klipp för att lägga till markör"
 
-#: src/bin/bin.cpp:5519
+#: src/bin/bin.cpp:5550
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Kunde inte hitta huvudklipp"
 
-#: src/bin/bin.cpp:5751
+#: src/bin/bin.cpp:5782
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klipp | "
 
-#: src/bin/bin.cpp:5753
+#: src/bin/bin.cpp:5784
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klipp (%2 markerade) | "
 
-#: src/bin/bin.cpp:5820 src/bin/bin.cpp:5897
+#: src/bin/bin.cpp:5851 src/bin/bin.cpp:5928
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Lägg till ytterligare strömmar för klipp"
 msgstr[1] "Lägg till ytterligare strömmar för klipp"
 
-#: src/bin/bin.cpp:5841
+#: src/bin/bin.cpp:5872
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importera markerade klipp"
 
-#: src/bin/bin.cpp:5843
+#: src/bin/bin.cpp:5874
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5125,51 +5125,51 @@ msgstr ""
 "Ytterligare strömmar för klipp\n"
 " %1"
 
-#: src/bin/bin.cpp:5856 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5887 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videoström %1"
 
-#: src/bin/bin.cpp:5871
+#: src/bin/bin.cpp:5902
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Ljudström %1"
 
-#: src/bin/bin.cpp:5924
+#: src/bin/bin.cpp:5955
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Ta bort klippmarkörer"
 
-#: src/bin/bin.cpp:6073
+#: src/bin/bin.cpp:6104
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Vi rekommenderar att projektet sparas innan omkodningsåtgärden"
 
-#: src/bin/bin.cpp:6074
+#: src/bin/bin.cpp:6105
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Spara projekt"
 
-#: src/bin/bin.cpp:6075
+#: src/bin/bin.cpp:6106
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Omkoda utan att spara"
 
-#: src/bin/bincommands.cpp:20 src/bin/bincommands.cpp:40
+#: src/bin/bincommands.cpp:18 src/bin/bincommands.cpp:38
 #, kde-format
 msgctxt "@action"
 msgid "Move Clip"
 msgstr "Flytta klipp"
 
-#: src/bin/bincommands.cpp:62
+#: src/bin/bincommands.cpp:60
 #, kde-format
 msgid "Rename Zone"
 msgstr "Byt namn på zon"
 
-#: src/bin/bincommands.cpp:84
+#: src/bin/bincommands.cpp:82
 #, kde-format
 msgid "Edit clip"
 msgstr "Redigera klipp"
@@ -12178,17 +12178,17 @@ msgstr "Ingen textning i nuvarande projekt"
 msgid "Project Bin %1"
 msgstr "Projektkorg %1"
 
-#: src/mainwindow.cpp:4838
+#: src/mainwindow.cpp:4845
 #, kde-format
 msgid "Go to download page"
 msgstr "Gå till nerladdningssida"
 
-#: src/mainwindow.cpp:4841
+#: src/mainwindow.cpp:4848
 #, kde-format
 msgid "Never check again"
 msgstr "Kontrollera aldrig igen"
 
-#: src/mainwindow.cpp:4844
+#: src/mainwindow.cpp:4851
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -12197,7 +12197,7 @@ msgstr ""
 "Versionen av Kdenlive är äldre än ett år. Vi rekommenderar dig starkt att "
 "uppgradera."
 
-#: src/mainwindow.cpp:4847
+#: src/mainwindow.cpp:4854
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -12205,7 +12205,7 @@ msgstr ""
 "Versionen av Kdenlive är äldre än sex månader. Vi uppmuntrar dig att "
 "uppgradera."
 
-#: src/mainwindow.cpp:4890
+#: src/mainwindow.cpp:4897
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Kontrollerar storlek på data lagrad i cache"
