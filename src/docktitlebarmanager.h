@@ -9,6 +9,7 @@
 
 #include <QObject>
 class QAction;
+class QDockWidget;
 
 /**
  * @class DockTitleBarManager
@@ -26,6 +27,8 @@ public Q_SLOTS:
     void slotUpdateTitleBars(bool isTopLevel = true);
     /** @brief Connect/disconnect signals to update title bars on dock location changed */
     void connectDocks(bool doConnect);
+    /** @brief Connect a dock that was created after app opening to signals updating title bars on dock location changed */
+    void connectDockWidget(QDockWidget *dock);
 
 private:
     QAction *m_switchAction;

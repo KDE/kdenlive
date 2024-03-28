@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-27 00:37+0000\n"
-"PO-Revision-Date: 2024-03-26 22:18+0200\n"
+"PO-Revision-Date: 2024-03-27 22:21+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1994,8 +1994,7 @@ msgid "Max lighter"
 msgstr ""
 
 #: data/effects/sepia.xml:4
-#, fuzzy, kde-format
-#| msgid "Sepia"
+#, kde-format
 msgctxt "Sepia Effect Name"
 msgid "Sepia"
 msgstr "ספיה"
@@ -3851,10 +3850,9 @@ msgid ""
 msgstr "ביון תמונית מפתח. מגדיר מה הביון שישמש לתמונית המפתח הנוכחית."
 
 #: src/assets/view/widgets/keyframewidget.cpp:143
-#, fuzzy, kde-format
-#| msgid "Seek to active keyframe"
+#, kde-format
 msgid "Seek to Keyframe on Select"
-msgstr "חפש למסגרת מפתח פעילה"
+msgstr "חתירה לתמונית המפתח בבחירה"
 
 #: src/assets/view/widgets/keyframewidget.cpp:148
 #, kde-format
@@ -13401,7 +13399,7 @@ msgstr "תיקיית יעד"
 #: src/project/cliptranscode.cpp:151
 #, kde-format
 msgid "Source and destination file can't be the same"
-msgstr ""
+msgstr "קובץ המקור והיעד לא יכולים להיות זהים"
 
 #: src/project/cliptranscode.cpp:281 src/project/cliptranscode.cpp:306
 #, kde-format
@@ -13474,10 +13472,10 @@ msgstr[3] ""
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "(פריט)"
+msgstr[1] "(שני פריטים)"
+msgstr[2] "(%1 פריטים)"
+msgstr[3] "(%1 פריטים)"
 
 #: src/project/dialogs/archivewidget.cpp:241
 #: src/project/dialogs/archivewidget.cpp:1340
@@ -14232,6 +14230,9 @@ msgid ""
 "few cached data or older than %2 months. All cached data can be recreated "
 "from the source files on project opening."
 msgstr ""
+"הפעולה הזאת תמחק נתוני מטמון (%1) למיזמים שנמחקו, שיש להם ממש מעט נתונים "
+"במטמון או שהם בני יותר מ־%2 חודשים. את כל הנתונים שמטמון ניתן ליצור מחדש "
+"מקובצי המקור עם פתיחת המיזמים."
 
 #: src/project/dialogs/temporarydata.cpp:457
 #, kde-format
@@ -15355,7 +15356,7 @@ msgstr "זמן אמת (עם אובדן דיוק)"
 #: src/scopes/audioscopes/spectrogram.cpp:45
 #, kde-format
 msgid "Reset maximum frequency to sampling rate"
-msgstr ""
+msgstr "לאפס את התדירות המרבית לקצב דגימה"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:55
 #: src/scopes/audioscopes/spectrogram.cpp:48
@@ -15390,14 +15391,14 @@ msgstr "חלון גדול"
 #: src/scopes/audioscopes/spectrogram.cpp:70
 #, kde-format
 msgid "The maximum window size is limited by the number of samples per frame."
-msgstr ""
+msgstr "גודל החלון המרבי מוגדל על ידי מספר הדגימות לתמונית."
 
 #: src/scopes/audioscopes/audiospectrum.cpp:82
 #: src/scopes/audioscopes/spectrogram.cpp:71
 #, kde-format
 msgid ""
 "A bigger window improves the accuracy at the cost of computational power."
-msgstr ""
+msgstr "חלון גדול יותר משפר את הדיוק במחיר של כוח עיבוד."
 
 #: src/scopes/audioscopes/audiospectrum.cpp:83
 #: src/scopes/audioscopes/spectrogram.cpp:72
@@ -15560,13 +15561,13 @@ msgstr "ללא שינוי קנה־מידה"
 #: src/scopes/colorscopes/waveform.cpp:36
 #, kde-format
 msgid "Rec. 601"
-msgstr ""
+msgstr "Rec. 601"
 
 #: src/scopes/colorscopes/histogram.cpp:29
 #: src/scopes/colorscopes/waveform.cpp:38
 #, kde-format
 msgid "Rec. 709"
-msgstr ""
+msgstr "Rec. 709"
 
 #: src/scopes/colorscopes/histogram.cpp:37
 #: src/scopes/colorscopes/waveform.cpp:43
@@ -15587,7 +15588,7 @@ msgstr "מרבי"
 #: src/scopes/colorscopes/rgbparade.cpp:25
 #, kde-format
 msgid "RGB"
-msgstr ""
+msgstr "RGB"
 
 #: src/scopes/colorscopes/rgbparade.cpp:29
 #: src/scopes/colorscopes/vectorscope.cpp:84
@@ -15605,14 +15606,14 @@ msgstr "קו סימוכין למדרג"
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:176
 #, kde-format
 msgid "min: "
-msgstr ""
+msgstr "מזערי: "
 
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:184
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:190
 #: src/scopes/colorscopes/rgbparadegenerator.cpp:196
 #, kde-format
 msgid "max: "
-msgstr ""
+msgstr "מרבי: "
 
 #: src/scopes/colorscopes/vectorscope.cpp:48
 #, kde-format
@@ -15694,7 +15695,7 @@ msgstr "נמצא סרטון רצף פגום בסל"
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
-msgstr ""
+msgstr "נמצאה הרכבה שגויה %1 ברצועה %2 ב־%3, מתבצעת הרכבה עם רצועה %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:280
 #: src/timeline2/model/builders/meltBuilder.cpp:534
@@ -15708,7 +15709,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
-msgstr "נמצאה הרכבה לא ידוע %1 ברצועה %2 ב־%3, מתבצעת הרכבה עם רצועה %4."
+msgstr "נמצאה הרכבה לא ידועה %1 ברצועה %2 ב־%3, מתבצעת הרכבה עם רצועה %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:295
 #: src/timeline2/model/builders/meltBuilder.cpp:548
@@ -17655,6 +17656,9 @@ msgid ""
 "Quarter note (Am.) or crochet (Brit.). See <a href=\"https://en.wikipedia."
 "org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>"
 msgstr ""
+"רבע (עב.), Quarter note (אנגלית אמריקאית) או Crochet (אנגלית בריטית). ר׳ <a "
+"href=\"https://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Quarter_note</"
+"a>"
 
 #: src/titler/unicodedialog.cpp:202
 #, kde-format
@@ -20865,6 +20869,8 @@ msgid ""
 "For a given quality, tune the compromise between encoding time and output "
 "file size (faster encoding ends with larger file)."
 msgstr ""
+"לאיכות נתונים, לכוון את הפשרה בין זמן הקידוד וגודל קובץ הפלט (קידוד מהיר "
+"יותר מניב קובץ גדול יותר)."
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
 #: src/ui/renderwidget_ui.ui:711

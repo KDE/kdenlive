@@ -3,6 +3,7 @@ IconName=kdenlive
 DesktopEntry=org.kde.kdenlive
 Comment=Kdenlive
 Comment[ar]=كِيدِينلايف
+Comment[ast]=Kdenlive
 Comment[az]=Kdenlive
 Comment[bs]=Kdenlive
 Comment[ca]=Kdenlive
@@ -390,6 +391,7 @@ Action=Sound
 [Event/ErrorMessage]
 Name=Error
 Name[ar]=خطأ
+Name[ast]=Error
 Name[az]=Xəta
 Name[bs]=Greška
 Name[ca]=Error

@@ -526,6 +526,7 @@ void MainWindow::init(const QString &mltPath)
     auto *titleBars = new DockTitleBarManager(this);
     connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, [&]() { titleBars->slotUpdateTitleBars(); });
     connect(layoutManager, &LayoutManagement::connectDocks, titleBars, &DockTitleBarManager::connectDocks);
+    connect(this, &MainWindow::connectDockAfterInit, titleBars, &DockTitleBarManager::connectDockWidget);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 
@@ -3723,8 +3724,9 @@ void MainWindow::loadDockActions()
         if (a->objectName().startsWith(QStringLiteral("raise_"))) {
             continue;
         }
-        sorted.insert(a->text(), a);
-        sortedList << a->text();
+        const QString actionName = KLocalizedString::removeAcceleratorMarker(a->text());
+        sorted.insert(actionName, a);
+        sortedList << actionName;
     }
     QList<QAction *> orderedList;
     sortedList.sort(Qt::CaseInsensitive);
@@ -4183,6 +4185,12 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
+    if (pCore->guiReady()) {
+        Q_EMIT connectDockAfterInit(dockWidget);
+        // Update dock list to endure it is sorted
+        updateDockMenu();
+        loadDockActions();
+    }
 
     // Add action to raise and focus the Dock (e.g. with a shortcut)
     /*QAction *action = new QAction(i18n("Raise %1", title), this);
@@ -4756,9 +4764,6 @@ void MainWindow::addBin(Bin *bin, const QString &binName)
         connect(bin, &Bin::requestBinClose, this, [this, binDock]() { Q_EMIT removeBinDock(binDock->objectName()); });
         // Disable title bar since it is tabbed
         binDock->setTitleBarWidget(new QWidget);
-        // Update dock list
-        updateDockMenu();
-        loadDockActions();
         binDock->show();
         binDock->raise();
     }
