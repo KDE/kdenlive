@@ -181,15 +181,10 @@ int main(int argc, char *argv[])
 
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
-    // Register about data
+    // Set application data
     KAboutData::setApplicationData(aboutData);
-
-    // Set app stuff from about data
-    app.setApplicationName(QStringLiteral("kdenlive"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
-    app.setApplicationDisplayName(aboutData.displayName());
-    app.setOrganizationDomain(aboutData.organizationDomain());
-    app.setApplicationVersion(aboutData.version());
+
     app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
     qApp->processEvents(QEventLoop::AllEvents);
@@ -197,7 +192,6 @@ int main(int argc, char *argv[])
     // Create command line parser with options
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
-    parser.setApplicationDescription(aboutData.shortDescription());
 
     // config option is processed in KConfig (src/core/kconfig.cpp)
     parser.addOption(QCommandLineOption(QStringLiteral("config"), i18n("Set a custom config file name."), QStringLiteral("config file")));
