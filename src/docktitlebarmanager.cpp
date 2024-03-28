@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2014 Till Theato <root@ttill.de>
 
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
-
+QDockWidget
     This file is part of Kdenlive. See www.kdenlive.org.
 */
 
@@ -12,6 +12,7 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include <KLocalizedString>
+#include <QDockWidget>
 
 DockTitleBarManager::DockTitleBarManager(QObject *parent)
     : QObject(parent)
@@ -21,7 +22,7 @@ DockTitleBarManager::DockTitleBarManager(QObject *parent)
     m_switchAction->setChecked(KdenliveSettings::showtitlebars());
     pCore->window()->addAction(QStringLiteral("show_titlebars"), m_switchAction);
     connect(m_switchAction, &QAction::triggered, this, &DockTitleBarManager::slotShowTitleBars);
-    connect(pCore->window(), &MainWindow::GUISetupDone, this, &DockTitleBarManager::slotInstallRightClick);
+    connect(pCore->window(), &MainWindow::GUISetupDone, this, &DockTitleBarManager::slotInstallRightClick, Qt::DirectConnection);
 }
 
 void DockTitleBarManager::slotInstallRightClick()
@@ -52,6 +53,13 @@ void DockTitleBarManager::connectDocks(bool doConnect)
             disconnect(dock, &QDockWidget::topLevelChanged, this, &DockTitleBarManager::slotUpdateTitleBars);
         }
     }
+}
+
+void DockTitleBarManager::connectDockWidget(QDockWidget *dock)
+{
+    connect(dock, &QDockWidget::dockLocationChanged, this, &DockTitleBarManager::slotUpdateDockLocation);
+    connect(dock, &QDockWidget::topLevelChanged, this, &DockTitleBarManager::slotUpdateTitleBars);
+    slotUpdateTitleBars();
 }
 
 void DockTitleBarManager::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)

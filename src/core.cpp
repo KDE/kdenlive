@@ -240,10 +240,10 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
     }
-    m_guiConstructed = true;
     m_mainWindow->show();
     bin->slotUpdatePalette();
     Q_EMIT m_mainWindow->GUISetupDone();
+    m_guiConstructed = true;
     if (!Url.isEmpty()) {
         Q_EMIT loadingMessageNewStage(i18n("Loading project…"));
     }
@@ -1468,4 +1468,9 @@ void Core::updateSequenceAVType(const QUuid &uuid, int tracksCount)
     if (m_mainWindow) {
         pCore->bin()->updateSequenceAVType(uuid, tracksCount);
     }
+}
+
+bool Core::guiReady() const
+{
+    return m_guiConstructed;
 }

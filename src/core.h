@@ -313,6 +313,8 @@ public:
     const QUuid currentTimelineId() const;
     /** @brief Update a sequence AV info (has audio/video) */
     void updateSequenceAVType(const QUuid &uuid, int tracksCount);
+    /** @brief Returns true if all ui elements have been initialized */
+    bool guiReady() const;
     /** @brief A list of markers type categories {marker type, {color, category name}} */
     struct MarkerCategory
     {
