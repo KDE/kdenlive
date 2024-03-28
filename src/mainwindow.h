@@ -633,4 +633,6 @@ Q_SIGNALS:
     void enableUndo(bool enable);
     bool showTimelineFocus(bool focus, bool highlight);
     void removeBinDock(const QString &name);
+    /** @brief Connect a newly created dock to signals updating/hiding its title bar. */
+    void connectDockAfterInit(QDockWidget *);
 };
