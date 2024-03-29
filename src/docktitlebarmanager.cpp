@@ -81,7 +81,7 @@ void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
         tab->setChangeCurrentOnDrag(true);
         // Fix tabbar tooltip containing ampersand
         for (int i = 0; i < tab->count(); i++) {
-            tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
+            tab->setTabToolTip(i, KLocalizedString::removeAcceleratorMarker(tab->tabText(i)));
         }
     }
 
