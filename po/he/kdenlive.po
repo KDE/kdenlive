@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:37+0000\n"
-"PO-Revision-Date: 2024-03-27 22:21+0200\n"
+"PO-Revision-Date: 2024-03-29 10:40+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -11765,6 +11765,8 @@ msgid ""
 "<shortcut>Click</shortcut> on a track view in the project monitor to perform "
 "a lift of all tracks except active one"
 msgstr ""
+"<shortcut>לחיצה</shortcut> על תצוגת רצועה בצג המיזם תגביה את כל הרצועות למעט "
+"אחת"
 
 #: src/mainwindow.cpp:3427
 #, kde-format
@@ -11859,6 +11861,8 @@ msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
+"הפעולה הזאת תסתיר את סרגל התפריטים לחלוטין. אפשר להציג אותו שוב בלחיצה על "
+"Ctrl+M."
 
 #: src/mainwindow.cpp:4394
 #, kde-format
@@ -12701,7 +12705,7 @@ msgstr "הצגת/הסתרת מצב עריכה"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
-msgstr ""
+msgstr "מפעיל/משבית מצב עריכה (והצגת ידיות עצמים)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/monitor/monitormanager.cpp:568 src/ui/renderwidget_ui.ui:608
@@ -12983,6 +12987,10 @@ msgid ""
 "seek to marker, <shortcut>Home</shortcut> / <shortcut>End</shortcut> to go "
 "to first / last frame"
 msgstr ""
+"<shortcut>גלגלת</shortcut> או <shortcut>חיצים</shortcut> מאפשרים לחתור "
+"בתמונית אחת, <shortcut>Shift</shortcut> כדי לחתור שנייה, <shortcut>Alt</"
+"shortcut> כדי לחתור עד לסמן, <shortcut>Home</shortcut> / <shortcut>End</"
+"shortcut> כדי לגשת לתמונית הראשונה/אחרונה"
 
 #: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
@@ -12991,6 +12999,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
+"יש <shortcut>לגרור</shortcut> כדי להגדיר נקודת כניסה לקטע, <shortcut>Shift"
+"+גרירה</shortcut> כדי לחתור במהלך כיוון הכניסה לקטע"
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -12999,6 +13009,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
+"יש <shortcut>לגרור</shortcut> כדי להגדיר נקודת יציאה מקטע, <shortcut>Shift"
+"+גרירה</shortcut> כדי לחתור במהלך כיוון היציאה מהקטע"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -13113,67 +13125,67 @@ msgstr "מרכב"
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY"
-msgstr ""
+msgstr "CC BY"
 
 #: src/onlineresources/resourcewidget.cpp:439
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NoDerivs"
-msgstr ""
+msgstr "Creative Commons ייחוס-ללא נגזרות"
 
 #: src/onlineresources/resourcewidget.cpp:440
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-ND"
-msgstr ""
+msgstr "CC BY-ND"
 
 #: src/onlineresources/resourcewidget.cpp:442
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-ShareAlike"
-msgstr ""
+msgstr "Creative Commons ייחוס-לא מסחרי-שיתוף זהה"
 
 #: src/onlineresources/resourcewidget.cpp:443
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-SA"
-msgstr ""
+msgstr "CC BY-NC-SA"
 
 #: src/onlineresources/resourcewidget.cpp:445
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-ShareAlike"
-msgstr ""
+msgstr "Creative Commons ייחוס-שיתוף זהה"
 
 #: src/onlineresources/resourcewidget.cpp:446
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-SA"
-msgstr ""
+msgstr "CC BY-SA"
 
 #: src/onlineresources/resourcewidget.cpp:448
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial"
-msgstr ""
+msgstr "Creative Commons ייחוס-לא מסחרי"
 
 #: src/onlineresources/resourcewidget.cpp:449
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC"
-msgstr ""
+msgstr "CC BY-NC"
 
 #: src/onlineresources/resourcewidget.cpp:451
 #, kde-format
 msgctxt "Creative Commons License"
 msgid "Creative Commons Attribution-NonCommercial-NoDerivs"
-msgstr ""
+msgstr "Creative Commons ייחוס-לא מסחרי-ללא נגזרות"
 
 #: src/onlineresources/resourcewidget.cpp:452
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC BY-NC-ND"
-msgstr ""
+msgstr "CC BY-NC-ND"
 
 #: src/onlineresources/resourcewidget.cpp:454
 #, kde-format
@@ -13185,7 +13197,7 @@ msgstr "Creative Commons 0"
 #, kde-format
 msgctxt "Creative Commons License (short)"
 msgid "CC 0"
-msgstr ""
+msgstr "CC 0"
 
 #: src/onlineresources/resourcewidget.cpp:457
 #, kde-format
@@ -13794,6 +13806,7 @@ msgstr "קטגוריית קווים מנחים כברירת מחדל."
 msgctxt "@info:whatsthis"
 msgid "Default guide category. The category used for newly created guides."
 msgstr ""
+"קטגוריית ברירת המחדל לקווים מנחים. הקטגוריה משמשת לקווים מנחים חדשים שנוצרים."
 
 #: src/project/dialogs/guideslist.cpp:158
 #, kde-format
@@ -13867,6 +13880,8 @@ msgid ""
 "Opens the profile dialog window in which you can change project profiles. "
 "Note: The profile used in the open project cannot be changed."
 msgstr ""
+"פותח את חלונית הפרופיל בה ניתן לשנות את הפרופילים של המיזם. לתשומת ליבך: אי "
+"אפשר לשנות את הפרופיל בו נעשה שימוש במיזם הפתוח."
 
 #: src/project/dialogs/profilewidget.cpp:109
 #: src/project/dialogs/profilewidget.cpp:140
@@ -14282,6 +14297,10 @@ msgid ""
 "Cache folder contains the audio and video thumbnails, as well as timeline "
 "previews. All this data will be recreated on project opening."
 msgstr ""
+"מחיקת כל הנתונים בתיקיית המטמון:\n"
+"%1\n"
+"תיקיית המטמון מכילות את דוגמיות השמע והווידאו, לצד תצוגות מקדימות של ציר "
+"הזמן. כל הנתונים האלו ייווצרו מחדש עם פתיחת המיזם."
 
 #: src/project/dialogs/temporarydata.cpp:700
 #, kde-format
@@ -14301,6 +14320,10 @@ msgid ""
 "Cache folders contains the audio and video thumbnails, as well as timeline "
 "previews. All this data will be recreated on project opening."
 msgstr ""
+"מחיקת תיקיות המטמון הבאות מתוך\n"
+"%1\n"
+"תיקיות המטמון מכילות את דוגמיות השמע והווידאו, לצד תצוגות מקדימות של ציר "
+"הזמן. כל הנתונים האלו ייווצרו מחדש עם פתיחת המיזם."
 
 #: src/project/dialogs/temporarydata.cpp:746
 #, kde-format
@@ -14350,12 +14373,12 @@ msgstr "הערות מיזם"
 #: src/project/notesplugin.cpp:50
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
-msgstr ""
+msgstr "הקצאת קודי הזמן הנבחרים לסרטון הסל הנוכחי"
 
 #: src/project/notesplugin.cpp:53
 #, kde-format
 msgid "Create markers from selected timecodes"
-msgstr ""
+msgstr "יצירת סמנים מקודי הזמן הנבחרים"
 
 #: src/project/notesplugin.cpp:55
 #, kde-kuit-format
@@ -14364,6 +14387,7 @@ msgid ""
 "Creates markers in the timeline from the selected timecodes (doesn’t matter "
 "if other text is selected too)."
 msgstr ""
+"יוצר סמנים בציר הזמן מקודי הזמן הנבחרים (לא משנה אם נבחר גם טקסט נוסף)."
 
 #: src/project/notesplugin.cpp:75
 #, kde-format
@@ -15312,6 +15336,8 @@ msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
 "are doing you will probably have to change it to 'mlt_profile'."
 msgstr ""
+"ערכת הצלימה הזאת משתמש במשתנה ‚profile’ (פרופיל).<br />אלא אם ברור לך "
+"לחלוטין מה ניסית לעשות כנראה שעדיף לשנות אותו ל־‚mlt_profile’."
 
 #: src/renderpresets/renderpresetrepository.cpp:196
 #, kde-format
@@ -15415,7 +15441,7 @@ msgstr ""
 #: src/scopes/audioscopes/audiospectrum.cpp:442
 #, kde-format
 msgid "%1 dB"
-msgstr ""
+msgstr "%1 דציבלים"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:379
 #: src/scopes/audioscopes/audiospectrum.cpp:442
@@ -15457,12 +15483,12 @@ msgstr ""
 #: src/scopes/colorscopes/colorplaneexport.cpp:28
 #, kde-format
 msgid "YUV UV plane"
-msgstr ""
+msgstr "מישור UV של YUV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:29
 #, kde-format
 msgid "YUV Y plane"
-msgstr ""
+msgstr "מישור Y של YUB"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:30
 #: src/scopes/colorscopes/vectorscope.cpp:51
@@ -15474,12 +15500,12 @@ msgstr ""
 #: src/scopes/colorscopes/colorplaneexport.cpp:31
 #, kde-format
 msgid "YCbCr CbCr plane"
-msgstr ""
+msgstr "מישור CbCr של YCbCr"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:32
 #, kde-format
 msgid "RGB plane, one component varying"
-msgstr ""
+msgstr "מישור RGB, רכיב אחד משתנה"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:33
 #, kde-format
@@ -15506,7 +15532,7 @@ msgstr "%1 פיקסלים"
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, kde-format
 msgid "File has no valid extension. Add extension (%1)?"
-msgstr ""
+msgstr "סיומת הקובץ שגויה. להוסיף סיומת (%1)?"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #, kde-format
@@ -15533,12 +15559,12 @@ msgstr "ערך ה־Y מתאר את בהירות הצבעים."
 #: src/scopes/colorscopes/colorplaneexport.cpp:223
 #, kde-format
 msgid "UV angle"
-msgstr ""
+msgstr "זווית UV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:224
 #, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
-msgstr ""
+msgstr "זווית במישור UV, עם כל ערכי ה־Y האפשריים."
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:235
 #: src/scopes/colorscopes/colorplaneexport.cpp:263
@@ -19349,7 +19375,7 @@ msgstr "גלילה אוטומטית בזמן נגינה"
 #, kde-format
 msgid ""
 "Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel"
-msgstr ""
+msgstr "אפשר לגלול אנכית עם גלגלת העכבר, אופקית עם Shift + גלגלת העכבר"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showmarkers)
 #: src/ui/configtimeline_ui.ui:122
@@ -19367,7 +19393,7 @@ msgstr "גובה רצועה כברירת מחדל:"
 #: src/ui/configtimeline_ui.ui:149
 #, kde-format
 msgid "Raise Properties Pane when Selecting in Timeline"
-msgstr ""
+msgstr "הגבהת לוח מאפיינים בבחירה בציר הזמן"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:155
@@ -19784,6 +19810,8 @@ msgid ""
 "Enabling manual editing is for advanced users, you will only be able to edit "
 "the settings for this preset in a text box."
 msgstr ""
+"הפעלת עריכה ידנית מיועדת למשתמשים מתקדמים, תהיה לך אפשרות לערוך את ההגדרות "
+"לערכה הזאת בתיבת טקסט."
 
 #. i18n: ectx: property (text), widget (QPushButton, button_manual)
 #: src/ui/editrenderpreset_ui.ui:1088
@@ -19874,7 +19902,7 @@ msgstr "נטוי"
 #: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr ""
+msgstr "טקסט סמן פרק מעוצב ייווצר כאן."
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:44
@@ -20174,6 +20202,8 @@ msgid ""
 "preview videos. Deleting is safe, all data can be recreated on project "
 "opening."
 msgstr ""
+"הנתונים במטמון מורכבים מתמונות מוקטנות (שמע ווידאו) וסרטוני תצוגה מקדימה "
+"לציר הזמן. מחיקה נחשבת בטוחה, את כל הנתונים אפשר ליצור מחדש עם פתיחת המיזם."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/managecache_ui.ui:308
@@ -20185,7 +20215,7 @@ msgstr "נתוני מטמון"
 #: src/ui/managecache_ui.ui:381
 #, kde-format
 msgid "Total cached data:"
-msgstr ""
+msgstr "סך כל הנתונים במטמון:"
 
 #. i18n: ectx: property (text), widget (QLabel, gTotalSize)
 #. i18n: ectx: property (text), widget (QLabel, gSelectedSize)
@@ -21690,12 +21720,14 @@ msgid ""
 "The following clips are not usable for editing. This will transcode them in "
 "an edit friendly format and replace the original ones in your project."
 msgstr ""
+"הסרטונים הבאים לא שמישים לעריכה. הפעולה הזאת תתמיר אותם בתסדיר ידידותי "
+"לעריכה ותחליף את המקוריים במיזם שלך."
 
 #. i18n: ectx: property (text), widget (QCheckBox, replace_original)
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr ""
+msgstr "החלפת סרטון בגרסה מותמרת במיזם"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24
@@ -21729,6 +21761,8 @@ msgid ""
 "your mouse you can select a section of the screen from which to get an "
 "average color."
 msgstr ""
+"נא לבחור צבע במסך. בלחיצה על כפתור העכבר ואז הזזת העכבר אפשר לבחור מקטע "
+"מהמסך לקבלת צבע ממוצע ממנו."
 
 #: src/widgets/doublewidget.cpp:27
 #, kde-format

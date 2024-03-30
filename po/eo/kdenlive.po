@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:37+0000\n"
-"PO-Revision-Date: 2024-03-27 09:18+0100\n"
+"PO-Revision-Date: 2024-03-29 11:08+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -7676,7 +7676,7 @@ msgstr "korea"
 #: src/dialogs/speechdialog.cpp:510
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Kirgiza"
 
 #: src/dialogs/speechdialog.cpp:511 src/pythoninterfaces/speechtotext.cpp:130
 #, kde-format
@@ -7746,7 +7746,7 @@ msgstr "nepala"
 #: src/dialogs/speechdialog.cpp:525
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr ""
+msgstr "niĝeria fulfulde"
 
 #: src/dialogs/speechdialog.cpp:526
 #, kde-format
@@ -7836,7 +7836,7 @@ msgstr "somala"
 #: src/dialogs/speechdialog.cpp:543
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "suda paŝto"
 
 #: src/dialogs/speechdialog.cpp:544 src/pythoninterfaces/speechtotext.cpp:170
 #, kde-format
@@ -7916,7 +7916,7 @@ msgstr "kimra lingvo"
 #: src/dialogs/speechdialog.cpp:559
 #, kde-format
 msgid "West Central Oromo"
-msgstr ""
+msgstr "okcidenta centra oromo"
 
 #: src/dialogs/speechdialog.cpp:560
 #, kde-format
@@ -7931,7 +7931,7 @@ msgstr "joruboj"
 #: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "zulua"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
