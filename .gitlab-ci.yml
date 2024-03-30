@@ -24,34 +24,26 @@ include:
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
       - /gitlab-templates/craft-macos-arm64-qt6.yml
 
-# craft_macos_arm64:
-#   rules:
-#   - when: manual
+#.craft-mac-notarize:
+#  rules:
+#    - when: manual
+#  variables:
+#    KDECI_NOTARIZEMACAPP_CONFIG: $CI_PROJECT_DIR/ci-utilities/signing/notarizemacapp.ini
+#  script:
+#    - !reference [.craft_macos_base, script]
+#    - python3 ci-notary-service/notarizemacapp.py -v --config $KDECI_NOTARIZEMACAPP_CONFIG $CI_PROJECT_DIR/.kde-ci-packages/*.dmg
 
-# craft_macos_x86_64:
-#   rules:
-#   - when: manual
-
-.craft-mac-notarize:
-  rules:
-    - when: manual
-  variables:
-    KDECI_NOTARIZEMACAPP_CONFIG: $CI_PROJECT_DIR/ci-utilities/signing/notarizemacapp.ini
-  script:
-    - !reference [.craft_macos_base, script]
-    - python3 ci-notary-service/notarizemacapp.py -v --config $KDECI_NOTARIZEMACAPP_CONFIG $CI_PROJECT_DIR/.kde-ci-packages/*.dmg
-
-craft_macos_arm64_notarize_test:
-  extends:
-    - craft_macos_qt6_arm64
-    - .craft-mac-notarize
-  artifacts:
-    expire_in: 3 days
-    when: always
-    expose_as: "macOS ARM Signed"
-    paths:
-     - ".kde-ci-packages/"
-     - ".logs/"
+#craft_macos_arm64_notarize_test:
+#  extends:
+#    - craft_macos_qt6_arm64
+#    - .craft-mac-notarize
+#  artifacts:
+#    expire_in: 3 days
+#    when: always
+#    expose_as: "macOS ARM Signed"
+#    paths:
+#     - ".kde-ci-packages/"
+#     - ".logs/"
 
 
 xml_lint:
