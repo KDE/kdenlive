@@ -68,7 +68,7 @@
  </group>
  <group name="Hardware Accelerated (experimental)" renderer="avformat" type="av">
   <profile name="NVENC AV1 VBR" extension="mp4"
-   qualities="15,45" defaultquality="23"
+   qualities="24,192" defaultquality="72"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 vcodec=av1_nvenc rc=constqp vqp=%quality vq=%quality acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="NVENC H264 ABR" extension="mp4"
