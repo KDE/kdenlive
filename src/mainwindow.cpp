@@ -1285,7 +1285,9 @@ void MainWindow::setupActions()
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, &QAction::triggered, this, &MainWindow::slotSwitchVideoThumbs);
 
-    m_buttonAudioThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Show Audio Thumbnails"), this);
+    // TODO: remove icon check ones we require KF > 6.1
+    QString waveformIconName = QIcon::hasThemeIcon(QStringLiteral("waveform")) ? QStringLiteral("waveform") : QStringLiteral("kdenlive-show-audiothumb");
+    m_buttonAudioThumbs = new QAction(QIcon::fromTheme(waveformIconName), i18n("Show Audio Thumbnails"), this);
     m_buttonAudioThumbs->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of audio thumbnails for the clips in the timeline (default is On)."));
 
     m_buttonAudioThumbs->setCheckable(true);
