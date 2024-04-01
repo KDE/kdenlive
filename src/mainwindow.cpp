@@ -1278,7 +1278,7 @@ void MainWindow::setupActions()
 
     connect(toolGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeTool);
 
-    m_buttonVideoThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-videothumb")), i18n("Show Video Thumbnails"), this);
+    m_buttonVideoThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-video")), i18n("Show Video Thumbnails"), this);
     m_buttonVideoThumbs->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of video thumbnails for the clips in the timeline (default is On)."));
 
     m_buttonVideoThumbs->setCheckable(true);
