@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:37+0000\n"
-"PO-Revision-Date: 2024-03-30 08:04+0300\n"
+"PO-Revision-Date: 2024-03-31 23:52+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -397,7 +397,7 @@ msgstr "תדירות נמוכה"
 #: data/effects/audiospectrum.xml:55
 #, kde-format
 msgid "The low end of the frequency range to be used for the graph."
-msgstr ""
+msgstr "הקצה התחתון של טווח התדירות לשימוש התרשים."
 
 #: data/effects/audiospectrum.xml:58 data/effects/dance.xml:11
 #, kde-format
@@ -407,7 +407,7 @@ msgstr "תדירות גבוהה"
 #: data/effects/audiospectrum.xml:59
 #, kde-format
 msgid "The high end of the frequency range to be used for the graph."
-msgstr ""
+msgstr "הקצה העליון של טווח התדירות לשימוש התרשים."
 
 #: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
 #, kde-format
@@ -419,7 +419,7 @@ msgstr "סף רמה"
 msgid ""
 "The minimum amplitude of sound that must occur within the frequency range to "
 "cause the value to be applied."
-msgstr ""
+msgstr "משרעת הקול המזערית שצריכה להתרחש בתוך טווח התדרים שיגרום להחלת הערך."
 
 #: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
 #, kde-format
@@ -436,6 +436,11 @@ msgid ""
 "performed as a sliding window so that the most recent samples are always "
 "transformed."
 msgstr ""
+"מספר הדגימות עליהן יבוצע ה־FFT (התמרת פורייה מהירה). אם גודל החלון קטן ממספר "
+"הדגימות בתמונית, דגימות נוספות לא תיכללנה. אם גודל החלון גדול ממספר הדגימות "
+"בתמונית, הדגימות תיאצרנה במטמון מתמוניות קודמות כדי למלא את החלון. האצירה "
+"במטמון מבוצעת כחלון נע כך שהדגימות העדכניות ביותר תמיד תהיינה אלו שעוברות "
+"התמרה."
 
 #: data/effects/audiowave.xml:4
 #, kde-format
@@ -445,7 +450,7 @@ msgstr "גל שמע"
 #: data/effects/audiowave.xml:5
 #, kde-format
 msgid "Display the audio waveform instead of the video"
-msgstr ""
+msgstr "הצגת צורת הגל של השמע במקום הווידאו"
 
 #: data/effects/audiowaveform.xml:4
 #, kde-format
@@ -770,7 +775,7 @@ msgstr "נורמלי"
 #: data/effects/dynamic_loudness.xml:5
 #, kde-format
 msgid "Dynamically correct audio loudness as recommended by EBU R128"
-msgstr ""
+msgstr "תיקון עוצמת השמע דינמית לפי המלצות EBU R128"
 
 #: data/effects/dynamic_loudness.xml:8 data/effects/loudness.xml:8
 #, kde-format
@@ -1040,7 +1045,7 @@ msgstr "טקסט GPS"
 #: data/effects/gpstext.xml:5
 #, kde-format
 msgid "Overlay GPS-related text onto the video."
-msgstr ""
+msgstr "הוספת שכבת על של טקסט שקשור באיכון (GPS) לווידאו."
 
 #: data/effects/gpstext.xml:9
 #, kde-format
@@ -1259,7 +1264,7 @@ msgstr "החלת מסכה"
 #: data/effects/mask_apply.xml:5
 #, kde-format
 msgid "Apply the previous effects in the zone defined by a Mask Start effect."
-msgstr ""
+msgstr "החלת האפקטים הקודמים בקטע שוגדר על ידי האפקט התחלת מסכה."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -1577,7 +1582,7 @@ msgstr "מונו,סטריאו,2.1,‏4 ערוצים,5.1‏,7.1"
 #: data/effects/mono.xml:9
 #, kde-format
 msgid "number of output channels"
-msgstr ""
+msgstr "מספר ערוצי הפלט"
 
 #: data/effects/mute.xml:4
 #, kde-format
@@ -1640,7 +1645,7 @@ msgstr "מעלה ומוריד את התמונה ומשנה את הבהירות �
 #: data/effects/oldfilm.xml:8
 #, kde-format
 msgid "Y-Delta"
-msgstr ""
+msgstr "שינוי ב־Y"
 
 #: data/effects/oldfilm.xml:11
 #, no-c-format, kde-format
@@ -2289,7 +2294,7 @@ msgstr "ייצוב"
 #: data/effects/vidstab.xml:5
 #, kde-format
 msgid "Stabilize Video (for wiggly/rolling video)"
-msgstr ""
+msgstr "ייצוב וידאו (לווידאו מתנדנד/נוטה)"
 
 #: data/effects/vidstab.xml:8
 #, kde-format
@@ -2319,7 +2324,7 @@ msgstr "גודל צעד"
 #: data/effects/vidstab.xml:17
 #, kde-format
 msgid "Stepsize of Detection process minimum around"
-msgstr ""
+msgstr " "
 
 #: data/effects/vidstab.xml:20
 #, kde-format
@@ -2468,7 +2473,7 @@ msgstr "אטימות"
 #: data/effects/vignette.xml:23
 #, kde-format
 msgid "use cos instead of linear"
-msgstr ""
+msgstr "להשתמש בקוסינוס במקום לינארי"
 
 #: data/effects/volume.xml:4
 #, kde-format
@@ -2526,7 +2531,7 @@ msgstr "מונה"
 msgid ""
 "Generate frames with a counter and synchronized tone. The counter can go up "
 "or down."
-msgstr ""
+msgstr "יצירת תמוניות עם מונה וצפצוף מסונכרן. המונה יכול לספור מעלה או מטה."
 
 #: data/generators/count.xml:7
 #, kde-format
@@ -2541,7 +2546,7 @@ msgstr "ללא רקע"
 #: data/generators/count.xml:13
 #, kde-format
 msgid "Seconds to 0,Seconds to 1,Frames,Timecode,Clock"
-msgstr ""
+msgstr "שניות עד 0, שניות עד 1, תמוניות,קוד זמן, שעון"
 
 #: data/generators/count.xml:14
 #, kde-format
@@ -2571,7 +2576,7 @@ msgstr "עמודות צבע"
 #: data/generators/frei0r_test_pat_b.xml:4
 #, kde-format
 msgid "Generates test card lookalikes"
-msgstr ""
+msgstr "יצירת דמויי תבנית בדיקה"
 
 #: data/generators/frei0r_test_pat_b.xml:7
 #, no-c-format, kde-format
@@ -2874,7 +2879,7 @@ msgstr "התמוססות"
 #: data/transitions/dissolve.xml:5
 #, kde-format
 msgid "Fade out one video while fading in the other video."
-msgstr ""
+msgstr "עמעום החוצה כשהסרטון השני מתעמעם פנימה."
 
 #: data/transitions/dissolve.xml:7
 #, kde-format
@@ -2882,10 +2887,9 @@ msgid "Luma Map"
 msgstr "מפת לומה"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Make padding transparent"
-msgstr "הפוך צבע נבחר לשקוף"
+msgstr "הפיכת הריפוד לשקוף"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -2915,7 +2919,7 @@ msgstr "הוסף פרק"
 #, kde-format
 msgid ""
 "Replace the alpha channel of track A with the luma channel from track B."
-msgstr ""
+msgstr "החלפת ערוץ השקיפות של רצועה א׳ בערוץ הלומה מרצועה ב׳."
 
 #: data/transitions/mix.xml:4
 #, kde-format
@@ -5150,7 +5154,7 @@ msgstr "ייבוא בחירה"
 #: src/bin/mediabrowser.cpp:58
 #, kde-format
 msgid "Import File on Double Click"
-msgstr ""
+msgstr "ייבוא קובץ בלחיצה כפולה"
 
 #: src/bin/mediabrowser.cpp:165 src/bin/mediabrowser.cpp:173
 #: src/dialogs/clipcreationdialog.cpp:530
@@ -5188,12 +5192,12 @@ msgstr "מסנן:"
 #: src/bin/mediabrowser.cpp:219 src/dialogs/clipcreationdialog.cpp:501
 #, kde-format
 msgid "Ignore subfolder structure"
-msgstr ""
+msgstr "התעלמות ממבנה תת־תיקיות"
 
 #: src/bin/mediabrowser.cpp:221 src/dialogs/clipcreationdialog.cpp:503
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
-msgstr ""
+msgstr "לט ליצוא תת־תיקיות בסל המיזם"
 
 #: src/bin/mediabrowser.cpp:224 src/dialogs/clipcreationdialog.cpp:506
 #, kde-kuit-format
@@ -5202,6 +5206,8 @@ msgid ""
 "When enabled, Kdenlive will import all clips contained in the folder and its "
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
+"כשהאפשרות מסומנת, Kdenlive ייבא את כל הסרטונים בתיקייה על תת־תיקיותיה מבלי "
+"ליצור את תת־התיקיות בסל המיזם."
 
 #: src/bin/mediabrowser.cpp:227 src/dialogs/clipcreationdialog.cpp:496
 #, kde-format
@@ -5960,16 +5966,19 @@ msgid ""
 "inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"שם קובץ הפלט יהיה כמו שם קובץ הסרטון בסל המקור, בשינוי סיומת. היא תתווסף "
+"לסוף המשתנים או במקום <b>{&#x25;3}</b> אם קיים. אם שם קובץ הפלט כבר קיים, "
+"תתווסף תבנית ‎-0001 בסוף."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
+msgstr "אם האפשרות נבחרה, תופיע בקשה לנתיב קובץ עם ההפעלה"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
-msgstr ""
+msgstr "אם האפשרות נבחרה, רשימת ערכים נפתחת תופיע עם ההפעלה"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -5977,12 +5986,14 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"אם האפשרות נבחרה, התמונית הנוכחית של הסרטון הנבחר תחולץ לקובץ זמני וערך "
+"המשתמש יהיה נתיב התמונה"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
-msgstr ""
+msgstr "רשימה מופרדת בשורות חדשות של ערכים אפשריים שיוצעו עם ההפעלה"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
 #, kde-kuit-format
@@ -6010,7 +6021,7 @@ msgstr "קובץ ההפעלה חסר"
 #: src/dialogs/clipjobmanager.cpp:255
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
-msgstr ""
+msgstr "אי אפשר להריץ את הסקריפט או היישום שלך %1, נא לשנות הרשאות"
 
 #: src/dialogs/clipjobmanager.cpp:282
 #, kde-format
@@ -6052,7 +6063,7 @@ msgstr "השוואת פרופיל תיווך"
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
-msgstr ""
+msgstr "אפשר למלא כמה פרופילים בערכה, ולהפריד ביניהם בפסיקים"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
 #, kde-format
@@ -6201,6 +6212,10 @@ msgid ""
 "2. There must be at least three timestamps in ascending order.\n"
 "3. The minimum length for video chapters is 10 seconds."
 msgstr ""
+"אם הטקסט המיוצא מיועד ל־YouTube, כדאי לבדוק:\n"
+"1. שלזמן ההתחלה 00:00 חייב להיות פרק.\n"
+"2. חייבות להיות לפחות שלוש חותמות זמן בסדר עולה.\n"
+"3. האורך המזערי לפרקי וידאו הוא 10 שניות."
 
 #: src/dialogs/exportguidesdialog.cpp:54
 #, kde-format
@@ -6563,6 +6578,8 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"בהפעלה ראשונה, יוריד Whisper ‏<b>‏את המודל הנבחר</b>. לאחר מכן, העיבוד יתבצע "
+"ללא חיבור לאינטרנט. עיבוד עם מעבד ראשי (CPU) הוא איטי מאוד."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1761
 #, kde-format
@@ -6907,17 +6924,17 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "YADIF - temporal only (good)"
-msgstr ""
+msgstr "YADIF - זמני בלבד (טוב)"
 
 #: src/dialogs/renderwidget.cpp:230
 #, kde-format
 msgid "YADIF (better)"
-msgstr ""
+msgstr "YADIF (טוב יותר)"
 
 #: src/dialogs/renderwidget.cpp:231
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (הטוב ביותר)"
 
 #: src/dialogs/renderwidget.cpp:239 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -7259,10 +7276,9 @@ msgid "Checking setup…"
 msgstr "תקינות ההתקנה נבדקת…"
 
 #: src/dialogs/speechdialog.cpp:252
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "נא להגדיר מנגנון הכתבה."
+msgstr "נא להגדיר הכתבה, תלויות חסרות: %1"
 
 #: src/dialogs/speechdialog.cpp:254 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:946
@@ -7829,6 +7845,8 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"יצירת כתובית חדשה באורך ברירת המחדל (מוגדר תחת <interface>הגדרות->הגדרת "
+"Kdenlive…->שונות</interface>) בתמונית/מקום הנוכחיים של ראש הנגינה."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -7842,6 +7860,8 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
+"גזירת טקסט הכתוביות במקום של הסמן ויצירת כתובית חדשה מימין (כמו חיתוך של "
+"סרטון)."
 
 #: src/dialogs/subtitleedit.cpp:118
 #, kde-format
@@ -7852,7 +7872,7 @@ msgstr "עדכון טקסט הכתובית"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr ""
+msgstr "עדכון תצוגת הכתוביות בציר הזמן."
 
 #: src/dialogs/subtitleedit.cpp:120
 #, kde-format
@@ -7992,7 +8012,7 @@ msgstr "הסרת אזורים ללא דיבור"
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
-msgstr ""
+msgstr "משימת זיהוי נוספת כבר פעילה. היא תבוטל לטובת המשימה החדשה. להמשיך?"
 
 #: src/dialogs/textbasededit.cpp:952
 #, kde-format
@@ -8205,7 +8225,7 @@ msgstr "האצת חומרה QSV"
 #: src/dialogs/wizard.cpp:192
 #, kde-format
 msgid "Video Toolbox hardware acceleration"
-msgstr ""
+msgstr "האצת חומרה כלי וידאו"
 
 #: src/dialogs/wizard.cpp:207
 #, kde-format
@@ -10701,13 +10721,12 @@ msgid "Show Video Thumbnails"
 msgstr "הצגת תמונות ממוזערות של וידאו"
 
 #: src/mainwindow.cpp:1310
-#, fuzzy, kde-kuit-format
-#| msgid "update values in timeline"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of video thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr "עדכן ערכים בציר הזמן"
+msgstr "החלפת תצוגת דוגמיות וידאו לסרטונים בציר הזמן (ברירת המחדל היא פעיל)."
 
 #: src/mainwindow.cpp:1316
 #, kde-format
@@ -10720,7 +10739,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of audio thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr "החלפת תצוגת דוגמיות השמע לסרטונים בציר הזמן (ברירת המחדל היא פעיל)."
+msgstr "החלפת תצוגת דוגמיות שמע לסרטונים בציר הזמן (ברירת המחדל היא פעיל)."
 
 #: src/mainwindow.cpp:1323
 #, kde-format
@@ -15830,7 +15849,7 @@ msgstr "תערובת שגויה נמצאה ברצועה %1 ב־%2, הסרטון 
 #: src/timeline2/model/builders/meltBuilder.cpp:676
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
-msgstr ""
+msgstr "תערובת שגויה נמצאה ברצועה %1 ב־%2, הסרטון %3 הוסר."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:764
 #: src/timeline2/model/builders/meltBuilder.cpp:776
@@ -15976,7 +15995,7 @@ msgstr "חילוץ קטע"
 #: src/timeline2/model/timelinefunctions.cpp:753
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
-msgstr ""
+msgstr "נא להפעיל רצועה לחיצה על תווית הרצועה"
 
 #: src/timeline2/model/timelinefunctions.cpp:876
 #: src/timeline2/view/timelinecontroller.cpp:1210
@@ -16028,12 +16047,12 @@ msgstr "השבתת סרטון"
 #: src/timeline2/model/timelinefunctions.cpp:1095
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
-msgstr ""
+msgstr "לסרטון אחד או יותר אין שמע או שהם כבר שמע"
 
 #: src/timeline2/model/timelinefunctions.cpp:1112
 #, kde-format
 msgid "No available audio track for restore operation"
-msgstr ""
+msgstr "אין רצועת שמע זמינה לפעולת שחזור"
 
 #: src/timeline2/model/timelinefunctions.cpp:1120
 #: src/timeline2/model/timelinefunctions.cpp:1133
@@ -16044,7 +16063,7 @@ msgstr "שחזור השמע נכשל"
 #: src/timeline2/model/timelinefunctions.cpp:1172
 #, kde-format
 msgid "No available video track for restore operation"
-msgstr ""
+msgstr "אין רצועה זמינה לפעולת שחזור"
 
 #: src/timeline2/model/timelinefunctions.cpp:1180
 #: src/timeline2/model/timelinefunctions.cpp:1193
@@ -16075,7 +16094,7 @@ msgstr "הוספת סרטון לספרייה"
 #: src/timeline2/model/timelinefunctions.cpp:1415
 #, kde-format
 msgid "Enter a name for the clip in Library"
-msgstr ""
+msgstr "נא למלא שם לסרטון בספרייה"
 
 #: src/timeline2/model/timelinefunctions.cpp:1782
 #, kde-format
@@ -16089,12 +16108,12 @@ msgstr "הדבקת סרטונים"
 #: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
-msgstr ""
+msgstr "אין מספיק רצועות להדבקת לוח הגזירים"
 
 #: src/timeline2/model/timelinefunctions.cpp:1865
 #, kde-format
 msgid "Another paste operation is in progress"
-msgstr ""
+msgstr "פעולת הדבקה אחרת מתבצעת כרגע"
 
 #: src/timeline2/model/timelinefunctions.cpp:1877
 #, kde-format
@@ -16106,6 +16125,8 @@ msgstr "אין נתונים תקפים בלוח הגזירים"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr ""
+"אין מספיק רצועות כדי להדביק את לוח הגזירים (דרושות %1 רצועות שמע, %2 רצועות "
+"וידאו)"
 
 #: src/timeline2/model/timelinefunctions.cpp:2048
 #: src/timeline2/model/timelinefunctions.cpp:2066
@@ -16142,7 +16163,7 @@ msgstr "לא ניתן להוסיף סרטון מהסל"
 #: src/timeline2/model/timelinefunctions.cpp:2300
 #, kde-format
 msgid "All clips were not successfully copied"
-msgstr ""
+msgstr "לא כל הסרטונים הועתקו בהצלחה"
 
 #: src/timeline2/model/timelinefunctions.cpp:2350
 #: src/timeline2/model/timelinefunctions.cpp:2529
@@ -16251,7 +16272,7 @@ msgstr "העברת סרטון"
 #: src/timeline2/model/timelinemodel.cpp:1931
 #, kde-format
 msgid "No available track for insert operation"
-msgstr ""
+msgstr "אין רצועה זמינה לפעולת ההוספה"
 
 #: src/timeline2/model/timelinemodel.cpp:1800
 #, kde-format
@@ -16277,7 +16298,7 @@ msgstr "אין רצועה זמינה לפעולת פיצול"
 #: src/timeline2/model/timelinemodel.cpp:2044
 #, kde-format
 msgid "Audio split failed: no viable track"
-msgstr ""
+msgstr "פיצול השמע נכשל: אין רצועה מעשית"
 
 #: src/timeline2/model/timelinemodel.cpp:2052
 #, kde-format
@@ -16638,7 +16659,7 @@ msgstr ""
 #: src/timeline2/view/qml/Clip.qml:727
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
-msgstr ""
+msgstr "יש <b>לגרור</b> כדי לשנות את משך הערבוב"
 
 #: src/timeline2/view/qml/Clip.qml:846
 #, kde-format
@@ -16669,6 +16690,8 @@ msgstr "יציאה מעומעמת: %1"
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
+"יש <b>לגרור</b> כדי לשנות את העמעום, או <b>ללחוץ</b> כדי להוסיף את משך "
+"העמעום כברירת המחדל"
 
 #: src/timeline2/view/qml/Clip.qml:1457 src/timeline2/view/qml/Clip.qml:1464
 #, kde-format

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:37+0000\n"
-"PO-Revision-Date: 2024-02-22 12:50+0400\n"
+"PO-Revision-Date: 2024-03-31 09:32+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -5509,9 +5509,7 @@ msgid "Timeline sequence"
 msgstr "تسلسل خط زمني"
 
 #: src/bin/projectclip.cpp:576 src/timeline2/view/qml/Clip.qml:1085
-#, fuzzy, kde-format
-#| msgctxt "The first letter of Proxy, used as abbreviation"
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "و"
@@ -6175,23 +6173,20 @@ msgstr ""
 "%1؟"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Compare Proxy Profile"
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "قارن تشكيلة الوسيط"
+msgstr "حرر تشكيلات وسيط كاميرة الفيديو المخصصة"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
-msgstr ""
+msgstr "يمكنك إدخال عدة تشكيلات في إعداد مسبق، مفصولة بفاصلة منقوطة"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "Preset already exists"
+#, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "الإعداد المسبق موجود فعلا"
+msgstr "الإعداد المسبق موجود فعلا، أدخل اسم جديد:"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -6199,6 +6194,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
+"سيؤدي هذا إلى حذف كافة تشكيلات كاميرا الفيديو المخصصة وإعادة تعيين القيم إلى "
+"الإعدادات الافتراضية"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6206,6 +6203,8 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"أنت تستخدم إعدادات مسبقة متعددة في تشكيلة واحدة، تأكد من أن لديك نفس عدد "
+"الفاصلة المنقوطة في كل معلمة. لن يحفظ  هذه التشكيلة."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -6701,6 +6700,8 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"عند التشغيل لأول مرة، سيقوم Whisper <b>بتنزيل النموذج المختار</b>. وبعد ذلك، "
+"ستتم المعالجة دون اتصال بالإنترنت. معالجة وحدة المعالجة المركزية بطيئة جدًا."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1761
 #, kde-format
@@ -6708,6 +6709,8 @@ msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
 "that, translations will happen offline."
 msgstr ""
+"عند التشغيل لأول مرة، سيقوم SeamlessM4T <b>بتنزيل 9 جيجا بايت من بيانات "
+"النموذج</b>. وبعد ذلك، ستتم الترجمات دون الاتصال بالإنترنت."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -6715,10 +6718,9 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:1786
 #: src/dialogs/kdenlivesettingsdialog.cpp:2112 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
-#, fuzzy, kde-format
-#| msgid "Custom models folder"
+#, kde-format
 msgid "Models folder"
-msgstr "مجلّد نماذج مخصّصة"
+msgstr "مجلّد النماذج"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1826
 #, kde-format
@@ -7398,10 +7400,9 @@ msgid "Checking setup…"
 msgstr "يفحص التكوين..."
 
 #: src/dialogs/speechdialog.cpp:252
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "فضلاً اضبط تحويل الصوت إلى نص"
+msgstr "فضلاً اضبط تحويل الصوت إلى نص، التبعيات مفقودة: %1"
 
 #: src/dialogs/speechdialog.cpp:254 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:946
@@ -7440,16 +7441,14 @@ msgid "Speech recognition failed"
 msgstr "فشل التعرف على الكلام"
 
 #: src/dialogs/speechdialog.cpp:453
-#, fuzzy, kde-format
-#| msgid "Translate text to English"
+#, kde-format
 msgid "Translating text to %1"
-msgstr "ترجم النص إلى الإنجليزية"
+msgstr "ترجم النص إلى %1"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Invalid transition"
+#, kde-format
 msgid "Initializing translation model"
-msgstr "انتقال غير صالح"
+msgstr "يهيئ نموذج الترجمة"
 
 #: src/dialogs/speechdialog.cpp:466 src/pythoninterfaces/speechtotext.cpp:81
 #, kde-format
@@ -7502,10 +7501,9 @@ msgid "Burmese"
 msgstr "البورمية"
 
 #: src/dialogs/speechdialog.cpp:476
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Cantonese"
-msgstr "الصينية"
+msgstr "الكانتونية"
 
 #: src/dialogs/speechdialog.cpp:477 src/pythoninterfaces/speechtotext.cpp:97
 #, kde-format
@@ -7515,12 +7513,12 @@ msgstr "الكاتالانيّة"
 #: src/dialogs/speechdialog.cpp:478
 #, kde-format
 msgid "Cebuano"
-msgstr ""
+msgstr "السيبوانية"
 
 #: src/dialogs/speechdialog.cpp:479
 #, kde-format
 msgid "Central Kurdish"
-msgstr ""
+msgstr "الكردية الوسطى"
 
 #: src/dialogs/speechdialog.cpp:480 src/pythoninterfaces/speechtotext.cpp:99
 #, kde-format
@@ -7545,7 +7543,7 @@ msgstr "الهولندية"
 #: src/dialogs/speechdialog.cpp:484
 #, kde-format
 msgid "Egyptian Arabic"
-msgstr ""
+msgstr "لهجة مصرية"
 
 #: src/dialogs/speechdialog.cpp:485 src/pythoninterfaces/speechtotext.cpp:103
 #, kde-format
@@ -7575,7 +7573,7 @@ msgstr "الجليقيّة"
 #: src/dialogs/speechdialog.cpp:490
 #, kde-format
 msgid "Ganda"
-msgstr ""
+msgstr "غاندا"
 
 #: src/dialogs/speechdialog.cpp:491 src/pythoninterfaces/speechtotext.cpp:110
 #, kde-format
@@ -7598,10 +7596,9 @@ msgid "Gujarati"
 msgstr "الجيوجاراتية"
 
 #: src/dialogs/speechdialog.cpp:495
-#, fuzzy, kde-format
-#| msgid "Mongolian"
+#, kde-format
 msgid "Halh Mongolian"
-msgstr "المنغولية"
+msgstr "هالة المنغولية"
 
 #: src/dialogs/speechdialog.cpp:496 src/pythoninterfaces/speechtotext.cpp:118
 #, kde-format
@@ -7626,7 +7623,7 @@ msgstr "الإيسلنديّة"
 #: src/dialogs/speechdialog.cpp:500
 #, kde-format
 msgid "Igbo"
-msgstr ""
+msgstr " إجبو"
 
 #: src/dialogs/speechdialog.cpp:501 src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
@@ -7634,11 +7631,9 @@ msgid "Indonesian"
 msgstr "الإندونيسيّة"
 
 #: src/dialogs/speechdialog.cpp:502
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Iris Box"
+#, kde-format
 msgid "Irish"
-msgstr "صندوق القزحية"
+msgstr "الإيرلنديّة"
 
 #: src/dialogs/speechdialog.cpp:503 src/pythoninterfaces/speechtotext.cpp:123
 #, kde-format
@@ -7678,7 +7673,7 @@ msgstr "الكورية"
 #: src/dialogs/speechdialog.cpp:510
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "القيرغيزستانية"
 
 #: src/dialogs/speechdialog.cpp:511 src/pythoninterfaces/speechtotext.cpp:130
 #, kde-format
@@ -7691,10 +7686,9 @@ msgid "Lithuanian"
 msgstr "الليتوانيّة"
 
 #: src/dialogs/speechdialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Lao"
+#, kde-format
 msgid "Luo"
-msgstr "اللاوية"
+msgstr "اللووية"
 
 #: src/dialogs/speechdialog.cpp:514 src/pythoninterfaces/speechtotext.cpp:137
 #, kde-format
@@ -7702,10 +7696,9 @@ msgid "Macedonian"
 msgstr "المقدونية"
 
 #: src/dialogs/speechdialog.cpp:515
-#, fuzzy, kde-format
-#| msgid "Swahili"
+#, kde-format
 msgid "Maithili"
-msgstr "السواحلية"
+msgstr "الميثيلية"
 
 #: src/dialogs/speechdialog.cpp:516 src/pythoninterfaces/speechtotext.cpp:140
 #, kde-format
@@ -7718,10 +7711,9 @@ msgid "Maltese"
 msgstr "المالطية"
 
 #: src/dialogs/speechdialog.cpp:518 src/dialogs/speechdialog.cpp:519
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Mandarin Chinese"
-msgstr "الصينية"
+msgstr "ماندراين الصينية"
 
 #: src/dialogs/speechdialog.cpp:520 src/pythoninterfaces/speechtotext.cpp:143
 #, kde-format
@@ -7731,17 +7723,17 @@ msgstr "الماراتية"
 #: src/dialogs/speechdialog.cpp:521
 #, kde-format
 msgid "Meitei"
-msgstr ""
+msgstr "الميتي"
 
 #: src/dialogs/speechdialog.cpp:522
 #, kde-format
 msgid "Modern Standard Arabic"
-msgstr ""
+msgstr "اللغة العربية الفصحى الحديثة"
 
 #: src/dialogs/speechdialog.cpp:523
 #, kde-format
 msgid "Moroccan Arabic"
-msgstr ""
+msgstr "اللهجة مغربية"
 
 #: src/dialogs/speechdialog.cpp:524 src/pythoninterfaces/speechtotext.cpp:148
 #, kde-format
@@ -7751,41 +7743,37 @@ msgstr "النيبالية"
 #: src/dialogs/speechdialog.cpp:525
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr ""
+msgstr "فولفولدي النيجيرية"
 
 #: src/dialogs/speechdialog.cpp:526
-#, fuzzy, kde-format
-#| msgid "Azerbaijani"
+#, kde-format
 msgid "North Azerbaijani"
-msgstr "الأذربيجانية"
+msgstr "الأذربيجانية الشمالية"
 
 #: src/dialogs/speechdialog.cpp:527
 #, kde-format
 msgid "Northern Uzbek"
-msgstr ""
+msgstr "الأزبكية الشمالية"
 
 #: src/dialogs/speechdialog.cpp:528
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Bokmål"
-msgstr "النرويجية"
+msgstr "النورويجيّة البوكمال"
 
 #: src/dialogs/speechdialog.cpp:529
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Nynorsk"
-msgstr "النرويجية"
+msgstr "النرويجيّة نينورسك"
 
 #: src/dialogs/speechdialog.cpp:530
-#, fuzzy, kde-format
-#| msgid "Panjabi"
+#, kde-format
 msgid "Nyanja"
-msgstr "Panjabi"
+msgstr "نيانجا"
 
 #: src/dialogs/speechdialog.cpp:531
 #, kde-format
 msgid "Odia"
-msgstr ""
+msgstr "الأورية"
 
 #: src/dialogs/speechdialog.cpp:532 src/pythoninterfaces/speechtotext.cpp:155
 #, kde-format
@@ -7845,7 +7833,7 @@ msgstr "الصومالية"
 #: src/dialogs/speechdialog.cpp:543
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "البشتونية الجنوبية"
 
 #: src/dialogs/speechdialog.cpp:544 src/pythoninterfaces/speechtotext.cpp:170
 #, kde-format
@@ -7853,15 +7841,14 @@ msgid "Spanish"
 msgstr "الإسبانيّة"
 
 #: src/dialogs/speechdialog.cpp:545
-#, fuzzy, kde-format
-#| msgid "Latvian"
+#, kde-format
 msgid "Standard Latvian"
-msgstr "اللاتفية"
+msgstr "اللاتفية القياسية"
 
 #: src/dialogs/speechdialog.cpp:546
 #, kde-format
 msgid "Standard Malay"
-msgstr ""
+msgstr "المالية القياسية"
 
 #: src/dialogs/speechdialog.cpp:547 src/pythoninterfaces/speechtotext.cpp:172
 #, kde-format
@@ -7926,13 +7913,12 @@ msgstr "الغاليّة"
 #: src/dialogs/speechdialog.cpp:559
 #, kde-format
 msgid "West Central Oromo"
-msgstr ""
+msgstr "غرب وسط أورومو"
 
 #: src/dialogs/speechdialog.cpp:560
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "Western Persian"
-msgstr "الفارسية"
+msgstr "الفارسية الغربية"
 
 #: src/dialogs/speechdialog.cpp:561 src/pythoninterfaces/speechtotext.cpp:190
 #, kde-format
@@ -7942,7 +7928,7 @@ msgstr "اليوروباوية"
 #: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "الزولو"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
@@ -13236,16 +13222,13 @@ msgstr ""
 "<shortcut>Shift مع سحب المقبض </shortcut> للتغييرات المستندة إلى المركز"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click to add points,\n"
-#| "right click to close shape."
+#, kde-format
 msgid ""
 "Click to add points,\n"
 "right click or press enter to close shape."
 msgstr ""
 "انقر لإضافة نقاط،\n"
-"النقر باليمين لغلق الشكل."
+"النقر باليمين أو اضغط enter لغلق الشكل."
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -14951,16 +14934,14 @@ msgid "%1 is properly configured."
 msgstr "‏%1 مضبوط بشكل صحيح."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:55
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "كل شيء مضبوط: %1"
+msgstr "كل شيء مضبوط: <br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:57
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "‏%1 مضبوط: %2"
+msgstr "‏%1 مضبوط: <br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
@@ -15097,11 +15078,10 @@ msgid "No version information available."
 msgstr "لا توجد معلومات عن الإصدار متاحة."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "خيارات الرّسم"
+msgstr "مفقود (اختياري)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format
@@ -15244,10 +15224,9 @@ msgid "automated subtitling"
 msgstr "ترجمة آلية"
 
 #: src/pythoninterfaces/speechtotext.cpp:39
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "حرر نمط الترجمة"
+msgstr "اضبط طول الترجمة"
 
 #: src/pythoninterfaces/speechtotext.cpp:40
 #, kde-format
@@ -15257,10 +15236,9 @@ msgstr "إطار تعلم الآلة"
 #: src/pythoninterfaces/speechtotext.cpp:42
 #: src/pythoninterfaces/speechtotext.cpp:43
 #: src/pythoninterfaces/speechtotext.cpp:44
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "SeamlessM4T translation"
-msgstr "حدّد الانتقال"
+msgstr "ترجمة SeamlessM4T"
 
 #: src/pythoninterfaces/speechtotext.cpp:50
 #, kde-format
@@ -15271,68 +15249,60 @@ msgstr "كلام إلى نص"
 #, kde-format
 msgctxt "Model file to download, smallest one"
 msgid "Tiny (72MB)"
-msgstr ""
+msgstr "ضئيل (72م.بايب)"
 
 #: src/pythoninterfaces/speechtotext.cpp:66
 #, kde-format
 msgctxt "Model file to download, basic one"
 msgid "Base (140MB)"
-msgstr ""
+msgstr "أساسي (140م.بايت)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, fuzzy, kde-format
-#| msgid "Small (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, small one"
 msgid "Small (460MB)"
-msgstr "صغيرة (%1×%2)"
+msgstr "صغير (460م.بايت)"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, medium one"
 msgid "Medium (1.4GB)"
-msgstr "متوسّطة (%1×%2)"
+msgstr "متوسط (1.4غ.بايت)"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
-#, fuzzy, kde-format
-#| msgid "Large (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, large one"
 msgid "Large (2.9GB)"
-msgstr "كبيرة (%1×%2)"
+msgstr "كبير (2.9 غ.بايت)"
 
 #: src/pythoninterfaces/speechtotext.cpp:70
-#, fuzzy, kde-format
-#| msgid "Tiny - English only"
+#, kde-format
 msgctxt "Model file to download, smallest one"
 msgid "Tiny - English only (39MB)"
-msgstr "ضئيل- الإنجليزية فقط"
+msgstr "ضئيل- الإنجليزية فقط (39م.بايت)"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
-#, fuzzy, kde-format
-#| msgid "Base - English only"
+#, kde-format
 msgctxt "Model file to download, basic one"
 msgid "Base - English only (74MB)"
-msgstr "الأساس- الإنجليزية فقط"
+msgstr "الأساس- الإنجليزية فقط (74م.بايت)"
 
 #: src/pythoninterfaces/speechtotext.cpp:72
-#, fuzzy, kde-format
-#| msgid "Small - English only"
+#, kde-format
 msgctxt "Model file to download, small one"
 msgid "Small - English only (244MB)"
-msgstr "صغير- الإنجليزية فقط"
+msgstr "صغير- الإنجليزية فقط (244م.بايت)"
 
 #: src/pythoninterfaces/speechtotext.cpp:73
-#, fuzzy, kde-format
-#| msgid "Medium - English only"
+#, kde-format
 msgctxt "Model file to download, medium one"
 msgid "Medium - English only (1.5GB)"
-msgstr "متوسط- الإنجليزية فقط"
+msgstr "متوسط- الإنجليزية فقط (1.5غ.بايب)"
 
 #: src/pythoninterfaces/speechtotext.cpp:80
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
-msgstr "تعرف آلي"
+msgstr "اكتشفه آليًا"
 
 #: src/pythoninterfaces/speechtotext.cpp:82
 #, kde-format
@@ -19052,17 +19022,15 @@ msgstr "دئما استخدم مجلد مخصص"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #: src/ui/configenv_ui.ui:241
-#, fuzzy, kde-format
-#| msgid "Always use active project folder"
+#, kde-format
 msgid "Always use a custom subfolder of project folder"
-msgstr "دائما استخدم مجلّد المشروع النشط"
+msgstr "دائما استخدم مجلّد فرعي مخصص  داخل مجلد المشروع"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
 #: src/ui/configenv_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Parent folder of project file"
+#, kde-format
 msgid "Subfolder of project folder"
-msgstr "استخدم المجلد الأصل لملف المشروع"
+msgstr "مجلد فرعي لمجلد المشروع"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:263
@@ -19670,7 +19638,7 @@ msgstr "معالجة وايسبر على المعالج بطيئة جدا"
 #: src/ui/configspeech_ui.ui:281
 #, kde-format
 msgid "Enable translation through SeamlessM4T"
-msgstr ""
+msgstr "مكن الترجمة بواسطة SeamlessM4T"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:308
@@ -19906,10 +19874,9 @@ msgstr "لاحقة الوسيط:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add new video file"
+#, kde-format
 msgid "Add new profile"
-msgstr "أضف ملفّ فيديو جديد"
+msgstr "أضف تشكيلة جديدة"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -19920,10 +19887,9 @@ msgstr "احذف التشكيلة"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Reset all profiles"
-msgstr "احذف التشكيلة"
+msgstr "صفر كل التشكيلات"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
@@ -21620,31 +21586,27 @@ msgstr "اللغة"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "الحد الأقصى للمعدل التغيير"
+msgstr "الحد الأقصى للمحارف لكل سطر"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_seamless)
 #: src/ui/speechdialog_ui.ui:162
-#, fuzzy, kde-format
-#| msgid "Translate to English"
+#, kde-format
 msgid "Translate with SeamlessM4T"
-msgstr "ترجم إلى الإنجليزية"
+msgstr "ترجم بواسطة SeamlessM4T"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_out_label)
 #: src/ui/speechdialog_ui.ui:178
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output language"
-msgstr "ملفّ الخرج"
+msgstr "لغة الخرج"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_in_label)
 #: src/ui/speechdialog_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Speech language"
+#, kde-format
 msgid "Input language"
-msgstr "لغة الكلام"
+msgstr "لغة الإدخال"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
