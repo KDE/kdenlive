@@ -54,6 +54,7 @@
   <summary xml:lang="ka">ვიდეორედაქტორი</summary>
   <summary xml:lang="pl">Edytor wideo</summary>
   <summary xml:lang="sl">Program za videomontažo</summary>
+  <summary xml:lang="zh-CN">视频编辑器</summary>
   <description>
     <p>Kdenlive is a video editing application with support for many audio and video formats. It offers advanced editing features, a variety of effects and transitions, color correction, audio post-production and subtitling tools. Additionally, it provides the flexibility to render into practically any format of your choice.</p>
     <p xml:lang="ca">El Kdenlive és una aplicació d'edició de vídeo amb suport per a molts formats d'àudio i vídeo. Ofereix funcions avançades d'edició, una gran varietat d'efectes i transicions, correcció de color, postproducció d'àudio i eines de subtitulació. A més, proporciona la flexibilitat per a convertir pràcticament a qualsevol format de la vostra elecció.</p>
@@ -64,6 +65,7 @@
     <p xml:lang="ka">Kdenlive ვიდეორედაქტორია ბევრი აუდიო და ვიდეოფორმატების მხარდაჭერით. ის გთავაზობთ დამატებითი ჩასწორების ფუნქციებს, მრავალ ეფექტსა და გადასვლას, ფერის შესწორებას, აუდიოს პოსტ-პროდაქშენს და სუბტიტრების მორგებას. დამატებით, ის გაძლევთ საშუალებას, დაარენდეროთ პრაქტიკულად ნებისმიერ ფორმატში, რომელსაც აირჩევთ.</p>
     <p xml:lang="pl">Kdenlive jest aplikacją do edytowania wideo z obsługą wielu formatów dźwięku i obrazu. Daje rozbudowane możliwości, wiele efektów i przejść, poprawianie barw, po-produkcję dźwięki oraz narzędzia do napisów. Dodatkowo, zapewnia możliwość zapisania do właściwie dowolnego formatu jaki sobie wybierzesz.</p>
     <p xml:lang="sl">Kdenlive je program za montažo videoposnetkov s podporo za številne zvokovne in video zapise. Ponuja napredne funkcije montaže, urejanja, različne učinke in prehode, korekcijo barv, poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru.</p>
+    <p xml:lang="zh-CN">Kdenlive 是一款视频编辑应用程序，支持多种音视频格式。它提供了各种高级编辑功能、种类丰富的效果和转场、色彩校正、音频后处理和字幕工具。它还能灵活地将视频输出为您需要的任意格式。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
     <p xml:lang="az">İmkanlar:</p>
@@ -111,6 +113,7 @@
       <li xml:lang="ka">ერთმანეთში ჩალაგებული მიმდევრობები</li>
       <li xml:lang="pl">Osadzone odcinki</li>
       <li xml:lang="sl">Ugnezdena zaporedja</li>
+      <li xml:lang="zh-CN">嵌套序列</li>
       <li>Configurable interface and shortcuts</li>
       <li xml:lang="ca">Interfície i dreceres configurables</li>
       <li xml:lang="ca-valencia">Interfície i dreceres configurables</li>
@@ -120,6 +123,7 @@
       <li xml:lang="ka">მორგებადი ინტერფეისი და მალსახმობები</li>
       <li xml:lang="pl">Interfejs i skróty dające się dostosować</li>
       <li xml:lang="sl">Nastavljiv vmesnik in bližnjice</li>
+      <li xml:lang="zh-CN">可定制的界面和快捷键</li>
       <li>Scopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meter</li>
       <li xml:lang="ca">Vectoscopis: Histograma, Vectoscopi, Histograma RGB, Forma d'ona i Mesurador d'àudio</li>
       <li xml:lang="ca-valencia">Vectoscopis: Histograma, Vectoscopi, Histograma RGB, Forma d'ona i Mesurador d'àudio</li>
@@ -129,6 +133,7 @@
       <li xml:lang="ka">მზომები: ჰისტოგრამა, ვექტორსკოპი, RGB პარადი, Waveform და აუდიომეტრი</li>
       <li xml:lang="pl">Widoki: Histogram, Wektoroskop, Parada RGB, Kształt Fali oraz Miernik Dźwięku</li>
       <li xml:lang="sl">Merilniki: histogram, vektroskop, parada RGB, signalna oblika in merilnik jakosti zvoka</li>
+      <li xml:lang="zh-CN">示波器：直方图、矢量示波器、RGB Parade 直方图、波形图、音量计</li>
       <li>Proxy editing</li>
       <li xml:lang="ca">Edició d'intermediaris</li>
       <li xml:lang="ca-valencia">Editeu intermediaris</li>
@@ -138,6 +143,7 @@
       <li xml:lang="ka">პროქსი ჩასწორება</li>
       <li xml:lang="pl">Edytowanie pośredników</li>
       <li xml:lang="sl">Montaža posrednih posnetkov</li>
+      <li xml:lang="zh-CN">代理剪辑编辑</li>
       <li>Free online assets and templates</li>
       <li xml:lang="ca">Recursos i plantilles lliures en línia</li>
       <li xml:lang="ca-valencia">Recursos i plantilles lliures en línia</li>
@@ -147,6 +153,7 @@
       <li xml:lang="ka">უფასო მასალები და ნიმუშები ინტერნეტში</li>
       <li xml:lang="pl">Darmowe zasoby i wzorce z sieci</li>
       <li xml:lang="sl">Brezplačna spletna sredstva in predloge</li>
+      <li xml:lang="zh-CN">自由免费的在线资源和模板</li>
       <li>Motion tracking</li>
       <li xml:lang="ca">Seguiment de moviment</li>
       <li xml:lang="ca-valencia">Seguiment de moviment</li>
@@ -156,6 +163,7 @@
       <li xml:lang="ka">მოძრაობის ტრეკინგი</li>
       <li xml:lang="pl">Śledzenie ruchu</li>
       <li xml:lang="sl">Sledenje gibanju</li>
+      <li xml:lang="zh-CN">运动跟踪功能</li>
       <li>AI powered tools</li>
       <li xml:lang="ca">Eines que funcionen amb IA</li>
       <li xml:lang="ca-valencia">Eines que funcionen amb IA</li>
@@ -165,6 +173,7 @@
       <li xml:lang="ka">ფუნქციები AI-ით</li>
       <li xml:lang="pl">Narzędzia wspomagane SI</li>
       <li xml:lang="sl">Orodja, ki jih poganja umetna inteligenca</li>
+      <li xml:lang="zh-CN">基于 AI 的工具</li>
     </ul>
   </description>
   <releases>
@@ -205,6 +214,7 @@
       <caption xml:lang="ka">ბნელი თემა</caption>
       <caption xml:lang="pl">Ciemny wygląd</caption>
       <caption xml:lang="sl">Temna tema</caption>
+      <caption xml:lang="zh-CN">深色主题</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
     </screenshot>
     <screenshot type="source">
@@ -217,6 +227,7 @@
       <caption xml:lang="ka">ნაგულისხმევი ინტერფეისი</caption>
       <caption xml:lang="pl">Domyślny interfejs</caption>
       <caption xml:lang="sl">Privzeti vmesnik</caption>
+      <caption xml:lang="zh-CN">默认界面</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k6.png</image>
     </screenshot>
     <screenshot type="source">
@@ -229,6 +240,7 @@
       <caption xml:lang="ka">ფერების კორექცია</caption>
       <caption xml:lang="pl">Poprawki barw</caption>
       <caption xml:lang="sl">Korekcija barv</caption>
+      <caption xml:lang="zh-CN">色彩校正</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
     </screenshot>
     <screenshot type="source">
@@ -241,6 +253,7 @@
       <caption xml:lang="ka">მორგებადი ინტერფეისი</caption>
       <caption xml:lang="pl">Interfejs dający się dostosować</caption>
       <caption xml:lang="sl">Nastavljiv vmesnik</caption>
+      <caption xml:lang="zh-CN">可定制的界面</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k4.png</image>
     </screenshot>
     <screenshot type="source">
@@ -253,6 +266,7 @@
       <caption xml:lang="ka">დასათაურება</caption>
       <caption xml:lang="pl">Nadawanie tytułów</caption>
       <caption xml:lang="sl">Naslavljanje</caption>
+      <caption xml:lang="zh-CN">字幕功能</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k5.png</image>
     </screenshot>
     <screenshot type="source">
@@ -265,6 +279,7 @@
       <caption xml:lang="ka">დროის თავიდან ასახვა და გადასვლები იგივე ტრეკში</caption>
       <caption xml:lang="pl">Przemapowywanie czasu oraz przejścia w obrębie jednej ścieżki</caption>
       <caption xml:lang="sl">Preslikava časa in prehodi na isti stezi</caption>
+      <caption xml:lang="zh-CN">时间重新映射和同轨转场功能</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>
   </screenshots>
