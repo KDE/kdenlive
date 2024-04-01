@@ -692,7 +692,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
 
             KDualAction *ac = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
             ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
-            ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
+            ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("audio-off")));
             auto *tbv = new QToolButton(this);
             tbv->setToolButtonStyle(Qt::ToolButtonIconOnly);
             tbv->setDefaultAction(ac);

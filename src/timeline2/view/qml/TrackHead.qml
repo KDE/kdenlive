@@ -447,7 +447,7 @@ Rectangle {
                 focusPolicy: Qt.NoFocus
                 contentItem: Item {
                     Image {
-                        source: isAudio ? (isDisabled ? "image://icon/kdenlive-hide-audio" : "image://icon/kdenlive-show-audio") : (isDisabled ? "image://icon/kdenlive-hide-video" : "image://icon/kdenlive-show-video")
+                        source: isAudio ? (isDisabled ? "image://icon/audio-off" : "image://icon/kdenlive-show-audio") : (isDisabled ? "image://icon/kdenlive-hide-video" : "image://icon/kdenlive-show-video")
                         anchors.centerIn: parent
                         width: root.collapsedHeight - 4
                         height: width
