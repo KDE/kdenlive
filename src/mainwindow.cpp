@@ -1100,15 +1100,24 @@ QAction *MainWindow::addAction(const QString &name, const QString &text, const Q
 void MainWindow::setupActions()
 {
     // create edit mode buttons
-    m_normalEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-normal-edit")), i18n("Normal Mode"), this);
+    // TODO: remove icon check ones we require KF > 6.1
+    QString normalEditIconName =
+        QIcon::hasThemeIcon(QStringLiteral("timeline-mode-normal")) ? QStringLiteral("timeline-mode-normal") : QStringLiteral("kdenlive-normal-edit");
+    m_normalEditTool = new QAction(QIcon::fromTheme(normalEditIconName), i18n("Normal Mode"), this);
     m_normalEditTool->setCheckable(true);
     m_normalEditTool->setChecked(true);
 
-    m_overwriteEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-overwrite-edit")), i18n("Overwrite Mode"), this);
+    // TODO: remove icon check ones we require KF > 6.1
+    QString overwriteEditIconName =
+        QIcon::hasThemeIcon(QStringLiteral("timeline-mode-overwrite")) ? QStringLiteral("timeline-mode-overwrite") : QStringLiteral("kdenlive-overwrite-edit");
+    m_overwriteEditTool = new QAction(QIcon::fromTheme(overwriteEditIconName), i18n("Overwrite Mode"), this);
     m_overwriteEditTool->setCheckable(true);
     m_overwriteEditTool->setChecked(false);
 
-    m_insertEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-edit")), i18n("Insert Mode"), this);
+    // TODO: remove icon check ones we require KF > 6.1
+    QString insertEditIconName =
+        QIcon::hasThemeIcon(QStringLiteral("timeline-mode-insert")) ? QStringLiteral("timeline-mode-insert") : QStringLiteral("kdenlive-insert-edit");
+    m_insertEditTool = new QAction(QIcon::fromTheme(insertEditIconName), i18n("Insert Mode"), this);
     m_insertEditTool->setCheckable(true);
     m_insertEditTool->setChecked(false);
 
