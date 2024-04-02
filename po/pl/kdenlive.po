@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-29 00:37+0000\n"
-"PO-Revision-Date: 2024-03-23 11:06+0100\n"
+"PO-Revision-Date: 2024-04-01 07:18+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5527,7 +5527,7 @@ msgstr "Dodaj tekst"
 #: src/bin/model/subtitlemodel.cpp:1595 src/dialogs/subtitleedit.cpp:112
 #, kde-format
 msgid "Add subtitle"
-msgstr "Dodaj napisy"
+msgstr "Dodaj napis"
 
 #: src/bin/model/subtitlemodel.cpp:1650 src/dialogs/subtitleedit.cpp:122
 #, kde-format
@@ -5543,11 +5543,10 @@ msgstr "Napis %1"
 #: src/bin/projectclip.cpp:269
 #, kde-format
 msgid "Timeline sequence"
-msgstr "Szereg osi czasu"
+msgstr "Odcinek na osi czasu"
 
 #: src/bin/projectclip.cpp:576 src/timeline2/view/qml/Clip.qml:1085
-#, fuzzy, kde-format
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
