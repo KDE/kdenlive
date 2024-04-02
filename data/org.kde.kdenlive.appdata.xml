@@ -46,6 +46,7 @@
   <name xml:lang="zh-CN">Kdenlive</name>
   <name xml:lang="zh-TW">Kdenlive</name>
   <summary>Video editor</summary>
+  <summary xml:lang="ar">محرّر فيديوهات</summary>
   <summary xml:lang="ca">Editor de vídeo</summary>
   <summary xml:lang="ca-valencia">Editor de vídeo</summary>
   <summary xml:lang="eu">Bideo editorea</summary>
@@ -57,6 +58,7 @@
   <summary xml:lang="zh-CN">视频编辑器</summary>
   <description>
     <p>Kdenlive is a video editing application with support for many audio and video formats. It offers advanced editing features, a variety of effects and transitions, color correction, audio post-production and subtitling tools. Additionally, it provides the flexibility to render into practically any format of your choice.</p>
+    <p xml:lang="ar">كيدينلايف  هو تطبيق لتحرير الفيديو يدعم العديد من تنسيقات الصوت والفيديو. فهو يوفر ميزات تحرير متقدمة، ومجموعة متنوعة من التأثيرات والانتقالات، وتصحيح الألوان، وأدوات ما بعد الإنتاج الصوتي وترجمة الأفلام.بالإضافة إلى ذلك، فهو يوفر المرونة اللازمة للتصيير  إلى أي تنسيق من اختيارك.</p>
     <p xml:lang="ca">El Kdenlive és una aplicació d'edició de vídeo amb suport per a molts formats d'àudio i vídeo. Ofereix funcions avançades d'edició, una gran varietat d'efectes i transicions, correcció de color, postproducció d'àudio i eines de subtitulació. A més, proporciona la flexibilitat per a convertir pràcticament a qualsevol format de la vostra elecció.</p>
     <p xml:lang="ca-valencia">Kdenlive és una aplicació d'edició de vídeo amb suport per a molts formats d'àudio i vídeo. Oferix funcions avançades d'edició, una gran varietat d'efectes i transicions, correcció de color, postproducció d'àudio i eines de subtitulació. A més, proporciona la flexibilitat per a convertir pràcticament a qualsevol format de la vostra elecció.</p>
     <p xml:lang="eu">Kdenlive, audio- eta bideo-formatu askorako euskarria duen bideoa editatzeko tresna bat da. Edizio-funtzio aurreratuak eskaintzen ditu, efektu eta trantsizio ezberdinak, kolore-zuzenketa, audio post-produkzioa eta azpidatzietarako tresnak. Gainera, aukeratzen duzun ia edozein formatutan errendatzeko malgutasuna ematen du.</p>
@@ -105,6 +107,7 @@
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Nested Sequences</li>
+      <li xml:lang="ar">تسلسلات متداخلة</li>
       <li xml:lang="ca">Seqüències imbricades</li>
       <li xml:lang="ca-valencia">Seqüències imbricades</li>
       <li xml:lang="eu">Habiaratutako sekuentziak</li>
@@ -115,6 +118,7 @@
       <li xml:lang="sl">Ugnezdena zaporedja</li>
       <li xml:lang="zh-CN">嵌套序列</li>
       <li>Configurable interface and shortcuts</li>
+      <li xml:lang="ar">اختصارات و واجهة قابلة للتخصيص</li>
       <li xml:lang="ca">Interfície i dreceres configurables</li>
       <li xml:lang="ca-valencia">Interfície i dreceres configurables</li>
       <li xml:lang="eu">Interfaze eta lasterbide konfiguragarriak</li>
@@ -125,6 +129,7 @@
       <li xml:lang="sl">Nastavljiv vmesnik in bližnjice</li>
       <li xml:lang="zh-CN">可定制的界面和快捷键</li>
       <li>Scopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meter</li>
+      <li xml:lang="ar">المناظير: الرسم البياني، Vectorscope، RGB Parade، الموجي ومقياس الصوت</li>
       <li xml:lang="ca">Vectoscopis: Histograma, Vectoscopi, Histograma RGB, Forma d'ona i Mesurador d'àudio</li>
       <li xml:lang="ca-valencia">Vectoscopis: Histograma, Vectoscopi, Histograma RGB, Forma d'ona i Mesurador d'àudio</li>
       <li xml:lang="eu">Eskopioak: Histograma, Bektoreskopioa, RGB parada, Uhin-forma eta Audio-neurgailua</li>
@@ -135,6 +140,7 @@
       <li xml:lang="sl">Merilniki: histogram, vektroskop, parada RGB, signalna oblika in merilnik jakosti zvoka</li>
       <li xml:lang="zh-CN">示波器：直方图、矢量示波器、RGB Parade 直方图、波形图、音量计</li>
       <li>Proxy editing</li>
+      <li xml:lang="ar">التحرير بواسطة الوسطاء</li>
       <li xml:lang="ca">Edició d'intermediaris</li>
       <li xml:lang="ca-valencia">Editeu intermediaris</li>
       <li xml:lang="eu">Ordezkaria editatzea</li>
@@ -145,6 +151,7 @@
       <li xml:lang="sl">Montaža posrednih posnetkov</li>
       <li xml:lang="zh-CN">代理剪辑编辑</li>
       <li>Free online assets and templates</li>
+      <li xml:lang="ar">موارد وقوالب مجانية على الإنترنت</li>
       <li xml:lang="ca">Recursos i plantilles lliures en línia</li>
       <li xml:lang="ca-valencia">Recursos i plantilles lliures en línia</li>
       <li xml:lang="eu">Lerroan doako aktiboak eta txantiloiak</li>
@@ -155,6 +162,7 @@
       <li xml:lang="sl">Brezplačna spletna sredstva in predloge</li>
       <li xml:lang="zh-CN">自由免费的在线资源和模板</li>
       <li>Motion tracking</li>
+      <li xml:lang="ar">تتبع الحركة</li>
       <li xml:lang="ca">Seguiment de moviment</li>
       <li xml:lang="ca-valencia">Seguiment de moviment</li>
       <li xml:lang="eu">Higiduraren jarraipena</li>
@@ -165,6 +173,7 @@
       <li xml:lang="sl">Sledenje gibanju</li>
       <li xml:lang="zh-CN">运动跟踪功能</li>
       <li>AI powered tools</li>
+      <li xml:lang="ar">أدوات بالذكاء الاصطناعي</li>
       <li xml:lang="ca">Eines que funcionen amb IA</li>
       <li xml:lang="ca-valencia">Eines que funcionen amb IA</li>
       <li xml:lang="eu">AAk bultzatutako tresnak</li>
@@ -206,6 +215,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Dark theme</caption>
+      <caption xml:lang="ar">سمة مظلمة</caption>
       <caption xml:lang="ca">Tema fosc</caption>
       <caption xml:lang="ca-valencia">Tema fosc</caption>
       <caption xml:lang="eu">Gai iluna</caption>
@@ -219,6 +229,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Default interface</caption>
+      <caption xml:lang="ar">الواجهة المبدئية</caption>
       <caption xml:lang="ca">Interfície predeterminada</caption>
       <caption xml:lang="ca-valencia">Interfície predeterminada</caption>
       <caption xml:lang="eu">Interfaze lehenetsia</caption>
@@ -232,6 +243,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Color correction</caption>
+      <caption xml:lang="ar">تصحيح الألوان</caption>
       <caption xml:lang="ca">Correcció del color</caption>
       <caption xml:lang="ca-valencia">Correcció del color</caption>
       <caption xml:lang="eu">Kolore zuzenketa</caption>
@@ -245,6 +257,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Configurable interface</caption>
+      <caption xml:lang="ar">واجهة قابلة للتخصيص</caption>
       <caption xml:lang="ca">Interfície configurable</caption>
       <caption xml:lang="ca-valencia">Interfície configurable</caption>
       <caption xml:lang="eu">Interfaze konfiguragarria</caption>
@@ -258,6 +271,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Titling</caption>
+      <caption xml:lang="ar">العنونة</caption>
       <caption xml:lang="ca">Titulació</caption>
       <caption xml:lang="ca-valencia">Titulació</caption>
       <caption xml:lang="eu">Tituluak ipintzea</caption>
@@ -271,6 +285,7 @@
     </screenshot>
     <screenshot type="source">
       <caption>Time remapping and same-track transitions</caption>
+      <caption xml:lang="ar">انتقالات و إعادة رسم خرائط الوقت  في نفسه المسار</caption>
       <caption xml:lang="ca">Reassignació del temps i transicions de la mateixa pista</caption>
       <caption xml:lang="ca-valencia">Reassignació del temps i transicions de la mateixa pista</caption>
       <caption xml:lang="eu">Denboraren mapa berregitea eta pista bereko trantsizioak</caption>
