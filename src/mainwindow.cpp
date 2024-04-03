@@ -2554,9 +2554,11 @@ void MainWindow::slotEditKeys()
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     // Update the shortcut conflicts list bewtween mainwindow and media browser
-    connect(dialog, &KShortcutsDialog::saved, pCore->mediaBrowser(), &MediaBrowser::detectShortcutConflicts);
+    connect(dialog, &KShortcutsDialog::saved, this, [this] {
+        pCore->mediaBrowser()->detectShortcutConflicts();
+        factory()->refreshActionProperties();
+    });
     dialog->configure(true);
-    factory()->refreshActionProperties();
 }
 
 void MainWindow::slotPreferences()
