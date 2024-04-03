@@ -35,6 +35,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <QCoreApplication>
 #include <QDir>
+#include <QImageReader>
 #include <QInputDialog>
 #include <QQuickStyle>
 #include <locale>
@@ -94,6 +95,11 @@ bool Core::build(const QString &packageType, bool testMode)
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     qRegisterMetaType<ProfileParam *>("ProfileParam*");
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    // Increase memory limit allowed per image
+    QImageReader::setAllocationLimit(1024);
+#endif
 
     if (!testMode) {
         // Check if we had a crash
