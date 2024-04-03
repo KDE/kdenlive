@@ -1128,15 +1128,24 @@ QAction *MainWindow::addAction(const QString &name, const QString &text, const Q
 void MainWindow::setupActions()
 {
     // create edit mode buttons
-    m_normalEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-normal-edit")), i18n("Normal Mode"), this);
+    // TODO: remove icon check ones we require KF > 6.1
+    QString normalEditIconName =
+        QIcon::hasThemeIcon(QStringLiteral("timeline-mode-normal")) ? QStringLiteral("timeline-mode-normal") : QStringLiteral("kdenlive-normal-edit");
+    m_normalEditTool = new QAction(QIcon::fromTheme(normalEditIconName), i18n("Normal Mode"), this);
     m_normalEditTool->setCheckable(true);
     m_normalEditTool->setChecked(true);
 
-    m_overwriteEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-overwrite-edit")), i18n("Overwrite Mode"), this);
+    // TODO: remove icon check ones we require KF > 6.1
+    QString overwriteEditIconName =
+        QIcon::hasThemeIcon(QStringLiteral("timeline-mode-overwrite")) ? QStringLiteral("timeline-mode-overwrite") : QStringLiteral("kdenlive-overwrite-edit");
+    m_overwriteEditTool = new QAction(QIcon::fromTheme(overwriteEditIconName), i18n("Overwrite Mode"), this);
     m_overwriteEditTool->setCheckable(true);
     m_overwriteEditTool->setChecked(false);
 
-    m_insertEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-edit")), i18n("Insert Mode"), this);
+    // TODO: remove icon check ones we require KF > 6.1
+    QString insertEditIconName =
+        QIcon::hasThemeIcon(QStringLiteral("timeline-mode-insert")) ? QStringLiteral("timeline-mode-insert") : QStringLiteral("kdenlive-insert-edit");
+    m_insertEditTool = new QAction(QIcon::fromTheme(insertEditIconName), i18n("Insert Mode"), this);
     m_insertEditTool->setCheckable(true);
     m_insertEditTool->setChecked(false);
 
@@ -1306,14 +1315,16 @@ void MainWindow::setupActions()
 
     connect(toolGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeTool);
 
-    m_buttonVideoThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-videothumb")), i18n("Show Video Thumbnails"), this);
+    m_buttonVideoThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-video")), i18n("Show Video Thumbnails"), this);
     m_buttonVideoThumbs->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of video thumbnails for the clips in the timeline (default is On)."));
 
     m_buttonVideoThumbs->setCheckable(true);
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     connect(m_buttonVideoThumbs, &QAction::triggered, this, &MainWindow::slotSwitchVideoThumbs);
 
-    m_buttonAudioThumbs = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Show Audio Thumbnails"), this);
+    // TODO: remove icon check ones we require KF > 6.1
+    QString waveformIconName = QIcon::hasThemeIcon(QStringLiteral("waveform")) ? QStringLiteral("waveform") : QStringLiteral("kdenlive-show-audiothumb");
+    m_buttonAudioThumbs = new QAction(QIcon::fromTheme(waveformIconName), i18n("Show Audio Thumbnails"), this);
     m_buttonAudioThumbs->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of audio thumbnails for the clips in the timeline (default is On)."));
 
     m_buttonAudioThumbs->setCheckable(true);

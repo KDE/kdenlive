@@ -678,7 +678,9 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     if (m_id == Kdenlive::ProjectMonitor) {
         m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("monitor_multitrack")));
     } else if (m_id == Kdenlive::ClipMonitor) {
-        QAction *alwaysShowAudio = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Always show audio thumbnails"), this);
+        // TODO: remove icon check ones we require KF > 6.1
+        QString waveformIconName = QIcon::hasThemeIcon(QStringLiteral("waveform")) ? QStringLiteral("waveform") : QStringLiteral("kdenlive-show-audiothumb");
+        QAction *alwaysShowAudio = new QAction(QIcon::fromTheme(waveformIconName), i18n("Always show audio thumbnails"), this);
         alwaysShowAudio->setCheckable(true);
         connect(alwaysShowAudio, &QAction::triggered, this, [this](bool checked) {
             KdenliveSettings::setAlwaysShowMonitorAudio(checked);

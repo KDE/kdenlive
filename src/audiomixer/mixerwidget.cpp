@@ -217,7 +217,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     setTrackName(trackName);
     m_muteAction = new KDualAction(i18n("Mute track"), i18n("Unmute track"), this);
     m_muteAction->setWhatsThis(xi18nc("@info:whatsthis", "Mutes/un-mutes the audio track."));
-    m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
+    m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("audio-off")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
 
     if (m_balanceSlider) {
