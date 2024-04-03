@@ -5366,12 +5366,10 @@ msgid "Timeline sequence"
 msgstr "Sekvence časové osy"
 
 #: src/bin/projectclip.cpp:576 src/timeline2/view/qml/Clip.qml:1085
-#, fuzzy, kde-format
-#| msgctxt "The first letter of Proxy, used as abbreviation"
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
-msgstr "P"
+msgstr ""
 
 #: src/bin/projectclip.cpp:651
 #, kde-format
@@ -14649,11 +14647,10 @@ msgid "No version information available."
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Volby kreslení"
+msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format
