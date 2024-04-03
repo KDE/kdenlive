@@ -613,6 +613,12 @@ void MainWindow::init(const QString &mltPath)
     loadClipActions();
     loadContainerActions();
 
+#if KXMLGUI_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    KEditToolBar::setGlobalDefaultToolBar(QStringLiteral("timelineToolBar"));
+#else
+    KEditToolBar::setGlobalDefaultToolBar("timelineToolBar");
+#endif
+
     // Timeline composition menu
     auto *compositionMenu = new QMenu(this);
     compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
@@ -1030,9 +1036,10 @@ void MainWindow::saveProperties(KConfigGroup &config)
 
 void MainWindow::saveNewToolbarConfig()
 {
+    // Sync current changes
     KXmlGuiWindow::saveNewToolbarConfig();
-    // TODO for some reason all dynamically inserted actions are removed by the save toolbar
-    // So we currently re-add them manually....
+    // All dynamically inserted actions are removed by the save toolbar
+    // So re-add them manually....
     loadDockActions();
     loadClipActions();
     loadContainerActions();
@@ -2507,21 +2514,21 @@ void MainWindow::connectDocument()
 
 void MainWindow::slotEditKeys()
 {
-    KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+    KShortcutsDialog *dialog = new KShortcutsDialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
 
 #if KXMLGUI_VERSION >= QT_VERSION_CHECK(5, 98, 0)
     KNSWidgets::Action *downloadKeybordSchemes =
         new KNSWidgets::Action(i18n("Download New Keyboard Schemes…"), QStringLiteral(":data/kdenlive_keyboardschemes.knsrc"), this);
     connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
         if (changedEntries.count() > 0) {
-            dialog.refreshSchemes();
+            dialog->refreshSchemes();
         }
     });
-    dialog.addActionToSchemesMoreButton(downloadKeybordSchemes);
+    dialog->addActionToSchemesMoreButton(downloadKeybordSchemes);
 #else
     // Find the combobox inside KShortcutsDialog for choosing keyboard scheme
     QComboBox *schemesList = nullptr;
-    for (QLabel *label : dialog.findChildren<QLabel *>()) {
+    for (QLabel *label : dialog->findChildren<QLabel *>()) {
         if (label->text() == i18n("Current scheme:")) {
             schemesList = qobject_cast<QComboBox *>(label->buddy());
             break;
@@ -2531,7 +2538,7 @@ void MainWindow::slotEditKeys()
     // dialog that provides a dropdown menu with additional actions, and add
     // "Download New Keyboard Schemes…" button into that menu
     if (schemesList) {
-        for (QPushButton *button : dialog.findChildren<QPushButton *>()) {
+        for (QPushButton *button : dialog->findChildren<QPushButton *>()) {
             if (button->text() == i18n("More Actions")) {
                 QMenu *moreActionsMenu = button->menu();
                 if (moreActionsMenu) {
@@ -2544,10 +2551,12 @@ void MainWindow::slotEditKeys()
         qWarning() << "Could not get list of schemes. Downloading new schemes is not available.";
     }
 #endif
-    dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     // Update the shortcut conflicts list bewtween mainwindow and media browser
-    connect(&dialog, &KShortcutsDialog::saved, pCore->mediaBrowser(), &MediaBrowser::detectShortcutConflicts);
-    dialog.configure();
+    connect(dialog, &KShortcutsDialog::saved, pCore->mediaBrowser(), &MediaBrowser::detectShortcutConflicts);
+    dialog->configure(true);
+    factory()->refreshActionProperties();
 }
 
 void MainWindow::slotPreferences()
@@ -4362,7 +4371,6 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
             }
         }
     }
-    KEditToolBar::setGlobalDefaultToolBar("timelineToolBar");
     connect(contextSize, &QMenu::triggered, this, &MainWindow::setTimelineToolbarIconSize);
     menu.exec(m_timelineToolBar->mapToGlobal(pos));
     contextSize->deleteLater();
