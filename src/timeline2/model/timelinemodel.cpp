@@ -746,9 +746,11 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         // Move on same track, simply inform the view
         updateView = false;
         notifyViewOnly = true;
-        update_model = [clipId, this, trackId, invalidateTimeline]() {
-            QModelIndex modelIndex = makeClipIndexFromID(clipId);
-            notifyChange(modelIndex, modelIndex, StartRole);
+        update_model = [clipId, this, trackId, invalidateTimeline, groupMove]() {
+            if (!groupMove) {
+                QModelIndex modelIndex = makeClipIndexFromID(clipId);
+                notifyChange(modelIndex, modelIndex, StartRole);
+            }
             if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
                 int in = getClipPosition(clipId);
                 Q_EMIT invalidateZone(in, in + getClipPlaytime(clipId));
@@ -815,7 +817,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
             }
         }
-        if (m_groups->isInGroup(clipId) && mixData.first.firstClipId > 0) {
+        if (mixData.first.firstClipId > 0 && m_groups->isInGroup(clipId)) {
             int parentGroup = m_groups->getRootId(clipId);
             if (parentGroup > -1) {
                 std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
@@ -2757,7 +2759,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             getTrackById(i.value())->requestRemoveMix(i.key(), local_undo, local_redo);
         }
     }
-
     // First, remove clips
     if (delta_track != 0) {
         // We delete our clips only if changing track

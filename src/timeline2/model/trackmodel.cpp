@@ -488,7 +488,7 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     }
     int old_position = old_clip->getPosition();
     // qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
-    int duration = trackDuration();
+    int duration = finalMove ? trackDuration() : 0;
     if (finalDeletion) {
         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::TimelineClip, clipId, timelineUuid));
     }
