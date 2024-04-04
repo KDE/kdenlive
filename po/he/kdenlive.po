@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-29 00:37+0000\n"
-"PO-Revision-Date: 2024-03-31 23:52+0300\n"
+"POT-Creation-Date: 2024-04-04 00:38+0000\n"
+"PO-Revision-Date: 2024-04-03 22:56+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1280,6 +1280,10 @@ msgid ""
 "typical use case is to add effects in the following sequence: this effect, "
 "zero or more effects, mask_apply."
 msgstr ""
+"המסנן הזה יוצר צילום של התמונית לפני ציור צורות פשוטות לערוץ השקיפות. אפשר "
+"להשתמש בו עם האפקט mask_apply (החלת מסכה), שמשתמש במעברון כדי להרכיב את "
+"התמונה של התמונית על הצילום. המקרה הטיפוסי לשימוש באפקט הזה הוא הוספת אפקטים "
+"ברצף הבא: האפקט הזה, אפס אפקטים או יותר, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
@@ -1359,6 +1363,11 @@ msgid ""
 "case is to add effects in the following sequence: this effect, zero or more "
 "effects, mask_apply."
 msgstr ""
+"המסנן הזה יוצר צילום של התמונית לפני שחל עליה בחירת מפתח כרומה (כרומה קי) "
+"לפי תמוניות מפתח. אפשר להשתמש בו עם האפקט mask_apply (החלת מסכה), שמשתמש "
+"במעברון כדי להרכיב את התמונה של התמונית על הצילום. המקרה הטיפוסי לשימוש "
+"באפקט הזה הוא הוספת אפקטים ברצף הבא: האפקט הזה, אפס אפקטים או יותר, "
+"mask_apply."
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
@@ -1426,7 +1435,7 @@ msgstr "ריכוך"
 #: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
 msgid "Rotoscoping (Mask)"
-msgstr ""
+msgstr "רוטוסקופינג (מסכה)"
 
 #: data/effects/mask_start_rotoscoping.xml:5
 #, kde-format
@@ -1437,11 +1446,15 @@ msgid ""
 "The typical use case is to add effects in the following sequence: this "
 "effect, zero or more effects, mask_apply."
 msgstr ""
+"המסנן הזה יוצר צילום של התמונית לפני שחל עליה רוטוסקופינג מבוסס וקטורים לפי "
+"תמוניות מפתח. אפשר להשתמש בו עם האפקט mask_apply (החלת מסכה), שמשתמש במעברון "
+"כדי להרכיב את התמונה של התמונית על הצילום. המקרה הטיפוסי לשימוש באפקט הזה "
+"הוא הוספת אפקטים ברצף הבא: האפקט הזה, אפס אפקטים או יותר, mask_apply."
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
 msgid "Alpha,Luma,RGB"
-msgstr ""
+msgstr "שקיפות,לומה,RGB"
 
 #: data/effects/mask_start_rotoscoping.xml:13 data/effects/rotoscoping.xml:10
 #, kde-format
@@ -1451,7 +1464,7 @@ msgstr "מצב"
 #: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
 #, kde-format
 msgid "Write on clear,Maximum,Minimum,Add,Subtract"
-msgstr ""
+msgstr "כתיבה עם פינוי,מרבי,מזערי,הוספה,חיסור"
 
 #: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
 #, kde-format
@@ -1499,6 +1512,8 @@ msgid ""
 "Convert alpha or luma values below this level as opaque and above this level "
 "as transparent. This is mostly useful for luma wipe images."
 msgstr ""
+"המרת ערכי שקיפות או לומה מתחת לרמה הזאת כאטום ומעל לרמה הזאת כשקוף. בדרך כלל "
+"שימוש לתמונות ניגוב לומה."
 
 #: data/effects/mask_start_shape.xml:18 data/effects/shape.xml:15
 #: data/transitions/composite.xml:32 data/transitions/dissolve.xml:10
@@ -1514,11 +1529,13 @@ msgid ""
 "When using mix (threshold) how soft to make the edge around the threshold. "
 "0.0 = no softness, 1.0 = too soft."
 msgstr ""
+"בעת שימוש בערבוב (סף) כמה רכות אמורות להיות הקצוות מסביב לסף. 0.0 = בלי "
+"רכות, 1.0 = רך מדי."
 
 #: data/effects/mask_start_shape.xml:23 data/effects/shape.xml:20
 #, kde-format
 msgid "Use the inverse of the alpha or luma value."
-msgstr ""
+msgstr "להשתמש בהיפוך של ערך השקיפות או הלומה."
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
 #, kde-format
@@ -1541,6 +1558,8 @@ msgid ""
 "Whether to apply a threshold filter to the luma or alpha or not. If not, "
 "luma or alpha value of the resource (File) is copied to the alpha channel."
 msgstr ""
+"האם להחיל מסנן סף על הלומה או השקיפות או לא. אם לא, ערכי הלומה או השקיפות של "
+"המשאב (קובץ) יועתקו לערוץ השקיפות."
 
 #: data/effects/mirror.xml:4
 #, kde-format
@@ -1566,13 +1585,13 @@ msgstr "כיוון שיקוף"
 #: data/effects/mono.xml:4
 #, kde-format
 msgid "Mixdown"
-msgstr ""
+msgstr "ערבוב מאוחד"
 
 #: data/effects/mono.xml:5
 #, kde-format
 msgid ""
 "Mix all channels of audio into a mono signal and output it as N channels"
-msgstr ""
+msgstr "ערבוב כל ערוצי השמע לאות אחיד ולהוציא אותם כ־N ערוצים"
 
 #: data/effects/mono.xml:8
 #, kde-format
@@ -1598,7 +1617,7 @@ msgstr "השתקת סרטון"
 #: data/effects/normalise.xml:4
 #, kde-format
 msgid "Normalise (deprecated)"
-msgstr ""
+msgstr "נירמול (לא בשימוש עוד)"
 
 #: data/effects/normalise.xml:5
 #, fuzzy, kde-format
@@ -1670,17 +1689,17 @@ msgstr "בהירות כל"
 #: data/effects/oldfilm.xml:23
 #, kde-format
 msgid "Unevendevelop up"
-msgstr ""
+msgstr "עוצמת הבהרה"
 
 #: data/effects/oldfilm.xml:26
 #, kde-format
 msgid "Unevendevelop down"
-msgstr ""
+msgstr "עוצמת החשכה"
 
 #: data/effects/oldfilm.xml:29
 #, kde-format
 msgid "Unevendevelop Duration"
-msgstr ""
+msgstr "משך הבהרה/החשכה"
 
 #: data/effects/pan_zoom.xml:4
 #, kde-format
@@ -1720,12 +1739,12 @@ msgstr "השבתת מראה"
 #: data/effects/pillar_echo.xml:4
 #, kde-format
 msgid "Pillar Echo"
-msgstr ""
+msgstr "הד עמוד"
 
 #: data/effects/pillar_echo.xml:5
 #, kde-format
 msgid "Create an echo effect (blur) outside of an area of interest."
-msgstr ""
+msgstr "יצירת אפקט הד (טשטוש) מחוץ לאזור העניין."
 
 #: data/effects/pillar_echo.xml:11 data/effects/tracker.xml:31
 #, kde-format
@@ -1806,18 +1825,17 @@ msgstr "צבע ריפוד"
 #: data/effects/rboctaveshift.xml:4
 #, kde-format
 msgid "Rubberband Octave Shift"
-msgstr ""
+msgstr "הזחת אוקטבה עם Rubberband"
 
 #: data/effects/rboctaveshift.xml:5 data/effects/rbpitchscale.xml:5
 #, kde-format
 msgid "Adjust the audio pitch using the Rubberband library."
-msgstr ""
+msgstr "התאמת גובה צליל השמע באמצעות ספריית Rubberband."
 
 #: data/effects/rboctaveshift.xml:8
-#, fuzzy, kde-format
-#| msgid "Pitch Shift"
+#, kde-format
 msgid "Octave Shift"
-msgstr "שנה גובה צליל"
+msgstr "הזחת אוקטבה"
 
 #: data/effects/rboctaveshift.xml:9
 #, kde-format
@@ -1829,6 +1847,11 @@ msgid ""
 "less than one for downwards) is: o = log(f) / log(2). Ignored if pitchscale "
 "is set."
 msgstr ""
+"הזחת האוקטבה. זו יכולה להיות הזחת אוקטבה בתדירות המקור. למשל, הזחה של ‎+1 "
+"תכפיל את התדירות, ‏‎-1 תחלק את התדירות בחצי ו־0 תשאיר את גובה הצליל כמו שהוא. "
+"כדי להתייחס לזה במונחים של תדירות, הזחת תדירות f (כאשר f גדול מאחד להזחה "
+"כלפי מעלה ופחות מאחד להזחה כלפי מטה) היא: o = log(f) / log(2). לא יחול אם "
+"מוגדר מנעד גובה צליל."
 
 #: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
 #, kde-format
@@ -1841,6 +1864,8 @@ msgid ""
 "Stretch the audio to fill the requested samples. This option will have no "
 "effect if the requested sample size is the same as the received sample size."
 msgstr ""
+"מתיחת השמע כך שימלא את הדגימות המבוקשות. לאפשרות הזאת לא תהיה השפעה אם גודל "
+"הדגימה המבוקשת זהה לגודל הדגימה שהתקבלה."
 
 #: data/effects/rboctaveshift.xml:16 data/effects/rbpitchscale.xml:16
 #, kde-format
@@ -1853,16 +1878,14 @@ msgid "The amount of delay for each sample from the input to the output."
 msgstr "זמן ההמתנה לכל דגימה מהקלט לפלט."
 
 #: data/effects/rbpitchscale.xml:4
-#, fuzzy, kde-format
-#| msgid "Pitch Scaler"
+#, kde-format
 msgid "Rubberband Pitch Scale"
-msgstr "סולם גובה צליל"
+msgstr "מנעד גובה צליל עם Rubberband"
 
 #: data/effects/rbpitchscale.xml:8
-#, fuzzy, kde-format
-#| msgid "Pitch Scaler"
+#, kde-format
 msgid "Pitch Scale"
-msgstr "סולם גובה צליל"
+msgstr "מנעד גובה צליל"
 
 #: data/effects/rbpitchscale.xml:9
 #, kde-format
@@ -1874,6 +1897,11 @@ msgid ""
 "(where o is positive for an upwards shift and negative for downwards) is: f "
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
+"יחס מנעד גובה הצליל. זה יחס תדירות היעד לתדירות המקור. למשל, יחס של 2.0 יזיח "
+"למעלה באוקטבה אחת, 0.5 יזיח באוקטבה אחת למטה, או 1.0 כדי להשאיר את גובה "
+"הצליל ללא שינוי. בניסוח מתמטי, יחס מנעד גובה צליל תואם להזחה של o אוקטבות "
+"(כאשר o חיובי מזיח כלפי למעלה ושלילי כלפי מטה) הוא: f = pow(2.0, o). דורס "
+"מנעד אוקטבות."
 
 #: data/effects/rotation.xml:4
 #, kde-format
@@ -1961,17 +1989,17 @@ msgstr "היסט ב־Y"
 #: data/effects/rotoscoping.xml:4
 #, kde-format
 msgid "Rotoscoping"
-msgstr ""
+msgstr "רוטוסקופינג"
 
 #: data/effects/rotoscoping.xml:5
 #, kde-format
 msgid "Keyframable vector based rotoscoping"
-msgstr ""
+msgstr "רוטוסקופינג מבוסס וקטורים לפי תמוניות מפתח"
 
 #: data/effects/scratchlines.xml:4
 #, kde-format
 msgid "Scratchlines"
-msgstr ""
+msgstr "קווי שריטה"
 
 #: data/effects/scratchlines.xml:5
 #, fuzzy, kde-format
@@ -1981,22 +2009,22 @@ msgstr "יוצר תמונות תפריט"
 #: data/effects/scratchlines.xml:8
 #, kde-format
 msgid "Width of line"
-msgstr "עובי הקו"
+msgstr "עובי קו"
 
 #: data/effects/scratchlines.xml:11
 #, kde-format
 msgid "Max number of lines"
-msgstr "מספר השורות המרבי"
+msgstr "מספר הקווים המרבי"
 
 #: data/effects/scratchlines.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Max darker"
-msgstr "סמן"
+msgstr "החשכה מרבית"
 
 #: data/effects/scratchlines.xml:17
 #, kde-format
 msgid "Max lighter"
-msgstr ""
+msgstr "הבהרה מרבית"
 
 #: data/effects/sepia.xml:4
 #, kde-format
@@ -2028,7 +2056,7 @@ msgstr "מדרון אלפא"
 #: data/effects/shape.xml:5
 #, kde-format
 msgid "Create an alpha channel (transparency) based on another resource"
-msgstr ""
+msgstr "יצירת ערוץ שקיפות (אלפא) על בסיס משאב אחר"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
@@ -2062,7 +2090,7 @@ msgstr ""
 #: data/effects/spot_remover.xml:9
 #, kde-format
 msgid "Defines the rectangle of the area that will be removed."
-msgstr ""
+msgstr "מגדיר את המרובע של האזור להסרה."
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -2077,22 +2105,22 @@ msgstr "צבע לבן"
 #: data/effects/tcolor.xml:5
 #, kde-format
 msgid "Oversaturate the color in video, like in old Technicolor movies"
-msgstr ""
+msgstr "הגברת רוויית הצבע בסרטון בהגזמה, כמו בסרטי טכניקולור ישנים"
 
 #: data/effects/tcolor.xml:8
 #, kde-format
 msgid "Blue/Yellow axis"
-msgstr ""
+msgstr "ציר כחול/צהוב"
 
 #: data/effects/tcolor.xml:11
 #, kde-format
 msgid "Red/Green axis"
-msgstr ""
+msgstr "ציר אדום/ירוק"
 
 #: data/effects/threshold.xml:4
 #, kde-format
 msgid "Binarize"
-msgstr ""
+msgstr "עיבוד בינרי"
 
 #: data/effects/threshold.xml:5
 #, kde-format
@@ -2118,7 +2146,7 @@ msgstr "מתזמן"
 #: data/effects/timer.xml:5
 #, kde-format
 msgid "Overlay a timer onto the video"
-msgstr ""
+msgstr "הוספת שעון תזמון על גבי הסרטון"
 
 #: data/effects/timer.xml:14
 #, kde-format
@@ -2133,7 +2161,7 @@ msgstr "עיצוב"
 #: data/effects/timer.xml:47
 #, kde-format
 msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
-msgstr ""
+msgstr "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
@@ -2148,6 +2176,8 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[הזמן ממנו יתחיל המתזמן לספור למעלה או למטה.\n"
+"הטקסט יוקפא על 00:00:00.000 מהתחלת המסנן ועד לחלוף זמן ההתחלה.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2157,6 +2187,8 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[משך הזמן המרבי של המתזמן אחרי שזמן ההתחלה חלף.\n"
+"הטקסט יוקפא במשך הזמן שאחרי שמשך הזמן המוגדר חלף.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:322
@@ -2173,6 +2205,9 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[היסט שיתווסף לערך המתזמן.\n"
+"כאשר הכיוון הוא „מטה”, המתזמן יספור מטה עד ה„היסט” במקום עד 00:00:00.000.\n"
+"כשהספירה היא כלפי מעלה, המתזמן יתחיל לספור מה„היסט”.]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2187,6 +2222,10 @@ msgid ""
 "or down from the duration time.]]>\n"
 "        "
 msgstr ""
+"\n"
+"            <![CDATA[האם על המתזמן לספור כלפי מעלה החל מ־00:00:00.000 או "
+"למטה ממשך הזמן המוגדר.]]>\n"
+"        "
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -2201,12 +2240,12 @@ msgstr "נא לבחור קטע כדי לעקוב אחר התנועה שלו"
 #: data/effects/tracker.xml:11
 #, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr ""
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:12
 #, kde-format
 msgid "Tracker algorithm"
-msgstr ""
+msgstr "אלגוריתם מעקב"
 
 #: data/effects/tracker.xml:17
 #, kde-format
@@ -2219,11 +2258,13 @@ msgid ""
 "Defines the frequency of stored keyframes. A keyframe is created every steps "
 "frames."
 msgstr ""
+"מגדיר את תדירות תמוניות המפתח שנשמרות. תמונית מפתח נוצרת כל כמה תמוניות "
+"צעדים."
 
 #: data/effects/tracker.xml:21
 #, kde-format
 msgid "Rectangle,Ellipse,Arrow"
-msgstr ""
+msgstr "ריבוע,אליפסה,חץ"
 
 #: data/effects/tracker.xml:22
 #, kde-format
@@ -2243,7 +2284,7 @@ msgstr "צבע צורה"
 #: data/effects/tracker.xml:34
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
-msgstr ""
+msgstr "טשטוש חציוני,טשטוש גאוסי,פיקסול,מילוי אטום,ללא"
 
 #: data/effects/tracker.xml:35
 #, kde-format
@@ -2268,17 +2309,17 @@ msgstr "צעדי תמוניות"
 #: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
-msgstr ""
+msgstr "הפרש קצב הקלדה"
 
 #: data/effects/typewriter.xml:14
 #, kde-format
 msgid "Random Seed"
-msgstr ""
+msgstr "גורם אקראיות"
 
 #: data/effects/typewriter.xml:17
 #, kde-format
 msgid "Char by char,Word by word,Line by line,Custom macro"
-msgstr ""
+msgstr "תו אחר תו,מילה אחר מילה,שורה אחר שורה,מאקרו אחר"
 
 #: data/effects/typewriter.xml:18
 #, kde-format
@@ -2334,7 +2375,7 @@ msgstr "ניגודיות מזערית"
 #: data/effects/vidstab.xml:21
 #, kde-format
 msgid "Below this Contrast Field is discarded"
-msgstr ""
+msgstr "מתחת לזה שדה הניגודיות לא תקף"
 
 #: data/effects/vidstab.xml:24
 #, kde-format
@@ -2603,7 +2644,7 @@ msgstr "מייצר רעש לבן"
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
 msgid "Alpha, Mask and Keying"
-msgstr ""
+msgstr "שקיפות, מסכה ומפתוח"
 
 #: data/kdenliveeffectscategory.rc:10
 #, kde-format
@@ -2613,7 +2654,7 @@ msgstr "טשטוש וחידוד"
 #: data/kdenliveeffectscategory.rc:14
 #, kde-format
 msgid "Transform, Distort and Perspective"
-msgstr ""
+msgstr "התמרה, עיוות וזווית צפייה"
 
 #: data/kdenliveeffectscategory.rc:18
 #, kde-format
@@ -2633,7 +2674,7 @@ msgstr "יצירה"
 #: data/kdenliveeffectscategory.rc:30
 #, kde-format
 msgid "On Master"
-msgstr ""
+msgstr "על הראשי"
 
 #: data/kdenliveeffectscategory.rc:34
 #, kde-format
@@ -2704,10 +2745,10 @@ msgstr ""
 #: data/kdenliveeffectscategory.rc:81
 #, kde-format
 msgid "Noise Reduction and Audio Restoration"
-msgstr ""
+msgstr "הפחתת רעש ושחזור שמע"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:123 src/mainwindow.cpp:1412
+#: src/dialogs/kdenlivesettingsdialog.cpp:123 src/mainwindow.cpp:1430
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -2868,7 +2909,7 @@ msgstr "מרכב"
 #: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
 msgid "Force Progressive Rendering"
-msgstr "אילוץ צלימה מדורגת"
+msgstr "אילוץ תיצוג מדורג"
 
 #: data/transitions/dissolve.xml:4
 #, kde-format
@@ -2957,7 +2998,7 @@ msgstr "סרטון מסכה"
 #: data/transitions/region.xml:14
 #, kde-format
 msgid "Over,And,Or,Xor"
-msgstr ""
+msgstr "מעל,וגם,או,או בלעדי"
 
 #: data/transitions/region.xml:15
 #, kde-format
@@ -2997,7 +3038,7 @@ msgstr ""
 #: data/transitions/vqm.xml:8
 #, kde-format
 msgid "Render line"
-msgstr "קו צלימה"
+msgstr "קו תיצוג"
 
 #: data/transitions/vqm.xml:9
 #, kde-format
@@ -3298,7 +3339,7 @@ msgstr "אפקטים לסל %1"
 #: src/assets/keyframes/model/keyframemodel.cpp:63 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
-msgstr ""
+msgstr "קווי"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:48
 #: src/assets/keyframes/model/keyframemodel.cpp:63
@@ -3325,37 +3366,37 @@ msgstr "יציאה בקפיצה"
 #: src/assets/keyframes/model/keyframemodel.cpp:52
 #, kde-format
 msgid "Cubic In"
-msgstr ""
+msgstr "ריבועי פנימה"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:53
 #, kde-format
 msgid "Cubic Out"
-msgstr ""
+msgstr "ריבועי החוצה"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:54
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "מעריכי פנימה"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:55
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "מעריכי החוצה"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:56
 #, kde-format
 msgid "Circular In"
-msgstr ""
+msgstr "מעגלי פנימה"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:57
 #, kde-format
 msgid "Circular Out"
-msgstr ""
+msgstr "מעגלי החוצה"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:58
 #, kde-format
 msgid "Elastic In"
-msgstr ""
+msgstr "אלסטי פנימה"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:59
 #, fuzzy, kde-format
@@ -3615,7 +3656,7 @@ msgstr "הפרש זמן:"
 #: src/assets/view/widgets/keyframeimport.cpp:880
 #, kde-format
 msgid "Rotoscoping shape"
-msgstr ""
+msgstr "צורת רוטוסקופינג"
 
 #: src/assets/view/widgets/keyframeimport.cpp:225
 #: src/assets/view/widgets/keyframeimport.cpp:235
@@ -3682,7 +3723,7 @@ msgstr "מפה "
 #: src/ui/import_subtitle_ui.ui:131
 #, kde-format
 msgid " to "
-msgstr ""
+msgstr " אל "
 
 #: src/assets/view/widgets/keyframeimport.cpp:288
 #, kde-format
@@ -3786,13 +3827,13 @@ msgid "Import keyframes from clipboard"
 msgstr "ייבוא תמוניות מפתח מלוח הגזירים"
 
 #: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1708
-#: src/mainwindow.cpp:1817
+#: src/mainwindow.cpp:1835
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "מעבר לתמונית המפתח הקודמת"
 
 #: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1705
-#: src/mainwindow.cpp:1815
+#: src/mainwindow.cpp:1833
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "מעבר לתמונית המפתח הבאה"
@@ -3816,6 +3857,8 @@ msgid ""
 "Copy keyframes. Copy the selected keyframes, or current parameters values if "
 "no keyframe is selected."
 msgstr ""
+"העתקת תמוניות מפתח. העתקת תמוניות המפתח הנבחרות או את ערכי המשתנים הנוכחיים "
+"אם לא נבחרו אף תמוניות מפתח."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
 #: src/assets/view/widgets/keyframewidget.cpp:863
@@ -3832,7 +3875,7 @@ msgstr "הדבקת תמוניות מפתח"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
-msgstr ""
+msgstr "הדבקת תמוניות מפתח. הדבקת נתוני לוח גזירים כתמוניות מפתח במקום הנוכחי."
 
 #: src/assets/view/widgets/keyframewidget.cpp:100
 #, kde-format
@@ -3892,6 +3935,8 @@ msgid ""
 "Opens a list of further actions for managing keyframes (for example: copy to "
 "and pasting keyframes from clipboard)."
 msgstr ""
+"פותח רשימה של פעולות נוספות לניהול תמוניות מפתח (למשל: להעתיק ולהדביק "
+"תמוניות מפתח מלוח הגזירים ואליו)."
 
 #: src/assets/view/widgets/keyframewidget.cpp:253
 #: src/assets/view/widgets/keyframewidget.cpp:305
@@ -3984,11 +4029,12 @@ msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
 "end."
 msgstr ""
+"שמע במעקב. לחיצה על <b>רווח</b> תתחיל/תשהה את ההקלטה, <b>Esc</b> לסיום."
 
 #: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1006
 #, kde-format
 msgid "Master"
-msgstr ""
+msgstr "ראשי"
 
 #: src/audiomixer/mixerwidget.cpp:117
 #, kde-format
@@ -4001,7 +4047,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
-msgstr ""
+msgstr "מכוון את עוצמת פלט רצועת השמע (משפיע על כל מקטעי השמע ביחד)."
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:522
 #: src/mltcontroller/clippropertiescontroller.cpp:904
@@ -4017,6 +4063,8 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"מכוון את איזון הפלט של הרצועה. ערכים שליליים מזיזים את הפלט לכיוון שמאל, "
+"ערכים חיוביים לכיוון ימין. משפיע על כל מקטעי השמע ביחד."
 
 #: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
@@ -4044,7 +4092,7 @@ msgstr "השמעת רצועה"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
-msgstr ""
+msgstr "משתיק/מבטל את השתקת רצועת השמע."
 
 #: src/audiomixer/mixerwidget.cpp:262
 #, kde-format
@@ -4055,7 +4103,7 @@ msgstr "מצב יחיד"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
-msgstr ""
+msgstr "כאשר האפשרות נבחרת כל שאר רצועות השמע מושתקות."
 
 #: src/audiomixer/mixerwidget.cpp:272
 #: src/timeline2/view/timelinecontroller.cpp:4797
@@ -4067,7 +4115,7 @@ msgstr "הקלטת שמע"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
-msgstr ""
+msgstr "מעביר את רצועת השמע למצב הקלטה."
 
 #: src/audiomixer/mixerwidget.cpp:286
 #, kde-format
@@ -4079,7 +4127,7 @@ msgstr "הצגת ערוצים"
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
-msgstr ""
+msgstr "מחליף את תצוגת בקרי רצועת השמע בתצוגת מערבל השמע."
 
 #: src/audiomixer/mixerwidget.cpp:299
 #, kde-format
@@ -4097,12 +4145,12 @@ msgstr "עמעום כניסת רצועת שמע"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr ""
+msgstr "פותח את ערימת האפקטים לערוץ השמע הראשי."
 
 #: src/bin/bin.cpp:700 src/bin/bin.cpp:874
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
-msgstr ""
+msgstr "<b>לחיצה כפולה</b> תוסיף קובץ למיזם"
 
 #: src/bin/bin.cpp:808 src/bin/bin.cpp:917
 #, kde-format
@@ -4110,6 +4158,8 @@ msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
+"<b>Shift+חתירה</b> מעל דוגמית תגדיר דוגמית ברירת מחדל, <b>F2</b> לשינוי שם "
+"הפריט הנבחר"
 
 #: src/bin/bin.cpp:810 src/bin/bin.cpp:919
 #, kde-format
@@ -4852,7 +4902,7 @@ msgstr "נא למלא את הנתיב ליישום עריכת השמע שלך"
 msgid "Please set a default application to open audio files"
 msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי שמע"
 
-#: src/bin/bin.cpp:4614 src/core.cpp:313 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4614 src/core.cpp:319 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4948,7 +4998,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5458 src/mainwindow.cpp:2721
+#: src/bin/bin.cpp:5458 src/mainwindow.cpp:2743
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "לא נמצא סרטון להוספת סמן"
@@ -5161,7 +5211,7 @@ msgstr "ייבוא קובץ בלחיצה כפולה"
 #: src/dialogs/clipcreationdialog.cpp:536
 #: src/effects/effectlist/view/effectlistwidget.cpp:134
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:295
-#: src/mainwindow.cpp:3959 src/onlineresources/resourcewidget.cpp:601
+#: src/mainwindow.cpp:3981 src/onlineresources/resourcewidget.cpp:601
 #, kde-format
 msgid "All Files"
 msgstr "כל הקבצים"
@@ -5318,7 +5368,7 @@ msgid "Add markers"
 msgstr "הוספת סמנים"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:77 src/core.cpp:687 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:77 src/core.cpp:693 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:290 src/project/dialogs/archivewidget.cpp:97
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
@@ -5501,7 +5551,7 @@ msgstr "הוספת תת־סרטון"
 msgid "Rename Folder"
 msgstr "שינוי שם תיקייה"
 
-#: src/bin/projectitemmodel.cpp:1035 src/mainwindow.cpp:1466
+#: src/bin/projectitemmodel.cpp:1035 src/mainwindow.cpp:1484
 #, kde-format
 msgid "Clean Project"
 msgstr "ניקוי מיזם"
@@ -5557,7 +5607,7 @@ msgstr "הוספת תגית"
 msgid "New tag"
 msgstr "תגית חדשה"
 
-#: src/core.cpp:108
+#: src/core.cpp:114
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5566,12 +5616,12 @@ msgstr ""
 "Kdenlive קרס בהפעלה התחתונה.\n"
 "להשבית את עיבוד המעבד הגרפי הניסיוני (Movit)?"
 
-#: src/core.cpp:109
+#: src/core.cpp:115
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "השבתת עיבוד במעבד גרפי"
 
-#: src/core.cpp:115
+#: src/core.cpp:121
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -5580,7 +5630,7 @@ msgstr ""
 "Kdenlive קרס בהפעלה התחתונה.\n"
 "לאפס את קובצי ההגדרות?"
 
-#: src/core.cpp:203
+#: src/core.cpp:209
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -5589,19 +5639,19 @@ msgstr ""
 "פרופיל ברירת המחדל של Kdenlive לא מוגדר או שהוא שגוי, יש ללחוץ על אישור כדי "
 "להגדיר אותו לערך הנכון."
 
-#: src/core.cpp:215
+#: src/core.cpp:221
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "בחירת פרופיל ברירת מחדל"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:215 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:221 src/ui/profiledialog_ui.ui:38
 #, kde-format
 msgid "Profile:"
 msgstr "פרופיל:"
 
-#: src/core.cpp:228
+#: src/core.cpp:234
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -5610,257 +5660,257 @@ msgstr ""
 "הפרופיל שסופק שגוי. אנו נסוגים לפרופיל „dv_pal” כברירת מחדל, אך ניתן לשנות "
 "את זה מלוח ההגדרות של Kdenlive"
 
-#: src/core.cpp:248 src/project/projectmanager.cpp:806
+#: src/core.cpp:254 src/project/projectmanager.cpp:806
 #, kde-format
 msgid "Loading project…"
 msgstr "המיזם נטען…"
 
-#: src/core.cpp:366
+#: src/core.cpp:372
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "ריבוע 2 עמודות"
 
-#: src/core.cpp:367
+#: src/core.cpp:373
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "לוח שחמט קטן"
 
-#: src/core.cpp:368
+#: src/core.cpp:374
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "תריסים אופקיים"
 
-#: src/core.cpp:369
+#: src/core.cpp:375
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "מעגלי"
 
-#: src/core.cpp:370
+#: src/core.cpp:376
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "X קווי"
 
-#: src/core.cpp:371
+#: src/core.cpp:377
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "X דו־קווי"
 
-#: src/core.cpp:372
+#: src/core.cpp:378
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Y קווי"
 
-#: src/core.cpp:373
+#: src/core.cpp:379
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Y דו־קווי"
 
-#: src/core.cpp:374
+#: src/core.cpp:380
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "ריבוע"
 
-#: src/core.cpp:375
+#: src/core.cpp:381
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "ריבוע 2"
 
-#: src/core.cpp:376
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "ענן"
 
-#: src/core.cpp:377
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "שעון סימטרי"
 
-#: src/core.cpp:378
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "עמודות מעגליות"
 
-#: src/core.cpp:379
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "ספירלה"
 
-#: src/core.cpp:380
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "ספירלה 2"
 
-#: src/core.cpp:381
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "וילון"
 
-#: src/core.cpp:382
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "התפרצות"
 
-#: src/core.cpp:383
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "שעון"
 
-#: src/core.cpp:385
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "עמודה אופקית"
 
-#: src/core.cpp:386
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "עמודה אנכית"
 
-#: src/core.cpp:387
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "דלת אורווה אופקית"
 
-#: src/core.cpp:388
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "דלת אורווה אנכית"
 
-#: src/core.cpp:389
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "דלת אסם אלכסונית דר׳ מע׳-צפ׳ מז׳"
 
-#: src/core.cpp:390
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "דלת אסם אלכסונית צפ׳ מע׳-דר׳ מז׳"
 
-#: src/core.cpp:391
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "אלכסון שמאל למעלה"
 
-#: src/core.cpp:392
+#: src/core.cpp:398
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "אלכסון ימינה למעלה"
 
-#: src/core.cpp:393
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr ""
 
-#: src/core.cpp:394
+#: src/core.cpp:400
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr ""
 
-#: src/core.cpp:395
+#: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "נחש מטריקס אופקי"
 
-#: src/core.cpp:396
+#: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr ""
 
-#: src/core.cpp:397
+#: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr ""
 
-#: src/core.cpp:398
+#: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr ""
 
-#: src/core.cpp:399
+#: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr ""
 
-#: src/core.cpp:400
+#: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "עיגול קשתית"
 
-#: src/core.cpp:401
+#: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "קשתית כפולה"
 
-#: src/core.cpp:402
+#: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "תיבת קשתית"
 
-#: src/core.cpp:403
+#: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "תיבה מימין למטה"
 
-#: src/core.cpp:404
+#: src/core.cpp:410
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "תיבה משמאל למטה"
 
-#: src/core.cpp:405
+#: src/core.cpp:411
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr ""
 
-#: src/core.cpp:406
+#: src/core.cpp:412
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr ""
 
-#: src/core.cpp:632
+#: src/core.cpp:638
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
-msgstr "פרופיל המיזם שלך שגוי, הצלימה עלולה להיכשל."
+msgstr "פרופיל המיזם שלך שגוי, התיצוג עלול להיכשל."
 
-#: src/core.cpp:981
+#: src/core.cpp:987
 #, kde-format
 msgid "Loading clips"
 msgstr "סרטונים נטענים"
@@ -6345,7 +6395,7 @@ msgstr "הקידוד זוהה בתור %1"
 msgid "Import Subtitle"
 msgstr "ייבוא כתוביות"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:3880
+#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:3902
 #, kde-format
 msgid "Timeline"
 msgstr "ציר זמן"
@@ -6842,7 +6892,7 @@ msgstr "6"
 #: src/dialogs/renderpresetdialog.cpp:421
 #, kde-format
 msgid "Edit Render Preset"
-msgstr "עריכת ערכת צלימה"
+msgstr "עריכת ערכת תיצוג"
 
 #: src/dialogs/renderpresetdialog.cpp:166
 #, kde-format
@@ -6879,17 +6929,17 @@ msgstr "בהמתנה…"
 #: src/dialogs/renderwidget.cpp:119
 #, kde-format
 msgid "Rendering finished"
-msgstr "הצלימה הסתיימה"
+msgstr "התיצוג הסתיים"
 
 #: src/dialogs/renderwidget.cpp:124
 #, kde-format
 msgid "Rendering crashed"
-msgstr "הצלימה קרסה"
+msgstr "התיצוג קרס"
 
 #: src/dialogs/renderwidget.cpp:129
 #, kde-format
 msgid "Rendering aborted"
-msgstr "הצלימה בוטלה"
+msgstr "התיצוג בוטל"
 
 #: src/dialogs/renderwidget.cpp:216
 #, kde-format
@@ -6914,7 +6964,7 @@ msgstr "Lanczos (הכי טוב)"
 #: src/dialogs/renderwidget.cpp:227 src/monitor/monitormanager.cpp:569
 #, kde-format
 msgid "One Field (fast)"
-msgstr ""
+msgstr "שדה אחד (מהיר)"
 
 #: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:570
 #, kde-format
@@ -6960,7 +7010,7 @@ msgstr "מספר תמונית"
 #: src/dialogs/renderwidget.cpp:246
 #, kde-format
 msgid "Rendering using low quality proxy"
-msgstr "צלימה באמצעות תיווך באיכות נמוכה"
+msgstr "תיצוג באמצעות תיווך באיכות נמוכה"
 
 #: src/dialogs/renderwidget.cpp:328
 #, kde-format
@@ -6978,8 +7028,8 @@ msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
-"לא ניתן למצוא את היישום kdenlive_render, משהו בהתקנה שלך פגום. הצלימה לא "
-"תעבוד"
+"לא ניתן למצוא את היישום kdenlive_render, משהו בהתקנה שלך פגום. התיצוג לא "
+"יעבוד"
 
 #: src/dialogs/renderwidget.cpp:369
 #, kde-format
@@ -7022,12 +7072,12 @@ msgstr "סוף"
 #: src/dialogs/renderwidget.cpp:632
 #, kde-format
 msgid "Add a clip to timeline before rendering"
-msgstr "הוספת סרטון לציר הזמן בטרם הצלימה"
+msgstr "הוספת סרטון לציר הזמן בטרם התיצוג"
 
 #: src/dialogs/renderwidget.cpp:638
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
-msgstr "‫לא נמצאה תוכנת melt הדרושה לביצוע הצלימה (חלק מ־MLT)"
+msgstr "‫לא נמצאה תוכנת melt הדרושה לביצוע התיצוג (חלק מ־MLT)"
 
 #: src/dialogs/renderwidget.cpp:647
 #, kde-format
@@ -7037,9 +7087,9 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
-"צלימה של מיזם עם סרטונים עם קצב תמוניות משתנה יכול להוביל לחוסר תיאום בין "
+"תיצוג של מיזם עם סרטונים עם קצב תמוניות משתנה יכול להוביל לחוסר תיאום בין "
 "השמע לווידאו.\n"
-"אני ממליצים להתמיר לתסדיר ידידותי לעריכה."
+"אנו ממליצים להתמיר לתסדיר ידידותי לעריכה."
 
 #: src/dialogs/renderwidget.cpp:649
 #, kde-format
@@ -7071,7 +7121,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:723
 #, kde-format
 msgid "The following errors occurred while trying to render"
-msgstr "השגיאות הבאות התרחשו תוך ניסיון לבצע צלימה"
+msgstr "השגיאות הבאות התרחשו תוך ניסיון לבצע תיצוג"
 
 #: src/dialogs/renderwidget.cpp:756 src/dialogs/renderwidget.cpp:1478
 #, kde-format
@@ -7100,9 +7150,9 @@ msgstr "שמע ללא רצועת וידאו"
 #: src/dialogs/renderwidget.cpp:845 src/main.cpp:307
 #, kde-format
 msgid "Rendering <i>%1</i> started"
-msgstr "‫צלימה של <i>%1</i> התחילה"
+msgstr "התיצוג של <i>%1</i> התחיל"
 
-#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1266
+#: src/dialogs/renderwidget.cpp:907 src/monitor/monitor.cpp:1268
 #, kde-format
 msgid "untitled"
 msgstr "ללא כותרת"
@@ -7127,7 +7177,7 @@ msgstr "ערכה שגויה"
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
-msgstr "צלימה ללא שמע ווידאו לא עובדת. נא להפעיל לפחות אחד מהם."
+msgstr "תיצוג ללא וידאו ושמע לא עובד. נא להפעיל לפחות אחד מהם."
 
 #: src/dialogs/renderwidget.cpp:1233
 #, kde-format
@@ -7156,18 +7206,18 @@ msgstr "נותרו פחות מ־%1 מ״ב של זיכרון זמין."
 #: src/dialogs/renderwidget.cpp:1281
 #, kde-format
 msgid "Rendering finished in %1"
-msgstr "הצלימה הסתיימה תוך %1"
+msgstr "התיצוג הסתיים תוך %1"
 
 #: src/dialogs/renderwidget.cpp:1289
 #, kde-format
 msgid "Rendering of %1 finished in %2"
-msgstr "הצלימה של %1 הסתיימה תוך %2"
+msgstr "התיצוג של %1 הסתיים תוך %2"
 
 # , kde-format
 #: src/dialogs/renderwidget.cpp:1313
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
-msgstr "<strong>הצלימה של %1 קרסה</strong><br />"
+msgstr "<strong>התיצוג של %1 קרס</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
 #: src/dialogs/renderwidget.cpp:1356 src/ui/renderwidget_ui.ui:894
@@ -7183,7 +7233,7 @@ msgstr "הסרת משימה"
 #: src/dialogs/renderwidget.cpp:1759
 #, kde-format
 msgid "Render Duration: %1. "
-msgstr "משך צלימה: %1. "
+msgstr "משך תיצוג: %1."
 
 #: src/dialogs/renderwidget.cpp:1761
 #, kde-format
@@ -7212,7 +7262,7 @@ msgstr "%1 סרטונים חסרים (<b>%2 נמצאים בשימוש במיזם
 #: src/dialogs/renderwidget.cpp:1769
 #, kde-format
 msgid "Render Duration: %1"
-msgstr "משך צלימה: %1"
+msgstr "משך תיצוג: %1"
 
 #: src/dialogs/renderwidget.cpp:1845
 #, kde-format
@@ -8324,7 +8374,7 @@ msgstr ""
 #: src/dialogs/wizard.cpp:423
 #, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
-msgstr "<li>חסר יישום: <b>kdenlive_render</b><br/>שנחוץ לצלימה.</li>"
+msgstr "<li>חסר יישום: <b>kdenlive_render</b><br/>שנחוץ לתיצוג.</li>"
 
 #: src/dialogs/wizard.cpp:448
 #, kde-format
@@ -8677,6 +8727,9 @@ msgid ""
 "Do you want to convert the project to a non-GPU version?\n"
 "This might result in data loss."
 msgstr ""
+"המיזם משתמש באפקטים של מעבד גרפי. האצה גרפית לא פעילה.\n"
+"להמיר את המיזם לגרסה נטולת מעבד גרפי?\n"
+"יכול להוביל לאובדן נתונים."
 
 #: src/doc/documentvalidator.cpp:2241
 #, kde-format
@@ -9605,13 +9658,13 @@ msgid "Markers"
 msgstr "סמנים"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:81 src/mainwindow.cpp:3784
+#: src/kdenliveui.rc:81 src/mainwindow.cpp:3806
 #, kde-format
 msgid "Extract Audio"
 msgstr "חילוץ שמע"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:84 src/mainwindow.cpp:3747
+#: src/kdenliveui.rc:84 src/mainwindow.cpp:3769
 #, kde-format
 msgid "Clip Jobs"
 msgstr "משימות סרטונים"
@@ -9672,7 +9725,7 @@ msgstr "רווח"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:172 src/mainwindow.cpp:1835
+#: src/kdenliveui.rc:172 src/mainwindow.cpp:1853
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
@@ -9709,7 +9762,7 @@ msgid "Current Monitor Overlay"
 msgstr "שכבת העל של התצוגה הנוכחית"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:249 src/mainwindow.cpp:1533
+#: src/kdenliveui.rc:249 src/mainwindow.cpp:1551
 #, kde-format
 msgid "Preview Resolution"
 msgstr "רזולוציית תצוגה מקדימה"
@@ -9960,6 +10013,8 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to the library. Note "
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
+"הוספת הסרטונים הנבחרים בציר הזמן לספרייה. נא לשים לב שהנתיבים לקובצי "
+"התמונות, הווידאו והשמע הם נתיבים מלאים ומוחלטים (ולא יחסיים)."
 
 #: src/library/librarywidget.cpp:343
 #, kde-format
@@ -10246,12 +10301,12 @@ msgstr "רשימה מופרדת בפסיקים של קבצים להוספה כס
 #: src/main.cpp:207
 #, kde-format
 msgid "Directly render the project and exit."
-msgstr "להכין צלימה של המיזם ישירות ולצאת."
+msgstr "להכין תיצוג של המיזם ישירות ולצאת."
 
 #: src/main.cpp:210
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
-msgstr "שם ערכת צלימה של Kdenlive‏ (MP4-H264/AAC תיבחר אם לא סופקה שום ערכה)."
+msgstr "שם ערכת תיצוג של Kdenlive‏ (MP4-H264/AAC תיבחר אם לא סופקה שום ערכה)."
 
 #: src/main.cpp:215
 #, kde-format
@@ -10268,7 +10323,7 @@ msgstr "מסמך Kdenlive לפתיחה."
 #: src/main.cpp:219
 #, kde-format
 msgid "Output file for rendered video."
-msgstr "קובץ פלט לווידאו שעבר צלימה."
+msgstr "קובץ פלט לווידאו שעבר תיצוג."
 
 #: src/main.cpp:344
 #, kde-format
@@ -10413,7 +10468,7 @@ msgid "Add Transition"
 msgstr "הוספת מעברון"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:522 src/mainwindow.cpp:2002
+#: src/mainwindow.cpp:522 src/mainwindow.cpp:2020
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -10434,78 +10489,78 @@ msgid ""
 "it to the selected clip."
 msgstr "לחיצה תציג רשימת אפקטים מועדפים. לחיצה כפולה על אפקט "
 
-#: src/mainwindow.cpp:567 src/mainwindow.cpp:1460
+#: src/mainwindow.cpp:567 src/mainwindow.cpp:1478
 #, kde-format
 msgid "Render…"
-msgstr "צלימה…"
+msgstr "תיצוג…"
 
 #: src/mainwindow.cpp:572
 #, kde-format
 msgid "Render Button"
-msgstr "כפתור צלימה"
+msgstr "כפתור תיצוג"
 
 #: src/mainwindow.cpp:578
 #, kde-format
 msgid "Rendering preview"
-msgstr "תצוגה מקדימה לצלימה"
+msgstr "תצוגה מקדימה לתיצוג"
 
-#: src/mainwindow.cpp:630 src/monitor/monitor.cpp:412
+#: src/mainwindow.cpp:636 src/monitor/monitor.cpp:412
 #, kde-format
 msgid "Go to Guide…"
 msgstr "מעבר לקו מנחה…"
 
-#: src/mainwindow.cpp:658
+#: src/mainwindow.cpp:664
 #, kde-format
 msgid "Separate Channels"
 msgstr "הפרדת ערוצים"
 
-#: src/mainwindow.cpp:665
+#: src/mainwindow.cpp:671
 #, kde-format
 msgid "Normalize Audio Thumbnails"
 msgstr "נרמול דוגמיות שמע"
 
-#: src/mainwindow.cpp:672
+#: src/mainwindow.cpp:678
 #, kde-format
 msgid "Thumbnails"
 msgstr "תמונות ממוזערות"
 
-#: src/mainwindow.cpp:674
+#: src/mainwindow.cpp:680
 #, kde-format
 msgid "In Frame"
 msgstr "תמונית כניסה"
 
-#: src/mainwindow.cpp:678
+#: src/mainwindow.cpp:684
 #, kde-format
 msgid "In/Out Frames"
 msgstr "תמוניות כניסה/יציאה"
 
-#: src/mainwindow.cpp:682
+#: src/mainwindow.cpp:688
 #, kde-format
 msgid "All Frames"
 msgstr "כל התמוניות"
 
-#: src/mainwindow.cpp:686
+#: src/mainwindow.cpp:692
 #, kde-format
 msgid "No Thumbnails"
 msgstr "אין תמונות ממוזערות"
 
-#: src/mainwindow.cpp:720
+#: src/mainwindow.cpp:726
 #, kde-format
 msgid "Preview Using Proxy Clips"
 msgstr "הצגה מקדימה באמצעות סרטוני תיווך"
 
-#: src/mainwindow.cpp:727
+#: src/mainwindow.cpp:733
 #, kde-format
 msgid "Automatic Preview"
 msgstr "תצוגה מקדימה אוטומטית"
 
-#: src/mainwindow.cpp:839
+#: src/mainwindow.cpp:845
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "המיזם נטען"
 
-#: src/mainwindow.cpp:987
+#: src/mainwindow.cpp:993
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -10514,54 +10569,54 @@ msgid_plural ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"משימת צלימה ממתינה בתור.\n"
+"משימת תיצוג ממתינה בתור.\n"
 "מה לעשות עם המשימה הזאת?"
 msgstr[1] ""
-"שתי משימות צלימה ממתינות בתור.\n"
+"שתי משימות תיצוג ממתינות בתור.\n"
 "מה לעשות עם המשימות האלו?"
 msgstr[2] ""
-"%1 משימות צלימה ממתינות בתור.\n"
+"%1 משימות תיצוג ממתינות בתור.\n"
 "מה לעשות עם המשימות האלו?"
 msgstr[3] ""
-"%1 משימות צלימה ממתינות בתור.\n"
+"%1 משימות תיצוג ממתינות בתור.\n"
 "מה לעשות עם המשימות האלו?"
 
-#: src/mainwindow.cpp:990
+#: src/mainwindow.cpp:996
 #, kde-format
 msgid "Start them now"
 msgstr "התחלתם"
 
-#: src/mainwindow.cpp:990
+#: src/mainwindow.cpp:996
 #, kde-format
 msgid "Delete them"
 msgstr "מחיקתם"
 
-#: src/mainwindow.cpp:1084 src/timeline2/view/timelinecontroller.cpp:2141
+#: src/mainwindow.cpp:1091 src/timeline2/view/timelinecontroller.cpp:2141
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "בחירת סרטון להשוואת האפקט"
 
-#: src/mainwindow.cpp:1131
+#: src/mainwindow.cpp:1141
 #, kde-format
 msgid "Normal Mode"
 msgstr "מצב רגיל"
 
-#: src/mainwindow.cpp:1135
+#: src/mainwindow.cpp:1148
 #, kde-format
 msgid "Overwrite Mode"
 msgstr "מצב שכתוב"
 
-#: src/mainwindow.cpp:1139
+#: src/mainwindow.cpp:1155
 #, kde-format
 msgid "Insert Mode"
 msgstr "מצב הוספה"
 
-#: src/mainwindow.cpp:1143
+#: src/mainwindow.cpp:1159
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "מצב עריכת ציר זמן"
 
-#: src/mainwindow.cpp:1145
+#: src/mainwindow.cpp:1161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10571,86 +10626,86 @@ msgstr ""
 "מחליף בין המצבים רגיל, שכתוב והוספה. קובע את פעולת ברירת המחדל לטיפול "
 "בסרטונים בציר הזמן."
 
-#: src/mainwindow.cpp:1158
+#: src/mainwindow.cpp:1174
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "לא להשתמש בקטע ציר זמן להוספה"
 
-#: src/mainwindow.cpp:1158
+#: src/mainwindow.cpp:1174
 #, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "להשתמש בקטע ציר זמן להוספה"
 
-#: src/mainwindow.cpp:1159
+#: src/mainwindow.cpp:1175
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr "החלפה בין שימוש בקטע ציר זמן להכנסה (פעיל) או לא (כבוי)."
 
-#: src/mainwindow.cpp:1166
+#: src/mainwindow.cpp:1182
 #, kde-format
 msgid "Enable Track Compositing"
 msgstr "הפעלת הרכבת רצועות"
 
-#: src/mainwindow.cpp:1172
+#: src/mainwindow.cpp:1188
 #, kde-format
 msgid "Split Audio Tracks"
 msgstr "פיצול רצועות שמע"
 
-#: src/mainwindow.cpp:1178
+#: src/mainwindow.cpp:1194
 #, kde-format
 msgid "Split Audio Tracks (reverse)"
 msgstr "פיצול רצועות שמע (הפוך)"
 
-#: src/mainwindow.cpp:1184
+#: src/mainwindow.cpp:1200
 #, kde-format
 msgid "Mixed Audio tracks"
 msgstr "רצועות שמע מעורבבות"
 
-#: src/mainwindow.cpp:1210
+#: src/mainwindow.cpp:1226
 #, kde-format
 msgid "Track menu"
 msgstr "תפריט רצועות"
 
-#: src/mainwindow.cpp:1215 src/project/dialogs/slideshowclip.cpp:86
+#: src/mainwindow.cpp:1231 src/project/dialogs/slideshowclip.cpp:86
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "hh:mm:ss:ff"
 
-#: src/mainwindow.cpp:1216 src/project/dialogs/slideshowclip.cpp:87
+#: src/mainwindow.cpp:1232 src/project/dialogs/slideshowclip.cpp:87
 #, kde-format
 msgid "Frames"
 msgstr "תמוניות"
 
-#: src/mainwindow.cpp:1228
+#: src/mainwindow.cpp:1244
 #, kde-format
 msgid "Edit Subtitle Tool"
 msgstr "כלי עריכת כתוביות"
 
-#: src/mainwindow.cpp:1229
+#: src/mainwindow.cpp:1245
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "מחליף את מצב רצועת הכתוביות בציר הזמן."
 
-#: src/mainwindow.cpp:1236 src/titler/titlewidget.cpp:380
+#: src/mainwindow.cpp:1252 src/titler/titlewidget.cpp:380
 #: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Selection Tool"
 msgstr "כלי בחירה"
 
-#: src/mainwindow.cpp:1241
+#: src/mainwindow.cpp:1257
 #, kde-format
 msgid "Razor Tool"
 msgstr "כלי סכין"
 
-#: src/mainwindow.cpp:1246
+#: src/mainwindow.cpp:1262
 #, kde-format
 msgid "Spacer Tool"
 msgstr "כלי מרווח"
 
-#: src/mainwindow.cpp:1249
+#: src/mainwindow.cpp:1265
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10660,12 +10715,12 @@ msgstr ""
 "כשהאפשרות מסומנת, לחיצה וגרירה עם העכבר על הקבוצות הזמניות בציר הזמן מפרידות "
 "בין הסרטונים ומסירות רווחים בין סרטונים."
 
-#: src/mainwindow.cpp:1254
+#: src/mainwindow.cpp:1270
 #, kde-format
 msgid "Ripple Tool"
 msgstr "כלי אדווה"
 
-#: src/mainwindow.cpp:1257
+#: src/mainwindow.cpp:1273
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10679,35 +10734,37 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1268
+#: src/mainwindow.cpp:1284
 #, kde-format
 msgid "Slip Tool"
 msgstr "כלי הזחה"
 
-#: src/mainwindow.cpp:1269
+#: src/mainwindow.cpp:1285
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
 msgstr ""
+"כאשר האפשרות מסומנת, גרירת סרטון מחליקה את הסרטון מתחת לחלון הנתון קדימה "
+"ואחורה."
 
-#: src/mainwindow.cpp:1273
+#: src/mainwindow.cpp:1289
 #, kde-format
 msgid "Multicam Tool"
 msgstr "כלי ריבוי מצלמות"
 
-#: src/mainwindow.cpp:1295
+#: src/mainwindow.cpp:1311
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "צמצום/הרחבת פריט"
 
-#: src/mainwindow.cpp:1299
+#: src/mainwindow.cpp:1315
 #, kde-format
 msgid "Mix Clips"
 msgstr "ערבוב סרטונים"
 
-#: src/mainwindow.cpp:1301
+#: src/mainwindow.cpp:1317
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10715,12 +10772,12 @@ msgid ""
 "one closest to the playhead."
 msgstr ""
 
-#: src/mainwindow.cpp:1309
+#: src/mainwindow.cpp:1325
 #, kde-format
 msgid "Show Video Thumbnails"
 msgstr "הצגת תמונות ממוזערות של וידאו"
 
-#: src/mainwindow.cpp:1310
+#: src/mainwindow.cpp:1326
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10728,12 +10785,12 @@ msgid ""
 "(default is On)."
 msgstr "החלפת תצוגת דוגמיות וידאו לסרטונים בציר הזמן (ברירת המחדל היא פעיל)."
 
-#: src/mainwindow.cpp:1316
+#: src/mainwindow.cpp:1334
 #, kde-format
 msgid "Show Audio Thumbnails"
 msgstr "הצגת דוגמיות שמע"
 
-#: src/mainwindow.cpp:1317
+#: src/mainwindow.cpp:1335
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10741,59 +10798,61 @@ msgid ""
 "(default is On)."
 msgstr "החלפת תצוגת דוגמיות שמע לסרטונים בציר הזמן (ברירת המחדל היא פעיל)."
 
-#: src/mainwindow.cpp:1323
+#: src/mainwindow.cpp:1341
 #, kde-format
 msgid "Show Markers Comments"
 msgstr "הצגת הערות סמנים"
 
-#: src/mainwindow.cpp:1329
+#: src/mainwindow.cpp:1347
 #, kde-format
 msgid "Snap"
 msgstr "הצמדה"
 
-#: src/mainwindow.cpp:1330
+#: src/mainwindow.cpp:1348
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 msgstr ""
+"מחליף את מצב פונקציית ההצמדה (הסרטונים נצמדים לראש הנגינה, קצוות, סמנים, "
+"קווים מנחים ועוד)."
 
-#: src/mainwindow.cpp:1336
+#: src/mainwindow.cpp:1354
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "הצגת תגיות צבע בציר הזמן"
 
-#: src/mainwindow.cpp:1337
+#: src/mainwindow.cpp:1355
 #, fuzzy, kde-kuit-format
 #| msgid "update values in timeline"
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "עדכן ערכים בציר הזמן"
 
-#: src/mainwindow.cpp:1343
+#: src/mainwindow.cpp:1361
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "התאמת התקריב למיזם"
 
-#: src/mainwindow.cpp:1344
+#: src/mainwindow.cpp:1362
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr "מכוון את המרחק כך שכל המיזם יופיע בחלונות ציר הזמן."
 
-#: src/mainwindow.cpp:1369
+#: src/mainwindow.cpp:1387
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "עיבוד מעבד גרפי ניסיוני פעיל - לא מומלץ לעבודה שוטפת עדיין"
 
-#: src/mainwindow.cpp:1379 src/mainwindow.cpp:3416
+#: src/mainwindow.cpp:1397 src/mainwindow.cpp:3438
 #, kde-format
 msgid "Multicam"
 msgstr "ריבוי מצלמות"
 
-#: src/mainwindow.cpp:1380
+#: src/mainwindow.cpp:1398
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr "כלי פעיל ומצב עריכה"
@@ -10801,234 +10860,234 @@ msgstr "כלי פעיל ומצב עריכה"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1431 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1449 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:759
 #, kde-format
 msgid "Auto"
 msgstr "אוטומטי"
 
-#: src/mainwindow.cpp:1436
+#: src/mainwindow.cpp:1454
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1441
+#: src/mainwindow.cpp:1459
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "DirectX (ANGLE)"
 
-#: src/mainwindow.cpp:1446
+#: src/mainwindow.cpp:1464
 #, kde-format
 msgid "Software OpenGL"
 msgstr "OpenGL תוכנתי"
 
-#: src/mainwindow.cpp:1456
+#: src/mainwindow.cpp:1474
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "הרצת אשף הגדרות…"
 
-#: src/mainwindow.cpp:1457
+#: src/mainwindow.cpp:1475
 #, kde-format
 msgid "Project Settings…"
 msgstr "הגדרות מיזם…"
 
-#: src/mainwindow.cpp:1463
+#: src/mainwindow.cpp:1481
 #, kde-format
 msgid "Stop Render"
-msgstr "עצירת הצלימה"
+msgstr "עצירת התיצוג"
 
-#: src/mainwindow.cpp:1468
+#: src/mainwindow.cpp:1486
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "איפוס ההגדרות…"
 
-#: src/mainwindow.cpp:1472
+#: src/mainwindow.cpp:1490
 #, kde-format
 msgid "Play Zone"
 msgstr "ניגון קטע"
 
-#: src/mainwindow.cpp:1474
+#: src/mainwindow.cpp:1492
 #, kde-format
 msgid "Loop Zone"
 msgstr "חזרה על הקטע בלולאה"
 
-#: src/mainwindow.cpp:1476
+#: src/mainwindow.cpp:1494
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "חזרה בלולאה על הסרטון הנבחר"
 
-#: src/mainwindow.cpp:1480
+#: src/mainwindow.cpp:1498
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "התמרת סרטונים…"
 
-#: src/mainwindow.cpp:1481
+#: src/mainwindow.cpp:1499
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "יי&צוא OpenTimelineIO…"
 
-#: src/mainwindow.cpp:1484
+#: src/mainwindow.cpp:1502
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "יי&בוא OpenTimelineIO…"
 
-#: src/mainwindow.cpp:1488
+#: src/mainwindow.cpp:1506
 #, kde-format
 msgid "Archive Project…"
 msgstr "העברת מיזם לארכיון…"
 
-#: src/mainwindow.cpp:1490
+#: src/mainwindow.cpp:1508
 #, kde-format
 msgid "Switch Monitor"
 msgstr "החלפת צג"
 
-#: src/mainwindow.cpp:1491
+#: src/mainwindow.cpp:1509
 #, kde-format
 msgid "Focus Timecode"
 msgstr "התמקדות על קוד זמן"
 
-#: src/mainwindow.cpp:1492
+#: src/mainwindow.cpp:1510
 #, kde-format
 msgid "Expand Clip"
 msgstr "הרחבת סרטון"
 
-#: src/mainwindow.cpp:1494
+#: src/mainwindow.cpp:1512
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "שכבת מידע על הצג"
 
-#: src/mainwindow.cpp:1499
+#: src/mainwindow.cpp:1517
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr ""
 
-#: src/mainwindow.cpp:1504
+#: src/mainwindow.cpp:1522
 #, fuzzy, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "רבדי מידע בצג"
 
-#: src/mainwindow.cpp:1509
+#: src/mainwindow.cpp:1527
 #, fuzzy, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "רבדי מידע בצג"
 
-#: src/mainwindow.cpp:1514
+#: src/mainwindow.cpp:1532
 #, fuzzy, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "צג"
 
-#: src/mainwindow.cpp:1519
+#: src/mainwindow.cpp:1537
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
 msgstr "משימות סרטוני שכבת על צג"
 
-#: src/mainwindow.cpp:1537
+#: src/mainwindow.cpp:1555
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "רזולוציה מלאה (1:1)"
 
-#: src/mainwindow.cpp:1541 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1559 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1545 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1563 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1549 src/monitor/monitor.cpp:220
+#: src/mainwindow.cpp:1567 src/monitor/monitor.cpp:220
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1553 src/monitor/monitor.cpp:220
+#: src/mainwindow.cpp:1571 src/monitor/monitor.cpp:220
 #, kde-format
 msgid "270p"
 msgstr "270p"
 
-#: src/mainwindow.cpp:1584
+#: src/mainwindow.cpp:1602
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "‫זמן אמת (השמטת תמוניות)"
 
-#: src/mainwindow.cpp:1590
+#: src/mainwindow.cpp:1608
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "גמא של צג"
 
-#: src/mainwindow.cpp:1591
+#: src/mainwindow.cpp:1609
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB (מחשב)"
 
-#: src/mainwindow.cpp:1592
+#: src/mainwindow.cpp:1610
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709 (טלוויזיה)"
 
-#: src/mainwindow.cpp:1598
+#: src/mainwindow.cpp:1616
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "הוספת קטע לסל המיזם"
 
-#: src/mainwindow.cpp:1600
+#: src/mainwindow.cpp:1618
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "יצירת סרטון חדש בסל המיזם מהקטע המוגדר"
 
-#: src/mainwindow.cpp:1603
+#: src/mainwindow.cpp:1621
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "מעבר לנקודת ההצמדה הקודמת"
 
-#: src/mainwindow.cpp:1605
+#: src/mainwindow.cpp:1623
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "מעבר לנקודת ההצמדה הבאה"
 
-#: src/mainwindow.cpp:1608
+#: src/mainwindow.cpp:1626
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "מעבר לתחילת הסרטון"
 
-#: src/mainwindow.cpp:1610
+#: src/mainwindow.cpp:1628
 #, kde-format
 msgid "Go to Clip End"
 msgstr "מעבר לסוף הסרטון"
 
-#: src/mainwindow.cpp:1612
+#: src/mainwindow.cpp:1630
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "מעבר לקו המנחה הקודם"
 
-#: src/mainwindow.cpp:1614
+#: src/mainwindow.cpp:1632
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "מעבר לקו המנחה הבא"
 
-#: src/mainwindow.cpp:1616
+#: src/mainwindow.cpp:1634
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "יישור ראש הנגינה למקום העכבר"
 
-#: src/mainwindow.cpp:1619
+#: src/mainwindow.cpp:1637
 #, kde-format
 msgid "Grab Current Item"
 msgstr "לכידת הפריט הנוכחי"
 
-#: src/mainwindow.cpp:1622
+#: src/mainwindow.cpp:1640
 #, kde-format
 msgid "Automatic Transition"
 msgstr "מעברון אוטומטי"
 
-#: src/mainwindow.cpp:1629
+#: src/mainwindow.cpp:1647
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "שכתוב קטע סרטון בציר הזמן"
 
-#: src/mainwindow.cpp:1631
+#: src/mainwindow.cpp:1649
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11039,12 +11098,12 @@ msgstr ""
 "כשנלחץ הקטע של הסרטון שנבחר כרגע בסל המיזם נוסף למיקום ראש הנגינה בציר הזמן "
 "הפעיל. סרטונים במקום ההוספה נחתכים ונדרסים."
 
-#: src/mainwindow.cpp:1633
+#: src/mainwindow.cpp:1651
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "הוספת קטע סרטון בציר הזמן"
 
-#: src/mainwindow.cpp:1635
+#: src/mainwindow.cpp:1653
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11055,12 +11114,12 @@ msgstr ""
 "כשנלחץ הקטע של הסרטון שנבחר כרגע בסל המיזם נוסף למיקום ראש הנגינה בציר הזמן "
 "הפעיל. סרטונים במקום ההוספה מוסטים ימינה."
 
-#: src/mainwindow.cpp:1637
+#: src/mainwindow.cpp:1655
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "חילוץ קטע מציר הזמן"
 
-#: src/mainwindow.cpp:1639
+#: src/mainwindow.cpp:1657
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11068,12 +11127,12 @@ msgid ""
 "are shifted left."
 msgstr "לחיצה תמחק את קטע ציר הזמן מציר הזמן. כל הסרטונים מימין מוסטים שמאלה."
 
-#: src/mainwindow.cpp:1640
+#: src/mainwindow.cpp:1658
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "הגבהת קטע בציר הזמן"
 
-#: src/mainwindow.cpp:1642
+#: src/mainwindow.cpp:1660
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11081,24 +11140,24 @@ msgid ""
 "stay in position."
 msgstr "לחיצה תמחק את קטע ציר הזמן מציר הזמן. כל הסרטונים מימין יישארו במקומם."
 
-#: src/mainwindow.cpp:1643
+#: src/mainwindow.cpp:1661
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "הוספת קטע תצוגה מקדימה"
 
-#: src/mainwindow.cpp:1645
+#: src/mainwindow.cpp:1663
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1646
+#: src/mainwindow.cpp:1664
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "הסרת קטע התצוגה המקדימה"
 
-#: src/mainwindow.cpp:1650
+#: src/mainwindow.cpp:1668
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11106,23 +11165,23 @@ msgid ""
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 
-#: src/mainwindow.cpp:1651
+#: src/mainwindow.cpp:1669
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "הסרת כל קטעי התצוגה המקדימה"
 
-#: src/mainwindow.cpp:1653
+#: src/mainwindow.cpp:1671
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
-msgstr "הסרת כל קטעי צלימת התצוגה המקדימה."
+msgstr "הסרת כל קטעי תיצוג התצוגה המקדימה."
 
-#: src/mainwindow.cpp:1654
+#: src/mainwindow.cpp:1672
 #, kde-format
 msgid "Start Preview Render"
-msgstr "התחלת צלימת תצוגה מקדימה"
+msgstr "התחלת תיצוג תצוגה מקדימה"
 
-#: src/mainwindow.cpp:1657
+#: src/mainwindow.cpp:1675
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11131,178 +11190,178 @@ msgid ""
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
 
-#: src/mainwindow.cpp:1659
+#: src/mainwindow.cpp:1677
 #, kde-format
 msgid "Stop Preview Render"
-msgstr "עצירת צלימת תצוגה מקדימה"
+msgstr "עצירת תיצוג תצוגה מקדימה"
 
-#: src/mainwindow.cpp:1662
+#: src/mainwindow.cpp:1680
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
 msgstr "כיוון קטע ציר הזמן לבחירה"
 
-#: src/mainwindow.cpp:1664
+#: src/mainwindow.cpp:1682
 #, kde-format
 msgid "Select Clip"
 msgstr "בחירה בסרטון"
 
-#: src/mainwindow.cpp:1666
+#: src/mainwindow.cpp:1684
 #, kde-format
 msgid "Deselect Clip"
 msgstr "ביטול בחירת סרטון"
 
-#: src/mainwindow.cpp:1668
+#: src/mainwindow.cpp:1686
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "הוספת סרטון לבחירה"
 
-#: src/mainwindow.cpp:1670
+#: src/mainwindow.cpp:1688
 #, kde-format
 msgid "Select Transition"
 msgstr "בחירת מעברון"
 
-#: src/mainwindow.cpp:1672
+#: src/mainwindow.cpp:1690
 #, kde-format
 msgid "Deselect Transition"
 msgstr "ביטול בחירת מעברון"
 
-#: src/mainwindow.cpp:1674
+#: src/mainwindow.cpp:1692
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "הוספת מעברון לבחירה"
 
-#: src/mainwindow.cpp:1677
+#: src/mainwindow.cpp:1695
 #, kde-format
 msgid "Delete All Markers"
 msgstr "מחיקת כל הסמנים"
 
-#: src/mainwindow.cpp:1679
+#: src/mainwindow.cpp:1697
 #, kde-format
 msgid "Add Marker/Guide quickly"
 msgstr "הוספת סמן/קו מנחה במהירות"
 
-#: src/mainwindow.cpp:1683
+#: src/mainwindow.cpp:1701
 #, kde-format
 msgid "Current Selection"
 msgstr "בחירה נוכחית"
 
-#: src/mainwindow.cpp:1685 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1703 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "הוספת סמן"
 
-#: src/mainwindow.cpp:1689
+#: src/mainwindow.cpp:1707
 #, kde-format
 msgid "Delete Marker"
 msgstr "מחיקת סמן"
 
-#: src/mainwindow.cpp:1693
+#: src/mainwindow.cpp:1711
 #, kde-format
 msgid "Edit Marker…"
 msgstr "עריכת סמן…"
 
-#: src/mainwindow.cpp:1698 src/timeline2/model/timelinefunctions.cpp:1140
+#: src/mainwindow.cpp:1716 src/timeline2/model/timelinefunctions.cpp:1140
 #, kde-format
 msgid "Restore Audio"
 msgstr "שחזור שמע"
 
-#: src/mainwindow.cpp:1704
+#: src/mainwindow.cpp:1722
 #, kde-format
 msgid "Extract Clip"
 msgstr "חילוץ סרטון"
 
-#: src/mainwindow.cpp:1710
+#: src/mainwindow.cpp:1728
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "שמירת חלק מסרטון בסל"
 
-#: src/mainwindow.cpp:1715
+#: src/mainwindow.cpp:1733
 #, kde-format
 msgid "Disable Clip"
 msgstr "השבתת סרטון"
 
-#: src/mainwindow.cpp:1720
+#: src/mainwindow.cpp:1738
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "הגדרת סימוכין לשמע"
 
-#: src/mainwindow.cpp:1727
+#: src/mainwindow.cpp:1745
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "יישור שמע לסימוכין"
 
-#: src/mainwindow.cpp:1732
+#: src/mainwindow.cpp:1750
 #, kde-format
 msgid "Edit Duration"
 msgstr "משך עריכה"
 
-#: src/mainwindow.cpp:1736
+#: src/mainwindow.cpp:1754
 #, kde-format
 msgid "Change Speed"
 msgstr "החלפת מהירות"
 
-#: src/mainwindow.cpp:1742
+#: src/mainwindow.cpp:1760
 #, kde-format
 msgid "Time Remap"
 msgstr "מיפוי זמן מחדש"
 
-#: src/mainwindow.cpp:1749
+#: src/mainwindow.cpp:1767
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "סרטון בסל מיזם"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1755 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1773 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "חיתוך סרטון"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1776
 #, kde-format
 msgid "Cut All Clips"
 msgstr "גזירת כל הסרטונים"
 
-#: src/mainwindow.cpp:1761
+#: src/mainwindow.cpp:1779
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "מחיקת פריט נבחר"
 
-#: src/mainwindow.cpp:1764
+#: src/mainwindow.cpp:1782
 #, kde-format
 msgid "Resize Item Start"
 msgstr "שינוי גודל תחילת פריט"
 
-#: src/mainwindow.cpp:1768
+#: src/mainwindow.cpp:1786
 #, kde-format
 msgid "Resize Item End"
 msgstr "שינוי גודל סוף פריט"
 
-#: src/mainwindow.cpp:1772
+#: src/mainwindow.cpp:1790
 #, kde-format
 msgid "Paste Effects"
 msgstr "הדבקת אפקטים"
 
-#: src/mainwindow.cpp:1778
+#: src/mainwindow.cpp:1796
 #, kde-format
 msgid "Delete Effects"
 msgstr "מחיקת אפקטים"
 
-#: src/mainwindow.cpp:1785
+#: src/mainwindow.cpp:1803
 #, kde-format
 msgid "Group Clips"
 msgstr "קיבוץ סרטונים"
 
-#: src/mainwindow.cpp:1791
+#: src/mainwindow.cpp:1809
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "פירוק קיבוץ סרטונים"
 
-#: src/mainwindow.cpp:1797
+#: src/mainwindow.cpp:1815
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "יצירת רצף מבחירה"
 
-#: src/mainwindow.cpp:1800
+#: src/mainwindow.cpp:1818
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11310,123 +11369,123 @@ msgid ""
 "that can be opened in another timeline tab."
 msgstr ""
 
-#: src/mainwindow.cpp:1812
+#: src/mainwindow.cpp:1830
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "תמוניות מפתח של אפקט"
 
-#: src/mainwindow.cpp:1813 src/monitor/view/EffectToolBar.qml:89
+#: src/mainwindow.cpp:1831 src/monitor/view/EffectToolBar.qml:89
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "הוספת/הסרת תמונית מפתח"
 
-#: src/mainwindow.cpp:1829
+#: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Insert Space…"
 msgstr "הוספת רווח…"
 
-#: src/mainwindow.cpp:1830
+#: src/mainwindow.cpp:1848
 #, kde-format
 msgid "Remove Space"
 msgstr "הסרת רווח"
 
-#: src/mainwindow.cpp:1831
+#: src/mainwindow.cpp:1849
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "הסרת כל הרווחים שאחרי הסמן"
 
-#: src/mainwindow.cpp:1832
+#: src/mainwindow.cpp:1850
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "הסרת כל הסרטונים שאחרי הסמן"
 
-#: src/mainwindow.cpp:1833
+#: src/mainwindow.cpp:1851
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "הסרת הרווחים בכל הרצועות"
 
-#: src/mainwindow.cpp:1836
+#: src/mainwindow.cpp:1854
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "הוספת רצועה…"
 
-#: src/mainwindow.cpp:1840
+#: src/mainwindow.cpp:1858
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "התאמת כל הרצועות לתצוגה"
 
-#: src/mainwindow.cpp:1846 src/timeline2/view/timelinecontroller.cpp:4838
+#: src/mainwindow.cpp:1864 src/timeline2/view/timelinecontroller.cpp:4838
 #, kde-format
 msgid "Master effects"
 msgstr "אפקטי הורה"
 
-#: src/mainwindow.cpp:1853
+#: src/mainwindow.cpp:1871
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "החלפת תזרים שמע לרצועת היעד"
 
-#: src/mainwindow.cpp:1858
+#: src/mainwindow.cpp:1876
 #, kde-format
 msgid "Delete Track…"
 msgstr "מחיקת רצועה…"
 
-#: src/mainwindow.cpp:1863
+#: src/mainwindow.cpp:1881
 #, kde-format
 msgid "Show Record Controls"
 msgstr "הצגת פקדי הקלטה"
 
-#: src/mainwindow.cpp:1869
+#: src/mainwindow.cpp:1887
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "בחירה בהכול ברצועה הנוכחית"
 
-#: src/mainwindow.cpp:1886
+#: src/mainwindow.cpp:1904
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "ניהול נתונים במטמון…"
 
-#: src/mainwindow.cpp:1889
+#: src/mainwindow.cpp:1907
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "השבתת תצוגה מקדימה של ציר זמן"
 
-#: src/mainwindow.cpp:1893
+#: src/mainwindow.cpp:1911
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "הוספת/הסרת קו מנחה"
 
-#: src/mainwindow.cpp:1894
+#: src/mainwindow.cpp:1912
 #, kde-format
 msgid "Delete Guide"
 msgstr "מחיקת קו מנחה"
 
-#: src/mainwindow.cpp:1895
+#: src/mainwindow.cpp:1913
 #, kde-format
 msgid "Edit Guide…"
 msgstr "עריכת קו מנחה…"
 
-#: src/mainwindow.cpp:1896
+#: src/mainwindow.cpp:1914
 #, kde-format
 msgid "Search Guide…"
 msgstr "חיפוש קו מנחה…"
 
-#: src/mainwindow.cpp:1897
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Export Guides…"
 msgstr "ייצוא קווים מנחים…"
 
-#: src/mainwindow.cpp:1900
+#: src/mainwindow.cpp:1918
 #, kde-format
 msgid "Guides Locked"
 msgstr "הקווים המנחים נעולים"
 
-#: src/mainwindow.cpp:1903
+#: src/mainwindow.cpp:1921
 #, kde-format
 msgid "Lock guides"
 msgstr "נעילת קווים מנחים"
 
-#: src/mainwindow.cpp:1905
+#: src/mainwindow.cpp:1923
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11436,52 +11495,52 @@ msgstr ""
 "נעילת קווים מנחים. כשהם נעולים, הקווים המנחים לא יזוזו בעת שימוש בכללי "
 "המרווח או בהוספת/הסרת קטע ריק ברצועות."
 
-#: src/mainwindow.cpp:1907
+#: src/mainwindow.cpp:1925
 #, kde-format
 msgid "Delete All Guides"
 msgstr "מחיקת כל הקווים המנחים"
 
-#: src/mainwindow.cpp:1909
+#: src/mainwindow.cpp:1927
 #, kde-format
 msgid "Add Subtitle"
 msgstr "הוספת כתובית"
 
-#: src/mainwindow.cpp:1911
+#: src/mainwindow.cpp:1929
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "השבתת כתובית"
 
-#: src/mainwindow.cpp:1912
+#: src/mainwindow.cpp:1930
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "נעילת כתובית"
 
-#: src/mainwindow.cpp:1914
+#: src/mainwindow.cpp:1932
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "ניהול כתוביות"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1934
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "ייבוא קובץ כתוביות…"
 
-#: src/mainwindow.cpp:1918
+#: src/mainwindow.cpp:1936
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "ייצוא קובץ כתוביות…"
 
-#: src/mainwindow.cpp:1920 src/timeline2/model/timelinemodel.cpp:2121
+#: src/mainwindow.cpp:1938 src/timeline2/model/timelinemodel.cpp:2121
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "מחיקת כתובית"
 
-#: src/mainwindow.cpp:1921
+#: src/mainwindow.cpp:1939
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "זיהוי דיבור…"
 
-#: src/mainwindow.cpp:1928
+#: src/mainwindow.cpp:1946
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11491,100 +11550,100 @@ msgstr ""
 "פעולה זו מחליפה בין <emphasis>סרגל תפריטים</emphasis> לבין כפתור "
 "<interface>תפריט המבורגר</interface> בסרגל הכלים הראשי."
 
-#: src/mainwindow.cpp:1957
+#: src/mainwindow.cpp:1975
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "העתקת פרטי ניפוי תקלות"
 
-#: src/mainwindow.cpp:1959
+#: src/mainwindow.cpp:1977
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "השבתת אפקטים בציר הזמן"
 
-#: src/mainwindow.cpp:1965
+#: src/mainwindow.cpp:1983
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "הפעלה/השבתה של רצועה"
 
-#: src/mainwindow.cpp:1967
+#: src/mainwindow.cpp:1985
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "נעילה/שחרור רצועה"
 
-#: src/mainwindow.cpp:1969
+#: src/mainwindow.cpp:1987
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "נעילת/שחרור כל הרצועות"
 
-#: src/mainwindow.cpp:1971
+#: src/mainwindow.cpp:1989
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "החלפת יעד רצועה"
 
-#: src/mainwindow.cpp:1973
+#: src/mainwindow.cpp:1991
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "החלפת מצב פעילות רצועה"
 
-#: src/mainwindow.cpp:1975
+#: src/mainwindow.cpp:1993
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "החלפת מצב פעילות כל הרצועות"
 
-#: src/mainwindow.cpp:1977
+#: src/mainwindow.cpp:1995
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "החלפת מצב כל הרצועות לפעיל"
 
-#: src/mainwindow.cpp:1979
+#: src/mainwindow.cpp:1997
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "שחזור רצועות היעד של הסרטון הנוכחי"
 
-#: src/mainwindow.cpp:1981
+#: src/mainwindow.cpp:1999
 #, kde-format
 msgid "Add Project Note"
 msgstr "הוספת הערת מיזם"
 
-#: src/mainwindow.cpp:1987
+#: src/mainwindow.cpp:2005
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "בחירת רצועת שמע %1"
 
-#: src/mainwindow.cpp:1991
+#: src/mainwindow.cpp:2009
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "בחירת רצועת וידאו %1"
 
-#: src/mainwindow.cpp:1995
+#: src/mainwindow.cpp:2013
 #, kde-format
 msgid "Select Target %1"
 msgstr "בחירת יעד %1"
 
-#: src/mainwindow.cpp:2013
+#: src/mainwindow.cpp:2031
 #, kde-format
 msgid "Extract Frame…"
 msgstr "ייצוא תמונית…"
 
-#: src/mainwindow.cpp:2016
+#: src/mainwindow.cpp:2034
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "ייצוא תמונית למיזם…"
 
-#: src/mainwindow.cpp:2148
+#: src/mainwindow.cpp:2166
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr "שינית את משתני התיווך. ליצור מחדש את כל סרטוני התיווך למיזם הזה?"
 
-#: src/mainwindow.cpp:2149
+#: src/mainwindow.cpp:2167
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "יצירה מחדש"
 
-#: src/mainwindow.cpp:2150 src/onlineresources/resourcewidget.cpp:616
+#: src/mainwindow.cpp:2168 src/onlineresources/resourcewidget.cpp:616
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
 #: src/titler/titlewidget.cpp:2278
 #, kde-format
@@ -11592,7 +11651,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "להמשיך ללא"
 
-#: src/mainwindow.cpp:2206
+#: src/mainwindow.cpp:2224
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -11602,7 +11661,7 @@ msgstr ""
 "המיזם הנוכחי לא נשמר.<br/>הפעולה הזאת תשמור קודם א המיזם, לאחר מכן תעביר את "
 "כל הקבצים הזמניים מ־<br/><b>%1</b> אל <b>%2</b>, וקובץ המיזם ייטען מחדש"
 
-#: src/mainwindow.cpp:2214
+#: src/mainwindow.cpp:2232
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -11611,48 +11670,48 @@ msgstr ""
 "הפעולה הזאת תסיר את כל הקבצים הזמניים מ־<br/><b>%1</b> אל <b>%2</b>,<br/"
 ">קובץ המיזםייטען מחדש"
 
-#: src/mainwindow.cpp:2223 src/project/projectmanager.cpp:597
+#: src/mainwindow.cpp:2241 src/project/projectmanager.cpp:597
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "לא ניתן לבצע את הפעולה, מזהה מסמך שגוי: %1"
 
-#: src/mainwindow.cpp:2228 src/project/projectmanager.cpp:603
+#: src/mainwindow.cpp:2246 src/project/projectmanager.cpp:603
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "לא ניתן לבצע את הפעולה, תיקיית היעד כבר קיימת: %1"
 
-#: src/mainwindow.cpp:2375
+#: src/mainwindow.cpp:2393
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "פעולה זו תסיר מהמיזם שלך את הסרטונים שלא בשימוש."
 
-#: src/mainwindow.cpp:2375
+#: src/mainwindow.cpp:2393
 #, kde-format
 msgid "Clean up project"
 msgstr "ניקוי מיזם"
 
-#: src/mainwindow.cpp:2503 src/mainwindow.cpp:2527
+#: src/mainwindow.cpp:2521 src/mainwindow.cpp:2545
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "הורדות תצורות מקלדת חדשות…"
 
-#: src/mainwindow.cpp:2514
+#: src/mainwindow.cpp:2532
 #, kde-format
 msgid "Current scheme:"
 msgstr "תצורה נוכחית:"
 
-#: src/mainwindow.cpp:2524
+#: src/mainwindow.cpp:2542
 #, kde-format
 msgid "More Actions"
 msgstr "פעולות נוספות"
 
-#: src/mainwindow.cpp:2536
+#: src/mainwindow.cpp:2555
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "כללי"
 
-#: src/mainwindow.cpp:2606
+#: src/mainwindow.cpp:2628
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -11660,28 +11719,28 @@ msgid ""
 msgstr ""
 "הפעולה הזאת תמחק את קובץ ההגדרות של Kdenlive ותפעיל את היישום מחדש. להמשיך?"
 
-#: src/mainwindow.cpp:2607
+#: src/mainwindow.cpp:2629
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "איפוס הגדרות"
 
-#: src/mainwindow.cpp:2739 src/mainwindow.cpp:2766
+#: src/mainwindow.cpp:2761 src/mainwindow.cpp:2788
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "לא נמצא סרטון להסרת סמן"
 
-#: src/mainwindow.cpp:2749 src/mainwindow.cpp:2795
+#: src/mainwindow.cpp:2771 src/mainwindow.cpp:2817
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "לא נמצא סימון בנקודת זמן הסמן"
 
-#: src/mainwindow.cpp:2771
+#: src/mainwindow.cpp:2793
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 
-#: src/mainwindow.cpp:2788 src/timeline2/view/timelinecontroller.cpp:1312
+#: src/mainwindow.cpp:2810 src/timeline2/view/timelinecontroller.cpp:1312
 #: src/timeline2/view/timelinecontroller.cpp:1320
 #: src/timeline2/view/timelinecontroller.cpp:1341
 #: src/timeline2/view/timelinecontroller.cpp:1381
@@ -11690,41 +11749,41 @@ msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 msgid "Cannot find clip to edit marker"
 msgstr "לא ניתן לאתר את הסרטון לעריכת הסמן"
 
-#: src/mainwindow.cpp:2987 src/timeline2/model/timelinefunctions.cpp:718
+#: src/mainwindow.cpp:3009 src/timeline2/model/timelinefunctions.cpp:718
 #: src/timeline2/view/timelinecontroller.cpp:3104
 #, kde-format
 msgid "Overwrite zone"
 msgstr "שכתוב קטע"
 
-#: src/mainwindow.cpp:2989 src/mainwindow.cpp:3008
+#: src/mainwindow.cpp:3011 src/mainwindow.cpp:3030
 #: src/timeline2/model/timelinefunctions.cpp:720
 #: src/timeline2/view/timelinecontroller.cpp:3106
 #, kde-format
 msgid "Could not insert zone"
 msgstr "לא ניתן להוסיף קטע"
 
-#: src/mainwindow.cpp:2999
+#: src/mainwindow.cpp:3021
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "לא נבחר אף סרטון בסל המיזם"
 
-#: src/mainwindow.cpp:3006 src/timeline2/model/timelinefunctions.cpp:718
+#: src/mainwindow.cpp:3028 src/timeline2/model/timelinefunctions.cpp:718
 #: src/timeline2/view/timelinecontroller.cpp:3104
 #, kde-format
 msgid "Insert zone"
 msgstr "הוספת קטע"
 
-#: src/mainwindow.cpp:3173
+#: src/mainwindow.cpp:3195
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "לא ניתן להוסיף אפקט לפריט פעיל"
 
-#: src/mainwindow.cpp:3235
+#: src/mainwindow.cpp:3257
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "רמת תקריב: %1/%2"
 
-#: src/mainwindow.cpp:3384
+#: src/mainwindow.cpp:3406
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11737,7 +11796,7 @@ msgstr ""
 "כדי להעביר סרטון מקובץ לרצועה אחרת, <shortcut>Ctrl גרירה</shortcut> כדי "
 "להזיז את התצוגה"
 
-#: src/mainwindow.cpp:3388
+#: src/mainwindow.cpp:3410
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11751,24 +11810,24 @@ msgstr ""
 "shortcut> כדי להעביר סרטון מקובץ לרצועה אחרת, <shortcut>Ctrl גרירה</"
 "shortcut> כדי להזיז את התצוגה"
 
-#: src/mainwindow.cpp:3391
+#: src/mainwindow.cpp:3413
 #, kde-format
 msgid "Select"
 msgstr "בחירה"
 
-#: src/mainwindow.cpp:3393
+#: src/mainwindow.cpp:3415
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> לתצוגה מקדימה של תמונית חיתוך"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3394 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3416 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "סכין"
 
-#: src/mainwindow.cpp:3398
+#: src/mainwindow.cpp:3420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11778,12 +11837,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> כדי להחיל רק על הרצועה הנוכחית, <shortcut>Shift</"
 "shortcut> כדי להסיר גם קווים מנחים. אפשר גם לשלב בין שני מקשי ההחלפה."
 
-#: src/mainwindow.cpp:3399
+#: src/mainwindow.cpp:3421
 #, kde-format
 msgid "Spacer"
 msgstr "מרווח"
 
-#: src/mainwindow.cpp:3401
+#: src/mainwindow.cpp:3423
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11791,13 +11850,13 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3402
+#: src/mainwindow.cpp:3424
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "הזחה"
 
-#: src/mainwindow.cpp:3407
+#: src/mainwindow.cpp:3429
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11805,14 +11864,17 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
+"<shortcut>Shift גרירה</shortcut> לבחירה בצורת גומייה, <shortcut>Shift לחיצה</"
+"shortcut> כדי לבחור במרוכז, <shortcut>Alt לחיצה</shortcut> כדי לבחור פריט "
+"בקבוצה, <shortcut>Ctrl גרירה</shortcut> כדי להסיט את התצוגה"
 
-#: src/mainwindow.cpp:3409
+#: src/mainwindow.cpp:3431
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "אדווה"
 
-#: src/mainwindow.cpp:3415
+#: src/mainwindow.cpp:3437
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11822,94 +11884,94 @@ msgstr ""
 "<shortcut>לחיצה</shortcut> על תצוגת רצועה בצג המיזם תגביה את כל הרצועות למעט "
 "אחת"
 
-#: src/mainwindow.cpp:3427
+#: src/mainwindow.cpp:3449
 #, kde-format
 msgid "Insert"
 msgstr "הוספה"
 
-#: src/mainwindow.cpp:3430
+#: src/mainwindow.cpp:3452
 #, kde-format
 msgid "Overwrite"
 msgstr "שכתוב"
 
-#: src/mainwindow.cpp:3768
+#: src/mainwindow.cpp:3790
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "הגדרת משימות סרטונים…"
 
-#: src/mainwindow.cpp:3783
+#: src/mainwindow.cpp:3805
 #, kde-format
 msgid "Transcoders"
 msgstr "מתמירים"
 
-#: src/mainwindow.cpp:3843
+#: src/mainwindow.cpp:3865
 #, kde-format
 msgid "-merged"
 msgstr "-ממוזג"
 
-#: src/mainwindow.cpp:3846
+#: src/mainwindow.cpp:3868
 #, kde-format
 msgid "-stream-%1"
 msgstr "-תזרים-%1"
 
-#: src/mainwindow.cpp:3879
+#: src/mainwindow.cpp:3901
 #, kde-format
 msgid "Interface"
 msgstr "מנשק"
 
-#: src/mainwindow.cpp:3895
+#: src/mainwindow.cpp:3917
 #, kde-format
 msgid "Raise %1"
 msgstr "הגבהת %1"
 
-#: src/mainwindow.cpp:3961
+#: src/mainwindow.cpp:3983
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "קבצים להתמרה"
 
-#: src/mainwindow.cpp:4110
+#: src/mainwindow.cpp:4132
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "לא ניתן לשמור קובץ מיזם לארכיון."
 
-#: src/mainwindow.cpp:4116
+#: src/mainwindow.cpp:4138
 #, kde-format
 msgid "Archiving project"
 msgstr "המיזם מועבר לארכיון"
 
-#: src/mainwindow.cpp:4278
+#: src/mainwindow.cpp:4300
 #, kde-format
 msgid "Icon Size"
 msgstr "גודל סמל"
 
-#: src/mainwindow.cpp:4282
+#: src/mainwindow.cpp:4304
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ברירת מחדל"
 
-#: src/mainwindow.cpp:4303 src/mainwindow.cpp:4331
+#: src/mainwindow.cpp:4325 src/mainwindow.cpp:4353
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "קטן (%1×%2)"
 
-#: src/mainwindow.cpp:4305 src/mainwindow.cpp:4333
+#: src/mainwindow.cpp:4327 src/mainwindow.cpp:4355
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "בינוני (%1×%2)"
 
-#: src/mainwindow.cpp:4307 src/mainwindow.cpp:4335
+#: src/mainwindow.cpp:4329 src/mainwindow.cpp:4357
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "גדול (%1×%2)"
 
-#: src/mainwindow.cpp:4309 src/mainwindow.cpp:4337
+#: src/mainwindow.cpp:4331 src/mainwindow.cpp:4359
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ענק (%1×%2)"
 
-#: src/mainwindow.cpp:4394
+#: src/mainwindow.cpp:4415
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -11918,52 +11980,52 @@ msgstr ""
 "הפעולה הזאת תסתיר את סרגל התפריטים לחלוטין. אפשר להציג אותו שוב בלחיצה על "
 "Ctrl+M."
 
-#: src/mainwindow.cpp:4394
+#: src/mainwindow.cpp:4415
 #, kde-format
 msgid "Hide menu bar"
 msgstr "הסתרת סרגל תפריטים"
 
-#: src/mainwindow.cpp:4409
+#: src/mainwindow.cpp:4430
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 "יש להפעיל את Kdenlive מחדש כדי להחיל את שינוי ערכת הסמלים. להפעיל מחדש כעת?"
 
-#: src/mainwindow.cpp:4664 src/timeline2/view/timelinecontroller.cpp:5051
+#: src/mainwindow.cpp:4685 src/timeline2/view/timelinecontroller.cpp:5051
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "אין כתוביות במיזם הנוכחי"
 
-#: src/mainwindow.cpp:4760
+#: src/mainwindow.cpp:4781
 #, kde-format
 msgid "Project Bin %1"
 msgstr "סל המיזם %1"
 
-#: src/mainwindow.cpp:4850
+#: src/mainwindow.cpp:4871
 #, kde-format
 msgid "Go to download page"
 msgstr "מעבר לעמוד ההורדה"
 
-#: src/mainwindow.cpp:4853
+#: src/mainwindow.cpp:4874
 #, kde-format
 msgid "Never check again"
 msgstr "לא לבדוק שוב"
 
-#: src/mainwindow.cpp:4856
+#: src/mainwindow.cpp:4877
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר משנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:4859
+#: src/mainwindow.cpp:4880
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר מחצי שנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:4902
+#: src/mainwindow.cpp:4923
 #, kde-format
 msgid "Checking cached data size"
 msgstr "גודל הנתונים ששמורים במטמון נבדקים"
@@ -11971,7 +12033,7 @@ msgstr "גודל הנתונים ששמורים במטמון נבדקים"
 #: src/mltconnection.cpp:201
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
-msgstr "התוכנית melt שנחוצה לצלימה לא נמצאת (חלק מ־MLT)"
+msgstr "התוכנית melt שנחוצה לתיצוג לא נמצאת (חלק מ־MLT)"
 
 #: src/mltconnection.cpp:235
 #, kde-format
@@ -12157,7 +12219,7 @@ msgid "Audio streams"
 msgstr "תזרימי שמע"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:723
-#: src/monitor/monitor.cpp:1901
+#: src/monitor/monitor.cpp:1903
 #, kde-format
 msgid "Merge all streams"
 msgstr "מיזוג כל התזרימים"
@@ -12592,50 +12654,50 @@ msgstr "חילוץ קטע"
 msgid "Set current image as thumbnail"
 msgstr "הגדרת התמונה הנוכחית כייצוגית"
 
-#: src/monitor/monitor.cpp:681
+#: src/monitor/monitor.cpp:683
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "תמיד להציג דוגמיות שמע"
 
-#: src/monitor/monitor.cpp:698
+#: src/monitor/monitor.cpp:700
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "הצגת רמות שמע"
 
-#: src/monitor/monitor.cpp:705
+#: src/monitor/monitor.cpp:707
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "הצגת קוד זמן של המקור"
 
-#: src/monitor/monitor.cpp:742
+#: src/monitor/monitor.cpp:744
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "רזולוציית המסך שלך לא מספיקה לפעולה הזאת"
 
-#: src/monitor/monitor.cpp:885 src/monitor/monitor.cpp:918
+#: src/monitor/monitor.cpp:887 src/monitor/monitor.cpp:920
 #: src/timeline2/view/timelinecontroller.cpp:1798
 #, kde-format
 msgid "Set Zone"
 msgstr "הגדרת קטע"
 
-#: src/monitor/monitor.cpp:1278
+#: src/monitor/monitor.cpp:1280
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "שמירת תמונה למיזם"
 
-#: src/monitor/monitor.cpp:1278
+#: src/monitor/monitor.cpp:1280
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "שמירת תמונה"
 
-#: src/monitor/monitor.cpp:1285
+#: src/monitor/monitor.cpp:1287
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "ייצוא תמונה באמצעות רזולוציית המקור"
 
-#: src/monitor/monitor.cpp:1886 src/monitor/monitor.cpp:2034
+#: src/monitor/monitor.cpp:1888 src/monitor/monitor.cpp:2036
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -12644,12 +12706,12 @@ msgstr[1] "שני תזרימי שמע"
 msgstr[2] "%1 תזרימי שמע"
 msgstr[3] "%1 תזרימי שמע"
 
-#: src/monitor/monitor.cpp:2368
+#: src/monitor/monitor.cpp:2370
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "לא ניתן להפעיל את מנהל ה־GLSL של Movit, נא להשבית את Movit"
 
-#: src/monitor/monitor.cpp:2410 src/monitor/monitor.cpp:2467
+#: src/monitor/monitor.cpp:2412 src/monitor/monitor.cpp:2469
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -12657,17 +12719,17 @@ msgid ""
 msgstr ""
 "מסנן alphagrad נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive מחדש"
 
-#: src/monitor/monitor.cpp:2430
+#: src/monitor/monitor.cpp:2432
 #, kde-format
 msgid "Clip has no effects"
 msgstr "אין אפקטים על הסרטון"
 
-#: src/monitor/monitor.cpp:2432
+#: src/monitor/monitor.cpp:2434
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "נא לבחור סרטון מסל המיזם כדי להשוות אפקטים"
 
-#: src/monitor/monitor.cpp:2474
+#: src/monitor/monitor.cpp:2476
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -12676,7 +12738,7 @@ msgstr ""
 "מעברון cairoblend נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive "
 "מחדש"
 
-#: src/monitor/monitor.cpp:2520
+#: src/monitor/monitor.cpp:2522
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "יש להפעיל מצב עריכה בצג כדי לערוך אפקט"
@@ -15326,12 +15388,12 @@ msgstr "ייצוא"
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
-msgstr "צלימה מעוכבת"
+msgstr "התיצוג מעוכב"
 
 #: src/render/renderrequest.cpp:317
 #, kde-format
 msgid "Select a name for this rendering."
-msgstr "נא לבחור שם לצלימה הזאת."
+msgstr "נא לבחור שם לתיצוג הזה."
 
 #: src/render/renderrequest.cpp:415
 #, kde-format
@@ -15341,12 +15403,12 @@ msgstr "התחלה"
 #: src/render/renderserver.cpp:22 src/render/renderserver.cpp:87
 #, kde-format
 msgid "Can't open communication with render job %1"
-msgstr "אי אפשר לפתוח תקשורת עם משימת הצלימה %1"
+msgstr "אי אפשר לפתוח תקשורת עם משימת התיצוג %1"
 
 #: src/render/renderserver.cpp:52
 #, kde-format
 msgid "Communication error with render job"
-msgstr "שגיאת תקשורת עם משימת הצלימה"
+msgstr "שגיאת תקשורת עם משימת התיצוג"
 
 #: src/renderpresets/renderpresetmodel.cpp:193
 #: src/renderpresets/renderpresetmodel.cpp:279
@@ -15390,7 +15452,7 @@ msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
 "are doing you will probably have to change it to 'mlt_profile'."
 msgstr ""
-"ערכת הצלימה הזאת משתמש במשתנה ‚profile’ (פרופיל).<br />אלא אם ברור לך "
+"ערכת התיצוג הזאת משתמשת במשתנה ‚profile’ (פרופיל).<br />אלא אם ברור לך "
 "לחלוטין מה ניסית לעשות כנראה שעדיף לשנות אותו ל־‚mlt_profile’."
 
 #: src/renderpresets/renderpresetrepository.cpp:196
@@ -15549,7 +15611,7 @@ msgstr "מישור Y של YUB"
 #: src/scopes/colorscopes/vectorscope.cpp:57
 #, kde-format
 msgid "Modified YUV (Chroma)"
-msgstr ""
+msgstr "YUV עם שינויים (כרומה)"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:31
 #, kde-format
@@ -15564,7 +15626,7 @@ msgstr "מישור RGB, רכיב אחד משתנה"
 #: src/scopes/colorscopes/colorplaneexport.cpp:33
 #, kde-format
 msgid "HSV Hue Shift"
-msgstr ""
+msgstr "הזחת גוון HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:34
 #: src/scopes/colorscopes/colorplaneexport.cpp:246
@@ -15874,7 +15936,7 @@ msgstr ""
 #: src/timeline2/model/builders/meltBuilder.cpp:795
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
-msgstr ""
+msgstr "נמצא סרטון שגוי %1 (%2) בסל המיזם, שוחזר."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:867
 #: src/timeline2/model/builders/meltBuilder.cpp:900
@@ -16525,7 +16587,7 @@ msgstr "יש להדר את MLT עם ספריית rubberband כדי להפעיל 
 #, kde-format
 msgid "Speed effect will render better when used on single high fps clips"
 msgstr ""
-"אפקט המהירות יעבור צלימה בצורה טובה יותר בעת שימוש על סרטונים עם קצב תמוניות "
+"אפקט המהירות יעבור תיצוג בצורה טובה יותר בשימוש על סרטונים עם קצב תמוניות "
 "גבוה ואחיד"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:103
@@ -16592,7 +16654,7 @@ msgstr "משהו לא תקין בתיקיות המטמון"
 #: src/timeline2/view/previewmanager.cpp:773
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
-msgstr "צלימה טרומית נכשלה, נא לבדוק את המשתנים שלך. %1הצגת פרטים…%2"
+msgstr "תיצוג טרומי נכשל, נא לבדוק את המשתנים שלך. %1הצגת פרטים…%2"
 
 #: src/timeline2/view/qml/AudioLevels.qml:21
 #, kde-format
@@ -18770,7 +18832,7 @@ msgstr "תיקיית ספריות:"
 #: src/ui/configenv_ui.ui:280
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr "תיקייה לצלימה, כותרים, סקריפטים:"
+msgstr "תיקייה לתיצוג, כותרים, סקריפטים:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/configenv_ui.ui:336
@@ -19628,7 +19690,7 @@ msgstr "הגדרת המשימה."
 #: src/ui/editrenderpreset_ui.ui:18
 #, kde-format
 msgid "Save Render Preset"
-msgstr "שמירת ערכת צלימה"
+msgstr "שמירת ערכת תיצוג"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
@@ -20756,13 +20818,13 @@ msgstr "ריפוד:"
 #: src/ui/renderwidget_ui.ui:18
 #, kde-format
 msgid "Rendering"
-msgstr "צלימה"
+msgstr "מתבצע תיצוג"
 
 #. i18n: ectx: attribute (title), widget (QWidget, renderTab)
 #: src/ui/renderwidget_ui.ui:43
 #, kde-format
 msgid "Render Project"
-msgstr "צלימת מיזם"
+msgstr "תיצוג מיזם"
 
 #. i18n: ectx: property (text), widget (QLabel, toLabel)
 #: src/ui/renderwidget_ui.ui:80
@@ -20804,7 +20866,7 @@ msgstr "&שמירה"
 #: src/ui/renderwidget_ui.ui:236
 #, kde-format
 msgid "Download New Render Presets…"
-msgstr "הורדת ערכות צלימה חדשות…"
+msgstr "הורדת ערכות תיצוג חדשות…"
 
 #. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
 #: src/ui/renderwidget_ui.ui:245
@@ -20846,13 +20908,13 @@ msgstr "מ&חיקה"
 #: src/ui/renderwidget_ui.ui:336
 #, kde-format
 msgid "Render to File"
-msgstr "‫צלימה לקובץ"
+msgstr "תיצוג לקובץ"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
 #: src/ui/renderwidget_ui.ui:343
 #, kde-format
 msgid "Generate Script"
-msgstr "חילול תסריט"
+msgstr "יצירת תסריט"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
 #: src/ui/renderwidget_ui.ui:374
@@ -20888,13 +20950,13 @@ msgstr "קווים מנחים לשימוש כמפריד:"
 #: src/ui/renderwidget_ui.ui:496
 #, kde-format
 msgid "Render full color range"
-msgstr "צלימת כל טווח הצבעים"
+msgstr "תיצוג כל טווח הצבעים"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:503
 #, kde-format
 msgid "Render at Preview Resolution"
-msgstr "צלימה ברזולוציית תצוגה מקדימה"
+msgstr "תיצוג ברזולוציית תצוגה מקדימה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
 #: src/ui/renderwidget_ui.ui:510
@@ -21002,7 +21064,7 @@ msgstr "עיבוד מקבילי"
 #: src/ui/renderwidget_ui.ui:792
 #, kde-format
 msgid "Parallel processing may cause render artifacts"
-msgstr "עיבוד מקבילי יכול לגרום לשינויים בצלימה"
+msgstr "עיבוד מקבילי יכול לגרום לשינויים בתיצוג"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
 #: src/ui/renderwidget_ui.ui:808
@@ -21026,19 +21088,19 @@ msgstr "<a href=\"#\">עריכת נתוני־על</a>"
 #: src/ui/renderwidget_ui.ui:849
 #, kde-format
 msgid "Embed subtitles instead of burning them"
-msgstr "הטמעת כתוביות במקום לצרוב אותן"
+msgstr "להטמיע כתוביות במקום לצרוב אותן"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
 #: src/ui/renderwidget_ui.ui:856
 #, kde-format
 msgid "Open folder after export"
-msgstr "פתיחת התיקייה לאחר היצ"
+msgstr "פתיחת התיקייה לאחר הייצוא"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
 #: src/ui/renderwidget_ui.ui:863
 #, kde-format
 msgid "Play after render"
-msgstr "לנגן לאחר סיום הצלימה"
+msgstr "לנגן לאחר סיום התיצוג"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
 #: src/ui/renderwidget_ui.ui:885
@@ -21068,7 +21130,7 @@ msgstr "יומן שגיאות"
 #: src/ui/renderwidget_ui.ui:1025
 #, kde-format
 msgid "Shutdown computer after renderings"
-msgstr "לכבות את המחשב לאחר הצלימה"
+msgstr "לכבות את המחשב לאחר התיצוג"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
 #: src/ui/renderwidget_ui.ui:1040
@@ -21341,7 +21403,7 @@ msgstr "תבנית:"
 #: src/ui/testproxy_ui.ui:58
 #, kde-format
 msgid "Render Time"
-msgstr "זמן צלימה"
+msgstr "זמן תיצוג"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:63
