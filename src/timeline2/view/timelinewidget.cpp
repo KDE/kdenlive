@@ -557,7 +557,9 @@ void TimelineWidget::stopAudioRecord()
 void TimelineWidget::focusInEvent(QFocusEvent *event)
 {
     QQuickWidget::focusInEvent(event);
-    QTimer::singleShot(250, rootObject(), SLOT(forceActiveFocus()));
+    if (!m_proxy->grabIsActive()) {
+        QTimer::singleShot(250, rootObject(), SLOT(forceActiveFocus()));
+    }
 }
 
 bool TimelineWidget::eventFilter(QObject *object, QEvent *event)

@@ -4111,6 +4111,29 @@ void TimelineController::grabCurrent()
     }
 }
 
+bool TimelineController::grabIsActive() const
+{
+    std::unordered_set<int> ids = m_model->getCurrentSelection();
+    for (auto &id : ids) {
+        if (m_model->isClip(id)) {
+            std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
+            if (clip->isGrabbed()) {
+                return true;
+            }
+        } else if (m_model->isComposition(id)) {
+            std::shared_ptr<CompositionModel> compo = m_model->getCompositionPtr(id);
+            if (compo->isGrabbed()) {
+                return true;
+            }
+        } else if (m_model->isSubTitle(id)) {
+            if (m_model->getSubtitleModel()->isGrabbed(id)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 int TimelineController::getItemMovingTrack(int itemId) const
 {
     if (m_model->isClip(itemId)) {

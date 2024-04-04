@@ -153,6 +153,8 @@ public:
     bool isBlankAt(int pos) const;
     /** @brief Switch a subtitle's grab state */
     void switchGrab(int sid);
+    /** @brief Returns true is an item is grabbed */
+    bool isGrabbed(int id) const;
     /** @brief Ungrab all items */
     void clearGrab();
     /** @brief Release timeline model pointer */
