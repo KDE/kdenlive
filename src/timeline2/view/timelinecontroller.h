@@ -632,6 +632,8 @@ public:
     Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
     /** @brief Set keyboard grabbing on current selection */
     Q_INVOKABLE void grabCurrent();
+    /** @brief Returns true if an item is currently grabbed (has keyboard focus) */
+    bool grabIsActive() const;
     /** @brief Returns keys for all used thumbnails */
     const std::unordered_map<QString, std::vector<int>> getThumbKeys();
     /** @brief Returns true if a drag operation is currently running in timeline */

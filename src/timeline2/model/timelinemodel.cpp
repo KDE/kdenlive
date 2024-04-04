@@ -700,6 +700,16 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     return false;
 }
 
+int TimelineModel::getPreviousBlank(int trackId, int pos)
+{
+    return getTrackById_const(trackId)->getPreviousBlankEnd(pos);
+}
+
+int TimelineModel::getNextBlank(int trackId, int pos)
+{
+    return getTrackById_const(trackId)->getNextBlankStart(pos, false);
+}
+
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove,
                                     Fun &undo, Fun &redo, bool revertMove, bool groupMove, const QMap<int, int> &moving_clips,
                                     std::pair<MixInfo, MixInfo> mixData)

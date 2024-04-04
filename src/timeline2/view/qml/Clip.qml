@@ -332,15 +332,28 @@ Rectangle {
         Keys.onLeftPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
             while((clipRoot.modelStart >= offset) && !controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)) {
-                offset++;
+                offset = controller.getPreviousBlank( clipRoot.trackId, clipRoot.modelStart - offset)
+                if (offset < 0) {
+                    break;
+                }
+                offset -= (clipRoot.clipDuration - 1)
+                offset = clipRoot.modelStart - offset
             }
+            Logic.scrollIfNeeded(clipRoot.x)
             timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onRightPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
             while(!controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true)) {
-                offset++;
+                console.log('insert failed at: ', (clipRoot.modelStart + offset))
+                offset = controller.getNextBlank( clipRoot.trackId, clipRoot.modelStart + clipRoot.clipDuration + offset)
+                console.log('Next blank is: ', offset)
+                if (offset < 0) {
+                    break;
+                }
+                offset -= clipRoot.modelStart
             }
+            Logic.scrollIfNeeded(clipRoot.x)
             timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onUpPressed: {

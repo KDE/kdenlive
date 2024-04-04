@@ -808,6 +808,11 @@ void SubtitleModel::clearGrab()
     }
 }
 
+bool SubtitleModel::isGrabbed(int id) const
+{
+    return m_grabbedIds.contains(id);
+}
+
 bool SubtitleModel::requestResize(int id, int size, bool right)
 {
     Fun undo = []() { return true; };

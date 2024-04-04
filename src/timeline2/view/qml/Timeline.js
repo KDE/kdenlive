@@ -16,6 +16,16 @@ function scrollIfNeeded() {
         scrollView.contentX = x - 50;
 }
 
+function scrollIfNeeded(xpos) {
+    if (!scrollView) return;
+    if (xpos > scrollView.contentX + scrollView.width - 50)
+        scrollView.contentX = x - scrollView.width + 50;
+    else if (xpos < 50)
+        scrollView.contentX = 0;
+    else if (xpos < scrollView.contentX + 50)
+        scrollView.contentX = x - 50;
+}
+
 function getTrackIndexFromPos(pos) {
     if (tracksRepeater.count > 0) {
         for (var i = 0; i < tracksRepeater.count; i++) {

@@ -1226,8 +1226,12 @@ bool TrackModel::isBlankAt(int position, int playlist)
     return m_playlists[playlist].is_blank_at(position);
 }
 
-int TrackModel::getNextBlankStart(int position)
+int TrackModel::getNextBlankStart(int position, bool allowCurrentPos)
 {
+    if (!allowCurrentPos && isBlankAt(position)) {
+        // Move to blank end
+        position = getBlankEnd(position);
+    }
     while (!isBlankAt(position)) {
         int end1 = getClipEnd(position, 0);
         int end2 = getClipEnd(position, 1);
@@ -1241,6 +1245,23 @@ int TrackModel::getNextBlankStart(int position)
         }
     }
     return getBlankStart(position);
+}
+
+int TrackModel::getPreviousBlankEnd(int position)
+{
+    while (!isBlankAt(position) && position >= 0) {
+        int end1 = getClipStart(position, 0) - 1;
+        int end2 = getClipStart(position, 1) - 1;
+        if (end1 < position) {
+            position = end1;
+        } else if (end2 < position) {
+            position = end2;
+        } else {
+            // We reached playlist end
+            return -1;
+        }
+    }
+    return position;
 }
 
 int TrackModel::getBlankStart(int position)
