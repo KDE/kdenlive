@@ -295,6 +295,7 @@ private:
     QAction *m_zoomOut;
     QAction *m_loopZone;
     QAction *m_playZone;
+    QAction *m_playZoneFromCursor;
     QAction *m_loopClip;
     QAction *m_proxyClip;
     QAction *m_buttonSubtitleEditTool;

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="229" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="230" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -206,6 +206,7 @@
     <Menu name="monitor" ><text>Monitor</text>
       <Action name="monitor_play" />
       <Action name="monitor_play_zone" />
+      <Action name="monitor_play_zone_cursor" />
       <Action name="monitor_loop_zone" />
       <Action name="monitor_loop_clip" />
       <Separator />

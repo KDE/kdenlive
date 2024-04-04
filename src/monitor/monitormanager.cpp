@@ -287,6 +287,15 @@ void MonitorManager::slotPlayZone()
     }
 }
 
+void MonitorManager::slotPlayZoneFromCursor()
+{
+    if (m_activeMonitor == m_clipMonitor) {
+        m_clipMonitor->slotPlayZone(false);
+    } else if (m_activeMonitor == m_projectMonitor) {
+        m_projectMonitor->slotPlayZone(false);
+    }
+}
+
 void MonitorManager::slotLoopZone()
 {
     if (m_activeMonitor == m_clipMonitor) {

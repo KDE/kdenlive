@@ -99,7 +99,7 @@ public:
     void requestRefresh();
     void setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model = nullptr);
     MonitorProxy *getControllerProxy();
-    bool playZone(bool loop = false);
+    bool playZone(bool startFromIn = true, bool loop = false);
     bool loopClip(QPoint inOut);
     void startConsumer();
     void stop();

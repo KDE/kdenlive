@@ -76,6 +76,7 @@ public Q_SLOTS:
     void slotPlay();
     void slotPause();
     void slotPlayZone();
+    void slotPlayZoneFromCursor();
     void slotLoopZone();
     void slotRewind(double speed = 0);
     void slotForward(double speed = 0);

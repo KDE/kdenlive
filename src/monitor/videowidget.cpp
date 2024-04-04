@@ -1086,7 +1086,7 @@ bool VideoWidget::switchPlay(bool play, double speed)
     return true;
 }
 
-bool VideoWidget::playZone(bool loop)
+bool VideoWidget::playZone(bool startFromIn, bool loop)
 {
     if (!m_producer || m_proxy->zoneOut() <= m_proxy->zoneIn()) {
         pCore->displayMessage(i18n("Select a zone to play"), ErrorMessage, 500);
@@ -1098,13 +1098,15 @@ bool VideoWidget::playZone(bool loop)
     m_loopOut = m_proxy->zoneOut();
     m_loopIn = m_proxy->zoneIn();
     if (qFuzzyIsNull(current_speed)) {
-        m_producer->seek(m_proxy->zoneIn());
+        if (startFromIn || getCurrentPos() > m_loopOut) {
+            m_producer->seek(m_loopIn);
+        }
         m_consumer->start();
         m_producer->set_speed(1.0);
         m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
         m_consumer->set("volume", KdenliveSettings::volume() / 100.);
-    } else {
+    } else if (startFromIn || getCurrentPos() > m_loopOut) {
         // Speed change, purge to reduce latency
         m_consumer->set("refresh", 0);
         m_producer->seek(m_loopIn);

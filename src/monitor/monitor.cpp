@@ -630,7 +630,8 @@ void Monitor::slotLockMonitor(bool lock)
     m_monitorManager->lockMonitor(m_id, lock);
 }
 
-void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu, QAction *loopClip)
+void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *playZoneFromCursor, QAction *loopZone, QMenu *markerMenu,
+                        QAction *loopClip)
 {
     delete m_contextMenu;
     m_contextMenu = new QMenu(this);
@@ -651,6 +652,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     }
 
     m_playMenu->addAction(playZone);
+    m_playMenu->addAction(playZoneFromCursor);
     m_playMenu->addAction(loopZone);
     if (loopClip) {
         m_loopClipAction = loopClip;
@@ -1781,12 +1783,12 @@ void Monitor::resetPlayOrLoopZone(const QString &binId)
     }
 }
 
-void Monitor::slotPlayZone()
+void Monitor::slotPlayZone(bool startFromIn)
 {
     if (!slotActivateMonitor()) {
         return;
     }
-    bool ok = m_glMonitor->playZone();
+    bool ok = m_glMonitor->playZone(startFromIn, false);
     if (ok) {
         updatePlayAction(true);
     }
@@ -1797,7 +1799,7 @@ void Monitor::slotLoopZone()
     if (!slotActivateMonitor()) {
         return;
     }
-    bool ok = m_glMonitor->playZone(true);
+    bool ok = m_glMonitor->playZone(true, true);
     if (ok) {
         updatePlayAction(true);
     }
