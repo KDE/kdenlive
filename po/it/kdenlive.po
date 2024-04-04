@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-02 02:18+0000\n"
-"PO-Revision-Date: 2024-03-11 16:11+0100\n"
+"PO-Revision-Date: 2024-03-29 09:12+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5576,8 +5576,7 @@ msgid "Timeline sequence"
 msgstr "Sequenza di linea temporale"
 
 #: src/bin/projectclip.cpp:576 src/timeline2/view/qml/Clip.qml:1085
-#, fuzzy, kde-format
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
