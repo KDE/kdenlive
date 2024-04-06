@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-05 00:37+0000\n"
-"PO-Revision-Date: 2024-03-25 07:23+0100\n"
+"PO-Revision-Date: 2024-04-05 14:35+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -11079,10 +11079,9 @@ msgid "Reset Configuration…"
 msgstr "Ponovna nastavitev …"
 
 #: src/mainwindow.cpp:1491
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "Obseg predvajanja"
+msgstr "Predvajaj območje od kazalca"
 
 #: src/mainwindow.cpp:1494
 #, kde-format

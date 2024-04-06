@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-05 00:37+0000\n"
-"PO-Revision-Date: 2024-04-03 22:56+0300\n"
+"PO-Revision-Date: 2024-04-05 22:55+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4575,10 +4575,9 @@ msgid "Filter by Type"
 msgstr "סינון לפי סוג"
 
 #: src/bin/bin.cpp:2445
-#, fuzzy, kde-format
-#| msgid "Add Clip"
+#, kde-format
 msgid "AV Clip"
-msgstr "הוסף סרטון"
+msgstr "סרטון וידאו ושמע"
 
 #: src/bin/bin.cpp:2449
 #, kde-format
@@ -4791,10 +4790,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "תיקיית יעד כברירת מחדל לרצפים"
 
 #: src/bin/bin.cpp:3709
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "תיקיית יעד כברירת מחדל לרצפים"
+msgstr "תיקיית יעד כברירת מחדל להקלטות שמע"
 
 #: src/bin/bin.cpp:3713
 #, kde-format
@@ -10902,10 +10900,9 @@ msgid "Reset Configuration…"
 msgstr "איפוס ההגדרות…"
 
 #: src/mainwindow.cpp:1491
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "ניגון קטע"
+msgstr "נגינת הקטע מהסמן"
 
 #: src/mainwindow.cpp:1494
 #, kde-format
@@ -11923,7 +11920,7 @@ msgstr "-תזרים-%1"
 #: src/mainwindow.cpp:3905
 #, kde-format
 msgid "Interface"
-msgstr "מנשק"
+msgstr "ממשק"
 
 #: src/mainwindow.cpp:3921
 #, kde-format
@@ -12065,10 +12062,10 @@ msgid "Delete analysis"
 msgstr "מחיקת אבחון"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:277
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
-msgstr "שמור קטע"
+msgstr "מוחק את ערכות הנתונים."
 
 #: src/mltcontroller/clippropertiescontroller.cpp:278
 #, kde-format
@@ -13089,16 +13086,13 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift עם גרירה של ידית</shortcut> תשנה בהתאם למרכז"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click to add points,\n"
-#| "right click to close shape."
+#, kde-format
 msgid ""
 "Click to add points,\n"
 "right click or press enter to close shape."
 msgstr ""
-"נא ללחוץ כדי להוסיף נקודות,\n"
-"לחצן ימני לסגירת הצורה."
+"לחיצה להוספת נקודות,\n"
+"לחיצה ימנית או Enter לסגירת הצורה."
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -15922,10 +15916,9 @@ msgstr "תערובת שגויה נמצאה ברצועה %1 ב־%2, הסרטון 
 #: src/timeline2/model/builders/meltBuilder.cpp:764
 #: src/timeline2/model/builders/meltBuilder.cpp:776
 #: src/timeline2/model/builders/meltBuilder.cpp:797
-#, fuzzy, kde-format
-#| msgid "Invalid clip removed from track %1 at %2\n"
+#, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
-msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
+msgstr "סרטון ציר זמן %1 (%2) ללא הפניית סל נמצא והוסר."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:765
 #: src/timeline2/model/builders/meltBuilder.cpp:777
@@ -15983,22 +15976,19 @@ msgid "%1 Invalid clip (%2) found and removed"
 msgstr "%1 סרטון שגוי (%2) נמצא והוסר"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:917
-#, fuzzy, kde-format
-#| msgid "Invalid clip removed from track %1 at %2\n"
+#, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
-msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
+msgstr "סרטון %1 על תת־רצועה שגויה נמצא ותוקן ברצועה %2 ב־%3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:919
-#, fuzzy, kde-format
-#| msgid "Invalid clip removed from track %1 at %2\n"
+#, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
-msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
+msgstr "סרטון %1 (%2) על תת־רצועה שגויה נמצא ותוקן / %3"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:922
-#, fuzzy, kde-format
-#| msgid "Invalid clip removed from track %1 at %2\n"
+#, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
-msgstr "סרטון לא תקף הוסר מרצועה %1 ב-%2\n"
+msgstr "הסרטון %1 על תת־רצועה שגויה נמצא ברצועה %2 ב־%3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:924
 #, kde-format
@@ -17931,9 +17921,9 @@ msgstr "רצועת שמע/וידאו"
 
 #. i18n: ectx: property (text), widget (QRadioButton, arec_track)
 #: src/ui/addtrack_ui.ui:121
-#, fuzzy, kde-format
+#, kde-format
 msgid "Au&dio record track"
-msgstr "רצועת שמע"
+msgstr "רצועת ה&קלטת שמע"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/archivewidget_ui.ui:33
@@ -17982,9 +17972,9 @@ msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "True FFT size: "
-msgstr "גודל מסגרת:"
+msgstr "גודל FFT אמיתי: "
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDeletePoint)
 #: src/ui/bezierspline_ui.ui:66
