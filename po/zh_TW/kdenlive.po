@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-05 02:42+0000\n"
-"PO-Revision-Date: 2024-04-04 19:32+0900\n"
+"PO-Revision-Date: 2024-04-06 01:20+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -7248,25 +7248,22 @@ msgid "No audio track found"
 msgstr "找不到音訊軌"
 
 #: src/dialogs/speechdialog.cpp:182 src/dialogs/textbasededit.cpp:699
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "Please install speech recognition models"
-msgstr "選取轉場特效"
+msgstr "請安裝語音辨識模型"
 
 #: src/dialogs/speechdialog.cpp:199
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
-#, fuzzy, kde-format
-#| msgid "Device configuration"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "裝置配置"
+msgstr "檢查設定…"
 
 #: src/dialogs/speechdialog.cpp:204 src/dialogs/textbasededit.cpp:934
 #: src/dialogs/textbasededit.cpp:948
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "Please configure speech to text."
-msgstr "選取轉場特效"
+msgstr "請先設定語音轉文字。"
 
 #: src/dialogs/speechdialog.cpp:211
 #, kde-format
@@ -7284,10 +7281,9 @@ msgid "Starting speech recognition"
 msgstr "正在開始語音辨識"
 
 #: src/dialogs/speechdialog.cpp:343 src/dialogs/textbasededit.cpp:1130
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "Speech recognition aborted."
-msgstr "選取轉場特效"
+msgstr "語音辨識已中止。"
 
 #: src/dialogs/speechdialog.cpp:349
 #, kde-format
@@ -14486,7 +14482,7 @@ msgstr "阿爾巴尼亞語"
 #: src/pythoninterfaces/speechtotext.cpp:70
 #, kde-format
 msgid "Amharic"
-msgstr ""
+msgstr "阿姆哈拉語"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
 #, kde-format
@@ -14511,7 +14507,7 @@ msgstr "亞塞拜然語"
 #: src/pythoninterfaces/speechtotext.cpp:75
 #, kde-format
 msgid "Bashkir"
-msgstr ""
+msgstr "巴什吉爾語"
 
 #: src/pythoninterfaces/speechtotext.cpp:76
 #, kde-format
@@ -14646,7 +14642,7 @@ msgstr ""
 #: src/pythoninterfaces/speechtotext.cpp:102
 #, kde-format
 msgid "Haitian Creole"
-msgstr ""
+msgstr "海地克里奧文"
 
 #: src/pythoninterfaces/speechtotext.cpp:103
 #, kde-format
@@ -14701,7 +14697,7 @@ msgstr "爪哇語"
 #: src/pythoninterfaces/speechtotext.cpp:113
 #, kde-format
 msgid "Kannada"
-msgstr "坎那達語"
+msgstr "卡納達語"
 
 #: src/pythoninterfaces/speechtotext.cpp:114
 #, kde-format
@@ -14771,7 +14767,7 @@ msgstr "馬來語"
 #: src/pythoninterfaces/speechtotext.cpp:127
 #, kde-format
 msgid "Malayalam"
-msgstr "馬來亞拉姆語"
+msgstr "馬拉雅拉姆語"
 
 #: src/pythoninterfaces/speechtotext.cpp:128
 #, kde-format
@@ -14781,7 +14777,7 @@ msgstr "馬爾他語"
 #: src/pythoninterfaces/speechtotext.cpp:129
 #, kde-format
 msgid "Maori"
-msgstr ""
+msgstr "毛利語"
 
 #: src/pythoninterfaces/speechtotext.cpp:130
 #, kde-format
@@ -14806,7 +14802,7 @@ msgstr "蒙古語"
 #: src/pythoninterfaces/speechtotext.cpp:134
 #, kde-format
 msgid "Myanmar"
-msgstr ""
+msgstr "緬甸語"
 
 #: src/pythoninterfaces/speechtotext.cpp:135
 #, kde-format
@@ -14816,7 +14812,7 @@ msgstr "尼泊爾語"
 #: src/pythoninterfaces/speechtotext.cpp:136
 #, kde-format
 msgid "Norwegian"
-msgstr ""
+msgstr "挪威語"
 
 #: src/pythoninterfaces/speechtotext.cpp:137
 #, kde-format
@@ -14841,7 +14837,7 @@ msgstr "普什圖語"
 #: src/pythoninterfaces/speechtotext.cpp:141
 #, kde-format
 msgid "Persian"
-msgstr ""
+msgstr "波斯語"
 
 #: src/pythoninterfaces/speechtotext.cpp:142
 #, kde-format
@@ -14891,7 +14887,7 @@ msgstr ""
 #: src/pythoninterfaces/speechtotext.cpp:151
 #, kde-format
 msgid "Sindhi"
-msgstr ""
+msgstr "信德語"
 
 #: src/pythoninterfaces/speechtotext.cpp:152
 #, kde-format
@@ -14916,7 +14912,7 @@ msgstr "斯洛維尼亞語"
 #: src/pythoninterfaces/speechtotext.cpp:156
 #, kde-format
 msgid "Somali"
-msgstr ""
+msgstr "索馬利亞語"
 
 #: src/pythoninterfaces/speechtotext.cpp:157
 #, kde-format
@@ -14931,7 +14927,7 @@ msgstr ""
 #: src/pythoninterfaces/speechtotext.cpp:159
 #, kde-format
 msgid "Swahili"
-msgstr ""
+msgstr "斯瓦希里語"
 
 #: src/pythoninterfaces/speechtotext.cpp:160
 #, kde-format
@@ -14961,7 +14957,7 @@ msgstr "韃靼語"
 #: src/pythoninterfaces/speechtotext.cpp:165
 #, kde-format
 msgid "Telugu"
-msgstr "特拉古語"
+msgstr "泰盧固語"
 
 #: src/pythoninterfaces/speechtotext.cpp:166
 #, kde-format
@@ -14991,7 +14987,7 @@ msgstr "烏克蘭語"
 #: src/pythoninterfaces/speechtotext.cpp:171
 #, kde-format
 msgid "Urdu"
-msgstr ""
+msgstr "烏爾都語"
 
 #: src/pythoninterfaces/speechtotext.cpp:172
 #, kde-format
@@ -15016,12 +15012,12 @@ msgstr "威爾斯語"
 #: src/pythoninterfaces/speechtotext.cpp:176
 #, kde-format
 msgid "Yiddish"
-msgstr ""
+msgstr "意第緒語"
 
 #: src/pythoninterfaces/speechtotext.cpp:177
 #, kde-format
 msgid "Yoruba"
-msgstr ""
+msgstr "優魯巴語"
 
 #: src/render/renderrequest.cpp:136
 #, kde-format
@@ -19395,10 +19391,9 @@ msgstr "儲存算繪預設檔"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
-#, fuzzy, kde-format
-#| msgid "Group"
+#, kde-format
 msgid "Group:"
-msgstr "組合"
+msgstr "群組："
 
 #. i18n: ectx: property (text), widget (QLabel, presetNameLabel)
 #: src/ui/editrenderpreset_ui.ui:52
@@ -19501,9 +19496,9 @@ msgstr "每秒多少張畫面"
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/editrenderpreset_ui.ui:713 src/ui/editrenderpreset_ui.ui:968
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bitrate:"
-msgstr "位元率"
+msgstr "位元率："
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_14)
@@ -19515,10 +19510,9 @@ msgstr "顯示錄制按鈕"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
 #: src/ui/editrenderpreset_ui.ui:746
-#, fuzzy, kde-format
-#| msgid "Resolution"
+#, kde-format
 msgid "Resolution:"
-msgstr "解析度"
+msgstr "解析度："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_26)
 #: src/ui/editrenderpreset_ui.ui:753
@@ -19553,9 +19547,9 @@ msgstr " KiB"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
 #: src/ui/editrenderpreset_ui.ui:870
-#, fuzzy, kde-format
+#, kde-format
 msgid "Sample Rate:"
-msgstr "影格率簡易變化"
+msgstr "取樣頻率："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audioSampleRate)
 #: src/ui/editrenderpreset_ui.ui:902
@@ -19607,21 +19601,21 @@ msgstr "96000"
 
 #. i18n: ectx: property (text), widget (QLabel, label_20)
 #: src/ui/editrenderpreset_ui.ui:948
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hz"
-msgstr "H"
+msgstr "Hz"
 
 #. i18n: ectx: attribute (title), widget (QWidget, other_tab)
 #: src/ui/editrenderpreset_ui.ui:1013
-#, fuzzy, kde-format
+#, kde-format
 msgid "Other"
-msgstr "字幕 / 標題素材"
+msgstr "其他"
 
 #. i18n: ectx: property (text), widget (QLabel, speedsLabel)
 #: src/ui/editrenderpreset_ui.ui:1019
-#, fuzzy, kde-format
+#, kde-format
 msgid "Speed options:"
-msgstr "更多選項"
+msgstr "速度選項："
 
 #. i18n: ectx: property (toolTip), widget (QTextEdit, speeds_list)
 #: src/ui/editrenderpreset_ui.ui:1026
@@ -19631,9 +19625,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/editrenderpreset_ui.ui:1036
-#, fuzzy, kde-format
+#, kde-format
 msgid "Additional Parameters:"
-msgstr "參數"
+msgstr "額外參數："
 
 #. i18n: ectx: property (text), widget (QLabel, parametersLabel)
 #: src/ui/editrenderpreset_ui.ui:1056
@@ -19673,10 +19667,9 @@ msgstr "自訂位置"
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
 #: src/ui/editsub_ui.ui:301 src/ui/editsub_ui.ui:410
-#, fuzzy, kde-format
-#| msgid "x"
+#, kde-format
 msgid "px"
-msgstr "x"
+msgstr "px"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
 #: src/ui/editsub_ui.ui:308
@@ -19698,9 +19691,9 @@ msgstr "自訂陰影"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
 #: src/ui/editsub_ui.ui:353
-#, fuzzy, kde-format
+#, kde-format
 msgid "Opaque background"
-msgstr "無背景"
+msgstr "不透明背景"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
 #: src/ui/editsub_ui.ui:370
@@ -19851,10 +19844,9 @@ msgstr "組件"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, cbS)
 #: src/ui/histogram_ui.ui:38
-#, fuzzy, kde-format
-#| msgid "RGB summed up"
+#, kde-format
 msgid "RGB summed up."
-msgstr "RGB 總計"
+msgstr "RGB 加總結果。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbS)
 #: src/ui/histogram_ui.ui:41
@@ -19890,10 +19882,9 @@ msgstr "B"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScale)
 #: src/ui/histogram_ui.ui:105
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "Scale:"
-msgstr "縮放"
+msgstr "縮放："
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLogarithmic)
 #: src/ui/histogram_ui.ui:122
@@ -19903,17 +19894,15 @@ msgstr "對數"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/import_subtitle_ui.ui:51
-#, fuzzy, kde-format
-#| msgid "untitled"
+#, kde-format
 msgid "Subtitle file:"
-msgstr "無字幕 / 標題"
+msgstr "字幕檔"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/import_subtitle_ui.ui:68
-#, fuzzy, kde-format
-#| msgid "Record"
+#, kde-format
 msgid "Encoding"
-msgstr "擷取"
+msgstr "編碼"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cursor_pos)
 #: src/ui/import_subtitle_ui.ui:96
@@ -19930,10 +19919,9 @@ msgstr "強制幀率"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/import_subtitle_ui.ui:241
-#, fuzzy, kde-format
-#| msgid "untitled"
+#, kde-format
 msgid "Subtitle Preview"
-msgstr "無字幕 / 標題"
+msgstr "字幕預覽"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
@@ -20043,17 +20031,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/managecache_ui.ui:308
-#, fuzzy, kde-format
-#| msgid "Cache Data"
+#, kde-format
 msgid "Cache data"
-msgstr "緩存數據"
+msgstr "快取資料"
 
 #. i18n: ectx: property (text), widget (QLabel, gTotalLabel)
 #: src/ui/managecache_ui.ui:381
-#, fuzzy, kde-format
-#| msgid "Total Cached Data"
+#, kde-format
 msgid "Total cached data:"
-msgstr "緩存總數"
+msgstr "總計已快取資料："
 
 #. i18n: ectx: property (text), widget (QLabel, gTotalSize)
 #. i18n: ectx: property (text), widget (QLabel, gSelectedSize)
@@ -20061,17 +20047,15 @@ msgstr "緩存總數"
 #. i18n: ectx: property (text), widget (QLabel, gProxySize)
 #: src/ui/managecache_ui.ui:388 src/ui/managecache_ui.ui:439
 #: src/ui/managecache_ui.ui:512 src/ui/managecache_ui.ui:609
-#, fuzzy, kde-format
-#| msgid "Waiting..."
+#, kde-format
 msgid "Calculating..."
-msgstr "請稍等..."
+msgstr "計算中..."
 
 #. i18n: ectx: property (text), widget (QLabel, qSelectedLabel)
 #: src/ui/managecache_ui.ui:408
-#, fuzzy, kde-format
-#| msgid "Selected Cached Data"
+#, kde-format
 msgid "Selected cached data:"
-msgstr "選擇緩存數據"
+msgstr "所選已快取資料："
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gClean)
 #: src/ui/managecache_ui.ui:428
@@ -20094,10 +20078,9 @@ msgstr "備份資料"
 #. i18n: ectx: property (text), widget (QLabel, gBackupLabel)
 #. i18n: ectx: property (text), widget (QLabel, gProxyLabel)
 #: src/ui/managecache_ui.ui:505 src/ui/managecache_ui.ui:602
-#, fuzzy, kde-format
-#| msgid "File size"
+#, kde-format
 msgid "Total size:"
-msgstr "檔案大小"
+msgstr "總計大小："
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gBackupPath)
 #: src/ui/managecache_ui.ui:523
@@ -20143,10 +20126,9 @@ msgstr "<a href='#'>/home/user/.cache/kdenlive/proxy</a>"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gProxyClean)
 #: src/ui/managecache_ui.ui:643
-#, fuzzy, kde-format
-#| msgid "Delete profile"
+#, kde-format
 msgid "Cleanup old proxy file."
-msgstr "移除編碼方案"
+msgstr "清理舊的代理檔。"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gProxyDelete)
 #: src/ui/managecache_ui.ui:654
@@ -20174,10 +20156,9 @@ msgstr "為誰編輯設定檔："
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Create Group"
+#, kde-format
 msgid "Create New"
-msgstr "建立群組"
+msgstr "建立新的"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:46
@@ -20199,9 +20180,9 @@ msgstr "註解"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add multiple markers"
-msgstr "添加記號"
+msgstr "新增多個標記"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_5)
 #: src/ui/markerdialog_ui.ui:109 src/ui/multiplemarkerdialog_ui.ui:54
@@ -20236,10 +20217,9 @@ msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:102
-#, fuzzy, kde-format
-#| msgid "Delete selected items"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "移除所選項目"
+msgstr "重新建立缺少的代理"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:134
@@ -20267,9 +20247,9 @@ msgstr "遞迴搜尋"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:188
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use Placeholders"
-msgstr "預設資料夾"
+msgstr "使用佔位符"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -20409,17 +20389,15 @@ msgstr "雙聲道（立體聲）"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:153
-#, fuzzy, kde-format
-#| msgid "Swap channels"
+#, kde-format
 msgid "4 Channels"
-msgstr "交換聲道"
+msgstr "4 頻道"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:158
-#, fuzzy, kde-format
-#| msgid "Swap channels"
+#, kde-format
 msgid "6 Channels"
-msgstr "交換聲道"
+msgstr "6 頻道"
 
 #. i18n: ectx: property (text), widget (QLabel, label_25)
 #: src/ui/projectsettings_ui.ui:193
@@ -20469,15 +20447,15 @@ msgstr "移除素材"
 
 #. i18n: ectx: property (text), widget (QLabel, l_suffix_clip)
 #: src/ui/projectsettings_ui.ui:433
-#, fuzzy, kde-format
+#, kde-format
 msgid "Suffix of clip:"
-msgstr "音訊素材"
+msgstr "素材後綴："
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_clip)
 #: src/ui/projectsettings_ui.ui:450
-#, fuzzy, kde-format
+#, kde-format
 msgid "Prefix of clip:"
-msgstr "代理剪輯"
+msgstr "素材前綴："
 
 #. i18n: ectx: property (text), widget (QLabel, l_relPathOrigToProxy)
 #: src/ui/projectsettings_ui.ui:457
@@ -20487,10 +20465,9 @@ msgstr "從素材到代理的相對路徑："
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/projectsettings_ui.ui:515
-#, fuzzy, kde-format
-#| msgid "Image size"
+#, kde-format
 msgid "Proxy video resize (width)"
-msgstr "畫面大小"
+msgstr "代理影片調整大小（寬度）"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/projectsettings_ui.ui:601
@@ -20536,10 +20513,9 @@ msgstr "使用到的素材:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_text)
 #: src/ui/qtextclip_ui.ui:39
-#, fuzzy, kde-format
-#| msgid "Text"
+#, kde-format
 msgid "Text:"
-msgstr "文字"
+msgstr "文字："
 
 #. i18n: ectx: property (text), widget (QLabel, label_font)
 #: src/ui/qtextclip_ui.ui:49
@@ -20549,9 +20525,9 @@ msgstr "字型："
 
 #. i18n: ectx: property (text), widget (QLabel, weightLabel)
 #: src/ui/qtextclip_ui.ui:74
-#, fuzzy, kde-format
+#, kde-format
 msgid "Weight:"
-msgstr "高度"
+msgstr "字重："
 
 #. i18n: ectx: property (text), widget (QLabel, label_outline)
 #: src/ui/qtextclip_ui.ui:130 src/ui/titlewidget_ui.ui:919
@@ -20568,10 +20544,9 @@ msgstr "背景："
 
 #. i18n: ectx: property (text), widget (QLabel, label_padding)
 #: src/ui/qtextclip_ui.ui:184
-#, fuzzy, kde-format
-#| msgid "Padding"
+#, kde-format
 msgid "Padding:"
-msgstr "填充"
+msgstr "填補："
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, RenderWidget_UI)
 #: src/ui/renderwidget_ui.ui:18
@@ -20599,9 +20574,9 @@ msgstr "匯出檔案"
 
 #. i18n: ectx: property (toolTip), widget (KUrlRequester, out_file)
 #: src/ui/renderwidget_ui.ui:129
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select output destination"
-msgstr " 所選時間長度:"
+msgstr "選取輸出目的地"
 
 #. i18n: ectx: property (text), widget (QCheckBox, options)
 #: src/ui/renderwidget_ui.ui:152
@@ -20725,16 +20700,15 @@ msgstr "使用代理素材"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/renderwidget_ui.ui:517
-#, fuzzy, kde-format
-#| msgid "Rescale"
+#, kde-format
 msgid "Rescale:"
-msgstr "縮放畫面"
+msgstr "變更縮放："
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
 #: src/ui/renderwidget_ui.ui:524
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enabled"
-msgstr "啟用音譜"
+msgstr "已啟用"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/renderwidget_ui.ui:581
@@ -20744,10 +20718,9 @@ msgstr "覆蓋顯示："
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:627
-#, fuzzy, kde-format
-#| msgid "Fade in audio track"
+#, kde-format
 msgid "Separate file for each audio track"
-msgstr "淡入音軌"
+msgstr "為各個音軌使用獨立檔案"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
 #: src/ui/renderwidget_ui.ui:637
@@ -20757,10 +20730,9 @@ msgstr "自訂品質"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/renderwidget_ui.ui:651
-#, fuzzy, kde-format
-#| msgid "Log"
+#, kde-format
 msgid "Low"
-msgstr "日誌"
+msgstr "低"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
 #: src/ui/renderwidget_ui.ui:664
@@ -20782,9 +20754,9 @@ msgstr "高"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
 #: src/ui/renderwidget_ui.ui:702
-#, fuzzy, kde-format
+#, kde-format
 msgid "Encoder"
-msgstr "編碼速度"
+msgstr "編碼器"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
@@ -20797,10 +20769,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
 #: src/ui/renderwidget_ui.ui:711
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Speed:"
-msgstr "速度"
+msgstr "速度："
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -21150,10 +21121,9 @@ msgstr "檔案大小"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "Start recognition"
-msgstr "選取轉場特效"
+msgstr "開始辨識"
 
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
 #: src/ui/textbasededit_ui.ui:164
@@ -21187,10 +21157,9 @@ msgstr "輸出時間"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/timeremap_ui.ui:281
-#, fuzzy, kde-format
-#| msgid "Freeze Before"
+#, kde-format
 msgid "Speed before"
-msgstr "凍結之前的畫面"
+msgstr "之前的速度"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/timeremap_ui.ui:305
@@ -21627,17 +21596,15 @@ msgid "Pick a color on the screen."
 msgstr "從螢幕上提取顏色。"
 
 #: src/widgets/colorpickerwidget.cpp:105
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Pick a color on the screen. By pressing the mouse button and then moving "
-#| "your mouse you can select a section of the screen from which to get an "
-#| "average color."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Pick a color on the screen. By pressing the mouse button and then moving "
 "your mouse you can select a section of the screen from which to get an "
 "average color."
-msgstr "吸取顏色"
+msgstr ""
+"請從畫面上吸取一個顏色。按下滑鼠按鍵拖曳的話可以選取畫面範圍來吸取範圍內的平"
+"均顏色。"
 
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
