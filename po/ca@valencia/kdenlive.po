@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-05 00:37+0000\n"
-"PO-Revision-Date: 2024-03-25 10:16+0100\n"
+"PO-Revision-Date: 2024-04-05 11:01+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -11138,10 +11138,9 @@ msgid "Reset Configuration…"
 msgstr "Reinicia la configuració…"
 
 #: src/mainwindow.cpp:1491
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "Reproduïx la zona"
+msgstr "Reproduïx la zona des del cursor"
 
 #: src/mainwindow.cpp:1494
 #, kde-format
