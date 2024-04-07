@@ -8,13 +8,13 @@
 # Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2011, 2012, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Barbara <barbaratostes@gmail.com>, 2020.
 # Jorge Santiago <jsantiago12tone@gmail.com>, 2021.
-# Geraldo Simiao <geraldosimiao@fedoraproject.org>, 2023.
+# SPDX-FileCopyrightText: 2023, 2024 Geraldo Simiao <geraldosimiao@fedoraproject.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-05 02:42+0000\n"
-"PO-Revision-Date: 2023-08-11 23:48-0300\n"
+"PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 24.02.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -517,10 +517,9 @@ msgid "Vertical multiplicator"
 msgstr "Multiplicador vertical"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Manter a taxa de proporção"
+msgstr "Preservar o 'alfa'"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -637,10 +636,9 @@ msgid "Variance"
 msgstr "Variância"
 
 #: data/effects/chroma_hold.xml:4
-#, fuzzy, kde-format
-#| msgid "Chroma-Key"
+#, kde-format
 msgid "Chroma Keep"
-msgstr "Chave croma"
+msgstr "Manter chroma"
 
 #: data/effects/chroma_hold.xml:5
 #, kde-format
@@ -2133,10 +2131,9 @@ msgid "Make clip play faster or slower"
 msgstr "Reproduzir o clipe mais rápido ou mais devagar"
 
 #: data/effects/spot_remover.xml:4
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Spot Remover"
-msgstr "Remoção"
+msgstr "Remoção pontual"
 
 #: data/effects/spot_remover.xml:5
 #, kde-format
@@ -3018,10 +3015,9 @@ msgid "Wipe Method"
 msgstr "Método de limpeza"
 
 #: data/transitions/matte.xml:4
-#, fuzzy, kde-format
-#| msgid "Patterns"
+#, kde-format
 msgid "Matte"
-msgstr "Padrões"
+msgstr "Fosco"
 
 #: data/transitions/matte.xml:5
 #, kde-format
@@ -3233,10 +3229,9 @@ msgid "Reload custom effect"
 msgstr "Recarregar efeito personalizado"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:76
-#, fuzzy, kde-format
-#| msgid "Edit Info"
+#, kde-format
 msgid "Edit Info…"
-msgstr "Editar informações"
+msgstr "Editar informações…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:81
 #, kde-format
@@ -15234,7 +15229,7 @@ msgstr ""
 #: src/pythoninterfaces/speechtotext.cpp:98
 #, kde-format
 msgid "German"
-msgstr ""
+msgstr "Alemão"
 
 #: src/pythoninterfaces/speechtotext.cpp:99
 #, fuzzy, kde-format
@@ -15465,7 +15460,7 @@ msgstr ""
 #: src/pythoninterfaces/speechtotext.cpp:143
 #, kde-format
 msgid "Portuguese"
-msgstr ""
+msgstr "Português"
 
 #: src/pythoninterfaces/speechtotext.cpp:144
 #, kde-format
