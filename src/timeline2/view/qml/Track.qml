@@ -76,7 +76,7 @@ Item{
                     target: loader.item
                     property: "fakeTid"
                     value: model.fakeTrackId
-                    when: loader.status == Loader.Ready && loader.item && clipItem
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item
@@ -88,7 +88,7 @@ Item{
                     target: loader.item
                     property: "fakePosition"
                     value: model.fakePosition
-                    when: loader.status == Loader.Ready && loader.item && clipItem
+                    when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
                     target: loader.item

@@ -417,7 +417,7 @@ public:
        the clip is in a group, the call is deferred to requestGroupMove @param
        transid is the ID of the composition @param trackId is the ID of the
        track */
-    Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true);
+    Q_INVOKABLE bool requestCompositionMove(int compoId, int trackId, int position, bool updateView = true, bool logUndo = true, bool fakeMove = false);
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
@@ -448,7 +448,7 @@ public:
     Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true,
                                              bool fakeMove = false);
     Q_INVOKABLE int suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance);
-    Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
+    Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
     /** @brief returns the frame pos adjusted to edit mode
      */
     Q_INVOKABLE int adjustFrame(int frame, int trackId);
@@ -988,6 +988,10 @@ protected:
 
     int getSubtitleIndex(int subId) const;
     std::pair<int, GenTime> getSubtitleIdFromIndex(int index) const;
+    /** @brief Get / Set a fake position for a subtitle (while moving) */
+    int getSubtitleFakePosFromIndex(int index);
+    void setSubtitleFakePosFromIndex(int index, int pos);
+    void cleanupSubtitleFakePos();
 
 public:
     /** @brief Debugging function that checks consistency with Mlt objects */
@@ -1049,6 +1053,7 @@ protected:
 
     // TODO: move this in subtitlemodel.h
     std::map<int, GenTime> m_allSubtitles;
+    std::map<int, int> m_subtitlesFakePos;
 
     std::unique_ptr<GroupsModel> m_groups;
     std::shared_ptr<SnapModel> m_snaps;

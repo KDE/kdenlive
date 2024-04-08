@@ -14,6 +14,7 @@ Item {
     z: selected ? 30 : 20
     property int oldStartX
     property int startFrame
+    property int fakeStartFrame
     property int endFrame
     property int subId
     property int duration : endFrame - startFrame
@@ -26,6 +27,17 @@ Item {
     function editText()
     {
         subtitleBase.textEditBegin = true
+    }
+
+    onFakeStartFrameChanged: {
+        if (subtitleRoot.fakeStartFrame == -1) {
+            // Restore binding
+            subtitleBase.x = Qt.binding(function () {
+                return subtitleRoot.startFrame * root.timeScale
+            })
+        } else {
+            subtitleBase.x = subtitleRoot.fakeStartFrame * root.timeScale
+        }
     }
 
     onStartFrameChanged: {

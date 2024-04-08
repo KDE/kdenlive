@@ -482,6 +482,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case KeyframesRole: {
             return QVariant::fromValue<KeyframeModel *>(compo->getEffectKeyframeModel());
         }
+        case FakeTrackIdRole:
+            return compo->getFakeTrackId();
+        case FakePositionRole:
+            return compo->getFakePosition();
         case ShowKeyframesRole:
             return compo->showKeyframes();
         case ItemATrack:

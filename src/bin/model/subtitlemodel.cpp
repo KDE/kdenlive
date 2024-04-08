@@ -528,6 +528,7 @@ QHash<int, QByteArray> SubtitleModel::roleNames() const
     roles[StartPosRole] = "startposition";
     roles[EndPosRole] = "endposition";
     roles[StartFrameRole] = "startframe";
+    roles[FakeStartFrameRole] = "fakeStart";
     roles[EndFrameRole] = "endframe";
     roles[GrabRole] = "grabbed";
     roles[IdRole] = "id";
@@ -558,6 +559,8 @@ QVariant SubtitleModel::data(const QModelIndex &index, int role) const
         return m_subtitleList.at(subInfo.second).second.frames(pCore->getCurrentFps());
     case SelectedRole:
         return m_selected.contains(subInfo.first);
+    case FakeStartFrameRole:
+        return m_timeline->getSubtitleFakePosFromIndex(index.row());
     case GrabRole:
         return m_grabbedIds.contains(subInfo.first);
     }

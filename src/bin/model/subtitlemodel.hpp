@@ -40,7 +40,7 @@ public:
     explicit SubtitleModel(std::shared_ptr<TimelineItemModel> timeline = nullptr,
                            const std::weak_ptr<SnapInterface> &snapModel = std::weak_ptr<SnapInterface>(), QObject *parent = nullptr);
 
-    enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
+    enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, FakeStartFrameRole, EndFrameRole, IdRole, SelectedRole, GrabRole };
     /** @brief Function that parses through a subtitle file */
     bool addSubtitle(int id, GenTime start, GenTime end, const QString &str, bool temporary = false, bool updateFilter = true);
     bool addSubtitle(GenTime start, GenTime end, const QString &str, Fun &undo, Fun &redo, bool updateFilter = true);

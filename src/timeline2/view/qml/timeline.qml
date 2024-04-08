@@ -2295,6 +2295,7 @@ Rectangle {
             subId: model.id
             selected: model.selected
             startFrame: model.startframe
+            fakeStartFrame: model.fakeStart
             endFrame: model.endframe
             subtitle: model.subtitle
             isGrabbed: model.grabbed

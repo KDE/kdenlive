@@ -60,7 +60,7 @@ RTTR_REGISTRATION
         .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool, bool, bool)>(&TimelineModel::requestClipMove))(
             parameter_names("clipId", "trackId", "position", "moveMirrorTracks", "updateView", "logUndo", "invalidateTimeline", "revertMove"))
         .method("requestCompositionMove", select_overload<bool(int, int, int, bool, bool)>(&TimelineModel::requestCompositionMove))(
-            parameter_names("compoId", "trackId", "position", "updateView", "logUndo"))
+            parameter_names("compoId", "trackId", "position", "updateView", "logUndo", "fakeMove"))
         .method("requestClipInsertion", select_overload<bool(const QString &, int, int, int &, bool, bool, bool)>(&TimelineModel::requestClipInsertion))(
             parameter_names("binClipId", "trackId", "position", "id", "logUndo", "refreshView", "useTargets"))
         .method("requestItemDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestItemDeletion))(parameter_names("clipId", "logUndo"))
@@ -1401,7 +1401,7 @@ QVariantList TimelineModel::suggestItemMove(int itemId, int trackId, int positio
         return suggestClipMove(itemId, trackId, position, cursorPosition, snapDistance, true, fakeMove);
     }
     if (isComposition(itemId)) {
-        return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance);
+        return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance, fakeMove);
     }
     if (isSubTitle(itemId)) {
         return {suggestSubtitleMove(itemId, position, cursorPosition, snapDistance), -1};
@@ -1687,7 +1687,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     return {currentPos, sourceTrackId};
 }
 
-QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance)
+QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance, bool fakeMove)
 {
     QWriteLocker locker(&m_lock);
     TRACE(compoId, trackId, position, cursorPosition, snapDistance);
@@ -1702,6 +1702,9 @@ QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int
     if (currentPos == position && currentTrack == trackId) {
         TRACE_RES(position);
         return {position, trackId};
+    }
+    if (m_editMode != TimelineMode::NormalEdit) {
+        fakeMove = true;
     }
 
     if (snapDistance > 0) {
@@ -1722,7 +1725,7 @@ QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int
             ignored_pts.push_back(in);
             ignored_pts.push_back(out);
         }
-        int snapped = getBestSnapPos(currentPos, position - currentPos, ignored_pts, cursorPosition, snapDistance, m_editMode != TimelineMode::NormalEdit);
+        int snapped = getBestSnapPos(currentPos, position - currentPos, ignored_pts, cursorPosition, snapDistance, fakeMove);
         if (snapped >= 0) {
             position = snapped;
         }
@@ -1733,7 +1736,7 @@ QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int
         return {position, trackId};
     }
     // we check if move is possible
-    bool possible = requestCompositionMove(compoId, trackId, position, true, false);
+    bool possible = requestCompositionMove(compoId, trackId, position, true, false, fakeMove);
     if (possible) {
         TRACE_RES(position);
         return {position, trackId};
@@ -2380,10 +2383,12 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
                 } else if (!hasVideo && !getTrackById_const(old_trackId)->isAudioTrack()) {
                     hasVideo = true;
                 }
-            } else {
+            } else if (isComposition(item)) {
                 hasVideo = true;
                 old_position[item] = m_allCompositions[item]->getPosition();
                 old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
+            } else if (isSubTitle(item)) {
+                old_position[item] = getSubtitlePosition(item);
             }
         }
     }
@@ -2449,6 +2454,12 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
 
     // Reverse sort. We need to insert from left to right to avoid confusing the view
     for (int item : all_items) {
+        if (isSubTitle(item)) {
+            int ix = getSubtitleIndex(item);
+            int target_position = old_position[item] + delta_pos;
+            setSubtitleFakePosFromIndex(ix, target_position);
+            continue;
+        }
         int current_track_id = old_track_ids[item];
         int current_track_position = getTrackPosition(current_track_id);
         int d = getTrackById_const(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
@@ -2462,9 +2473,14 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
                 m_allClips[item]->setFakePosition(target_position);
                 if (m_allClips[item]->getFakeTrackId() != target_track) {
                     trackChanged = true;
+                    m_allClips[item]->setFakeTrackId(target_track);
                 }
-                m_allClips[item]->setFakeTrackId(target_track);
-            } else {
+            } else if (isComposition(item)) {
+                m_allCompositions[item]->setFakePosition(target_position);
+                if (m_allCompositions[item]->getFakeTrackId() != target_track) {
+                    trackChanged = true;
+                    m_allCompositions[item]->setFakeTrackId(target_track);
+                }
             }
         } else {
             ok = false;
@@ -2483,8 +2499,13 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     for (int item : all_items) {
         if (isClip(item)) {
             modelIndex = makeClipIndexFromID(item);
-        } else {
+        } else if (isComposition(item)) {
             modelIndex = makeCompositionIndexFromID(item);
+        } else {
+            if (isSubTitle(item)) {
+                m_subtitleModel->updateSub(item, {SubtitleModel::FakeStartFrameRole});
+            }
+            continue;
         }
         notifyChange(modelIndex, modelIndex, roles);
     }
@@ -2545,6 +2566,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         // this group doesn't contain the clip, abort
         return false;
     }
+    qDebug() << "=============\n\nSTARTING REAL GROUP MOVE....\n\n====================";
     bool ok = true;
     auto all_items = m_groups->getLeaves(groupId);
     Q_ASSERT(all_items.size() > 1);
@@ -5391,7 +5413,7 @@ int TimelineModel::getTrackCompositionsCount(int trackId) const
     return getTrackById_const(trackId)->getCompositionsCount();
 }
 
-bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, bool logUndo)
+bool TimelineModel::requestCompositionMove(int compoId, int trackId, int position, bool updateView, bool logUndo, bool fakeMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isComposition(compoId));
@@ -5406,7 +5428,8 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
         int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
         int delta_pos = position - m_allCompositions[compoId]->getPosition();
-        return requestGroupMove(compoId, groupId, delta_track, delta_pos, true, updateView, logUndo);
+        return fakeMove ? requestFakeGroupMove(compoId, groupId, delta_track, delta_pos, updateView, logUndo)
+                        : requestGroupMove(compoId, groupId, delta_track, delta_pos, true, updateView, logUndo);
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -7040,6 +7063,32 @@ int TimelineModel::getSubtitleIndex(int subId) const
     }
     auto it = m_allSubtitles.find(subId);
     return int(std::distance(m_allSubtitles.begin(), it));
+}
+
+void TimelineModel::cleanupSubtitleFakePos()
+{
+    std::vector<int> itemKeys;
+    for (const auto &[key, _] : m_subtitlesFakePos) {
+        itemKeys.push_back(key);
+    }
+    m_subtitlesFakePos.clear();
+    for (auto &i : itemKeys) {
+        m_subtitleModel->dataChanged(m_subtitleModel->index(i), m_subtitleModel->index(i), {SubtitleModel::FakeStartFrameRole});
+    }
+}
+
+int TimelineModel::getSubtitleFakePosFromIndex(int index)
+{
+    auto search = m_subtitlesFakePos.find(index);
+    if (search != m_subtitlesFakePos.end()) {
+        return search->second;
+    }
+    return -1;
+}
+
+void TimelineModel::setSubtitleFakePosFromIndex(int index, int pos)
+{
+    m_subtitlesFakePos[index] = pos;
 }
 
 std::pair<int, GenTime> TimelineModel::getSubtitleIdFromIndex(int index) const

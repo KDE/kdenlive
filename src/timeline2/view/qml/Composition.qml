@@ -34,6 +34,8 @@ Item {
     property int trackHeight
     property int trackIndex //Index in track repeater
     property int trackId: -42    //Id in the model
+    property int fakeTid: -1
+    property int fakePosition: 0
     property int aTrack: -1
     property int clipId     //Id of the clip in the model
     property int originalTrackId: trackId
@@ -83,6 +85,27 @@ Item {
 
     onModelStartChanged: {
         x = modelStart * timeScale;
+    }
+    onFakePositionChanged: {
+        console.log('COMPOSITION POS CHANGED TO: ', fakePosition)
+        x = fakePosition * timeScale
+    }
+    onFakeTidChanged: {
+        if (compositionRoot.fakeTid > -1 && parentTrack) {
+            if (compositionRoot.parent != dragContainer) {
+                var pos = compositionRoot.mapToGlobal(compositionRoot.x, compositionRoot.y);
+                compositionRoot.parent = dragContainer
+                pos = compositionRoot.mapFromGlobal(pos.x, pos.y)
+                compositionRoot.x = pos.x
+                compositionRoot.y = pos.y
+            }
+            compositionRoot.y = Logic.getTrackById(compositionRoot.fakeTid).y
+            compositionRoot.height = Logic.getTrackById(compositionRoot.fakeTid).height
+        } else {
+            compositionRoot.height = Qt.binding(function () {
+                return parentTrack.height
+            })
+        }
     }
 
     onIsGrabbedChanged: {
