@@ -818,7 +818,7 @@ int TimelineController::copyItem()
         return -1;
     }
     int clipId = *(selectedIds.begin());
-    QString copyString = TimelineFunctions::copyClips(m_model, selectedIds);
+    QString copyString = TimelineFunctions::copyClips(m_model, selectedIds, getMainSelectedClip());
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(copyString);
     m_root->setProperty("copiedClip", clipId);
@@ -3692,6 +3692,7 @@ void TimelineController::pasteEffects(int targetId)
         pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);
         return;
     }
+    const QStringList effectSource = copiedItems.documentElement().attribute(QStringLiteral("mainClip"), QStringLiteral()).split(QLatin1Char(';'));
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     if (clips.isEmpty()) {
         pCore->displayMessage(i18n("No information in clipboard"), ErrorMessage, 500);
@@ -3702,11 +3703,13 @@ void TimelineController::pasteEffects(int targetId)
     QDomElement effects = clips.at(0).firstChildElement(QStringLiteral("effects"));
     effects.setAttribute(QStringLiteral("parentIn"), clips.at(0).toElement().attribute(QStringLiteral("in")));
     for (int i = 1; i < clips.size(); i++) {
-        QDomElement subeffects = clips.at(i).firstChildElement(QStringLiteral("effects"));
-        QDomNodeList subs = subeffects.childNodes();
-        while (!subs.isEmpty()) {
-            subs.at(0).toElement().setAttribute(QStringLiteral("parentIn"), clips.at(i).toElement().attribute(QStringLiteral("in")));
-            effects.appendChild(subs.at(0));
+        if (effectSource.contains(clips.at(i).toElement().attribute(QStringLiteral("id")))) {
+            QDomElement subeffects = clips.at(i).firstChildElement(QStringLiteral("effects"));
+            QDomNodeList subs = subeffects.childNodes();
+            while (!subs.isEmpty()) {
+                subs.at(0).toElement().setAttribute(QStringLiteral("parentIn"), clips.at(i).toElement().attribute(QStringLiteral("in")));
+                effects.appendChild(subs.at(0));
+            }
         }
     }
     int insertedEffects = 0;

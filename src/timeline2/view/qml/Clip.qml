@@ -961,7 +961,7 @@ Rectangle {
                 Rectangle {
                     // Clip name background
                     id: labelRect
-                    color: clipRoot.selected ? 'darkred' : '#66000000'
+                    color: clipRoot.selected ? (root.mainItemId == clipRoot.clipId ? '#FFCC0000' : '#FF800000') : '#66000000'
                     width: label.width + (2 * itemBorder.border.width)
                     height: label.height
                     visible: clipRoot.width > root.baseUnit
