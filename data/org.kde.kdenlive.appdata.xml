@@ -253,6 +253,7 @@
     </ul>
   </description>
   <releases>
+    <release version="24.02.2" date="2024-04-11"/>
     <release version="24.02.1" date="2024-03-21">
       <description>
         <p>This is the first bugfix release for the 24.02 version. Some of the most noteworthy fixes:</p>
@@ -269,7 +270,6 @@
     </release>
     <release version="24.02.0" date="2024-02-28"/>
     <release version="23.08.5" date="2024-02-15"/>
-    <release version="23.08.4" date="2023-12-07"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?product=kdenlive</url>
