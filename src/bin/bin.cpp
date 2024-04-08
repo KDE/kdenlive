@@ -380,11 +380,10 @@ public:
                 int decoWidth = 0;
                 if (opt.decorationSize.height() > 0) {
                     QIcon icon = index.data(AbstractProjectItem::SequenceFolder).toBool() ? m_sequenceFolderIcon : m_folderIcon;
-                    r.setWidth(int(r.height() * pCore->getCurrentDar()));
+                    r.setWidth(r.height());
                     QPixmap pix = icon.pixmap(icon.actualSize(r.size()));
                     // Draw icon
                     decoWidth += r.width() + textMargin;
-                    r.setWidth(r.height() * pix.width() / pix.height());
                     painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
                 }
                 r1.adjust(decoWidth, 0, 0, 0);
