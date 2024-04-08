@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-05 00:37+0000\n"
-"PO-Revision-Date: 2024-04-03 19:14\n"
+"PO-Revision-Date: 2024-04-07 14:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -10836,10 +10836,9 @@ msgid "Reset Configuration…"
 msgstr "重置配置…"
 
 #: src/mainwindow.cpp:1491
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "播放区段"
+msgstr ""
 
 #: src/mainwindow.cpp:1494
 #, kde-format

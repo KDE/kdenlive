@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-05 00:37+0000\n"
-"PO-Revision-Date: 2024-03-31 09:32+0400\n"
+"PO-Revision-Date: 2024-04-07 11:44+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -11010,10 +11010,9 @@ msgid "Reset Configuration…"
 msgstr "أعد الضبط…"
 
 #: src/mainwindow.cpp:1491
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "شغّل المنطقة"
+msgstr "شغّل المنطقة من المؤشر"
 
 #: src/mainwindow.cpp:1494
 #, kde-format
