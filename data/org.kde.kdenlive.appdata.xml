@@ -54,6 +54,7 @@
   <summary xml:lang="it">Editor video</summary>
   <summary xml:lang="ka">ვიდეორედაქტორი</summary>
   <summary xml:lang="pl">Edytor wideo</summary>
+  <summary xml:lang="pt-BR">Editor de Vídeo</summary>
   <summary xml:lang="sl">Program za videomontažo</summary>
   <summary xml:lang="zh-CN">视频编辑器</summary>
   <description>
@@ -170,6 +171,7 @@
       <li xml:lang="it">Tracciatore di movimento</li>
       <li xml:lang="ka">მოძრაობის ტრეკინგი</li>
       <li xml:lang="pl">Śledzenie ruchu</li>
+      <li xml:lang="pt-BR">Rastreamento de movimento</li>
       <li xml:lang="sl">Sledenje gibanju</li>
       <li xml:lang="zh-CN">运动跟踪功能</li>
       <li>AI powered tools</li>
@@ -181,6 +183,7 @@
       <li xml:lang="it">Strumenti alimentati dalla IA</li>
       <li xml:lang="ka">ფუნქციები AI-ით</li>
       <li xml:lang="pl">Narzędzia wspomagane SI</li>
+      <li xml:lang="pt-BR">Ferramentas com IA</li>
       <li xml:lang="sl">Orodja, ki jih poganja umetna inteligenca</li>
       <li xml:lang="zh-CN">基于 AI 的工具</li>
     </ul>
@@ -223,6 +226,7 @@
       <caption xml:lang="it">Tema scuro</caption>
       <caption xml:lang="ka">ბნელი თემა</caption>
       <caption xml:lang="pl">Ciemny wygląd</caption>
+      <caption xml:lang="pt-BR">Tema escuro</caption>
       <caption xml:lang="sl">Temna tema</caption>
       <caption xml:lang="zh-CN">深色主题</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
@@ -237,6 +241,7 @@
       <caption xml:lang="it">Interfaccia predefinita</caption>
       <caption xml:lang="ka">ნაგულისხმევი ინტერფეისი</caption>
       <caption xml:lang="pl">Domyślny interfejs</caption>
+      <caption xml:lang="pt-BR">Interface padrão</caption>
       <caption xml:lang="sl">Privzeti vmesnik</caption>
       <caption xml:lang="zh-CN">默认界面</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k6.png</image>
@@ -251,6 +256,7 @@
       <caption xml:lang="it">Correzione del colore</caption>
       <caption xml:lang="ka">ფერების კორექცია</caption>
       <caption xml:lang="pl">Poprawki barw</caption>
+      <caption xml:lang="pt-BR">Correção de cores</caption>
       <caption xml:lang="sl">Korekcija barv</caption>
       <caption xml:lang="zh-CN">色彩校正</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
@@ -265,6 +271,7 @@
       <caption xml:lang="it">Interfaccia configurabile</caption>
       <caption xml:lang="ka">მორგებადი ინტერფეისი</caption>
       <caption xml:lang="pl">Interfejs dający się dostosować</caption>
+      <caption xml:lang="pt-BR">Interface configurável</caption>
       <caption xml:lang="sl">Nastavljiv vmesnik</caption>
       <caption xml:lang="zh-CN">可定制的界面</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k4.png</image>
@@ -279,6 +286,7 @@
       <caption xml:lang="it">Titolazione</caption>
       <caption xml:lang="ka">დასათაურება</caption>
       <caption xml:lang="pl">Nadawanie tytułów</caption>
+      <caption xml:lang="pt-BR">Gerador de caracteres</caption>
       <caption xml:lang="sl">Naslavljanje</caption>
       <caption xml:lang="zh-CN">字幕功能</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k5.png</image>
