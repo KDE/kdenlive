@@ -50,7 +50,7 @@ struct TimelineFunctions
     static bool cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
 
     /** @brief Creates a string representation of the given clips, that can then be pasted using pasteClips(). Return an empty string on failure */
-    static QString copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds);
+    static QString copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds, int mainClip = -1);
 
     /** @brief Paste the clips as described by the string. Returns true on success*/
     static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position);

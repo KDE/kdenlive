@@ -1648,7 +1648,7 @@ TimelineFunctions::TimelineTracksInfo TimelineFunctions::getAVTracksIds(const st
     return tracks;
 }
 
-QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds)
+QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds, int mainClip)
 {
     int mainId = *(itemIds.begin());
     // We need to retrieve ALL the involved clips, ie those who are also grouped with the given clips
@@ -1695,6 +1695,9 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
             lastFrame = startPos + timeline->getItemPlaytime(id);
         }
         if (timeline->isClip(id)) {
+            if (mainClip == -1) {
+                mainClip = id;
+            }
             QDomElement clipXml = timeline->m_allClips[id]->toXml(copiedItems);
             container.appendChild(clipXml);
             const QString bid = timeline->m_allClips[id]->binId();
@@ -1723,6 +1726,21 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     }
     container.setAttribute(QStringLiteral("offset"), offset);
     container.setAttribute(QStringLiteral("duration"), lastFrame - offset);
+
+    // Define main source for effects copy
+    if (mainClip > -1) {
+        if (timeline->isClip(mainClip)) {
+            QStringList effectSource;
+            effectSource << QString::number(mainClip);
+            if (!timeline->singleSelectionMode()) {
+                int partner = timeline->getClipSplitPartner(mainClip);
+                if (partner > -1 && allIds.find(partner) != allIds.end()) {
+                    effectSource << QString::number(partner);
+                }
+            }
+            container.setAttribute(QStringLiteral("mainClip"), effectSource.join(QLatin1Char(';')));
+        }
+    }
     if (audioCopy) {
         container.setAttribute(QStringLiteral("masterAudioTrack"), masterTrack);
         int masterMirror = timeline->getMirrorVideoTrackId(masterTid);
