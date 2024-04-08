@@ -340,18 +340,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </item>
       <item row="10" column="1" colspan="3">
        <widget class="KMessageWidget" name="effect_warning">
-        <property name="text">
+        <property name="text" stdset="0">
          <string>The &quot;avfilter.fieldorder&quot; effect is internally used to set the field order, but the effect was not found.
 This feature will not work as expected.</string>
         </property>
-        <property name="wordWrap">
+        <property name="wordWrap" stdset="0">
          <bool>true</bool>
         </property>
-        <property name="closeButtonVisible">
+        <property name="closeButtonVisible" stdset="0">
          <bool>false</bool>
-        </property>
-        <property name="messageType">
-         <enum>KMessageWidget::Warning</enum>
         </property>
        </widget>
       </item>
@@ -423,7 +420,7 @@ This feature will not work as expected.</string>
    </item>
    <item row="2" column="0" colspan="8">
     <widget class="KMessageWidget" name="info_message">
-     <property name="wordWrap">
+     <property name="wordWrap" stdset="0">
       <bool>true</bool>
      </property>
     </widget>
@@ -432,16 +429,36 @@ This feature will not work as expected.</string>
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
-  <customwidget>
-   <class>KMessageWidget</class>
-   <extends>QFrame</extends>
-   <header>kmessagewidget.h</header>
-  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>profiles_list</tabstop>
+  <tabstop>button_create</tabstop>
+  <tabstop>button_save</tabstop>
+  <tabstop>button_delete</tabstop>
+  <tabstop>description</tabstop>
+  <tabstop>size_w</tabstop>
+  <tabstop>size_h</tabstop>
+  <tabstop>frame_num</tabstop>
+  <tabstop>frame_den</tabstop>
+  <tabstop>aspect_num</tabstop>
+  <tabstop>aspect_den</tabstop>
+  <tabstop>display_num</tabstop>
+  <tabstop>display_den</tabstop>
+  <tabstop>colorspace</tabstop>
+  <tabstop>scanning</tabstop>
+  <tabstop>field_order</tabstop>
+  <tabstop>button_default</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
