@@ -16,7 +16,7 @@ function scrollIfNeeded() {
         scrollView.contentX = x - 50;
 }
 
-function scrollIfNeeded(xpos) {
+function scrollToPosIfNeeded(xpos) {
     if (!scrollView) return;
     if (xpos > scrollView.contentX + scrollView.width - 50)
         scrollView.contentX = x - scrollView.width + 50;

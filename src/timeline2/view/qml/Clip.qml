@@ -339,7 +339,7 @@ Rectangle {
                 offset -= (clipRoot.clipDuration - 1)
                 offset = clipRoot.modelStart - offset
             }
-            Logic.scrollIfNeeded(clipRoot.x)
+            Logic.scrollToPosIfNeeded(clipRoot.x)
             timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onRightPressed: event => {
@@ -353,7 +353,7 @@ Rectangle {
                 }
                 offset -= clipRoot.modelStart
             }
-            Logic.scrollIfNeeded(clipRoot.x)
+            Logic.scrollToPosIfNeeded(clipRoot.x)
             timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(clipRoot.modelStart)));
         }
         Keys.onUpPressed: {
