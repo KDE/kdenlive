@@ -64,7 +64,8 @@ QStringList waitingBinIds;
 QMap<QString, QString> mappedIds;
 QMap<int, int> tracksMap;
 QMap<int, int> spacerUngroupedItems;
-int spacerMinPosition;
+int spacerMinPosition(-1);
+int spacerMaxPosition(-1);
 QSemaphore semaphore(1);
 
 bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo,
@@ -384,9 +385,10 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
     timeline->requestClearSelection();
     // Find the first clip on each track to calculate the minimum space operation
     QMap<int, int> firstClipOnTrack;
-    // Find the maximum space allowed by grouped clips placed before the operation start {trackid,blank_duration}
-    QMap<int, int> relatedMaxSpace;
+    // Find the maximum space allowed by grouped clips placed before the operation start {trackid,{blank_before, blank_after}}
+    QMap<int, std::pair<int, int>> relatedMaxSpace;
     spacerMinPosition = -1;
+    spacerMaxPosition = -1;
     if (!clips.empty()) {
         // Remove grouped items that are before the click position
         // First get top groups ids
@@ -396,6 +398,7 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
         std::unordered_set<int> groupsToRemove;
         int firstCid = -1;
         int spaceDuration = -1;
+        int spaceAfterDuration = -1;
         std::unordered_set<int> toSelect;
         //  List all clips involved in the spacer operation
         std::unordered_set<int> allClips;
@@ -410,7 +413,8 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                 std::unordered_set<int> leavesToKeep;
                 for (int l : leaves) {
                     int pos = timeline->getItemPosition(l);
-                    bool outOfRange = timeline->getItemEnd(l) < position;
+                    int itemEnd = timeline->getItemEnd(l);
+                    bool outOfRange = itemEnd < position;
                     int tid = timeline->getItemTrackId(l);
                     bool unaffectedTrack = ignoreMultiTrackGroups && trackId > -1 && tid != trackId;
                     if (allowGroupBreaking) {
@@ -420,10 +424,12 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                             leavesToKeep.insert(l);
                         }
                     } else if (outOfRange) {
-                        // This is a grouped clip positionned before the spacer operation position, check maximum space before
+                        // This is a grouped clip positionned before the spacer operation position, check maximum space before / after
                         std::unordered_set<int> beforeOnTrack = timeline->getItemsInRange(tid, 0, pos - 1);
+                        std::unordered_set<int> afterOnTrack = timeline->getItemsInRange(tid, itemEnd, position);
                         for (auto &c : allClips) {
                             beforeOnTrack.erase(c);
+                            afterOnTrack.erase(c);
                         }
                         int lastPos = 0;
                         for (int c : beforeOnTrack) {
@@ -436,12 +442,32 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                                 lastPos = p;
                             }
                         }
-                        if (relatedMaxSpace.contains(trackId)) {
-                            if (relatedMaxSpace.value(trackId) > (pos - lastPos)) {
-                                relatedMaxSpace.insert(trackId, pos - lastPos);
+                        if (lastPos > -1) {
+                            if (relatedMaxSpace.contains(tid)) {
+                                std::pair<int, int> maxes = relatedMaxSpace.value(tid);
+                                if (maxes.first > (pos - lastPos)) {
+                                    relatedMaxSpace.insert(tid, {pos - lastPos, maxes.second});
+                                }
+                            } else {
+                                relatedMaxSpace.insert(tid, {pos - lastPos, -1});
                             }
-                        } else {
-                            relatedMaxSpace.insert(trackId, pos - lastPos);
+                        }
+                        lastPos = -1;
+                        for (int c : afterOnTrack) {
+                            int p = timeline->getItemPosition(c);
+                            if (lastPos == -1 || p < lastPos) {
+                                lastPos = p;
+                            }
+                        }
+                        if (lastPos > -1) {
+                            if (relatedMaxSpace.contains(tid)) {
+                                std::pair<int, int> maxes = relatedMaxSpace.value(tid);
+                                if (maxes.second == -1 || maxes.second > (lastPos - itemEnd)) {
+                                    relatedMaxSpace.insert(tid, {maxes.first, lastPos - itemEnd});
+                                }
+                            } else {
+                                relatedMaxSpace.insert(tid, {-1, lastPos - itemEnd});
+                            }
                         }
                     }
                     if (!outOfRange && !unaffectedTrack) {
@@ -531,10 +557,15 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                 }
             }
             if (relatedMaxSpace.contains(it.key())) {
-                spaceDuration = qMin(spaceDuration, relatedMaxSpace.value(it.key()));
+                spaceDuration = qMin(spaceDuration, relatedMaxSpace.value(it.key()).first);
+                int after = relatedMaxSpace.value(it.key()).second;
+                if (after > -1) {
+                    spaceAfterDuration = spaceAfterDuration == -1 ? after : qMin(spaceAfterDuration, after);
+                }
             }
         }
         spacerMinPosition = timeline->getItemPosition(firstCid) - spaceDuration;
+        spacerMaxPosition = spaceAfterDuration > -1 ? spaceAfterDuration + timeline->getItemPosition(firstCid) : -1;
         return {firstCid, spaceDuration};
     }
     return {-1, -1};
@@ -556,6 +587,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
 
     // Move group back to original position
     spacerMinPosition = -1;
+    spacerMaxPosition = -1;
     int track = timeline->getItemTrackId(itemId);
     bool isClip = timeline->isClip(itemId);
     if (isClip) {
@@ -3106,4 +3138,9 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
 int TimelineFunctions::spacerMinPos()
 {
     return spacerMinPosition;
+}
+
+int TimelineFunctions::spacerMaxPos()
+{
+    return spacerMaxPosition;
 }

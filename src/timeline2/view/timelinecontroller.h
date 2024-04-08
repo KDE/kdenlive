@@ -423,6 +423,7 @@ public:
     /** @brief Returns the minimum available position for a spacer operation
      */
     Q_INVOKABLE int spacerMinPos() const;
+    Q_INVOKABLE int spacerMaxPos() const;
     /** @brief Get a list of guides Id after a given frame
      */
     Q_INVOKABLE QVector<int> spacerSelection(int startFrame);

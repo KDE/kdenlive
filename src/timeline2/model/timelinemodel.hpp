@@ -444,8 +444,9 @@ public:
        @param dontRefreshMasterClip when false, no view refresh is attempted
        @returns  a list in the form {position, trackId}
         */
-    Q_INVOKABLE QVariantList suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1);
-    Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true);
+    Q_INVOKABLE QVariantList suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
+    Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true,
+                                             bool fakeMove = false);
     Q_INVOKABLE int suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance);
     Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
     /** @brief returns the frame pos adjusted to edit mode
@@ -700,7 +701,8 @@ protected:
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
        @returns best snap position or -1 if no snap point is near
      */
-    int getBestSnapPos(int referencePos, int diff, std::vector<int> pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
+    int getBestSnapPos(int referencePos, int diff, std::vector<int> pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1,
+                       bool fakeMove = false);
 
     /** @brief Returns the best possible size for a clip on resize
      */

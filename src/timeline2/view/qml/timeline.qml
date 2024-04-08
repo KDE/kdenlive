@@ -519,6 +519,7 @@ Rectangle {
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property bool scrollVertically: timeline.scrollVertically
     property int spacerMinPos: 0
+    property int spacerMaxPos: -1
 
     onAutoTrackHeightChanged: {
         trackHeightTimer.stop()
@@ -1402,6 +1403,7 @@ Rectangle {
 
                         spacerGroup = timeline.requestSpacerStartOperation(spacerTrack, frame)
                         spacerMinPos = timeline.spacerMinPos()
+                        spacerMaxPos = timeline.spacerMaxPos()
                         if (spacerGroup > -1 || spacerGuides) {
                             drag.axis = Drag.XAxis
                             Drag.active = true
@@ -1521,7 +1523,10 @@ Rectangle {
                         var lastPos = controller.getItemPosition(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale) + spacerFrame - spacerClickFrame
                         frame = Math.max(spacerMinPos, frame)
-                        finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)[0]
+                        if (spacerMaxPos > -1) {
+                            frame = Math.min(spacerMaxPos, frame)
+                        }
+                        finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping, true)[0]
                         if (spacerGuides) {
                             timeline.spacerMoveGuides(selectedGuides, finalSpacerFrame - lastPos)
                         }
@@ -1613,6 +1618,7 @@ Rectangle {
                     spacerFrame = -1
                     spacerGroup = -1
                     spacerMinPos = -1
+                    spacerMaxPos = -1
                     selectedGuides = []
                     spacerGuides = false
                 }

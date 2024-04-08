@@ -1917,6 +1917,11 @@ int TimelineController::spacerMinPos() const
     return TimelineFunctions::spacerMinPos();
 }
 
+int TimelineController::spacerMaxPos() const
+{
+    return TimelineFunctions::spacerMaxPos();
+}
+
 void TimelineController::spacerMoveGuides(const QVector<int> &ids, int offset)
 {
     m_model->getGuideModel()->moveMarkersWithoutUndo(ids, offset);

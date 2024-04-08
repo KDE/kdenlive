@@ -98,7 +98,7 @@ struct TimelineFunctions
     static bool requestDeleteAllClipsFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position);
 
     /** @brief Starts a spacer operation. Should be used together with requestSpacerEndOperation
-        @returns {clipId, max blank duration} of the position-wise first clip in the temporary group
+        @returns {clipId, {max blank duration before, max_blank duration after}} of the position-wise first clip in the temporary group
         @param timeline TimelineItemModel where the operation should be performed on
         @param trackId
         @param position
@@ -172,6 +172,7 @@ struct TimelineFunctions
     static QDomDocument extractClip(const std::shared_ptr<TimelineItemModel> &timeline, int cid, const QString &binId);
 
     static int spacerMinPos();
+    static int spacerMaxPos();
 
 private:
     static bool getUsedTracks(const QDomNodeList &clips, const QDomNodeList &compositions, int masterSourceTrack, int &topAudioMirror, TimelineTracksInfo &allTracks, QList<int> &singleAudioTracks, std::unordered_map<int, int> &audioMirrors);
