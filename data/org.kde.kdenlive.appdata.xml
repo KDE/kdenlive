@@ -59,7 +59,6 @@
   <summary xml:lang="ka">ვიდეორედაქტორი</summary>
   <summary xml:lang="nl">Videobewerker</summary>
   <summary xml:lang="pl">Edytor wideo</summary>
-  <summary xml:lang="pt-BR">Editor de Vídeo</summary>
   <summary xml:lang="sl">Program za videomontažo</summary>
   <summary xml:lang="tr">Video Düzenleyicisi</summary>
   <summary xml:lang="uk">Відеоредактор</summary>
@@ -224,7 +223,6 @@
       <li xml:lang="ka">მოძრაობის ტრეკინგი</li>
       <li xml:lang="nl">Volgen van beweging</li>
       <li xml:lang="pl">Śledzenie ruchu</li>
-      <li xml:lang="pt-BR">Rastreamento de movimento</li>
       <li xml:lang="sl">Sledenje gibanju</li>
       <li xml:lang="tr">Hareket izlemesi</li>
       <li xml:lang="uk">Стеження за рухом</li>
@@ -243,7 +241,6 @@
       <li xml:lang="ka">ფუნქციები AI-ით</li>
       <li xml:lang="nl">AI aangedreven hulpmiddelen</li>
       <li xml:lang="pl">Narzędzia wspomagane SI</li>
-      <li xml:lang="pt-BR">Ferramentas com IA</li>
       <li xml:lang="sl">Orodja, ki jih poganja umetna inteligenca</li>
       <li xml:lang="tr">Yapay Zeka destekli araçlar</li>
       <li xml:lang="uk">Інструменти на основі ШІ</li>
@@ -293,7 +290,6 @@
       <caption xml:lang="ka">ბნელი თემა</caption>
       <caption xml:lang="nl">Donker thema</caption>
       <caption xml:lang="pl">Ciemny wygląd</caption>
-      <caption xml:lang="pt-BR">Tema escuro</caption>
       <caption xml:lang="sl">Temna tema</caption>
       <caption xml:lang="tr">Koyu tema</caption>
       <caption xml:lang="uk">Темна тема</caption>
@@ -315,7 +311,6 @@
       <caption xml:lang="ka">ნაგულისხმევი ინტერფეისი</caption>
       <caption xml:lang="nl">Standaard interface</caption>
       <caption xml:lang="pl">Domyślny interfejs</caption>
-      <caption xml:lang="pt-BR">Interface padrão</caption>
       <caption xml:lang="sl">Privzeti vmesnik</caption>
       <caption xml:lang="tr">Öntanımlı arayüz</caption>
       <caption xml:lang="uk">Типовий інтерфейс</caption>
@@ -338,7 +333,6 @@
       <caption xml:lang="ka">ფერების კორექცია</caption>
       <caption xml:lang="nl">Kleurcorrectie</caption>
       <caption xml:lang="pl">Poprawki barw</caption>
-      <caption xml:lang="pt-BR">Correção de cores</caption>
       <caption xml:lang="sl">Korekcija barv</caption>
       <caption xml:lang="tr">Renk düzeltmesi</caption>
       <caption xml:lang="uk">Виправлення кольорів</caption>
@@ -360,7 +354,6 @@
       <caption xml:lang="ka">მორგებადი ინტერფეისი</caption>
       <caption xml:lang="nl">Te configureren interface</caption>
       <caption xml:lang="pl">Interfejs dający się dostosować</caption>
-      <caption xml:lang="pt-BR">Interface configurável</caption>
       <caption xml:lang="sl">Nastavljiv vmesnik</caption>
       <caption xml:lang="tr">Yapılandırılabilir arayüz</caption>
       <caption xml:lang="uk">Придатний до налаштовування інтерфейс</caption>
@@ -382,7 +375,6 @@
       <caption xml:lang="ka">დასათაურება</caption>
       <caption xml:lang="nl">Titels toevoegen</caption>
       <caption xml:lang="pl">Nadawanie tytułów</caption>
-      <caption xml:lang="pt-BR">Gerador de caracteres</caption>
       <caption xml:lang="sl">Naslavljanje</caption>
       <caption xml:lang="tr">Başlıklandırma</caption>
       <caption xml:lang="uk">Титрування</caption>
