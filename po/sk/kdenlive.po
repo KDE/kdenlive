@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-05 02:42+0000\n"
+"POT-Creation-Date: 2024-04-09 02:45+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -938,7 +938,7 @@ msgstr "Prelínať video z čiernej"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1295 src/bin/projectitemmodel.cpp:327
+#: src/bin/bin.cpp:1294 src/bin/projectitemmodel.cpp:327
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:353 src/timeline2/view/qml/Track.qml:427
 #: src/timeline2/view/qml/Track.qml:448 src/ui/clipdurationdialog_ui.ui:18
@@ -1428,8 +1428,8 @@ msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
-#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1398
-#: src/bin/bin.cpp:1403 src/bin/bin.cpp:2341
+#: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1397
+#: src/bin/bin.cpp:1402 src/bin/bin.cpp:2340
 #, kde-format
 msgid "Filter"
 msgstr "Filter"
@@ -3329,7 +3329,7 @@ msgstr "Zobraziť/skryť popis efektov"
 msgid "Show/hide description of the compositions"
 msgstr "Zobraziť popis"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:174 src/bin/bin.cpp:1194
+#: src/assets/assetlist/view/assetlistwidget.cpp:174 src/bin/bin.cpp:1193
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
@@ -4081,7 +4081,7 @@ msgid "Default Keyframe Type"
 msgstr "Predvolený typ kľúčovej snímky"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:257 src/bin/bin.cpp:1348
+#: src/assets/view/widgets/keyframewidget.cpp:257 src/bin/bin.cpp:1347
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -4269,7 +4269,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4799
+#: src/timeline2/view/timelinecontroller.cpp:4802
 #, kde-format
 msgid "Record audio"
 msgstr "Nahrať zvuk"
@@ -4312,25 +4312,25 @@ msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
 msgstr ""
 
-#: src/bin/bin.cpp:700 src/bin/bin.cpp:874
+#: src/bin/bin.cpp:699 src/bin/bin.cpp:873
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
 msgstr ""
 
-#: src/bin/bin.cpp:808 src/bin/bin.cpp:917
+#: src/bin/bin.cpp:807 src/bin/bin.cpp:916
 #, kde-format
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
 
-#: src/bin/bin.cpp:810 src/bin/bin.cpp:919
+#: src/bin/bin.cpp:809 src/bin/bin.cpp:918
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "<b>F2</b> to rename selected item"
 msgstr "Vymazať vybranú položku"
 
-#: src/bin/bin.cpp:1072
+#: src/bin/bin.cpp:1071
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
@@ -4338,7 +4338,7 @@ msgstr[0] "%1 úloha"
 msgstr[1] "%1 úlohy"
 msgstr[2] "%1 úloh"
 
-#: src/bin/bin.cpp:1073
+#: src/bin/bin.cpp:1072
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
@@ -4346,91 +4346,91 @@ msgstr[0] "%1 čakajúca úloha"
 msgstr[1] "%1 čakajúce úlohy"
 msgstr[2] "%1 čakajúcich úloh"
 
-#: src/bin/bin.cpp:1196
+#: src/bin/bin.cpp:1195
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Bin Search"
 msgstr "Hľadať"
 
-#: src/bin/bin.cpp:1238
+#: src/bin/bin.cpp:1237
 #, kde-format
 msgid "View Mode"
 msgstr "Režim zobrazenia"
 
-#: src/bin/bin.cpp:1241
+#: src/bin/bin.cpp:1240
 #, kde-format
 msgid "Tree View"
 msgstr "Stromové zobrazenie"
 
-#: src/bin/bin.cpp:1248
+#: src/bin/bin.cpp:1247
 #, fuzzy, kde-format
 #| msgid "Cannot find profile from current clip"
 msgid "Adjust Profile to Current Clip"
 msgstr "Nie je možné nájsť profil z aktuálneho klipu"
 
-#: src/bin/bin.cpp:1252
+#: src/bin/bin.cpp:1251
 #, kde-format
 msgid "Icon View"
 msgstr "Zobrazenie s ikonami"
 
-#: src/bin/bin.cpp:1260 src/project/dialogs/guideslist.cpp:105
+#: src/bin/bin.cpp:1259 src/project/dialogs/guideslist.cpp:105
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Descending"
 msgstr "Nahrať"
 
-#: src/bin/bin.cpp:1276
+#: src/bin/bin.cpp:1275
 #, kde-format
 msgid "Sort By"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
-#: src/bin/bin.cpp:1279 src/bin/projectitemmodel.cpp:312
+#: src/bin/bin.cpp:1278 src/bin/projectitemmodel.cpp:312
 #: src/ui/managesubtitles_ui.ui:103
 #, kde-format
 msgid "Name"
 msgstr "Názov"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1283 src/bin/projectitemmodel.cpp:315
+#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:315
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Dátum"
 
-#: src/bin/bin.cpp:1287 src/bin/projectitemmodel.cpp:318
+#: src/bin/bin.cpp:1286 src/bin/projectitemmodel.cpp:318
 #, kde-format
 msgid "Description"
 msgstr "Popis"
 
-#: src/bin/bin.cpp:1291 src/bin/projectitemmodel.cpp:321
+#: src/bin/bin.cpp:1290 src/bin/projectitemmodel.cpp:321
 #, kde-format
 msgid "Type"
 msgstr "Typ"
 
-#: src/bin/bin.cpp:1299
+#: src/bin/bin.cpp:1298
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert Order"
 msgstr "Mód vkladania"
 
-#: src/bin/bin.cpp:1303 src/bin/projectitemmodel.cpp:333
+#: src/bin/bin.cpp:1302 src/bin/projectitemmodel.cpp:333
 #, kde-format
 msgid "Rating"
 msgstr "Hodnotenie"
 
-#: src/bin/bin.cpp:1327
+#: src/bin/bin.cpp:1326
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr "Zakázať efekty koša"
 
-#: src/bin/bin.cpp:1335
+#: src/bin/bin.cpp:1334
 #, fuzzy, kde-format
 #| msgid "Show video thumbnails"
 msgid "Show Video Preview in Thumbnails"
 msgstr "Ukazovať video náhľady"
 
-#: src/bin/bin.cpp:1349
+#: src/bin/bin.cpp:1348
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4438,30 +4438,30 @@ msgid ""
 "rating)."
 msgstr ""
 
-#: src/bin/bin.cpp:1356
+#: src/bin/bin.cpp:1355
 #, fuzzy, kde-format
 #| msgid "Show date"
 msgid "Show Date"
 msgstr "Zobraziť dátum"
 
-#: src/bin/bin.cpp:1360
+#: src/bin/bin.cpp:1359
 #, fuzzy, kde-format
 #| msgid "Show description"
 msgid "Show Description"
 msgstr "Zobraziť popis"
 
-#: src/bin/bin.cpp:1364
+#: src/bin/bin.cpp:1363
 #, fuzzy, kde-format
 #| msgid "Show date"
 msgid "Show Rating"
 msgstr "Zobraziť dátum"
 
-#: src/bin/bin.cpp:1382
+#: src/bin/bin.cpp:1381
 #, kde-format
 msgid "Tags Panel"
 msgstr ""
 
-#: src/bin/bin.cpp:1404
+#: src/bin/bin.cpp:1403
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4470,66 +4470,66 @@ msgid ""
 "settings."
 msgstr ""
 
-#: src/bin/bin.cpp:1445
+#: src/bin/bin.cpp:1444
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "Zrušiť všetky úlohy"
 
-#: src/bin/bin.cpp:1447
+#: src/bin/bin.cpp:1446
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "Zrušiť aktuálne úlohy klipu"
 
-#: src/bin/bin.cpp:1449
+#: src/bin/bin.cpp:1448
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr "Zrušiť čakajúce úlohy"
 
-#: src/bin/bin.cpp:1490
+#: src/bin/bin.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Clip Properties"
 msgid "Bin Clip Properties"
 msgstr "Vlastnosti klipu"
 
-#: src/bin/bin.cpp:1793
+#: src/bin/bin.cpp:1792
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr ""
 
-#: src/bin/bin.cpp:1796
+#: src/bin/bin.cpp:1795
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr ""
 
-#: src/bin/bin.cpp:1803
+#: src/bin/bin.cpp:1802
 #, fuzzy, kde-format
 #| msgid "This will delete all selected clips from timeline"
 msgid "This will delete all selected clips from the timeline"
 msgstr "Toto vymaže všetky vybrané klipy z časovej osi"
 
-#: src/bin/bin.cpp:1806
+#: src/bin/bin.cpp:1805
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "Toto vymaže celý obsah priečinku"
 
-#: src/bin/bin.cpp:1823
+#: src/bin/bin.cpp:1822
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr ""
 
-#: src/bin/bin.cpp:1825
+#: src/bin/bin.cpp:1824
 #, fuzzy, kde-format
 #| msgid "Delete Clip"
 msgid "Delete bin Clips"
 msgstr "Vymazať klip"
 
-#: src/bin/bin.cpp:1850
+#: src/bin/bin.cpp:1849
 #, kde-format
 msgid "Missing source clip"
 msgstr "Chýbajúci zdrojový klip"
 
-#: src/bin/bin.cpp:1866 src/bin/bin.cpp:2543
+#: src/bin/bin.cpp:1865 src/bin/bin.cpp:2542
 #: src/effects/effectlist/view/effectlistwidget.cpp:146
 #: src/renderpresets/renderpresetrepository.cpp:156
 #: src/renderpresets/renderpresetrepository.cpp:433
@@ -4537,7 +4537,7 @@ msgstr "Chýbajúci zdrojový klip"
 msgid "Unable to write to file %1"
 msgstr "Nemôžem zapisovať do súboru %1"
 
-#: src/bin/bin.cpp:1876 src/bin/bin.cpp:2552 src/doc/kdenlivedoc.cpp:742
+#: src/bin/bin.cpp:1875 src/bin/bin.cpp:2551 src/doc/kdenlivedoc.cpp:742
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4547,13 +4547,13 @@ msgstr ""
 "Aby bolo zaistené, že nestratíte dáta, vytvorila sa záložná kópia s názvom "
 "%1."
 
-#: src/bin/bin.cpp:1882
+#: src/bin/bin.cpp:1881
 #, fuzzy, kde-format
 #| msgid "Unable to write to file %1"
 msgid "Unable to parse file %1"
 msgstr "Nemôžem zapisovať do súboru %1"
 
-#: src/bin/bin.cpp:1893
+#: src/bin/bin.cpp:1892
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open archive file:\n"
@@ -4563,7 +4563,7 @@ msgstr ""
 "Nie je možné otvoriť archivovaný súbor:\n"
 " %1"
 
-#: src/bin/bin.cpp:1919 src/bin/bin.cpp:2132
+#: src/bin/bin.cpp:1918 src/bin/bin.cpp:2131
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -4571,27 +4571,27 @@ msgid ""
 "Replacement is %1 frames shorter."
 msgstr ""
 
-#: src/bin/bin.cpp:1926 src/bin/bin.cpp:2138
+#: src/bin/bin.cpp:1925 src/bin/bin.cpp:2137
 #: src/bin/model/subtitlemodel.cpp:399
 #, fuzzy, kde-format
 #| msgid "The clip %1 is invalid."
 msgid "The selected file %1 is invalid."
 msgstr "Klip %1 je neplatný."
 
-#: src/bin/bin.cpp:1932
+#: src/bin/bin.cpp:1931
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to edit"
 msgid "Cannot find original clip to be replaced"
 msgstr "Nie je možné nájsť klip na úpravu"
 
-#: src/bin/bin.cpp:1956
+#: src/bin/bin.cpp:1955
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
 
-#: src/bin/bin.cpp:1962
+#: src/bin/bin.cpp:1961
 #, fuzzy, kde-format
 #| msgid ""
 #| "Delete clip <b>%2</b>?<br />This will also remove the clip in timeline"
@@ -4600,90 +4600,90 @@ msgstr ""
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr "Vymazať klip <b>%2</b>?<br />Toto tiež odstráni klip v časovej osi"
 
-#: src/bin/bin.cpp:1967
+#: src/bin/bin.cpp:1966
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr ""
 
-#: src/bin/bin.cpp:1986
+#: src/bin/bin.cpp:1985
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
 
-#: src/bin/bin.cpp:1997
+#: src/bin/bin.cpp:1996
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
 
-#: src/bin/bin.cpp:2002
+#: src/bin/bin.cpp:2001
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2004 src/timeline2/model/timelineitemmodel.cpp:935
+#: src/bin/bin.cpp:2003 src/timeline2/model/timelineitemmodel.cpp:935
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "Replace audio"
 msgstr "Nahrať zvuk"
 
-#: src/bin/bin.cpp:2007 src/timeline2/model/timelineitemmodel.cpp:935
+#: src/bin/bin.cpp:2006 src/timeline2/model/timelineitemmodel.cpp:935
 #, fuzzy, kde-format
 #| msgid "Restore video"
 msgid "Replace video"
 msgstr "Obnoviť video"
 
-#: src/bin/bin.cpp:2017
+#: src/bin/bin.cpp:2016
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2020
+#: src/bin/bin.cpp:2019
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr ""
 
-#: src/bin/bin.cpp:2055
+#: src/bin/bin.cpp:2054
 #, fuzzy, kde-format
 #| msgid "Open Backup File"
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "Otvoriť záložný súbor"
 
-#: src/bin/bin.cpp:2089
+#: src/bin/bin.cpp:2088
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
 
-#: src/bin/bin.cpp:2094
+#: src/bin/bin.cpp:2093
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
 
-#: src/bin/bin.cpp:2098 src/bin/bin.cpp:2124
+#: src/bin/bin.cpp:2097 src/bin/bin.cpp:2123
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr ""
 
-#: src/bin/bin.cpp:2101
+#: src/bin/bin.cpp:2100
 #, fuzzy, kde-format
 #| msgid "Main timeline"
 msgid "Replace in timeline"
 msgstr "Hlavná časová os"
 
-#: src/bin/bin.cpp:2122 src/bin/bin.cpp:5753 src/bin/clipcreator.cpp:326
+#: src/bin/bin.cpp:2121 src/bin/bin.cpp:5752 src/bin/clipcreator.cpp:326
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -4691,54 +4691,54 @@ msgctxt "@action"
 msgid "Add clip"
 msgstr "Pridať klip"
 
-#: src/bin/bin.cpp:2170
+#: src/bin/bin.cpp:2169
 #, kde-format
 msgid "Could not locate %1"
 msgstr "Nemôžem nájsť %1"
 
-#: src/bin/bin.cpp:2217
+#: src/bin/bin.cpp:2216
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary file in %1"
 msgstr "Nemožno vytvoriť dočasný súbor"
 
-#: src/bin/bin.cpp:2225
+#: src/bin/bin.cpp:2224
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Duplicating sequence failed"
 msgstr "Vymazať kľúčovú snímku"
 
-#: src/bin/bin.cpp:2239
+#: src/bin/bin.cpp:2238
 #, fuzzy, kde-format
 #| msgctxt "append to clip name to indicate a copied idem"
 #| msgid " (copy)"
 msgid "%1 (copy)"
 msgstr " (kopírovať)"
 
-#: src/bin/bin.cpp:2242 src/bin/bin.cpp:2264 src/bin/bin.cpp:2266
+#: src/bin/bin.cpp:2241 src/bin/bin.cpp:2263 src/bin/bin.cpp:2265
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Duplikovať klip"
 
-#: src/bin/bin.cpp:2255
+#: src/bin/bin.cpp:2254
 #, kde-format
 msgctxt "append to clip name to indicate a copied idem"
 msgid " (copy)"
 msgstr " (kopírovať)"
 
-#: src/bin/bin.cpp:2391
+#: src/bin/bin.cpp:2390
 #, fuzzy, kde-format
 #| msgid "Clear center size"
 msgid "Clear Filters"
 msgstr "Vyčistiť veľkosť stredu"
 
-#: src/bin/bin.cpp:2397
+#: src/bin/bin.cpp:2396
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "No Tags"
 msgstr "Upraviť dĺžku trvania"
 
-#: src/bin/bin.cpp:2416
+#: src/bin/bin.cpp:2415
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "%1 Star"
@@ -4747,42 +4747,42 @@ msgstr[0] "Spustiť"
 msgstr[1] "Spustiť"
 msgstr[2] "Spustiť"
 
-#: src/bin/bin.cpp:2423
+#: src/bin/bin.cpp:2422
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter by Usage"
 msgstr "Filter %1"
 
-#: src/bin/bin.cpp:2426
+#: src/bin/bin.cpp:2425
 #, fuzzy, kde-format
 #| msgid "All clips"
 msgid "All Clips"
 msgstr "Všetky klipy"
 
-#: src/bin/bin.cpp:2431
+#: src/bin/bin.cpp:2430
 #, fuzzy, kde-format
 #| msgid "Unused clips:"
 msgid "Unused Clips"
 msgstr "Nepoužité klipy:"
 
-#: src/bin/bin.cpp:2435
+#: src/bin/bin.cpp:2434
 #, fuzzy, kde-format
 #| msgid "Unused clips:"
 msgid "Used Clips"
 msgstr "Nepoužité klipy:"
 
-#: src/bin/bin.cpp:2442
+#: src/bin/bin.cpp:2441
 #, fuzzy, kde-format
 #| msgid "Filter %1"
 msgid "Filter by Type"
 msgstr "Filter %1"
 
-#: src/bin/bin.cpp:2445
+#: src/bin/bin.cpp:2444
 #, kde-format
 msgid "AV Clip"
 msgstr "AV Klip"
 
-#: src/bin/bin.cpp:2449
+#: src/bin/bin.cpp:2448
 #, kde-format
 msgid "Mute Video"
 msgstr "Stlmiť video"
@@ -4792,7 +4792,7 @@ msgstr "Stlmiť video"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2453 src/effects/effectlist/model/effecttreemodel.cpp:62
+#: src/bin/bin.cpp:2452 src/effects/effectlist/model/effecttreemodel.cpp:62
 #: src/layoutmanagement.cpp:36 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:596
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:525
@@ -4802,24 +4802,24 @@ msgstr "Stlmiť video"
 msgid "Audio"
 msgstr "Zvuk"
 
-#: src/bin/bin.cpp:2457 src/mltcontroller/clippropertiescontroller.cpp:445
+#: src/bin/bin.cpp:2456 src/mltcontroller/clippropertiescontroller.cpp:445
 #, kde-format
 msgid "Image"
 msgstr "Obrázok"
 
-#: src/bin/bin.cpp:2461
+#: src/bin/bin.cpp:2460
 #, kde-format
 msgid "Slideshow"
 msgstr "Prezentácia"
 
-#: src/bin/bin.cpp:2465
+#: src/bin/bin.cpp:2464
 #, kde-format
 msgid "Playlist"
 msgstr "Zoznam skladieb"
 
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2469 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
+#: src/bin/bin.cpp:2468 src/bin/clipcreator.cpp:240 src/bin/clipcreator.cpp:242
 #: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1519
 #: src/project/projectmanager.cpp:1521 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
@@ -4827,42 +4827,42 @@ msgstr "Zoznam skladieb"
 msgid "Sequences"
 msgstr "Názov sekvencie"
 
-#: src/bin/bin.cpp:2473 src/project/dialogs/projectsettings.cpp:216
+#: src/bin/bin.cpp:2472 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
 msgid "Title"
 msgstr "Názov"
 
-#: src/bin/bin.cpp:2477
+#: src/bin/bin.cpp:2476
 #, fuzzy, kde-format
 #| msgid "Template"
 msgid "Title Template"
 msgstr "Šablóna"
 
-#: src/bin/bin.cpp:2481 src/layoutmanagement.cpp:38
+#: src/bin/bin.cpp:2480 src/layoutmanagement.cpp:38
 #: src/mltcontroller/clippropertiescontroller.cpp:359
 #, kde-format
 msgid "Color"
 msgstr "Farba"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:2573 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:2572 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Priečinok"
 
-#: src/bin/bin.cpp:2574
+#: src/bin/bin.cpp:2573
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Create bin folder"
 msgstr "Vytvoriť priečinok"
 
-#: src/bin/bin.cpp:2707 src/bin/bin.cpp:2720 src/bin/bin.cpp:3685
+#: src/bin/bin.cpp:2706 src/bin/bin.cpp:2719 src/bin/bin.cpp:3684
 #: src/timeline2/model/timelinemodel.cpp:2127
 #, kde-format
 msgid "Delete Clip"
 msgstr "Vymazať klip"
 
-#: src/bin/bin.cpp:2709 src/bin/bin.cpp:2722
+#: src/bin/bin.cpp:2708 src/bin/bin.cpp:2721
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4870,40 +4870,40 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2710 src/bin/bin.cpp:2723 src/bin/bin.cpp:3661
+#: src/bin/bin.cpp:2709 src/bin/bin.cpp:2722 src/bin/bin.cpp:3660
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Zástupný klip"
 
-#: src/bin/bin.cpp:2714
+#: src/bin/bin.cpp:2713
 #, kde-format
 msgid "Delete Folder"
 msgstr "Vymazať priečinok"
 
-#: src/bin/bin.cpp:2715
+#: src/bin/bin.cpp:2714
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Zástupný priečinok"
 
-#: src/bin/bin.cpp:2967
+#: src/bin/bin.cpp:2966
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit rating"
 msgstr "Upraviť dĺžku trvania"
 
-#: src/bin/bin.cpp:2969
+#: src/bin/bin.cpp:2968
 #, fuzzy, kde-format
 #| msgid "Cannot edit the duration of multiple items"
 msgid "Cannot set rating on this item"
 msgstr "Nie je možné upravovať trvanie viac položiek"
 
-#: src/bin/bin.cpp:3605
+#: src/bin/bin.cpp:3604
 #, fuzzy, kde-format
 #| msgid "Add Clip or Folder"
 msgid "Add Clip or Folder…"
 msgstr "Pridať klip alebo priečinok"
 
-#: src/bin/bin.cpp:3606
+#: src/bin/bin.cpp:3605
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4913,109 +4913,109 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:3612
+#: src/bin/bin.cpp:3611
 #, fuzzy, kde-format
 #| msgid "Add Color Clip"
 msgid "Add Color Clip…"
 msgstr "Pridať farebný klip"
 
-#: src/bin/bin.cpp:3614
+#: src/bin/bin.cpp:3613
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Add Image Sequence…"
 msgstr "Obrázková sekvencia"
 
-#: src/bin/bin.cpp:3616
+#: src/bin/bin.cpp:3615
 #, fuzzy, kde-format
 #| msgid "Add Title Clip"
 msgid "Add Title Clip…"
 msgstr "Pridať titulný klip"
 
-#: src/bin/bin.cpp:3618
+#: src/bin/bin.cpp:3617
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add Template Title…"
 msgstr "Pridať titul šablóny"
 
-#: src/bin/bin.cpp:3620
+#: src/bin/bin.cpp:3619
 #, fuzzy, kde-format
 #| msgid "Create mix"
 msgid "Create Animation…"
 msgstr "Vytvoriť mix"
 
-#: src/bin/bin.cpp:3622
+#: src/bin/bin.cpp:3621
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Add Sequence…"
 msgstr "Obrázková sekvencia"
 
-#: src/bin/bin.cpp:3625 src/mainwindow.cpp:375
+#: src/bin/bin.cpp:3624 src/mainwindow.cpp:375
 #, kde-format
 msgid "Online Resources"
 msgstr "Online zdroje"
 
-#: src/bin/bin.cpp:3629
+#: src/bin/bin.cpp:3628
 #, fuzzy, kde-format
 #| msgid "Locate Clip..."
 msgid "Locate Clip…"
 msgstr "Lokalizovať klip..."
 
-#: src/bin/bin.cpp:3634
+#: src/bin/bin.cpp:3633
 #, kde-format
 msgid "Reload Clip"
 msgstr "Znovu načítať klip"
 
-#: src/bin/bin.cpp:3640
+#: src/bin/bin.cpp:3639
 #, fuzzy, kde-format
 #| msgid "Transcoding to DVD format"
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Prekódovanie na DVD formát"
 
-#: src/bin/bin.cpp:3645
+#: src/bin/bin.cpp:3644
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip…"
 msgstr "Nahradiť klip"
 
-#: src/bin/bin.cpp:3651
+#: src/bin/bin.cpp:3650
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip In Timeline…"
 msgstr "Nahradiť klip"
 
-#: src/bin/bin.cpp:3656
+#: src/bin/bin.cpp:3655
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplikovať klip"
 
-#: src/bin/bin.cpp:3668 src/bin/bin.cpp:3729
+#: src/bin/bin.cpp:3667 src/bin/bin.cpp:3728
 #, kde-format
 msgid "Clip Properties"
 msgstr "Vlastnosti klipu"
 
-#: src/bin/bin.cpp:3673 src/mltcontroller/clippropertiescontroller.cpp:296
+#: src/bin/bin.cpp:3672 src/mltcontroller/clippropertiescontroller.cpp:296
 #, kde-format
 msgid "Edit Clip"
 msgstr "Upraviť klip"
 
-#: src/bin/bin.cpp:3690
+#: src/bin/bin.cpp:3689
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid "Open in new bin"
 msgstr "Otvára sa súbor %1"
 
-#: src/bin/bin.cpp:3702
+#: src/bin/bin.cpp:3701
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Sequences"
 msgstr "Predvolený priečinok pre súbory projektu"
 
-#: src/bin/bin.cpp:3706
+#: src/bin/bin.cpp:3705
 #, kde-format
 msgid "Create Folder"
 msgstr "Vytvoriť priečinok"
 
-#: src/bin/bin.cpp:3709
+#: src/bin/bin.cpp:3708
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5023,31 +5023,31 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3774 src/dialogs/speechdialog.cpp:48
+#: src/bin/bin.cpp:3773 src/dialogs/speechdialog.cpp:48
 #: src/dialogs/textbasededit.cpp:721 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Ukázať záznam"
 
-#: src/bin/bin.cpp:3777 src/dialogs/textbasededit.cpp:722
+#: src/bin/bin.cpp:3776 src/dialogs/textbasededit.cpp:722
 #, kde-format
 msgid "Detailed log"
 msgstr "Detailný výpis"
 
-#: src/bin/bin.cpp:3837 src/bin/bin.cpp:3870
+#: src/bin/bin.cpp:3836 src/bin/bin.cpp:3869
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Vytvoriť novú sekvenciu"
 
-#: src/bin/bin.cpp:3840 src/bin/bin.cpp:3843 src/bin/bin.cpp:3873
+#: src/bin/bin.cpp:3839 src/bin/bin.cpp:3842 src/bin/bin.cpp:3872
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence %1"
 msgstr "Názov sekvencie"
 
-#: src/bin/bin.cpp:3904
+#: src/bin/bin.cpp:3903
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
@@ -5055,43 +5055,43 @@ msgstr[0] "Presunúť klip"
 msgstr[1] "Presunúť klipy"
 msgstr[2] "Presunúť klipy"
 
-#: src/bin/bin.cpp:3946
+#: src/bin/bin.cpp:3945
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Neplatný klip na spracovanie"
 
-#: src/bin/bin.cpp:3959 src/timeline2/view/timelinecontroller.cpp:1535
+#: src/bin/bin.cpp:3958 src/timeline2/view/timelinecontroller.cpp:1535
 #: src/timeline2/view/timelinecontroller.cpp:3380
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Vybrať klip, na použitie efektu"
 
-#: src/bin/bin.cpp:3982
+#: src/bin/bin.cpp:3981
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot apply effects on folders"
 msgstr "Nie je možné pridať video efekt do tohto klipu"
 
-#: src/bin/bin.cpp:4008 src/effects/effectstack/model/effectstackmodel.cpp:528
+#: src/bin/bin.cpp:4007 src/effects/effectstack/model/effectstackmodel.cpp:528
 #: src/effects/effectstack/model/effectstackmodel.cpp:534
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
 msgstr "Nie je možné pridať video efekt do tohto klipu"
 
-#: src/bin/bin.cpp:4054 src/bin/bin.cpp:4061
+#: src/bin/bin.cpp:4053 src/bin/bin.cpp:4060
 #, fuzzy, kde-format
 #| msgid "Select a clip to save"
 msgid "Select a clip to add a tag"
 msgstr "Vybrať klip na uloženie"
 
-#: src/bin/bin.cpp:4200
+#: src/bin/bin.cpp:4199
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "Upraviť dĺžku trvania"
 
-#: src/bin/bin.cpp:4514 src/bin/projectclip.cpp:211
+#: src/bin/bin.cpp:4513 src/bin/projectclip.cpp:211
 #: src/bin/projectclip.cpp:2048 src/onlineresources/resourcewidget.cpp:273
 #: src/onlineresources/resourcewidget.cpp:606
 #: src/onlineresources/resourcewidget.cpp:621
@@ -5100,12 +5100,12 @@ msgstr "Upraviť dĺžku trvania"
 msgid "Unnamed"
 msgstr "Premenovať"
 
-#: src/bin/bin.cpp:4568
+#: src/bin/bin.cpp:4567
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4580
+#: src/bin/bin.cpp:4579
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -5114,12 +5114,12 @@ msgstr ""
 "Prosím, nastavte predvolenú aplikáciu pre otváranie obrázkov v dialógu "
 "Nastavenie."
 
-#: src/bin/bin.cpp:4585
+#: src/bin/bin.cpp:4584
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4597
+#: src/bin/bin.cpp:4596
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -5129,7 +5129,7 @@ msgstr ""
 "Prosím, nastavte predvolenú aplikáciu pre otváranie zvukových súborov v "
 "dialógu Nastavenie."
 
-#: src/bin/bin.cpp:4607 src/core.cpp:317 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4606 src/core.cpp:317 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:459 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5138,14 +5138,14 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Nie je možné otvoriť súbor %1"
 
-#: src/bin/bin.cpp:4787 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4786 src/dialogs/profilesdialog.cpp:213
 #, fuzzy, kde-format
 #| msgctxt "append to clip name to indicate a copied idem"
 #| msgid " (copy)"
 msgid "(copy)"
 msgstr " (kopírovať)"
 
-#: src/bin/bin.cpp:4797
+#: src/bin/bin.cpp:4796
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5154,70 +5154,70 @@ msgstr ""
 "Upravujete externý titulný klip (%1). Chcete uložiť vaše zmeny do titulného "
 "súboru alebo uložiť zmeny len pre tento projekt?"
 
-#: src/bin/bin.cpp:4800 src/titler/titlewidget.cpp:2282
+#: src/bin/bin.cpp:4799 src/titler/titlewidget.cpp:2282
 #, kde-format
 msgid "Save Title"
 msgstr "Uložiť titul"
 
-#: src/bin/bin.cpp:4800
+#: src/bin/bin.cpp:4799
 #, kde-format
 msgid "Save to title file"
 msgstr "Uložiť do titulného súboru"
 
-#: src/bin/bin.cpp:4801
+#: src/bin/bin.cpp:4800
 #, kde-format
 msgid "Save in project only"
 msgstr "Uložiť iba v projekte"
 
-#: src/bin/bin.cpp:4821 src/dialogs/clipcreationdialog.cpp:411
+#: src/bin/bin.cpp:4820 src/dialogs/clipcreationdialog.cpp:411
 #, kde-format
 msgid "Title clip"
 msgstr "Titulný klip"
 
-#: src/bin/bin.cpp:4871
+#: src/bin/bin.cpp:4870
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klip je neplatný, bude odstránený z projektu."
 
-#: src/bin/bin.cpp:4875
+#: src/bin/bin.cpp:4874
 #, kde-format
 msgid "Invalid clip"
 msgstr "Neplatný klip"
 
-#: src/bin/bin.cpp:4998
+#: src/bin/bin.cpp:4997
 #, kde-format
 msgid "Enable proxies"
 msgstr "Povoliť zastupovanie"
 
-#: src/bin/bin.cpp:4998
+#: src/bin/bin.cpp:4997
 #, kde-format
 msgid "Disable proxies"
 msgstr "Zakázať zastupovanie"
 
-#: src/bin/bin.cpp:5172
+#: src/bin/bin.cpp:5171
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Znovu vytvoriť zastupovanie"
 
-#: src/bin/bin.cpp:5402
+#: src/bin/bin.cpp:5401
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Kôš projektu"
 
-#: src/bin/bin.cpp:5418
+#: src/bin/bin.cpp:5417
 #, kde-format
 msgid "Add Tracks"
 msgstr "Pridať stopu"
 
-#: src/bin/bin.cpp:5420
+#: src/bin/bin.cpp:5419
 #, fuzzy, kde-format
 #| msgid "Edit item"
 msgid "Edit Streams"
 msgstr "Upraviť položku"
 
-#: src/bin/bin.cpp:5435
+#: src/bin/bin.cpp:5434
 #, fuzzy, kde-format
 #| msgid "Don't blank mask"
 msgid "Don't ask again"
@@ -5225,35 +5225,35 @@ msgstr "Nepoužívať prázdne masky"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5439
+#: src/bin/bin.cpp:5438
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5451 src/mainwindow.cpp:2715
+#: src/bin/bin.cpp:5450 src/mainwindow.cpp:2715
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nie je možné nájsť klip pre pridanie značky"
 
-#: src/bin/bin.cpp:5543
+#: src/bin/bin.cpp:5542
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not find master clip"
 msgstr "Pridanie klipov"
 
-#: src/bin/bin.cpp:5775
+#: src/bin/bin.cpp:5774
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5777
+#: src/bin/bin.cpp:5776
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5844 src/bin/bin.cpp:5921
+#: src/bin/bin.cpp:5843 src/bin/bin.cpp:5920
 #, fuzzy, kde-format
 #| msgid ""
 #| "Additional streams for clip\n"
@@ -5270,12 +5270,12 @@ msgstr[2] ""
 "Ďalšie streamy pre klip\n"
 " %1"
 
-#: src/bin/bin.cpp:5865
+#: src/bin/bin.cpp:5864
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importovať vybrané klipy"
 
-#: src/bin/bin.cpp:5867
+#: src/bin/bin.cpp:5866
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5284,36 +5284,36 @@ msgstr ""
 "Ďalšie streamy pre klip\n"
 " %1"
 
-#: src/bin/bin.cpp:5880 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5879 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video stream %1"
 
-#: src/bin/bin.cpp:5895
+#: src/bin/bin.cpp:5894
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Audio stream %1"
 
-#: src/bin/bin.cpp:5948
+#: src/bin/bin.cpp:5947
 #, fuzzy, kde-format
 #| msgid "Delete clip markers"
 msgid "Remove clip markers"
 msgstr "Vymazať označníky klipu"
 
-#: src/bin/bin.cpp:6085
+#: src/bin/bin.cpp:6084
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6086
+#: src/bin/bin.cpp:6085
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Uložiť DVD projekt"
 
-#: src/bin/bin.cpp:6087
+#: src/bin/bin.cpp:6086
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
@@ -6576,7 +6576,7 @@ msgstr "Importovať vodítka"
 #: src/project/projectmanager.cpp:1810 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5070
+#: src/timeline2/view/timelinecontroller.cpp:5073
 #: src/titler/titlewidget.cpp:2295
 #, kde-format
 msgid "Cannot write to file %1"
@@ -11432,7 +11432,7 @@ msgstr "Vložiť stopu"
 msgid "Fit all Tracks in View"
 msgstr "Prepnúť všetky zámky stôp"
 
-#: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4840
+#: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4843
 #, fuzzy, kde-format
 #| msgid "Paste effects"
 msgid "Master effects"
@@ -12040,7 +12040,7 @@ msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr "Kdenlive sa musí reštartovať na zmenu témy ikon. Reštartovať teraz?"
 
-#: src/mainwindow.cpp:4657 src/timeline2/view/timelinecontroller.cpp:5053
+#: src/mainwindow.cpp:4657 src/timeline2/view/timelinecontroller.cpp:5056
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
@@ -16582,9 +16582,9 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:3640
 #: src/timeline2/view/timelinecontroller.cpp:3665
 #: src/timeline2/view/timelinecontroller.cpp:3680
-#: src/timeline2/view/timelinecontroller.cpp:3742
-#: src/timeline2/view/timelinecontroller.cpp:3877
-#: src/timeline2/view/timelinecontroller.cpp:3901
+#: src/timeline2/view/timelinecontroller.cpp:3745
+#: src/timeline2/view/timelinecontroller.cpp:3880
+#: src/timeline2/view/timelinecontroller.cpp:3904
 #, kde-format
 msgid "No clip selected"
 msgstr "Nie je vybraný klip"
@@ -16597,7 +16597,7 @@ msgstr "Nie je možné presunúť vybratú skupinu"
 #: src/timeline2/model/timelinefunctions.cpp:1042
 #: src/timeline2/model/timelinefunctions.cpp:1046
 #: src/timeline2/model/timelinefunctions.cpp:1053
-#: src/timeline2/view/timelinecontroller.cpp:4042
+#: src/timeline2/view/timelinecontroller.cpp:4045
 #, kde-format
 msgid "Enable clip"
 msgstr "Povoliť klip"
@@ -16605,7 +16605,7 @@ msgstr "Povoliť klip"
 #: src/timeline2/model/timelinefunctions.cpp:1042
 #: src/timeline2/model/timelinefunctions.cpp:1046
 #: src/timeline2/model/timelinefunctions.cpp:1053
-#: src/timeline2/view/timelinecontroller.cpp:4042
+#: src/timeline2/view/timelinecontroller.cpp:4045
 #, kde-format
 msgid "Disable clip"
 msgstr "Zakázať klip"
@@ -16664,97 +16664,97 @@ msgstr "Pridať klip do knižnice"
 msgid "Enter a name for the clip in Library"
 msgstr "Zadajte názov pre klip v knižnici"
 
-#: src/timeline2/model/timelinefunctions.cpp:1782
+#: src/timeline2/model/timelinefunctions.cpp:1800
 #, kde-format
 msgid "Paste clips"
 msgstr "Vložiť klipy"
 
-#: src/timeline2/model/timelinefunctions.cpp:1796
-#: src/timeline2/model/timelinefunctions.cpp:1963
-#: src/timeline2/model/timelinefunctions.cpp:1987
-#: src/timeline2/model/timelinefunctions.cpp:2026
-#: src/timeline2/model/timelinefunctions.cpp:2304
+#: src/timeline2/model/timelinefunctions.cpp:1814
+#: src/timeline2/model/timelinefunctions.cpp:1981
+#: src/timeline2/model/timelinefunctions.cpp:2005
+#: src/timeline2/model/timelinefunctions.cpp:2044
+#: src/timeline2/model/timelinefunctions.cpp:2322
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "Not enough tracks to paste clipboard"
 msgstr "Kopírovať kľúčové snímky do schránky"
 
-#: src/timeline2/model/timelinefunctions.cpp:1865
+#: src/timeline2/model/timelinefunctions.cpp:1883
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1877
+#: src/timeline2/model/timelinefunctions.cpp:1895
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No valid data in clipboard"
 msgstr "Žiadne informácie v schránke"
 
-#: src/timeline2/model/timelinefunctions.cpp:1916
+#: src/timeline2/model/timelinefunctions.cpp:1934
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "Kopírovať kľúčové snímky do schránky"
 
-#: src/timeline2/model/timelinefunctions.cpp:2044
 #: src/timeline2/model/timelinefunctions.cpp:2062
-#: src/timeline2/model/timelinefunctions.cpp:2093
-#: src/timeline2/model/timelinefunctions.cpp:2098
+#: src/timeline2/model/timelinefunctions.cpp:2080
+#: src/timeline2/model/timelinefunctions.cpp:2111
+#: src/timeline2/model/timelinefunctions.cpp:2116
 #, kde-format
 msgid "Pasted clips"
 msgstr "Vložené klipy"
 
-#: src/timeline2/model/timelinefunctions.cpp:2082
+#: src/timeline2/model/timelinefunctions.cpp:2100
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2084
+#: src/timeline2/model/timelinefunctions.cpp:2102
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2084
+#: src/timeline2/model/timelinefunctions.cpp:2102
 #, kde-format
 msgid "Paste"
 msgstr "Vložiť"
 
-#: src/timeline2/model/timelinefunctions.cpp:2166
-#: src/timeline2/model/timelinefunctions.cpp:2174
-#: src/timeline2/model/timelinefunctions.cpp:2242
+#: src/timeline2/model/timelinefunctions.cpp:2184
+#: src/timeline2/model/timelinefunctions.cpp:2192
+#: src/timeline2/model/timelinefunctions.cpp:2260
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not add bin clip"
 msgstr "Pridanie klipov"
 
-#: src/timeline2/model/timelinefunctions.cpp:2296
+#: src/timeline2/model/timelinefunctions.cpp:2314
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2346
-#: src/timeline2/model/timelinefunctions.cpp:2525
+#: src/timeline2/model/timelinefunctions.cpp:2364
+#: src/timeline2/model/timelinefunctions.cpp:2543
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "aktualizovať hodnoty v časovej osi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2545
+#: src/timeline2/model/timelinefunctions.cpp:2563
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 msgid "Paste timeline clips"
 msgstr "Vymazať klip časovej osi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2763
+#: src/timeline2/model/timelinefunctions.cpp:2781
 #, fuzzy, kde-format
 #| msgid "Remove Space In All Tracks"
 msgid "Remove space on track"
 msgstr "Odstrániť medzeru vo všetkých stopách"
 
-#: src/timeline2/model/timelinefunctions.cpp:2790
+#: src/timeline2/model/timelinefunctions.cpp:2808
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"
@@ -16896,7 +16896,7 @@ msgstr "Odstrániť kompozíciu"
 
 #: src/timeline2/model/timelinemodel.cpp:2332
 #: src/timeline2/model/timelinemodel.cpp:2523
-#: src/timeline2/view/timelinecontroller.cpp:4247
+#: src/timeline2/view/timelinecontroller.cpp:4250
 #, kde-format
 msgid "Move group"
 msgstr "Presunúť skupinu"
@@ -17532,7 +17532,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Nemôžem vykonať operáciu, neplatné id dokumentu: %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:922
-#: src/timeline2/view/timelinecontroller.cpp:4983
+#: src/timeline2/view/timelinecontroller.cpp:4986
 #, fuzzy, kde-format
 #| msgid "Insert zone"
 msgid "Could not insert track"
@@ -17609,14 +17609,14 @@ msgstr "Nie je možné vytvoriť filter."
 #: src/timeline2/view/timelinecontroller.cpp:2788
 #: src/timeline2/view/timelinecontroller.cpp:2793
 #: src/timeline2/view/timelinecontroller.cpp:2815
-#: src/timeline2/view/timelinecontroller.cpp:3748
-#: src/timeline2/view/timelinecontroller.cpp:3766
+#: src/timeline2/view/timelinecontroller.cpp:3751
+#: src/timeline2/view/timelinecontroller.cpp:3769
 #, kde-format
 msgid "No item to edit"
 msgstr "Žiadna položka na úpravu"
 
 #: src/timeline2/view/timelinecontroller.cpp:2904
-#: src/timeline2/view/timelinecontroller.cpp:5217
+#: src/timeline2/view/timelinecontroller.cpp:5220
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -17663,84 +17663,84 @@ msgstr "Vymazať efekt"
 
 #: src/timeline2/view/timelinecontroller.cpp:3686
 #: src/timeline2/view/timelinecontroller.cpp:3692
-#: src/timeline2/view/timelinecontroller.cpp:3697
+#: src/timeline2/view/timelinecontroller.cpp:3698
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Žiadne informácie v schránke"
 
-#: src/timeline2/view/timelinecontroller.cpp:3720
+#: src/timeline2/view/timelinecontroller.cpp:3723
 #, kde-format
 msgid "Paste effects"
 msgstr "Vložiť efekty"
 
-#: src/timeline2/view/timelinecontroller.cpp:3722
+#: src/timeline2/view/timelinecontroller.cpp:3725
 #, fuzzy, kde-format
 #| msgid "Cannot paste selected clips"
 msgid "Cannot paste effect on selected clip"
 msgstr "Nie je možné vložiť vybrané klipy"
 
-#: src/timeline2/view/timelinecontroller.cpp:3834
+#: src/timeline2/view/timelinecontroller.cpp:3837
 #, kde-format
 msgid "Edit item"
 msgstr "Upraviť položku"
 
-#: src/timeline2/view/timelinecontroller.cpp:3862
+#: src/timeline2/view/timelinecontroller.cpp:3865
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Open sequence"
 msgstr "Vytvoriť novú sekvenciu"
 
-#: src/timeline2/view/timelinecontroller.cpp:3884
+#: src/timeline2/view/timelinecontroller.cpp:3887
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Item is not a title clip"
 msgstr "Titulný klip šablóny"
 
-#: src/timeline2/view/timelinecontroller.cpp:3983
+#: src/timeline2/view/timelinecontroller.cpp:3986
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4037
+#: src/timeline2/view/timelinecontroller.cpp:4040
 #, kde-format
 msgid "Restore video"
 msgstr "Obnoviť video"
 
-#: src/timeline2/view/timelinecontroller.cpp:4037
+#: src/timeline2/view/timelinecontroller.cpp:4040
 #, kde-format
 msgid "Restore audio"
 msgstr "Obnoviť zvuk"
 
-#: src/timeline2/view/timelinecontroller.cpp:4228
+#: src/timeline2/view/timelinecontroller.cpp:4231
 #, kde-format
 msgid "Move item"
 msgstr "Presunúť položku"
 
-#: src/timeline2/view/timelinecontroller.cpp:4713
+#: src/timeline2/view/timelinecontroller.cpp:4716
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Impossible to capture on a locked track"
 msgstr "Nie je možné použiť medzeru v zamknutej stope"
 
-#: src/timeline2/view/timelinecontroller.cpp:4724
+#: src/timeline2/view/timelinecontroller.cpp:4727
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4937
+#: src/timeline2/view/timelinecontroller.cpp:4940
 #, kde-format
 msgid "Expand clip"
 msgstr "Expandovať klip"
 
-#: src/timeline2/view/timelinecontroller.cpp:4940
+#: src/timeline2/view/timelinecontroller.cpp:4943
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not expand clip"
 msgstr "Pridanie klipov"
 
-#: src/timeline2/view/timelinecontroller.cpp:4981
+#: src/timeline2/view/timelinecontroller.cpp:4984
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgid "Insert Track"
@@ -17749,58 +17749,58 @@ msgstr[0] "Vložiť stopu"
 msgstr[1] "Vložiť stopu"
 msgstr[2] "Vložiť stopu"
 
-#: src/timeline2/view/timelinecontroller.cpp:5056
+#: src/timeline2/view/timelinecontroller.cpp:5059
 #, fuzzy, kde-format
 #| msgid "Add subtitle"
 msgid "Export subtitle file"
 msgstr "Pridať titulky"
 
-#: src/timeline2/view/timelinecontroller.cpp:5057
+#: src/timeline2/view/timelinecontroller.cpp:5060
 #, fuzzy, kde-format
 #| msgid "Text File (*.txt)"
 msgid "Subtitle File (*.srt)"
 msgstr "Textový súbor (*.txt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5087
+#: src/timeline2/view/timelinecontroller.cpp:5090
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5104
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, fuzzy, kde-format
 #| msgid "Show Title Bars"
 msgid "Show subtitle track"
 msgstr "Ukazovať titulkové pruhy"
 
-#: src/timeline2/view/timelinecontroller.cpp:5104
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, fuzzy, kde-format
 #| msgid "Delete subtitle"
 msgid "Hide subtitle track"
 msgstr "Odstrániť titulky"
 
-#: src/timeline2/view/timelinecontroller.cpp:5127
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "Odomknúť stopu"
 
-#: src/timeline2/view/timelinecontroller.cpp:5127
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgid "Lock subtitle track"
 msgstr "Titulky"
 
-#: src/timeline2/view/timelinecontroller.cpp:5291
-#: src/timeline2/view/timelinecontroller.cpp:5300
+#: src/timeline2/view/timelinecontroller.cpp:5294
+#: src/timeline2/view/timelinecontroller.cpp:5303
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Titulky"
 
-#: src/timeline2/view/timelinecontroller.cpp:5302
+#: src/timeline2/view/timelinecontroller.cpp:5305
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox"
