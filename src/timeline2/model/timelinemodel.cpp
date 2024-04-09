@@ -1323,7 +1323,7 @@ int TimelineModel::cutSubtitle(int position, Fun &undo, Fun &redo)
     return -1;
 }
 
-bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool finalMove)
+bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool finalMove, bool fakeMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allSubtitles.count(clipId) > 0);
@@ -1336,7 +1336,8 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
         // element is in a group.
         int groupId = m_groups->getRootId(clipId);
         int delta_pos = position - oldPos.frames(pCore->getCurrentFps());
-        return requestGroupMove(clipId, groupId, 0, delta_pos, false, updateView, logUndo);
+        return fakeMove ? requestFakeGroupMove(clipId, groupId, 0, delta_pos, updateView, logUndo)
+                        : requestGroupMove(clipId, groupId, 0, delta_pos, false, updateView, logUndo);
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -1404,7 +1405,7 @@ QVariantList TimelineModel::suggestItemMove(int itemId, int trackId, int positio
         return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance, fakeMove);
     }
     if (isSubTitle(itemId)) {
-        return {suggestSubtitleMove(itemId, position, cursorPosition, snapDistance), -1};
+        return {suggestSubtitleMove(itemId, position, cursorPosition, snapDistance, fakeMove), -1};
     }
     return QVariantList();
 }
@@ -1417,7 +1418,7 @@ int TimelineModel::adjustFrame(int frame, int trackId)
     return frame;
 }
 
-int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance)
+int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance, bool fakeMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isSubTitle(subId));
@@ -1451,7 +1452,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
         }
     }
     // m_subtitleModel->moveSubtitle(GenTime(currentPos, pCore->getCurrentFps()), GenTime(position, pCore->getCurrentFps()));
-    if (requestSubtitleMove(subId, newPos, true, false)) {
+    if (requestSubtitleMove(subId, newPos, true, false, false, fakeMove)) {
         return newPos;
     }
     return currentPos;
@@ -2397,18 +2398,20 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     int audio_delta, video_delta;
     audio_delta = video_delta = delta_track;
 
-    if (getTrackById(old_track_ids[clipId])->isAudioTrack()) {
-        // Master clip is audio, so reverse delta for video clips
-        if (hasAudio) {
-            video_delta = -delta_track;
+    if (delta_track != 0) {
+        if (getTrackById(old_track_ids[clipId])->isAudioTrack()) {
+            // Master clip is audio, so reverse delta for video clips
+            if (hasAudio) {
+                video_delta = -delta_track;
+            } else {
+                video_delta = 0;
+            }
         } else {
-            video_delta = 0;
-        }
-    } else {
-        if (hasVideo) {
-            audio_delta = -delta_track;
-        } else {
-            audio_delta = 0;
+            if (hasVideo) {
+                audio_delta = -delta_track;
+            } else {
+                audio_delta = 0;
+            }
         }
     }
     bool trackChanged = false;
@@ -2453,11 +2456,15 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     }
 
     // Reverse sort. We need to insert from left to right to avoid confusing the view
+    QMap<int, std::set<int>> clipsByTrack;
+    QMap<int, std::set<int>> composByTrack;
+    std::set<int> all_subs;
     for (int item : all_items) {
         if (isSubTitle(item)) {
             int ix = getSubtitleIndex(item);
             int target_position = old_position[item] + delta_pos;
             setSubtitleFakePosFromIndex(ix, target_position);
+            all_subs.emplace(item);
             continue;
         }
         int current_track_id = old_track_ids[item];
@@ -2470,12 +2477,22 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
             int target_track = (*it)->getId();
             int target_position = old_position[item] + delta_pos;
             if (isClip(item)) {
+                if (clipsByTrack.contains(target_track)) {
+                    clipsByTrack[target_track].emplace(item);
+                } else {
+                    clipsByTrack[target_track] = {item};
+                }
                 m_allClips[item]->setFakePosition(target_position);
                 if (m_allClips[item]->getFakeTrackId() != target_track) {
                     trackChanged = true;
                     m_allClips[item]->setFakeTrackId(target_track);
                 }
             } else if (isComposition(item)) {
+                if (composByTrack.contains(target_track)) {
+                    composByTrack[target_track].emplace(item);
+                } else {
+                    composByTrack[target_track] = {item};
+                }
                 m_allCompositions[item]->setFakePosition(target_position);
                 if (m_allCompositions[item]->getFakeTrackId() != target_track) {
                     trackChanged = true;
@@ -2491,23 +2508,39 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
             return false;
         }
     }
-    QModelIndex modelIndex;
     QVector<int> roles{FakePositionRole};
     if (trackChanged) {
         roles << FakeTrackIdRole;
     }
-    for (int item : all_items) {
-        if (isClip(item)) {
-            modelIndex = makeClipIndexFromID(item);
-        } else if (isComposition(item)) {
-            modelIndex = makeCompositionIndexFromID(item);
-        } else {
-            if (isSubTitle(item)) {
+    // Process clips by track
+    QMapIterator<int, std::set<int>> it(clipsByTrack);
+    while (it.hasNext()) {
+        it.next();
+        QModelIndex start = makeClipIndexFromID(*(it.value().begin()));
+        QModelIndex end = makeClipIndexFromID(*(it.value().rbegin()));
+        notifyChange(start, end, roles);
+    }
+
+    // Process compositions by track
+    QMapIterator<int, std::set<int>> it2(composByTrack);
+    while (it2.hasNext()) {
+        it2.next();
+        QModelIndex start = makeCompositionIndexFromID(*(it2.value().begin()));
+        QModelIndex end = makeCompositionIndexFromID(*(it2.value().rbegin()));
+        notifyChange(start, end, roles);
+    }
+    // Process subtitles
+    if (all_subs.size() > 0) {
+        if (all_subs.size() < 8) {
+            for (int item : all_subs) {
                 m_subtitleModel->updateSub(item, {SubtitleModel::FakeStartFrameRole});
             }
-            continue;
+        } else {
+            // Optimize for large number of items
+            int startRow = getSubtitleIndex(*(all_subs.begin()));
+            int endRow = getSubtitleIndex(*(all_subs.rbegin()));
+            m_subtitleModel->updateSub(startRow, endRow, {SubtitleModel::FakeStartFrameRole});
         }
-        notifyChange(modelIndex, modelIndex, roles);
     }
     return true;
 }
@@ -2584,6 +2617,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     QMap<std::pair<int, int>, int> mixesToDelete;
     // Mixes might be deleted while moving clips to another track, so store them before attempting a move
     QMap<int, std::pair<MixInfo, MixInfo>> mixDataArray;
+    QMap<int, std::set<int>> clipsByTrack;
+    QMap<int, std::set<int>> composByTrack;
+    std::set<int> all_subs;
     for (int affectedItemId : all_items) {
         if (delta_track != 0 && !isSubTitle(affectedItemId)) {
             // Check if an upper / lower move is possible
@@ -2599,6 +2635,11 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             sorted_clips.emplace_back(affectedItemId, m_allClips[affectedItemId]->getPosition());
             sorted_clips_ids.push_back(affectedItemId);
             int current_track_id = getClipTrackId(affectedItemId);
+            if (clipsByTrack.contains(current_track_id)) {
+                clipsByTrack[current_track_id].emplace(affectedItemId);
+            } else {
+                clipsByTrack[current_track_id] = {affectedItemId};
+            }
             // Check if we have a mix in the group
             if (getTrackById_const(current_track_id)->hasMix(affectedItemId)) {
                 std::pair<MixInfo, MixInfo> mixData = getTrackById_const(current_track_id)->getMixInfo(affectedItemId);
@@ -2618,9 +2659,15 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 }
             }
         } else if (isComposition(affectedItemId)) {
-            sorted_compositions.push_back(
-                {affectedItemId, {m_allCompositions[affectedItemId]->getPosition(), getTrackMltIndex(m_allCompositions[affectedItemId]->getCurrentTrackId())}});
+            int current_track_id = m_allCompositions[affectedItemId]->getCurrentTrackId();
+            if (composByTrack.contains(current_track_id)) {
+                composByTrack[current_track_id].emplace(affectedItemId);
+            } else {
+                composByTrack[current_track_id] = {affectedItemId};
+            }
+            sorted_compositions.push_back({affectedItemId, {m_allCompositions[affectedItemId]->getPosition(), getTrackMltIndex(current_track_id)}});
         } else if (isSubTitle(affectedItemId)) {
+            all_subs.emplace(affectedItemId);
             sorted_subtitles.emplace_back(affectedItemId, m_allSubtitles.at(affectedItemId));
         }
     }
@@ -2756,16 +2803,53 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     if (delta_track == 0 && updateView) {
         updateView = false;
         allowViewRefresh = false;
-        update_model = [sorted_clips, sorted_compositions, finalMove, this]() {
-            QModelIndex modelIndex;
+        update_model = [sorted_clips, sorted_compositions, clipsByTrack, composByTrack, all_subs, finalMove, this]() {
             QVector<int> roles{StartRole};
-            for (const std::pair<int, int> &item : sorted_clips) {
-                modelIndex = makeClipIndexFromID(item.first);
-                notifyChange(modelIndex, modelIndex, roles);
+            QModelIndex modelIndex;
+            // Process clips by track
+            QMapIterator<int, std::set<int>> it(clipsByTrack);
+            while (it.hasNext()) {
+                it.next();
+                if (it.value().size() > 8) {
+                    // Optimise for large number of items
+                    QModelIndex start = makeClipIndexFromID(*(it.value().begin()));
+                    QModelIndex end = makeClipIndexFromID(*(it.value().rbegin()));
+                    notifyChange(start, end, roles);
+                } else {
+                    for (auto &item : it.value()) {
+                        modelIndex = makeClipIndexFromID(item);
+                        notifyChange(modelIndex, modelIndex, roles);
+                    }
+                }
             }
-            for (const std::pair<int, std::pair<int, int>> &item : sorted_compositions) {
-                modelIndex = makeCompositionIndexFromID(item.first);
-                notifyChange(modelIndex, modelIndex, roles);
+            // Process compositions by track
+            QMapIterator<int, std::set<int>> it2(composByTrack);
+            while (it2.hasNext()) {
+                it2.next();
+                if (it2.value().size() > 8) {
+                    // Optimise for large number of items
+                    QModelIndex start = makeCompositionIndexFromID(*(it2.value().begin()));
+                    QModelIndex end = makeCompositionIndexFromID(*(it2.value().rbegin()));
+                    notifyChange(start, end, roles);
+                } else {
+                    for (auto &item : it.value()) {
+                        modelIndex = makeCompositionIndexFromID(item);
+                        notifyChange(modelIndex, modelIndex, roles);
+                    }
+                }
+            }
+            // Process subtitles
+            if (all_subs.size() > 0) {
+                if (all_subs.size() > 8) {
+                    // Optimize for large number of items
+                    int startRow = getSubtitleIndex(*(all_subs.begin()));
+                    int endRow = getSubtitleIndex(*(all_subs.rbegin()));
+                    m_subtitleModel->updateSub(startRow, endRow, {SubtitleModel::StartFrameRole});
+                } else {
+                    for (int item : all_subs) {
+                        m_subtitleModel->updateSub(item, {SubtitleModel::StartFrameRole});
+                    }
+                }
             }
             if (finalMove) {
                 updateDuration();
@@ -7068,8 +7152,8 @@ int TimelineModel::getSubtitleIndex(int subId) const
 void TimelineModel::cleanupSubtitleFakePos()
 {
     std::vector<int> itemKeys;
-    for (const auto &[key, _] : m_subtitlesFakePos) {
-        itemKeys.push_back(key);
+    for (const auto &sub : m_subtitlesFakePos) {
+        itemKeys.push_back(sub.first);
     }
     m_subtitlesFakePos.clear();
     for (auto &i : itemKeys) {

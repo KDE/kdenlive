@@ -85,6 +85,7 @@ public:
 
     /** @brief Update some properties in the view */
     void updateSub(int id, const QVector<int> &roles);
+    void updateSub(int startRow, int endRow, const QVector<int> &roles);
 
     /** @brief Move an existing subtitle
         @param subId is the subtitle's ID

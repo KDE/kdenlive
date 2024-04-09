@@ -401,7 +401,7 @@ public:
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true,
                                      bool invalidateTimeline = false, bool revertMove = false);
-    Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool finalMove = false);
+    Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool finalMove = false, bool fakeMove = false);
     bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo);
     /** @brief return the previous blank frame on a track */
     Q_INVOKABLE int getPreviousBlank(int trackId, int pos);
@@ -447,7 +447,7 @@ public:
     Q_INVOKABLE QVariantList suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
     Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true,
                                              bool fakeMove = false);
-    Q_INVOKABLE int suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance);
+    Q_INVOKABLE int suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance, bool fakeMove = false);
     Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
     /** @brief returns the frame pos adjusted to edit mode
      */

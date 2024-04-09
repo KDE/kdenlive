@@ -166,8 +166,10 @@ Rectangle {
     }
 
     onFakePositionChanged: {
-        x = fakePosition * timeScale
-        xIntegerOffset = Math.ceil(x) - x
+        if (fakePosition > -1) {
+            x = fakePosition * timeScale
+            xIntegerOffset = Math.ceil(x) - x
+        }
     }
     onFakeTidChanged: {
         if (clipRoot.fakeTid > -1 && parentTrack) {

@@ -1315,6 +1315,11 @@ void SubtitleModel::updateSub(int id, const QVector<int> &roles)
     Q_EMIT dataChanged(index(row), index(row), roles);
 }
 
+void SubtitleModel::updateSub(int startRow, int endRow, const QVector<int> &roles)
+{
+    Q_EMIT dataChanged(index(startRow), index(endRow), roles);
+}
+
 int SubtitleModel::getRowForId(int id) const
 {
     return m_timeline->getSubtitleIndex(id);
