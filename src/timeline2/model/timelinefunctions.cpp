@@ -638,7 +638,9 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         }
     }
     timeline->requestClearSelection();
-    timeline->cleanupSubtitleFakePos();
+    if (timeline->getSubtitleModel()) {
+        timeline->getSubtitleModel()->cleanupSubtitleFakePos();
+    }
     if (final) {
         if (pushUndo) {
             if (startPosition < endPosition) {

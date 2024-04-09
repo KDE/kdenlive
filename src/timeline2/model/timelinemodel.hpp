@@ -924,12 +924,6 @@ protected:
      */
     void registerComposition(const std::shared_ptr<CompositionModel> &composition);
 
-    void registerSubtitle(int id, GenTime startTime, bool temporary = false);
-    void deregisterSubtitle(int id, bool temporary = false);
-    /** @brief Returns the index for a subtitle's id (it's position in the list
-     */
-    int positionForIndex(int id);
-
     /** @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */
     void registerGroup(int groupId);
@@ -986,12 +980,8 @@ protected:
     /** @brief Attempt to make a clip move without ever updating the view */
     bool requestClipMoveAttempt(int clipId, int trackId, int position);
 
-    int getSubtitleIndex(int subId) const;
-    std::pair<int, GenTime> getSubtitleIdFromIndex(int index) const;
-    /** @brief Get / Set a fake position for a subtitle (while moving) */
-    int getSubtitleFakePosFromIndex(int index);
-    void setSubtitleFakePosFromIndex(int index, int pos);
-    void cleanupSubtitleFakePos();
+    /** @brief Return all subtitle ids */
+    std::unordered_set<int> getAllSubIds();
 
 public:
     /** @brief Debugging function that checks consistency with Mlt objects */
@@ -1050,10 +1040,6 @@ protected:
 
     std::unordered_map<int, std::shared_ptr<CompositionModel>>
         m_allCompositions; // the keys are the composition id, and the values are the corresponding pointers
-
-    // TODO: move this in subtitlemodel.h
-    std::map<int, GenTime> m_allSubtitles;
-    std::map<int, int> m_subtitlesFakePos;
 
     std::unique_ptr<GroupsModel> m_groups;
     std::shared_ptr<SnapModel> m_snaps;

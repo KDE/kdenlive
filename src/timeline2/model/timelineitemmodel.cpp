@@ -166,7 +166,7 @@ void TimelineItemModel::subtitleChanged(int subId, const QVector<int> &roles)
         return;
     }
     Q_ASSERT(m_subtitleModel != nullptr);
-    Q_ASSERT(m_allSubtitles.count(subId) > 0);
+    Q_ASSERT(m_subtitleModel->hasSubtitle(subId));
     m_subtitleModel->updateSub(subId, roles);
 }
 

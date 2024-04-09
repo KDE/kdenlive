@@ -56,6 +56,8 @@ public:
 
     /** @brief Get subtitle at position */
     SubtitledTime getSubtitle(GenTime startFrame) const;
+    /** @brief Get a subtitle's position */
+    GenTime getSubtitlePosition(int sid) const;
     /** @brief Returns all subtitle ids in a range */
     std::unordered_set<int> getItemsInRange(int startFrame, int endFrame) const;
 
@@ -188,6 +190,18 @@ public:
     void activateSubtitle(int ix);
     /** @brief Get JSON data for all subtitles in this model */
     const QString subtitlesFilesToJson();
+    bool hasSubtitle(int id) const;
+    int count() const;
+    GenTime getPosition(int id) const;
+    int getSubtitleIndex(int subId) const;
+    std::pair<int, GenTime> getSubtitleIdFromIndex(int index) const;
+    int getSubtitleIdByPosition(int pos);
+    int getSubtitleIdAtPosition(int pos);
+    void cleanupSubtitleFakePos();
+    /** @brief Get / Set a fake position for a subtitle (while moving) */
+    int getSubtitleFakePosFromIndex(int index) const;
+    void setSubtitleFakePosFromIndex(int index, int pos);
+    std::unordered_set<int> getAllSubIds() const;
 
 public Q_SLOTS:
     /** @brief Function that parses through a subtitle file */
@@ -207,6 +221,10 @@ private:
      *  in the form: ({id, name}, path) where id for a subtitle never changes
      */
     QMap<std::pair<int, QString>, QString> m_subtitlesList;
+    /** @brief A list of subtitles as: item id, start time */
+    std::map<int, GenTime> m_allSubtitles;
+    /** @brief A list of subtitles as: item id, fake start time */
+    std::map<int, int> m_subtitlesFakePos;
     QString scriptInfoSection, styleSection, eventSection;
     QString styleName;
 
@@ -232,5 +250,10 @@ protected:
     void removeSnapPoint(GenTime startpos);
     /** @brief Connect changes in model with signal */
     void setup();
+    void registerSubtitle(int id, GenTime startTime, bool temporary = false);
+    void deregisterSubtitle(int id, bool temporary = false);
+    /** @brief Returns the index for a subtitle's id (it's position in the list
+     */
+    int positionForIndex(int id) const;
 };
 Q_DECLARE_METATYPE(SubtitleModel *)

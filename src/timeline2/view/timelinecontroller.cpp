@@ -3586,9 +3586,11 @@ void TimelineController::selectAll()
         ids.insert(clp.first);
     }
     // Subtitles
-    for (const auto &sub : m_model->m_allSubtitles) {
+    std::unordered_set<int> subs = m_model->getAllSubIds();
+    ids.insert(subs.begin(), subs.end());
+    /*for (const auto &sub : m_model->m_allSubtitles) {
         ids.insert(sub.first);
-    }
+    }*/
     m_model->requestSetSelection(ids);
 }
 
@@ -3599,9 +3601,7 @@ void TimelineController::selectCurrentTrack()
     }
     std::unordered_set<int> ids;
     if (m_model->isSubtitleTrack(m_activeTrack)) {
-        for (const auto &sub : m_model->m_allSubtitles) {
-            ids.insert(sub.first);
-        }
+        ids = m_model->getAllSubIds();
     } else {
         for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
             ids.insert(clp.first);
