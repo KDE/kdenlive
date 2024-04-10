@@ -190,16 +190,16 @@
   </description>
   <releases>
     <release version="24.02.2" date="2024-04-11"/>
-      <description>
-        <p>Bugfix release for the 24.02 version. Some of the noteworthy fixes:</p>
-        <ul>
-          <li>Fix copy/paste from an effect group duplicating effects</li>
-          <li>Faster move with keyboard grab</li>
-          <li>Fix Nvidia encoding for proxy and transcoding</li>
-          <li>Fix cannot load large images</li>
-          <li>Fix favorite effects menu not updating after adding a favorite</li>
-        </ul>
-      </description>
+    <description>
+      <p>Bugfix release for the 24.02 version. Some of the noteworthy fixes:</p>
+      <ul>
+        <li>Fix copy/paste from an effect group duplicating effects</li>
+        <li>Faster move with keyboard grab</li>
+        <li>Fix Nvidia encoding for proxy and transcoding</li>
+        <li>Fix cannot load large images</li>
+        <li>Fix favorite effects menu not updating after adding a favorite</li>
+      </ul>
+    </description>
     <release version="24.02.1" date="2024-03-21">
       <description>
         <p>This is the first bugfix release for the 24.02 version. Some of the most noteworthy fixes:</p>
