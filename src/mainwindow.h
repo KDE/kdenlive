@@ -151,7 +151,7 @@ public:
     /** @brief Raise (show) the project bin*/
     void raiseBin();
     /** @brief Add a bin widget*/
-    void addBin(Bin *bin, const QString &binName = QString());
+    void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true);
     /** @brief Get the main (first) bin*/
     Bin *getBin();
     /** @brief Block/Unblock all bin selection signals*/
@@ -176,6 +176,11 @@ public:
     void showKeyBinding(const QString &text = QString());
     /** @brief Disable multicam mode if it was active */
     void disableMulticam();
+    /** @brief Get the folder id for project bins */
+    const QStringList extraBinIds() const;
+    /** @brief Load the project bins of a project */
+    void loadExtraBins(const QStringList binInfo);
+    void folderRenamed(const QString &binId, const QString &folderName);
 
 #if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
     /** @brief Instantiates a "Get Hot New Stuff" dialog.
@@ -199,6 +204,7 @@ protected:
      *     the operation requested (starting waiting jobs or saving file) fails,
      *     true otherwise */
     bool queryClose() override;
+    bool m_windowClosing{false};
     void closeEvent(QCloseEvent *) override;
     bool eventFilter(QObject *object, QEvent *event) override;
 

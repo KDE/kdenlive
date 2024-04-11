@@ -208,6 +208,7 @@ void BinPlaylist::manageBinFolderRename(const std::shared_ptr<AbstractProjectIte
     if (binElem->parent()) {
         QString propertyName = "kdenlive:folder." + binElem->parent()->clipId() + QLatin1Char('.') + id;
         m_binPlaylist->set(propertyName.toUtf8().constData(), binElem->name().toUtf8().constData());
+        pCore->folderRenamed(id, binElem->name());
     }
 }
 

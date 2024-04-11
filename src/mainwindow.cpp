@@ -283,7 +283,6 @@ void MainWindow::init(const QString &mltPath)
     ctnLay->addWidget(fr);
     setupActions();
     auto *layoutManager = new LayoutManagement(this);
-    pCore->bin()->setupMenu();
     pCore->buildDocks();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
@@ -299,7 +298,6 @@ void MainWindow::init(const QString &mltPath)
         pCore->timeRemapWidget()->selectedClip(id, pCore->currentTimelineId());
     });
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
-    pCore->bin()->setMonitor(m_clipMonitor);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
     connect(m_clipMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteClipMarker);
     connect(m_clipMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
@@ -693,7 +691,9 @@ void MainWindow::init(const QString &mltPath)
     noFrame->setData(QStringLiteral("3"));
     noFrame->setCheckable(true);
     thumbsMenu->addAction(noFrame);
-    pCore->bin()->setupGeneratorMenu();
+    for (auto &bin : m_binWidgets) {
+        bin->setupGeneratorMenu();
+    }
 
     connect(pCore->monitorManager(), &MonitorManager::updateOverlayInfos, this, &MainWindow::slotUpdateMonitorOverlays);
 
@@ -1009,9 +1009,12 @@ bool MainWindow::queryClose()
         }
     }
     saveOptions();
-
     // WARNING: According to KMainWindow::queryClose documentation we are not supposed to close the document here?
-    return pCore->projectManager()->closeCurrentDocument(true, true);
+    bool successfullClose = pCore->projectManager()->closeCurrentDocument(true, true);
+    if (successfullClose) {
+        m_windowClosing = true;
+    }
+    return successfullClose;
 }
 
 void MainWindow::buildGenerator(QAction *action)
@@ -1044,7 +1047,7 @@ void MainWindow::saveNewToolbarConfig()
     loadClipActions();
     loadContainerActions();
     for (auto &bin : m_binWidgets) {
-        bin->setupGeneratorMenu();
+        bin->setupMenu();
     }
 
     // hack to be able to insert the hamburger menu at the first position
@@ -4767,11 +4770,14 @@ void MainWindow::slotRemoveBinDock(const QString &name)
     if (toDelete) {
         toDelete->deleteLater();
     }
-    updateDockMenu();
-    loadDockActions();
+    if (!m_windowClosing) {
+        KdenliveSettings::setBinsCount(m_binWidgets.size());
+        updateDockMenu();
+        loadDockActions();
+    }
 }
 
-void MainWindow::addBin(Bin *bin, const QString &binName)
+void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
 {
     connect(bin, &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
     connect(bin, &Bin::setupTargets, this, [&](bool hasVideo, QMap<int, QString> audioStreams) {
@@ -4779,11 +4785,15 @@ void MainWindow::addBin(Bin *bin, const QString &binName)
             getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
         }
     });
+    qDebug() << "===== OPENING SECONDARY BINS: " << KdenliveSettings::binsCount() << "\nTRACKHEUGHT: " << KdenliveSettings::trackheight()
+             << "\n\n++++++++++++++++++++++++++";
     if (!m_binWidgets.isEmpty()) {
         // This is a secondary bin widget
         int ix = binCount() + 1;
         QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, QString("project_bin_%1").arg(ix), bin);
-        bin->setupGeneratorMenu();
+        if (pCore->guiReady()) {
+            bin->setupGeneratorMenu();
+        }
         connect(bin, &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
         connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties);
         connect(bin, &Bin::requestBinClose, this, [this, binDock]() { Q_EMIT removeBinDock(binDock->objectName()); });
@@ -4794,6 +4804,56 @@ void MainWindow::addBin(Bin *bin, const QString &binName)
         binDock->raise();
     }
     m_binWidgets << bin;
+    if (updateCount) {
+        KdenliveSettings::setBinsCount(m_binWidgets.size());
+    }
+}
+
+void MainWindow::loadExtraBins(const QStringList binInfo)
+{
+    QString folderName;
+    for (auto &bin : m_binWidgets) {
+        QDockWidget *dock = qobject_cast<QDockWidget *>(bin->parentWidget());
+        if (!dock) {
+            continue;
+        }
+        bool binFound = false;
+        const QString dockName = dock->objectName() + QLatin1Char(':');
+        for (auto info : binInfo) {
+            if (info.startsWith(dockName)) {
+                bin->loadInfo(info.split(QLatin1Char(':')));
+                binFound = true;
+                break;
+            }
+        }
+        if (!binFound) {
+            // Init bin with default settings
+            bin->loadInfo();
+        }
+    }
+}
+
+const QStringList MainWindow::extraBinIds() const
+{
+    QStringList ids;
+    for (auto &b : m_binWidgets) {
+        ids << b->binInfoToString();
+    }
+    return ids;
+}
+
+void MainWindow::folderRenamed(const QString &binId, const QString &folderName)
+{
+    for (auto &b : m_binWidgets) {
+        // Find out dock widget
+        if (b->rootFolderId() == binId) {
+            QDockWidget *dock = qobject_cast<QDockWidget *>(b->parentWidget());
+            if (dock) {
+                dock->setWindowTitle(folderName);
+            }
+            break;
+        }
+    }
 }
 
 void MainWindow::tabifyBins()

@@ -1190,7 +1190,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
 }
 
 QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders,
-                                               const QUuid &activeUuid, int &zoomLevel)
+                                               QStringList &extraBins, const QUuid &activeUuid, int &zoomLevel)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -1205,6 +1205,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
             Mlt::Properties folderProperties;
             Mlt::Properties playlistProps(playlist.get_properties());
             expandedFolders = QString(playlistProps.get("kdenlive:expandedFolders")).split(QLatin1Char(';'));
+            extraBins = QString(playlistProps.get("kdenlive:extraBins")).split(QLatin1Char(';'));
             folderProperties.pass_values(playlistProps, "kdenlive:folder.");
             loadFolders(folderProperties, binIdCorresp);
             m_sequenceFolderId = -1;

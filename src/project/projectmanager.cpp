@@ -260,7 +260,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
-    pCore->bin()->setDocument(doc);
+    // pCore->bin()->setDocument(doc);
     m_project = doc;
     initSequenceProperties(m_project->uuid(), {KdenliveSettings::audiotracks(), KdenliveSettings::videotracks()});
     updateTimeline(true, QString(), QString(), QDateTime(), 0);

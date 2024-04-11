@@ -36,6 +36,7 @@ class EffectStackModel;
 class InvalidDialog;
 class TranscodeSeek;
 class KdenliveDoc;
+class KSelectAction;
 class TagWidget;
 class Monitor;
 class ProjectClip;
@@ -190,10 +191,10 @@ class Bin : public QWidget
     Q_OBJECT
 
     /** @brief Defines the view types (icon view, tree view,...)  */
-    enum BinViewType { BinTreeView, BinIconView };
+    enum BinViewType { BinTreeView, BinIconView, BinUnknownView };
 
 public:
-    explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr, bool isMainBin = true);
+    explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr, bool isMainBin = true, BinViewType type = BinUnknownView);
     ~Bin() override;
 
     bool isLoading;
@@ -207,12 +208,6 @@ public:
 
     /** @brief Used to notify the Model View that an item was updated */
     void emitItemUpdated(std::shared_ptr<AbstractProjectItem> item);
-
-    /** @brief Set monitor associated with this bin (clipmonitor) */
-    void setMonitor(Monitor *monitor);
-
-    /** @brief Returns the clip monitor */
-    Monitor *monitor();
 
     /** @brief Open a producer in the clip monitor */
     void openProducer(std::shared_ptr<ProjectClip> controller);
@@ -371,6 +366,12 @@ public:
     const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1, QString suggestedName = QString());
     /** @brief Returns true if the project uses a clip with variable framerate. */
     bool usesVariableFpsClip();
+    /** @brief The root id of the folder that this bin displays */
+    const QString rootFolderId() const;
+    /** @brief Export some basic info (root folder, view type) to a string to save it */
+    const QString binInfoToString() const;
+    /** @brief Load info (root folder, view type) from a string */
+    void loadInfo(const QStringList binInfo = QStringList());
 
 private Q_SLOTS:
     void slotAddClip();
@@ -525,14 +526,15 @@ private:
     KdenliveDoc *m_doc;
     QLineEdit *m_searchLine;
     QToolButton *m_addButton;
-    QMenu *m_extractAudioAction;
-    QAction *m_transcodeAction;
-    QMenu *m_clipsActionsMenu;
-    QAction *m_inTimelineAction;
-    QAction *m_showDate;
-    QAction *m_showDesc;
-    QAction *m_showRating;
-    QAction *m_sortDescend;
+    KSelectAction *m_listTypeAction{nullptr};
+    QMenu *m_extractAudioAction{nullptr};
+    QAction *m_transcodeAction{nullptr};
+    QMenu *m_clipsActionsMenu{nullptr};
+    QAction *m_inTimelineAction{nullptr};
+    QAction *m_showDate{nullptr};
+    QAction *m_showDesc{nullptr};
+    QAction *m_showRating{nullptr};
+    QAction *m_sortDescend{nullptr};
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
     /** @brief Default icon size for the views. */
@@ -543,34 +545,33 @@ private:
     QDockWidget *m_propertiesDock;
     QScrollArea *m_propertiesPanel;
     QSlider *m_slider;
-    Monitor *m_monitor;
     QIcon m_blankThumb;
-    QMenu *m_menu;
-    QAction *m_openAction;
-    QAction *m_editAction;
-    QAction *m_reloadAction;
+    QMenu *m_menu{nullptr};
+    QAction *m_openAction{nullptr};
+    QAction *m_editAction{nullptr};
+    QAction *m_reloadAction{nullptr};
     QAction *m_replaceAction{nullptr};
     QAction *m_replaceInTimelineAction{nullptr};
-    QAction *m_duplicateAction;
-    QAction *m_locateAction;
-    QAction *m_proxyAction;
-    QAction *m_deleteAction;
-    QAction *m_openInBin;
-    QAction *m_sequencesFolderAction;
-    QAction *m_audioCapturesFolderAction;
-    QAction *m_addClip;
-    QAction *m_createFolderAction;
-    QAction *m_renameAction;
-    QMenu *m_jobsMenu;
-    QAction *m_cancelJobs;
-    QAction *m_discardCurrentClipJobs;
-    QAction *m_discardPendingJobs;
-    QAction *m_upAction;
-    QAction *m_tagAction;
-    QActionGroup *m_sortGroup;
+    QAction *m_duplicateAction{nullptr};
+    QAction *m_locateAction{nullptr};
+    QAction *m_proxyAction{nullptr};
+    QAction *m_deleteAction{nullptr};
+    QAction *m_openInBin{nullptr};
+    QAction *m_sequencesFolderAction{nullptr};
+    QAction *m_audioCapturesFolderAction{nullptr};
+    QAction *m_addClip{nullptr};
+    QAction *m_createFolderAction{nullptr};
+    QAction *m_renameAction{nullptr};
+    QMenu *m_jobsMenu{nullptr};
+    QAction *m_cancelJobs{nullptr};
+    QAction *m_discardCurrentClipJobs{nullptr};
+    QAction *m_discardPendingJobs{nullptr};
+    QAction *m_upAction{nullptr};
+    QAction *m_tagAction{nullptr};
+    QActionGroup *m_sortGroup{nullptr};
     SmallJobLabel *m_infoLabel;
     TagWidget *m_tagsWidget;
-    QMenu *m_filterMenu;
+    QMenu *m_filterMenu{nullptr};
     QActionGroup m_filterTagGroup;
     QActionGroup m_filterRateGroup;
     QActionGroup m_filterUsageGroup;

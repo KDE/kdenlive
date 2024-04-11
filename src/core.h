@@ -322,6 +322,7 @@ public:
         QString displayName;
     };
     QMap<int, MarkerCategory> markerTypes;
+    void folderRenamed(const QString &binId, const QString &folderName);
 
 private:
     explicit Core(const QString &packageType);

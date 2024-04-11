@@ -29,6 +29,10 @@
       <label>Generate and show video preview when moving mouse over clip thumbnail.</label>
       <default>false</default>
     </entry>
+    <entry name="binsCount" type="Int">
+      <label>Count of Bins to open by default.</label>
+      <default>1</default>
+    </entry>
   </group>
   <group name="jobs">
     <entry name="scenesplitthreshold" type="Int">

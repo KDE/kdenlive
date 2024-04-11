@@ -163,7 +163,13 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
 
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow);
-    m_mainWindow->addBin(bin);
+    m_mainWindow->addBin(bin, QString(), false);
+
+    // Secondary bins
+    for (int i = 1; i < KdenliveSettings::binsCount(); i++) {
+        bin = new Bin(m_projectItemModel, m_mainWindow, false);
+        m_mainWindow->addBin(bin, QString(), false);
+    }
 
     connect(bin, &Bin::requestShowClipProperties, bin, &Bin::showClipProperties);
     connect(m_projectItemModel.get(), &ProjectItemModel::refreshPanel, m_mainWindow->activeBin(), &Bin::refreshPanel);
@@ -1455,8 +1461,6 @@ int Core::getNewStuff(const QString &config)
 void Core::addBin(const QString &id)
 {
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow, false);
-    bin->setupMenu();
-    bin->setMonitor(m_monitorManager->clipMonitor());
     const QString folderName = bin->setDocument(pCore->currentDoc(), id);
     m_mainWindow->addBin(bin, folderName);
 }
@@ -1479,4 +1483,11 @@ void Core::updateSequenceAVType(const QUuid &uuid, int tracksCount)
 bool Core::guiReady() const
 {
     return m_guiConstructed;
+}
+
+void Core::folderRenamed(const QString &binId, const QString &folderName)
+{
+    if (m_mainWindow) {
+        m_mainWindow->folderRenamed(binId, folderName);
+    }
 }

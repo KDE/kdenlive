@@ -14,6 +14,7 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "transitions/transitionsrepository.hpp"
 
 #include <KLocalizedString>
@@ -45,10 +46,11 @@ bool loadProjectBin(Mlt::Tractor tractor, const QUuid &activeUuid)
     Fun redo = []() { return true; };
     // First, we destruct the previous tracks
     QStringList expandedFolders;
+    QStringList extraBins;
     int zoomLevel = -1;
     binIdCorresp.clear();
     m_notesLog.clear();
-    QList<QUuid> brokenSequences = pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, activeUuid, zoomLevel);
+    QList<QUuid> brokenSequences = pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, extraBins, activeUuid, zoomLevel);
     if (!brokenSequences.isEmpty()) {
         KMessageBox::error(qApp->activeWindow(), i18n("Found an invalid sequence clip in Bin"));
         return false;
@@ -60,9 +62,22 @@ bool loadProjectBin(Mlt::Tractor tractor, const QUuid &activeUuid)
             foldersToExpand << binIdCorresp.at(folderId);
         }
     }
+    // Find updated ids for extra bind
+    QStringList binsToOpen;
+    for (auto &b : extraBins) {
+        QStringList args = b.split(QLatin1Char(':'));
+        if (args.size() != 3) {
+            continue;
+        }
+        if (binIdCorresp.count(args.at(1)) > 0) {
+            binsToOpen << QString("%1:%2:%3").arg(args.at(0), binIdCorresp.at(args.at(1)), args.at(2));
+        }
+    }
+
     if (pCore->window()) {
         pCore->bin()->checkMissingProxies();
         pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
+        pCore->window()->loadExtraBins(binsToOpen);
     }
     return true;
 }
@@ -78,12 +93,13 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     bool useMappedIds = true;
 
     QStringList expandedFolders;
+    QStringList extraBins;
     if (projectModel) {
         // This is an old format project file
         int zoomLevel = -1;
         if (timeline->uuid() == pCore->currentTimelineId()) {
             binIdCorresp.clear();
-            projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, timeline->uuid(), zoomLevel);
+            projectModel->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, extraBins, timeline->uuid(), zoomLevel);
         } else {
             projectModel->loadTractorPlaylist(tractor, binIdCorresp);
         }
@@ -94,9 +110,21 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
                 foldersToExpand << binIdCorresp.at(folderId);
             }
         }
+        // Find updated ids for extra bind
+        QStringList binsToOpen;
+        for (auto &b : extraBins) {
+            QStringList args = b.split(QLatin1Char(':'));
+            if (args.size() != 3) {
+                continue;
+            }
+            if (binIdCorresp.count(args.at(1)) > 0) {
+                binsToOpen << QString("%1:%2:%3").arg(args.at(0), binIdCorresp.at(args.at(1)), args.at(2));
+            }
+        }
         if (pCore->window()) {
             pCore->bin()->checkMissingProxies();
             pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
+            pCore->window()->loadExtraBins(binsToOpen);
         }
     } else {
         // loading an extra timeline
@@ -335,9 +363,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     timeline->requestReset(undo, redo);
     m_errorMessage.clear();
     QStringList expandedFolders;
+    QStringList extraBins;
     int zoomLevel = -1;
     if (timeline->uuid() == pCore->currentTimelineId()) {
-        pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, timeline->uuid(), zoomLevel);
+        pCore->projectItemModel()->loadBinPlaylist(&tractor, binIdCorresp, expandedFolders, extraBins, timeline->uuid(), zoomLevel);
     }
     QStringList foldersToExpand;
     // Find updated ids for expanded folders
@@ -346,9 +375,21 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             foldersToExpand << binIdCorresp.at(folderId);
         }
     }
+    // Find updated ids for extra bind
+    QStringList binsToOpen;
+    for (auto &b : extraBins) {
+        QStringList args = b.split(QLatin1Char(':'));
+        if (args.size() != 3) {
+            continue;
+        }
+        if (binIdCorresp.count(args.at(1)) > 0) {
+            binsToOpen << QString("%1:%2:%3").arg(args.at(0), binIdCorresp.at(args.at(1)), args.at(2));
+        }
+    }
     if (pCore->window()) {
         pCore->bin()->checkMissingProxies();
         pCore->bin()->loadBinProperties(foldersToExpand, zoomLevel);
+        pCore->window()->loadExtraBins(binsToOpen);
     }
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),
