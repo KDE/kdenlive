@@ -260,7 +260,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
-    // pCore->bin()->setDocument(doc);
     m_project = doc;
     initSequenceProperties(m_project->uuid(), {KdenliveSettings::audiotracks(), KdenliveSettings::videotracks()});
     updateTimeline(true, QString(), QString(), QDateTime(), 0);
@@ -507,6 +506,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
 
 bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExistingFile, bool saveACopy)
 {
+    // Disable autosave while saving
+    m_autoSaveTimer.stop();
     pCore->monitorManager()->pauseActiveMonitor();
     QString oldProjectFolder =
         m_project->url().isEmpty() ? QString() : QFileInfo(m_project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
