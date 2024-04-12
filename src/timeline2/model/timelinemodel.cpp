@@ -668,7 +668,11 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     m_allClips[clipId]->setFakePosition(position);
     bool trackChanged = false;
     if (trackId > -1) {
-        if (trackId != m_allClips[clipId]->getFakeTrackId()) {
+        int fakeCurrentTid = m_allClips[clipId]->getFakeTrackId();
+        if (fakeCurrentTid == -1) {
+            fakeCurrentTid = m_allClips[clipId]->getCurrentTrackId();
+        }
+        if (trackId != fakeCurrentTid) {
             if (getTrackById_const(trackId)->trackType() == m_allClips[clipId]->clipState()) {
                 m_allClips[clipId]->setFakeTrackId(trackId);
                 trackChanged = true;
@@ -2470,7 +2474,11 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
                     clipsByTrack[target_track] = {item};
                 }
                 m_allClips[item]->setFakePosition(target_position);
-                if (m_allClips[item]->getFakeTrackId() != target_track) {
+                int fakeCurrentTid = m_allClips[item]->getFakeTrackId();
+                if (fakeCurrentTid == -1) {
+                    fakeCurrentTid = m_allClips[item]->getCurrentTrackId();
+                }
+                if (fakeCurrentTid != target_track) {
                     trackChanged = true;
                     m_allClips[item]->setFakeTrackId(target_track);
                 }
@@ -2481,7 +2489,11 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
                     composByTrack[target_track] = {item};
                 }
                 m_allCompositions[item]->setFakePosition(target_position);
-                if (m_allCompositions[item]->getFakeTrackId() != target_track) {
+                int fakeCurrentTid = m_allCompositions[item]->getFakeTrackId();
+                if (fakeCurrentTid == -1) {
+                    fakeCurrentTid = m_allCompositions[item]->getCurrentTrackId();
+                }
+                if (fakeCurrentTid != target_track) {
                     trackChanged = true;
                     m_allCompositions[item]->setFakeTrackId(target_track);
                 }

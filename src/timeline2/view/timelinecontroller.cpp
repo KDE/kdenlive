@@ -4159,7 +4159,6 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     Q_ASSERT(m_model->m_allClips.count(clipId) > 0);
     int trackId = m_model->m_allClips[clipId]->getFakeTrackId();
     if (m_model->getClipPosition(clipId) == position && m_model->getClipTrackId(clipId) == trackId) {
-        qDebug() << "* * ** END FAKE; NO MOVE RQSTED";
         // Ensure clip height binds again with parent track height
         if (m_model->m_groups->isInGroup(clipId)) {
             int groupId = m_model->m_groups->getRootId(clipId);
