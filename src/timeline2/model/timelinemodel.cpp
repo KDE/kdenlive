@@ -2819,7 +2819,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                     QModelIndex end = makeCompositionIndexFromID(*(it2.value().rbegin()));
                     notifyChange(start, end, roles);
                 } else {
-                    for (auto &item : it.value()) {
+                    for (auto &item : it2.value()) {
                         modelIndex = makeCompositionIndexFromID(item);
                         notifyChange(modelIndex, modelIndex, roles);
                     }
