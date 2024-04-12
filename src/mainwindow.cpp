@@ -3948,18 +3948,27 @@ void MainWindow::updateDockMenu()
 {
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = nullptr;
+    const QString raise("_raise");
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
         guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
-        // TODO: check if timeline and raise_ actions are deleted
+        // Remove timeline and raise_ actions
+        QList<QAction *> actions = guiActions->actions();
+        QList<QAction *> toDelete;
+        for (auto &a : actions) {
+            if (a->data().toString() == raise) {
+                toDelete << guiActions->collection()->takeAction(a);
+            }
+        }
+        qDeleteAll(toDelete);
         delete guiActions;
     }
     guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     QAction *showTimeline = new QAction(i18n("Timeline"), this);
-    showTimeline->setData(showTimeline->text());
+    showTimeline->setData(raise);
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
     connect(showTimeline, &QAction::triggered, this, &MainWindow::slotShowTimeline);
-    guiActions->addAction(showTimeline->text(), showTimeline);
+    guiActions->addAction(QStringLiteral("show_timeline"), showTimeline);
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
@@ -3971,9 +3980,12 @@ void MainWindow::updateDockMenu()
         dockInformations->setChecked(!dock->isHidden());
         const QString actionText = KLocalizedString::removeAcceleratorMarker(dockInformations->text());
         QAction *a = guiActions->addAction(dock->objectName(), dockInformations);
+        // As action data, we set the dock title (1) and the dock object name (2)
+        // // This ensures that the list can be sorted alphabetically (1) and that each data is unique (2)
         QString actionData = actionText + QLatin1Char('#') + dock->objectName();
         a->setData(actionData);
         QAction *action = new QAction(i18n("Raise %1", actionText), this);
+        action->setData(raise);
         connect(action, &QAction::triggered, this, [dock]() {
             dock->raise();
             dock->setFocus();
@@ -4250,14 +4262,6 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
         updateDockMenu();
         loadDockActions();
     }
-
-    // Add action to raise and focus the Dock (e.g. with a shortcut)
-    /*QAction *action = new QAction(i18n("Raise %1", title), this);
-    connect(action, &QAction::triggered, this, [dockWidget](){
-        dockWidget->raise();
-        dockWidget->setFocus();
-    });
-    addAction("raise_" + objectName, action, {});*/
     return dockWidget;
 }
 
