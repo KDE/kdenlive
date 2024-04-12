@@ -1555,6 +1555,9 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         TRACE_RES(position);
         if (fakeMove) {
             trackId = m_allClips[clipId]->getFakeTrackId();
+            if (trackId == -1) {
+                trackId = m_allClips[clipId]->getCurrentTrackId();
+            }
         }
         return {position, trackId};
     }
@@ -2422,6 +2425,9 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
             if (brokenMove) {
                 if (isClip(item)) {
                     int lastTid = m_allClips[item]->getFakeTrackId();
+                    if (lastTid == -1) {
+                        lastTid = m_allClips[item]->getCurrentTrackId();
+                    }
                     int originalTid = m_allClips[item]->getCurrentTrackId();
                     int last_position = getTrackPosition(lastTid);
                     int original_position = getTrackPosition(originalTid);
