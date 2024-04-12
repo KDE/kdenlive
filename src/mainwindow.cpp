@@ -3815,13 +3815,26 @@ void MainWindow::loadDockActions()
 
 void MainWindow::buildDynamicActions()
 {
-    KActionCategory *ts = nullptr;
     if (kdenliveCategoryMap.contains(QStringLiteral("clipjobs"))) {
-        ts = kdenliveCategoryMap.take(QStringLiteral("clipjobs"));
+        auto ts = kdenliveCategoryMap.take(QStringLiteral("clipjobs"));
+        QList<QAction *> acs = ts->actions();
+        qDeleteAll(acs);
         delete ts;
     }
-    ts = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
+    if (kdenliveCategoryMap.contains(QStringLiteral("transcoderslist"))) {
+        auto ts = kdenliveCategoryMap.take(QStringLiteral("transcoderslist"));
+        QList<QAction *> acs = ts->actions();
+        qDeleteAll(acs);
+        delete ts;
+    }
+    if (kdenliveCategoryMap.contains(QStringLiteral("audiotranscoderslist"))) {
+        auto ts = kdenliveCategoryMap.take(QStringLiteral("audiotranscoderslist"));
+        QList<QAction *> acs = ts->actions();
+        qDeleteAll(acs);
+        delete ts;
+    }
 
+    auto cjobs = new KActionCategory(i18n("Clip Jobs"), m_extraFactory->actionCollection());
     QAction *action;
     QMap<QString, QString> jobValues = ClipJobManager::getClipJobNames();
     QMapIterator<QString, QString> k(jobValues);
@@ -3838,26 +3851,16 @@ void MainWindow::buildDynamicActions()
         } else {
             connect(action, &QAction::triggered, this, [&, jobId = k.key().section(QLatin1Char(';'), 0, 0)]() { CustomJobTask::start(this, jobId); });
         }
-        ts->addAction(action->text(), action);
+        cjobs->addAction(action->text(), action);
     }
-
     action = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Clip Jobs…"), m_extraFactory->actionCollection());
-    ts->addAction(action->text(), action);
+    cjobs->addAction(action->text(), action);
     connect(action, &QAction::triggered, this, [this]() { manageClipJobs(); });
+    kdenliveCategoryMap.insert(QStringLiteral("clipjobs"), cjobs);
 
-    kdenliveCategoryMap.insert(QStringLiteral("clipjobs"), ts);
-
-    if (kdenliveCategoryMap.contains(QStringLiteral("transcoderslist"))) {
-        ts = kdenliveCategoryMap.take(QStringLiteral("transcoderslist"));
-        delete ts;
-    }
-    if (kdenliveCategoryMap.contains(QStringLiteral("audiotranscoderslist"))) {
-        ts = kdenliveCategoryMap.take(QStringLiteral("audiotranscoderslist"));
-        delete ts;
-    }
     // transcoders
-    ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
-    KActionCategory *ats = new KActionCategory(i18n("Extract Audio"), m_extraFactory->actionCollection());
+    auto ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
+    auto ats = new KActionCategory(i18n("Extract Audio"), m_extraFactory->actionCollection());
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     KConfigGroup transConfig(config, "Transcoding");
     // read the entries
@@ -3940,7 +3943,6 @@ void MainWindow::buildDynamicActions()
     }
     kdenliveCategoryMap.insert(QStringLiteral("transcoderslist"), ts);
     kdenliveCategoryMap.insert(QStringLiteral("audiotranscoderslist"), ats);
-
     updateDockMenu();
 }
 
