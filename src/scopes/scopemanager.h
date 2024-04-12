@@ -64,6 +64,8 @@ public:
       */
     bool addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget = nullptr);
 
+    const QStringList getScopesNames() const;
+
 private:
     QList<AudioScopeData> m_audioScopes;
     QList<GfxScopeData> m_colorScopes;
@@ -71,6 +73,8 @@ private:
     AbstractMonitor *m_lastConnectedRenderer{nullptr};
 
     QSignalMapper *m_signalMapper;
+    /** @brief a list of all scopes dock object names */
+    QStringList m_scopeNames;
 
     /**
       Checks whether there is any scope accepting audio data, or if all of them are hidden

@@ -49,6 +49,7 @@ class KdenliveDoc;
 class Monitor;
 class Render;
 class RenderWidget;
+class ScopeManager;
 class TimelineTabs;
 class TimelineWidget;
 class TimelineContainer;
@@ -227,6 +228,7 @@ private:
 
     OtioConvertions m_otioConvertions;
     KColorSchemeManager *m_colorschemes;
+    ScopeManager *m_scopesManager{nullptr};
 
     QDockWidget *m_projectBinDock;
     QDockWidget *m_effectListDock;
@@ -254,9 +256,6 @@ private:
 
     TimelineTabs *m_timelineTabs{nullptr};
     QVector <Bin*>m_binWidgets;
-
-    /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
-    QList<QDockWidget *> m_gfxScopesList;
 
     KActionCategory *m_effectActions;
     KActionCategory *m_transitionActions;
@@ -549,8 +548,6 @@ private Q_SLOTS:
     /** @brief Focus the timecode widget of current monitor. */
     void slotFocusTimecode();
 
-    /** @brief The monitor informs that it needs (or not) to have frames sent by the renderer. */
-    void slotMonitorRequestRenderFrame(bool request);
     /** @brief Update project because the use of proxy clips was enabled / disabled. */
     void slotUpdateProxySettings();
     /** @brief Disable proxies for this project. */

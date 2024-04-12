@@ -519,7 +519,7 @@ void MainWindow::init(const QString &mltPath)
     m_transitionsMenu = new QMenu(i18n("Add Transition"), this);
     m_transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
 
-    auto *scmanager = new ScopeManager(this);
+    m_scopesManager = new ScopeManager(this);
 
     auto *titleBars = new DockTitleBarManager(this);
     connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, [&]() { titleBars->slotUpdateTitleBars(); });
@@ -807,7 +807,7 @@ void MainWindow::init(const QString &mltPath)
 #endif
     m_timelineTabs->setTimelineMenu(compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_guide")),
                                     timelineHeadersMenu, thumbsMenu, timelineSubtitleMenu);
-    scmanager->slotCheckActiveScopes();
+    m_scopesManager->slotCheckActiveScopes();
     connect(qApp, &QGuiApplication::applicationStateChanged, this, [&](Qt::ApplicationState state) {
         if (state == Qt::ApplicationActive && getCurrentTimeline()) {
             getCurrentTimeline()->regainFocus();
@@ -1080,7 +1080,6 @@ void MainWindow::slotConnectMonitors()
     // connect(m_projectList, SIGNAL(deleteProjectClips(QStringList,QMap<QString,QString>)), this,
     // SLOT(slotDeleteProjectClips(QStringList,QMap<QString,QString>)));
     connect(m_clipMonitor, &Monitor::refreshClipThumbnail, pCore->bin(), &Bin::slotRefreshClipThumbnail);
-    connect(m_projectMonitor, &Monitor::requestFrameForAnalysis, this, &MainWindow::slotMonitorRequestRenderFrame);
     connect(m_projectMonitor, &Monitor::createSplitOverlay, this, &MainWindow::createSplitOverlay, Qt::DirectConnection);
     connect(m_projectMonitor, &Monitor::removeSplitOverlay, this, &MainWindow::removeSplitOverlay, Qt::DirectConnection);
 }
@@ -3748,12 +3747,45 @@ void MainWindow::loadDockActions()
     QList<QAction *> list = kdenliveCategoryMap.value(QStringLiteral("interface"))->actions();
     // Sort actions
     QMap<QString, QAction *> sorted;
+    QMap<QString, QAction *> bins;
+    QMap<QString, QAction *> scopes;
     QStringList sortedList;
+    QStringList binsList;
+    QStringList scopesList;
+    QMenu *binsListMenu = nullptr;
+    QMenu *scopesListMenu = new QMenu(i18n("Scopes"));
+    QAction *a = scopesListMenu->menuAction();
+    a->setData(i18n("Scopes"));
+    list << a;
+
+    // Group bins
+    if (m_binWidgets.size() > 1) {
+        binsListMenu = new QMenu(i18n("Bins"));
+        a = binsListMenu->menuAction();
+        a->setData(i18n("Bins"));
+        list << a;
+    }
+
+    // Group scopes
+    QStringList scopesNames = m_scopesManager->getScopesNames();
+    // TODO: move audiospectrum's creation to ScopeManager
+    scopesNames << QStringLiteral("audiospectrum");
+
     for (QAction *a : qAsConst(list)) {
         if (a->objectName().startsWith(QStringLiteral("raise_"))) {
             continue;
         }
-        const QString actionName = KLocalizedString::removeAcceleratorMarker(a->text());
+        const QString actionName = a->data().toString();
+        if (binsListMenu && actionName.contains(QLatin1String("project_bin"))) {
+            bins.insert(actionName, a);
+            binsList << actionName;
+            continue;
+        }
+        if (scopesNames.contains(actionName.section(QLatin1Char('#'), 1))) {
+            scopes.insert(actionName, a);
+            scopesList << actionName;
+            continue;
+        }
         sorted.insert(actionName, a);
         sortedList << actionName;
     }
@@ -3762,6 +3794,21 @@ void MainWindow::loadDockActions()
     for (const QString &text : qAsConst(sortedList)) {
         orderedList << sorted.value(text);
     }
+    QList<QAction *> orderedBinList;
+    binsList.sort(Qt::CaseInsensitive);
+    for (const QString &text : qAsConst(binsList)) {
+        orderedBinList << bins.value(text);
+    }
+    if (binsListMenu) {
+        binsListMenu->addActions(orderedBinList);
+    }
+    QList<QAction *> orderedScopesList;
+    scopesList.sort(Qt::CaseInsensitive);
+    for (const QString &text : qAsConst(scopesList)) {
+        orderedScopesList << scopes.value(text);
+    }
+    scopesListMenu->addActions(orderedScopesList);
+
     unplugActionList(QStringLiteral("dock_actions"));
     plugActionList(QStringLiteral("dock_actions"), orderedList);
 }
@@ -3903,10 +3950,12 @@ void MainWindow::updateDockMenu()
     KActionCategory *guiActions = nullptr;
     if (kdenliveCategoryMap.contains(QStringLiteral("interface"))) {
         guiActions = kdenliveCategoryMap.take(QStringLiteral("interface"));
+        // TODO: check if timeline and raise_ actions are deleted
         delete guiActions;
     }
     guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     QAction *showTimeline = new QAction(i18n("Timeline"), this);
+    showTimeline->setData(showTimeline->text());
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
     connect(showTimeline, &QAction::triggered, this, &MainWindow::slotShowTimeline);
@@ -3920,8 +3969,11 @@ void MainWindow::updateDockMenu()
             continue;
         }
         dockInformations->setChecked(!dock->isHidden());
-        guiActions->addAction(dockInformations->text(), dockInformations);
-        QAction *action = new QAction(i18n("Raise %1", dockInformations->text()), this);
+        const QString actionText = KLocalizedString::removeAcceleratorMarker(dockInformations->text());
+        QAction *a = guiActions->addAction(dock->objectName(), dockInformations);
+        QString actionData = actionText + QLatin1Char('#') + dock->objectName();
+        a->setData(actionData);
+        QAction *action = new QAction(i18n("Raise %1", actionText), this);
         connect(action, &QAction::triggered, this, [dock]() {
             dock->raise();
             dock->setFocus();
@@ -4097,28 +4149,6 @@ void MainWindow::slotInsertZoneToTree()
     // clip monitor counts the frame after the out point as the zone out, so we
     // need to subtract 1 to get the actual last frame
     pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y()-1, {}, m_clipMonitor->activeClipId());
-}
-
-void MainWindow::slotMonitorRequestRenderFrame(bool request)
-{
-    if (request) {
-        m_projectMonitor->sendFrameForAnalysis(true);
-        return;
-    }
-    for (int i = 0; i < m_gfxScopesList.count(); ++i) {
-        if (m_gfxScopesList.at(i)->isVisible() && tabifiedDockWidgets(m_gfxScopesList.at(i)).isEmpty() &&
-            static_cast<AbstractGfxScopeWidget *>(m_gfxScopesList.at(i)->widget())->autoRefreshEnabled()) {
-            request = true;
-            break;
-        }
-    }
-
-#ifdef DEBUG_MAINW
-    qCDebug(KDENLIVE_LOG) << "Any scope accepting new frames? " << request;
-#endif
-    if (!request) {
-        m_projectMonitor->sendFrameForAnalysis(false);
-    }
 }
 
 void MainWindow::slotUpdateProxySettings()
@@ -4785,8 +4815,6 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
             getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
         }
     });
-    qDebug() << "===== OPENING SECONDARY BINS: " << KdenliveSettings::binsCount() << "\nTRACKHEUGHT: " << KdenliveSettings::trackheight()
-             << "\n\n++++++++++++++++++++++++++";
     if (!m_binWidgets.isEmpty()) {
         // This is a secondary bin widget
         int ix = binCount() + 1;

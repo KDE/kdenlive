@@ -370,9 +370,6 @@ Q_SIGNALS:
     void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint &);
     void zoneUpdatedWithUndo(const QPoint &, const QPoint &);
-    /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
-     *      This causes a major slowdown, so we only enable it if required */
-    void requestFrameForAnalysis(bool);
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
     void addRemoveKeyframe();

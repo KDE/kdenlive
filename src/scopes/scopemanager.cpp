@@ -304,8 +304,14 @@ template <class T> void ScopeManager::createScopeDock(T *scopeWidget, const QStr
 {
     QDockWidget *dock = pCore->window()->addDock(title, name, scopeWidget);
     addScope(scopeWidget, dock);
+    m_scopeNames << name;
 
     // close for initial layout
     // actual state will be restored by session management
     dock->close();
+}
+
+const QStringList ScopeManager::getScopesNames() const
+{
+    return m_scopeNames;
 }
