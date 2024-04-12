@@ -58,6 +58,7 @@ public:
     SubtitledTime getSubtitle(GenTime startFrame) const;
     /** @brief Get a subtitle's position */
     GenTime getSubtitlePosition(int sid) const;
+    int getSubtitleFakePosition(int sid) const;
     /** @brief Returns all subtitle ids in a range */
     std::unordered_set<int> getItemsInRange(int startFrame, int endFrame) const;
 
@@ -223,7 +224,7 @@ private:
     QMap<std::pair<int, QString>, QString> m_subtitlesList;
     /** @brief A list of subtitles as: item id, start time */
     std::map<int, GenTime> m_allSubtitles;
-    /** @brief A list of subtitles as: item id, fake start time */
+    /** @brief A list of subtitles as: item index, fake start time */
     std::map<int, int> m_subtitlesFakePos;
     QString scriptInfoSection, styleSection, eventSection;
     QString styleName;

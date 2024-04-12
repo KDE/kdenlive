@@ -227,6 +227,7 @@ public:
 
     /** @brief Returns an item position, item can be clip, subtitle or composition */
     Q_INVOKABLE int getItemPosition(int itemId) const;
+    Q_INVOKABLE int getItemFakePosition(int itemId) const;
     /** @brief Returns an item duration, item can be clip, subtitle or composition */
     int getItemPlaytime(int itemId) const;
     /** @brief Returns an item's out point on its track, item can be clip, subtitle or composition */

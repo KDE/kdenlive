@@ -671,15 +671,15 @@ QSize Core::getCurrentFrameSize() const
     return {getCurrentProfile()->width(), getCurrentProfile()->height()};
 }
 
-void Core::refreshProjectMonitorOnce()
+void Core::refreshProjectMonitorOnce(bool slowUpdate)
 {
-    if (!m_guiConstructed || currentDoc()->loading || currentDoc()->closing) return;
-    m_monitorManager->refreshProjectMonitor();
+    if (!m_guiConstructed || currentDoc()->isBusy()) return;
+    m_monitorManager->refreshProjectMonitor(false, slowUpdate);
 }
 
 void Core::refreshProjectRange(QPair<int, int> range)
 {
-    if (!m_guiConstructed || currentDoc()->loading || currentDoc()->closing) return;
+    if (!m_guiConstructed || currentDoc()->isBusy()) return;
     m_monitorManager->refreshProjectRange(range, true);
 }
 
@@ -1060,7 +1060,7 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 
 void Core::invalidateRange(QPair<int, int> range)
 {
-    if (!m_guiConstructed || currentDoc()->loading || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
+    if (!m_guiConstructed || currentDoc()->isBusy() || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
     m_mainWindow->getCurrentTimeline()->model()->invalidateZone(range.first, range.second);
 }
 

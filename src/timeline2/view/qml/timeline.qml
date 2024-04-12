@@ -1520,7 +1520,13 @@ Rectangle {
                     } else if (root.activeTool === ProjectTool.SpacerTool && spacerGroup > -1) {
                         // Spacer tool, move group
                         var track = controller.getItemTrackId(spacerGroup)
-                        var lastPos = controller.getItemPosition(spacerGroup)
+                        var lastPos = 0;
+                        if (spacerGuides) {
+                            lastPos = controller.getItemFakePosition(spacerGroup)
+                            if (lastPos == -1) {
+                                lastPos = controller.getItemPosition(spacerGroup)
+                            }
+                        }
                         var frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale) + spacerFrame - spacerClickFrame
                         frame = Math.max(spacerMinPos, frame)
                         if (spacerMaxPos > -1) {

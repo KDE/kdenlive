@@ -119,9 +119,9 @@ void MonitorManager::refreshProjectRange(QPair<int, int> range, bool forceRefres
     }
 }
 
-void MonitorManager::refreshProjectMonitor(bool directUpdate)
+void MonitorManager::refreshProjectMonitor(bool directUpdate, bool slowUpdate)
 {
-    m_projectMonitor->refreshMonitor(directUpdate);
+    m_projectMonitor->refreshMonitor(directUpdate, slowUpdate);
 }
 
 void MonitorManager::refreshClipMonitor(bool directUpdate)

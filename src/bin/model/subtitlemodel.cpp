@@ -1338,6 +1338,12 @@ GenTime SubtitleModel::getSubtitlePosition(int sid) const
     return m_allSubtitles.at(sid);
 }
 
+int SubtitleModel::getSubtitleFakePosition(int sid) const
+{
+    int ix = getSubtitleIndex(sid);
+    return getSubtitleFakePosFromIndex(ix);
+}
+
 int SubtitleModel::getSubtitleEnd(int id) const
 {
     GenTime startPos = m_allSubtitles.at(id);

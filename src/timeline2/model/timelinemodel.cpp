@@ -5412,6 +5412,20 @@ int TimelineModel::getItemPosition(int itemId) const
     return -1;
 }
 
+int TimelineModel::getItemFakePosition(int itemId) const
+{
+    if (isClip(itemId)) {
+        return m_allClips.at(itemId)->getFakePosition();
+    }
+    if (isComposition(itemId)) {
+        return m_allCompositions.at(itemId)->getFakePosition();
+    }
+    if (isSubTitle(itemId)) {
+        return m_subtitleModel->getSubtitleFakePosition(itemId);
+    }
+    return -1;
+}
+
 int TimelineModel::getClipSubPlaylistIndex(int cid) const
 {
     Q_ASSERT(isClip(cid));

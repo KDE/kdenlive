@@ -324,6 +324,8 @@ public:
     static void setAutoclosePlaylists(QDomDocument &doc, const QString &mainSequenceUuid);
     /** @brief Check that the timelines hash have not changed between saved version and current status */
     bool checkConsistency();
+    /** @brief Returns true if the document is loading or closing */
+    bool isBusy() const;
 
 protected:
     static int next_id; /// next valid id to assign

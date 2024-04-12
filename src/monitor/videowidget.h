@@ -96,7 +96,7 @@ public:
     /** @brief Return current timeline position */
     int getCurrentPos() const;
     /** @brief Requests a monitor refresh */
-    void requestRefresh();
+    void requestRefresh(bool slowRefresh = false);
     void setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model = nullptr);
     MonitorProxy *getControllerProxy();
     bool playZone(bool startFromIn = true, bool loop = false);

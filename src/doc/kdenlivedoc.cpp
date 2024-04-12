@@ -2691,3 +2691,8 @@ void KdenliveDoc::loadSequenceProperties(const QUuid &uuid, Mlt::Properties sequ
     }
     m_sequenceProperties.insert(uuid, sequenceProperties);
 }
+
+bool KdenliveDoc::isBusy() const
+{
+    return loading || closing;
+}

@@ -743,11 +743,13 @@ void VideoWidget::requestSeek(int position, bool noAudioScrub)
     }
 }
 
-void VideoWidget::requestRefresh()
+void VideoWidget::requestRefresh(bool slowRefresh)
 {
-    if (m_producer && qFuzzyIsNull(m_producer->get_speed())) {
+    if (m_refreshTimer.isActive()) {
+        m_refreshTimer.start(slowRefresh ? 200 : 10);
+    } else if (m_producer && qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->set("scrub_audio", 0);
-        m_refreshTimer.start();
+        m_refreshTimer.start(slowRefresh ? 200 : 10);
     }
 }
 

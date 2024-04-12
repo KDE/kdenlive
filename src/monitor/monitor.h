@@ -356,7 +356,7 @@ public Q_SLOTS:
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
     void checkOverlay(int pos = -1);
     void refreshMonitorIfActive(bool directUpdate = false) override;
-    void refreshMonitor(bool directUpdate = false);
+    void refreshMonitor(bool directUpdate = false, bool slowRefresh = false);
     void forceMonitorRefresh();
     /** @brief Clear read ahead cache, to ensure up to date audio */
     void purgeCache();

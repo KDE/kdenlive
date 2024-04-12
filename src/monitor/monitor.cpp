@@ -1634,7 +1634,7 @@ void Monitor::forceMonitorRefresh()
     m_glMonitor->refresh();
 }
 
-void Monitor::refreshMonitor(bool directUpdate)
+void Monitor::refreshMonitor(bool directUpdate, bool slowRefresh)
 {
     if (!m_glMonitor->isReady() || isPlaying()) {
         return;
@@ -1643,7 +1643,7 @@ void Monitor::refreshMonitor(bool directUpdate)
         if (directUpdate) {
             m_glMonitor->refresh();
         } else {
-            m_glMonitor->requestRefresh();
+            m_glMonitor->requestRefresh(slowRefresh);
         }
     } else if (monitorVisible()) {
         // Monitor was not active. Check if the other one is visible to re-activate it afterwards
