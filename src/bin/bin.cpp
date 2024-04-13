@@ -2302,11 +2302,16 @@ void Bin::cleanDocument()
     m_itemView = nullptr;
     isLoading = false;
     shouldCheckProfile = false;
+    m_doc = nullptr;
     pCore->textEditWidget()->openClip(nullptr);
 }
 
 const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
 {
+    if (m_doc) {
+        // Bin already initialized
+        return QString();
+    }
     m_doc = project;
     QString folderName;
     if (m_isMainBin) {
@@ -6170,7 +6175,7 @@ void Bin::loadInfo(const QStringList binInfo)
     }
 
     folderName = setDocument(pCore->currentDoc(), rootId);
-    if (rootId == QLatin1String("-1")) {
+    if (folderName.isEmpty() || rootId == QLatin1String("-1")) {
         folderName = i18n("Project Bin");
     }
     QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());

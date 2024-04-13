@@ -523,7 +523,7 @@ private:
     BinListItemDelegate *m_binListViewDelegate;
     std::unique_ptr<ProjectSortProxyModel> m_proxyModel;
     QToolBar *m_toolbar;
-    KdenliveDoc *m_doc;
+    KdenliveDoc *m_doc{nullptr};
     QLineEdit *m_searchLine;
     QToolButton *m_addButton;
     KSelectAction *m_listTypeAction{nullptr};
