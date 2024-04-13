@@ -101,6 +101,7 @@ public:
     /** @brief Create a dummy project, used for testing. */
     KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int, int> tracks = {2, 2}, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
+    /** @brief The active timelinemodel uuid. */
     QUuid activeUuid;
     /** @brief True until all project timelines are loaded. */
     bool loading{true};

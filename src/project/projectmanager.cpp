@@ -18,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/archivewidget.h"
 #include "project/dialogs/backupwidget.h"
+#include "project/dialogs/guideslist.h"
 #include "project/dialogs/noteswidget.h"
 #include "project/dialogs/projectsettings.h"
 #include "timeline2/model/timelinefunctions.hpp"
@@ -1510,6 +1511,7 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     }
     std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(mainId);
     timelineModel->setMarkerModel(mainClip->markerModel());
+    pCore->guidesList()->setModel(m_project->getGuideModel(m_project->activeUuid), m_project->getFilteredGuideModel(m_project->activeUuid));
     m_project->loadSequenceGroupsAndGuides(uuid);
     if (documentTimeline) {
         documentTimeline->loadMarkerModel();
