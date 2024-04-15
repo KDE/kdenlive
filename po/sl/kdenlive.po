@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-14 00:38+0000\n"
-"PO-Revision-Date: 2024-04-05 14:35+0200\n"
+"PO-Revision-Date: 2024-04-14 12:19+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6106,11 +6106,7 @@ msgid "Arguments for the command line script"
 msgstr "Argumenti za skript ukazne vrstice"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
-#| "b> by the second, , <b>{&#x25;3}</b> by the output file path."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
@@ -12107,12 +12103,12 @@ msgstr "Prepiši"
 #: src/mainwindow.cpp:3756 src/mainwindow.cpp:3758
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "Merilniki"
 
 #: src/mainwindow.cpp:3763 src/mainwindow.cpp:3765
 #, kde-format
 msgid "Bins"
-msgstr ""
+msgstr "Posode"
 
 #: src/mainwindow.cpp:3856
 #, kde-format
