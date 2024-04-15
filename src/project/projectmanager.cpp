@@ -1506,12 +1506,12 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     passSequenceProperties(uuid, prod, tractor, timelineModel, documentTimeline);
     pCore->projectItemModel()->requestAddBinClip(mainId, prod, folderId, undo, redo);
     pCore->projectItemModel()->setSequencesFolder(folderId.toInt());
-    if (pCore->window()) {
-        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration, Qt::UniqueConnection);
-    }
     std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(mainId);
     timelineModel->setMarkerModel(mainClip->markerModel());
-    pCore->guidesList()->setModel(m_project->getGuideModel(m_project->activeUuid), m_project->getFilteredGuideModel(m_project->activeUuid));
+    if (pCore->window()) {
+        QObject::connect(timelineModel.get(), &TimelineModel::durationUpdated, this, &ProjectManager::updateSequenceDuration, Qt::UniqueConnection);
+        pCore->guidesList()->setModel(m_project->getGuideModel(m_project->activeUuid), m_project->getFilteredGuideModel(m_project->activeUuid));
+    }
     m_project->loadSequenceGroupsAndGuides(uuid);
     if (documentTimeline) {
         documentTimeline->loadMarkerModel();
