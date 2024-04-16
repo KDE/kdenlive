@@ -192,7 +192,8 @@ public:
 
     /** @brief Check if the maximum cached data size is not exceeded. */
     void checkMaxCacheSize();
-    TimelineWidget *openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel);
+    TimelineWidget *openTimeline(const QUuid &uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel,
+                                 bool openInMonitor = true);
     /** @brief Bring a timeline tab in front. Returns false if no tab exists for this timeline. */
     bool raiseTimeline(const QUuid &uuid);
     void connectTimeline();

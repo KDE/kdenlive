@@ -190,7 +190,7 @@ TEST_CASE("Check File Corruption", "[CFC]")
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
 
@@ -199,7 +199,7 @@ TEST_CASE("Check File Corruption", "[CFC]")
         allUuids.removeAll(uuid);
         for (auto &u : allUuids) {
             const QString id = allSequences.value(u);
-            pCore->projectManager()->openTimeline(id, u);
+            pCore->projectManager()->openTimeline(id, -1, u);
         }
 
         // std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);

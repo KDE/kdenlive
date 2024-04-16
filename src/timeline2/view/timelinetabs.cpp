@@ -105,7 +105,8 @@ void TimelineTabs::setModified(const QUuid &uuid, bool modified)
     }
 }
 
-TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy)
+TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel,
+                                          MonitorProxy *proxy, bool openInMonitor)
 {
     QMutexLocker lk(&m_lock);
     if (count() == 1 && m_activeTimeline) {
@@ -116,31 +117,38 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, const QString &tabNa
     newTimeline->setTimelineMenu(m_timelineClipMenu, m_timelineCompositionMenu, m_timelineMenu, m_guideMenu, m_timelineRulerMenu, m_editGuideAction,
                                  m_headerMenu, m_thumbsMenu, m_timelineSubtitleClipMenu);
     newTimeline->setModel(timelineModel, proxy);
-    int newIndex = addTab(newTimeline, tabName);
+    int newIndex = 0;
+    if (ix == -1 || ix >= count()) {
+        newIndex = addTab(newTimeline, tabName);
+    } else {
+        newIndex = insertTab(ix, newTimeline, tabName);
+    }
     setCurrentIndex(newIndex);
     setTabsClosable(count() > 1);
-    if (count() == 2) {
-        updateWindowTitle();
-    }
     lk.unlock();
-    connectCurrent(newIndex);
+    doConnectCurrent(newIndex, openInMonitor);
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     return newTimeline;
 }
 
 void TimelineTabs::connectCurrent(int ix)
 {
+    doConnectCurrent(ix, true);
+}
+
+void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
+{
     QMutexLocker lk(&m_lock);
     QUuid previousTab = QUuid();
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
-        qDebug() << "===== DISCONNECTING PREVIOUS: " << previousTab;
         pCore->window()->disableMulticam();
-        int pos = pCore->getMonitorPosition();
-        m_activeTimeline->model()->updateDuration();
-        int duration = m_activeTimeline->model()->duration();
-        // m_activeTimeline->controller()->saveSequenceProperties();
-        pCore->bin()->updateSequenceClip(previousTab, duration, pos);
+        if (openInMonitor && !pCore->currentDoc()->loading) {
+            int pos = pCore->getMonitorPosition();
+            m_activeTimeline->model()->updateDuration();
+            int duration = m_activeTimeline->model()->duration();
+            pCore->bin()->updateSequenceClip(previousTab, duration, pos);
+        }
         pCore->window()->disconnectTimeline(m_activeTimeline);
         disconnectTimeline(m_activeTimeline);
     } else {
@@ -157,11 +165,15 @@ void TimelineTabs::connectCurrent(int ix)
         qDebug() << "++++++++++++\n\nCLOSING APP\n\n+++++++++++++";
         return;
     }
-    pCore->window()->connectTimeline();
-    connectTimeline(m_activeTimeline);
-    updateWindowTitle();
-    if (!m_activeTimeline->model()->isLoading) {
-        pCore->bin()->sequenceActivated();
+    if (openInMonitor) {
+        pCore->window()->connectTimeline();
+        connectTimeline(m_activeTimeline);
+        updateWindowTitle();
+        if (!m_activeTimeline->model()->isLoading) {
+            pCore->bin()->sequenceActivated();
+        }
+    } else {
+        connectTimeline(m_activeTimeline);
     }
 }
 
@@ -195,7 +207,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     const QString id = pCore->projectItemModel()->getSequenceId(uuid);
     Fun undo = [uuid, id, model]() {
         model->registerTimeline();
-        return pCore->projectManager()->openTimeline(id, uuid, -1, false, model);
+        return pCore->projectManager()->openTimeline(id, -1, uuid, -1, false, model);
     };
     Fun redo = [this, ix, uuid]() {
         pCore->projectManager()->closeTimeline(uuid, false, false);

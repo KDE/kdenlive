@@ -25,7 +25,7 @@ public:
     void setEnabled(bool enabled);
 
     /** @brief This function change the global (effectstack-wise) enabled state of the effect */
-    void setEffectStackEnabled(bool enabled);
+    virtual void setEffectStackEnabled(bool enabled);
 
     /** @brief Returns whether the effect is enabled */
     bool isEnabled() const;

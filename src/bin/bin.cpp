@@ -2191,7 +2191,7 @@ void Bin::slotDuplicateClip()
             if (clip && clip->clipType() == ClipType::Timeline) {
                 // For duplicated timeline clips, we need to build the timelinemodel otherwise the producer is not correctly saved
                 const QUuid uuid = clip->getSequenceUuid();
-                return pCore->projectManager()->openTimeline(binId, uuid, -1, true);
+                return pCore->projectManager()->openTimeline(binId, -1, uuid, -1, true);
             }
         }
         return true;
@@ -2357,7 +2357,6 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
             disableEffects->setChecked(binEffectsDisabled);
         }
     }
-    m_itemModel->setBinEffectsEnabled(!binEffectsDisabled);
     if (!id.isEmpty()) {
         // Open view in a specific folder
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
@@ -3192,7 +3191,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
             if (clip) {
                 if (clip->clipType() == ClipType::Timeline) {
                     const QUuid uuid = clip->getSequenceUuid();
-                    pCore->projectManager()->openTimeline(clip->binId(), uuid);
+                    pCore->projectManager()->openTimeline(clip->binId(), -1, uuid);
                 } else if (clip->clipType() == ClipType::Text || clip->clipType() == ClipType::TextTemplate) {
                     // m_propertiesPanel->setEnabled(false);
                     showTitleWidget(clip);

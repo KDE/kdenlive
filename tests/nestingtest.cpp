@@ -87,7 +87,7 @@ TEST_CASE("Open and Close Sequence", "[OCS]")
         timeline.reset();
 
         // Reopen
-        pCore->projectManager()->openTimeline(seqId, uuid);
+        pCore->projectManager()->openTimeline(seqId, -1, uuid);
         timeline = mockedDoc.getTimeline(uuid);
         pCore->projectManager()->m_activeTimelineModel = timeline;
         tid1 = timeline->getTrackIndexFromPosition(2);
@@ -214,7 +214,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
         // Now reopen all timeline sequences
         QList<QUuid> allUuids = allSequences.keys();
@@ -269,7 +269,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
         timeline.reset();
 
         // Reopen sequence and check clip is still here
-        pCore->projectManager()->openTimeline(allSequences.value(secondSequence), secondSequence);
+        pCore->projectManager()->openTimeline(allSequences.value(secondSequence), -1, secondSequence);
         timeline = openedDoc->getTimeline(secondSequence);
         tid1 = timeline->getTrackIndexFromPosition(2);
         cid5 = timeline->getClipByStartPosition(tid1, 330);
@@ -311,7 +311,7 @@ TEST_CASE("Save File With 2 Sequences", "[SF2]")
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
         // Now reopen all timeline sequences
         QList<QUuid> allUuids = allSequences.keys();
@@ -391,7 +391,7 @@ TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.take(uuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
         // Now reopen all timeline sequences
@@ -426,7 +426,7 @@ TEST_CASE("Save File, Reopen and check for corruption", "[SF3]")
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.take(uuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
         //  Now reopen all timeline sequences
@@ -537,7 +537,7 @@ TEST_CASE("Save File And Check Sequence Effects", "[SF2]")
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
         // Now reopen all timeline sequences
         QList<QUuid> allUuids = allSequences.keys();
@@ -545,7 +545,7 @@ TEST_CASE("Save File And Check Sequence Effects", "[SF2]")
         QString secondaryId;
         for (auto &u : allUuids) {
             secondaryId = allSequences.value(u);
-            pCore->projectManager()->openTimeline(secondaryId, u);
+            pCore->projectManager()->openTimeline(secondaryId, -1, u);
         }
 
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
@@ -592,7 +592,7 @@ TEST_CASE("Check nested sequences on opening", "[NEST]")
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.take(uuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         std::shared_ptr<TimelineItemModel> timeline1 = openedDoc->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline1);
         REQUIRE(openedDoc->checkConsistency());

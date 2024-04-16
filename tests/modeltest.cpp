@@ -2184,7 +2184,7 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(doc.uuid());
-        pCore->projectManager()->openTimeline(firstSeqId, doc.uuid());
+        pCore->projectManager()->openTimeline(firstSeqId, -1, doc.uuid());
         auto timeline = doc.getTimeline(doc.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&doc, timeline);
@@ -2202,7 +2202,7 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(doc.uuid());
-        pCore->projectManager()->openTimeline(firstSeqId, doc.uuid());
+        pCore->projectManager()->openTimeline(firstSeqId, -1, doc.uuid());
         auto timeline = doc.getTimeline(doc.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&doc, timeline);
@@ -2227,7 +2227,7 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(doc.uuid());
-        pCore->projectManager()->openTimeline(firstSeqId, doc.uuid());
+        pCore->projectManager()->openTimeline(firstSeqId, -1, doc.uuid());
         auto timeline = doc.getTimeline(doc.uuid());
         pCore->projectManager()->m_activeTimelineModel = timeline;
         pCore->projectManager()->testSetActiveDocument(&doc, timeline);

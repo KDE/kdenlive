@@ -87,7 +87,7 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
         pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         timeline = pCore->projectManager()->m_project->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
         REQUIRE(timeline->getTracksCount() == 4);
@@ -189,12 +189,12 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         QString firstSeqId = allSequences.value(uuid);
         QString secondSeqId = allSequences.value(secondaryUuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         timeline = pCore->currentDoc()->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
         REQUIRE(timeline->getTracksCount() == 4);
         REQUIRE(timeline->m_allGroups.size() == 1);
-        // pCore->projectManager()->openTimeline(secondSeqId, secondaryUuid);
+        // pCore->projectManager()->openTimeline(secondSeqId, -1, secondaryUuid);
         timeline2 = pCore->currentDoc()->getTimeline(secondaryUuid);
         Q_ASSERT(timeline2 != nullptr);
         REQUIRE(timeline2->getTracksCount() == 4);
@@ -221,7 +221,7 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
         allSequences = binModel->getAllSequenceClips();
         firstSeqId = allSequences.value(uuid);
         secondSeqId = allSequences.value(secondaryUuid);
-        pCore->projectManager()->openTimeline(firstSeqId, uuid);
+        pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         timeline = pCore->currentDoc()->getTimeline(uuid);
         pCore->projectManager()->testSetActiveDocument(openedDoc2.get(), timeline);
         REQUIRE(timeline->getTracksCount() == 4);

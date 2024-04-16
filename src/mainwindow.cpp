@@ -2511,6 +2511,23 @@ void MainWindow::connectDocument()
     // Load master effect zones
     getCurrentTimeline()->controller()->updateMasterZones(getCurrentTimeline()->model()->getMasterEffectZones());
 
+    // Set bin effects status
+    bool binEffectsDisabled = project->getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
+    if (binEffectsDisabled) {
+        pCore->projectItemModel()->setBinEffectsEnabled(!binEffectsDisabled);
+    }
+
+    // Set timeline effects status
+    bool disabled = project->getDocumentProperty(QStringLiteral("disabletimelineeffects")).toInt() == 1;
+    QAction *disableEffects = actionCollection()->action(QStringLiteral("disable_timeline_effects"));
+    if (disableEffects) {
+        if (disabled != disableEffects->isChecked()) {
+            disableEffects->blockSignals(true);
+            disableEffects->setChecked(disabled);
+            disableEffects->blockSignals(false);
+        }
+    }
+
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
@@ -5045,15 +5062,19 @@ void MainWindow::manageClipJobs(AbstractTask::JOBTYPE type, QWidget *parentWidge
     loadClipActions();
 }
 
-TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel)
+TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel,
+                                         bool openInMonitor)
 {
     // Create a new timeline tab
     KdenliveDoc *project = pCore->currentDoc();
-    TimelineWidget *timeline = m_timelineTabs->addTimeline(uuid, tabName, timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+    TimelineWidget *timeline =
+        m_timelineTabs->addTimeline(uuid, ix, tabName, timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy(), openInMonitor);
     slotSetZoom(project->zoom(uuid).x(), false);
-    getCurrentTimeline()->controller()->setZone(project->zone(uuid), false);
-    getCurrentTimeline()->controller()->setScrollPos(project->getSequenceProperty(uuid, QStringLiteral("scrollPos")).toInt());
-    m_projectMonitor->slotLoadClipZone(project->zone(uuid));
+    if (openInMonitor) {
+        m_projectMonitor->slotLoadClipZone(project->zone(uuid));
+    }
+    getTimeline(uuid)->controller()->setZone(project->zone(uuid), false);
+    getTimeline(uuid)->controller()->setScrollPos(project->getSequenceProperty(uuid, QStringLiteral("scrollPos")).toInt());
     return timeline;
 }
 

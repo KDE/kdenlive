@@ -3859,7 +3859,7 @@ void TimelineController::focusTimelineSequence(int id)
         } else {
             sequencePos += m_model->getClipIn(id);
         }
-        Fun local_redo = [uuid, binId = binClip->binId(), sequencePos]() { return pCore->projectManager()->openTimeline(binId, uuid, sequencePos); };
+        Fun local_redo = [uuid, binId = binClip->binId(), sequencePos]() { return pCore->projectManager()->openTimeline(binId, -1, uuid, sequencePos); };
         if (local_redo()) {
             Fun local_undo = [uuid]() {
                 if (pCore->projectManager()->closeTimeline(uuid)) {

@@ -16,6 +16,11 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_
     , AssetParameterModel(std::move(effect), xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId(), originalDecimalPoint)
     , m_childId(0)
 {
+    if (m_asset->property_exists("kdenlive:bin-disabled")) {
+        // This effetct was disabled by the global disable bin option
+        m_effectStackEnabled = false;
+        m_enabled = true;
+    }
     connect(this, &AssetParameterModel::updateChildren, [&](const QStringList &names) {
         if (m_childEffects.size() == 0) {
             return;
@@ -307,4 +312,18 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int> bounds
     if (withUndo) {
         pCore->pushUndo(undo, redo, i18n("Update zone for %1", effectName));
     }
+}
+
+void EffectItemModel::setEffectStackEnabled(bool enabled)
+{
+    if (m_effectStackEnabled == enabled) {
+        // nothing to do
+        return;
+    }
+    if (enabled) {
+        m_asset->clear("kdenlive:bin-disabled");
+    } else if (m_enabled) {
+        m_asset->set("kdenlive:bin-disabled", 1);
+    }
+    AbstractEffectItem::setEffectStackEnabled(enabled);
 }

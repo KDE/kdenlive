@@ -98,8 +98,10 @@ Q_SIGNALS:
     void updateZoom(int);
 
 public Q_SLOTS:
-    TimelineWidget *addTimeline(const QUuid uuid, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy);
+    TimelineWidget *addTimeline(const QUuid uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, MonitorProxy *proxy,
+                                bool openInMonitor = true);
     void connectCurrent(int ix);
+    void doConnectCurrent(int ix, bool openInMonitor = true);
     void closeTimelineByIndex(int ix);
     void closeTimelineTab(const QUuid uuid);
     void renameTab(const QUuid &uuid, const QString &name);

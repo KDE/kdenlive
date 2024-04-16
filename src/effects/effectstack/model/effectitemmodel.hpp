@@ -39,6 +39,7 @@ public:
 
     Mlt::Filter &filter() const;
 
+    void setEffectStackEnabled(bool enabled) override;
     /** @brief Return true if the effect applies only to audio */
     bool isAudio() const override;
     bool isUnique() const override;
