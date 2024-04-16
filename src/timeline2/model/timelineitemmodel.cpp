@@ -125,7 +125,7 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
                 insertionIndex++;
             }
             if (addRecTrack) {
-                setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
+                pCore->mixer()->monitorAudio(newTid, true); // I think it will be better
             }
         } else {
             break;

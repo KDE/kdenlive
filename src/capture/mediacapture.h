@@ -12,12 +12,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QAudioRecorder>
 #else
+#include <QAudioDevice>
+#include <QAudioInput>
+#include <QAudioSource>
 #include <QMediaCaptureSession>
+#include <QMediaDevices>
+#include <QMediaFormat>
+#include <QMediaRecorder>
 #endif
 #include <QCamera>
 #include <QElapsedTimer>
 #include <QIODevice>
-#include <QMediaRecorder>
 #include <QMutex>
 #include <QStringList>
 #include <QTimer>
@@ -91,8 +96,9 @@ private:
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     std::unique_ptr<QAudioRecorder> m_audioRecorder;
 #else
-    // TODO: Qt6
-    // std::unique_ptr<QMediaCaptureSession> m_mediaCapture;
+    std::unique_ptr<QMediaCaptureSession> m_mediaCapture;
+    std::unique_ptr<QMediaRecorder> m_mediaRecorder;
+    std::unique_ptr<QAudioSource> m_audioSource;
 #endif
     std::unique_ptr<QAudioInput> m_audioInput;
     QScopedPointer<AudioDevInfo> m_audioInfo;
