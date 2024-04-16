@@ -730,6 +730,7 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
 
 void TimelineItemModel::buildTrackCompositing(bool rebuild)
 {
+    READ_LOCK();
     bool isMultiTrack = pCore->enableMultiTrack(false);
     auto it = m_allTracks.cbegin();
     QScopedPointer<Mlt::Service> service(m_tractor->field());
@@ -753,7 +754,10 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     }
     QString composite = TransitionsRepository::get()->getCompositingTransition();
     bool hasMixer = pCore->mixer() != nullptr;
-    if (hasMixer && !m_closing) {
+    if (m_closing) {
+        field->unlock();
+        return;
+    } else if (hasMixer) {
         pCore->mixer()->cleanup();
     }
     int videoTracks = 0;

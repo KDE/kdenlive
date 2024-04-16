@@ -72,6 +72,7 @@ public:
     Core(Core &&) = delete;
     Core &operator=(Core &&) = delete;
     QMutex xmlMutex;
+    bool closing{false};
 
     ~Core() override;
 

@@ -257,6 +257,9 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         delete w;
     }
     m_notesPlugin->clear();
+    if (pCore->closing) {
+        return;
+    }
     KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     doc->m_sameProjectFolder = sameProjectFolder;
@@ -448,11 +451,16 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
-
+    bool guiConstructed = pCore->window() != nullptr;
+    if (quit) {
+        if (guiConstructed && m_project == nullptr) {
+            return false;
+        }
+        pCore->closing = true;
+    }
     // Abort clip loading if any
     Q_EMIT pCore->stopProgressTask();
     qApp->processEvents();
-    bool guiConstructed = pCore->window() != nullptr;
     if (guiConstructed) {
         pCore->window()->disableMulticam();
         Q_EMIT pCore->window()->clearAssetPanel();
@@ -479,6 +487,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
                 pCore->window()->resetSubtitles(uid);
                 m_project->closeTimeline(uid, true);
             }
+            // Ensure we don't have stuck references to timelinemodel
+            qDebug() << "TIMELINEMODEL COUNTS: " << m_activeTimelineModel.use_count();
+            Q_ASSERT(m_activeTimelineModel.use_count() <= 1);
         } else {
             // Close all timelines
             const QList<QUuid> uuids = m_project->getTimelinesUuids();
@@ -487,9 +498,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             }
         }
     }
-    // Ensure we don't have stuck references to timelinemodel
-    // qDebug() << "TIMELINEMODEL COUNTS: " << m_activeTimelineModel.use_count();
-    // Q_ASSERT(m_activeTimelineModel.use_count() <= 1);
     m_activeTimelineModel.reset();
     // Release model shared pointers
     if (guiConstructed) {
@@ -801,13 +809,15 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 {
     Q_ASSERT(m_project == nullptr);
     m_fileRevert->setEnabled(true);
-
     ThumbnailCache::get()->clearCache();
     pCore->monitorManager()->resetDisplay();
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     Q_EMIT pCore->loadingMessageNewStage(i18n("Loading project…"));
     qApp->processEvents();
     m_notesPlugin->clear();
+    if (pCore->closing) {
+        return;
+    }
 
     DocOpenResult openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
         QString(), pCore->window()->m_commandStack, false, pCore->window());
@@ -1460,7 +1470,7 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
         // Load bin playlist
         return loadProjectBin(tractor, activeUuid);
     }
-    if (tractor.count() == 0) {
+    if (tractor.count() == 0 || pCore->closing) {
         // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
         return false;
     }
@@ -1511,6 +1521,10 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Sequences"));
     if (folderId.isEmpty()) {
         pCore->projectItemModel()->requestAddFolder(folderId, i18n("Sequences"), QStringLiteral("-1"), undo, redo);
+    }
+    if (!m_project || m_project->closing) {
+        // Can happen if user quits directly on opening
+        return true;
     }
     QString mainId;
     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor()->cut());
@@ -1877,6 +1891,9 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
             }
             return false;
         }
+    }
+    if (pCore->closing) {
+        return false;
     }
 
     // Build timeline

@@ -2268,6 +2268,8 @@ void KdenliveDoc::closeTimeline(const QUuid uuid, bool onDeletion)
     Q_ASSERT(m_timelines.find(uuid) != m_timelines.end());
     // Sync all sequence properties
     if (onDeletion) {
+        // Clear all sequence properties
+        m_sequenceProperties.remove(uuid);
         auto model = m_timelines.take(uuid);
         model->prepareClose(!closing);
         model.reset();
@@ -2278,9 +2280,9 @@ void KdenliveDoc::closeTimeline(const QUuid uuid, bool onDeletion)
             model->passSequenceProperties(getSequenceProperties(uuid));
         }
         model->isClosed = true;
+        // Clear all sequence properties
+        m_sequenceProperties.remove(uuid);
     }
-    // Clear all sequence properties
-    m_sequenceProperties.remove(uuid);
 }
 
 void KdenliveDoc::storeGroups(const QUuid &uuid)

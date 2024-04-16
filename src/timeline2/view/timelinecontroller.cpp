@@ -2879,10 +2879,11 @@ void TimelineController::switchCompositing(bool enable)
     }
     if (enable) {
         // Loop through tracks
+        const QString composite = TransitionsRepository::get()->getCompositingTransition();
         for (int track = 0; track < m_model->getTracksCount(); track++) {
             if (m_model->getTrackById(m_model->getTrackIndexFromPosition(track))->getProperty("kdenlive:audio_track").toInt() == 0) {
                 // This is a video track
-                Mlt::Transition t(pCore->getProjectProfile(), TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
+                Mlt::Transition t(pCore->getProjectProfile(), composite.toUtf8().constData());
                 t.set("always_active", 1);
                 t.set_tracks(0, track + 1);
                 t.set("internal_added", 237);

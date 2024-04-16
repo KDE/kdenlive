@@ -183,7 +183,6 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
 
     qDebug() << "=== OPENING FILE WITH TRACKS: " << tractor.count();
     for (int i = 0; i < tractor.count() && ok; i++) {
-        qApp->processEvents();
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         if (track->property_exists("kdenlive:playlistid")) {
             playlist_name = track->get("kdenlive:playlistid");
