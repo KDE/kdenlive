@@ -118,7 +118,7 @@ public:
      */
     QDockWidget *addDock(const QString &title, const QString &objectName, QWidget *widget, Qt::DockWidgetArea area = Qt::TopDockWidgetArea);
 
-    QUndoGroup *m_commandStack;
+    QUndoGroup *m_commandStack{nullptr};
     QUndoView *m_undoView;
     /** @brief holds info about whether movit is available on this system */
     bool m_gpuAllowed;
