@@ -501,28 +501,29 @@
     },
     {
       "name": "intel-onevpl-runtime",
+      "only-arches": [
+          "x86_64"
+      ],
       "buildsystem": "cmake-ninja",
       "builddir": true,
       "config-opts": [
-        "-DCMAKE_BUILD_TYPE=Release",
-        "-DBUILD_SAMPLES=OFF",
-        "-DBUILD_TESTS=OFF",
-        "-DBUILD_TOOLS=OFF",
-        "-DBUILD_TESTS=OFF",
-        "-DMFX_ENABLE_SW_FALLBACK=OFF"
+          "-DCMAKE_BUILD_TYPE=Release",
+          "-DBUILD_SAMPLES=OFF",
+          "-DBUILD_TESTS=OFF",
+          "-DBUILD_TOOLS=OFF"
       ],
       "sources": [
-        {
-          "type": "archive",
-          "url": "https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-23.3.4.tar.gz",
-          "sha256": "9de6bfd17259b7434f2bb4fb6d2874decf9b1d4587ec9b90d91188049921e32f",
-          "x-checker-data": {
-            "type": "anitya",
-            "project-id": 368736,
-            "stable-only": true,
-            "url-template": "https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-$version.tar.gz"
+          {
+              "type": "archive",
+              "url": "https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-24.2.0.tar.gz",
+              "sha256": "7e8689ac31456f2882b0763cdd1f19bdaea349f6217c58425634199876208149",
+              "x-checker-data": {
+                  "type": "anitya",
+                  "project-id": 368736,
+                  "stable-only": true,
+                  "url-template": "https://github.com/oneapi-src/oneVPL-intel-gpu/archive/intel-onevpl-$version.tar.gz"
+              }
           }
-        }
       ]
     },
     {
@@ -541,8 +542,8 @@
         "sources": [
             {
                 "type": "archive",
-                "url": "https://github.com/oneapi-src/oneVPL/archive/refs/tags/v2023.3.1.zip",
-                "sha256": "43a6dbb62542d5f993b1ba6d7ceaef77932246b758aa19bfe152f6883b94c2e8"
+                "url": "https://github.com/intel/libvpl/archive/refs/tags/v2023.4.0.tar.gz",
+                "sha256": "978398c7bb1665a6ad7a1a15cc57dc0204608e56c88436e376b717320a9e63fd"
             }
         ]
     },
