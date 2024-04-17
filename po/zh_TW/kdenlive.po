@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-09 02:45+0000\n"
-"PO-Revision-Date: 2024-04-06 01:20+0900\n"
+"PO-Revision-Date: 2024-04-17 06:54+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -6113,11 +6113,10 @@ msgstr ""
 "%1"
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Manage Encoding Profiles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Encoding Profiles"
-msgstr "管理編碼格式"
+msgstr "管理編碼方案"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
 #: src/dialogs/kdenlivesettingsdialog.cpp:314
@@ -6134,25 +6133,25 @@ msgid "Timeline Preview"
 msgstr "時間軸預覽"
 
 #: src/dialogs/encodingprofilesdialog.cpp:54
-#, fuzzy, kde-format
+#, kde-format
 msgid "Video4Linux Capture"
-msgstr "Video4Linux"
+msgstr "Video4Linux 擷取"
 
 #: src/dialogs/encodingprofilesdialog.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Screen Capture"
-msgstr "擷取整個螢幕"
+msgstr "螢幕擷取"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "Decklink Capture"
-msgstr "擷取選取區域"
+msgstr "Decklink 擷取"
 
 #: src/dialogs/encodingprofilesdialog.cpp:123
 #: src/dialogs/encodingprofilesdialog.cpp:155
 #, kde-format
 msgid "Profile name:"
-msgstr "設定檔名稱："
+msgstr "編碼方案名稱："
 
 #: src/dialogs/encodingprofilesdialog.cpp:126
 #: src/dialogs/encodingprofilesdialog.cpp:158
@@ -6169,18 +6168,17 @@ msgstr "檔案副檔名："
 #: src/dialogs/encodingprofilesdialog.cpp:200
 #, kde-format
 msgid "Configure profiles"
-msgstr ""
+msgstr "設定編碼方案"
 
 #: src/dialogs/encodingprofilesdialog.cpp:201
 #, kde-format
 msgid "Manage Encoding Profiles"
-msgstr "管理編碼格式"
+msgstr "管理編碼方案"
 
 #: src/dialogs/encodingprofilesdialog.cpp:205
-#, fuzzy, kde-format
-#| msgid "Show default profile parameters"
+#, kde-format
 msgid "Show Profile Parameters"
-msgstr "顯示預設參數"
+msgstr "顯示編碼方案參數"
 
 #: src/dialogs/encodingprofilesdialog.cpp:207
 #, kde-kuit-format
@@ -6190,6 +6188,8 @@ msgid ""
 "can create, change, delete and download profiles used for timeline preview, "
 "proxy generation, and video, screen and decklink capture."
 msgstr ""
+"開啟視窗來管理編碼方案和它們的參數。在此您可以建立、變更、刪除或下載編碼方"
+"案，用於時間軸預覽、代理產生，以及視訊、螢幕或 Decklink 擷取。"
 
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
@@ -6221,6 +6221,8 @@ msgid ""
 "framerate,\n"
 "reverting to Automatic."
 msgstr ""
+"所選的時間軸預覽編碼方案與專案幀率不相容，\n"
+"已改用「自動」。"
 
 #: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
@@ -15868,6 +15870,8 @@ msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
+"來源專案的幀率（%1fps）與您目前專案的幀率不同。<br/>素材或關鍵幀可能會出問"
+"題。"
 
 #: src/timeline2/model/timelinefunctions.cpp:2102
 #, kde-format
@@ -18308,10 +18312,9 @@ msgstr "通道"
 #: src/ui/configcapture_ui.ui:231 src/ui/configcapture_ui.ui:434
 #: src/ui/configcapture_ui.ui:487 src/ui/configproxy_ui.ui:85
 #: src/ui/projectsettings_ui.ui:257
-#, fuzzy, kde-format
-#| msgid "Encoding profile"
+#, kde-format
 msgid "Encoding profile:"
-msgstr "編碼格式"
+msgstr "編碼方案："
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configcapture_ui.ui:261
@@ -19530,7 +19533,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:792
 #, kde-format
 msgid "Buffer Size:"
-msgstr ""
+msgstr "緩衝大小："
 
 #. i18n: ectx: property (text), widget (QLabel, bFramesLabel)
 #: src/ui/editrenderpreset_ui.ui:799
@@ -20152,7 +20155,7 @@ msgstr " 個月"
 #: src/ui/manageencodingprofile_ui.ui:24
 #, kde-format
 msgid "Editing profiles for:"
-msgstr "為誰編輯設定檔："
+msgstr "為誰編輯編碼方案："
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
@@ -20765,7 +20768,7 @@ msgstr "編碼器"
 msgid ""
 "For a given quality, tune the compromise between encoding time and output "
 "file size (faster encoding ends with larger file)."
-msgstr ""
+msgstr "在品質固定下，調整編碼時間與輸出檔案大小的取捨（編碼越快檔案越大）。"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
 #: src/ui/renderwidget_ui.ui:711

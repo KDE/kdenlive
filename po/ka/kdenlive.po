@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-09 02:45+0000\n"
-"PO-Revision-Date: 2024-03-25 05:05+0100\n"
+"PO-Revision-Date: 2024-04-17 02:49+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -12540,6 +12540,8 @@ msgstr ""
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
+"<shortcut>Shift სახელურის გადათრევა</shortcut> ცენტრზე დაფუძნებული ზომის "
+"შეცვლისთვის"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:414
 #, kde-format
@@ -12559,6 +12561,10 @@ msgid ""
 "seek to marker, <shortcut>Home</shortcut> / <shortcut>End</shortcut> to go "
 "to first / last frame"
 msgstr ""
+"<shortcut>ბორბალი</shortcut> ან <shortcut>ისრები</shortcut> 1 კადრის "
+"გადასახვევად, <shortcut>Shift</shortcut> 1 წამის გადასახვევად, "
+"<shortcut>Alt</shortcut> მარკერამდე გადასახვევად, <shortcut>Home</"
+"shortcut> / <shortcut>End</shortcut> პირველ / ბოლო კადრზე გადასასვლელად"
 
 #: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
@@ -17262,6 +17268,8 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
+"როცა არჩეულია, დროის ხაზზე არსებულ ელემენტზე დაწკაპუნება მონიშნავს ელემენტს "
+"(მაგ: კლიპს, კომპოზიციას)."
 
 #: src/titler/titlewidget.cpp:387 src/titler/titlewidget.cpp:390
 #, kde-format
