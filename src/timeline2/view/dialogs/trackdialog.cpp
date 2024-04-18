@@ -53,7 +53,7 @@ TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackInde
 void TrackDialog::buildCombo()
 {
     QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
-    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
+    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("audio-volume-high"));
     m_positionByIndex.clear();
     comboTracks->clear();
     deleteTracks->clear();

@@ -100,7 +100,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
         connect(videoEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("video")); });
         m_toolbar->addAction(videoEffects);
         QAction *audioEffects = new QAction(this);
-        audioEffects->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
+        audioEffects->setIcon(QIcon::fromTheme(QStringLiteral("audio-volume-high")));
         audioEffects->setToolTip(i18n("Show all audio effects"));
         connect(audioEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral("audio")); });
         m_toolbar->addAction(audioEffects);
