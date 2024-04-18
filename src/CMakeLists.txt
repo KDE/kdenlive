@@ -84,6 +84,7 @@ list(APPEND kdenlive_SRCS
     statusbarmessagelabel.cpp
     undohelper.cpp
     glaxnimatelauncher.cpp
+    filefilter.cpp
 )
 
 if(CRASH_AUTO_TEST)

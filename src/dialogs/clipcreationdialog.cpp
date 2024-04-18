@@ -26,6 +26,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/qcolorutils.h"
 #include "widgets/timecodedisplay.h"
 #include "xml/xml.hpp"
+#include "filefilter.h"
 
 #include <KDirOperator>
 #include <KFileWidget>
@@ -48,90 +49,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <unordered_map>
 #include <utility>
 
-// static
-QStringList ClipCreationDialog::getExtensions()
-{
-    // Build list of MIME types
-    QStringList mimeTypes = QStringList() << QStringLiteral("application/x-kdenlivetitle") << QStringLiteral("video/mlt-playlist")
-                                          << QStringLiteral("text/plain") << QStringLiteral("application/x-kdenlive");
-
-    // Video MIMEs
-    mimeTypes << QStringLiteral("video/x-flv") << QStringLiteral("application/vnd.rn-realmedia") << QStringLiteral("video/x-dv") << QStringLiteral("video/dv")
-              << QStringLiteral("video/x-msvideo") << QStringLiteral("video/x-matroska") << QStringLiteral("video/mpeg") << QStringLiteral("video/ogg")
-              << QStringLiteral("video/x-ms-wmv") << QStringLiteral("video/mp4") << QStringLiteral("video/quicktime") << QStringLiteral("video/webm")
-              << QStringLiteral("video/3gpp") << QStringLiteral("video/mp2t");
-
-    // Audio MIMEs
-    mimeTypes << QStringLiteral("audio/AMR") << QStringLiteral("audio/x-flac") << QStringLiteral("audio/x-matroska") << QStringLiteral("audio/mp4")
-              << QStringLiteral("audio/mpeg") << QStringLiteral("audio/x-mp3") << QStringLiteral("audio/ogg") << QStringLiteral("audio/x-wav")
-              << QStringLiteral("audio/x-aiff") << QStringLiteral("audio/aiff") << QStringLiteral("application/ogg") << QStringLiteral("application/mxf")
-              << QStringLiteral("application/x-shockwave-flash") << QStringLiteral("audio/ac3") << QStringLiteral("audio/aac");
-
-    // Image MIMEs
-    mimeTypes << QStringLiteral("image/gif") << QStringLiteral("image/jpeg") << QStringLiteral("image/png") << QStringLiteral("image/x-tga")
-              << QStringLiteral("image/x-bmp") << QStringLiteral("image/svg+xml") << QStringLiteral("image/tiff") << QStringLiteral("image/x-xcf")
-              << QStringLiteral("image/x-xcf-gimp") << QStringLiteral("image/x-vnd.adobe.photoshop") << QStringLiteral("image/x-pcx")
-              << QStringLiteral("image/x-exr") << QStringLiteral("image/x-portable-pixmap") << QStringLiteral("application/x-krita")
-              << QStringLiteral("image/webp") << QStringLiteral("image/jp2") << QStringLiteral("image/avif") << QStringLiteral("image/heif")
-              << QStringLiteral("image/jxl");
-
-    // Lottie animations
-    bool allowLottie = KdenliveSettings::producerslist().contains(QLatin1String("glaxnimate"));
-    if (allowLottie) {
-        mimeTypes << QStringLiteral("application/json");
-    }
-
-    // Some newer mimetypes might not be registered on some older Operating Systems, so register manually
-    QMap<QString, QString> manualMap;
-    manualMap.insert(QStringLiteral("image/avif"), QStringLiteral("*.avif"));
-    manualMap.insert(QStringLiteral("image/heif"), QStringLiteral("*.heif"));
-    manualMap.insert(QStringLiteral("image/x-exr"), QStringLiteral("*.exr"));
-    manualMap.insert(QStringLiteral("image/jp2"), QStringLiteral("*.jp2"));
-    manualMap.insert(QStringLiteral("image/jxl"), QStringLiteral("*.jxl"));
-
-    QMimeDatabase db;
-    QStringList allExtensions;
-    for (const QString &mimeType : qAsConst(mimeTypes)) {
-        QMimeType mime = db.mimeTypeForName(mimeType);
-        if (mime.isValid()) {
-            allExtensions.append(mime.globPatterns());
-        } else if (manualMap.contains(mimeType)) {
-            allExtensions.append(manualMap.value(mimeType));
-        }
-    }
-    if (allowLottie) {
-        allExtensions.append(QStringLiteral("*.rawr"));
-    }
-    // process custom user extensions
-    const QStringList customs = KdenliveSettings::addedExtensions().split(' ', Qt::SkipEmptyParts);
-    if (!customs.isEmpty()) {
-        for (const QString &ext : customs) {
-            if (ext.startsWith(QLatin1String("*."))) {
-                allExtensions << ext;
-            } else if (ext.startsWith(QLatin1String("."))) {
-                allExtensions << QStringLiteral("*") + ext;
-            } else if (!ext.contains(QLatin1Char('.'))) {
-                allExtensions << QStringLiteral("*.") + ext;
-            } else {
-                // Unrecognized format
-                qCDebug(KDENLIVE_LOG) << "Unrecognized custom format: " << ext;
-            }
-        }
-    }
-    allExtensions.removeDuplicates();
-    return allExtensions;
-}
-
-QString ClipCreationDialog::getExtensionsFilter(const QStringList &additionalFilters)
-{
-    const QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-    QString filter = i18n("All Supported Files") + " (" + allExtensions + ')';
-    if (!additionalFilters.isEmpty()) {
-        filter += ";;";
-        filter.append(additionalFilters.join(";;"));
-    }
-    return filter;
-}
 
 // static
 void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
@@ -525,17 +442,12 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg.data(), &QDialog::reject);
     dlg->setLayout(layout);
 
+    auto dialogFilter = FileFilter::Builder().defaultCategories().toKFilter();
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QString allExtensions = getExtensions().join(QLatin1Char(' '));
-    QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     fileWidget->setFilter(dialogFilter);
 #else
-    const QStringList allExtensions = getExtensions();
-    const QList<KFileFilter> filters{
-        KFileFilter(i18n("All Supported Files"), allExtensions, {}),
-        KFileFilter(i18n("All Files"), {QStringLiteral("*")}, {}),
-    };
-    fileWidget->setFilters(filters);
+    fileWidget->setFilters(dialogFilter);
 #endif
 
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);

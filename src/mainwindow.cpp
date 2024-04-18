@@ -66,6 +66,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "transitions/transitionsrepository.hpp"
 #include "utils/thememanager.h"
 #include "widgets/progressbutton.h"
+#include "filefilter.h"
 #include <config-kdenlive.h>
 
 #ifdef USE_JOGSHUTTLE
@@ -4068,7 +4069,7 @@ void MainWindow::slotFriendlyTranscode(const QString &binId, bool checkProfile)
 
 void MainWindow::slotTranscodeClip()
 {
-    const QString dialogFilter = ClipCreationDialog::getExtensionsFilter(QStringList() << i18n("All Files") + QStringLiteral(" (*)"));
+    const QString dialogFilter = FileFilter::Builder().defaultCategories().toQFilter();
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     QStringList urls = QFileDialog::getOpenFileNames(this, i18nc("@title:window", "Files to Transcode"), clipFolder, dialogFilter);
     if (urls.isEmpty()) {

@@ -17,3 +17,6 @@ packaging/flatpak/.flatpak-builder
 .cache
 .clangd
 compile_commands.json
+
+# VSCode
+.vscode/

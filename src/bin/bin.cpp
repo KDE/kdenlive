@@ -54,6 +54,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "undohelper.hpp"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
+#include "filefilter.h"
 
 #include "utils/KMessageBox_KdenliveCompat.h"
 #include <KActionMenu>
@@ -2051,8 +2052,9 @@ void Bin::slotReplaceClip()
         }
         if (currentItem) {
             Q_EMIT openClip(std::shared_ptr<ProjectClip>());
+            auto filter = FileFilter::Builder().setCategories({FileFilter::AllSupported}).toQFilter();
             QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement for %1", currentItem->clipName()),
-                                                            QFileInfo(currentItem->url()).absolutePath(), ClipCreationDialog::getExtensionsFilter());
+                                                            QFileInfo(currentItem->url()).absolutePath(), filter);
             if (!fileName.isEmpty()) {
                 QMap<QString, QString> sourceProps;
                 QMap<QString, QString> newProps;

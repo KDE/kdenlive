@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "kdenlivesettingsdialog.h"
-#include "clipcreationdialog.h"
+#include "filefilter.h"
 #include "core.h"
 #include "dialogs/customcamcorderdialog.h"
 #include "dialogs/profilesdialog.h"
@@ -382,7 +382,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
     connect(m_configEnv.kcfg_videotodefaultfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotEnableVideoFolder);
 
     // Mime types
-    QStringList mimes = ClipCreationDialog::getExtensions();
+    QStringList mimes = FileFilter::getExtensions();
     std::sort(mimes.begin(), mimes.end());
     m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
 
@@ -1334,7 +1334,7 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configEnv.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
         // Update list
         KdenliveSettings::setAddedExtensions(m_configEnv.kcfg_addedExtensions->text());
-        QStringList mimes = ClipCreationDialog::getExtensions();
+        QStringList mimes = FileFilter::getExtensions();
         std::sort(mimes.begin(), mimes.end());
         m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
     }

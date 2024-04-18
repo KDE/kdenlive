@@ -9,7 +9,7 @@
 #include "assets/view/widgets/colorwheel.h"
 #include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
-#include "dialogs/clipcreationdialog.h"
+#include "filefilter.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "kdenlivesettings.h"
@@ -292,7 +292,7 @@ void CollapsibleEffectView::slotCreateGroup()
 
 void CollapsibleEffectView::slotCreateRegion()
 {
-    const QString dialogFilter = ClipCreationDialog::getExtensionsFilter(QStringList() << i18n("All Files") + QStringLiteral(" (*)"));
+    auto dialogFilter = FileFilter::Builder().setCategories({FileFilter::AllSupported, FileFilter::All}).toQFilter();
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();

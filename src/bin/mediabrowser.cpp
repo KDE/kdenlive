@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin.h"
 #include "clipcreator.hpp"
 #include "core.h"
-#include "dialogs/clipcreationdialog.h"
+#include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "project/dialogs/slideshowclip.h"
@@ -160,21 +160,14 @@ MediaBrowser::MediaBrowser(QWidget *parent)
         }
     });
 
+    auto dialogFilter = FileFilter::Builder().defaultCategories().toKFilter();
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-    QString dialogFilter = allExtensions + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n*|") + i18n("All Files");
     m_filterCombo->setFilter(dialogFilter);
     m_op->setNameFilter(m_filterCombo->currentFilter());
 #else
-    QStringList allExtensions = ClipCreationDialog::getExtensions();
-
-    const QList<KFileFilter> filters{
-        KFileFilter(i18n("All Supported Files"), allExtensions, {}),
-        KFileFilter(i18n("All Files"), {QStringLiteral("*")}, {}),
-    };
-
-    m_filterCombo->setFilters(filters, filters.first());
-    m_op->setNameFilter(filters.first().toFilterString());
+    m_filterCombo->setFilters(dialogFilter, dialogFilter.first());
+    m_op->setNameFilter(dialogFilter.first().toFilterString());
 #endif
 
     // Setup mime filter combo

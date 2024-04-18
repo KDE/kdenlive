@@ -6,7 +6,7 @@
 #include "clipcreator.hpp"
 #include "bin/bin.h"
 #include "core.h"
-#include "dialogs/clipcreationdialog.h"
+#include "filefilter.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
@@ -462,7 +462,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             Fun local_undo = []() { return true; };
             Fun local_redo = []() { return true; };
             QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-            dir.setNameFilters(ClipCreationDialog::getExtensions());
+            dir.setNameFilters(FileFilter::getExtensions());
             QStringList result = dir.entryList(QDir::Files);
             QList<QUrl> folderFiles;
             for (const QString &path : qAsConst(result)) {
