@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-09 02:45+0000\n"
-"PO-Revision-Date: 2024-04-17 06:54+0900\n"
+"PO-Revision-Date: 2024-04-19 05:09+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -51,7 +51,7 @@ msgstr "計算音訊幅度。"
 #: data/effects/audiolevel.xml:8
 #, kde-format
 msgid "Use IEC 60268-18 Scale "
-msgstr ""
+msgstr "使用 IEC 60268-18 尺度"
 
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
@@ -62,12 +62,12 @@ msgstr "音訊音量視覺化過濾器"
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
-msgstr ""
+msgstr "在畫面上繪製音訊音量測量的音訊視覺化過濾器。"
 
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
 msgid "Segment,Bar"
-msgstr ""
+msgstr "片段,長條圖"
 
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
 #, kde-format
@@ -77,7 +77,7 @@ msgstr "圖表類型"
 #: data/effects/audiolevelgraph.xml:10
 #, kde-format
 msgid "The type of graph to display the levels."
-msgstr ""
+msgstr "要用哪種圖表顯示音量。"
 
 #: data/effects/audiolevelgraph.xml:13 data/effects/audiospectrum.xml:14
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
@@ -91,7 +91,7 @@ msgstr "背景色"
 #: data/effects/audiolevelgraph.xml:14
 #, kde-format
 msgid "The background color to be applied to the entire frame."
-msgstr ""
+msgstr "套用到整個影格的背景顏色。"
 
 #: data/effects/audiolevelgraph.xml:17
 #, kde-format
@@ -123,7 +123,7 @@ msgstr "線條粗細"
 #: data/effects/audiolevelgraph.xml:30
 #, kde-format
 msgid "The thickness of the bar or segments."
-msgstr ""
+msgstr "長條或片段的粗細。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
@@ -136,7 +136,7 @@ msgstr "角度"
 #: data/effects/audiowaveform.xml:17
 #, kde-format
 msgid "The rotation angle to be applied to the waveform."
-msgstr ""
+msgstr "套用到波形的旋轉角度。"
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
 #: data/effects/audiowaveform.xml:20 data/effects/lightshow.xml:26
@@ -157,7 +157,7 @@ msgstr "矩形"
 #: data/effects/audiolevelgraph.xml:38 data/effects/audiospectrum.xml:31
 #, kde-format
 msgid "Defines the rectangle that the waveform(s) should be drawn in."
-msgstr ""
+msgstr "定義波形應該要繪製於其中的矩形。"
 
 #: data/effects/audiolevelgraph.xml:41 data/effects/audiospectrum.xml:38
 #, kde-format
@@ -167,7 +167,7 @@ msgstr "鏡像"
 #: data/effects/audiolevelgraph.xml:42 data/effects/audiospectrum.xml:39
 #, kde-format
 msgid "Mirror the spectrum about the center of the rectangle."
-msgstr ""
+msgstr "將頻譜從矩形中心鏡像翻轉。"
 
 #: data/effects/audiolevelgraph.xml:45 data/effects/audiospectrum.xml:42
 #: data/transitions/dissolve.xml:13 data/transitions/luma.xml:23
@@ -179,12 +179,12 @@ msgstr "反轉"
 #: data/effects/audiolevelgraph.xml:46
 #, kde-format
 msgid "Draw the points starting with the right channel first."
-msgstr ""
+msgstr "先繪製右側頻道的點。"
 
 #: data/effects/audiolevelgraph.xml:49
 #, kde-format
 msgid "Vertical,Horizontal"
-msgstr "垂直、水平"
+msgstr "垂直,水平"
 
 #: data/effects/audiolevelgraph.xml:50
 #, kde-format
@@ -209,18 +209,17 @@ msgstr "要顯示的頻道數量。"
 #: data/effects/audiolevelgraph.xml:58
 #, kde-format
 msgid "Segment Gap"
-msgstr ""
+msgstr "片段距離"
 
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
-msgstr ""
+msgstr "片段之間的距離像素數量。"
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio"
+#, kde-format
 msgid "audiomap"
-msgstr "音訊"
+msgstr "音訊映射"
 
 #: data/effects/audiomap.xml:8 data/effects/audiomap.xml:12
 #: data/effects/audiomap.xml:16 data/effects/audiomap.xml:20
@@ -230,6 +229,8 @@ msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 msgstr ""
+"CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
+"CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 
 #: data/effects/audiomap.xml:9
 #, kde-format
@@ -290,34 +291,32 @@ msgid "Pan"
 msgstr "左右聲道平衡"
 
 #: data/effects/audiospectrum.xml:5
-#, fuzzy, kde-format
-#| msgid "Audio Spectrum"
+#, kde-format
 msgid "Audio Spectrum Filter"
-msgstr "音波譜"
+msgstr "音訊頻譜過濾器"
 
 #: data/effects/audiospectrum.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio spectrum on the image."
-msgstr ""
+msgstr "在畫面上繪製音訊頻譜的音訊視覺化過濾器。"
 
 #: data/effects/audiospectrum.xml:9
-#, fuzzy, kde-format
-#| msgid "Linear"
+#, kde-format
 msgid "Line,Bar"
-msgstr "線性"
+msgstr "線條,長條"
 
 #: data/effects/audiospectrum.xml:11
 #, kde-format
 msgid "The type of graph to display the spectrum."
-msgstr ""
+msgstr "要用哪種圖表顯示頻譜。"
 
 #: data/effects/audiospectrum.xml:15
 #, kde-format
 msgid ""
 "The background color to be applied to the entire frame. The default color is "
 "transparent."
-msgstr ""
+msgstr "套用到整個影格的背景顏色。預設顏色是透明的。"
 
 #: data/effects/audiospectrum.xml:18
 #, kde-format
@@ -327,37 +326,37 @@ msgstr "前景色"
 #: data/effects/audiospectrum.xml:19
 #, kde-format
 msgid "The color of the waveform."
-msgstr ""
+msgstr "頻譜的色彩。"
 
 #: data/effects/audiospectrum.xml:23
 #, kde-format
 msgid ""
 "The thickness of the line used to draw the waveform for line graph. The "
 "thickness of the bar for bar graph."
-msgstr ""
+msgstr "繪製頻譜時線條或長條的粗細。"
 
 #: data/effects/audiospectrum.xml:34 data/effects/audiowaveform.xml:23
 #: data/transitions/region.xml:21
 #, kde-format
 msgid "Fill"
-msgstr "填補"
+msgstr "填滿"
 
 #: data/effects/audiospectrum.xml:35
 #, kde-format
 msgid ""
 "Whether the area under the waveform should be filled in. Only applies to "
 "line graph type."
-msgstr ""
+msgstr "頻譜底下的區域是否要填滿。只適用於線條圖。"
 
 #: data/effects/audiospectrum.xml:43
 #, kde-format
 msgid "Draw the points starting with the highest frequency first."
-msgstr ""
+msgstr "從最高頻率開始繪製點。"
 
 #: data/effects/audiospectrum.xml:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "Line Tension"
-msgstr "副檔名"
+msgstr "線條張力"
 
 #: data/effects/audiospectrum.xml:47
 #, kde-format
@@ -369,17 +368,16 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:50
-#, fuzzy, kde-format
-#| msgid "In Point"
+#, kde-format
 msgid "Points"
-msgstr "起點"
+msgstr "點數"
 
 #: data/effects/audiospectrum.xml:51
 #, kde-format
 msgid ""
 "The number of bands to draw in the spectrum. Each band shows up as a data "
 "point in the graph."
-msgstr ""
+msgstr "頻譜要繪製幾個頻帶。每個頻帶會在圖標上顯示為一個資料點。"
 
 #: data/effects/audiospectrum.xml:54 data/effects/dance.xml:8
 #, kde-format
@@ -389,7 +387,7 @@ msgstr "低頻率"
 #: data/effects/audiospectrum.xml:55
 #, kde-format
 msgid "The low end of the frequency range to be used for the graph."
-msgstr ""
+msgstr "圖表頻率範圍的低頻點。"
 
 #: data/effects/audiospectrum.xml:58 data/effects/dance.xml:11
 #, kde-format
@@ -399,12 +397,12 @@ msgstr "高頻率"
 #: data/effects/audiospectrum.xml:59
 #, kde-format
 msgid "The high end of the frequency range to be used for the graph."
-msgstr ""
+msgstr "圖表頻率範圍的高頻點。"
 
 #: data/effects/audiospectrum.xml:62 data/effects/dance.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Level Threshold"
-msgstr "黑白索引色"
+msgstr "音量閾值"
 
 #: data/effects/audiospectrum.xml:63
 #, kde-format
@@ -453,7 +451,7 @@ msgstr "波形線條色"
 #: data/effects/audiowaveform.xml:26
 #, kde-format
 msgid "Merge,All,1,2,3,4,5,6,7,8,9,10"
-msgstr ""
+msgstr "合併,全部,1,2,3,4,5,6,7,8,9,10"
 
 #: data/effects/audiowaveform.xml:27
 #, kde-format
@@ -484,10 +482,9 @@ msgid "Vertical multiplicator"
 msgstr "垂直乘數"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "保留縱橫比"
+msgstr "保留透明度 (alpha)"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -517,12 +514,12 @@ msgstr "強度"
 #: data/effects/channelcopy.xml:4
 #, kde-format
 msgid "Stereo to mono"
-msgstr ""
+msgstr "雙聲道到單聲道"
 
 #: data/effects/channelcopy.xml:5
 #, kde-format
 msgid "Copy one channel to another"
-msgstr "將一個聲道複製到另一個聲道，以實現單聲道變立體聲的效果"
+msgstr "將一個聲道複製到另一個聲道"
 
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
@@ -631,18 +628,17 @@ msgstr "將一個聲道複製到另一個聲道，以實現單聲道變立體聲
 #: data/effects/copychannelstostereo.xml:12
 #, kde-format
 msgid "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
-msgstr ""
+msgstr "1,2,3,4,5,6,7,8,9,10,11,12,13,1,15,16"
 
 #: data/effects/copychannelstostereo.xml:9
 #, kde-format
 msgid "FROM"
-msgstr ""
+msgstr "從"
 
 #: data/effects/copychannelstostereo.xml:13
-#, fuzzy, kde-format
-#| msgid "T"
+#, kde-format
 msgid "TO"
-msgstr "T"
+msgstr "到"
 
 #: data/effects/crop.xml:4
 #, kde-format
@@ -709,10 +705,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/dance.xml:17 data/effects/lightshow.xml:17
-#, fuzzy, kde-format
-#| msgid "Destination"
+#, kde-format
 msgid "Oscillation"
-msgstr "目標"
+msgstr "震動"
 
 #: data/effects/dance.xml:20
 #, kde-format
@@ -1053,6 +1048,10 @@ msgid ""
 "altitude loss so far,distance travelled uphill so far,distance travelled "
 "downhill so far,distance travelled on flat area so far"
 msgstr ""
+"GPS 緯度,GPS 經度,GPS 高度,GPS 速度,目前為止的距離,目前 GPS 點的日期與時間,影"
+"片檔目前影格的日期與時間,心率,目前 GPS 方位角,目前 GPS 方向,目前為止的 GPS 高"
+"度上升量,目前為止的 GPS 高度下降量,目前為止的上坡距離,目前為止的下坡距離,目前"
+"為止的平地距離"
 
 #: data/effects/gpstext.xml:12
 #, kde-format
@@ -1062,7 +1061,7 @@ msgstr "GPS 檔案"
 #: data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
-msgstr ""
+msgstr "時間偏移秒數"
 
 #: data/effects/gpstext.xml:18
 #, kde-format
@@ -1070,15 +1069,14 @@ msgid "Smoothing level"
 msgstr "平滑程度"
 
 #: data/effects/gpstext.xml:21
-#, fuzzy, kde-format
+#, kde-format
 msgid "GPS processing start time"
-msgstr "解碼執行緒"
+msgstr "GPS 處理起始時間"
 
 #: data/effects/gpstext.xml:24
-#, fuzzy, kde-format
-#| msgid "Fields per second"
+#, kde-format
 msgid "Updates per second"
-msgstr "每秒多少張畫面"
+msgstr "每秒更新數"
 
 #: data/effects/grain.xml:4
 #, kde-format
@@ -1110,8 +1108,7 @@ msgid "Brightness"
 msgstr "亮度"
 
 #: data/effects/greyscale.xml:4
-#, fuzzy, kde-format
-#| msgid "Greyscale"
+#, kde-format
 msgctxt "Greyscale Effect Name"
 msgid "Greyscale"
 msgstr "灰階"
@@ -1122,8 +1119,7 @@ msgid "Discard color information"
 msgstr "丟棄色彩資訊"
 
 #: data/effects/invert.xml:4
-#, fuzzy, kde-format
-#| msgid "Invert"
+#, kde-format
 msgctxt "Invert Effect Name"
 msgid "Invert"
 msgstr "負片"
@@ -1139,34 +1135,34 @@ msgid "Lift/gamma/gain"
 msgstr "顏色升降/伽瑪/增益"
 
 #: data/effects/lift_gamma_gain.xml:7
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lift: Red"
-msgstr "紅色偏移"
+msgstr "顏色升降：紅"
 
 #: data/effects/lift_gamma_gain.xml:10
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lift: Green"
-msgstr "綠色偏移"
+msgstr "顏色升降：綠"
 
 #: data/effects/lift_gamma_gain.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Lift: Blue"
-msgstr "藍色偏移"
+msgstr "顏色升降：藍"
 
 #: data/effects/lift_gamma_gain.xml:16
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gamma: Red"
-msgstr "加化 (伽瑪) 紅色"
+msgstr "Gamma：紅"
 
 #: data/effects/lift_gamma_gain.xml:19
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gamma: Green"
-msgstr "加化 (伽瑪) 綠色"
+msgstr "Gamma：綠"
 
 #: data/effects/lift_gamma_gain.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gamma: Blue"
-msgstr "加化 (伽瑪) 藍色"
+msgstr "Gamma：藍"
 
 #: data/effects/lift_gamma_gain.xml:25
 #, kde-format
@@ -1179,23 +1175,21 @@ msgid "Gain: Green"
 msgstr "增益：綠"
 
 #: data/effects/lift_gamma_gain.xml:31
-#, fuzzy, kde-format
+#, kde-format
 msgid "Gain: Blue"
-msgstr "匯出增益"
+msgstr "增益：藍"
 
 #: data/effects/lightshow.xml:4
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Light"
+#, kde-format
 msgid "Light Show"
-msgstr "燈光"
+msgstr "燈光秀"
 
 #: data/effects/lightshow.xml:5
 #, kde-format
 msgid ""
 "An audio visualization filter that colors the image proportional to the "
 "magnitude of the audio spectrum."
-msgstr ""
+msgstr "依音訊頻譜波幅為影像上色的音訊視覺化過濾器。"
 
 #: data/effects/lightshow.xml:8
 #, fuzzy, kde-format
@@ -1226,19 +1220,19 @@ msgid "2nd Color"
 msgstr "第二個顏色"
 
 #: data/effects/loudness.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Normalize (2 pass)"
-msgstr "標準化"
+msgstr "正規化（2 步驟）"
 
 #: data/effects/loudness.xml:5
 #, kde-format
 msgid "Correct audio loudness as recommended by EBU R128"
-msgstr ""
+msgstr "依 EBU R128 建議修正音訊音量"
 
 #: data/effects/loudness.xml:13 data/effects/tracker.xml:42
-#, fuzzy, kde-format
+#, kde-format
 msgid "Analyse to Apply Effect"
-msgstr "關閉特效"
+msgstr "分析來套用效果"
 
 #: data/effects/lumaliftgaingamma.xml:4
 #, kde-format
@@ -1257,7 +1251,7 @@ msgstr ""
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
 #, kde-format
 msgid "Lift"
-msgstr ""
+msgstr "顏色升降"
 
 #: data/effects/mask_apply.xml:4
 #, kde-format
@@ -1271,10 +1265,9 @@ msgid "Apply the previous effects in the zone defined by a Mask Start effect."
 msgstr ""
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha shapes"
+#, kde-format
 msgid "Alpha shapes (Mask)"
-msgstr "透明形狀"
+msgstr ""
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:5
 #, kde-format
@@ -1289,7 +1282,7 @@ msgstr ""
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
 msgid "Rectangle,Ellipse,Triangle,Diamond"
-msgstr ""
+msgstr "矩形,橢圓,三角形,菱形"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:9
 #: data/effects/mask_start_frei0r_select0r.xml:22
@@ -1341,13 +1334,13 @@ msgstr "最大"
 #: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
 msgid "Write on clear,Max,Min,Add,Subtract"
-msgstr ""
+msgstr "清除時寫入,最大,最小,加算,減算"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:37
 #: data/effects/mask_start_frei0r_select0r.xml:42
 #, kde-format
 msgid "Operation"
-msgstr "作業"
+msgstr "操作"
 
 #: data/effects/mask_start_frei0r_select0r.xml:4
 #, kde-format
@@ -1371,12 +1364,12 @@ msgstr ""
 #: src/bin/bin.cpp:1402 src/bin/bin.cpp:2340
 #, kde-format
 msgid "Filter"
-msgstr ""
+msgstr "過濾器"
 
 #: data/effects/mask_start_frei0r_select0r.xml:11
 #, kde-format
 msgid "Color to select"
-msgstr "所選色彩"
+msgstr "要選取的色彩"
 
 #: data/effects/mask_start_frei0r_select0r.xml:14
 #, kde-format
@@ -1386,13 +1379,12 @@ msgstr "反轉所選區域"
 #: data/effects/mask_start_frei0r_select0r.xml:17
 #, kde-format
 msgid "RGB,ABI,HCI"
-msgstr ""
+msgstr "RGB,ABI,HCI"
 
 #: data/effects/mask_start_frei0r_select0r.xml:18
-#, fuzzy, kde-format
-#| msgid "Color key"
+#, kde-format
 msgid "Color Model"
-msgstr "色彩鍵"
+msgstr "色彩模型"
 
 #: data/effects/mask_start_frei0r_select0r.xml:21
 #, kde-format
@@ -1425,10 +1417,9 @@ msgid "Blue / Intensity Delta"
 msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:38
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Soften"
-msgstr "柔和度"
+msgstr "柔化"
 
 #: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
@@ -1458,12 +1449,12 @@ msgstr "型態"
 #: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
 #, kde-format
 msgid "Write on clear,Maximum,Minimum,Add,Subtract"
-msgstr ""
+msgstr "清除時寫入,最大值,最小值,加算,減算"
 
 #: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Alpha Operation"
-msgstr "Alpha操作"
+msgstr ""
 
 #: data/effects/mask_start_rotoscoping.xml:23 data/effects/rotoscoping.xml:20
 #, kde-format
@@ -1471,14 +1462,14 @@ msgid "Track"
 msgstr "軌道"
 
 #: data/effects/mask_start_rotoscoping.xml:26 data/effects/rotoscoping.xml:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Feather width"
-msgstr "羽化"
+msgstr "羽化寬度"
 
 #: data/effects/mask_start_rotoscoping.xml:29 data/effects/rotoscoping.xml:26
-#, fuzzy, kde-format
+#, kde-format
 msgid "Feathering passes"
-msgstr "羽化"
+msgstr "羽化步驟"
 
 #: data/effects/mask_start_shape.xml:4
 #, kde-format
@@ -1610,14 +1601,14 @@ msgid "Normalise (deprecated)"
 msgstr "正規化（已棄用）"
 
 #: data/effects/normalise.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Dynamically normalise the audio volume"
-msgstr "標準化音訊音量"
+msgstr "動態正規化音訊音量"
 
 #: data/effects/normalise.xml:11
-#, fuzzy, kde-format
+#, kde-format
 msgid "Maximum gain"
-msgstr "最大值"
+msgstr "最大增益"
 
 #: data/effects/normalise.xml:14
 #, kde-format
@@ -1634,7 +1625,7 @@ msgstr "馬賽克遮蓋"
 #: data/effects/obscure.xml:5
 #, kde-format
 msgid "Hide a region of the clip"
-msgstr "隱藏素材的區域"
+msgstr "隱藏素材的一部分"
 
 #: data/effects/obscure.xml:8
 #, kde-format
@@ -1742,8 +1733,7 @@ msgid "Blur"
 msgstr "模糊"
 
 #: data/effects/qtblend.xml:5
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "Qtblend Transform Effect Name"
 msgid "Transform"
 msgstr "簡易變形"
@@ -2011,11 +2001,10 @@ msgid "Max lighter"
 msgstr "最大明線條數"
 
 #: data/effects/sepia.xml:4
-#, fuzzy, kde-format
-#| msgid "Sepia"
+#, kde-format
 msgctxt "Sepia Effect Name"
 msgid "Sepia"
-msgstr "褐色"
+msgstr "深褐色"
 
 #: data/effects/sepia.xml:5
 #, kde-format
@@ -2084,32 +2073,32 @@ msgstr "交換左右聲道的位置"
 #: data/effects/tcolor.xml:4
 #, kde-format
 msgid "Technicolor"
-msgstr "色彩艷麗"
+msgstr "特藝七彩"
 
 #: data/effects/tcolor.xml:5
 #, kde-format
 msgid "Oversaturate the color in video, like in old Technicolor movies"
-msgstr ""
+msgstr "過度飽和影片的顏色，來模擬古早特藝七彩 Technicolor 電影的風格"
 
 #: data/effects/tcolor.xml:8
 #, kde-format
 msgid "Blue/Yellow axis"
-msgstr ""
+msgstr "藍/黃軸"
 
 #: data/effects/tcolor.xml:11
 #, kde-format
 msgid "Red/Green axis"
-msgstr ""
+msgstr "紅/綠軸"
 
 #: data/effects/threshold.xml:4
 #, kde-format
 msgid "Binarize"
-msgstr ""
+msgstr "二元化"
 
 #: data/effects/threshold.xml:5
 #, kde-format
 msgid "Make monochrome clip"
-msgstr "產生單色素材"
+msgstr "產生黑白素材"
 
 #: data/effects/threshold.xml:8
 #, kde-format
@@ -2123,15 +2112,14 @@ msgid "Use transparency"
 msgstr "使用透明度"
 
 #: data/effects/timer.xml:4
-#, fuzzy, kde-format
-#| msgid "Time"
+#, kde-format
 msgid "Timer"
-msgstr "時間"
+msgstr "計時器"
 
 #: data/effects/timer.xml:5
 #, kde-format
 msgid "Overlay a timer onto the video"
-msgstr "將一個計數器附加在影片上方"
+msgstr "附加一個計時器在影片上方"
 
 #: data/effects/timer.xml:14
 #, kde-format
@@ -2188,10 +2176,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
-#, fuzzy, kde-format
-#| msgid "Duration"
+#, kde-format
 msgid "Direction"
-msgstr "持續時間"
+msgstr "方向"
 
 #: data/effects/timer.xml:69
 #, kde-format
@@ -2238,12 +2225,12 @@ msgstr ""
 #: data/effects/tracker.xml:21
 #, kde-format
 msgid "Rectangle,Ellipse,Arrow"
-msgstr ""
+msgstr "矩形,橢圓,箭頭"
 
 #: data/effects/tracker.xml:22
-#, fuzzy, kde-format
+#, kde-format
 msgid "Frame shape"
-msgstr "畫面大小"
+msgstr "框架形狀"
 
 #: data/effects/tracker.xml:25
 #, kde-format
@@ -2258,7 +2245,7 @@ msgstr "形狀顏色"
 #: data/effects/tracker.xml:34
 #, kde-format
 msgid "Median Blur,Gaussian Blur,Pixelate,Opaque fill,None"
-msgstr ""
+msgstr "中值模糊,高斯模糊,馬賽克,不透明填滿,無"
 
 #: data/effects/tracker.xml:35
 #, kde-format
@@ -2266,15 +2253,14 @@ msgid "Blur type"
 msgstr "模糊類型"
 
 #: data/effects/typewriter.xml:4
-#, fuzzy, kde-format
-#| msgid "Template title clip"
+#, kde-format
 msgid "TypeWriter (for title clips)"
-msgstr "字幕 / 標題樣板素材"
+msgstr "打字機（標題素材用）"
 
 #: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
-msgstr ""
+msgstr "打字機效果 v0.3.3。只適用於標題素材。"
 
 #: data/effects/typewriter.xml:8
 #, fuzzy, kde-format
@@ -3162,14 +3148,14 @@ msgid "Export XML…"
 msgstr "匯出 XML…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:93
-#, fuzzy, kde-format
+#, kde-format
 msgid "Main effects"
-msgstr "%1 的特效"
+msgstr "主要效果"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:93
-#, fuzzy, kde-format
+#, kde-format
 msgid "Main compositions"
-msgstr "主要 composition"
+msgstr "主要合成方案"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:99
 #, kde-format
@@ -3213,10 +3199,9 @@ msgid "Show/hide description of the effects"
 msgstr "顯示/隱藏效果的描述"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:164
-#, fuzzy, kde-format
-#| msgid "Show description"
+#, kde-format
 msgid "Show/hide description of the compositions"
-msgstr "顯示/隱藏 composition 的描述"
+msgstr "顯示/隱藏合成方案的描述"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:174 src/bin/bin.cpp:1193
 #, kde-format
@@ -3236,10 +3221,9 @@ msgid "Online documentation"
 msgstr "線上說明文件"
 
 #: src/assets/assetpanel.cpp:67
-#, fuzzy, kde-format
-#| msgid "Center position (X)"
+#, kde-format
 msgid "Change composition type"
-msgstr "變更 composition 類型"
+msgstr "變更合成方案類型"
 
 #: src/assets/assetpanel.cpp:78
 #, kde-format
@@ -3258,10 +3242,9 @@ msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
 
 #: src/assets/assetpanel.cpp:96
-#, fuzzy, kde-format
-#| msgid "Normalise"
+#, kde-format
 msgid "Normal view"
-msgstr "標準化"
+msgstr "一般檢視"
 
 #: src/assets/assetpanel.cpp:96 src/assets/assetpanel.cpp:99
 #, kde-format
@@ -3279,16 +3262,14 @@ msgstr ""
 "前的素材。"
 
 #: src/assets/assetpanel.cpp:107
-#, fuzzy, kde-format
-#| msgid "Effects"
+#, kde-format
 msgid "Effects disabled"
-msgstr "特效"
+msgstr "效果已停用"
 
 #: src/assets/assetpanel.cpp:107
-#, fuzzy, kde-format
-#| msgid "Effects"
+#, kde-format
 msgid "Effects enabled"
-msgstr "特效"
+msgstr "效果已啟用"
 
 #: src/assets/assetpanel.cpp:110
 #, fuzzy, kde-kuit-format
@@ -3315,9 +3296,9 @@ msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "切換時間軸中是否顯示素材的關鍵幀"
 
 #: src/assets/assetpanel.cpp:238
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 effects"
-msgstr "特效"
+msgstr "%1 個效果"
 
 #: src/assets/assetpanel.cpp:243 src/jobs/customjobtask.cpp:73
 #, kde-format
@@ -3325,14 +3306,14 @@ msgid "%1 parameters"
 msgstr "%1 個參數"
 
 #: src/assets/assetpanel.cpp:247
-#, fuzzy, kde-format
+#, kde-format
 msgid "Track %1 effects"
-msgstr "移動特效"
+msgstr "軌道 %1 的效果"
 
 #: src/assets/assetpanel.cpp:252
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bin %1 effects"
-msgstr "%1 的特效"
+msgstr "素材庫 %1 的效果"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:112
 #: src/assets/keyframes/model/keyframemodellist.cpp:136
@@ -4182,10 +4163,9 @@ msgid_plural "%1 pending jobs"
 msgstr[0] "%1 個保留中的工作"
 
 #: src/bin/bin.cpp:1195
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Bin Search"
-msgstr "搜索"
+msgstr "素材庫搜尋"
 
 #: src/bin/bin.cpp:1237
 #, kde-format
@@ -5467,6 +5447,8 @@ msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
+"無法從 %1 提取描述資訊\n"
+"%2"
 
 #: src/bin/projectclip.cpp:1194 src/jobs/cliploadtask.cpp:256
 #, fuzzy, kde-format
@@ -9731,7 +9713,7 @@ msgstr ""
 #: src/mainwindow.cpp:154
 #, kde-format
 msgid "Bin Tags"
-msgstr ""
+msgstr "素材庫標籤"
 
 #: src/mainwindow.cpp:173
 #, kde-format
@@ -9804,17 +9786,15 @@ msgid "Media Browser"
 msgstr "媒體瀏覽器"
 
 #: src/mainwindow.cpp:396
-#, fuzzy, kde-format
-#| msgid "Compositing"
+#, kde-format
 msgid "Effect/Composition Stack"
-msgstr "效果/composition 堆疊"
+msgstr "效果/合成方案堆疊"
 
 #: src/mainwindow.cpp:459
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
-#, fuzzy, kde-format
-#| msgid "Compositing"
+#, kde-format
 msgid "Compositions"
-msgstr "composition"
+msgstr "合成方案"
 
 #: src/mainwindow.cpp:462
 #, kde-format
@@ -9900,9 +9880,9 @@ msgid "Go to Guide…"
 msgstr "跳到參照線…"
 
 #: src/mainwindow.cpp:664
-#, fuzzy, kde-format
+#, kde-format
 msgid "Separate Channels"
-msgstr "交換聲道"
+msgstr "分離頻道"
 
 #: src/mainwindow.cpp:671
 #, kde-format
@@ -10022,10 +10002,9 @@ msgid ""
 msgstr "切換插入是否要使用時間軸區段。"
 
 #: src/mainwindow.cpp:1154
-#, fuzzy, kde-format
-#| msgid "Track compositing"
+#, kde-format
 msgid "Enable Track Compositing"
-msgstr "軌道合成"
+msgstr "啟用軌道合成"
 
 #: src/mainwindow.cpp:1160
 #, kde-format
@@ -10207,10 +10186,9 @@ msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "切換時間軸上是否顯示素材標籤（預設為開啟）。"
 
 #: src/mainwindow.cpp:1333
-#, fuzzy, kde-format
-#| msgid "Fit zoom to project"
+#, kde-format
 msgid "Fit Zoom to Project"
-msgstr "完整察看"
+msgstr "讓縮放符合專案"
 
 #: src/mainwindow.cpp:1334
 #, kde-kuit-format
@@ -10274,10 +10252,9 @@ msgid "Stop Render"
 msgstr "停止算繪"
 
 #: src/mainwindow.cpp:1458
-#, fuzzy, kde-format
-#| msgid "Device configuration"
+#, kde-format
 msgid "Reset Configuration…"
-msgstr "裝置配置"
+msgstr "重設設定…"
 
 #: src/mainwindow.cpp:1462
 #, kde-format
@@ -10290,16 +10267,14 @@ msgid "Loop Zone"
 msgstr "循環播放區段"
 
 #: src/mainwindow.cpp:1466
-#, fuzzy, kde-format
-#| msgid "Loop selected clip"
+#, kde-format
 msgid "Loop Selected Clip"
-msgstr "循環預覽"
+msgstr "循環播放所選素材"
 
 #: src/mainwindow.cpp:1470
-#, fuzzy, kde-format
-#| msgid "Transcode Clips"
+#, kde-format
 msgid "Transcode Clips…"
-msgstr "轉換素材編碼"
+msgstr "轉換素材編碼…"
 
 #: src/mainwindow.cpp:1471
 #, kde-format
@@ -10362,10 +10337,9 @@ msgid "Monitor Overlay Clip Jobs"
 msgstr "監控覆蓋剪輯工作"
 
 #: src/mainwindow.cpp:1527
-#, fuzzy, kde-format
-#| msgid "Resolution"
+#, kde-format
 msgid "Full Resolution (1:1)"
-msgstr "解析度"
+msgstr "完整解析度 (1:1)"
 
 #: src/mainwindow.cpp:1531 src/monitor/monitor.cpp:219
 #, kde-format
@@ -10388,9 +10362,9 @@ msgid "270p"
 msgstr "270p"
 
 #: src/mainwindow.cpp:1574
-#, fuzzy, kde-format
+#, kde-format
 msgid "Real Time (drop frames)"
-msgstr "實時（啟用丟幀）"
+msgstr "實時（需要時省略影格）"
 
 #: src/mainwindow.cpp:1580
 #, kde-format
@@ -10594,10 +10568,9 @@ msgid "Deselect Clip"
 msgstr "取消選取素材"
 
 #: src/mainwindow.cpp:1658
-#, fuzzy, kde-format
-#| msgid "Add Clip To Selection"
+#, kde-format
 msgid "Add Clip to Selection"
-msgstr "添加素材到所選範圍"
+msgstr "將素材加入選取範圍"
 
 #: src/mainwindow.cpp:1660
 #, kde-format
@@ -10612,7 +10585,7 @@ msgstr "取消選取轉場特效"
 #: src/mainwindow.cpp:1664
 #, kde-format
 msgid "Add Transition to Selection"
-msgstr "添加轉場特效到所選範圍"
+msgstr "將轉場特效加入選取範圍"
 
 #: src/mainwindow.cpp:1667
 #, kde-format
@@ -10625,9 +10598,9 @@ msgid "Add Marker/Guide quickly"
 msgstr "快速新增標記/參照線"
 
 #: src/mainwindow.cpp:1673
-#, fuzzy, kde-format
+#, kde-format
 msgid "Current Selection"
-msgstr "項目設定"
+msgstr "目前的選取"
 
 #: src/mainwindow.cpp:1675 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -10657,7 +10630,7 @@ msgstr "提取素材"
 #: src/mainwindow.cpp:1700
 #, kde-format
 msgid "Save Clip Part to Bin"
-msgstr ""
+msgstr "將素材部分儲存到素材庫"
 
 #: src/mainwindow.cpp:1705
 #, kde-format
@@ -10766,10 +10739,9 @@ msgid "Add/Remove Keyframe"
 msgstr "新增/移除關鍵幀"
 
 #: src/mainwindow.cpp:1819
-#, fuzzy, kde-format
-#| msgid "Insert Space"
+#, kde-format
 msgid "Insert Space…"
-msgstr "插入空白空間"
+msgstr "插入空白空間…"
 
 #: src/mainwindow.cpp:1820
 #, kde-format
@@ -10777,38 +10749,35 @@ msgid "Remove Space"
 msgstr "移除空白空間"
 
 #: src/mainwindow.cpp:1821
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove All Spaces After Cursor"
-msgstr "重設游標之後的關鍵影格"
+msgstr "移除游標之後的所有空白空間"
 
 #: src/mainwindow.cpp:1822
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove All Clips After Cursor"
-msgstr "重設游標之後的關鍵影格"
+msgstr "移除游標之後的所有素材"
 
 #: src/mainwindow.cpp:1823
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove Space in All Tracks"
-msgstr "移除空白空間"
+msgstr "移除所有軌道上的空白空間"
 
 #: src/mainwindow.cpp:1826
-#, fuzzy, kde-format
-#| msgid "Insert Track"
+#, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
-msgstr "添加軌道"
+msgstr "插入軌道…"
 
 #: src/mainwindow.cpp:1830
-#, fuzzy, kde-format
-#| msgid "Toggle Track Lock"
+#, kde-format
 msgid "Fit all Tracks in View"
-msgstr "鎖定軌道"
+msgstr ""
 
 #: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4843
-#, fuzzy, kde-format
-#| msgid "Paste Effects"
+#, kde-format
 msgid "Master effects"
-msgstr "黏貼特效"
+msgstr ""
 
 #: src/mainwindow.cpp:1843
 #, kde-format
@@ -10831,10 +10800,9 @@ msgid "Select All in Current Track"
 msgstr "選取軌道所有素材"
 
 #: src/mainwindow.cpp:1876
-#, fuzzy, kde-format
-#| msgid "Manage Cached Data"
+#, kde-format
 msgid "Manage Cached Data…"
-msgstr "管理緩存的數據"
+msgstr "管理已快取資料…"
 
 #: src/mainwindow.cpp:1879
 #, kde-format
@@ -11406,10 +11374,9 @@ msgid ""
 msgstr ""
 
 #: src/mainwindow.cpp:4895
-#, fuzzy, kde-format
-#| msgid "Selected Cached Data"
+#, kde-format
 msgid "Checking cached data size"
-msgstr "選擇緩存數據"
+msgstr "正在檢查已快取資料大小"
 
 #: src/mltconnection.cpp:201
 #, kde-format
@@ -11724,11 +11691,10 @@ msgid "Analysis"
 msgstr "分析"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1048
-#, fuzzy, kde-kuit-format
-#| msgid "Analysis data"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
-msgstr "分析數據"
+msgstr "顯示分析數據。"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1121
 #: src/mltcontroller/clippropertiescontroller.cpp:1434
@@ -11875,8 +11841,7 @@ msgid "Text File (*.txt)"
 msgstr "文字檔案 (*.txt)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1627
-#, fuzzy, kde-format
-#| msgid "Open Analysis Data"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "開啟分析數據"
@@ -13449,7 +13414,7 @@ msgstr "預設：%1"
 #: src/project/dialogs/projectsettings.cpp:141
 #, kde-format
 msgid "Cache Data"
-msgstr "緩存數據"
+msgstr "快取資料"
 
 #: src/project/dialogs/projectsettings.cpp:190
 #, kde-format
@@ -13600,8 +13565,7 @@ msgid "Total clips: %1 (%2 used in timeline)."
 msgstr ""
 
 #: src/project/dialogs/projectsettings.cpp:851
-#, fuzzy, kde-format
-#| msgid "Metadata"
+#, kde-format
 msgctxt "@title:window"
 msgid "Metadata"
 msgstr "描述資訊"
@@ -13711,7 +13675,7 @@ msgstr ""
 #: src/project/dialogs/temporarydata.cpp:440
 #, kde-format
 msgid "No cache data older than %1 months was found."
-msgstr ""
+msgstr "沒有找到年齡超過 %1 個月的快取資料。"
 
 #: src/project/dialogs/temporarydata.cpp:445
 #, kde-format
@@ -15805,10 +15769,9 @@ msgid "Restore Video"
 msgstr "回復視訊"
 
 #: src/timeline2/model/timelinefunctions.cpp:1246
-#, fuzzy, kde-format
-#| msgid "Center position (X)"
+#, kde-format
 msgid "Change Composition Track"
-msgstr "軸心座標（X）"
+msgstr "變更合成方案軌道"
 
 #: src/timeline2/model/timelinefunctions.cpp:1261
 #, fuzzy, kde-format
@@ -16047,10 +16010,9 @@ msgid "Remove group"
 msgstr "移除群組"
 
 #: src/timeline2/model/timelinemodel.cpp:2129
-#, fuzzy, kde-format
-#| msgid "Compositing"
+#, kde-format
 msgid "Delete Composition"
-msgstr "混合方式"
+msgstr "刪除合成方案"
 
 #: src/timeline2/model/timelinemodel.cpp:2332
 #: src/timeline2/model/timelinemodel.cpp:2523
@@ -16088,9 +16050,9 @@ msgid "Resize clip"
 msgstr "調整素材大小"
 
 #: src/timeline2/model/timelinemodel.cpp:3749
-#, fuzzy, kde-format
+#, kde-format
 msgid "Resize composition"
-msgstr "逆向執行轉場特效"
+msgstr "調整合成方案大小"
 
 #: src/timeline2/model/timelinemodel.cpp:4071
 #, fuzzy, kde-format
@@ -16181,16 +16143,14 @@ msgid "Adjust Fade"
 msgstr "調整淡入淡出"
 
 #: src/timeline2/model/timelinemodel.cpp:5229
-#, fuzzy, kde-format
-#| msgid "Compositing"
+#, kde-format
 msgid "Insert Composition"
-msgstr "混合方式"
+msgstr "插入合成方案"
 
 #: src/timeline2/model/timelinemodel.cpp:5417
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "Move composition"
-msgstr "更多選項"
+msgstr "移動合成方案"
 
 #: src/timeline2/model/timelinemodel.cpp:6072
 #, fuzzy, kde-format
@@ -16226,15 +16186,14 @@ msgstr "解鎖軌道"
 
 #: src/timeline2/model/timelinemodel.cpp:6624
 #: src/timeline2/model/timelinemodel.cpp:6686
-#, fuzzy, kde-format
-#| msgid "Center position (X)"
+#, kde-format
 msgid "Change composition"
-msgstr "軸心座標（X）"
+msgstr "變更合成方案"
 
 #: src/timeline2/model/timelinemodel.cpp:6638
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
-msgstr ""
+msgstr "無法操作已群組化的合成方案，請先解除群組化"
 
 #: src/timeline2/model/timelinemodel.cpp:6833
 #: src/timeline2/model/timelinemodel.cpp:6870
@@ -16432,7 +16391,7 @@ msgstr "偏移"
 #: src/timeline2/view/qml/Clip.qml:1249 src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
 msgid "<b>Click</b> to add composition"
-msgstr ""
+msgstr "<b>點擊</b>來新增合成方案"
 
 #: src/timeline2/view/qml/Clip.qml:1363 src/timeline2/view/qml/Clip.qml:1370
 #, kde-format
@@ -16466,7 +16425,7 @@ msgstr "%1，位置：%2，時長：%3"
 #: src/timeline2/view/qml/SubTitle.qml:402
 #, kde-format
 msgid "<b>Drag</b> to resize"
-msgstr ""
+msgstr "<b>拖曳</b>來調整大小"
 
 #: src/timeline2/view/qml/KeyframeView.qml:169
 #, kde-format
@@ -16634,7 +16593,7 @@ msgstr "作用中軌道中沒有項目位於時間軸游標下方"
 #: src/timeline2/view/timelinecontroller.cpp:594
 #, kde-format
 msgid "Could not add composition at selected position"
-msgstr ""
+msgstr "無法加入合成方案於所選位置"
 
 #: src/timeline2/view/timelinecontroller.cpp:656
 #: src/timeline2/view/timelinecontroller.cpp:1091
@@ -16734,10 +16693,9 @@ msgid "Please select a target track by clicking on a track's target zone"
 msgstr "請點擊軌道的目標範圍來選擇目標軌道"
 
 #: src/timeline2/view/timelinecontroller.cpp:3219
-#, fuzzy, kde-format
-#| msgid "Compositing"
+#, kde-format
 msgid "Select a favorite composition"
-msgstr "混合方式"
+msgstr "選擇一個最愛的合成方案"
 
 #: src/timeline2/view/timelinecontroller.cpp:3270
 #, fuzzy, kde-format
@@ -16935,10 +16893,9 @@ msgid "Insert an effect..."
 msgstr "插入效果..."
 
 #: src/timeline2/view/timelinewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Compositing"
+#, kde-format
 msgid "Insert a composition..."
-msgstr "混合方式"
+msgstr "插入合成方案…"
 
 #: src/timeline2/view/timelinewidget.cpp:342
 #, kde-format
@@ -17175,7 +17132,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
-msgstr "選取時，點擊時間軸中的資源時會選取該資源（如素材或 composition）。"
+msgstr "選取時，點擊時間軸中的資源時會選取該資源（如素材或合成方案）。"
 
 #: src/titler/titlewidget.cpp:387 src/titler/titlewidget.cpp:390
 #, kde-format
@@ -17605,7 +17562,7 @@ msgstr "<small>這個字元（特徴）沒有可用的附加資訊。</small>"
 #: src/transitions/transitionsrepository.cpp:30
 #, kde-format
 msgid "Some of your favorite compositions are invalid and were removed: %1"
-msgstr ""
+msgstr "某些最愛的合成方案是無效的而已被移除：%1"
 
 #: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:97
 #, kde-format
@@ -17625,10 +17582,9 @@ msgid "Background"
 msgstr "背景"
 
 #: src/transitions/view/transitionstackview.cpp:59
-#, fuzzy, kde-format
-#| msgid "Compositing"
+#, kde-format
 msgid "Composition track:"
-msgstr "混合方式"
+msgstr "合成方案軌道："
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
 #: src/ui/addtrack_ui.ui:22
@@ -18450,10 +18406,9 @@ msgstr "同時執行緒："
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configenv_ui.ui:69
-#, fuzzy, kde-format
-#| msgid "Cache Data"
+#, kde-format
 msgid "Cached Data"
-msgstr "緩存數據"
+msgstr "已快取資料"
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
 #: src/ui/configenv_ui.ui:75
@@ -18689,33 +18644,33 @@ msgstr "裝置設定"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configjogshuttle_ui.ui:93
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  1"
-msgstr "按鈕 1"
+msgstr "按鈕  1"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configjogshuttle_ui.ui:119
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button 15"
-msgstr "按鈕 1"
+msgstr "按鈕 15"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
 #: src/ui/configjogshuttle_ui.ui:145
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button 13"
-msgstr "按鈕 1"
+msgstr "按鈕 13"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configjogshuttle_ui.ui:158
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  8"
-msgstr "按鈕 1"
+msgstr "按鈕  8"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/configjogshuttle_ui.ui:174
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  4"
-msgstr "按鈕 4"
+msgstr "按鈕  4"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configjogshuttle_ui.ui:187
@@ -18725,63 +18680,63 @@ msgstr "裝置名稱："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configjogshuttle_ui.ui:200
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  5"
-msgstr "按鈕 5"
+msgstr "按鈕  5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configjogshuttle_ui.ui:222
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  7"
-msgstr "按鈕 1"
+msgstr "按鈕  7"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configjogshuttle_ui.ui:251
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  9"
-msgstr "按鈕 1"
+msgstr "按鈕  9"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configjogshuttle_ui.ui:264
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  2"
-msgstr "按鈕 2"
+msgstr "按鈕  2"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configjogshuttle_ui.ui:280
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button 10"
-msgstr "按鈕 1"
+msgstr "按鈕 10"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/configjogshuttle_ui.ui:293
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button 11"
-msgstr "按鈕 1"
+msgstr "按鈕 11"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configjogshuttle_ui.ui:316
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  6"
-msgstr "按鈕 1"
+msgstr "按鈕  6"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configjogshuttle_ui.ui:344
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button 14"
-msgstr "按鈕 1"
+msgstr "按鈕 14"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configjogshuttle_ui.ui:357
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button  3"
-msgstr "按鈕 3"
+msgstr "按鈕  3"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
 #: src/ui/configjogshuttle_ui.ui:370
-#, fuzzy, kde-format
+#, kde-format
 msgid "Button 12"
-msgstr "按鈕 1"
+msgstr "按鈕 12"
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
 #: src/ui/configmisc_ui.ui:21
@@ -18829,13 +18784,13 @@ msgstr "自動匯入圖片序列"
 #: src/ui/configmisc_ui.ui:77
 #, kde-format
 msgid "Get clip metadata with exiftool"
-msgstr "用 exiftool 取得素材的中繼資料"
+msgstr "用 exiftool 取得素材的描述資訊"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_use_magicLantern)
 #: src/ui/configmisc_ui.ui:84
 #, kde-format
 msgid "Get clip metadata created by Magic Lantern"
-msgstr ""
+msgstr "取得由魔術燈所建立的素材描述資料"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:91
@@ -18852,15 +18807,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configmisc_ui.ui:112
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tab position:"
-msgstr "圖形位置"
+msgstr "分頁位置："
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
 #: src/ui/configmisc_ui.ui:150
 #, kde-format
 msgid "Preferred track compositing composition:"
-msgstr ""
+msgstr "偏好使用的軌道合成方案："
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configmisc_ui.ui:160
@@ -18876,10 +18831,9 @@ msgstr "色彩素材："
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/ui/configmisc_ui.ui:173
-#, fuzzy, kde-format
-#| msgid "Title clips"
+#, kde-format
 msgid "Title clips:"
-msgstr "字幕 / 標題素材"
+msgstr "標題素材："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:180
@@ -18913,10 +18867,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configmisc_ui.ui:239
-#, fuzzy, kde-format
-#| msgid "untitled"
+#, kde-format
 msgid "Subtitles:"
-msgstr "無字幕 / 標題"
+msgstr "字幕："
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:13
@@ -18957,7 +18910,7 @@ msgstr "視訊軌："
 #: src/ui/projectsettings_ui.ui:124
 #, kde-format
 msgid "Audio tracks:"
-msgstr "音訊軌道："
+msgstr "音訊軌："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
 #: src/ui/configproject_ui.ui:125
@@ -18967,17 +18920,15 @@ msgstr "雙聲道（立體聲）"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
 #: src/ui/configproject_ui.ui:130
-#, fuzzy, kde-format
-#| msgid "Swap channels"
+#, kde-format
 msgid "4 channels"
-msgstr "交換聲道"
+msgstr "4 聲道"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
 #: src/ui/configproject_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Swap channels"
+#, kde-format
 msgid "6 channels"
-msgstr "交換聲道"
+msgstr "6 聲道"
 
 #. i18n: ectx: property (text), widget (QLabel, label_preview_profile)
 #: src/ui/configproject_ui.ui:149
@@ -19069,34 +19020,33 @@ msgstr "啟用 - 重新啟動 Kdenlive 以套用"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_backend)
 #: src/ui/configsdl_ui.ui:64
-#, fuzzy, kde-format
+#, kde-format
 msgid "Audio Backend:"
-msgstr "音訊軌"
+msgstr "音訊後端："
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_driver)
 #: src/ui/configsdl_ui.ui:80
 #, kde-format
 msgid "Audio driver:"
-msgstr "音訊驅動:"
+msgstr "音訊驅動："
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_device)
 #: src/ui/configsdl_ui.ui:93
 #, kde-format
 msgid "Audio device:"
-msgstr "音訊裝置:"
+msgstr "音訊裝置："
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:113
-#, fuzzy, kde-format
-#| msgid "Switch monitor fullscreen"
+#, kde-format
 msgid "Monitor for fullscreen output:"
-msgstr "預覽視窗全螢幕"
+msgstr "全螢幕輸出用的螢幕："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:130
-#, fuzzy, kde-format
+#, kde-format
 msgid "External display (Blackmagic card):"
-msgstr "黑色"
+msgstr "外部顯示器（Blackmagic 卡片）："
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configsdl_ui.ui:144
@@ -19120,7 +19070,7 @@ msgstr "新增模型"
 #: src/ui/configspeech_ui.ui:94
 #, kde-format
 msgid "VOSK Speech Models"
-msgstr ""
+msgstr "VOSK 語音模型"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:114
@@ -19130,10 +19080,9 @@ msgstr "移除模型"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:139
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Model:"
-msgstr "型態"
+msgstr "模型："
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configspeech_ui.ui:149
@@ -19167,17 +19116,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:220
-#, fuzzy, kde-format
-#| msgid "Device configuration"
+#, kde-format
 msgid "Check configuration"
-msgstr "裝置配置"
+msgstr "檢查設定"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configspeech_ui.ui:233
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "Speech engine"
-msgstr "選取轉場特效"
+msgstr "語音引擎"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
 #: src/ui/configspeech_ui.ui:240
@@ -19189,7 +19136,7 @@ msgstr "VOSK"
 #: src/ui/configspeech_ui.ui:247
 #, kde-format
 msgid "Whisper"
-msgstr ""
+msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -19200,15 +19147,15 @@ msgstr "縮圖："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_videothumbnails)
 #: src/ui/configtimeline_ui.ui:28
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable for Video"
-msgstr "允許伸縮"
+msgstr "為影片啟用"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_audiothumbnails)
 #: src/ui/configtimeline_ui.ui:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enable for Audio"
-msgstr "啟用音譜"
+msgstr "為音訊啟用"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayallchannels)
 #: src/ui/configtimeline_ui.ui:45
@@ -19243,10 +19190,9 @@ msgstr "如果您想使用特效請選取一個素材"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configtimeline_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Scaling"
+#, kde-format
 msgid "Scrolling:"
-msgstr "縮放"
+msgstr "捲動："
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_autoscroll)
 #: src/ui/configtimeline_ui.ui:101
@@ -19269,10 +19215,9 @@ msgstr "顯示素材標記的註解"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configtimeline_ui.ui:129
-#, fuzzy, kde-format
-#| msgid "Track height"
+#, kde-format
 msgid "Default track height:"
-msgstr "軌道高度"
+msgstr "預設軌道高度："
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/configtimeline_ui.ui:149
@@ -19294,9 +19239,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
 #: src/ui/configtimeline_ui.ui:205
-#, fuzzy, kde-format
+#, kde-format
 msgid "All Audio Streams"
-msgstr "音訊軌"
+msgstr "所有音訊串流"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
 #: src/ui/configtimeline_ui.ui:210
@@ -19306,9 +19251,9 @@ msgstr "第一個音訊串流"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
 #: src/ui/configtimeline_ui.ui:215
-#, fuzzy, kde-format
+#, kde-format
 msgid "First 2 Audio Streams"
-msgstr "截取畫面"
+msgstr "第一和第二個音訊串流"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtimeline_ui.ui:223
@@ -19320,7 +19265,7 @@ msgstr "匯入時啟用："
 #: src/ui/configtimeline_ui.ui:230
 #, kde-format
 msgid "Check if project contains enough tracks"
-msgstr ""
+msgstr "檢查專案是否有足夠的軌道"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtools_ui.ui:27
@@ -19363,16 +19308,15 @@ msgstr "參數"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configtranscode_ui.ui:93
-#, fuzzy, kde-format
-#| msgid "Add Profile"
+#, kde-format
 msgid "Add Profile…"
-msgstr "添加編碼方案"
+msgstr "新增編碼方案…"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_update)
 #: src/ui/configtranscode_ui.ui:100
-#, fuzzy, kde-format
+#, kde-format
 msgid "Update Profile"
-msgstr "儲存編碼方案"
+msgstr "更新編碼方案"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configtranscode_ui.ui:107
@@ -19948,7 +19892,7 @@ msgstr "參數"
 #: src/ui/managecache_ui.ui:18
 #, kde-format
 msgid "Manage Cache Data"
-msgstr "管理緩存數據"
+msgstr "管理快取資料"
 
 #. i18n: ectx: property (accessibleName), widget (QWidget, projectPage)
 #. i18n: ectx: attribute (title), widget (QWidget, projectPage)
