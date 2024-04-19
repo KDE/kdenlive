@@ -1595,13 +1595,13 @@ void ProjectManager::updateSequenceDuration(const QUuid &uuid)
     const QString binId = pCore->projectItemModel()->getSequenceId(uuid);
     std::shared_ptr<ProjectClip> mainClip = pCore->projectItemModel()->getClipByBinID(binId);
     std::shared_ptr<TimelineItemModel> model = m_project->getTimeline(uuid);
-    qDebug() << "::: UPDATING MAIN TIMELINE DURATION: " << model->duration();
     if (mainClip && model) {
         QMap<QString, QString> properties;
-        properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(model->duration())));
-        properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(model->duration()));
-        properties.insert(QStringLiteral("length"), QString::number(model->duration()));
-        properties.insert(QStringLiteral("out"), QString::number(model->duration() - 1));
+        int newDuration = model->duration();
+        properties.insert(QStringLiteral("kdenlive:duration"), QString(model->tractor()->frames_to_time(newDuration)));
+        properties.insert(QStringLiteral("kdenlive:maxduration"), QString::number(newDuration));
+        properties.insert(QStringLiteral("length"), QString::number(newDuration));
+        properties.insert(QStringLiteral("out"), QString::number(newDuration - 1));
         mainClip->setProperties(properties, true);
     } else {
         qDebug() << ":::: MAIN CLIP PRODUCER NOT FOUND!!!";
@@ -1918,19 +1918,20 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
         for (int i = 0; i < sequenceProperties.count(); i++) {
             m_project->setSequenceProperty(uuid, qstrdup(sequenceProperties.get_name(i)), qstrdup(sequenceProperties.get(i)));
         }
-        prod->set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
-        prod->set("kdenlive:maxduration", timelineModel->duration());
-        prod->set("length", timelineModel->duration());
-        prod->set("out", timelineModel->duration() - 1);
+        int duration = timelineModel->duration();
+        prod->set("kdenlive:duration", prod->frames_to_time(duration));
+        prod->set("kdenlive:maxduration", duration);
+        prod->set("length", duration);
+        prod->set("out", duration - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->set("kdenlive:description", clip->description().toUtf8().constData());
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->set("kdenlive:producer_type", ClipType::Timeline);
 
-        prod->parent().set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
-        prod->parent().set("kdenlive:maxduration", timelineModel->duration());
-        prod->parent().set("length", timelineModel->duration());
-        prod->parent().set("out", timelineModel->duration() - 1);
+        prod->parent().set("kdenlive:duration", prod->frames_to_time(duration));
+        prod->parent().set("kdenlive:maxduration", duration);
+        prod->parent().set("length", duration);
+        prod->parent().set("out", duration - 1);
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
@@ -1981,27 +1982,28 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
             return false;
         }
         qDebug() << "::: SEQUENCE LOADED WITH TRACKS: " << timelineModel->tractor()->count() << "\nZZZZZZZZZZZZ";
+        int duration = timelineModel->duration();
         std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
-        prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(timelineModel->duration()));
-        prod->set("kdenlive:maxduration", timelineModel->duration());
-        prod->set("length", timelineModel->duration());
+        prod->set("kdenlive:duration", timelineModel->tractor()->frames_to_time(duration));
+        prod->set("kdenlive:maxduration", duration);
+        prod->set("length", duration);
         prod->set("kdenlive:producer_type", ClipType::Timeline);
-        prod->set("out", timelineModel->duration() - 1);
+        prod->set("out", duration - 1);
         prod->set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->set("kdenlive:description", clip->description().toUtf8().constData());
         prod->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
 
-        prod->parent().set("kdenlive:duration", prod->frames_to_time(timelineModel->duration()));
-        prod->parent().set("kdenlive:maxduration", timelineModel->duration());
-        prod->parent().set("length", timelineModel->duration());
-        prod->parent().set("out", timelineModel->duration() - 1);
+        prod->parent().set("kdenlive:duration", prod->frames_to_time(duration));
+        prod->parent().set("kdenlive:maxduration", duration);
+        prod->parent().set("length", duration);
+        prod->parent().set("out", duration - 1);
         prod->parent().set("kdenlive:clipname", clip->clipName().toUtf8().constData());
         prod->parent().set("kdenlive:description", clip->description().toUtf8().constData());
         prod->parent().set("kdenlive:uuid", uuid.toString().toUtf8().constData());
         prod->parent().set("kdenlive:producer_type", ClipType::Timeline);
         timelineModel->setMarkerModel(clip->markerModel());
         if (pCore->bin()) {
-            pCore->bin()->updateSequenceClip(uuid, timelineModel->duration(), -1);
+            pCore->bin()->updateSequenceClip(uuid, duration, -1);
         }
         updateSequenceProducer(uuid, prod);
         clip->setProducer(prod, false, false);

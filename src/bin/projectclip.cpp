@@ -827,14 +827,21 @@ const QString ProjectClip::getProxyFromOriginal(QString originalPath)
 
 std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
 {
-    if (clipType() == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
+    if (m_clipType == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
         return nullptr;
     }
-    QMutexLocker lock(&m_thumbMutex);
+    if (!m_thumbMutex.tryLock()) {
+        return nullptr;
+    }
     std::unique_ptr<Mlt::Producer> thumbProd;
     if (!m_thumbXml.isEmpty()) {
         QMutexLocker lock(&pCore->xmlMutex);
-        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
+        if (m_clipType != ClipType::Timeline) {
+            thumbProd.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", m_thumbXml.constData()));
+        } else {
+            thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
+        }
+        m_thumbMutex.unlock();
         return thumbProd;
     }
     if (KdenliveSettings::gpu_accel()) {
@@ -842,16 +849,18 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         thumbProd = softClone(ClipController::getPassPropertiesList());
     } else if (m_clipType == ClipType::Timeline) {
         if (pCore->currentDoc()->loading) {
+            m_thumbMutex.unlock();
             return nullptr;
         }
         if (!m_sequenceThumbFile.isOpen() && !m_sequenceThumbFile.open()) {
             // Something went wrong
             qWarning() << "Cannot write to temporary file: " << m_sequenceThumbFile.fileName();
+            m_thumbMutex.unlock();
             return nullptr;
         }
         cloneProducerToFile(m_sequenceThumbFile.fileName(), true);
         QMutexLocker lock(&pCore->xmlMutex);
-        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "consumer", m_sequenceThumbFile.fileName().toUtf8().constData()));
+        thumbProd.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml", m_sequenceThumbFile.fileName().toUtf8().constData()));
     } else {
         QString mltService = m_masterProducer->get("mlt_service");
         const QString mltResource = m_masterProducer->get("resource");
@@ -876,6 +885,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         thumbProd->attach(converter);
     }
     m_thumbXml = ClipController::producerXml(*thumbProd.get(), true, false);
+    m_thumbMutex.unlock();
     return thumbProd;
 }
 
@@ -1374,7 +1384,7 @@ void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
 {
     QMutexLocker lk(&m_producerMutex);
     QMutexLocker lock(&pCore->xmlMutex);
-    Mlt::Consumer c(m_masterProducer->get_profile(), "xml", path.toUtf8().constData());
+    Mlt::Consumer c(pCore->getProjectProfile(), "xml", path.toUtf8().constData());
     c.set("time_format", "frames");
     c.set("no_meta", 1);
     c.set("no_root", 1);
