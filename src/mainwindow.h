@@ -263,6 +263,8 @@ private:
     QMenu *m_effectsMenu;
     QMenu *m_transitionsMenu;
     QMenu *m_timelineContextMenu;
+    QMenu *m_binsListMenu{nullptr};
+    QMenu *m_scopesListMenu{nullptr};
     QList<QAction *> m_timelineClipActions;
     KDualAction *m_useTimelineZone;
 

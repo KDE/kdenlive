@@ -3770,18 +3770,21 @@ void MainWindow::loadDockActions()
     QStringList sortedList;
     QStringList binsList;
     QStringList scopesList;
-    QMenu *binsListMenu = nullptr;
-    QMenu *scopesListMenu = new QMenu(i18n("Scopes"));
-    QAction *a = scopesListMenu->menuAction();
+    delete m_binsListMenu;
+    delete m_scopesListMenu;
+    m_scopesListMenu = new QMenu(i18n("Scopes"));
+    QAction *a = m_scopesListMenu->menuAction();
     a->setData(i18n("Scopes"));
     list << a;
 
     // Group bins
     if (m_binWidgets.size() > 1) {
-        binsListMenu = new QMenu(i18n("Bins"));
-        a = binsListMenu->menuAction();
-        a->setData(i18n("Bins"));
+        m_binsListMenu = new QMenu(i18n("Project Bins"));
+        a = m_binsListMenu->menuAction();
+        a->setData(m_binsListMenu->title());
         list << a;
+    } else {
+        m_binsListMenu = nullptr;
     }
 
     // Group scopes
@@ -3794,7 +3797,7 @@ void MainWindow::loadDockActions()
             continue;
         }
         const QString actionName = a->data().toString();
-        if (binsListMenu && actionName.contains(QLatin1String("project_bin"))) {
+        if (m_binsListMenu && actionName.contains(QLatin1String("project_bin"))) {
             bins.insert(actionName, a);
             binsList << actionName;
             continue;
@@ -3817,15 +3820,15 @@ void MainWindow::loadDockActions()
     for (const QString &text : qAsConst(binsList)) {
         orderedBinList << bins.value(text);
     }
-    if (binsListMenu) {
-        binsListMenu->addActions(orderedBinList);
+    if (m_binsListMenu) {
+        m_binsListMenu->addActions(orderedBinList);
     }
     QList<QAction *> orderedScopesList;
     scopesList.sort(Qt::CaseInsensitive);
     for (const QString &text : qAsConst(scopesList)) {
         orderedScopesList << scopes.value(text);
     }
-    scopesListMenu->addActions(orderedScopesList);
+    m_scopesListMenu->addActions(orderedScopesList);
 
     unplugActionList(QStringLiteral("dock_actions"));
     plugActionList(QStringLiteral("dock_actions"), orderedList);
@@ -4841,9 +4844,10 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
             getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
         }
     });
-    if (!m_binWidgets.isEmpty()) {
+    m_binWidgets << bin;
+    if (m_binWidgets.size() > 1) {
         // This is a secondary bin widget
-        int ix = binCount() + 1;
+        int ix = binCount();
         QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, QString("project_bin_%1").arg(ix), bin);
         if (pCore->guiReady()) {
             bin->setupGeneratorMenu();
@@ -4857,7 +4861,6 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
         binDock->show();
         binDock->raise();
     }
-    m_binWidgets << bin;
     if (updateCount) {
         KdenliveSettings::setBinsCount(m_binWidgets.size());
     }
@@ -4866,6 +4869,7 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
 void MainWindow::loadExtraBins(const QStringList binInfo)
 {
     QString folderName;
+    QStringList existingNames;
     for (auto &bin : m_binWidgets) {
         QDockWidget *dock = qobject_cast<QDockWidget *>(bin->parentWidget());
         if (!dock) {
@@ -4875,14 +4879,14 @@ void MainWindow::loadExtraBins(const QStringList binInfo)
         const QString dockName = dock->objectName() + QLatin1Char(':');
         for (auto info : binInfo) {
             if (info.startsWith(dockName)) {
-                bin->loadInfo(info.split(QLatin1Char(':')));
+                existingNames << bin->loadInfo(info.split(QLatin1Char(':')), existingNames);
                 binFound = true;
                 break;
             }
         }
         if (!binFound) {
             // Init bin with default settings
-            bin->loadInfo();
+            existingNames << bin->loadInfo({}, existingNames);
         }
     }
 }

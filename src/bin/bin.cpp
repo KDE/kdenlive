@@ -6156,7 +6156,7 @@ const QString Bin::binInfoToString() const
     return binInfo;
 }
 
-void Bin::loadInfo(const QStringList binInfo)
+const QString Bin::loadInfo(const QStringList binInfo, const QStringList existingNames)
 {
     QString folderName;
     QString rootId;
@@ -6177,10 +6177,21 @@ void Bin::loadInfo(const QStringList binInfo)
 
     folderName = setDocument(pCore->currentDoc(), rootId);
     if (folderName.isEmpty() || rootId == QLatin1String("-1")) {
-        folderName = i18n("Project Bin");
+        if (m_isMainBin) {
+            folderName = i18n("Project Bin");
+        } else {
+            int ix = 2;
+            QString binName = i18n("Project Bin %1", ix);
+            while (existingNames.contains(binName)) {
+                ix++;
+                binName = i18n("Project Bin %1", ix);
+            }
+            folderName = binName;
+        }
     }
     QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
     if (dock) {
         dock->setWindowTitle(folderName);
     }
+    return folderName;
 }

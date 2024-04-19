@@ -371,7 +371,7 @@ public:
     /** @brief Export some basic info (root folder, view type) to a string to save it */
     const QString binInfoToString() const;
     /** @brief Load info (root folder, view type) from a string */
-    void loadInfo(const QStringList binInfo = QStringList());
+    const QString loadInfo(const QStringList binInfo, const QStringList existingNames);
 
 private Q_SLOTS:
     void slotAddClip();
