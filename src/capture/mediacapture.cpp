@@ -267,6 +267,38 @@ void MediaCapture::switchMonitorState(int tid, bool run)
     pCore->mixer()->monitorAudio(tid, run);
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0) 
+void MediaCapture::initializeAudioSetup()
+{
+    QAudioFormat format;
+    format.setSampleRate(KdenliveSettings::audiocapturesamplerate());
+    format.setChannelCount(KdenliveSettings::audiocapturechannels());
+    format.setSampleFormat(QAudioFormat::Int16);
+    //        format.setSampleType(QAudioFormat::SignedInt);
+    //        format.setByteOrder(QAudioFormat::LittleEndian);
+    //        format.setCodec("audio/pcm");
+    QAudioDevice deviceInfo = QMediaDevices::defaultAudioInput();
+    if (!m_audioDevice.isEmpty()) {
+        const auto deviceInfos = QMediaDevices::audioInputs();
+        for (const QAudioDevice &devInfo : deviceInfos) {
+            qDebug() << "Device name: " << devInfo.description();
+            if (devInfo.description() == m_audioDevice) {
+                deviceInfo = devInfo;
+                break;
+            }
+        }
+    }
+    if (!deviceInfo.isFormatSupported(format)) {
+        qWarning() << "Default format not supported - trying to use preferred";
+        format = deviceInfo.preferredFormat();
+    }
+    m_audioInfo.reset(new AudioDevInfo(format));
+    m_audioInput.reset();
+    m_audioInput = std::make_unique<QAudioInput>(deviceInfo, this);
+    m_audioSource = std::make_unique<QAudioSource>(deviceInfo, format, this);
+}
+#endif
+
 void MediaCapture::switchMonitorState(bool run)
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -337,32 +369,7 @@ void MediaCapture::switchMonitorState(bool run)
 #else
     if (run) {
         // Start monitoring audio
-        QAudioFormat format;
-        format.setSampleRate(KdenliveSettings::audiocapturesamplerate());
-        format.setChannelCount(KdenliveSettings::audiocapturechannels());
-        format.setSampleFormat(QAudioFormat::Int16);
-        //        format.setSampleType(QAudioFormat::SignedInt);
-        //        format.setByteOrder(QAudioFormat::LittleEndian);
-        //        format.setCodec("audio/pcm");
-        QAudioDevice deviceInfo = QMediaDevices::defaultAudioInput();
-        if (!m_audioDevice.isEmpty()) {
-            const auto deviceInfos = QMediaDevices::audioInputs();
-            for (const QAudioDevice &devInfo : deviceInfos) {
-                qDebug() << "Device name: " << devInfo.description();
-                if (devInfo.description() == m_audioDevice) {
-                    deviceInfo = devInfo;
-                    break;
-                }
-            }
-        }
-        if (!deviceInfo.isFormatSupported(format)) {
-            qWarning() << "Default format not supported - trying to use preferred";
-            format = deviceInfo.preferredFormat();
-        }
-        m_audioInfo.reset(new AudioDevInfo(format));
-        m_audioInput.reset();
-        m_audioInput = std::make_unique<QAudioInput>(deviceInfo, this);
-        m_audioSource = std::make_unique<QAudioSource>(deviceInfo, format, this);
+        this->initializeAudioSetup();
         QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelChanged, m_audioInput.get(), [&](const QVector<qreal> &level) {
             m_levels = level;
             if (m_recordState == QMediaRecorder::RecordingState) {
@@ -522,7 +529,7 @@ void MediaCapture::recordAudio(int tid, bool record)
 
     if (record && m_mediaRecorder->recorderState() == QMediaRecorder::StoppedState) {
         if (!m_audioSource) {
-            this->switchMonitorState(true);
+            this->initializeAudioSetup();
         }
         m_recTimer.invalidate();
         m_resetTimer.stop();
