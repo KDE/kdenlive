@@ -14,5 +14,6 @@
     </parameter>
     <parameter type="bool" name="swap" default="0">
         <name>Swap channels</name>
+        <comment>Swap the two channels instead of duplicating the source channel.</comment>
     </parameter>
 </effect>
