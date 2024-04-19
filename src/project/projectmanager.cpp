@@ -1453,7 +1453,7 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
 {
     pCore->taskManager.slotCancelJobs();
     const QUuid uuid = m_project->uuid();
-    QMutexLocker lock(&pCore->xmlMutex);
+    QReadLocker lock(&pCore->xmlMutex);
     std::unique_ptr<Mlt::Producer> xmlProd(
         new Mlt::Producer(pCore->getProjectProfile().get_profile(), "xml-string", m_project->getAndClearProjectXml().constData()));
     lock.unlock();
@@ -1544,7 +1544,7 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
     timelineModel->setUndoStack(m_project->commandStack());
 
     // Reset locale to C to ensure numbers are serialised correctly
-    // QMutexLocker lock(&pCore->xmlMutex);
+    // QReadLocker lock(&pCore->xmlMutex);
     // LocaleHandling::resetLocale();
     return true;
 }

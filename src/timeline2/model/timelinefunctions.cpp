@@ -1609,7 +1609,7 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
         }
         ix++;
     }
-    QMutexLocker lock(&pCore->xmlMutex);
+    QReadLocker lock(&pCore->xmlMutex);
     Mlt::Consumer xmlConsumer(*newTractor.profile(), ("xml:" + fullPath).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.connect(newTractor);
@@ -2271,7 +2271,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
             waitingBinIds << clipId;
             clipsImported = true;
-            QMutexLocker lock(&pCore->xmlMutex);
+            QReadLocker lock(&pCore->xmlMutex);
             std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", doc.toString().toUtf8().constData()));
             lock.unlock();
             if (!xmlProd->is_valid()) {

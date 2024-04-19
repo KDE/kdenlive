@@ -169,7 +169,7 @@ void FilterTask::run()
         return;
     }
     destFile.close();
-    QMutexLocker xmlLock(&pCore->xmlMutex);
+    QReadLocker xmlLock(&pCore->xmlMutex);
     std::unique_ptr<Mlt::Consumer> consumer(new Mlt::Consumer(profile, "xml", sourceFile.fileName().toUtf8().constData()));
     if (!consumer->is_valid()) {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create consumer.")),

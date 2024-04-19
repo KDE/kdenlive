@@ -477,7 +477,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks, bo
     // Creating new document
     QDomDocument doc;
     std::unique_ptr<Mlt::Profile> docProfile(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
-    QMutexLocker lock(&pCore->xmlMutex);
+    QReadLocker lock(&pCore->xmlMutex);
     Mlt::Consumer xmlConsumer(*docProfile.get(), "xml:kdenlive_playlist");
     if (disableProfile) {
         xmlConsumer.set("no_profile", 1);

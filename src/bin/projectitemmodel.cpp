@@ -1495,7 +1495,7 @@ std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
 
 const QString ProjectItemModel::sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration)
 {
-    QMutexLocker lock(&pCore->xmlMutex);
+    QWriteLocker lock(&pCore->xmlMutex);
     LocaleHandling::resetLocale();
     QString playlist;
     Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());

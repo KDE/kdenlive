@@ -2230,7 +2230,7 @@ void Bin::slotDuplicateClip()
                     if (!Xml::docContentFromFile(doc, src.fileName(), false)) {
                         return;
                     }
-                    QMutexLocker lock(&pCore->xmlMutex);
+                    QReadLocker lock(&pCore->xmlMutex);
                     const QByteArray result = doc.toString().toUtf8();
                     std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", result.constData()));
                     lock.unlock();
@@ -5580,7 +5580,7 @@ void Bin::savePlaylist(const QString &binId, const QString &savePath, const QVec
         pl.append(*cut.get());
     }
     t.set_track(pl, 0);
-    QMutexLocker lock(&pCore->xmlMutex);
+    QReadLocker lock(&pCore->xmlMutex);
     Mlt::Consumer cons(pCore->getProjectProfile(), "xml", savePath.toUtf8().constData());
     cons.set("store", "kdenlive");
     cons.connect(t);

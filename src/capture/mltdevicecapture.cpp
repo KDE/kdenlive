@@ -249,7 +249,7 @@ bool MltDeviceCapture::slotStartPreview(const QString &producer, bool xmlFormat)
     }
     char *tmp = qstrdup(producer.toUtf8().constData());
 
-    QMutexLocker lock(&pCore->xmlMutex);
+    QReadLocker lock(&pCore->xmlMutex);
     if (xmlFormat) {
         m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", tmp);
     } else {
@@ -413,7 +413,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     } else {
     }
 
-    QMutexLocker lock(&pCore->xmlMutex);
+    QReadLocker lock(&pCore->xmlMutex);
     if (xmlPlaylist) {
         // create an xml producer
         m_mltProducer = new Mlt::Producer(*m_mltProfile, "xml-string", playlist.toUtf8().constData());

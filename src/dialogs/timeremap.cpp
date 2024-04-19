@@ -1333,7 +1333,7 @@ void RemapView::reloadProducer()
         qDebug() << "==== this is not a playlist clip, aborting";
         return;
     }
-    QMutexLocker lock(&pCore->xmlMutex);
+    QReadLocker lock(&pCore->xmlMutex);
     Mlt::Consumer c(pCore->getProjectProfile(), "xml", m_clip->clipUrl().toUtf8().constData());
     QScopedPointer<Mlt::Service> serv(m_clip->originalProducer()->producer());
     if (serv == nullptr) {
