@@ -86,6 +86,9 @@ public:
     void resumeRecording();
     /** @brief Start the real audio capture **/
     int startCapture();
+    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    void initializeAudioSetup();
+    #endif
 
 public Q_SLOTS:
     void displayErrorMessage();
