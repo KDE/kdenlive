@@ -2277,6 +2277,7 @@ bool TimelineController::slipProcessSelection(int mainClipId, bool addToSelectio
     }
 
     if (newSel != sel) {
+        // Which case doew this handle ?
         m_model->requestSetSelection(newSel);
         return false;
     }
@@ -2284,8 +2285,6 @@ bool TimelineController::slipProcessSelection(int mainClipId, bool addToSelectio
     if (sel.empty()) {
         return false;
     }
-
-    Q_ASSERT(!sel.empty());
 
     if (mainClipId == -1) {
         mainClipId = getMainSelectedClip();
@@ -2314,6 +2313,7 @@ bool TimelineController::slipProcessSelection(int mainClipId, bool addToSelectio
     std::shared_ptr<ClipModel> mainClip = m_model->getClipPtr(mainClipId);
 
     if (mainClip->getMaxDuration() == -1) {
+        pCore->displayMessage(i18n("Slip can only be performed on video, audio or animation clips"), ErrorMessage, 500);
         return false;
     }
 
@@ -2500,6 +2500,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
             trac.plant_transition(transition, 0, i + 1);
         }
     }
+    trac.seek(mainClip->getIn());
 
     pCore->monitorManager()->projectMonitor()->setProducer(std::make_shared<Mlt::Producer>(trac), -2);
     pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(true);

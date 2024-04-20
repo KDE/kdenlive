@@ -1358,16 +1358,19 @@ Rectangle {
                     }
                     if(root.activeTool === ProjectTool.SlipTool) {
                         //slip tool
-                        var tk = getMouseTrack()
-                        if (tk < 0) {
-                            return
+                        if (mouse.y > ruler.height) {
+                            var tk = getMouseTrack()
+                            if (tk < 0) {
+                                return
+                            }
+                            var pos = getMousePos()
+                            var sourceTrack = Logic.getTrackById(tk)
+                            var mainClip = undefined
+                            mainClip = getItemAtPos(tk, pos, false)
+                            trimmingClickFrame = Math.round((scrollView.contentX + mouse.x) / root.timeScale)
+                            timeline.requestStartTrimmingMode(mainClip.clipId, shiftPress)
+                            endDrag()
                         }
-                        var pos = getMousePos()
-                        var sourceTrack = Logic.getTrackById(tk)
-                        var mainClip = undefined
-                        mainClip = getItemAtPos(tk, pos, false)
-                        trimmingClickFrame = Math.round((scrollView.contentX + mouse.x) / root.timeScale)
-                        timeline.requestStartTrimmingMode(mainClip.clipId, shiftPress)
                     }
                     if (dragProxy.draggedItem > -1 && mouse.y > ruler.height) {
                         // Check if the mouse exit event was not correctly triggered on the draggeditem
@@ -1475,7 +1478,7 @@ Rectangle {
                     return
                 }
                 var mouseXPos = getMouseFrame()
-                if (root.activeTool === ProjectTool.SlipTool && pressed) {
+                if (root.activeTool === ProjectTool.SlipTool && pressed && mouse.y > ruler.height) {
                     var frame = mouseXPos
                     trimmingOffset = frame - trimmingClickFrame
                     timeline.slipPosChanged(trimmingOffset);

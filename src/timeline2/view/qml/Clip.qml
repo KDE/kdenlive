@@ -308,13 +308,11 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.SlipTool || root.activeTool === ProjectTool.RippleTool
+        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
         hoverEnabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
-        property bool shiftSlip: false
-        property bool controlSlip: false
         onPressed: mouse => {
             root.autoScrolling = false
             root.mainItemId = clipRoot.clipId
@@ -1561,16 +1559,17 @@ Rectangle {
                 width: container.width
                 opacity: 0.7
             }
-            Text {
-                id: slipLable
-                text: i18n("Slip Clip")
-                font: miniFont
-                anchors.fill: parent
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                color: activePalette.highlightedText
-                opacity: 1
-            }
+        }
+        Text {
+            id: slipLable
+            text: i18n("Slip Clip")
+            font: miniFont
+            anchors.fill: parent
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            color: activePalette.highlightedText
+            visible: slipControler.visible
+            opacity: 1
         }
     }
 }
