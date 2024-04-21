@@ -118,6 +118,11 @@ void RenderRequest::setOverlayData(const QString &data)
     m_overlayData = data;
 }
 
+void RenderRequest::setAspectRatio(const QString &aspectRatio)
+{
+    m_aspectRatio = aspectRatio;
+}
+
 std::vector<RenderRequest::RenderJob> RenderRequest::process()
 {
     m_errors.clear();
@@ -141,7 +146,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
     }
 
     QString playlistContent =
-        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData);
+        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData, m_aspectRatio);
 
     QDomDocument doc;
     doc.setContent(playlistContent);

@@ -223,6 +223,14 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     }
     connect(m_view.interp_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             [&]() { KdenliveSettings::setRenderInterp(m_view.interp_type->currentData().toString()); });
+    
+    // Aspect Ratio
+    m_view.aspect_ratio_type->addItem(i18n("Default"));
+    m_view.aspect_ratio_type->addItem(i18n("Horizontal (16:9)"), QStringLiteral("horizontal"));
+    m_view.aspect_ratio_type->addItem(i18n("Vertical (9:16)"), QStringLiteral("vertical"));
+    m_view.aspect_ratio_type->addItem(i18n("Square (1:1)"), QStringLiteral("square"));
+    m_view.aspect_ratio_type->setCurrentIndex(0);
+
     // Deinterlacer
     m_view.deinterlacer_type->addItem(i18n("One Field (fast)"), QStringLiteral("onefield"));
     m_view.deinterlacer_type->addItem(i18n("Linear Blend (fast)"), QStringLiteral("linearblend"));
@@ -702,6 +710,7 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
     request->setGuideParams(m_guidesModel, guideMultiExport, guideCategory);
 
     request->setOverlayData(m_view.tc_type->currentData().toString());
+    request->setAspectRatio(m_view.aspect_ratio_type->currentData().toString());
 
     if (m_view.render_zone->isChecked()) {
         Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);

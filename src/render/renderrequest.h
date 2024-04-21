@@ -34,6 +34,7 @@ public:
     void setProxyRendering(bool enabled);
     void setEmbedSubtitles(bool enabled);
     void setTwoPass(bool enabled);
+    void setAspectRatio(const QString &aspectRatio);
     void setAudioFilePerTrack(bool enabled);
     void setGuideParams(std::weak_ptr<MarkerListModel> model, bool enableMultiExport, int filterCategory);
     void setOverlayData(const QString &data);
@@ -53,6 +54,7 @@ private:
     };
 
     QString m_overlayData;
+    QString m_aspectRatio;
     bool m_proxyRendering = false;
     RenderPresetParams m_presetParams;
     bool m_audioFilePerTrack = false;
