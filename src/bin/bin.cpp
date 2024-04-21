@@ -5778,7 +5778,7 @@ void Bin::updateClipsCount()
     int count = m_itemModel->clipsCount();
     if (count < 2) {
         m_clipsCountMessage = QString();
-    } else {
+    } else if (m_proxyModel) {
         int selected = 0;
         const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
         for (const QModelIndex &ix : indexes) {
