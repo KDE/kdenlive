@@ -3811,7 +3811,8 @@ void MainWindow::loadDockActions()
         sortedList << actionName;
     }
     QList<QAction *> orderedList;
-    sortedList.sort(Qt::CaseInsensitive);
+    QCollator order;
+    std::sort(sortedList.begin(), sortedList.end(), order);
     for (const QString &text : qAsConst(sortedList)) {
         orderedList << sorted.value(text);
     }
@@ -3978,7 +3979,7 @@ void MainWindow::updateDockMenu()
         QList<QAction *> actions = guiActions->actions();
         QList<QAction *> toDelete;
         for (auto &a : actions) {
-            if (a->data().toString() == raise) {
+            if (a->data().toString().contains(raise)) {
                 toDelete << guiActions->collection()->takeAction(a);
             }
         }
@@ -3987,7 +3988,7 @@ void MainWindow::updateDockMenu()
     }
     guiActions = new KActionCategory(i18n("Interface"), actionCollection());
     QAction *showTimeline = new QAction(i18n("Timeline"), this);
-    showTimeline->setData(raise);
+    showTimeline->setData(QVariant(showTimeline->text() + QLatin1Char('#') + raise));
     showTimeline->setCheckable(true);
     showTimeline->setChecked(true);
     connect(showTimeline, &QAction::triggered, this, &MainWindow::slotShowTimeline);
