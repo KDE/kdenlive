@@ -62,8 +62,12 @@ public:
      *  @param refreshMonitor if false, monitors will not be refreshed
      */
     void disableBinEffects(bool disable, bool refreshMonitor = true);
-    /** @brief Returns current project's xml scene */
-    QString projectSceneList(const QString &outputFolder, const QString &overlayData = QString());
+    /** @brief Returns current project's xml scene
+     * @param outputFolder The output folder for the project scene.
+     * @param overlayData The overlay data for the project.
+     * @param aspectRation The aspect ratio for the project (e.g. square).
+     */
+    QString projectSceneList(const QString &outputFolder, const QString &overlayData = QString(), const QString &aspectRation = QString());
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);

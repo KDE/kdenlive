@@ -11,6 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "abstractprojectitem.h"
 #include "binplaylist.hpp"
 #include "core.h"
+#include "cropcalculator.h"
 #include "doc/kdenlivedoc.h"
 #include "filewatcher.hpp"
 #include "jobs/audiolevelstask.h"
@@ -34,11 +35,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonObject>
 #include <QMimeData>
 #include <QProgressDialog>
+#include <QTemporaryFile>
 
 #include <mlt++/Mlt.h>
 #include <queue>
 #include <qvarlengtharray.h>
 #include <utility>
+#include <cmath>
 
 ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
@@ -1493,12 +1496,25 @@ std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
     return m_projectTractor;
 }
 
-const QString ProjectItemModel::sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration)
+const QString ProjectItemModel::sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration, const QString &aspectRatio)
 {
     QWriteLocker lock(&pCore->xmlMutex);
     LocaleHandling::resetLocale();
     QString playlist;
-    Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
+
+    QTemporaryFile tempFile;
+    if (!aspectRatio.isEmpty()) {
+        tempFile.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.kdenlive")));
+        if (!tempFile.open()) {
+            qDebug() << "Could not open temporary file for writing";
+            return QString();
+        }
+    }
+
+    tempFile.setAutoRemove(false);
+
+    // Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
+    Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", aspectRatio.isEmpty() ? "kdenlive_playlist" : tempFile.fileName().toUtf8().constData());
     if (!root.isEmpty()) {
         xmlConsumer.set("root", root.toUtf8().constData());
     }
@@ -1530,7 +1546,66 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fu
     if (filter) {
         s.detach(*filter.get());
     }
-    playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
+    if (aspectRatio.isEmpty()) {
+        playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
+        return playlist;
+    }
+
+   double targetAspectRatio = 16.0 / 9.0; // default to horizontal (16:9)
+    if (aspectRatio == "vertical") {
+        targetAspectRatio = 9.0 / 16.0;
+    } else if (aspectRatio == "square") {
+        targetAspectRatio = 1.0;
+    } else {
+        double h;
+        double w;
+        QStringList values = aspectRatio.split(QStringLiteral(":"), Qt::SkipEmptyParts);
+        if (values.length() == 2) {
+            h = values.first().toDouble();
+            if (h == 0) {
+                h = 1.0;
+            }
+            w = values.last().toDouble();
+            if (w == 0) {
+                w = 1.0;
+            }
+            targetAspectRatio = h / w;
+        }
+    }
+
+    Mlt::Profile newProfile(pCore->getCurrentProfilePath().toUtf8().constData());
+    int newProfileWidth = newProfile.width();
+    if (aspectRatio == "square") {
+        newProfileWidth = newProfile.height();
+    } else if (aspectRatio == "vertical") {
+        newProfileWidth = newProfile.height() * 9 / 16;
+    } else if (aspectRatio == "horizontal") {
+        newProfileWidth = newProfile.height() * 16 / 9;
+    }
+
+    newProfileWidth = newProfileWidth + (newProfileWidth % 2);
+    newProfile.set_width(newProfileWidth);
+    newProfile.set_explicit(1);
+
+    Mlt::Consumer xmlConsumer2(newProfile, "xml", "kdenlive_playlist");
+    Mlt::Producer prod(newProfile, "consumer", tempFile.fileName().toUtf8().constData());
+
+    double sourceAspectRatio = pCore->getCurrentProfile()->dar();
+    int sourceWidth = pCore->getCurrentProfile()->width();
+    int sourceHeight = pCore->getCurrentProfile()->height();
+    int cropWidth, cropHeight, leftOffset, topOffset;
+    CropCalculator::calculateCropParameters(sourceAspectRatio, targetAspectRatio, sourceWidth, sourceHeight, cropWidth, cropHeight, leftOffset, topOffset);
+    std::unique_ptr<Mlt::Filter> cropFilter(new Mlt::Filter(newProfile, "crop"));
+    cropFilter->set("left", leftOffset);
+    cropFilter->set("right", sourceWidth - cropWidth - leftOffset);
+    cropFilter->set("top", topOffset);
+    cropFilter->set("bottom", sourceHeight - cropHeight - topOffset);
+    prod.attach(*cropFilter.get());
+
+    xmlConsumer2.connect(prod);
+    xmlConsumer2.run();
+
+    playlist = QString::fromUtf8(xmlConsumer2.get("kdenlive_playlist"));
     return playlist;
 }
 
