@@ -1496,7 +1496,7 @@ std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
     return m_projectTractor;
 }
 
-const QString ProjectItemModel::sceneList(const QString &root, const QString &fullPath, const QString &filterData, Mlt::Tractor *activeTractor, int duration, const QString &aspectRatio)
+const QString ProjectItemModel::sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration, const QString &aspectRatio)
 {
     QWriteLocker lock(&pCore->xmlMutex);
     LocaleHandling::resetLocale();
@@ -1513,7 +1513,6 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fu
 
     tempFile.setAutoRemove(false);
 
-    // Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
     Mlt::Consumer xmlConsumer(pCore->getProjectProfile(), "xml", aspectRatio.isEmpty() ? "kdenlive_playlist" : tempFile.fileName().toUtf8().constData());
     if (!root.isEmpty()) {
         xmlConsumer.set("root", root.toUtf8().constData());
@@ -1547,7 +1546,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fu
         s.detach(*filter.get());
     }
     if (aspectRatio.isEmpty()) {
-        playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
+        playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
         return playlist;
     }
 
