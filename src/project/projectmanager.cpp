@@ -405,7 +405,7 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
     pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>());
     // QString scene = m_activeTimelineModel->sceneList(saveFolder);
     int duration = m_activeTimelineModel->duration();
-    QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), QString(), m_activeTimelineModel->tractor(), duration);
+    QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), m_activeTimelineModel->tractor(), duration);
     if (scene.isEmpty()) {
         qDebug() << "//////  ERROR writing EMPTY scene list to file: " << outputFileName;
         return false;
@@ -501,7 +501,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     m_activeTimelineModel.reset();
     // Release model shared pointers
     if (guiConstructed) {
-        pCore->bin()->cleanDocument();
+        pCore->window()->cleanBins();
         delete m_project;
         m_project = nullptr;
     } else {
@@ -1204,7 +1204,7 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
 
     // We must save from the primary timeline model
     int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
-    QString scene = pCore->projectItemModel()->sceneList(outputFolder, QString(), overlayData, m_activeTimelineModel->tractor(), duration, aspectRatio);
+    QString scene = pCore->projectItemModel()->sceneList(outputFolder, overlayData, m_activeTimelineModel->tractor(), duration, aspectRatio);
     if (pCore->mixer()) {
         pCore->mixer()->pauseMonitoring(false);
     }

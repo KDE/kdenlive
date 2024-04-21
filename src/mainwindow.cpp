@@ -393,6 +393,7 @@ void MainWindow::init(const QString &mltPath)
     m_onlineResourcesDock->close();
 
     m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
+    connect(pCore.get(), &Core::requestShowBinEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::switchCurrentComposition, this,
@@ -424,10 +425,10 @@ void MainWindow::init(const QString &mltPath)
     });
 
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
-    connect(pCore->bin(), &Bin::requestShowEffectStack, [&]() {
+    /*connect(pCore->bin(), &Bin::requestShowEffectStack, [&]() {
         // Don't raise effect stack on clip bin in case it is docked with bin or clip monitor
         // m_effectStackDock->raise();
-    });
+    });*/
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel, Qt::DirectConnection);
     connect(this, &MainWindow::assetPanelWarning, m_assetPanel, &AssetPanel::assetPanelWarning);
     connect(m_assetPanel, &AssetPanel::seekToPos, this, [this](int pos) {
@@ -1833,7 +1834,6 @@ void MainWindow::setupActions()
 
     // Keyframe actions
     m_assetPanel = new AssetPanel(this);
-    connect(getBin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     KActionCategory *kfActions = new KActionCategory(i18n("Effect Keyframes"), actionCollection());
     addAction(QStringLiteral("keyframe_add"), i18n("Add/Remove Keyframe"), m_assetPanel, SLOT(slotAddRemoveKeyframe()),
               QIcon::fromTheme(QStringLiteral("keyframe-add")), QKeySequence(), kfActions);
@@ -4853,7 +4853,6 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
         if (pCore->guiReady()) {
             bin->setupGeneratorMenu();
         }
-        connect(bin, &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
         connect(bin, &Bin::requestShowClipProperties, getBin(), &Bin::showClipProperties);
         connect(bin, &Bin::requestBinClose, this, [this, binDock]() { Q_EMIT removeBinDock(binDock->objectName()); });
         tabifyDockWidget(m_projectBinDock, binDock);
@@ -4864,6 +4863,13 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
     }
     if (updateCount) {
         KdenliveSettings::setBinsCount(m_binWidgets.size());
+    }
+}
+
+void MainWindow::cleanBins()
+{
+    for (auto &bin : m_binWidgets) {
+        bin->cleanDocument();
     }
 }
 

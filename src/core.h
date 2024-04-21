@@ -460,4 +460,6 @@ Q_SIGNALS:
     void binClipDeleted(int cid);
     /** @brief An MLT warning was issued */
     void mltWarning(const QString &message);
+    /** @brief Request display of effect stack for a Bin clip. */
+    void requestShowBinEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
 };

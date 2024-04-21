@@ -621,8 +621,6 @@ Q_SIGNALS:
     /** @brief Save folder info into MLT. */
     void storeFolder(const QString &folderId, const QString &parentId, const QString &oldParentId, const QString &folderName);
     void gotFilterJobResults(const QString &, int, int, stringMap, stringMap);
-    /** @brief Request display of effect stack for a Bin clip. */
-    void requestShowEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     void requestShowClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Request that the given clip is displayed in the clip monitor */
     void requestClipShow(std::shared_ptr<ProjectClip>);

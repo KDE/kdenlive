@@ -153,6 +153,8 @@ public:
     void raiseBin();
     /** @brief Add a bin widget*/
     void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true);
+    /** @brief Clean current document references from all bins*/
+    void cleanBins();
     /** @brief Get the main (first) bin*/
     Bin *getBin();
     /** @brief Block/Unblock all bin selection signals*/

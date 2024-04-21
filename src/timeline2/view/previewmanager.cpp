@@ -551,7 +551,7 @@ void PreviewManager::startPreviewRender()
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         if (!KdenliveSettings::proxypreview() && pCore->currentDoc()->useProxy()) {
             const QString playlist =
-                pCore->projectItemModel()->sceneList(m_cacheDir.absolutePath(), QString(), QString(), pCore->currentDoc()->getTimeline(m_uuid)->tractor(), -1);
+                pCore->projectItemModel()->sceneList(m_cacheDir.absolutePath(), QString(), pCore->currentDoc()->getTimeline(m_uuid)->tractor(), -1);
             QDomDocument doc;
             doc.setContent(playlist);
             KdenliveDoc::useOriginals(doc);
