@@ -501,7 +501,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     m_activeTimelineModel.reset();
     // Release model shared pointers
     if (guiConstructed) {
-        pCore->bin()->cleanDocument();
+        pCore->window()->cleanBins();
         delete m_project;
         m_project = nullptr;
     } else {

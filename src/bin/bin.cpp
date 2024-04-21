@@ -2798,7 +2798,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
         Q_EMIT requestShowClipProperties(nullptr);
         Q_EMIT requestClipShow(nullptr);
         // clear effect stack
-        Q_EMIT requestShowEffectStack(QString(), nullptr, QSize(), false);
+        Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
         // Display black bg in clip monitor
         Q_EMIT openClip(std::shared_ptr<ProjectClip>());
     }
@@ -4267,18 +4267,18 @@ void Bin::editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip)
         }
         if (clip->itemType() == AbstractProjectItem::ClipItem) {
             std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(clip);
-            Q_EMIT requestShowEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
+            Q_EMIT pCore->requestShowBinEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
             return;
         }
         if (clip->itemType() == AbstractProjectItem::SubClipItem) {
             if (auto ptr = clip->parentItem().lock()) {
                 std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(ptr);
-                Q_EMIT requestShowEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
+                Q_EMIT pCore->requestShowBinEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
             }
             return;
         }
     }
-    Q_EMIT requestShowEffectStack(QString(), nullptr, QSize(), false);
+    Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
 }
 
 void Bin::slotGotFocus()
@@ -5218,7 +5218,7 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
         std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(item);
         if (clp && clp->statusReady()) {
             openProducer(clp);
-            Q_EMIT requestShowEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
+            Q_EMIT pCore->requestShowBinEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
         }
         break;
     }
