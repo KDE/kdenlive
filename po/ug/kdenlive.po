@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-20 00:37+0000\n"
+"POT-Creation-Date: 2024-04-21 00:37+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -4309,7 +4309,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4831
+#: src/timeline2/view/timelinecontroller.cpp:4832
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Record audio"
@@ -5086,7 +5086,7 @@ msgid "No valid clip to insert"
 msgstr ""
 
 #: src/bin/bin.cpp:3975 src/timeline2/view/timelinecontroller.cpp:1535
-#: src/timeline2/view/timelinecontroller.cpp:3386
+#: src/timeline2/view/timelinecontroller.cpp:3387
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr ""
@@ -5707,7 +5707,7 @@ msgstr "ماۋزۇسىز"
 msgid "Timeline sequence"
 msgstr "سۈرەت چوڭلۇقى"
 
-#: src/bin/projectclip.cpp:576 src/timeline2/view/qml/Clip.qml:1100
+#: src/bin/projectclip.cpp:576 src/timeline2/view/qml/Clip.qml:1098
 #, fuzzy, kde-format
 #| msgid "P"
 msgctxt "@label The first letter of Proxy, used as abbreviation"
@@ -6604,7 +6604,7 @@ msgstr "ئىمپورت قىل"
 #: src/project/projectmanager.cpp:1817 src/render/renderrequest.cpp:269
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5102
+#: src/timeline2/view/timelinecontroller.cpp:5103
 #: src/titler/titlewidget.cpp:2295
 #, kde-format
 msgid "Cannot write to file %1"
@@ -11924,7 +11924,7 @@ msgstr "قىستۇر"
 msgid "Fit all Tracks in View"
 msgstr ""
 
-#: src/mainwindow.cpp:1871 src/timeline2/view/timelinecontroller.cpp:4872
+#: src/mainwindow.cpp:1871 src/timeline2/view/timelinecontroller.cpp:4873
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Master effects"
@@ -12281,7 +12281,7 @@ msgid "Cannot find clip to edit marker"
 msgstr "ھۆججەت ئاچالمىدى"
 
 #: src/mainwindow.cpp:3033 src/timeline2/model/timelinefunctions.cpp:753
-#: src/timeline2/view/timelinecontroller.cpp:3110
+#: src/timeline2/view/timelinecontroller.cpp:3111
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite zone"
@@ -12289,7 +12289,7 @@ msgstr "قاپلاش مودېلى"
 
 #: src/mainwindow.cpp:3035 src/mainwindow.cpp:3054
 #: src/timeline2/model/timelinefunctions.cpp:755
-#: src/timeline2/view/timelinecontroller.cpp:3112
+#: src/timeline2/view/timelinecontroller.cpp:3113
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Could not insert zone"
@@ -12302,7 +12302,7 @@ msgid "No clip selected in project bin"
 msgstr "قۇرۇلۇشقا قوشىدۇ"
 
 #: src/mainwindow.cpp:3052 src/timeline2/model/timelinefunctions.cpp:753
-#: src/timeline2/view/timelinecontroller.cpp:3110
+#: src/timeline2/view/timelinecontroller.cpp:3111
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert zone"
@@ -12535,7 +12535,7 @@ msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4749 src/timeline2/view/timelinecontroller.cpp:5085
+#: src/mainwindow.cpp:4749 src/timeline2/view/timelinecontroller.cpp:5086
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "No subtitles in current project"
@@ -16650,20 +16650,20 @@ msgstr ""
 #: src/timeline2/view/timelinecontroller.cpp:1369
 #: src/timeline2/view/timelinecontroller.cpp:1395
 #: src/timeline2/view/timelinecontroller.cpp:1420
-#: src/timeline2/view/timelinecontroller.cpp:2310
-#: src/timeline2/view/timelinecontroller.cpp:2934
-#: src/timeline2/view/timelinecontroller.cpp:2999
-#: src/timeline2/view/timelinecontroller.cpp:3213
-#: src/timeline2/view/timelinecontroller.cpp:3248
-#: src/timeline2/view/timelinecontroller.cpp:3297
-#: src/timeline2/view/timelinecontroller.cpp:3326
-#: src/timeline2/view/timelinecontroller.cpp:3631
-#: src/timeline2/view/timelinecontroller.cpp:3646
-#: src/timeline2/view/timelinecontroller.cpp:3671
-#: src/timeline2/view/timelinecontroller.cpp:3686
-#: src/timeline2/view/timelinecontroller.cpp:3751
-#: src/timeline2/view/timelinecontroller.cpp:3886
-#: src/timeline2/view/timelinecontroller.cpp:3910
+#: src/timeline2/view/timelinecontroller.cpp:2309
+#: src/timeline2/view/timelinecontroller.cpp:2935
+#: src/timeline2/view/timelinecontroller.cpp:3000
+#: src/timeline2/view/timelinecontroller.cpp:3214
+#: src/timeline2/view/timelinecontroller.cpp:3249
+#: src/timeline2/view/timelinecontroller.cpp:3298
+#: src/timeline2/view/timelinecontroller.cpp:3327
+#: src/timeline2/view/timelinecontroller.cpp:3632
+#: src/timeline2/view/timelinecontroller.cpp:3647
+#: src/timeline2/view/timelinecontroller.cpp:3672
+#: src/timeline2/view/timelinecontroller.cpp:3687
+#: src/timeline2/view/timelinecontroller.cpp:3752
+#: src/timeline2/view/timelinecontroller.cpp:3887
+#: src/timeline2/view/timelinecontroller.cpp:3911
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "No clip selected"
@@ -16677,7 +16677,7 @@ msgstr ""
 #: src/timeline2/model/timelinefunctions.cpp:1077
 #: src/timeline2/model/timelinefunctions.cpp:1081
 #: src/timeline2/model/timelinefunctions.cpp:1088
-#: src/timeline2/view/timelinecontroller.cpp:4051
+#: src/timeline2/view/timelinecontroller.cpp:4052
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable clip"
@@ -16686,7 +16686,7 @@ msgstr "ئۈنۈم يوق"
 #: src/timeline2/model/timelinefunctions.cpp:1077
 #: src/timeline2/model/timelinefunctions.cpp:1081
 #: src/timeline2/model/timelinefunctions.cpp:1088
-#: src/timeline2/view/timelinecontroller.cpp:4051
+#: src/timeline2/view/timelinecontroller.cpp:4052
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable clip"
@@ -16982,7 +16982,7 @@ msgstr "Composite"
 
 #: src/timeline2/model/timelinemodel.cpp:2339
 #: src/timeline2/model/timelinemodel.cpp:2591
-#: src/timeline2/view/timelinecontroller.cpp:4258
+#: src/timeline2/view/timelinecontroller.cpp:4259
 #, kde-format
 msgid "Move group"
 msgstr ""
@@ -17285,7 +17285,7 @@ msgid "Stop"
 msgstr "توختا"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2108
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -17297,12 +17297,12 @@ msgstr "ۋاقىتلىق توختا"
 msgid "Mic level"
 msgstr "ئۈن ئۈسكۈنە:"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:874
+#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:872
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:345 src/timeline2/view/qml/Clip.qml:359
+#: src/timeline2/view/qml/Clip.qml:343 src/timeline2/view/qml/Clip.qml:357
 #: src/timeline2/view/qml/SubTitle.qml:179
 #: src/timeline2/view/qml/SubTitle.qml:185
 #, fuzzy, kde-format
@@ -17310,89 +17310,89 @@ msgstr ""
 msgid "Position: %1"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/Clip.qml:482
+#: src/timeline2/view/qml/Clip.qml:480
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:543
+#: src/timeline2/view/qml/Clip.qml:541
 #, fuzzy, kde-format
 #| msgid " Duration:"
 msgid "+%1, Mix duration: %2"
 msgstr " ۋاقتى:"
 
-#: src/timeline2/view/qml/Clip.qml:545
+#: src/timeline2/view/qml/Clip.qml:543
 #, fuzzy, kde-format
 #| msgid " Duration:"
 msgid "-%1, Mix duration: %2"
 msgstr " ۋاقتى:"
 
-#: src/timeline2/view/qml/Clip.qml:548 src/timeline2/view/qml/Clip.qml:561
+#: src/timeline2/view/qml/Clip.qml:546 src/timeline2/view/qml/Clip.qml:559
 #, fuzzy, kde-format
 #| msgid "Duration: "
 msgid "Mix duration: %1"
 msgstr "ۋاقتى: "
 
-#: src/timeline2/view/qml/Clip.qml:737
+#: src/timeline2/view/qml/Clip.qml:735
 #, fuzzy, kde-format
 #| msgid " Position:"
 msgid "In:%1, Position:%2"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/Clip.qml:740 src/timeline2/view/qml/Clip.qml:864
+#: src/timeline2/view/qml/Clip.qml:738 src/timeline2/view/qml/Clip.qml:862
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:742
+#: src/timeline2/view/qml/Clip.qml:740
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:861
+#: src/timeline2/view/qml/Clip.qml:859
 #, fuzzy, kde-format
 #| msgid " Position:"
 msgid "Out:%1, Position:%2"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/Clip.qml:1007
+#: src/timeline2/view/qml/Clip.qml:1005
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: -%1"
 msgstr "ئېغىش:"
 
-#: src/timeline2/view/qml/Clip.qml:1007
+#: src/timeline2/view/qml/Clip.qml:1005
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: %1"
 msgstr "ئېغىش:"
 
-#: src/timeline2/view/qml/Clip.qml:1251 src/timeline2/view/qml/Clip.qml:1288
+#: src/timeline2/view/qml/Clip.qml:1249 src/timeline2/view/qml/Clip.qml:1286
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "<b>Click</b> to add composition"
 msgstr "تاللانما"
 
-#: src/timeline2/view/qml/Clip.qml:1365 src/timeline2/view/qml/Clip.qml:1372
+#: src/timeline2/view/qml/Clip.qml:1363 src/timeline2/view/qml/Clip.qml:1370
 #, fuzzy, kde-format
 #| msgid "Fade"
 msgid "Fade out: %1"
 msgstr "سۇسلاشتۇر"
 
-#: src/timeline2/view/qml/Clip.qml:1376 src/timeline2/view/qml/Clip.qml:1483
+#: src/timeline2/view/qml/Clip.qml:1374 src/timeline2/view/qml/Clip.qml:1481
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1472 src/timeline2/view/qml/Clip.qml:1479
+#: src/timeline2/view/qml/Clip.qml:1470 src/timeline2/view/qml/Clip.qml:1477
 #, fuzzy, kde-format
 #| msgid "Fade"
 msgid "Fade in: %1"
 msgstr "سۇسلاشتۇر"
 
-#: src/timeline2/view/qml/Clip.qml:1566
+#: src/timeline2/view/qml/Clip.qml:1565
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Slip Clip"
@@ -17462,26 +17462,26 @@ msgstr "ھەممىنى كۆرسەت"
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1785
+#: src/timeline2/view/qml/timeline.qml:1788
 #, fuzzy, kde-format
 #| msgid "Options"
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "تاللانما"
 
-#: src/timeline2/view/qml/timeline.qml:1947
+#: src/timeline2/view/qml/timeline.qml:1950
 #, fuzzy, kde-format
 #| msgid " Position:"
 msgid "Offset: %1, Position: %2"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/timeline.qml:2094
-#: src/timeline2/view/qml/timeline.qml:2103
+#: src/timeline2/view/qml/timeline.qml:2097
+#: src/timeline2/view/qml/timeline.qml:2106
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "خاتىرە"
 
-#: src/timeline2/view/qml/timeline.qml:2197
+#: src/timeline2/view/qml/timeline.qml:2200
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17602,7 +17602,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:922
-#: src/timeline2/view/timelinecontroller.cpp:5015
+#: src/timeline2/view/timelinecontroller.cpp:5016
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Could not insert track"
@@ -17653,222 +17653,227 @@ msgstr "قۇرۇلۇشقا قوشىدۇ"
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2713
+#: src/timeline2/view/timelinecontroller.cpp:2316
+#, kde-format
+msgid "Slip can only be performed on video, audio or animation clips"
+msgstr ""
+
+#: src/timeline2/view/timelinecontroller.cpp:2714
 #, kde-format
 msgid "No clips found to insert space"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2730
+#: src/timeline2/view/timelinecontroller.cpp:2731
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2744
+#: src/timeline2/view/timelinecontroller.cpp:2745
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Cannot remove all spaces"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/timeline2/view/timelinecontroller.cpp:2758
+#: src/timeline2/view/timelinecontroller.cpp:2759
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Cannot remove all clips"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/timeline2/view/timelinecontroller.cpp:2793
-#: src/timeline2/view/timelinecontroller.cpp:2798
-#: src/timeline2/view/timelinecontroller.cpp:2820
-#: src/timeline2/view/timelinecontroller.cpp:3757
-#: src/timeline2/view/timelinecontroller.cpp:3775
+#: src/timeline2/view/timelinecontroller.cpp:2794
+#: src/timeline2/view/timelinecontroller.cpp:2799
+#: src/timeline2/view/timelinecontroller.cpp:2821
+#: src/timeline2/view/timelinecontroller.cpp:3758
+#: src/timeline2/view/timelinecontroller.cpp:3776
 #, kde-format
 msgid "No item to edit"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2910
-#: src/timeline2/view/timelinecontroller.cpp:5249
+#: src/timeline2/view/timelinecontroller.cpp:2911
+#: src/timeline2/view/timelinecontroller.cpp:5250
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3155
+#: src/timeline2/view/timelinecontroller.cpp:3156
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3225
+#: src/timeline2/view/timelinecontroller.cpp:3226
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Select a favorite composition"
 msgstr "Composite"
 
-#: src/timeline2/view/timelinecontroller.cpp:3276
+#: src/timeline2/view/timelinecontroller.cpp:3277
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3310
-#: src/timeline2/view/timelinecontroller.cpp:3373
+#: src/timeline2/view/timelinecontroller.cpp:3311
+#: src/timeline2/view/timelinecontroller.cpp:3374
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3331
+#: src/timeline2/view/timelinecontroller.cpp:3332
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3495
+#: src/timeline2/view/timelinecontroller.cpp:3496
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3654
+#: src/timeline2/view/timelinecontroller.cpp:3655
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete effects"
 msgstr "%1 ئۆچۈر"
 
-#: src/timeline2/view/timelinecontroller.cpp:3692
-#: src/timeline2/view/timelinecontroller.cpp:3698
-#: src/timeline2/view/timelinecontroller.cpp:3704
+#: src/timeline2/view/timelinecontroller.cpp:3693
+#: src/timeline2/view/timelinecontroller.cpp:3699
+#: src/timeline2/view/timelinecontroller.cpp:3705
 #, kde-format
 msgid "No information in clipboard"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3729
+#: src/timeline2/view/timelinecontroller.cpp:3730
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Paste effects"
 msgstr "ئۈنۈم"
 
-#: src/timeline2/view/timelinecontroller.cpp:3731
+#: src/timeline2/view/timelinecontroller.cpp:3732
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3843
+#: src/timeline2/view/timelinecontroller.cpp:3844
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Edit item"
 msgstr "سەپلەك تەھرىرلەش"
 
-#: src/timeline2/view/timelinecontroller.cpp:3871
+#: src/timeline2/view/timelinecontroller.cpp:3872
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Open sequence"
 msgstr "سۈرەت چوڭلۇقى"
 
-#: src/timeline2/view/timelinecontroller.cpp:3893
+#: src/timeline2/view/timelinecontroller.cpp:3894
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Item is not a title clip"
 msgstr "ئۈنسىز"
 
-#: src/timeline2/view/timelinecontroller.cpp:3992
+#: src/timeline2/view/timelinecontroller.cpp:3993
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4046
+#: src/timeline2/view/timelinecontroller.cpp:4047
 #, fuzzy, kde-format
 #| msgid "Video"
 msgid "Restore video"
 msgstr "سىن"
 
-#: src/timeline2/view/timelinecontroller.cpp:4046
+#: src/timeline2/view/timelinecontroller.cpp:4047
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Restore audio"
 msgstr "ئايرىش"
 
-#: src/timeline2/view/timelinecontroller.cpp:4239
+#: src/timeline2/view/timelinecontroller.cpp:4240
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Move item"
 msgstr "ئىلغۇچ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4724
+#: src/timeline2/view/timelinecontroller.cpp:4725
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4735
+#: src/timeline2/view/timelinecontroller.cpp:4736
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4969
+#: src/timeline2/view/timelinecontroller.cpp:4970
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Expand clip"
 msgstr "ئۈنۈم يوق"
 
-#: src/timeline2/view/timelinecontroller.cpp:4972
+#: src/timeline2/view/timelinecontroller.cpp:4973
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "Could not expand clip"
 msgstr "بارلىق ھۆججەتلەر"
 
-#: src/timeline2/view/timelinecontroller.cpp:5013
+#: src/timeline2/view/timelinecontroller.cpp:5014
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5088
+#: src/timeline2/view/timelinecontroller.cpp:5089
 #, fuzzy, kde-format
 #| msgid "Add Profile"
 msgid "Export subtitle file"
 msgstr "سەپلىمە ھۆججەت قوش"
 
-#: src/timeline2/view/timelinecontroller.cpp:5089
+#: src/timeline2/view/timelinecontroller.cpp:5090
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitle File (*.srt)"
 msgstr "ماۋزۇسىز"
 
-#: src/timeline2/view/timelinecontroller.cpp:5119
+#: src/timeline2/view/timelinecontroller.cpp:5120
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5136
+#: src/timeline2/view/timelinecontroller.cpp:5137
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Show subtitle track"
 msgstr "بايت نىسبىتى"
 
-#: src/timeline2/view/timelinecontroller.cpp:5136
+#: src/timeline2/view/timelinecontroller.cpp:5137
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Hide subtitle track"
 msgstr "%1 ئۆچۈر"
 
-#: src/timeline2/view/timelinecontroller.cpp:5159
+#: src/timeline2/view/timelinecontroller.cpp:5160
 #, fuzzy, kde-format
 #| msgid "Locked"
 msgid "Unlock subtitle track"
 msgstr "قۇلۇپلانغان"
 
-#: src/timeline2/view/timelinecontroller.cpp:5159
+#: src/timeline2/view/timelinecontroller.cpp:5160
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
 msgstr "ماۋزۇسىز"
 
-#: src/timeline2/view/timelinecontroller.cpp:5323
-#: src/timeline2/view/timelinecontroller.cpp:5332
+#: src/timeline2/view/timelinecontroller.cpp:5324
+#: src/timeline2/view/timelinecontroller.cpp:5333
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "ماۋزۇسىز"
 
-#: src/timeline2/view/timelinecontroller.cpp:5334
+#: src/timeline2/view/timelinecontroller.cpp:5335
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox"
