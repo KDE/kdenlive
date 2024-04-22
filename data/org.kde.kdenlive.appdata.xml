@@ -33,6 +33,7 @@
   <name xml:lang="ja">Kdenlive</name>
   <name xml:lang="ka">Kdenlive</name>
   <name xml:lang="ko">Kdenlive</name>
+  <name xml:lang="lv">Kdenlive</name>
   <name xml:lang="nl">Kdenlive</name>
   <name xml:lang="nn">Kdenlive</name>
   <name xml:lang="pl">Kdenlive</name>
@@ -57,6 +58,7 @@
   <summary xml:lang="he">עורך וידאו</summary>
   <summary xml:lang="it">Editor video</summary>
   <summary xml:lang="ka">ვიდეორედაქტორი</summary>
+  <summary xml:lang="lv">Video redaktors</summary>
   <summary xml:lang="nl">Videobewerker</summary>
   <summary xml:lang="pl">Edytor wideo</summary>
   <summary xml:lang="pt-BR">Editor de Vídeo</summary>
@@ -77,6 +79,7 @@
     <p xml:lang="he">Kdenlive הוא יישום לעריכת וידאו עם תמיכה במגוון סוגים של וידאו ושמע. הוא מציע יכולות עריכה מתקדמות, שלל אפקטים ומעברונים, תיקון צבע, הפקת פוסט של שמע וכלי כתוביות. בנוסף, הוא מספק את הגמישות לעבד לכמעט כל סוג אפשרי שיש לבחירתך.</p>
     <p xml:lang="it">Kdenlive è un'applicazione di editing video che supporta molti formati audio e video. Offre funzionalità avanzate di modifica, un assortimento di effetti e transizioni, correzione del colore, strumenti per la post-produzione audio e la sottotitolazione. In aggiunta, fornisce la flessibilità di produrre praticamente in qualsiasi formato tu desideri.</p>
     <p xml:lang="ka">Kdenlive ვიდეორედაქტორია ბევრი აუდიო და ვიდეოფორმატების მხარდაჭერით. ის გთავაზობთ დამატებითი ჩასწორების ფუნქციებს, მრავალ ეფექტსა და გადასვლას, ფერის შესწორებას, აუდიოს პოსტ-პროდაქშენს და სუბტიტრების მორგებას. დამატებით, ის გაძლევთ საშუალებას, დაარენდეროთ პრაქტიკულად ნებისმიერ ფორმატში, რომელსაც აირჩევთ.</p>
+    <p xml:lang="lv">„Kdenlive“ ir video rediģēšanas programma ar daudzu audio un video formātu atbalstu. Tā sniedz plašas rediģēšanas iespējas, dažādus efektus un pārejas, krāsu korekcijas iespējas, skaņas pēcapstrādes un subtitru rīkus. Turklāt „Kdenlive“ ļauj renderēt praktiski jebkurā formātā pēc jūsu izvēles.</p>
     <p xml:lang="nl">Kdenlive is een toepassing voor video bewerken met ondersteuning voor vele audio- en videoformaten. Het biedt geavanceerde bewerkingsfuncties, een verscheidenheid aan effecten en transities, kleurcorrectie, audio nabewerking en hulpmiddelen voor ondertiteling. Bovendien levert het de flexibiliteit om te renderen in praktisch elk formaat van uw keuze.</p>
     <p xml:lang="pl">Kdenlive jest aplikacją do edytowania wideo z obsługą wielu formatów dźwięku i obrazu. Daje rozbudowane możliwości, wiele efektów i przejść, poprawianie barw, po-produkcję dźwięki oraz narzędzia do napisów. Dodatkowo, zapewnia możliwość zapisania do właściwie dowolnego formatu jaki sobie wybierzesz.</p>
     <p xml:lang="sl">Kdenlive je program za montažo videoposnetkov s podporo za številne zvokovne in video zapise. Ponuja napredne funkcije montaže, urejanja, različne učinke in prehode, korekcijo barv, poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru.</p>
@@ -109,6 +112,7 @@
     <p xml:lang="ja">特徴:</p>
     <p xml:lang="ka">თვისებები:</p>
     <p xml:lang="ko">기능:</p>
+    <p xml:lang="lv">Iespējas:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
     <p xml:lang="nn">Funksjonar:</p>
     <p xml:lang="pl">Możliwości:</p>
@@ -134,6 +138,7 @@
       <li xml:lang="he">רצפים מקוננים</li>
       <li xml:lang="it">Sequenze annidate</li>
       <li xml:lang="ka">ერთმანეთში ჩალაგებული მიმდევრობები</li>
+      <li xml:lang="lv">Ievietotas sekvences</li>
       <li xml:lang="nl">Geneste sequenties</li>
       <li xml:lang="pl">Osadzone odcinki</li>
       <li xml:lang="sl">Ugnezdena zaporedja</li>
@@ -151,6 +156,7 @@
       <li xml:lang="he">ממשק וקיצורי דרך גמישים</li>
       <li xml:lang="it">Scorciatoie e interfaccia configurabili</li>
       <li xml:lang="ka">მორგებადი ინტერფეისი და მალსახმობები</li>
+      <li xml:lang="lv">Konfigurējama saskarne un saīsnes</li>
       <li xml:lang="nl">Te configureren interface en sneltoetsen</li>
       <li xml:lang="pl">Interfejs i skróty dające się dostosować</li>
       <li xml:lang="sl">Nastavljiv vmesnik in bližnjice</li>
@@ -169,6 +175,7 @@
       <li xml:lang="he">טווחים: היסטוגרמה, וקטורסקופ, צורת גל ומד עוצמת שמע</li>
       <li xml:lang="it">Diagrammi: istogramma, Evidenza le punte massime, Esibizione RGB, Forma d'onda e Misuratore audio</li>
       <li xml:lang="ka">მზომები: ჰისტოგრამა, ვექტორსკოპი, RGB პარადი, Waveform და აუდიომეტრი</li>
+      <li xml:lang="lv">Tvērumi: histogramma, vektorskops, RGB parāde, viļņformas un audio mērītājs</li>
       <li xml:lang="nl">Scopes: Histogram, Vectorscope, RGB Parade, golfvorm en Audio-meter</li>
       <li xml:lang="pl">Widoki: Histogram, Wektoroskop, Parada RGB, Kształt Fali oraz Miernik Dźwięku</li>
       <li xml:lang="sl">Merilniki: histogram, vektroskop, parada RGB, signalna oblika in merilnik jakosti zvoka</li>
@@ -186,6 +193,7 @@
       <li xml:lang="he">עריכת תיווך</li>
       <li xml:lang="it">Modifica del proxy</li>
       <li xml:lang="ka">პროქსი ჩასწორება</li>
+      <li xml:lang="lv">Rediģēšana caur starpniekvideo un starpniekattēliem</li>
       <li xml:lang="nl">Proxy-bewerking</li>
       <li xml:lang="pl">Edytowanie pośredników</li>
       <li xml:lang="sl">Montaža posrednih posnetkov</li>
@@ -204,6 +212,7 @@
       <li xml:lang="he">משאבים ותבניות מקוונים בחינם</li>
       <li xml:lang="it">Risorse e modelli in linea gratuiti</li>
       <li xml:lang="ka">უფასო მასალები და ნიმუშები ინტერნეტში</li>
+      <li xml:lang="lv">Bezmaksas tiešsaistes resursi un veidnes</li>
       <li xml:lang="nl">Vrij online bezit en sjablonen</li>
       <li xml:lang="pl">Darmowe zasoby i wzorce z sieci</li>
       <li xml:lang="sl">Brezplačna spletna sredstva in predloge</li>
@@ -222,6 +231,7 @@
       <li xml:lang="he">מעקב אחר תנועה</li>
       <li xml:lang="it">Tracciatore di movimento</li>
       <li xml:lang="ka">მოძრაობის ტრეკინგი</li>
+      <li xml:lang="lv">Kustību izsekošana</li>
       <li xml:lang="nl">Volgen van beweging</li>
       <li xml:lang="pl">Śledzenie ruchu</li>
       <li xml:lang="pt-BR">Rastreamento de movimento</li>
@@ -241,6 +251,7 @@
       <li xml:lang="he">כלים מחוזקי בינה מלאכותית</li>
       <li xml:lang="it">Strumenti alimentati dalla IA</li>
       <li xml:lang="ka">ფუნქციები AI-ით</li>
+      <li xml:lang="lv">Mākslīgā intelekta rīki</li>
       <li xml:lang="nl">AI aangedreven hulpmiddelen</li>
       <li xml:lang="pl">Narzędzia wspomagane SI</li>
       <li xml:lang="pt-BR">Ferramentas com IA</li>
@@ -291,6 +302,7 @@
       <caption xml:lang="he">ערכת צבעים כהה</caption>
       <caption xml:lang="it">Tema scuro</caption>
       <caption xml:lang="ka">ბნელი თემა</caption>
+      <caption xml:lang="lv">Tumšais motīvs</caption>
       <caption xml:lang="nl">Donker thema</caption>
       <caption xml:lang="pl">Ciemny wygląd</caption>
       <caption xml:lang="pt-BR">Tema escuro</caption>
@@ -313,6 +325,7 @@
       <caption xml:lang="he">ממשק ברירת מחדל</caption>
       <caption xml:lang="it">Interfaccia predefinita</caption>
       <caption xml:lang="ka">ნაგულისხმევი ინტერფეისი</caption>
+      <caption xml:lang="lv">Noklusējuma saskarne</caption>
       <caption xml:lang="nl">Standaard interface</caption>
       <caption xml:lang="pl">Domyślny interfejs</caption>
       <caption xml:lang="pt-BR">Interface padrão</caption>
@@ -336,6 +349,7 @@
       <caption xml:lang="he">תיקון צבע</caption>
       <caption xml:lang="it">Correzione del colore</caption>
       <caption xml:lang="ka">ფერების კორექცია</caption>
+      <caption xml:lang="lv">Krāsu korekcija</caption>
       <caption xml:lang="nl">Kleurcorrectie</caption>
       <caption xml:lang="pl">Poprawki barw</caption>
       <caption xml:lang="pt-BR">Correção de cores</caption>
@@ -358,6 +372,7 @@
       <caption xml:lang="he">ממשק גמיש</caption>
       <caption xml:lang="it">Interfaccia configurabile</caption>
       <caption xml:lang="ka">მორგებადი ინტერფეისი</caption>
+      <caption xml:lang="lv">Konfigurējama saskarne</caption>
       <caption xml:lang="nl">Te configureren interface</caption>
       <caption xml:lang="pl">Interfejs dający się dostosować</caption>
       <caption xml:lang="pt-BR">Interface configurável</caption>
@@ -380,6 +395,7 @@
       <caption xml:lang="he">מתן כותרות</caption>
       <caption xml:lang="it">Titolazione</caption>
       <caption xml:lang="ka">დასათაურება</caption>
+      <caption xml:lang="lv">Titri</caption>
       <caption xml:lang="nl">Titels toevoegen</caption>
       <caption xml:lang="pl">Nadawanie tytułów</caption>
       <caption xml:lang="pt-BR">Gerador de caracteres</caption>
@@ -401,6 +417,7 @@
       <caption xml:lang="he">מיפוי זמן מחדש ומעברונים באותה הרצועה</caption>
       <caption xml:lang="it">Modifica del tempo e transizioni nella stessa traccia</caption>
       <caption xml:lang="ka">დროის თავიდან ასახვა და გადასვლები იგივე ტრეკში</caption>
+      <caption xml:lang="lv">Laika pārkartēšana ar viena celiņa pārejām</caption>
       <caption xml:lang="nl">Snelheid van video wijzigen (time remapping) en overgangen in dezelfde track</caption>
       <caption xml:lang="pl">Przemapowywanie czasu oraz przejścia w obrębie jednej ścieżki</caption>
       <caption xml:lang="sl">Preslikava časa in prehodi na isti stezi</caption>

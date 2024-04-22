@@ -24,6 +24,7 @@
     <comment xml:lang="ka">Kdenlive ვიდეო პროექტის დოკუმენტი</comment>
     <comment xml:lang="ko">Kdenlive 동영상 프로젝트 문서</comment>
     <comment xml:lang="lt">Kdenlive video projekto dokumentas</comment>
+    <comment xml:lang="lv">„Kdenlive“ video projekta dokuments</comment>
     <comment xml:lang="nl">Video projectdocument van Kdenlive</comment>
     <comment xml:lang="nn">Kdenlive-videoprosjektdokument</comment>
     <comment xml:lang="pl">Dokument projektowy filmu Kdenlive</comment>
@@ -62,6 +63,7 @@
     <comment xml:lang="ja">Kdenlive ビデオタイトル</comment>
     <comment xml:lang="ka">Kdenlive ვიდეოს სათაური</comment>
     <comment xml:lang="ko">Kdenlive 동영상 타이틀</comment>
+    <comment xml:lang="lv">„Kdenlive“ video nosaukums</comment>
     <comment xml:lang="nl">Titel van Kdenlive-video</comment>
     <comment xml:lang="nn">Kdenlive-videotittel</comment>
     <comment xml:lang="pl">Tytuł filmu Kdenlive</comment>
@@ -99,6 +101,7 @@
     <comment xml:lang="ja">Kdenlive アプリケーションレイアウト</comment>
     <comment xml:lang="ka">Kdenlive აპლიკაციის განლაგება</comment>
     <comment xml:lang="ko">Kdenlive 앱 레이아웃</comment>
+    <comment xml:lang="lv">„Kdenlive“ programmas izkārtojums</comment>
     <comment xml:lang="nl">Toepassingsindeling van Kdenlive</comment>
     <comment xml:lang="pl">Układ programu Kdenlive</comment>
     <comment xml:lang="pt">Disposição da aplicação Kdenlive</comment>
