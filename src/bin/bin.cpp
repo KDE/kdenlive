@@ -1375,15 +1375,9 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     settingsAction->addAction(disableEffects);
     settingsAction->addAction(hoverPreview);
     settingsAction->addSeparator();
-    m_openInBin = addAction(QStringLiteral("add_bin"), i18n("Open in new bin"), QIcon::fromTheme(QStringLiteral("document-open")));
+    m_openInBin = addAction(QStringLiteral("add_bin"), i18n("Open Current Folder In New Bin"), QIcon::fromTheme(QStringLiteral("document-open")));
     connect(m_openInBin, &QAction::triggered, this, &Bin::slotOpenNewBin);
     settingsAction->addAction(m_openInBin);
-
-    if (!m_isMainBin) {
-        // Add close action
-        QAction *close = KStandardAction::close(this, SIGNAL(requestBinClose()), this);
-        settingsAction->addAction(close);
-    }
 
     // Show tags panel
     m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);
@@ -1441,7 +1435,13 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_toolbar->addAction(m_tagAction);
     m_toolbar->addAction(settingsAction);
 
-    if (m_isMainBin) {
+    if (!m_isMainBin) {
+        // Add close action
+        QAction *close = new QAction(QIcon::fromTheme(QStringLiteral("dialog-close")), i18n("Close Current Bin"), this);
+        connect(close, &QAction::triggered, this, &Bin::requestBinClose);
+        settingsAction->addAction(close);
+        m_toolbar->addAction(close);
+    } else {
         // small info button for pending jobs
         m_infoLabel = new SmallJobLabel(this);
         m_infoLabel->setStyleSheet(SmallJobLabel::getStyleSheet(palette()));
