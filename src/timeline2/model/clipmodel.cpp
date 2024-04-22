@@ -760,19 +760,19 @@ bool ClipModel::addEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo)
     return m_effectStack->appendEffectWithUndo(effectId, undo, redo);
 }
 
-bool ClipModel::copyEffect(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
+bool ClipModel::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     QWriteLocker locker(&m_lock);
     QDomDocument doc;
-    m_effectStack->copyXmlEffect(stackModel->rowToXml(uuid, rowId, doc));
+    m_effectStack->copyXmlEffect(stackModel->rowToXml(rowId, doc));
     return true;
 }
 
-bool ClipModel::copyEffectWithUndo(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId, Fun &undo, Fun &redo)
+bool ClipModel::copyEffectWithUndo(const std::shared_ptr<EffectStackModel> &stackModel, int rowId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     QDomDocument doc;
-    m_effectStack->copyXmlEffectWithUndo(stackModel->rowToXml(uuid, rowId, doc), undo, redo);
+    m_effectStack->copyXmlEffectWithUndo(stackModel->rowToXml(rowId, doc), undo, redo);
     return true;
 }
 

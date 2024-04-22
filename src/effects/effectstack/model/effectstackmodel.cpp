@@ -272,13 +272,13 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
     return container;
 }
 
-QDomElement EffectStackModel::rowToXml(const QUuid &uuid, int row, QDomDocument &document)
+QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
 {
     QDomElement container = document.createElement(QStringLiteral("effects"));
     if (row < 0 || row >= rootItem->childCount()) {
         return container;
     }
-    int currentIn = pCore->getItemIn(uuid, m_ownerId);
+    int currentIn = pCore->getItemIn(m_ownerId);
     container.setAttribute(QStringLiteral("parentIn"), currentIn);
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(row));
     QDomElement sub = document.createElement(QStringLiteral("effect"));

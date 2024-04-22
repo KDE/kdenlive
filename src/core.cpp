@@ -736,40 +736,20 @@ int Core::getItemPosition(const ObjectId &id)
 
 int Core::getItemIn(const ObjectId &id)
 {
+    if (!m_guiConstructed) {
+        qWarning() << "GUI not build";
+        return 0;
+    }
     switch (id.type) {
-    case KdenliveObjectType::TimelineClip:
-        if (currentDoc()->getTimeline(id.uuid)->isClip(id.itemId)) {
+    case KdenliveObjectType::TimelineClip: {
+        auto timeline = currentDoc()->getTimeline(id.uuid);
+        if (timeline && timeline->isClip(id.itemId)) {
             return currentDoc()->getTimeline(id.uuid)->getClipIn(id.itemId);
         } else {
             qWarning() << "querying non clip properties";
         }
         break;
-    case KdenliveObjectType::TimelineMix:
-    case KdenliveObjectType::TimelineComposition:
-    case KdenliveObjectType::BinClip:
-    case KdenliveObjectType::TimelineTrack:
-    case KdenliveObjectType::Master:
-        return 0;
-    default:
-        qWarning() << "unhandled object type";
     }
-    return 0;
-}
-
-int Core::getItemIn(const QUuid &uuid, const ObjectId &id)
-{
-    if (!m_guiConstructed || !currentDoc()->getTimeline(uuid)) {
-        qWarning() << "GUI not build";
-        return 0;
-    }
-    switch (id.type) {
-    case KdenliveObjectType::TimelineClip:
-        if (currentDoc()->getTimeline(uuid)->isClip(id.itemId)) {
-            return currentDoc()->getTimeline(uuid)->getClipIn(id.itemId);
-        } else {
-            qWarning() << "querying non clip properties";
-        }
-        break;
     case KdenliveObjectType::TimelineMix:
     case KdenliveObjectType::TimelineComposition:
     case KdenliveObjectType::BinClip:

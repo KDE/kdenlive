@@ -123,7 +123,7 @@ public:
     /** @brief Returns an XML representation of the effect stack with all parameters */
     QDomElement toXml(QDomDocument &document);
     /** @brief Returns an XML representation of one of the effect in the stack with all parameters */
-    QDomElement rowToXml(const QUuid &uuid, int row, QDomDocument &document);
+    QDomElement rowToXml(int row, QDomDocument &document);
     /** @brief Load an effect stack from an XML representation */
     bool fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
     /** @brief Delete active effect from stack */

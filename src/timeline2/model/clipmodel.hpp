@@ -135,8 +135,8 @@ public:
 
     bool addEffect(const QString &effectId);
     bool addEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo);
-    bool copyEffect(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
-    bool copyEffectWithUndo(const QUuid &uuid, const std::shared_ptr<EffectStackModel> &stackModel, int rowId, Fun &undo, Fun &redo);
+    bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
+    bool copyEffectWithUndo(const std::shared_ptr<EffectStackModel> &stackModel, int rowId, Fun &undo, Fun &redo);
     /** @brief Import effects from a different stackModel */
     bool importEffects(std::shared_ptr<EffectStackModel> stackModel);
     /** @brief Import effects from a service that contains some (another clip?) */

@@ -199,8 +199,6 @@ public:
     int getItemPosition(const ObjectId &id);
     /** @brief Get item in point. */
     int getItemIn(const ObjectId &id);
-    /** @brief Get item in point, possibly from another timeline. */
-    int getItemIn(const QUuid &uuid, const ObjectId &id);
     int getItemTrack(const ObjectId &id);
     int getItemDuration(const ObjectId &id);
     QSize getItemFrameSize(const ObjectId &id);
