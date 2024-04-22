@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-21 00:37+0000\n"
-"PO-Revision-Date: 2024-04-20 07:34+0300\n"
+"PO-Revision-Date: 2024-04-21 07:56+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -17119,7 +17119,7 @@ msgstr "פנימה:%1, החוצה:%2 (%3%4)"
 #: src/timeline2/view/timelinecontroller.cpp:2316
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
-msgstr ""
+msgstr "אפשר לבצע החלקה רק על סרטוני וידאו, שמע או הנפשה"
 
 #: src/timeline2/view/timelinecontroller.cpp:2714
 #, kde-format

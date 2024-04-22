@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-21 00:37+0000\n"
-"PO-Revision-Date: 2024-03-29 10:45+0100\n"
+"PO-Revision-Date: 2024-04-21 09:55+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -569,7 +569,7 @@ msgstr "Intercambiar as canles"
 #: data/effects/channelcopy.xml:17
 #, kde-format
 msgid "Swap the two channels instead of duplicating the source channel."
-msgstr ""
+msgstr "Intercambiar as dúas canles en vez de duplicar a canle de orixe."
 
 #: data/effects/charcoal.xml:4
 #, kde-format
@@ -6097,11 +6097,7 @@ msgid "Arguments for the command line script"
 msgstr "Argumentos para o guión da liña de ordes"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
-#| "b> by the second, , <b>{&#x25;3}</b> by the output file path."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
@@ -9519,34 +9515,29 @@ msgstr ""
 "Quere gardar o efecto sen descrición?"
 
 #: src/filefilter.cpp:122
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "Audio Files"
-msgstr "Niveis de son"
+msgstr "Ficheiros de son"
 
 #: src/filefilter.cpp:124
-#, fuzzy, kde-format
-#| msgid "Image File"
+#, kde-format
 msgid "Image Files"
-msgstr "Ficheiro de imaxe"
+msgstr "Ficheiros de imaxe"
 
 #: src/filefilter.cpp:126
-#, fuzzy, kde-format
-#| msgid "Video values"
+#, kde-format
 msgid "Video Files"
-msgstr "Valores do vídeo"
+msgstr "Ficheiros de vídeo"
 
 #: src/filefilter.cpp:128
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "User Files"
-msgstr "Retirar os filtros"
+msgstr "Ficheiros persoais"
 
 #: src/filefilter.cpp:130
-#, fuzzy, kde-format
-#| msgid "Other Clips"
+#, kde-format
 msgid "Other Files"
-msgstr "Outros fragmentos"
+msgstr "Outros ficheiros"
 
 #: src/filefilter.cpp:134
 #, kde-format
@@ -11135,10 +11126,9 @@ msgid "Reset Configuration…"
 msgstr "Restabelecer a configuración…"
 
 #: src/mainwindow.cpp:1494
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "Reproducir a zona"
+msgstr "Reproducir a zona desde o cursor"
 
 #: src/mainwindow.cpp:1497
 #, kde-format
@@ -12165,13 +12155,12 @@ msgstr "Sobrescribir"
 #: src/mainwindow.cpp:3775 src/mainwindow.cpp:3777
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "Ámbitos"
 
 #: src/mainwindow.cpp:3782
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Project Bins"
-msgstr "Caixa do proxecto"
+msgstr "Caixas do proxecto"
 
 #: src/mainwindow.cpp:3877
 #, kde-format
