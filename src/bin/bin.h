@@ -439,6 +439,8 @@ private Q_SLOTS:
     void setDefaultAudioCaptureFolder(bool enable);
     /** @brief Fetch the filters from the UI and apply them to the proxy model */
     void slotApplyFilters();
+    /** @brief Open a new Bin widget */
+    void slotOpenNewBin();
 
 public Q_SLOTS:
 

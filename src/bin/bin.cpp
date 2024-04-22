@@ -1349,7 +1349,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
 
     // Settings menu
     auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
-    settingsAction->setWhatsThis(xi18nc("@info:whatsthis", "Opens a window to configure the project bin (e.g. view mode, sort, show rating)."));
+    settingsAction->setWhatsThis(xi18nc("@info:whatsthis", "Opens a menu to configure the project bin (e.g. view mode, sort, show rating)."));
     settingsAction->setPopupMode(QToolButton::InstantPopup);
     settingsAction->addAction(zoomWidget);
     settingsAction->addAction(m_listTypeAction);
@@ -1374,6 +1374,10 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     settingsAction->addAction(m_showRating);
     settingsAction->addAction(disableEffects);
     settingsAction->addAction(hoverPreview);
+    settingsAction->addSeparator();
+    m_openInBin = addAction(QStringLiteral("add_bin"), i18n("Open in new bin"), QIcon::fromTheme(QStringLiteral("document-open")));
+    connect(m_openInBin, &QAction::triggered, this, &Bin::slotOpenNewBin);
+    settingsAction->addAction(m_openInBin);
 
     if (!m_isMainBin) {
         // Add close action
@@ -2359,7 +2363,7 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
             disableEffects->setChecked(binEffectsDisabled);
         }
     }
-    if (!id.isEmpty()) {
+    if (!id.isEmpty() && id != QLatin1String("-1")) {
         // Open view in a specific folder
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
         auto parentIx = m_itemModel->getIndexFromItem(item);
@@ -3697,17 +3701,6 @@ void Bin::setupMenu()
     m_deleteAction->setData("delete_clip");
     m_deleteAction->setEnabled(false);
     connect(m_deleteAction, &QAction::triggered, this, &Bin::slotDeleteClip);
-
-    m_openInBin = addAction(QStringLiteral("add_bin"), i18n("Open in new bin"), QIcon::fromTheme(QStringLiteral("document-open")));
-    connect(m_openInBin, &QAction::triggered, this, [&]() {
-        QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
-        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        QString id;
-        if (currentItem) {
-            id = currentItem->clipId();
-        }
-        pCore.get()->addBin(id);
-    });
 
     m_sequencesFolderAction =
         addAction(QStringLiteral("sequence_folder"), i18n("Default Target Folder for Sequences"), QIcon::fromTheme(QStringLiteral("favorite")));
@@ -6194,4 +6187,15 @@ const QString Bin::loadInfo(const QStringList binInfo, const QStringList existin
         dock->setWindowTitle(folderName);
     }
     return folderName;
+}
+
+void Bin::slotOpenNewBin()
+{
+    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
+    std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+    QString id;
+    if (currentItem) {
+        id = currentItem->clipId();
+    }
+    pCore.get()->addBin(id);
 }

@@ -4848,8 +4848,21 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
     m_binWidgets << bin;
     if (m_binWidgets.size() > 1) {
         // This is a secondary bin widget
-        int ix = binCount();
-        QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, QString("project_bin_%1").arg(ix), bin);
+        int ix = 2;
+        // Ensure we have a unique id
+        QStringList objectNames;
+        for (auto &b : m_binWidgets) {
+            QWidget *p = b->parentWidget();
+            if (p) {
+                objectNames << p->objectName();
+            }
+        }
+        QString newBinName = QString("project_bin_%1").arg(ix);
+        while (objectNames.contains(newBinName)) {
+            ix++;
+            newBinName = QString("project_bin_%1").arg(ix);
+        }
+        QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, newBinName, bin);
         if (pCore->guiReady()) {
             bin->setupGeneratorMenu();
         }
