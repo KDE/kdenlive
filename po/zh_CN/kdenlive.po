@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-21 00:37+0000\n"
-"PO-Revision-Date: 2024-04-20 19:41\n"
+"PO-Revision-Date: 2024-04-21 04:47\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -556,7 +556,7 @@ msgstr "交换声道"
 #: data/effects/channelcopy.xml:17
 #, kde-format
 msgid "Swap the two channels instead of duplicating the source channel."
-msgstr ""
+msgstr "交换两个声道而不是创建来源通道的副本。"
 
 #: data/effects/charcoal.xml:4
 #, kde-format
@@ -9294,27 +9294,27 @@ msgstr ""
 #: src/filefilter.cpp:122
 #, kde-format
 msgid "Audio Files"
-msgstr ""
+msgstr "音频文件"
 
 #: src/filefilter.cpp:124
 #, kde-format
 msgid "Image Files"
-msgstr ""
+msgstr "图像文件"
 
 #: src/filefilter.cpp:126
 #, kde-format
 msgid "Video Files"
-msgstr ""
+msgstr "视频文件"
 
 #: src/filefilter.cpp:128
 #, kde-format
 msgid "User Files"
-msgstr ""
+msgstr "用户文件"
 
 #: src/filefilter.cpp:130
 #, kde-format
 msgid "Other Files"
-msgstr ""
+msgstr "其他文件"
 
 #: src/filefilter.cpp:134
 #, kde-format
@@ -11874,7 +11874,7 @@ msgstr "范围"
 #: src/mainwindow.cpp:3782
 #, kde-format
 msgid "Project Bins"
-msgstr ""
+msgstr "项目素材箱"
 
 #: src/mainwindow.cpp:3877
 #, kde-format

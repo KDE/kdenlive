@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-21 00:37+0000\n"
-"PO-Revision-Date: 2024-04-14 09:06+0200\n"
+"PO-Revision-Date: 2024-04-21 13:18+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -581,7 +581,7 @@ msgstr "Intervertir les canaux"
 #: data/effects/channelcopy.xml:17
 #, kde-format
 msgid "Swap the two channels instead of duplicating the source channel."
-msgstr ""
+msgstr "Échanger les deux canaux plutôt que dupliquer le canal source."
 
 #: data/effects/charcoal.xml:4
 #, kde-format
@@ -9602,34 +9602,29 @@ msgstr ""
 "Voulez-vous vraiment enregistrer un effet sans description ?"
 
 #: src/filefilter.cpp:122
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "Audio Files"
-msgstr "Niveaux audio"
+msgstr "Fichiers audio"
 
 #: src/filefilter.cpp:124
-#, fuzzy, kde-format
-#| msgid "Image File"
+#, kde-format
 msgid "Image Files"
-msgstr "Fichier image"
+msgstr "Fichiers d'images"
 
 #: src/filefilter.cpp:126
-#, fuzzy, kde-format
-#| msgid "Video values"
+#, kde-format
 msgid "Video Files"
-msgstr "Valeurs vidéo"
+msgstr "Fichiers de vidéos"
 
 #: src/filefilter.cpp:128
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "User Files"
-msgstr "Effacer les filtres"
+msgstr "Fichiers de l'utilisateur"
 
 #: src/filefilter.cpp:130
-#, fuzzy, kde-format
-#| msgid "Other Clips"
+#, kde-format
 msgid "Other Files"
-msgstr "Autres vidéos"
+msgstr "Autres fichiers"
 
 #: src/filefilter.cpp:134
 #, kde-format
@@ -12275,10 +12270,9 @@ msgid "Scopes"
 msgstr "Portées"
 
 #: src/mainwindow.cpp:3782
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Project Bins"
-msgstr "Sources du projet"
+msgstr "Dossiers de projets"
 
 #: src/mainwindow.cpp:3877
 #, kde-format

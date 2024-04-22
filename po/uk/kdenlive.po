@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-21 00:37+0000\n"
-"PO-Revision-Date: 2024-04-20 08:59+0300\n"
+"PO-Revision-Date: 2024-04-21 09:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -17477,7 +17477,7 @@ msgstr "Вхід:%1, Вихід:%2 (%3%4)"
 #: src/timeline2/view/timelinecontroller.cpp:2316
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
-msgstr ""
+msgstr "Ковзання можна виконувати лише для кліпів відео, звуку або анімації"
 
 #: src/timeline2/view/timelinecontroller.cpp:2714
 #, kde-format

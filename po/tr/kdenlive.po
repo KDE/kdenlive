@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-21 00:37+0000\n"
-"PO-Revision-Date: 2024-04-20 14:19+0300\n"
+"PO-Revision-Date: 2024-04-21 12:22+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17266,6 +17266,8 @@ msgstr "Giriş: %1, Çıkış: %2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
+"Sürçme yalnızca video, ses veya canlandırma kliplerinin üzerinde "
+"gerçekleştirilebilir"
 
 #: src/timeline2/view/timelinecontroller.cpp:2714
 #, kde-format

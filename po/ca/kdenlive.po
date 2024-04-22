@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-21 00:37+0000\n"
-"PO-Revision-Date: 2024-04-20 12:33+0200\n"
+"PO-Revision-Date: 2024-04-21 08:34+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -17439,6 +17439,8 @@ msgstr "Entrada:%1, sortida:%2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
+"El lliscament només es pot portar a terme en els clips de vídeo, d'àudio o "
+"d'animació"
 
 #: src/timeline2/view/timelinecontroller.cpp:2714
 #, kde-format
