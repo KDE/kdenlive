@@ -706,7 +706,7 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
         Fun redo = []() { return true; };
         for (auto &s : m_currentSelection) {
             if (isClip(s)) {
-                m_allClips.at(s)->copyEffectWithUndo(uuid, effectStack, itemRow, undo, redo);
+                m_allClips.at(s)->copyEffectWithUndo(effectStack, itemRow, undo, redo);
             }
         }
         pCore->pushUndo(undo, redo, i18n("Copy effect"));
@@ -719,14 +719,14 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
             std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
             for (auto &s : sub) {
                 if (isClip(s)) {
-                    m_allClips.at(s)->copyEffectWithUndo(uuid, effectStack, itemRow, undo, redo);
+                    m_allClips.at(s)->copyEffectWithUndo(effectStack, itemRow, undo, redo);
                 }
             }
             pCore->pushUndo(undo, redo, i18n("Copy effect"));
             return true;
         }
     }
-    return m_allClips.at(clipId)->copyEffect(uuid, effectStack, itemRow);
+    return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);
 }
 
 void TimelineItemModel::buildTrackCompositing(bool rebuild)
