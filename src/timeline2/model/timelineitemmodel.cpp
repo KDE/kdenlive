@@ -685,6 +685,9 @@ void TimelineItemModel::rebuildMixer()
             pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()),
                                           (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
             connect(pCore->mixer(), &MixerManager::showEffectStack, this, &TimelineItemModel::showTrackEffectStack);
+            if ((*it)->getProperty("kdenlive:audio_rec").toInt() == 1) {
+                pCore->mixer()->monitorAudio((*it)->getId(), true);
+            }
         }
         ++it;
     }
