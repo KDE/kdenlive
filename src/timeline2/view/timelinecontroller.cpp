@@ -4821,8 +4821,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, const boo
         }
     }
 
-    QString binId =
-        ClipCreator::createClipFromFile(recordedFile, targetFolder->clipId(), pCore->projectItemModel(), undo, redo, callBack);
+    QString binId = ClipCreator::createClipFromFile(recordedFile, targetFolder->clipId(), pCore->projectItemModel(), undo, redo, callBack);
 
     if (highlightClip) {
         pCore->window()->raiseBin();
