@@ -1107,7 +1107,12 @@ void RenderWidget::refreshParams()
 
     // Set the thread counts
     if (!m_params.contains(QStringLiteral("threads"))) {
-        m_params.insert(QStringLiteral("threads"), QString::number(KdenliveSettings::encodethreads()));
+        int ffmpegThreads = KdenliveSettings::encodethreads();
+        if (m_params.toString().contains(QLatin1String("libx265"))) {
+            // libx265 encoding is limited to 16 threads max
+            ffmpegThreads = qMin(16, ffmpegThreads);
+        }
+        m_params.insert(QStringLiteral("threads"), QString::number(ffmpegThreads));
     }
 
     // Project metadata
