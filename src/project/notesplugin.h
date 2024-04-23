@@ -23,7 +23,7 @@ class NotesPlugin : public QObject
     Q_OBJECT
 
 public:
-    explicit NotesPlugin(ProjectManager *projectManager);
+    explicit NotesPlugin(QObject *parent);
     NotesWidget *widget();
     void clear();
     void showDock();
