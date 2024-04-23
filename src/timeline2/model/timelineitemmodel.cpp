@@ -125,8 +125,7 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
                 insertionIndex++;
             }
             if (addRecTrack) {
-                // TODO: make inserted audio recording track use monitor
-                setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
+                pCore->mixer()->monitorAudio(newTid, true);
             }
         } else {
             break;

@@ -260,7 +260,8 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     if (pCore->closing) {
         return;
     }
-    KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, pCore->window());
+    KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
+                                       audioChannels, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
@@ -793,6 +794,15 @@ void ProjectManager::openFile(const QUrl &url)
     }
     pCore->displayMessage(i18n("Opening file %1", url.toLocalFile()), OperationCompletedMessage, 100);
     doOpenFile(url, nullptr);
+
+    // TODO: remove this shit and fix it the right way (idk how to fix it properly)
+    for (int tid : pCore->window()->getCurrentTimeline()->model()->getTracksIds(true)) {
+        auto track = pCore->window()->getCurrentTimeline()->model()->getTrackById(tid);
+        if (track->getProperty("kdenlive:audio_rec").toInt() == 1) {
+            pCore->window()->getCurrentTimeline()->controller()->switchTrackRecord(tid, false);
+            pCore->mixer()->monitorAudio(tid, true);
+        };
+    }
 }
 
 void ProjectManager::abortLoading()
@@ -819,8 +829,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         return;
     }
 
-    DocOpenResult openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
-        QString(), pCore->window()->m_commandStack, false, pCore->window());
+    DocOpenResult openResult =
+        KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack, false, pCore->window());
 
     KdenliveDoc *doc = nullptr;
     if (!openResult.isSuccessful() && !openResult.isAborted()) {
@@ -833,8 +843,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
                 return;
             } else if (answer == KMessageBox::SecondaryAction) { // Recover
                 // if file was broken by Kdenlive 0.9.4, we can try recovering it. If successful, continue through rest of this function.
-                openResult = KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url,
-                    QString(), pCore->window()->m_commandStack, true, pCore->window());
+                openResult =
+                    KdenliveDoc::Open(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack, true, pCore->window());
                 if (openResult.isSuccessful()) {
                     doc = openResult.getDocument().release();
                     doc->requestBackup();
@@ -858,11 +868,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     }
 
     if (openResult.wasUpgraded()) {
-        pCore->displayMessage(i18n("Your project was upgraded, a backup will be created on next save"),
-            ErrorMessage);
+        pCore->displayMessage(i18n("Your project was upgraded, a backup will be created on next save"), ErrorMessage);
     } else if (openResult.wasModified()) {
-        pCore->displayMessage(i18n("Your project was modified on opening, a backup will be created on next save"),
-            ErrorMessage);
+        pCore->displayMessage(i18n("Your project was modified on opening, a backup will be created on next save"), ErrorMessage);
     }
     pCore->displayMessage(QString(), OperationCompletedMessage);
 
@@ -1009,6 +1017,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         const QUuid uuid = m_project->activeUuid;
         pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
     }
+
     pCore->displayMessage(QString(), OperationCompletedMessage, 100);
     m_lastSave.start();
     m_project->loading = false;
