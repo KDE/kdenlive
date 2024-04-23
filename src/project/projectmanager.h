@@ -137,6 +137,7 @@ public:
      * @param replaceAudio if true, only the audio clips will be replaced. if false, only the video parts.
      */
     void replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo);
+    void buildNotesWidget();
 
 public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);

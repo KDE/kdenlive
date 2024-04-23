@@ -15,8 +15,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStyle>
 #include <QVBoxLayout>
 
-NotesPlugin::NotesPlugin(ProjectManager *projectManager)
-    : QObject(projectManager)
+NotesPlugin::NotesPlugin(QObject *parent)
+    : QObject(parent)
 {
     QWidget *container = new QWidget();
     auto *lay = new QVBoxLayout();
@@ -37,7 +37,7 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     m_widget->setPlaceholderText(i18n("Enter your project notes here …"));
     m_notesDock = pCore->window()->addDock(i18n("Project Notes"), QStringLiteral("notes_widget"), container);
     m_notesDock->close();
-    connect(projectManager, &ProjectManager::docOpened, this, &NotesPlugin::setProject);
+    connect(pCore->projectManager(), &ProjectManager::docOpened, this, &NotesPlugin::setProject);
 }
 
 void NotesPlugin::setProject(KdenliveDoc *document)

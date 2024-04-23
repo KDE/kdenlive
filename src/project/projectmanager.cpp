@@ -156,11 +156,15 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
     QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File…"), this);
     pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
-    m_notesPlugin = new NotesPlugin(this);
 
     m_autoSaveTimer.setSingleShot(true);
     m_autoSaveTimer.setInterval(3000);
     connect(&m_autoSaveTimer, &QTimer::timeout, this, &ProjectManager::slotAutoSave);
+}
+
+void ProjectManager::buildNotesWidget()
+{
+    m_notesPlugin = new NotesPlugin(this);
 }
 
 void ProjectManager::newFile(bool showProjectSettings)

@@ -349,6 +349,9 @@ void MainWindow::init(const QString &mltPath)
     connect(recConfig, &QAction::triggered, [&]() { Q_EMIT pCore->showConfigDialog(Kdenlive::PageCapture, 0); });
     QDockWidget *screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
 
+    // Notes widget
+    pCore->projectManager()->buildNotesWidget();
+
     // Sequence actions
     QAction *nextSequence = new QAction(QIcon::fromTheme(QStringLiteral("go-next")), i18n("Switch to next Sequence"), this);
     addAction(QStringLiteral("sequence_next"), nextSequence, QKeySequence::NextChild);
