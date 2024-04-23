@@ -830,7 +830,7 @@ void MainWindow::init(const QString &mltPath)
     // Detect shortcut conflicts bewtween mainwindow and media browser
     pCore->mediaBrowser()->detectShortcutConflicts();
 
-    connect(toolBar(), &KToolBar::visibilityChanged, this, [&, showMenuBarAction](bool visible) {
+    connect(toolBar(), &KToolBar::visibilityChanged, this, [&](bool visible) {
         if (visible && !toolBar()->actions().contains(m_hamburgerMenu)) {
             // hack to be able to insert the hamburger menu at the first position
             QAction *const firstChild = toolBar()->actionAt(toolBar()->height() / 2, toolBar()->height() / 2);

@@ -1851,8 +1851,8 @@ void TitleWidget::textChanged(MyTextItem *i)
             if (i->property("templateText") == i->toHtml()) {
                 // Unchanged, do nothing.
             } else {
-                i->setProperty("isTemplate", QVariant::Invalid);
-                i->setProperty("templateText", QVariant::Invalid);
+                i->setProperty("isTemplate", QVariant());
+                i->setProperty("templateText", QVariant());
             }
         }
     }
