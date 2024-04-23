@@ -1878,7 +1878,11 @@ void TitleWidget::slotUpdateText()
 {
     QFont font = font_family->currentFont();
     QString selected = font.family();
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!QFontDatabase().families().contains(selected)) {
+#else
+    if (!QFontDatabase::families().contains(selected)) {
+#endif
         QSignalBlocker bk(font_family);
         font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
         font_family->setCurrentFont(font);
@@ -2496,7 +2500,11 @@ void TitleWidget::readChoices()
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
     restoreGeometry(QByteArray::fromBase64(geometry));
     QFont font = titleConfig.readEntry("font_family", font_family->currentFont());
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!QFontDatabase().families().contains(font.family())) {
+#else
+    if (!QFontDatabase::families().contains(font.family())) {
+#endif
         font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
     }
     font_family->setCurrentFont(font);
