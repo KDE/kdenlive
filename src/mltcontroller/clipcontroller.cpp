@@ -95,9 +95,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         i.next();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         switch (i.value().type()) {
-#else
-        switch (i.value().typeId()) {
-#endif
         case QVariant::Int:
             setProducerProperty(i.key(), i.value().toInt());
             break;
@@ -108,6 +105,19 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
             setProducerProperty(i.key(), i.value().toString());
             break;
         }
+#else
+        switch (i.value().typeId()) {
+        case QMetaType::Int:
+            setProducerProperty(i.key(), i.value().toInt());
+            break;
+        case QMetaType::Double:
+            setProducerProperty(i.key(), i.value().toDouble());
+            break;
+        default:
+            setProducerProperty(i.key(), i.value().toString());
+            break;
+        }
+#endif
     }
     m_tempProps.clear();
     int id = m_controllerBinId.toInt();
