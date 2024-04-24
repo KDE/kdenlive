@@ -3783,7 +3783,9 @@ void TimelineController::editItemDuration(int id)
     int minFrame = qMax(0, in - (isComposition ? m_model->getTrackById(trackId)->getBlankSizeNearComposition(id, false)
                                                : m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false)));
     int partner = isComposition ? -1 : m_model->getClipSplitPartner(id);
-    QScopedPointer<ClipDurationDialog> dialog(new ClipDurationDialog(id, start, minFrame, in, in + duration, maxLength, maxFrame, qApp->activeWindow()));
+    bool rippleMode = pCore->window()->getCurrentTimeline()->activeTool() == ToolType::RippleTool;
+    QScopedPointer<ClipDurationDialog> dialog(
+        new ClipDurationDialog(id, start, minFrame, in, in + duration, maxLength, maxFrame, rippleMode, qApp->activeWindow()));
     if (dialog->exec() == QDialog::Accepted) {
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
@@ -3808,24 +3810,53 @@ void TimelineController::editItemDuration(int id)
                 }
             }
             if (newDuration != duration + (in - newIn)) {
-                result = result && m_model->requestItemResize(id, newDuration, true, true, undo, redo);
+                if (rippleMode) {
+                    result = result && m_model->requestItemRippleResize(m_model, id, newDuration, true, true, !KdenliveSettings::lockedGuides(), undo, redo);
+                } else {
+                    result = result && m_model->requestItemResize(id, newDuration, true, true, undo, redo);
+                }
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, newDuration, false, true, undo, redo);
+                    if (rippleMode) {
+                        result = result &&
+                                 m_model->requestItemRippleResize(m_model, partner, newDuration, false, true, !KdenliveSettings::lockedGuides(), undo, redo);
+                    } else {
+                        result = m_model->requestItemResize(partner, newDuration, false, true, undo, redo);
+                    }
                 }
             }
         } else {
             // perform resize first
             if (newIn != in) {
                 int updatedDuration = duration + (in - newIn);
-                result = m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
+                if (rippleMode && !isComposition) {
+                    result =
+                        result && m_model->requestItemRippleResize(m_model, id, updatedDuration, false, true, !KdenliveSettings::lockedGuides(), undo, redo);
+                } else {
+                    result = m_model->requestItemResize(id, updatedDuration, false, true, undo, redo);
+                }
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, updatedDuration, false, true, undo, redo);
+                    if (rippleMode) {
+                        result = result && m_model->requestItemRippleResize(m_model, partner, updatedDuration, false, true, !KdenliveSettings::lockedGuides(),
+                                                                            undo, redo);
+                    } else {
+                        result = m_model->requestItemResize(partner, updatedDuration, false, true, undo, redo);
+                    }
                 }
             }
             if (newDuration != duration + (in - newIn)) {
-                result = result && m_model->requestItemResize(id, newDuration, start == newPos, true, undo, redo);
+                if (rippleMode && !isComposition) {
+                    result = result &&
+                             m_model->requestItemRippleResize(m_model, id, newDuration, start == newPos, true, !KdenliveSettings::lockedGuides(), undo, redo);
+                } else {
+                    result = result && m_model->requestItemResize(id, newDuration, start == newPos, true, undo, redo);
+                }
                 if (result && partner > -1) {
-                    result = m_model->requestItemResize(partner, newDuration, start == newPos, true, undo, redo);
+                    if (rippleMode) {
+                        result = result && m_model->requestItemRippleResize(m_model, partner, newDuration, start == newPos, true,
+                                                                            !KdenliveSettings::lockedGuides(), undo, redo);
+                    } else {
+                        result = m_model->requestItemResize(partner, newDuration, start == newPos, true, undo, redo);
+                    }
                 }
             }
             if (start != newPos || newIn != in) {

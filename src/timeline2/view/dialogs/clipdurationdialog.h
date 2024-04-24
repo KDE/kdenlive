@@ -18,7 +18,7 @@ class ClipDurationDialog : public QDialog, public Ui::ClipDurationDialog_UI
     Q_OBJECT
 
 public:
-    explicit ClipDurationDialog(int clipId, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent = nullptr);
+    explicit ClipDurationDialog(int clipId, int pos, int minpos, int in, int out, int length, int maxpos, bool rippleMode, QWidget *parent = nullptr);
     GenTime startPos() const;
     GenTime cropStart() const;
     GenTime duration() const;
