@@ -178,7 +178,8 @@ void MainWindow::init(const QString &mltPath)
     QStringList availableStyles = QStyleFactory::keys();
     if (KdenliveSettings::widgetstyle().isEmpty()) {
         // First run
-        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windowsvista"), QStringLiteral("Windows"), QStringLiteral("macintosh")};
+        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windows11"), QStringLiteral("windowsvista"), QStringLiteral("Windows"),
+                                          QStringLiteral("macintosh")};
 
         if (incompatibleStyles.contains(desktopStyle, Qt::CaseInsensitive)) {
             if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
@@ -192,6 +193,11 @@ void MainWindow::init(const QString &mltPath)
         } else {
             KdenliveSettings::setWidgetstyle(QStringLiteral("Default"));
         }
+    }
+    // Styles to hide
+    QStringList hiddenStyles = {QStringLiteral("windowsvista"), QStringLiteral("Windows"), QStringLiteral("macintosh")};
+    for (auto &hide : hiddenStyles) {
+        availableStyles.removeAll(hide);
     }
 
     // Add default style action
