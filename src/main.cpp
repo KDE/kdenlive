@@ -404,6 +404,9 @@ int main(int argc, char *argv[])
             qCDebug(KDENLIVE_LOG) << "KDE Desktop detected and not Appimage, using system icons";
         } else {
             // We are not on a KDE desktop or in an Appimage, force breeze icon theme
+#if defined(Q_OS_WIN)
+            qCDebug(KDENLIVE_LOG) << "Windows platform detected, using system icons";
+#else
             // Check if breeze theme is available
             QStringList iconThemes = KIconTheme::list();
             if (iconThemes.contains(QStringLiteral("breeze"))) {
@@ -411,6 +414,7 @@ int main(int argc, char *argv[])
                 grp.writeEntry("use_dark_breeze", true);
                 qCDebug(KDENLIVE_LOG) << "Non KDE Desktop or Appimage detected, forcing Breeze icon theme";
             }
+#endif
         }
     }
     KConfigGroup uicg(config, "UiSettings");
