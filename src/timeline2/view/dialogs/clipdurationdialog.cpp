@@ -11,16 +11,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(int clipId, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent)
+ClipDurationDialog::ClipDurationDialog(int clipId, int pos, int minpos, int in, int out, int length, int maxpos, bool rippleMode, QWidget *parent)
     : QDialog(parent)
     , m_clipId(clipId)
     , m_fps(pCore->getCurrentFps())
     , m_min(GenTime(minpos, m_fps))
-    , m_max(GenTime(maxpos, m_fps))
+    , m_max(rippleMode ? GenTime() : GenTime(maxpos, m_fps))
     , m_length(GenTime(length, m_fps))
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
+    if (rippleMode) {
+        mode_info->setText(i18n("Editing in Ripple mode"));
+    } else {
+        mode_info->setVisible(false);
+    }
 
     bool allowCrop = length != -1;
 
