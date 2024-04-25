@@ -136,9 +136,9 @@ public:
     /** @brief Update the render duration info when project duration changes. */
     void projectDurationChanged(int duration);
     /** @brief Update the render duration info when zone changes. */
-    void zoneDurationChanged(int duration);
+    void zoneDurationChanged();
     /** @brief Update the render duration info. */
-    void showRenderDuration();
+    void showRenderDuration(int projectLength = -1);
 
 protected:
     QSize sizeHint() const override;

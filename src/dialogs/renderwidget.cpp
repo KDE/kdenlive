@@ -1751,26 +1751,26 @@ void RenderWidget::errorMessage(RenderError type, const QString &message)
 
 void RenderWidget::projectDurationChanged(int duration)
 {
-    if (m_view.render_full->isChecked()) {
-        m_renderDuration = duration + 1;
-        updateRenderInfoMessage();
-    }
+    showRenderDuration(duration + 1);
 }
 
-void RenderWidget::zoneDurationChanged(int duration)
+void RenderWidget::zoneDurationChanged()
 {
-    if (m_view.render_zone->isChecked()) {
-        m_renderDuration = duration;
-        updateRenderInfoMessage();
-    }
+    showRenderDuration();
 }
 
 void RenderWidget::updateRenderInfoMessage()
 {
-    QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
     m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+    if (m_renderDuration <= 0) {
+        m_view.infoMessage->setText(i18n("Add clips in timeline before rendering"));
+        m_view.infoMessage->show();
+        return;
+    }
+    QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
+    QString infoMessage = i18n("Rendered File Length: %1", stringDuration);
     if (m_missingClips > 0) {
-        QString infoMessage = i18n("Render Duration: %1. ", stringDuration);
+        infoMessage.append(QStringLiteral(". "));
         if (m_missingUsedClips == m_missingClips) {
             infoMessage.append(i18np("<b>One missing clip used in the project.</b>", "<b>%1 missing clips used in the project.</b>", m_missingClips));
         } else if (m_missingUsedClips == 0) {
@@ -1778,26 +1778,28 @@ void RenderWidget::updateRenderInfoMessage()
         } else {
             infoMessage.append(i18n("%1 missing clips (<b>%2 used in the project</b>).", m_missingClips, m_missingUsedClips));
         }
-        m_view.infoMessage->setText(infoMessage);
-    } else {
-        m_view.infoMessage->setText(i18n("Render Duration: %1", stringDuration));
     }
+    m_view.infoMessage->setText(infoMessage);
     m_view.infoMessage->show();
 }
 
-void RenderWidget::showRenderDuration()
+void RenderWidget::showRenderDuration(int projectLength)
 {
+    // rendering full project
+    int maxFrame = projectLength > -1 ? projectLength : pCore->projectDuration();
+    qDebug() << ":::: GOT PROJECT DURATION: " << pCore->projectDuration();
     if (m_view.render_zone->isChecked()) {
         Monitor *pMon = pCore->getMonitor(Kdenlive::ProjectMonitor);
-        m_renderDuration = pMon->getZoneEnd() - pMon->getZoneStart();
+        int out = qMin(maxFrame, pMon->getZoneEnd());
+        m_renderDuration = out - pMon->getZoneStart();
     } else if (m_view.render_guide->isChecked()) {
         double fps = pCore->getCurrentProfile()->fps();
         double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        m_renderDuration = int(GenTime(guideEnd).frames(fps)) - int(GenTime(guideStart).frames(fps));
+        int out = qMin(int(GenTime(guideEnd).frames(fps)), maxFrame);
+        m_renderDuration = out - int(GenTime(guideStart).frames(fps));
     } else {
-        // rendering full project
-        m_renderDuration = pCore->projectDuration();
+        m_renderDuration = maxFrame;
     }
     updateRenderInfoMessage();
 }
