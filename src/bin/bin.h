@@ -366,6 +366,15 @@ public:
     const QString buildSequenceClipWithUndo(Fun &undo, Fun &redo, int aTracks = -1, int vTracks = -1, QString suggestedName = QString());
     /** @brief Returns true if the project uses a clip with variable framerate. */
     bool usesVariableFpsClip();
+    void applyClipAssetGroupCommand(int cid, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
+                                    QUndoCommand *command);
+    void applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, const QModelIndex &index, GenTime pos, const QVariant &previousValue,
+                                            const QVariant &value, int ix, QUndoCommand *command);
+    void applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
+                                                 const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
+    int clipAssetGroupInstances(int cid, const QString &assetId);
+    void removeEffectFromGroup(const QString &assetId);
+    void disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo);
     /** @brief The root id of the folder that this bin displays */
     const QString rootFolderId() const;
     /** @brief Export some basic info (root folder, view type) to a string to save it */
@@ -616,6 +625,8 @@ private:
     void showBinInfo();
     /** @brief Find all clip Ids that have a specific tag. */
     const QList<QString> getAllClipsWithTag(const QString &tag);
+    /** @brief Paste effect on a list of clips. */
+    bool doPasteEffect(std::vector<QString> ids, const QStringList &effectData);
 
 Q_SIGNALS:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);

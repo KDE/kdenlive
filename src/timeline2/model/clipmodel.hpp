@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "moveableItem.hpp"
 #include "undohelper.hpp"
 #include <memory>
@@ -106,6 +107,8 @@ public:
     int getMixCutPosition() const;
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
+    int assetRow(const QString &assetId) const override;
+    std::shared_ptr<KeyframeModelList> getKFModel(int row);
 
     /** @brief Returns an XML representation of the clip with its effects */
     QDomElement toXml(QDomDocument &document);

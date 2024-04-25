@@ -98,7 +98,8 @@ private:
 private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     void slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height);
-    void slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row);
+    void slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget = false);
+    void slotDeleteEffect(const std::shared_ptr<EffectItemModel> &effect);
     void loadEffects();
     void updateTreeHeight();
     void slotFocusEffect();
@@ -120,4 +121,5 @@ Q_SIGNALS:
     void blockWheelEvent(bool block);
     void checkScrollBar();
     void scrollView(QRect);
+    void updateEffectsGroupesInstances();
 };

@@ -7,6 +7,7 @@
 #include "bin/projectitemmodel.h"
 #include "clipsnapmodel.hpp"
 #include "core.h"
+#include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
@@ -1566,4 +1567,20 @@ void ClipModel::switchBinReference(const QString newId, const QUuid &uuid)
             Q_EMIT ptr->invalidateZone(m_position, m_position + getPlaytime());
         }
     }
+}
+
+int ClipModel::assetRow(const QString &assetId) const
+{
+    return m_effectStack->effectRow(assetId);
+}
+
+std::shared_ptr<KeyframeModelList> ClipModel::getKFModel(int row)
+{
+    auto item = m_effectStack->getEffectStackRow(row);
+    if (!item || item->childCount() > 0) {
+        // group, error
+        return nullptr;
+    }
+    std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+    return eff->getKeyframeModel();
 }

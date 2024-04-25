@@ -56,14 +56,14 @@ public Q_SLOTS:
 
 private Q_SLOTS:
 
-    void slotSetValue(double value, bool final);
+    void slotSetValue(double value, bool final, bool createUndoEntry);
 
 private:
     DragValue *m_dragVal;
     double m_factor;
 
 Q_SIGNALS:
-    void valueChanged(double);
+    void valueChanged(double, bool createUndoEntry);
 
     // same signal as valueChanged, but add an extra boolean to tell if user is dragging value or not
     void valueChanging(double, bool);

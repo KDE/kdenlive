@@ -28,6 +28,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QFontDatabase>
+#include <QMenu>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QToolBar>
@@ -82,6 +83,30 @@ AssetPanel::AssetPanel(QWidget *parent)
     // connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
     buttonToolbar->addWidget(m_switchBuiltStack);
 
+    QToolButton *applyEffectGroupsButton = new QToolButton(this);
+    applyEffectGroupsButton->setPopupMode(QToolButton::MenuButtonPopup);
+    m_applyEffectGroups = new QAction(i18n("Apply effect change to all clips in the group"), this);
+    m_applyEffectGroups->setCheckable(true);
+    m_applyEffectGroups->setChecked(KdenliveSettings::applyEffectParamsToGroup());
+    m_applyEffectGroups->setIcon(QIcon::fromTheme(QStringLiteral("link")));
+    m_applyEffectGroups->setToolTip(i18n("Apply effect change to all clips in the group…"));
+    m_applyEffectGroups->setWhatsThis(
+        xi18nc("@info:whatsthis", "When enabled and the clip is in a group, all clips in this group that have the same effect will see the parameters adjusted "
+                                  "as well. Deleting an effect will delete it in all clips in the group."));
+    buttonToolbar->addWidget(applyEffectGroupsButton);
+    connect(m_applyEffectGroups, &QAction::toggled, this, [this](bool enabled) {
+        KdenliveSettings::setApplyEffectParamsToGroup(enabled);
+        Q_EMIT m_effectStackWidget->updateEffectsGroupesInstances();
+    });
+    QMenu *effectGroupMenu = new QMenu(this);
+    QAction *applyToSameOnly = new QAction(i18n("Apply only to effects with same value"), this);
+    applyToSameOnly->setCheckable(true);
+    applyToSameOnly->setChecked(KdenliveSettings::applyEffectParamsToGroupWithSameValue());
+    connect(applyToSameOnly, &QAction::toggled, this, [](bool enabled) { KdenliveSettings::setApplyEffectParamsToGroupWithSameValue(enabled); });
+    effectGroupMenu->addAction(applyToSameOnly);
+
+    applyEffectGroupsButton->setMenu(effectGroupMenu);
+    applyEffectGroupsButton->setDefaultAction(m_applyEffectGroups);
     m_saveEffectStack = new QToolButton(this);
     m_saveEffectStack->setIcon(QIcon::fromTheme(QStringLiteral("document-save-all")));
     m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
@@ -171,6 +196,7 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_switchAction->setVisible(true);
     m_titleAction->setVisible(false);
+    m_applyEffectGroups->setVisible(false);
     m_assetTitle->clear();
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
@@ -204,6 +230,7 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
     m_assetTitle->clear();
     m_mixWidget->setVisible(true);
     m_timelineButton->setVisible(false);
+    m_applyEffectGroups->setVisible(false);
     m_enableStackButton->setVisible(false);
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_mixWidget->setModel(transitionModel, QSize(), true);
@@ -258,6 +285,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     }
     m_assetTitle->setText(title);
     m_titleAction->setVisible(true);
+    m_applyEffectGroups->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_saveEffectStack->setEnabled(true);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);

@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
+#include "effects/effectstack/model/abstracteffectitem.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "glaxnimatelauncher.h"
 #include "jobs/abstracttask.h"
@@ -3967,19 +3968,7 @@ void Bin::slotAddEffect(std::vector<QString> ids, const QStringList &effectData)
     if (ids.size() == 0) {
         pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::ErrorMessage, 500);
     }
-    for (auto &id : ids) {
-        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-        if (clip) {
-            if (effectData.count() == 5) {
-                // Paste effect from another stack
-                std::shared_ptr<EffectStackModel> sourceStack =
-                    pCore->getItemEffectStack(QUuid(effectData.at(4)), effectData.at(1).toInt(), effectData.at(2).toInt());
-                clip->copyEffect(sourceStack, effectData.at(3).toInt());
-            } else {
-                clip->addEffect(effectData.constFirst());
-            }
-        }
-    }
+    doPasteEffect(ids, effectData);
 }
 
 void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &parent)
@@ -3991,28 +3980,30 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             Q_EMIT displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
             return;
         }
-        int row = 0;
-        QModelIndex parentIndex;
         if (parentItem->itemType() == AbstractProjectItem::SubClipItem) {
             // effect only supported on clip items
             parentItem = std::static_pointer_cast<ProjectSubClip>(parentItem)->getMasterClip();
-            QModelIndex ix = m_itemModel->getIndexFromItem(parentItem);
-            row = ix.row();
-            parentIndex = ix.parent();
-        } else if (parentItem->itemType() == AbstractProjectItem::ClipItem) {
+        }
+        std::vector<QString> ids = selectedClipsIds();
+        const QString droppedId = parentItem->clipId();
+        if (ids.size() > 1 && std::find(ids.begin(), ids.end(), droppedId) != ids.end()) {
+            if (effectData.count() == 6) {
+                if (effectData.at(5).toInt() == 1) {
+                    // Single target drag
+                    ids = {droppedId};
+                }
+            }
+        } else {
+            ids = {droppedId};
+        }
+        int row = 0;
+        QModelIndex parentIndex;
+        if (parentItem->itemType() == AbstractProjectItem::ClipItem) {
             // effect only supported on clip items
             row = parent.row();
             parentIndex = parent.parent();
         }
-        bool res = false;
-        if (effectData.count() == 5) {
-            // Paste effect from another stack
-            std::shared_ptr<EffectStackModel> sourceStack =
-                pCore->getItemEffectStack(QUuid(effectData.at(4)), effectData.at(1).toInt(), effectData.at(2).toInt());
-            res = std::static_pointer_cast<ProjectClip>(parentItem)->copyEffect(sourceStack, effectData.at(3).toInt());
-        } else {
-            res = std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effectData.constFirst());
-        }
+        bool res = doPasteEffect(ids, effectData);
         if (!res) {
             pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::ErrorMessage);
         } else {
@@ -4026,6 +4017,28 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             setCurrent(parentItem);
         }
     }
+}
+
+bool Bin::doPasteEffect(std::vector<QString> ids, const QStringList &effectData)
+{
+    bool res = true;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    if (effectData.count() == 6) {
+        // Paste effect from another stack
+        std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(QUuid(effectData.at(4)), effectData.at(1).toInt(), effectData.at(2).toInt());
+        for (auto &id : ids) {
+            res = res && m_itemModel->getClipByBinID(id)->copyEffectWithUndo(sourceStack, effectData.at(3).toInt(), undo, redo);
+        }
+    } else {
+        for (auto &id : ids) {
+            res = res && m_itemModel->getClipByBinID(id)->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo);
+        }
+    }
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Paste effect"));
+    }
+    return res;
 }
 
 void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
@@ -6128,6 +6141,112 @@ void Bin::transcodeUsedClips()
         }
     }
     requestSelectionTranscoding(true);
+}
+
+void Bin::applyClipAssetGroupCommand(int cid, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
+                                     QUndoCommand *command)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    if (clips.size() < 2) {
+        return;
+    }
+    for (auto &c : clips) {
+        if (c->binId().toInt() == cid) {
+            continue;
+        }
+        int assetRow = c->getEffectStack()->effectRow(assetId);
+        if (assetRow > -1) {
+            c->getEffectStack()->applyAssetCommand(assetRow, index, previousValue, value, command);
+        }
+    }
+}
+
+void Bin::applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, const QModelIndex &index, GenTime pos, const QVariant &previousValue,
+                                             const QVariant &value, int ix, QUndoCommand *command)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    if (clips.size() < 2) {
+        return;
+    }
+    for (auto &c : clips) {
+        if (c->binId().toInt() == cid) {
+            continue;
+        }
+        int assetRow = c->getEffectStack()->effectRow(assetId);
+        if (assetRow > -1) {
+            c->getEffectStack()->applyAssetKeyframeCommand(assetRow, index, pos, previousValue, value, ix, command);
+        }
+    }
+}
+
+int Bin::clipAssetGroupInstances(int cid, const QString &assetId)
+{
+    Q_UNUSED(cid);
+    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    if (clips.size() < 2) {
+        return 0;
+    }
+    int count = 0;
+    for (auto &c : clips) {
+        int assetRow = c->getEffectStack()->effectRow(assetId);
+        if (assetRow > -1) {
+            count++;
+        }
+    }
+    return count;
+}
+
+void Bin::applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
+                                                  const QStringList &sourceValues, const QStringList &values, QUndoCommand *command)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    if (clips.size() < 2) {
+        return;
+    }
+    for (auto &c : clips) {
+        if (c->binId().toInt() == cid) {
+            continue;
+        }
+        int assetRow = c->getEffectStack()->effectRow(assetId);
+        if (assetRow > -1) {
+            c->getEffectStack()->applyAssetMultiKeyframeCommand(assetRow, indexes, pos, sourceValues, values, command);
+        }
+    }
+}
+
+void Bin::removeEffectFromGroup(const QString &assetId)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    QString effectName;
+    for (auto &c : clips) {
+        int assetRow = c->getEffectStack()->effectRow(assetId);
+        if (assetRow > -1) {
+            c->getEffectStack()->removeEffectWithUndo(assetId, effectName, undo, redo);
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+}
+
+void Bin::disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    if (clips.size() < 2) {
+        return;
+    }
+    for (auto &c : clips) {
+        if (c->binId().toInt() == cid) {
+            continue;
+        }
+        int assetRow = c->getEffectStack()->effectRow(assetId);
+        if (assetRow > -1) {
+            auto effect = c->getEffectStack()->getEffectStackRow(assetRow);
+            if (effect) {
+                effect->markEnabled(!disable, undo, redo);
+            }
+        }
+    }
 }
 
 const QString Bin::rootFolderId() const

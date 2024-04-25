@@ -57,7 +57,9 @@ public Q_SLOTS:
     void slotSetRange(QPair<int, int>);
 
 private Q_SLOTS:
-    void slotAdjustRectKeyframeValue();
+    void slotAdjustRectKeyframeValue(int ix = -1);
+    void slotAdjustRectXKeyframeValue();
+    void slotAdjustRectYKeyframeValue();
     void slotAdjustToSource();
     void slotAdjustToFrameSize();
     void slotFitToWidth();
@@ -81,6 +83,6 @@ private Q_SLOTS:
     void slotAdjustRectWidth();
 
 Q_SIGNALS:
-    void valueChanged(const QString val);
+    void valueChanged(const QString val, int ix);
     void updateMonitorGeometry(const QRect r);
 };

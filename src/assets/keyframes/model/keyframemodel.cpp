@@ -140,7 +140,6 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-
     bool update = (m_keyframeList.count(pos) > 0);
     bool res = addKeyframe(pos, type, std::move(value), true, undo, redo);
     if (res) {
@@ -149,12 +148,16 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
     return res;
 }
 
-bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify, bool updateSelection)
+bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify, bool updateSelection, bool allowedToFail)
 {
     qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps()) << " NOTIFY: " << notify;
     qDebug() << "before" << getAnimProperty();
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_keyframeList.count(pos) > 0);
+    if (!allowedToFail) {
+        Q_ASSERT(m_keyframeList.count(pos) > 0);
+    } else if (m_keyframeList.count(pos) == 0) {
+        return true;
+    }
     KeyframeType oldType = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
     Fun select_undo = []() { return true; };
@@ -248,7 +251,7 @@ GenTime KeyframeModel::getPosAtIndex(int ix) const
     return positions.at(ix);
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView)
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
 {
     qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
     QWriteLocker locker(&m_lock);
@@ -339,17 +342,21 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
                     pos = qMax(pos, next.first + GenTime(1, pCore->getCurrentFps()));
                 }
             }
-            return moveOneKeyframe(oldPos, pos, newVal, undo, redo, updateView);
+            return moveOneKeyframe(oldPos, pos, newVal, undo, redo, updateView, allowedToFail);
         }
     }
     return false;
 }
 
-bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView)
+bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
 {
     qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_keyframeList.count(oldPos) > 0);
+    if (!allowedToFail) {
+        Q_ASSERT(m_keyframeList.count(oldPos) > 0);
+    } else if (m_keyframeList.count(oldPos) == 0) {
+        return true;
+    }
     if (oldPos == pos) {
         if (!newVal.isValid()) {
             // no change

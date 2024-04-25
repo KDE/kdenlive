@@ -50,6 +50,12 @@ template <typename Service> std::pair<int, int> MoveableItem<Service>::getInOut(
     return {getIn(), getOut()};
 }
 
+template <typename Service> int MoveableItem<Service>::assetRow(const QString &assetId) const
+{
+    Q_UNUSED(assetId);
+    return -1;
+}
+
 template <typename Service> int MoveableItem<Service>::getIn() const
 {
     READ_LOCK();

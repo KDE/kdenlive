@@ -47,7 +47,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     , m_blockWheel(false)
     , m_dragging(false)
 {
-    QString effectId = effectModel->getAssetId();
+    const QString effectId = effectModel->getAssetId();
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("selection-raise")));
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonUp->setWhatsThis(xi18nc(
@@ -90,6 +90,8 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     title->setToolTip(effectName);
     title->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     l->insertWidget(1, title);
+
+    updateGroupedInstances();
 
     keyframesButton->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
     keyframesButton->setCheckable(true);
@@ -280,6 +282,29 @@ CollapsibleEffectView::~CollapsibleEffectView()
     qDebug() << "deleting collapsibleeffectview";
 }
 
+void CollapsibleEffectView::updateGroupedInstances()
+{
+    int groupedInstances = 0;
+    if (KdenliveSettings::applyEffectParamsToGroup()) {
+        groupedInstances = pCore->getAssetGroupedInstance(m_model->getOwnerId(), m_model->getAssetId());
+    }
+    if (m_effectInstances) {
+        delete m_effectInstances;
+        m_effectInstances = nullptr;
+    }
+    if (groupedInstances > 1) {
+        auto *l = static_cast<QHBoxLayout *>(frame->layout());
+        m_effectInstances = new QLabel(this);
+        int h = (buttonUp->height() - 4) / 3;
+        m_effectInstances->setStyleSheet(QString("margin: 2px; padding: 0px; border-radius: %1px; background: #885500; color: #FFFFFF;").arg(h));
+        m_effectInstances->setText(QString::number(groupedInstances));
+        m_effectInstances->setToolTip(i18n("%1 instances of this effect in the group", groupedInstances));
+        m_effectInstances->setMargin(4);
+        m_effectInstances->setAutoFillBackground(true);
+        l->insertWidget(1, m_effectInstances);
+    }
+}
+
 void CollapsibleEffectView::setWidgetHeight(qreal value)
 {
     widgetFrame->setFixedHeight(int(m_view->contentHeight() * value));
@@ -425,17 +450,34 @@ void CollapsibleEffectView::wheelEvent(QWheelEvent *e)
     QWidget::wheelEvent(e);
 }
 
+void CollapsibleEffectView::leaveEvent(QEvent *event)
+{
+    QWidget::leaveEvent(event);
+    pCore->setWidgetKeyBinding(QString());
+}
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+void CollapsibleEffectView::enterEvent(QEvent *event)
+#else
+void CollapsibleEffectView::enterEvent(QEnterEvent *event)
+#endif
+{
+    QWidget::enterEvent(event);
+    pCore->setWidgetKeyBinding(
+        i18nc("@info:status",
+              "<b>Drag</b> effect to another timeline clip, track or project clip to copy it. <b>Alt Drag</b> to copy it to a single item in a group."));
+}
+
 void CollapsibleEffectView::mouseMoveEvent(QMouseEvent *e)
 {
-    qDebug() << "XXXX COLLAPSIBLE MOVE EVENT....";
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!m_dragging && (e->globalPos() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
 #else
     if (!m_dragging && (e->globalPosition().toPoint() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
 #endif
         m_dragging = true;
-        QPixmap pix = frame->grab();
-        Q_EMIT startDrag(pix, m_model->getAssetId(), m_model->getOwnerId(), m_model->row());
+        QPixmap pix = title->grab();
+        Q_EMIT startDrag(pix, m_model->getAssetId(), m_model->getOwnerId(), m_model->row(), e->modifiers() & Qt::AltModifier);
     }
     QWidget::mouseMoveEvent(e);
 }
@@ -465,7 +507,14 @@ void CollapsibleEffectView::slotDisable(bool disable)
 {
     QString effectId = m_model->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
-    std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(effectName, !disable);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(!disable, undo, redo);
+    if (KdenliveSettings::applyEffectParamsToGroup()) {
+        pCore->applyEffectDisableToGroup(m_model->getOwnerId(), effectId, disable, undo, redo);
+    }
+    redo();
+    pCore->pushUndo(undo, redo, disable ? i18n("Disable %1", effectName) : i18n("Enable %1", effectName));
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     Q_EMIT m_view->initKeyframeView(!disable);
     Q_EMIT activateEffect(m_model->row());

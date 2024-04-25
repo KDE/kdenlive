@@ -309,7 +309,7 @@ void EffectStackView::loadEffects()
         }
         const QString assetName = EffectsRepository::get()->getName(effectModel->getAssetId());
         view = new CollapsibleEffectView(assetName, effectModel, m_sourceFrameSize, this);
-        connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
+        connect(view, &CollapsibleEffectView::deleteEffect, this, &EffectStackView::slotDeleteEffect);
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
@@ -318,6 +318,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
         connect(this, &EffectStackView::blockWheelEvent, view, &CollapsibleEffectView::blockWheelEvent);
+        connect(this, &EffectStackView::updateEffectsGroupesInstances, view, &CollapsibleEffectView::updateGroupedInstances);
         connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
@@ -365,6 +366,15 @@ void EffectStackView::loadEffects()
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
 }
 
+void EffectStackView::slotDeleteEffect(const std::shared_ptr<EffectItemModel> &effect)
+{
+    if (KdenliveSettings::applyEffectParamsToGroup()) {
+        pCore->removeGroupEffect(m_model->getOwnerId(), effect->getAssetId());
+    } else {
+        m_model->removeEffect(effect);
+    }
+}
+
 void EffectStackView::updateTreeHeight()
 {
     // For some reason, the treeview height does not update correctly, so enforce it
@@ -388,13 +398,12 @@ void EffectStackView::updateTreeHeight()
     }
 }
 
-void EffectStackView::slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row)
+void EffectStackView::slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget)
 {
     auto *drag = new QDrag(this);
     drag->setPixmap(pix);
     auto *mime = new QMimeData;
     mime->setData(QStringLiteral("kdenlive/effect"), assetId.toUtf8());
-    // TODO this will break if source effect is not on the stack of a timeline clip
     QByteArray effectSource;
     effectSource += QString::number(int(sourceObject.type)).toUtf8();
     effectSource += ',';
@@ -407,6 +416,11 @@ void EffectStackView::slotStartDrag(const QPixmap pix, const QString assetId, Ob
     } else {
         // Keep a reference to the timeline model
         effectSource += pCore->currentTimelineId().toString().toUtf8();
+    }
+    if (singleTarget) {
+        effectSource += QStringLiteral(",1").toUtf8();
+    } else {
+        effectSource += QStringLiteral(",0").toUtf8();
     }
     mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
 

@@ -13,6 +13,8 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectstack/model/abstracteffectitem.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -696,13 +698,14 @@ void TimelineItemModel::rebuildMixer()
 bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
 {
     QStringList source = sourceId.split(QLatin1Char(','));
-    Q_ASSERT(m_allClips.count(clipId) && source.count() == 4);
+    Q_ASSERT(m_allClips.count(clipId) && source.count() == 5);
     int itemType = source.at(0).toInt();
     int itemId = source.at(1).toInt();
     int itemRow = source.at(2).toInt();
     const QUuid uuid(source.at(3));
+    bool singleTarget = source.at(4).toInt() == 1;
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(uuid, itemType, itemId);
-    if (m_singleSelectionMode && m_currentSelection.count(clipId)) {
+    if (!singleTarget && m_singleSelectionMode && m_currentSelection.count(clipId)) {
         // only operate on the selected item
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
@@ -713,7 +716,7 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
         }
         pCore->pushUndo(undo, redo, i18n("Copy effect"));
         return true;
-    } else if (m_groups->isInGroup(clipId)) {
+    } else if (!singleTarget && m_groups->isInGroup(clipId)) {
         int parentGroup = m_groups->getRootId(clipId);
         if (parentGroup > -1) {
             Fun undo = []() { return true; };
@@ -945,4 +948,179 @@ void TimelineItemModel::processTimelineReplacement(QList<int> instances, const Q
         };
         pCore->pushUndo(local_undo, local_redo, replaceAudio ? (replaceVideo ? i18n("Replace clip") : i18n("Replace audio")) : i18n("Replace video"));
     }
+}
+
+int TimelineItemModel::clipAssetGroupInstances(int cid, const QString &assetId)
+{
+    int gid = m_groups->getRootId(cid);
+    int count = 0;
+    if (gid > -1) {
+        std::unordered_set<int> sub = m_groups->getLeaves(gid);
+        for (auto &id : sub) {
+            if (isClip(id) && clipAssetRow(id, assetId) > -1) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+void TimelineItemModel::applyClipAssetGroupCommand(int cid, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
+                                                   QUndoCommand *command)
+{
+    int gid = m_groups->getRootId(cid);
+    if (gid > -1) {
+        std::unordered_set<int> sub;
+        if (m_singleSelectionMode && m_currentSelection.count(cid)) {
+            sub = m_currentSelection;
+        } else {
+            sub = m_groups->getLeaves(gid);
+        }
+        sub.erase(cid);
+        for (auto &id : sub) {
+            if (isClip(id)) {
+                int assetRow = clipAssetRow(id, assetId);
+                if (assetRow > -1) {
+                    const auto clip = getClipPtr(id);
+                    clip->m_effectStack->applyAssetCommand(assetRow, index, previousValue, value, command);
+                }
+            }
+        }
+    }
+}
+
+void TimelineItemModel::applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, const QModelIndex &index, GenTime pos,
+                                                           const QVariant &previousValue, const QVariant &value, int ix, QUndoCommand *command)
+{
+    int gid = m_groups->getRootId(cid);
+    if (gid > -1) {
+        std::unordered_set<int> sub;
+        if (m_singleSelectionMode && m_currentSelection.count(cid)) {
+            sub = m_currentSelection;
+        } else {
+            sub = m_groups->getLeaves(gid);
+        }
+        sub.erase(cid);
+        double fps = pCore->getCurrentFps();
+        for (auto &id : sub) {
+            if (isClip(id)) {
+                int assetRow = clipAssetRow(id, assetId);
+                if (assetRow > -1) {
+                    const auto clip = getClipPtr(id);
+                    clip->m_effectStack->applyAssetKeyframeCommand(assetRow, index, pos + GenTime(clip->getIn(), fps), previousValue, value, ix, command);
+                }
+            }
+        }
+    }
+}
+
+void TimelineItemModel::applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
+                                                                const QStringList &sourceValues, const QStringList &values, QUndoCommand *command)
+{
+    int gid = m_groups->getRootId(cid);
+    if (gid > -1) {
+        std::unordered_set<int> sub;
+        if (m_singleSelectionMode && m_currentSelection.count(cid)) {
+            sub = m_currentSelection;
+        } else {
+            sub = m_groups->getLeaves(gid);
+        }
+        sub.erase(cid);
+        double fps = pCore->getCurrentFps();
+        for (auto &id : sub) {
+            if (isClip(id)) {
+                int assetRow = clipAssetRow(id, assetId);
+                if (assetRow > -1) {
+                    const auto clip = getClipPtr(id);
+                    clip->m_effectStack->applyAssetMultiKeyframeCommand(assetRow, indexes, pos + GenTime(clip->getIn(), fps), sourceValues, values, command);
+                }
+            }
+        }
+    }
+}
+
+void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId)
+{
+    int gid = m_groups->getRootId(cid);
+    std::unordered_set<int> sub;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    if (gid > -1) {
+        if (m_singleSelectionMode && m_currentSelection.count(cid)) {
+            sub = m_currentSelection;
+        } else {
+            sub = m_groups->getLeaves(gid);
+        }
+    } else {
+        sub = {cid};
+    }
+    QString effectName;
+    for (auto &id : sub) {
+        if (isClip(id)) {
+            int assetRow = clipAssetRow(id, assetId);
+            if (assetRow > -1) {
+                const auto clip = getClipPtr(id);
+                clip->m_effectStack->removeEffectWithUndo(assetId, effectName, undo, redo);
+            }
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
+}
+
+void TimelineItemModel::disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo)
+{
+    int gid = m_groups->getRootId(cid);
+    std::unordered_set<int> sub;
+    if (gid > -1) {
+        if (m_singleSelectionMode && m_currentSelection.count(cid)) {
+            sub = m_currentSelection;
+        } else {
+            sub = m_groups->getLeaves(gid);
+        }
+    } else {
+        return;
+    }
+    for (auto &id : sub) {
+        if (id == cid) {
+            continue;
+        }
+        if (isClip(id)) {
+            int assetRow = clipAssetRow(id, assetId);
+            if (assetRow > -1) {
+                const auto clip = getClipPtr(id);
+                auto effect = clip->m_effectStack->getEffectStackRow(assetRow);
+                if (effect) {
+                    effect->markEnabled(!disable, undo, redo);
+                }
+            }
+        }
+    }
+}
+
+QList<std::shared_ptr<KeyframeModelList>> TimelineItemModel::getGroupKeyframeModels(int cid, const QString &assetId)
+{
+    QList<std::shared_ptr<KeyframeModelList>> models;
+    int gid = m_groups->getRootId(cid);
+    if (gid > -1) {
+        std::unordered_set<int> sub;
+        if (m_singleSelectionMode && m_currentSelection.count(cid)) {
+            sub = m_currentSelection;
+        } else {
+            sub = m_groups->getLeaves(gid);
+        }
+        sub.erase(cid);
+        for (auto &id : sub) {
+            if (isClip(id)) {
+                int assetRow = clipAssetRow(id, assetId);
+                if (assetRow > -1) {
+                    const auto clip = getClipPtr(id);
+                    auto mdl = clip->getKFModel(assetRow);
+                    if (mdl) {
+                        models << mdl;
+                    }
+                }
+            }
+        }
+    }
+    return models;
 }

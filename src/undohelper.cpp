@@ -28,6 +28,7 @@ void FunctionalUndoCommand::undo()
     m_undone = true;
     bool res = m_undo();
     Q_ASSERT(res);
+    QUndoCommand::undo();
 }
 
 void FunctionalUndoCommand::redo()
@@ -40,4 +41,5 @@ void FunctionalUndoCommand::redo()
         bool res = m_redo();
         Q_ASSERT(res);
     }
+    QUndoCommand::redo();
 }

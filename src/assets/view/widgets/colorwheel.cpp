@@ -232,7 +232,7 @@ void WheelContainer::mousePressEvent(QMouseEvent *event)
         m_sliderFocus = false;
         if (event->button() == Qt::LeftButton) {
             m_sourceColor = m_color;
-            changeColor(m_color, colorForPoint(m_lastPoint), false);
+            changeColor(m_sourceColor, colorForPoint(m_lastPoint), false);
         } else {
             // reset to default on middle/right button
             m_sourceColor = m_color;
@@ -385,10 +385,10 @@ void WheelContainer::paintEvent(QPaintEvent *event)
 void WheelContainer::drawWheel()
 {
     int r = wheelSize();
-    QPainter painter(&m_image);
+    QImage buffer = m_image;
+    buffer.fill(0); // transparent
+    QPainter painter(&buffer);
     painter.setRenderHint(QPainter::Antialiasing);
-    m_image.fill(0); // transparent
-
     QConicalGradient conicalGradient;
     conicalGradient.setColorAt(0.0, Qt::red);
     conicalGradient.setColorAt(60.0 / 360.0, Qt::yellow);
@@ -420,11 +420,13 @@ void WheelContainer::drawWheel()
 
     m_wheelRegion = QRegion(r / 2, r / 2, r - 2 * m_margin, r - 2 * m_margin, QRegion::Ellipse);
     m_wheelRegion.translate(-(r - 2 * m_margin) / 2, -(r - 2 * m_margin) / 2);
+    m_image = buffer;
 }
 
 void WheelContainer::drawSlider()
 {
-    QPainter painter(&m_image);
+    QImage buffer = m_image;
+    QPainter painter(&buffer);
     painter.setRenderHint(QPainter::Antialiasing);
     int pos = int(wheelSize() + m_unitSize * .2 + m_sliderBorder);
     qreal scale = qreal(pos + m_sliderWidth) / maximumWidth();
@@ -443,6 +445,7 @@ void WheelContainer::drawSlider()
     painter.translate(pos, m_margin + m_sliderBorder);
     painter.drawRoundedRect(QRect(0, 0, w, sliderHeight()), w / 3, w / 3);
     m_sliderRegion = QRegion(pos, m_margin + m_sliderBorder, w, sliderHeight() - m_margin);
+    m_image = buffer;
 }
 
 void WheelContainer::drawWheelDot(QPainter &painter)

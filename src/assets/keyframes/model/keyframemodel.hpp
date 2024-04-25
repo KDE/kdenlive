@@ -101,7 +101,7 @@ protected:
     bool removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo);
     QList<GenTime> getKeyframePos() const;
     /** @brief Same function but accumulates undo/redo */
-    bool removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify = true, bool updateSelection = true);
+    bool removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify = true, bool updateSelection = true, bool allowedToFail = false);
 
 public:
     /** @brief moves a keyframe
@@ -112,7 +112,7 @@ public:
     bool moveKeyframe(int oldPos, int pos, bool logUndo);
     bool offsetKeyframes(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView = true);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
 
     /** @brief updates the value of a keyframe
        @param old is the position of the keyframe
@@ -233,7 +233,7 @@ private:
     mutable QReadWriteLock m_lock;
 
     std::map<GenTime, std::pair<KeyframeType, QVariant>> m_keyframeList;
-    bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true);
+    bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
 
 Q_SIGNALS:
     void modelChanged();

@@ -100,7 +100,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     }
-    connect(m_label, SIGNAL(valueChanged(double, bool)), this, SLOT(setValueFromProgress(double, bool)));
+    connect(m_label, &CustomLabel::valueChanged, this, &DragValue::setValueFromProgress);
     connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
     setLayout(l);
     if (m_intEdit) {
@@ -298,17 +298,17 @@ void DragValue::slotSetValue(double value)
     setValue(value, true);
 }
 
-void DragValue::setValueFromProgress(double value, bool final)
+void DragValue::setValueFromProgress(double value, bool final, bool createUndoEntry)
 {
     value = m_minimum + value * (m_maximum - m_minimum) / m_label->maximum();
     if (m_decimals == 0) {
-        setValue(qRound(value), final);
+        setValue(qRound(value), final, createUndoEntry);
     } else {
-        setValue(value, final);
+        setValue(value, final, createUndoEntry);
     }
 }
 
-void DragValue::setValue(double value, bool final)
+void DragValue::setValue(double value, bool final, bool createUndoEntry)
 {
     value = qBound(m_minimum, value, m_maximum);
     if (m_intEdit && m_intEdit->singleStep() > 1) {
@@ -320,12 +320,12 @@ void DragValue::setValue(double value, bool final)
         m_intEdit->blockSignals(true);
         m_intEdit->setValue((int)value);
         m_intEdit->blockSignals(false);
-        Q_EMIT valueChanged((int)value, final);
+        Q_EMIT valueChanged((int)value, final, createUndoEntry);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(value);
         m_doubleEdit->blockSignals(false);
-        Q_EMIT valueChanged(value, final);
+        Q_EMIT valueChanged(value, final, createUndoEntry);
     }
 }
 
@@ -429,6 +429,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton) {
         m_dragStartPosition = m_dragLastPosition = e->pos();
+        m_clickValue = m_value;
         e->accept();
     } else if (e->button() == Qt::MiddleButton) {
         Q_EMIT resetValue();
@@ -468,7 +469,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                 }
                 double nv = m_value + diff * m_step;
                 if (!qFuzzyCompare(nv, m_value)) {
-                    setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+                    setNewValue(nv, KdenliveSettings::dragvalue_directupdate(), false);
                 }
             } else {
                 double nv;
@@ -481,7 +482,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                     if (m_step > 1) {
                         int current = (int)value();
                         int diff = (nv - current) / m_step;
-                        setNewValue(current + diff * m_step, true);
+                        setNewValue(current + diff * m_step, true, false);
                     } else {
                         if (e->modifiers() == Qt::ShiftModifier) {
                             double current = value();
@@ -491,7 +492,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
                                 nv = qMax((double)minimum(), current - 1);
                             }
                         }
-                        setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+                        setNewValue(nv, KdenliveSettings::dragvalue_directupdate(), false);
                     }
                 }
             }
@@ -515,7 +516,9 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
         return;
     }
     if (m_dragMode) {
-        setNewValue(m_value, true);
+        double newValue = m_value;
+        setNewValue(m_clickValue, true, false);
+        setNewValue(newValue, true, true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     } else if (m_showSlider) {
@@ -526,9 +529,9 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
         if (m_step > 1) {
             int current = (int)value();
             int diff = (newVal - current) / m_step;
-            setNewValue(current + diff * m_step, true);
+            setNewValue(current + diff * m_step, true, true);
         } else {
-            setNewValue(newVal, true);
+            setNewValue(newVal, true, true);
         }
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
@@ -561,12 +564,12 @@ void CustomLabel::wheelEvent(QWheelEvent *e)
 
 void CustomLabel::slotValueInc(double factor)
 {
-    setNewValue(m_value + m_step * factor, true);
+    setNewValue(m_value + m_step * factor, true, true);
 }
 
 void CustomLabel::slotValueDec(double factor)
 {
-    setNewValue(m_value - m_step * factor, true);
+    setNewValue(m_value - m_step * factor, true, true);
 }
 
 void CustomLabel::setProgressValue(double value)
@@ -575,11 +578,11 @@ void CustomLabel::setProgressValue(double value)
     setValue(qRound(value));
 }
 
-void CustomLabel::setNewValue(double value, bool update)
+void CustomLabel::setNewValue(double value, bool update, bool createUndoEntry)
 {
     m_value = value;
     setValue(qRound(value));
-    Q_EMIT valueChanged(value, update);
+    Q_EMIT valueChanged(value, update, createUndoEntry);
 }
 
 void CustomLabel::setStep(double step)

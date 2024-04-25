@@ -12,6 +12,7 @@ set(KdenliveTest_SOURCES
     compositiontest.cpp
     documenttest.cpp
     effectstest.cpp
+    effectsgrouptest.cpp
     filetest.cpp
     groupstest.cpp
     hidetest.cpp

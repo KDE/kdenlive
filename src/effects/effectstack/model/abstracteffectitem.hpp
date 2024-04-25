@@ -6,6 +6,7 @@
 #pragma once
 
 #include "abstractmodel/treeitem.hpp"
+#include "undohelper.hpp"
 #include <mlt++/MltFilter.h>
 
 enum class EffectItemType { Effect, Group };
@@ -20,7 +21,7 @@ public:
                        bool isEnabled = true);
 
     /** @brief This function change the individual enabled state of the effect, creating an undo/redo entry*/
-    void markEnabled(const QString &name, bool enabled);
+    void markEnabled(bool enabled, Fun &undo, Fun &redo);
     /** @brief This function directly change the individual enabled state of the effect */
     void setEnabled(bool enabled);
 

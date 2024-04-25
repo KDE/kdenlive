@@ -312,6 +312,19 @@ public:
     const QUuid currentTimelineId() const;
     /** @brief Update a sequence AV info (has audio/video) */
     void updateSequenceAVType(const QUuid &uuid, int tracksCount);
+    /** @brief If a clip is grouped, return the count of items using the same effect */
+    int getAssetGroupedInstance(const ObjectId &id, const QString &assetId);
+    /** @brief Apply an effect command on all clips in a group */
+    void groupAssetCommand(const ObjectId &id, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
+                           QUndoCommand *command);
+    void groupAssetKeyframeCommand(const ObjectId &id, const QString &assetId, const QModelIndex &index, GenTime pos, const QVariant &previousValue,
+                                   const QVariant &value, int ix, QUndoCommand *command);
+    void groupAssetMultiKeyframeCommand(const ObjectId &id, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
+                                        const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
+    /** @brief Remove all effect instances in a group */
+    void removeGroupEffect(const ObjectId &id, const QString &assetId);
+    /** @brief Disable/enable all instance of an effect in a group */
+    void applyEffectDisableToGroup(const ObjectId &id, const QString &assetId, bool disable, Fun &undo, Fun &redo);
     /** @brief Returns true if all ui elements have been initialized */
     bool guiReady() const;
     /** @brief A list of markers type categories {marker type, {color, category name}} */

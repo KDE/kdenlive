@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "timelinemodel.hpp"
 #include "undohelper.hpp"
 
@@ -89,6 +90,17 @@ public:
     void importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service);
     /** @brief Save the sequence properties in MLT tractor */
     void passSequenceProperties(const QMap<QString, QString> baseProperties);
+    /** @brief Return the count of items sharing a same effect in a group */
+    int clipAssetGroupInstances(int cid, const QString &assetId);
+    void applyClipAssetGroupCommand(int cid, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
+                                    QUndoCommand *command);
+    void applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, const QModelIndex &index, GenTime pos, const QVariant &previousValue,
+                                            const QVariant &value, int ix, QUndoCommand *command);
+    void applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
+                                                 const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
+    QList<std::shared_ptr<KeyframeModelList>> getGroupKeyframeModels(int cid, const QString &assetId);
+    void removeEffectFromGroup(int cid, const QString &assetId);
+    void disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo);
 
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
