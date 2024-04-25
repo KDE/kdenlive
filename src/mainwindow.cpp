@@ -2443,10 +2443,10 @@ void MainWindow::slotUpdateProjectDuration(int duration)
     }
 }
 
-void MainWindow::slotUpdateZoneDuration(int duration)
+void MainWindow::slotUpdateZoneDuration()
 {
     if (m_renderWidget) {
-        m_renderWidget->zoneDurationChanged(duration);
+        m_renderWidget->zoneDurationChanged();
     }
 }
 
