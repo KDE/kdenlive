@@ -988,10 +988,9 @@ Rectangle {
                     id: offsetRect
                     color: 'darkgreen'
                     width: offsetLabel.width + radius
-                    height: offsetLabel.height
+                    height: labelRect.height
                     radius: height/3
-                    x: labelRect.width + 4
-                    y: 2
+                    anchors.left: proxyRect.visible ? proxyRect.right : labelRect.right
                     visible: labelRect.visible && positionOffset != 0
                     MouseArea {
                         id: offsetArea
@@ -1003,6 +1002,7 @@ Rectangle {
                         }
                         onEntered: {
                             var text = positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
+                            text += i18n(" <b>Click</b> to align clips")
                             timeline.showToolTip(text)
                         }
                         onExited: {
