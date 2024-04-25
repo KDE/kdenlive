@@ -48,6 +48,7 @@ public:
     /** @brief Copy an existing effect and append it at the bottom of the stack
      */
     bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo = true);
+    bool copyEffectWithUndo(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo);
     bool copyXmlEffect(const QDomElement &effect);
     bool copyXmlEffectWithUndo(const QDomElement &effect, Fun &undo, Fun &redo);
     /** @brief Import all effects from the given effect stack
@@ -132,8 +133,8 @@ public:
     /** @brief This is a convenience function that helps check if the tree is in a valid state */
     bool checkConsistency() override;
 
-    /** @brief Return true if an asset id is already added to this effect stack */
-    bool hasEffect(const QString &assetId) const;
+    /** @brief Return the row of the effect in the stack, -1 if not */
+    int effectRow(const QString &assetId) const;
 
     /** @brief Remove all effects for this stack */
     void removeAllEffects(Fun &undo, Fun &redo);
@@ -144,9 +145,21 @@ public:
     /** @brief Copy all Kdenlive effects of this track on a producer */
     void passEffects(Mlt::Producer *producer, const QString &exception = QString());
 
+    void applyAssetCommand(int row, const QModelIndex &index, const QString &previousValue, QString value, QUndoCommand *command);
+    void applyAssetKeyframeCommand(int row, const QModelIndex &index, GenTime pos, const QVariant &previousValue, QVariant value, int ix,
+                                   QUndoCommand *command);
+    void applyAssetMultiKeyframeCommand(int row, const QList<QModelIndex> &indexes, GenTime pos, const QStringList &sourceValues, const QStringList &values,
+                                        QUndoCommand *command);
+
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */
     void removeEffect(const std::shared_ptr<EffectItemModel> &effect);
+    /** @brief Delete an effect from the stack
+        @param effect The effect to be deleted
+        @param effectName Will be set to the effect name
+    */
+    void removeEffectWithUndo(const QString &assetId, QString &effectName, Fun &undo, Fun &redo);
+    void removeEffectWithUndo(const std::shared_ptr<EffectItemModel> &effect, QString &effectName, Fun &undo, Fun &redo);
     /** @brief Move an effect in the stack */
     void moveEffectByRow(int destRow, int srcRow);
 

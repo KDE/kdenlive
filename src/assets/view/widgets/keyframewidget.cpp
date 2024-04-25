@@ -550,9 +550,9 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
-        connect(geomWidget, &GeometryWidget::valueChanged, this, [this, index](const QString &v) {
+        connect(geomWidget, &GeometryWidget::valueChanged, this, [this, index](const QString &v, int ix) {
             Q_EMIT activateEffect();
-            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), ix, index);
         });
         connect(geomWidget, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
             if (m_model->isActive()) {
@@ -591,7 +591,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         colorWidget->setToolTip(comment);
         connect(colorWidget, &ChooseColorWidget::modified, this, [this, index, alphaEnabled](const QColor &color) {
             Q_EMIT activateEffect();
-            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(QColorUtils::colorToString(color, alphaEnabled)), index);
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(QColorUtils::colorToString(color, alphaEnabled)), -1, index);
         });
         paramWidget = colorWidget;
 
@@ -636,7 +636,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                                              m_model->data(index, AssetParameterModel::OddRole).toBool(), this);
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
             Q_EMIT activateEffect();
-            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), -1, index);
         });
         doubleWidget->setDragObjectName(QString::number(index.row()));
         paramWidget = doubleWidget;
@@ -713,7 +713,7 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
             // First add keyframe at start of the clip
             GenTime pos0(pCore->getItemIn(m_model->getOwnerId()), pCore->getCurrentFps());
             m_keyframes->addKeyframe(pos0, KeyframeType::Linear);
-            m_keyframes->updateKeyframe(pos0, res, index);
+            m_keyframes->updateKeyframe(pos0, res, -1, index);
             // For rotoscoping, don't add a second keyframe at cursor pos
             auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
             if (type == ParamType::Roto_spline) {
@@ -722,14 +722,14 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
         }
         // Next add keyframe at playhead position
         m_keyframes->addKeyframe(pos, KeyframeType::Linear);
-        m_keyframes->updateKeyframe(pos, res, index);
+        m_keyframes->updateKeyframe(pos, res, -1, index);
     } else if (m_keyframes->hasKeyframe(getPosition()) || m_keyframes->singleKeyframe()) {
         GenTime pos(getPosition(), pCore->getCurrentFps());
         // Auto add keyframe only if there already is more than 1 keyframe
         if (!m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == MonitorSceneType::MonitorSceneRoto) {
             m_keyframes->addKeyframe(pos, KeyframeType::Linear);
         }
-        m_keyframes->updateKeyframe(pos, res, index);
+        m_keyframes->updateKeyframe(pos, res, -1, index);
     } else {
         qDebug() << "==== NO KFR AT: " << getPosition();
     }

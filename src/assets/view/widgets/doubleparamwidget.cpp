@@ -34,7 +34,8 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     setMinimumHeight(m_doubleWidget->height());
 
     // Connect signal
-    connect(m_doubleWidget, &DoubleWidget::valueChanged, this, [this](double val) { Q_EMIT valueChanged(m_index, QString::number(val, 'f'), true); });
+    connect(m_doubleWidget, &DoubleWidget::valueChanged, this,
+            [this](double val, bool createUndoEntry) { Q_EMIT valueChanged(m_index, QString::number(val, 'f'), createUndoEntry); });
     slotRefresh();
 }
 

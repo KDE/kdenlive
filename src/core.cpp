@@ -1460,6 +1460,120 @@ void Core::updateSequenceAVType(const QUuid &uuid, int tracksCount)
     }
 }
 
+int Core::getAssetGroupedInstance(const ObjectId &id, const QString &assetId)
+{
+    switch (id.type) {
+    case KdenliveObjectType::TimelineClip:
+        return currentDoc()->getTimeline(id.uuid)->clipAssetGroupInstances(id.itemId, assetId);
+    case KdenliveObjectType::BinClip:
+        return bin()->clipAssetGroupInstances(id.itemId, assetId);
+    default:
+        return 0;
+    }
+}
+
+void Core::groupAssetCommand(const ObjectId &id, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
+                             QUndoCommand *command)
+{
+    if (KdenliveSettings::applyEffectParamsToGroup()) {
+        switch (id.type) {
+        case KdenliveObjectType::TimelineClip:
+            if (auto tl = currentDoc()->getTimeline(id.uuid)) {
+                tl->applyClipAssetGroupCommand(id.itemId, assetId, index, previousValue, value, command);
+            }
+            break;
+        case KdenliveObjectType::BinClip:
+            if (bin() != nullptr) {
+                bin()->applyClipAssetGroupCommand(id.itemId, assetId, index, previousValue, value, command);
+            }
+            break;
+        default:
+            // Nothing to do
+            return;
+        }
+    }
+}
+
+void Core::groupAssetKeyframeCommand(const ObjectId &id, const QString &assetId, const QModelIndex &index, GenTime pos, const QVariant &previousValue,
+                                     const QVariant &value, int ix, QUndoCommand *command)
+{
+    if (KdenliveSettings::applyEffectParamsToGroup()) {
+        switch (id.type) {
+        case KdenliveObjectType::TimelineClip:
+            if (auto tl = currentDoc()->getTimeline(id.uuid)) {
+                pos -= GenTime(tl->getClipIn(id.itemId), getCurrentFps());
+                tl->applyClipAssetGroupKeyframeCommand(id.itemId, assetId, index, pos, previousValue, value, ix, command);
+            }
+            break;
+        case KdenliveObjectType::BinClip:
+            if (bin() != nullptr) {
+                bin()->applyClipAssetGroupKeyframeCommand(id.itemId, assetId, index, pos, previousValue, value, ix, command);
+            }
+            break;
+        default:
+            return;
+        }
+    }
+}
+
+void Core::groupAssetMultiKeyframeCommand(const ObjectId &id, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
+                                          const QStringList &sourceValues, const QStringList &values, QUndoCommand *command)
+{
+    if (KdenliveSettings::applyEffectParamsToGroup()) {
+        switch (id.type) {
+        case KdenliveObjectType::TimelineClip:
+            if (auto tl = currentDoc()->getTimeline(id.uuid)) {
+                pos -= GenTime(tl->getClipIn(id.itemId), getCurrentFps());
+                tl->applyClipAssetGroupMultiKeyframeCommand(id.itemId, assetId, indexes, pos, sourceValues, values, command);
+            }
+            break;
+        case KdenliveObjectType::BinClip:
+            if (bin() != nullptr) {
+                bin()->applyClipAssetGroupMultiKeyframeCommand(id.itemId, assetId, indexes, pos, sourceValues, values, command);
+            }
+            break;
+        default:
+            return;
+        }
+    }
+}
+
+void Core::removeGroupEffect(const ObjectId &id, const QString &assetId)
+{
+    switch (id.type) {
+    case KdenliveObjectType::TimelineClip:
+        if (auto tl = currentDoc()->getTimeline(id.uuid)) {
+            tl->removeEffectFromGroup(id.itemId, assetId);
+        }
+        break;
+    case KdenliveObjectType::BinClip:
+        if (bin() != nullptr) {
+            bin()->removeEffectFromGroup(assetId);
+        }
+        break;
+    default:
+        return;
+    }
+}
+
+void Core::applyEffectDisableToGroup(const ObjectId &id, const QString &assetId, bool disable, Fun &undo, Fun &redo)
+{
+    switch (id.type) {
+    case KdenliveObjectType::TimelineClip:
+        if (auto tl = currentDoc()->getTimeline(id.uuid)) {
+            tl->disableEffectFromGroup(id.itemId, assetId, disable, undo, redo);
+        }
+        break;
+    case KdenliveObjectType::BinClip:
+        if (bin() != nullptr) {
+            bin()->disableEffectFromGroup(id.itemId, assetId, disable, undo, redo);
+        }
+        break;
+    default:
+        return;
+    }
+}
+
 bool Core::guiReady() const
 {
     return m_guiConstructed;

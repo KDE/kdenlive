@@ -943,7 +943,7 @@ void KeyframeView::copyCurrentValue(const QModelIndex &ix, const QString &paramN
         } else if (multiParams) {
             parentCommand->setText(i18n("Update keyframes value"));
         }
-        bool result = m_model->updateKeyframe(m_model->getPosAtIndex(kfrIx), newVal, ix, parentCommand);
+        bool result = m_model->updateKeyframe(m_model->getPosAtIndex(kfrIx), newVal, -1, ix, parentCommand);
         if (result) {
             pCore->displayMessage(i18n("Keyframe value copied"), InformationMessage);
         }

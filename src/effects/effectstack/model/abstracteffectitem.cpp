@@ -20,18 +20,18 @@ AbstractEffectItem::AbstractEffectItem(EffectItemType type, const QList<QVariant
 {
 }
 
-void AbstractEffectItem::markEnabled(const QString &name, bool enabled)
+void AbstractEffectItem::markEnabled(bool enabled, Fun &undo, Fun &redo)
 {
-    Fun undo = [this, enabled]() {
+    Fun local_undo = [this, enabled]() {
         setEnabled(!enabled);
         return true;
     };
-    Fun redo = [this, enabled]() {
+    Fun local_redo = [this, enabled]() {
         setEnabled(enabled);
         return true;
     };
-    redo();
-    pCore->pushUndo(undo, redo, enabled ? i18n("Enable %1", name) : i18n("Disable %1", name));
+    PUSH_LAMBDA(local_undo, undo);
+    PUSH_LAMBDA(local_redo, redo);
 }
 
 void AbstractEffectItem::setEnabled(bool enabled)

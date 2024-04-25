@@ -82,10 +82,10 @@ void DoubleWidget::enableEdit(bool enable)
     m_dragVal->setEnabled(enable);
 }
 
-void DoubleWidget::slotSetValue(double value, bool final)
+void DoubleWidget::slotSetValue(double value, bool final, bool createUndoEntry)
 {
     if (final) {
-        Q_EMIT valueChanged(value / m_factor);
+        Q_EMIT valueChanged(value / m_factor, createUndoEntry);
     }
 }
 

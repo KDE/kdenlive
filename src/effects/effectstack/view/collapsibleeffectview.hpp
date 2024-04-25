@@ -91,6 +91,8 @@ public Q_SLOTS:
     void switchCollapsed(int row);
     /** @brief Open a save effect dialog */
     void slotSaveEffect();
+    /** @brief Show hide the count of grouped instances for this effect */
+    void updateGroupedInstances();
 
 private Q_SLOTS:
     void setWidgetHeight(qreal value);
@@ -118,6 +120,7 @@ private:
     ItemInfo m_itemInfo;
     QDomElement m_original_effect;
     QList<QDomElement> m_subEffects;
+    QLabel *m_effectInstances{nullptr};
     QMenu *m_menu;
     bool m_isMovable;
     bool m_blockWheel;
@@ -138,6 +141,12 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *e) override;
     void wheelEvent(QWheelEvent *e) override;
+    void leaveEvent(QEvent *event) override;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    void enterEvent(QEvent *event) override;
+#else
+    void enterEvent(QEnterEvent *event) override;
+#endif
     void mouseReleaseEvent(QMouseEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
@@ -162,7 +171,7 @@ Q_SIGNALS:
     void deleteGroup(const QDomDocument &);
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
-    void startDrag(const QPixmap, const QString assetId, ObjectId sourceObject, int row);
+    void startDrag(const QPixmap, const QString assetId, ObjectId sourceObject, int row, bool singleTargetDrag);
     void activateEffect(int row);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     void refresh();

@@ -1044,6 +1044,15 @@ bool ClipController::addEffect(const QString &effectId, stringMap params)
     return m_effectStack->appendEffect(effectId, true, params);
 }
 
+bool ClipController::copyEffectWithUndo(const std::shared_ptr<EffectStackModel> &stackModel, int rowId, Fun &undo, Fun &redo)
+{
+    return m_effectStack->copyEffectWithUndo(stackModel->getEffectStackRow(rowId),
+                                             !m_hasAudio   ? PlaylistState::VideoOnly
+                                             : !m_hasVideo ? PlaylistState::AudioOnly
+                                                           : PlaylistState::Disabled,
+                                             undo, redo);
+}
+
 bool ClipController::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId),

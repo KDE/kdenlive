@@ -21,6 +21,7 @@ public:
     void undo() override;
     void redo() override;
     int id() const override;
+    ObjectId owner() const;
     bool mergeWith(const QUndoCommand *other) override;
 
 private:

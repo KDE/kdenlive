@@ -153,6 +153,7 @@ public:
     Mlt::Properties &properties();
     void mirrorOriginalProperties(std::shared_ptr<Mlt::Properties> props);
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
+    bool copyEffectWithUndo(const std::shared_ptr<EffectStackModel> &stackModel, int rowId, Fun &undo, Fun &redo);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns true if the clip contains at least one audio stream */

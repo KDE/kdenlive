@@ -40,10 +40,11 @@ private:
     bool m_showSlider;
     double m_step;
     double m_value;
-    void setNewValue(double, bool);
+    double m_clickValue;
+    void setNewValue(double value, bool directUpdate, bool createUndoEntry);
 
 Q_SIGNALS:
-    void valueChanged(double, bool);
+    void valueChanged(double value, bool directUpdate, bool createUndoEntry);
     void setInTimeline();
     void resetValue();
 };
@@ -100,13 +101,13 @@ public:
 
 public Q_SLOTS:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
-    void setValue(double value, bool final = true);
-    void setValueFromProgress(double value, bool final);
+    void setValue(double value, bool final = true, bool createUndoEntry = true);
+    void setValueFromProgress(double value, bool final, bool createUndoEntry);
     /** @brief Resets to default value */
     void slotReset();
 
 Q_SIGNALS:
-    void valueChanged(double value, bool final = true);
+    void valueChanged(double value, bool final = true, bool createUndoEntry = true);
     void inTimeline(int);
 
     /*

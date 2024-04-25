@@ -169,8 +169,12 @@ void AssetParameterView::disableCurrentFilter(bool disable)
 void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value, bool storeUndo)
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
+    const QString previousValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
     auto *command = new AssetCommand(m_model, index, value);
     if (storeUndo && m_model->getOwnerId().itemId != -1) {
+        if (m_model->getOwnerId().type == KdenliveObjectType::TimelineClip || m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
+            pCore->groupAssetCommand(m_model->getOwnerId(), m_model->getAssetId(), index, previousValue, value, command);
+        }
         pCore->pushUndo(command);
     } else {
         command->redo();
