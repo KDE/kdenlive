@@ -426,7 +426,7 @@ const QVector<double> MediaCapture::recLevels() const
 
 bool MediaCapture::isMonitoring() const
 {
-    return m_audioSource || isRecording();
+    return m_audioInput || isRecording();
 }
 
 MediaCapture::~MediaCapture() = default;
