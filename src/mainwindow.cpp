@@ -2542,6 +2542,8 @@ void MainWindow::connectDocument()
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     pCore->guidesList()->reset();
+    // Initialize audio mixer
+    getCurrentTimeline()->model()->rebuildMixer();
     getCurrentTimeline()->focusTimeline();
 }
 
@@ -5123,8 +5125,6 @@ void MainWindow::connectTimeline()
     qDebug() << "::::::::::: connecting timeline: " << getCurrentTimeline()->getUuid() << ", DUR: " << getCurrentTimeline()->controller()->duration();
     if (!getCurrentTimeline()->model()) {
         qDebug() << "::::::::::: TIMELINE HAS NO MODEL";
-    } else {
-        getCurrentTimeline()->model()->rebuildMixer();
     }
     // We just switched timeline, ensure a monitor effects view does not remain from previous
     m_projectMonitor->resetScene();
@@ -5170,6 +5170,8 @@ void MainWindow::connectTimeline()
 
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
+    // Initialize audio mixer
+    getCurrentTimeline()->model()->rebuildMixer();
 
     // Audio record actions
     connect(pCore.get(), &Core::finalizeRecording, getCurrentTimeline()->controller(), &TimelineController::finishRecording);

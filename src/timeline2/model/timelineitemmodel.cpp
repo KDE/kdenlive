@@ -686,7 +686,6 @@ void TimelineItemModel::rebuildMixer()
         if ((*it)->isAudioTrack()) {
             pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()),
                                           (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
-            connect(pCore->mixer(), &MixerManager::showEffectStack, this, &TimelineItemModel::showTrackEffectStack);
             if ((*it)->getProperty("kdenlive:audio_rec").toInt() == 1) {
                 pCore->mixer()->monitorAudio((*it)->getId(), true);
             }
@@ -758,14 +757,11 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             }
         }
     }
-    QString composite = TransitionsRepository::get()->getCompositingTransition();
-    bool hasMixer = pCore->mixer() != nullptr;
     if (m_closing) {
         field->unlock();
         return;
-    } else if (hasMixer) {
-        pCore->mixer()->cleanup();
     }
+    QString composite = TransitionsRepository::get()->getCompositingTransition();
     int videoTracks = 0;
     int audioTracks = 0;
     while (it != m_allTracks.cend()) {
@@ -788,15 +784,13 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);
             audioTracks++;
-            if (hasMixer) {
-                pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()),
-                                              (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
-                connect(pCore->mixer(), &MixerManager::showEffectStack, this, &TimelineItemModel::showTrackEffectStack);
-            }
         }
         ++it;
     }
     field->unlock();
+    if (rebuild) {
+        rebuildMixer();
+    }
     // Update sequence clip's AV status
     int currentClipType = m_tractor->get_int("kdenlive:clip_type");
     int newClipType = audioTracks > 0 ? (videoTracks > 0 ? 0 : 1) : 2;
