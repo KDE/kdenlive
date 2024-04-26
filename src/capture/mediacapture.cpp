@@ -306,6 +306,7 @@ void MediaCapture::switchMonitorState(bool run)
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (run) {
         // Start monitoring audio
+        setAudioCaptureDevice();
         QAudioFormat format;
         format.setSampleRate(KdenliveSettings::audiocapturesamplerate());
         format.setChannelCount(KdenliveSettings::audiocapturechannels());
@@ -660,18 +661,17 @@ QUrl MediaCapture::getCaptureOutputLocation()
 
 QStringList MediaCapture::getAudioCaptureDevices()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    std::unique_ptr<QAudioRecorder> audioRecorder = std::make_unique<QAudioRecorder>(this);
-    QStringList audioDevices = audioRecorder->audioInputs();
-    audioRecorder.reset();
-    return audioDevices;
-#else
     QStringList audioDevices = {};
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    const auto deviceInfos = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
+    std::transform(deviceInfos.begin(), deviceInfos.end(), std::back_inserter(audioDevices),
+                   [](const QAudioDeviceInfo &audioDevice) -> QString { return audioDevice.deviceName(); });
+#else
     QList<QAudioDevice> audioInputs = QMediaDevices::audioInputs();
     std::transform(audioInputs.begin(), audioInputs.end(), std::back_inserter(audioDevices),
                    [](const QAudioDevice &audioDevice) -> QString { return audioDevice.description(); });
-    return audioDevices;
 #endif
+    return audioDevices;
 }
 
 void MediaCapture::setAudioCaptureDevice()
