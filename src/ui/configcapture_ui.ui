@@ -6,6 +6,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </author>
  <class>ConfigCapture_UI</class>
  <widget class="QWidget" name="ConfigCapture_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>557</width>
+    <height>974</height>
+   </rect>
+  </property>
   <layout class="QGridLayout" name="gridLayout_8">
    <property name="topMargin">
     <number>0</number>
@@ -533,7 +541,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QComboBox" name="kcfg_defaultaudiocapture"/>
+        <widget class="QComboBox" name="defaultaudiocapture"/>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_2">
@@ -637,7 +645,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>kcfg_grab_height</tabstop>
   <tabstop>kcfg_decklink_capturedevice</tabstop>
   <tabstop>kcfg_decklink_filename</tabstop>
-  <tabstop>kcfg_defaultaudiocapture</tabstop>
+  <tabstop>defaultaudiocapture</tabstop>
   <tabstop>kcfg_audiocapturevolume</tabstop>
   <tabstop>audiocapturechannels</tabstop>
   <tabstop>audiocapturesamplerate</tabstop>
