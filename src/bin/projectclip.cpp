@@ -892,10 +892,18 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
 void ProjectClip::createDisabledMasterProducer()
 {
     if (!m_disabledProducer) {
-        m_disabledProducer = cloneProducer();
+        if (m_clipType == ClipType::Timeline) {
+            // Use dummy placeholder color clip
+            m_disabledProducer = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(pCore->getProjectProfile(), "color", "red"));
+            Mlt::Properties original(m_masterProducer->get_properties());
+            Mlt::Properties target(m_disabledProducer->get_properties());
+            target.pass_list(original, "kdenlive:id,kdenlive:duration,kdenlive:maxduration,length");
+        } else {
+            m_disabledProducer = cloneProducer();
+            m_effectStack->addService(m_disabledProducer);
+        }
         m_disabledProducer->set("set.test_audio", 1);
         m_disabledProducer->set("set.test_image", 1);
-        m_effectStack->addService(m_disabledProducer);
     }
 }
 
@@ -1122,12 +1130,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         }
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
-        int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-        std::shared_ptr<Mlt::Producer> prod(m_disabledProducer->cut(-1, duration > 0 ? duration - 1 : -1));
-        if (m_clipType == ClipType::Timeline && m_videoProducers[trackId]->parent().property_exists("kdenlive:maxduration")) {
-            int max = m_videoProducers[trackId]->parent().get_int("kdenlive:maxduration");
-            prod->set("kdenlive:maxduration", max);
-            prod->set("length", max);
+        int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration")) - 1;
+        std::shared_ptr<Mlt::Producer> prod(m_disabledProducer->cut(-1, duration > 0 ? duration : -1));
+        if (m_clipType == ClipType::Timeline) {
+            prod->set("set.test_audio", 1);
+            prod->set("set.test_image", 1);
         }
         return prod;
     }
