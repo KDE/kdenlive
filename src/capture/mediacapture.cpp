@@ -270,6 +270,7 @@ void MediaCapture::switchMonitorState(int tid, bool run)
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0) 
 void MediaCapture::initializeAudioSetup()
 {
+    setAudioCaptureDevice();
     QAudioFormat format;
     format.setSampleRate(KdenliveSettings::audiocapturesamplerate());
     format.setChannelCount(KdenliveSettings::audiocapturechannels());
@@ -278,12 +279,13 @@ void MediaCapture::initializeAudioSetup()
     //        format.setByteOrder(QAudioFormat::LittleEndian);
     //        format.setCodec("audio/pcm");
     QAudioDevice deviceInfo = QMediaDevices::defaultAudioInput();
-    if (!m_audioDevice.isEmpty()) {
+    if (!m_audioDevice.isEmpty() && m_audioDevice != QLatin1String("default:")) {
         const auto deviceInfos = QMediaDevices::audioInputs();
         for (const QAudioDevice &devInfo : deviceInfos) {
-            qDebug() << "Device name: " << devInfo.description();
+            qDebug() << "Found device : " << devInfo.description();
             if (devInfo.description() == m_audioDevice) {
                 deviceInfo = devInfo;
+                qDebug() << "Monitoring using device : " << devInfo.description();
                 break;
             }
         }
@@ -315,8 +317,9 @@ void MediaCapture::switchMonitorState(bool run)
         if (!m_audioDevice.isEmpty()) {
             const auto deviceInfos = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
             for (const QAudioDeviceInfo &devInfo : deviceInfos) {
-                qDebug() << "Device name: " << devInfo.deviceName();
+                qDebug() << "Found device : " << devInfo.deviceName();
                 if (devInfo.deviceName() == m_audioDevice) {
+                    qDebug() << "Monitoring using device : " << devInfo.deviceName();
                     deviceInfo = devInfo;
                     break;
                 }
@@ -369,7 +372,7 @@ void MediaCapture::switchMonitorState(bool run)
 #else
     if (run) {
         // Start monitoring audio
-        this->initializeAudioSetup();
+        initializeAudioSetup();
         QObject::connect(m_audioInfo.data(), &AudioDevInfo::levelChanged, m_audioInput.get(), [&](const QVector<qreal> &level) {
             m_levels = level;
             if (m_recordState == QMediaRecorder::RecordingState) {
@@ -423,7 +426,7 @@ const QVector<double> MediaCapture::recLevels() const
 
 bool MediaCapture::isMonitoring() const
 {
-    return isRecording();
+    return m_audioSource || isRecording();
 }
 
 MediaCapture::~MediaCapture() = default;
@@ -529,12 +532,11 @@ void MediaCapture::recordAudio(int tid, bool record)
 
     if (record && m_mediaRecorder->recorderState() == QMediaRecorder::StoppedState) {
         if (!m_audioSource) {
-            this->initializeAudioSetup();
+            initializeAudioSetup();
         }
         m_recTimer.invalidate();
         m_resetTimer.stop();
         m_readyForRecord = true;
-        setAudioCaptureDevice();
         m_mediaCapture->setAudioInput(m_audioInput.get());
         m_mediaCapture->setRecorder(m_mediaRecorder.get());
         setCaptureOutputLocation();

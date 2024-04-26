@@ -210,15 +210,11 @@ bool KdenliveSettingsDialog::initAudioRecDevice()
     // show a hint to the user to know what to check for in case the device list are empty (common issue)
     m_configCapture.labelNoAudioDevices->setVisible(audioDevices.empty());
 
-    m_configCapture.kcfg_defaultaudiocapture->addItems(audioDevices);
-    connect(m_configCapture.kcfg_defaultaudiocapture, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() {
-        QString currentDevice = m_configCapture.kcfg_defaultaudiocapture->currentText();
-        KdenliveSettings::setDefaultaudiocapture(currentDevice);
-    });
+    m_configCapture.defaultaudiocapture->addItems(audioDevices);
     QString selectedDevice = KdenliveSettings::defaultaudiocapture();
-    int selectedIndex = m_configCapture.kcfg_defaultaudiocapture->findText(selectedDevice);
+    int selectedIndex = m_configCapture.defaultaudiocapture->findText(selectedDevice);
     if (!selectedDevice.isEmpty() && selectedIndex > -1) {
-        m_configCapture.kcfg_defaultaudiocapture->setCurrentIndex(selectedIndex);
+        m_configCapture.defaultaudiocapture->setCurrentIndex(selectedIndex);
     }
     return true;
 }
@@ -1110,6 +1106,12 @@ void KdenliveSettingsDialog::updateSettings()
         Q_EMIT updateFullScreenGrab();
     }
 
+    bool audioRecDeviceChanged = false;
+    if (m_configCapture.defaultaudiocapture->currentText() != KdenliveSettings::defaultaudiocapture()) {
+        KdenliveSettings::setDefaultaudiocapture(m_configCapture.defaultaudiocapture->currentText());
+        audioRecDeviceChanged = true;
+    }
+
     // Check audio capture changes
     if (KdenliveSettings::audiocapturechannels() != m_configCapture.audiocapturechannels->currentData().toInt() ||
         KdenliveSettings::audiocapturevolume() != m_configCapture.kcfg_audiocapturevolume->value() ||
@@ -1117,7 +1119,9 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setAudiocapturechannels(m_configCapture.audiocapturechannels->currentData().toInt());
         KdenliveSettings::setAudiocapturevolume(m_configCapture.kcfg_audiocapturevolume->value());
         KdenliveSettings::setAudiocapturesamplerate(m_configCapture.audiocapturesamplerate->currentData().toInt());
-        Q_EMIT resetAudioMonitoring();
+        pCore->resetAudioMonitoring();
+    } else if (audioRecDeviceChanged) {
+        pCore->resetAudioMonitoring();
     }
 
     // Check encoding profiles

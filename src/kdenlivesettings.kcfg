@@ -694,7 +694,6 @@
 
   </group>
 
-
   <group name="capture">
     <entry name="defaultaudiocapture" type="String">
       <label>Default audio capture system.</label>
