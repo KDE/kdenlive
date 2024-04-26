@@ -2242,3 +2242,8 @@ void ProjectManager::handleLog(const QString &message)
 {
     m_mltWarnings << message;
 }
+
+void ProjectManager::showTrackEffectStack(int tid)
+{
+    m_activeTimelineModel->showTrackEffectStack(tid);
+}

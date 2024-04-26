@@ -270,6 +270,7 @@ void Core::buildDocks()
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
     connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
     m_mixerWidget->checkAudioLevelVersion();
+    connect(m_mixerWidget, &MixerManager::showEffectStack, m_projectManager, &ProjectManager::showTrackEffectStack);
 
     // Media Browser
     m_mediaBrowser = new MediaBrowser(m_mainWindow);

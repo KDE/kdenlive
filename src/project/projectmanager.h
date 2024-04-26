@@ -221,6 +221,8 @@ public Q_SLOTS:
     void seekTimeline(const QString &frameAndTrack);
     /** @brief Create a sequence clip from timeline selection. */
     void slotCreateSequenceFromSelection();
+    /** @brief Show a track effect stack. */
+    void showTrackEffectStack(int tid);
 
 private Q_SLOTS:
     void slotRevert();
