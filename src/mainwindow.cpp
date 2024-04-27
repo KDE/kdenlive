@@ -4797,12 +4797,12 @@ bool MainWindow::eventFilter(QObject *object, QEvent *event)
     switch (event->type()) {
     case QEvent::ShortcutOverride:
         if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
-            if (pCore->isMediaMonitoring()) {
-                slotShowTrackRec(false);
-                return true;
-            }
             if (pCore->isMediaCapturing()) {
                 pCore->switchCapture();
+                return true;
+            }
+            if (pCore->isMediaMonitoring()) {
+                slotShowTrackRec(false);
                 return true;
             }
             if (m_commandStack && m_commandStack->activeStack()) {
