@@ -6,16 +6,14 @@
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 
-#include <QApplication>
-#include <mlt++/MltFactory.h>
-#include <mlt++/MltRepository.h>
-#define private public
-#define protected public
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "mltconnection.h"
 #include "src/effects/effectsrepository.hpp"
 #include "src/mltcontroller/clipcontroller.h"
+#include <QApplication>
+#include <mlt++/MltFactory.h>
+#include <mlt++/MltRepository.h>
 
 /* This file is intended to remain empty.
 Write your tests in a file with a name corresponding to what you're testing */
@@ -41,7 +39,6 @@ int main(int argc, char *argv[])
     // global clean-up...
     // delete repo;
     pCore->projectItemModel()->clean();
-    // Mlt::Factory::close();
-    Core::m_self.reset();
+    pCore->cleanup();
     return (result < 0xff ? result : 0xff);
 }
