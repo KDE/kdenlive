@@ -682,15 +682,19 @@ void TimelineItemModel::rebuildMixer()
     pCore->mixer()->cleanup();
     pCore->mixer()->setModel(std::static_pointer_cast<TimelineItemModel>(shared_from_this()));
     auto it = m_allTracks.cbegin();
+    int recTrack = -1;
     while (it != m_allTracks.cend()) {
         if ((*it)->isAudioTrack()) {
             pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()),
                                           (*it)->getProperty(QStringLiteral("kdenlive:track_name")).toString());
             if ((*it)->getProperty("kdenlive:audio_rec").toInt() == 1) {
-                pCore->mixer()->monitorAudio((*it)->getId(), true);
+                recTrack = (*it)->getId();
             }
         }
         ++it;
+    }
+    if (recTrack > -1) {
+        QMetaObject::invokeMethod(pCore->mixer(), "monitorAudio", Q_ARG(int, recTrack), Q_ARG(bool, true));
     }
 }
 

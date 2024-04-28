@@ -4771,7 +4771,7 @@ void TimelineController::switchRecording(int trackId, bool record)
             }
         }
         pCore->monitorManager()->slotSwitchMonitors(false);
-        pCore->startMediaCapture(trackId, true, false);
+        pCore->startMediaCapture(m_model->uuid(), trackId, true, false);
         if (KdenliveSettings::disablereccountdown()) {
             pCore->startRecording();
         } else {
@@ -4792,24 +4792,23 @@ void TimelineController::urlDropped(QStringList droppedFile, int frame, int tid)
         // Empty url passed, abort
         return;
     }
-    m_recordTrack = tid;
-    m_recordStart = {frame, -1};
     qDebug() << "=== GOT DROPPED FILED: " << droppedFile << "\n======";
     if (droppedFile.first().endsWith(QLatin1String(".ass")) || droppedFile.first().endsWith(QLatin1String(".srt"))) {
         // Subtitle dropped, import
         pCore->window()->showSubtitleTrack();
         importSubtitle(QUrl(droppedFile.first()).toLocalFile());
     } else {
-        addAndInsertFile(QUrl(droppedFile.first()).toLocalFile(), false, true);
+        addAndInsertFile(QUrl(droppedFile.first()).toLocalFile(), tid, {frame, -1}, false, true);
     }
 }
 
 void TimelineController::finishRecording(const QString &recordedFile)
 {
-    addAndInsertFile(recordedFile, true, false);
+    addAndInsertFile(recordedFile, m_recordTrack, m_recordStart, true, false);
 }
 
-void TimelineController::addAndInsertFile(const QString &recordedFile, const bool isAudioClip, const bool highlightClip)
+void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, std::pair<int, int> recPosition, const bool isAudioClip,
+                                          const bool highlightClip)
 {
     if (recordedFile.isEmpty()) {
         return;
@@ -4817,9 +4816,9 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, const boo
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    std::function<void(const QString &)> callBack = [this, highlightClip](const QString &binId) {
+    std::function<void(const QString &)> callBack = [model = m_model, track = tid, recPosition, highlightClip](const QString &binId) {
         int id = -1;
-        if (m_recordTrack == -1) {
+        if (track == -1) {
             return;
         }
         std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
@@ -4829,18 +4828,19 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, const boo
         if (highlightClip) {
             pCore->activeBin()->selectClipById(binId);
         }
-        qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
-        if (m_recordStart.second > 0) {
+        qDebug() << "callback " << binId << " " << track << ", MAXIMUM SPACE: " << recPosition.second;
+        int endPos = recPosition.second;
+        if (endPos > 0) {
             // Limited space on track
-            m_recordStart.second = qMin(int(clip->frameDuration() - 1), m_recordStart.second);
-            QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(m_recordStart.second);
-            m_model->requestClipInsertion(binClipId, m_recordTrack, m_recordStart.first, id, true, true, false);
-            m_recordStart.second++;
+            endPos = qMin(int(clip->frameDuration() - 1), endPos);
+            QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(endPos);
+            model->requestClipInsertion(binClipId, track, recPosition.first, id, true, true, false);
+            endPos++;
         } else {
-            m_recordStart.second = clip->frameDuration();
-            m_model->requestClipInsertion(binId, m_recordTrack, m_recordStart.first, id, true, true, false);
+            endPos = clip->frameDuration();
+            model->requestClipInsertion(binId, track, recPosition.first, id, true, true, false);
         }
-        setPosition(m_recordStart.first + m_recordStart.second);
+        pCore->window()->seekIfCurrent(model->uuid(), recPosition.first + endPos);
     };
     std::shared_ptr<ProjectItemModel> itemModel = pCore->projectItemModel();
     std::shared_ptr<ProjectFolder> targetFolder = itemModel->getRootFolder();

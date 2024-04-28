@@ -49,8 +49,6 @@ public:
     void unsetModel();
     /** @brief Some features rely on a specific version of MLT's audiolevel filter, so check it */
     void checkAudioLevelVersion();
-    /** @brief Enable/disable audio monitoring on a track */
-    void monitorAudio(int tid, bool monitor);
     /** @brief Track currently monitored that will be used for recording */
     int recordTrack() const;
     /** @brief Return true if we have MLT's audiolevel filter version 2 or above (fixes reading track audio level) */
@@ -58,6 +56,8 @@ public:
 
 public Q_SLOTS:
     void recordStateChanged(int tid, bool recording);
+    /** @brief Enable/disable audio monitoring on a track */
+    void monitorAudio(int tid, bool monitor);
 
 private Q_SLOTS:
     void resetSizePolicy();

@@ -144,6 +144,11 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
         previousTab = m_activeTimeline->getUuid();
         pCore->window()->disableMulticam();
         if (openInMonitor && !pCore->currentDoc()->loading) {
+            if (pCore->isMediaCapturing()) {
+                pCore->switchCapture();
+            } else if (pCore->isMediaMonitoring()) {
+                pCore->setAudioMonitoring(false);
+            }
             int pos = pCore->getMonitorPosition();
             m_activeTimeline->model()->updateDuration();
             int duration = m_activeTimeline->model()->duration();

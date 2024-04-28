@@ -433,6 +433,13 @@ void MainWindow::init(const QString &mltPath)
         pCore->subtitleWidget()->setActiveSubtitle(id);
     });
 
+    connect(pCore.get(), &Core::finalizeRecording, this, [this](const QUuid uuid, const QString &filename) {
+        auto timeline = getTimeline(uuid);
+        if (timeline) {
+            timeline->controller()->finishRecording(filename);
+        }
+    });
+
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
     /*connect(pCore->bin(), &Bin::requestShowEffectStack, [&]() {
         // Don't raise effect stack on clip bin in case it is docked with bin or clip monitor
@@ -5115,6 +5122,13 @@ TimelineWidget *MainWindow::openTimeline(const QUuid &uuid, int ix, const QStrin
     return timeline;
 }
 
+void MainWindow::seekIfCurrent(const QUuid uuid, int pos)
+{
+    if (getCurrentTimeline()->getUuid() == uuid) {
+        pCore->monitorManager()->projectMonitor()->slotSeek(pos);
+    }
+}
+
 bool MainWindow::raiseTimeline(const QUuid &uuid)
 {
     return m_timelineTabs->raiseTimeline(uuid);
@@ -5174,8 +5188,7 @@ void MainWindow::connectTimeline()
     getCurrentTimeline()->model()->rebuildMixer();
 
     // Audio record actions
-    connect(pCore.get(), &Core::finalizeRecording, getCurrentTimeline()->controller(), &TimelineController::finishRecording);
-    connect(pCore.get(), &Core::recordAudio, getCurrentTimeline()->controller(), &TimelineController::switchRecording);
+    connect(pCore.get(), &Core::recordAudio, getCurrentTimeline()->controller(), &TimelineController::switchRecording, Qt::DirectConnection);
 
     // switch to active subtitle model
     pCore->subtitleWidget()->setModel(getCurrentTimeline()->model()->getSubtitleModel());
@@ -5220,7 +5233,6 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
     pCore->monitorManager()->projectMonitor()->setProducer(nullptr, -2);
     // Audio record actions
-    disconnect(pCore.get(), &Core::finalizeRecording, timeline->controller(), &TimelineController::finishRecording);
     disconnect(pCore.get(), &Core::recordAudio, timeline->controller(), &TimelineController::switchRecording);
 }
 

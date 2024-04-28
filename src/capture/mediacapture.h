@@ -27,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStringList>
 #include <QTimer>
 #include <QUrl>
+#include <QUuid>
 #include <memory>
 
 class AudioDevInfo: public QIODevice
@@ -57,7 +58,7 @@ class MediaCapture : public QObject
 public:
     MediaCapture(QObject *parent);
     ~MediaCapture() override;
-    void recordAudio(int tid, bool record);
+    void recordAudio(const QUuid &uuid, int tid, bool record);
     // TODO: fix video capture
     // void recordVideo(int tid, bool /*record*/);
     /** @brief Returns true if a recording is in progress **/
@@ -105,6 +106,7 @@ private:
 #endif
     std::unique_ptr<QAudioInput> m_audioInput;
     QScopedPointer<AudioDevInfo> m_audioInfo;
+    QUuid m_recordingSequence;
     std::unique_ptr<QMediaRecorder> m_videoRecorder;
     std::unique_ptr<QCamera> m_camera;
     QElapsedTimer m_recTimer;
