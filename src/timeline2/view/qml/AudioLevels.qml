@@ -35,13 +35,20 @@ Item {
             id: recbutton
             width: root.baseUnit * 1.5
             height: root.baseUnit * 1.5
-            radius: root.baseUnit * .75
+            radius: recState == 2 ? 0 : root.baseUnit * .75
             color: trackHeadRoot.isLocked ? 'grey' : 'darkred'
             border.color: 'black'
             ToolTip.visible: buttonArea.containsMouse
             ToolTip.delay: 1000
             ToolTip.timeout: 5000
-            ToolTip.text: i18n("Record")
+            ToolTip.text: i18n("Record") + timeline.getActionShortcut("audio_record")
+            Rectangle {
+                visible: recState == 2
+                color: 'black'
+                width: recbutton.width / 3 - 1
+                height: recbutton.height
+                anchors.centerIn: parent
+            }
             MouseArea {
                 id: buttonArea
                 anchors.fill: parent

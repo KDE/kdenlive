@@ -35,7 +35,7 @@ RecManager::RecManager(Monitor *parent)
     m_playAction->setCheckable(true);
     connect(m_playAction, &QAction::toggled, this, &RecManager::slotPreview);
 
-    m_recAction = new QAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Record"));
+    m_recAction = new QAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Screen Grab"));
     m_recAction->setCheckable(true);
     connect(m_recAction, &QAction::toggled, this, &RecManager::slotRecord);
 

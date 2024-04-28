@@ -131,7 +131,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
-    , m_displayingCountdown(true)
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -1721,7 +1720,8 @@ void Monitor::slotSwitchPlay()
     }
     m_speedIndex = 0;
     bool play = m_playAction->isActive();
-    if (pCore->getAudioDevice()->isRecording()) {
+    switch (pCore->getAudioDevice()->recordStatus()) {
+    case MediaCapture::RecordRecording: {
         int recState = pCore->getAudioDevice()->recordState();
         if (recState == QMediaRecorder::RecordingState) {
             if (!play) {
@@ -1730,15 +1730,14 @@ void Monitor::slotSwitchPlay()
         } else if (recState == QMediaRecorder::PausedState && play) {
             pCore->getAudioDevice()->resumeRecording();
         }
-        m_displayingCountdown = true;
-    } else if (pCore->getAudioDevice()->isMonitoring()) {
-        if (m_displayingCountdown || KdenliveSettings::disablereccountdown()) {
-            m_displayingCountdown = false;
-            m_playAction->setActive(false);
-            pCore->recordAudio(-1, true);
-            return;
-        }
-        pCore->recordAudio(-1, true);
+        break;
+    }
+    case MediaCapture::RecordShowingCountDown:
+        return;
+    case MediaCapture::RecordMonitoring:
+        // Play as normal
+    default:
+        break;
     }
     if (!m_glMonitor->switchPlay(play)) {
         play = false;

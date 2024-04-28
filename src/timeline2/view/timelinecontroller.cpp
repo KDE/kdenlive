@@ -4743,11 +4743,10 @@ void TimelineController::switchRecording(int trackId, bool record)
     if (trackId == -1) {
         trackId = pCore->mixer()->recordTrack();
     }
+    if (record && pCore->isMediaCapturing()) {
+        record = false;
+    }
     if (record) {
-        if (pCore->isMediaCapturing()) {
-            // Already recording, abort
-            return;
-        }
         qDebug() << "start recording" << trackId;
         if (!m_model->isTrack(trackId)) {
             qDebug() << "ERROR: Starting to capture on invalid track " << trackId;
@@ -4772,11 +4771,7 @@ void TimelineController::switchRecording(int trackId, bool record)
         }
         pCore->monitorManager()->slotSwitchMonitors(false);
         pCore->startMediaCapture(m_model->uuid(), trackId, true, false);
-        if (KdenliveSettings::disablereccountdown()) {
-            pCore->startRecording();
-        } else {
-            pCore->getMonitor(Kdenlive::ProjectMonitor)->startCountDown();
-        }
+        pCore->startRecording(true);
 
     } else {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->stopCountDown();
@@ -5436,4 +5431,17 @@ void TimelineController::subtitlesMenuActivated(int ix)
     // Show manage dialog
     ManageSubtitles *d = new ManageSubtitles(subtitleModel, this, currentIx, qApp->activeWindow());
     d->exec();
+}
+
+const QString TimelineController::getActionShortcut(const QString actionName)
+{
+    QAction *a = pCore->currentDoc()->getAction(actionName);
+    QString shortcut;
+    if (a) {
+        shortcut = a->shortcut().toString(QKeySequence::NativeText);
+        if (!shortcut.isEmpty()) {
+            shortcut = QString(" (%1)").arg(shortcut);
+        }
+    }
+    return shortcut;
 }

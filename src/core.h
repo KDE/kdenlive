@@ -237,8 +237,12 @@ public:
     void stopMediaCapture(int tid, bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
+    /** @brief True if we are currently monitoring audio */
     bool isMediaMonitoring() const;
+    /** @brief True if we are currently capturing */
     bool isMediaCapturing() const;
+    /** @brief True if we are currently displaying the record countdown */
+    bool captureShowsCountDown() const;
     MediaCapture *getAudioDevice();
     /** @brief Returns Project Folder name for capture output location */
     QString getProjectFolderName();
@@ -413,7 +417,7 @@ public Q_SLOTS:
     /** @brief Stop monitoring audio (without affecting the track header record control. */
     void setAudioMonitoring(bool);
     /** @brief Start audio recording (after countdown). */
-    void startRecording();
+    void startRecording(bool showCountdown = false);
     /** @brief Show or hide track head audio rec controls. */
     void monitorAudio(int tid, bool monitor);
 
