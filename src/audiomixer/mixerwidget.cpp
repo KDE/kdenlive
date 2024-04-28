@@ -269,7 +269,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
 
         m_monitor = new QToolButton(this);
         m_monitor->setIcon(QIcon::fromTheme("audio-input-microphone"));
-        m_monitor->setToolTip(i18n("Record audio"));
+        m_monitor->setToolTip(i18n("Monitor audio"));
         m_monitor->setWhatsThis(xi18nc("@info:whatsthis", "Puts the audio track into recording mode."));
         m_monitor->setCheckable(true);
         m_monitor->setAutoRaise(true);

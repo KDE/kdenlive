@@ -355,6 +355,7 @@ void MainWindow::init(const QString &mltPath)
             getCurrentTimeline()->controller()->switchRecording();
         } else {
             // TODO: inform user we must be monitoring audio to record
+            pCore->displayMessage(i18n("Enable audio monitoring from the Mixer to record"), ErrorMessage);
         }
     });
 
@@ -597,7 +598,7 @@ void MainWindow::init(const QString &mltPath)
     timelineRender->setMenu(tlrMenu);
     connect(this, &MainWindow::setRenderProgress, timelineRender, &ProgressButton::setProgress);
     auto *renderButtonAction = new QWidgetAction(this);
-    renderButtonAction->setText(i18n("Render Button"));
+    renderButtonAction->setText(i18nc("@intoolbar the name of the action to place an export/render button in a toolbar", "Render Button"));
     renderButtonAction->setIcon(QIcon::fromTheme(QStringLiteral("media-record")));
     renderButtonAction->setDefaultWidget(timelineRender);
     addAction(QStringLiteral("project_render_button"), renderButtonAction);
