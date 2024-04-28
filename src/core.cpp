@@ -1160,7 +1160,7 @@ void Core::clean()
     m_self.reset();
 }
 
-void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
+void Core::startMediaCapture(const QUuid &uuid, int tid, bool checkAudio, bool checkVideo)
 {
     Q_UNUSED(checkVideo)
     // TODO: fix video capture
@@ -1168,7 +1168,7 @@ void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
         m_capture->recordVideo(tid, true);
     } else*/
     if (checkAudio) {
-        m_capture->recordAudio(tid, true);
+        m_capture->recordAudio(uuid, tid, true);
     }
     m_mediaCaptureFile = m_capture->getCaptureOutputLocation();
 }
@@ -1181,7 +1181,7 @@ void Core::stopMediaCapture(int tid, bool checkAudio, bool checkVideo)
         m_capture->recordVideo(tid, false);
     } else*/
     if (checkAudio) {
-        m_capture->recordAudio(tid, false);
+        m_capture->recordAudio(QUuid(), tid, false);
     }
 }
 
@@ -1236,6 +1236,11 @@ void Core::resetAudioMonitoring()
         m_capture->switchMonitorState(false);
         m_capture->switchMonitorState(true);
     }
+}
+
+void Core::setAudioMonitoring(bool enable)
+{
+    m_capture->switchMonitorState(enable);
 }
 
 QString Core::getProjectFolderName()

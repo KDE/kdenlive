@@ -184,6 +184,8 @@ public:
     /** @brief Load the project bins of a project */
     void loadExtraBins(const QStringList binInfo);
     void folderRenamed(const QString &binId, const QString &folderName);
+    /** @brief Seek timeline if it is active */
+    void seekIfCurrent(const QUuid uuid, int pos);
 
 #if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
     /** @brief Instantiates a "Get Hot New Stuff" dialog.

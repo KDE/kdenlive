@@ -452,10 +452,13 @@ void MediaCapture::resetIfUnused()
 #endif
 }
 
-void MediaCapture::recordAudio(int tid, bool record)
+void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
 {
     QMutexLocker lk(&m_recMutex);
     m_tid = tid;
+    if (record) {
+        m_recordingSequence = uuid;
+    }
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     if (!m_audioRecorder) {
         m_audioRecorder = std::make_unique<QAudioRecorder>(this);
@@ -469,7 +472,7 @@ void MediaCapture::recordAudio(int tid, bool record)
                 Q_EMIT audioLevels(QVector<qreal>());
                 // m_readyForRecord is true if we were only displaying the countdown but real recording didn't start yet
                 if (!m_readyForRecord) {
-                    Q_EMIT pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+                    Q_EMIT pCore->finalizeRecording(m_recordingSequence, getCaptureOutputLocation().toLocalFile());
                 }
                 m_readyForRecord = false;
             }
@@ -519,7 +522,7 @@ void MediaCapture::recordAudio(int tid, bool record)
                 Q_EMIT audioLevels(QVector<qreal>());
                 // m_readyForRecord is true if we were only displaying the countdown but real recording didn't start yet
                 if (!m_readyForRecord) {
-                    Q_EMIT pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+                    Q_EMIT pCore->finalizeRecording(m_recordingSequence, getCaptureOutputLocation().toLocalFile());
                 }
                 m_readyForRecord = false;
             }

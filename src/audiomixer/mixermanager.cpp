@@ -179,6 +179,7 @@ void MixerManager::cleanup()
     }
     m_channelsLayout->addStretch(10);
     m_mixers.clear();
+    m_monitorTrack = -1;
     if (m_masterMixer) {
         m_masterMixer->reset();
     }

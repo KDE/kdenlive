@@ -141,7 +141,7 @@ public:
     /** @brief Add given file to bin, and then insert it at current point in timeline
         @param highlightClip If true, highlights the newly created clip in the bin as well
      */
-    void addAndInsertFile(const QString &recordedFile, const bool isAudioClip, const bool highlightClip);
+    void addAndInsertFile(const QString &recordedFile, int tid, std::pair<int, int> recPosition, const bool isAudioClip, const bool highlightClip);
     /** @brief Open Kdenlive's config diablog on a defined page and tab
      */
     Q_INVOKABLE void showConfig(int page, int tab);
@@ -765,8 +765,8 @@ private:
     QMap <int, int> m_lastAudioTarget;
     bool m_videoTargetActive {true};
     bool m_audioTargetActive {true};
-    QPair<int, int> m_recordStart;
-    int m_recordTrack;
+    std::pair<int, int> m_recordStart;
+    int m_recordTrack{-1};
     QPoint m_zone;
     int m_activeTrack;
     double m_scale;

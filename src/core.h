@@ -233,7 +233,7 @@ public:
     /** @brief Returns monitor position  */
     int getMonitorPosition(Kdenlive::MonitorId id = Kdenlive::ProjectMonitor) const;
     /** @brief Handles audio and video capture **/
-    void startMediaCapture(int tid, bool, bool);
+    void startMediaCapture(const QUuid &uuid, int tid, bool, bool);
     void stopMediaCapture(int tid, bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
@@ -410,6 +410,8 @@ public Q_SLOTS:
     void transcodeFriendlyFile(const QString &binId, bool checkProfile);
     /** @brief Reset audio  monitoring volume and channels. */
     void resetAudioMonitoring();
+    /** @brief Stop monitoring audio (without affecting the track header record control. */
+    void setAudioMonitoring(bool);
     /** @brief Start audio recording (after countdown). */
     void startRecording();
     /** @brief Show or hide track head audio rec controls. */
@@ -421,7 +423,7 @@ Q_SIGNALS:
     //void updateMonitorProfile();
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(Kdenlive::ConfigPage, int);
-    void finalizeRecording(const QString &captureFile);
+    void finalizeRecording(const QUuid uuid, const QString &captureFile);
     void autoScrollChanged();
     /** @brief Update the message about the current loading progress */
     void loadingMessageNewStage(const QString &message, int max = -1);
