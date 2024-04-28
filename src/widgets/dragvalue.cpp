@@ -164,9 +164,21 @@ bool DragValue::eventFilter(QObject *watched, QEvent *event)
 
         auto *we = static_cast<QWheelEvent *>(event);
         if (we->angleDelta().y() > 0) {
-            m_label->slotValueInc();
+            if (we->modifiers() == Qt::ControlModifier) {
+                m_label->slotValueInc(10);
+            } else if (we->modifiers() == Qt::AltModifier) {
+                m_label->slotValueInc(0.1);
+            } else {
+                m_label->slotValueInc();
+            }
         } else {
-            m_label->slotValueDec();
+            if (we->modifiers() == Qt::ControlModifier) {
+                m_label->slotValueDec(10);
+            } else if (we->modifiers() == Qt::AltModifier) {
+                m_label->slotValueDec(0.1);
+            } else {
+                m_label->slotValueDec();
+            }
         }
         // Stop processing, event accepted
         event->accept();
