@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-27 02:20+0000\n"
-"PO-Revision-Date: 2024-04-25 21:02+0200\n"
+"PO-Revision-Date: 2024-04-27 10:36+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -3325,12 +3325,12 @@ msgstr "Axustar o fragmento"
 #: src/assets/assetpanel.cpp:88
 #, kde-format
 msgid "Apply effect change to all clips in the group"
-msgstr ""
+msgstr "Aplicar o cambio de efecto a todos os fragmentos do grupo."
 
 #: src/assets/assetpanel.cpp:92
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr ""
+msgstr "Aplicar o cambio de efecto a todos os fragmentos do grupo…"
 
 #: src/assets/assetpanel.cpp:94
 #, kde-kuit-format
@@ -3340,11 +3340,14 @@ msgid ""
 "the same effect will see the parameters adjusted as well. Deleting an effect "
 "will delete it in all clips in the group."
 msgstr ""
+"Cando se activa e o fragmento está nun grupo, axustaranse tamén os "
+"parámetros de todos os fragmentos do grupo que teñen o mesmo efecto. "
+"Eliminar un efecto elimina todos os fragmentos do grupo."
 
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr ""
+msgstr "Aplicar só aos efectos co mesmo valor."
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -7406,16 +7409,14 @@ msgid "Remove Job"
 msgstr "Retirar a tarefa"
 
 #: src/dialogs/renderwidget.cpp:1766
-#, fuzzy, kde-format
-#| msgid "Add a clip to timeline before rendering"
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Engadir un fragmento á cronoloxía antes de renderizar"
+msgstr "Engadir os fragmentos da cronoloxía antes de renderizar."
 
 #: src/dialogs/renderwidget.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Rendered File Length: %1"
-msgstr "Duración da renderización: %1"
+msgstr "Lonxitude do ficheiro renderizado: %1"
 
 #: src/dialogs/renderwidget.cpp:1775
 #, kde-format
@@ -9501,7 +9502,7 @@ msgstr "Gardar o efecto"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:301
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "Hai %1 instancias do efecto no grupo"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:468
 #, kde-format
@@ -9510,6 +9511,9 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>Arrastre</b> o efecto a outro fragmento da cronoloxía, pista ou fragmento "
+"do proxecto para copialo. Use <b>Alt + arrastrar</b> para copialo a un "
+"elemento concreto dentro dun grupo."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
@@ -17000,10 +17004,9 @@ msgid "Error initializing timeline preview"
 msgstr "Produciuse un erro ao preparar a vista previa da liña de tempo"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:25
-#, fuzzy, kde-format
-#| msgid "View Mode"
+#, kde-format
 msgid "Editing in Ripple mode"
-msgstr "Modo de visualización"
+msgstr "Editar en modo de onda"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:25
 #, kde-format
@@ -17175,10 +17178,9 @@ msgid "Offset: %1"
 msgstr "Desprazamento: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1005
-#, fuzzy, kde-format
-#| msgid "<b>Click</b> to add composition"
+#, kde-format
 msgid " <b>Click</b> to align clips"
-msgstr "<b>Prema</b> para engadir unha composición"
+msgstr "<b>Prema</b> para aliñar os fragmentos"
 
 #: src/timeline2/view/qml/Clip.qml:1249 src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
