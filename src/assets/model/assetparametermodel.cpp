@@ -1146,7 +1146,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         }
     }
 
-    double x, y, w, h;
+    double x = 0., y = 0., w = 1., h = 1.;
     int count = 0;
     for (const auto &param : m_params) {
         if (!includeFixed && !isAnimated(param.second.type)) {
@@ -1416,10 +1416,9 @@ void AssetParameterModel::setParametersFromTask(const paramVector &params)
 
 void AssetParameterModel::setParameters(const paramVector &params, bool update)
 {
-    KdenliveObjectType itemType;
+    KdenliveObjectType itemType = m_ownerId.type;
     if (!update) {
         // Change itemId to NoItem to ensure we don't send any update like refreshProjectItem that would trigger monitor refreshes.
-        itemType = m_ownerId.type;
         m_ownerId.type = KdenliveObjectType::NoItem;
     }
     for (const auto &param : params) {
