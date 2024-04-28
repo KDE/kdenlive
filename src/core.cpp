@@ -1193,9 +1193,12 @@ void Core::monitorAudio(int tid, bool monitor)
     }
 }
 
-void Core::startRecording()
+void Core::startRecording(bool showCountdown)
 {
-    int trackId = m_capture->startCapture();
+    int trackId = m_capture->startCapture(showCountdown);
+    if (trackId == -1) {
+        return;
+    }
     m_mainWindow->getCurrentTimeline()->startAudioRecord(trackId);
     pCore->monitorManager()->slotPlay();
 }
@@ -1212,12 +1215,17 @@ int Core::getMediaCaptureState()
 
 bool Core::isMediaMonitoring() const
 {
-    return m_capture->isMonitoring();
+    return m_capture && m_capture->recordStatus() == MediaCapture::RecordMonitoring;
 }
 
 bool Core::isMediaCapturing() const
 {
-    return m_capture->isRecording();
+    return m_capture && m_capture->recordStatus() == MediaCapture::RecordRecording;
+}
+
+bool Core::captureShowsCountDown() const
+{
+    return m_capture && m_capture->recordStatus() == MediaCapture::RecordShowingCountDown;
 }
 
 void Core::switchCapture()
@@ -1232,7 +1240,7 @@ MediaCapture *Core::getAudioDevice()
 
 void Core::resetAudioMonitoring()
 {
-    if (m_capture && m_capture->isMonitoring()) {
+    if (isMediaMonitoring()) {
         m_capture->switchMonitorState(false);
         m_capture->switchMonitorState(true);
     }

@@ -134,7 +134,10 @@ public:
 
     /** @brief Show/hide audio record controls on a track
      */
-    Q_INVOKABLE void switchRecording(int trackId, bool record);
+    Q_INVOKABLE void switchRecording(int trackId = -1, bool record = true);
+    /** @brief Get the shortcut for an action
+     */
+    Q_INVOKABLE const QString getActionShortcut(const QString actionName);
     /** @brief Add recorded file to timeline
      */
     void finishRecording(const QString &recordedFile);

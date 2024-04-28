@@ -56,13 +56,15 @@ class MediaCapture : public QObject
     Q_PROPERTY(int recDuration READ recDuration NOTIFY recDurationChanged)
 
 public:
+    enum RECORDSTATUS { RecordReady, RecordBusy, RecordMonitoring, RecordRecording, RecordShowingCountDown };
+
     MediaCapture(QObject *parent);
     ~MediaCapture() override;
     void recordAudio(const QUuid &uuid, int tid, bool record);
     // TODO: fix video capture
     // void recordVideo(int tid, bool /*record*/);
-    /** @brief Returns true if a recording is in progress **/
-    bool isRecording() const;
+    /** @brief Returns the audio record status **/
+    MediaCapture::RECORDSTATUS recordStatus() const;
     /** @brief Sets m_path to selected output location **/
     void setCaptureOutputLocation();
     /** @brief Returns m_path **/
@@ -78,16 +80,14 @@ public:
     Q_INVOKABLE int recordState() const;
     Q_INVOKABLE int recDuration() const;
     void switchMonitorState(bool run);
-    /** @brief Returns true is audio monitoring is currently in progress **/
-    bool isMonitoring() const;
     const QVector<double> recLevels() const;
     /** @brief Start monitoring a track **/
     Q_INVOKABLE void switchMonitorState(int tid, bool run);
     void pauseRecording();
     void resumeRecording();
     /** @brief Start the real audio capture **/
-    int startCapture();
-    #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    int startCapture(bool showCountdown);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     void initializeAudioSetup();
     #endif
 
@@ -114,6 +114,7 @@ private:
     QUrl m_path;
     QVector<qreal> m_levels;
     QVector<double> m_recLevels;
+    RECORDSTATUS m_recordStatus{RecordReady};
     int m_recordState;
     /** @brief Last recorded frame */
     int m_lastPos;

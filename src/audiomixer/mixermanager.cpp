@@ -101,16 +101,15 @@ void MixerManager::monitorAudio(int tid, bool monitor)
         }
         m_monitorTrack = -1;
     } else {
-        pCore->displayMessage(i18n("Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to end."), InformationMessage, 8000);
         pCore->getAudioDevice()->switchMonitorState(true);
     }
     if (m_mixers.count(tid) > 0) {
+        m_monitorTrack = tid;
         m_mixers[tid]->monitorAudio(true);
         pCore->monitorAudio(tid, true);
     } else {
         return;
     }
-    m_monitorTrack = tid;
 }
 
 void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &trackTag, const QString &trackName)

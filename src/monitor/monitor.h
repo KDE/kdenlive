@@ -230,7 +230,6 @@ private:
     KMessageWidget *m_infoMessage;
     int m_forceSizeFactor;
     MonitorSceneType m_lastMonitorSceneType;
-    bool m_displayingCountdown;
     MonitorAudioLevel *m_audioMeterWidget;
     QTimer m_droppedTimer;
     double m_displayedFps;

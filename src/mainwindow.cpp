@@ -347,6 +347,18 @@ void MainWindow::init(const QString &mltPath)
         // Update screen grab monitor choice in case we changed from fullscreen
         screenCombo->setEnabled(KdenliveSettings::grab_capture_type() == 0);
     }
+    // Audio record action
+    QAction *recAudio = new QAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Record"), this);
+    addAction(QStringLiteral("audio_record"), recAudio, Qt::Key_R);
+    connect(recAudio, &QAction::triggered, [&]() {
+        if (pCore->isMediaMonitoring() || pCore->isMediaCapturing()) {
+            getCurrentTimeline()->controller()->switchRecording();
+        } else {
+            // TODO: inform user we must be monitoring audio to record
+        }
+    });
+
+    // Screengrab record action
     QAction *recAction = m_clipMonitor->recAction();
     addAction(QStringLiteral("screengrab_record"), recAction);
     recToolbar->addAction(recAction);
