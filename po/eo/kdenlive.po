@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-04-27 00:37+0000\n"
-"PO-Revision-Date: 2024-04-23 19:26+0100\n"
+"PO-Revision-Date: 2024-04-27 17:28+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3304,12 +3304,12 @@ msgstr "Alĝustigi aŭdvidaĵon"
 #: src/assets/assetpanel.cpp:88
 #, kde-format
 msgid "Apply effect change to all clips in the group"
-msgstr ""
+msgstr "Apliki efikŝanĝon al ĉiuj tondaĵoj en la grupo"
 
 #: src/assets/assetpanel.cpp:92
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr ""
+msgstr "Apliki efikŝanĝon al ĉiuj tondaĵoj en la grupo…"
 
 #: src/assets/assetpanel.cpp:94
 #, kde-kuit-format
@@ -3319,11 +3319,14 @@ msgid ""
 "the same effect will see the parameters adjusted as well. Deleting an effect "
 "will delete it in all clips in the group."
 msgstr ""
+"Kiam estas ŝaltita kaj la tondaĵo estas en grupo, ĉiuj tondaĵoj en tiu grupo "
+"kiuj havas la saman efekton vidos la parametrojn alĝustigitaj ankaŭ. "
+"Forigante efekton forigos ĝin en ĉiuj tondaĵoj en la grupo."
 
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr ""
+msgstr "Apliki nur al efektoj kun sama valoro"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -7365,14 +7368,12 @@ msgid "Remove Job"
 msgstr "Forigi prilaboron"
 
 #: src/dialogs/renderwidget.cpp:1766
-#, fuzzy, kde-format
-#| msgid "Add a clip to timeline before rendering"
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Aldoni aŭdvidaĵon al templinio antaŭ bildigo"
+msgstr "Aldoni aŭdvidaĵojn en templinio antaŭ bildigo"
 
 #: src/dialogs/renderwidget.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Redondaŭro: %1"
 
@@ -9436,7 +9437,7 @@ msgstr "Konservi efekton"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:301
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "%1 instancoj de ĉi tiu efekto en la grupo"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:468
 #, kde-format
@@ -9445,6 +9446,8 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>Trenu</b> efekton al alia templinia tondaĵo, trako aŭ projekta tondaĵo "
+"por kopii ĝin. <b>Alt-Trenu</b> por kopii ĝin al unuopa ero en grupo."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
@@ -10699,7 +10702,7 @@ msgstr "Bildigi…"
 #: src/mainwindow.cpp:581
 #, kde-format
 msgid "Render Button"
-msgstr "Redoni Butonon"
+msgstr "Bildigi Butonon"
 
 #: src/mainwindow.cpp:587
 #, kde-format
@@ -16870,13 +16873,12 @@ msgstr "Regrandigi miksaĵon"
 #: src/timeline2/model/timelinemodel.cpp:7259
 #, kde-format
 msgid "Error initializing timeline preview"
-msgstr "Eraro pravalorigante templinian antaŭrigardon"
+msgstr "Eraro pravalorizante templinian antaŭrigardon"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:25
-#, fuzzy, kde-format
-#| msgid "Editing profiles for:"
+#, kde-format
 msgid "Editing in Ripple mode"
-msgstr "Redaktado de profiloj por:"
+msgstr "Redaktado en Ondeta reĝimo"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:25
 #, kde-format
@@ -17044,10 +17046,9 @@ msgid "Offset: %1"
 msgstr "Deŝovo: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1005
-#, fuzzy, kde-format
-#| msgid "<b>Click</b> to add composition"
+#, kde-format
 msgid " <b>Click</b> to align clips"
-msgstr "<b>Alklaku</b> por aldoni komponadon"
+msgstr "<b>Alklaku</b> por vicigi tondaĵojn"
 
 #: src/timeline2/view/qml/Clip.qml:1249 src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
@@ -21202,13 +21203,13 @@ msgstr "Remburaĵo:"
 #: src/ui/renderwidget_ui.ui:18
 #, kde-format
 msgid "Rendering"
-msgstr "Bildo"
+msgstr "Bildigo"
 
 #. i18n: ectx: attribute (title), widget (QWidget, renderTab)
 #: src/ui/renderwidget_ui.ui:43
 #, kde-format
 msgid "Render Project"
-msgstr "Redoni Projekton"
+msgstr "Bildigi Projekton"
 
 #. i18n: ectx: property (text), widget (QLabel, toLabel)
 #: src/ui/renderwidget_ui.ui:80
@@ -21292,7 +21293,7 @@ msgstr "&Forigi"
 #: src/ui/renderwidget_ui.ui:336
 #, kde-format
 msgid "Render to File"
-msgstr "Redoni al Dosiero"
+msgstr "Bildigi al Dosiero"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
 #: src/ui/renderwidget_ui.ui:343
@@ -21793,7 +21794,7 @@ msgstr "Ŝablono:"
 #: src/ui/testproxy_ui.ui:58
 #, kde-format
 msgid "Render Time"
-msgstr "Redoni Tempon"
+msgstr "Bildigi Tempon"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:63
@@ -22425,6 +22426,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Render Duration: %1. "
-#~ msgstr "Redondaŭro: %1. "
