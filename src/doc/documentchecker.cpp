@@ -28,6 +28,30 @@ QDebug operator<<(QDebug qd, const DocumentChecker::DocumentResource &item)
     return qd.maybeSpace();
 }
 
+static bool isPlatformRelative(QString filePath, bool *platformChange)
+{
+    if (!QFileInfo(filePath).isRelative()) {
+        *platformChange = false;
+        return false;
+    }
+#if defined(Q_OS_WIN)
+    // On Windows, check for Linux relative paths
+    if (filePath.startsWith(QLatin1Char('/'))) {
+        *platformChange = true;
+        return false;
+    }
+#else
+    // On Linux / Mac, check for Windows relative paths
+    filePath.remove(0, 1);
+    if (filePath.startsWith(QLatin1String(":/"))) {
+        *platformChange = true;
+        return false;
+    }
+#endif
+    *platformChange = false;
+    return true;
+}
+
 DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     : m_url(std::move(url))
     , m_doc(doc)
@@ -36,6 +60,14 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     QDomElement baseElement = m_doc.documentElement();
     m_root = baseElement.attribute(QStringLiteral("root"));
     if (m_root.isEmpty() || !QDir(m_root).exists()) {
+#ifndef Q_OS_WIN
+        // On Linux / Mac, check for Windows relative paths
+        QString tmpPath = m_root;
+        tmpPath.remove(0, 1);
+        if (tmpPath.startsWith(QLatin1String(":/"))) {
+            m_root.remove(0, 2);
+        }
+#endif
         // Looks like project was moved, try recovering root from current project url
         m_rootReplacement.first = QDir(m_root).absolutePath() + QDir::separator();
         m_root = m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
@@ -165,11 +197,17 @@ bool DocumentChecker::hasErrorInProject()
             // ensure the storage for temp files exists
             storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
             storageFolder = ensureAbsolutePath(storageFolder);
-
-            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists(m_documentid)) {
-                storageFolder = projectDir.absolutePath();
-                Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
-                m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+            if (!storageFolder.isEmpty() && !QFile::exists(storageFolder)) {
+                if (projectDir.mkpath(m_documentid)) {
+                    // Move storage folder inside the document folder
+                    storageFolder = projectDir.absolutePath();
+                    Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
+                    m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                } else {
+                    // Cannot create storage folder, use default location
+                    Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
+                    m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                }
             }
 
             // get bin ids
@@ -1049,8 +1087,17 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
 
 QString DocumentChecker::ensureAbsolutePath(QString filepath)
 {
-    if (!filepath.isEmpty() && QFileInfo(filepath).isRelative()) {
+    bool platformChange = false;
+    if (filepath.isEmpty()) {
+        return filepath;
+    }
+    if (isPlatformRelative(filepath, &platformChange)) {
         filepath.prepend(m_root);
+    } else if (platformChange) {
+#ifndef Q_OS_WIN
+        // We are opening a Windows path on Linux/MacOs, remove the drive info (C:)
+        filepath.remove(0, 2);
+#endif
     }
     return filepath;
 }
