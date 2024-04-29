@@ -354,7 +354,6 @@ void MainWindow::init(const QString &mltPath)
         if (pCore->isMediaMonitoring() || pCore->isMediaCapturing()) {
             getCurrentTimeline()->controller()->switchRecording();
         } else {
-            // TODO: inform user we must be monitoring audio to record
             pCore->displayMessage(i18n("Enable audio monitoring from the Mixer to record"), ErrorMessage);
         }
     });
