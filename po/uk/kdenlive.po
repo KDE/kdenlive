@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-29 02:26+0000\n"
-"PO-Revision-Date: 2024-04-21 09:15+0300\n"
+"POT-Creation-Date: 2024-04-30 02:26+0000\n"
+"PO-Revision-Date: 2024-04-29 20:08+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -3339,12 +3339,12 @@ msgstr "Скоригувати кліп"
 #: src/assets/assetpanel.cpp:88
 #, kde-format
 msgid "Apply effect change to all clips in the group"
-msgstr ""
+msgstr "Застосувати зміну ефекту до усіх кліпів у групі"
 
 #: src/assets/assetpanel.cpp:92
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr ""
+msgstr "Застосувати зміну ефекту до усіх кліпів у групі…"
 
 #: src/assets/assetpanel.cpp:94
 #, kde-kuit-format
@@ -3354,11 +3354,14 @@ msgid ""
 "the same effect will see the parameters adjusted as well. Deleting an effect "
 "will delete it in all clips in the group."
 msgstr ""
+"Якщо увімкнено і кліп перебуває у групі, буде скориговано параметри ефекту "
+"для усіх кліпів у цій групі, до яких застосовано той самий ефект. Вилучення "
+"ефекту призведе до вилучення його з усіх кліпів у групі."
 
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr ""
+msgstr "Застосувати лише до ефектів із тим самим значенням"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4378,17 +4381,13 @@ msgid "Show Video Preview in Thumbnails"
 msgstr "Показувати мініатюри попереднього перегляду відео"
 
 #: src/bin/bin.cpp:1353
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Opens a window to configure the project bin (e.g. view mode, sort, show "
-#| "rating)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
-"Відкриває вікно для налаштовування контейнера проєкту (наприклад, режиму "
+"Відкриває меню для налаштовування контейнера проєкту (наприклад, режиму "
 "перегляду, упорядкування, показу оцінок)."
 
 #: src/bin/bin.cpp:1360
@@ -4409,7 +4408,7 @@ msgstr "Показати оцінку"
 #: src/bin/bin.cpp:1379
 #, kde-format
 msgid "Open Current Folder In New Bin"
-msgstr ""
+msgstr "Відкрити поточну теку у новому контейнері"
 
 #: src/bin/bin.cpp:1384
 #, kde-format
@@ -4430,10 +4429,9 @@ msgstr ""
 "фільтрування."
 
 #: src/bin/bin.cpp:1441
-#, fuzzy, kde-format
-#| msgid "Delete current point."
+#, kde-format
 msgid "Close Current Bin"
-msgstr "Вилучити поточну точку."
+msgstr "Закрити поточний контейнер"
 
 #: src/bin/bin.cpp:1453
 #, kde-format
@@ -5688,8 +5686,8 @@ msgstr "Ід."
 msgid "Usage"
 msgstr "Користування"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1580
-#: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1627
+#: src/doc/documentchecker.cpp:1655 src/doc/documentchecker.cpp:1675
 #: src/mltcontroller/clipcontroller.cpp:508 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -7164,23 +7162,19 @@ msgid "Lanczos (best)"
 msgstr "Ланцошеве (найкраще)"
 
 #: src/dialogs/renderwidget.cpp:229
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal (16:9)"
-msgstr "Горизонтально"
+msgstr "Горизонтально (16:9)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical (9:16)"
-msgstr "Вертикально"
+msgstr "Вертикально (9:16)"
 
 #: src/dialogs/renderwidget.cpp:231
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2"
+#, kde-format
 msgid "Square (1:1)"
-msgstr "Квадрат 2"
+msgstr "Квадрат (1:1)"
 
 #: src/dialogs/renderwidget.cpp:235 src/monitor/monitormanager.cpp:578
 #, kde-format
@@ -7456,16 +7450,14 @@ msgid "Remove Job"
 msgstr "Вилучити завдання"
 
 #: src/dialogs/renderwidget.cpp:1766
-#, fuzzy, kde-format
-#| msgid "Add a clip to timeline before rendering"
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Додати кліп до монтажного столу до обробки"
+msgstr "Додати кліпи до монтажного столу до обробки"
 
 #: src/dialogs/renderwidget.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Rendered File Length: %1"
-msgstr "Тривалість обробки: %1"
+msgstr "Тривалість обробленого файла: %1"
 
 #: src/dialogs/renderwidget.cpp:1775
 #, kde-format
@@ -8777,128 +8769,128 @@ msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Тека кліпів"
 
-#: src/doc/documentchecker.cpp:106
+#: src/doc/documentchecker.cpp:138
 #, kde-format
 msgid "Applying fixes…"
 msgstr "Застосування виправлень…"
 
-#: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:237
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Пошук пропущених записів…"
 
-#: src/doc/documentchecker.cpp:162
+#: src/doc/documentchecker.cpp:194
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Ідентифікатор документа вашого проєкту є некоректним, створено новий."
 
-#: src/doc/documentchecker.cpp:1570
+#: src/doc/documentchecker.cpp:1617
 #, kde-format
 msgid "Video clip"
 msgstr "Відеокліп"
 
-#: src/doc/documentchecker.cpp:1572
+#: src/doc/documentchecker.cpp:1619
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Кліп показу слайдів"
 
-#: src/doc/documentchecker.cpp:1574
+#: src/doc/documentchecker.cpp:1621
 #, kde-format
 msgid "Image clip"
 msgstr "Кліп-зображення"
 
-#: src/doc/documentchecker.cpp:1576
+#: src/doc/documentchecker.cpp:1623
 #, kde-format
 msgid "Playlist clip"
 msgstr "Додати кліп до списку відтворення"
 
-#: src/doc/documentchecker.cpp:1578 src/doc/documentchecker.cpp:1594
+#: src/doc/documentchecker.cpp:1625 src/doc/documentchecker.cpp:1641
 #, kde-format
 msgid "Title Image"
 msgstr "Зображення титрів"
 
-#: src/doc/documentchecker.cpp:1590
+#: src/doc/documentchecker.cpp:1637
 #, kde-format
 msgid "Clip"
 msgstr "Кліп"
 
-#: src/doc/documentchecker.cpp:1592
+#: src/doc/documentchecker.cpp:1639
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титрів"
 
-#: src/doc/documentchecker.cpp:1596
+#: src/doc/documentchecker.cpp:1643
 #, kde-format
 msgid "Luma file"
 msgstr "Файл сигналу яскравості"
 
-#: src/doc/documentchecker.cpp:1598
+#: src/doc/documentchecker.cpp:1645
 #, kde-format
 msgid "Asset file"
 msgstr "Файл активів"
 
-#: src/doc/documentchecker.cpp:1600
+#: src/doc/documentchecker.cpp:1647
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Проміжний кліп"
 
-#: src/doc/documentchecker.cpp:1602
+#: src/doc/documentchecker.cpp:1649
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Ефект"
 
-#: src/doc/documentchecker.cpp:1604
+#: src/doc/documentchecker.cpp:1651
 #, kde-format
 msgid "Transition"
 msgstr "Перехід"
 
-#: src/doc/documentchecker.cpp:1606
+#: src/doc/documentchecker.cpp:1653
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Пошкоджена послідовність"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1616 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1663 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Фіксована"
 
-#: src/doc/documentchecker.cpp:1618
+#: src/doc/documentchecker.cpp:1665
 #, kde-format
 msgid "Reload"
 msgstr "Перезавантажити"
 
-#: src/doc/documentchecker.cpp:1620
+#: src/doc/documentchecker.cpp:1667
 #, kde-format
 msgid "Missing"
 msgstr "Пропущено"
 
-#: src/doc/documentchecker.cpp:1622
+#: src/doc/documentchecker.cpp:1669
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Пропущено, але є проміжний кліп"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1624 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1671 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Заповнювач"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1626 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1673 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Вилучити"
 
-#: src/doc/documentchecker.cpp:1637
+#: src/doc/documentchecker.cpp:1684
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 
-#: src/doc/documentchecker.cpp:1640
+#: src/doc/documentchecker.cpp:1687
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -9568,7 +9560,7 @@ msgstr "Зберегти ефект"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:301
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "%1 екземплярів цього ефекту у групі"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:468
 #, kde-format
@@ -9577,6 +9569,9 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>Перетягніть</b> ефект на інший кліп, доріжку чи кліп проєкту монтажного "
+"столу, щоб скопіювати його. <b>Alt-перетягування</b> — скопіювати до "
+"окремого елемента у групі."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
@@ -17107,10 +17102,9 @@ msgstr ""
 "Помилка під час спроби ініціалізувати попередній перегляд на монтажному столі"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:25
-#, fuzzy, kde-format
-#| msgid "Editing profiles for:"
+#, kde-format
 msgid "Editing in Ripple mode"
-msgstr "Редагування профілів:"
+msgstr "Редагування у режимі брижів"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:25
 #, kde-format
@@ -17282,10 +17276,9 @@ msgid "Offset: %1"
 msgstr "Зміщення: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1005
-#, fuzzy, kde-format
-#| msgid "<b>Click</b> to add composition"
+#, kde-format
 msgid " <b>Click</b> to align clips"
-msgstr "<b>Click</b>, щоб додати композицію"
+msgstr " <b>Клацніть</b>, щоб вирівняти кліпи"
 
 #: src/timeline2/view/qml/Clip.qml:1249 src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
@@ -21639,8 +21632,7 @@ msgstr "Накладання:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:615
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect Ratio:"
 msgstr "Співвідношення розмірів:"
 

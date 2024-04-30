@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-29 02:26+0000\n"
-"PO-Revision-Date: 2024-04-26 14:03+0300\n"
+"POT-Creation-Date: 2024-04-30 02:26+0000\n"
+"PO-Revision-Date: 2024-04-29 15:26+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3848,7 +3848,7 @@ msgstr "Hedef aralığı:"
 #: src/assets/view/widgets/keyframeimport.cpp:312
 #, kde-format
 msgid "Actual range only"
-msgstr "Yalnızca gerçek aralık"
+msgstr "Yalnızca gerçek erim"
 
 #: src/assets/view/widgets/keyframeimport.cpp:319
 #, kde-format
@@ -3903,7 +3903,7 @@ msgstr "Yükseklik"
 #: src/assets/view/widgets/keyframeimport.cpp:465
 #, kde-format
 msgid "Source range: (%1-%2), (%3-%4)"
-msgstr "Kaynak aralığı: (%1-%2), (%3-%4)"
+msgstr "Kaynak erimi: (%1–%2), (%3–%4)"
 
 #: src/assets/view/widgets/keyframeimport.cpp:762
 #, kde-format
@@ -5647,8 +5647,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Kullanım"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1580
-#: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1627
+#: src/doc/documentchecker.cpp:1655 src/doc/documentchecker.cpp:1675
 #: src/mltcontroller/clipcontroller.cpp:508 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8681,128 +8681,128 @@ msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Klipler Klasörü"
 
-#: src/doc/documentchecker.cpp:106
+#: src/doc/documentchecker.cpp:138
 #, kde-format
 msgid "Applying fixes…"
 msgstr "Düzeltmeler uygulanıyor…"
 
-#: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:237
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Eksik ögeler denetleniyor…"
 
-#: src/doc/documentchecker.cpp:162
+#: src/doc/documentchecker.cpp:194
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Projenizin belge kimliği geçersizdi; yeni bir tane oluşturuldu."
 
-#: src/doc/documentchecker.cpp:1570
+#: src/doc/documentchecker.cpp:1617
 #, kde-format
 msgid "Video clip"
 msgstr "Video klibi"
 
-#: src/doc/documentchecker.cpp:1572
+#: src/doc/documentchecker.cpp:1619
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Sunu klibi"
 
-#: src/doc/documentchecker.cpp:1574
+#: src/doc/documentchecker.cpp:1621
 #, kde-format
 msgid "Image clip"
 msgstr "Görsel klibi"
 
-#: src/doc/documentchecker.cpp:1576
+#: src/doc/documentchecker.cpp:1623
 #, kde-format
 msgid "Playlist clip"
 msgstr "Oynatma listesi klibi"
 
-#: src/doc/documentchecker.cpp:1578 src/doc/documentchecker.cpp:1594
+#: src/doc/documentchecker.cpp:1625 src/doc/documentchecker.cpp:1641
 #, kde-format
 msgid "Title Image"
 msgstr "Başlık Resmi"
 
-#: src/doc/documentchecker.cpp:1590
+#: src/doc/documentchecker.cpp:1637
 #, kde-format
 msgid "Clip"
 msgstr "Klip"
 
-#: src/doc/documentchecker.cpp:1592
+#: src/doc/documentchecker.cpp:1639
 #, kde-format
 msgid "Title Font"
 msgstr "Başlık Yazıtipi"
 
-#: src/doc/documentchecker.cpp:1596
+#: src/doc/documentchecker.cpp:1643
 #, kde-format
 msgid "Luma file"
 msgstr "Luma dosyası"
 
-#: src/doc/documentchecker.cpp:1598
+#: src/doc/documentchecker.cpp:1645
 #, kde-format
 msgid "Asset file"
 msgstr "Varlık dosyası"
 
-#: src/doc/documentchecker.cpp:1600
+#: src/doc/documentchecker.cpp:1647
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Vekil klibi"
 
-#: src/doc/documentchecker.cpp:1602
+#: src/doc/documentchecker.cpp:1649
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/doc/documentchecker.cpp:1604
+#: src/doc/documentchecker.cpp:1651
 #, kde-format
 msgid "Transition"
 msgstr "Geçiş"
 
-#: src/doc/documentchecker.cpp:1606
+#: src/doc/documentchecker.cpp:1653
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Hasarlı sekans"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1616 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1663 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Sabit"
 
-#: src/doc/documentchecker.cpp:1618
+#: src/doc/documentchecker.cpp:1665
 #, kde-format
 msgid "Reload"
 msgstr "Yeniden Yükle"
 
-#: src/doc/documentchecker.cpp:1620
+#: src/doc/documentchecker.cpp:1667
 #, kde-format
 msgid "Missing"
 msgstr "Eksik"
 
-#: src/doc/documentchecker.cpp:1622
+#: src/doc/documentchecker.cpp:1669
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Eksik; ancak vekil var"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1624 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1671 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Yer Tutucu"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1626 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1673 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Kaldır"
 
-#: src/doc/documentchecker.cpp:1637
+#: src/doc/documentchecker.cpp:1684
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Proje dosyası eksik klipler veya dosyalar içeriyor."
 
-#: src/doc/documentchecker.cpp:1640
+#: src/doc/documentchecker.cpp:1687
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Eksik vekiller program açılırken yeniden oluşturulabilir."
@@ -18145,7 +18145,7 @@ msgid ""
 "wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 msgstr ""
 "<p>Bir n tiresi (bir n genişliğinde çizgi).</p><p>Kullanım örnekleri: "
-"İngilizce’de değer aralıkları (1878&#x2013;1903), ilişki/bağlantılar için "
+"İngilizce’de değer erimleri (1878&#x2013;1903), ilişki/bağlantılar için "
 "(Zürih&#x2013;Dublin). Almanca’da düşünceleri göstermek için de (boşluklar "
 "ile!) kullanılır: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; "
 "ein regnerischer Tag.</p> <p>Bkz. <a href=\"https://en.wikipedia.org/wiki/"
@@ -22133,7 +22133,7 @@ msgstr "Besleme:"
 #: src/ui/titlewidget_ui.ui:1114
 #, kde-format
 msgid "Letter spacing:"
-msgstr "Harf aralıklandırması:"
+msgstr "Harf boşluklandırması:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
 #: src/ui/titlewidget_ui.ui:1140
