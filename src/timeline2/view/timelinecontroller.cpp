@@ -4177,24 +4177,26 @@ bool TimelineController::grabIsActive() const
 
 int TimelineController::getItemMovingTrack(int itemId) const
 {
+    int trackId = -1;
     if (m_model->isClip(itemId)) {
-        int trackId = -1;
         if (m_model->m_editMode != TimelineMode::NormalEdit) {
             trackId = m_model->m_allClips[itemId]->getFakeTrackId();
         }
         return trackId < 0 ? m_model->m_allClips[itemId]->getCurrentTrackId() : trackId;
+    } else if (m_model->isComposition(itemId)) {
+        if (m_model->m_editMode != TimelineMode::NormalEdit) {
+            trackId = m_model->m_allCompositions[itemId]->getFakeTrackId();
+        }
+        return trackId < 0 ? m_model->m_allCompositions[itemId]->getCurrentTrackId() : trackId;
     }
-    return m_model->m_allCompositions[itemId]->getCurrentTrackId();
+
+    return trackId;
 }
 
 bool TimelineController::endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
 {
-    Q_ASSERT(m_model->m_allClips.count(clipId) > 0);
-    int trackId = m_model->m_allClips[clipId]->getFakeTrackId();
-    if (trackId == -1) {
-        trackId = m_model->m_allClips[clipId]->getCurrentTrackId();
-    }
-    if (m_model->getClipPosition(clipId) == position && m_model->getClipTrackId(clipId) == trackId) {
+    int trackId = getItemMovingTrack(clipId);
+    if (m_model->getItemPosition(clipId) == position && m_model->getItemTrackId(clipId) == trackId) {
         // Ensure clip height binds again with parent track height
         if (m_model->m_groups->isInGroup(clipId)) {
             int groupId = m_model->m_groups->getRootId(clipId);
@@ -4206,13 +4208,27 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
                     if (modelIndex.isValid()) {
                         m_model->notifyChange(modelIndex, modelIndex, TimelineModel::FakeTrackIdRole);
                     }
+                } else if (m_model->isComposition(item)) {
+                    m_model->m_allCompositions[item]->setFakeTrackId(-1);
+                    QModelIndex modelIndex = m_model->makeCompositionIndexFromID(item);
+                    if (modelIndex.isValid()) {
+                        m_model->notifyChange(modelIndex, modelIndex, TimelineModel::FakeTrackIdRole);
+                    }
                 }
             }
         } else {
-            m_model->m_allClips[clipId]->setFakeTrackId(-1);
-            QModelIndex modelIndex = m_model->makeClipIndexFromID(clipId);
-            if (modelIndex.isValid()) {
-                m_model->notifyChange(modelIndex, modelIndex, TimelineModel::FakeTrackIdRole);
+            if (m_model->isClip(clipId)) {
+                m_model->m_allClips[clipId]->setFakeTrackId(-1);
+                QModelIndex modelIndex = m_model->makeClipIndexFromID(clipId);
+                if (modelIndex.isValid()) {
+                    m_model->notifyChange(modelIndex, modelIndex, TimelineModel::FakeTrackIdRole);
+                }
+            } else if (m_model->isComposition(clipId)) {
+                m_model->m_allCompositions[clipId]->setFakeTrackId(-1);
+                QModelIndex modelIndex = m_model->makeCompositionIndexFromID(clipId);
+                if (modelIndex.isValid()) {
+                    m_model->notifyChange(modelIndex, modelIndex, TimelineModel::FakeTrackIdRole);
+                }
             }
         }
         return true;
@@ -4220,11 +4236,11 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     if (m_model->m_groups->isInGroup(clipId)) {
         // element is in a group.
         int groupId = m_model->m_groups->getRootId(clipId);
-        int current_trackId = m_model->getClipTrackId(clipId);
+        int current_trackId = m_model->getItemTrackId(clipId);
         int track_pos1 = m_model->getTrackPosition(trackId);
         int track_pos2 = m_model->getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
-        int delta_pos = position - m_model->m_allClips[clipId]->getPosition();
+        int delta_pos = position - m_model->getItemPosition(clipId);
         return endFakeGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
     }
     qDebug() << "//////\n//////\nENDING FAKE MOVE: " << trackId << ", POS: " << position;
@@ -4235,37 +4251,45 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     int currentTrack = m_model->m_allClips[clipId]->getCurrentTrackId();
     bool res = true;
     if (currentTrack > -1) {
-        std::pair<MixInfo, MixInfo> mixData = m_model->getTrackById_const(currentTrack)->getMixInfo(clipId);
-        if (mixData.first.firstClipId > -1) {
-            m_model->removeMixWithUndo(mixData.first.secondClipId, undo, redo);
-        }
-        if (mixData.second.firstClipId > -1) {
-            m_model->removeMixWithUndo(mixData.second.secondClipId, undo, redo);
-        }
-        res = m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo, false, false);
-    }
-    if (m_model->m_editMode == TimelineMode::OverwriteEdit) {
-        res = res && TimelineFunctions::liftZone(m_model, trackId, QPoint(position, position + duration), undo, redo);
-    } else if (m_model->m_editMode == TimelineMode::InsertEdit) {
-        // Remove space from previous location
-        if (currentTrack > -1) {
-            res = res && TimelineFunctions::removeSpace(m_model, {startPos, startPos + duration}, undo, redo, {currentTrack}, false);
-        }
-        int startClipId = m_model->getClipByPosition(trackId, position);
-        if (startClipId > -1) {
-            // There is a clip at insert pos
-            if (m_model->getClipPosition(startClipId) != position) {
-                // If position is in the middle of the clip, cut it
-                res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
+        if (m_model->isClip(clipId)) {
+            std::pair<MixInfo, MixInfo> mixData = m_model->getTrackById_const(currentTrack)->getMixInfo(clipId);
+            if (mixData.first.firstClipId > -1) {
+                m_model->removeMixWithUndo(mixData.first.secondClipId, undo, redo);
             }
+            if (mixData.second.firstClipId > -1) {
+                m_model->removeMixWithUndo(mixData.second.secondClipId, undo, redo);
+            }
+            res = m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo, false, false);
         }
-        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo, {trackId});
     }
-    res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo, false, false);
+    if (m_model->isClip(clipId)) {
+        if (m_model->m_editMode == TimelineMode::OverwriteEdit) {
+            res = res && TimelineFunctions::liftZone(m_model, trackId, QPoint(position, position + duration), undo, redo);
+        } else if (m_model->m_editMode == TimelineMode::InsertEdit) {
+            // Remove space from previous location
+            if (currentTrack > -1) {
+                res = res && TimelineFunctions::removeSpace(m_model, {startPos, startPos + duration}, undo, redo, {currentTrack}, false);
+            }
+            int startClipId = m_model->getClipByPosition(trackId, position);
+            if (startClipId > -1) {
+                // There is a clip at insert pos
+                if (m_model->getClipPosition(startClipId) != position) {
+                    // If position is in the middle of the clip, cut it
+                    res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
+                }
+            }
+            res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo, {trackId});
+        }
+        res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo, false, false);
+    } else if (m_model->isComposition(clipId)) {
+        res = res && m_model->getTrackById(trackId)->requestCompositionInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
+    }
     if (res) {
         // Terminate fake move
         if (m_model->isClip(clipId)) {
             m_model->m_allClips[clipId]->setFakeTrackId(-1);
+        } else if (m_model->isComposition(clipId)) {
+            m_model->m_allCompositions[clipId]->setFakeTrackId(-1);
         }
         if (logUndo) {
             pCore->pushUndo(undo, redo, i18n("Move item"));
@@ -4286,6 +4310,8 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         // Terminate fake move
         if (m_model->isClip(clipId)) {
             m_model->m_allClips[clipId]->setFakeTrackId(-1);
+        } else if (m_model->isComposition(clipId)) {
+            m_model->m_allCompositions[clipId]->setFakeTrackId(-1);
         }
         pCore->pushUndo(undo, redo, i18n("Move group"));
     }
@@ -4358,13 +4384,13 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         int old_trackId = m_model->getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
+            int current_track_position = m_model->getTrackPosition(old_trackId);
+            int d = m_model->getTrackById_const(old_trackId)->isAudioTrack() ? audio_delta : video_delta;
+            int target_track_position = current_track_position + d;
+            auto it = m_model->m_allTracks.cbegin();
+            std::advance(it, target_track_position);
+            int target_track = (*it)->getId();
             if (m_model->isClip(item)) {
-                int current_track_position = m_model->getTrackPosition(old_trackId);
-                int d = m_model->getTrackById_const(old_trackId)->isAudioTrack() ? audio_delta : video_delta;
-                int target_track_position = current_track_position + d;
-                auto it = m_model->m_allTracks.cbegin();
-                std::advance(it, target_track_position);
-                int target_track = (*it)->getId();
                 new_track_ids[item] = target_track;
                 affected_trackIds.emplace_back(target_track);
                 old_position[item] = m_model->m_allClips[item]->getPosition();
@@ -4377,9 +4403,10 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                     ok = ok && TimelineFunctions::removeSpace(m_model, {old_position[item], old_position[item] + duration}, undo, redo, {old_trackId}, false);
                 }
             } else {
-                // ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo);
+                new_track_ids[item] = target_track;
                 old_position[item] = m_model->m_allCompositions[item]->getPosition();
                 old_forced_track[item] = m_model->m_allCompositions[item]->getForcedTrack();
+                // ok = ok && m_model->getTrackById(old_trackId)->requestCompositionDeletion(item, true, finalMove, undo, redo, false);
             }
             if (!ok) {
                 bool undone = undo();
@@ -4417,12 +4444,12 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(min, max), undo, redo, processedTracks);
     }
     for (int item : sorted_clips) {
+        int target_track = new_track_ids[item];
+        int target_position = old_position[item] + delta_pos;
         if (m_model->isClip(item)) {
-            int target_track = new_track_ids[item];
-            int target_position = old_position[item] + delta_pos;
             ok = ok && m_model->requestClipMove(item, target_track, target_position, true, updateView, finalMove, finalMove, undo, redo);
-        } else {
-            // ok = ok && requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, local_undo, local_redo);
+        } else if (m_model->isComposition(item)) {
+            ok = ok && m_model->requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateView, finalMove, undo, redo);
         }
         if (!ok) {
             bool undone = undo();
@@ -4443,7 +4470,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         return true;
     }
     for (int item : sorted_clips) {
-        if (mixToMove.find(item) == mixToMove.end()) {
+        if (!m_model->isClip(item) || mixToMove.find(item) == mixToMove.end()) {
             continue;
         }
         int trackId = new_track_ids[item];

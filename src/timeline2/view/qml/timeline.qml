@@ -1961,8 +1961,15 @@ Rectangle {
                                         if (dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                             var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                             if (dragProxy.isComposition) {
-                                                controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false)
-                                                controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true)
+                                                if (controller.normalEdit()) {
+                                                    // Move composition back to original position
+                                                    controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false)
+                                                    // Move composition to final pos
+                                                    controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true)
+                                                } else {
+                                                    // Fake move, only process final move
+                                                    timeline.endFakeMove(dragProxy.draggedItem, dragFrame, true, true, true)
+                                                }
                                             } else {
                                                 if (controller.normalEdit()) {
                                                     // Move clip back to original position
