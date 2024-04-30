@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-29 02:26+0000\n"
+"POT-Creation-Date: 2024-04-30 02:26+0000\n"
 "PO-Revision-Date: 2024-04-22 18:07+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -5538,8 +5538,8 @@ msgstr "I"
 msgid "Usage"
 msgstr "用量"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1580
-#: src/doc/documentchecker.cpp:1608 src/doc/documentchecker.cpp:1628
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1627
+#: src/doc/documentchecker.cpp:1655 src/doc/documentchecker.cpp:1675
 #: src/mltcontroller/clipcontroller.cpp:508 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8540,129 +8540,129 @@ msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "素材資料夾"
 
-#: src/doc/documentchecker.cpp:106
+#: src/doc/documentchecker.cpp:138
 #, kde-format
 msgid "Applying fixes…"
 msgstr "正在套用修正…"
 
-#: src/doc/documentchecker.cpp:145 src/doc/documentchecker.cpp:199
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:237
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "正在檢查缺乏項目…"
 
-#: src/doc/documentchecker.cpp:162
+#: src/doc/documentchecker.cpp:194
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1570
+#: src/doc/documentchecker.cpp:1617
 #, kde-format
 msgid "Video clip"
 msgstr "視訊素材"
 
-#: src/doc/documentchecker.cpp:1572
+#: src/doc/documentchecker.cpp:1619
 #, kde-format
 msgid "Slideshow clip"
 msgstr "幻燈片素材"
 
-#: src/doc/documentchecker.cpp:1574
+#: src/doc/documentchecker.cpp:1621
 #, kde-format
 msgid "Image clip"
 msgstr "圖片素材"
 
-#: src/doc/documentchecker.cpp:1576
+#: src/doc/documentchecker.cpp:1623
 #, kde-format
 msgid "Playlist clip"
 msgstr "播放清單素材"
 
-#: src/doc/documentchecker.cpp:1578 src/doc/documentchecker.cpp:1594
+#: src/doc/documentchecker.cpp:1625 src/doc/documentchecker.cpp:1641
 #, kde-format
 msgid "Title Image"
 msgstr "字幕 / 標題圖片"
 
-#: src/doc/documentchecker.cpp:1590
+#: src/doc/documentchecker.cpp:1637
 #, kde-format
 msgid "Clip"
 msgstr "素材"
 
-#: src/doc/documentchecker.cpp:1592
+#: src/doc/documentchecker.cpp:1639
 #, kde-format
 msgid "Title Font"
 msgstr "標題字型"
 
-#: src/doc/documentchecker.cpp:1596
+#: src/doc/documentchecker.cpp:1643
 #, kde-format
 msgid "Luma file"
 msgstr "亮度檔案"
 
-#: src/doc/documentchecker.cpp:1598
+#: src/doc/documentchecker.cpp:1645
 #, kde-format
 msgid "Asset file"
 msgstr "資源檔案"
 
-#: src/doc/documentchecker.cpp:1600
+#: src/doc/documentchecker.cpp:1647
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "代理素材"
 
-#: src/doc/documentchecker.cpp:1602
+#: src/doc/documentchecker.cpp:1649
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "特效"
 
-#: src/doc/documentchecker.cpp:1604
+#: src/doc/documentchecker.cpp:1651
 #, kde-format
 msgid "Transition"
 msgstr "轉場特效"
 
-#: src/doc/documentchecker.cpp:1606
+#: src/doc/documentchecker.cpp:1653
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Corrupted sequence"
 msgstr "圖片串列"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1616 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1663 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "固定"
 
-#: src/doc/documentchecker.cpp:1618
+#: src/doc/documentchecker.cpp:1665
 #, kde-format
 msgid "Reload"
 msgstr "重新載入"
 
-#: src/doc/documentchecker.cpp:1620
+#: src/doc/documentchecker.cpp:1667
 #, fuzzy, kde-format
 msgid "Missing"
 msgstr "丟失的編碼方案"
 
-#: src/doc/documentchecker.cpp:1622
+#: src/doc/documentchecker.cpp:1669
 #, fuzzy, kde-format
 msgid "Missing, but proxy available"
 msgstr "丟失的編碼方案"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1624 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1671 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1626 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1673 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "移除"
 
-#: src/doc/documentchecker.cpp:1637
+#: src/doc/documentchecker.cpp:1684
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1640
+#: src/doc/documentchecker.cpp:1687
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
