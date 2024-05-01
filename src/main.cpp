@@ -427,11 +427,14 @@ int main(int argc, char *argv[])
     // Init DBus services
     KDBusService programDBusService;
 #endif
-    bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
+    if (packageType == QLatin1String("appimage")) {
+        QIcon::setThemeName(QStringLiteral("breeze"));
+    }
+    /*bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
         bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
         QIcon::setThemeName(darkBreeze ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
-    }
+    }*/
     qApp->processEvents(QEventLoop::AllEvents);
 
 #if defined(KF5_USE_CRASH)
