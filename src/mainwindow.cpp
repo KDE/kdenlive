@@ -954,8 +954,8 @@ void MainWindow::slotThemeChanged(const QString &name)
     // Required for qml palette change
     QGuiApplication::setPalette(plt);
 
-    QColor background = plt.window().color();
-    bool useDarkIcons = background.value() < 100;
+    // QColor background = plt.window().color();
+    // bool useDarkIcons = background.value() < 100;
 
     if (m_assetPanel) {
         m_assetPanel->updatePalette();
@@ -975,7 +975,7 @@ void MainWindow::slotThemeChanged(const QString &name)
     }
     Q_EMIT pCore->updatePalette();
 
-    KSharedConfigPtr kconfig = KSharedConfig::openConfig();
+    /*KSharedConfigPtr kconfig = KSharedConfig::openConfig();
     KConfigGroup initialGroup(kconfig, "version");
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     bool isAppimage = pCore->packageType() == QStringLiteral("appimage");
@@ -987,7 +987,7 @@ void MainWindow::slotThemeChanged(const QString &name)
         // See also https://kate-editor.org/post/2021/2021-03-07-cross-platform-light-dark-themes-and-icons/
         QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
-    }
+    }*/
 }
 
 MainWindow::~MainWindow()

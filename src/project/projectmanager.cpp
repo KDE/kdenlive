@@ -1781,12 +1781,15 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement e = producers.at(i).toElement();
         bool ok;
-        if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("qimage") && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+        if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("qimage")) {
             // Slideshow, duration is frame based, should be calculated again
-            Xml::setXmlProperty(e, QStringLiteral("length"), QStringLiteral("0"));
-            Xml::removeXmlProperty(e, QStringLiteral("kdenlive:duration"));
-            e.setAttribute(QStringLiteral("out"), -1);
-            continue;
+            const QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+            if (resource.contains(QLatin1Char('%')) || resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("\\.all."))) {
+                Xml::setXmlProperty(e, QStringLiteral("length"), QStringLiteral("0"));
+                Xml::removeXmlProperty(e, QStringLiteral("kdenlive:duration"));
+                e.setAttribute(QStringLiteral("out"), -1);
+                continue;
+            }
         }
         int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt(&ok);
         if (ok && length > 0) {
@@ -1798,12 +1801,15 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     for (int i = 0; i < chains.count(); ++i) {
         QDomElement e = chains.at(i).toElement();
         bool ok;
-        if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("qimage") && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+        if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("qimage")) {
             // Slideshow, duration is frame based, should be calculated again
-            Xml::setXmlProperty(e, QStringLiteral("length"), QStringLiteral("0"));
-            Xml::removeXmlProperty(e, QStringLiteral("kdenlive:duration"));
-            e.setAttribute(QStringLiteral("out"), -1);
-            continue;
+            const QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+            if (resource.contains(QLatin1Char('%')) || resource.contains(QStringLiteral("/.all.")) || resource.contains(QStringLiteral("\\.all."))) {
+                Xml::setXmlProperty(e, QStringLiteral("length"), QStringLiteral("0"));
+                Xml::removeXmlProperty(e, QStringLiteral("kdenlive:duration"));
+                e.setAttribute(QStringLiteral("out"), -1);
+                continue;
+            }
         }
         int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt(&ok);
         if (ok && length > 0) {
