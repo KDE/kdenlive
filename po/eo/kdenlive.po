@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-30 02:26+0000\n"
+"POT-Creation-Date: 2024-05-01 02:25+0000\n"
 "PO-Revision-Date: 2024-04-27 17:28+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -4182,7 +4182,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Kiam oni elektas, silentigas ĉiujn aliajn sonspurojn."
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4857
+#: src/timeline2/view/timelinecontroller.cpp:4884
 #, kde-format
 msgid "Record audio"
 msgstr "Registra audio"
@@ -6434,7 +6434,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/project/projectmanager.cpp:1821 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5128
+#: src/timeline2/view/timelinecontroller.cpp:5155
 #: src/titler/titlewidget.cpp:2299
 #, kde-format
 msgid "Cannot write to file %1"
@@ -11651,7 +11651,7 @@ msgstr "Enigi trakon…"
 msgid "Fit all Tracks in View"
 msgstr "Ŝtopi ĉiujn trakojn en vidon"
 
-#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4898
+#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4925
 #, kde-format
 msgid "Master effects"
 msgstr "Majstraj efikoj"
@@ -12244,7 +12244,7 @@ msgstr ""
 "Kdenlive devas esti rekomencita por apliki la piktograman etosoŝanĝon. Ĉu "
 "rekomenci nun?"
 
-#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5111
+#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5138
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Neniuj subtekstoj en nuna projekto"
@@ -16683,7 +16683,7 @@ msgstr "Forigi Komponaĵon"
 
 #: src/timeline2/model/timelinemodel.cpp:2347
 #: src/timeline2/model/timelinemodel.cpp:2599
-#: src/timeline2/view/timelinecontroller.cpp:4290
+#: src/timeline2/view/timelinecontroller.cpp:4316
 #, kde-format
 msgid "Move group"
 msgstr "Movi grupon"
@@ -16969,7 +16969,7 @@ msgid "Stop"
 msgstr "Halti"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2108
+#: src/timeline2/view/qml/timeline.qml:2115
 #, kde-format
 msgid "Paused"
 msgstr "Paŭzita"
@@ -17150,13 +17150,13 @@ msgstr "<b>Duoble alklaku</b> por aldoni subtitolon"
 msgid "Offset: %1, Position: %2"
 msgstr "Deŝovo: %1, Pozicio: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2097
-#: src/timeline2/view/qml/timeline.qml:2106
+#: src/timeline2/view/qml/timeline.qml:2104
+#: src/timeline2/view/qml/timeline.qml:2113
 #, kde-format
 msgid "Recording"
 msgstr "Registrado"
 
-#: src/timeline2/view/qml/timeline.qml:2200
+#: src/timeline2/view/qml/timeline.qml:2207
 #, kde-format
 msgid "Multicam In"
 msgstr "Multikamera En"
@@ -17272,7 +17272,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Ne povas fari operacion dum trenado en templinio"
 
 #: src/timeline2/view/timelinecontroller.cpp:922
-#: src/timeline2/view/timelinecontroller.cpp:5041
+#: src/timeline2/view/timelinecontroller.cpp:5068
 #, kde-format
 msgid "Could not insert track"
 msgstr "Ne eblis enmeti trakon"
@@ -17352,7 +17352,7 @@ msgid "No item to edit"
 msgstr "Neniu aĵo por redakti"
 
 #: src/timeline2/view/timelinecontroller.cpp:2911
-#: src/timeline2/view/timelinecontroller.cpp:5275
+#: src/timeline2/view/timelinecontroller.cpp:5302
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Bonvolu aktivigi trakon por ĉi tiu operacio klakante sur ĝia etikedo"
@@ -17440,17 +17440,17 @@ msgstr "Restarigi videon"
 msgid "Restore audio"
 msgstr "Restarigi audio"
 
-#: src/timeline2/view/timelinecontroller.cpp:4271
+#: src/timeline2/view/timelinecontroller.cpp:4295
 #, kde-format
 msgid "Move item"
 msgstr "Movi objekton"
 
-#: src/timeline2/view/timelinecontroller.cpp:4755
+#: src/timeline2/view/timelinecontroller.cpp:4782
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Neeble kapti sur ŝlosita trako"
 
-#: src/timeline2/view/timelinecontroller.cpp:4766
+#: src/timeline2/view/timelinecontroller.cpp:4793
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -17459,34 +17459,34 @@ msgstr ""
 "Neeble kapti ĉi tie: la kapto povus superregi tondaĵojn. Bonvolu forigi "
 "tondaĵojn post la nuna pozicio aŭ elekti alian trakon"
 
-#: src/timeline2/view/timelinecontroller.cpp:4995
+#: src/timeline2/view/timelinecontroller.cpp:5022
 #, kde-format
 msgid "Expand clip"
 msgstr "Pligrandigi tondaĵon"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:5025
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Ne eblis vastigi tondaĵon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5039
+#: src/timeline2/view/timelinecontroller.cpp:5066
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Enmeti trakon"
 msgstr[1] "Enmeti trakojn"
 
-#: src/timeline2/view/timelinecontroller.cpp:5114
+#: src/timeline2/view/timelinecontroller.cpp:5141
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Eksporti subtitolan dosieron"
 
-#: src/timeline2/view/timelinecontroller.cpp:5115
+#: src/timeline2/view/timelinecontroller.cpp:5142
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "Subtitola dosiero (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5145
+#: src/timeline2/view/timelinecontroller.cpp:5172
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -17495,34 +17495,34 @@ msgstr ""
 "La filtrilo avfilter.subtitles estas postulata, sed ne estis trovita. La "
 "subtekstoj verŝajne ne funkcios kiel atendite."
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Montri subtitolon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Kaŝi subtitolan trakon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Malŝlosi subtitolan trakon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Ŝlosi subtitolan trakon"
 
-#: src/timeline2/view/timelinecontroller.cpp:5349
-#: src/timeline2/view/timelinecontroller.cpp:5358
+#: src/timeline2/view/timelinecontroller.cpp:5376
+#: src/timeline2/view/timelinecontroller.cpp:5385
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Subtekstoj"
 
-#: src/timeline2/view/timelinecontroller.cpp:5360
+#: src/timeline2/view/timelinecontroller.cpp:5387
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"

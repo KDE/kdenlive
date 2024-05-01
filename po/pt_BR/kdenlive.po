@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-30 02:26+0000\n"
+"POT-Creation-Date: 2024-05-01 02:25+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -4213,7 +4213,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Quando selecionado, silencia todas as outras faixas de áudio."
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4857
+#: src/timeline2/view/timelinecontroller.cpp:4884
 #, kde-format
 msgid "Record audio"
 msgstr "Gravar áudio"
@@ -6479,7 +6479,7 @@ msgstr "Exportar dados das guias"
 #: src/project/projectmanager.cpp:1821 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5128
+#: src/timeline2/view/timelinecontroller.cpp:5155
 #: src/titler/titlewidget.cpp:2299
 #, kde-format
 msgid "Cannot write to file %1"
@@ -11825,7 +11825,7 @@ msgstr "Inserir trilha…"
 msgid "Fit all Tracks in View"
 msgstr "Mudar todas as trilhas ativas"
 
-#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4898
+#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4925
 #, kde-format
 msgid "Master effects"
 msgstr "Efeitos mestre"
@@ -12463,7 +12463,7 @@ msgstr ""
 "O Kdenlive deve ser reiniciado para aplicar a mudança no tema de ícones. "
 "Reiniciar agora?"
 
-#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5111
+#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5138
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Nenhuma legenda no projeto atual."
@@ -17131,7 +17131,7 @@ msgstr "Excluir composição"
 
 #: src/timeline2/model/timelinemodel.cpp:2347
 #: src/timeline2/model/timelinemodel.cpp:2599
-#: src/timeline2/view/timelinecontroller.cpp:4290
+#: src/timeline2/view/timelinecontroller.cpp:4316
 #, kde-format
 msgid "Move group"
 msgstr "Mover grupo"
@@ -17429,7 +17429,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2108
+#: src/timeline2/view/qml/timeline.qml:2115
 #, kde-format
 msgid "Paused"
 msgstr "Pausado"
@@ -17618,14 +17618,14 @@ msgstr "<b>Clique duplo</b> ou arraste para adicionar aparecer"
 msgid "Offset: %1, Position: %2"
 msgstr "Desvio: %1, Posição: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2097
-#: src/timeline2/view/qml/timeline.qml:2106
+#: src/timeline2/view/qml/timeline.qml:2104
+#: src/timeline2/view/qml/timeline.qml:2113
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Gravar"
 
-#: src/timeline2/view/qml/timeline.qml:2200
+#: src/timeline2/view/qml/timeline.qml:2207
 #, fuzzy, kde-format
 msgid "Multicam In"
 msgstr "Entrada multicâmera"
@@ -17743,7 +17743,7 @@ msgstr ""
 "tempo"
 
 #: src/timeline2/view/timelinecontroller.cpp:922
-#: src/timeline2/view/timelinecontroller.cpp:5041
+#: src/timeline2/view/timelinecontroller.cpp:5068
 #, kde-format
 msgid "Could not insert track"
 msgstr "Não foi possível inserir trilha"
@@ -17826,7 +17826,7 @@ msgid "No item to edit"
 msgstr "Nenhum item para editar"
 
 #: src/timeline2/view/timelinecontroller.cpp:2911
-#: src/timeline2/view/timelinecontroller.cpp:5275
+#: src/timeline2/view/timelinecontroller.cpp:5302
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Ative uma faixa para esta operação clicando em seu rótulo"
@@ -17916,17 +17916,17 @@ msgstr "Restaurar vídeo"
 msgid "Restore audio"
 msgstr "Restaurar áudio"
 
-#: src/timeline2/view/timelinecontroller.cpp:4271
+#: src/timeline2/view/timelinecontroller.cpp:4295
 #, kde-format
 msgid "Move item"
 msgstr "Mover item"
 
-#: src/timeline2/view/timelinecontroller.cpp:4755
+#: src/timeline2/view/timelinecontroller.cpp:4782
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Impossível capturar em uma trilha bloqueada"
 
-#: src/timeline2/view/timelinecontroller.cpp:4766
+#: src/timeline2/view/timelinecontroller.cpp:4793
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -17935,34 +17935,34 @@ msgstr ""
 "Impossível capturar aqui: a captura pode substituir os clipes. Remova os "
 "clipes após a posição atual ou escolha uma faixa diferente"
 
-#: src/timeline2/view/timelinecontroller.cpp:4995
+#: src/timeline2/view/timelinecontroller.cpp:5022
 #, kde-format
 msgid "Expand clip"
 msgstr "Expandir clipe"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:5025
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Não foi possível expandir o clipe"
 
-#: src/timeline2/view/timelinecontroller.cpp:5039
+#: src/timeline2/view/timelinecontroller.cpp:5066
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Inserir trilha"
 msgstr[1] "Inserir trilhas"
 
-#: src/timeline2/view/timelinecontroller.cpp:5114
+#: src/timeline2/view/timelinecontroller.cpp:5141
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Exportar arquivo de legendas"
 
-#: src/timeline2/view/timelinecontroller.cpp:5115
+#: src/timeline2/view/timelinecontroller.cpp:5142
 #, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "Arquivo de legenda (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5145
+#: src/timeline2/view/timelinecontroller.cpp:5172
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -17971,35 +17971,35 @@ msgstr ""
 "O filtro avfilter.subtitles é necessário, mas não foi encontrado. O recurso "
 "de legendas provavelmente não funcionará como esperado."
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Mostrar trilha de legenda"
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Esconder trilha de legenda"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Destravar trilha de legenda"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Travar trilha de legenda"
 
-#: src/timeline2/view/timelinecontroller.cpp:5349
-#: src/timeline2/view/timelinecontroller.cpp:5358
+#: src/timeline2/view/timelinecontroller.cpp:5376
+#: src/timeline2/view/timelinecontroller.cpp:5385
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Legendas"
 
-#: src/timeline2/view/timelinecontroller.cpp:5360
+#: src/timeline2/view/timelinecontroller.cpp:5387
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox"

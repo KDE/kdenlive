@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-30 02:26+0000\n"
+"POT-Creation-Date: 2024-05-01 02:25+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -4266,7 +4266,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4857
+#: src/timeline2/view/timelinecontroller.cpp:4884
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Record audio"
@@ -6602,7 +6602,7 @@ msgstr "Dodaj oznaku"
 #: src/project/projectmanager.cpp:1821 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5128
+#: src/timeline2/view/timelinecontroller.cpp:5155
 #: src/titler/titlewidget.cpp:2299
 #, kde-format
 msgid "Cannot write to file %1"
@@ -11959,7 +11959,7 @@ msgstr "Umetni traku"
 msgid "Fit all Tracks in View"
 msgstr "sa trakom"
 
-#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4898
+#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4925
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Master effects"
@@ -12568,7 +12568,7 @@ msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5111
+#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5138
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
@@ -17045,7 +17045,7 @@ msgstr "Pozicija"
 
 #: src/timeline2/model/timelinemodel.cpp:2347
 #: src/timeline2/model/timelinemodel.cpp:2599
-#: src/timeline2/view/timelinecontroller.cpp:4290
+#: src/timeline2/view/timelinecontroller.cpp:4316
 #, kde-format
 msgid "Move group"
 msgstr "Pomakni grupu"
@@ -17352,7 +17352,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2108
+#: src/timeline2/view/qml/timeline.qml:2115
 #, kde-format
 msgid "Paused"
 msgstr ""
@@ -17536,14 +17536,14 @@ msgstr "Ne mogu dodati prijelaz"
 msgid "Offset: %1, Position: %2"
 msgstr "Pozicija"
 
-#: src/timeline2/view/qml/timeline.qml:2097
-#: src/timeline2/view/qml/timeline.qml:2106
+#: src/timeline2/view/qml/timeline.qml:2104
+#: src/timeline2/view/qml/timeline.qml:2113
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Snimi"
 
-#: src/timeline2/view/qml/timeline.qml:2200
+#: src/timeline2/view/qml/timeline.qml:2207
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17660,7 +17660,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Ne mogu umetnuti isječak na odabrano mjesto"
 
 #: src/timeline2/view/timelinecontroller.cpp:922
-#: src/timeline2/view/timelinecontroller.cpp:5041
+#: src/timeline2/view/timelinecontroller.cpp:5068
 #, fuzzy, kde-format
 msgid "Could not insert track"
 msgstr "Umetni prazninu"
@@ -17747,7 +17747,7 @@ msgid "No item to edit"
 msgstr "Poravnaj lijevo"
 
 #: src/timeline2/view/timelinecontroller.cpp:2911
-#: src/timeline2/view/timelinecontroller.cpp:5275
+#: src/timeline2/view/timelinecontroller.cpp:5302
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -17845,37 +17845,37 @@ msgstr "Obriši efekt"
 msgid "Restore audio"
 msgstr "Izvuci okvir"
 
-#: src/timeline2/view/timelinecontroller.cpp:4271
+#: src/timeline2/view/timelinecontroller.cpp:4295
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move item"
 msgstr "Pomakni vodić"
 
-#: src/timeline2/view/timelinecontroller.cpp:4755
+#: src/timeline2/view/timelinecontroller.cpp:4782
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4766
+#: src/timeline2/view/timelinecontroller.cpp:4793
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4995
+#: src/timeline2/view/timelinecontroller.cpp:5022
 #, fuzzy, kde-format
 #| msgid "Edit Clip"
 msgid "Expand clip"
 msgstr "Uredi isječak"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:5025
 #, fuzzy, kde-format
 #| msgid "Add clips"
 msgid "Could not expand clip"
 msgstr "Dodaj isječke"
 
-#: src/timeline2/view/timelinecontroller.cpp:5039
+#: src/timeline2/view/timelinecontroller.cpp:5066
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgid "Insert Track"
@@ -17884,53 +17884,53 @@ msgstr[0] "Umetni traku"
 msgstr[1] "Umetni traku"
 msgstr[2] "Umetni traku"
 
-#: src/timeline2/view/timelinecontroller.cpp:5114
+#: src/timeline2/view/timelinecontroller.cpp:5141
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Export subtitle file"
 msgstr "Dodaj vodić"
 
-#: src/timeline2/view/timelinecontroller.cpp:5115
+#: src/timeline2/view/timelinecontroller.cpp:5142
 #, fuzzy, kde-format
 msgid "Subtitle File (*.srt)"
 msgstr "Bez naziva"
 
-#: src/timeline2/view/timelinecontroller.cpp:5145
+#: src/timeline2/view/timelinecontroller.cpp:5172
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, fuzzy, kde-format
 msgid "Show subtitle track"
 msgstr "Prikaži vremensku liniju"
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, fuzzy, kde-format
 msgid "Hide subtitle track"
 msgstr "Obriši isječak"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "Otključaj traku"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, fuzzy, kde-format
 msgid "Lock subtitle track"
 msgstr "Bez naziva"
 
-#: src/timeline2/view/timelinecontroller.cpp:5349
-#: src/timeline2/view/timelinecontroller.cpp:5358
+#: src/timeline2/view/timelinecontroller.cpp:5376
+#: src/timeline2/view/timelinecontroller.cpp:5385
 #, fuzzy, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Bez naziva"
 
-#: src/timeline2/view/timelinecontroller.cpp:5360
+#: src/timeline2/view/timelinecontroller.cpp:5387
 #, fuzzy, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
