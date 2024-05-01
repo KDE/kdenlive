@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-30 02:26+0000\n"
+"POT-Creation-Date: 2024-05-01 02:25+0000\n"
 "PO-Revision-Date: 2020-10-31 22:29+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -4269,7 +4269,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4857
+#: src/timeline2/view/timelinecontroller.cpp:4884
 #, kde-format
 msgid "Record audio"
 msgstr "Optag lyd"
@@ -6614,7 +6614,7 @@ msgstr "Importér hjælpelinjer"
 #: src/project/projectmanager.cpp:1821 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5128
+#: src/timeline2/view/timelinecontroller.cpp:5155
 #: src/titler/titlewidget.cpp:2299
 #, kde-format
 msgid "Cannot write to file %1"
@@ -12074,7 +12074,7 @@ msgstr "Indsæt spor"
 msgid "Fit all Tracks in View"
 msgstr "Gør alle spor aktive"
 
-#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4898
+#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4925
 #, kde-format
 msgid "Master effects"
 msgstr "Mastereffekter"
@@ -12685,7 +12685,7 @@ msgid ""
 msgstr ""
 "Kdenlive skal genstartes for at anvende ikontemaet. Vil du genstarte nu?"
 
-#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5111
+#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5138
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
@@ -17188,7 +17188,7 @@ msgstr "Slet komposition"
 
 #: src/timeline2/model/timelinemodel.cpp:2347
 #: src/timeline2/model/timelinemodel.cpp:2599
-#: src/timeline2/view/timelinecontroller.cpp:4290
+#: src/timeline2/view/timelinecontroller.cpp:4316
 #, kde-format
 msgid "Move group"
 msgstr "Flyt gruppe"
@@ -17499,7 +17499,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2108
+#: src/timeline2/view/qml/timeline.qml:2115
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -17719,14 +17719,14 @@ msgstr ""
 "I:%1\n"
 "Position:%2"
 
-#: src/timeline2/view/qml/timeline.qml:2097
-#: src/timeline2/view/qml/timeline.qml:2106
+#: src/timeline2/view/qml/timeline.qml:2104
+#: src/timeline2/view/qml/timeline.qml:2113
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Optag"
 
-#: src/timeline2/view/qml/timeline.qml:2200
+#: src/timeline2/view/qml/timeline.qml:2207
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17840,7 +17840,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Kan ikke udføre handling, ugyldigt dokument-id: %1"
 
 #: src/timeline2/view/timelinecontroller.cpp:922
-#: src/timeline2/view/timelinecontroller.cpp:5041
+#: src/timeline2/view/timelinecontroller.cpp:5068
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert track"
@@ -17929,7 +17929,7 @@ msgid "No item to edit"
 msgstr "Venstrejustér element"
 
 #: src/timeline2/view/timelinecontroller.cpp:2911
-#: src/timeline2/view/timelinecontroller.cpp:5275
+#: src/timeline2/view/timelinecontroller.cpp:5302
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
@@ -18026,95 +18026,95 @@ msgstr "Genskab video"
 msgid "Restore audio"
 msgstr "Genskab lyd"
 
-#: src/timeline2/view/timelinecontroller.cpp:4271
+#: src/timeline2/view/timelinecontroller.cpp:4295
 #, kde-format
 msgid "Move item"
 msgstr "Flyt element"
 
-#: src/timeline2/view/timelinecontroller.cpp:4755
+#: src/timeline2/view/timelinecontroller.cpp:4782
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Impossible to capture on a locked track"
 msgstr "Kan ikke bruge tomrum i et låst spor"
 
-#: src/timeline2/view/timelinecontroller.cpp:4766
+#: src/timeline2/view/timelinecontroller.cpp:4793
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4995
+#: src/timeline2/view/timelinecontroller.cpp:5022
 #, kde-format
 msgid "Expand clip"
 msgstr "Fold klip ud"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:5025
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not expand clip"
 msgstr "Tilføj klip"
 
-#: src/timeline2/view/timelinecontroller.cpp:5039
+#: src/timeline2/view/timelinecontroller.cpp:5066
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Indsæt spor"
 msgstr[1] "Indsæt spor"
 
-#: src/timeline2/view/timelinecontroller.cpp:5114
+#: src/timeline2/view/timelinecontroller.cpp:5141
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Export subtitle file"
 msgstr "Tilføj hjælpelinje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5115
+#: src/timeline2/view/timelinecontroller.cpp:5142
 #, fuzzy, kde-format
 #| msgid "Text File (*.txt)"
 msgid "Subtitle File (*.srt)"
 msgstr "Tekstfil (*.txt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5145
+#: src/timeline2/view/timelinecontroller.cpp:5172
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, fuzzy, kde-format
 #| msgid "Show Title Bars"
 msgid "Show subtitle track"
 msgstr "Vis titellinjer"
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Hide subtitle track"
 msgstr "Slet hjælpelinje"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "Lås spor op"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
 msgstr "unavngivet"
 
-#: src/timeline2/view/timelinecontroller.cpp:5349
-#: src/timeline2/view/timelinecontroller.cpp:5358
+#: src/timeline2/view/timelinecontroller.cpp:5376
+#: src/timeline2/view/timelinecontroller.cpp:5385
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "unavngivet"
 
-#: src/timeline2/view/timelinecontroller.cpp:5360
+#: src/timeline2/view/timelinecontroller.cpp:5387
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox"

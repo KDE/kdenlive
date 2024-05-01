@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-04-30 02:26+0000\n"
+"POT-Creation-Date: 2024-05-01 02:25+0000\n"
 "PO-Revision-Date: 2024-04-14 13:36+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -4217,7 +4217,7 @@ msgid "When selected mutes all other audio tracks."
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:272
-#: src/timeline2/view/timelinecontroller.cpp:4857
+#: src/timeline2/view/timelinecontroller.cpp:4884
 #, kde-format
 msgid "Record audio"
 msgstr "オーディオを録音"
@@ -6532,7 +6532,7 @@ msgstr "マーカーの編集(E)"
 #: src/project/projectmanager.cpp:1821 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
-#: src/timeline2/view/timelinecontroller.cpp:5128
+#: src/timeline2/view/timelinecontroller.cpp:5155
 #: src/titler/titlewidget.cpp:2299
 #, kde-format
 msgid "Cannot write to file %1"
@@ -11973,7 +11973,7 @@ msgstr "トラックを挿入..."
 msgid "Fit all Tracks in View"
 msgstr ""
 
-#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4898
+#: src/mainwindow.cpp:1899 src/timeline2/view/timelinecontroller.cpp:4925
 #, kde-format
 msgid "Master effects"
 msgstr "マスター効果"
@@ -12608,7 +12608,7 @@ msgstr ""
 "アイコンテーマの変更を適用するために Kdenlive を再起動する必要があります。今"
 "すぐ再起動しますか？"
 
-#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5111
+#: src/mainwindow.cpp:4778 src/timeline2/view/timelinecontroller.cpp:5138
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "現在のプロジェクトには字幕がありません"
@@ -17177,7 +17177,7 @@ msgstr "コンポジット"
 
 #: src/timeline2/model/timelinemodel.cpp:2347
 #: src/timeline2/model/timelinemodel.cpp:2599
-#: src/timeline2/view/timelinecontroller.cpp:4290
+#: src/timeline2/view/timelinecontroller.cpp:4316
 #, kde-format
 msgid "Move group"
 msgstr "グループの移動"
@@ -17484,7 +17484,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2108
+#: src/timeline2/view/qml/timeline.qml:2115
 #, kde-format
 msgid "Paused"
 msgstr "一時停止"
@@ -17673,14 +17673,14 @@ msgstr "<b>ダブルクリック</b>で字幕を追加"
 msgid "Offset: %1, Position: %2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/timeline.qml:2097
-#: src/timeline2/view/qml/timeline.qml:2106
+#: src/timeline2/view/qml/timeline.qml:2104
+#: src/timeline2/view/qml/timeline.qml:2113
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "録画"
 
-#: src/timeline2/view/qml/timeline.qml:2200
+#: src/timeline2/view/qml/timeline.qml:2207
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -17799,7 +17799,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "施錠済みトラックにはスペーサーを使用できません"
 
 #: src/timeline2/view/timelinecontroller.cpp:922
-#: src/timeline2/view/timelinecontroller.cpp:5041
+#: src/timeline2/view/timelinecontroller.cpp:5068
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert track"
@@ -17888,7 +17888,7 @@ msgid "No item to edit"
 msgstr "項目を左に合わせる"
 
 #: src/timeline2/view/timelinecontroller.cpp:2911
-#: src/timeline2/view/timelinecontroller.cpp:5275
+#: src/timeline2/view/timelinecontroller.cpp:5302
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "この操作をするにはトラックのラベルをクリックして有効化してください"
@@ -17985,17 +17985,17 @@ msgstr "ビデオを復元"
 msgid "Restore audio"
 msgstr "オーディオを復元"
 
-#: src/timeline2/view/timelinecontroller.cpp:4271
+#: src/timeline2/view/timelinecontroller.cpp:4295
 #, kde-format
 msgid "Move item"
 msgstr "アイテムを移動"
 
-#: src/timeline2/view/timelinecontroller.cpp:4755
+#: src/timeline2/view/timelinecontroller.cpp:4782
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4766
+#: src/timeline2/view/timelinecontroller.cpp:4793
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -18004,76 +18004,76 @@ msgstr ""
 "ここにはキャプチャーできません: キャプチャーはクリップを上書きします。現在の"
 "場所以降にあるクリップを削除するか、違うトラックを選んでください"
 
-#: src/timeline2/view/timelinecontroller.cpp:4995
+#: src/timeline2/view/timelinecontroller.cpp:5022
 #, fuzzy, kde-format
 #| msgid "Edit Clip"
 msgid "Expand clip"
 msgstr "クリップの編集(E)"
 
-#: src/timeline2/view/timelinecontroller.cpp:4998
+#: src/timeline2/view/timelinecontroller.cpp:5025
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
 msgid "Could not expand clip"
 msgstr "クリップの追加"
 
-#: src/timeline2/view/timelinecontroller.cpp:5039
+#: src/timeline2/view/timelinecontroller.cpp:5066
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "トラックの挿入"
 
-#: src/timeline2/view/timelinecontroller.cpp:5114
+#: src/timeline2/view/timelinecontroller.cpp:5141
 #, kde-format
 msgid "Export subtitle file"
 msgstr "字幕ファイルをエクスポート"
 
-#: src/timeline2/view/timelinecontroller.cpp:5115
+#: src/timeline2/view/timelinecontroller.cpp:5142
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitle File (*.srt)"
 msgstr "タイトル未定"
 
-#: src/timeline2/view/timelinecontroller.cpp:5145
+#: src/timeline2/view/timelinecontroller.cpp:5172
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, fuzzy, kde-format
 #| msgid "Show Title Bars"
 msgid "Show subtitle track"
 msgstr "タイトルバーの表示(B)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5189
 #, fuzzy, kde-format
 #| msgid "Delete guide"
 msgid "Hide subtitle track"
 msgstr "ガイドの削除(D)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "トラックの解錠"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5212
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
 msgstr "タイトル未定"
 
-#: src/timeline2/view/timelinecontroller.cpp:5349
-#: src/timeline2/view/timelinecontroller.cpp:5358
+#: src/timeline2/view/timelinecontroller.cpp:5376
+#: src/timeline2/view/timelinecontroller.cpp:5385
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "字幕"
 
-#: src/timeline2/view/timelinecontroller.cpp:5360
+#: src/timeline2/view/timelinecontroller.cpp:5387
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox"
