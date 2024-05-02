@@ -310,29 +310,33 @@ void DragValue::slotSetValue(double value)
     setValue(value, true);
 }
 
-void DragValue::setValueFromProgress(double value, bool final, bool createUndoEntry)
+void DragValue::setValueFromProgress(double value, bool final, bool createUndoEntry, bool updateWidget)
 {
     value = m_minimum + value * (m_maximum - m_minimum) / m_label->maximum();
     if (m_decimals == 0) {
-        setValue(qRound(value), final, createUndoEntry);
+        setValue(qRound(value), final, createUndoEntry, updateWidget);
     } else {
-        setValue(value, final, createUndoEntry);
+        setValue(value, final, createUndoEntry, updateWidget);
     }
 }
 
-void DragValue::setValue(double value, bool final, bool createUndoEntry)
+void DragValue::setValue(double value, bool final, bool createUndoEntry, bool updateWidget)
 {
     value = qBound(m_minimum, value, m_maximum);
     if (m_intEdit && m_intEdit->singleStep() > 1) {
         int div = (value - m_minimum) / m_intEdit->singleStep();
         value = m_minimum + (div * m_intEdit->singleStep());
     }
+    if (!updateWidget) {
+        Q_EMIT valueChanged(value, final, createUndoEntry);
+        return;
+    }
     m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
     if (m_intEdit) {
         m_intEdit->blockSignals(true);
         m_intEdit->setValue((int)value);
         m_intEdit->blockSignals(false);
-        Q_EMIT valueChanged((int)value, final, createUndoEntry);
+        Q_EMIT valueChanged(qRound(value), final, createUndoEntry);
     } else {
         m_doubleEdit->blockSignals(true);
         m_doubleEdit->setValue(value);
@@ -529,7 +533,8 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
     }
     if (m_dragMode) {
         double newValue = m_value;
-        setNewValue(m_clickValue, true, false);
+        // Simulate a return to initial click position to create undo entry
+        Q_EMIT valueChanged(m_clickValue, true, false, false);
         setNewValue(newValue, true, true);
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
@@ -553,7 +558,6 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
 
 void CustomLabel::wheelEvent(QWheelEvent *e)
 {
-    qDebug()<<":::: GOT WHEEL DELTA: "<<e->angleDelta().y();
     if (e->angleDelta().y() > 0) {
         if (e->modifiers() == Qt::ControlModifier) {
             slotValueInc(10);
@@ -562,7 +566,7 @@ void CustomLabel::wheelEvent(QWheelEvent *e)
         } else {
             slotValueInc();
         }
-    } else {
+    } else if (e->angleDelta().y() < 0) {
         if (e->modifiers() == Qt::ControlModifier) {
             slotValueDec(10);
         } else if (e->modifiers() == Qt::AltModifier) {
