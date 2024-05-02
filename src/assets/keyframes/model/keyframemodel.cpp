@@ -13,6 +13,7 @@
 #include "utils/qcolorutils.h"
 
 #include <QDebug>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QLineF>
 #include <QSize>
@@ -1415,6 +1416,28 @@ std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(std::shared_ptr<Ass
 const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration,
                                                           ParamType paramType, bool useOpacity)
 {
+    if (paramType == ParamType::Roto_spline) {
+        // Special case, this is not an MLT animation
+        //  Parse the JSON DATA
+        QJsonParseError jsonError;
+        QJsonDocument doc = QJsonDocument::fromJson(animData.toUtf8(), &jsonError);
+        QVariant data = doc.toVariant();
+        if (data.canConvert<QVariantMap>()) {
+            QMap<QString, QVariant> map = data.toMap();
+            QMap<QString, QVariant> result;
+            QMap<QString, QVariant>::const_iterator i = map.constBegin();
+            while (i != map.constEnd()) {
+                int pos = i.key().toInt() + offset;
+                if (pos <= duration) {
+                    // Drop keyframes that are after the clip's end
+                    result.insert(QString::number(pos), i.value());
+                }
+                ++i;
+            }
+            return QJsonDocument::fromVariant(result).toJson(QJsonDocument::Compact);
+        }
+        return QString();
+    }
     Mlt::Properties mlt_prop;
     model->passProperties(mlt_prop);
     mlt_prop.set("key", animData.toUtf8().constData());

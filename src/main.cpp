@@ -398,25 +398,6 @@ int main(int argc, char *argv[])
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
-    if (!grp.exists()) {
-        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        if (env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde") && packageType != QStringLiteral("appimage")) {
-            qCDebug(KDENLIVE_LOG) << "KDE Desktop detected and not Appimage, using system icons";
-        } else {
-            // We are not on a KDE desktop or in an Appimage, force breeze icon theme
-#if defined(Q_OS_WIN)
-            qCDebug(KDENLIVE_LOG) << "Windows platform detected, using system icons";
-#else
-            // Check if breeze theme is available
-            QStringList iconThemes = KIconTheme::list();
-            if (iconThemes.contains(QStringLiteral("breeze"))) {
-                grp.writeEntry("force_breeze", true);
-                grp.writeEntry("use_dark_breeze", true);
-                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop or Appimage detected, forcing Breeze icon theme";
-            }
-#endif
-        }
-    }
     KConfigGroup uicg(config, "UiSettings");
     if (!uicg.exists()) {
         uicg.writeEntry("ColorSchemePath", "BreezeDark.colors");
@@ -427,14 +408,10 @@ int main(int argc, char *argv[])
     // Init DBus services
     KDBusService programDBusService;
 #endif
-    if (packageType == QLatin1String("appimage")) {
+    bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
+    if (forceBreeze || packageType == QLatin1String("appimage")) {
         QIcon::setThemeName(QStringLiteral("breeze"));
     }
-    /*bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
-    if (forceBreeze) {
-        bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
-        QIcon::setThemeName(darkBreeze ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
-    }*/
     qApp->processEvents(QEventLoop::AllEvents);
 
 #if defined(KF5_USE_CRASH)

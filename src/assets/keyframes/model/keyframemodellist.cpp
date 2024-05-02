@@ -178,23 +178,22 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
     GenTime pos(frame, pCore->getCurrentFps());
     Q_ASSERT(m_parameters.size() > 0);
     bool update = (m_parameters.begin()->second->hasKeyframe(pos) > 0);
-    bool isRectParam = false;
+    ParamType pType = ParamType::Double;
     if (m_inTimelineIndex.isValid()) {
         if (auto ptr = m_model.lock()) {
-            auto tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
-            if (tp == ParamType::AnimatedRect) {
-                isRectParam = true;
-            }
+            pType = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
         }
     }
-    auto op = [this, pos, val, isRectParam](std::shared_ptr<KeyframeModel> param, bool, Fun &undo, Fun &redo) {
+    auto op = [this, pos, val, pType](std::shared_ptr<KeyframeModel> param, bool, Fun &undo, Fun &redo) {
         QVariant value;
         std::shared_ptr<KeyframeModel> timelineModel = modelInTimeline();
         if (timelineModel) {
             if (timelineModel == param) {
-                if (isRectParam) {
+                if (pType == ParamType::AnimatedRect) {
                     value = param->getInterpolatedValue(pos);
                     value = param->updateInterpolated(value, val);
+                } else if (pType == ParamType::Roto_spline) {
+                    value = param->getInterpolatedValue(pos);
                 } else {
                     value = param->getNormalizedValue(val);
                 }
@@ -219,14 +218,16 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
         QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
-            auto op2 = [km, posWithOffset, val, isRectParam](std::shared_ptr<KeyframeModel> param, bool, Fun &undo, Fun &redo) {
+            auto op2 = [km, posWithOffset, val, pType](std::shared_ptr<KeyframeModel> param, bool, Fun &undo, Fun &redo) {
                 QVariant value;
                 std::shared_ptr<KeyframeModel> timelineModel = km->modelInTimeline();
                 if (timelineModel) {
                     if (timelineModel == param) {
-                        if (isRectParam) {
+                        if (pType == ParamType::AnimatedRect) {
                             value = param->getInterpolatedValue(posWithOffset);
                             value = param->updateInterpolated(value, val);
+                        } else if (pType == ParamType::Roto_spline) {
+                            value = param->getInterpolatedValue(posWithOffset);
                         } else {
                             value = param->getNormalizedValue(val);
                         }
