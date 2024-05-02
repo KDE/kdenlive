@@ -246,7 +246,7 @@ QMap<QString, std::pair<ParamType, bool>> AssetParameterModel::getKeyframablePar
     QMap<QString, std::pair<ParamType, bool>> paramNames;
     for (const auto &name : m_rows) {
         ParamType type = m_params.at(name).type;
-        if (isAnimated(type) && type != ParamType::Roto_spline) {
+        if (isAnimated(type)) {
             // addKeyframeParam(index(ix, 0));
             bool useOpacity = m_params.at(name).xml.attribute(QStringLiteral("opacity")) != QLatin1String("false");
             paramNames.insert(name, {type, useOpacity});
