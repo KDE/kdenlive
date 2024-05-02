@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-01 02:25+0000\n"
+"POT-Creation-Date: 2024-05-02 02:22+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -6614,7 +6614,7 @@ msgstr "Impordi abijooned"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1821 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1827 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5155
@@ -15494,7 +15494,7 @@ msgstr "Projektifail on riknenud (radu pole). Kas püüda leida varukoopiafaili?
 msgid "Project profile change aborted"
 msgstr "Projektiprofiili muutmisest loobuti"
 
-#: src/project/projectmanager.cpp:1806
+#: src/project/projectmanager.cpp:1812
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -15502,12 +15502,12 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Väljundfail on juba olemas. Kas kirjutada see üle?"
 
-#: src/project/projectmanager.cpp:1831
+#: src/project/projectmanager.cpp:1837
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektiprofiili muudeti"
 
-#: src/project/projectmanager.cpp:1892
+#: src/project/projectmanager.cpp:1898
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -15515,18 +15515,18 @@ msgid ""
 "%1"
 msgstr "Filtri %1 loomine nurjus"
 
-#: src/project/projectmanager.cpp:1974
+#: src/project/projectmanager.cpp:1980
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2163
+#: src/project/projectmanager.cpp:2169
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Klipi valimine efekti võrdlemiseks"
 
-#: src/project/projectmanager.cpp:2201
+#: src/project/projectmanager.cpp:2207
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -23272,7 +23272,7 @@ msgstr "Vaikeväärtus"
 msgid "Show %1 in timeline"
 msgstr "Näita %1 ajateljel"
 
-#: src/widgets/dragvalue.cpp:425
+#: src/widgets/dragvalue.cpp:429
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""

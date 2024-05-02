@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-01 02:25+0000\n"
+"POT-Creation-Date: 2024-05-02 02:22+0000\n"
 "PO-Revision-Date: 2024-04-25 06:51+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -6382,7 +6382,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1821 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1827 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5155
@@ -14875,7 +14875,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "პროექტის პროფილის შეცვლა გაუქმდა"
 
-#: src/project/projectmanager.cpp:1806
+#: src/project/projectmanager.cpp:1812
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14884,12 +14884,12 @@ msgstr ""
 "გამოტანის ფაილი %1 უკვე არსებობს.\n"
 "გნებავთ, გადააწეროთ თავზე?"
 
-#: src/project/projectmanager.cpp:1831
+#: src/project/projectmanager.cpp:1837
 #, kde-format
 msgid "Project profile changed"
 msgstr "პროექტის პროფილი შეიცვალა"
 
-#: src/project/projectmanager.cpp:1892
+#: src/project/projectmanager.cpp:1898
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14898,17 +14898,17 @@ msgstr ""
 "დროის ხაზი ვერ შევქმენი კლიპიდან:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1974
+#: src/project/projectmanager.cpp:1980
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "მიმდევრობის კლიპის შემოტანა. ეს ფუნქცია ჯერჯერობით ექსპერიმენტულია"
 
-#: src/project/projectmanager.cpp:2163
+#: src/project/projectmanager.cpp:2169
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "აირჩიეთ კლიპი მიმდევრობის შესაქმნელად"
 
-#: src/project/projectmanager.cpp:2201
+#: src/project/projectmanager.cpp:2207
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
@@ -22178,7 +22178,7 @@ msgstr "მნიშვნელობის ჩამოყრა"
 msgid "Show %1 in timeline"
 msgstr "%1-ის ჩვენება დროის ხაზში"
 
-#: src/widgets/dragvalue.cpp:425
+#: src/widgets/dragvalue.cpp:429
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + გაადთრევა მნიშვნელობის ერთით გასასწორებლად."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-01 02:25+0000\n"
+"POT-Creation-Date: 2024-05-02 02:22+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -6573,7 +6573,7 @@ msgstr "Exportar os Dados das Guias"
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1821 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1827 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5155
@@ -15294,7 +15294,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "Mudança de perfil do projecto interrompida"
 
-#: src/project/projectmanager.cpp:1806
+#: src/project/projectmanager.cpp:1812
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15303,12 +15303,12 @@ msgstr ""
 "O ficheiro do resultado %1 já existe.\n"
 "Deseja sobrepô-lo?"
 
-#: src/project/projectmanager.cpp:1831
+#: src/project/projectmanager.cpp:1837
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil do projecto modificada"
 
-#: src/project/projectmanager.cpp:1892
+#: src/project/projectmanager.cpp:1898
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15317,19 +15317,19 @@ msgstr ""
 "Não é possível criar uma linha temporal a partir deste 'clip':\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1974
+#: src/project/projectmanager.cpp:1980
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "A importar um 'clip' de sequência; esta funcionalidade está num estado "
 "experimental neste momento"
 
-#: src/project/projectmanager.cpp:2163
+#: src/project/projectmanager.cpp:2169
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccione um 'clip' para criar a sequência"
 
-#: src/project/projectmanager.cpp:2201
+#: src/project/projectmanager.cpp:2207
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Criar um 'Clip' de Sequência"
@@ -22729,7 +22729,7 @@ msgstr "Repor o valor"
 msgid "Show %1 in timeline"
 msgstr "Mostrar o %1 na linha temporal"
 
-#: src/widgets/dragvalue.cpp:425
+#: src/widgets/dragvalue.cpp:429
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + Arrastamento para ajustar o valor um a um."
