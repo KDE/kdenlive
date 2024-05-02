@@ -44,7 +44,7 @@ private:
     void setNewValue(double value, bool directUpdate, bool createUndoEntry);
 
 Q_SIGNALS:
-    void valueChanged(double value, bool directUpdate, bool createUndoEntry);
+    void valueChanged(double value, bool directUpdate, bool createUndoEntry, bool updateWidget = true);
     void setInTimeline();
     void resetValue();
 };
@@ -101,8 +101,8 @@ public:
 
 public Q_SLOTS:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
-    void setValue(double value, bool final = true, bool createUndoEntry = true);
-    void setValueFromProgress(double value, bool final, bool createUndoEntry);
+    void setValue(double value, bool final = true, bool createUndoEntry = true, bool updateWidget = true);
+    void setValueFromProgress(double value, bool final, bool createUndoEntry, bool updateWidget = true);
     /** @brief Resets to default value */
     void slotReset();
 
