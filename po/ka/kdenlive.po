@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-01 00:37+0000\n"
-"PO-Revision-Date: 2024-04-29 10:17+0200\n"
+"POT-Creation-Date: 2024-05-02 00:38+0000\n"
+"PO-Revision-Date: 2024-05-01 05:18+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2988,6 +2988,8 @@ msgid ""
 "Composites second input on the first input with user-defined blend mode, "
 "opacity and scale."
 msgstr ""
+"მეორე შეყვანის შერწყმა პირველთან მომხმარებლის მიერ აღწერილი შერევის რეჟიმით, "
+"გაუმჭვირვალობით და მასშტაბით."
 
 #: data/transitions/region.xml:4
 #, kde-format
@@ -6384,7 +6386,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/project/dialogs/archivewidget.cpp:888
 #: src/project/dialogs/archivewidget.cpp:900
 #: src/project/dialogs/archivewidget.cpp:906
-#: src/project/projectmanager.cpp:1830 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1836 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5155
@@ -9404,6 +9406,9 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>გადაათრიეთ</b> ეფექტი სხვა დროის ხაზის კლიპზე, ტრეკზე ან პროექტის კლიპზე, "
+"რომ დააკოპიროთ ის. <b>გადათრევა ღილაკით Alt</b> ერთი ელემენტის ჯგუფში "
+"დასაკოპირებლად."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
@@ -10989,6 +10994,8 @@ msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 msgstr ""
+"მიმაგრების ფუნქციის გადართვა (კლიპები ემაგრება დაკვრის ადგილს, წიბოებს, "
+"მარკერებს, გიდებს და ა.შ.)."
 
 #: src/mainwindow.cpp:1386
 #, kde-format
@@ -13250,6 +13257,11 @@ msgid ""
 "shortcut> point to delete it, <shortcut>Double click</shortcut> background "
 "to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
 msgstr ""
+"<shortcut>ორმაგი წკაპი</shortcut> ცენტრზე ზომის შესაცვლელად, "
+"<shortcut>ორმაგი წკაპი</shortcut> ხაზის სეგმენტზე ახალი წერტილის "
+"დასამატებლად, <shortcut>ორმაგი წკაპი</shortcut> წერტილზე მის წასაშლელად, "
+"<shortcut>ორმაგი წკაპი</shortcut> ფონზ ახალი საკვანძო კადრის შესაქმნელად, "
+"<shortcut>გადაატარეთ მარჯვნივ</shortcut> ხელსაწყოს პანელისთვის"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
@@ -13289,6 +13301,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
+"<shortcut>გადაათრიეთ</shortcut> წერტილში ზონის დასაყენებლად, <shortcut>Shift"
+"+Drag</shortcut> გადასახვევად ზონის გასწორებისას"
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -13297,6 +13311,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
+"<shortcut>გადაათრიეთ</shortcut> წერტილიდან ზონის დასაყენებლად, "
+"<shortcut>Shift+Drag</shortcut> გადასახვევად ზონიდან გასწორებისას"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -14883,7 +14899,7 @@ msgstr ""
 msgid "Project profile change aborted"
 msgstr "პროექტის პროფილის შეცვლა გაუქმდა"
 
-#: src/project/projectmanager.cpp:1815
+#: src/project/projectmanager.cpp:1821
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -14892,12 +14908,12 @@ msgstr ""
 "გამოტანის ფაილი %1 უკვე არსებობს.\n"
 "გნებავთ, გადააწეროთ თავზე?"
 
-#: src/project/projectmanager.cpp:1840
+#: src/project/projectmanager.cpp:1846
 #, kde-format
 msgid "Project profile changed"
 msgstr "პროექტის პროფილი შეიცვალა"
 
-#: src/project/projectmanager.cpp:1901
+#: src/project/projectmanager.cpp:1907
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -14906,17 +14922,17 @@ msgstr ""
 "დროის ხაზი ვერ შევქმენი კლიპიდან:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1983
+#: src/project/projectmanager.cpp:1989
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "მიმდევრობის კლიპის შემოტანა. ეს ფუნქცია ჯერჯერობით ექსპერიმენტულია"
 
-#: src/project/projectmanager.cpp:2172
+#: src/project/projectmanager.cpp:2178
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "აირჩიეთ კლიპი მიმდევრობის შესაქმნელად"
 
-#: src/project/projectmanager.cpp:2210
+#: src/project/projectmanager.cpp:2216
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
@@ -17274,7 +17290,7 @@ msgstr "კლიპის გადატანა კადრთან %1 შ
 #: src/timeline2/view/timelinecontroller.cpp:3332
 #, kde-format
 msgid "Set audio reference before attempting to align"
-msgstr ""
+msgstr "ხმის მიმართვის დაყენება სწორების მცდელობამდე"
 
 #: src/timeline2/view/timelinecontroller.cpp:3496
 #, kde-format
@@ -17964,6 +17980,8 @@ msgid ""
 "Punctuation Space. Width the same as between a punctuation character and the "
 "next character."
 msgstr ""
+"პუნქტუაციის ადგილი. სიგანე იგივეა, რაც ადგილი პუნქტუაციის სიმბოლოსა და "
+"შემდეგ სიმბოლოს შორის."
 
 #: src/titler/unicodedialog.cpp:173
 #, kde-format
@@ -20005,6 +20023,8 @@ msgid ""
 "A fixed GOP means that keyframes will not be inserted at detected scene "
 "changes."
 msgstr ""
+"ფიქსირებული GOP ნიშნავს, რომ საკვანძო კადრები აღმოჩენილი სცენის ცვლილებებთან "
+"ჩასმული არ იქნება."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
@@ -22190,7 +22210,7 @@ msgstr "მნიშვნელობის ჩამოყრა"
 msgid "Show %1 in timeline"
 msgstr "%1-ის ჩვენება დროის ხაზში"
 
-#: src/widgets/dragvalue.cpp:425
+#: src/widgets/dragvalue.cpp:429
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + გაადთრევა მნიშვნელობის ერთით გასასწორებლად."
