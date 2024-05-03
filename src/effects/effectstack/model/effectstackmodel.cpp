@@ -580,10 +580,10 @@ bool EffectStackModel::doAppendEffect(const QString &effectId, bool makeCurrent,
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
     int currentActive = getActiveEffect();
-    if (makeCurrent) {
-        setActiveEffect(rowCount());
-    }
     bool res = local_redo();
+    if (makeCurrent || currentActive == -1) {
+        setActiveEffect(rowCount() - 1);
+    }
     if (res) {
         int inFades = 0;
         int outFades = 0;
