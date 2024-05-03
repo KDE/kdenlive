@@ -63,6 +63,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QSaveFile>
 #include <QTimeZone>
 #include <QUndoGroup>
+#include <QtConcurrent>
 
 static QString getProjectNameFilters(bool ark = true)
 {
@@ -540,7 +541,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateWorkFilesBeforeSave(outputFileName);
-    checkProjectIntegrity();
+    const QMap<QString, QByteArray> hash = checkProjectIntegrity();
     QString scene = projectSceneList(saveFolder);
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
@@ -554,6 +555,14 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
         KNotification::event(QStringLiteral("ErrorMessage"), i18n("Saving project file <br><b>%1</B> failed", outputFileName), QPixmap());
         return false;
     }
+    // Check the newly saved project file against our current hash
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    m_integrityJob = QtConcurrent::run(this, &ProjectManager::checkFileIntegrity, outputFileName, hash);
+#else
+    m_integrityJob = QtConcurrent::run(&ProjectManager::checkFileIntegrity, this, outputFileName, hash);
+#endif
+    m_watcher.setFuture(m_integrityJob);
+    scene.clear();
     QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
     std::unordered_map<QString, std::vector<int>> thumbKeys = pCore->window()->getCurrentTimeline()->controller()->getThumbKeys();
@@ -2237,11 +2246,11 @@ void ProjectManager::replaceTimelineInstances(const QString &sourceId, const QSt
     m_activeTimelineModel->processTimelineReplacement(instances, sourceId, replacementId, maxDuration, replaceAudio, replaceVideo);
 }
 
-void ProjectManager::checkProjectIntegrity()
+const QMap<QString, QByteArray> ProjectManager::checkProjectIntegrity()
 {
     // Ensure the active timeline sequence is correctly inserted in the main_bin playlist
     const QString activeSequenceId(m_activeTimelineModel->tractor()->get("id"));
-    pCore->projectItemModel()->checkSequenceIntegrity(activeSequenceId);
+    return pCore->projectItemModel()->checkSequenceIntegrity(activeSequenceId);
 }
 
 void ProjectManager::handleLog(const QString &message)
@@ -2252,4 +2261,62 @@ void ProjectManager::handleLog(const QString &message)
 void ProjectManager::showTrackEffectStack(int tid)
 {
     m_activeTimelineModel->showTrackEffectStack(tid);
+}
+
+bool ProjectManager::checkFileIntegrity(const QString outFile, const QMap<QString, QByteArray> hash)
+{
+    QDomDocument doc;
+    QFile file(outFile);
+    if (!file.open(QIODevice::ReadOnly)) return false;
+    if (!doc.setContent(&file)) {
+        file.close();
+        return false;
+    }
+    file.close();
+
+    // Find elements
+    QDomNodeList tractors = doc.documentElement().elementsByTagName(QStringLiteral("tractor"));
+    QDomNodeList playlists = doc.documentElement().elementsByTagName(QStringLiteral("playlist"));
+    for (int j = 0; j < tractors.count(); j++) {
+        QDomElement tractor = tractors.item(j).toElement();
+        const QString tId = tractor.attribute(QStringLiteral("id"));
+        if (hash.contains(tId)) {
+            // Calculate item hash
+            QDomNodeList tracks = tractor.elementsByTagName(QStringLiteral("track"));
+            QVector<QString> trackIds;
+            // Parse tracks (skip the first black background track)
+            for (int k = 1; k < tracks.count(); k++) {
+                // Get this sequence's track names
+                trackIds << tracks.item(k).toElement().attribute("producer");
+            }
+            for (int k = 0; k < tractors.count(); k++) {
+                QDomElement subtractor = tractors.item(j).toElement();
+                const QString subTid = subtractor.attribute(QStringLiteral("id"));
+                if (trackIds.contains(subTid)) {
+                    // We found a sequence track, get its 2 playlist ids
+                    QDomNodeList playlistItems = subtractor.elementsByTagName(QStringLiteral("track"));
+                    QVector<QString> playlistIds;
+                    for (int l = 0; l < playlistItems.count(); l++) {
+                        playlistIds << playlistItems.item(l).toElement().attribute("producer");
+                    }
+                    // Ok now we have the 2 playlist for a track, we can process the hash
+                    for (int m = 0; m < playlists.count(); m++) {
+                        QDomElement playlist = playlists.item(m).toElement();
+                        const QString plId = playlist.attribute(QStringLiteral("id"));
+                        if (playlistIds.contains(plId)) {
+                            // Get hash for this one
+                            int pos = 0;
+                            QDomNodeList items = playlist.childNodes();
+                            for (int n = 0; n < items.count(); n++) {
+                                // Handle blanks
+
+                                // Handle clips
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return true;
 }

@@ -2210,6 +2210,19 @@ QStringList KdenliveDoc::getTimelinesIds()
     return ids;
 }
 
+const QMap<QString, QByteArray> KdenliveDoc::getTimelinesHash()
+{
+    QMap<QString, QByteArray> hash;
+    QMapIterator<QUuid, std::shared_ptr<TimelineItemModel>> j(m_timelines);
+    while (j.hasNext()) {
+        j.next();
+        const QString tId(j.value()->tractor()->get("id"));
+        hash.insert(tId, j.value()->timelineHash());
+        qDebug() << "====== INSERTING TIMELINE HASH:\n" << tId << " = " << hash.value(tId) << "\n\nHHHHHHHHHHHHHHHHHHHHH";
+    }
+    return hash;
+}
+
 void KdenliveDoc::addTimeline(const QUuid &uuid, std::shared_ptr<TimelineItemModel> model, bool force)
 {
     if (force && m_timelines.find(uuid) != m_timelines.end()) {

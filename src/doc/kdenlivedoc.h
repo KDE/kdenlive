@@ -301,6 +301,8 @@ public:
     QList<QUuid> getTimelinesUuids() const;
     /** @brief Return all timelines MLT ids.*/
     QStringList getTimelinesIds();
+    /** @brief Returns a timeline hash to check project integrity.*/
+    const QMap<QString, QByteArray> getTimelinesHash();
     /** @brief Returns the number of timelines in this project.*/
     int openedTimelineCount() const;
     /** @brief Get the currently active project name.*/

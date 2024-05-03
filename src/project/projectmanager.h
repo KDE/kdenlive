@@ -8,11 +8,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivecore_export.h"
 #include <KRecentFilesAction>
 #include <QDir>
+#include <QElapsedTimer>
+#include <QFutureWatcher>
 #include <QObject>
 #include <QTime>
 #include <QTimer>
 #include <QUrl>
-#include <QElapsedTimer>
 
 #include "timeline2/model/timelineitemmodel.hpp"
 
@@ -258,6 +259,8 @@ private:
     QUrl m_startUrl;
     QString m_loadClipsOnOpen;
     QMap<QString, QString> m_replacementPattern;
+    QFutureWatcher<void> m_watcher;
+    QFuture<void> m_integrityJob;
 
     QAction *m_fileRevert;
     KRecentFilesAction *m_recentFilesAction;
@@ -272,7 +275,9 @@ private:
     void passSequenceProperties(const QUuid &uuid, std::shared_ptr<Mlt::Producer> prod, Mlt::Tractor tractor, std::shared_ptr<TimelineItemModel> timelineModel,
                                 TimelineWidget *timelineWidget);
     /** @brief Ensure sequences are correctly stored in our project model */
-    void checkProjectIntegrity();
+    const QMap<QString, QByteArray> checkProjectIntegrity();
+    /** @brief Ensure the saved project matches out current state */
+    bool checkFileIntegrity(const QString outFile, const QMap<QString, QByteArray> hash);
     /** @brief Opening a project file failed, propose to open a backup */
     void abortProjectLoad(const QUrl &url);
 };

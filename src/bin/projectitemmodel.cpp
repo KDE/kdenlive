@@ -1826,14 +1826,16 @@ Fun ProjectItemModel::removeProjectItem_lambda(int binId, int id)
     };
 }
 
-void ProjectItemModel::checkSequenceIntegrity(const QString activeSequenceId)
+const QMap<QString, QByteArray> ProjectItemModel::checkSequenceIntegrity(const QString activeSequenceId)
 {
     QStringList sequencesIds = pCore->currentDoc()->getTimelinesIds();
+    const QMap<QString, QByteArray> hash = pCore->currentDoc()->getTimelinesHash();
     Q_ASSERT(sequencesIds.contains(activeSequenceId));
     QStringList allMltIds = m_binPlaylist->getAllMltIds();
     for (auto &i : sequencesIds) {
         Q_ASSERT(allMltIds.contains(i));
     }
+    return hash;
 }
 
 std::shared_ptr<EffectStackModel> ProjectItemModel::getClipEffectStack(int itemId)

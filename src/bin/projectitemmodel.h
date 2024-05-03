@@ -254,7 +254,7 @@ public:
     /** @brief Remove clip references for a timeline. */
     void removeReferencedClips(const QUuid &uuid, bool onDeletion);
     /** @brief Check that all sequences are correctly stored in the model */
-    void checkSequenceIntegrity(const QString activeSequenceId);
+    const QMap<QString, QByteArray> checkSequenceIntegrity(const QString activeSequenceId);
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
 
 protected:
