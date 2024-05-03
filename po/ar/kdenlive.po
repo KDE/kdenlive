@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 02:22+0000\n"
-"PO-Revision-Date: 2024-04-18 12:01+0400\n"
+"PO-Revision-Date: 2024-05-02 11:25+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -557,7 +557,7 @@ msgstr "تبديل القنوات"
 #: data/effects/channelcopy.xml:17
 #, kde-format
 msgid "Swap the two channels instead of duplicating the source channel."
-msgstr ""
+msgstr "بدّل القناتين بدلاً من تكرار القناة المصدر."
 
 #: data/effects/charcoal.xml:4
 #, kde-format
@@ -3278,12 +3278,12 @@ msgstr "اضبط مقطع"
 #: src/assets/assetpanel.cpp:88
 #, kde-format
 msgid "Apply effect change to all clips in the group"
-msgstr ""
+msgstr "طبّق تغيير التأثير على جميع المقاطع في المجموعة"
 
 #: src/assets/assetpanel.cpp:92
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr ""
+msgstr "طبّق تغيير التأثير على جميع المقاطع في المجموعة…"
 
 #: src/assets/assetpanel.cpp:94
 #, kde-kuit-format
@@ -3293,11 +3293,14 @@ msgid ""
 "the same effect will see the parameters adjusted as well. Deleting an effect "
 "will delete it in all clips in the group."
 msgstr ""
+"عند التمكين ويكون المقطع في مجموعة، فإن جميع المقاطع في هذه المجموعة التي "
+"لها نفس التأثير ستشهد تعديل المعلمات أيضًا. سيؤدي حذف التأثير إلى حذفه في "
+"جميع المقاطع في المجموعة."
 
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr ""
+msgstr "طبّق فقط على التأثيرات ذات القيمة نفسها"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4318,16 +4321,12 @@ msgid "Show Video Preview in Thumbnails"
 msgstr "أظهر معاينات الفيديو في المصغّرات"
 
 #: src/bin/bin.cpp:1353
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Opens a window to configure the project bin (e.g. view mode, sort, show "
-#| "rating)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
-msgstr "تفتح نافذة لضبط سلة المشروع (مثل نمط العرض أو الفرز أو إظهار التقييم)"
+msgstr "تفتح قائمة لضبط سلة المشروع (مثل نمط العرض أو الفرز أو إظهار التقييم)"
 
 #: src/bin/bin.cpp:1360
 #, kde-format
@@ -4347,7 +4346,7 @@ msgstr "أظهر التقييم"
 #: src/bin/bin.cpp:1379
 #, kde-format
 msgid "Open Current Folder In New Bin"
-msgstr ""
+msgstr "افتح المجلد الحالي في سلة جديدة"
 
 #: src/bin/bin.cpp:1384
 #, kde-format
@@ -4366,10 +4365,9 @@ msgstr ""
 "على رمز السهم لتفتح قائمة إعدادات المُرشِح الممكنة."
 
 #: src/bin/bin.cpp:1441
-#, fuzzy, kde-format
-#| msgid "Delete current point."
+#, kde-format
 msgid "Close Current Bin"
-msgstr "احذف النّقطة الحاليّة."
+msgstr "أ&غلق السلة الحالية"
 
 #: src/bin/bin.cpp:1453
 #, kde-format
@@ -7074,23 +7072,19 @@ msgid "Lanczos (best)"
 msgstr "لنكوزس (الأفضل)"
 
 #: src/dialogs/renderwidget.cpp:229
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal (16:9)"
-msgstr "أفقي"
+msgstr "أفقي (16:9)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical (9:16)"
-msgstr "عمودي"
+msgstr "عمودي (9:16)"
 
 #: src/dialogs/renderwidget.cpp:231
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2"
+#, kde-format
 msgid "Square (1:1)"
-msgstr "مربع 2"
+msgstr "مربع (1:1)"
 
 #: src/dialogs/renderwidget.cpp:235 src/monitor/monitormanager.cpp:578
 #, kde-format
@@ -7362,16 +7356,14 @@ msgid "Remove Job"
 msgstr "أزل المهمّة"
 
 #: src/dialogs/renderwidget.cpp:1766
-#, fuzzy, kde-format
-#| msgid "Add a clip to timeline before rendering"
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "أضف مقطع إلى الخط الزمني قبل التصيير"
+msgstr "أضف مقاطع إلى الخط الزمني قبل التصيير"
 
 #: src/dialogs/renderwidget.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Rendered File Length: %1"
-msgstr "مدّة التصيير: %1"
+msgstr "طول ملف التصيير: %1"
 
 #: src/dialogs/renderwidget.cpp:1775
 #, kde-format
@@ -9445,7 +9437,7 @@ msgstr "احفظ التّأثير"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:301
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "%1 مثيل لهذا التأثير في المجموعة"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:468
 #, kde-format
@@ -9454,6 +9446,8 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>اسحب</b> التأثير إلى خط زمني آخر أو مسار أو مقطع مشروع لنسخه. <b>اسحب "
+"معAlt</b> لنسخه إلى عنصر واحد في مجموعة."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
@@ -9519,34 +9513,29 @@ msgstr ""
 "هل أحفظ التأثير بدون وصف؟"
 
 #: src/filefilter.cpp:122
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "Audio Files"
-msgstr "مستويات الصّوت"
+msgstr "ملفات الصّوت"
 
 #: src/filefilter.cpp:124
-#, fuzzy, kde-format
-#| msgid "Luma Files"
+#, kde-format
 msgid "Image Files"
-msgstr "ملفّات ”لوما“"
+msgstr "ملفّات الصّور"
 
 #: src/filefilter.cpp:126
-#, fuzzy, kde-format
-#| msgid "Video Clips"
+#, kde-format
 msgid "Video Files"
-msgstr "مقاطع الفيديو"
+msgstr "ملفّات الفيديو"
 
 #: src/filefilter.cpp:128
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "User Files"
-msgstr "اُمْحُ المرشحات"
+msgstr "ملفات المستخدم"
 
 #: src/filefilter.cpp:130
-#, fuzzy, kde-format
-#| msgid "Other Clips"
+#, kde-format
 msgid "Other Files"
-msgstr "مقاطع أخرى"
+msgstr "ملفات أخرى"
 
 #: src/filefilter.cpp:134
 #, kde-format
@@ -12137,10 +12126,9 @@ msgid "Scopes"
 msgstr "مناظير"
 
 #: src/mainwindow.cpp:3811
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Project Bins"
-msgstr "سلّة المشروع"
+msgstr "سلال المشروع"
 
 #: src/mainwindow.cpp:3906
 #, kde-format
@@ -16850,10 +16838,9 @@ msgid "Error initializing timeline preview"
 msgstr "خطأ في بدء معاينة الخط الزمني"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:25
-#, fuzzy, kde-format
-#| msgid "Editing profiles for:"
+#, kde-format
 msgid "Editing in Ripple mode"
-msgstr "تشكيلات التحرير لـ:"
+msgstr "حرر في وضع التموج"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:25
 #, kde-format
@@ -17023,10 +17010,9 @@ msgid "Offset: %1"
 msgstr "الإزاحة: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1005
-#, fuzzy, kde-format
-#| msgid "<b>Click</b> to add composition"
+#, kde-format
 msgid " <b>Click</b> to align clips"
-msgstr "<b>انقر</b> لتضيف تركيباً"
+msgstr "<b>انقر</b> لتحاذي المقاطع"
 
 #: src/timeline2/view/qml/Clip.qml:1249 src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
@@ -17294,6 +17280,7 @@ msgstr "الدخول:%1، الخروج:%2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
+"لا يمكن إجراء الانزلاق إلا على مقاطع الفيديو أو الصوت أو الرسوم المتحركة"
 
 #: src/timeline2/view/timelinecontroller.cpp:2714
 #, kde-format
@@ -21328,10 +21315,9 @@ msgstr "المُسقطات على الشاشة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:615
-#, fuzzy, kde-format
-#| msgid "Aspect Ratio"
+#, kde-format
 msgid "Aspect Ratio:"
-msgstr "النّسبة الباعيّة"
+msgstr "النّسبة الباعيّة:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:637

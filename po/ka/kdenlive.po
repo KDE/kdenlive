@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-02 02:22+0000\n"
-"PO-Revision-Date: 2024-04-25 06:51+0200\n"
+"PO-Revision-Date: 2024-05-03 03:43+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2988,6 +2988,8 @@ msgid ""
 "Composites second input on the first input with user-defined blend mode, "
 "opacity and scale."
 msgstr ""
+"მეორე შეყვანის შერწყმა პირველთან მომხმარებლის მიერ აღწერილი შერევის რეჟიმით, "
+"გაუმჭვირვალობით და მასშტაბით."
 
 #: data/transitions/region.xml:4
 #, kde-format
@@ -3264,12 +3266,12 @@ msgstr "კლიპის სწორება"
 #: src/assets/assetpanel.cpp:88
 #, kde-format
 msgid "Apply effect change to all clips in the group"
-msgstr ""
+msgstr "ეფექტის ცვლილების გადატარება ჯგუფის ყველა კლიპზე"
 
 #: src/assets/assetpanel.cpp:92
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr ""
+msgstr "ეფექტის ცვლილების გადატარება ჯგუფის ყველა კლიპზე…"
 
 #: src/assets/assetpanel.cpp:94
 #, kde-kuit-format
@@ -3279,11 +3281,14 @@ msgid ""
 "the same effect will see the parameters adjusted as well. Deleting an effect "
 "will delete it in all clips in the group."
 msgstr ""
+"როცა ჩართულია და კლიპი ჯგუფშია, ყველა კლიპს ამ ჯგუფში, რომელსაც იგივე ეფექტი "
+"აქვს, ეს პარამეტრი ჩაუსწორდებათ.ეფექტის წაშლა ამ ჯგუფში ამ ეფექტის ყველა "
+"კლიპზე წაშლას გამოიწვევს."
 
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr ""
+msgstr "მხოლოდ, იგივე მნიშვნელობის მქონე ეფექტებზე გადატარება"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -7319,16 +7324,14 @@ msgid "Remove Job"
 msgstr "დავალების წაშლა"
 
 #: src/dialogs/renderwidget.cpp:1766
-#, fuzzy, kde-format
-#| msgid "Add a clip to timeline before rendering"
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "კლიპის დამატება დროის ხაზზე რენდერამდე"
+msgstr "კლიპების დამატება დროის ხაზზე რენდერამდე"
 
 #: src/dialogs/renderwidget.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Rendered File Length: %1"
-msgstr "რენდერის ხანგრძლივობა: %1"
+msgstr "დარენდერებული ფაილის სიგრძე: %1"
 
 #: src/dialogs/renderwidget.cpp:1775
 #, kde-format
@@ -9395,7 +9398,7 @@ msgstr "ეფექტის შენახვა"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:301
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "ამ ეფექტის %1 ასლი ამ ჯგუფში"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:468
 #, kde-format
@@ -9404,6 +9407,9 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>გადაათრიეთ</b> ეფექტი სხვა დროის ხაზის კლიპზე, ტრეკზე ან პროექტის კლიპზე, "
+"რომ დააკოპიროთ ის. <b>გადათრევა ღილაკით Alt</b> ერთი ელემენტის ჯგუფში "
+"დასაკოპირებლად."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:517
 #, kde-format
@@ -10981,6 +10987,8 @@ msgid ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 msgstr ""
+"მიმაგრების ფუნქციის გადართვა (კლიპები ემაგრება დაკვრის ადგილს, წიბოებს, "
+"მარკერებს, გიდებს და ა.შ.)."
 
 #: src/mainwindow.cpp:1386
 #, kde-format
@@ -13242,6 +13250,11 @@ msgid ""
 "shortcut> point to delete it, <shortcut>Double click</shortcut> background "
 "to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
 msgstr ""
+"<shortcut>ორმაგი წკაპი</shortcut> ცენტრზე ზომის შესაცვლელად, "
+"<shortcut>ორმაგი წკაპი</shortcut> ხაზის სეგმენტზე ახალი წერტილის "
+"დასამატებლად, <shortcut>ორმაგი წკაპი</shortcut> წერტილზე მის წასაშლელად, "
+"<shortcut>ორმაგი წკაპი</shortcut> ფონზ ახალი საკვანძო კადრის შესაქმნელად, "
+"<shortcut>გადაატარეთ მარჯვნივ</shortcut> ხელსაწყოს პანელისთვის"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
@@ -13281,6 +13294,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone in point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone in"
 msgstr ""
+"<shortcut>გადაათრიეთ</shortcut> წერტილში ზონის დასაყენებლად, <shortcut>Shift"
+"+Drag</shortcut> გადასახვევად ზონის გასწორებისას"
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -13289,6 +13304,8 @@ msgid ""
 "<shortcut>Drag</shortcut> to set zone out point, <shortcut>Shift+Drag</"
 "shortcut> to seek while adjusting zone out"
 msgstr ""
+"<shortcut>გადაათრიეთ</shortcut> წერტილიდან ზონის დასაყენებლად, "
+"<shortcut>Shift+Drag</shortcut> გადასახვევად ზონიდან გასწორებისას"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -16936,10 +16953,9 @@ msgid "Offset: %1"
 msgstr "წანაცვლება: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1005
-#, fuzzy, kde-format
-#| msgid "<b>Click</b> to add composition"
+#, kde-format
 msgid " <b>Click</b> to align clips"
-msgstr "<b>დააწკაპუნეთ</b> კომპოზიციის დასამატებლად"
+msgstr " <b>დააწკაპუნეთ</b> კლიპების გასასწორებლად"
 
 #: src/timeline2/view/qml/Clip.qml:1249 src/timeline2/view/qml/Clip.qml:1286
 #, kde-format
@@ -17267,7 +17283,7 @@ msgstr "კლიპის გადატანა კადრთან %1 შ
 #: src/timeline2/view/timelinecontroller.cpp:3332
 #, kde-format
 msgid "Set audio reference before attempting to align"
-msgstr ""
+msgstr "ხმის მიმართვის დაყენება სწორების მცდელობამდე"
 
 #: src/timeline2/view/timelinecontroller.cpp:3496
 #, kde-format
@@ -17952,6 +17968,8 @@ msgid ""
 "Punctuation Space. Width the same as between a punctuation character and the "
 "next character."
 msgstr ""
+"პუნქტუაციის ადგილი. სიგანე იგივეა, რაც ადგილი პუნქტუაციის სიმბოლოსა და "
+"შემდეგ სიმბოლოს შორის."
 
 #: src/titler/unicodedialog.cpp:173
 #, kde-format
@@ -19993,6 +20011,8 @@ msgid ""
 "A fixed GOP means that keyframes will not be inserted at detected scene "
 "changes."
 msgstr ""
+"ფიქსირებული GOP ნიშნავს, რომ საკვანძო კადრები აღმოჩენილი სცენის ცვლილებებთან "
+"ჩასმული არ იქნება."
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
