@@ -3178,7 +3178,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
 
 void TimelineController::updateClip(int clipId, const QVector<int> &roles)
 {
-    QModelIndex ix = m_model->makeClipIndexFromID(clipId);
+    const QModelIndex ix = m_model->makeClipIndexFromID(clipId);
     if (ix.isValid()) {
         Q_EMIT m_model->dataChanged(ix, ix, roles);
     }
