@@ -319,7 +319,7 @@ void MonitorManager::slotForward(double speed)
     }
 }
 
-void MonitorManager::slotRewindOneFrame()
+void MonitorManager::slotRewindOneFrame(int step)
 {
     if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(-1);
@@ -328,14 +328,14 @@ void MonitorManager::slotRewindOneFrame()
         return;
     } else {
         if (m_activeMonitor == m_clipMonitor) {
-            m_clipMonitor->slotRewindOneFrame();
+            m_clipMonitor->slotRewindOneFrame(step);
         } else if (m_activeMonitor == m_projectMonitor) {
-            m_projectMonitor->slotRewindOneFrame();
+            m_projectMonitor->slotRewindOneFrame(step);
         }
     }
 }
 
-void MonitorManager::slotForwardOneFrame()
+void MonitorManager::slotForwardOneFrame(int step)
 {
     if (pCore->activeTool() == ToolType::SlipTool) {
         m_projectMonitor->slotTrimmingPos(1);
@@ -344,9 +344,9 @@ void MonitorManager::slotForwardOneFrame()
         return;
     } else {
         if (m_activeMonitor == m_clipMonitor) {
-            m_clipMonitor->slotForwardOneFrame();
+            m_clipMonitor->slotForwardOneFrame(step);
         } else if (m_activeMonitor == m_projectMonitor) {
-            m_projectMonitor->slotForwardOneFrame();
+            m_projectMonitor->slotForwardOneFrame(step);
         }
     }
 }

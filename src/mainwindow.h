@@ -240,6 +240,7 @@ private:
     QDockWidget *m_compositionListDock;
     TransitionListWidget *m_compositionList;
     EffectListWidget *m_effectList2;
+    QProcess m_streamDeck;
 
     AssetPanel *m_assetPanel{nullptr};
     QDockWidget *m_effectStackDock;
@@ -628,6 +629,7 @@ private Q_SLOTS:
     void slotSearchGuide();
     /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
     void slotCreateSequenceFromSelection();
+    void readStreamInfo();
 
 Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

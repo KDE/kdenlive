@@ -80,8 +80,8 @@ public Q_SLOTS:
     void slotLoopZone();
     void slotRewind(double speed = 0);
     void slotForward(double speed = 0);
-    void slotRewindOneFrame();
-    void slotForwardOneFrame();
+    void slotRewindOneFrame(int step = 1);
+    void slotForwardOneFrame(int step = 1);
     void slotRewindOneSecond();
     void slotForwardOneSecond();
     void slotStart();

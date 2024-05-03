@@ -78,8 +78,8 @@ private:
     ShuttleThread m_shuttleProcess;
 
 Q_SIGNALS:
-    void jogBack();
-    void jogForward();
+    void jogBack(int step = 1);
+    void jogForward(int step = 1);
     void shuttlePos(int);
     void button(int);
 };

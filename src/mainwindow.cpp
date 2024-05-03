@@ -154,6 +154,30 @@ MainWindow::MainWindow(QWidget *parent)
     kdenliveCategoryMap.insert(QStringLiteral("navandplayback"), category);
     category = new KActionCategory(i18n("Bin Tags"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("bintags"), category);
+
+    // This proof of concept uses https://python-elgato-streamdeck.readthedocs.io/en/stable/index.html
+    // and its stream deck + example example_plus.py, then simply parses the script output
+    QString pythonExec = QStandardPaths::findExecutable(QStringLiteral("python3"));
+    // Adjust the path to the example file here
+    m_streamDeck.setProgram(QStringLiteral("$HOME/git/streamdeck/python-elgato-streamdeck/src/example_plus.py"));
+    m_streamDeck.setProcessChannelMode(QProcess::MergedChannels);
+    connect(&m_streamDeck, &QProcess::readyReadStandardOutput, this, &MainWindow::readStreamInfo);
+    m_streamDeck.start();
+}
+
+void MainWindow::readStreamInfo()
+{
+    const QString deckData = QString::fromUtf8(m_streamDeck.readAll()).simplified();
+    qDebug() << "::: READ STREAM DATA: " << deckData;
+    if (deckData.startsWith(QLatin1String("dial 0 turned:"))) {
+        int offset = deckData.section(QLatin1Char(':'), -1).toInt();
+        qDebug() << "::: SEEK OFFSET: " << offset;
+        if (offset > 0) {
+            pCore->monitorManager()->slotForwardOneFrame(offset);
+        } else {
+            pCore->monitorManager()->slotRewindOneFrame(-offset);
+        }
+    }
 }
 
 void MainWindow::init(const QString &mltPath)
