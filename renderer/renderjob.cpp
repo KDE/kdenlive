@@ -173,7 +173,7 @@ void RenderJob::updateProgress(int speed)
         int days = int(remaining / 86400);
         int remainingSecs = int(remaining % 86400);
         QTime when = QTime(0, 0, 0, 0).addSecs(remainingSecs);
-        QString est = tr("Remaining time ");
+        QString est = tr("Estimated time remaining");
         if (days > 0) {
             est.append(tr("%n day(s) ", "", days));
         }
