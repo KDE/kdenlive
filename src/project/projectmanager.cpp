@@ -743,7 +743,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     }
 
     if (orphanedFile) {
-        if (KMessageBox::questionTwoActions(nullptr, i18n("Auto-saved file exist. Do you want to recover now?"), i18n("File Recovery"),
+        if (KMessageBox::questionTwoActions(nullptr, i18n("Auto-saved file exists. Do you want to recover now?"), i18n("File Recovery"),
                                             KGuiItem(i18n("Recover")), KGuiItem(i18n("Do not recover"))) == KMessageBox::PrimaryAction) {
             doOpenFile(url, orphanedFile);
             return true;
