@@ -226,7 +226,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
     } else {
         m_clipLabel->setLabelText(controller->clipUrl(), controller->clipUrl());
     }
-    connect(m_clipLabel, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
+    connect(m_clipLabel, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
     lay->addWidget(m_clipLabel);
     lay->addWidget(&m_warningMessage);
     m_warningMessage.setCloseButtonVisible(false);
@@ -494,7 +494,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder…"), this);
         connect(ac, &QAction::triggered, this, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
-            KIO::highlightInFileManager({QUrl::fromLocalFile(pxy)});
+            pCore->highlightFileInExplorer({QUrl::fromLocalFile(pxy)});
         });
         pMenu->addAction(ac);
         ac = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Play proxy clip"), this);

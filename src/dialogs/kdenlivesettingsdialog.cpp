@@ -1797,8 +1797,10 @@ void KdenliveSettingsDialog::initSpeechPage()
     } else {
         m_configSpeech.modelV_folder_label->setVisible(false);
     }
-    connect(m_configSpeech.modelV_folder_label, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
-    connect(m_configSpeech.model_folder_label, &QLabel::linkActivated, [](const QString &link) { KIO::highlightInFileManager({QUrl::fromLocalFile(link)}); });
+    connect(m_configSpeech.modelV_folder_label, &QLabel::linkActivated,
+            [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
+    connect(m_configSpeech.model_folder_label, &QLabel::linkActivated,
+            [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
     QButtonGroup *speechEngineSelection = new QButtonGroup(this);
     speechEngineSelection->addButton(m_configSpeech.engine_vosk);
     speechEngineSelection->addButton(m_configSpeech.engine_whisper);
