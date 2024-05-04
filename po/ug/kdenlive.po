@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-02 02:22+0000\n"
+"POT-Creation-Date: 2024-05-04 02:50+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -3506,115 +3506,115 @@ msgid "Bin %1 effects"
 msgstr "ئۈنۈم يوق"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/keyframes/model/keyframemodel.cpp:47
-#: src/assets/keyframes/model/keyframemodel.cpp:63 src/ui/histogram_ui.ui:112
+#: src/assets/keyframes/model/keyframemodel.cpp:48
+#: src/assets/keyframes/model/keyframemodel.cpp:64 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:48
-#: src/assets/keyframes/model/keyframemodel.cpp:63
+#: src/assets/keyframes/model/keyframemodel.cpp:49
+#: src/assets/keyframes/model/keyframemodel.cpp:64
 #, fuzzy, kde-format
 #| msgid "Disconnect"
 msgid "Discrete"
 msgstr "ئۈز"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:49
-#: src/assets/keyframes/model/keyframemodel.cpp:63
+#: src/assets/keyframes/model/keyframemodel.cpp:50
+#: src/assets/keyframes/model/keyframemodel.cpp:64
 #, kde-format
 msgid "Smooth"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:50
+#: src/assets/keyframes/model/keyframemodel.cpp:51
 #, kde-format
 msgid "Bounce In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:51
+#: src/assets/keyframes/model/keyframemodel.cpp:52
 #, kde-format
 msgid "Bounce Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:52
+#: src/assets/keyframes/model/keyframemodel.cpp:53
 #, kde-format
 msgid "Cubic In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:53
+#: src/assets/keyframes/model/keyframemodel.cpp:54
 #, kde-format
 msgid "Cubic Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:54
+#: src/assets/keyframes/model/keyframemodel.cpp:55
 #, kde-format
 msgid "Exponential In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:55
+#: src/assets/keyframes/model/keyframemodel.cpp:56
 #, kde-format
 msgid "Exponential Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:56
+#: src/assets/keyframes/model/keyframemodel.cpp:57
 #, kde-format
 msgid "Circular In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:57
+#: src/assets/keyframes/model/keyframemodel.cpp:58
 #, kde-format
 msgid "Circular Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:58
+#: src/assets/keyframes/model/keyframemodel.cpp:59
 #, kde-format
 msgid "Elastic In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:59
+#: src/assets/keyframes/model/keyframemodel.cpp:60
 #, fuzzy, kde-format
 #| msgid "Gain"
 msgid "Elastic Out"
 msgstr "پايدا"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:60
+#: src/assets/keyframes/model/keyframemodel.cpp:61
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:146
+#: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
-#: src/assets/keyframes/model/keyframemodellist.cpp:211
+#: src/assets/keyframes/model/keyframemodellist.cpp:210
 #: src/assets/view/widgets/keyframewidget.cpp:70 src/dialogs/timeremap.cpp:1702
 #: src/dialogs/timeremap.cpp:1727
 #, kde-format
 msgid "Add keyframe"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:146
+#: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
-#: src/assets/keyframes/model/keyframemodellist.cpp:211
+#: src/assets/keyframes/model/keyframemodellist.cpp:210
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Change keyframe type"
 msgstr "نىشان"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:239
-#: src/assets/keyframes/model/keyframemodellist.cpp:261
+#: src/assets/keyframes/model/keyframemodel.cpp:240
+#: src/assets/keyframes/model/keyframemodellist.cpp:262
 #: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1723
 #, kde-format
 msgid "Delete keyframe"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:438
+#: src/assets/keyframes/model/keyframemodel.cpp:439
 #, fuzzy, kde-format
 #| msgid " frames"
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr " كاندۇك"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:459
-#: src/assets/keyframes/model/keyframemodellist.cpp:377
-#: src/assets/keyframes/model/keyframemodellist.cpp:463
+#: src/assets/keyframes/model/keyframemodel.cpp:460
+#: src/assets/keyframes/model/keyframemodellist.cpp:378
+#: src/assets/keyframes/model/keyframemodellist.cpp:464
 #: src/assets/keyframes/view/keyframeview.cpp:296
 #, fuzzy, kde-format
 #| msgid " frames"
@@ -3622,51 +3622,51 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr " كاندۇك"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:530
-#: src/assets/keyframes/model/keyframemodellist.cpp:561
+#: src/assets/keyframes/model/keyframemodel.cpp:531
+#: src/assets/keyframes/model/keyframemodellist.cpp:562
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update keyframe"
 msgstr " كاندۇك"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:892
-#: src/assets/keyframes/model/keyframemodellist.cpp:321
+#: src/assets/keyframes/model/keyframemodel.cpp:893
+#: src/assets/keyframes/model/keyframemodellist.cpp:322
 #, fuzzy, kde-format
 #| msgid "Delete Frame"
 msgid "Delete all keyframes"
 msgstr "كاندۇك ئۆچۈر"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1087
+#: src/assets/keyframes/model/keyframemodel.cpp:1088
 #, kde-format
 msgid "effect"
 msgstr "ئۈنۈم"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1096
+#: src/assets/keyframes/model/keyframemodel.cpp:1097
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Reset %1"
 msgstr "ئەسلىگە قايتۇرۇش"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1355
+#: src/assets/keyframes/model/keyframemodel.cpp:1356
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Reset effect"
 msgstr "ئۈنۈم"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:345
+#: src/assets/keyframes/model/keyframemodellist.cpp:346
 #, fuzzy, kde-format
 #| msgid "Delete Frame"
 msgid "Delete keyframes"
 msgstr "كاندۇك ئۆچۈر"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:701
+#: src/assets/keyframes/model/keyframemodellist.cpp:702
 #: src/assets/model/assetparametermodel.cpp:1413
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Update effect"
 msgstr "ئۈنۈم"
 
-#: src/assets/keyframes/model/keyframemodellist.cpp:923
+#: src/assets/keyframes/model/keyframemodellist.cpp:924
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
