@@ -373,7 +373,7 @@ void LibraryWidget::slotOpenFolder()
     QTreeWidgetItem *current = m_libraryTree->currentItem();
     if (current) {
         const QString filePath = current->data(0, Qt::UserRole).toString();
-        KIO::highlightInFileManager({QUrl::fromLocalFile(filePath)});
+        pCore->highlightFileInExplorer({QUrl::fromLocalFile(filePath)});
     }
 }
 

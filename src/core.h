@@ -339,6 +339,8 @@ public:
     };
     QMap<int, MarkerCategory> markerTypes;
     void folderRenamed(const QString &binId, const QString &folderName);
+    /** @brief Open a file in a file manager, workaround needed for Flatpak crash https://bugs.kde.org/show_bug.cgi?id=486494 */
+    void highlightFileInExplorer(QList<QUrl> urls);
 
 private:
     explicit Core(const QString &packageType);

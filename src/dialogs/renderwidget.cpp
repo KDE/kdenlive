@@ -1309,7 +1309,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         bool exists = QFile(url.toLocalFile()).exists();
         if (exists) {
             if (item->data(1, OpenBrowserRole).toBool()) {
-                KIO::highlightInFileManager({url});
+                pCore->highlightFileInExplorer({url});
             }
             if (item->data(1, PlayAfterRole).toBool()) {
                 auto *job = new KIO::OpenUrlJob(url);
@@ -1882,7 +1882,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     connect(newAct, &QAction::triggered, [&, renderItem]() { pCore->bin()->slotAddClipToProject(QUrl::fromLocalFile(renderItem->text(1))); });
     menu.addAction(newAct);
     QAction *openContainingFolder = new QAction(i18n("Open Containing Folder"), this);
-    connect(openContainingFolder, &QAction::triggered, [&, renderItem]() { KIO::highlightInFileManager({QUrl::fromLocalFile(renderItem->text(1))}); });
+    connect(openContainingFolder, &QAction::triggered, [&, renderItem]() { pCore->highlightFileInExplorer({QUrl::fromLocalFile(renderItem->text(1))}); });
     menu.addAction(openContainingFolder);
 
     menu.exec(m_view.running_jobs->mapToGlobal(pos));

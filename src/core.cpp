@@ -33,8 +33,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <mlt++/MltRepository.h>
 
 #include "utils/KMessageBox_KdenliveCompat.h"
+#include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
 #include <QCoreApplication>
+#include <QDesktopServices>
 #include <QDir>
 #include <QImageReader>
 #include <QInputDialog>
@@ -1597,5 +1599,17 @@ void Core::folderRenamed(const QString &binId, const QString &folderName)
 {
     if (m_mainWindow) {
         m_mainWindow->folderRenamed(binId, folderName);
+    }
+}
+
+void Core::highlightFileInExplorer(QList<QUrl> urls)
+{
+    if (urls.isEmpty()) {
+        return;
+    }
+    if (m_packageType == QLatin1String("flatpak")) {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(urls.first().toLocalFile()).absolutePath()));
+    } else {
+        KIO::highlightInFileManager(urls);
     }
 }

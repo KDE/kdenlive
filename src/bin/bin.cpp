@@ -2169,7 +2169,7 @@ void Bin::slotLocateClip()
             QUrl url = QUrl::fromLocalFile(currentItem->url()); //.adjusted(QUrl::RemoveFilename);
             bool exists = QFile(url.toLocalFile()).exists();
             if (currentItem->hasUrl() && exists) {
-                KIO::highlightInFileManager({url});
+                pCore->highlightFileInExplorer({url});
                 qCDebug(KDENLIVE_LOG) << "  / / " + url.toString();
             } else {
                 if (!exists) {
