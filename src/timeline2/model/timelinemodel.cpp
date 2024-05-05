@@ -4931,7 +4931,7 @@ bool TimelineModel::addTrackEffect(int trackId, const QString &effectId)
 bool TimelineModel::copyTrackEffect(int trackId, const QString &sourceId)
 {
     QStringList source = sourceId.split(QLatin1Char(','));
-    Q_ASSERT(source.count() == 4);
+    Q_ASSERT(source.count() >= 4);
     int itemType = source.at(0).toInt();
     int itemId = source.at(1).toInt();
     int itemRow = source.at(2).toInt();
