@@ -305,11 +305,11 @@ bool VideoWidget::isReady() const
 void VideoWidget::requestSeek(int position, bool noAudioScrub)
 {
     m_producer->seek(position);
-    if (!qFuzzyIsNull(m_producer->get_speed())) {
-        m_consumer->purge();
-    }
     if (!m_consumer) {
         return;
+    }
+    if (!qFuzzyIsNull(m_producer->get_speed())) {
+        m_consumer->purge();
     }
     restartConsumer();
     m_consumer->set("refresh", 1);
