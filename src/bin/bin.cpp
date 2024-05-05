@@ -2191,24 +2191,31 @@ void Bin::slotDuplicateClip()
         }
         items << m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     }
-    std::function<void(const QString &)> callBack = [this](const QString &binId) {
-        if (!binId.isEmpty()) {
-            selectClipById(binId);
-            std::shared_ptr<ProjectClip> clip = getBinClip(binId);
-            if (clip && clip->clipType() == ClipType::Timeline) {
-                // For duplicated timeline clips, we need to build the timelinemodel otherwise the producer is not correctly saved
-                const QUuid uuid = clip->getSequenceUuid();
-                return pCore->projectManager()->openTimeline(binId, -1, uuid, -1, true);
-            }
-        }
-        return true;
-    };
     int ix = 0;
     QString lastId;
     for (const auto &item : qAsConst(items)) {
         ix++;
         if (item->itemType() == AbstractProjectItem::ClipItem) {
+            std::function<void(const QString &)> callBack = [sourceId = item->clipId(), selectItem = (ix == items.count()), this](const QString &binId) {
+                if (!binId.isEmpty()) {
+                    auto source_clip = m_itemModel->getClipByBinID(sourceId);
+                    auto new_clip = m_itemModel->getClipByBinID(binId);
+                    if (source_clip && new_clip) {
+                        new_clip->getEffectStack()->importEffects(source_clip->getEffectStack(), PlaylistState::Disabled);
+                    }
+                    if (selectItem) {
+                        selectClipById(binId);
+                    }
+                    if (new_clip && new_clip->clipType() == ClipType::Timeline) {
+                        // For duplicated timeline clips, we need to build the timelinemodel otherwise the producer is not correctly saved
+                        const QUuid uuid = new_clip->getSequenceUuid();
+                        return pCore->projectManager()->openTimeline(binId, -1, uuid, -1, true);
+                    }
+                }
+                return true;
+            };
             auto currentItem = std::static_pointer_cast<ProjectClip>(item);
+            QString id;
             if (currentItem) {
                 if (currentItem->clipType() == ClipType::Timeline) {
                     const QUuid uuid = currentItem->getSequenceUuid();
@@ -2239,7 +2246,6 @@ void Bin::slotDuplicateClip()
                     const QByteArray result = doc.toString().toUtf8();
                     std::shared_ptr<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", result.constData()));
                     lock.unlock();
-                    QString id;
                     Fun undo = []() { return true; };
                     Fun redo = []() { return true; };
                     xmlProd->set("kdenlive:clipname", i18n("%1 (copy)", currentItem->clipName()).toUtf8().constData());
@@ -2265,19 +2271,14 @@ void Bin::slotDuplicateClip()
                             // Remove unique id
                             Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:uniqueId"));
                         }
-                        QString id;
-                        if (ix == items.count()) {
-                            m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"), callBack);
-                        } else {
-                            m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
-                        }
+                        m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"), callBack);
                     }
                 }
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
             auto currentItem = std::static_pointer_cast<ProjectSubClip>(item);
-            QString id;
             QPoint clipZone = currentItem->zone();
+            QString id;
             m_itemModel->requestAddBinSubClip(id, clipZone.x(), clipZone.y(), {}, currentItem->getMasterClip()->clipId());
             lastId = id;
         }
