@@ -2064,7 +2064,7 @@ void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
         }
     }
     if (!activeClips.isEmpty()) {
-        if (effectData.count() == 4) {
+        if (effectData.count() >= 4) {
             QString effectString = effectData.at(1) + QStringLiteral("-") + effectData.at(2) + QStringLiteral("-") + effectData.at(3);
             m_model->copyClipEffect(activeClips.first(), effectString);
         } else {
