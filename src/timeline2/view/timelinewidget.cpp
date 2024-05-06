@@ -256,7 +256,7 @@ void TimelineWidget::mouseMoveEvent(QMouseEvent *event)
     QVariant returnedValue;
     QMetaObject::invokeMethod(rootObject(), "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     emitMousePos(returnedValue.toInt());
-    QQuickWidget::mousePressEvent(event);
+    QQuickWidget::mouseMoveEvent(event);
 }
 
 void TimelineWidget::showClipMenu(int cid)
