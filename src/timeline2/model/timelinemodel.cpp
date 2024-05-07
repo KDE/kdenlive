@@ -7338,8 +7338,10 @@ void TimelineModel::makeTransparentBg(bool transparent)
     m_blackClip->lock();
     if (transparent) {
         m_blackClip->set("resource", 0);
+        m_blackClip->set("mlt_image_format", "yuv422");
     } else {
         m_blackClip->set("resource", "black");
+        m_blackClip->set("mlt_image_format", "rgba");
     }
     m_blackClip->unlock();
 }
