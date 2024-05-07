@@ -259,7 +259,7 @@ void KdenliveSettingsDialog::initMiscPage()
     connect(m_configMisc.preferredcomposite, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() {
         if (m_configMisc.preferredcomposite->currentText() != KdenliveSettings::preferredcomposite()) {
             KdenliveSettings::setPreferredcomposite(m_configMisc.preferredcomposite->currentText());
-            int mode = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing")).toInt();
+            int mode = pCore->currentDoc()->getSequenceProperty(pCore->window()->getCurrentTimeline()->getUuid(), QStringLiteral("compositing")).toInt();
             pCore->window()->getCurrentTimeline()->controller()->switchCompositing(mode);
             pCore->currentDoc()->setModified();
         }

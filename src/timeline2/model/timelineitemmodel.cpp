@@ -765,7 +765,10 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         field->unlock();
         return;
     }
-    QString composite = TransitionsRepository::get()->getCompositingTransition();
+    QString composite;
+    if (pCore->currentDoc()->getSequenceProperty(m_uuid, QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0) {
+        composite = TransitionsRepository::get()->getCompositingTransition();
+    }
     int videoTracks = 0;
     int audioTracks = 0;
     while (it != m_allTracks.cend()) {

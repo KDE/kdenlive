@@ -708,7 +708,9 @@ void VideoWidget::paintGL()
 void VideoWidget::slotZoom(bool zoomIn)
 {
     if (zoomIn) {
-        if (m_zoom < 12.0f) {
+        // Allow max zoom at 60 pixels in the monitor view
+        double maxZoom = qMin(m_profileSize.width() / 60., m_profileSize.height() / 60.);
+        if (m_zoom < maxZoom) {
             setZoom(m_zoom * 1.2);
         }
     } else if (m_zoom > 0.2f) {
@@ -858,7 +860,7 @@ void VideoWidget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     QQuickWidget::mouseMoveEvent(event);
-    if (!(event->buttons() & Qt::LeftButton)) {
+    if (event->buttons() & Qt::RightButton || event->buttons() & Qt::NoButton) {
         event->accept();
         return;
     }
@@ -1306,6 +1308,10 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         qDebug()<<"::::::: MOUSE RELEASED B IGNORED";
         return;
     }*/
+
+    m_dragStart = QPoint();
+    m_panStart = QPoint();
+    setCursor(Qt::ArrowCursor);
     if ((event->modifiers() & Qt::ControlModifier)) {
         event->accept();
         return;
@@ -1314,9 +1320,6 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         event->accept();
         Q_EMIT monitorPlay();
     }
-    m_dragStart = QPoint();
-    m_panStart = QPoint();
-    setCursor(Qt::ArrowCursor);
 }
 
 void VideoWidget::purgeCache()
