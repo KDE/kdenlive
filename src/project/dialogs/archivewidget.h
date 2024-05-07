@@ -68,10 +68,10 @@ private:
     enum {
         ClipIdRole = Qt::UserRole + 1,
         SlideshowImagesRole,
-        SlideshowSizeRole,
+        SizeRole,
         IsInTimelineRole,
     };
-    KIO::filesize_t m_requestedSize, m_timelineSize;
+    KIO::filesize_t m_requestedSize, m_timelineSize, m_subtitlesSize;
     KIO::CopyJob *m_copyJob;
     QMap<QUrl, QUrl> m_duplicateFiles;
     QMap<QUrl, QUrl> m_replacementList;
@@ -116,6 +116,8 @@ private:
      *  @param root rootpath of the parent mlt document
     */
     void propertyProcessUrl(const QDomElement &e, const QString &propertyName, const QString &root);
+    /** @brief Calculate required size for archiving */
+    void updateRequiredSize();
 
 Q_SIGNALS:
     void archivingFinished(bool, const QString &);

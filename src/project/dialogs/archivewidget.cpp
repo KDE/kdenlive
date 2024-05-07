@@ -33,6 +33,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
+    , m_timelineSize(0)
+    , m_subtitlesSize(0)
     , m_copyJob(nullptr)
     , m_name(projectName.section(QLatin1Char('.'), 0, -2))
     , m_temp(nullptr)
@@ -102,7 +104,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QStringList subtitlePath = pCore->currentDoc()->getAllSubtitlesPath(true);
     for (auto &path : subtitlePath) {
         QFileInfo info(path);
-        m_requestedSize += static_cast<KIO::filesize_t>(info.size());
+        m_subtitlesSize += static_cast<KIO::filesize_t>(info.size());
         new QTreeWidgetItem(subtitles, QStringList() << path);
     }
 
@@ -435,13 +437,13 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 dir.setNameFilters(filters);
                 QFileInfoList resultList = dir.entryInfoList(QDir::Files);
                 QStringList slideImages;
-                qint64 totalSize = 0;
+                qulonglong totalSize = 0;
                 for (int i = 0; i < resultList.count(); ++i) {
                     totalSize += resultList.at(i).size();
                     slideImages << resultList.at(i).absoluteFilePath();
                 }
                 item->setData(0, SlideshowImagesRole, slideImages);
-                item->setData(0, SlideshowSizeRole, totalSize);
+                item->setData(0, SizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             } else {
                 // pattern url (like clip%.3d.png)
@@ -464,7 +466,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     }
                 }
                 item->setData(0, SlideshowImagesRole, slideImages);
-                item->setData(0, SlideshowSizeRole, totalSize);
+                item->setData(0, SizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
         } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
@@ -481,7 +483,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                 m_missingClips++;
             } else {
                 m_requestedSize += static_cast<KIO::filesize_t>(fileSize);
-                item->setData(0, SlideshowSizeRole, fileSize);
+                item->setData(0, SizeRole, fileSize);
             }
             filesList << fileName;
         }
@@ -504,7 +506,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
         item->setData(0, IsInTimelineRole, 0);
         for (int id : timelineBinId) {
             if (id == it.key().toInt()) {
-                m_timelineSize = static_cast<KIO::filesize_t>(QFileInfo(it.value()).size());
+                m_timelineSize += static_cast<KIO::filesize_t>(QFileInfo(it.value()).size());
                 item->setData(0, IsInTimelineRole, 1);
             }
         }
@@ -531,7 +533,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                     slideImages << resultList.at(i).absoluteFilePath();
                 }
                 item->setData(0, SlideshowImagesRole, slideImages);
-                item->setData(0, SlideshowSizeRole, totalSize);
+                item->setData(0, SizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             } else {
                 // pattern url (like clip%.3d.png)
@@ -550,7 +552,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                     }
                 }
                 item->setData(0, SlideshowImagesRole, slideImages);
-                item->setData(0, SlideshowSizeRole, totalSize);
+                item->setData(0, SizeRole, totalSize);
                 m_requestedSize += static_cast<KIO::filesize_t>(totalSize);
             }
         } else if (filesList.contains(fileName) && !filesPath.contains(file)) {
@@ -566,7 +568,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 m_missingClips++;
             } else {
                 m_requestedSize += static_cast<KIO::filesize_t>(fileSize);
-                item->setData(0, SlideshowSizeRole, fileSize);
+                item->setData(0, SizeRole, fileSize);
             }
             filesList << fileName;
         }
@@ -1263,7 +1265,6 @@ void ArchiveWidget::slotExtractingFinished()
 
 void ArchiveWidget::slotProxyOnly(int onlyProxy)
 {
-    m_requestedSize = 0;
     if (onlyProxy == Qt::Checked) {
         // Archive proxy clips
         QStringList proxyIdList;
@@ -1326,7 +1327,7 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
 
         for (int j = 0; j < items; ++j) {
             if (!parentItem->child(j)->isDisabled()) {
-                m_requestedSize += static_cast<KIO::filesize_t>(parentItem->child(j)->data(0, SlideshowSizeRole).toInt());
+                m_requestedSize += static_cast<KIO::filesize_t>(parentItem->child(j)->data(0, SizeRole).toULongLong());
                 if (isSlideshow) {
                     total += parentItem->child(j)->data(0, SlideshowImagesRole).toStringList().count();
                 } else {
@@ -1337,8 +1338,30 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         }
         parentItem->setText(0, parentItem->text(0).section(QLatin1Char('('), 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
     }
+    updateRequiredSize();
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     slotCheckSpace();
+}
+
+void ArchiveWidget::updateRequiredSize()
+{
+    m_requestedSize = 0;
+    m_timelineSize = 0;
+    for (int j = 0; j < files_list->topLevelItemCount(); ++j) {
+        QTreeWidgetItem *parentItem = files_list->topLevelItem(j);
+        int items = parentItem->childCount();
+        for (int k = 0; k < items; ++k) {
+            QTreeWidgetItem *child = parentItem->child(k);
+            if (child->flags() & Qt::ItemIsEnabled && !child->isHidden()) {
+                KIO::filesize_t childSize = static_cast<KIO::filesize_t>(child->data(0, SizeRole).toULongLong());
+                qDebug() << "=== GOT SIZE FOR ITEM: " << child->text(0) << " = " << childSize;
+                m_requestedSize += childSize;
+                if (child->data(0, IsInTimelineRole).toInt() == 1) {
+                    m_timelineSize += childSize;
+                }
+            }
+        }
+    }
 }
 
 void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
@@ -1379,6 +1402,7 @@ void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
         }
         parentItem->setText(0, parentItem->text(0).section(QLatin1Char('('), 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
     }
+    updateRequiredSize();
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total,
                                  KIO::convertSize((onlyTimeline == Qt::Checked) ? m_timelineSize : m_requestedSize)));
     slotCheckSpace();
