@@ -678,10 +678,10 @@ Rectangle {
         keys: 'kdenlive/effect'
         property string dropData
         property string dropSource
-        property int dropRow: -1
         onEntered: drag => {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
+            drag.acceptProposedAction()
         }
         onDropped: drag => {
             console.log("Add effect: ", dropData)
@@ -691,9 +691,7 @@ Rectangle {
             } else {
                 controller.copyTrackEffect(trackHeadRoot.trackId, dropSource);
             }
-            dropSource = ''
-            dropRow = -1
-            drag.acceptProposedAction
+            drag.acceptProposedAction()
         }
     }
 }

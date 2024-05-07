@@ -313,7 +313,6 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::moveEffect, m_model.get(), &EffectStackModel::moveEffect);
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
-        connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
         connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) { m_model->setActiveEffect(row); });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
@@ -325,6 +324,8 @@ void EffectStackView::loadEffects()
             Q_EMIT seekToPos(pos + clipIn);
         });
         connect(this, &EffectStackView::switchCollapsedView, view, &CollapsibleEffectView::switchCollapsed);
+        // Install event filter to manage drag and drop from the stack view
+        view->installEventFilter(this);
 
         connect(pCore.get(), &Core::updateEffectZone, view, [=](const QPoint p, bool withUndo) {
             // Update current effect zone
@@ -398,32 +399,27 @@ void EffectStackView::updateTreeHeight()
     }
 }
 
-void EffectStackView::slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget)
+void EffectStackView::startDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget)
 {
     auto *drag = new QDrag(this);
     drag->setPixmap(pix);
     auto *mime = new QMimeData;
     mime->setData(QStringLiteral("kdenlive/effect"), assetId.toUtf8());
-    QByteArray effectSource;
-    effectSource += QString::number(int(sourceObject.type)).toUtf8();
-    effectSource += ',';
-    effectSource += QString::number(int(sourceObject.itemId)).toUtf8();
-    effectSource += ',';
-    effectSource += QString::number(row).toUtf8();
-    effectSource += ',';
+    QStringList dragData = {QString::number(int(sourceObject.type)), QString::number(int(sourceObject.itemId)), QString::number(row)};
     if (sourceObject.type == KdenliveObjectType::BinClip) {
-        effectSource += QByteArray();
+        dragData << QString();
     } else {
         // Keep a reference to the timeline model
-        effectSource += pCore->currentTimelineId().toString().toUtf8();
+        dragData << pCore->currentTimelineId().toString();
     }
     if (singleTarget) {
-        effectSource += QStringLiteral(",1").toUtf8();
+        dragData << QStringLiteral("1");
     } else {
-        effectSource += QStringLiteral(",0").toUtf8();
+        dragData << QStringLiteral("0");
     }
-    mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
 
+    QByteArray effectSource = dragData.join(QLatin1Char(',')).toLatin1();
+    mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);
     // Start the drag and drop operation
@@ -694,4 +690,45 @@ void EffectStackView::sendStandardCommand(int command)
         auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
         w->sendStandardCommand(command);
     }
+}
+
+bool EffectStackView::eventFilter(QObject *o, QEvent *e)
+{
+    if (e->type() == QEvent::MouseButtonPress) {
+        auto me = static_cast<QMouseEvent *>(e);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        m_dragStart = me->globalPos();
+#else
+        m_dragStart = me->globalPosition().toPoint();
+#endif
+        m_dragging = false;
+        if (o) {
+            auto coll = static_cast<CollapsibleEffectView *>(o);
+            if (coll && !coll->isActive()) {
+                m_model->setActiveEffect(coll->getEffectRow());
+            }
+        }
+        e->accept();
+        return true;
+    }
+    if (e->type() == QEvent::MouseMove) {
+        auto me = static_cast<QMouseEvent *>(e);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        if (!m_dragging && (me->globalPos() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
+#else
+        if (!m_dragging && (me->globalPosition().toPoint() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
+#endif
+            m_dragging = true;
+            if (o) {
+                auto coll = static_cast<CollapsibleEffectView *>(o);
+                if (coll) {
+                    ObjectId item = m_model->getOwnerId();
+                    startDrag(coll->getDragPixmap(), coll->getAssetId(), item, coll->getEffectRow(), me->modifiers() & Qt::AltModifier);
+                }
+            }
+        }
+        e->accept();
+        return true;
+    }
+    return QWidget::eventFilter(o, e);
 }

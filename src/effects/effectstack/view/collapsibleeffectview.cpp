@@ -45,7 +45,6 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     , m_view(nullptr)
     , m_model(effectModel)
     , m_blockWheel(false)
-    , m_dragging(false)
 {
     const QString effectId = effectModel->getAssetId();
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("selection-raise")));
@@ -425,22 +424,6 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
     }
 }
 
-void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
-{
-    qDebug() << "XXXX COLLAPSIBLE PRESS EVENT....";
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_dragStart = e->globalPos();
-#else
-    m_dragStart = e->globalPosition().toPoint();
-#endif
-    m_dragging = false;
-    if (!decoframe->property("active").toBool()) {
-        // Activate effect if not already active
-        Q_EMIT activateEffect(m_model->row());
-    }
-    QWidget::mousePressEvent(e);
-}
-
 void CollapsibleEffectView::wheelEvent(QWheelEvent *e)
 {
     if (m_blockWheel) {
@@ -468,20 +451,6 @@ void CollapsibleEffectView::enterEvent(QEnterEvent *event)
               "<b>Drag</b> effect to another timeline clip, track or project clip to copy it. <b>Alt Drag</b> to copy it to a single item in a group."));
 }
 
-void CollapsibleEffectView::mouseMoveEvent(QMouseEvent *e)
-{
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    if (!m_dragging && (e->globalPos() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
-#else
-    if (!m_dragging && (e->globalPosition().toPoint() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
-#endif
-        m_dragging = true;
-        QPixmap pix = title->grab();
-        Q_EMIT startDrag(pix, m_model->getAssetId(), m_model->getOwnerId(), m_model->row(), e->modifiers() & Qt::AltModifier);
-    }
-    QWidget::mouseMoveEvent(e);
-}
-
 void CollapsibleEffectView::mouseDoubleClickEvent(QMouseEvent *event)
 {
     if (frame->underMouse() && collapseButton->isEnabled()) {
@@ -490,17 +459,6 @@ void CollapsibleEffectView::mouseDoubleClickEvent(QMouseEvent *event)
     } else {
         event->ignore();
     }
-}
-
-void CollapsibleEffectView::mouseReleaseEvent(QMouseEvent *event)
-{
-    qDebug() << "XXXX COLLAPSIBLE RELASE EVENT....";
-    m_dragStart = QPoint();
-    m_dragging = false;
-    if (!decoframe->property("active").toBool()) {
-        // Q_EMIT activateEffect(effectIndex());
-    }
-    QWidget::mouseReleaseEvent(event);
 }
 
 void CollapsibleEffectView::slotDisable(bool disable)
@@ -1077,4 +1035,19 @@ void CollapsibleEffectView::slotHideKeyframes(bool hide)
 void CollapsibleEffectView::sendStandardCommand(int command)
 {
     m_view->sendStandardCommand(command);
+}
+
+int CollapsibleEffectView::getEffectRow() const
+{
+    return m_model->row();
+}
+
+QPixmap CollapsibleEffectView::getDragPixmap() const
+{
+    return title->grab();
+}
+
+const QString CollapsibleEffectView::getAssetId() const
+{
+    return m_model->getAssetId();
 }

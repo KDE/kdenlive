@@ -78,6 +78,8 @@ protected:
     void dropEvent(QDropEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
+    /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
+    bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
     QMutex m_mutex;
@@ -89,16 +91,19 @@ private:
     AssetIconProvider *m_thumbnailer;
     QTimer m_scrollTimer;
     QTimer m_timerHeight;
+    QPoint m_dragStart;
+    bool m_dragging;
 
     /** @brief the frame size of the original clip this effect is applied on
      */
     QSize m_sourceFrameSize;
     const QString getStyleSheet();
+    /** @brief Start drag operation on a CollapsibleEffectView */
+    void startDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget = false);
 
 private Q_SLOTS:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     void slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height);
-    void slotStartDrag(const QPixmap pix, const QString assetId, ObjectId sourceObject, int row, bool singleTarget = false);
     void slotDeleteEffect(const std::shared_ptr<EffectItemModel> &effect);
     void loadEffects();
     void updateTreeHeight();

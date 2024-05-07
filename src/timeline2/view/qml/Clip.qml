@@ -278,7 +278,6 @@ Rectangle {
         keys: 'kdenlive/effect'
         property string dropData
         property string dropSource
-        property int dropRow: -1
         onEntered: drag => {
             dropData = drag.getDataAsString('kdenlive/effect')
             dropSource = drag.getDataAsString('kdenlive/effectsource')
@@ -297,7 +296,6 @@ Rectangle {
                 controller.copyClipEffect(clipRoot.clipId, dropSource)
             }
             dropSource = ''
-            dropRow = -1
             drag.acceptProposedAction
             root.regainFocus(mapToItem(root, drag.x, drag.y))
             //console.log('KFR VIEW VISIBLE: ', effectRow.visible, ', SOURCE: ', effectRow.source, '\n HIDEVIEW:', clipRoot.hideClipViews<<', UNDEFINED: ', (clipRoot.keyframeModel == undefined))
