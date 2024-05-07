@@ -493,6 +493,10 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     m_pageJog = addPage(p6, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
 }
 
+#if defined(Q_OS_WIN)
+    m_configShuttle.shuttledisabled->setText(i18n("For device configuration see <a href=\"https://docs.kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our documentation</a>."));
+#endif
+
 void KdenliveSettingsDialog::initTranscodePage()
 {
     QWidget *p8 = new QWidget;
