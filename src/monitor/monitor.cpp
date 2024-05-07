@@ -1197,6 +1197,9 @@ void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
 {
     if ((modifiers & Qt::ControlModifier) != 0u) {
         // Ctrl wheel zooms monitor
+        if (eventDelta == 0) {
+            return;
+        }
         m_glMonitor->slotZoom(eventDelta > 0);
         return;
     } else if ((modifiers & Qt::ShiftModifier) != 0u) {
