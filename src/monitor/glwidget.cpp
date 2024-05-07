@@ -858,7 +858,7 @@ void VideoWidget::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     QQuickWidget::mouseMoveEvent(event);
-    if (!(event->buttons() & Qt::LeftButton)) {
+    if (event->buttons() & Qt::RightButton) {
         event->accept();
         return;
     }
