@@ -74,6 +74,12 @@ public:
     void addRemoveKeyframe();
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
+    /** @brief Get the row of this effect in the stack */
+    int getEffectRow() const;
+    /** @brief Get a pixmap for the drag operation on this effect */
+    QPixmap getDragPixmap() const;
+    /** @brief Get the asset id */
+    const QString getAssetId() const;
 
 public Q_SLOTS:
     void slotSyncEffectsPos(int pos);
@@ -131,15 +137,11 @@ private:
     QAction *m_inOutButton;
     QLabel *m_colorIcon;
     QPixmap m_iconPix;
-    QPoint m_dragStart;
     TimecodeDisplay *m_inPos;
     TimecodeDisplay *m_outPos;
-    bool m_dragging;
 
 protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *e) override;
     void wheelEvent(QWheelEvent *e) override;
     void leaveEvent(QEvent *event) override;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -147,7 +149,6 @@ protected:
 #else
     void enterEvent(QEnterEvent *event) override;
 #endif
-    void mouseReleaseEvent(QMouseEvent *event) override;
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
@@ -171,7 +172,6 @@ Q_SIGNALS:
     void deleteGroup(const QDomDocument &);
     void importClipKeyframes(GraphicsRectItem, ItemInfo, QDomElement, const QMap<QString, QString> &keyframes = QMap<QString, QString>());
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
-    void startDrag(const QPixmap, const QString assetId, ObjectId sourceObject, int row, bool singleTargetDrag);
     void activateEffect(int row);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     void refresh();
