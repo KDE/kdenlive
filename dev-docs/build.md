@@ -161,8 +161,8 @@ cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS
 ```
 
 ```bash
-make -j$JOBS
-make install
+ninja -j$JOBS
+sudo ninja install
 # 'sudo make install' if INSTALL_PREFIX is not user-writable or if KDE_INSTALL_USE_QT_SYS_PATHS=ON
 ```
 
