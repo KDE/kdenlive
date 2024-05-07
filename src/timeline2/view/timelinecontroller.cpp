@@ -2860,7 +2860,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
 void TimelineController::switchCompositing(bool enable)
 {
     // m_model->m_tractor->lock();
-    pCore->currentDoc()->setDocumentProperty(QStringLiteral("compositing"), QString::number(enable));
+    pCore->currentDoc()->setSequenceProperty(m_model->uuid(), QStringLiteral("compositing"), QString::number(enable));
     QScopedPointer<Mlt::Service> service(m_model->m_tractor->field());
     QScopedPointer<Mlt::Field> field(m_model->m_tractor->field());
     field->lock();

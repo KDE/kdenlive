@@ -2483,10 +2483,6 @@ void MainWindow::connectDocument()
     connect(project, &KdenliveDoc::reloadEffects, this, &MainWindow::slotReloadEffects);
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
     slotSwitchTimelineZone(project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
-    // update track compositing
-    bool compositing = project->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
-    Q_EMIT project->updateCompositionMode(compositing);
-    getCurrentTimeline()->controller()->switchCompositing(compositing);
     slotUpdateProjectDuration(getCurrentTimeline()->model()->duration() - 1);
     const QUuid uuid = getCurrentTimeline()->getUuid();
 
@@ -5192,6 +5188,10 @@ void MainWindow::connectTimeline()
     disablePreview->blockSignals(true);
     disablePreview->setChecked(false);
     disablePreview->blockSignals(false);
+
+    // update track compositing
+    bool compositing = project->getSequenceProperty(uuid, QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0;
+    Q_EMIT project->updateCompositionMode(compositing);
 
     // Ensure the active timeline has an opaque black background for compositing
     getCurrentTimeline()->model()->makeTransparentBg(false);
