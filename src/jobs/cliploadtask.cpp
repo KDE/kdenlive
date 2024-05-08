@@ -277,6 +277,7 @@ void ClipLoadTask::run()
     }
     QMutexLocker lock(&m_runMutex);
     // QThread::currentThread()->setPriority(QThread::HighestPriority);
+    m_running = true;
     if (m_thumbOnly) {
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip && binClip->statusReady()) {
@@ -291,7 +292,6 @@ void ClipLoadTask::run()
         }
         return;
     }
-    m_running = true;
     Q_EMIT pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.itemId));
     QString resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     qDebug() << "============STARTING LOAD TASK FOR: " << m_owner.itemId << " = " << resource << "\n\n:::::::::::::::::::";

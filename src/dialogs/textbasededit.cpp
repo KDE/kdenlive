@@ -1454,7 +1454,7 @@ void TextBasedEdit::previewPlaylist(bool createNew)
         m_playlist = url.toLocalFile();
     }
     if (!m_playlist.isEmpty()) {
-        pCore->bin()->savePlaylist(m_binId, m_playlist, zones, properties, createNew);
+        pCore->activeBin()->savePlaylist(m_binId, m_playlist, zones, properties, createNew);
         clipNameLabel->setText(QFileInfo(m_playlist).fileName());
     }
 }
@@ -1492,7 +1492,7 @@ void TextBasedEdit::createSequence()
     // Create new timeline sequence
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
     std::shared_ptr<ProjectClip> clipItem = std::static_pointer_cast<ProjectClip>(clip);
-    const QString sequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, -1, -1, clipItem->clipName());
+    const QString sequenceId = pCore->activeBin()->buildSequenceClipWithUndo(undo, redo, -1, -1, clipItem->clipName());
     if (sequenceId == QLatin1String("-1")) {
         // Aborting
         return;

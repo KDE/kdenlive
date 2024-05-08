@@ -346,7 +346,7 @@ void MediaBrowser::importSelection()
     for (auto &f : files) {
         urls << f.url();
     }
-    pCore->bin()->droppedUrls(urls);
+    pCore->activeBin()->droppedUrls(urls);
 }
 
 const QUrl MediaBrowser::url() const
