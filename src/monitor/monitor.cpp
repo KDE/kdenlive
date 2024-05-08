@@ -1162,7 +1162,7 @@ void Monitor::slotStartDrag()
     mimeData->setData(QStringLiteral("text/dragid"), QUuid::createUuid().toByteArray());
     drag->setMimeData(mimeData);
     drag->exec(Qt::CopyAction);
-    Q_EMIT pCore->bin()->processDragEnd();
+    Q_EMIT pCore->processDragEnd();
 }
 
 // virtual
@@ -2541,7 +2541,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         QObject::connect(root, SIGNAL(editCurrentMarker()), this, SLOT(slotEditInlineMarker()), Qt::UniqueConnection);
         m_qmlManager->setProperty(QStringLiteral("timecode"), m_timePos->displayText());
         if (m_id == Kdenlive::ClipMonitor) {
-            QObject::connect(root, SIGNAL(endDrag()), pCore->bin(), SIGNAL(processDragEnd()), Qt::UniqueConnection);
+            QObject::connect(root, SIGNAL(endDrag()), pCore.get(), SIGNAL(processDragEnd()), Qt::UniqueConnection);
             updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());

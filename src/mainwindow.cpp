@@ -1051,7 +1051,7 @@ void MainWindow::buildGenerator(QAction *action)
 {
     Generators gen(action->data().toString(), this);
     if (gen.exec() == QDialog::Accepted) {
-        pCore->bin()->slotAddClipToProject(gen.getSavedClip());
+        pCore->activeBin()->slotAddClipToProject(gen.getSavedClip());
     }
 }
 
@@ -2531,7 +2531,7 @@ void MainWindow::connectDocument()
     connect(m_projectMonitor, &Monitor::zoneDurationChanged, this, &MainWindow::slotUpdateZoneDuration);
     connect(m_effectList2, &EffectListWidget::reloadFavorites, getCurrentTimeline(), &TimelineWidget::updateEffectFavorites);
     connect(m_compositionList, &TransitionListWidget::reloadFavorites, getCurrentTimeline(), &TimelineWidget::updateTransitionFavorites);
-    connect(pCore->bin(), &Bin::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
+    connect(pCore.get(), &Core::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
 
     // Load master effect zones
     getCurrentTimeline()->controller()->updateMasterZones(getCurrentTimeline()->model()->getMasterEffectZones());
@@ -3193,7 +3193,7 @@ void MainWindow::slotEditItemDuration()
 
 void MainWindow::slotAddProjectClip(const QUrl &url, const QString &folderInfo)
 {
-    pCore->bin()->droppedUrls(QList<QUrl>() << url, folderInfo);
+    pCore->activeBin()->droppedUrls(QList<QUrl>() << url, folderInfo);
 }
 
 void MainWindow::slotAddTextNote(const QString &text)
@@ -3203,7 +3203,7 @@ void MainWindow::slotAddTextNote(const QString &text)
 
 void MainWindow::slotAddProjectClipList(const QList<QUrl> &urls)
 {
-    pCore->bin()->droppedUrls(urls);
+    pCore->activeBin()->droppedUrls(urls);
 }
 
 void MainWindow::slotAddTransition(QAction *result)
@@ -3237,7 +3237,7 @@ void MainWindow::addEffect(const QString &effectId)
 {
     if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::BinClip) {
         // Pass the command to bin
-        pCore->bin()->slotAddEffect({}, {effectId});
+        pCore->activeBin()->slotAddEffect({}, {effectId});
     } else if (m_assetPanel->effectStackOwner().type == KdenliveObjectType::TimelineTrack ||
                m_assetPanel->effectStackOwner().type == KdenliveObjectType::Master) {
         if (!m_assetPanel->addEffect(effectId)) {
@@ -3923,7 +3923,7 @@ void MainWindow::buildDynamicActions()
         }
         connect(a, &QAction::triggered, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
-            std::vector<QString> ids = pCore->bin()->selectedClipsIds(true);
+            std::vector<QString> ids = pCore->activeBin()->selectedClipsIds(true);
             QMap<QString, QVector<int>> clipStreamSelection;
             QString clipId;
             if (transcodeData.count() > 2 && transcodeData.at(2) == QLatin1String("audio")) {
@@ -4056,7 +4056,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
     Q_ASSERT(!urls.isEmpty());
     QString params;
     QString desc;
-    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getCurrentFolder());
+    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->activeBin()->getCurrentFolder());
     connect(d, &ClipTranscode::addClip, this, &MainWindow::slotAddProjectClip);
     d->show();
 }
@@ -4078,7 +4078,7 @@ void MainWindow::slotFriendlyTranscode(const QString &binId, bool checkProfile)
     sourceProps.insert(QStringLiteral("kdenlive:clipname"), clip->clipName());
     sourceProps.insert(QStringLiteral("kdenlive:proxy"), clip->getProducerProperty(QStringLiteral("kdenlive:proxy")));
     sourceProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
-    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getCurrentFolder());
+    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->activeBin()->getCurrentFolder());
     connect(d, &ClipTranscode::addClip, [&, binId, sourceProps](const QUrl &url, const QString & /*folderInfo*/) {
         QMap<QString, QString> newProps;
         newProps.insert(QStringLiteral("resource"), url.toLocalFile());
@@ -4086,7 +4086,7 @@ void MainWindow::slotFriendlyTranscode(const QString &binId, bool checkProfile)
         newProps.insert(QStringLiteral("kdenlive:clipname"), url.fileName());
         newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
         newProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
-        QMetaObject::invokeMethod(pCore->bin(), "slotEditClipCommand", Qt::QueuedConnection, Q_ARG(QString, binId), Q_ARG(stringMap, sourceProps),
+        QMetaObject::invokeMethod(pCore->activeBin(), "slotEditClipCommand", Qt::QueuedConnection, Q_ARG(QString, binId), Q_ARG(stringMap, sourceProps),
                                   Q_ARG(stringMap, newProps));
     });
     d->exec();
@@ -4163,7 +4163,7 @@ void MainWindow::slotSwitchMonitors()
     if (m_projectMonitor->isActive()) {
         getCurrentTimeline()->setFocus();
     } else {
-        pCore->bin()->focusBinView();
+        pCore->activeBin()->focusBinView();
     }
 }
 
@@ -4217,7 +4217,9 @@ void MainWindow::slotUpdateProxySettings()
     if (m_renderWidget) {
         m_renderWidget->updateProxyConfig(project->useProxy());
     }
-    pCore->bin()->refreshProxySettings();
+    for (auto &b : m_binWidgets) {
+        b->refreshProxySettings();
+    }
 }
 
 void MainWindow::slotArchiveProject()
@@ -4914,6 +4916,7 @@ void MainWindow::loadExtraBins(const QStringList binInfo)
 {
     QString folderName;
     QStringList existingNames;
+    pCore->lastActiveBin.clear();
     for (auto &bin : m_binWidgets) {
         QDockWidget *dock = qobject_cast<QDockWidget *>(bin->parentWidget());
         if (!dock) {
@@ -4985,6 +4988,13 @@ Bin *MainWindow::getBin()
 
 Bin *MainWindow::activeBin()
 {
+    if (!pCore->lastActiveBin.isEmpty()) {
+        for (auto &bin : m_binWidgets) {
+            if (bin->parentWidget()->objectName() == pCore->lastActiveBin) {
+                return bin;
+            }
+        }
+    }
     QWidget *wid = QApplication::focusWidget();
     if (wid) {
         for (auto &bin : m_binWidgets) {
@@ -5161,7 +5171,7 @@ void MainWindow::connectTimeline()
             Qt::UniqueConnection);
     getCurrentTimeline()->controller()->clipActions = kdenliveCategoryMap.value(QStringLiteral("timelineselection"))->actions();
     connect(getCurrentTimeline()->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
-    connect(pCore->bin(), &Bin::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
+    connect(pCore.get(), &Core::processDragEnd, getCurrentTimeline(), &TimelineWidget::endDrag);
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
 
     KdenliveDoc *project = pCore->currentDoc();
@@ -5241,7 +5251,7 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
     disconnect(m_projectMonitor, &Monitor::activateTrack, timeline->controller(), &TimelineController::activateTrackAndSelect);
     disconnect(pCore->library(), &LibraryWidget::saveTimelineSelection, timeline->controller(), &TimelineController::saveTimelineSelection);
     timeline->controller()->clipActions = QList<QAction *>();
-    disconnect(pCore->bin(), &Bin::processDragEnd, timeline, &TimelineWidget::endDrag);
+    disconnect(pCore.get(), &Core::processDragEnd, timeline, &TimelineWidget::endDrag);
     pCore->monitorManager()->projectMonitor()->setProducer(nullptr, -2);
     // Audio record actions
     disconnect(pCore.get(), &Core::recordAudio, timeline->controller(), &TimelineController::switchRecording);

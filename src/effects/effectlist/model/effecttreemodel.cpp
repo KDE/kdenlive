@@ -202,7 +202,7 @@ void EffectTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effec
                 const QString id = child->dataColumn(AssetTreeModel::IdCol).toString();
                 a->setData(id);
                 catMenu->addAction(a);
-                effectActions->addAction("transition_" + id, a);
+                effectActions->addAction("effect_" + id, a);
             }
         }
     }

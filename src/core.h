@@ -73,6 +73,7 @@ public:
     Core &operator=(Core &&) = delete;
     QReadWriteLock xmlMutex;
     bool closing{false};
+    QString lastActiveBin;
 
     ~Core() override;
 
@@ -437,6 +438,8 @@ Q_SIGNALS:
     void loadingMessageIncrease();
     /** @brief Hide the message about the loading progress */
     void loadingMessageHide();
+    /** @brief Inform timeline of current drag end */
+    void processDragEnd();
     /** @brief Opening finished, close splash screen */
     void closeSplash();
     /** @brief Trigger an update of the speech models list */

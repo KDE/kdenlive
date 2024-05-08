@@ -1139,7 +1139,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     , isLoading(false)
     , shouldCheckProfile(false)
     , m_isMainBin(isMainBin)
-    , m_itemModel(std::move(model))
+    , m_itemModel(model)
     , m_itemView(nullptr)
     , m_binTreeViewDelegate(nullptr)
     , m_binListViewDelegate(nullptr)
@@ -2985,7 +2985,7 @@ void Bin::slotInitView(QAction *action)
         view->setSortingEnabled(true);
         view->setWordWrap(true);
         connect(view, &MyTreeView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
-        connect(view, &MyTreeView::processDragEnd, this, &Bin::processDragEnd);
+        connect(view, &MyTreeView::processDragEnd, pCore.get(), &Core::processDragEnd);
         connect(view, &MyTreeView::selectCurrent, this, &Bin::ensureCurrent);
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         if (!m_headerInfo.isEmpty()) {
@@ -3043,7 +3043,7 @@ void Bin::slotInitView(QAction *action)
         view->setGridSize(QSize(m_iconSize.width() + 2, m_iconSize.height() + textHeight));
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
         connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
-        connect(view, &MyListView::processDragEnd, this, &Bin::processDragEnd);
+        connect(view, &MyListView::processDragEnd, pCore.get(), &Core::processDragEnd);
         if (!rootFolder.isEmpty()) {
             // Open view in a specific folder
             std::shared_ptr<AbstractProjectItem> folder = m_itemModel->getItemByBinId(rootFolder);
@@ -4291,6 +4291,7 @@ void Bin::editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip)
 void Bin::slotGotFocus()
 {
     m_gainedFocus = true;
+    pCore->lastActiveBin = parentWidget()->objectName();
 }
 
 void Bin::blockBin(bool block)

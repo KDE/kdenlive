@@ -648,9 +648,7 @@ Q_SIGNALS:
     /** @brief A clip was updated, request panel update. */
     void refreshPanel(const QString &id);
     /** @brief Upon selection, activate timeline target tracks. */
-    void setupTargets(bool hasVideo, QMap <int, QString> audioStreams);
-    /** @brief A drag event ended, inform timeline. */
-    void processDragEnd();
+    void setupTargets(bool hasVideo, QMap<int, QString> audioStreams);
     void requestBinClose();
     /** @brief Update a timeline tab name on clip rename. */
     void updateTabName(const QUuid &, const QString &);
