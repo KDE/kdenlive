@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-08 02:38+0000\n"
+"POT-Creation-Date: 2024-05-09 02:39+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -4719,7 +4719,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Hlavná časová os"
 
-#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5778 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5779 src/bin/clipcreator.cpp:325
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -5133,7 +5133,7 @@ msgstr "Vybrať klip na uloženie"
 msgid "Edit Tags"
 msgstr "Upraviť dĺžku trvania"
 
-#: src/bin/bin.cpp:4537 src/bin/projectclip.cpp:211
+#: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
 #: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
@@ -5142,12 +5142,12 @@ msgstr "Upraviť dĺžku trvania"
 msgid "Unnamed"
 msgstr "Premenovať"
 
-#: src/bin/bin.cpp:4591
+#: src/bin/bin.cpp:4592
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4603
+#: src/bin/bin.cpp:4604
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -5156,12 +5156,12 @@ msgstr ""
 "Prosím, nastavte predvolenú aplikáciu pre otváranie obrázkov v dialógu "
 "Nastavenie."
 
-#: src/bin/bin.cpp:4608
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4620
+#: src/bin/bin.cpp:4621
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -5171,7 +5171,7 @@ msgstr ""
 "Prosím, nastavte predvolenú aplikáciu pre otváranie zvukových súborov v "
 "dialógu Nastavenie."
 
-#: src/bin/bin.cpp:4630 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4631 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5180,14 +5180,14 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Nie je možné otvoriť súbor %1"
 
-#: src/bin/bin.cpp:4810 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4811 src/dialogs/profilesdialog.cpp:213
 #, fuzzy, kde-format
 #| msgctxt "append to clip name to indicate a copied idem"
 #| msgid " (copy)"
 msgid "(copy)"
 msgstr " (kopírovať)"
 
-#: src/bin/bin.cpp:4820
+#: src/bin/bin.cpp:4821
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5196,70 +5196,70 @@ msgstr ""
 "Upravujete externý titulný klip (%1). Chcete uložiť vaše zmeny do titulného "
 "súboru alebo uložiť zmeny len pre tento projekt?"
 
-#: src/bin/bin.cpp:4823 src/titler/titlewidget.cpp:2286
+#: src/bin/bin.cpp:4824 src/titler/titlewidget.cpp:2286
 #, kde-format
 msgid "Save Title"
 msgstr "Uložiť titul"
 
-#: src/bin/bin.cpp:4823
+#: src/bin/bin.cpp:4824
 #, kde-format
 msgid "Save to title file"
 msgstr "Uložiť do titulného súboru"
 
-#: src/bin/bin.cpp:4824
+#: src/bin/bin.cpp:4825
 #, kde-format
 msgid "Save in project only"
 msgstr "Uložiť iba v projekte"
 
-#: src/bin/bin.cpp:4844 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4845 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Titulný klip"
 
-#: src/bin/bin.cpp:4894
+#: src/bin/bin.cpp:4895
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klip je neplatný, bude odstránený z projektu."
 
-#: src/bin/bin.cpp:4898
+#: src/bin/bin.cpp:4899
 #, kde-format
 msgid "Invalid clip"
 msgstr "Neplatný klip"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Enable proxies"
 msgstr "Povoliť zastupovanie"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Disable proxies"
 msgstr "Zakázať zastupovanie"
 
-#: src/bin/bin.cpp:5195
+#: src/bin/bin.cpp:5196
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Znovu vytvoriť zastupovanie"
 
-#: src/bin/bin.cpp:5425
+#: src/bin/bin.cpp:5426
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Kôš projektu"
 
-#: src/bin/bin.cpp:5441
+#: src/bin/bin.cpp:5442
 #, kde-format
 msgid "Add Tracks"
 msgstr "Pridať stopu"
 
-#: src/bin/bin.cpp:5443
+#: src/bin/bin.cpp:5444
 #, fuzzy, kde-format
 #| msgid "Edit item"
 msgid "Edit Streams"
 msgstr "Upraviť položku"
 
-#: src/bin/bin.cpp:5458
+#: src/bin/bin.cpp:5459
 #, fuzzy, kde-format
 #| msgid "Don't blank mask"
 msgid "Don't ask again"
@@ -5267,35 +5267,35 @@ msgstr "Nepoužívať prázdne masky"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5462
+#: src/bin/bin.cpp:5463
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5474 src/mainwindow.cpp:2792
+#: src/bin/bin.cpp:5475 src/mainwindow.cpp:2792
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nie je možné nájsť klip pre pridanie značky"
 
-#: src/bin/bin.cpp:5568
+#: src/bin/bin.cpp:5569
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not find master clip"
 msgstr "Pridanie klipov"
 
-#: src/bin/bin.cpp:5800
+#: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5802
+#: src/bin/bin.cpp:5803
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5869 src/bin/bin.cpp:5946
+#: src/bin/bin.cpp:5870 src/bin/bin.cpp:5947
 #, fuzzy, kde-format
 #| msgid ""
 #| "Additional streams for clip\n"
@@ -5312,12 +5312,12 @@ msgstr[2] ""
 "Ďalšie streamy pre klip\n"
 " %1"
 
-#: src/bin/bin.cpp:5890
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importovať vybrané klipy"
 
-#: src/bin/bin.cpp:5892
+#: src/bin/bin.cpp:5893
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5326,54 +5326,54 @@ msgstr ""
 "Ďalšie streamy pre klip\n"
 " %1"
 
-#: src/bin/bin.cpp:5905 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5906 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video stream %1"
 
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:5921
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Audio stream %1"
 
-#: src/bin/bin.cpp:5973
+#: src/bin/bin.cpp:5974
 #, fuzzy, kde-format
 #| msgid "Delete clip markers"
 msgid "Remove clip markers"
 msgstr "Vymazať označníky klipu"
 
-#: src/bin/bin.cpp:6122
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Uložiť DVD projekt"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Prekódovanie: %1"
 
-#: src/bin/bin.cpp:6230 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Vymazať efekt %1"
 
-#: src/bin/bin.cpp:6294 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "Kôš projektu"
 
-#: src/bin/bin.cpp:6297 src/bin/bin.cpp:6300 src/mainwindow.cpp:4889
+#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -12716,48 +12716,48 @@ msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Súbory na prekódovanie"
 
-#: src/mainwindow.cpp:4229
+#: src/mainwindow.cpp:4231
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4235
+#: src/mainwindow.cpp:4237
 #, kde-format
 msgid "Archiving project"
 msgstr "Archivovanie projektu"
 
-#: src/mainwindow.cpp:4389
+#: src/mainwindow.cpp:4391
 #, kde-format
 msgid "Icon Size"
 msgstr "Veľkosť ikon"
 
-#: src/mainwindow.cpp:4393
+#: src/mainwindow.cpp:4395
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Predvolené"
 
-#: src/mainwindow.cpp:4414 src/mainwindow.cpp:4442
+#: src/mainwindow.cpp:4416 src/mainwindow.cpp:4444
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Malá (%1x%2)"
 
-#: src/mainwindow.cpp:4416 src/mainwindow.cpp:4444
+#: src/mainwindow.cpp:4418 src/mainwindow.cpp:4446
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Stredná (%1x%2)"
 
-#: src/mainwindow.cpp:4418 src/mainwindow.cpp:4446
+#: src/mainwindow.cpp:4420 src/mainwindow.cpp:4448
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Veľká (%1x%2)"
 
-#: src/mainwindow.cpp:4420 src/mainwindow.cpp:4448
+#: src/mainwindow.cpp:4422 src/mainwindow.cpp:4450
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Obrovská (%1x%2)"
 
-#: src/mainwindow.cpp:4504
+#: src/mainwindow.cpp:4506
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -12765,12 +12765,12 @@ msgid ""
 msgstr ""
 "Toto úplne skryje panel ponuky. Môžete ho znova zobraziť stlačením Ctrl+M."
 
-#: src/mainwindow.cpp:4504
+#: src/mainwindow.cpp:4506
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Skryť lištu ponuky"
 
-#: src/mainwindow.cpp:4519
+#: src/mainwindow.cpp:4521
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kdenlive needs to be restarted to apply icon theme change. Restart now ?"
@@ -12778,37 +12778,37 @@ msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr "Kdenlive sa musí reštartovať na zmenu témy ikon. Reštartovať teraz?"
 
-#: src/mainwindow.cpp:4774 src/timeline2/view/timelinecontroller.cpp:5138
+#: src/mainwindow.cpp:4776 src/timeline2/view/timelinecontroller.cpp:5138
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "Nebolo žiadne vodidlo na čase kurzora"
 
-#: src/mainwindow.cpp:5037
+#: src/mainwindow.cpp:5047
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5040
+#: src/mainwindow.cpp:5050
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Nastavenie zariadenia"
 
-#: src/mainwindow.cpp:5043
+#: src/mainwindow.cpp:5053
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5046
+#: src/mainwindow.cpp:5056
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5089
+#: src/mainwindow.cpp:5099
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
