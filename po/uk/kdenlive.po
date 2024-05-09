@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-08 00:37+0000\n"
-"PO-Revision-Date: 2024-05-05 19:01+0300\n"
+"POT-Creation-Date: 2024-05-09 00:38+0000\n"
+"PO-Revision-Date: 2024-05-08 08:29+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -3723,7 +3723,7 @@ msgstr "Вилучає поточний позначений набір нала
 
 #: src/assets/view/assetparameterview.cpp:333
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/kdenlivesettingsdialog.cpp:1429
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -3731,7 +3731,7 @@ msgstr "Введіть назву шаблона"
 
 #: src/assets/view/assetparameterview.cpp:333
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/kdenlivesettingsdialog.cpp:1429
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Введіть назву нового шаблона:"
@@ -4646,7 +4646,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Замінити на монтажному столі"
 
-#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5778 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5779 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5032,7 +5032,7 @@ msgstr "Позначте кліп, до якого слід додати міт�
 msgid "Edit Tags"
 msgstr "Змінити мітки"
 
-#: src/bin/bin.cpp:4537 src/bin/projectclip.cpp:211
+#: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
 #: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
@@ -5040,27 +5040,27 @@ msgstr "Змінити мітки"
 msgid "Unnamed"
 msgstr "Без назви"
 
-#: src/bin/bin.cpp:4591
+#: src/bin/bin.cpp:4592
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Введіть шлях до вашої програми для редагування зображень"
 
-#: src/bin/bin.cpp:4603
+#: src/bin/bin.cpp:4604
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Будь ласка, вкажіть типову програму для відкриття файлів зображень"
 
-#: src/bin/bin.cpp:4608
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Введіть шлях до вашої програми для редагування звукових даних"
 
-#: src/bin/bin.cpp:4620
+#: src/bin/bin.cpp:4621
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Будь ласка, вкажіть типову програму для відкриття звукових файлів"
 
-#: src/bin/bin.cpp:4630 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4631 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5069,12 +5069,12 @@ msgstr "Будь ласка, вкажіть типову програму для
 msgid "Cannot open file %1"
 msgstr "Не вдалося відкрити файл %1"
 
-#: src/bin/bin.cpp:4810 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4811 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "(копія)"
 
-#: src/bin/bin.cpp:4820
+#: src/bin/bin.cpp:4821
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5083,75 +5083,75 @@ msgstr ""
 "Ви редагуєте зовнішній кліп титрів (%1). Бажаєте зберегти зміни до файла "
 "титрів чи внести зміни лише до файлів вашого проєкту?"
 
-#: src/bin/bin.cpp:4823 src/titler/titlewidget.cpp:2286
+#: src/bin/bin.cpp:4824 src/titler/titlewidget.cpp:2286
 #, kde-format
 msgid "Save Title"
 msgstr "Збереження титрів"
 
-#: src/bin/bin.cpp:4823
+#: src/bin/bin.cpp:4824
 #, kde-format
 msgid "Save to title file"
 msgstr "Зберегти до файла титрів"
 
-#: src/bin/bin.cpp:4824
+#: src/bin/bin.cpp:4825
 #, kde-format
 msgid "Save in project only"
 msgstr "Зберегти лише у проєкті"
 
-#: src/bin/bin.cpp:4844 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4845 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Кліп з титрами"
 
-#: src/bin/bin.cpp:4894
+#: src/bin/bin.cpp:4895
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Дані кліпу пошкоджено, його буде вилучено з проєкту."
 
-#: src/bin/bin.cpp:4898
+#: src/bin/bin.cpp:4899
 #, kde-format
 msgid "Invalid clip"
 msgstr "Некоректний кліп"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Enable proxies"
 msgstr "Увімкнути проміжні"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Disable proxies"
 msgstr "Вимкнути проміжні"
 
-#: src/bin/bin.cpp:5195
+#: src/bin/bin.cpp:5196
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Перебудувати проміжні"
 
-#: src/bin/bin.cpp:5425
+#: src/bin/bin.cpp:5426
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Контейнер проєкту"
 
-#: src/bin/bin.cpp:5441
+#: src/bin/bin.cpp:5442
 #, kde-format
 msgid "Add Tracks"
 msgstr "Додати доріжки"
 
-#: src/bin/bin.cpp:5443
+#: src/bin/bin.cpp:5444
 #, kde-format
 msgid "Edit Streams"
 msgstr "Редагування потоків"
 
-#: src/bin/bin.cpp:5458
+#: src/bin/bin.cpp:5459
 #, kde-format
 msgid "Don't ask again"
 msgstr "Більше не питати"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5462
+#: src/bin/bin.cpp:5463
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5160,27 +5160,27 @@ msgstr ""
 "Вашому проєкту потрібно більше звукових доріжок, щоб можна було обробляти "
 "усі потоки звукових даних. Додати %1 звукові доріжки?"
 
-#: src/bin/bin.cpp:5474 src/mainwindow.cpp:2792
+#: src/bin/bin.cpp:5475 src/mainwindow.cpp:2792
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Не вдалося знайти кліп для додавання позначки"
 
-#: src/bin/bin.cpp:5568
+#: src/bin/bin.cpp:5569
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Не вдалося знайти основний кліп"
 
-#: src/bin/bin.cpp:5800
+#: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> кліпів | "
 
-#: src/bin/bin.cpp:5802
+#: src/bin/bin.cpp:5803
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> кліпів (позначено %2) | "
 
-#: src/bin/bin.cpp:5869 src/bin/bin.cpp:5946
+#: src/bin/bin.cpp:5870 src/bin/bin.cpp:5947
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5189,12 +5189,12 @@ msgstr[1] "Додати до кліпу додаткові потоки"
 msgstr[2] "Додати до кліпу додаткові потоки"
 msgstr[3] "Додати до кліпу додаткові потоки"
 
-#: src/bin/bin.cpp:5890
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgid "Import selected clips"
 msgstr "Імпортувати позначені кліпи"
 
-#: src/bin/bin.cpp:5892
+#: src/bin/bin.cpp:5893
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5203,52 +5203,52 @@ msgstr ""
 "Додаткові потоки даних для кліпу\n"
 " %1"
 
-#: src/bin/bin.cpp:5905 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5906 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Відеопотік %1"
 
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:5921
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Потік звукових даних %1"
 
-#: src/bin/bin.cpp:5973
+#: src/bin/bin.cpp:5974
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Вилучити позначки кліпів"
 
-#: src/bin/bin.cpp:6122
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Ми рекомендуємо зберегти проєкт перед використанням дії з перекодування"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Зберегти проєкт"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Перекодувати без збереження"
 
-#: src/bin/bin.cpp:6230 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Вилучити ефект %1"
 
-#: src/bin/bin.cpp:6294 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "Контейнер проєкту"
 
-#: src/bin/bin.cpp:6297 src/bin/bin.cpp:6300 src/mainwindow.cpp:4890
+#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4892
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Контейнер проєкту %1"
@@ -6416,7 +6416,7 @@ msgstr "Автоматично (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:697
+#: src/dialogs/kdenlivesettingsdialog.cpp:696
 #: src/project/dialogs/projectsettings.cpp:899
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
@@ -6620,7 +6620,7 @@ msgid "Misc"
 msgstr "Інше"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:250
-#: src/dialogs/kdenlivesettingsdialog.cpp:807
+#: src/dialogs/kdenlivesettingsdialog.cpp:806
 #: src/doc/documentvalidator.cpp:2250
 #: src/transitions/transitionsrepository.cpp:174
 #, kde-format
@@ -6645,18 +6645,18 @@ msgstr "Використовувати типову теку: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:374
+#: src/dialogs/kdenlivesettingsdialog.cpp:1061
 #: src/dialogs/kdenlivesettingsdialog.cpp:1062
-#: src/dialogs/kdenlivesettingsdialog.cpp:1063
+#: src/dialogs/kdenlivesettingsdialog.cpp:1071
 #: src/dialogs/kdenlivesettingsdialog.cpp:1072
-#: src/dialogs/kdenlivesettingsdialog.cpp:1073
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Завжди використовувати теку проєкту: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:352
 #: src/dialogs/kdenlivesettingsdialog.cpp:376
+#: src/dialogs/kdenlivesettingsdialog.cpp:1068
 #: src/dialogs/kdenlivesettingsdialog.cpp:1069
-#: src/dialogs/kdenlivesettingsdialog.cpp:1070
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Завжди використовувати теку активного проєкту"
@@ -6696,126 +6696,129 @@ msgstr "48000 Гц"
 msgid "JogShuttle"
 msgstr "Ручка керування"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:497
+#: src/dialogs/kdenlivesettingsdialog.cpp:495
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
 "documentation</a>."
 msgstr ""
+"Щодо налаштовування пристрою див. <a href=\"https://docs.kdenlive.org/"
+"user_interface/menu/settings_menu/configure_kdenlive.html#windows\">нашу "
+"документацію</a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:504 src/dialogs/timeremap.cpp:1670
+#: src/dialogs/kdenlivesettingsdialog.cpp:503 src/dialogs/timeremap.cpp:1670
 #: src/kdenliveui.rc:88 src/mltcontroller/clippropertiescontroller.cpp:1006
 #: src/project/transcodeseek.cpp:41 src/project/transcodeseek.cpp:54
 #, kde-format
 msgid "Transcode"
 msgstr "Перекодування"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:534
+#: src/dialogs/kdenlivesettingsdialog.cpp:533
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "Обробка за допомогою графічного процесора потребує MLT, зібраного з модулями "
 "Movit та Rtaudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:703
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:705
-#: src/dialogs/kdenlivesettingsdialog.cpp:758
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:757
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:706
+#: src/dialogs/kdenlivesettingsdialog.cpp:705
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:707
+#: src/dialogs/kdenlivesettingsdialog.cpp:706
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:709
+#: src/dialogs/kdenlivesettingsdialog.cpp:708
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Фонова служба Esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:710
+#: src/dialogs/kdenlivesettingsdialog.cpp:709
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Фонова служба ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:722
-#: src/dialogs/kdenlivesettingsdialog.cpp:723 src/dialogs/renderwidget.cpp:228
+#: src/dialogs/kdenlivesettingsdialog.cpp:721
+#: src/dialogs/kdenlivesettingsdialog.cpp:722 src/dialogs/renderwidget.cpp:228
 #: src/mainwindow.cpp:204 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Типовий"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:774
+#: src/dialogs/kdenlivesettingsdialog.cpp:773
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:786
+#: src/dialogs/kdenlivesettingsdialog.cpp:785
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:810 src/mainwindow.cpp:343
+#: src/dialogs/kdenlivesettingsdialog.cpp:809 src/mainwindow.cpp:343
 #, kde-format
 msgid "Monitor %1"
 msgstr "Монітор %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:894
+#: src/dialogs/kdenlivesettingsdialog.cpp:893
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Введіть шлях до програми для редагування звукових даних"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:902
+#: src/dialogs/kdenlivesettingsdialog.cpp:901
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Введіть шлях до програми для редагування зображень"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:910 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:909 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Введіть шлях до програми Glaxnimate"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:993
-#: src/dialogs/kdenlivesettingsdialog.cpp:1011
+#: src/dialogs/kdenlivesettingsdialog.cpp:992
+#: src/dialogs/kdenlivesettingsdialog.cpp:1010
 #: src/project/dialogs/projectsettings.cpp:531
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Будь ласка, виберіть профіль відео"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1285
+#: src/dialogs/kdenlivesettingsdialog.cpp:1284
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Для набуття чинності цим параметром Kdenlive слід перезапустити"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1433
+#: src/dialogs/kdenlivesettingsdialog.cpp:1432
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Профіль з такою назвою вже існує"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1567
+#: src/dialogs/kdenlivesettingsdialog.cpp:1566
 #, kde-format
 msgid "Current settings"
 msgstr "Поточні параметри"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1605
-#: src/dialogs/kdenlivesettingsdialog.cpp:1641
-#: src/dialogs/kdenlivesettingsdialog.cpp:1658
+#: src/dialogs/kdenlivesettingsdialog.cpp:1604
+#: src/dialogs/kdenlivesettingsdialog.cpp:1640
+#: src/dialogs/kdenlivesettingsdialog.cpp:1657
 #: src/mltcontroller/clippropertiescontroller.cpp:552
 #: src/mltcontroller/clippropertiescontroller.cpp:1386
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6824,8 +6827,8 @@ msgstr "Поточні параметри"
 msgid "Progressive"
 msgstr "Прогресивне"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1748
-#: src/dialogs/kdenlivesettingsdialog.cpp:1772
+#: src/dialogs/kdenlivesettingsdialog.cpp:1747
+#: src/dialogs/kdenlivesettingsdialog.cpp:1771
 #, kde-format
 msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
@@ -6835,7 +6838,7 @@ msgstr ""
 "обробка відбуватиметься в автономному режимі. Обробка за допомогою процесора "
 "комп'ютера є дуже повільною."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1769
+#: src/dialogs/kdenlivesettingsdialog.cpp:1768
 #, kde-format
 msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
@@ -6846,54 +6849,54 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1779
-#: src/dialogs/kdenlivesettingsdialog.cpp:1794
-#: src/dialogs/kdenlivesettingsdialog.cpp:2122 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:1778
+#: src/dialogs/kdenlivesettingsdialog.cpp:1793
+#: src/dialogs/kdenlivesettingsdialog.cpp:2121 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
 msgstr "Тека моделей"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1836
+#: src/dialogs/kdenlivesettingsdialog.cpp:1835
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Налаштовуємо віртуальне середовище…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1838
+#: src/dialogs/kdenlivesettingsdialog.cpp:1837
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Вимикаємо віртуальне середовище"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1855
+#: src/dialogs/kdenlivesettingsdialog.cpp:1854
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "Вилучаємо теку віртуального середовища."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1860
+#: src/dialogs/kdenlivesettingsdialog.cpp:1859
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Не знайдено віртуального середовища python"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1863
+#: src/dialogs/kdenlivesettingsdialog.cpp:1862
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "Не вдалося вилучити теку віртуального середовища."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1868
+#: src/dialogs/kdenlivesettingsdialog.cpp:1867
 #, kde-format
 msgid "Probing..."
 msgstr "Зондування…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1923
-#: src/dialogs/kdenlivesettingsdialog.cpp:2119
+#: src/dialogs/kdenlivesettingsdialog.cpp:1922
+#: src/dialogs/kdenlivesettingsdialog.cpp:2118
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Будь ласка, додайте модель мовлення."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1956
+#: src/dialogs/kdenlivesettingsdialog.cpp:1955
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6902,30 +6905,30 @@ msgstr ""
 "Моделі мовлення можна отримати звідси: <a href=\"https://alphacephei.com/"
 "vosk/models\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1997
+#: src/dialogs/kdenlivesettingsdialog.cpp:1996
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Введіть адресу для нового словника"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2003
+#: src/dialogs/kdenlivesettingsdialog.cpp:2002
 #, kde-format
 msgid "Downloading model…"
 msgstr "Отримуємо модель…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2013
+#: src/dialogs/kdenlivesettingsdialog.cpp:2012
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "У програмі не передбачено можливостей вилучення нетипових моделей у теках. "
 "Будь ласка, вилучіть їх вручну."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2019
-#: src/dialogs/kdenlivesettingsdialog.cpp:2078
+#: src/dialogs/kdenlivesettingsdialog.cpp:2018
+#: src/dialogs/kdenlivesettingsdialog.cpp:2077
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Не вдалося отримати доступ до теки словників."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2028
+#: src/dialogs/kdenlivesettingsdialog.cpp:2027
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6934,22 +6937,22 @@ msgstr ""
 "Вилучити теку:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2052
+#: src/dialogs/kdenlivesettingsdialog.cpp:2051
 #, kde-format
 msgid "Download error"
 msgstr "Помилка під час отримання"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2057
+#: src/dialogs/kdenlivesettingsdialog.cpp:2056
 #, kde-format
 msgid "Download error %1"
 msgstr "Помилка під час отримання %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2085
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Видобування архіву…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2092
+#: src/dialogs/kdenlivesettingsdialog.cpp:2091
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Встановлено новий словник."
@@ -12350,48 +12353,48 @@ msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Файли для перекодування"
 
-#: src/mainwindow.cpp:4230
+#: src/mainwindow.cpp:4232
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Не вдалося зберегти файл проєкту для архівування."
 
-#: src/mainwindow.cpp:4236
+#: src/mainwindow.cpp:4238
 #, kde-format
 msgid "Archiving project"
 msgstr "Архівування проєкту"
 
-#: src/mainwindow.cpp:4390
+#: src/mainwindow.cpp:4392
 #, kde-format
 msgid "Icon Size"
 msgstr "Розмір піктограм"
 
-#: src/mainwindow.cpp:4394
+#: src/mainwindow.cpp:4396
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Типовий"
 
-#: src/mainwindow.cpp:4415 src/mainwindow.cpp:4443
+#: src/mainwindow.cpp:4417 src/mainwindow.cpp:4445
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Малий (%1⨯%2)"
 
-#: src/mainwindow.cpp:4417 src/mainwindow.cpp:4445
+#: src/mainwindow.cpp:4419 src/mainwindow.cpp:4447
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Середній (%1⨯%2)"
 
-#: src/mainwindow.cpp:4419 src/mainwindow.cpp:4447
+#: src/mainwindow.cpp:4421 src/mainwindow.cpp:4449
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Великий (%1⨯%2)"
 
-#: src/mainwindow.cpp:4421 src/mainwindow.cpp:4449
+#: src/mainwindow.cpp:4423 src/mainwindow.cpp:4451
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Величезний (%1⨯%2)"
 
-#: src/mainwindow.cpp:4505
+#: src/mainwindow.cpp:4507
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -12400,12 +12403,12 @@ msgstr ""
 "За допомогою цього пункту можна повністю сховати смужку меню. Наказати "
 "програмі знову показувати цю смужку можна клавіатурним скороченням Ctrl+M."
 
-#: src/mainwindow.cpp:4505
+#: src/mainwindow.cpp:4507
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Приховати смужку меню"
 
-#: src/mainwindow.cpp:4520
+#: src/mainwindow.cpp:4522
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -12413,22 +12416,22 @@ msgstr ""
 "Для застосування нової теми піктограм Kdenlive слід перезапустити. Зробити "
 "це зараз?"
 
-#: src/mainwindow.cpp:4775 src/timeline2/view/timelinecontroller.cpp:5138
+#: src/mainwindow.cpp:4777 src/timeline2/view/timelinecontroller.cpp:5138
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "У поточному проєкті немає субтитрів"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5048
 #, kde-format
 msgid "Go to download page"
 msgstr "Перейти до сторінки отримання"
 
-#: src/mainwindow.cpp:5041
+#: src/mainwindow.cpp:5051
 #, kde-format
 msgid "Never check again"
 msgstr "Більше не перевіряти"
 
-#: src/mainwindow.cpp:5044
+#: src/mainwindow.cpp:5054
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -12437,7 +12440,7 @@ msgstr ""
 "Ваша версія Kdenlive застаріла на понад 1 рік. Ми наполегливо рекомендуємо "
 "її оновити."
 
-#: src/mainwindow.cpp:5047
+#: src/mainwindow.cpp:5057
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -12445,7 +12448,7 @@ msgstr ""
 "Ваша версія Kdenlive застаріла на понад 6 місяців. Ми рекомендуємо її "
 "оновити."
 
-#: src/mainwindow.cpp:5090
+#: src/mainwindow.cpp:5100
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Визначаємо розмір кешованих даних"

@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-08 00:37+0000\n"
-"PO-Revision-Date: 2024-05-08 04:42+0900\n"
+"POT-Creation-Date: 2024-05-09 00:38+0000\n"
+"PO-Revision-Date: 2024-05-09 07:47+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -3591,7 +3591,7 @@ msgstr "刪除目前選取的預設檔。"
 
 #: src/assets/view/assetparameterview.cpp:333
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/kdenlivesettingsdialog.cpp:1429
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -3599,7 +3599,7 @@ msgstr "輸入預設檔名稱"
 
 #: src/assets/view/assetparameterview.cpp:333
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/kdenlivesettingsdialog.cpp:1429
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "輸入此預設檔的名稱："
@@ -3608,7 +3608,7 @@ msgstr "輸入此預設檔的名稱："
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
-msgstr ""
+msgstr "中止處理"
 
 #: src/assets/view/widgets/colorwheel.cpp:527
 #, kde-format
@@ -3969,7 +3969,7 @@ msgstr "已複製目前的值"
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
 msgid "<Select a Keyword>"
-msgstr ""
+msgstr "<選擇關鍵詞>"
 
 #: src/assets/view/widgets/listdependencyparamwidget.cpp:170
 #: src/assets/view/widgets/listparamwidget.cpp:95
@@ -4248,7 +4248,7 @@ msgstr "顯示評分"
 #: src/bin/bin.cpp:1379
 #, kde-format
 msgid "Open Current Folder In New Bin"
-msgstr ""
+msgstr "將目前資料夾在新的素材庫中開啟"
 
 #: src/bin/bin.cpp:1384
 #, kde-format
@@ -4263,6 +4263,8 @@ msgid ""
 "filter display. Click on the arrow icon to open a list of possible filter "
 "settings."
 msgstr ""
+"過濾專案素材庫的內容。點擊過濾器圖示來切換過濾器檢視。點擊箭頭圖示來開啟可用"
+"的過濾器設定列表。"
 
 #: src/bin/bin.cpp:1441
 #, kde-format
@@ -4297,7 +4299,7 @@ msgstr "您不能刪除專案中的所有序列"
 #: src/bin/bin.cpp:1801
 #, kde-format
 msgid "Deleting sequences cannot be undone"
-msgstr ""
+msgstr "刪除序列是無法復原的"
 
 #: src/bin/bin.cpp:1808
 #, kde-format
@@ -4359,12 +4361,14 @@ msgid ""
 "timeline.\n"
 "Replacement is %1 frames shorter."
 msgstr ""
+"您正將素材替換成較短的素材，這可能在時間軸上會造成問題。\n"
+"替換素材短了 %1 個影格。"
 
 #: src/bin/bin.cpp:1931 src/bin/bin.cpp:2144
 #: src/bin/model/subtitlemodel.cpp:400
 #, kde-format
 msgid "The selected file %1 is invalid."
-msgstr ""
+msgstr "選取的檔案 %1 是無效的。"
 
 #: src/bin/bin.cpp:1937
 #, kde-format
@@ -4376,7 +4380,7 @@ msgstr "找不到要取代的原始素材"
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
-msgstr ""
+msgstr "需要至少選取兩個素材（替換素材與原本的素材）才能進行時間軸替換。"
 
 #: src/bin/bin.cpp:1967
 #, kde-format
@@ -4423,12 +4427,12 @@ msgstr "取代視訊"
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
-msgstr ""
+msgstr "替換素材比來源素材還要短。<br><b>時間軸上的某些素材可能未被取代</b>"
 
 #: src/bin/bin.cpp:2025
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
-msgstr ""
+msgstr "替換素材比來源素材還要長"
 
 #: src/bin/bin.cpp:2061
 #, kde-format
@@ -4442,6 +4446,7 @@ msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
+"替換素材不包含視訊串流。您要只取代這個素材在作用中時間軸中的音訊部分嗎？"
 
 #: src/bin/bin.cpp:2100
 #, kde-format
@@ -4449,6 +4454,7 @@ msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
+"替換素材不包含音訊串流。您要只取代這個素材在作用中時間軸中的視訊部分嗎？"
 
 #: src/bin/bin.cpp:2104 src/bin/bin.cpp:2130
 #, kde-format
@@ -4462,7 +4468,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "在時間軸中取代"
 
-#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5778 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5779 src/bin/clipcreator.cpp:325
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4838,7 +4844,7 @@ msgstr "選擇要加標籤的素材"
 msgid "Edit Tags"
 msgstr "編輯標籤"
 
-#: src/bin/bin.cpp:4537 src/bin/projectclip.cpp:211
+#: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
 #: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
@@ -4846,27 +4852,27 @@ msgstr "編輯標籤"
 msgid "Unnamed"
 msgstr "未命名"
 
-#: src/bin/bin.cpp:4591
+#: src/bin/bin.cpp:4592
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "輸入您的圖片編輯應用程式的路徑"
 
-#: src/bin/bin.cpp:4603
+#: src/bin/bin.cpp:4604
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "請設定開啟圖片用的預設應用程式"
 
-#: src/bin/bin.cpp:4608
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4620
+#: src/bin/bin.cpp:4621
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "請設定用於開啟音訊檔案的應用程式"
 
-#: src/bin/bin.cpp:4630 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4631 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -4875,125 +4881,125 @@ msgstr "請設定用於開啟音訊檔案的應用程式"
 msgid "Cannot open file %1"
 msgstr "無法開啟檔案 %1"
 
-#: src/bin/bin.cpp:4810 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4811 src/dialogs/profilesdialog.cpp:213
 #, kde-format
 msgid "(copy)"
 msgstr "（複本）"
 
-#: src/bin/bin.cpp:4820
+#: src/bin/bin.cpp:4821
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4823 src/titler/titlewidget.cpp:2286
+#: src/bin/bin.cpp:4824 src/titler/titlewidget.cpp:2286
 #, kde-format
 msgid "Save Title"
 msgstr "儲存標題"
 
-#: src/bin/bin.cpp:4823
+#: src/bin/bin.cpp:4824
 #, kde-format
 msgid "Save to title file"
 msgstr "儲存到標題檔"
 
-#: src/bin/bin.cpp:4824
+#: src/bin/bin.cpp:4825
 #, kde-format
 msgid "Save in project only"
 msgstr "只儲存於專案中"
 
-#: src/bin/bin.cpp:4844 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4845 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "字幕 / 標題素材"
 
-#: src/bin/bin.cpp:4894
+#: src/bin/bin.cpp:4895
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "素材無效，將從專案中移除。"
 
-#: src/bin/bin.cpp:4898
+#: src/bin/bin.cpp:4899
 #, kde-format
 msgid "Invalid clip"
 msgstr "無效的素材"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Enable proxies"
 msgstr "啟用代理"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Disable proxies"
 msgstr "停用代理"
 
-#: src/bin/bin.cpp:5195
+#: src/bin/bin.cpp:5196
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "重新產生代理"
 
-#: src/bin/bin.cpp:5425
+#: src/bin/bin.cpp:5426
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:5441
+#: src/bin/bin.cpp:5442
 #, kde-format
 msgid "Add Tracks"
 msgstr "新增軌道"
 
-#: src/bin/bin.cpp:5443
+#: src/bin/bin.cpp:5444
 #, kde-format
 msgid "Edit Streams"
 msgstr "編輯串流"
 
-#: src/bin/bin.cpp:5458
+#: src/bin/bin.cpp:5459
 #, kde-format
 msgid "Don't ask again"
 msgstr "不要再詢問"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5462
+#: src/bin/bin.cpp:5463
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr "您的專案需要更多音訊軌才能處理所有串流。要新增 %1 個音訊軌嗎？"
 
-#: src/bin/bin.cpp:5474 src/mainwindow.cpp:2792
+#: src/bin/bin.cpp:5475 src/mainwindow.cpp:2792
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "無法找到要新增標記的素材"
 
-#: src/bin/bin.cpp:5568
+#: src/bin/bin.cpp:5569
 #, kde-format
 msgid "Could not find master clip"
 msgstr "找不到 master 素材"
 
-#: src/bin/bin.cpp:5800
+#: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5802
+#: src/bin/bin.cpp:5803
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5869 src/bin/bin.cpp:5946
+#: src/bin/bin.cpp:5870 src/bin/bin.cpp:5947
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "為素材新增額外串流"
 
-#: src/bin/bin.cpp:5890
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgid "Import selected clips"
 msgstr "匯入所選素材"
 
-#: src/bin/bin.cpp:5892
+#: src/bin/bin.cpp:5893
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5002,51 +5008,51 @@ msgstr ""
 "以下素材的額外串流\n"
 " %1"
 
-#: src/bin/bin.cpp:5905 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5906 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "視訊串流 %1"
 
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:5921
 #, kde-format
 msgid "Audio stream %1"
 msgstr "音訊串流 %1"
 
-#: src/bin/bin.cpp:5973
+#: src/bin/bin.cpp:5974
 #, kde-format
 msgid "Remove clip markers"
 msgstr "移除素材標記"
 
-#: src/bin/bin.cpp:6122
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我們建議您在進行轉碼前先儲存專案"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "儲存專案"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "繼續轉換編碼而不儲存"
 
-#: src/bin/bin.cpp:6230 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "刪除效果 %1"
 
-#: src/bin/bin.cpp:6294 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:6297 src/bin/bin.cpp:6300 src/mainwindow.cpp:4890
+#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4892
 #, kde-format
 msgid "Project Bin %1"
 msgstr "專案素材庫 %1"
@@ -6173,7 +6179,7 @@ msgstr "自動 (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:697
+#: src/dialogs/kdenlivesettingsdialog.cpp:696
 #: src/project/dialogs/projectsettings.cpp:899
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
@@ -6371,7 +6377,7 @@ msgid "Misc"
 msgstr "其它"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:250
-#: src/dialogs/kdenlivesettingsdialog.cpp:807
+#: src/dialogs/kdenlivesettingsdialog.cpp:806
 #: src/doc/documentvalidator.cpp:2250
 #: src/transitions/transitionsrepository.cpp:174
 #, kde-format
@@ -6396,18 +6402,18 @@ msgstr "使用預設資料夾：%1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:374
+#: src/dialogs/kdenlivesettingsdialog.cpp:1061
 #: src/dialogs/kdenlivesettingsdialog.cpp:1062
-#: src/dialogs/kdenlivesettingsdialog.cpp:1063
+#: src/dialogs/kdenlivesettingsdialog.cpp:1071
 #: src/dialogs/kdenlivesettingsdialog.cpp:1072
-#: src/dialogs/kdenlivesettingsdialog.cpp:1073
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "總是使用專案資料夾：%1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:352
 #: src/dialogs/kdenlivesettingsdialog.cpp:376
+#: src/dialogs/kdenlivesettingsdialog.cpp:1068
 #: src/dialogs/kdenlivesettingsdialog.cpp:1069
-#: src/dialogs/kdenlivesettingsdialog.cpp:1070
 #, kde-format
 msgid "Always use active project folder"
 msgstr "總是使用作用中專案資料夾"
@@ -6447,7 +6453,7 @@ msgstr "48000 Hz"
 msgid "JogShuttle"
 msgstr "滑鼠控制"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:497
+#: src/dialogs/kdenlivesettingsdialog.cpp:495
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -6456,115 +6462,115 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:504 src/dialogs/timeremap.cpp:1670
+#: src/dialogs/kdenlivesettingsdialog.cpp:503 src/dialogs/timeremap.cpp:1670
 #: src/kdenliveui.rc:88 src/mltcontroller/clippropertiescontroller.cpp:1006
 #: src/project/transcodeseek.cpp:41 src/project/transcodeseek.cpp:54
 #, kde-format
 msgid "Transcode"
 msgstr "轉換編碼"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:534
+#: src/dialogs/kdenlivesettingsdialog.cpp:533
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:703
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:705
-#: src/dialogs/kdenlivesettingsdialog.cpp:758
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:757
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:706
+#: src/dialogs/kdenlivesettingsdialog.cpp:705
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:707
+#: src/dialogs/kdenlivesettingsdialog.cpp:706
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:709
+#: src/dialogs/kdenlivesettingsdialog.cpp:708
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound 守護程式"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:710
+#: src/dialogs/kdenlivesettingsdialog.cpp:709
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "ARTS 守護程式"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:722
-#: src/dialogs/kdenlivesettingsdialog.cpp:723 src/dialogs/renderwidget.cpp:228
+#: src/dialogs/kdenlivesettingsdialog.cpp:721
+#: src/dialogs/kdenlivesettingsdialog.cpp:722 src/dialogs/renderwidget.cpp:228
 #: src/mainwindow.cpp:204 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "預設"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:774
+#: src/dialogs/kdenlivesettingsdialog.cpp:773
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:786
+#: src/dialogs/kdenlivesettingsdialog.cpp:785
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:810 src/mainwindow.cpp:343
+#: src/dialogs/kdenlivesettingsdialog.cpp:809 src/mainwindow.cpp:343
 #, kde-format
 msgid "Monitor %1"
 msgstr "預覽視窗 %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:894
+#: src/dialogs/kdenlivesettingsdialog.cpp:893
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "輸入音訊編輯應用程式的路徑"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:902
+#: src/dialogs/kdenlivesettingsdialog.cpp:901
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "輸入影像編輯應用程式的路徑"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:910 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:909 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "輸入 Glaxnimate 應用程式的路徑"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:993
-#: src/dialogs/kdenlivesettingsdialog.cpp:1011
+#: src/dialogs/kdenlivesettingsdialog.cpp:992
+#: src/dialogs/kdenlivesettingsdialog.cpp:1010
 #: src/project/dialogs/projectsettings.cpp:531
 #, kde-format
 msgid "Please select a video profile"
 msgstr "請選取一個影片編碼方案"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1285
+#: src/dialogs/kdenlivesettingsdialog.cpp:1284
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive 需要重新啟動才能變更此設定"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1433
+#: src/dialogs/kdenlivesettingsdialog.cpp:1432
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "已經存在使用該名稱的編碼方案"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1567
+#: src/dialogs/kdenlivesettingsdialog.cpp:1566
 #, kde-format
 msgid "Current settings"
 msgstr "目前設定"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1605
-#: src/dialogs/kdenlivesettingsdialog.cpp:1641
-#: src/dialogs/kdenlivesettingsdialog.cpp:1658
+#: src/dialogs/kdenlivesettingsdialog.cpp:1604
+#: src/dialogs/kdenlivesettingsdialog.cpp:1640
+#: src/dialogs/kdenlivesettingsdialog.cpp:1657
 #: src/mltcontroller/clippropertiescontroller.cpp:552
 #: src/mltcontroller/clippropertiescontroller.cpp:1386
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6573,15 +6579,15 @@ msgstr "目前設定"
 msgid "Progressive"
 msgstr "漸進式"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1748
-#: src/dialogs/kdenlivesettingsdialog.cpp:1772
+#: src/dialogs/kdenlivesettingsdialog.cpp:1747
+#: src/dialogs/kdenlivesettingsdialog.cpp:1771
 #, kde-format
 msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1769
+#: src/dialogs/kdenlivesettingsdialog.cpp:1768
 #, kde-format
 msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
@@ -6590,54 +6596,54 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1779
-#: src/dialogs/kdenlivesettingsdialog.cpp:1794
-#: src/dialogs/kdenlivesettingsdialog.cpp:2122 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:1778
+#: src/dialogs/kdenlivesettingsdialog.cpp:1793
+#: src/dialogs/kdenlivesettingsdialog.cpp:2121 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
 msgstr "模型資料夾"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1836
+#: src/dialogs/kdenlivesettingsdialog.cpp:1835
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "正在設定 virtualenv…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1838
+#: src/dialogs/kdenlivesettingsdialog.cpp:1837
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "停用 virtualenv"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1855
+#: src/dialogs/kdenlivesettingsdialog.cpp:1854
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "移除 virtualenv 資料夾。"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1860
+#: src/dialogs/kdenlivesettingsdialog.cpp:1859
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "沒有找到 Python 的 virtualenv"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1863
+#: src/dialogs/kdenlivesettingsdialog.cpp:1862
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "移除 virtualenv 資料夾失敗。"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1868
+#: src/dialogs/kdenlivesettingsdialog.cpp:1867
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1923
-#: src/dialogs/kdenlivesettingsdialog.cpp:2119
+#: src/dialogs/kdenlivesettingsdialog.cpp:1922
+#: src/dialogs/kdenlivesettingsdialog.cpp:2118
 #, kde-format
 msgid "Please add a speech model."
 msgstr "請新增一個語音模型。"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1956
+#: src/dialogs/kdenlivesettingsdialog.cpp:1955
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6646,28 +6652,28 @@ msgstr ""
 "由此下載語言模型：<a href=\"https://alphacephei.com/vosk/models\">https://"
 "alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1997
+#: src/dialogs/kdenlivesettingsdialog.cpp:1996
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "輸入新字典的 URL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2003
+#: src/dialogs/kdenlivesettingsdialog.cpp:2002
 #, kde-format
 msgid "Downloading model…"
 msgstr "模型下載中…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2013
+#: src/dialogs/kdenlivesettingsdialog.cpp:2012
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2019
-#: src/dialogs/kdenlivesettingsdialog.cpp:2078
+#: src/dialogs/kdenlivesettingsdialog.cpp:2018
+#: src/dialogs/kdenlivesettingsdialog.cpp:2077
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "無法存取字典資料夾。"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2028
+#: src/dialogs/kdenlivesettingsdialog.cpp:2027
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6676,22 +6682,22 @@ msgstr ""
 "刪除資料夾：\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2052
+#: src/dialogs/kdenlivesettingsdialog.cpp:2051
 #, kde-format
 msgid "Download error"
 msgstr "下載錯誤"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2057
+#: src/dialogs/kdenlivesettingsdialog.cpp:2056
 #, kde-format
 msgid "Download error %1"
 msgstr "下載錯誤 %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2085
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, kde-format
 msgid "Extracting archive…"
 msgstr "正在解開封存…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2092
+#: src/dialogs/kdenlivesettingsdialog.cpp:2091
 #, kde-format
 msgid "New dictionary installed."
 msgstr "已安裝新字典。"
@@ -7443,7 +7449,7 @@ msgstr "加利西亞語"
 #: src/dialogs/speechdialog.cpp:490
 #, kde-format
 msgid "Ganda"
-msgstr ""
+msgstr "干達語"
 
 #: src/dialogs/speechdialog.cpp:491 src/pythoninterfaces/speechtotext.cpp:110
 #, kde-format
@@ -7468,7 +7474,7 @@ msgstr "古吉拉特語"
 #: src/dialogs/speechdialog.cpp:495
 #, kde-format
 msgid "Halh Mongolian"
-msgstr ""
+msgstr "喀爾喀蒙古語"
 
 #: src/dialogs/speechdialog.cpp:496 src/pythoninterfaces/speechtotext.cpp:118
 #, kde-format
@@ -7493,7 +7499,7 @@ msgstr "冰島語"
 #: src/dialogs/speechdialog.cpp:500
 #, kde-format
 msgid "Igbo"
-msgstr ""
+msgstr "伊博語"
 
 #: src/dialogs/speechdialog.cpp:501 src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
@@ -7558,7 +7564,7 @@ msgstr "立陶宛語"
 #: src/dialogs/speechdialog.cpp:513
 #, kde-format
 msgid "Luo"
-msgstr ""
+msgstr "盧歐語"
 
 #: src/dialogs/speechdialog.cpp:514 src/pythoninterfaces/speechtotext.cpp:137
 #, kde-format
@@ -7613,7 +7619,7 @@ msgstr "尼泊爾語"
 #: src/dialogs/speechdialog.cpp:525
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr ""
+msgstr "奈及利亞富拉語"
 
 #: src/dialogs/speechdialog.cpp:526
 #, kde-format
@@ -7623,7 +7629,7 @@ msgstr "北亞塞拜然語"
 #: src/dialogs/speechdialog.cpp:527
 #, kde-format
 msgid "Northern Uzbek"
-msgstr ""
+msgstr "北烏茲別克語"
 
 #: src/dialogs/speechdialog.cpp:528
 #, kde-format
@@ -7638,7 +7644,7 @@ msgstr "挪威語（尼諾斯克語）"
 #: src/dialogs/speechdialog.cpp:530
 #, kde-format
 msgid "Nyanja"
-msgstr ""
+msgstr "尼揚賈語"
 
 #: src/dialogs/speechdialog.cpp:531
 #, kde-format
@@ -7786,7 +7792,7 @@ msgstr "威爾斯語"
 #: src/dialogs/speechdialog.cpp:559
 #, kde-format
 msgid "West Central Oromo"
-msgstr ""
+msgstr "中西部奧羅莫語"
 
 #: src/dialogs/speechdialog.cpp:560
 #, kde-format
@@ -7801,7 +7807,7 @@ msgstr "優魯巴語"
 #: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "祖魯語"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
@@ -7870,7 +7876,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:120
 #, kde-format
 msgid "Show style options"
-msgstr ""
+msgstr "顯示風格選項"
 
 #: src/dialogs/subtitleedit.cpp:121
 #, kde-kuit-format
@@ -9418,7 +9424,7 @@ msgstr ""
 #: src/jobs/cuttask.cpp:217 src/jobs/cuttask.cpp:219
 #, kde-format
 msgid "You cannot overwrite original clip."
-msgstr ""
+msgstr "您無法覆寫原始素材。"
 
 #: src/jobs/cuttask.cpp:263
 #, kde-format
@@ -9928,7 +9934,7 @@ msgstr "刪除選取素材"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected library clip from the library."
-msgstr ""
+msgstr "從資料庫刪除目前選取的資料庫素材。"
 
 #: src/library/librarywidget.cpp:236
 #, kde-format
@@ -9944,7 +9950,7 @@ msgstr "在資料庫中建立新資料夾。"
 #: src/library/librarywidget.cpp:239
 #, kde-format
 msgid "Rename Library Clip"
-msgstr ""
+msgstr "重新命名資料庫素材"
 
 #: src/library/librarywidget.cpp:246
 #, kde-format
@@ -11869,94 +11875,94 @@ msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "要轉換編碼的檔案"
 
-#: src/mainwindow.cpp:4230
+#: src/mainwindow.cpp:4232
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4236
+#: src/mainwindow.cpp:4238
 #, kde-format
 msgid "Archiving project"
 msgstr "專案封存中"
 
-#: src/mainwindow.cpp:4390
+#: src/mainwindow.cpp:4392
 #, kde-format
 msgid "Icon Size"
 msgstr "圖示大小"
 
-#: src/mainwindow.cpp:4394
+#: src/mainwindow.cpp:4396
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "預設"
 
-#: src/mainwindow.cpp:4415 src/mainwindow.cpp:4443
+#: src/mainwindow.cpp:4417 src/mainwindow.cpp:4445
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "小型 (%1x%2)"
 
-#: src/mainwindow.cpp:4417 src/mainwindow.cpp:4445
+#: src/mainwindow.cpp:4419 src/mainwindow.cpp:4447
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "中型 (%1x%2)"
 
-#: src/mainwindow.cpp:4419 src/mainwindow.cpp:4447
+#: src/mainwindow.cpp:4421 src/mainwindow.cpp:4449
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "大型 (%1x%2)"
 
-#: src/mainwindow.cpp:4421 src/mainwindow.cpp:4449
+#: src/mainwindow.cpp:4423 src/mainwindow.cpp:4451
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "巨大 (%1x%2)"
 
-#: src/mainwindow.cpp:4505
+#: src/mainwindow.cpp:4507
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "這會完全隱藏選單列。您可以按下 Ctrl+M 重新顯示選單列。"
 
-#: src/mainwindow.cpp:4505
+#: src/mainwindow.cpp:4507
 #, kde-format
 msgid "Hide menu bar"
 msgstr "隱藏選單列"
 
-#: src/mainwindow.cpp:4520
+#: src/mainwindow.cpp:4522
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr "Kdenlive 需要重新啟動才能套用圖示主題。要現在重新啟動嗎？"
 
-#: src/mainwindow.cpp:4775 src/timeline2/view/timelinecontroller.cpp:5138
+#: src/mainwindow.cpp:4777 src/timeline2/view/timelinecontroller.cpp:5138
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "目前專案中沒有字幕"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5048
 #, kde-format
 msgid "Go to download page"
 msgstr "造訪下載頁面"
 
-#: src/mainwindow.cpp:5041
+#: src/mainwindow.cpp:5051
 #, kde-format
 msgid "Never check again"
 msgstr "不再次檢查"
 
-#: src/mainwindow.cpp:5044
+#: src/mainwindow.cpp:5054
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "您的 Kdenlive 版本已釋出超過 1 年，我們強烈建議您更新"
 
-#: src/mainwindow.cpp:5047
+#: src/mainwindow.cpp:5057
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "您的 Kdenlive 版本已釋出超過 6 個月，我們建議您更新"
 
-#: src/mainwindow.cpp:5090
+#: src/mainwindow.cpp:5100
 #, kde-format
 msgid "Checking cached data size"
 msgstr "正在檢查已快取資料大小"
@@ -15051,7 +15057,7 @@ msgstr "布里多尼語"
 #: src/pythoninterfaces/speechtotext.cpp:96
 #, kde-format
 msgid "Castilian"
-msgstr ""
+msgstr "卡斯提爾語"
 
 #: src/pythoninterfaces/speechtotext.cpp:98
 #, kde-format
@@ -15061,17 +15067,18 @@ msgstr "中文"
 #: src/pythoninterfaces/speechtotext.cpp:105
 #, kde-format
 msgid "Faroese"
-msgstr ""
+msgstr "法羅語"
 
+# This is used by /Belgium Office Taipei/: https://www.facebook.com/belgianofficetaipei/posts/4689411984518668/
 #: src/pythoninterfaces/speechtotext.cpp:107
 #, kde-format
 msgid "Flemish"
-msgstr ""
+msgstr "佛拉蒙語"
 
 #: src/pythoninterfaces/speechtotext.cpp:114
 #, kde-format
 msgid "Haitian"
-msgstr ""
+msgstr "海地語"
 
 #: src/pythoninterfaces/speechtotext.cpp:115
 #, kde-format
@@ -15101,12 +15108,12 @@ msgstr "拉脫維亞語"
 #: src/pythoninterfaces/speechtotext.cpp:133
 #, kde-format
 msgid "Letzeburgesch"
-msgstr ""
+msgstr "盧森堡語"
 
 #: src/pythoninterfaces/speechtotext.cpp:134
 #, kde-format
 msgid "Lingala"
-msgstr ""
+msgstr "林格拉語"
 
 #: src/pythoninterfaces/speechtotext.cpp:136
 #, kde-format
@@ -15116,7 +15123,7 @@ msgstr "盧森堡語"
 #: src/pythoninterfaces/speechtotext.cpp:138
 #, kde-format
 msgid "Malagasy"
-msgstr ""
+msgstr "馬拉加斯語"
 
 #: src/pythoninterfaces/speechtotext.cpp:139
 #, kde-format
@@ -18249,7 +18256,7 @@ msgstr "放置於最上層"
 #: src/ui/clipjobmanager_ui.ui:331
 #, kde-format
 msgid "Placed in the original clip folder"
-msgstr ""
+msgstr "置於原始素材資料夾"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
 #: src/ui/clipjobmanager_ui.ui:342

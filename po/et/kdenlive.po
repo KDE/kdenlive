@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-08 00:37+0000\n"
+"POT-Creation-Date: 2024-05-09 00:38+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -3734,7 +3734,7 @@ msgstr "Kustuta valitud puhver"
 
 #: src/assets/view/assetparameterview.cpp:333
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/kdenlivesettingsdialog.cpp:1429
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
 msgctxt "@title:window"
@@ -3743,7 +3743,7 @@ msgstr "Kirjuta valmisseadistuse nimi"
 
 #: src/assets/view/assetparameterview.cpp:333
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1430
+#: src/dialogs/kdenlivesettingsdialog.cpp:1429
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset"
 msgid "Enter the name of this preset:"
@@ -4676,7 +4676,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Põhiajatelg"
 
-#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5778 src/bin/clipcreator.cpp:325
+#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5779 src/bin/clipcreator.cpp:325
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -5081,7 +5081,7 @@ msgstr "Klipi valimine, mille silt lisada"
 msgid "Edit Tags"
 msgstr "Muuda hinnangut"
 
-#: src/bin/bin.cpp:4537 src/bin/projectclip.cpp:211
+#: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
 #: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
@@ -5090,24 +5090,24 @@ msgstr "Muuda hinnangut"
 msgid "Unnamed"
 msgstr "Failinimi"
 
-#: src/bin/bin.cpp:4591
+#: src/bin/bin.cpp:4592
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4603
+#: src/bin/bin.cpp:4604
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
 msgid "Please set a default application to open image files"
 msgstr "Palun määra seadistustedialoogis piltide avamise vaikerakendus"
 
-#: src/bin/bin.cpp:4608
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4620
+#: src/bin/bin.cpp:4621
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -5115,7 +5115,7 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr "Palun määra seadistustedialoogis helifailide avamise vaikerakendus"
 
-#: src/bin/bin.cpp:4630 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4631 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:458 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5124,14 +5124,14 @@ msgstr "Palun määra seadistustedialoogis helifailide avamise vaikerakendus"
 msgid "Cannot open file %1"
 msgstr "Faili %1 avamine nurjus"
 
-#: src/bin/bin.cpp:4810 src/dialogs/profilesdialog.cpp:213
+#: src/bin/bin.cpp:4811 src/dialogs/profilesdialog.cpp:213
 #, fuzzy, kde-format
 #| msgctxt "append to clip name to indicate a copied idem"
 #| msgid " (copy)"
 msgid "(copy)"
 msgstr " (koopia)"
 
-#: src/bin/bin.cpp:4820
+#: src/bin/bin.cpp:4821
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5140,52 +5140,52 @@ msgstr ""
 "Muudad välist tiitriklippi (%1). Kas salvestada muudatused tiitriklippi või "
 "salvestada muudatused ainult selle projekti tarbeks?"
 
-#: src/bin/bin.cpp:4823 src/titler/titlewidget.cpp:2286
+#: src/bin/bin.cpp:4824 src/titler/titlewidget.cpp:2286
 #, kde-format
 msgid "Save Title"
 msgstr "Tiitri salvestamine"
 
-#: src/bin/bin.cpp:4823
+#: src/bin/bin.cpp:4824
 #, kde-format
 msgid "Save to title file"
 msgstr "Salvesta tiitrifaili"
 
-#: src/bin/bin.cpp:4824
+#: src/bin/bin.cpp:4825
 #, kde-format
 msgid "Save in project only"
 msgstr "Salvesta ainult projekti"
 
-#: src/bin/bin.cpp:4844 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4845 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Tiitriklipp"
 
-#: src/bin/bin.cpp:4894
+#: src/bin/bin.cpp:4895
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klipp on vigane, see eemaldatakse projektist."
 
-#: src/bin/bin.cpp:4898
+#: src/bin/bin.cpp:4899
 #, kde-format
 msgid "Invalid clip"
 msgstr "Vigane klipp"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Enable proxies"
 msgstr "Asendusklippide lubamine"
 
-#: src/bin/bin.cpp:5021
+#: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Disable proxies"
 msgstr "Asendusklippide keelamine"
 
-#: src/bin/bin.cpp:5195
+#: src/bin/bin.cpp:5196
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Asendusklippide taasloomine"
 
-#: src/bin/bin.cpp:5425
+#: src/bin/bin.cpp:5426
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgctxt "@title:window"
@@ -5193,24 +5193,24 @@ msgid "Project Bin"
 msgstr "Projektipuu"
 
 # riba, rida?
-#: src/bin/bin.cpp:5441
+#: src/bin/bin.cpp:5442
 #, kde-format
 msgid "Add Tracks"
 msgstr "Lisa radu"
 
-#: src/bin/bin.cpp:5443
+#: src/bin/bin.cpp:5444
 #, kde-format
 msgid "Edit Streams"
 msgstr "Muuda voogusid"
 
-#: src/bin/bin.cpp:5458
+#: src/bin/bin.cpp:5459
 #, kde-format
 msgid "Don't ask again"
 msgstr "Rohkem ei küsita"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5462
+#: src/bin/bin.cpp:5463
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5219,28 +5219,28 @@ msgstr ""
 "Kõigi voogude käitlemiseks vajab su projekt rohkem heliradu. Kas lisada %1 "
 "helirada?"
 
-#: src/bin/bin.cpp:5474 src/mainwindow.cpp:2792
+#: src/bin/bin.cpp:5475 src/mainwindow.cpp:2792
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Ei leitud klippi, millele marker lisada"
 
-#: src/bin/bin.cpp:5568
+#: src/bin/bin.cpp:5569
 #, fuzzy, kde-format
 #| msgid "Could not expand clip"
 msgid "Could not find master clip"
 msgstr "Ei saa klippi laiendada"
 
-#: src/bin/bin.cpp:5800
+#: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5802
+#: src/bin/bin.cpp:5803
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5869 src/bin/bin.cpp:5946
+#: src/bin/bin.cpp:5870 src/bin/bin.cpp:5947
 #, fuzzy, kde-format
 #| msgid ""
 #| "Additional streams for clip\n"
@@ -5254,12 +5254,12 @@ msgstr[1] ""
 "Lisavood klipile\n"
 " %1"
 
-#: src/bin/bin.cpp:5890
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgid "Import selected clips"
 msgstr "Valitud klippide import"
 
-#: src/bin/bin.cpp:5892
+#: src/bin/bin.cpp:5893
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5268,54 +5268,54 @@ msgstr ""
 "Lisavood klipile\n"
 " %1"
 
-#: src/bin/bin.cpp:5905 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5906 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videovoog %1"
 
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:5921
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Helivoog %1"
 
-#: src/bin/bin.cpp:5973
+#: src/bin/bin.cpp:5974
 #, fuzzy, kde-format
 #| msgid "Delete clip markers"
 msgid "Remove clip markers"
 msgstr "Klipi markerite kustutamine"
 
-#: src/bin/bin.cpp:6122
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "DVD projekti salvestamine"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkodeerimine: %1"
 
-#: src/bin/bin.cpp:6230 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Kustuta efekt %1"
 
-#: src/bin/bin.cpp:6294 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "Projektipuu"
 
-#: src/bin/bin.cpp:6297 src/bin/bin.cpp:6300 src/mainwindow.cpp:4890
+#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4892
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -6532,7 +6532,7 @@ msgstr "Automaatne"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:697
+#: src/dialogs/kdenlivesettingsdialog.cpp:696
 #: src/project/dialogs/projectsettings.cpp:899
 #: src/transitions/view/transitionstackview.cpp:37
 #, kde-format
@@ -6741,7 +6741,7 @@ msgid "Misc"
 msgstr "Mitmesugust"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:250
-#: src/dialogs/kdenlivesettingsdialog.cpp:807
+#: src/dialogs/kdenlivesettingsdialog.cpp:806
 #: src/doc/documentvalidator.cpp:2250
 #: src/transitions/transitionsrepository.cpp:174
 #, kde-format
@@ -6768,10 +6768,10 @@ msgstr "Vaikimisi kataloogi kasutamine"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:374
+#: src/dialogs/kdenlivesettingsdialog.cpp:1061
 #: src/dialogs/kdenlivesettingsdialog.cpp:1062
-#: src/dialogs/kdenlivesettingsdialog.cpp:1063
+#: src/dialogs/kdenlivesettingsdialog.cpp:1071
 #: src/dialogs/kdenlivesettingsdialog.cpp:1072
-#: src/dialogs/kdenlivesettingsdialog.cpp:1073
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
@@ -6779,8 +6779,8 @@ msgstr "Projektikataloogi kasutamine"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:352
 #: src/dialogs/kdenlivesettingsdialog.cpp:376
+#: src/dialogs/kdenlivesettingsdialog.cpp:1068
 #: src/dialogs/kdenlivesettingsdialog.cpp:1069
-#: src/dialogs/kdenlivesettingsdialog.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
@@ -6821,7 +6821,7 @@ msgstr "48000 Hz"
 msgid "JogShuttle"
 msgstr "Ratasvalija"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:497
+#: src/dialogs/kdenlivesettingsdialog.cpp:495
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -6830,120 +6830,120 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:504 src/dialogs/timeremap.cpp:1670
+#: src/dialogs/kdenlivesettingsdialog.cpp:503 src/dialogs/timeremap.cpp:1670
 #: src/kdenliveui.rc:88 src/mltcontroller/clippropertiescontroller.cpp:1006
 #: src/project/transcodeseek.cpp:41 src/project/transcodeseek.cpp:54
 #, kde-format
 msgid "Transcode"
 msgstr "Ümberkodeerimine"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:534
+#: src/dialogs/kdenlivesettingsdialog.cpp:533
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "GPU töötluseks peab MLT olema kompileeritud Moviti ja Rtaudio moodulite "
 "toetusega"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:703
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:705
-#: src/dialogs/kdenlivesettingsdialog.cpp:758
+#: src/dialogs/kdenlivesettingsdialog.cpp:704
+#: src/dialogs/kdenlivesettingsdialog.cpp:757
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:706
+#: src/dialogs/kdenlivesettingsdialog.cpp:705
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:707
+#: src/dialogs/kdenlivesettingsdialog.cpp:706
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:709
+#: src/dialogs/kdenlivesettingsdialog.cpp:708
 #, fuzzy, kde-format
 #| msgid "Esound daemon"
 msgid "Esound Daemon"
 msgstr "Esound deemon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:710
+#: src/dialogs/kdenlivesettingsdialog.cpp:709
 #, fuzzy, kde-format
 #| msgid "ARTS daemon"
 msgid "ARTS Daemon"
 msgstr "ARTS deemon"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:722
-#: src/dialogs/kdenlivesettingsdialog.cpp:723 src/dialogs/renderwidget.cpp:228
+#: src/dialogs/kdenlivesettingsdialog.cpp:721
+#: src/dialogs/kdenlivesettingsdialog.cpp:722 src/dialogs/renderwidget.cpp:228
 #: src/mainwindow.cpp:204 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Vaikimisi"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:774
+#: src/dialogs/kdenlivesettingsdialog.cpp:773
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:786
+#: src/dialogs/kdenlivesettingsdialog.cpp:785
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:810 src/mainwindow.cpp:343
+#: src/dialogs/kdenlivesettingsdialog.cpp:809 src/mainwindow.cpp:343
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:894
+#: src/dialogs/kdenlivesettingsdialog.cpp:893
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:902
+#: src/dialogs/kdenlivesettingsdialog.cpp:901
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:910 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:909 src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
 #| msgid "Enter a name for the clip in Library"
 msgid "Enter path to the Glaxnimate application"
 msgstr "Kirjuta videoteegi klipi nimi"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:993
-#: src/dialogs/kdenlivesettingsdialog.cpp:1011
+#: src/dialogs/kdenlivesettingsdialog.cpp:992
+#: src/dialogs/kdenlivesettingsdialog.cpp:1010
 #: src/project/dialogs/projectsettings.cpp:531
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Palun vali videoprofiil"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1285
+#: src/dialogs/kdenlivesettingsdialog.cpp:1284
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Selle muutmiseks tuleb Kdenlive taaskäivitada"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1433
+#: src/dialogs/kdenlivesettingsdialog.cpp:1432
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Sellise nimega profiil on juba olemas"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1567
+#: src/dialogs/kdenlivesettingsdialog.cpp:1566
 #, kde-format
 msgid "Current settings"
 msgstr "Praegused seadistused"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1605
-#: src/dialogs/kdenlivesettingsdialog.cpp:1641
-#: src/dialogs/kdenlivesettingsdialog.cpp:1658
+#: src/dialogs/kdenlivesettingsdialog.cpp:1604
+#: src/dialogs/kdenlivesettingsdialog.cpp:1640
+#: src/dialogs/kdenlivesettingsdialog.cpp:1657
 #: src/mltcontroller/clippropertiescontroller.cpp:552
 #: src/mltcontroller/clippropertiescontroller.cpp:1386
 #: src/project/dialogs/profilewidget.cpp:111 src/ui/editrenderpreset_ui.ui:220
@@ -6952,15 +6952,15 @@ msgstr "Praegused seadistused"
 msgid "Progressive"
 msgstr "Progressiivne"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1748
-#: src/dialogs/kdenlivesettingsdialog.cpp:1772
+#: src/dialogs/kdenlivesettingsdialog.cpp:1747
+#: src/dialogs/kdenlivesettingsdialog.cpp:1771
 #, kde-format
 msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1769
+#: src/dialogs/kdenlivesettingsdialog.cpp:1768
 #, kde-format
 msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
@@ -6969,90 +6969,90 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1779
-#: src/dialogs/kdenlivesettingsdialog.cpp:1794
-#: src/dialogs/kdenlivesettingsdialog.cpp:2122 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:1778
+#: src/dialogs/kdenlivesettingsdialog.cpp:1793
+#: src/dialogs/kdenlivesettingsdialog.cpp:2121 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, fuzzy, kde-format
 #| msgid "Custom project folder"
 msgid "Models folder"
 msgstr "Kohandatud projektikataloog"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1836
+#: src/dialogs/kdenlivesettingsdialog.cpp:1835
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Setting up virtual environment…"
 msgstr "MLT keskkonna asukoha määramine"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1838
+#: src/dialogs/kdenlivesettingsdialog.cpp:1837
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1855
+#: src/dialogs/kdenlivesettingsdialog.cpp:1854
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "MLT keskkonna asukoha määramine"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1860
+#: src/dialogs/kdenlivesettingsdialog.cpp:1859
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Seeriat ei leitud"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1863
+#: src/dialogs/kdenlivesettingsdialog.cpp:1862
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1868
+#: src/dialogs/kdenlivesettingsdialog.cpp:1867
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1923
-#: src/dialogs/kdenlivesettingsdialog.cpp:2119
+#: src/dialogs/kdenlivesettingsdialog.cpp:1922
+#: src/dialogs/kdenlivesettingsdialog.cpp:2118
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "Vali üleminek"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1956
+#: src/dialogs/kdenlivesettingsdialog.cpp:1955
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1997
+#: src/dialogs/kdenlivesettingsdialog.cpp:1996
 #, fuzzy, kde-format
 #| msgid "Enter a name for the clip in Library"
 msgid "Enter url for the new dictionary"
 msgstr "Kirjuta videoteegi klipi nimi"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2003
+#: src/dialogs/kdenlivesettingsdialog.cpp:2002
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Uute pühkimisefektide allalaadimine..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2013
+#: src/dialogs/kdenlivesettingsdialog.cpp:2012
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2019
-#: src/dialogs/kdenlivesettingsdialog.cpp:2078
+#: src/dialogs/kdenlivesettingsdialog.cpp:2018
+#: src/dialogs/kdenlivesettingsdialog.cpp:2077
 #, fuzzy, kde-format
 #| msgid "Cannot apply effects on folders"
 msgid "Cannot access dictionary folder."
 msgstr "Efekte ei saa kataloogidele rakendada"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2028
+#: src/dialogs/kdenlivesettingsdialog.cpp:2027
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -7060,25 +7060,25 @@ msgid ""
 "%1"
 msgstr "Kustuta kataloog"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2052
+#: src/dialogs/kdenlivesettingsdialog.cpp:2051
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Uute pühkimisefektide allalaadimine..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2057
+#: src/dialogs/kdenlivesettingsdialog.cpp:2056
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Uute pühkimisefektide allalaadimine..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2085
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Lahtipakkimine..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2092
+#: src/dialogs/kdenlivesettingsdialog.cpp:2091
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -12666,48 +12666,48 @@ msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Ümber kodeeritavad failid"
 
-#: src/mainwindow.cpp:4230
+#: src/mainwindow.cpp:4232
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektifaili ei saa arhiveerimiseks salvestada."
 
-#: src/mainwindow.cpp:4236
+#: src/mainwindow.cpp:4238
 #, kde-format
 msgid "Archiving project"
 msgstr "Projekti arhiveerimine"
 
-#: src/mainwindow.cpp:4390
+#: src/mainwindow.cpp:4392
 #, kde-format
 msgid "Icon Size"
 msgstr "Ikooni suurus"
 
-#: src/mainwindow.cpp:4394
+#: src/mainwindow.cpp:4396
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Vaikimisi"
 
-#: src/mainwindow.cpp:4415 src/mainwindow.cpp:4443
+#: src/mainwindow.cpp:4417 src/mainwindow.cpp:4445
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Väike (%1x%2)"
 
-#: src/mainwindow.cpp:4417 src/mainwindow.cpp:4445
+#: src/mainwindow.cpp:4419 src/mainwindow.cpp:4447
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Keskmine (%1x%2)"
 
-#: src/mainwindow.cpp:4419 src/mainwindow.cpp:4447
+#: src/mainwindow.cpp:4421 src/mainwindow.cpp:4449
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Suur (%1x%2)"
 
-#: src/mainwindow.cpp:4421 src/mainwindow.cpp:4449
+#: src/mainwindow.cpp:4423 src/mainwindow.cpp:4451
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Hiiglaslik (%1x%2)"
 
-#: src/mainwindow.cpp:4505
+#: src/mainwindow.cpp:4507
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -12715,12 +12715,12 @@ msgid ""
 msgstr ""
 "See peidab üldse menüüriba. Seda saab näha uuesti, kui vajutada Ctrl+M."
 
-#: src/mainwindow.cpp:4505
+#: src/mainwindow.cpp:4507
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menüüriba peitmine"
 
-#: src/mainwindow.cpp:4520
+#: src/mainwindow.cpp:4522
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -12728,37 +12728,37 @@ msgstr ""
 "Ikooniteema muutmiseks tuleb Kdenlive taaskäivitada. Kas käivitada see kohe "
 "uuesti?"
 
-#: src/mainwindow.cpp:4775 src/timeline2/view/timelinecontroller.cpp:5138
+#: src/mainwindow.cpp:4777 src/timeline2/view/timelinecontroller.cpp:5138
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No subtitles in current project"
 msgstr "Praeguses asukohas ei leitud ühtegi abijoont"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5048
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5041
+#: src/mainwindow.cpp:5051
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Seadme seadistamine"
 
-#: src/mainwindow.cpp:5044
+#: src/mainwindow.cpp:5054
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5047
+#: src/mainwindow.cpp:5057
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5090
+#: src/mainwindow.cpp:5100
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
