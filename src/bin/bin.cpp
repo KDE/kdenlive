@@ -6312,11 +6312,6 @@ const QString Bin::loadInfo(const QStringList binInfo, const QStringList existin
 
 void Bin::slotOpenNewBin()
 {
-    QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
-    std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-    QString id;
-    if (currentItem) {
-        id = currentItem->clipId();
-    }
+    const QString id = getCurrentFolder();
     pCore.get()->addBin(id);
 }
