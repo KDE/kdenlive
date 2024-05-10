@@ -6532,6 +6532,8 @@ msgid ""
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
 "documentation</a>."
 msgstr ""
+"设备的配置方法参考 <a href=\"https://docs.kdenlive.org/user_interface/menu/"
+"settings_menu/configure_kdenlive.html#windows\">Kdenlive 文档</a>。"
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:503 src/dialogs/timeremap.cpp:1670

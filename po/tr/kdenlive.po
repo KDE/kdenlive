@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-09 00:38+0000\n"
-"PO-Revision-Date: 2024-05-06 00:40+0300\n"
+"PO-Revision-Date: 2024-05-09 18:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6647,6 +6647,9 @@ msgid ""
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
 "documentation</a>."
 msgstr ""
+"Aygıt yapılandırması için <a href=\"https://docs.kdenlive.org/user_interface/"
+"menu/settings_menu/configure_kdenlive.html#windows\">belgelendirmemize</a> "
+"bakın."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:503 src/dialogs/timeremap.cpp:1670

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-09 00:38+0000\n"
-"PO-Revision-Date: 2024-05-02 11:25+0400\n"
+"PO-Revision-Date: 2024-05-09 12:02+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -6618,6 +6618,8 @@ msgid ""
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
 "documentation</a>."
 msgstr ""
+"لضبط الجهاز انظر <a href=\"https://docs.kdenlive.org/user_interface/menu/"
+"settings_menu/configure_kdenlive.html#windows\">التوثيق</a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:503 src/dialogs/timeremap.cpp:1670
@@ -14847,10 +14849,9 @@ msgid "Save Copy"
 msgstr "احفظ نسخة"
 
 #: src/project/projectmanager.cpp:746
-#, fuzzy, kde-format
-#| msgid "Auto-saved file exist. Do you want to recover now?"
+#, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
-msgstr "هناك ملفّات محفوظة آليّا. أتريد استرجاعها الآن؟"
+msgstr "هناك ملف محفوظ آليّا. أتريد استرجاعه الآن؟"
 
 #: src/project/projectmanager.cpp:746
 #, kde-format
@@ -18094,10 +18095,10 @@ msgid ""
 "wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 msgstr ""
 "<p>شرطة إن (شرطة بعرض  n).</p><p>أمثلة من الاستعمال: في اللغة الإنجليزية "
-"لنطاق من القيم (1878&#x2013;1903)، للعلاقات والاتصالات (زيورخ&#x2013;دبلن). "
-"في اللغة الألمانية تستعمل أيضا (مع فراغات!) لعرض الأفكار: &ldquo;Es war "
-"&#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>طالع "
-"<a href=\"https://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
+"لنطاق من القيم (1878&#x2013;1903)، للعلاقات والاتصالات (Zurich&#x2013;"
+"Dublin). في اللغة الألمانية تستعمل أيضا (مع فراغات!) لعرض الأفكار: &ldquo;Es "
+"war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> "
+"<p>طالع <a href=\"https://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 
 #: src/titler/unicodedialog.cpp:186
 #, kde-format
@@ -18586,10 +18587,10 @@ msgid ""
 "replaced by the first parameter value</li><li><b>{param2}</b> will be "
 "replaced by the second parameter value</li></ul>"
 msgstr ""
-"في الوسيطات، تتوفر الخيارات التالية: سيتم استبدال <ul> <li><b>{source}</b> "
-"بمسار الملف المصدر سلة المشروع</li> <li><b>{output}< سيتم استبدال /b> باسم "
-"ملف الإخراج</li> <li><b>{param1}</b> وسيتم استبداله بقيمة المعلمة الأولى</"
-"li> <li><b>{param2}< سيتم استبدال /b> بقيمة المعلمة الثانية</li> </ul>"
+"في الوسيطات، تتوفر الخيارات التالية: <ul> <li><b>{source}</b> سيستبدل مسار "
+"ملف مصدر سلة المشروع </li> <li><b>{output}</b> سيستبدل اسم ملف الخرج</li> "
+"<li><b>{param1}</b> سيستبدل قيمة المعلمة الأولى </li> <li><b>{param2}</b> "
+"سيستبدل قيمة المعلمة الثانية</li> </ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
