@@ -349,6 +349,7 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
         }
         if (qobject_cast<QAbstractSpinBox *>(o)) {
             if (m_blockWheel && !qobject_cast<QAbstractSpinBox *>(o)->hasFocus()) {
+                e->ignore();
                 return true;
             }
             return false;
@@ -357,22 +358,26 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
             if (qobject_cast<QComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 return false;
             }
+            e->ignore();
             return true;
         }
         if (qobject_cast<QProgressBar *>(o)) {
             if (!qobject_cast<QProgressBar *>(o)->hasFocus()) {
+                e->ignore();
                 return true;
             }
             return false;
         }
         if (qobject_cast<WheelContainer *>(o)) {
             if (!qobject_cast<WheelContainer *>(o)->hasFocus()) {
+                e->ignore();
                 return true;
             }
             return false;
         }
         if (qobject_cast<KeyframeView *>(o)) {
             if (!qobject_cast<KeyframeView *>(o)->hasFocus()) {
+                e->ignore();
                 return true;
             }
             return false;
