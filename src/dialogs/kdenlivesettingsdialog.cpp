@@ -493,7 +493,22 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     m_pageJog = addPage(p6, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
 #if defined(Q_OS_WIN)
     m_configShuttle.shuttledisabled->setText(i18n("For device configuration see <a href=\"https://docs.kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our documentation</a>."));
+    connect(m_configShuttle.shuttledisabled, &QLabel::linkActivated, this, &KdenliveSettingsDialog::openBrowserUrl);
 #endif
+}
+
+void KdenliveSettingsDialog::openBrowserUrl(const QString &url)
+{
+    qDebug() << "=== LINK CLICKED: " << url;
+    auto *job = new KIO::OpenUrlJob(QUrl(url));
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+    job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#else
+    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#endif
+    // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
+    // exist in both classes
+    job->start();
 }
 
 void KdenliveSettingsDialog::initTranscodePage()
@@ -1953,18 +1968,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
     m_configSpeech.models_url->setText(
         i18n("Download speech models from: <a href=\"https://alphacephei.com/vosk/models\">https://alphacephei.com/vosk/models</a>"));
-    connect(m_configSpeech.models_url, &QLabel::linkActivated, this, [&](const QString &contents) {
-        qDebug() << "=== LINK CLICKED: " << contents;
-        auto *job = new KIO::OpenUrlJob(QUrl(contents));
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
-        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-        job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
-        // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
-        // exist in both classes
-        job->start();
-    });
+    connect(m_configSpeech.models_url, &QLabel::linkActivated, this, &KdenliveSettingsDialog::openBrowserUrl);
     connect(m_configSpeech.button_add, &QToolButton::clicked, this, [this]() { this->getDictionary(); });
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);

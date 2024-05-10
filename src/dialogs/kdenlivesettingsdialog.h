@@ -108,6 +108,8 @@ private Q_SLOTS:
     void fillMonitorData();
     /** @brief Open external proxies config dialog */
     void configureExternalProxies();
+    /** @brief Open an external browser window */
+    void openBrowserUrl(const QString &url);
 
 private:
     KPageWidgetItem *m_pageMisc;
