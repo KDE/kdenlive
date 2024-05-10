@@ -437,6 +437,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
 void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     QQuickWidget::mouseReleaseEvent(event);
+    bool playMonitor = !m_dragStart.isNull() && m_panStart.isNull();
     m_dragStart = QPoint();
     m_panStart = QPoint();
     setCursor(Qt::ArrowCursor);
@@ -444,7 +445,7 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         event->accept();
         return;
     }
-    if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop) {
+    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !m_swallowDrop) {
         event->accept();
         Q_EMIT monitorPlay();
     }

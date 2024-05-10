@@ -1302,13 +1302,7 @@ void VideoWidget::onFrameDisplayed(const SharedFrame &frame)
 void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     QQuickWidget::mouseReleaseEvent(event);
-    /*if (m_dragStart.isNull() && m_panStart.isNull() && (rootObject() != nullptr) && rootObject()->objectName() != QLatin1String("root") &&
-        !(event->modifiers() & Qt::ControlModifier)) {
-        event->accept();
-        qDebug()<<"::::::: MOUSE RELEASED B IGNORED";
-        return;
-    }*/
-
+    bool playMonitor = !m_dragStart.isNull() && m_panStart.isNull();
     m_dragStart = QPoint();
     m_panStart = QPoint();
     setCursor(Qt::ArrowCursor);
@@ -1316,7 +1310,7 @@ void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
         event->accept();
         return;
     }
-    if (!m_dragStart.isNull() && m_panStart.isNull() && ((event->button() & Qt::LeftButton) != 0u) && !event->isAccepted()) {
+    if (playMonitor && ((event->button() & Qt::LeftButton) != 0u) && !event->isAccepted()) {
         event->accept();
         Q_EMIT monitorPlay();
     }
