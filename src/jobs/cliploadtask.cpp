@@ -35,7 +35,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <profiles/profilemodel.hpp>
 
 ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool thumbOnly, int in, int out, QObject *object)
-    : AbstractTask(owner, AbstractTask::LOADJOB, object)
+    : AbstractTask(owner, thumbOnly ? AbstractTask::THUMBJOB : AbstractTask::LOADJOB, object)
     , m_xml(xml)
     , m_in(in)
     , m_out(out)
@@ -222,7 +222,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
         QImage thumb = ThumbnailCache::get()->getThumbnail(binClip->hashForThumbs(), QString::number(m_owner.itemId), frameNumber);
         if (!thumb.isNull()) {
             // Thumbnail found in cache
-            qDebug() << "=== FOUND THUMB IN CACHe";
+            qDebug() << "=== FOUND THUMB IN CACHE";
             QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, thumb), Q_ARG(int, m_in), Q_ARG(int, m_out),
                                       Q_ARG(bool, true));
         } else {
@@ -231,6 +231,15 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             }
             std::unique_ptr<Mlt::Producer> thumbProd = binClip->getThumbProducer();
             if (thumbProd && thumbProd->is_valid()) {
+                Mlt::Profile *prodProfile = (binClip->clipType() == ClipType::Timeline || binClip->clipType() == ClipType::Playlist)
+                                                ? &pCore->getProjectProfile()
+                                                : &pCore->thumbProfile();
+                Mlt::Filter scaler(*prodProfile, "swscale");
+                Mlt::Filter padder(*prodProfile, "resize");
+                Mlt::Filter converter(*prodProfile, "avcolor_space");
+                thumbProd->attach(scaler);
+                thumbProd->attach(padder);
+                thumbProd->attach(converter);
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
                 }
@@ -258,9 +267,10 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                     } else if (binClip.get() && !m_isCanceled.loadAcquire()) {
                         // We don't follow m_isCanceled there,
                         qDebug() << "=== GOT THUMB FOR: " << m_in << "x" << m_out;
+                        ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.itemId), frameNumber, result, false);
+                        m_progress = 100;
                         QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
                                                   Q_ARG(int, m_out), Q_ARG(bool, false));
-                        ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.itemId), frameNumber, result, false);
                     }
                 }
             }
@@ -748,6 +758,7 @@ void ClipLoadTask::run()
                 pCore->bin()->shouldCheckProfile = false;
                 QMetaObject::invokeMethod(pCore->bin(), "slotCheckProfile", Qt::QueuedConnection, Q_ARG(QString, QString::number(m_owner.itemId)));
             }
+            m_progress = 100;
             Q_EMIT taskDone();
             return;
         }

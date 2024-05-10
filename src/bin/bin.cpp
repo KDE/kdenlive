@@ -1520,7 +1520,7 @@ Bin::~Bin()
 {
     if (m_isMainBin) {
         disconnect(&pCore->taskManager, &TaskManager::jobCount, m_infoLabel, &SmallJobLabel::slotSetJobCount);
-        pCore->taskManager.slotCancelJobs();
+        pCore->taskManager.slotCancelJobs(true);
         blockSignals(true);
         m_proxyModel->selectionModel()->blockSignals(true);
         setEnabled(false);

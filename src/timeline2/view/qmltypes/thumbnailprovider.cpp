@@ -47,6 +47,15 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
             }
             std::unique_ptr<Mlt::Producer> prod = binClip->getThumbProducer();
             if (prod && prod->is_valid()) {
+                Mlt::Profile *prodProfile = (binClip->clipType() == ClipType::Timeline || binClip->clipType() == ClipType::Playlist)
+                                                ? &pCore->getProjectProfile()
+                                                : &pCore->thumbProfile();
+                Mlt::Filter scaler(*prodProfile, "swscale");
+                Mlt::Filter padder(*prodProfile, "resize");
+                Mlt::Filter converter(*prodProfile, "avcolor_space");
+                prod->attach(scaler);
+                prod->attach(padder);
+                prod->attach(converter);
                 result = makeThumbnail(std::move(prod), frameNumber, requestedSize);
                 ThumbnailCache::get()->storeThumbnail(binId, frameNumber, result, false);
             }
