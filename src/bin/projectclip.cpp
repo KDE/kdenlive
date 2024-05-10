@@ -463,6 +463,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         // Clear cache first
         ThumbnailCache::get()->invalidateThumbsForClip(m_binId);
         pCore->taskManager.discardJobs(oid, AbstractTask::LOADJOB, true);
+        pCore->taskManager.discardJobs(oid, AbstractTask::THUMBJOB);
         pCore->taskManager.discardJobs(oid, AbstractTask::CACHEJOB);
         m_thumbXml.clear();
         // Reset uuid to enforce reloading thumbnails from qml cache
@@ -472,6 +473,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
     } else {
         // If another load job is running?
         pCore->taskManager.discardJobs(oid, AbstractTask::LOADJOB, true);
+        pCore->taskManager.discardJobs(oid, AbstractTask::THUMBJOB);
         pCore->taskManager.discardJobs(oid, AbstractTask::CACHEJOB);
         if (QFile::exists(m_path) && (!isProxy && !hasProxy()) && m_properties) {
             clearBackupProperties();
@@ -618,13 +620,16 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         m_name.clear();
     }
     bool buildProxy = producer->property_exists("_replaceproxy") && !pCore->currentDoc()->loading;
+    bool replacingProducer = m_masterProducer != nullptr;
     updateProducer(producer);
     producer.reset();
-    pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::LOADJOB);
-    // Abort thumbnail tasks if any
-    m_thumbMutex.lock();
-    m_thumbXml.clear();
-    m_thumbMutex.unlock();
+    if (replacingProducer) {
+        // Abort thumbnail tasks if any
+        pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::THUMBJOB);
+        m_thumbMutex.lock();
+        m_thumbXml.clear();
+        m_thumbMutex.unlock();
+    }
 
     isReloading = false;
     // Make sure we have a hash for this clip
@@ -836,7 +841,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
     std::unique_ptr<Mlt::Producer> thumbProd;
     if (!m_thumbXml.isEmpty()) {
         QReadLocker lock(&pCore->xmlMutex);
-        if (m_clipType != ClipType::Timeline) {
+        if (m_clipType == ClipType::Timeline || m_clipType == ClipType::Playlist) {
             thumbProd.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", m_thumbXml.constData()));
         } else {
             thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
@@ -867,7 +872,8 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         if (mltService == QLatin1String("avformat")) {
             mltService = QStringLiteral("avformat-novalidate");
         }
-        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+        thumbProd.reset(new Mlt::Producer(m_clipType == ClipType::Playlist ? pCore->getProjectProfile() : pCore->thumbProfile(),
+                                          mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
     }
     if (thumbProd->is_valid()) {
         Mlt::Properties original(m_masterProducer->get_properties());
@@ -877,12 +883,6 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         thumbProd->set("astream", -1);
         // Required to make get_playtime() return > 1
         thumbProd->set("out", thumbProd->get_length() - 1);
-        Mlt::Filter scaler(pCore->thumbProfile(), "swscale");
-        Mlt::Filter padder(pCore->thumbProfile(), "resize");
-        Mlt::Filter converter(pCore->thumbProfile(), "avcolor_space");
-        thumbProd->attach(scaler);
-        thumbProd->attach(padder);
-        thumbProd->attach(converter);
     }
     m_thumbXml = ClipController::producerXml(*thumbProd.get(), true, false);
     m_thumbMutex.unlock();
