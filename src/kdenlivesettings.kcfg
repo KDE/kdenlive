@@ -510,7 +510,10 @@
       <label>Blackmagic video output device.</label>
       <default>0</default>
     </entry>
-    
+    <entry name="play_monitor_on_click" type="Bool">
+      <label>Play/pause monitor on click.</label>
+      <default>true</default>
+    </entry>
     <entry name="fullscreen_monitor" type="String">
       <label>Monitor used for fullscreen output.</label>
       <default></default>

@@ -10,65 +10,87 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>460</height>
+    <width>557</width>
+    <height>371</height>
    </rect>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="KMessageWidget" name="kmessagewidget">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Warning: changes to the drivers and devices can make Kdenlive unstable. Change only if you know what you do.</string>
+      <string>Play/pause monitor on mouse click</string>
      </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-     <property name="closeButtonVisible">
-      <bool>false</bool>
-     </property>
-     <property name="messageType">
-      <enum>KMessageWidget::Warning</enum>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QCheckBox" name="kcfg_play_monitor_on_click">
+     <property name="text">
+      <string>Enable</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Monitor for fullscreen output:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QComboBox" name="fullscreen_monitor"/>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="KMessageWidget" name="kmessagewidget">
+     <property name="text" stdset="0">
+      <string>Warning: changes to the drivers and devices can make Kdenlive unstable. Change only if you know what you do.</string>
+     </property>
+     <property name="wordWrap" stdset="0">
+      <bool>true</bool>
+     </property>
+     <property name="closeButtonVisible" stdset="0">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
     <widget class="QLabel" name="label_gpu">
      <property name="text">
       <string>GPU processing (Movit library):</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="4" column="1">
     <widget class="QCheckBox" name="kcfg_gpu_accel">
      <property name="text">
       <string>Enable - restart Kdenlive to apply</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
+   <item row="5" column="0" colspan="2">
     <widget class="Line" name="line_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
+   <item row="6" column="0">
     <widget class="QLabel" name="label_audio_backend">
      <property name="text">
       <string>Audio Backend:</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
+   <item row="6" column="1">
     <widget class="QComboBox" name="kcfg_audio_backend"/>
    </item>
-   <item row="4" column="0">
+   <item row="7" column="0">
     <widget class="QLabel" name="label_audio_driver">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
@@ -84,10 +106,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="7" column="1">
     <widget class="QComboBox" name="kcfg_audio_driver"/>
    </item>
-   <item row="5" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="label_audio_device">
      <property name="text">
       <string>Audio device:</string>
@@ -97,55 +119,38 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="8" column="1">
     <widget class="QComboBox" name="kcfg_audio_device"/>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="9" column="0" colspan="2">
     <widget class="Line" name="line_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Monitor for fullscreen output:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QComboBox" name="fullscreen_monitor"/>
-   </item>
-   <item row="8" column="0" colspan="2">
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string>External display (Blackmagic card):</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="10" column="1">
     <widget class="QCheckBox" name="kcfg_external_display">
      <property name="text">
       <string>Enable</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="0">
+   <item row="11" column="0">
     <widget class="QLabel" name="label_5">
      <property name="text">
       <string>Output device:</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="1">
+   <item row="11" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QComboBox" name="kcfg_blackmagic_output_device">
@@ -173,7 +178,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </item>
     </layout>
    </item>
-   <item row="11" column="1">
+   <item row="12" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -193,6 +198,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -1302,7 +1302,7 @@ void VideoWidget::onFrameDisplayed(const SharedFrame &frame)
 void VideoWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     QQuickWidget::mouseReleaseEvent(event);
-    bool playMonitor = !m_dragStart.isNull() && m_panStart.isNull();
+    bool playMonitor = KdenliveSettings::play_monitor_on_click() && !m_dragStart.isNull() && m_panStart.isNull();
     m_dragStart = QPoint();
     m_panStart = QPoint();
     setCursor(Qt::ArrowCursor);
