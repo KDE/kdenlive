@@ -73,7 +73,7 @@
     <p xml:lang="ca-valencia">Kdenlive és una aplicació d'edició de vídeo amb suport per a molts formats d'àudio i vídeo. Oferix funcions avançades d'edició, una gran varietat d'efectes i transicions, correcció de color, postproducció d'àudio i eines de subtitulació. A més, proporciona la flexibilitat per a convertir pràcticament a qualsevol format de la vostra elecció.</p>
     <p xml:lang="eo">Kdenlive estas videoredakta aplikaĵo kun subteno por multaj audaĵaj kaj vidaĵaj formatoj. Ĝi ofertas altnivelajn redaktajn funkciojn, diversajn efektojn kaj transirojn, kolorkorektado, aŭda postproduktado kaj subtitolaj iloj. Aldone, ĝi provizas la flekseblecon por redoni en preskaŭ ajna formato de via elekto.</p>
     <p xml:lang="eu">Kdenlive, audio- eta bideo-formatu askorako euskarria duen bideoa editatzeko tresna bat da. Edizio-funtzio aurreratuak eskaintzen ditu, efektu eta trantsizio ezberdinak, kolore-zuzenketa, audio post-produkzioa eta azpidatzietarako tresnak. Gainera, aukeratzen duzun ia edozein formatutan errendatzeko malgutasuna ematen du.</p>
-    <p xml:lang="fr">Kdenlive est une application de montage vidéo prenant en charge de nombreux formats audio et vidéo. Il offre des fonctionnalités d’édition avancées, une variété d’effets et de transitions, une correction des couleurs, une post-production audio et des outils de sous-titrage. En outre, il offre la flexibilité de faire un rendu dans pratiquement n’importe quel format de votre choix.</p>
+    <p xml:lang="fr">Kdenlive est une application de montage vidéo prenant en charge de nombreux formats audio et vidéo. Il offre des fonctionnalités d'édition avancées, une variété d'effets et de transitions, une correction des couleurs, une post-production audio et des outils de sous-titrage. En outre, il offre la flexibilité de faire un rendu dans pratiquement n'importe quel format de votre choix.</p>
     <p xml:lang="he">Kdenlive הוא יישום לעריכת וידאו עם תמיכה במגוון סוגים של וידאו ושמע. הוא מציע יכולות עריכה מתקדמות, שלל אפקטים ומעברונים, תיקון צבע, הפקת פוסט של שמע וכלי כתוביות. בנוסף, הוא מספק את הגמישות לעבד לכמעט כל סוג אפשרי שיש לבחירתך.</p>
     <p xml:lang="it">Kdenlive è un'applicazione di editing video che supporta molti formati audio e video. Offre funzionalità avanzate di modifica, un assortimento di effetti e transizioni, correzione del colore, strumenti per la post-produzione audio e la sottotitolazione. In aggiunta, fornisce la flessibilità di produrre praticamente in qualsiasi formato tu desideri.</p>
     <p xml:lang="ka">Kdenlive ვიდეორედაქტორია ბევრი აუდიო და ვიდეოფორმატების მხარდაჭერით. ის გთავაზობთ დამატებითი ჩასწორების ფუნქციებს, მრავალ ეფექტსა და გადასვლას, ფერის შესწორებას, აუდიოს პოსტ-პროდაქშენს და სუბტიტრების მორგებას. დამატებით, ის გაძლევთ საშუალებას, დაარენდეროთ პრაქტიკულად ნებისმიერ ფორმატში, რომელსაც აირჩევთ.</p>
@@ -141,6 +141,7 @@
       <li xml:lang="uk">Вкладені послідовності</li>
       <li xml:lang="x-test">xxNested Sequencesxx</li>
       <li xml:lang="zh-CN">嵌套序列</li>
+      <li xml:lang="zh-TW">巢狀序列</li>
       <li>Configurable interface and shortcuts</li>
       <li xml:lang="ar">اختصارات و واجهة قابلة للتخصيص</li>
       <li xml:lang="ca">Interfície i dreceres configurables</li>
