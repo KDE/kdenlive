@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-09 02:39+0000\n"
-"PO-Revision-Date: 2024-03-03 12:50+0100\n"
+"PO-Revision-Date: 2024-05-10 00:00+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.4\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -575,7 +575,7 @@ msgstr "Intercambiar canales"
 #: data/effects/channelcopy.xml:17
 #, kde-format
 msgid "Swap the two channels instead of duplicating the source channel."
-msgstr ""
+msgstr "Intercambiar los dos canales, en vez de duplicar el canal original"
 
 #: data/effects/charcoal.xml:4
 #, kde-format
@@ -3351,12 +3351,12 @@ msgstr "Ajustar clip"
 #: src/assets/assetpanel.cpp:88
 #, kde-format
 msgid "Apply effect change to all clips in the group"
-msgstr ""
+msgstr "Aplicar cambio en efecto a todos los clips del grupo"
 
 #: src/assets/assetpanel.cpp:92
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr ""
+msgstr "Aplicar cambio en efecto a todos los clips del grupo…"
 
 #: src/assets/assetpanel.cpp:94
 #, kde-kuit-format
@@ -3366,11 +3366,14 @@ msgid ""
 "the same effect will see the parameters adjusted as well. Deleting an effect "
 "will delete it in all clips in the group."
 msgstr ""
+"Cuando la opción se encuentre activa y el clip sea un grupo, todos los clips "
+"del grupo que tengan el mismo efecto también verán ajustados sus parámetros. "
+"Borrar un efecto lo borrará en todos los clips del grupo."
 
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr ""
+msgstr "Aplicar sólo a efectos con el mismo valor"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4386,17 +4389,13 @@ msgid "Show Video Preview in Thumbnails"
 msgstr "Mostrar miniaturas de video"
 
 #: src/bin/bin.cpp:1353
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Opens a window to configure the project bin (e.g. view mode, sort, show "
-#| "rating)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
-"Abre una ventana para configurar la bandeja del proyecto (p.ej: modo de "
+"Abre un menú para configurar la bandeja del proyecto (p.ej: modo de "
 "visualización, orden, mostrar valoración)."
 
 #: src/bin/bin.cpp:1360
@@ -4417,7 +4416,7 @@ msgstr "Mostrar valoración"
 #: src/bin/bin.cpp:1379
 #, kde-format
 msgid "Open Current Folder In New Bin"
-msgstr ""
+msgstr "Abrir carpeta actual en nueva bandeja"
 
 #: src/bin/bin.cpp:1384
 #, kde-format
@@ -4437,10 +4436,9 @@ msgstr ""
 "flecha para abrir una lista de opciones de filtrado."
 
 #: src/bin/bin.cpp:1441
-#, fuzzy, kde-format
-#| msgid "Delete current point."
+#, kde-format
 msgid "Close Current Bin"
-msgstr "Borrar punto actual."
+msgstr "Cerrar bandeja actual"
 
 #: src/bin/bin.cpp:1453
 #, kde-format
@@ -5619,11 +5617,10 @@ msgid "Timeline sequence"
 msgstr "Secuencia"
 
 #: src/bin/projectclip.cpp:576 src/timeline2/view/qml/Clip.qml:1096
-#, fuzzy, kde-format
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
-msgstr "A"
+msgstr "R"
 
 #: src/bin/projectclip.cpp:651
 #, kde-format
@@ -6177,11 +6174,7 @@ msgid "Arguments for the command line script"
 msgstr "Argumentos para el script de línea de comandos"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
-#| "b> by the second, , <b>{&#x25;3}</b> by the output file path."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
@@ -6837,6 +6830,9 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"Al ejecutarse por primera vez, Whisper <b>descargará el modelo escogido</b>. "
+"Luego de eso, el procesamiento ocurrirá fuera de línea. El procesamiento "
+"mediante CPU es muy lento."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1765
 #, kde-format
@@ -6844,6 +6840,8 @@ msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
 "that, translations will happen offline."
 msgstr ""
+"Al ejecutarse por primera vez, SeamlessM4T <b>descargará 9GB de datos del "
+"modelo</b>. Luego de eso, las traducciones ocurrirán fuera de línea."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -6851,10 +6849,9 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:1790
 #: src/dialogs/kdenlivesettingsdialog.cpp:2118 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
-#, fuzzy, kde-format
-#| msgid "Custom models folder"
+#, kde-format
 msgid "Models folder"
-msgstr "Carpeta personalizada de modelos"
+msgstr "Carpeta de modelos"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1832
 #, kde-format
@@ -7172,23 +7169,19 @@ msgid "Lanczos (best)"
 msgstr "Hiper/Lanczos (mejor)"
 
 #: src/dialogs/renderwidget.cpp:229
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal (16:9)"
-msgstr "Horizontal"
+msgstr "Horizontal (16:9)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical (9:16)"
-msgstr "Vertical"
+msgstr "Vertical (9:16)"
 
 #: src/dialogs/renderwidget.cpp:231
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2"
+#, kde-format
 msgid "Square (1:1)"
-msgstr "Rectángulo"
+msgstr "Cuadrado (1:1)"
 
 #: src/dialogs/renderwidget.cpp:235 src/monitor/monitormanager.cpp:578
 #, kde-format
@@ -7461,16 +7454,14 @@ msgid "Remove Job"
 msgstr "Eliminar tarea"
 
 #: src/dialogs/renderwidget.cpp:1766
-#, fuzzy, kde-format
-#| msgid "Add a clip to timeline before rendering"
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Agregar un clip a la línea de tiempo antes de procesar"
+msgstr "Agregar clips a la línea de tiempo antes de procesarla"
 
 #: src/dialogs/renderwidget.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Rendered File Length: %1"
-msgstr "Duración estimada del procesamiento: %1"
+msgstr "Longitud del archivo procesado: %1"
 
 #: src/dialogs/renderwidget.cpp:1775
 #, kde-format
@@ -7553,10 +7544,10 @@ msgid "Checking setup…"
 msgstr "Comprobando la configuración…"
 
 #: src/dialogs/speechdialog.cpp:252
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "Por favor configurar reconocimiento de voz."
+msgstr ""
+"Por favor configurar reconocimiento de voz., dependencias faltantes: %1"
 
 #: src/dialogs/speechdialog.cpp:254 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:946
@@ -7595,16 +7586,14 @@ msgid "Speech recognition failed"
 msgstr "Falló el reconocimiento de voz"
 
 #: src/dialogs/speechdialog.cpp:453
-#, fuzzy, kde-format
-#| msgid "Translate text to English"
+#, kde-format
 msgid "Translating text to %1"
-msgstr "Traducir texto al inglés"
+msgstr "Traduciendo texto a %1"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Invalid transition"
+#, kde-format
 msgid "Initializing translation model"
-msgstr "Transición no válida"
+msgstr "Inicializando modelo de traducción"
 
 #: src/dialogs/speechdialog.cpp:466 src/pythoninterfaces/speechtotext.cpp:81
 #, kde-format
@@ -7657,10 +7646,9 @@ msgid "Burmese"
 msgstr "Birmano"
 
 #: src/dialogs/speechdialog.cpp:476
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Cantonese"
-msgstr "Chino"
+msgstr "Cantonés"
 
 #: src/dialogs/speechdialog.cpp:477 src/pythoninterfaces/speechtotext.cpp:97
 #, kde-format
@@ -7670,12 +7658,12 @@ msgstr "Catalán"
 #: src/dialogs/speechdialog.cpp:478
 #, kde-format
 msgid "Cebuano"
-msgstr ""
+msgstr "Cebuano"
 
 #: src/dialogs/speechdialog.cpp:479
 #, kde-format
 msgid "Central Kurdish"
-msgstr ""
+msgstr "Kurdo central"
 
 #: src/dialogs/speechdialog.cpp:480 src/pythoninterfaces/speechtotext.cpp:99
 #, kde-format
@@ -7700,7 +7688,7 @@ msgstr "Holandés"
 #: src/dialogs/speechdialog.cpp:484
 #, kde-format
 msgid "Egyptian Arabic"
-msgstr ""
+msgstr "Árabe egipcio"
 
 #: src/dialogs/speechdialog.cpp:485 src/pythoninterfaces/speechtotext.cpp:103
 #, kde-format
@@ -7730,7 +7718,7 @@ msgstr "Gallego"
 #: src/dialogs/speechdialog.cpp:490
 #, kde-format
 msgid "Ganda"
-msgstr ""
+msgstr "Ganda"
 
 #: src/dialogs/speechdialog.cpp:491 src/pythoninterfaces/speechtotext.cpp:110
 #, kde-format
@@ -7753,10 +7741,9 @@ msgid "Gujarati"
 msgstr "Guyaratí"
 
 #: src/dialogs/speechdialog.cpp:495
-#, fuzzy, kde-format
-#| msgid "Mongolian"
+#, kde-format
 msgid "Halh Mongolian"
-msgstr "Mongol"
+msgstr "Mongol khalkha"
 
 #: src/dialogs/speechdialog.cpp:496 src/pythoninterfaces/speechtotext.cpp:118
 #, kde-format
@@ -7781,7 +7768,7 @@ msgstr "Islandés"
 #: src/dialogs/speechdialog.cpp:500
 #, kde-format
 msgid "Igbo"
-msgstr ""
+msgstr "Igbo"
 
 #: src/dialogs/speechdialog.cpp:501 src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
@@ -7789,11 +7776,9 @@ msgid "Indonesian"
 msgstr "Indonesio"
 
 #: src/dialogs/speechdialog.cpp:502
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Iris Box"
+#, kde-format
 msgid "Irish"
-msgstr "Iris rectangular"
+msgstr "Irlandés"
 
 #: src/dialogs/speechdialog.cpp:503 src/pythoninterfaces/speechtotext.cpp:123
 #, kde-format
@@ -7833,7 +7818,7 @@ msgstr "Coreano"
 #: src/dialogs/speechdialog.cpp:510
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Kirguís"
 
 #: src/dialogs/speechdialog.cpp:511 src/pythoninterfaces/speechtotext.cpp:130
 #, kde-format
@@ -7846,10 +7831,9 @@ msgid "Lithuanian"
 msgstr "Lituano"
 
 #: src/dialogs/speechdialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Lao"
+#, kde-format
 msgid "Luo"
-msgstr "Laosiano"
+msgstr "Luo"
 
 #: src/dialogs/speechdialog.cpp:514 src/pythoninterfaces/speechtotext.cpp:137
 #, kde-format
@@ -7857,10 +7841,9 @@ msgid "Macedonian"
 msgstr "Macedonio"
 
 #: src/dialogs/speechdialog.cpp:515
-#, fuzzy, kde-format
-#| msgid "Swahili"
+#, kde-format
 msgid "Maithili"
-msgstr "Suajili"
+msgstr "Maithili"
 
 #: src/dialogs/speechdialog.cpp:516 src/pythoninterfaces/speechtotext.cpp:140
 #, kde-format
@@ -7873,10 +7856,9 @@ msgid "Maltese"
 msgstr "Maltés"
 
 #: src/dialogs/speechdialog.cpp:518 src/dialogs/speechdialog.cpp:519
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Mandarin Chinese"
-msgstr "Chino"
+msgstr "Chino mandarín"
 
 #: src/dialogs/speechdialog.cpp:520 src/pythoninterfaces/speechtotext.cpp:143
 #, kde-format
@@ -7886,18 +7868,17 @@ msgstr "Marati"
 #: src/dialogs/speechdialog.cpp:521
 #, kde-format
 msgid "Meitei"
-msgstr ""
+msgstr "Manipurí"
 
 #: src/dialogs/speechdialog.cpp:522
-#, fuzzy, kde-format
-#| msgid "Video Standard"
+#, kde-format
 msgid "Modern Standard Arabic"
-msgstr "Estándar de video"
+msgstr "Árabe estándar moderno"
 
 #: src/dialogs/speechdialog.cpp:523
 #, kde-format
 msgid "Moroccan Arabic"
-msgstr ""
+msgstr "Árabe marroquí"
 
 #: src/dialogs/speechdialog.cpp:524 src/pythoninterfaces/speechtotext.cpp:148
 #, kde-format
@@ -7907,41 +7888,37 @@ msgstr "Nepalí"
 #: src/dialogs/speechdialog.cpp:525
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr ""
+msgstr "Fula nigeriano"
 
 #: src/dialogs/speechdialog.cpp:526
-#, fuzzy, kde-format
-#| msgid "Azerbaijani"
+#, kde-format
 msgid "North Azerbaijani"
-msgstr "Azerí"
+msgstr "Azerí del norte"
 
 #: src/dialogs/speechdialog.cpp:527
 #, kde-format
 msgid "Northern Uzbek"
-msgstr ""
+msgstr "Uzbeco del norte"
 
 #: src/dialogs/speechdialog.cpp:528
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Bokmål"
-msgstr "Noruego"
+msgstr "Noruego bokmål"
 
 #: src/dialogs/speechdialog.cpp:529
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Nynorsk"
-msgstr "Noruego"
+msgstr "Noruego nynorsk"
 
 #: src/dialogs/speechdialog.cpp:530
-#, fuzzy, kde-format
-#| msgid "Panjabi"
+#, kde-format
 msgid "Nyanja"
-msgstr "Panyabí"
+msgstr "Chichewa"
 
 #: src/dialogs/speechdialog.cpp:531
 #, kde-format
 msgid "Odia"
-msgstr ""
+msgstr "Oriya"
 
 #: src/dialogs/speechdialog.cpp:532 src/pythoninterfaces/speechtotext.cpp:155
 #, kde-format
@@ -8001,7 +7978,7 @@ msgstr "Somalí"
 #: src/dialogs/speechdialog.cpp:543
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "Pastún del sur"
 
 #: src/dialogs/speechdialog.cpp:544 src/pythoninterfaces/speechtotext.cpp:170
 #, kde-format
@@ -8009,15 +7986,14 @@ msgid "Spanish"
 msgstr "Español"
 
 #: src/dialogs/speechdialog.cpp:545
-#, fuzzy, kde-format
-#| msgid "Latvian"
+#, kde-format
 msgid "Standard Latvian"
-msgstr "Letón"
+msgstr "Letón estándar"
 
 #: src/dialogs/speechdialog.cpp:546
 #, kde-format
 msgid "Standard Malay"
-msgstr ""
+msgstr "Malayo estándar"
 
 #: src/dialogs/speechdialog.cpp:547 src/pythoninterfaces/speechtotext.cpp:172
 #, kde-format
@@ -8082,13 +8058,12 @@ msgstr "Galés"
 #: src/dialogs/speechdialog.cpp:559
 #, kde-format
 msgid "West Central Oromo"
-msgstr ""
+msgstr "Oromo centro occidental"
 
 #: src/dialogs/speechdialog.cpp:560
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "Western Persian"
-msgstr "Persa"
+msgstr "Persa occidental"
 
 #: src/dialogs/speechdialog.cpp:561 src/pythoninterfaces/speechtotext.cpp:190
 #, kde-format
@@ -8098,7 +8073,7 @@ msgstr "Yoruba"
 #: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "Zulú"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
@@ -9567,7 +9542,7 @@ msgstr "Guardar efecto"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "%1 instancias de este efecto en el grupo"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:451
 #, kde-format
@@ -9576,6 +9551,9 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>Arrastrar</b> el efecto a otro clip de la línea de tiempo, otra pista u "
+"otro clip de proyecto para copiarlo. <b>Alt arrastrar</b> para copiarlo a un "
+"único elemento del grupo."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:475
 #, kde-format
@@ -9641,34 +9619,29 @@ msgstr ""
 "¿Guardar el efecto sin descripción?"
 
 #: src/filefilter.cpp:122
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "Audio Files"
-msgstr "Niveles de audio"
+msgstr "Archivos de audio"
 
 #: src/filefilter.cpp:124
-#, fuzzy, kde-format
-#| msgid "Image File"
+#, kde-format
 msgid "Image Files"
-msgstr "Archivo de imagen"
+msgstr "Archivos de imagen"
 
 #: src/filefilter.cpp:126
-#, fuzzy, kde-format
-#| msgid "Video values"
+#, kde-format
 msgid "Video Files"
-msgstr "Valores de video"
+msgstr "Archivos de video"
 
 #: src/filefilter.cpp:128
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "User Files"
-msgstr "Eliminar filtros"
+msgstr "Archivos del usuario"
 
 #: src/filefilter.cpp:130
-#, fuzzy, kde-format
-#| msgid "Other Clips"
+#, kde-format
 msgid "Other Files"
-msgstr "Otros clips"
+msgstr "Otros archivos"
 
 #: src/filefilter.cpp:134
 #, kde-format
@@ -11262,10 +11235,9 @@ msgid "Reset Configuration…"
 msgstr "Restablecer configuración…"
 
 #: src/mainwindow.cpp:1523
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "Reproducir zona"
+msgstr "Reproducir zona desde cursor"
 
 #: src/mainwindow.cpp:1526
 #, kde-format
@@ -12294,13 +12266,12 @@ msgstr "Superponer"
 #: src/mainwindow.cpp:3800 src/mainwindow.cpp:3802
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "Instrumentos"
 
 #: src/mainwindow.cpp:3807
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#, kde-format
 msgid "Project Bins"
-msgstr "Bandeja del proyecto"
+msgstr "Bandejas del proyecto"
 
 #: src/mainwindow.cpp:3902
 #, kde-format
@@ -13513,16 +13484,13 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Mayúsculas arrastrar</shortcut> para escalar desde el centro"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click to add points,\n"
-#| "right click to close shape."
+#, kde-format
 msgid ""
 "Click to add points,\n"
 "right click or press enter to close shape."
 msgstr ""
 "Clic para agregar puntos,\n"
-"clic derecho para cerrar la forma."
+"clic derecho o presionar Intro para cerrar la forma."
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -15232,16 +15200,14 @@ msgid "%1 is properly configured."
 msgstr "%1 se encuentra configurado adecuadamente."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:55
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Todo se encuentra configurado: %1"
+msgstr "Todo se encuentra configurado:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:57
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 se encuentra configurado: %2"
+msgstr "%1 se encuentra configurado:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
@@ -15384,11 +15350,10 @@ msgid "No version information available."
 msgstr "No hay disponible información de versión."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Opciones de dibujo"
+msgstr "faltante (opcional)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:560
 #, kde-format
@@ -15534,10 +15499,9 @@ msgid "automated subtitling"
 msgstr "subtitulado automático"
 
 #: src/pythoninterfaces/speechtotext.cpp:39
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "Editar estilo de subtítulo"
+msgstr "ajustar longitud del subtítulo"
 
 #: src/pythoninterfaces/speechtotext.cpp:40
 #, kde-format
@@ -15547,10 +15511,9 @@ msgstr "infraestructura de aprendizaje"
 #: src/pythoninterfaces/speechtotext.cpp:42
 #: src/pythoninterfaces/speechtotext.cpp:43
 #: src/pythoninterfaces/speechtotext.cpp:44
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "SeamlessM4T translation"
-msgstr "Seleccionar transición"
+msgstr "traducción mediante SeamlessM4T"
 
 #: src/pythoninterfaces/speechtotext.cpp:50
 #, kde-format
@@ -15561,62 +15524,55 @@ msgstr "Voz a texto"
 #, kde-format
 msgctxt "Model file to download, smallest one"
 msgid "Tiny (72MB)"
-msgstr ""
+msgstr "Diminuto (72 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:66
 #, kde-format
 msgctxt "Model file to download, basic one"
 msgid "Base (140MB)"
-msgstr ""
+msgstr "Básico (140 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, fuzzy, kde-format
-#| msgid "Small (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, small one"
 msgid "Small (460MB)"
-msgstr "Pequeño (%1x%2)"
+msgstr "Pequeño (460 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, medium one"
 msgid "Medium (1.4GB)"
-msgstr "Medio (%1x%2)"
+msgstr "Mediano (1.4 GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
-#, fuzzy, kde-format
-#| msgid "Large (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, large one"
 msgid "Large (2.9GB)"
-msgstr "Grande (%1x%2)"
+msgstr "Grande (2.9 GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:70
-#, fuzzy, kde-format
-#| msgid "Tiny - English only"
+#, kde-format
 msgctxt "Model file to download, smallest one"
 msgid "Tiny - English only (39MB)"
-msgstr "Diminuto - sólo inglés"
+msgstr "Diminuto - sólo inglés (39 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
-#, fuzzy, kde-format
-#| msgid "Base - English only"
+#, kde-format
 msgctxt "Model file to download, basic one"
 msgid "Base - English only (74MB)"
-msgstr "Base - sólo inglés"
+msgstr "Básico - sólo inglés (74 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:72
-#, fuzzy, kde-format
-#| msgid "Small - English only"
+#, kde-format
 msgctxt "Model file to download, small one"
 msgid "Small - English only (244MB)"
-msgstr "Pequeño - sólo inglés"
+msgstr "Pequeño - sólo inglés (244 MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:73
-#, fuzzy, kde-format
-#| msgid "Medium - English only"
+#, kde-format
 msgctxt "Model file to download, medium one"
 msgid "Medium - English only (1.5GB)"
-msgstr "Medio - sólo inglés"
+msgstr "Mediano - sólo inglés (1.5 GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:80
 #, kde-format
@@ -17089,10 +17045,9 @@ msgid "Error initializing timeline preview"
 msgstr "Error al inicializar la previsualización de la línea de tiempo"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:25
-#, fuzzy, kde-format
-#| msgid "Ripple Mode"
+#, kde-format
 msgid "Editing in Ripple mode"
-msgstr "Modo encadenado"
+msgstr "Edición en modo Encadenado"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:25
 #, kde-format
@@ -17262,10 +17217,9 @@ msgid "Offset: %1"
 msgstr "Desplazamiento: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1003
-#, fuzzy, kde-format
-#| msgid "<b>Click</b> to add composition"
+#, kde-format
 msgid " <b>Click</b> to align clips"
-msgstr "<b>Clic</b> para agregar un método de composición"
+msgstr " <b>Clic</b> para alinear clips"
 
 #: src/timeline2/view/qml/Clip.qml:1247 src/timeline2/view/qml/Clip.qml:1284
 #, kde-format
@@ -17543,6 +17497,7 @@ msgstr "Entrada:%1, Salida:%2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
+"Desplazar sólo podrá ser realizado en clips de video, audio o animación"
 
 #: src/timeline2/view/timelinecontroller.cpp:2714
 #, kde-format
@@ -19420,17 +19375,15 @@ msgstr "Siempre usar una carpeta personalizada"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #: src/ui/configenv_ui.ui:241
-#, fuzzy, kde-format
-#| msgid "Always use active project folder"
+#, kde-format
 msgid "Always use a custom subfolder of project folder"
-msgstr "Siempre usar la carpeta del proyecto activo"
+msgstr "Siempre usar una subcarpeta de la del proyecto"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
 #: src/ui/configenv_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Parent folder of project file"
+#, kde-format
 msgid "Subfolder of project folder"
-msgstr "Carpeta del archivo de proyecto"
+msgstr "Subcarpeta de la del proyecto"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:263
@@ -20042,7 +19995,7 @@ msgstr "El procesamiento de Whisper en la CPU es muy lento"
 #: src/ui/configspeech_ui.ui:281
 #, kde-format
 msgid "Enable translation through SeamlessM4T"
-msgstr ""
+msgstr "Habilitar la traducción mediante SeamlessM4T"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:308
@@ -21610,10 +21563,9 @@ msgstr "Sobreimprimir:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:615
-#, fuzzy, kde-format
-#| msgid "Aspect Ratio"
+#, kde-format
 msgid "Aspect Ratio:"
-msgstr "Proporción"
+msgstr "Proporción:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:637
@@ -22005,31 +21957,27 @@ msgstr "Idioma"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "Tasa máxima de ganancia"
+msgstr "Máximo de caracteres por línea"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_seamless)
 #: src/ui/speechdialog_ui.ui:162
-#, fuzzy, kde-format
-#| msgid "Translate to English"
+#, kde-format
 msgid "Translate with SeamlessM4T"
-msgstr "Traducir al inglés"
+msgstr "Traducir mediante SeamlessM4T"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_out_label)
 #: src/ui/speechdialog_ui.ui:178
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output language"
-msgstr "Archivo de salida"
+msgstr "Idioma final"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_in_label)
 #: src/ui/speechdialog_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Speech language"
+#, kde-format
 msgid "Input language"
-msgstr "Idioma"
+msgstr "Idioma original"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)

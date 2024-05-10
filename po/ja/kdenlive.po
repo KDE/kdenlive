@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-09 02:39+0000\n"
-"PO-Revision-Date: 2024-04-14 13:36+0900\n"
+"PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.02.2\n"
 "X-Language: ja_JP\n"
 "X-Source-Language: C\n"
 
@@ -46,7 +46,7 @@ msgstr "左右のバランスを調整"
 #: data/effects/audiolevel.xml:4
 #, kde-format
 msgid "Audio levels"
-msgstr "オーディオ効果"
+msgstr "オーディオレベル"
 
 #: data/effects/audiolevel.xml:5
 #, kde-format
@@ -61,13 +61,13 @@ msgstr "IEC 60268-18 スケールを使用"
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr "オーディオ波形可視化フィルタ"
+msgstr "音声波形可視化フィルタ"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
-msgstr "画面上にオーディオ波形を表示するオーディオ可視化フィルタです。"
+msgstr "画面上に音声波形を表示するオーディオ可視化フィルタです。"
 
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
@@ -438,7 +438,7 @@ msgstr ""
 #: data/effects/audiowave.xml:4
 #, kde-format
 msgid "Audio Wave"
-msgstr "オーディオ波形"
+msgstr "音声波形"
 
 #: data/effects/audiowave.xml:5
 #, kde-format
@@ -448,7 +448,7 @@ msgstr "ビデオの代わりにオーディオの波形を表示する"
 #: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
-msgstr "オーディオ波形"
+msgstr "音声波形フィルタ"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #: data/effects/timer.xml:23
@@ -1583,7 +1583,7 @@ msgstr ""
 #: data/effects/mirror.xml:9
 #, kde-format
 msgid "Mirroring direction"
-msgstr "裏返す方向"
+msgstr "ミラーリング方向"
 
 #: data/effects/mono.xml:4
 #, kde-format
@@ -1789,8 +1789,7 @@ msgstr ""
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:34
 #: data/transitions/qtblend.xml:15
-#, fuzzy, kde-format
-#| msgid "Composite"
+#, kde-format
 msgid "Compositing"
 msgstr "コンポジット"
 
@@ -2150,10 +2149,9 @@ msgid "Overlay a timer onto the video"
 msgstr ""
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Font Style"
-msgstr "フォントサイズ"
+msgstr "フォントスタイル"
 
 #: data/effects/timer.xml:46
 #, kde-format
@@ -4620,10 +4618,9 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:2107
-#, fuzzy, kde-format
-#| msgid "Clip in Timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "タイムライン内のクリップ(I)"
+msgstr "タイムライン上で置き換え"
 
 #: src/bin/bin.cpp:2128 src/bin/bin.cpp:5779 src/bin/clipcreator.cpp:325
 #, kde-format
@@ -4703,10 +4700,9 @@ msgid "Used Clips"
 msgstr "使用済のクリップ"
 
 #: src/bin/bin.cpp:2441
-#, fuzzy, kde-format
-#| msgid "Filter by type"
+#, kde-format
 msgid "Filter by Type"
-msgstr "種別で絞り込み"
+msgstr "種類でフィルタ"
 
 #: src/bin/bin.cpp:2444
 #, kde-format
@@ -5158,12 +5154,12 @@ msgstr "マスタークリップを見つけられませんでした"
 #: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips | "
-msgstr ""
+msgstr "<b>%1</b> 個のクリップ | "
 
 #: src/bin/bin.cpp:5803
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
-msgstr ""
+msgstr "<b>%1</b> 個のクリップ (%2 個選択済み) | "
 
 #: src/bin/bin.cpp:5870 src/bin/bin.cpp:5947
 #, kde-format
@@ -9889,7 +9885,7 @@ msgstr "ビデオコーデック %1 をコピーできません、再エンコ�
 #: src/jobs/cuttask.cpp:86
 #, kde-format
 msgid "Cannot copy audio codec %1, will re-encode."
-msgstr "オーディオコーデック %1 をコピーできません、再エンコードします。"
+msgstr "オーディオコーデック %1 をコピーできません。再エンコードします。"
 
 #: src/jobs/cuttask.cpp:103 src/jobs/cuttask.cpp:112
 #, kde-format
@@ -13310,10 +13306,9 @@ msgid "Always show audio thumbnails"
 msgstr "常にオーディオのサムネイルを表示する(T)"
 
 #: src/monitor/monitor.cpp:701
-#, fuzzy, kde-format
-#| msgid "Sox echo audio effect"
+#, kde-format
 msgid "Show Audio Levels"
-msgstr "Sox Echo オーディオ効果"
+msgstr "オーディオレベルを表示"
 
 #: src/monitor/monitor.cpp:708
 #, fuzzy, kde-format
@@ -17490,10 +17485,9 @@ msgid "Paused"
 msgstr "一時停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:77
-#, fuzzy, kde-format
-#| msgid "Sox echo audio effect"
+#, kde-format
 msgid "Mic level"
-msgstr "Sox Echo オーディオ効果"
+msgstr "マイクレベル"
 
 #: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:870
 #, kde-format
@@ -23196,11 +23190,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#, fuzzy
-#~| msgid "Render Duration: %1"
-#~ msgid "Render Duration: %1. "
-#~ msgstr "レンダリングにかかる時間: %1"
-
-#~ msgid "Open in new bin"
-#~ msgstr "新しいビンで開く"
