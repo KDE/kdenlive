@@ -171,7 +171,13 @@ const QString TransitionsRepository::getCompositingTransition()
     if (KdenliveSettings::gpu_accel()) {
         return QStringLiteral("movit.overlay");
     }
-    if (KdenliveSettings::preferredcomposite() != i18n("auto") && exists(KdenliveSettings::preferredcomposite())) {
+    if (KdenliveSettings::preferredcomposite() == i18n("auto")) {
+        // If auto, default to qtblend
+        QString qtblendTransiton = QStringLiteral("qtblend");
+        if (exists(qtblendTransiton)) {
+            return qtblendTransiton;
+        }
+    } else if (exists(KdenliveSettings::preferredcomposite())) {
         return KdenliveSettings::preferredcomposite();
     }
     QStringList trackComposites = KdenliveSettings::compositingList();
