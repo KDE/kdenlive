@@ -839,13 +839,16 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         return nullptr;
     }
     std::unique_ptr<Mlt::Producer> thumbProd;
+    if (m_clipType == ClipType::Timeline || m_clipType == ClipType::Playlist) {
+        QReadLocker lock(&pCore->xmlMutex);
+        // thumbProd.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", m_thumbXml.constData()));
+        thumbProd.reset(masterProducer());
+        m_thumbMutex.unlock();
+        return thumbProd;
+    }
     if (!m_thumbXml.isEmpty()) {
         QReadLocker lock(&pCore->xmlMutex);
-        if (m_clipType == ClipType::Timeline || m_clipType == ClipType::Playlist) {
-            thumbProd.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", m_thumbXml.constData()));
-        } else {
-            thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
-        }
+        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
         m_thumbMutex.unlock();
         return thumbProd;
     }

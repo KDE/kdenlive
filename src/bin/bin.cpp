@@ -6011,7 +6011,8 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, bool forc
             m_doc->sequenceThumbUpdated(uuid);
             clip->resetSequenceThumbnails();
             clip->reloadTimeline();
-            ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
+            // Don't update thumb now, it causes too much lag on sequence switch or save
+            // ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
         }
     }
 }

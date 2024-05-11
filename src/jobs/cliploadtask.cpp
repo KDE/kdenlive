@@ -231,15 +231,15 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             }
             std::unique_ptr<Mlt::Producer> thumbProd = binClip->getThumbProducer();
             if (thumbProd && thumbProd->is_valid()) {
-                Mlt::Profile *prodProfile = (binClip->clipType() == ClipType::Timeline || binClip->clipType() == ClipType::Playlist)
-                                                ? &pCore->getProjectProfile()
-                                                : &pCore->thumbProfile();
-                Mlt::Filter scaler(*prodProfile, "swscale");
-                Mlt::Filter padder(*prodProfile, "resize");
-                Mlt::Filter converter(*prodProfile, "avcolor_space");
-                thumbProd->attach(scaler);
-                thumbProd->attach(padder);
-                thumbProd->attach(converter);
+                if (binClip->clipType() != ClipType::Timeline && binClip->clipType() != ClipType::Playlist) {
+                    Mlt::Profile *prodProfile = &pCore->thumbProfile();
+                    Mlt::Filter scaler(*prodProfile, "swscale");
+                    Mlt::Filter padder(*prodProfile, "resize");
+                    Mlt::Filter converter(*prodProfile, "avcolor_space");
+                    thumbProd->attach(scaler);
+                    thumbProd->attach(padder);
+                    thumbProd->attach(converter);
+                }
                 if (frameNumber > 0) {
                     thumbProd->seek(frameNumber);
                 }
