@@ -310,7 +310,7 @@ void KdenliveSettingsDialog::initProxyPage()
     m_configProxy.setupUi(p10);
     m_proxyProfiles = new EncodingProfilesChooser(p10, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
     m_configProxy.proxy_profile_box->addWidget(m_proxyProfiles);
-    addPage(p10, i18n("Proxy Clips"), QStringLiteral("zoom-out"));
+    addPage(p10, i18n("Proxy Clips"), QStringLiteral("transform-scale"));
     connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
