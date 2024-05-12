@@ -28,6 +28,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 #include <KIconLoader>
+#include <KSandbox>
 #include <KSharedConfig>
 
 #include "definitions.h"
@@ -68,6 +69,156 @@ extern "C" {
 // __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 }
 #endif
+
+static LinuxPackageType getPackageType()
+{
+    QString packageType;
+    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
+        packageType = qgetenv("PACKAGE_TYPE").toLower();
+    }
+
+    if (packageType == QStringLiteral("appimage")) {
+        return LinuxPackageType::AppImage;
+    }
+
+    if (packageType == QStringLiteral("flatpak")) {
+        return LinuxPackageType::Flatpak;
+    }
+
+    if (packageType == QStringLiteral("snap")) {
+        return LinuxPackageType::Snap;
+    }
+
+    if (KSandbox::isFlatpak()) {
+        return LinuxPackageType::Flatpak;
+    }
+
+    if (KSandbox::isSnap()) {
+        return LinuxPackageType::Snap;
+    }
+
+    QString appPath = qApp->applicationDirPath();
+    if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
+        return LinuxPackageType::AppImage;
+    }
+
+    return LinuxPackageType::Unknown;
+}
+
+static void resetConfig()
+{
+    // Delete config file
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    if (config->name().contains(QLatin1String("kdenlive"))) {
+        // Make sure we delete our config file
+        QFile f(QStandardPaths::locate(QStandardPaths::GenericConfigLocation, config->name(), QStandardPaths::LocateFile));
+        if (f.exists()) {
+            qDebug() << " = = = =\nGOT Deleted file: " << f.fileName();
+            f.remove();
+        }
+    }
+
+    // Delete xml ui rc file
+    const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    if (configLocation.isEmpty()) {
+        return;
+    }
+    QDir dir(configLocation);
+    if (!(dir.cd(QStringLiteral("kxmlgui5")) && dir.cd(QStringLiteral("kdenlive")))) {
+        return;
+    }
+    QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
+    if (!f.exists()) {
+        return;
+    }
+    if (!f.open(QIODevice::ReadOnly)) {
+        return;
+    }
+
+    bool shortcutFound = false;
+    QDomDocument doc;
+    doc.setContent(&f);
+    f.close();
+    if (!doc.documentElement().isNull()) {
+        QDomElement shortcuts = doc.documentElement().firstChildElement(QStringLiteral("ActionProperties"));
+        if (!shortcuts.isNull()) {
+            qDebug() << "==== FOUND CUSTOM SHORTCUTS!!!";
+            // Copy the original settings and append custom shortcuts
+            QFile f2(QStringLiteral(":/kxmlgui5/kdenlive/kdenliveui.rc"));
+            if (f2.exists() && f2.open(QIODevice::ReadOnly)) {
+                QDomDocument doc2;
+                doc2.setContent(&f2);
+                f2.close();
+                if (!doc2.documentElement().isNull()) {
+                    doc2.documentElement().appendChild(doc2.importNode(shortcuts, true));
+                    shortcutFound = true;
+                    if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                        // overwrite local xml config
+                        QTextStream out(&f);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                        out.setCodec("UTF-8");
+#endif
+                        out << doc2.toString();
+                        f.close();
+                    }
+                }
+            }
+        }
+    }
+    if (!shortcutFound) {
+        // No custom shortcuts found, simply delete the xmlui file
+        f.remove();
+    }
+}
+
+static void initIconRCC(LinuxPackageType packageType)
+{
+#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
+    const QStringList themes{"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
+    for (const QString &theme : themes) {
+        const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
+        if (!themePath.isEmpty()) {
+            const QString iconSubdir = theme.left(theme.lastIndexOf('/'));
+            if (QResource::registerResource(themePath, iconSubdir)) {
+                if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
+                    qDebug() << "Loaded icon theme:" << theme;
+                } else {
+                    qWarning() << "No index.theme found in" << theme;
+                    QResource::unregisterResource(themePath, iconSubdir);
+                }
+            } else {
+                qWarning() << "Invalid rcc file" << theme;
+            }
+        }
+    }
+#else
+    // AppImage
+    if (packageType == LinuxPackageType::AppImage) {
+        QMap<QString, QString> themeMap;
+        themeMap.insert("breeze", "/../icons/breeze/breeze-icons.rcc");
+        themeMap.insert("breeze-dark", "/../icons/breeze-dark/breeze-icons-dark.rcc");
+
+        QMapIterator<QString, QString> i(themeMap);
+        while (i.hasNext()) {
+            i.next();
+            QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, i.value());
+            if (!themePath.isEmpty()) {
+                const QString iconSubdir = "/icons/" + i.key();
+                if (QResource::registerResource(themePath, iconSubdir)) {
+                    if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
+                        qDebug() << "Loaded icon theme:" << i.key();
+                    } else {
+                        qWarning() << "No index.theme found for" << i.key();
+                        QResource::unregisterResource(themePath, iconSubdir);
+                    }
+                } else {
+                    qWarning() << "Invalid rcc file" << i.key();
+                }
+            }
+        }
+    }
+#endif
+}
 
 int main(int argc, char *argv[])
 {
@@ -117,28 +268,26 @@ int main(int argc, char *argv[])
     }
 
     // Try to detect package type
-    QString packageType;
-    if (qEnvironmentVariableIsSet("PACKAGE_TYPE")) {
-        packageType = qgetenv("PACKAGE_TYPE").toLower();
-    } else {
-        // no package type defined, try to detected it
-        QString appPath = app.applicationDirPath();
-        if (appPath.contains(QStringLiteral("/tmp/.mount_"))) {
-            packageType = QStringLiteral("appimage");
-        }
-        if (appPath.contains(QStringLiteral("/snap"))) {
-            packageType = QStringLiteral("snap");
-        } else {
-            qDebug() << "Could not detect package type, probably default? App dir is" << app.applicationDirPath();
-        }
-    }
+    LinuxPackageType packageType = getPackageType();
 
-    bool inSandbox = false;
-    if (packageType == QStringLiteral("appimage") || packageType == QStringLiteral("flatpak") || packageType == QStringLiteral("snap")) {
-        inSandbox = true;
-        // use a dedicated config file for sandbox packages,
-        // however the next line has no effect if the --config cmd option is used
-        KConfig::setMainConfigName(QStringLiteral("kdenlive-%1rc").arg(packageType));
+    // use a dedicated config file for sandbox packages,
+    // however the next lines have no effect if the --config cmd option is used
+    QString packageName;
+    switch (packageType) {
+    case LinuxPackageType::AppImage:
+        packageName = QStringLiteral("appimage");
+        break;
+    case LinuxPackageType::Flatpak:
+        packageName = QStringLiteral("flatpak");
+        break;
+    case LinuxPackageType::Snap:
+        packageName = QStringLiteral("snap");
+        break;
+    default:
+        break;
+    }
+    if (!packageName.isEmpty()) {
+        KConfig::setMainConfigName(QStringLiteral("kdenlive-%1rc").arg(packageName));
     }
 
     KLocalizedString::setApplicationDomain("kdenlive");
@@ -147,9 +296,21 @@ int main(int argc, char *argv[])
     // Create KAboutData
     QString otherText = i18n("Please report bugs to <a href=\"%1\">%2</a>", QStringLiteral("https://bugs.kde.org/enter_bug.cgi?product=kdenlive"),
                              QStringLiteral("https://bugs.kde.org/"));
-    if (!packageType.isEmpty()) {
-        otherText.prepend(i18n("You are using the %1 package.<br>", packageType));
+
+    switch (packageType) {
+    case LinuxPackageType::AppImage:
+        otherText.prepend(i18n("You are using the AppImage.<br>"));
+        break;
+    case LinuxPackageType::Flatpak:
+        otherText.prepend(i18n("You are using the Flatpak.<br>"));
+        break;
+    case LinuxPackageType::Snap:
+        otherText.prepend(i18n("You are using the Snap package.<br>"));
+        break;
+    default:
+        break;
     }
+
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL_V3,
                          i18n("Copyright © 2007–2024 Kdenlive authors"), otherText, QStringLiteral("https://kdenlive.org"));
     // main developers (alphabetical)
@@ -350,51 +511,7 @@ int main(int argc, char *argv[])
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
-#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
-    const QStringList themes{"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
-    for (const QString &theme : themes) {
-        const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
-        if (!themePath.isEmpty()) {
-            const QString iconSubdir = theme.left(theme.lastIndexOf('/'));
-            if (QResource::registerResource(themePath, iconSubdir)) {
-                if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
-                    qDebug() << "Loaded icon theme:" << theme;
-                } else {
-                    qWarning() << "No index.theme found in" << theme;
-                    QResource::unregisterResource(themePath, iconSubdir);
-                }
-            } else {
-                qWarning() << "Invalid rcc file" << theme;
-            }
-        }
-    }
-#else
-    // AppImage
-    if (packageType == QStringLiteral("appimage")) {
-        QMap<QString, QString> themeMap;
-        themeMap.insert("breeze", "/../icons/breeze/breeze-icons.rcc");
-        themeMap.insert("breeze-dark", "/../icons/breeze-dark/breeze-icons-dark.rcc");
-
-        QMapIterator<QString, QString> i(themeMap);
-        while (i.hasNext()) {
-            i.next();
-            QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, i.value());
-            if (!themePath.isEmpty()) {
-                const QString iconSubdir = "/icons/" + i.key();
-                if (QResource::registerResource(themePath, iconSubdir)) {
-                    if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
-                        qDebug() << "Loaded icon theme:" << i.key();
-                    } else {
-                        qWarning() << "No index.theme found for" << i.key();
-                        QResource::unregisterResource(themePath, iconSubdir);
-                    }
-                } else {
-                    qWarning() << "Invalid rcc file" << i.key();
-                }
-            }
-        }
-    }
-#endif
+    initIconRCC(packageType);
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
@@ -409,7 +526,7 @@ int main(int argc, char *argv[])
     KDBusService programDBusService;
 #endif
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
-    if (forceBreeze || packageType == QLatin1String("appimage")) {
+    if (forceBreeze || packageType == LinuxPackageType::AppImage) {
         QIcon::setThemeName(QStringLiteral("breeze"));
     }
     qApp->processEvents(QEventLoop::AllEvents);
@@ -458,67 +575,14 @@ int main(int argc, char *argv[])
         QObject::connect(pCore.get(), &Core::loadingMessageIncrease, &splash, &Splash::increaseProgressMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::loadingMessageHide, &splash, &Splash::clearMessage, Qt::DirectConnection);
         QObject::connect(pCore.get(), &Core::closeSplash, &splash, [&]() { splash.finish(pCore->window()); });
-        pCore->initGUI(inSandbox, parser.value(mltPathOption), url, clipsToLoad);
+        pCore->initGUI(parser.value(mltPathOption), url, clipsToLoad);
         result = app.exec();
     }
     Core::clean();
     if (result == EXIT_RESTART || result == EXIT_CLEAN_RESTART) {
         qCDebug(KDENLIVE_LOG) << "restarting app";
         if (result == EXIT_CLEAN_RESTART) {
-            // Delete config file
-            KSharedConfigPtr config = KSharedConfig::openConfig();
-            if (config->name().contains(QLatin1String("kdenlive"))) {
-                // Make sure we delete our config file
-                QFile f(QStandardPaths::locate(QStandardPaths::GenericConfigLocation, config->name(), QStandardPaths::LocateFile));
-                if (f.exists()) {
-                    qDebug() << " = = = =\nGOT Deleted file: " << f.fileName();
-                    f.remove();
-                }
-            }
-            // Delete xml ui rc file
-            const QString configLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-            if (!configLocation.isEmpty()) {
-                QDir dir(configLocation);
-                if (dir.cd(QStringLiteral("kxmlgui5")) && dir.cd(QStringLiteral("kdenlive"))) {
-                    QFile f(dir.absoluteFilePath(QStringLiteral("kdenliveui.rc")));
-                    if (f.exists() && f.open(QIODevice::ReadOnly)) {
-                        bool shortcutFound = false;
-                        QDomDocument doc;
-                        doc.setContent(&f);
-                        f.close();
-                        if (!doc.documentElement().isNull()) {
-                            QDomElement shortcuts = doc.documentElement().firstChildElement(QStringLiteral("ActionProperties"));
-                            if (!shortcuts.isNull()) {
-                                qDebug() << "==== FOUND CUSTOM SHORTCUTS!!!";
-                                // Copy the original settings and append custom shortcuts
-                                QFile f2(QStringLiteral(":/kxmlgui5/kdenlive/kdenliveui.rc"));
-                                if (f2.exists() && f2.open(QIODevice::ReadOnly)) {
-                                    QDomDocument doc2;
-                                    doc2.setContent(&f2);
-                                    f2.close();
-                                    if (!doc2.documentElement().isNull()) {
-                                        doc2.documentElement().appendChild(doc2.importNode(shortcuts, true));
-                                        shortcutFound = true;
-                                        if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                                            // overwrite local xml config
-                                            QTextStream out(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                                            out.setCodec("UTF-8");
-#endif
-                                            out << doc2.toString();
-                                            f.close();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if (!shortcutFound) {
-                            // No custom shortcuts found, simply delete the xmlui file
-                            f.remove();
-                        }
-                    }
-                }
-            }
+            resetConfig();
         }
         QStringList progArgs;
         if (argc > 1) {

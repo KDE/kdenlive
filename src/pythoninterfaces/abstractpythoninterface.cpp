@@ -136,7 +136,7 @@ void PythonDependencyMessage::checkAfterInstall()
 AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     : QObject{parent}
     , m_versions(new QMap<QString, QString>())
-    , m_disableInstall(pCore->packageType() == QStringLiteral("flatpak"))
+    , m_disableInstall(pCore->packageType() == LinuxPackageType::Flatpak)
     , m_dependenciesChecked(false)
     , m_dependencies()
     , m_scripts(new QMap<QString, QString>())

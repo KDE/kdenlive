@@ -4790,9 +4790,25 @@ void MainWindow::slotSpeechRecognition()
 
 void MainWindow::slotCopyDebugInfo()
 {
+    // General note for this function: since the information targets developers, we don't want it it be translated
+
     QString debuginfo = QStringLiteral("Kdenlive: %1\n").arg(KAboutData::applicationData().version());
-    QString packageType = pCore->packageType();
-    debuginfo.append(QStringLiteral("Package Type: %1\n").arg(packageType.isEmpty() ? QStringLiteral("Unknown/Default") : packageType));
+    QString packageType;
+    switch (pCore->packageType()) {
+    case LinuxPackageType::AppImage:
+        packageType = QStringLiteral("AppImage");
+        break;
+    case LinuxPackageType::Flatpak:
+        packageType = QStringLiteral("Flatpak");
+        break;
+    case LinuxPackageType::Snap:
+        packageType = QStringLiteral("Snap");
+        break;
+    default:
+        packageType = QStringLiteral("Unknown/Default");
+        break;
+    }
+    debuginfo.append(QStringLiteral("Package Type: %1\n").arg(packageType));
     debuginfo.append(QStringLiteral("MLT: %1\n").arg(mlt_version_get_string()));
     debuginfo.append(QStringLiteral("Qt: %1 (built against %2 %3)\n").arg(QString::fromLocal8Bit(qVersion()), QT_VERSION_STR, QSysInfo::buildAbi()));
     debuginfo.append(QStringLiteral("Frameworks: %2\n").arg(KCoreAddons::versionString()));
@@ -5309,7 +5325,7 @@ void MainWindow::appHelpActivated()
 {
     // Don't use default help, show our website
     // QDesktopServices::openUrl(QUrl(QStringLiteral("help:kdenlive")));
-    if (pCore->packageType() == QStringLiteral("appimage")) {
+    if (pCore->packageType() == LinuxPackageType::AppImage) {
         qDebug() << "::::: LAUNCHING APPIMAGE BROWSER.........";
         QProcessEnvironment env = getCleanEnvironement();
         QProcess process;

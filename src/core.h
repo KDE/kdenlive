@@ -82,7 +82,7 @@ public:
      * with Mlt
      * @param MltPath (optional) path to MLT environment
      */
-    static bool build(const QString &packageType, bool testMode = false);
+    static bool build(LinuxPackageType packageType, bool testMode = false);
 
     void initHeadless(const QUrl &url);
 
@@ -97,7 +97,7 @@ public:
      * a default new file will be created.
      * @param clipsToLoad
      */
-    void initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
+    void initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad = QString());
 
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();
@@ -310,7 +310,10 @@ public:
     void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist);
     /** @brief Returns true if the audio mixer widget is visible */
     bool audioMixerVisible{false};
-    QString packageType() { return m_packageType; };
+    LinuxPackageType packageType()
+    {
+        return m_packageType;
+    };
     /** @brief Start / stop audio capture */
     void switchCapture();
     /** @brief Get the uuid of currently active timeline */
@@ -344,7 +347,7 @@ public:
     void highlightFileInExplorer(QList<QUrl> urls);
 
 private:
-    explicit Core(const QString &packageType);
+    explicit Core(LinuxPackageType packageType);
     static std::unique_ptr<Core> m_self;
 
     /** @brief Makes sure Qt's locale and system locale settings match. */
@@ -366,7 +369,7 @@ private:
     QString m_currentProfile;
 
     QString m_profile;
-    QString m_packageType;
+    LinuxPackageType m_packageType;
     Timecode m_timecode;
     Mlt::Profile m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */

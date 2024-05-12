@@ -41,6 +41,8 @@ enum ConfigPage {
 const int DefaultThumbHeight = 100;
 } // namespace Kdenlive
 
+enum LinuxPackageType { AppImage, Flatpak, Snap, Unknown };
+
 enum class GroupType {
     Normal,
     Selection, // in that case, the group is used to emulate a selection

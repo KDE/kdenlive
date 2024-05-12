@@ -485,7 +485,7 @@ void MediaBrowser::slotLocationChanged(const QString &text)
 
 void MediaBrowser::openExternalFile(const QUrl &url)
 {
-    if (pCore->packageType() == QStringLiteral("appimage")) {
+    if (pCore->packageType() == LinuxPackageType::AppImage) {
         qDebug() << "::::: LAUNCHING APPIMAGE BROWSER.........";
         QProcess process;
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();

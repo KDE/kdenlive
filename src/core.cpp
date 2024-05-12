@@ -47,7 +47,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 std::unique_ptr<Core> Core::m_self;
-Core::Core(const QString &packageType)
+Core::Core(LinuxPackageType packageType)
     : audioThumbCache(QStringLiteral("audioCache"), 2000000)
     , taskManager(this)
     , m_packageType(packageType)
@@ -77,7 +77,7 @@ void Core::finishShutdown()
 
 Core::~Core() {}
 
-bool Core::build(const QString &packageType, bool testMode)
+bool Core::build(LinuxPackageType packageType, bool testMode)
 {
     if (m_self) {
         return true;
@@ -148,7 +148,7 @@ void Core::initHeadless(const QUrl &url)
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::QueuedConnection, Q_ARG(QUrl, url));
 }
 
-void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
+void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_mainWindow = new MainWindow();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -187,6 +187,7 @@ void Core::initGUI(bool inSandbox, const QString &MltPath, const QUrl &Url, cons
     projectManager()->init(Url, clipsToLoad);
 
     // The MLT Factory will be initiated there, all MLT classes will be usable only after this
+    bool inSandbox = m_packageType == LinuxPackageType::AppImage || m_packageType == LinuxPackageType::Flatpak || m_packageType == LinuxPackageType::Snap;
     if (inSandbox) {
         // In a sandbox environment we need to search some paths recursively
         QString appPath = qApp->applicationDirPath();
@@ -338,7 +339,7 @@ QString Core::openExternalApp(QString appPath, QStringList args)
     process.setProgram(appPath);
 #endif
     process.setArguments(args);
-    if (pCore->packageType() == QStringLiteral("appimage")) {
+    if (pCore->packageType() == LinuxPackageType::AppImage) {
         // Strip appimage custom LD_LIBRARY_PATH...
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
         qDebug() << "::: GOT ENV: " << env.value("LD_LIBRARY_PATH") << ", PATH: " << env.value("PATH");
@@ -1607,7 +1608,7 @@ void Core::highlightFileInExplorer(QList<QUrl> urls)
     if (urls.isEmpty()) {
         return;
     }
-    if (m_packageType == QLatin1String("flatpak")) {
+    if (m_packageType == LinuxPackageType::Flatpak) {
         QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(urls.first().toLocalFile()).absolutePath()));
     } else {
         KIO::highlightInFileManager(urls);
