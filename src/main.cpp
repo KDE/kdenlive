@@ -15,7 +15,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <mlt++/Mlt.h>
 
 #include "kcoreaddons_version.h"
-#include "kxmlgui_version.h"
 #include "mainwindow.h"
 #include <project/projectmanager.h>
 
@@ -54,9 +53,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "render/renderrequest.h"
 
-// TODO: remove
-#include "doc/docundostack.hpp"
-#include "doc/kdenlivedoc.h"
 #include <QUndoGroup>
 
 #include "kdenlivesettings.h"
@@ -171,6 +167,7 @@ static void resetConfig()
     }
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 static void initIconRCC(LinuxPackageType packageType)
 {
 #if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
@@ -219,6 +216,7 @@ static void initIconRCC(LinuxPackageType packageType)
     }
 #endif
 }
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -511,7 +509,9 @@ int main(int argc, char *argv[])
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     initIconRCC(packageType);
+#endif
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
