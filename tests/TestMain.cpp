@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
     qputenv("MLT_TESTS", QByteArray("1"));
     qSetMessagePattern(QStringLiteral("%{time hh:mm:ss.zzz } %{file}:%{line} -- %{message}"));
-    Core::build(QString(), true);
+    Core::build(LinuxPackageType::Unknown, true);
     MltConnection::construct(QString());
     pCore->projectItemModel()->buildPlaylist(QUuid());
     // if Kdenlive is not installed, ensure we have one keyframable effect
