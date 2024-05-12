@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-09 00:38+0000\n"
-"PO-Revision-Date: 2024-04-14 13:36+0900\n"
+"PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.02.2\n"
 "X-Language: ja_JP\n"
 "X-Source-Language: C\n"
 
@@ -46,7 +46,7 @@ msgstr "左右のバランスを調整"
 #: data/effects/audiolevel.xml:4
 #, kde-format
 msgid "Audio levels"
-msgstr "オーディオ効果"
+msgstr "オーディオレベル"
 
 #: data/effects/audiolevel.xml:5
 #, kde-format
@@ -61,13 +61,13 @@ msgstr "IEC 60268-18 スケールを使用"
 #: data/effects/audiolevelgraph.xml:4
 #, kde-format
 msgid "Audio Level Visualization Filter"
-msgstr "オーディオ波形可視化フィルタ"
+msgstr "音声波形可視化フィルタ"
 
 #: data/effects/audiolevelgraph.xml:6
 #, kde-format
 msgid ""
 "An audio visualization filter that draws an audio level meter on the image."
-msgstr "画面上にオーディオ波形を表示するオーディオ可視化フィルタです。"
+msgstr "画面上に音声波形を表示するオーディオ可視化フィルタです。"
 
 #: data/effects/audiolevelgraph.xml:8
 #, kde-format
@@ -438,7 +438,7 @@ msgstr ""
 #: data/effects/audiowave.xml:4
 #, kde-format
 msgid "Audio Wave"
-msgstr "オーディオ波形"
+msgstr "音声波形"
 
 #: data/effects/audiowave.xml:5
 #, kde-format
@@ -448,7 +448,7 @@ msgstr "ビデオの代わりにオーディオの波形を表示する"
 #: data/effects/audiowaveform.xml:4
 #, kde-format
 msgid "Audio Waveform Filter"
-msgstr "オーディオ波形"
+msgstr "音声波形フィルタ"
 
 #: data/effects/audiowaveform.xml:10 data/effects/dynamictext.xml:20
 #: data/effects/timer.xml:23
@@ -1583,7 +1583,7 @@ msgstr ""
 #: data/effects/mirror.xml:9
 #, kde-format
 msgid "Mirroring direction"
-msgstr "裏返す方向"
+msgstr "ミラーリング方向"
 
 #: data/effects/mono.xml:4
 #, kde-format
@@ -1789,8 +1789,7 @@ msgstr ""
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:34
 #: data/transitions/qtblend.xml:15
-#, fuzzy, kde-format
-#| msgid "Composite"
+#, kde-format
 msgid "Compositing"
 msgstr "コンポジット"
 
@@ -2150,10 +2149,9 @@ msgid "Overlay a timer onto the video"
 msgstr ""
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Font Style"
-msgstr "フォントサイズ"
+msgstr "フォントスタイル"
 
 #: data/effects/timer.xml:46
 #, kde-format
@@ -2200,8 +2198,8 @@ msgid ""
 "<![CDATA[An offset to be added to the timer value.\n"
 "When the direction is \"down\", the timer will count down to \"offset\" "
 "instead of 00:00:00.000.\n"
-"When the direction is up, the timer will count up starting from \"offset"
-"\".]]>"
+"When the direction is up, the timer will count up starting from "
+"\"offset\".]]>"
 msgstr ""
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
@@ -4620,10 +4618,9 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:2107
-#, fuzzy, kde-format
-#| msgid "Clip in Timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "タイムライン内のクリップ(I)"
+msgstr "タイムライン上で置き換え"
 
 #: src/bin/bin.cpp:2128 src/bin/bin.cpp:5779 src/bin/clipcreator.cpp:325
 #, kde-format
@@ -4703,10 +4700,9 @@ msgid "Used Clips"
 msgstr "使用済のクリップ"
 
 #: src/bin/bin.cpp:2441
-#, fuzzy, kde-format
-#| msgid "Filter by type"
+#, kde-format
 msgid "Filter by Type"
-msgstr "種別で絞り込み"
+msgstr "種類でフィルタ"
 
 #: src/bin/bin.cpp:2444
 #, kde-format
@@ -5158,12 +5154,12 @@ msgstr "マスタークリップを見つけられませんでした"
 #: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips | "
-msgstr ""
+msgstr "<b>%1</b> 個のクリップ | "
 
 #: src/bin/bin.cpp:5803
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
-msgstr ""
+msgstr "<b>%1</b> 個のクリップ (%2 個選択済み) | "
 
 #: src/bin/bin.cpp:5870 src/bin/bin.cpp:5947
 #, kde-format
@@ -6932,8 +6928,8 @@ msgstr "遷移効果の選択(E)"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1955
 #, kde-format
 msgid ""
-"Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
-"\">https://alphacephei.com/vosk/models</a>"
+"Download speech models from: <a href=\"https://alphacephei.com/vosk/"
+"models\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1996
@@ -9897,7 +9893,7 @@ msgstr "ビデオコーデック %1 をコピーできません、再エンコ�
 #: src/jobs/cuttask.cpp:86
 #, kde-format
 msgid "Cannot copy audio codec %1, will re-encode."
-msgstr "オーディオコーデック %1 をコピーできません、再エンコードします。"
+msgstr "オーディオコーデック %1 をコピーできません。再エンコードします。"
 
 #: src/jobs/cuttask.cpp:103 src/jobs/cuttask.cpp:112
 #, kde-format
@@ -12607,8 +12603,8 @@ msgstr "特大 (%1x%2)"
 #: src/mainwindow.cpp:4507
 #, kde-format
 msgid ""
-"This will hide the menu bar completely. You can show it again by typing Ctrl"
-"+M."
+"This will hide the menu bar completely. You can show it again by typing "
+"Ctrl+M."
 msgstr ""
 "これはメニューバーを完全に隠します。Ctrl+M を押すことで再表示できます。"
 
@@ -13327,10 +13323,9 @@ msgid "Always show audio thumbnails"
 msgstr "常にオーディオのサムネイルを表示する(T)"
 
 #: src/monitor/monitor.cpp:701
-#, fuzzy, kde-format
-#| msgid "Sox echo audio effect"
+#, kde-format
 msgid "Show Audio Levels"
-msgstr "Sox Echo オーディオ効果"
+msgstr "オーディオレベルを表示"
 
 #: src/monitor/monitor.cpp:708
 #, fuzzy, kde-format
@@ -17507,10 +17502,9 @@ msgid "Paused"
 msgstr "一時停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:77
-#, fuzzy, kde-format
-#| msgid "Sox echo audio effect"
+#, kde-format
 msgid "Mic level"
-msgstr "Sox Echo オーディオ効果"
+msgstr "マイクレベル"
 
 #: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:870
 #, kde-format
@@ -18545,11 +18539,11 @@ msgstr "アルファ傾斜"
 #: src/titler/unicodedialog.cpp:77
 #, fuzzy, kde-format
 #| msgid ""
-#| "Information about unicode characters: <a href=\"http://decodeunicode.org"
-#| "\">http://decodeunicode.org</a>"
+#| "Information about unicode characters: <a href=\"http://decodeunicode."
+#| "org\">http://decodeunicode.org</a>"
 msgid ""
-"Information about unicode characters: <a href=\"https://decodeunicode.org"
-"\">https://decodeunicode.org</a>"
+"Information about unicode characters: <a href=\"https://decodeunicode."
+"org\">https://decodeunicode.org</a>"
 msgstr ""
 "Unicode の文字についての情報: <a href=\"http://decodeunicode.org\">http://"
 "decodeunicode.org</a>"
@@ -18595,8 +18589,8 @@ msgstr "改行 (改行文字, \\\\n)"
 #: src/titler/unicodedialog.cpp:149
 #, kde-format
 msgid ""
-"Standard space character. (Other space characters: U+00a0, U"
-"+2000&#x2013;200b, U+202f)"
+"Standard space character. (Other space characters: U+00a0, "
+"U+2000&#x2013;200b, U+202f)"
 msgstr ""
 "標準スペース文字 (その他のスペース文字: U+00a0, U+2000&#x2013;200b, U+202f)"
 
@@ -18631,10 +18625,10 @@ msgstr ""
 "び <strong>&raquo;</strong> (u+00bb, HTML では <code>&amp;rfquo;</code>) は "
 "ギュメとか二重山括弧などと呼ばれます。これは様々な国で使用されます: フランス"
 "(非分割空白である 0x00a0 とともに), スイス, ドイツ, フィンランド, スウェーデ"
-"ンなど。</p><p><strong>&lsaquo;</strong> と <strong>&rsaquo;</strong> (U"
-"+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) は上記を一重にしたもので"
-"す。</p><p>詳しくは <a href=\"http://ja.wikipedia.org/wiki/%E3%82%AE"
-"%E3%83%A5%E3%83%A1\">Wikipedia:ギュメ</a> をお読みください。</p>"
+"ンなど。</p><p><strong>&lsaquo;</strong> と <strong>&rsaquo;</strong> "
+"(U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) は上記を一重にしたもの"
+"です。</p><p>詳しくは <a href=\"http://ja.wikipedia.org/wiki/"
+"%E3%82%AE%E3%83%A5%E3%83%A1\">Wikipedia:ギュメ</a> をお読みください。</p>"
 
 #: src/titler/unicodedialog.cpp:159
 #, kde-format
@@ -18685,9 +18679,10 @@ msgid ""
 "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"https://en."
 "wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
 msgstr ""
-"シン・スペース。HTML では &amp;thinsp; と表わします。U+202f および<a href="
-"\"http://ja.wikipedia.org/wiki/%E3%82%B9%E3%83%9A%E3%83%BC"
-"%E3%82%B9\">Wikipedia:スペース</a>をお読みください。"
+"シン・スペース。HTML では &amp;thinsp; と表わします。U+202f および<a "
+"href=\"http://ja.wikipedia.org/wiki/"
+"%E3%82%B9%E3%83%9A%E3%83%BC%E3%82%B9\">Wikipedia:スペース</a>をお読みくださ"
+"い。"
 
 #: src/titler/unicodedialog.cpp:176
 #, kde-format
@@ -18697,16 +18692,16 @@ msgstr "ヘア・スペース。U+2009 よりも狭いスペースです。"
 #: src/titler/unicodedialog.cpp:179
 #, fuzzy, kde-format
 #| msgid ""
-#| "Punctuation Apostrophe. Should be used instead of U+0027. See <a href="
-#| "\"http://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
+#| "Punctuation Apostrophe. Should be used instead of U+0027. See <a "
+#| "href=\"http://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
 msgid ""
-"Punctuation Apostrophe. Should be used instead of U+0027. See <a href="
-"\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
+"Punctuation Apostrophe. Should be used instead of U+0027. See <a "
+"href=\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
 msgstr ""
-"約物アポストロフィ。U+0027 の代用として使用されるものです。詳しくは <a href="
-"\"http://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%9D%E3%82%B9%E3%83%88%E3%83%AD"
-"%E3%83%95%E3%82%A3%E3%83%BC\">Wikipedia:アポストロフィー</a>をお読みくださ"
-"い。"
+"約物アポストロフィ。U+0027 の代用として使用されるものです。詳しくは <a "
+"href=\"http://ja.wikipedia.org/wiki/"
+"%E3%82%A2%E3%83%9D%E3%82%B9%E3%83%88%E3%83%AD%E3%83%95%E3%82%A3%E3%83%BC\">Wikipedia:"
+"アポストロフィー</a>をお読みください。"
 
 #: src/titler/unicodedialog.cpp:181
 #, fuzzy, kde-format
@@ -18715,8 +18710,8 @@ msgstr ""
 #| "English language for value ranges (1878&#x2013;1903), for relationships/"
 #| "connections (Zurich&#x2013;Dublin). In the German language it is also "
 #| "used (with spaces!) for showing thoughts: &ldquo;Es war &#x2013; wie "
-#| "immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href="
-#| "\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
+#| "immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a "
+#| "href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 msgid ""
 "<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English "
 "language for value ranges (1878&#x2013;1903), for relationships/connections "
@@ -18738,8 +18733,8 @@ msgstr ""
 #| msgid ""
 #| "<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In "
 #| "English language to mark&#x2014;like here&#x2014;thoughts. Traditionally "
-#| "without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash"
-#| "\">Wikipedia:Dash</a></p>"
+#| "without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/"
+#| "Dash\">Wikipedia:Dash</a></p>"
 msgid ""
 "<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In English "
 "language to mark&#x2014;like here&#x2014;thoughts. Traditionally without "
@@ -18772,9 +18767,9 @@ msgstr ""
 "<p>狭い非分割空白です。U+2009 と同じ幅です。</p><p>使用例: 単位を表わす場合 "
 "(スペースは U+2423, &#x2423; でマークします): 230&#x2423;V, "
 "&#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>例外</em> 90&deg; (スペースを入れ"
-"ません) 。ドイツ語では省略表記に使用します (例: i.&#x202f;d.&#x202f;R. (U"
-"+00a0 を使用した i.&#xa0;d.&#xa0;R. の代用)) 。</p><p>詳しくは <a href="
-"\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:"
+"ません) 。ドイツ語では省略表記に使用します (例: i.&#x202f;d.&#x202f;R. "
+"(U+00a0 を使用した i.&#xa0;d.&#xa0;R. の代用)) 。</p><p>詳しくは <a "
+"href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:"
 "Schmales_Leerzeichen</a> をお読みください。</p>"
 
 #: src/titler/unicodedialog.cpp:194
@@ -18808,19 +18803,19 @@ msgid ""
 "Quarter note (Am.) or crochet (Brit.). See <a href=\"https://en.wikipedia."
 "org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>"
 msgstr ""
-"四分音符。詳しくは <a href=\"http://ja.wikipedia.org/wiki/%E9%9F%B3%E7%AC"
-"%A6\">Wikipedia:音符</a> をお読みください。"
+"四分音符。詳しくは <a href=\"http://ja.wikipedia.org/wiki/"
+"%E9%9F%B3%E7%AC%A6\">Wikipedia:音符</a> をお読みください。"
 
 #: src/titler/unicodedialog.cpp:202
 #, fuzzy, kde-format
 #| msgid ""
-#| "Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U"
-#| "+2669). See <a href=\"http://en.wikipedia.org/wiki/Eighth_note"
-#| "\">Wikipedia:Eighth_note</a>"
+#| "Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note "
+#| "(U+2669). See <a href=\"http://en.wikipedia.org/wiki/"
+#| "Eighth_note\">Wikipedia:Eighth_note</a>"
 msgid ""
-"Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U"
-"+2669). See <a href=\"https://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:"
-"Eighth_note</a>"
+"Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note "
+"(U+2669). See <a href=\"https://en.wikipedia.org/wiki/"
+"Eighth_note\">Wikipedia:Eighth_note</a>"
 msgstr ""
 "八分音符。四分音符の半分の長さを表わします。詳しくは <a href=\"http://ja."
 "wikipedia.org/wiki/%E9%9F%B3%E7%AC%A6\">Wikipedia:音符</a> をお読みください。"
@@ -18829,31 +18824,31 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid ""
 #| "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth "
-#| "note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note"
-#| "\">Wikipedia:Sixteenth_note</a>"
+#| "note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/"
+#| "Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
 msgid ""
-"Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U"
-"+266a). See <a href=\"https://en.wikipedia.org/wiki/Sixteenth_note"
-"\">Wikipedia:Sixteenth_note</a>"
+"Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note "
+"(U+266a). See <a href=\"https://en.wikipedia.org/wiki/"
+"Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
 msgstr ""
-"十六分音符。八分音符のさらに半分の長さを表わします。詳しくは <a href="
-"\"http://ja.wikipedia.org/wiki/%E9%9F%B3%E7%AC%A6\">Wikipedia:音符</a> をお読"
-"みください。"
+"十六分音符。八分音符のさらに半分の長さを表わします。詳しくは <a "
+"href=\"http://ja.wikipedia.org/wiki/%E9%9F%B3%E7%AC%A6\">Wikipedia:音符</a> "
+"をお読みください。"
 
 #: src/titler/unicodedialog.cpp:208
 #, fuzzy, kde-format
 #| msgid ""
 #| "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth "
-#| "note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note"
-#| "\">Wikipedia:Sixteenth_note</a>"
+#| "note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/"
+#| "Sixteenth_note\">Wikipedia:Sixteenth_note</a>"
 msgid ""
 "Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a "
 "sixteenth note (U+266b). See <a href=\"https://en.wikipedia.org/wiki/Thirty-"
 "second_note\">Wikipedia:Thirty-second_note</a>"
 msgstr ""
-"十六分音符。八分音符のさらに半分の長さを表わします。詳しくは <a href="
-"\"http://ja.wikipedia.org/wiki/%E9%9F%B3%E7%AC%A6\">Wikipedia:音符</a> をお読"
-"みください。"
+"十六分音符。八分音符のさらに半分の長さを表わします。詳しくは <a "
+"href=\"http://ja.wikipedia.org/wiki/%E9%9F%B3%E7%AC%A6\">Wikipedia:音符</a> "
+"をお読みください。"
 
 #: src/titler/unicodedialog.cpp:211
 #, kde-format
@@ -23218,11 +23213,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#, fuzzy
-#~| msgid "Render Duration: %1"
-#~ msgid "Render Duration: %1. "
-#~ msgstr "レンダリングにかかる時間: %1"
-
-#~ msgid "Open in new bin"
-#~ msgstr "新しいビンで開く"
