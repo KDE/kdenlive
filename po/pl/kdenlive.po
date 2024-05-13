@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 00:38+0000\n"
+"POT-Creation-Date: 2024-05-13 00:38+0000\n"
 "PO-Revision-Date: 2024-04-27 10:53+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -5029,7 +5029,7 @@ msgstr "Wpisz ścieżkę do swojej aplikacji do edytowania dźwięku"
 msgid "Please set a default application to open audio files"
 msgstr "Ustaw domyślny program do otwierania plików dźwiękowych"
 
-#: src/bin/bin.cpp:4631 src/core.cpp:328 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4631 src/core.cpp:329 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5215,7 +5215,7 @@ msgstr "Usuń efekt %1"
 msgid "Project Bin"
 msgstr "Pojemnik projektu"
 
-#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4892
+#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4908
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Pojemnik projektu %1"
@@ -5501,7 +5501,7 @@ msgid "Add markers"
 msgstr "Dodaj znacznik"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:78 src/core.cpp:702 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:78 src/core.cpp:703 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:296 src/project/dialogs/archivewidget.cpp:99
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
@@ -5771,7 +5771,7 @@ msgstr ""
 "Kdenlive wysypał się podczas ostatniego uruchamiania.\n"
 "Czy wyzerować pliki ustawień?"
 
-#: src/core.cpp:217
+#: src/core.cpp:218
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -5780,19 +5780,19 @@ msgstr ""
 "Nie ustawiono domyślnego profilu Kdenlive lub jest on nieprawidłowy, "
 "naciśnij OK, aby ustawić go na poprawną wartość."
 
-#: src/core.cpp:229
+#: src/core.cpp:230
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Domyślny profil"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:229 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:230 src/ui/profiledialog_ui.ui:38
 #, kde-format
 msgid "Profile:"
 msgstr "Profil:"
 
-#: src/core.cpp:242
+#: src/core.cpp:243
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -5801,258 +5801,258 @@ msgstr ""
 "Dany profil jest nieprawidłowy. Przełączono na domyślny profil \"dv_pal\", "
 "lecz można to zmienić w ustawieniach Kdenlive"
 
-#: src/core.cpp:262 src/project/projectmanager.cpp:829
+#: src/core.cpp:263 src/project/projectmanager.cpp:829
 #, kde-format
 msgid "Loading project…"
 msgstr "Wczytywanie projektu…"
 
-#: src/core.cpp:381
+#: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Kwadratowe dwa paski"
 
-#: src/core.cpp:382
+#: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Mała szachownica"
 
-#: src/core.cpp:383
+#: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Żaluzje w poziomie"
 
-#: src/core.cpp:384
+#: src/core.cpp:385
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Promieniowo"
 
-#: src/core.cpp:385
+#: src/core.cpp:386
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Liniowy X"
 
-#: src/core.cpp:386
+#: src/core.cpp:387
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Dwuliniowy X"
 
-#: src/core.cpp:387
+#: src/core.cpp:388
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Liniowy Y"
 
-#: src/core.cpp:388
+#: src/core.cpp:389
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Dwuliniowy Y"
 
-#: src/core.cpp:389
+#: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Kwadratowo"
 
-#: src/core.cpp:390
+#: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Kwadrat 2"
 
-#: src/core.cpp:391
+#: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Chmura"
 
-#: src/core.cpp:392
+#: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Symetryczny zegar"
 
-#: src/core.cpp:393
+#: src/core.cpp:394
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Promieniowe paski"
 
-#: src/core.cpp:394
+#: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Spirala"
 
-#: src/core.cpp:395
+#: src/core.cpp:396
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Spirala 2"
 
-#: src/core.cpp:396
+#: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Kurtyna"
 
-#: src/core.cpp:397
+#: src/core.cpp:398
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Seria"
 
-#: src/core.cpp:398
+#: src/core.cpp:399
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Zegar"
 
-#: src/core.cpp:400
+#: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Pasek w poziomie"
 
-#: src/core.cpp:401
+#: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Pasek w pionie"
 
-#: src/core.cpp:402
+#: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Drzwi od stodoły w poziomie"
 
-#: src/core.cpp:403
+#: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Drzwi od stodoły w pionie"
 
-#: src/core.cpp:404
+#: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Drzwi stodoły po przekątnej Pł. Zach. - Pn. Wsch."
 
-#: src/core.cpp:405
+#: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Drzwi stodoły po przekątnej Pn. Zach. - Pl. Wsch."
 
-#: src/core.cpp:406
+#: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Po przekątnej, górne lewo"
 
-#: src/core.cpp:407
+#: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Po przekątnej, górne prawo"
 
-#: src/core.cpp:408
+#: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Wodospad macierzy w poziomie"
 
-#: src/core.cpp:409
+#: src/core.cpp:410
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Wodospad macierzy w pionie"
 
-#: src/core.cpp:410
+#: src/core.cpp:411
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Wąż macierzy w poziomie"
 
-#: src/core.cpp:411
+#: src/core.cpp:412
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Wąż równoległej macierzy w poziomie"
 
-#: src/core.cpp:412
+#: src/core.cpp:413
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Wąż macierzy w pionie"
 
-#: src/core.cpp:413
+#: src/core.cpp:414
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Wąż równoległej macierzy w pionie"
 
-#: src/core.cpp:414
+#: src/core.cpp:415
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Stodoła w pionie, w górę"
 
-#: src/core.cpp:415
+#: src/core.cpp:416
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Okrąg Iris"
 
-#: src/core.cpp:416
+#: src/core.cpp:417
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Podwójny Iris"
 
-#: src/core.cpp:417
+#: src/core.cpp:418
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Pole Iris"
 
-#: src/core.cpp:418
+#: src/core.cpp:419
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Pole na dole po prawej"
 
-#: src/core.cpp:419
+#: src/core.cpp:420
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Pole na dole po lewej"
 
-#: src/core.cpp:420
+#: src/core.cpp:421
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Pole po prawej na środku"
 
-#: src/core.cpp:421
+#: src/core.cpp:422
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Zegar na górze"
 
-#: src/core.cpp:647
+#: src/core.cpp:648
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Profil twojego projektu jest nieprawidłowy, złożenie filmu może się nie udać."
 
-#: src/core.cpp:976
+#: src/core.cpp:977
 #, kde-format
 msgid "Loading clips"
 msgstr "Wczytywanie wycinków"
@@ -7329,7 +7329,7 @@ msgstr "Obraz bez ścieżki dźwiękowej"
 msgid "Audio without video track"
 msgstr "Dźwięk bez ścieżki obrazu"
 
-#: src/dialogs/renderwidget.cpp:854 src/main.cpp:307
+#: src/dialogs/renderwidget.cpp:854 src/main.cpp:466
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Rozpoczęto składanie <i>%1</i> w całość"
@@ -10353,191 +10353,204 @@ msgstr "Ścieżka biblioteki ustawiona na własną: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Nie można zapisać do ścieżki biblioteki: %1, użyto domyślnej"
 
-#: src/main.cpp:148
+#: src/main.cpp:295
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Błędy zgłaszaj na <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:151
-#, kde-format
-msgid "You are using the %1 package.<br>"
+#: src/main.cpp:300
+#, fuzzy, kde-format
+#| msgid "You are using the %1 package.<br>"
+msgid "You are using the AppImage.<br>"
 msgstr "Używasz pakietu %1.<br>"
 
-#: src/main.cpp:153
+#: src/main.cpp:303
+#, fuzzy, kde-format
+#| msgid "You are using the %1 package.<br>"
+msgid "You are using the Flatpak.<br>"
+msgstr "Używasz pakietu %1.<br>"
+
+#: src/main.cpp:306
+#, fuzzy, kde-format
+#| msgid "You are using the %1 package.<br>"
+msgid "You are using the Snap package.<br>"
+msgstr "Używasz pakietu %1.<br>"
+
+#: src/main.cpp:312
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:153
+#: src/main.cpp:312
 #, kde-format
 msgid "An open source video editor."
 msgstr "Edytor obrazu o otwartym źródle."
 
-#: src/main.cpp:154
+#: src/main.cpp:313
 #, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "Copyright © 2007–2024 Autorzy Kdenlive"
 
-#: src/main.cpp:156
+#: src/main.cpp:315
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:156
+#: src/main.cpp:315
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "Przeniesienie MLT i KDE SC 4 /KF5, główny programista i opiekun"
 
-#: src/main.cpp:158
+#: src/main.cpp:317
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:158
+#: src/main.cpp:317
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Przebudowa kodu i osi czasu (2019)"
 
-#: src/main.cpp:159
+#: src/main.cpp:318
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:159
+#: src/main.cpp:318
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Rozwój funkcjonalności, pakowanie, usuwanie błędów"
 
-#: src/main.cpp:160
+#: src/main.cpp:319
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:160
+#: src/main.cpp:319
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr ""
 "Przeniesienie na KF5, wydanie na Windowsa, tworzenie pakietów, poprawki "
 "błędów"
 
-#: src/main.cpp:162
+#: src/main.cpp:321
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:162
+#: src/main.cpp:321
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "Opieka nad MLT, usuwanie błędów, itp."
 
-#: src/main.cpp:163
+#: src/main.cpp:322
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:163
+#: src/main.cpp:322
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Zakresy kolorów, poprawki błędów, itp."
 
-#: src/main.cpp:164
+#: src/main.cpp:323
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:164
+#: src/main.cpp:323
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Usuwanie błędów i ulepszenia do testowania"
 
-#: src/main.cpp:166
+#: src/main.cpp:325
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:166
+#: src/main.cpp:325
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Autor pierwszej wersji dla KDE 3 (nie jest już aktywny)"
 
-#: src/main.cpp:168
+#: src/main.cpp:327
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:168
+#: src/main.cpp:327
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logo, promocja, testy"
 
-#: src/main.cpp:169
+#: src/main.cpp:328
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:169
+#: src/main.cpp:328
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Rozpracowywanie błędów, testy, opieka nad dokumentacją"
 
-#: src/main.cpp:170
+#: src/main.cpp:329
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:170
+#: src/main.cpp:329
 #, kde-format
 msgid "Logo"
 msgstr "Logo"
 
-#: src/main.cpp:171
+#: src/main.cpp:330
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:171
+#: src/main.cpp:330
 #, kde-format
 msgid "Testing"
 msgstr "Testowanie"
 
-#: src/main.cpp:172
+#: src/main.cpp:331
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:172
+#: src/main.cpp:331
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Rada ekspercka, testowanie"
 
-#: src/main.cpp:174
+#: src/main.cpp:333
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Łukasz Wojniłowicz, Mariusz Pluciński"
 
-#: src/main.cpp:174
+#: src/main.cpp:333
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "lukasz.wojnilowicz@gmail.com, vshader@gmail.com"
 
-#: src/main.cpp:177
+#: src/main.cpp:336
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:177
+#: src/main.cpp:336
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Szkielet multimedialny o otwartym kodzie."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:179 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
+#: src/main.cpp:338 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:179
+#: src/main.cpp:338
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -10546,43 +10559,43 @@ msgstr ""
 "Pełne, wieloplatformowe rozwiązanie do nagrywania, przekształcania oraz "
 "strumieniowania dźwięku i obrazu."
 
-#: src/main.cpp:197
+#: src/main.cpp:356
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Ustaw własną nazwę pliku ustawień."
 
-#: src/main.cpp:198
+#: src/main.cpp:357
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Ustaw ścieżkę do środowiska MLT."
 
-#: src/main.cpp:200
+#: src/main.cpp:359
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Ustaw poziom dziennika MLT. Pozostaw nieustawione, aby mieć poziom "
 "\"ostrzeżenia\"."
 
-#: src/main.cpp:203
+#: src/main.cpp:362
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr ""
 "Lista oddzielonych przecinkami nazw plików do dodania jako wycinki do "
 "pojemnika."
 
-#: src/main.cpp:207
+#: src/main.cpp:366
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Bezpośrednio zmontuj projekt i wyjdź."
 
-#: src/main.cpp:210
+#: src/main.cpp:369
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "Nazwa nastawy montowania Kdenlive (zostanie użyta MP4-H264/AAC, jeśli nie "
 "podano żadnej)."
 
-#: src/main.cpp:215
+#: src/main.cpp:374
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -10591,17 +10604,17 @@ msgstr ""
 "Wyjdź po rozpoczęciu (odłączonego) działania montowania. Bez tej flagi "
 "wychodzi tylko po ukończeniu montowania."
 
-#: src/main.cpp:218
+#: src/main.cpp:377
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "Dokument Kdenlive do otwarcia."
 
-#: src/main.cpp:219
+#: src/main.cpp:378
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Pliku wynikowy dla zmontowanego filmu."
 
-#: src/main.cpp:344
+#: src/main.cpp:503
 #, kde-format
 msgid "Version %1"
 msgstr "Wersja %1"
@@ -12337,17 +12350,17 @@ msgstr ""
 msgid "No subtitles in current project"
 msgstr "Brak napisów w bieżącym projekcie"
 
-#: src/mainwindow.cpp:5048
+#: src/mainwindow.cpp:5064
 #, kde-format
 msgid "Go to download page"
 msgstr "Przejdź do strony pobierania"
 
-#: src/mainwindow.cpp:5051
+#: src/mainwindow.cpp:5067
 #, kde-format
 msgid "Never check again"
 msgstr "Nie sprawdzaj już ponownie"
 
-#: src/mainwindow.cpp:5054
+#: src/mainwindow.cpp:5070
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -12356,7 +12369,7 @@ msgstr ""
 "Twoja wersja Kdenlive jest starsza niż 1 rok, więc bardzo zalecamy jej "
 "uaktualnienie"
 
-#: src/mainwindow.cpp:5057
+#: src/mainwindow.cpp:5073
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -12364,7 +12377,7 @@ msgstr ""
 "Twoja wersja Kdenlive jest starsza niż 6 miesięcy, więc zalecamy jej "
 "uaktualnienie"
 
-#: src/mainwindow.cpp:5100
+#: src/mainwindow.cpp:5116
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Sprawdzanie rozmiaru pamięci podręcznej"
