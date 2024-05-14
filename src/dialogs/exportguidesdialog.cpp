@@ -230,7 +230,7 @@ const QString ExportGuidesDialog::getFFmpegChaptersData() const
     int frame_rate_den = pCore->getCurrentProfile()->frame_rate_den();
     const double currentFps = pCore->getCurrentFps();
     const GenTime offset(offsetTime());
-    const QString frameRate = QStringLiteral("[CHAPTER]\nTIMEBASE=%1/%2\n").arg(frame_rate_num).arg(frame_rate_den);
+    const QString frameRate = QStringLiteral("[CHAPTER]\nTIMEBASE=%1/%2\n").arg(frame_rate_den).arg(frame_rate_num);
     const int markerIndex = categoryChooser->currentCategory();
     QList<CommentedTime> markers(m_markerListModel->getAllMarkers(markerIndex));
     const int markerCount = markers.length();
