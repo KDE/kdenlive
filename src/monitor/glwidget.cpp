@@ -1044,7 +1044,7 @@ int VideoWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, boo
     if (position == -1 && m_producer->parent().get("kdenlive:id") == currentId) {
         position = consumerPosition;
     }
-    if (isActive) {
+    if (isActive && (m_id != Kdenlive::ProjectMonitor || producer)) {
         startConsumer();
         if (position != -2) {
             m_proxy->resetPosition();

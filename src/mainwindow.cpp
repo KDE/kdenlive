@@ -5194,10 +5194,9 @@ void MainWindow::connectTimeline()
     KdenliveDoc *project = pCore->currentDoc();
     QSignalBlocker blocker(m_zoomSlider);
     m_zoomSlider->setValue(project->zoom(uuid).x());
-    int position = project->getSequenceProperty(uuid, QStringLiteral("position"), QString::number(0)).toInt();
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(getCurrentTimeline()->model()->duration() - 1, project->getFilteredGuideModel(uuid));
     pCore->monitorManager()->projectMonitor()->loadZone(getCurrentTimeline()->controller()->zoneIn(), getCurrentTimeline()->controller()->zoneOut());
-    pCore->monitorManager()->projectMonitor()->setProducer(getCurrentTimeline()->model()->producer(), position);
+
     connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
     slotUpdateDocumentState(project->isModified());
 

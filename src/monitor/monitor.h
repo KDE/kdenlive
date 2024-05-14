@@ -119,7 +119,6 @@ public:
     void activateSplit();
     /** @brief Clear monitor display **/
     void clearDisplay();
-    void setProducer(std::shared_ptr<Mlt::Producer> producer, int pos = -1);
     void reconfigure();
     /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
     void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
@@ -286,6 +285,8 @@ private Q_SLOTS:
     void slotSwitchRecTimecode(bool enable);
 
 public Q_SLOTS:
+    void updateTimelineProducer();
+    void setProducer(std::shared_ptr<Mlt::Producer> producer, int pos = -1);
     void slotSetScreen(int screenIndex);
     void slotPreviewResource(const QString &path, const QString &title);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);

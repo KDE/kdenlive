@@ -2778,6 +2778,14 @@ void Monitor::requestSeekIfVisible(int pos)
     }
 }
 
+void Monitor::updateTimelineProducer()
+{
+
+    int position = pCore->currentDoc()->getSequenceProperty(pCore->currentTimelineId(), QStringLiteral("position"), QString::number(0)).toInt();
+    QMetaObject::invokeMethod(this, "setProducer", Q_ARG(std::shared_ptr<Mlt::Producer>, pCore->window()->getCurrentTimeline()->model()->producer()),
+                              Q_ARG(int, position));
+}
+
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
     if (locked) {
