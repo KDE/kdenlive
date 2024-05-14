@@ -3620,7 +3620,7 @@ void MainWindow::slotClipInProjectTree()
         int pos = m_projectMonitor->position();
         int itemPos = pCore->getItemPosition(id);
         bool containsPos = (pos >= itemPos && pos < itemPos + duration);
-        double speed = pCore->getClipSpeed(id.itemId);
+        double speed = pCore->getClipSpeed(id);
         if (containsPos) {
             pos -= itemPos - start;
         }

@@ -214,7 +214,7 @@ public:
      */
     bool compositionAutoTrack(int cid) const;
     std::shared_ptr<DocUndoStack> undoStack();
-    double getClipSpeed(int id) const;
+    double getClipSpeed(ObjectId id) const;
     /** @brief Mark an item as invalid for timeline preview */
     void invalidateItem(ObjectId itemId);
     void invalidateRange(QPair<int, int>range);
@@ -250,7 +250,7 @@ public:
     /** @brief Returns configured folder for audio capture storage */
     QString getProjectCaptureFolderName();
     /** @brief Returns a timeline clip's bin id */
-    QString getTimelineClipBinId(int cid);
+    QString getTimelineClipBinId(ObjectId id);
     /** @brief Returns all track ids in timeline */
     std::unordered_set<QString> getAllTimelineTracksId();
     /** @brief Returns a frame duration from a timecode */
@@ -288,7 +288,7 @@ public:
     /** @brief The number of clip load jobs changed */
     void loadingClips(int, bool allowInterrupt = false);
     /** @brief Resize current mix item */
-    void resizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
+    void resizeMix(const ObjectId id, int duration, MixAlignment align, int leftFrames = -1);
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
     int getMixCutPos(const ObjectId &) const;
     /** @brief Get alignment info for a mix item */

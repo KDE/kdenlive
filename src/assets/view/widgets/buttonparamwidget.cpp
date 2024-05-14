@@ -114,14 +114,12 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         ObjectId owner = m_model->getOwnerId();
         const QString assetId = m_model->getAssetId();
         QString binId;
-        int cid = -1;
         int in = -1;
         int out = -1;
         if (owner.type == KdenliveObjectType::BinClip) {
             binId = QString::number(owner.itemId);
         } else if (owner.type == KdenliveObjectType::TimelineClip) {
-            cid = owner.itemId;
-            binId = pCore->getTimelineClipBinId(cid);
+            binId = pCore->getTimelineClipBinId(owner);
             in = pCore->getItemIn(owner);
             out = in + pCore->getItemDuration(owner);
         } else if (owner.type == KdenliveObjectType::TimelineTrack || owner.type == KdenliveObjectType::Master) {
