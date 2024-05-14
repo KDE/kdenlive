@@ -20,10 +20,12 @@
 OtioConvertions::OtioConvertions()
     : AbstractPythonInterface()
 {
-    addDependency(QStringLiteral("opentimelineio"), i18n("OpenTimelineIO conversion"));
+    addDependency(QStringLiteral("opentimelineio"), i18n("OpenTimelineIO core functionality"));
+    addDependency(QStringLiteral("otio-kdenlive-adapter"), i18n("OpenTimelineIO Kdenlive support"));
     addScript(QStringLiteral("otiointerface.py"));
     connect(this, &OtioConvertions::dependenciesAvailable, this, [&]() {
-        if (QStandardPaths::findExecutable(QStringLiteral("otioconvert")).isEmpty()) {
+        QString otioBinary = getOtioBinary();
+        if (otioBinary.isEmpty()) {
             Q_EMIT setupError(i18n("Could not find \"otioconvert\" script although it is installed through pip3.\n"
                                    "Please check the otio scripts are installed in a directory "
                                    "listed in PATH environment variable"));
@@ -38,14 +40,13 @@ OtioConvertions::OtioConvertions()
         }
         if (m_importAdapters.isEmpty() || m_exportAdapters.isEmpty()) {
             // something is wrong. Maybe it is related to an old version?
-            proposeMaybeUpdate("opentimelineio", "0.14.0");
-            // versions < 0.14.0 do not work on windows properly
-            // see https://github.com/PixarAnimationStudios/OpenTimelineIO/issues/813
+            proposeMaybeUpdate("opentimelineio", "0.16.0");
+            // version 0.16.0 is the first version without the Kdenlive adapter in the core
+            // and a seperate package for the Kdenlive adapter
             return;
         }
         if (!(m_exportAdapters.contains("kdenlive") && m_importAdapters.contains("kdenlive"))) {
-            Q_EMIT setupError(i18n("Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-                                   "Please install version >= 0.12\n"));
+            Q_EMIT setupError(i18n("The Kdenlive adapter was not found by OpenTimelineIO."));
         }
     });
 }
@@ -99,10 +100,20 @@ bool OtioConvertions::configureSetup()
     return false;
 }
 
+QString OtioConvertions::getOtioBinary()
+{
+    QString otioBinary;
+    if (KdenliveSettings::usePythonVenv()) {
+        QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+        return QStandardPaths::findExecutable(QStringLiteral("otioconvert"), {pluginDir.absoluteFilePath(QStringLiteral("venv/bin"))});
+    }
+    return QStandardPaths::findExecutable(QStringLiteral("otioconvert"));
+}
+
 bool OtioConvertions::runOtioconvert(const QString &inputFile, const QString &outputFile)
 {
     QProcess convert;
-    QString otioBinary = QStandardPaths::findExecutable(QStringLiteral("otioconvert"));
+    QString otioBinary = getOtioBinary();
     if (otioBinary.isEmpty()) {
         KMessageBox::error(pCore->window(), i18n("OpenTimelineIO Application otioconvert not found"));
         return false;

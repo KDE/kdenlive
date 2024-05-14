@@ -8,6 +8,7 @@ import subprocess
 import importlib.metadata
 import importlib.util
 
+
 def print_help():
     print("""
     THIS SCRIPT IS PART OF KDENLIVE (www.kdenlive.org)
@@ -35,13 +36,14 @@ missing = set()
 
 for arg in sys.argv[1:]:
     if not arg.startswith("--"):
-        required.add(arg)
+        required.add(arg.lower())
 
 if len(required) == 0:
     print_help()
     sys.exit("Error: You need to provide at least one package name")
 
 installed = {pkg.name for pkg in importlib.metadata.distributions()}
+installed = {x.lower() for x in installed}
 missing = required - installed
 
 if '--check' in sys.argv:
@@ -63,9 +65,10 @@ elif '--upgrade' in sys.argv:
     python = sys.executable
     for r in required:
         try:
-            subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', r])
+            subprocess.check_call(
+                [python, '-m', 'pip', 'install', '--upgrade', r])
         except:
-                print("failed installing ", r)
+            print("failed installing ", r)
 elif '--details' in sys.argv:
     # check modules version
     python = sys.executable

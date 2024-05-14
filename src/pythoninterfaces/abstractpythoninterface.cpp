@@ -395,12 +395,12 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
     }
     m_dependenciesChecked = true;
     if (messages.isEmpty()) {
-        Q_EMIT dependenciesAvailable();
         if (async) {
             checkVersionsConcurrently();
         } else {
             checkVersions(true);
         }
+        Q_EMIT dependenciesAvailable();
     } else {
         Q_EMIT dependenciesMissing(messages);
     }
