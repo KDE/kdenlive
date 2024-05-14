@@ -1051,19 +1051,26 @@ void Core::invalidateRange(QPair<int, int> range)
 void Core::invalidateItem(ObjectId itemId)
 {
     if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
+    auto tl = m_mainWindow->getTimeline(itemId.uuid);
     switch (itemId.type) {
     case KdenliveObjectType::TimelineClip:
     case KdenliveObjectType::TimelineComposition:
-        m_mainWindow->getCurrentTimeline()->controller()->invalidateItem(itemId.itemId);
+        if (tl) {
+            tl->controller()->invalidateItem(itemId.itemId);
+        }
         break;
     case KdenliveObjectType::TimelineTrack:
-        m_mainWindow->getCurrentTimeline()->controller()->invalidateTrack(itemId.itemId);
+        if (tl) {
+            tl->controller()->invalidateTrack(itemId.itemId);
+        }
         break;
     case KdenliveObjectType::BinClip:
         m_mainWindow->getBin()->invalidateClip(QString::number(itemId.itemId));
         break;
     case KdenliveObjectType::Master:
-        m_mainWindow->getCurrentTimeline()->model()->invalidateZone(0, -1);
+        if (tl) {
+            tl->model()->invalidateZone(0, -1);
+        }
         break;
     default:
         // compositions should not have effects
@@ -1071,15 +1078,22 @@ void Core::invalidateItem(ObjectId itemId)
     }
 }
 
-double Core::getClipSpeed(int id) const
+double Core::getClipSpeed(ObjectId id) const
 {
-    return m_mainWindow->getCurrentTimeline()->model()->getClipSpeed(id);
+    auto tl = m_mainWindow->getTimeline(id.uuid);
+    if (tl) {
+        return tl->model()->getClipSpeed(id.itemId);
+    }
+    return 1.;
 }
 
 void Core::updateItemKeyframes(ObjectId id)
 {
     if (id.type == KdenliveObjectType::TimelineClip && m_guiConstructed) {
-        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.itemId, {TimelineModel::KeyframesRole});
+        auto tl = m_mainWindow->getTimeline(id.uuid);
+        if (tl) {
+            tl->controller()->updateClip(id.itemId, {TimelineModel::KeyframesRole});
+        }
     }
 }
 
@@ -1087,17 +1101,24 @@ void Core::updateItemModel(ObjectId id, const QString &service)
 {
     if (m_guiConstructed && id.type == KdenliveObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading &&
         service.startsWith(QLatin1String("fade"))) {
-        bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
-        m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.itemId, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
+        auto tl = m_mainWindow->getTimeline(id.uuid);
+        if (tl) {
+            bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
+            tl->controller()->updateClip(id.itemId, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
+        }
     }
 }
 
 void Core::showClipKeyframes(ObjectId id, bool enable)
 {
+    auto tl = m_mainWindow->getTimeline(id.uuid);
+    if (!tl) {
+        return;
+    }
     if (id.type == KdenliveObjectType::TimelineClip) {
-        m_mainWindow->getCurrentTimeline()->controller()->showClipKeyframes(id.itemId, enable);
+        tl->controller()->showClipKeyframes(id.itemId, enable);
     } else if (id.type == KdenliveObjectType::TimelineComposition) {
-        m_mainWindow->getCurrentTimeline()->controller()->showCompositionKeyframes(id.itemId, enable);
+        tl->controller()->showCompositionKeyframes(id.itemId, enable);
     }
 }
 
@@ -1270,13 +1291,14 @@ QString Core::getProjectCaptureFolderName()
     return QString();
 }
 
-QString Core::getTimelineClipBinId(int cid)
+QString Core::getTimelineClipBinId(ObjectId id)
 {
     if (!m_guiConstructed) {
         return QString();
     }
-    if (m_mainWindow->getCurrentTimeline()->model()->isClip(cid)) {
-        return m_mainWindow->getCurrentTimeline()->model()->getClipBinId(cid);
+    auto tl = m_mainWindow->getTimeline(id.uuid);
+    if (tl && tl->model()->isClip(id.itemId)) {
+        return tl->model()->getClipBinId(id.itemId);
     }
     return QString();
 }
@@ -1394,8 +1416,11 @@ void Core::setWidgetKeyBinding(const QString &mess)
 
 void Core::showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked)
 {
-    if (m_guiConstructed && m_mainWindow->getCurrentTimeline() && m_mainWindow->getCurrentTimeline()->controller() && id.type != KdenliveObjectType::BinClip) {
-        m_mainWindow->getCurrentTimeline()->controller()->showRulerEffectZone(inOut, checked);
+    if (m_guiConstructed && id.type != KdenliveObjectType::BinClip) {
+        auto tl = m_mainWindow->getTimeline(id.uuid);
+        if (tl) {
+            tl->controller()->showRulerEffectZone(inOut, checked);
+        }
     }
 }
 
@@ -1412,9 +1437,12 @@ void Core::testProxies()
     dialog->exec();
 }
 
-void Core::resizeMix(int cid, int duration, MixAlignment align, int leftFrames)
+void Core::resizeMix(const ObjectId id, int duration, MixAlignment align, int leftFrames)
 {
-    m_mainWindow->getCurrentTimeline()->controller()->resizeMix(cid, duration, align, leftFrames);
+    auto tl = m_mainWindow->getTimeline(id.uuid);
+    if (tl) {
+        tl->controller()->resizeMix(id.itemId, duration, align, leftFrames);
+    }
 }
 
 MixAlignment Core::getMixAlign(const ObjectId &itemInfo) const

@@ -2368,15 +2368,15 @@ Rectangle {
                 } else {
                     scrollView.contentX += horizontal
                 }
-                if (dragProxy.draggedItem > -1) {
-                    dragProxy.x += horizontal
-                    dragProxyArea.moveItem()
-                } else if (clipBeingDroppedId > -1) {
+                if (clipBeingDroppedId > -1) {
                     if (clipDropArea.containsDrag) {
                         clipDropArea.moveDrop(horizontal, vertical)
                     } else if (compoArea.containsDrag) {
                         compoArea.moveDrop(horizontal, vertical)
                     }
+                } else if (dragProxy.draggedItem > -1) {
+                    dragProxy.x += horizontal
+                    dragProxyArea.moveItem()
                 }
                 if (scrollView.contentX == 0 || (clipBeingMovedId == -1 && clipBeingDroppedId == -1 && !rubberSelect.visible)) {
                     if (root.subtitleMoving) {
