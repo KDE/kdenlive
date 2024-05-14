@@ -118,6 +118,12 @@ bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
     return false;
 }
 
+void MonitorProxy::setCursorPosition(int pos)
+{
+    m_position = pos;
+    Q_EMIT positionChanged(pos);
+}
+
 void MonitorProxy::positionFromConsumer(int pos, bool playing)
 {
     if (playing) {

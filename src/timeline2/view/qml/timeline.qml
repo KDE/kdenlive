@@ -486,7 +486,7 @@ Rectangle {
     property int droppedPosition: -1
     property int droppedTrack: -1
     property int clipBeingMovedId: -1
-    property int consumerPosition: proxy.position
+    property int consumerPosition: proxy ? proxy.position : -1
     property int spacerGroup: -1
     property int spacerTrack: -1
     property int spacerFrame: -1
@@ -506,7 +506,7 @@ Rectangle {
     property int viewActiveTrack: timeline.activeTrack
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
-    property bool seekingFinished : proxy.seekFinished
+    property bool seekingFinished : proxy ? proxy.seekFinished : true
     property int scrollMin: scrollView.contentX / root.timeScale
     property int scrollMax: scrollMin + scrollView.contentItem.width / root.timeScale
     property double dar: 16/9
@@ -573,7 +573,7 @@ Rectangle {
     }
 
     onConsumerPositionChanged: {
-        if (root.autoScrolling && !root.blockAutoScroll) Logic.scrollIfNeeded()
+        if (root.autoScrolling && !root.blockAutoScroll && root.consumerPosition > -1) Logic.scrollIfNeeded()
     }
 
     onViewActiveTrackChanged: {
@@ -1680,6 +1680,7 @@ Rectangle {
                             height: Math.round(root.baseUnit * .8)
                             width: Math.round(root.baseUnit * 1.2)
                             fillColor: activePalette.windowText
+                            visible: cursor.visible
                             anchors.bottom: parent.bottom
                             anchors.bottomMargin: ruler.zoneHeight - 1
                             anchors.horizontalCenter: rulerCursor.horizontalCenter
@@ -1691,6 +1692,7 @@ Rectangle {
                             color: root.textColor
                             width: 1
                             height: ruler.zoneHeight - 1
+                            visible: cursor.visible
                             x: cursor.x
                             anchors.bottom: parent.bottom
                             Rectangle {

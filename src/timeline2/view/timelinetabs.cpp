@@ -177,6 +177,8 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
         if (!m_activeTimeline->model()->isLoading) {
             pCore->bin()->sequenceActivated();
         }
+        // Wait a few milliseconds to allow for the qml view to display
+        QTimer::singleShot(200, pCore->monitorManager()->projectMonitor(), &Monitor::updateTimelineProducer);
     } else {
         connectTimeline(m_activeTimeline);
     }
@@ -283,6 +285,8 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid)
 
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
 {
+    int position = pCore->currentDoc()->getSequenceProperty(timeline->getUuid(), QStringLiteral("position"), QString::number(0)).toInt();
+    pCore->monitorManager()->projectMonitor()->getControllerProxy()->setCursorPosition(position);
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor, Qt::DirectConnection);
     connect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
     connect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);
