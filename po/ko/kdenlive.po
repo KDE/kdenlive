@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 02:51+0000\n"
+"POT-Creation-Date: 2024-05-14 02:28+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4993,7 +4993,7 @@ msgid "Edit Tags"
 msgstr "등급 편집"
 
 #: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
-#: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/projectclip.cpp:2068 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -5182,38 +5182,38 @@ msgstr "오디오 스트림 %1"
 msgid "Remove clip markers"
 msgstr "클립 삭제"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "DVD 프로젝트 저장"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6126
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "트랜스코딩: %1"
 
-#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 효과 삭제"
 
-#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6296 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
+#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4891
 #, kde-format
 msgid "Project Bin %1"
 msgstr "프로젝트 보관함 %1"
@@ -5602,7 +5602,7 @@ msgstr ""
 "이미지 크기가 8픽셀보다 작습니다.\n"
 "동영상 프레임워크에서 올바르게 지원하지 않습니다."
 
-#: src/bin/projectclip.cpp:960
+#: src/bin/projectclip.cpp:963
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5611,30 +5611,30 @@ msgstr ""
 "%1에서 메타데이터를 추출할 수 없음\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1211 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1214 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr "잘못됨"
 
-#: src/bin/projectclip.cpp:1434 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1437 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1458
 #, kde-format
 msgid "File already exists"
 msgstr "파일이 이미 존재함"
 
-#: src/bin/projectclip.cpp:2676
+#: src/bin/projectclip.cpp:2679
 #, fuzzy, kde-format
 #| msgid "Paste timeline clips"
 msgid "Adjust timeline clips"
 msgstr "타임라인 클립 붙여넣기"
 
-#: src/bin/projectclip.cpp:2911
+#: src/bin/projectclip.cpp:2914
 #, kde-format
 msgid "Add stream effect"
 msgstr "스트림 효과 추가"
 
-#: src/bin/projectclip.cpp:2936
+#: src/bin/projectclip.cpp:2939
 #, kde-format
 msgid "Remove stream effect"
 msgstr "스트림 효과 삭제"

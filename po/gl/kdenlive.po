@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 02:51+0000\n"
+"POT-Creation-Date: 2024-05-14 02:28+0000\n"
 "PO-Revision-Date: 2024-04-27 10:36+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -5012,7 +5012,7 @@ msgid "Edit Tags"
 msgstr "Editar as etiquetas"
 
 #: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
-#: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/projectclip.cpp:2068 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -5195,36 +5195,36 @@ msgstr "Fluxo de son %1"
 msgid "Remove clip markers"
 msgstr "Retirar os marcadores de fragmentos"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Recoméndase gardar o proxecto antes da operación de transcodificación"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Gardar o proxecto"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6126
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificar sen gardar"
 
-#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Eliminar o efecto %1"
 
-#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6296 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "Caixa do proxecto"
 
-#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
+#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4891
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Caixa de proxecto %1"
@@ -5597,7 +5597,7 @@ msgstr ""
 "Dimensión de imaxe inferior a 8 píxeles.\n"
 "A nosa infraestrutura de vídeo non o xestiona correctamente."
 
-#: src/bin/projectclip.cpp:960
+#: src/bin/projectclip.cpp:963
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5606,29 +5606,29 @@ msgstr ""
 "Non se poden extraer os metadatos de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1211 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1214 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr "Incorrecta"
 
-#: src/bin/projectclip.cpp:1434 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1437 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1458
 #, kde-format
 msgid "File already exists"
 msgstr "O ficheiro xa existe"
 
-#: src/bin/projectclip.cpp:2676
+#: src/bin/projectclip.cpp:2679
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Axustar os fragmentos da cronoloxía"
 
-#: src/bin/projectclip.cpp:2911
+#: src/bin/projectclip.cpp:2914
 #, kde-format
 msgid "Add stream effect"
 msgstr "Engadir un efecto de fluxo"
 
-#: src/bin/projectclip.cpp:2936
+#: src/bin/projectclip.cpp:2939
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Retirar o efecto de fluxo"

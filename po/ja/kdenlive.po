@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 02:51+0000\n"
+"POT-Creation-Date: 2024-05-14 02:28+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -5005,7 +5005,7 @@ msgid "Edit Tags"
 msgstr "タグを編集"
 
 #: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
-#: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/projectclip.cpp:2068 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -5194,36 +5194,36 @@ msgstr "オーディオストリーム %1"
 msgid "Remove clip markers"
 msgstr "クリップマーカーを削除"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "トランスコード操作を行う前にプロジェクトを保存することをおすすめします"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "プロジェクトを保存"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6126
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "保存せずにトランスコード"
 
-#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "効果 %1の削除"
 
-#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6296 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "プロジェクトビン"
 
-#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
+#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4891
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -5617,7 +5617,7 @@ msgstr ""
 "画像サイズが8ピクセルよりも小さいです。\n"
 "私たちのビデオフレームワークでは正しくサポートされません。"
 
-#: src/bin/projectclip.cpp:960
+#: src/bin/projectclip.cpp:963
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5626,13 +5626,13 @@ msgstr ""
 "次のメタデータを正しく展開できません %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1211 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1214 src/jobs/cliploadtask.cpp:264
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "正しくないクリップ"
 
-#: src/bin/projectclip.cpp:1434 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1437 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1458
 #, fuzzy, kde-format
@@ -5640,19 +5640,19 @@ msgstr "正しくないクリップ"
 msgid "File already exists"
 msgstr "プロファイルは既に存在しています"
 
-#: src/bin/projectclip.cpp:2676
+#: src/bin/projectclip.cpp:2679
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Adjust timeline clips"
 msgstr "プレイリスト・クリップ"
 
-#: src/bin/projectclip.cpp:2911
+#: src/bin/projectclip.cpp:2914
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "効果 %1 の編集"
 
-#: src/bin/projectclip.cpp:2936
+#: src/bin/projectclip.cpp:2939
 #, fuzzy, kde-format
 #| msgid "Reset effect"
 msgid "Remove stream effect"

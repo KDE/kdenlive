@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 02:51+0000\n"
+"POT-Creation-Date: 2024-05-14 02:28+0000\n"
 "PO-Revision-Date: 2024-05-01 11:32+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -5011,7 +5011,7 @@ msgid "Edit Tags"
 msgstr "Editatu Etiketak"
 
 #: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
-#: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/projectclip.cpp:2068 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -5194,37 +5194,37 @@ msgstr "%1 audio korrontea"
 msgid "Remove clip markers"
 msgstr "Kendu klip-markatzaileak"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Transkodetze eragiketa aurretik proiektua gordetzea gomendatzen dizugu."
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Gorde proiektua"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6126
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkodetu gorde gabe"
 
-#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Ezabatu %1 efektua"
 
-#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6296 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "Proiektu-ontzia"
 
-#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
+#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4891
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proiektu-ontzia %1"
@@ -5597,7 +5597,7 @@ msgstr ""
 "Irudiaren tamaina 8 pixel baino txikiagoa d.\n"
 "Egoera hau ez da bateragarria gure bideo euskarriarekin."
 
-#: src/bin/projectclip.cpp:960
+#: src/bin/projectclip.cpp:963
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5606,29 +5606,29 @@ msgstr ""
 "Ezin dira metadatuak erauzi %1\n"
 "%2-tik"
 
-#: src/bin/projectclip.cpp:1211 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1214 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr "Baliogabea"
 
-#: src/bin/projectclip.cpp:1434 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1437 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1458
 #, kde-format
 msgid "File already exists"
 msgstr "Fitxategia badago lehendik ere"
 
-#: src/bin/projectclip.cpp:2676
+#: src/bin/projectclip.cpp:2679
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Doitu denbora-lerroko klipak"
 
-#: src/bin/projectclip.cpp:2911
+#: src/bin/projectclip.cpp:2914
 #, kde-format
 msgid "Add stream effect"
 msgstr "Gehitu korronte efektua"
 
-#: src/bin/projectclip.cpp:2936
+#: src/bin/projectclip.cpp:2939
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ezabatu korronte efektua"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-12 02:51+0000\n"
+"POT-Creation-Date: 2024-05-14 02:28+0000\n"
 "PO-Revision-Date: 2023-12-28 21:23+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -4992,7 +4992,7 @@ msgid "Edit Tags"
 msgstr "Redigera etiketter"
 
 #: src/bin/bin.cpp:4538 src/bin/projectclip.cpp:211
-#: src/bin/projectclip.cpp:2065 src/onlineresources/resourcewidget.cpp:272
+#: src/bin/projectclip.cpp:2068 src/onlineresources/resourcewidget.cpp:272
 #: src/onlineresources/resourcewidget.cpp:605
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -5175,36 +5175,36 @@ msgstr "Ljudström %1"
 msgid "Remove clip markers"
 msgstr "Ta bort klippmarkörer"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Vi rekommenderar att projektet sparas innan omkodningsåtgärden"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Spara projekt"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6126
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Omkoda utan att spara"
 
-#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Ta bort effekt %1"
 
-#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6296 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "Projektkorg"
 
-#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
+#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4891
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektkorg %1"
@@ -5577,7 +5577,7 @@ msgstr ""
 "Bilddimension mindre än 8 bildpunkter.\n"
 "Det stöds för närvarande inte av vårt videoramverk."
 
-#: src/bin/projectclip.cpp:960
+#: src/bin/projectclip.cpp:963
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5586,29 +5586,29 @@ msgstr ""
 "Kan inte extrahera metadata från %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1211 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1214 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr "Ogiltig"
 
-#: src/bin/projectclip.cpp:1434 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1437 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1458
 #, kde-format
 msgid "File already exists"
 msgstr "Filen finns redan"
 
-#: src/bin/projectclip.cpp:2676
+#: src/bin/projectclip.cpp:2679
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Justera tidslinjeklipp"
 
-#: src/bin/projectclip.cpp:2911
+#: src/bin/projectclip.cpp:2914
 #, kde-format
 msgid "Add stream effect"
 msgstr "Lägg till strömningseffekt"
 
-#: src/bin/projectclip.cpp:2936
+#: src/bin/projectclip.cpp:2939
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ta bort strömningseffekt"
