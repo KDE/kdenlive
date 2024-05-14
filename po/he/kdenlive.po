@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-13 00:38+0000\n"
-"PO-Revision-Date: 2024-05-12 08:18+0300\n"
+"PO-Revision-Date: 2024-05-13 10:10+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -10242,22 +10242,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "נא לדווח תקלות אל <a href=\"%1\">%2</a>"
 
 #: src/main.cpp:300
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "בחרת להשתמש בחבילה %1.<br>"
+msgstr "בחרת להשתמש ב־AppImage.<br>"
 
 #: src/main.cpp:303
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "בחרת להשתמש בחבילה %1.<br>"
+msgstr "בחרת להשתמש ב־Flatpak.<br>"
 
 #: src/main.cpp:306
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "בחרת להשתמש בחבילה %1.<br>"
+msgstr "בחרת להשתמש בחבילת ה־Snap.<br>"
 
 #: src/main.cpp:312
 #, kde-format

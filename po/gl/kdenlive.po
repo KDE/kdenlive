@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-13 00:38+0000\n"
-"PO-Revision-Date: 2024-05-12 14:21+0200\n"
+"PO-Revision-Date: 2024-05-13 10:33+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -10377,22 +10377,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Informe dos fallos a <a href=\"%1\">%2</a>"
 
 #: src/main.cpp:300
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "Está usando o paquete %1.<br>"
+msgstr "Está usando a imaxe de AppImage.<br>"
 
 #: src/main.cpp:303
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "Está usando o paquete %1.<br>"
+msgstr "Está usando o paquete de Flatpak.<br>"
 
 #: src/main.cpp:306
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "Está usando o paquete %1.<br>"
+msgstr "Está usando o paquete de Snap.<br>"
 
 #: src/main.cpp:312
 #, kde-format

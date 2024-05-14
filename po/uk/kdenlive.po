@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-13 00:38+0000\n"
-"PO-Revision-Date: 2024-05-12 09:06+0300\n"
+"PO-Revision-Date: 2024-05-13 17:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
 "Language: uk\n"
@@ -10438,22 +10438,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Про вади, будь ласка, повідомляйте на адресу <a href=\"%1\">%2</a>"
 
 #: src/main.cpp:300
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "Ви користуєтеся пакунком %1.<br>"
+msgstr "Ви користуєтеся пакунком AppImage.<br>"
 
 #: src/main.cpp:303
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "Ви користуєтеся пакунком %1.<br>"
+msgstr "Ви користуєтеся пакунком Flatpak.<br>"
 
 #: src/main.cpp:306
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "Ви користуєтеся пакунком %1.<br>"
+msgstr "Ви користуєтеся пакунком Snap.<br>"
 
 #: src/main.cpp:312
 #, kde-format

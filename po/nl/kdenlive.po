@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-13 00:38+0000\n"
-"PO-Revision-Date: 2024-05-12 13:54+0200\n"
+"PO-Revision-Date: 2024-05-13 10:39+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -10374,22 +10374,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Rapporteer bugs aan <a href=\"%1\">%2</a>"
 
 #: src/main.cpp:300
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "U gebruikt het pakket %1.<br>"
+msgstr "U gebruikt de AppImage.<br>"
 
 #: src/main.cpp:303
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "U gebruikt het pakket %1.<br>"
+msgstr "U gebruikt het Flatpak.<br>"
 
 #: src/main.cpp:306
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "U gebruikt het pakket %1.<br>"
+msgstr "U gebruikt het SNAP-pakket.<br>"
 
 #: src/main.cpp:312
 #, kde-format

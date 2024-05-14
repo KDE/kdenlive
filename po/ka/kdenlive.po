@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-13 00:38+0000\n"
-"PO-Revision-Date: 2024-05-12 03:41+0200\n"
+"PO-Revision-Date: 2024-05-13 05:44+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -10267,22 +10267,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "შეცდომების შესახებ მისწერეთ <a href=\"%1\">%2</a>"
 
 #: src/main.cpp:300
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "იყენებთ %1 პაკეტ.<br>"
+msgstr "იყენებთ AppImage-ს.<br>"
 
 #: src/main.cpp:303
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "იყენებთ %1 პაკეტ.<br>"
+msgstr "იყენებთ Flatpak-ს.<br>"
 
 #: src/main.cpp:306
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "იყენებთ %1 პაკეტ.<br>"
+msgstr "იყენებთ Snap-ის პაკეტს.<br>"
 
 #: src/main.cpp:312
 #, kde-format
