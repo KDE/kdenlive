@@ -1406,7 +1406,7 @@ void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer)
     if (!thumbsProducer) {
         c.set("store", "kdenlive");
     }
-    Mlt::Service s(m_masterProducer->get_service());
+    Mlt::Service s(m_masterProducer->parent().get_service());
     c.connect(s);
     c.run();
     /*if (ignore) {
