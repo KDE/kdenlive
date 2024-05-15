@@ -720,7 +720,8 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
 {
     // Check for autosave file that belong to the url we passed in.
     const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
-    QUrl autosaveUrl = newFile ? url : QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
+    QUrl autosaveUrl =
+        newFile ? url : QUrl::fromLocalFile(QFileInfo(url.toLocalFile()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(autosaveUrl);
     QFileInfo sourceInfo(url.toLocalFile());
     QDateTime sourceTime;
@@ -880,7 +881,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     if (stale == nullptr) {
         const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
-        QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
+        QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.toLocalFile()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
         stale = new KAutoSaveFile(autosaveUrl, doc);
         doc->m_autosave = stale;
     } else {
