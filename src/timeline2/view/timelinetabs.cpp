@@ -212,10 +212,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     std::shared_ptr<TimelineItemModel> model = timeline->model();
     const QUuid uuid = timeline->getUuid();
     const QString id = pCore->projectItemModel()->getSequenceId(uuid);
-    Fun undo = [uuid, id, model]() {
-        model->registerTimeline();
-        return pCore->projectManager()->openTimeline(id, -1, uuid, -1, false, model);
-    };
+    Fun undo = [uuid, id, model]() { return pCore->projectManager()->openTimeline(id, -1, uuid, -1, false, model); };
     Fun redo = [this, ix, uuid]() {
         pCore->projectManager()->closeTimeline(uuid, false, false);
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
