@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:38+0000\n"
+"POT-Creation-Date: 2024-05-15 00:38+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -3711,7 +3711,7 @@ msgstr "プリセット名の入力"
 msgid "Enter the name of this preset:"
 msgstr ""
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:190
+#: src/assets/view/widgets/buttonparamwidget.cpp:188
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
@@ -17506,7 +17506,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "一時停止"
@@ -17683,25 +17683,25 @@ msgstr "表示"
 msgid "Hide"
 msgstr "隠す"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ダブルクリック</b>で字幕を追加"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Offset: %1, Position: %2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "録画"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -18119,12 +18119,12 @@ msgid ""
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:237
 #, kde-format
 msgid "Close %1"
 msgstr "%1 を閉じる"
 
-#: src/timeline2/view/timelinetabs.cpp:418
+#: src/timeline2/view/timelinetabs.cpp:422
 #, kde-format
 msgid "Rename Sequence"
 msgstr "シーケンスの名前を変更"

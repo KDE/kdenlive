@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:38+0000\n"
+"POT-Creation-Date: 2024-05-15 00:38+0000\n"
 "PO-Revision-Date: 2023-05-27 13:10+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -3708,7 +3708,7 @@ msgstr "Enter Preset Name"
 msgid "Enter the name of this preset:"
 msgstr "Enter the name of this preset:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:190
+#: src/assets/view/widgets/buttonparamwidget.cpp:188
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
@@ -17069,7 +17069,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "Paused"
@@ -17240,23 +17240,23 @@ msgstr "Show"
 msgid "Hide"
 msgstr "Hide"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Double click</b> to add a subtitle"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Offset: %1, Position: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Recording"
 msgstr "Recording"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr "Multicam In"
@@ -17649,12 +17649,12 @@ msgstr ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:237
 #, kde-format
 msgid "Close %1"
 msgstr "Close %1"
 
-#: src/timeline2/view/timelinetabs.cpp:418
+#: src/timeline2/view/timelinetabs.cpp:422
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Rename Sequence"

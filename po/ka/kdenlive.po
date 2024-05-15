@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:38+0000\n"
+"POT-Creation-Date: 2024-05-15 00:38+0000\n"
 "PO-Revision-Date: 2024-05-13 05:44+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -3663,7 +3663,7 @@ msgstr "შეიყვანეთ პრესეტის სახელი"
 msgid "Enter the name of this preset:"
 msgstr "შეიყვანეთ პრესეტის სახელი:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:190
+#: src/assets/view/widgets/buttonparamwidget.cpp:188
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
@@ -16906,7 +16906,7 @@ msgid "Stop"
 msgstr "შეჩერება"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "შეჩერებულია"
@@ -17074,23 +17074,23 @@ msgstr "ჩვენება"
 msgid "Hide"
 msgstr "დამალვა"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ორმაგი წკაპი</b> სუბტიტრის დასამატებლად"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "წანაცვლება: %1, მდებარეობა: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Recording"
 msgstr "ჩაწერა"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"
@@ -17479,12 +17479,12 @@ msgstr ""
 "დროის ხაზის მიმდევრობის დამატება. ეს შექმნის ახალ დროის ხაზს ჩასწორებისთვის. "
 "თითოეული დროის ხაზი პროექტის კალათაში მიმდევრობის კლიპს წარმოადგენს"
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:237
 #, kde-format
 msgid "Close %1"
 msgstr "%1-ის დახურვა"
 
-#: src/timeline2/view/timelinetabs.cpp:418
+#: src/timeline2/view/timelinetabs.cpp:422
 #, kde-format
 msgid "Rename Sequence"
 msgstr "მიმდევრობის სახელის გადარქმევა"

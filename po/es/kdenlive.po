@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:38+0000\n"
-"PO-Revision-Date: 2024-05-09 04:50-0300\n"
+"POT-Creation-Date: 2024-05-15 00:38+0000\n"
+"PO-Revision-Date: 2024-05-14 17:52-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3748,7 +3748,7 @@ msgstr "Ingresar nombre del ajuste"
 msgid "Enter the name of this preset:"
 msgstr "Ingresar nombre del ajuste:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:190
+#: src/assets/view/widgets/buttonparamwidget.cpp:188
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
@@ -4286,7 +4286,7 @@ msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
-"<b>Mayúsculas+saltar</b> sobre miniatura para definir miniatura de "
+"<b>Mayús+saltar</b> sobre miniatura para definir miniatura de "
 "identificación, <b>F2</b> para renombrar el elemento seleccionado"
 
 #: src/bin/bin.cpp:815 src/bin/bin.cpp:924
@@ -7466,12 +7466,12 @@ msgstr "Eliminar tarea"
 #: src/dialogs/renderwidget.cpp:1766
 #, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Agregar clips a la línea de tiempo antes de procesarla"
+msgstr "Agregar clips a la secuencia antes de procesarla"
 
 #: src/dialogs/renderwidget.cpp:1771
 #, kde-format
 msgid "Rendered File Length: %1"
-msgstr "Longitud del archivo procesado: %1"
+msgstr "Longitud del video a ser procesado: %1"
 
 #: src/dialogs/renderwidget.cpp:1775
 #, kde-format
@@ -9562,7 +9562,7 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 "<b>Arrastrar</b> el efecto a otro clip de la línea de tiempo, otra pista u "
-"otro clip de proyecto para copiarlo. <b>Alt arrastrar</b> para copiarlo a un "
+"otro clip de proyecto para copiarlo. <b>Alt+arrastrar</b> para copiarlo a un "
 "único elemento del grupo."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:480
@@ -10324,7 +10324,7 @@ msgstr "Cambiar nombre de clip"
 #: src/library/librarywidget.cpp:246
 #, kde-format
 msgid "Add Timeline Selection to Library"
-msgstr "Agregar selección en línea de tiempo a biblioteca"
+msgstr "Agregar selección a biblioteca"
 
 #: src/library/librarywidget.cpp:247
 #, kde-kuit-format
@@ -10419,22 +10419,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Por favor reportar errores en <a href=\"%1\">%2</a>"
 
 #: src/main.cpp:300
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "Se está usando el paquete %1.<br>"
+msgstr "Se está usando la AppImage.<br>"
 
 #: src/main.cpp:303
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "Se está usando el paquete %1.<br>"
+msgstr "Se está usando el Flatpak.<br>"
 
 #: src/main.cpp:306
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "Se está usando el paquete %1.<br>"
+msgstr "Se está usando el paquete Snap.<br>"
 
 #: src/main.cpp:312
 #, kde-format
@@ -12186,10 +12183,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut>Mayúsculas arrastrar</shortcut> para marco de selección, "
-"<shortcut>Mayúsculas clic</shortcut> para selección múltiple, <shortcut>Meta "
-"arrastrar</shortcut> para mover un clip agrupado hacia otra pista, "
-"<shortcut>Ctrl arrastrar</shortcut> para desplazar vista"
+"<shortcut>Mayús+arrastrar</shortcut> para marco de selección, <shortcut>Mayús"
+"+clic</shortcut> para selección múltiple, <shortcut>Meta+arrastrar</"
+"shortcut> para mover un clip agrupado hacia otra pista, <shortcut>Ctrl"
+"+arrastrar</shortcut> para desplazar vista"
 
 #: src/mainwindow.cpp:3459
 #, kde-kuit-format
@@ -12200,10 +12197,10 @@ msgid ""
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
 "shortcut> to pan"
 msgstr ""
-"<shortcut>Mayúsculas arrastrar</shortcut> para marco de selección, "
-"<shortcut>Mayúsculas clic</shortcut> para selección múltiple, <shortcut>Meta "
-"+ Alt arrastrar</shortcut> para mover un clip agrupado hacia otra pista, "
-"<shortcut>Ctrl arrastrar</shortcut> para desplazar vista"
+"<shortcut>Mayús+arrastrar</shortcut> para marco de selección, <shortcut>Mayús"
+"+clic</shortcut> para selección múltiple, <shortcut>Meta+Alt+arrastrar</"
+"shortcut> para mover un clip agrupado hacia otra pista, <shortcut>Ctrl"
+"+arrastrar</shortcut> para desplazar vista"
 
 #: src/mainwindow.cpp:3462
 #, kde-format
@@ -12214,8 +12211,7 @@ msgstr "Seleccionar"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
-msgstr ""
-"<shortcut>Mayúsculas</shortcut> para previsualizar el fotograma de corte"
+msgstr "<shortcut>Mayús</shortcut> para previsualizar el fotograma de corte"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: src/mainwindow.cpp:3465 src/ui/configtools_ui.ui:21
@@ -12231,8 +12227,8 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 "<shortcut>Ctrl</shortcut> para aplicar sólo en la pista actual, "
-"<shortcut>Mayúsculas</shortcut> para mover también las guías. Es posible "
-"combinar ambos modificadores."
+"<shortcut>Mayús</shortcut> para mover también las guías. Es posible combinar "
+"ambos modificadores."
 
 #: src/mainwindow.cpp:3470
 #, kde-format
@@ -12246,8 +12242,8 @@ msgid ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 msgstr ""
-"<shortcut>Clic</shortcut> sobre un elemento para desplazarlo, "
-"<shortcut>Mayúsculas clic</shortcut> para selección múltiple"
+"<shortcut>Clic</shortcut> sobre un elemento para desplazarlo, <shortcut>Mayús"
+"+clic</shortcut> para selección múltiple"
 
 #: src/mainwindow.cpp:3473
 #, kde-format
@@ -12263,10 +12259,10 @@ msgid ""
 "click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
-"<shortcut>Mayúsculas arrastrar</shortcut> para marco de selección, "
-"<shortcut>Mayúsculas clic</shortcut> para selección múltiple, <shortcut>Alt "
-"clic</shortcut> para seleccionar un elemento de un grupo, <shortcut>Ctrl "
-"arrastrar</shortcut> para desplazar vista"
+"<shortcut>Mayús+arrastrar</shortcut> para marco de selección, <shortcut>Mayús"
+"+clic</shortcut> para selección múltiple, <shortcut>Alt+clic</shortcut> para "
+"seleccionar un elemento de un grupo, <shortcut>Ctrl+arrastrar</shortcut> "
+"para desplazar vista"
 
 #: src/mainwindow.cpp:3480
 #, kde-format
@@ -13430,7 +13426,7 @@ msgstr ""
 "<shortcut>Clic</shortcut> para reproducir, <shortcut>Doble clic</shortcut> "
 "para pantalla completa, <shortcut>Posar a la derecha</shortcut> para barra "
 "de herramientas, <shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> "
-"para saltar, <shortcut>Ctrl rueda</shortcut> para ampliar"
+"para saltar, <shortcut>Ctrl+rueda</shortcut> para ampliar"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:524
 #: src/monitor/view/kdenlivemonitor.qml:199
@@ -13468,7 +13464,7 @@ msgid ""
 msgstr ""
 "<b>Clic</b> para reproducir, <b>Doble clic</b> para pantalla completa, "
 "<b>Posar a la derecha</b> para barra de herramientas, <b>Rueda</b> o "
-"<b>flechas</b> para saltar, <b>Ctrl rueda</b> para ampliar"
+"<b>flechas</b> para saltar, <b>Ctrl+rueda</b> para ampliar"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
@@ -13479,10 +13475,10 @@ msgid ""
 "center-based rescale, <shortcut>Hover right</shortcut> for toolbar, "
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
-"<b>Doble clic</b> para agregar un clave, <b>Mayúsculas arrastrar</b> para "
-"escalar proporcionalmente, <shortcut>Ctrl arrastrar</shortcut> para escalar "
-"desde el centro, <b>Posar a la derecha</b> para barra de herramientas, "
-"<b>Clic</b> sobre un centro para saltar a su clave"
+"<b>Doble clic</b> para agregar un clave, <b>Mayús+arrastrar</b> para escalar "
+"proporcionalmente, <shortcut>Ctrl+arrastrar</shortcut> para escalar desde el "
+"centro, <b>Posar a la derecha</b> para barra de herramientas, <b>Clic</b> "
+"sobre un centro para saltar a su clave"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:68
 #, kde-kuit-format
@@ -13512,7 +13508,7 @@ msgstr ""
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
-msgstr "<shortcut>Mayúsculas arrastrar</shortcut> para escalar desde el centro"
+msgstr "<shortcut>Mayús+arrastrar</shortcut> para escalar desde el centro"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:414
 #, kde-format
@@ -13533,9 +13529,9 @@ msgid ""
 "to first / last frame"
 msgstr ""
 "<shortcut>Rueda</shortcut> o <shortcut>flechas</shortcut> para saltar 1 "
-"fotograma, <shortcut>Mayúsculas</shortcut> para saltar 1 segundo, "
-"<shortcut>Alt</shortcut> para saltar hasta un marcador, <shortcut>Inicio</"
-"shortcut> / <shortcut>Fin</shortcut> para ir al primer / último fotograma"
+"fotograma, <shortcut>Mayús</shortcut> para saltar 1 segundo, <shortcut>Alt</"
+"shortcut> para saltar hasta un marcador, <shortcut>Inicio</shortcut> / "
+"<shortcut>Fin</shortcut> para ir al primer / último fotograma"
 
 #: src/monitor/view/MonitorRuler.qml:339
 #, kde-kuit-format
@@ -13545,8 +13541,8 @@ msgid ""
 "shortcut> to seek while adjusting zone in"
 msgstr ""
 "<shortcut>Arrastrar</shortcut> para establecer el punto de entrada de la "
-"zona, <shortcut>Mayúsculas + arrastrar</shortcut> para previsualizar "
-"mientras se arrastra"
+"zona, <shortcut>Mayús+arrastrar</shortcut> para previsualizar mientras se "
+"arrastra"
 
 #: src/monitor/view/MonitorRuler.qml:388
 #, kde-kuit-format
@@ -13556,8 +13552,8 @@ msgid ""
 "shortcut> to seek while adjusting zone out"
 msgstr ""
 "<shortcut>Arrastrar</shortcut> para establecer el punto de salida de la "
-"zona, <shortcut>Mayúsculas + arrastrar</shortcut> para previsualizar "
-"mientras se arrastra"
+"zona, <shortcut>Mayús+arrastrar</shortcut> para previsualizar mientras se "
+"arrastra"
 
 #: src/monitor/view/SceneToolBar.qml:94
 #, kde-format
@@ -17171,7 +17167,7 @@ msgid "Stop"
 msgstr "Detener"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "Pausado"
@@ -17224,7 +17220,7 @@ msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
-"<b>Ctrl arrastrar</b> para cambiar la velocidad, <b>Doble clic</b> para "
+"<b>Ctrl+arrastrar</b> para cambiar la velocidad, <b>Doble clic</b> para "
 "mezclar con clip adyacente"
 
 #: src/timeline2/view/qml/Clip.qml:738
@@ -17298,8 +17294,8 @@ msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
 "all keyframes after this one."
 msgstr ""
-"<b>Arrastrar</b> para mover la posición de los claves seleccionados. "
-"<b>Mayúsculas arrastrar</b> para mover todos los claves posteriores a este."
+"<b>Arrastrar</b> para mover la posición de los claves seleccionados. <b>Mayús"
+"+arrastrar</b> para mover todos los claves posteriores a este."
 
 #: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
@@ -17307,8 +17303,8 @@ msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
 "for multiple keyframe selection."
 msgstr ""
-"<b>Mayúsculas arrastrar</b> para cambiar el valor de los claves "
-"seleccionados, <b>Ctrl clic</b> para seleccionar múltiples claves."
+"<b>Mayús+arrastrar</b> para cambiar el valor de los claves seleccionados, "
+"<b>Ctrl+clic</b> para seleccionar múltiples claves."
 
 #: src/timeline2/view/qml/SubTitle.qml:102
 #, kde-format
@@ -17343,23 +17339,23 @@ msgstr "Mostrar"
 msgid "Hide"
 msgstr "Ocultar"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doble clic</b> para agregar un subtítulo"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desplazamiento: %1, Posición: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Recording"
 msgstr "Grabando"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr "Entrada multicámara"
@@ -17388,8 +17384,8 @@ msgstr ""
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
-"<b>Mayúsculas</b> para colapsar/expandir todas las pistas del mismo tipo "
-"(audio/video)"
+"<b>Mayús</b> para colapsar/expandir todas las pistas del mismo tipo (audio/"
+"video)"
 
 #: src/timeline2/view/qml/TrackHead.qml:295
 #, kde-format
@@ -17763,12 +17759,12 @@ msgstr ""
 "Crear secuencia. Esto creará una nueva secuencia en la línea de tiempo. Cada "
 "línea de tiempo corresponde a un clip de secuencia en la bandeja del proyecto"
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:237
 #, kde-format
 msgid "Close %1"
 msgstr "Cerrar %1"
 
-#: src/timeline2/view/timelinetabs.cpp:418
+#: src/timeline2/view/timelinetabs.cpp:422
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Cambiar nombre a secuencia"
@@ -19902,7 +19898,7 @@ msgstr "Habilitar"
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
-msgstr ""
+msgstr "Reproducir/pausar al hacer clic sobre el monitor."
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
@@ -20120,8 +20116,7 @@ msgstr "Desplazamiento automático durante la reproducción"
 msgid ""
 "Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel"
 msgstr ""
-"Desplazar verticalmente usando la rueda, horizontalmente usando Mayúsculas + "
-"rueda"
+"Desplazar verticalmente usando la rueda, horizontalmente usando Mayús+rueda"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_showmarkers)
 #: src/ui/configtimeline_ui.ui:122
@@ -22491,7 +22486,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr "Reemplazar el clip por la versión transcodificada del proyecto"
+msgstr "Reemplazar el clip en el proyecto por la versión transcodificada"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24
@@ -22567,7 +22562,7 @@ msgstr "Mostrar %1 en la línea de tiempo"
 #: src/widgets/dragvalue.cpp:429
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
-msgstr "Mayúsculas + arrastrar para ajustar el valor en unidades enteras."
+msgstr "Mayús+arrastrar para ajustar el valor en unidades enteras."
 
 #: src/widgets/geometrywidget.cpp:40
 #, kde-format

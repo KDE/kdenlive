@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:38+0000\n"
+"POT-Creation-Date: 2024-05-15 00:38+0000\n"
 "PO-Revision-Date: 2024-04-21 14:19+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -3697,7 +3697,7 @@ msgstr "Ierakstiet priekšiestatījuma nosaukumu"
 msgid "Enter the name of this preset:"
 msgstr "Ievadiet šī priekšiestatījuma nosaukumu:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:190
+#: src/assets/view/widgets/buttonparamwidget.cpp:188
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
@@ -17051,7 +17051,7 @@ msgid "Stop"
 msgstr "Apturēt"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "Pauzēts"
@@ -17224,23 +17224,23 @@ msgstr "Rādīt"
 msgid "Hide"
 msgstr "Slēpt"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubultklikšķis</b>, lai atvērtu subtitru"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Nobīde: %1, Pozīcija: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Recording"
 msgstr "Ieraksta"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr "Vairāku kameru ievade"
@@ -17630,12 +17630,12 @@ msgstr ""
 "Pievienot laika joslas sekvenci. Šī darbība rediģēšanai izveidos jaunu laika "
 "joslu. Katra laika josla atbilst sekvences klipam projekta lādē."
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:237
 #, kde-format
 msgid "Close %1"
 msgstr "Aizvērt „%1“"
 
-#: src/timeline2/view/timelinetabs.cpp:418
+#: src/timeline2/view/timelinetabs.cpp:422
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Pārdēvēt sekvenci"
