@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-14 02:28+0000\n"
+"POT-Creation-Date: 2024-05-15 02:27+0000\n"
 "PO-Revision-Date: 2024-05-03 03:43+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -3658,7 +3658,7 @@ msgstr "შეიყვანეთ პრესეტის სახელი"
 msgid "Enter the name of this preset:"
 msgstr "შეიყვანეთ პრესეტის სახელი:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:190
+#: src/assets/view/widgets/buttonparamwidget.cpp:188
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
@@ -5124,36 +5124,36 @@ msgstr "აუდიო ნაკადი %1"
 msgid "Remove clip markers"
 msgstr "კლიპის სანიშნების წაშლა"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "გირჩევთ, შეინახოთ პროექტი გადაკოდირების ოპერაციამდე"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "პროექტის შენახვა"
 
-#: src/bin/bin.cpp:6126
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "გადაყვანა შენახვის გარეშე"
 
-#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "ეფექტის წაშლა: %1"
 
-#: src/bin/bin.cpp:6296 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "პროექტის კალათა"
 
-#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4891
+#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
 #, kde-format
 msgid "Project Bin %1"
 msgstr "პროექტის კალათა %1"
@@ -15149,11 +15149,18 @@ msgstr ""
 "მოდულები თავიდან გადმოიწერება."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, kde-format
-msgid "OpenTimelineIO conversion"
+#, fuzzy, kde-format
+#| msgid "OpenTimelineIO conversion"
+msgid "OpenTimelineIO core functionality"
 msgstr "OpenTimelineIO გადაყვანა"
 
-#: src/pythoninterfaces/otioconvertions.cpp:27
+#: src/pythoninterfaces/otioconvertions.cpp:24
+#, fuzzy, kde-format
+#| msgid "OpenTimelineIO conversion"
+msgid "OpenTimelineIO Kdenlive support"
+msgstr "OpenTimelineIO გადაყვანა"
+
+#: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
 msgid ""
 "Could not find \"otioconvert\" script although it is installed through "
@@ -15165,77 +15172,73 @@ msgstr ""
 "დარწმუნდით, რომ otio-ის სკრიპტები დაყენებულია საქაღალდეში, რომელიც PATH "
 "გარემოს ცვლადში არსებობს"
 
-#: src/pythoninterfaces/otioconvertions.cpp:47
+#: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
-msgid ""
-"Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-"Please install version >= 0.12\n"
+msgid "The Kdenlive adapter was not found by OpenTimelineIO."
 msgstr ""
-"თქვენი OpenTimelineIO მოდული Kdenlive-ის ადაპტერს არ შეიცავს.\n"
-"დააყენეთ ვერსია >= 0.12\n"
 
-#: src/pythoninterfaces/otioconvertions.cpp:64
+#: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
 msgid "Configure your OpenTimelineIO setup"
 msgstr "მოირგეთ თქვენი OpenTimelineIO"
 
-#: src/pythoninterfaces/otioconvertions.cpp:69
+#: src/pythoninterfaces/otioconvertions.cpp:70
 #, kde-format
 msgid "Check again"
 msgstr "თავიდან შემოწმება"
 
-#: src/pythoninterfaces/otioconvertions.cpp:107
+#: src/pythoninterfaces/otioconvertions.cpp:118
 #, kde-format
 msgid "OpenTimelineIO Application otioconvert not found"
 msgstr "OpenTimelineIO-ის აპლიკაცია otioconvert ვერ ვიპოვე"
 
-#: src/pythoninterfaces/otioconvertions.cpp:113
+#: src/pythoninterfaces/otioconvertions.cpp:124
 #, kde-format
 msgid "OpenTimelineIO Project conversion failed"
 msgstr "OpenTimelineIO პროექტის გადაყვანა ჩავარდა"
 
-#: src/pythoninterfaces/otioconvertions.cpp:116
+#: src/pythoninterfaces/otioconvertions.cpp:127
 #, kde-format
 msgid "Project conversion complete"
 msgstr "პროექტის გადაყვანა დასრულდა"
 
-#: src/pythoninterfaces/otioconvertions.cpp:125
+#: src/pythoninterfaces/otioconvertions.cpp:136
 #, kde-format
 msgid "Export Project"
 msgstr "პროექტის გატანა"
 
-#: src/pythoninterfaces/otioconvertions.cpp:126
-#: src/pythoninterfaces/otioconvertions.cpp:154
+#: src/pythoninterfaces/otioconvertions.cpp:137
+#: src/pythoninterfaces/otioconvertions.cpp:165
 #, kde-format
 msgid "OpenTimelineIO adapters (%1)(%1)"
 msgstr "OpenTimelineIO ადაპტერები (%1)(%1)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:132
+#: src/pythoninterfaces/otioconvertions.cpp:143
 #, kde-format
 msgid "Project file could not be saved for export."
 msgstr "პროექტის ფაილის შენახვა გასატანად შეუძლებელია."
 
-#: src/pythoninterfaces/otioconvertions.cpp:138
+#: src/pythoninterfaces/otioconvertions.cpp:149
 #, kde-format
 msgid "Unable to write to temporary kdenlive file for export: %1"
 msgstr "გასატანად დროებითი kdenlive-ის ფაილის ჩაწერა შეუძლებელია: %1"
 
-#: src/pythoninterfaces/otioconvertions.cpp:153
+#: src/pythoninterfaces/otioconvertions.cpp:164
 #, kde-format
 msgid "Project to import"
 msgstr "შემოსატანი პროექტი"
 
-#: src/pythoninterfaces/otioconvertions.cpp:159
+#: src/pythoninterfaces/otioconvertions.cpp:170
 #, kde-format
 msgid "Imported Project"
 msgstr "შემოტანილი პროექტი"
 
-#: src/pythoninterfaces/otioconvertions.cpp:160
+#: src/pythoninterfaces/otioconvertions.cpp:171
 #, kde-format
 msgid "Kdenlive project (*.kdenlive)"
 msgstr "Kdenlive-ის პროექტი (*.kdenlive)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:169
+#: src/pythoninterfaces/otioconvertions.cpp:180
 #, kde-format
 msgid ""
 "The current project has not been saved\n"
@@ -16876,7 +16879,7 @@ msgid "Stop"
 msgstr "შეჩერება"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "შეჩერებულია"
@@ -17044,23 +17047,23 @@ msgstr "ჩვენება"
 msgid "Hide"
 msgstr "დამალვა"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ორმაგი წკაპი</b> სუბტიტრის დასამატებლად"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "წანაცვლება: %1, მდებარეობა: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Recording"
 msgstr "ჩაწერა"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"
@@ -17444,12 +17447,12 @@ msgstr ""
 "დროის ხაზის მიმდევრობის დამატება. ეს შექმნის ახალ დროის ხაზს ჩასწორებისთვის. "
 "თითოეული დროის ხაზი პროექტის კალათაში მიმდევრობის კლიპს წარმოადგენს"
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:234
 #, kde-format
 msgid "Close %1"
 msgstr "%1-ის დახურვა"
 
-#: src/timeline2/view/timelinetabs.cpp:418
+#: src/timeline2/view/timelinetabs.cpp:419
 #, kde-format
 msgid "Rename Sequence"
 msgstr "მიმდევრობის სახელის გადარქმევა"
@@ -22301,6 +22304,13 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid ""
+#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
+#~ "Please install version >= 0.12\n"
+#~ msgstr ""
+#~ "თქვენი OpenTimelineIO მოდული Kdenlive-ის ადაპტერს არ შეიცავს.\n"
+#~ "დააყენეთ ვერსია >= 0.12\n"
 
 #~ msgid "Render Duration: %1. "
 #~ msgstr "რენდერის ხანგრძლივობა: %1. "

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-14 02:28+0000\n"
+"POT-Creation-Date: 2024-05-15 02:27+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -3727,7 +3727,7 @@ msgstr "Insira o nome da predefinição"
 msgid "Enter the name of this preset:"
 msgstr "Insira o nome desta predefinição:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:190
+#: src/assets/view/widgets/buttonparamwidget.cpp:188
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
@@ -5203,38 +5203,38 @@ msgstr "Transmissão de áudio %1"
 msgid "Remove clip markers"
 msgstr "Excluir os marcadores do clipe"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6124
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Salvar Projeto de DVD"
 
-#: src/bin/bin.cpp:6126
+#: src/bin/bin.cpp:6125
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificando"
 
-#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Excluir efeito %1"
 
-#: src/bin/bin.cpp:6296 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "Arquivos do projeto"
 
-#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4891
+#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Arquivos do projeto %1"
@@ -15630,10 +15630,16 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport"
-msgid "OpenTimelineIO conversion"
+msgid "OpenTimelineIO core functionality"
 msgstr "&Exportar OpenTimelineIO"
 
-#: src/pythoninterfaces/otioconvertions.cpp:27
+#: src/pythoninterfaces/otioconvertions.cpp:24
+#, fuzzy, kde-format
+#| msgid "OpenTimelineIO E&xport"
+msgid "OpenTimelineIO Kdenlive support"
+msgstr "&Exportar OpenTimelineIO"
+
+#: src/pythoninterfaces/otioconvertions.cpp:29
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not find \"otioconvert\" script.\n"
@@ -15655,33 +15661,29 @@ msgstr ""
 "e verificar se os scripts estão instalados em uma pasta listada na sua "
 "variável do ambiente PATH"
 
-#: src/pythoninterfaces/otioconvertions.cpp:47
+#: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
-msgid ""
-"Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-"Please install version >= 0.12\n"
+msgid "The Kdenlive adapter was not found by OpenTimelineIO."
 msgstr ""
-"Seu módulo OpenTimelineIO não inclui o adaptador do Kdenlive.\n"
-"Instale a versão >= 0.12\n"
 
-#: src/pythoninterfaces/otioconvertions.cpp:64
+#: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
 msgid "Configure your OpenTimelineIO setup"
 msgstr "Configure seu setup do OpenTimelineIO"
 
-#: src/pythoninterfaces/otioconvertions.cpp:69
+#: src/pythoninterfaces/otioconvertions.cpp:70
 #, fuzzy, kde-format
 #| msgid "Check configuration"
 msgid "Check again"
 msgstr "Checar a configuração"
 
-#: src/pythoninterfaces/otioconvertions.cpp:107
+#: src/pythoninterfaces/otioconvertions.cpp:118
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO E&xport"
 msgid "OpenTimelineIO Application otioconvert not found"
 msgstr "&Exportar OpenTimelineIO"
 
-#: src/pythoninterfaces/otioconvertions.cpp:113
+#: src/pythoninterfaces/otioconvertions.cpp:124
 #, fuzzy, kde-format
 #| msgid ""
 #| "Project conversion failed:\n"
@@ -15691,50 +15693,50 @@ msgstr ""
 "Falha na conversão do projeto:\n"
 "%1"
 
-#: src/pythoninterfaces/otioconvertions.cpp:116
+#: src/pythoninterfaces/otioconvertions.cpp:127
 #, kde-format
 msgid "Project conversion complete"
 msgstr "Conversão de projeto concluída"
 
-#: src/pythoninterfaces/otioconvertions.cpp:125
+#: src/pythoninterfaces/otioconvertions.cpp:136
 #, kde-format
 msgid "Export Project"
 msgstr "Exportar projeto"
 
-#: src/pythoninterfaces/otioconvertions.cpp:126
-#: src/pythoninterfaces/otioconvertions.cpp:154
+#: src/pythoninterfaces/otioconvertions.cpp:137
+#: src/pythoninterfaces/otioconvertions.cpp:165
 #, fuzzy, kde-format
 #| msgid "OpenTimelineIO adapters (%1)"
 msgid "OpenTimelineIO adapters (%1)(%1)"
 msgstr "Adaptadores OpenTimelineIO (%1)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:132
+#: src/pythoninterfaces/otioconvertions.cpp:143
 #, kde-format
 msgid "Project file could not be saved for export."
 msgstr "O arquivo do projeto não pode ser salvo para a exportação."
 
-#: src/pythoninterfaces/otioconvertions.cpp:138
+#: src/pythoninterfaces/otioconvertions.cpp:149
 #, kde-format
 msgid "Unable to write to temporary kdenlive file for export: %1"
 msgstr ""
 "Não foi possível gravar no arquivo kdenlive temporário para exportação: %1"
 
-#: src/pythoninterfaces/otioconvertions.cpp:153
+#: src/pythoninterfaces/otioconvertions.cpp:164
 #, kde-format
 msgid "Project to import"
 msgstr "Projeto a importar"
 
-#: src/pythoninterfaces/otioconvertions.cpp:159
+#: src/pythoninterfaces/otioconvertions.cpp:170
 #, kde-format
 msgid "Imported Project"
 msgstr "Importar projeto"
 
-#: src/pythoninterfaces/otioconvertions.cpp:160
+#: src/pythoninterfaces/otioconvertions.cpp:171
 #, kde-format
 msgid "Kdenlive project (*.kdenlive)"
 msgstr "Projeto do Kdenlive (*.kdenlive)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:169
+#: src/pythoninterfaces/otioconvertions.cpp:180
 #, kde-format
 msgid ""
 "The current project has not been saved\n"
@@ -17429,7 +17431,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "Pausado"
@@ -17608,24 +17610,24 @@ msgstr "Mostrar"
 msgid "Hide"
 msgstr "Ocultar"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Clique duplo</b> ou arraste para adicionar aparecer"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desvio: %1, Posição: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Gravar"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, fuzzy, kde-format
 msgid "Multicam In"
 msgstr "Entrada multicâmera"
@@ -18022,13 +18024,13 @@ msgstr ""
 "para edição. Cada linha do tempo corresponde a um clipe de sequência nos "
 "arquivos do projeto"
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:234
 #, fuzzy, kde-format
 #| msgid "Close"
 msgid "Close %1"
 msgstr "Fechar"
 
-#: src/timeline2/view/timelinetabs.cpp:418
+#: src/timeline2/view/timelinetabs.cpp:419
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Rename Sequence"
@@ -23015,6 +23017,13 @@ msgstr "%1min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid ""
+#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
+#~ "Please install version >= 0.12\n"
+#~ msgstr ""
+#~ "Seu módulo OpenTimelineIO não inclui o adaptador do Kdenlive.\n"
+#~ "Instale a versão >= 0.12\n"
 
 #, fuzzy
 #~| msgid "Render Duration: %1"

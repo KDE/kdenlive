@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-14 02:28+0000\n"
+"POT-Creation-Date: 2024-05-15 02:27+0000\n"
 "PO-Revision-Date: 2024-04-20 12:17+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -3723,7 +3723,7 @@ msgstr "Naam voor-instelling invoeren"
 msgid "Enter the name of this preset:"
 msgstr "De naam van deze voor-instelling invoeren:"
 
-#: src/assets/view/widgets/buttonparamwidget.cpp:190
+#: src/assets/view/widgets/buttonparamwidget.cpp:188
 #: src/project/dialogs/archivewidget.cpp:402
 #, kde-format
 msgid "Abort processing"
@@ -5201,7 +5201,7 @@ msgstr "Audiostream %1"
 msgid "Remove clip markers"
 msgstr "Markeringen van clip verwijderen"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
@@ -5209,30 +5209,30 @@ msgstr ""
 "We bevelen aan dat u het project opslaat voor de bewerking codering "
 "overzetten"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6124
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Project opslaan"
 
-#: src/bin/bin.cpp:6126
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Codering overzetten zonder opslaan"
 
-#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Effect %1 verwijderen"
 
-#: src/bin/bin.cpp:6296 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6295 src/mainwindow.cpp:388
 #, kde-format
 msgid "Project Bin"
 msgstr "Project-bin"
 
-#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4891
+#: src/bin/bin.cpp:6298 src/bin/bin.cpp:6301 src/mainwindow.cpp:4891
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Project-bin %1"
@@ -15334,11 +15334,18 @@ msgstr ""
 "python virtuele omgeving weer inschakelt."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, kde-format
-msgid "OpenTimelineIO conversion"
+#, fuzzy, kde-format
+#| msgid "OpenTimelineIO conversion"
+msgid "OpenTimelineIO core functionality"
 msgstr "OpenTimelineIO-conversie"
 
-#: src/pythoninterfaces/otioconvertions.cpp:27
+#: src/pythoninterfaces/otioconvertions.cpp:24
+#, fuzzy, kde-format
+#| msgid "OpenTimelineIO conversion"
+msgid "OpenTimelineIO Kdenlive support"
+msgstr "OpenTimelineIO-conversie"
+
+#: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
 msgid ""
 "Could not find \"otioconvert\" script although it is installed through "
@@ -15351,78 +15358,74 @@ msgstr ""
 "Controleer of de otio-scripts zijn geïnstalleerd in een map genoemd in "
 "omgevingsvariabele PATH"
 
-#: src/pythoninterfaces/otioconvertions.cpp:47
+#: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
-msgid ""
-"Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-"Please install version >= 0.12\n"
+msgid "The Kdenlive adapter was not found by OpenTimelineIO."
 msgstr ""
-"Uw module OpenTimelineIO bevat geen Kdenlive adapter.\n"
-"Installeer versie >= 0.12\n"
 
-#: src/pythoninterfaces/otioconvertions.cpp:64
+#: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
 msgid "Configure your OpenTimelineIO setup"
 msgstr "Uw instellingen van OpenTimelineIO configureren"
 
-#: src/pythoninterfaces/otioconvertions.cpp:69
+#: src/pythoninterfaces/otioconvertions.cpp:70
 #, kde-format
 msgid "Check again"
 msgstr "Opnieuw controleren"
 
-#: src/pythoninterfaces/otioconvertions.cpp:107
+#: src/pythoninterfaces/otioconvertions.cpp:118
 #, kde-format
 msgid "OpenTimelineIO Application otioconvert not found"
 msgstr "Toepassing OpenTimelineIO otioconvert is niet gevonden"
 
-#: src/pythoninterfaces/otioconvertions.cpp:113
+#: src/pythoninterfaces/otioconvertions.cpp:124
 #, kde-format
 msgid "OpenTimelineIO Project conversion failed"
 msgstr "Conversie van OpenTimelineIO-project is mislukt"
 
-#: src/pythoninterfaces/otioconvertions.cpp:116
+#: src/pythoninterfaces/otioconvertions.cpp:127
 #, kde-format
 msgid "Project conversion complete"
 msgstr "Conversie van project is gereed"
 
-#: src/pythoninterfaces/otioconvertions.cpp:125
+#: src/pythoninterfaces/otioconvertions.cpp:136
 #, kde-format
 msgid "Export Project"
 msgstr "Project exporteren"
 
-#: src/pythoninterfaces/otioconvertions.cpp:126
-#: src/pythoninterfaces/otioconvertions.cpp:154
+#: src/pythoninterfaces/otioconvertions.cpp:137
+#: src/pythoninterfaces/otioconvertions.cpp:165
 #, kde-format
 msgid "OpenTimelineIO adapters (%1)(%1)"
 msgstr "OpenTimelineIO-adapters (%1)(%1)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:132
+#: src/pythoninterfaces/otioconvertions.cpp:143
 #, kde-format
 msgid "Project file could not be saved for export."
 msgstr "Projectbestand kon niet worden opgeslagen voor exporteren."
 
-#: src/pythoninterfaces/otioconvertions.cpp:138
+#: src/pythoninterfaces/otioconvertions.cpp:149
 #, kde-format
 msgid "Unable to write to temporary kdenlive file for export: %1"
 msgstr ""
 "Kan niet wegschrijven naar tijdelijk kdenlive-bestand voor exporteren: %1"
 
-#: src/pythoninterfaces/otioconvertions.cpp:153
+#: src/pythoninterfaces/otioconvertions.cpp:164
 #, kde-format
 msgid "Project to import"
 msgstr "Te importeren project"
 
-#: src/pythoninterfaces/otioconvertions.cpp:159
+#: src/pythoninterfaces/otioconvertions.cpp:170
 #, kde-format
 msgid "Imported Project"
 msgstr "Geïmporteerd project"
 
-#: src/pythoninterfaces/otioconvertions.cpp:160
+#: src/pythoninterfaces/otioconvertions.cpp:171
 #, kde-format
 msgid "Kdenlive project (*.kdenlive)"
 msgstr "Kdenlive-project (*.kdenlive)"
 
-#: src/pythoninterfaces/otioconvertions.cpp:169
+#: src/pythoninterfaces/otioconvertions.cpp:180
 #, kde-format
 msgid ""
 "The current project has not been saved\n"
@@ -17069,7 +17072,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "Gepauzeerd"
@@ -17242,23 +17245,23 @@ msgstr "Tonen"
 msgid "Hide"
 msgstr "Verbergen"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubbelklik</b> om ondertitel toe te voegen"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Offset: %1, positie: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Recording"
 msgstr "Opname"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr "Multi-camera in"
@@ -17647,12 +17650,12 @@ msgstr ""
 "Tijdlijnsequentie toevoegen. Dit zal een nieuwe tijdlijn aanmaken voor "
 "bewerking. Elke tijdlijn komt overeen met een sequentieclip in de project-bin"
 
-#: src/timeline2/view/timelinetabs.cpp:235
+#: src/timeline2/view/timelinetabs.cpp:234
 #, kde-format
 msgid "Close %1"
 msgstr "%1 sluiten"
 
-#: src/timeline2/view/timelinetabs.cpp:418
+#: src/timeline2/view/timelinetabs.cpp:419
 #, kde-format
 msgid "Rename Sequence"
 msgstr "Sequentie hernoemen"
@@ -22540,6 +22543,13 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid ""
+#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
+#~ "Please install version >= 0.12\n"
+#~ msgstr ""
+#~ "Uw module OpenTimelineIO bevat geen Kdenlive adapter.\n"
+#~ "Installeer versie >= 0.12\n"
 
 #~ msgid "Render Duration: %1. "
 #~ msgstr "Tijdsduur van renderen: %1. "
