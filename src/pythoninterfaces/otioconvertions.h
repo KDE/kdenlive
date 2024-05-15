@@ -28,6 +28,8 @@ private:
     QString m_importAdapters;
     QString m_exportAdapters;
 
+    QString getOtioBinary();
+
 public Q_SLOTS:
     void slotExportProject();
     void slotImportProject();

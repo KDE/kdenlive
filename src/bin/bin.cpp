@@ -6009,10 +6009,8 @@ void Bin::updateSequenceClip(const QUuid &uuid, int duration, int pos, bool forc
             clip->setProperties(properties);
             // Reset thumbs producer
             m_doc->sequenceThumbUpdated(uuid);
-            clip->resetSequenceThumbnails();
             clip->reloadTimeline();
-            // Don't update thumb now, it causes too much lag on sequence switch or save
-            // ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
+            // Don't update thumb now, it causes too much lag on sequence switch or saving
         }
     }
 }
@@ -6048,6 +6046,7 @@ void Bin::setSequenceThumbnail(const QUuid &uuid, int frame)
     if (!bid.isEmpty()) {
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bid);
         if (sequenceClip) {
+            sequenceClip->resetSequenceThumbnails();
             m_doc->setSequenceProperty(uuid, QStringLiteral("thumbnailFrame"), frame);
             ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, bid.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
         }
