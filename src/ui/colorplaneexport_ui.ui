@@ -51,7 +51,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="2" column="0">
     <widget class="QLabel" name="lblSliderName">
      <property name="text">
-      <string comment="KDE::DoNotExtract">(notransl.)</string>
+      <string notr="true">(notransl.)</string>
      </property>
     </widget>
    </item>
@@ -68,7 +68,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="2" column="3">
     <widget class="QLabel" name="lblColNr">
      <property name="text">
-      <string comment="KDE::DoNotExtract">(notranslate) Y display</string>
+      <string notr="true">(notranslate) Y display</string>
      </property>
     </widget>
    </item>
@@ -95,7 +95,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="3" column="3">
     <widget class="QLabel" name="lblScaleNr">
      <property name="text">
-      <string comment="KDE::DoNotExtract">(notranslate) % display</string>
+      <string notr="true">(notranslate) % display</string>
      </property>
     </widget>
    </item>
@@ -135,7 +135,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       </font>
      </property>
      <property name="text">
-      <string comment="KDE::DoNotExtract">(notranslate) Total pixels go here</string>
+      <string notr="true">(notranslate) Total pixels go here</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

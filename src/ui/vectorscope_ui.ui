@@ -90,7 +90,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="1" column="4" colspan="2">
     <widget class="QLabel" name="lblGain">
      <property name="text">
-      <string comment="KDE::DoNotExtract">(notr)</string>
+      <string notr="true">(notr)</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
