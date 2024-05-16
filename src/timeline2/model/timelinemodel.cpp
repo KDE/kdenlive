@@ -6113,12 +6113,13 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
             int resizeDuration = int(binClip->frameDuration());
             requestItemResize(clipId, resizeDuration, true, true, local_undo, local_redo);
         }
-        getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false);
+        bool result = getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false, {}, true);
+        Q_ASSERT(result);
         m_allClips[clipId]->refreshProducerFromBin(old_trackId, state, audioStream, 0, hasPitch, currentSubplaylist == 1, timeremap);
         if (forceDuration > -1) {
             m_allClips[clipId]->requestResize(forceDuration, true, local_undo, local_redo);
         }
-        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo, false, false);
+        getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo, false, false, {}, true);
         if (maxDuration != m_allClips[clipId]->getMaxDuration()) {
             QModelIndex ix = makeClipIndexFromID(clipId);
             Q_EMIT dataChanged(ix, ix, {TimelineModel::MaxDurationRole});

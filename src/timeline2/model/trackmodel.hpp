@@ -179,7 +179,7 @@ protected:
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
     bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, bool newInsertion = true,
-                              const QList<int> &allowedClipMixes = {});
+                              const QList<int> &allowedClipMixes = {}, bool bypassLock = false);
     /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false, const QList<int> &allowedClipMixes = {});
 
@@ -196,7 +196,7 @@ protected:
        @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delete/insert)
     */
     bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion,
-                             const QList<int> &allowedClipMixes = {});
+                             const QList<int> &allowedClipMixes = {}, bool bypassLock = false);
     /** @brief This function returns a lambda that performs the requested operation */
     Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove, bool finalDeletion);
 
