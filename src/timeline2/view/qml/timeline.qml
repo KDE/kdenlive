@@ -1458,9 +1458,13 @@ Rectangle {
                 timeline.showTimelineToolInfo(true)
             }
             onDoubleClicked: mouse => {
-                if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
-                    subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale)
-                    timeline.activeTrack = -2
+                if (mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height) {
+                    if (root.showSubtitles && mouse.y < (ruler.height + subtitleTrack.height)) {
+                        subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale)
+                        timeline.activeTrack = -2
+                    } else {
+                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
+                    }
                 } else if (mouse.y < ruler.guideLabelHeight) {
                     timeline.switchGuide((scrollView.contentX + mouseX) / root.timeScale, false)
                 }
