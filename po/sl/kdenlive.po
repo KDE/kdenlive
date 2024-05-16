@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 02:27+0000\n"
-"PO-Revision-Date: 2024-04-26 18:52+0200\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"POT-Creation-Date: 2024-05-16 02:51+0000\n"
+"PO-Revision-Date: 2024-05-15 07:19+0200\n"
+"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.4.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -3325,7 +3325,7 @@ msgstr "Uveljavi spremembe učinka za vse posnetke v skupini"
 #: src/assets/assetpanel.cpp:92
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr "Uveljavi spremembe učinka za vse posnetke v skupini ..."
+msgstr "Uveljavi spremembe učinka za vse posnetke v skupini…"
 
 #: src/assets/assetpanel.cpp:94
 #, kde-kuit-format
@@ -4748,8 +4748,8 @@ msgstr "Seznam predvajanja"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2468 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1525
-#: src/project/projectmanager.cpp:1527 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:1528 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Zaporedja"
@@ -5808,7 +5808,7 @@ msgstr ""
 "Podan profil ni veljaven. Privzeti profil je »dv_pal«, ki ga lahko "
 "spremenite znotraj pulta z nastavitvami Kdenlive"
 
-#: src/core.cpp:262 src/project/projectmanager.cpp:820
+#: src/core.cpp:262 src/project/projectmanager.cpp:821
 #, kde-format
 msgid "Loading project…"
 msgstr "Nalaganje projekta …"
@@ -6463,7 +6463,7 @@ msgstr "Izvozi podatke vodil"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1827 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1828 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5155
@@ -6529,7 +6529,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Če niste prepričani, poskusite:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1714
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1715
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -7302,7 +7302,7 @@ msgid ""
 "you want to overwrite it…"
 msgstr ""
 "Posel pisanja v datoteko že obstaja:<br /><b>%1</b><br />Prekinite ta posel, "
-"če jo želite prepisati."
+"če jo želite prepisati…"
 
 #: src/dialogs/renderwidget.cpp:766 src/dialogs/renderwidget.cpp:1493
 #, kde-format
@@ -8957,8 +8957,8 @@ msgstr "Naslednji filtri/prehodi so bili izbrisani iz projekta:"
 msgid "Invalid file path"
 msgstr "Neveljavna pot datoteke"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:805
-#: src/project/projectmanager.cpp:847
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:848
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Poškodovane datoteke ni bilo možno obnoviti."
@@ -9038,15 +9038,15 @@ msgstr ""
 "Vaša projektna datoteka je bila nadgrajena na najnovejšo različico "
 "dokumentov Kdenlive, ni pa bilo možno ustvariti varnostne kopije %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1399
-#: src/project/projectmanager.cpp:1435
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1436
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Napaka med premikanjem mape projekta: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2330
 #: src/project/dialogs/archivewidget.cpp:241
-#: src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:1656
 #, kde-format
 msgid "Untitled"
 msgstr "Neimenovano"
@@ -14899,7 +14899,7 @@ msgstr "Odpri datoteko varnostne kopije …"
 msgid "Save changes to document?"
 msgstr "Ali želite shraniti spremembe v dokument?"
 
-#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1654
+#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1655
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -14936,32 +14936,32 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Shrani kopijo"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:747
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Obstaja samodejno shranjena datoteka. Ali jo želite zdaj obnoviti?"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:747
 #, kde-format
 msgid "File Recovery"
 msgstr "Obnovitev datoteke"
 
-#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:836
 #, kde-format
 msgid "Recover"
 msgstr "Obnovi"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:748
 #, kde-format
 msgid "Do not recover"
 msgstr "Ne obnovi"
 
-#: src/project/projectmanager.cpp:799
+#: src/project/projectmanager.cpp:800
 #, kde-format
 msgid "Opening file %1"
 msgstr "Odpiranje datoteke %1"
 
-#: src/project/projectmanager.cpp:834
+#: src/project/projectmanager.cpp:835
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -14972,29 +14972,29 @@ msgstr ""
 "%1\n"
 "Ali želite odpreti varnostno kopijo datoteke?"
 
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:1029
+#: src/project/projectmanager.cpp:836 src/project/projectmanager.cpp:1030
 #, kde-format
 msgid "Error opening file"
 msgstr "Napaka med odpiranjem datoteke"
 
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:1030
+#: src/project/projectmanager.cpp:836 src/project/projectmanager.cpp:1031
 #, kde-format
 msgid "Open Backup"
 msgstr "Odpri varnostno kopijo"
 
-#: src/project/projectmanager.cpp:851
+#: src/project/projectmanager.cpp:852
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Ni bilo možno odpreti varnostne kopije projektne datoteke."
 
-#: src/project/projectmanager.cpp:866
+#: src/project/projectmanager.cpp:867
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Vaš projekt je bil nadgrajen, varnostna kopija bo ustvarjena pri naslednjem "
 "shranjevanju"
 
-#: src/project/projectmanager.cpp:868
+#: src/project/projectmanager.cpp:869
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -15002,17 +15002,17 @@ msgstr ""
 "Vaš projekt je bil spremenjen, varnostna kopija bo ustvarjena pri naslednjem "
 "shranjevanju"
 
-#: src/project/projectmanager.cpp:899
+#: src/project/projectmanager.cpp:900
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Nalaganje časovnice …"
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:918
 #, kde-format
 msgid "Building sequences…"
 msgstr "Gradnja zaporedij …"
 
-#: src/project/projectmanager.cpp:1056
+#: src/project/projectmanager.cpp:1057
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15021,7 +15021,7 @@ msgstr ""
 "Datoteke projekta ni možno odpreti. Napaka:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1096
+#: src/project/projectmanager.cpp:1097
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -15030,12 +15030,12 @@ msgstr ""
 "To bo izbrisalo vse opravljene spremembe od zadnjega shranjevanja projekta. "
 "Ali ste prepričani, da želite nadaljevati?"
 
-#: src/project/projectmanager.cpp:1097
+#: src/project/projectmanager.cpp:1098
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Povrni na nazadnje shranjeno različico"
 
-#: src/project/projectmanager.cpp:1183
+#: src/project/projectmanager.cpp:1184
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -15044,25 +15044,25 @@ msgstr ""
 "Projekt je bil poškodovan, izdelava varnostne kopije ni mogoča. Zaprite in "
 "znova odprite svojo datoteko projekta za obnovitev iz zadnje varovalne kopije"
 
-#: src/project/projectmanager.cpp:1377
+#: src/project/projectmanager.cpp:1378
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Napaka med premikanjem mape projekta, ni možno dostopati do mape "
 "medpomnilnika"
 
-#: src/project/projectmanager.cpp:1413
+#: src/project/projectmanager.cpp:1414
 #, kde-format
 msgid "Moving project folder"
 msgstr "Premikanje mape projekta"
 
-#: src/project/projectmanager.cpp:1504 src/project/projectmanager.cpp:1562
-#: src/project/projectmanager.cpp:1566
+#: src/project/projectmanager.cpp:1505 src/project/projectmanager.cpp:1563
+#: src/project/projectmanager.cpp:1567
 #, kde-format
 msgid "Sequence 1"
 msgstr "Zaporedje 1"
 
-#: src/project/projectmanager.cpp:1515
+#: src/project/projectmanager.cpp:1516
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15070,13 +15070,13 @@ msgstr ""
 "Projektna datoteka je okvarjena (ni možno naložiti stez). Ali želite "
 "poiskati varnostno kopijo?"
 
-#: src/project/projectmanager.cpp:1660 src/project/projectmanager.cpp:1665
-#: src/project/projectmanager.cpp:1675 src/project/projectmanager.cpp:1689
+#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1690
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Sprememba profila projekta prekinjena"
 
-#: src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:1813
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15085,12 +15085,12 @@ msgstr ""
 "Izhodna datoteka %1 že obstaja.\n"
 "Ali jo želite prepisati?"
 
-#: src/project/projectmanager.cpp:1837
+#: src/project/projectmanager.cpp:1838
 #, kde-format
 msgid "Project profile changed"
 msgstr "Profil projekta spremenjen"
 
-#: src/project/projectmanager.cpp:1898
+#: src/project/projectmanager.cpp:1899
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15099,17 +15099,17 @@ msgstr ""
 "Ni možno ustvariti časovnice iz tega posnetka:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1980
+#: src/project/projectmanager.cpp:1981
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Uvažanje posnetka zaporedja je trenutno v stanju preizkušanja"
 
-#: src/project/projectmanager.cpp:2169
+#: src/project/projectmanager.cpp:2170
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Izberite posnetek za ustvarjanje zaporedja"
 
-#: src/project/projectmanager.cpp:2207
+#: src/project/projectmanager.cpp:2208
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Ustvari posnetek zaporedja"
@@ -15164,17 +15164,17 @@ msgstr "Preverjanje za posodobitvami"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Nameščanje modulov (lahko traja dlje časa) …"
+msgstr "Nameščanje modulov… (lahko traja dlje časa)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:110
 #, kde-format
 msgid "Updating modules…"
-msgstr "Posodabljanje modulov …"
+msgstr "Posodabljanje modulov…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:132
 #, kde-format
 msgid "Checking configuration…"
-msgstr "Preverjanje nastavitve …"
+msgstr "Preverjanje nastavitve…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:208
 #: src/pythoninterfaces/abstractpythoninterface.cpp:277
@@ -15331,16 +15331,14 @@ msgstr ""
 "virtualno okolje python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "Pretvorba OpenTimelineIO"
+msgstr "Odpri jedrno funkcionalnost OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "Pretvorba OpenTimelineIO"
+msgstr "Podpora OpenTimelineIO Kdenlive"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -15357,7 +15355,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "Adapterja Kdenlive ni mogoče najti za OpenTimelineIO."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format

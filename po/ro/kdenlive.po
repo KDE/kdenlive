@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 02:27+0000\n"
+"POT-Creation-Date: 2024-05-16 02:51+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -4926,8 +4926,8 @@ msgstr "Clip cu listă de redare"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2468 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1525
-#: src/project/projectmanager.cpp:1527 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:1528 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -6068,7 +6068,7 @@ msgid ""
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:262 src/project/projectmanager.cpp:820
+#: src/core.cpp:262 src/project/projectmanager.cpp:821
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -6742,7 +6742,7 @@ msgstr "Încarcă marcaje"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1827 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1828 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5155
@@ -6812,7 +6812,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1714
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1715
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
@@ -9309,8 +9309,8 @@ msgstr "Următoarele efecte au fost importate din proiect:"
 msgid "Invalid file path"
 msgstr "Clip nevalid"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:805
-#: src/project/projectmanager.cpp:847
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:848
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -9389,8 +9389,8 @@ msgstr ""
 "Fișierul proiect a fost actualizat la ultima versiune de document Kdenlive, "
 "dar nu a fost posibil să se creeze copia de rezervă %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1399
-#: src/project/projectmanager.cpp:1435
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1436
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -9398,7 +9398,7 @@ msgstr "Dosar proiect: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2330
 #: src/project/dialogs/archivewidget.cpp:241
-#: src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:1656
 #, kde-format
 msgid "Untitled"
 msgstr "Fără titlu"
@@ -15510,7 +15510,7 @@ msgstr "Deschide fișier rezervă"
 msgid "Save changes to document?"
 msgstr "Se salvează modificările la document?"
 
-#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1654
+#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1655
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15545,7 +15545,7 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Salvează la"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:747
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -15555,28 +15555,28 @@ msgstr ""
 "Fișierul „%1” există deja.\n"
 "Doriți să îl suprascrieți?"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:747
 #, kde-format
 msgid "File Recovery"
 msgstr "Recuperare fișier"
 
-#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:836
 #, kde-format
 msgid "Recover"
 msgstr "Recuperează"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:748
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "Nu recupera"
 
-#: src/project/projectmanager.cpp:799
+#: src/project/projectmanager.cpp:800
 #, kde-format
 msgid "Opening file %1"
 msgstr "Se deschide fișierul %1"
 
-#: src/project/projectmanager.cpp:834
+#: src/project/projectmanager.cpp:835
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15584,46 +15584,46 @@ msgid ""
 "Do you want to open a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:1029
+#: src/project/projectmanager.cpp:836 src/project/projectmanager.cpp:1030
 #, kde-format
 msgid "Error opening file"
 msgstr "Eroare la deschiderea fișierului"
 
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:1030
+#: src/project/projectmanager.cpp:836 src/project/projectmanager.cpp:1031
 #, kde-format
 msgid "Open Backup"
 msgstr "Deschide rezerva"
 
-#: src/project/projectmanager.cpp:851
+#: src/project/projectmanager.cpp:852
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Nu se poate deschide fișierul proiect %1"
 
-#: src/project/projectmanager.cpp:866
+#: src/project/projectmanager.cpp:867
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:868
+#: src/project/projectmanager.cpp:869
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:899
+#: src/project/projectmanager.cpp:900
 #, fuzzy, kde-format
 #| msgid "Download New Render Profiles..."
 msgid "Loading timeline…"
 msgstr "Descarcă profiluri de randare noi..."
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:918
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Building sequences…"
 msgstr "Secvență previzualizare"
 
-#: src/project/projectmanager.cpp:1056
+#: src/project/projectmanager.cpp:1057
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -15631,58 +15631,58 @@ msgid ""
 "%1\n"
 msgstr "Nu se poate deschide fișierul proiect %1"
 
-#: src/project/projectmanager.cpp:1096
+#: src/project/projectmanager.cpp:1097
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1097
+#: src/project/projectmanager.cpp:1098
 #, kde-format
 msgid "Revert to last saved version"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1183
+#: src/project/projectmanager.cpp:1184
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1377
+#: src/project/projectmanager.cpp:1378
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Dosar proiect: %1"
 
-#: src/project/projectmanager.cpp:1413
+#: src/project/projectmanager.cpp:1414
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Folosește dosarul proiectului"
 
-#: src/project/projectmanager.cpp:1504 src/project/projectmanager.cpp:1562
-#: src/project/projectmanager.cpp:1566
+#: src/project/projectmanager.cpp:1505 src/project/projectmanager.cpp:1563
+#: src/project/projectmanager.cpp:1567
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Denumirea secvenței"
 
-#: src/project/projectmanager.cpp:1515
+#: src/project/projectmanager.cpp:1516
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1660 src/project/projectmanager.cpp:1665
-#: src/project/projectmanager.cpp:1675 src/project/projectmanager.cpp:1689
+#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1690
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Profil proiect: %1"
 
-#: src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:1813
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -15694,13 +15694,13 @@ msgstr ""
 "Fișierul „%1” există deja.\n"
 "Doriți să îl suprascrieți?"
 
-#: src/project/projectmanager.cpp:1837
+#: src/project/projectmanager.cpp:1838
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Profil proiect: %1"
 
-#: src/project/projectmanager.cpp:1898
+#: src/project/projectmanager.cpp:1899
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid ""
@@ -15708,18 +15708,18 @@ msgid ""
 "%1"
 msgstr "Fișierul temporar nu poate fi creat"
 
-#: src/project/projectmanager.cpp:1980
+#: src/project/projectmanager.cpp:1981
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2169
+#: src/project/projectmanager.cpp:2170
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Selectați un clip dacă doriți să aplicați un efect"
 
-#: src/project/projectmanager.cpp:2207
+#: src/project/projectmanager.cpp:2208
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"

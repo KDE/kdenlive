@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 02:27+0000\n"
+"POT-Creation-Date: 2024-05-16 02:51+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -4832,8 +4832,8 @@ msgstr "Snimak liste izvođenja"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2468 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1525
-#: src/project/projectmanager.cpp:1527 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:1528 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -5975,7 +5975,7 @@ msgid ""
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:262 src/project/projectmanager.cpp:820
+#: src/core.cpp:262 src/project/projectmanager.cpp:821
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -6644,7 +6644,7 @@ msgstr "Učitaj markere"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1827 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1828 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5155
@@ -6712,7 +6712,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1714
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1715
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -9229,8 +9229,8 @@ msgstr "Slijedeći efekti su uvezeni iz projekta:"
 msgid "Invalid file path"
 msgstr "Neispravan snimak"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:805
-#: src/project/projectmanager.cpp:847
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:848
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -9317,8 +9317,8 @@ msgstr ""
 "Vaša projekt datoteka je nadograđena do najnovije Kdenlive dokument verzije, "
 "ali nije bio u mogućnosti da kreira sigurnosnu kopiju %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1399
-#: src/project/projectmanager.cpp:1435
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1436
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -9326,7 +9326,7 @@ msgstr "Datoteka projekta: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2330
 #: src/project/dialogs/archivewidget.cpp:241
-#: src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:1656
 #, kde-format
 msgid "Untitled"
 msgstr "Bez naslova"
@@ -15460,7 +15460,7 @@ msgstr "Otvori rezernu kopiju"
 msgid "Save changes to document?"
 msgstr "Sačuvaj promjene dokumenta?"
 
-#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1654
+#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1655
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15495,34 +15495,34 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Spremiti"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:747
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Postoje automatski spašeni fajlovi. Da li želite da ih obnovite sada?"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:747
 #, kde-format
 msgid "File Recovery"
 msgstr "Obnavljanje Fajla"
 
-#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:836
 #, kde-format
 msgid "Recover"
 msgstr "Obnovi"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:748
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "Ne obnavljaj"
 
-#: src/project/projectmanager.cpp:799
+#: src/project/projectmanager.cpp:800
 #, kde-format
 msgid "Opening file %1"
 msgstr "Otvaranje fajla %1"
 
-#: src/project/projectmanager.cpp:834
+#: src/project/projectmanager.cpp:835
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15533,46 +15533,46 @@ msgstr ""
 "%1\n"
 "Da li želite otvoriti rezervnu kopiju?"
 
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:1029
+#: src/project/projectmanager.cpp:836 src/project/projectmanager.cpp:1030
 #, kde-format
 msgid "Error opening file"
 msgstr "Greška pri otvaranju datoteke"
 
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:1030
+#: src/project/projectmanager.cpp:836 src/project/projectmanager.cpp:1031
 #, kde-format
 msgid "Open Backup"
 msgstr "Otvori rezervnu kopiju"
 
-#: src/project/projectmanager.cpp:851
+#: src/project/projectmanager.cpp:852
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Ne mogu otvoriti projektnu datoteku %1"
 
-#: src/project/projectmanager.cpp:866
+#: src/project/projectmanager.cpp:867
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:868
+#: src/project/projectmanager.cpp:869
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:899
+#: src/project/projectmanager.cpp:900
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Loading timeline…"
 msgstr "Skini nove obrise..."
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:918
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Building sequences…"
 msgstr "Prikaži sekvencu"
 
-#: src/project/projectmanager.cpp:1056
+#: src/project/projectmanager.cpp:1057
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -15580,7 +15580,7 @@ msgid ""
 "%1\n"
 msgstr "Ne mogu otvoriti projektnu datoteku %1"
 
-#: src/project/projectmanager.cpp:1096
+#: src/project/projectmanager.cpp:1097
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -15589,51 +15589,51 @@ msgstr ""
 "Ovo će poništiti sve promjene koje ste napravili nakon što ste posljednji "
 "put sačuvali vaš projekat. Jeste li sigurni da želite nastaviti?"
 
-#: src/project/projectmanager.cpp:1097
+#: src/project/projectmanager.cpp:1098
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Vrati na posljednju sačuvanu verziju"
 
-#: src/project/projectmanager.cpp:1183
+#: src/project/projectmanager.cpp:1184
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1377
+#: src/project/projectmanager.cpp:1378
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Datoteka projekta: %1"
 
-#: src/project/projectmanager.cpp:1413
+#: src/project/projectmanager.cpp:1414
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Koristi projekat mape"
 
-#: src/project/projectmanager.cpp:1504 src/project/projectmanager.cpp:1562
-#: src/project/projectmanager.cpp:1566
+#: src/project/projectmanager.cpp:1505 src/project/projectmanager.cpp:1563
+#: src/project/projectmanager.cpp:1567
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Ime sekvence"
 
-#: src/project/projectmanager.cpp:1515
+#: src/project/projectmanager.cpp:1516
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1660 src/project/projectmanager.cpp:1665
-#: src/project/projectmanager.cpp:1675 src/project/projectmanager.cpp:1689
+#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1690
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Profil projekta: %1"
 
-#: src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:1813
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -15641,13 +15641,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Izlazni dokument već postoji. Da li želite pisati preko?"
 
-#: src/project/projectmanager.cpp:1837
+#: src/project/projectmanager.cpp:1838
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Profil projekta: %1"
 
-#: src/project/projectmanager.cpp:1898
+#: src/project/projectmanager.cpp:1899
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -15655,18 +15655,18 @@ msgid ""
 "%1"
 msgstr "Ne može se kreirati potrošač %1."
 
-#: src/project/projectmanager.cpp:1980
+#: src/project/projectmanager.cpp:1981
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2169
+#: src/project/projectmanager.cpp:2170
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Odabrati snimak ako želite primijeniti efekt"
 
-#: src/project/projectmanager.cpp:2207
+#: src/project/projectmanager.cpp:2208
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"

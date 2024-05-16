@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
-# Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
 # SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
+# Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
+# Josep M. Ferrer <txemaq@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 02:27+0000\n"
-"PO-Revision-Date: 2024-04-26 11:15+0200\n"
+"POT-Creation-Date: 2024-05-16 02:51+0000\n"
+"PO-Revision-Date: 2024-05-15 09:33+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -3370,7 +3371,7 @@ msgstr ""
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr "Aplica només als efectes amb el mateix valor"
+msgstr "Aplica nomées als efectes amb el mateix valor"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -4776,8 +4777,8 @@ msgstr "Llista de reproducció"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2468 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1525
-#: src/project/projectmanager.cpp:1527 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1526
+#: src/project/projectmanager.cpp:1528 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Seqüències"
@@ -5835,7 +5836,7 @@ msgstr ""
 "El perfil indicat no és vàlid. S'establix el perfil predeterminat «dv_pal», "
 "però podeu canviar-ho en el quadro de configuració de Kdenlive"
 
-#: src/core.cpp:262 src/project/projectmanager.cpp:820
+#: src/core.cpp:262 src/project/projectmanager.cpp:821
 #, kde-format
 msgid "Loading project…"
 msgstr "S'està carregant el projecte…"
@@ -6498,7 +6499,7 @@ msgstr "Exporteu les dades de les guies"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1827 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1828 src/render/renderrequest.cpp:274
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5155
@@ -6565,7 +6566,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "En cas de dubte, intenteu:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1714
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1715
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -8997,8 +8998,8 @@ msgstr "Els filtres/transicions següents s'han suprimit del projecte:"
 msgid "Invalid file path"
 msgstr "Camí de fitxer no vàlid"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:805
-#: src/project/projectmanager.cpp:847
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:848
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "No s'ha pogut recuperar un fitxer corrupte."
@@ -9079,15 +9080,15 @@ msgstr ""
 "El fitxer del projecte s'ha actualitzat a l'última versió de document de "
 "Kdenlive, però no ha sigut possible crear la còpia de seguretat %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1399
-#: src/project/projectmanager.cpp:1435
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1436
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "S'ha produït un error en moure la carpeta del projecte: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2330
 #: src/project/dialogs/archivewidget.cpp:241
-#: src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:1656
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
@@ -10937,7 +10938,7 @@ msgstr "Mode d'inserció"
 #: src/mainwindow.cpp:1191
 #, kde-format
 msgid "Timeline Edit Mode"
-msgstr "Mode d'edició de la línia de temps"
+msgstr "Mode edició de la línia de temps"
 
 #: src/mainwindow.cpp:1193
 #, kde-kuit-format
@@ -11190,7 +11191,7 @@ msgstr "Multicàmera"
 #: src/mainwindow.cpp:1430
 #, kde-format
 msgid "Active tool and editing mode"
-msgstr "Eina activa i mode d'edició"
+msgstr "Eina activa i mode edició"
 
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
@@ -13136,7 +13137,7 @@ msgstr ""
 #: src/monitor/monitor.cpp:2522
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
-msgstr "Activa el mode d'edició al monitor per a editar un efecte"
+msgstr "Activa el mode edició al monitor per a editar un efecte"
 
 #: src/monitor/monitormanager.cpp:200
 #, kde-format
@@ -13214,14 +13215,13 @@ msgstr "Realitza una operació multipista"
 #: src/monitor/monitormanager.cpp:570
 #, kde-format
 msgid "Show/Hide edit mode"
-msgstr "Mostra o oculta el mode d'edició"
+msgstr "Mostra o oculta el mode edició"
 
 #: src/monitor/monitormanager.cpp:571
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
-msgstr ""
-"Canvia el mode d'edició (i la visualització de les anses dels objectes)."
+msgstr "Canvia el mode edició (i la visualització de les anses dels objectes)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
 #: src/monitor/monitormanager.cpp:577 src/ui/renderwidget_ui.ui:608
@@ -14972,7 +14972,7 @@ msgstr "Obri un fitxer de còpia de seguretat…"
 msgid "Save changes to document?"
 msgstr "Voleu guardar els canvis en el document?"
 
-#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1654
+#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1655
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15009,32 +15009,32 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Guarda una còpia"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:747
 #, kde-format
 msgid "Auto-saved file exist. Do you want to recover now?"
 msgstr "Existix un fitxer guardat automàticament. Voleu recuperar-lo ara?"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:747
 #, kde-format
 msgid "File Recovery"
 msgstr "Recuperació de fitxer"
 
-#: src/project/projectmanager.cpp:747 src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:748 src/project/projectmanager.cpp:836
 #, kde-format
 msgid "Recover"
 msgstr "Recupera"
 
-#: src/project/projectmanager.cpp:747
+#: src/project/projectmanager.cpp:748
 #, kde-format
 msgid "Do not recover"
 msgstr "No recuperes"
 
-#: src/project/projectmanager.cpp:799
+#: src/project/projectmanager.cpp:800
 #, kde-format
 msgid "Opening file %1"
 msgstr "S'està obrint el fitxer %1"
 
-#: src/project/projectmanager.cpp:834
+#: src/project/projectmanager.cpp:835
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15045,29 +15045,29 @@ msgstr ""
 "%1\n"
 "Voleu obrir un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:1029
+#: src/project/projectmanager.cpp:836 src/project/projectmanager.cpp:1030
 #, kde-format
 msgid "Error opening file"
 msgstr "S'ha produït un error en obrir el fitxer"
 
-#: src/project/projectmanager.cpp:835 src/project/projectmanager.cpp:1030
+#: src/project/projectmanager.cpp:836 src/project/projectmanager.cpp:1031
 #, kde-format
 msgid "Open Backup"
 msgstr "Obri una còpia de seguretat"
 
-#: src/project/projectmanager.cpp:851
+#: src/project/projectmanager.cpp:852
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "No s'ha pogut obrir el fitxer de còpia de seguretat del projecte."
 
-#: src/project/projectmanager.cpp:866
+#: src/project/projectmanager.cpp:867
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "El projecte s'ha actualitzat, es crearà una còpia de seguretat en el proper "
 "guardada"
 
-#: src/project/projectmanager.cpp:868
+#: src/project/projectmanager.cpp:869
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -15075,17 +15075,17 @@ msgstr ""
 "El projecte s'ha modificat en obrir-lo, es crearà una còpia de seguretat en "
 "el proper guardada"
 
-#: src/project/projectmanager.cpp:899
+#: src/project/projectmanager.cpp:900
 #, kde-format
 msgid "Loading timeline…"
 msgstr "S'està carregant la línia de temps…"
 
-#: src/project/projectmanager.cpp:917
+#: src/project/projectmanager.cpp:918
 #, kde-format
 msgid "Building sequences…"
 msgstr "S'estan construint les seqüències…"
 
-#: src/project/projectmanager.cpp:1056
+#: src/project/projectmanager.cpp:1057
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15094,7 +15094,7 @@ msgstr ""
 "No s'ha pogut obrir el fitxer de projecte. Error:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1096
+#: src/project/projectmanager.cpp:1097
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -15103,12 +15103,12 @@ msgstr ""
 "Suprimirà tots els canvis efectuats des de l'última vegada que es va guardar "
 "el projecte. Segur que voleu continuar?"
 
-#: src/project/projectmanager.cpp:1097
+#: src/project/projectmanager.cpp:1098
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Retorna a l'última versió guardada"
 
-#: src/project/projectmanager.cpp:1183
+#: src/project/projectmanager.cpp:1184
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -15118,25 +15118,25 @@ msgstr ""
 "torneu a obrir el fitxer de projecte per a recuperar l'última còpia de "
 "seguretat"
 
-#: src/project/projectmanager.cpp:1377
+#: src/project/projectmanager.cpp:1378
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "S'ha produït un error en moure la carpeta del projecte, no s'ha pogut "
 "accedir a la carpeta de memòria cau"
 
-#: src/project/projectmanager.cpp:1413
+#: src/project/projectmanager.cpp:1414
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movent la carpeta del projecte"
 
-#: src/project/projectmanager.cpp:1504 src/project/projectmanager.cpp:1562
-#: src/project/projectmanager.cpp:1566
+#: src/project/projectmanager.cpp:1505 src/project/projectmanager.cpp:1563
+#: src/project/projectmanager.cpp:1567
 #, kde-format
 msgid "Sequence 1"
 msgstr "Seqüència 1"
 
-#: src/project/projectmanager.cpp:1515
+#: src/project/projectmanager.cpp:1516
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15144,13 +15144,13 @@ msgstr ""
 "El fitxer del projecte està corromput: falla en carregar les pistes. Intente "
 "buscar un fitxer de còpia de seguretat?"
 
-#: src/project/projectmanager.cpp:1660 src/project/projectmanager.cpp:1665
-#: src/project/projectmanager.cpp:1675 src/project/projectmanager.cpp:1689
+#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1690
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "S'ha interromput el canvi del perfil del projecte"
 
-#: src/project/projectmanager.cpp:1812
+#: src/project/projectmanager.cpp:1813
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15159,12 +15159,12 @@ msgstr ""
 "El fitxer d'eixida %1 ja existix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/project/projectmanager.cpp:1837
+#: src/project/projectmanager.cpp:1838
 #, kde-format
 msgid "Project profile changed"
 msgstr "S'ha canviat el perfil del projecte"
 
-#: src/project/projectmanager.cpp:1898
+#: src/project/projectmanager.cpp:1899
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15173,18 +15173,18 @@ msgstr ""
 "No s'ha pogut crear una línia de temps a partir d'este clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1980
+#: src/project/projectmanager.cpp:1981
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Actualment, la importació d'un clip de seqüència està en estat experimental"
 
-#: src/project/projectmanager.cpp:2169
+#: src/project/projectmanager.cpp:2170
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccioneu un clip per a crear una seqüència"
 
-#: src/project/projectmanager.cpp:2207
+#: src/project/projectmanager.cpp:2208
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crea un clip de seqüència"
@@ -15409,16 +15409,14 @@ msgstr ""
 "activar l'entorn virtual de Python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "Conversió d'OpenTimelineIO"
+msgstr "Funcionalitat central d'OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "Conversió d'OpenTimelineIO"
+msgstr "Implementació d'OpenTimelineIO a Kdenlive"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -15436,7 +15434,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "OpenTimelineIO no ha trobat l'adaptador de Kdenlive."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
@@ -22649,10 +22647,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-#~ "Please install version >= 0.12\n"
-#~ msgstr ""
-#~ "El mòdul OpenTimelineIO no inclou l'adaptador de Kdenlive.\n"
-#~ "Instal·leu una versió >= 0.12\n"
