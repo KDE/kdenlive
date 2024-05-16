@@ -247,10 +247,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     if (target_clip >= count && m_playlists[target_playlist].is_blank_at(position)) {
         // In that case, we append after, in the first playlist
         return [this, position, clipId, end_function, finalMove, groupMove, target_playlist]() {
-            if (isLocked()) {
-                qWarning() << "clip insert failed - locked track";
-                return false;
-            }
             if (auto ptr = m_parent.lock()) {
                 // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                 std::unique_ptr<Mlt::Field> field(m_track->field());
@@ -275,7 +271,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         int blank_end = getBlankEnd(position, target_playlist);
         if (blank_end >= position + length) {
             return [this, position, clipId, end_function, target_playlist]() {
-                if (isLocked()) return false;
                 if (auto ptr = m_parent.lock()) {
                     // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                     std::unique_ptr<Mlt::Field> field(m_track->field());
@@ -298,10 +293,10 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
 }
 
 bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool newInsertion,
-                                      const QList<int> &allowedClipMixes)
+                                      const QList<int> &allowedClipMixes, bool bypassLock)
 {
     QWriteLocker locker(&m_lock);
-    if (isLocked()) {
+    if (!bypassLock && isLocked()) {
         qDebug() << "==== ERROR INSERT OK LOCKED TK";
         return false;
     }
@@ -414,7 +409,6 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     int old_in = clip_position;
     int old_out = old_in + m_allClips[clipId]->getPlaytime();
     return [clip_position, clipId, old_in, old_out, updateView, audioOnly, finalMove, groupMove, finalDeletion, this]() {
-        if (isLocked()) return false;
         if (finalDeletion && m_allClips[clipId]->selected) {
             m_allClips[clipId]->selected = false;
             if (auto ptr = m_parent.lock()) {
@@ -472,11 +466,11 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
 }
 
 bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion,
-                                     const QList<int> &allowedClipMixes)
+                                     const QList<int> &allowedClipMixes, bool bypassLock)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(clipId) > 0);
-    if (isLocked()) {
+    if (!bypassLock && isLocked()) {
         return false;
     }
     auto old_clip = m_allClips[clipId];
@@ -1854,6 +1848,9 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
 bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo,
                                 Fun &redo, bool groupMove)
 {
+    if (isLocked()) {
+        return false;
+    }
     QWriteLocker locker(&m_lock);
     // By default, insertion occurs in topmost track
     // Find out the clip id at position
