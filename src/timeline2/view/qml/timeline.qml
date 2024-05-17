@@ -1539,7 +1539,8 @@ Rectangle {
                             frame = Math.min(spacerMaxPos, frame)
                         }
                         finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping, true)[0]
-                        if (spacerGuides) {
+                        console.log('MOVING SPACE TO FRAME: ', finalSpacerFrame)
+                        if (spacerGuides && finalSpacerFrame > -1) {
                             timeline.spacerMoveGuides(selectedGuides, finalSpacerFrame - lastPos)
                         }
                         continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
@@ -1616,16 +1617,18 @@ Rectangle {
                     return
                 }
 
-                if (spacerGroup > -1 && finalSpacerFrame > -1) {
-                    var frame = controller.getItemPosition(spacerGroup)
-                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack, selectedGuides, spacerGuides ? spacerClickFrame : -1);
-                } else if (spacerGuides) {
-                    // Move back guides to original pos
-                    timeline.spacerMoveGuides(selectedGuides, spacerClickFrame - spacerFrame)
-                    timeline.moveGuidesInRange(spacerClickFrame, -1, spacerFrame - finalSpacerFrame)
+                if (finalSpacerFrame > -1) {
+                    if (spacerGroup > -1) {
+                        var frame = controller.getItemPosition(spacerGroup)
+                        timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack, selectedGuides, spacerGuides ? spacerClickFrame : -1);
+                    } else if (spacerGuides) {
+                        // Move back guides to original pos
+                        timeline.spacerMoveGuides(selectedGuides, spacerClickFrame - spacerFrame)
+                        timeline.moveGuidesInRange(spacerClickFrame, -1, spacerFrame - finalSpacerFrame)
+                    }
                 }
 
-                if (spacerGroup > -1 && finalSpacerFrame > -1 || spacerGuides) {
+                if (spacerGroup > -1 || spacerGuides) {
                     spacerClickFrame = -1
                     spacerFrame = -1
                     spacerGroup = -1

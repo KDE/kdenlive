@@ -2365,6 +2365,7 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     Q_ASSERT(all_items.size() > 1);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
+    qDebug() << "// RQSTING FAKE GROUP MOVE..";
 
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
     // This way, we ensure that no conflict will arise with clips inside the group being moved
@@ -2375,10 +2376,15 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     bool hasAudio = false;
     bool hasVideo = false;
     std::unordered_map<int, int> old_track_ids, old_position, old_forced_track;
+    std::unordered_set<int> locked_items;
     for (int item : all_items) {
         int old_trackId = getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
+            if (getTrackById_const(old_trackId)->isLocked()) {
+                locked_items.insert(item);
+                continue;
+            }
             if (isClip(item)) {
                 old_position[item] = m_allClips[item]->getPosition();
                 if (!hasAudio && getTrackById_const(old_trackId)->isAudioTrack()) {
@@ -2392,6 +2398,27 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
                 old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
             } else if (isSubTitle(item)) {
                 old_position[item] = getSubtitlePosition(item);
+            }
+        }
+    }
+    // Remove locked items from the operation
+    for (auto &d : locked_items) {
+        all_items.erase(d);
+    }
+    if (all_items.size() == 0) {
+    }
+    // Ensure our locked items are not grouped with a non locked item, else abort the move
+    for (auto &d : locked_items) {
+        int parentGroup = m_groups->getDirectAncestor(d);
+        if (isGroup(parentGroup)) {
+            auto child_items = m_groups->getLeaves(parentGroup);
+            for (auto &c : child_items) {
+                if (all_items.find(c) != all_items.end()) {
+                    // We are trying to move a locked item, abort
+                    int lockedTrack = getItemTrackId(d);
+                    Q_EMIT flashLock(lockedTrack);
+                    return false;
+                }
             }
         }
     }
