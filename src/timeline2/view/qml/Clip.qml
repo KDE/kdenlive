@@ -385,6 +385,7 @@ Rectangle {
                     timeline.showToolTip()
                 }
             }
+            timeline.showToolTip()
         }
         onWheel: wheel => zoomByWheel(wheel)
 
