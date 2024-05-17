@@ -1248,7 +1248,6 @@ Rectangle {
                             current: item === timeline.activeTrack
                             trackId: item
                             height: model.trackHeight
-                            onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             collapsed: height <= root.collapsedHeight
                             Component.onCompleted: {
                                 root.collapsedHeight = collapsedHeight
@@ -2287,6 +2286,7 @@ Rectangle {
             width: tracksContainerArea.width
             height: trackHeight
             isAudio: audio
+            isLocked: model.locked
             trackThumbsFormat: thumbsFormat
             trackInternalId: item
             effectZones: model.effectZones

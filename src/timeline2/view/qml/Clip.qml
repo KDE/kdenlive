@@ -1201,7 +1201,7 @@ Rectangle {
         states: [
             State {
                 name: 'locked'
-                when: isLocked
+                when: clipRoot.isLocked === true
                 PropertyChanges {
                     target: clipRoot
                     color: root.lockedColor
