@@ -2365,7 +2365,6 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     Q_ASSERT(all_items.size() > 1);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    qDebug() << "// RQSTING FAKE GROUP MOVE..";
 
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
     // This way, we ensure that no conflict will arise with clips inside the group being moved
@@ -2405,8 +2404,7 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     for (auto &d : locked_items) {
         all_items.erase(d);
     }
-    if (all_items.size() == 0) {
-    }
+
     // Ensure our locked items are not grouped with a non locked item, else abort the move
     for (auto &d : locked_items) {
         int parentGroup = m_groups->getDirectAncestor(d);
