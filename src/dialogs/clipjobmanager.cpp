@@ -44,12 +44,12 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     job_params->setToolTip(i18n("Arguments for the command line script"));
     job_params->setWhatsThis(
         xi18nc("@info:whatsthis",
-               "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> by the second, <b>{&#x25;3}</b> by the output file path."));
+               "<b>{source}</b> will be replaced by the Bin Clip source file path, <b>{param1}</b> will be replaced by the first parameter value, <b>{param2}</b> will be replaced by the first parameter value, <b>{output}</b> will be replaced by the output file name."));
     destination_pattern->setToolTip(i18n("File extension for the output file"));
     destination_pattern->setWhatsThis(
         xi18nc("@info:whatsthis",
                "The output file name will be the same as the source bin clip filename, with the modified extension. It will be appended at the end of the "
-               "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output filename already exists, a -0001 pattern will be appended."));
+               "arguments or inserted in place of <b>{output}</b> if found. If output filename already exists, a -0001 pattern will be appended."));
 
     param1_isfile->setToolTip(i18n("If selected, a file path will be requested on execution"));
     param1_islist->setToolTip(i18n("If selected, a dropdown list of values will be shown on execution"));
@@ -58,13 +58,13 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     param1_list->setToolTip(i18n("A newline separated list of possible values that will be offered on execution"));
     param1_list->setWhatsThis(
         xi18nc("@info:whatsthis",
-               "When the parameter is set to <b>Request Option in List</b> the user will be asked to choose a value in this list when the job is started."));
+               "When the parameter is set to <b>Request Option from List</b> the user will be asked to choose a value in this list when the job is started."));
 
     param2_isfile->setToolTip(i18n("If selected, a file path will be requested on execution"));
     param1_islist->setToolTip(i18n("If selected, a dropdown list of values will be shown on execution"));
     param2_list->setWhatsThis(
         xi18nc("@info:whatsthis",
-               "When the parameter is set to <b>Request Option in List</b> the user will be asked to choose a value in this list when the job is started."));
+               "When the parameter is set to <b>Request Option from List</b> the user will be asked to choose a value in this list when the job is started."));
 
     connect(job_list, &QListWidget::itemChanged, this, &ClipJobManager::updateName);
 

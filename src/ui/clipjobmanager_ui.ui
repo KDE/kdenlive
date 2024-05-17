@@ -77,7 +77,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="5" column="0" colspan="3">
        <widget class="KMessageWidget" name="info_message">
         <property name="text">
-         <string>In the arguments, the following options are available: &lt;ul&gt;&lt;li&gt;&lt;b&gt;{source}&lt;/b&gt; will be replaced by the Bin Clip source file path&lt;/li&gt;&lt;li&gt;&lt;b&gt;{output}&lt;/b&gt; will be replaced by the output file name&lt;/li&gt;&lt;li&gt;&lt;b&gt;{param1}&lt;/b&gt; will be replaced by the first parameter value&lt;/li&gt;&lt;li&gt;&lt;b&gt;{param2}&lt;/b&gt; will be replaced by the second parameter value&lt;/li&gt;&lt;/ul&gt;</string>
+         <string>In the arguments, the following options are available: &lt;ul&gt;&lt;li&gt;&lt;b&gt;{source}&lt;/b&gt; will be replaced by the Bin Clip source file path&lt;/li&gt;&lt;li&gt;&lt;b&gt;{param1}&lt;/b&gt; will be replaced by the first parameter value&lt;/li&gt;&lt;li&gt;&lt;b&gt;{param2}&lt;/b&gt; will be replaced by the second parameter value&lt;/li&gt;&lt;li&gt;&lt;b&gt;{output}&lt;/b&gt; will be replaced by the output file name&lt;/li&gt;&lt;/ul&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
