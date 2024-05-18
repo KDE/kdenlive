@@ -1,15 +1,15 @@
 # translation of kdenlive.pot to Esperanto
 # Copyright (C) 2023 Free Software Foundation, Inc.
 # This file is distributed under the same license as the kdenlive package.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-17 02:27+0000\n"
-"PO-Revision-Date: 2024-04-27 17:28+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-05-17 06:24+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr "Oliver Kellogg"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "okellogg@users.sourceforge.net"
+msgstr "olivermkellogg@gmail.com"
 
 #: data/effects/audiobalance.xml:4 data/effects/audiobalance.xml:9
 #: src/audiomixer/mixerwidget.cpp:141 src/audiomixer/mixerwidget.cpp:154
@@ -215,7 +215,7 @@ msgstr "Segmenta Interspaco"
 #: data/effects/audiolevelgraph.xml:59
 #, kde-format
 msgid "The space in pixels between the segments."
-msgstr "La spaco en pikseloj inter la segmentoj."
+msgstr "La spaco en rastrumeroj inter la segmentoj."
 
 #: data/effects/audiomap.xml:4 data/effects/audiomap.xml:5
 #, kde-format
@@ -1900,8 +1900,8 @@ msgid ""
 "Stretch the audio to fill the requested samples. This option will have no "
 "effect if the requested sample size is the same as the received sample size."
 msgstr ""
-"Streĉi la audio por plenigi la petitajn specimenojn. Ĉi tiu opcio ne havos "
-"efekton se la petita specimena grandeco estas la sama kiel la ricevita "
+"Streĉi la audio por plenigi la petitajn specimenojn. Ĉi tiu elekteblo ne "
+"havos efikon se la petita specimena grandeco estas la sama kiel la ricevita "
 "specimena grandeco."
 
 #: data/effects/rboctaveshift.xml:16 data/effects/rbpitchscale.xml:16
@@ -2121,8 +2121,9 @@ msgid ""
 "interpolated from the nearest pixels immediately outside of the specified "
 "area."
 msgstr ""
-"Anstataŭigi areon per interpolitaj pikseloj. La novaj pikselaj valoroj estas "
-"interpolitaj de la plej proksimaj pikseloj tuj ekster la specifita areo."
+"Anstataŭigi areon per interpolitaj rastrumeroj. La novaj rastrumeraj valoroj "
+"estas interpolitaj de la plej proksimaj rastrumeroj tuj ekster la specifita "
+"areo."
 
 #: data/effects/spot_remover.xml:9
 #, kde-format
@@ -2436,7 +2437,7 @@ msgstr "Maksimuma deĵoro"
 #: data/effects/vidstab.xml:29
 #, kde-format
 msgid "Max number of pixels to shift (-1 = no limit)"
-msgstr "Maksimuma nombro da pikseloj por ŝanĝi (-1 = neniu limo)"
+msgstr "Maksimuma nombro da rastrumeroj por ŝanĝi (-1 = neniu limo)"
 
 #: data/effects/vidstab.xml:32
 #, kde-format
@@ -4009,7 +4010,7 @@ msgstr "Defaŭlta Ŝlosilkadra Tipo"
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
-msgstr "Opcioj"
+msgstr "Elektebloj"
 
 #: src/assets/view/widgets/keyframewidget.cpp:207
 #, kde-kuit-format
@@ -4203,7 +4204,7 @@ msgstr "Montri kanalojn"
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
-msgstr "Ŝaltas la montradon de la sontrakaj kontroloj en la sonmiksilo."
+msgstr "Ŝaltas la montradon de la sontrakaj regiloj en la sonmiksilo."
 
 #: src/audiomixer/mixerwidget.cpp:299
 #, kde-format
@@ -5565,7 +5566,7 @@ msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
-"Bilda dimensio pli malgranda ol 8 pikseloj.\n"
+"Bilda dimensio pli malgranda ol 8 rastrumeroj.\n"
 "Tio ĉi ne estas ĝuste subtenata de nia videokadro."
 
 #: src/bin/projectclip.cpp:963
@@ -8846,9 +8847,9 @@ msgid ""
 msgstr ""
 "Kelkaj el viaj tekstaĵoj estis konservitaj kun grandeco en punktoj, kio "
 "signifas malsamajn grandecojn sur malsamaj ekranoj. Ĉu vi volas konverti "
-"ilin al piksela grandeco, igante ilin porteblaj? Oni rekomendas, ke vi faru "
-"ĉi tion sur la komputilo, sur kiu ili estis unue kreitaj, aŭ vi povus devi "
-"ĝustigi ilian grandecon."
+"ilin al rastrumera grandeco, igante ilin porteblaj? Oni rekomendas, ke vi "
+"faru ĉi tion sur la komputilo, sur kiu ili estis unue kreitaj, aŭ vi eble "
+"devus ĝustigi ilian grandecon."
 
 #: src/doc/documentvalidator.cpp:727
 #, kde-format
@@ -10351,7 +10352,7 @@ msgstr "Vincent Pinon"
 #: src/main.cpp:160
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
-msgstr "KF5-pordo, Vindoza kruckonstruo, pakado, cimo ripari"
+msgstr "KF5-pordo, Vindoza kruckonstruo, pakado, cimriparado"
 
 #: src/main.cpp:162
 #, kde-format
@@ -11421,7 +11422,7 @@ msgid ""
 msgstr ""
 "Klaku por komenci la bildigon de ĉiuj antaŭrigardaj zonoj (rekomendita por "
 "areoj kun kompleksaj kaj multaj efikoj).<nl/>Alklaku la malsupren-sago-"
-"piktogramon por akiri liston de opcioj (ekzemple: aldoni antaŭrigardan "
+"piktogramon por akiri liston de elektebloj (ekzemple: aldoni antaŭrigardan "
 "bildigan zonon, forigi ĉiujn zonojn) ."
 
 #: src/mainwindow.cpp:1713
@@ -12369,7 +12370,7 @@ msgstr "Forigi prokurilan dosieron"
 #: src/mltcontroller/clippropertiescontroller.cpp:489
 #, kde-format
 msgid "Proxy options"
-msgstr "Prokurila opcioj"
+msgstr "Prokurilaj elektebloj"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:494
 #, kde-format
@@ -12638,7 +12639,7 @@ msgstr "Videobitrapideco:"
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:271
 #, kde-format
 msgid "Pixel aspect ratio:"
-msgstr "Piksela bildformato:"
+msgstr "Rastrumera bildformato:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
@@ -12828,7 +12829,7 @@ msgstr "Antaŭen"
 #: src/monitor/monitor.cpp:401
 #, kde-format
 msgid "More Options…"
-msgstr "Pli da Opcioj…"
+msgstr "Pli da Elektebloj…"
 
 #: src/monitor/monitor.cpp:402
 #, kde-kuit-format
@@ -12837,7 +12838,7 @@ msgid ""
 "Opens the list of project/clip monitor options (e.g. audio volume, monitor "
 "size)."
 msgstr ""
-"Malfermas la liston de opcioj pri projekta/tondaĵa monitoro (ekz. sona "
+"Malfermas la liston de elektebloj pri projekta/tondaĵa monitoro (ekz. sona "
 "laŭteco, monitora grandeco)."
 
 #: src/monitor/monitor.cpp:411
@@ -14096,12 +14097,12 @@ msgstr "Reasigni la markilojn al:"
 #: src/project/dialogs/guideslist.cpp:85
 #, kde-format
 msgid "Import..."
-msgstr "Importi..."
+msgstr "Enporti..."
 
 #: src/project/dialogs/guideslist.cpp:88
 #, kde-format
 msgid "Export..."
-msgstr "Eksporti..."
+msgstr "Elporti..."
 
 #: src/project/dialogs/guideslist.cpp:91
 #, kde-format
@@ -15074,7 +15075,7 @@ msgstr "%1 estas agordita:<br> %2"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
 #, kde-format
 msgid "Check for update"
-msgstr "Kontroli por ĝisdatigo"
+msgstr "Kontroli pri ĝisdatigo"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
@@ -15248,16 +15249,14 @@ msgstr ""
 "virtualmedion."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "OpenTimelineIO konvertiĝo"
+msgstr "OpenTimelineIO-kernfunkcieco"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "OpenTimelineIO konvertiĝo"
+msgstr "OpenTimelineIO subteno de Kdenlive"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -15267,10 +15266,10 @@ msgid ""
 "Please check the otio scripts are installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Ne eblis trovi \"otioconvert\" skripton kvankam ĝi estas instalita per "
+"Ne eblis trovi skripton \"otioconvert\" kvankam ĝi estas instalita per "
 "pip3.\n"
-"Bonvolu kontroli, ke otio-skriptoj estas instalitaj en dosierujo listigita "
-"en PATH-mediovariablo."
+"Bonvolu kontroli, ke la otio-skriptoj estas instalitaj en dosierujo "
+"listigita en PATH-mediovariablo."
 
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
@@ -16090,7 +16089,7 @@ msgstr "Eksporti fonon"
 #: src/scopes/colorscopes/vectorscope.cpp:77
 #, kde-format
 msgid "Drawing options"
-msgstr "Opcioj de desegno"
+msgstr "Elektebloj de desegno"
 
 #: src/scopes/colorscopes/vectorscope.cpp:79
 #, kde-format
@@ -17595,7 +17594,7 @@ msgid ""
 msgstr ""
 "Kelkaj el viaj tekstaĵoj estis konservitaj kun grandeco en punktoj, kio "
 "signifas malsamajn grandecojn sur malsamaj ekranoj. Ili estos konvertitaj al "
-"piksela grandeco, igante ilin porteblaj, sed vi povus devi ĝustigi ilian "
+"rastrumera grandeco, igante ilin porteblaj, sed vi povus devi ĝustigi ilian "
 "grandecon."
 
 #: src/titler/titledocument.cpp:460
@@ -17995,8 +17994,8 @@ msgid ""
 "Control character. Cannot be inserted/printed. See <a href=\"https://en."
 "wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr ""
-"Kontrola signo. Ne povas esti enmetita/presita. Vidu <a href=\"https://en."
-"wikipedia.org/wiki/Control_character\">Vikipedio:Kontrol_character</a>"
+"Stirsigno. Ne povas esti enmetita/presita. Vidu <a href=\"https://en."
+"wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 
 #: src/titler/unicodedialog.cpp:147
 #, kde-format
@@ -18013,7 +18012,7 @@ msgstr "Norma spaca signo. (Aliaj spacsignoj: U+00a0, U+2000–200b, U+202f)"
 #: src/titler/unicodedialog.cpp:151
 #, kde-format
 msgid "No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020."
-msgstr "Senrompa spaco. &nbsp; en HTML. Vidu U+2009 kaj U+0020."
+msgstr "Senrompa spaco. &amp;nbsp; en HTML. Vidu U+2009 kaj U+0020."
 
 #: src/titler/unicodedialog.cpp:154
 #, kde-format
@@ -18630,7 +18629,7 @@ msgstr "Parametro 1 {param1}"
 #: src/ui/clipjobmanager_ui.ui:102 src/ui/clipjobmanager_ui.ui:178
 #, kde-format
 msgid "List of options"
-msgstr "Listo de opcioj"
+msgstr "Listo de elektebloj"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
@@ -20107,7 +20106,7 @@ msgstr "Montra Bildformato:"
 #: src/ui/editrenderpreset_ui.ui:257
 #, kde-format
 msgid "Pixel Aspect Ratio:"
-msgstr "Piksela Bildformato:"
+msgstr "Rastrumera Bildformato:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
@@ -20184,7 +20183,7 @@ msgstr "Bitrapideco:"
 #: src/ui/editrenderpreset_ui.ui:720 src/ui/editrenderpreset_ui.ui:958
 #, kde-format
 msgid "Rate Control:"
-msgstr "Kontrolo de imposto:"
+msgstr "Rego de Ofteco:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cResolution)
 #: src/ui/editrenderpreset_ui.ui:746
@@ -20299,8 +20298,8 @@ msgstr "Rapidebloj:"
 #, kde-format
 msgid "One line of options per speedup step, from slowest to fastest"
 msgstr ""
-"Unu vico da opcioj por plirapidiga paŝo, de la plej malrapida ĝis la plej "
-"rapida"
+"Unu vico da elektebloj por plirapidiga paŝo, de la plej malrapida ĝis la "
+"plej rapida"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/editrenderpreset_ui.ui:1036
@@ -20425,7 +20424,7 @@ msgstr "Formatita ĉapitro markilo teksto estos generita ĉi tie."
 #: src/ui/exportguidesdialog_ui.ui:44
 #, kde-format
 msgid "Text Options"
-msgstr "Tekstaj Opcioj"
+msgstr "Tekstaj Elektebloj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_offset)
@@ -21115,7 +21114,7 @@ msgstr "Prokurilaj aŭdvidaĵoj"
 #: src/ui/projectsettings_ui.ui:447 src/ui/projectsettings_ui.ui:463
 #, kde-format
 msgid "pixels"
-msgstr "pikseloj"
+msgstr "Rastrumeroj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/projectsettings_ui.ui:433
@@ -22304,7 +22303,7 @@ msgstr "Normala skalo"
 #: src/widgets/dragvalue.cpp:116
 #, kde-format
 msgid "Pixel scale"
-msgstr "Piksela skalo"
+msgstr "Rastrumera skalo"
 
 #: src/widgets/dragvalue.cpp:117
 #, kde-format
@@ -22429,10 +22428,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-#~ "Please install version >= 0.12\n"
-#~ msgstr ""
-#~ "Via OpenTimelineIO-modulo ne inkluzivas Kdenlive-adaptilon.\n"
-#~ "Bonvolu instali version >= 0.12\n"

@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-17 02:27+0000\n"
-"PO-Revision-Date: 2024-04-27 10:36+0200\n"
+"PO-Revision-Date: 2024-05-17 21:21+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -15344,16 +15344,14 @@ msgstr ""
 "python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "Conversión de OpenTimelineIO"
+msgstr "Funcionalidade principal de OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "Conversión de OpenTimelineIO"
+msgstr "Compatibilidade con Kdenlive de OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -15371,7 +15369,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "OpenTimelineIO non atopou o adaptador de Kdenlive."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
