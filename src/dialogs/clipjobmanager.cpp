@@ -44,7 +44,7 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     job_params->setToolTip(i18n("Arguments for the command line script"));
     job_params->setWhatsThis(
         xi18nc("@info:whatsthis",
-               "<b>{source}</b> will be replaced by the Bin Clip source file path, <b>{param1}</b> will be replaced by the first parameter value, <b>{param2}</b> will be replaced by the first parameter value, <b>{output}</b> will be replaced by the output file name."));
+               "<b>{source}</b> will be replaced by the Bin Clip source file path, <b>{param1}</b> will be replaced by the first parameter value, <b>{param2}</b> will be replaced by the second parameter value, <b>{output}</b> will be replaced by the output file name."));
     destination_pattern->setToolTip(i18n("File extension for the output file"));
     destination_pattern->setWhatsThis(
         xi18nc("@info:whatsthis",
