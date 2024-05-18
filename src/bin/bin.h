@@ -454,8 +454,6 @@ private Q_SLOTS:
 public Q_SLOTS:
 
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
-    /** @brief Reload clip thumbnail - when frame for thumbnail changed */
-    void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint modifiers);
     void slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip);
