@@ -9,14 +9,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
 #endif
+#include "definitions.h"
 #include "dialogs/splash.hpp"
+#include "kcoreaddons_version.h"
+#include "kdenlive_debug.h"
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "render/renderrequest.h"
 #include <config-kdenlive.h>
+#include <project/projectmanager.h>
 
 #include <mlt++/Mlt.h>
 
-#include "kcoreaddons_version.h"
-#include "mainwindow.h"
-#include <project/projectmanager.h>
+#include <kiconthemes_version.h>
 
 #include <KAboutData>
 #include <KConfigGroup>
@@ -27,16 +32,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 #include <KIconLoader>
+#include <KIconTheme>
+#include <KNotification>
 #include <KSandbox>
 #include <KSharedConfig>
 
-#include "definitions.h"
-#include "kdenlive_debug.h"
 #ifndef NODBUS
 #include <KDBusService>
 #endif
-#include <KIconTheme>
 #include <KLocalizedString>
+
+#define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
+#if HAVE_STYLE_MANAGER
+#include <KStyleManager>
+#endif
+
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -48,15 +58,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QQuickWindow>
 #include <QResource>
 #include <QSplashScreen>
-#include <QUrl> //new
-#include <kiconthemes_version.h>
-
-#include "render/renderrequest.h"
-
 #include <QUndoGroup>
-
-#include "kdenlivesettings.h"
-#include <KNotification>
+#include <QUrl> //new
 
 #ifdef Q_OS_WIN
 extern "C" {
@@ -258,12 +261,22 @@ int main(int argc, char *argv[])
     // TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
+// trigger initialisation of proper icon theme
+#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(6, 3, 0)
+    KIconTheme::initTheme();
+#endif
+
     QApplication app(argc, argv);
 
     // Default to org.kde.desktop style unless the user forces another style
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     }
+
+#if HAVE_STYLE_MANAGER
+    // trigger initialisation of proper application style
+    KStyleManager::initStyle();
+#endif
 
     // Try to detect package type
     LinuxPackageType packageType = getPackageType();
@@ -525,10 +538,13 @@ int main(int argc, char *argv[])
     // Init DBus services
     KDBusService programDBusService;
 #endif
+
+#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze || packageType == LinuxPackageType::AppImage) {
         QIcon::setThemeName(QStringLiteral("breeze"));
     }
+#endif
     qApp->processEvents(QEventLoop::AllEvents);
 
 #if defined(KF5_USE_CRASH)

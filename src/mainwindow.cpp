@@ -75,6 +75,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "knewstuff_version.h"
 #include "kwidgetsaddons_version.h"
+#include <kiconthemes_version.h>
+
 #include "utils/KMessageBox_KdenliveCompat.h"
 #include <KAboutData>
 #include <KActionCollection>
@@ -500,11 +502,13 @@ void MainWindow::init(const QString &mltPath)
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
     addAction(QStringLiteral("styles_menu"), stylesAction);
 
+#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
     QAction *iconAction = new QAction(i18n("Force Breeze Icon Theme"), this);
     iconAction->setCheckable(true);
     iconAction->setChecked(KdenliveSettings::force_breeze());
     addAction(QStringLiteral("force_icon_theme"), iconAction);
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
+#endif
 
     m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
     m_mixerDock->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the audio mixer panel/widget."));
@@ -4511,6 +4515,7 @@ void MainWindow::showMenuBar(bool show)
 
 void MainWindow::forceIconSet(bool force)
 {
+#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
     KdenliveSettings::setForce_breeze(force);
     if (force) {
         // Check current color theme
@@ -4522,6 +4527,7 @@ void MainWindow::forceIconSet(bool force)
         KMessageBox::Continue) {
         slotRestart();
     }
+#endif
 }
 
 TimelineWidget *MainWindow::getCurrentTimeline() const
