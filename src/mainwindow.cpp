@@ -42,6 +42,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
+#include "filefilter.h"
 #include "lib/localeHandling.h"
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
@@ -66,13 +67,17 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "transitions/transitionsrepository.hpp"
 #include "utils/thememanager.h"
 #include "widgets/progressbutton.h"
-#include "filefilter.h"
 #include <config-kdenlive.h>
 
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogmanager.h"
 #endif
 
+// KStyleManager exists since QT_VERSION_CHECK(6, 3, 0)
+#define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
+#if HAVE_STYLE_MANAGER
+#include <KStyleManager>
+#endif
 #include "knewstuff_version.h"
 #include "kwidgetsaddons_version.h"
 #include <kiconthemes_version.h>
@@ -131,6 +136,7 @@ QMap<QString, QStringList> MainWindow::m_lumaFiles;
     return a.first < b.first;
 }*/
 
+#if !HAVE_STYLE_MANAGER
 // determine the default KDE style as defined BY THE USER
 // (as opposed to whatever style KDE considers default)
 static QString defaultStyle(const char *fallback = nullptr)
@@ -139,6 +145,7 @@ static QString defaultStyle(const char *fallback = nullptr)
     KConfigGroup cg(kdeGlobals, "KDE");
     return cg.readEntry("widgetStyle", fallback);
 }
+#endif
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
@@ -167,6 +174,7 @@ void MainWindow::init(const QString &mltPath)
     connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged);
     Q_EMIT pCore->updatePalette();
 
+#if !HAVE_STYLE_MANAGER
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
         doChangeStyle();
@@ -221,6 +229,8 @@ void MainWindow::init(const QString &mltPath)
         stylesAction->addAction(a);
     }
     connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
+#endif
+
     // QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
 #ifdef NODBUS
     new RenderServer(this);
@@ -500,7 +510,24 @@ void MainWindow::init(const QString &mltPath)
 
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
+
+#if HAVE_STYLE_MANAGER
+    QStringList stylesToHide = {
+        QStringLiteral("windowsvista"), // recoloring does not work well
+        QStringLiteral("Windows"),
+        // QStringLiteral("macintosh")
+    };
+
+    QAction *stylesAction = KStyleManager::createConfigureAction(this);
+    for (QAction *child : stylesAction->menu()->actions()) {
+        if (stylesToHide.contains(child->data().toString(), Qt::CaseInsensitive)) {
+            child->setVisible(false);
+        }
+    }
     addAction(QStringLiteral("styles_menu"), stylesAction);
+#else
+    addAction(QStringLiteral("styles_menu"), stylesAction);
+#endif
 
 #if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
     QAction *iconAction = new QAction(i18n("Force Breeze Icon Theme"), this);
@@ -4342,11 +4369,13 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
 
 void MainWindow::slotChangeStyle(QAction *a)
 {
+#if !HAVE_STYLE_MANAGER
     QString style = a->data().toString();
     KdenliveSettings::setWidgetstyle(style);
     doChangeStyle();
     // Monitor refresh is necessary
     raiseMonitor(pCore->monitorManager()->isActive(Kdenlive::ClipMonitor));
+#endif
 }
 
 void MainWindow::raiseMonitor(bool clipMonitor)
@@ -4360,6 +4389,7 @@ void MainWindow::raiseMonitor(bool clipMonitor)
     }
 }
 
+#if !HAVE_STYLE_MANAGER
 void MainWindow::doChangeStyle()
 {
     QString newStyle = KdenliveSettings::widgetstyle();
@@ -4368,6 +4398,7 @@ void MainWindow::doChangeStyle()
     }
     QApplication::setStyle(QStyleFactory::create(newStyle));
 }
+#endif
 
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 {

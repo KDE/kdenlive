@@ -39,6 +39,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "statusbarmessagelabel.h"
 #include "utils/gentime.h"
 
+#define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
+
 class AssetPanel;
 class AudioGraphSpectrum;
 class EffectBasket;
@@ -338,8 +340,10 @@ private:
     bool m_themeInitialized{false};
     bool m_isDarkTheme{false};
     EffectBasket *m_effectBasket;
+#if !HAVE_STYLE_MANAGER
     /** @brief Update widget style. */
     void doChangeStyle();
+#endif
 
     QProgressDialog *m_loadingDialog;
 
