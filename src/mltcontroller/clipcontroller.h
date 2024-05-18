@@ -79,6 +79,7 @@ public:
     virtual std::unique_ptr<Mlt::Producer> getThumbProducer() = 0;
 
     virtual void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) = 0;
+    virtual void setThumbFrame(int frame) = 0;
 
     /** @brief Rename an audio stream. */
     virtual void renameAudioStream(int id, const QString &name) = 0;

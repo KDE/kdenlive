@@ -95,7 +95,7 @@ public:
     ~ProjectClip() override;
 
     void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) override;
-
+    void setThumbFrame(int frame) override;
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     // virtual void hash() = 0;
 

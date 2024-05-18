@@ -2743,6 +2743,17 @@ int ProjectClip::getThumbFrame() const
     return qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
 }
 
+void ProjectClip::setThumbFrame(int frame)
+{
+    if (clipType() == ClipType::Timeline) {
+        resetSequenceThumbnails();
+        pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame"), frame);
+    } else {
+        setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), frame);
+    }
+    ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
+}
+
 void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
 {
     // extract a maximum of 30 frames for bin preview

@@ -1228,13 +1228,12 @@ void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
 void Monitor::slotSetThumbFrame()
 {
     pCore->setDocumentModified();
-    if (m_controller == nullptr || m_controller->clipType() == ClipType::Timeline) {
+    if (m_controller == nullptr) {
         // This is a sequence thumbnail
         pCore->bin()->setSequenceThumbnail(pCore->currentTimelineId(), m_glMonitor->getCurrentPos());
         return;
     }
-    m_controller->setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), m_glMonitor->getCurrentPos());
-    Q_EMIT refreshClipThumbnail(m_controller->AbstractProjectItem::clipId());
+    m_controller->setThumbFrame(m_glMonitor->getCurrentPos());
 }
 
 void Monitor::slotExtractCurrentZone()

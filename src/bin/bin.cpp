@@ -4912,15 +4912,6 @@ void Bin::slotQueryRemoval(const QString &id, const QString &url, const QString 
     m_invalidClipDialog = nullptr;
 }
 
-void Bin::slotRefreshClipThumbnail(const QString &id)
-{
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-    if (!clip) {
-        return;
-    }
-    ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, id.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
-}
-
 void Bin::slotAddClipExtraData(const QString &id, const QString &key, const QString &clipData)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
@@ -6046,9 +6037,7 @@ void Bin::setSequenceThumbnail(const QUuid &uuid, int frame)
     if (!bid.isEmpty()) {
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bid);
         if (sequenceClip) {
-            sequenceClip->resetSequenceThumbnails();
-            m_doc->setSequenceProperty(uuid, QStringLiteral("thumbnailFrame"), frame);
-            ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, bid.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
+            sequenceClip->setThumbFrame(frame);
         }
     }
 }

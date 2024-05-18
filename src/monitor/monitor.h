@@ -367,7 +367,6 @@ Q_SIGNALS:
     void seekRemap(int pos);
     void updateScene();
     void durationChanged(int);
-    void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint &);
     void zoneUpdatedWithUndo(const QPoint &, const QPoint &);
     void effectChanged(const QRect &);
