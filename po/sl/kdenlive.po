@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-17 00:38+0000\n"
+"POT-Creation-Date: 2024-05-18 00:38+0000\n"
 "PO-Revision-Date: 2024-05-16 09:43+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -5531,7 +5531,7 @@ msgid "Cut clip"
 msgstr "Odreži posnetek"
 
 #: src/bin/model/subtitlemodel.cpp:826 src/bin/model/subtitlemodel.cpp:1589
-#: src/timeline2/model/timelinemodel.cpp:3879
+#: src/timeline2/model/timelinemodel.cpp:3904
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Spremeni velikost podnaslova"
@@ -5581,7 +5581,7 @@ msgstr "Podnaslov %1"
 msgid "Timeline sequence"
 msgstr "Zaporedje časovnice"
 
-#: src/bin/projectclip.cpp:578 src/timeline2/view/qml/Clip.qml:1096
+#: src/bin/projectclip.cpp:578 src/timeline2/view/qml/Clip.qml:1097
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -6140,14 +6140,25 @@ msgid "Arguments for the command line script"
 msgstr "Argumenti za skript ukazne vrstice"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "In the arguments, the following options are available: <ul><li><b>{source}"
+#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
+#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
+#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
+#| "will be replaced by the second parameter value</li></ul>"
 msgctxt "@info:whatsthis"
 msgid ""
-"<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
-"by the second, <b>{&#x25;3}</b> by the output file path."
+"<b>{source}</b> will be replaced by the Bin Clip source file path, "
+"<b>{param1}</b> will be replaced by the first parameter value, <b>{param2}</"
+"b> will be replaced by the first parameter value, <b>{output}</b> will be "
+"replaced by the output file name."
 msgstr ""
-"<b>{&#x25;1}</b> se nadomesti s prvim parametrom, <b>{&#x25;2}</b> z drugim, "
-"<b>{&#x25;3}</b> s potjo do izhodne datoteke."
+"V argumentih so na voljo naslednje možnosti: <ul><li><b>{source}</b> se "
+"nadomesti s potjo do datoteke izvornega posnetka iz koša</li><li><b>{output}"
+"</b> se nadomesti z imenom izhodne datoteke</li><li><b>{param1}</b> se "
+"nadomesti z vrednostjo prvega parametra</li><li><b>{param2}</b> se nadomesti "
+"z vrednostjo drugega parametra</li></ul>"
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6155,12 +6166,18 @@ msgid "File extension for the output file"
 msgstr "Pripona izhodne datoteke"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "The output file name will be the same as the source bin clip filename, "
+#| "with the modified extension. It will be appended at the end of the "
+#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
+#| "filename already exists, a -0001 pattern will be appended."
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
 "the modified extension. It will be appended at the end of the arguments or "
-"inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
+"inserted in place of <b>{output}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
 "Ime izhodne datoteke bo enako imenu datoteke posnetka izvornega koša s "
@@ -6196,11 +6213,15 @@ msgstr ""
 "vrstice"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "When the parameter is set to <b>Request Option in List</b> the user will "
+#| "be asked to choose a value in this list when the job is started."
 msgctxt "@info:whatsthis"
 msgid ""
-"When the parameter is set to <b>Request Option in List</b> the user will be "
-"asked to choose a value in this list when the job is started."
+"When the parameter is set to <b>Request Option from List</b> the user will "
+"be asked to choose a value in this list when the job is started."
 msgstr ""
 "Če je parameter nastavljen na možnost <b>Zahtevaj možnost s seznama</b>, bo "
 "uporabnik ob zagonu opravila pozvan, da izbere vrednost s tega seznama."
@@ -9330,7 +9351,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Učinka %1 ni možno dodati dvakrat."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:537
-#: src/timeline2/model/timelinemodel.cpp:4992
+#: src/timeline2/model/timelinemodel.cpp:5017
 #, kde-format
 msgid "Add effect %1"
 msgstr "Dodaj učinek %1"
@@ -16671,7 +16692,7 @@ msgid "Delete clips on track"
 msgstr "Izbriši posnetke s steze"
 
 #: src/timeline2/model/timelineitemmodel.cpp:137
-#: src/timeline2/model/timelinemodel.cpp:4573
+#: src/timeline2/model/timelinemodel.cpp:4598
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16800,58 +16821,58 @@ msgid "Delete Composition"
 msgstr "Izbriši sestavo"
 
 #: src/timeline2/model/timelinemodel.cpp:2347
-#: src/timeline2/model/timelinemodel.cpp:2599
+#: src/timeline2/model/timelinemodel.cpp:2624
 #: src/timeline2/view/timelinecontroller.cpp:4316
 #, kde-format
 msgid "Move group"
 msgstr "Premakni skupino"
 
-#: src/timeline2/model/timelinemodel.cpp:3291
+#: src/timeline2/model/timelinemodel.cpp:3316
 #, kde-format
 msgid "Resize group"
 msgstr "Spremeni velikost skupine"
 
-#: src/timeline2/model/timelinemodel.cpp:3415
+#: src/timeline2/model/timelinemodel.cpp:3440
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:3574
+#: src/timeline2/model/timelinemodel.cpp:3599
 #, kde-format
 msgid "Remove mix"
 msgstr "Odstrani mešanico"
 
-#: src/timeline2/model/timelinemodel.cpp:3576
+#: src/timeline2/model/timelinemodel.cpp:3601
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Odstranjevanje mešanice ni uspelo"
 
-#: src/timeline2/model/timelinemodel.cpp:3875
+#: src/timeline2/model/timelinemodel.cpp:3900
 #, kde-format
 msgid "Resize clip"
 msgstr "Spremeni velikost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:3877
+#: src/timeline2/model/timelinemodel.cpp:3902
 #, kde-format
 msgid "Resize composition"
 msgstr "Spremeni velikost sestave"
 
-#: src/timeline2/model/timelinemodel.cpp:4199
+#: src/timeline2/model/timelinemodel.cpp:4224
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Spremeni velikost posnetka z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4201
+#: src/timeline2/model/timelinemodel.cpp:4226
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Spremeni velikost sestave z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4203
+#: src/timeline2/model/timelinemodel.cpp:4228
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Spremeni velikost podnaslova z izrivanjem"
 
-#: src/timeline2/model/timelinemodel.cpp:4346
+#: src/timeline2/model/timelinemodel.cpp:4371
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16861,136 +16882,136 @@ msgstr[1] "Podrsaj posnetek"
 msgstr[2] "Podrsaj posnetka"
 msgstr[3] "Podrsaj posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4381
+#: src/timeline2/model/timelinemodel.cpp:4406
 #, kde-format
 msgid "Slip clip"
 msgstr "Podrsaj posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4416
+#: src/timeline2/model/timelinemodel.cpp:4441
 #, kde-format
 msgid "Group clips"
 msgstr "Združi posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4501
-#: src/timeline2/model/timelinemodel.cpp:4517
+#: src/timeline2/model/timelinemodel.cpp:4526
+#: src/timeline2/model/timelinemodel.cpp:4542
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Razdruži posnetke"
 
-#: src/timeline2/model/timelinemodel.cpp:4682
+#: src/timeline2/model/timelinemodel.cpp:4707
 #: src/timeline2/view/timelinecontroller.cpp:945
 #, kde-format
 msgid "Delete Track"
 msgstr "Izbriši stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:4692
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Zadnje steze na časovnici ni možno izbrisati"
 
-#: src/timeline2/model/timelinemodel.cpp:4917
+#: src/timeline2/model/timelinemodel.cpp:4942
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Učinka %1 ni možno dodati na glavno stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:4924
+#: src/timeline2/model/timelinemodel.cpp:4949
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Učinka %1 ni možno dodati na izbrano stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:4945
+#: src/timeline2/model/timelinemodel.cpp:4970
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Ni možno prilepiti učinka na glavno stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:4951
+#: src/timeline2/model/timelinemodel.cpp:4976
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Ni možno prilepiti učinka na izbrano stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:4995
+#: src/timeline2/model/timelinemodel.cpp:5020
 #: src/timeline2/view/timelinecontroller.cpp:1523
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Izbranemu posnetku ni možno dodati slikovnega učinka %1"
 
-#: src/timeline2/model/timelinemodel.cpp:5019
+#: src/timeline2/model/timelinemodel.cpp:5044
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Prilagodi pojemanje"
 
-#: src/timeline2/model/timelinemodel.cpp:5331
+#: src/timeline2/model/timelinemodel.cpp:5356
 #, kde-format
 msgid "Insert Composition"
 msgstr "Vstavi sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:5534
+#: src/timeline2/model/timelinemodel.cpp:5559
 #, kde-format
 msgid "Move composition"
 msgstr "Prenesi sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6190
+#: src/timeline2/model/timelinemodel.cpp:6215
 #, kde-format
 msgid "Enable time remap"
 msgstr "Omogoči časovno preslikavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6264
+#: src/timeline2/model/timelinemodel.cpp:6289
 #, kde-format
 msgid "Change speed failed"
 msgstr "Sprememba hitrosti ni uspela"
 
-#: src/timeline2/model/timelinemodel.cpp:6274
+#: src/timeline2/model/timelinemodel.cpp:6299
 #, kde-format
 msgid "Change clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:6703
+#: src/timeline2/model/timelinemodel.cpp:6728
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Zakleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:6708
+#: src/timeline2/model/timelinemodel.cpp:6733
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Odkleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:6742
-#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/model/timelinemodel.cpp:6767
+#: src/timeline2/model/timelinemodel.cpp:6829
 #, kde-format
 msgid "Change composition"
 msgstr "Spremeni sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6756
+#: src/timeline2/model/timelinemodel.cpp:6781
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ni možno delovati na skupinski sestavi, najprej jo razdružite"
 
-#: src/timeline2/model/timelinemodel.cpp:6951
-#: src/timeline2/model/timelinemodel.cpp:6988
-#: src/timeline2/model/timelinemodel.cpp:7021
-#: src/timeline2/model/timelinemodel.cpp:7102
+#: src/timeline2/model/timelinemodel.cpp:6976
+#: src/timeline2/model/timelinemodel.cpp:7013
+#: src/timeline2/model/timelinemodel.cpp:7046
+#: src/timeline2/model/timelinemodel.cpp:7127
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka za manj kot 1 sličico"
 
-#: src/timeline2/model/timelinemodel.cpp:6962
-#: src/timeline2/model/timelinemodel.cpp:6996
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7126
+#: src/timeline2/model/timelinemodel.cpp:6987
+#: src/timeline2/model/timelinemodel.cpp:7021
+#: src/timeline2/model/timelinemodel.cpp:7065
+#: src/timeline2/model/timelinemodel.cpp:7151
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7140
+#: src/timeline2/model/timelinemodel.cpp:7165
 #, kde-format
 msgid "Resize mix"
 msgstr "Spremeni dolžino mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7260
+#: src/timeline2/model/timelinemodel.cpp:7285
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Napaka pri inicializiranju predogleda časovnice"
@@ -17093,7 +17114,7 @@ msgid "Stop"
 msgstr "Ustavi"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2120
+#: src/timeline2/view/qml/timeline.qml:2122
 #, kde-format
 msgid "Paused"
 msgstr "Prekinjeno"
@@ -17103,7 +17124,7 @@ msgstr "Prekinjeno"
 msgid "Mic level"
 msgstr "Raven mikrofona"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:870
+#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:871
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Pozicija: %4, Trajanje: %5"
@@ -17115,32 +17136,32 @@ msgstr "%1 (%2-%3), Pozicija: %4, Trajanje: %5"
 msgid "Position: %1"
 msgstr "Položaj:%1"
 
-#: src/timeline2/view/qml/Clip.qml:478
+#: src/timeline2/view/qml/Clip.qml:479
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Trajanje mešanja: %1, Izreži na: %2"
 
-#: src/timeline2/view/qml/Clip.qml:539
+#: src/timeline2/view/qml/Clip.qml:540
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Trajanje mešanja: %2"
 
-#: src/timeline2/view/qml/Clip.qml:541
+#: src/timeline2/view/qml/Clip.qml:542
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Trajanje mešanja: %2"
 
-#: src/timeline2/view/qml/Clip.qml:544 src/timeline2/view/qml/Clip.qml:557
+#: src/timeline2/view/qml/Clip.qml:545 src/timeline2/view/qml/Clip.qml:558
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Trajanje mešanja: %1"
 
-#: src/timeline2/view/qml/Clip.qml:733
+#: src/timeline2/view/qml/Clip.qml:734
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "V:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Clip.qml:736 src/timeline2/view/qml/Clip.qml:860
+#: src/timeline2/view/qml/Clip.qml:737 src/timeline2/view/qml/Clip.qml:861
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -17149,54 +17170,54 @@ msgstr ""
 "<b>Krmilka in povlek</b> za spremembo hitrosti, <b>dvojni klik</b> za "
 "mešanje s sosednjim posnetkom"
 
-#: src/timeline2/view/qml/Clip.qml:738
+#: src/timeline2/view/qml/Clip.qml:739
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Povlecite</b> za spremembo trajanja zmešanega zvoka"
 
-#: src/timeline2/view/qml/Clip.qml:857
+#: src/timeline2/view/qml/Clip.qml:858
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "V:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1002
+#: src/timeline2/view/qml/Clip.qml:1003
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Zamik: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1002
+#: src/timeline2/view/qml/Clip.qml:1003
 #, kde-format
 msgid "Offset: %1"
 msgstr "Zamik: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1003
+#: src/timeline2/view/qml/Clip.qml:1004
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Kliknite</b> za poravnanje posnetkov"
 
-#: src/timeline2/view/qml/Clip.qml:1247 src/timeline2/view/qml/Clip.qml:1284
+#: src/timeline2/view/qml/Clip.qml:1248 src/timeline2/view/qml/Clip.qml:1285
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Kliknite</b> za dodajanje sestave"
 
-#: src/timeline2/view/qml/Clip.qml:1361 src/timeline2/view/qml/Clip.qml:1368
+#: src/timeline2/view/qml/Clip.qml:1362 src/timeline2/view/qml/Clip.qml:1369
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Utišanje: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1372 src/timeline2/view/qml/Clip.qml:1479
+#: src/timeline2/view/qml/Clip.qml:1373 src/timeline2/view/qml/Clip.qml:1480
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Povlecite</b>, da prilagodite bledenje, <b>kliknite</b>, da dodate "
 "privzeto trajanje bledenja"
 
-#: src/timeline2/view/qml/Clip.qml:1468 src/timeline2/view/qml/Clip.qml:1475
+#: src/timeline2/view/qml/Clip.qml:1469 src/timeline2/view/qml/Clip.qml:1476
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Dvig jakosti: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1563
+#: src/timeline2/view/qml/Clip.qml:1564
 #, kde-format
 msgid "Slip Clip"
 msgstr "Podrsaj posnetek"
@@ -17265,23 +17286,23 @@ msgstr "Pokaži"
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/timeline2/view/qml/timeline.qml:1793
+#: src/timeline2/view/qml/timeline.qml:1795
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dvokliknite</b> za dodajanje podnaslova"
 
-#: src/timeline2/view/qml/timeline.qml:1955
+#: src/timeline2/view/qml/timeline.qml:1957
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Odmik:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2109
-#: src/timeline2/view/qml/timeline.qml:2118
+#: src/timeline2/view/qml/timeline.qml:2111
+#: src/timeline2/view/qml/timeline.qml:2120
 #, kde-format
 msgid "Recording"
 msgstr "Snemanje"
 
-#: src/timeline2/view/qml/timeline.qml:2212
+#: src/timeline2/view/qml/timeline.qml:2214
 #, kde-format
 msgid "Multicam In"
 msgstr "Vstopna/sinhrona točka posnetkov več kamer"
@@ -18738,13 +18759,19 @@ msgstr "Argumenti"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "In the arguments, the following options are available: <ul><li><b>{source}"
+#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
+#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
+#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
+#| "will be replaced by the second parameter value</li></ul>"
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
-"b> will be replaced by the Bin Clip source file path</li><li><b>{output}</b> "
-"will be replaced by the output file name</li><li><b>{param1}</b> will be "
-"replaced by the first parameter value</li><li><b>{param2}</b> will be "
-"replaced by the second parameter value</li></ul>"
+"b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
+"will be replaced by the first parameter value</li><li><b>{param2}</b> will "
+"be replaced by the second parameter value</li><li><b>{output}</b> will be "
+"replaced by the output file name</li></ul>"
 msgstr ""
 "V argumentih so na voljo naslednje možnosti: <ul><li><b>{source}</b> se "
 "nadomesti s potjo do datoteke izvornega posnetka iz koša</li><li><b>{output}"
@@ -22567,6 +22594,14 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
+#~ "b> by the second, <b>{&#x25;3}</b> by the output file path."
+#~ msgstr ""
+#~ "<b>{&#x25;1}</b> se nadomesti s prvim parametrom, <b>{&#x25;2}</b> z "
+#~ "drugim, <b>{&#x25;3}</b> s potjo do izhodne datoteke."
 
 #~ msgid ""
 #~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"

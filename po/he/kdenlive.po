@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-17 00:38+0000\n"
+"POT-Creation-Date: 2024-05-18 00:38+0000\n"
 "PO-Revision-Date: 2024-05-16 06:40+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -5462,7 +5462,7 @@ msgid "Cut clip"
 msgstr "גזירת סרטון"
 
 #: src/bin/model/subtitlemodel.cpp:826 src/bin/model/subtitlemodel.cpp:1589
-#: src/timeline2/model/timelinemodel.cpp:3879
+#: src/timeline2/model/timelinemodel.cpp:3904
 #, kde-format
 msgid "Resize subtitle"
 msgstr "שינוי גודל כתובית"
@@ -5512,7 +5512,7 @@ msgstr "כתובית %1"
 msgid "Timeline sequence"
 msgstr "רצף ציר הזמן"
 
-#: src/bin/projectclip.cpp:578 src/timeline2/view/qml/Clip.qml:1096
+#: src/bin/projectclip.cpp:578 src/timeline2/view/qml/Clip.qml:1097
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -6070,14 +6070,24 @@ msgid "Arguments for the command line script"
 msgstr "ארגומנטים לסקריפט בשורת הפקודה"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "In the arguments, the following options are available: <ul><li><b>{source}"
+#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
+#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
+#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
+#| "will be replaced by the second parameter value</li></ul>"
 msgctxt "@info:whatsthis"
 msgid ""
-"<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
-"by the second, <b>{&#x25;3}</b> by the output file path."
+"<b>{source}</b> will be replaced by the Bin Clip source file path, "
+"<b>{param1}</b> will be replaced by the first parameter value, <b>{param2}</"
+"b> will be replaced by the first parameter value, <b>{output}</b> will be "
+"replaced by the output file name."
 msgstr ""
-"<b>{&#x25;1}</b> יוחלף במשתנה הראשון, <b>{&#x25;2}</b> יוחלף בשני, "
-"<b>{&#x25;3}</b> יוחלף בנתיב קובץ הפלט."
+"במשתנים, האפשרויות הבאות זמינות: <ul><li><b>{source}</b> יוחלף בנתיב קובץ "
+"מקור סרטון הסל</li><li><b>{output}</b> יוחלף בשם קובץ הפלט</"
+"li><li><b>{param1}</b> יוחלף בערך המשתנה הראשון</li><li><b>{param2}</b> "
+"יוחלף בערך המשתנה השני</li></ul>"
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6085,12 +6095,18 @@ msgid "File extension for the output file"
 msgstr "סיומת לקובץ הפלט"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "The output file name will be the same as the source bin clip filename, "
+#| "with the modified extension. It will be appended at the end of the "
+#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
+#| "filename already exists, a -0001 pattern will be appended."
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
 "the modified extension. It will be appended at the end of the arguments or "
-"inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
+"inserted in place of <b>{output}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
 "שם קובץ הפלט יהיה כמו שם קובץ הסרטון בסל המקור, בשינוי סיומת. היא תתווסף "
@@ -6123,11 +6139,15 @@ msgid ""
 msgstr "רשימה מופרדת בשורות חדשות של ערכים אפשריים שיוצעו עם ההפעלה"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "When the parameter is set to <b>Request Option in List</b> the user will "
+#| "be asked to choose a value in this list when the job is started."
 msgctxt "@info:whatsthis"
 msgid ""
-"When the parameter is set to <b>Request Option in List</b> the user will be "
-"asked to choose a value in this list when the job is started."
+"When the parameter is set to <b>Request Option from List</b> the user will "
+"be asked to choose a value in this list when the job is started."
 msgstr ""
 "כאשר המשתנה מוגדר ל<b>בקשת אפשרות ברשימה</b> המשתמש יתבקש לבחור ערך מרשימה "
 "זו כשהמשימה מתחילה."
@@ -9214,7 +9234,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "אי אפשר להוסיף את האפקט %1 פעמיים."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:537
-#: src/timeline2/model/timelinemodel.cpp:4992
+#: src/timeline2/model/timelinemodel.cpp:5017
 #, kde-format
 msgid "Add effect %1"
 msgstr "הוספת אפקט %1"
@@ -16453,7 +16473,7 @@ msgid "Delete clips on track"
 msgstr "מחיקת סרטונים מהרצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:137
-#: src/timeline2/model/timelinemodel.cpp:4573
+#: src/timeline2/model/timelinemodel.cpp:4598
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16582,58 +16602,58 @@ msgid "Delete Composition"
 msgstr "מחיקת הרכבה"
 
 #: src/timeline2/model/timelinemodel.cpp:2347
-#: src/timeline2/model/timelinemodel.cpp:2599
+#: src/timeline2/model/timelinemodel.cpp:2624
 #: src/timeline2/view/timelinecontroller.cpp:4316
 #, kde-format
 msgid "Move group"
 msgstr "העברת קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:3291
+#: src/timeline2/model/timelinemodel.cpp:3316
 #, kde-format
 msgid "Resize group"
 msgstr "שינוי גודל קבוצה"
 
-#: src/timeline2/model/timelinemodel.cpp:3415
+#: src/timeline2/model/timelinemodel.cpp:3440
 #, kde-format
 msgid "Resize clip speed"
 msgstr "שינוי גודל מהירות סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3574
+#: src/timeline2/model/timelinemodel.cpp:3599
 #, kde-format
 msgid "Remove mix"
 msgstr "הסרת ערבוב"
 
-#: src/timeline2/model/timelinemodel.cpp:3576
+#: src/timeline2/model/timelinemodel.cpp:3601
 #, kde-format
 msgid "Removing mix failed"
 msgstr "הסרת הערבוב נכשלה"
 
-#: src/timeline2/model/timelinemodel.cpp:3875
+#: src/timeline2/model/timelinemodel.cpp:3900
 #, kde-format
 msgid "Resize clip"
 msgstr "שינוי גודל סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:3877
+#: src/timeline2/model/timelinemodel.cpp:3902
 #, kde-format
 msgid "Resize composition"
 msgstr "שינוי גודל הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:4199
+#: src/timeline2/model/timelinemodel.cpp:4224
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "שינוי גודל סרטון באדווה"
 
-#: src/timeline2/model/timelinemodel.cpp:4201
+#: src/timeline2/model/timelinemodel.cpp:4226
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "שינוי גודל הרכבה כאדוות"
 
-#: src/timeline2/model/timelinemodel.cpp:4203
+#: src/timeline2/model/timelinemodel.cpp:4228
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "שינוי גודל סרטון באדווה"
 
-#: src/timeline2/model/timelinemodel.cpp:4346
+#: src/timeline2/model/timelinemodel.cpp:4371
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16643,136 +16663,136 @@ msgstr[1] "החלקת סרטונים"
 msgstr[2] "החלקת  סרטונים"
 msgstr[3] "החלקת סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4381
+#: src/timeline2/model/timelinemodel.cpp:4406
 #, kde-format
 msgid "Slip clip"
 msgstr "החלקת סרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:4416
+#: src/timeline2/model/timelinemodel.cpp:4441
 #, kde-format
 msgid "Group clips"
 msgstr "קיבוץ סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4501
-#: src/timeline2/model/timelinemodel.cpp:4517
+#: src/timeline2/model/timelinemodel.cpp:4526
+#: src/timeline2/model/timelinemodel.cpp:4542
 #, kde-format
 msgid "Ungroup clips"
 msgstr "פירוק קיבוץ סרטונים"
 
-#: src/timeline2/model/timelinemodel.cpp:4682
+#: src/timeline2/model/timelinemodel.cpp:4707
 #: src/timeline2/view/timelinecontroller.cpp:945
 #, kde-format
 msgid "Delete Track"
 msgstr "מחיקת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:4692
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "לא ניתן למחוק את הרצועה האחרונה בציר הזמן"
 
-#: src/timeline2/model/timelinemodel.cpp:4917
+#: src/timeline2/model/timelinemodel.cpp:4942
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "לא ניתן להוסיף את האפקט %1 לרצועה הראשית"
 
-#: src/timeline2/model/timelinemodel.cpp:4924
+#: src/timeline2/model/timelinemodel.cpp:4949
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "לא ניתן להוסיף את האפקט %1 לרצועה הנבחרת"
 
-#: src/timeline2/model/timelinemodel.cpp:4945
+#: src/timeline2/model/timelinemodel.cpp:4970
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "אי אפשר להדביק אפקט לרצועה הראשית"
 
-#: src/timeline2/model/timelinemodel.cpp:4951
+#: src/timeline2/model/timelinemodel.cpp:4976
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "לא ניתן להדביק אפקט על הרצועה הנבחרת"
 
-#: src/timeline2/model/timelinemodel.cpp:4995
+#: src/timeline2/model/timelinemodel.cpp:5020
 #: src/timeline2/view/timelinecontroller.cpp:1523
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "לא ניתן להוסיף את האפקט %1 לסרטון הנבחר"
 
-#: src/timeline2/model/timelinemodel.cpp:5019
+#: src/timeline2/model/timelinemodel.cpp:5044
 #, kde-format
 msgid "Adjust Fade"
 msgstr "כיוון עמעום"
 
-#: src/timeline2/model/timelinemodel.cpp:5331
+#: src/timeline2/model/timelinemodel.cpp:5356
 #, kde-format
 msgid "Insert Composition"
 msgstr "הוספת הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:5534
+#: src/timeline2/model/timelinemodel.cpp:5559
 #, kde-format
 msgid "Move composition"
 msgstr "העברת הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:6190
+#: src/timeline2/model/timelinemodel.cpp:6215
 #, kde-format
 msgid "Enable time remap"
 msgstr "הפעלת מיפוי זמן מחדש"
 
-#: src/timeline2/model/timelinemodel.cpp:6264
+#: src/timeline2/model/timelinemodel.cpp:6289
 #, kde-format
 msgid "Change speed failed"
 msgstr "שינוי המהירות נכשלה"
 
-#: src/timeline2/model/timelinemodel.cpp:6274
+#: src/timeline2/model/timelinemodel.cpp:6299
 #, kde-format
 msgid "Change clip speed"
 msgstr "שינוי מהירות הסרטון"
 
-#: src/timeline2/model/timelinemodel.cpp:6703
+#: src/timeline2/model/timelinemodel.cpp:6728
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "נעילת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:6708
+#: src/timeline2/model/timelinemodel.cpp:6733
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "ביטול נעילת רצועה"
 
-#: src/timeline2/model/timelinemodel.cpp:6742
-#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/model/timelinemodel.cpp:6767
+#: src/timeline2/model/timelinemodel.cpp:6829
 #, kde-format
 msgid "Change composition"
 msgstr "שינוי הרכבה"
 
-#: src/timeline2/model/timelinemodel.cpp:6756
+#: src/timeline2/model/timelinemodel.cpp:6781
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "לא ניתן לתפעל הרכבה מקובצת, נא לפרק"
 
-#: src/timeline2/model/timelinemodel.cpp:6951
-#: src/timeline2/model/timelinemodel.cpp:6988
-#: src/timeline2/model/timelinemodel.cpp:7021
-#: src/timeline2/model/timelinemodel.cpp:7102
+#: src/timeline2/model/timelinemodel.cpp:6976
+#: src/timeline2/model/timelinemodel.cpp:7013
+#: src/timeline2/model/timelinemodel.cpp:7046
+#: src/timeline2/model/timelinemodel.cpp:7127
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "לא ניתן לשנות ערבוב לפחות מתמונית אחת"
 
-#: src/timeline2/model/timelinemodel.cpp:6962
-#: src/timeline2/model/timelinemodel.cpp:6996
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7126
+#: src/timeline2/model/timelinemodel.cpp:6987
+#: src/timeline2/model/timelinemodel.cpp:7021
+#: src/timeline2/model/timelinemodel.cpp:7065
+#: src/timeline2/model/timelinemodel.cpp:7151
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "לא ניתן לשנות גודל ערבוב"
 
-#: src/timeline2/model/timelinemodel.cpp:7140
+#: src/timeline2/model/timelinemodel.cpp:7165
 #, kde-format
 msgid "Resize mix"
 msgstr "שינוי גודל ערבוב"
 
-#: src/timeline2/model/timelinemodel.cpp:7260
+#: src/timeline2/model/timelinemodel.cpp:7285
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "שגיאה בהתחלת תצוגה מקדימה לציר הזמן"
@@ -16871,7 +16891,7 @@ msgid "Stop"
 msgstr "עצירה"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2120
+#: src/timeline2/view/qml/timeline.qml:2122
 #, kde-format
 msgid "Paused"
 msgstr "מושהה"
@@ -16881,7 +16901,7 @@ msgstr "מושהה"
 msgid "Mic level"
 msgstr "רמת מיקרופון"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:870
+#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:871
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), מקום: %4, משך: %5"
@@ -16893,32 +16913,32 @@ msgstr "%1 (%2-%3), מקום: %4, משך: %5"
 msgid "Position: %1"
 msgstr "מקום :%1"
 
-#: src/timeline2/view/qml/Clip.qml:478
+#: src/timeline2/view/qml/Clip.qml:479
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "משך תערובת: %1, חיתוך ב־: %2"
 
-#: src/timeline2/view/qml/Clip.qml:539
+#: src/timeline2/view/qml/Clip.qml:540
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "‎+%1, משך ערבוב: %2"
 
-#: src/timeline2/view/qml/Clip.qml:541
+#: src/timeline2/view/qml/Clip.qml:542
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "‎-%1, משך ערבוב: %2"
 
-#: src/timeline2/view/qml/Clip.qml:544 src/timeline2/view/qml/Clip.qml:557
+#: src/timeline2/view/qml/Clip.qml:545 src/timeline2/view/qml/Clip.qml:558
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "‫משך ערבוב: %1"
 
-#: src/timeline2/view/qml/Clip.qml:733
+#: src/timeline2/view/qml/Clip.qml:734
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "כניסה:%1, מקום:%2"
 
-#: src/timeline2/view/qml/Clip.qml:736 src/timeline2/view/qml/Clip.qml:860
+#: src/timeline2/view/qml/Clip.qml:737 src/timeline2/view/qml/Clip.qml:861
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -16927,54 +16947,54 @@ msgstr ""
 "<b>Ctrl וגרירה</b> כדי לשנות מהירות, <b>לחיצה כפולה</b> כדי לערבב עם סרטונים "
 "סמוכים"
 
-#: src/timeline2/view/qml/Clip.qml:738
+#: src/timeline2/view/qml/Clip.qml:739
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "יש <b>לגרור</b> כדי לשנות את משך הערבוב"
 
-#: src/timeline2/view/qml/Clip.qml:857
+#: src/timeline2/view/qml/Clip.qml:858
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "יציאה:%1, מקום:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1002
+#: src/timeline2/view/qml/Clip.qml:1003
 #, kde-format
 msgid "Offset: -%1"
 msgstr "היסט: ‎-%1"
 
-#: src/timeline2/view/qml/Clip.qml:1002
+#: src/timeline2/view/qml/Clip.qml:1003
 #, kde-format
 msgid "Offset: %1"
 msgstr "היסט: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1003
+#: src/timeline2/view/qml/Clip.qml:1004
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "<b>לחיצה</b> תיישר את הסרטונים"
 
-#: src/timeline2/view/qml/Clip.qml:1247 src/timeline2/view/qml/Clip.qml:1284
+#: src/timeline2/view/qml/Clip.qml:1248 src/timeline2/view/qml/Clip.qml:1285
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "יש <b>ללחוץ</b> כדי להוסיף הרכבה"
 
-#: src/timeline2/view/qml/Clip.qml:1361 src/timeline2/view/qml/Clip.qml:1368
+#: src/timeline2/view/qml/Clip.qml:1362 src/timeline2/view/qml/Clip.qml:1369
 #, kde-format
 msgid "Fade out: %1"
 msgstr "יציאה מעומעמת: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1372 src/timeline2/view/qml/Clip.qml:1479
+#: src/timeline2/view/qml/Clip.qml:1373 src/timeline2/view/qml/Clip.qml:1480
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "יש <b>לגרור</b> כדי לשנות את העמעום, או <b>ללחוץ</b> כדי להוסיף את משך "
 "העמעום כברירת המחדל"
 
-#: src/timeline2/view/qml/Clip.qml:1468 src/timeline2/view/qml/Clip.qml:1475
+#: src/timeline2/view/qml/Clip.qml:1469 src/timeline2/view/qml/Clip.qml:1476
 #, kde-format
 msgid "Fade in: %1"
 msgstr "כניסה מעומעמת: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1563
+#: src/timeline2/view/qml/Clip.qml:1564
 #, kde-format
 msgid "Slip Clip"
 msgstr "החלקת קטע"
@@ -17043,23 +17063,23 @@ msgstr "הצגה"
 msgid "Hide"
 msgstr "הסתרה"
 
-#: src/timeline2/view/qml/timeline.qml:1793
+#: src/timeline2/view/qml/timeline.qml:1795
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>לחיצה כפולה</b> להוספת כתובית"
 
-#: src/timeline2/view/qml/timeline.qml:1955
+#: src/timeline2/view/qml/timeline.qml:1957
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "היסט: %1, מקום: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2109
-#: src/timeline2/view/qml/timeline.qml:2118
+#: src/timeline2/view/qml/timeline.qml:2111
+#: src/timeline2/view/qml/timeline.qml:2120
 #, kde-format
 msgid "Recording"
 msgstr "הקלטה"
 
-#: src/timeline2/view/qml/timeline.qml:2212
+#: src/timeline2/view/qml/timeline.qml:2214
 #, kde-format
 msgid "Multicam In"
 msgstr "ריבוי מצלמות נכנס"
@@ -18497,13 +18517,19 @@ msgstr "ארגומנטים"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "In the arguments, the following options are available: <ul><li><b>{source}"
+#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
+#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
+#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
+#| "will be replaced by the second parameter value</li></ul>"
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
-"b> will be replaced by the Bin Clip source file path</li><li><b>{output}</b> "
-"will be replaced by the output file name</li><li><b>{param1}</b> will be "
-"replaced by the first parameter value</li><li><b>{param2}</b> will be "
-"replaced by the second parameter value</li></ul>"
+"b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
+"will be replaced by the first parameter value</li><li><b>{param2}</b> will "
+"be replaced by the second parameter value</li><li><b>{output}</b> will be "
+"replaced by the output file name</li></ul>"
 msgstr ""
 "במשתנים, האפשרויות הבאות זמינות: <ul><li><b>{source}</b> יוחלף בנתיב קובץ "
 "מקור סרטון הסל</li><li><b>{output}</b> יוחלף בשם קובץ הפלט</"
@@ -22316,6 +22342,14 @@ msgstr "%1 דק׳"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
+#~ "b> by the second, <b>{&#x25;3}</b> by the output file path."
+#~ msgstr ""
+#~ "<b>{&#x25;1}</b> יוחלף במשתנה הראשון, <b>{&#x25;2}</b> יוחלף בשני, "
+#~ "<b>{&#x25;3}</b> יוחלף בנתיב קובץ הפלט."
 
 #~ msgid ""
 #~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"

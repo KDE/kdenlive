@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-17 00:38+0000\n"
+"POT-Creation-Date: 2024-05-18 00:38+0000\n"
 "PO-Revision-Date: 2024-05-16 09:22+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -5539,7 +5539,7 @@ msgid "Cut clip"
 msgstr "Clip in tweeën knippen"
 
 #: src/bin/model/subtitlemodel.cpp:826 src/bin/model/subtitlemodel.cpp:1589
-#: src/timeline2/model/timelinemodel.cpp:3879
+#: src/timeline2/model/timelinemodel.cpp:3904
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Ondertitel van grootte wijzigen"
@@ -5589,7 +5589,7 @@ msgstr "Ondertitel %1"
 msgid "Timeline sequence"
 msgstr "Volgorde (sequentie) in tijdlijn"
 
-#: src/bin/projectclip.cpp:578 src/timeline2/view/qml/Clip.qml:1096
+#: src/bin/projectclip.cpp:578 src/timeline2/view/qml/Clip.qml:1097
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -6146,14 +6146,26 @@ msgid "Arguments for the command line script"
 msgstr "Argumenten voor het script met opdrachtregels"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgid ""
+#| "In the arguments, the following options are available: <ul><li><b>{source}"
+#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
+#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
+#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
+#| "will be replaced by the second parameter value</li></ul>"
 msgctxt "@info:whatsthis"
 msgid ""
-"<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> "
-"by the second, <b>{&#x25;3}</b> by the output file path."
+"<b>{source}</b> will be replaced by the Bin Clip source file path, "
+"<b>{param1}</b> will be replaced by the first parameter value, <b>{param2}</"
+"b> will be replaced by the first parameter value, <b>{output}</b> will be "
+"replaced by the output file name."
 msgstr ""
-"<b>{&#x25;1}</b> zal vervagen worden door de eerste parameter, <b>{&#x25;2}</"
-"b> door de tweede, <b>{&#x25;3}</b> door het pad van het uitvoerbestand."
+"In de argumenten zijn de volgende opties beschikbaar: <ul><li><b>{source}</"
+"b> zal vervangen worden door het pad van het bronbestand van clip in de bin</"
+"li><li><b>{output}</b> zal vervangen worden door de uitvoerbestandsnaam</"
+"li><li><b>{param1}</b> zal vervangen worden door de eerste parameterwaarde</"
+"li><li><b>{param2}</b> zal vervangen worden door de tweede parameterwaarde</"
+"li></ul>"
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6161,12 +6173,18 @@ msgid "File extension for the output file"
 msgstr "Bestandsextensie voor het uitvoerbestand"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "The output file name will be the same as the source bin clip filename, "
+#| "with the modified extension. It will be appended at the end of the "
+#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
+#| "filename already exists, a -0001 pattern will be appended."
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
 "the modified extension. It will be appended at the end of the arguments or "
-"inserted in place of <b>{&#x25;3}</b> if found. If output filename already "
+"inserted in place of <b>{output}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
 "De uitvoerbestandsnaam zal hetzelfde zijn als bestandsnaam van de clip in de "
@@ -6206,11 +6224,15 @@ msgstr ""
 "aangeboden worden bij uitvoeren"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "When the parameter is set to <b>Request Option in List</b> the user will "
+#| "be asked to choose a value in this list when the job is started."
 msgctxt "@info:whatsthis"
 msgid ""
-"When the parameter is set to <b>Request Option in List</b> the user will be "
-"asked to choose a value in this list when the job is started."
+"When the parameter is set to <b>Request Option from List</b> the user will "
+"be asked to choose a value in this list when the job is started."
 msgstr ""
 "Wanneer de parameter is gezet op <b>Verzoekoptie in Lijst</b> zal de "
 "gebruiker zal gevraagd worden om een waarde te kiezen in deze lijst wanneer "
@@ -9336,7 +9358,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:537
-#: src/timeline2/model/timelinemodel.cpp:4992
+#: src/timeline2/model/timelinemodel.cpp:5017
 #, kde-format
 msgid "Add effect %1"
 msgstr "Voeg effect %1 toe"
@@ -16674,7 +16696,7 @@ msgid "Delete clips on track"
 msgstr "Clips op de track verwijderen"
 
 #: src/timeline2/model/timelineitemmodel.cpp:137
-#: src/timeline2/model/timelinemodel.cpp:4573
+#: src/timeline2/model/timelinemodel.cpp:4598
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16801,58 +16823,58 @@ msgid "Delete Composition"
 msgstr "Compositie verwijderen"
 
 #: src/timeline2/model/timelinemodel.cpp:2347
-#: src/timeline2/model/timelinemodel.cpp:2599
+#: src/timeline2/model/timelinemodel.cpp:2624
 #: src/timeline2/view/timelinecontroller.cpp:4316
 #, kde-format
 msgid "Move group"
 msgstr "Verplaats groep"
 
-#: src/timeline2/model/timelinemodel.cpp:3291
+#: src/timeline2/model/timelinemodel.cpp:3316
 #, kde-format
 msgid "Resize group"
 msgstr "Verschaal groep"
 
-#: src/timeline2/model/timelinemodel.cpp:3415
+#: src/timeline2/model/timelinemodel.cpp:3440
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Snelheid van clip van grootte veranderen"
 
-#: src/timeline2/model/timelinemodel.cpp:3574
+#: src/timeline2/model/timelinemodel.cpp:3599
 #, kde-format
 msgid "Remove mix"
 msgstr "Menging verwijderen"
 
-#: src/timeline2/model/timelinemodel.cpp:3576
+#: src/timeline2/model/timelinemodel.cpp:3601
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Menging verwijderen is mislukt"
 
-#: src/timeline2/model/timelinemodel.cpp:3875
+#: src/timeline2/model/timelinemodel.cpp:3900
 #, kde-format
 msgid "Resize clip"
 msgstr "Clip verschalen"
 
-#: src/timeline2/model/timelinemodel.cpp:3877
+#: src/timeline2/model/timelinemodel.cpp:3902
 #, kde-format
 msgid "Resize composition"
 msgstr "Compositie van grootte wijzigen"
 
-#: src/timeline2/model/timelinemodel.cpp:4199
+#: src/timeline2/model/timelinemodel.cpp:4224
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Rimpel clip verschalen"
 
-#: src/timeline2/model/timelinemodel.cpp:4201
+#: src/timeline2/model/timelinemodel.cpp:4226
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Rimpel compositie van grootte wijzigen"
 
-#: src/timeline2/model/timelinemodel.cpp:4203
+#: src/timeline2/model/timelinemodel.cpp:4228
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Rimpel ondertitel van grootte wijzigen"
 
-#: src/timeline2/model/timelinemodel.cpp:4346
+#: src/timeline2/model/timelinemodel.cpp:4371
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16860,138 +16882,138 @@ msgid_plural "Slip clips"
 msgstr[0] "Clip slippen"
 msgstr[1] "Clips slippen"
 
-#: src/timeline2/model/timelinemodel.cpp:4381
+#: src/timeline2/model/timelinemodel.cpp:4406
 #, kde-format
 msgid "Slip clip"
 msgstr "Clip slippen"
 
-#: src/timeline2/model/timelinemodel.cpp:4416
+#: src/timeline2/model/timelinemodel.cpp:4441
 #, kde-format
 msgid "Group clips"
 msgstr "Clips groeperen"
 
-#: src/timeline2/model/timelinemodel.cpp:4501
-#: src/timeline2/model/timelinemodel.cpp:4517
+#: src/timeline2/model/timelinemodel.cpp:4526
+#: src/timeline2/model/timelinemodel.cpp:4542
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Hef groepering clips op"
 
-#: src/timeline2/model/timelinemodel.cpp:4682
+#: src/timeline2/model/timelinemodel.cpp:4707
 #: src/timeline2/view/timelinecontroller.cpp:945
 #, kde-format
 msgid "Delete Track"
 msgstr "Verwijder markering"
 
-#: src/timeline2/model/timelinemodel.cpp:4692
+#: src/timeline2/model/timelinemodel.cpp:4717
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Kan laatste track op de tijdlijn niet verwijderen"
 
-#: src/timeline2/model/timelinemodel.cpp:4917
+#: src/timeline2/model/timelinemodel.cpp:4942
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Kan effect %1 niet toevoegen aan mastertrack"
 
-#: src/timeline2/model/timelinemodel.cpp:4924
+#: src/timeline2/model/timelinemodel.cpp:4949
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Kan effect %1 niet toevoegen aan geselecteerde track"
 
-#: src/timeline2/model/timelinemodel.cpp:4945
+#: src/timeline2/model/timelinemodel.cpp:4970
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Kan effect niet plakken op mastertrack"
 
-#: src/timeline2/model/timelinemodel.cpp:4951
+#: src/timeline2/model/timelinemodel.cpp:4976
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Kan effect niet plakken op geselecteerde track"
 
-#: src/timeline2/model/timelinemodel.cpp:4995
+#: src/timeline2/model/timelinemodel.cpp:5020
 #: src/timeline2/view/timelinecontroller.cpp:1523
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Kan effect %1 niet toevoegen aan geselecteerde clip"
 
-#: src/timeline2/model/timelinemodel.cpp:5019
+#: src/timeline2/model/timelinemodel.cpp:5044
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Vervaging aanpassen"
 
-#: src/timeline2/model/timelinemodel.cpp:5331
+#: src/timeline2/model/timelinemodel.cpp:5356
 #, kde-format
 msgid "Insert Composition"
 msgstr "Compositie invoegen"
 
-#: src/timeline2/model/timelinemodel.cpp:5534
+#: src/timeline2/model/timelinemodel.cpp:5559
 #, kde-format
 msgid "Move composition"
 msgstr "Compositie verplaatsen"
 
-#: src/timeline2/model/timelinemodel.cpp:6190
+#: src/timeline2/model/timelinemodel.cpp:6215
 #, kde-format
 msgid "Enable time remap"
 msgstr "Time remap inschakelen"
 
-#: src/timeline2/model/timelinemodel.cpp:6264
+#: src/timeline2/model/timelinemodel.cpp:6289
 #, kde-format
 msgid "Change speed failed"
 msgstr "Snelheid wijzigen is mislukt"
 
-#: src/timeline2/model/timelinemodel.cpp:6274
+#: src/timeline2/model/timelinemodel.cpp:6299
 #, kde-format
 msgid "Change clip speed"
 msgstr "Clipsnelheid wijzigen"
 
-#: src/timeline2/model/timelinemodel.cpp:6703
+#: src/timeline2/model/timelinemodel.cpp:6728
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Vergrendel sporen"
 
-#: src/timeline2/model/timelinemodel.cpp:6708
+#: src/timeline2/model/timelinemodel.cpp:6733
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Ontsluit track"
 
-#: src/timeline2/model/timelinemodel.cpp:6742
-#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/model/timelinemodel.cpp:6767
+#: src/timeline2/model/timelinemodel.cpp:6829
 #, kde-format
 msgid "Change composition"
 msgstr "Compositie wijzigen"
 
-#: src/timeline2/model/timelinemodel.cpp:6756
+#: src/timeline2/model/timelinemodel.cpp:6781
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Kan geen bewerking uitvoeren op gegroepeerde compositie, groepering ongedaan "
 "maken"
 
-#: src/timeline2/model/timelinemodel.cpp:6951
-#: src/timeline2/model/timelinemodel.cpp:6988
-#: src/timeline2/model/timelinemodel.cpp:7021
-#: src/timeline2/model/timelinemodel.cpp:7102
+#: src/timeline2/model/timelinemodel.cpp:6976
+#: src/timeline2/model/timelinemodel.cpp:7013
+#: src/timeline2/model/timelinemodel.cpp:7046
+#: src/timeline2/model/timelinemodel.cpp:7127
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Kan mix niet van grootte wijzigen tot kleiner dan 1 frame"
 
-#: src/timeline2/model/timelinemodel.cpp:6962
-#: src/timeline2/model/timelinemodel.cpp:6996
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7126
+#: src/timeline2/model/timelinemodel.cpp:6987
+#: src/timeline2/model/timelinemodel.cpp:7021
+#: src/timeline2/model/timelinemodel.cpp:7065
+#: src/timeline2/model/timelinemodel.cpp:7151
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Kan mix niet van grootte veranderen"
 
-#: src/timeline2/model/timelinemodel.cpp:7140
+#: src/timeline2/model/timelinemodel.cpp:7165
 #, kde-format
 msgid "Resize mix"
 msgstr "Grootte wijzigen van mix"
 
-#: src/timeline2/model/timelinemodel.cpp:7260
+#: src/timeline2/model/timelinemodel.cpp:7285
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Fout bij initialiseren van tijdlijnvoorbeeldweergave"
@@ -17092,7 +17114,7 @@ msgid "Stop"
 msgstr "Stop"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2120
+#: src/timeline2/view/qml/timeline.qml:2122
 #, kde-format
 msgid "Paused"
 msgstr "Gepauzeerd"
@@ -17102,7 +17124,7 @@ msgstr "Gepauzeerd"
 msgid "Mic level"
 msgstr "Microfoonniveau"
 
-#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:870
+#: src/timeline2/view/qml/Clip.qml:229 src/timeline2/view/qml/Clip.qml:871
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), positie: %4, duur: %5"
@@ -17114,32 +17136,32 @@ msgstr "%1 (%2-%3), positie: %4, duur: %5"
 msgid "Position: %1"
 msgstr "Positie: %1"
 
-#: src/timeline2/view/qml/Clip.qml:478
+#: src/timeline2/view/qml/Clip.qml:479
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Mixduur: %1, knip bij: %2"
 
-#: src/timeline2/view/qml/Clip.qml:539
+#: src/timeline2/view/qml/Clip.qml:540
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Mixduur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:541
+#: src/timeline2/view/qml/Clip.qml:542
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Mixduur: %2"
 
-#: src/timeline2/view/qml/Clip.qml:544 src/timeline2/view/qml/Clip.qml:557
+#: src/timeline2/view/qml/Clip.qml:545 src/timeline2/view/qml/Clip.qml:558
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Mixduur: %1"
 
-#: src/timeline2/view/qml/Clip.qml:733
+#: src/timeline2/view/qml/Clip.qml:734
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "In:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:736 src/timeline2/view/qml/Clip.qml:860
+#: src/timeline2/view/qml/Clip.qml:737 src/timeline2/view/qml/Clip.qml:861
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -17148,54 +17170,54 @@ msgstr ""
 "<b>Ctrl slepen</b> om snelheid te wijzigen, <b>Dubbelklik</b> om met "
 "naastgelegen clip te mengen"
 
-#: src/timeline2/view/qml/Clip.qml:738
+#: src/timeline2/view/qml/Clip.qml:739
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Slepen</b> om duur van mengen te wijzigen"
 
-#: src/timeline2/view/qml/Clip.qml:857
+#: src/timeline2/view/qml/Clip.qml:858
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Uit:%1, positie:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1002
+#: src/timeline2/view/qml/Clip.qml:1003
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Offset: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1002
+#: src/timeline2/view/qml/Clip.qml:1003
 #, kde-format
 msgid "Offset: %1"
 msgstr "Offset: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1003
+#: src/timeline2/view/qml/Clip.qml:1004
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Klik</b> om clips uit te lijnen"
 
-#: src/timeline2/view/qml/Clip.qml:1247 src/timeline2/view/qml/Clip.qml:1284
+#: src/timeline2/view/qml/Clip.qml:1248 src/timeline2/view/qml/Clip.qml:1285
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> om een compositie toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1361 src/timeline2/view/qml/Clip.qml:1368
+#: src/timeline2/view/qml/Clip.qml:1362 src/timeline2/view/qml/Clip.qml:1369
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Vervagen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1372 src/timeline2/view/qml/Clip.qml:1479
+#: src/timeline2/view/qml/Clip.qml:1373 src/timeline2/view/qml/Clip.qml:1480
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Slepen</b> om vervagen aan te passen, <b>Klik</b> om standaard duur van "
 "vervagen toe te voegen"
 
-#: src/timeline2/view/qml/Clip.qml:1468 src/timeline2/view/qml/Clip.qml:1475
+#: src/timeline2/view/qml/Clip.qml:1469 src/timeline2/view/qml/Clip.qml:1476
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Opkomen: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1563
+#: src/timeline2/view/qml/Clip.qml:1564
 #, kde-format
 msgid "Slip Clip"
 msgstr "Clip slippen"
@@ -17264,23 +17286,23 @@ msgstr "Tonen"
 msgid "Hide"
 msgstr "Verbergen"
 
-#: src/timeline2/view/qml/timeline.qml:1793
+#: src/timeline2/view/qml/timeline.qml:1795
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dubbelklik</b> om ondertitel toe te voegen"
 
-#: src/timeline2/view/qml/timeline.qml:1955
+#: src/timeline2/view/qml/timeline.qml:1957
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Offset: %1, positie: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2109
-#: src/timeline2/view/qml/timeline.qml:2118
+#: src/timeline2/view/qml/timeline.qml:2111
+#: src/timeline2/view/qml/timeline.qml:2120
 #, kde-format
 msgid "Recording"
 msgstr "Opname"
 
-#: src/timeline2/view/qml/timeline.qml:2212
+#: src/timeline2/view/qml/timeline.qml:2214
 #, kde-format
 msgid "Multicam In"
 msgstr "Multi-camera in"
@@ -18737,13 +18759,19 @@ msgstr "Argumenten"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "In the arguments, the following options are available: <ul><li><b>{source}"
+#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
+#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
+#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
+#| "will be replaced by the second parameter value</li></ul>"
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
-"b> will be replaced by the Bin Clip source file path</li><li><b>{output}</b> "
-"will be replaced by the output file name</li><li><b>{param1}</b> will be "
-"replaced by the first parameter value</li><li><b>{param2}</b> will be "
-"replaced by the second parameter value</li></ul>"
+"b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
+"will be replaced by the first parameter value</li><li><b>{param2}</b> will "
+"be replaced by the second parameter value</li><li><b>{output}</b> will be "
+"replaced by the output file name</li></ul>"
 msgstr ""
 "In de argumenten zijn de volgende opties beschikbaar: <ul><li><b>{source}</"
 "b> zal vervangen worden door het pad van het bronbestand van clip in de bin</"
@@ -22573,6 +22601,15 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
+#~ "b> by the second, <b>{&#x25;3}</b> by the output file path."
+#~ msgstr ""
+#~ "<b>{&#x25;1}</b> zal vervagen worden door de eerste parameter, "
+#~ "<b>{&#x25;2}</b> door de tweede, <b>{&#x25;3}</b> door het pad van het "
+#~ "uitvoerbestand."
 
 #~ msgid ""
 #~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
