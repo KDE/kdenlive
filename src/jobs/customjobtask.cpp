@@ -164,6 +164,7 @@ void CustomJobTask::run()
     if (!binClip) {
         return;
     }
+    m_clipPointer = binClip.get();
     QString source = binClip->url();
     QString folderId = binClip->parent()->clipId();
     const QString binary = m_parameters.value(QLatin1String("binary"));
@@ -250,6 +251,13 @@ void CustomJobTask::run()
         if (p.contains(QStringLiteral("{param2}"))) {
             p.replace(QStringLiteral("{param2}"), m_parameters.value(QLatin1String("param2value")));
         }
+        if (p.startsWith(QLatin1Char('"')) && p.endsWith(QLatin1Char('"'))) {
+            p.remove(0, 1);
+            p.chop(1);
+        } else if (p.startsWith(QLatin1Char('\'')) && p.endsWith(QLatin1Char('\''))) {
+            p.remove(0, 1);
+            p.chop(1);
+        }
     }
     if (!outputPlaced) {
         parameters << destPath;
@@ -281,7 +289,7 @@ void CustomJobTask::run()
     requestedOutput.removeAll(destPath);
     // remove temporary playlist if it exists
     m_progress = 100;
-    QMetaObject::invokeMethod(m_object, "updateJobProgress");
+    QMetaObject::invokeMethod(m_clipPointer, "updateJobProgress");
     if (result) {
         if (QFileInfo(destPath).size() == 0) {
             QFile::remove(destPath);
@@ -344,14 +352,14 @@ void CustomJobTask::processLogInfo()
                 }
             }
             m_progress = 100 * progress / m_jobDuration;
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            QMetaObject::invokeMethod(m_clipPointer, "updateJobProgress");
             // emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (buffer.contains(QLatin1String("percentage:"))) {
             m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            QMetaObject::invokeMethod(m_clipPointer, "updateJobProgress");
         }
     }
 }

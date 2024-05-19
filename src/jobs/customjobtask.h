@@ -28,6 +28,7 @@ private:
     int m_jobDuration;
     bool m_isFfmpegJob;
     QMap<QString, QString> m_parameters;
+    QObject *m_clipPointer;
     int m_inPoint;
     int m_outPoint;
     QString m_jobId;
