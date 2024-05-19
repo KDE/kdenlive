@@ -20,6 +20,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUndoView>
 #include <QUuid>
 
+#include <kconfigwidgets_version.h>
+
 #include <KActionCategory>
 #include <KAutoSaveFile>
 #include <KColorSchemeManager>
@@ -38,8 +40,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "pythoninterfaces/otioconvertions.h"
 #include "statusbarmessagelabel.h"
 #include "utils/gentime.h"
-
-#define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
 
 class AssetPanel;
 class AudioGraphSpectrum;
@@ -340,7 +340,7 @@ private:
     bool m_themeInitialized{false};
     bool m_isDarkTheme{false};
     EffectBasket *m_effectBasket;
-#if !HAVE_STYLE_MANAGER
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
     /** @brief Update widget style. */
     void doChangeStyle();
 #endif

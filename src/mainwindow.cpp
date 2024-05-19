@@ -78,6 +78,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #if HAVE_STYLE_MANAGER
 #include <KStyleManager>
 #endif
+#include <kconfigwidgets_version.h>
 #include "knewstuff_version.h"
 #include "kwidgetsaddons_version.h"
 #include <kiconthemes_version.h>
@@ -136,7 +137,7 @@ QMap<QString, QStringList> MainWindow::m_lumaFiles;
     return a.first < b.first;
 }*/
 
-#if !HAVE_STYLE_MANAGER
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
 // determine the default KDE style as defined BY THE USER
 // (as opposed to whatever style KDE considers default)
 static QString defaultStyle(const char *fallback = nullptr)
@@ -174,7 +175,7 @@ void MainWindow::init(const QString &mltPath)
     connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged);
     Q_EMIT pCore->updatePalette();
 
-#if !HAVE_STYLE_MANAGER
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
     if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
         // User wants a custom widget style, init
         doChangeStyle();
@@ -511,7 +512,7 @@ void MainWindow::init(const QString &mltPath)
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
 
-#if HAVE_STYLE_MANAGER
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(6, 3, 0)
     QStringList stylesToHide = {
         QStringLiteral("windowsvista"), // recoloring does not work well
         QStringLiteral("Windows"),
@@ -4369,7 +4370,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
 
 void MainWindow::slotChangeStyle(QAction *a)
 {
-#if !HAVE_STYLE_MANAGER
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
     QString style = a->data().toString();
     KdenliveSettings::setWidgetstyle(style);
     doChangeStyle();
@@ -4389,7 +4390,7 @@ void MainWindow::raiseMonitor(bool clipMonitor)
     }
 }
 
-#if !HAVE_STYLE_MANAGER
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
 void MainWindow::doChangeStyle()
 {
     QString newStyle = KdenliveSettings::widgetstyle();
