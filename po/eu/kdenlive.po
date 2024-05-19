@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-17 02:27+0000\n"
-"PO-Revision-Date: 2024-05-01 11:32+0200\n"
+"PO-Revision-Date: 2024-05-18 15:09+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -3165,7 +3165,7 @@ msgstr "Lehengoratu"
 #: src/ui/transcodeseekable_ui.ui:18
 #, kde-format
 msgid "Dialog"
-msgstr "Elkarrizketa"
+msgstr "Elkarrizketa-koadroa"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, destination_label)
@@ -4273,15 +4273,15 @@ msgstr "<b>F2</b> hautatutako elementua berrizendatzeko"
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
-msgstr[0] "lan %1"
-msgstr[1] "%1 lan"
+msgstr[0] "ataza %1"
+msgstr[1] "%1 ataza"
 
 #: src/bin/bin.cpp:1078
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
-msgstr[0] "lan %1 zain"
-msgstr[1] "%1 lan zain"
+msgstr[0] "ataza %1 egiteke"
+msgstr[1] "%1 ataza egiteke"
 
 #: src/bin/bin.cpp:1200
 #, kde-format
@@ -4417,17 +4417,17 @@ msgstr "Itxi uneko ontzia"
 #: src/bin/bin.cpp:1453
 #, kde-format
 msgid "Cancel All Jobs"
-msgstr "Utzi lan guztiak"
+msgstr "Utzi ataza guztiak bertan behera"
 
 #: src/bin/bin.cpp:1455
 #, kde-format
 msgid "Cancel Current Clip Jobs"
-msgstr "Utzi momentuko klip lanak"
+msgstr "Utzi uneko kliparen atazak bertan behera"
 
 #: src/bin/bin.cpp:1457
 #, kde-format
 msgid "Cancel Pending Jobs"
-msgstr "Utzi zain dauden lanak"
+msgstr "Utzi egiteke dauden atazak bertan behera"
 
 #: src/bin/bin.cpp:1498
 #, kde-format
@@ -4803,7 +4803,7 @@ msgstr ""
 #: src/bin/bin.cpp:2710 src/bin/bin.cpp:2723 src/bin/bin.cpp:3678
 #, kde-format
 msgid "Proxy Clip"
-msgstr "Bitartekari-klipa"
+msgstr "Klip-ordezkaria"
 
 #: src/bin/bin.cpp:2714
 #, kde-format
@@ -4813,7 +4813,7 @@ msgstr "Ezabatu karpeta"
 #: src/bin/bin.cpp:2715
 #, kde-format
 msgid "Proxy Folder"
-msgstr "Bitartekari-karpeta"
+msgstr "Ordezkarien karpeta"
 
 #: src/bin/bin.cpp:2967
 #, kde-format
@@ -5045,7 +5045,7 @@ msgstr "Mesedez, ezarri audio fitxategiak irekitzeko aplikazio lehenetsia"
 #: src/renderpresets/renderpresetrepository.cpp:374
 #, kde-format
 msgid "Cannot open file %1"
-msgstr "%1 fitxategia ezin da ireki"
+msgstr "Ezin du %1 fitxategia ireki"
 
 #: src/bin/bin.cpp:4811 src/dialogs/profilesdialog.cpp:213
 #, kde-format
@@ -5094,17 +5094,17 @@ msgstr "Baliogabeko klipa"
 #: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Enable proxies"
-msgstr "Gaitu bitartekariak"
+msgstr "Gaitu ordezkariak"
 
 #: src/bin/bin.cpp:5022
 #, kde-format
 msgid "Disable proxies"
-msgstr "Ezgaitu bitartekariak"
+msgstr "Ezgaitu ordezkariak"
 
 #: src/bin/bin.cpp:5196
 #, kde-format
 msgid "Rebuild proxies"
-msgstr "Berreraiki bitartekariak"
+msgstr "Berreraiki ordezkariak"
 
 #: src/bin/bin.cpp:5426
 #, kde-format
@@ -6230,22 +6230,22 @@ msgstr "Zure %1 «script»a edo aplikazioa ez da exekutagarria, baimenak aldatu"
 #: src/dialogs/clipjobmanager.cpp:282
 #, kde-format
 msgid "Automatic Scene Split…"
-msgstr "Eszena Zatitze Automatikoa…"
+msgstr "Eszena zatitze automatikoa…"
 
 #: src/dialogs/clipjobmanager.cpp:312
 #, kde-format
 msgid "Job description"
-msgstr "Lanaren deskribapena"
+msgstr "Atazaren deskribapena"
 
 #: src/dialogs/clipjobmanager.cpp:406
 #, kde-format
 msgid "My Clip Job"
-msgstr "Nire klip lana"
+msgstr "Nire klipa ataza"
 
 #: src/dialogs/clipjobmanager.cpp:414
 #, kde-format
 msgid "My Clip Job %1"
-msgstr "Nire klip sekuentzia %1"
+msgstr "Nire klipa ataza %1"
 
 #: src/dialogs/clipjobmanager.cpp:440
 #, kde-format
@@ -6253,7 +6253,7 @@ msgid ""
 "Permanently delete this Clip Job:\n"
 "%1 ?"
 msgstr ""
-"Klip-lan hori betiko ezabatu:\n"
+"Klip-ataza hori betiko ezabatu:\n"
 "%1 ?"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
@@ -6304,7 +6304,7 @@ msgstr "[@title:window] Kudeatu Kodeketa Profilak"
 #: src/project/dialogs/archivewidget.cpp:94
 #, kde-format
 msgid "Proxy Clips"
-msgstr "Bitartekari-klipak"
+msgstr "Klip-ordezkariak"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:53 src/kdenliveui.rc:125
@@ -6982,12 +6982,12 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
-msgstr "Alderatu bitartekari profilak"
+msgstr "Alderatu ordezkari profila"
 
 #: src/dialogs/proxytest.cpp:31
 #, kde-format
 msgid "Test Proxy Profiles"
-msgstr "Probatu bitartekari profilak"
+msgstr "Probatu ordezkari profilak"
 
 #: src/dialogs/proxytest.cpp:34
 #, kde-format
@@ -7191,7 +7191,7 @@ msgstr "Fotograma zenbakia"
 #: src/dialogs/renderwidget.cpp:254
 #, kde-format
 msgid "Rendering using low quality proxy"
-msgstr "Kalitate apaleko bitartekaria erabiliz errendatzea"
+msgstr "Kalitate txikiko ordezkaria erabiliz errendatzea"
 
 #: src/dialogs/renderwidget.cpp:336
 #, kde-format
@@ -7310,8 +7310,8 @@ msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr ""
-"Dagoeneko lan bat ari da fitxategia idazten: <br /><b>%1</b><br />Ezeztatu "
-"lan hori gainidatzi nahi baduzu…"
+"Dagoeneko ataza bat ari da fitxategia idazten: <br /><b>%1</b><br /"
+">Utziataza bertan behera hura gainidatzi nahi baduzu…"
 
 #: src/dialogs/renderwidget.cpp:766 src/dialogs/renderwidget.cpp:1493
 #, kde-format
@@ -7403,12 +7403,12 @@ msgstr "<strong>%1 renderra kraskatu egin da</strong><br />"
 #: src/dialogs/renderwidget.cpp:1370 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
-msgstr "Lana eten"
+msgstr "Utzi ataza bertan behera"
 
 #: src/dialogs/renderwidget.cpp:1373
 #, kde-format
 msgid "Remove Job"
-msgstr "Lana ezabatu"
+msgstr "Kendu ataza"
 
 #: src/dialogs/renderwidget.cpp:1766
 #, kde-format
@@ -8247,8 +8247,8 @@ msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
-"Beste errekonozimendu lan bat martxan dago. Lan berriaren alde bertan behera "
-"utziko da. Jarraitu nahi duzu?"
+"Beste errekonozimendu ataza bat martxan dago. Ataza berriaren alde bertan "
+"behera utziko da. Jarraitu nahi duzu?"
 
 #: src/dialogs/textbasededit.cpp:952
 #, kde-format
@@ -8592,15 +8592,15 @@ msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
 "li>"
 msgstr ""
-"<li>Aplikazioa falta da: <b>ffmpeg</b><br/>beharrezkoa bitartekari "
-"klipetarako eta transkodetzeko</li>"
+"<li>Aplikazioa falta da: <b>ffmpeg</b><br/>klip ordezkarietarako eta "
+"transkodetzeko beharrezkoa</li>"
 
 #: src/dialogs/wizard.cpp:462
 #, kde-format
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
 msgstr ""
-"<li>Aplikazioa falta da: <b>ffplay</b><br/> analisi gehigarriak egiteko "
+"<li>Aplikazioa falta da: <b>ffplay</b><br/> aurreikuspegu ataza batzuetarako "
 "gomendatua</li>"
 
 #: src/dialogs/wizard.cpp:476
@@ -8781,7 +8781,7 @@ msgstr "Aktiboen fitxategia"
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
-msgstr "Bitartekari-klipa"
+msgstr "Klip-ordezkaria"
 
 #: src/doc/documentchecker.cpp:1649
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
@@ -8840,7 +8840,7 @@ msgstr "Proiektuaren fitxategiak falta diren klip edo fitxategiak ditu."
 #: src/doc/documentchecker.cpp:1687
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
-msgstr "Falta diren bitartekariak irekitzeko momentuan birsortu daitezke."
+msgstr "Falta diren ordezkariak irekitzerakoan birsor daitezke."
 
 #: src/doc/documentvalidator.cpp:47
 #, kde-format
@@ -9085,20 +9085,20 @@ msgstr ""
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
-msgstr[0] "Gehitu bitartekari-klipa"
-msgstr[1] "Gehitu bitartekari klipak"
+msgstr[0] "Gehitu klip-ordezkaria"
+msgstr[1] "Gehitu klip-ordezkariak"
 
 #: src/doc/kdenlivedoc.cpp:1568
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
-msgstr[0] "Kendu bitartekari-klipa"
-msgstr[1] "Kendu bitartekari klipak"
+msgstr[0] "Kendu klip-ordezkaria"
+msgstr[1] "Kendu klip-ordezkariak"
 
 #: src/doc/kdenlivedoc.cpp:1612 src/doc/kdenlivedoc.cpp:1670
 #, kde-format
 msgid "Clip type does not support proxies"
-msgstr "Klip motak ez ditu bitartekaririk onartzen"
+msgstr "Klip motak ez ditu ordezkariak onartzen"
 
 #: src/doc/kdenlivedoc.cpp:1808
 #, kde-format
@@ -9665,7 +9665,7 @@ msgstr "<b>%1</b> fitxategiak fotograma-emari aldakorra darabil."
 #: src/jobs/customjobtask.cpp:172
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
-msgstr "%1 aplikazioa ez da aurkitu, mesedez, eguneratu lanaren ezarpenak"
+msgstr "Eza du aurkitu %1 aplikazioa, mesedez, eguneratu atazaren ezarpenak"
 
 #: src/jobs/customjobtask.cpp:289 src/jobs/customjobtask.cpp:309
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
@@ -9722,14 +9722,14 @@ msgstr "AAC kodetzea"
 #: src/jobs/cuttask.cpp:155
 #, kde-format
 msgid "Extracting %1 out of %2"
-msgstr "%1, %2tik erauzten"
+msgstr "%2(e)tik, %1 erauzten"
 
 #: src/jobs/cuttask.cpp:211 src/jobs/cuttask.cpp:213 src/jobs/filtertask.cpp:71
 #: src/jobs/speedtask.cpp:184 src/jobs/speedtask.cpp:196
 #: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
 #, kde-format
 msgid "No producer for this clip."
-msgstr "Ez dago klip honentzako ekoizlerik."
+msgstr "Ez dago klip honetarako ekoizlerik."
 
 #: src/jobs/cuttask.cpp:217 src/jobs/cuttask.cpp:219
 #, kde-format
@@ -9739,7 +9739,7 @@ msgstr "Ezin duzu jatorrizko klipa gainidatzi."
 #: src/jobs/cuttask.cpp:263
 #, kde-format
 msgid "Cut job failed."
-msgstr "Mozte lanak huts egin du."
+msgstr "Mozteko atazak huts egin du."
 
 #: src/jobs/filtertask.cpp:41
 #, kde-format
@@ -9754,22 +9754,22 @@ msgstr "Ezin du fitxategia prozesatu, %1"
 #: src/jobs/filtertask.cpp:150
 #, kde-format
 msgid "Cannot open source."
-msgstr "Ezin da iturburua ireki."
+msgstr "Ezin du sorburua ireki."
 
 #: src/jobs/filtertask.cpp:175
 #, kde-format
 msgid "Cannot create consumer."
-msgstr "Ezin da kontsumitzailea sortu."
+msgstr "Ezin du kontsumitzailea sortu."
 
 #: src/jobs/filtertask.cpp:187
 #, kde-format
 msgid "Cannot create filter %1"
-msgstr "Ezin da %1 iragazkia sortu"
+msgstr "Ezin du %1 iragazkia sortu"
 
 #: src/jobs/filtertask.cpp:269
 #, kde-format
 msgid "Failed to filter source."
-msgstr "Iturburuaren iragazteak huts egin du."
+msgstr "Sorburua iragaztea huts egin du."
 
 #: src/jobs/proxytask.cpp:29
 #, kde-format
@@ -9784,7 +9784,7 @@ msgstr "%1 irudia ezin da kargatu."
 #: src/jobs/proxytask.cpp:251
 #, kde-format
 msgid "Image too small to be proxied."
-msgstr "Irudia bitartekari gisa ipintzeko txikiegia da."
+msgstr "Irudia, ordezkaria sortzeko txikiegia da."
 
 #: src/jobs/proxytask.cpp:259 src/jobs/transcodetask.cpp:183
 #: src/project/cliptranscode.cpp:123
@@ -9796,7 +9796,7 @@ msgstr ""
 #: src/jobs/proxytask.cpp:399 src/jobs/proxytask.cpp:412
 #, kde-format
 msgid "Failed to create proxy clip."
-msgstr "Huts egin du bitartekari-klipa sortzeak."
+msgstr "Klip-ordezkaria sortzea huts egin du."
 
 #: src/jobs/scenesplittask.cpp:42
 #, kde-format
@@ -9930,7 +9930,7 @@ msgstr "Erauzi audioa"
 #: src/kdenliveui.rc:84 src/mainwindow.cpp:3883
 #, kde-format
 msgid "Clip Jobs"
-msgstr "Kliparen zereginak"
+msgstr "Klip-atazak"
 
 #. i18n: ectx: Menu (clip_in_timeline)
 #: src/kdenliveui.rc:98
@@ -10823,7 +10823,7 @@ msgstr "Ez erakutsi koadro txikiak"
 #: src/mainwindow.cpp:756
 #, kde-format
 msgid "Preview Using Proxy Clips"
-msgstr "Errendatu Bitartekari-klipak Erabiliz"
+msgstr "Aurreikusi ordezkari-klipak erabiliz"
 
 #: src/mainwindow.cpp:763
 #, kde-format
@@ -11266,7 +11266,7 @@ msgstr "Monitorean gainjarri audio uhin-forma"
 #: src/mainwindow.cpp:1573
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
-msgstr "Monitorean gainjarri klipen lanak"
+msgstr "Monitorean gainjarri klip-atazak"
 
 #: src/mainwindow.cpp:1591
 #, kde-format
@@ -11940,8 +11940,8 @@ msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr ""
-"Bitartekari parametroak aldatu dituzu. Berriz sortu nahi dituzu proiektu "
-"honetako bitartekari-klip guztiak?"
+"Ordezkari-parametroak aldatu dituzu. Proiektu honetarako klip-ordezkari "
+"guztiak birsortu nahi dituzu?"
 
 #: src/mainwindow.cpp:2202
 #, kde-format
@@ -12219,7 +12219,7 @@ msgstr "Proiektuaren ontziak"
 #: src/mainwindow.cpp:3902
 #, kde-format
 msgid "Configure Clip Jobs…"
-msgstr "Konfiguratu klip lanak..."
+msgstr "Konfiguratu klip-atazak..."
 
 #: src/mainwindow.cpp:3908
 #, kde-format
@@ -12434,12 +12434,12 @@ msgstr "Aspektu-erlazioa:"
 #: src/mltcontroller/clippropertiescontroller.cpp:483
 #, kde-format
 msgid "Delete proxy file"
-msgstr "Ezabatu bitartekari fitxategia"
+msgstr "Ezabatu ordezkariaren fitxategia"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:489
 #, kde-format
 msgid "Proxy options"
-msgstr "Bitartekari aukerak"
+msgstr "Ordezkari-aukerak"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:494
 #, kde-format
@@ -12449,7 +12449,7 @@ msgstr "Ireki karpeta…"
 #: src/mltcontroller/clippropertiescontroller.cpp:500
 #, kde-format
 msgid "Play proxy clip"
-msgstr "Erreproduzitu bitartekari-klipa"
+msgstr "Erreproduzitu klip-ordezkaria"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:506
 #, kde-format
@@ -13365,7 +13365,7 @@ msgstr "Irteera puntua"
 #: src/monitor/view/kdenliveclipmonitor.qml:745
 #, kde-format
 msgid "Terminate Job"
-msgstr "Amaitu lana"
+msgstr "Amaitu ataza"
 
 #: src/monitor/view/kdenlivemonitor.qml:97
 #, kde-format
@@ -14035,7 +14035,7 @@ msgstr "Ez dago nahikoa toki librerik diskoan, toki librea: %1"
 #: src/project/dialogs/archivewidget.cpp:605
 #, kde-format
 msgid "Starting archive job"
-msgstr "Artxibatze lana abiatzen"
+msgstr "Artxibatze ataza abiatzen"
 
 #: src/project/dialogs/archivewidget.cpp:626
 #, kde-format
@@ -14429,17 +14429,17 @@ msgstr "Bistaratu lehenetsitako profilaren parametroak"
 #: src/project/dialogs/projectsettings.cpp:193
 #, kde-format
 msgid "Manage proxy profiles"
-msgstr "Kudeatu bitartekari profilak"
+msgstr "Kudeatu ordezkari-profilak"
 
 #: src/project/dialogs/projectsettings.cpp:195
 #, kde-format
 msgid "Compare proxy profiles efficiency"
-msgstr "Alderatu bitartekari profilen eraginkortasuna"
+msgstr "Alderatu ordezkari-profilen eraginkortasuna"
 
 #: src/project/dialogs/projectsettings.cpp:198
 #, kde-format
 msgid "Select default proxy profile"
-msgstr "Hautatu bitartekari profil lehenetsia"
+msgstr "Hautatu ordezkari-profil lehenetsia"
 
 #: src/project/dialogs/projectsettings.cpp:205
 #, kde-format
@@ -14641,14 +14641,13 @@ msgid ""
 "files used for faster editing. Deleting is safe, proxy clips can be "
 "recreated if you have the original source clips."
 msgstr ""
-"<b>Cache datuak</b> klipen koadro-txiki eta denbora-lerroko aurreikuspen "
-"bideoek osatzen dituzte. Ezabatzea segurua da, datu guztiak berreraiki "
-"daitezke proiektua irekitzean.<br/><b>Babes-kopia datuak</b> zure proiektuen "
-"aurreko bertsioen artxiboa da. Erabilgarria da zure proiektuaren aurreko "
-"bertsio bat berreskuratzeko. Datu hauek ezin dira berreskuratu. <br/"
-"><b>Bitartekari-klipak</b> edizioa azkartzeko erabiltzen diren erresoluzio "
-"txikiagoko bideoak dira. Ezabatzea segurua da, bitartekari-klipak berreraiki "
-"daitezke iturri-klip originalak badituzu."
+"<b>Cacheratutako datuak</b> klipen koadro-txikiek eta denbora-lerroko "
+"aurreikuspegi-bideoek osatzen dituzte. Ezabatzea segurua da, proiektua "
+"irekitzean datu guztiak birsor daitezkeelako.<br/><b>Babes-kopia datuak</b> "
+"zure proiektu-fitxategien aurreko bertsioen artxibo bat da. Datu horiek ezin "
+"dira berreskuratu.<br/><b>Klip-ordezkariak</b> edizioa azkartzeko erabiltzen "
+"diren bereizmen txikiagoko bideoak dira. Ezabatzea segurua da, jatorrizko "
+"sorburu-klipak badituzu klip-ordezkariak birsor daitezkeelako."
 
 #: src/project/dialogs/temporarydata.cpp:185
 #, kde-format
@@ -14720,7 +14719,7 @@ msgstr ""
 #: src/project/dialogs/temporarydata.cpp:457
 #, kde-format
 msgid "No proxies found in the current project."
-msgstr "Uneko proiektuan ez da bitartekaririk aurkitu."
+msgstr "Uneko proiektuan ez da ordezkaririk aurkitu."
 
 #: src/project/dialogs/temporarydata.cpp:468
 #, kde-format
@@ -14730,10 +14729,10 @@ msgid ""
 "Proxy folder contains the proxy clips for all your projects. This proxies "
 "can be recreated from the source clips."
 msgstr ""
-"Ezabatu bitartekari-karpetako proiektu guztien datuak:\n"
+"Ezabatu ordezkarien karpetako proiektu guztien datuak:\n"
 "%1\n"
-"Bitartekari-karpetak zure proiektu guztietarako bitartekari-klip guztiak "
-"ditu. Bitartekari hauek sorburu klipetatik berreraiki daitezke."
+"Ordezkarien karpetak zure proiektu guztietako klip-ordezkariak ditu. "
+"Ordezkari horiek sorburu klipetatik birsor daitezke."
 
 #: src/project/dialogs/temporarydata.cpp:489
 #, kde-format
@@ -14801,14 +14800,14 @@ msgid ""
 "%1\n"
 "Contains proxy clips for all your projects."
 msgstr ""
-"Ezabatu bitartekarien fitxategia\n"
+"Ezabatu ordezkarien karpeta\n"
 "%1\n"
-"Zure proiektu guztien bitartekari-klipak ditu."
+"Zure proiektu guztietako klip-ordezkariak ditu."
 
 #: src/project/dialogs/temporarydata.cpp:774
 #, kde-format
 msgid "No proxy clip older than %1 months found."
-msgstr "Ez da %1 hilabete baino gehiago dituen bitartekari-klipik aurkitu."
+msgstr "Ez da aurkitu %1 hilabete baino zaharragoa den klip-ordezkarik."
 
 #: src/project/dialogs/temporarydata.cpp:778
 #, kde-format
@@ -14816,8 +14815,8 @@ msgid ""
 "Delete the following proxy clips (%1)\n"
 "Proxy clips can be recreated on project opening."
 msgstr ""
-"Bitartekari-klip hauek ezabatu (%1)\n"
-"Bitartekari-klipak proiektua irekitzean berriro sortuko da."
+"Ezabatu ondoko klip-ordezkariak (%1)\n"
+"Klip-ordezkariak proiektua irekitzean birsor daitezke."
 
 #: src/project/effectsettings.cpp:61
 #, kde-format
@@ -15326,16 +15325,14 @@ msgstr ""
 "ingurune birtuala birgaitzen duzunean."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "«OpenTimelineIO» bihurtzea"
+msgstr "«OpenTimelineIO»ren oinarrizko funtzionaltasuna"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "«OpenTimelineIO» bihurtzea"
+msgstr "«OpenTimelineIO»ren Kdenliverako euskarria"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -15353,7 +15350,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "«OpenTimelineIO»k ez du hauteman Kdenlive-egokitzailea."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
@@ -18423,7 +18420,7 @@ msgstr "zip"
 #: src/ui/archivewidget_ui.ui:75
 #, kde-format
 msgid "Archive only proxy clips when available"
-msgstr "Artxibatu bitartekari-klipak soilik erabilgarri daudenean"
+msgstr "Artxibatu klip-ordezkariak soilik erabilgarri daudenean"
 
 #. i18n: ectx: property (text), widget (QCheckBox, timeline_archive)
 #: src/ui/archivewidget_ui.ui:82
@@ -18692,7 +18689,7 @@ msgstr "Hasiera moztu:"
 #: src/ui/clipjobmanager_ui.ui:24
 #, kde-format
 msgid "Job parameters"
-msgstr "Lanaren parametroak"
+msgstr "Atazaren parametroak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/clipjobmanager_ui.ui:30
@@ -18785,7 +18782,7 @@ msgstr "Hautazko deskribapena, parametro bat eskatuz gero erakutsiko dena"
 #: src/ui/clipjobmanager_ui.ui:236
 #, kde-format
 msgid "Job Description"
-msgstr "Lanaren deskribapena"
+msgstr "Atazaren deskribapena"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:292
@@ -18809,7 +18806,7 @@ msgstr "Erabili azpikarpeta bat"
 #: src/ui/clipjobmanager_ui.ui:315
 #, kde-format
 msgid "Put resulting clip in a folder"
-msgstr "Jarri emaitza klipa karpeta batean"
+msgstr "Jarri emaitza-klipa karpeta batean"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
 #: src/ui/clipjobmanager_ui.ui:326
@@ -18833,7 +18830,7 @@ msgstr "Karpetaren izena"
 #: src/ui/clipjobmanager_ui.ui:368
 #, kde-format
 msgid "Custom clip jobs"
-msgstr "Neurrira egindako klip-lanak"
+msgstr "Neurrira egindako klipen atazak"
 
 #. i18n: ectx: property (title), widget (QGroupBox, clip_types)
 #: src/ui/clipjobmanager_ui.ui:375
@@ -18896,7 +18893,7 @@ msgstr "Profila"
 #: src/ui/cliptranscode_ui.ui:164 src/ui/cutjobdialog_ui.ui:100
 #, kde-format
 msgid "Add clip to project"
-msgstr "Gehitu klipa proiektuari"
+msgstr "Gehitu klipa proiektura"
 
 #. i18n: ectx: property (text), widget (QLabel, label_color)
 #: src/ui/colorclip_ui.ui:34
@@ -19159,14 +19156,14 @@ msgstr "Monitorearen atzeko planoko kolorea:"
 #: src/ui/configenv_ui.ui:33
 #, kde-format
 msgid "Proxy and Transcode Jobs"
-msgstr "Bitartekotu eta transkodetu lanak"
+msgstr "Ordezkari- eta transkodetze-atazak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_nice_tasks)
 #: src/ui/configenv_ui.ui:39
 #, kde-format
 msgid "Use lower CPU priority for proxy and transcode tasks"
 msgstr ""
-"Erabili CPU lehentasun baxuagoa bitartekari eta transkodetze lanetarako"
+"Erabili PUZaren lehentasun txikiagoa ordezkari- eta transkodetze-atazetarako"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/configenv_ui.ui:59
@@ -19723,7 +19720,7 @@ msgstr "Denbora-lerroaren aurreikuspenaren profila:"
 #: src/ui/configproxy_ui.ui:41
 #, kde-format
 msgid "Enable proxy clips"
-msgstr "Gaitu bitartekari-klipak"
+msgstr "Gaitu klip-ordezkariak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, generate_proxy)
@@ -19746,7 +19743,7 @@ msgstr " pixelak"
 #: src/ui/configproxy_ui.ui:83
 #, kde-format
 msgid "Proxy video resize (width):"
-msgstr "Bitartekari bideoaren tamaina aldatzea (zabalera):"
+msgstr "Bideo-ordezkariaren tamaina aldatzea (zabalera):"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
@@ -19759,14 +19756,14 @@ msgstr "Sortu hau baino handiagoak diren irudientzat,"
 #: src/ui/configproxy_ui.ui:156 src/ui/projectsettings_ui.ui:479
 #, kde-format
 msgid "Proxy image size"
-msgstr "Bitartekari irudiaren neurria"
+msgstr "Ordezkari-irudiaren tamaina"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:189 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
-msgstr "Kanpoko bitartekari-klipak:"
+msgstr "Kanpoko ordezkari-klipak:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_external_display)
@@ -19821,7 +19818,7 @@ msgstr "Audio gailua:"
 #: src/ui/configsdl_ui.ui:113
 #, kde-format
 msgid "Monitor for fullscreen output:"
-msgstr "Monitorea pantaila osorako:"
+msgstr "Pantaila osoko irteerarako monitorea:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configsdl_ui.ui:130
@@ -20116,7 +20113,7 @@ msgstr "Ezabatu profila"
 #: src/ui/customcamcorderproxy_ui.ui:34 src/ui/projectsettings_ui.ui:387
 #, kde-format
 msgid "Relative path from clip to proxy:"
-msgstr "Bide erlatiboa klipetik bitartekarira:"
+msgstr "Klipetik ordezkarira arteko bide-izen erlatiboa:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_clip)
 #: src/ui/customcamcorderproxy_ui.ui:44 src/ui/projectsettings_ui.ui:380
@@ -20134,19 +20131,19 @@ msgstr "Kliparen atzizkia:"
 #: src/ui/customcamcorderproxy_ui.ui:64 src/ui/projectsettings_ui.ui:346
 #, kde-format
 msgid "Relative path from proxy to clip:"
-msgstr "Bide erlatiboa bitartekartik klipera:"
+msgstr "Ordezkaritik kliperako bide-izen erlatiboa:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_prefix_proxy)
 #: src/ui/customcamcorderproxy_ui.ui:74 src/ui/projectsettings_ui.ui:329
 #, kde-format
 msgid "Prefix of proxy:"
-msgstr "Bitartekariaren aurrizkia:"
+msgstr "Ordezkariaren aurrizkia:"
 
 #. i18n: ectx: property (text), widget (QLabel, l_suffix_proxy)
 #: src/ui/customcamcorderproxy_ui.ui:84 src/ui/projectsettings_ui.ui:312
 #, kde-format
 msgid "Suffix of proxy:"
-msgstr "Bitartekariaren atzizkia:"
+msgstr "Ordezkariaren atzizkia:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
@@ -20803,7 +20800,7 @@ msgstr "<a href='#'>/home/user/.cache/kdenlive/1617522274308</a>"
 #: src/ui/managecache_ui.ui:237
 #, kde-format
 msgid "Proxy clips:"
-msgstr "Bitartekari-klipak:"
+msgstr "Klip-ordezkariak:"
 
 #. i18n: ectx: property (text), widget (QLabel, currentLabel)
 #: src/ui/managecache_ui.ui:244
@@ -20910,13 +20907,13 @@ msgstr "Ezabatu babes-kopia datu guztiak."
 #: src/ui/managecache_ui.ui:582
 #, kde-format
 msgid "Proxy clip data"
-msgstr "Bitartekari-kliparen datuak"
+msgstr "Klip-ordezkariaren datuak"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, gProxyPath)
 #: src/ui/managecache_ui.ui:620
 #, kde-format
 msgid "Click to open proxy folder."
-msgstr "Klik egin bitartekari karpeta irekitzeko."
+msgstr "Egin klik ordezkari-karpeta irekitzeko."
 
 #. i18n: ectx: property (text), widget (QLabel, gProxyPath)
 #: src/ui/managecache_ui.ui:623
@@ -20928,13 +20925,13 @@ msgstr "<a href='#'>/home/user/.cache/kdenlive/proxy</a>"
 #: src/ui/managecache_ui.ui:643
 #, kde-format
 msgid "Cleanup old proxy file."
-msgstr "Garbitu bitartekari fitxategi zaharra."
+msgstr "Garbitu ordezkari-fitxategi zaharra."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gProxyDelete)
 #: src/ui/managecache_ui.ui:654
 #, kde-format
 msgid "Delete all proxy clips."
-msgstr "Ezabatu bitartekari-klip guztiak."
+msgstr "Ezabatu klip-ordezkari guztiak."
 
 #. i18n: ectx: property (text), widget (QLabel, gCleanupLabel)
 #: src/ui/managecache_ui.ui:679
@@ -21149,7 +21146,7 @@ msgstr "Ezarpenak"
 #, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
 msgstr ""
-" Bitartekari-klipak, koadro txikiak, aurreikuspenak gordetzeko erabiltzen da"
+" Klip-ordezkariak, koadro txikiak, aurreikuspegiak gordetzeko erabiltzen da"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:50
@@ -21158,8 +21155,8 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-" Proiektuaren karpeta bitartekari-klipak, koadro txikiak eta aurreikuspenen "
-"modukoak gordetzeko erabiltzen den lekua da."
+" Proiektuaren karpetan klip-ordezkariak, koadro txikiak edo aurreikuspegien "
+"gisako aktiboak gordetzen dira."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/ui/projectsettings_ui.ui:60
@@ -21207,13 +21204,13 @@ msgstr "Denbora-lerroaren Aurreikuspena:"
 #: src/ui/projectsettings_ui.ui:204
 #, kde-format
 msgid "Proxy"
-msgstr "Bitartekaria"
+msgstr "Ordezkaria"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:210
 #, kde-format
 msgid "Proxy clips"
-msgstr "Bitartekari-klipak"
+msgstr "Klip-ordezkariak"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imagesize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, proxy_imageminsize)
@@ -21229,7 +21226,7 @@ msgstr "pixelak"
 #: src/ui/projectsettings_ui.ui:433
 #, kde-format
 msgid "Proxy video resize (width)"
-msgstr "Bitartekari bideoaren tamaina aldatzea (zabalera)"
+msgstr "Bideo-ordezkariaren tamaina aldatzea (zabalera)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/projectsettings_ui.ui:619
@@ -21458,7 +21455,7 @@ msgstr "Errendatu aurrebistaren erresoluzioan"
 #: src/ui/renderwidget_ui.ui:510
 #, kde-format
 msgid "Use Proxy Clips"
-msgstr "Bitartekari-klipak"
+msgstr "Erabili klip-ordezkariak"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/renderwidget_ui.ui:517
@@ -21609,7 +21606,7 @@ msgstr "Jo errendatu ondoren"
 #: src/ui/renderwidget_ui.ui:895
 #, kde-format
 msgid "Job Queue"
-msgstr "Lan-ilara"
+msgstr "Ataza-ilara"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
 #: src/ui/renderwidget_ui.ui:930

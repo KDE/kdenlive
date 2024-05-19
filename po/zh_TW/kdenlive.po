@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-17 02:27+0000\n"
-"PO-Revision-Date: 2024-05-10 23:40+0900\n"
+"PO-Revision-Date: 2024-05-18 17:30+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -745,7 +745,7 @@ msgstr "灰塵污染"
 #: data/effects/dust.xml:5
 #, kde-format
 msgid "Add dust and specks to the video, as in old movies"
-msgstr ""
+msgstr "為影片加上類似舊電影的灰塵與斑點"
 
 #: data/effects/dust.xml:8
 #, kde-format
@@ -801,7 +801,7 @@ msgstr "文字浮水印"
 #: data/effects/dynamictext.xml:5
 #, kde-format
 msgid "Overlay text with keywords replaced"
-msgstr ""
+msgstr "覆蓋文字，其中的關鍵字會被取代"
 
 #: data/effects/dynamictext.xml:8 data/effects/timer.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:386
@@ -1261,7 +1261,7 @@ msgstr "遮罩套用"
 #: data/effects/mask_apply.xml:5
 #, kde-format
 msgid "Apply the previous effects in the zone defined by a Mask Start effect."
-msgstr ""
+msgstr "套用區段內先前由遮罩開始效果所定義的效果。"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -2300,9 +2300,9 @@ msgid "Stabilize"
 msgstr "穩定化"
 
 #: data/effects/vidstab.xml:5
-#, fuzzy, kde-format
+#, kde-format
 msgid "Stabilize Video (for wiggly/rolling video)"
-msgstr "穩定化影片"
+msgstr "穩定化影片（修正影片擺動/飄移用）"
 
 #: data/effects/vidstab.xml:8
 #, kde-format
@@ -2973,10 +2973,9 @@ msgid "Alpha Channel Operation"
 msgstr "Alpha 操作"
 
 #: data/transitions/region.xml:39
-#, fuzzy, kde-format
-#| msgid "Force Interlaced"
+#, kde-format
 msgid "Force Deinterlace Overlay"
-msgstr "強制交錯式"
+msgstr "強制解交錯覆蓋"
 
 #: data/transitions/slide.xml:4
 #, kde-format
@@ -3406,7 +3405,7 @@ msgstr ""
 #: src/assets/keyframes/model/keyframemodel.cpp:61
 #, kde-format
 msgid "Smooth (deprecated)"
-msgstr ""
+msgstr "平滑（已棄用）"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
@@ -3621,17 +3620,17 @@ msgstr "中止處理"
 #: src/assets/view/widgets/colorwheel.cpp:527
 #, kde-format
 msgid "R: "
-msgstr ""
+msgstr "紅："
 
 #: src/assets/view/widgets/colorwheel.cpp:534
 #, kde-format
 msgid "G: "
-msgstr ""
+msgstr "綠："
 
 #: src/assets/view/widgets/colorwheel.cpp:540
 #, kde-format
 msgid "B: "
-msgstr ""
+msgstr "藍："
 
 #: src/assets/view/widgets/keyframeimport.cpp:46
 #, kde-format
@@ -9736,7 +9735,7 @@ msgstr "視窗"
 #: src/kdenliveui.rc:276
 #, kde-format
 msgid "Dock Area Orientation"
-msgstr ""
+msgstr "工具面板方向"
 
 #. i18n: ectx: ToolBar (timelineToolBar)
 #: src/kdenliveui.rc:297
@@ -9788,12 +9787,12 @@ msgstr "管理版面配置…"
 #: src/layoutmanagement.cpp:67
 #, kde-format
 msgid "Arrange Dock Areas In Rows"
-msgstr ""
+msgstr "縱向排列工具面板"
 
 #: src/layoutmanagement.cpp:71
 #, kde-format
 msgid "Arrange Dock Areas In Columns"
-msgstr ""
+msgstr "橫向排列工具面板"
 
 #: src/layoutmanagement.cpp:176
 #, kde-format
@@ -9966,6 +9965,8 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to the library. Note "
 "that the paths to images, video and audio files are saved as absolute paths."
 msgstr ""
+"將時間軸上目前選取的素材加入資料庫。請注意，圖片、影片與音訊檔案的路徑會以絕"
+"對路徑儲存。"
 
 #: src/library/librarywidget.cpp:343
 #, kde-format
@@ -10566,6 +10567,7 @@ msgid ""
 "Switches between Normal, Overwrite and Insert Mode. Determines the default "
 "action when handling clips in the timeline."
 msgstr ""
+"在正常、覆寫與插入三模式之間切換。這會決定在時間軸上處理素材時的預設動作。"
 
 #: src/mainwindow.cpp:1206
 #, kde-format
@@ -10653,6 +10655,8 @@ msgid ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 msgstr ""
+"選取時，在時間軸上點擊並拖曳滑鼠時會暫時將分開的素材群組化，並在素材之間建立"
+"或移除空白空間。"
 
 #: src/mainwindow.cpp:1302
 #, kde-format
@@ -10665,7 +10669,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging the edges of a clip lengthens or shortens the clip "
 "and moves adjacent clips back and forth while doing that."
-msgstr ""
+msgstr "選取時，拖曳素材邊緣會加長或縮短該素材，並同時移動週遭的素材。"
 
 #. i18n("Roll Tool"), this);
 #.
@@ -10682,7 +10686,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
-msgstr "已選時，拖曳素材會前後滑動其中視窗內的素材。"
+msgstr "選取時，拖曳素材會前後滑動其中視窗內的素材。"
 
 #: src/mainwindow.cpp:1321
 #, kde-format
@@ -10718,7 +10722,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of video thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr ""
+msgstr "切換時間軸中素材視訊縮圖的顯示（預設開啟）。"
 
 #: src/mainwindow.cpp:1366
 #, kde-format
@@ -10731,7 +10735,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of audio thumbnails for the clips in the timeline "
 "(default is On)."
-msgstr ""
+msgstr "切換時間軸中素材音訊縮圖的顯示（預設開啟）。"
 
 #: src/mainwindow.cpp:1373
 #, kde-format
@@ -10777,7 +10781,7 @@ msgstr "調整縮放等級來將整個專案顯示於時間軸視窗內。"
 #: src/mainwindow.cpp:1419
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
-msgstr ""
+msgstr "已啟用實驗性 GPU 處理 — 不適合生產用途"
 
 #: src/mainwindow.cpp:1429 src/mainwindow.cpp:3487
 #, kde-format
@@ -11309,6 +11313,7 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
+"將時間軸上目前選取的素材一個新的序列素材，可以在另一個時間軸分頁中開啟。"
 
 #: src/mainwindow.cpp:1865
 #, kde-format
@@ -12930,8 +12935,9 @@ msgid ""
 "shortcut> to zoom"
 msgstr ""
 "<shortcut>點擊</shortcut>來播放，<shortcut>雙擊</shortcut>進入全螢幕，"
-"<shortcut>滑鼠停留於右方</shortcut>來開工具列，使用<shortcut>滾輪</shortcut>"
-"或<shortcut>方向鍵</shortcut>來前後移動，<shortcut>Ctrl+滾輪</shortcut>來縮放"
+"<shortcut>滑鼠停留於右方</shortcut>來打開工具列，使用<shortcut>滾輪</"
+"shortcut>或<shortcut>方向鍵</shortcut>來前後移動，<shortcut>Ctrl+滾輪</"
+"shortcut>來縮放"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:524
 #: src/monitor/view/kdenlivemonitor.qml:199
@@ -12967,8 +12973,8 @@ msgid ""
 "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</b> "
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
-"<b>點擊</b>來播放，<b>雙擊</b>進入全螢幕，<b>滑鼠停留於右方</b>來開工具列，使"
-"用<b>滾輪</b>或<b>方向鍵</b>來前後移動，<b>Ctrl+滾輪</b>來縮放"
+"<b>點擊</b>來播放，<b>雙擊</b>進入全螢幕，<b>滑鼠停留於右方</b>來打開工具列，"
+"使用<b>滾輪</b>或<b>方向鍵</b>來前後移動，<b>Ctrl+滾輪</b>來縮放"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:241
 #, kde-kuit-format
@@ -13002,12 +13008,15 @@ msgid ""
 "shortcut> point to delete it, <shortcut>Double click</shortcut> background "
 "to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
 msgstr ""
+"<shortcut>雙擊</shortcut>中心來調整大小，<shortcut>雙擊</shortcut>線段來新增"
+"點，<shortcut>雙擊</shortcut>點來刪除它，<shortcut>雙擊</shortcut>背景來建立"
+"新影格，<shortcut>滑鼠停駐於右方</shortcut>來使用工具列"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
-msgstr ""
+msgstr "<shortcut>Shift-拖曳把手</shortcut>來以中央為中心調整大小"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:414
 #, kde-format
@@ -13319,6 +13328,8 @@ msgid ""
 "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of "
 "this license, visit %5"
 msgstr ""
+"這個影片使用由「%3」所做的「%1」（%2），以 %4 授權條款釋出。要檢視此授權條款"
+"的副本，請造訪 %5"
 
 #: src/onlineresources/resourcewidget.cpp:660
 #, kde-format
@@ -13781,7 +13792,7 @@ msgstr "新增參照線。"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Add new guide. This will add a guide at the current frame position."
-msgstr ""
+msgstr "新增參照線。這會在目前影格位置新增一個參照線。"
 
 #: src/project/dialogs/guideslist.cpp:138
 #, kde-format
@@ -14850,16 +14861,14 @@ msgstr ""
 "時環境會被重新建立並重新下載模組。"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "OpenTimelineIO 轉換"
+msgstr "OpenTimelineIO 核心功能"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "OpenTimelineIO 轉換"
+msgstr "OpenTimelineIO Kdenlive 支援"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -14875,7 +14884,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "OpenTimelineIO 沒有找到 Kdenlive 轉換器。"
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
@@ -15764,18 +15773,18 @@ msgstr "在您的專案檔案中找到問題"
 #: src/timeline2/model/builders/meltBuilder.cpp:559
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
-msgstr ""
+msgstr "找到 %1 個有無效軌道參照的合成方案 (%2) 並已移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:573
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
-msgstr ""
+msgstr "%1 個合成方案未套用到預期的軌道上，請手動強制設定軌道。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:587
 #, kde-format
 msgid "%1 Invalid composition found and removed."
-msgstr "%1 找到無效合成而已移除。"
+msgstr "找到 %1 個無效合成方案並已移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:623
 #, kde-format
@@ -15798,36 +15807,36 @@ msgstr ""
 #: src/timeline2/model/builders/meltBuilder.cpp:715
 #, kde-format
 msgid "Incorrect Mix, clip %1 was removed at %2."
-msgstr ""
+msgstr "無效混合，素材 %1 已從 %2 移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:706
 #, kde-format
 msgid "Incorrect mix found on track %1 at %2, clip %3 removed."
-msgstr "在軌道 %1 於 %2 找到無效混合，已移除素材 %3。"
+msgstr "在軌道 %1 上於 %2 找到無效混合，已移除素材 %3。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:716
 #, kde-format
 msgid "Incorrect mix found at track %1 at %2, clip %3 removed."
-msgstr ""
+msgstr "在軌道 %1 於 %2 找到無效混合，已移除素材 %3。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:804
 #: src/timeline2/model/builders/meltBuilder.cpp:816
 #: src/timeline2/model/builders/meltBuilder.cpp:837
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
-msgstr ""
+msgstr "找到 %1 個沒有素材庫參照的時間軸素材 (%2) 並已移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:805
 #: src/timeline2/model/builders/meltBuilder.cpp:817
 #: src/timeline2/model/builders/meltBuilder.cpp:838
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) not found in project bin."
-msgstr ""
+msgstr "專案已毀損。素材 %1（%2）未於專案素材庫中找到。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:834
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
-msgstr ""
+msgstr "找到 %1 個有不正確的素材庫參照的時間軸素材 (%2) 並已移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:835
 #, kde-format
@@ -16160,7 +16169,7 @@ msgstr "重新命名軌道"
 #: src/timeline2/model/timelineitemmodel.cpp:814
 #, kde-format
 msgid "Could not setup track compositing, check your install"
-msgstr ""
+msgstr "無法初始設定軌道合成，請檢查您的安裝"
 
 #: src/timeline2/model/timelineitemmodel.cpp:917
 #, kde-format
@@ -17563,15 +17572,15 @@ msgstr "換列（換行符, \\\\n）"
 msgid ""
 "Standard space character. (Other space characters: U+00a0, U"
 "+2000&#x2013;200b, U+202f)"
-msgstr "標準白字元字元。(其他白字元字元：U+00a0, U+2000&#x2013;200b, U+202f)"
+msgstr "標準空格字元。(其他白字元字元：U+00a0, U+2000&#x2013;200b, U+202f)"
 
 #: src/titler/unicodedialog.cpp:151
 #, kde-format
 msgid "No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020."
-msgstr "不間斷白字元。HTML 中的 &amp;nbsp;。詳見 U+2009 和 U+0020。"
+msgstr "不換行空格。HTML 中的 &amp;nbsp;。亦見 U+2009 和 U+0020。"
 
 #: src/titler/unicodedialog.cpp:154
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and "
 "<strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are "
@@ -17582,13 +17591,13 @@ msgid ""
 "p><p>See <a href=\"https://en.wikipedia.org/wiki/Guillemets\">Wikipedia:"
 "Guillemets</a></p>"
 msgstr ""
-"<p><strong>&laquo;</strong> (u+00ab，HTML 裡的<code>&amp;lfquo;</code>) 和"
-"<strong>&raquo;</strong> (u+00bb，HTML裡的<code>&amp;rfquo;</code>) 稱為專名"
-"號(Guillemets) 或斜角括弧(angle quotes)。不同國家的適用法律：法國(包含不間斷"
-"白字元0x00a0)、瑞士、德國、芬蘭和瑞典。</p><p><strong>&lsaquo;</strong> 和"
-"<strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo; </"
-"code>) 等同於單引號。</p><p>詳見<a href=\"http://en.wikipedia.org/wiki/"
-"Guillemets\">維基百科：專名號(Guillemets) </a></p>"
+"<p><strong>&laquo;</strong> (u+00ab，HTML 中為 <code>&amp;lfquo;</code>) 和 "
+"<strong>&raquo;</strong> (u+00bb，HTML 中為 <code>&amp;rfquo;</code>) 稱為專"
+"名號 (Guillemets) 或斜角括弧 (angle quotes)。不同國家的使用：法國 (利用不換行"
+"空格 0x00a0)、瑞典、德國、芬蘭及瑞典。</p><p><strong>&lsaquo;</strong> 和 "
+"<strong>&rsaquo;</strong> (U+2039/203a，<code>&amp;lsaquo;/&amp;rsaquo;</"
+"code>) 是它們的對應單引號。</p><p>詳見 <a href=\"https://zh.wikipedia.org/zh-"
+"tw/Guillemet\">Wikipedia:Guillemets</a></p>"
 
 #: src/titler/unicodedialog.cpp:159
 #, kde-format
@@ -17634,13 +17643,13 @@ msgstr ""
 "度。"
 
 #: src/titler/unicodedialog.cpp:173
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"https://en."
 "wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>"
 msgstr ""
-"小白字元，也是HTML 的&amp;thinsp;。詳見U+202f 和<a href=\"http://en."
-"wikipedia.org/wiki/Space_(punctuation)\">維基百科：白字元_(標點象徵式)</a>"
+"小空格，也是 HTML 的 &amp;thinsp;。詳見 U+202f 和 <a href=\"https://zh."
+"wikipedia.org/wiki/空格\">維基百科：空格</a>"
 
 #: src/titler/unicodedialog.cpp:176
 #, kde-format
@@ -17648,16 +17657,13 @@ msgid "Hair Space. Thinner than U+2009."
 msgstr "最小間距。比 U+2009 更小。"
 
 #: src/titler/unicodedialog.cpp:179
-#, fuzzy, kde-format
-#| msgid ""
-#| "Punctuation Apostrophe. Should be used instead of U+0027. See <a href="
-#| "\"http://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
+#, kde-format
 msgid ""
 "Punctuation Apostrophe. Should be used instead of U+0027. See <a href="
 "\"https://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>"
 msgstr ""
-"標點撇號（Punctuation Apostrophe）。用於交替U+0027。詳見<a href=\"http://en."
-"wikipedia.org/wiki/Apostrophe\">維基百科：撇號</a> "
+"標點撇號（Punctuation Apostrophe）。用於替換 U+0027。詳見<a href=\"https://"
+"zh.wikipedia.org/zh-tw/撇號\">維基百科：撇號</a>"
 
 #: src/titler/unicodedialog.cpp:181
 #, kde-format
@@ -17689,7 +17695,7 @@ msgstr ""
 "號 (Dash)</a></p>"
 
 #: src/titler/unicodedialog.cpp:189
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For "
 "units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, "
@@ -17702,7 +17708,7 @@ msgstr ""
 "+2423, &#x2423; 作為記號）：230&# x2423;V, &#x2212;21&#x2423;&deg;C, "
 "50&#x2423;lb，<em>但是</em> 90&deg; （​​沒有白字元）。德語中用於縮寫(如：i.&# "
 "x202f;d.&#x202f;R。而不是i.&#xa0;d.&#xa0;R. 和U+00a0)。</p><p>詳見<a href="
-"\"http:/ /de.wikipedia.org/wiki/Schmales_Leerzeichen\">維基百科：de: 狹窄白字"
+"\"https://de.wikipedia.org/wiki/Schmales_Leerzeichen\">維基百科：de: 狹窄白字"
 "元(Schmales_Leerzeichen)</a></p>"
 
 #: src/titler/unicodedialog.cpp:194
@@ -18071,7 +18077,7 @@ msgstr "..."
 msgid ""
 "Link the handles' position for current point.<br />Results in a natural "
 "spline."
-msgstr ""
+msgstr "將把手位置連結到目前的點上。<br />會產生自然的曲線。"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetSpline)
 #: src/ui/bezierspline_ui.ui:118
@@ -19849,6 +19855,9 @@ msgid ""
 "ConsumerAvformat/\"><span style=\" text-decoration: underline; color:#2980b9;"
 "\">MLT documentation</span></a> for reference.</p></body></html>"
 msgstr ""
+"<html><head/><body><p>請參考 <a href=\"https://www.mltframework.org/plugins/"
+"ConsumerAvformat/\"><span style=\" text-decoration: underline; color:#2980b9;"
+"\">MLT 說明文件</span></a>。</p></body></html>"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/editrenderpreset_ui.ui:1072
