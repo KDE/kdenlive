@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:38+0000\n"
+"POT-Creation-Date: 2024-05-20 00:38+0000\n"
 "PO-Revision-Date: 2024-05-16 09:43+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -2808,7 +2808,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "Zmanjševanje šuma in restavriranje zvoka"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:123 src/mainwindow.cpp:1492
+#: src/dialogs/kdenlivesettingsdialog.cpp:123 src/mainwindow.cpp:1493
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3925,13 +3925,13 @@ msgid "Import keyframes from clipboard"
 msgstr "Uvozi ključne sličice iz odložišča"
 
 #: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1708
-#: src/mainwindow.cpp:1900
+#: src/mainwindow.cpp:1901
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Pojdi na predhodno ključno sličico"
 
 #: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1705
-#: src/mainwindow.cpp:1898
+#: src/mainwindow.cpp:1899
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Pojdi na naslednjo ključno sličico"
@@ -4869,7 +4869,7 @@ msgstr "Ustvari animacijo …"
 msgid "Add Sequence…"
 msgstr "Dodaj zaporedje …"
 
-#: src/bin/bin.cpp:3642 src/mainwindow.cpp:407
+#: src/bin/bin.cpp:3642 src/mainwindow.cpp:408
 #, kde-format
 msgid "Online Resources"
 msgstr "Spletni viri"
@@ -5135,7 +5135,7 @@ msgstr ""
 "Vaš projekt potrebuje več zvočnih stez za upravljanje vseh tokov. Ali želite "
 "dodati %1 zvočnih stez?"
 
-#: src/bin/bin.cpp:5466 src/mainwindow.cpp:2822
+#: src/bin/bin.cpp:5466 src/mainwindow.cpp:2823
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Posnetka, ki bi mu radi dodali označevalnik, ni možno najti"
@@ -5217,12 +5217,12 @@ msgstr "Prekodiraj brez shranjevanja"
 msgid "Delete effect %1"
 msgstr "Izbriši učinek %1"
 
-#: src/bin/bin.cpp:6284 src/mainwindow.cpp:400
+#: src/bin/bin.cpp:6284 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr "Projektna posoda"
 
-#: src/bin/bin.cpp:6287 src/bin/bin.cpp:6290 src/mainwindow.cpp:4944
+#: src/bin/bin.cpp:6287 src/bin/bin.cpp:6290 src/mainwindow.cpp:4945
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektna posoda %1"
@@ -5507,7 +5507,7 @@ msgstr "Dodaj označevalnike"
 
 #. i18n: ectx: Menu (subtitles)
 #: src/bin/model/subtitlemodel.cpp:78 src/core.cpp:703 src/kdenliveui.rc:30
-#: src/mainwindow.cpp:308 src/project/dialogs/archivewidget.cpp:99
+#: src/mainwindow.cpp:309 src/project/dialogs/archivewidget.cpp:99
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
 msgid "Subtitles"
@@ -5689,7 +5689,7 @@ msgstr "Dodaj podposnetek"
 msgid "Rename Folder"
 msgstr "Preimenuj mapo"
 
-#: src/bin/projectitemmodel.cpp:1038 src/mainwindow.cpp:1546
+#: src/bin/projectitemmodel.cpp:1038 src/mainwindow.cpp:1547
 #, kde-format
 msgid "Clean Project"
 msgstr "Počisti projekt"
@@ -6324,7 +6324,7 @@ msgstr "Posredni posnetki"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:53 src/kdenliveui.rc:125
-#: src/mainwindow.cpp:642
+#: src/mainwindow.cpp:643
 #, kde-format
 msgid "Timeline Preview"
 msgstr "Predogled časovnice"
@@ -6570,7 +6570,7 @@ msgstr "Kodiranje znakov zaznano kot %1"
 msgid "Import Subtitle"
 msgstr "Uvozi podnaslov"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:4045
+#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:4046
 #, kde-format
 msgid "Timeline"
 msgstr "Časovnica"
@@ -6739,7 +6739,7 @@ msgstr "Ozadnji program ARTS"
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/kdenlivesettingsdialog.cpp:736
 #: src/dialogs/kdenlivesettingsdialog.cpp:737 src/dialogs/renderwidget.cpp:228
-#: src/mainwindow.cpp:214 src/ui/configproject_ui.ui:48
+#: src/mainwindow.cpp:215 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Privzeto"
@@ -6754,7 +6754,7 @@ msgstr "SDL"
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:824 src/mainwindow.cpp:355
+#: src/dialogs/kdenlivesettingsdialog.cpp:824 src/mainwindow.cpp:356
 #, kde-format
 msgid "Monitor %1"
 msgstr "Zaslon %1"
@@ -9687,12 +9687,12 @@ msgstr "Po datoteki <b>%1</b> ni možno iskati."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Datoteka <b>%1</b> ima spremenljivo hitrost v sličicah na sekundo."
 
-#: src/jobs/customjobtask.cpp:172
+#: src/jobs/customjobtask.cpp:173
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "Programa %1 ni možno najti, posodobite nastavitve posla"
 
-#: src/jobs/customjobtask.cpp:289 src/jobs/customjobtask.cpp:309
+#: src/jobs/customjobtask.cpp:297 src/jobs/customjobtask.cpp:317
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
 #: src/jobs/transcodetask.cpp:270
 #, kde-format
@@ -9946,13 +9946,13 @@ msgid "Markers"
 msgstr "Označevalniki"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:81 src/mainwindow.cpp:3940
+#: src/kdenliveui.rc:81 src/mainwindow.cpp:3941
 #, kde-format
 msgid "Extract Audio"
 msgstr "Izvleci zvok"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:84 src/mainwindow.cpp:3914
+#: src/kdenliveui.rc:84 src/mainwindow.cpp:3915
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Posli posnetka"
@@ -10013,20 +10013,20 @@ msgstr "Praznina"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:172 src/mainwindow.cpp:1918
+#: src/kdenliveui.rc:172 src/mainwindow.cpp:1919
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
 msgstr "Steze"
 
 #. i18n: ectx: Menu (video_effects_menu)
-#: src/kdenliveui.rc:192 src/mainwindow.cpp:576
+#: src/kdenliveui.rc:192 src/mainwindow.cpp:577
 #, kde-format
 msgid "Add Effect"
 msgstr "Dodaj učinek"
 
 #. i18n: ectx: Menu (monitor)
-#: src/kdenliveui.rc:206 src/mainwindow.cpp:158
+#: src/kdenliveui.rc:206 src/mainwindow.cpp:159
 #, kde-format
 msgid "Monitor"
 msgstr "Prikaz"
@@ -10050,7 +10050,7 @@ msgid "Current Monitor Overlay"
 msgstr "Trenutno prekritje ogleda"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:250 src/mainwindow.cpp:1617
+#: src/kdenliveui.rc:250 src/mainwindow.cpp:1618
 #, kde-format
 msgid "Preview Resolution"
 msgstr "Ločljivost predogleda"
@@ -10095,7 +10095,7 @@ msgstr "Beleženje"
 msgid "Editing"
 msgstr "Montaža"
 
-#: src/layoutmanagement.cpp:37 src/mainwindow.cpp:496 src/mainwindow.cpp:577
+#: src/layoutmanagement.cpp:37 src/mainwindow.cpp:497 src/mainwindow.cpp:578
 #, kde-format
 msgid "Effects"
 msgstr "Učinki"
@@ -10636,152 +10636,152 @@ msgstr "Izhodna datoteka za izrisani videoposnetek."
 msgid "Version %1"
 msgstr "Različica %1"
 
-#: src/mainwindow.cpp:160
+#: src/mainwindow.cpp:161
 #, kde-format
 msgid "Add Clip"
 msgstr "Dodaj posnetek"
 
-#: src/mainwindow.cpp:162
+#: src/mainwindow.cpp:163
 #, kde-format
 msgid "Navigation and Playback"
 msgstr "Krmarjenje in predvajanje"
 
-#: src/mainwindow.cpp:164
+#: src/mainwindow.cpp:165
 #, kde-format
 msgid "Bin Tags"
 msgstr "Značke posode"
 
-#: src/mainwindow.cpp:184
+#: src/mainwindow.cpp:185
 #, kde-format
 msgid "Style"
 msgstr "Slog"
 
-#: src/mainwindow.cpp:250
+#: src/mainwindow.cpp:251
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
 msgstr ""
 "Ni možno najti vašega privzetega profila, preklapljanje na ATSC 1080p 25"
 
-#: src/mainwindow.cpp:307
+#: src/mainwindow.cpp:308
 #, kde-format
 msgid "Library"
 msgstr "Knjižnica"
 
-#: src/mainwindow.cpp:309
+#: src/mainwindow.cpp:310
 #, kde-format
 msgid "Speech Editor"
 msgstr "Urejevalnik govora"
 
-#: src/mainwindow.cpp:310
+#: src/mainwindow.cpp:311
 #, kde-format
 msgid "Time Remapping"
 msgstr "Časovno preslikovanje"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/mainwindow.cpp:311 src/ui/guideslist_ui.ui:126
+#: src/mainwindow.cpp:312 src/ui/guideslist_ui.ui:126
 #: src/ui/projectsettings_ui.ui:547
 #, kde-format
 msgid "Guides"
 msgstr "Vodila"
 
-#: src/mainwindow.cpp:363 src/timeline2/view/qml/AudioLevels.qml:28
+#: src/mainwindow.cpp:364 src/timeline2/view/qml/AudioLevels.qml:28
 #: src/timeline2/view/qml/AudioLevels.qml:44
 #, kde-format
 msgid "Record"
 msgstr "Zajemi"
 
-#: src/mainwindow.cpp:369
+#: src/mainwindow.cpp:370
 #, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
 msgstr "Omogoči spremljanje zvoka iz mešalnika za snemanje"
 
-#: src/mainwindow.cpp:377 src/monitor/recmanager.cpp:103
+#: src/mainwindow.cpp:378 src/monitor/recmanager.cpp:103
 #, kde-format
 msgid "Configure Recording"
 msgstr "Nastavi zajemanje"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:380 src/monitor/recmanager.cpp:38
+#: src/mainwindow.cpp:381 src/monitor/recmanager.cpp:38
 #: src/monitor/recmanager.cpp:94 src/ui/configcapture_ui.ui:263
 #, kde-format
 msgid "Screen Grab"
 msgstr "Zajem zaslona"
 
-#: src/mainwindow.cpp:386
+#: src/mainwindow.cpp:387
 #, kde-format
 msgid "Switch to next Sequence"
 msgstr "Preklopi na naslednje zaporedje"
 
-#: src/mainwindow.cpp:390
+#: src/mainwindow.cpp:391
 #, kde-format
 msgid "Switch to previous Sequence"
 msgstr "Preklopi na prejšnje zaporedje"
 
-#: src/mainwindow.cpp:396
+#: src/mainwindow.cpp:397
 #, kde-format
 msgid "Audio Spectrum"
 msgstr "Zvočni spekter"
 
-#: src/mainwindow.cpp:403
+#: src/mainwindow.cpp:404
 #, kde-format
 msgid "Media Browser"
 msgstr "Predstavnostni predvajalnik"
 
-#: src/mainwindow.cpp:428
+#: src/mainwindow.cpp:429
 #, kde-format
 msgid "Effect/Composition Stack"
 msgstr "Sklad učinkov/sestav"
 
-#: src/mainwindow.cpp:499
+#: src/mainwindow.cpp:500
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
 #, kde-format
 msgid "Compositions"
 msgstr "Sestave"
 
-#: src/mainwindow.cpp:502
+#: src/mainwindow.cpp:503
 #, kde-format
 msgid "Clip Monitor"
 msgstr "Ogled posnetka"
 
-#: src/mainwindow.cpp:503
+#: src/mainwindow.cpp:504
 #, kde-format
 msgid "Project Monitor"
 msgstr "Ogled projekta"
 
-#: src/mainwindow.cpp:507
+#: src/mainwindow.cpp:508
 #, kde-format
 msgid "Clean"
 msgstr "Počisti"
 
-#: src/mainwindow.cpp:509
+#: src/mainwindow.cpp:510
 #, kde-format
 msgid "Undo History"
 msgstr "Zgodovina razveljavitev"
 
-#: src/mainwindow.cpp:533
+#: src/mainwindow.cpp:534
 #, kde-format
 msgid "Force Breeze Icon Theme"
 msgstr "Vsili temo ikon Sapica"
 
-#: src/mainwindow.cpp:540 src/mainwindow.cpp:542
+#: src/mainwindow.cpp:541 src/mainwindow.cpp:543
 #, kde-format
 msgid "Audio Mixer"
 msgstr "Mešalnik zvoka"
 
-#: src/mainwindow.cpp:541
+#: src/mainwindow.cpp:542
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "Preklopi ploščo/gradnik mešalnika zvoka."
 
-#: src/mainwindow.cpp:580
+#: src/mainwindow.cpp:581
 #, kde-format
 msgid "Add Transition"
 msgstr "Dodaj prehod"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:581 src/mainwindow.cpp:2085
+#: src/mainwindow.cpp:582 src/mainwindow.cpp:2086
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -10789,12 +10789,12 @@ msgid "Transitions"
 msgstr "Prehodi"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:599 src/mainwindow.cpp:611 src/mainwindow.cpp:618
+#: src/mainwindow.cpp:600 src/mainwindow.cpp:612 src/mainwindow.cpp:619
 #, kde-format
 msgid "Favorite Effects"
 msgstr "Priljubljeni učinki"
 
-#: src/mainwindow.cpp:600 src/mainwindow.cpp:613
+#: src/mainwindow.cpp:601 src/mainwindow.cpp:614
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10804,12 +10804,12 @@ msgstr ""
 "Kliknite, da prikažete seznam priljubljenih učinkov. Dvokliknite učinek, da "
 "ga dodate izbranemu posnetku."
 
-#: src/mainwindow.cpp:626 src/mainwindow.cpp:1540
+#: src/mainwindow.cpp:627 src/mainwindow.cpp:1541
 #, kde-format
 msgid "Render…"
 msgstr "Izriši …"
 
-#: src/mainwindow.cpp:631
+#: src/mainwindow.cpp:632
 #, kde-format
 msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
@@ -10817,68 +10817,68 @@ msgctxt ""
 msgid "Render Button"
 msgstr "Gumb za upodobitev"
 
-#: src/mainwindow.cpp:637
+#: src/mainwindow.cpp:638
 #, kde-format
 msgid "Rendering preview"
 msgstr "Izrisovanje predogleda"
 
-#: src/mainwindow.cpp:695 src/monitor/monitor.cpp:411
+#: src/mainwindow.cpp:696 src/monitor/monitor.cpp:411
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Pojdi na vodilo …"
 
-#: src/mainwindow.cpp:723
+#: src/mainwindow.cpp:724
 #, kde-format
 msgid "Separate Channels"
 msgstr "Ločeni kanali"
 
-#: src/mainwindow.cpp:730
+#: src/mainwindow.cpp:731
 #, kde-format
 msgid "Normalize Audio Thumbnails"
 msgstr "Normaliziraj zvočne izvlečke"
 
-#: src/mainwindow.cpp:737
+#: src/mainwindow.cpp:738
 #, kde-format
 msgid "Thumbnails"
 msgstr "Sličice"
 
-#: src/mainwindow.cpp:739
+#: src/mainwindow.cpp:740
 #, kde-format
 msgid "In Frame"
 msgstr "V sličici"
 
-#: src/mainwindow.cpp:743
+#: src/mainwindow.cpp:744
 #, kde-format
 msgid "In/Out Frames"
 msgstr "Sličice v/iz"
 
-#: src/mainwindow.cpp:747
+#: src/mainwindow.cpp:748
 #, kde-format
 msgid "All Frames"
 msgstr "Vse sličice"
 
-#: src/mainwindow.cpp:751
+#: src/mainwindow.cpp:752
 #, kde-format
 msgid "No Thumbnails"
 msgstr "Brez predogledov"
 
-#: src/mainwindow.cpp:787
+#: src/mainwindow.cpp:788
 #, kde-format
 msgid "Preview Using Proxy Clips"
 msgstr "Preglej z uporabo posrednih posnetkov"
 
-#: src/mainwindow.cpp:794
+#: src/mainwindow.cpp:795
 #, kde-format
 msgid "Automatic Preview"
 msgstr "Samodejni predogled"
 
-#: src/mainwindow.cpp:906
+#: src/mainwindow.cpp:907
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Nalaganje projekta"
 
-#: src/mainwindow.cpp:1054
+#: src/mainwindow.cpp:1055
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -10899,42 +10899,42 @@ msgstr[3] ""
 "V vrsti čakajo %1 posli izrisovanja.\n"
 "Kaj želite storiti z njimi?"
 
-#: src/mainwindow.cpp:1057
+#: src/mainwindow.cpp:1058
 #, kde-format
 msgid "Start them now"
 msgstr "Zaženi jih zdaj"
 
-#: src/mainwindow.cpp:1057
+#: src/mainwindow.cpp:1058
 #, kde-format
 msgid "Delete them"
 msgstr "Izbriši jih"
 
-#: src/mainwindow.cpp:1153 src/timeline2/view/timelinecontroller.cpp:2146
+#: src/mainwindow.cpp:1154 src/timeline2/view/timelinecontroller.cpp:2146
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Izberite posnetek za primerjavo učinka"
 
-#: src/mainwindow.cpp:1203
+#: src/mainwindow.cpp:1204
 #, kde-format
 msgid "Normal Mode"
 msgstr "Navadni način"
 
-#: src/mainwindow.cpp:1210
+#: src/mainwindow.cpp:1211
 #, kde-format
 msgid "Overwrite Mode"
 msgstr "Način prepisovanja"
 
-#: src/mainwindow.cpp:1217
+#: src/mainwindow.cpp:1218
 #, kde-format
 msgid "Insert Mode"
 msgstr "Način vstavljanja"
 
-#: src/mainwindow.cpp:1221
+#: src/mainwindow.cpp:1222
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "Način urejanja časovnice"
 
-#: src/mainwindow.cpp:1223
+#: src/mainwindow.cpp:1224
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10944,17 +10944,17 @@ msgstr ""
 "Preklopi med navadnim, prepisanim in vstavnim načinom. Določa privzeto "
 "dejanje pri rokovanju s posnetki na časovnici."
 
-#: src/mainwindow.cpp:1236
+#: src/mainwindow.cpp:1237
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "Ne uporabite območja časovnice za vstavitev"
 
-#: src/mainwindow.cpp:1236
+#: src/mainwindow.cpp:1237
 #, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "Za vstavitev uporabi območje časovnice"
 
-#: src/mainwindow.cpp:1237
+#: src/mainwindow.cpp:1238
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10963,69 +10963,69 @@ msgstr ""
 "Preklopi med uporabo območja časovnice za vstavljanje (vklopljeno) ali ne "
 "(izklopljeno)."
 
-#: src/mainwindow.cpp:1244
+#: src/mainwindow.cpp:1245
 #, kde-format
 msgid "Enable Track Compositing"
 msgstr "Omogoči sestavo stez"
 
-#: src/mainwindow.cpp:1250
+#: src/mainwindow.cpp:1251
 #, kde-format
 msgid "Split Audio Tracks"
 msgstr "Razdeli zvočne steze"
 
-#: src/mainwindow.cpp:1256
+#: src/mainwindow.cpp:1257
 #, kde-format
 msgid "Split Audio Tracks (reverse)"
 msgstr "Razdeli zvočne steze (obratno)"
 
-#: src/mainwindow.cpp:1262
+#: src/mainwindow.cpp:1263
 #, kde-format
 msgid "Mixed Audio tracks"
 msgstr "Mešane zvočne steze"
 
-#: src/mainwindow.cpp:1288
+#: src/mainwindow.cpp:1289
 #, kde-format
 msgid "Track menu"
 msgstr "Meni stez"
 
-#: src/mainwindow.cpp:1293 src/project/dialogs/slideshowclip.cpp:86
+#: src/mainwindow.cpp:1294 src/project/dialogs/slideshowclip.cpp:86
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "hh:mm:ss:ff"
 
-#: src/mainwindow.cpp:1294 src/project/dialogs/slideshowclip.cpp:87
+#: src/mainwindow.cpp:1295 src/project/dialogs/slideshowclip.cpp:87
 #, kde-format
 msgid "Frames"
 msgstr "Sličice"
 
-#: src/mainwindow.cpp:1306
+#: src/mainwindow.cpp:1307
 #, kde-format
 msgid "Edit Subtitle Tool"
 msgstr "Orodje Uredi podnaslov"
 
-#: src/mainwindow.cpp:1307
+#: src/mainwindow.cpp:1308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Preklopi stezo podnaslovov v časovnici."
 
-#: src/mainwindow.cpp:1314 src/titler/titlewidget.cpp:380
+#: src/mainwindow.cpp:1315 src/titler/titlewidget.cpp:380
 #: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Selection Tool"
 msgstr "Orodje za izbiranje"
 
-#: src/mainwindow.cpp:1319
+#: src/mainwindow.cpp:1320
 #, kde-format
 msgid "Razor Tool"
 msgstr "Rezilo"
 
-#: src/mainwindow.cpp:1324
+#: src/mainwindow.cpp:1325
 #, kde-format
 msgid "Spacer Tool"
 msgstr "Orodje za praznine"
 
-#: src/mainwindow.cpp:1327
+#: src/mainwindow.cpp:1328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11035,12 +11035,12 @@ msgstr ""
 "Če je izbrano, s klikom in povlekom kazalca miške v časovnici začasno združi "
 "ločene posnetke in ustvari ali odstrani praznino med posnetki."
 
-#: src/mainwindow.cpp:1332
+#: src/mainwindow.cpp:1333
 #, kde-format
 msgid "Ripple Tool"
 msgstr "Orodje za izrivanje"
 
-#: src/mainwindow.cpp:1335
+#: src/mainwindow.cpp:1336
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11054,12 +11054,12 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1346
+#: src/mainwindow.cpp:1347
 #, kde-format
 msgid "Slip Tool"
 msgstr "Orodje za drsenje posnetka"
 
-#: src/mainwindow.cpp:1347
+#: src/mainwindow.cpp:1348
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11068,22 +11068,22 @@ msgid ""
 msgstr ""
 "Če je izbrano, povlek posnetka podrsa posnetek pod danim oknom sem in tja."
 
-#: src/mainwindow.cpp:1351
+#: src/mainwindow.cpp:1352
 #, kde-format
 msgid "Multicam Tool"
 msgstr "Orodje za večkamerne posnetke"
 
-#: src/mainwindow.cpp:1373
+#: src/mainwindow.cpp:1374
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "Strni/razširi predmet"
 
-#: src/mainwindow.cpp:1377
+#: src/mainwindow.cpp:1378
 #, kde-format
 msgid "Mix Clips"
 msgstr "Mešaj kadre"
 
-#: src/mainwindow.cpp:1379
+#: src/mainwindow.cpp:1380
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11093,12 +11093,12 @@ msgstr ""
 "Ustvari prehod na isti stezi med izbranim posnetkom in sosednjim, ki je "
 "najbližji predvajalni glavi."
 
-#: src/mainwindow.cpp:1387
+#: src/mainwindow.cpp:1388
 #, kde-format
 msgid "Show Video Thumbnails"
 msgstr "Pokaži video sličice"
 
-#: src/mainwindow.cpp:1388
+#: src/mainwindow.cpp:1389
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11107,12 +11107,12 @@ msgid ""
 msgstr ""
 "Preklopi prikaz video sličic posnetkov na časovnici (privzeto vklopljeno)."
 
-#: src/mainwindow.cpp:1396
+#: src/mainwindow.cpp:1397
 #, kde-format
 msgid "Show Audio Thumbnails"
 msgstr "Pokaži zvočne izvlečke"
 
-#: src/mainwindow.cpp:1397
+#: src/mainwindow.cpp:1398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11122,17 +11122,17 @@ msgstr ""
 "Preklopi prikaz zvočnih izvlečkov posnetkov na časovnici (privzeto "
 "vklopljeno)."
 
-#: src/mainwindow.cpp:1403
+#: src/mainwindow.cpp:1404
 #, kde-format
 msgid "Show Markers Comments"
 msgstr "Pokaži opombe označevalnikov"
 
-#: src/mainwindow.cpp:1409
+#: src/mainwindow.cpp:1410
 #, kde-format
 msgid "Snap"
 msgstr "Pripni"
 
-#: src/mainwindow.cpp:1410
+#: src/mainwindow.cpp:1411
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11142,23 +11142,23 @@ msgstr ""
 "Preklopi funkcijo pripenjanja (posnetki se pripnejo na predvajalno glavo, "
 "robove, označevalnike, vodila in drugo)."
 
-#: src/mainwindow.cpp:1416
+#: src/mainwindow.cpp:1417
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "Pokaži barvne značke na časovnici"
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1418
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "Preklopi prikaz značk posnetkov na časovnici (privzeto vklopljeno)."
 
-#: src/mainwindow.cpp:1423
+#: src/mainwindow.cpp:1424
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "Prilagodi približanje projektu"
 
-#: src/mainwindow.cpp:1424
+#: src/mainwindow.cpp:1425
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11166,17 +11166,17 @@ msgid ""
 msgstr ""
 "Prilagodi raven povečave, da se celoten projekt prilagodi oknu časovnice."
 
-#: src/mainwindow.cpp:1449
+#: src/mainwindow.cpp:1450
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Omogočena eksperimentalna obdelava GPU - ni za produkcijo"
 
-#: src/mainwindow.cpp:1459 src/mainwindow.cpp:3517
+#: src/mainwindow.cpp:1460 src/mainwindow.cpp:3518
 #, kde-format
 msgid "Multicam"
 msgstr "Večkamerni posnetki"
 
-#: src/mainwindow.cpp:1460
+#: src/mainwindow.cpp:1461
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr "Dejavni način orodja in montaže"
@@ -11184,239 +11184,239 @@ msgstr "Dejavni način orodja in montaže"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1511 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1512 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "Samodejno"
 
-#: src/mainwindow.cpp:1516
+#: src/mainwindow.cpp:1517
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1521
+#: src/mainwindow.cpp:1522
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "DirectX (KOT)"
 
-#: src/mainwindow.cpp:1526
+#: src/mainwindow.cpp:1527
 #, kde-format
 msgid "Software OpenGL"
 msgstr "Programski OpenGL"
 
-#: src/mainwindow.cpp:1536
+#: src/mainwindow.cpp:1537
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "Zaženi čarovnika za nastavitve …"
 
-#: src/mainwindow.cpp:1537
+#: src/mainwindow.cpp:1538
 #, kde-format
 msgid "Project Settings…"
 msgstr "Nastavitve projekta …"
 
-#: src/mainwindow.cpp:1543
+#: src/mainwindow.cpp:1544
 #, kde-format
 msgid "Stop Render"
 msgstr "Zaustavi izris"
 
-#: src/mainwindow.cpp:1548
+#: src/mainwindow.cpp:1549
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "Ponovna nastavitev …"
 
-#: src/mainwindow.cpp:1553
+#: src/mainwindow.cpp:1554
 #, kde-format
 msgid "Play Zone From Cursor"
 msgstr "Predvajaj območje od kazalca"
 
-#: src/mainwindow.cpp:1556
+#: src/mainwindow.cpp:1557
 #, kde-format
 msgid "Play Zone"
 msgstr "Obseg predvajanja"
 
-#: src/mainwindow.cpp:1558
+#: src/mainwindow.cpp:1559
 #, kde-format
 msgid "Loop Zone"
 msgstr "Obseg ponavljanja"
 
-#: src/mainwindow.cpp:1560
+#: src/mainwindow.cpp:1561
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "Ponavljaj izbran posnetek"
 
-#: src/mainwindow.cpp:1564
+#: src/mainwindow.cpp:1565
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "Prekodiraj posnetke …"
 
-#: src/mainwindow.cpp:1565
+#: src/mainwindow.cpp:1566
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "I&zvoz OpenTimelineIO …"
 
-#: src/mainwindow.cpp:1568
+#: src/mainwindow.cpp:1569
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "&Uvoz OpenTimelineIO …"
 
-#: src/mainwindow.cpp:1572
+#: src/mainwindow.cpp:1573
 #, kde-format
 msgid "Archive Project…"
 msgstr "Arhiviraj projekt …"
 
-#: src/mainwindow.cpp:1574
+#: src/mainwindow.cpp:1575
 #, kde-format
 msgid "Switch Monitor"
 msgstr "Preklopi zaslon"
 
-#: src/mainwindow.cpp:1575
+#: src/mainwindow.cpp:1576
 #, kde-format
 msgid "Focus Timecode"
 msgstr "Pozornost na časovno kodo"
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1577
 #, kde-format
 msgid "Expand Clip"
 msgstr "Razširi posnetek"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1579
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "Pokaži podrobnosti v sliki"
 
-#: src/mainwindow.cpp:1583
+#: src/mainwindow.cpp:1584
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "Pokaži časovno kodo v sliki"
 
-#: src/mainwindow.cpp:1588
+#: src/mainwindow.cpp:1589
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "Pokaži hitrost predvajanja (sl/s) v sliki"
 
-#: src/mainwindow.cpp:1593
+#: src/mainwindow.cpp:1594
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "Pokaži označevalnike v sliki"
 
-#: src/mainwindow.cpp:1598
+#: src/mainwindow.cpp:1599
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "Pokaži signalno obliko zvoka v sliki"
 
-#: src/mainwindow.cpp:1603
+#: src/mainwindow.cpp:1604
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
 msgstr "Prekrij ogled s posli posnetka"
 
-#: src/mainwindow.cpp:1621
+#: src/mainwindow.cpp:1622
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "Polna ločljivost (1:1)"
 
-#: src/mainwindow.cpp:1625 src/monitor/monitor.cpp:218
+#: src/mainwindow.cpp:1626 src/monitor/monitor.cpp:218
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1629 src/monitor/monitor.cpp:218
+#: src/mainwindow.cpp:1630 src/monitor/monitor.cpp:218
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1633 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1634 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1637 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1638 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "270p"
 msgstr "270p"
 
-#: src/mainwindow.cpp:1668
+#: src/mainwindow.cpp:1669
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "Dejanski čas (izpusti sličice)"
 
-#: src/mainwindow.cpp:1674
+#: src/mainwindow.cpp:1675
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "Prikaz game"
 
-#: src/mainwindow.cpp:1675
+#: src/mainwindow.cpp:1676
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB (računalnik)"
 
-#: src/mainwindow.cpp:1676
+#: src/mainwindow.cpp:1677
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709 (TV)"
 
-#: src/mainwindow.cpp:1682
+#: src/mainwindow.cpp:1683
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "Vstavi območje v posodo projekta"
 
-#: src/mainwindow.cpp:1684
+#: src/mainwindow.cpp:1685
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "Ustvari nov posnetek v projektni posodi iz določenega območja."
 
-#: src/mainwindow.cpp:1687
+#: src/mainwindow.cpp:1688
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "Pojdi na prejšnjo točko pripenjanja"
 
-#: src/mainwindow.cpp:1689
+#: src/mainwindow.cpp:1690
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "Pojdi na naslednjo točko pripenjanja"
 
-#: src/mainwindow.cpp:1692
+#: src/mainwindow.cpp:1693
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "Pojdi na začetek posnetka"
 
-#: src/mainwindow.cpp:1694
+#: src/mainwindow.cpp:1695
 #, kde-format
 msgid "Go to Clip End"
 msgstr "Pojdi na konec posnetka"
 
-#: src/mainwindow.cpp:1696
+#: src/mainwindow.cpp:1697
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "Pojdi na predhodno vodilo"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1699
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "Pojdi na naslednje vodilo"
 
-#: src/mainwindow.cpp:1700
+#: src/mainwindow.cpp:1701
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "Poravnaj predvajalno glavo na mesto miške"
 
-#: src/mainwindow.cpp:1703
+#: src/mainwindow.cpp:1704
 #, kde-format
 msgid "Grab Current Item"
 msgstr "Zgrabi trenutni predmet"
 
-#: src/mainwindow.cpp:1706
+#: src/mainwindow.cpp:1707
 #, kde-format
 msgid "Automatic Transition"
 msgstr "Samodejni prehod"
 
-#: src/mainwindow.cpp:1713
+#: src/mainwindow.cpp:1714
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Prepiši območje posnetka v časovnici"
 
-#: src/mainwindow.cpp:1715
+#: src/mainwindow.cpp:1716
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11428,12 +11428,12 @@ msgstr ""
 "vstavi na mesto predvajalne glave v dejavni časovnici. Posnetki na mestu "
 "vstavljanja so odrezani in prepisani."
 
-#: src/mainwindow.cpp:1717
+#: src/mainwindow.cpp:1718
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "Vstavi območje posnetka v časovnico"
 
-#: src/mainwindow.cpp:1719
+#: src/mainwindow.cpp:1720
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11445,12 +11445,12 @@ msgstr ""
 "vstavi na mesto predvajalne glave v dejavni časovnici. Posnetki na mestu "
 "vstavljanja so odrezani in zamaknjeni na desno."
 
-#: src/mainwindow.cpp:1721
+#: src/mainwindow.cpp:1722
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "Izvleci območje časovnice"
 
-#: src/mainwindow.cpp:1723
+#: src/mainwindow.cpp:1724
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11460,12 +11460,12 @@ msgstr ""
 "Kliknite, če želite iz časovnice izbrisati območje časovnice. Vsi posnetki "
 "na desni strani se zamaknejo levo."
 
-#: src/mainwindow.cpp:1724
+#: src/mainwindow.cpp:1725
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "Dvigni območje časovnice"
 
-#: src/mainwindow.cpp:1726
+#: src/mainwindow.cpp:1727
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11475,12 +11475,12 @@ msgstr ""
 "Kliknite, če želite iz časovnice izbrisati območje časovnice. Vsi posnetki "
 "na desni strani ostanejo na svojem mestu."
 
-#: src/mainwindow.cpp:1727
+#: src/mainwindow.cpp:1728
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "Dodaj območje predogleda"
 
-#: src/mainwindow.cpp:1729
+#: src/mainwindow.cpp:1730
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11489,12 +11489,12 @@ msgstr ""
 "Dodajte trenutno določeno časovnico/območja izbora kot območje izrisa "
 "predogleda"
 
-#: src/mainwindow.cpp:1730
+#: src/mainwindow.cpp:1731
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Odstrani območje predogleda"
 
-#: src/mainwindow.cpp:1734
+#: src/mainwindow.cpp:1735
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11505,23 +11505,23 @@ msgstr ""
 "predogleda. Upoštevajte, da lahko to pusti luknje v območjih izrisa "
 "predogleda."
 
-#: src/mainwindow.cpp:1735
+#: src/mainwindow.cpp:1736
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Odstrani vsa območja predogleda"
 
-#: src/mainwindow.cpp:1737
+#: src/mainwindow.cpp:1738
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "Odstrani vsa območja izrisa predogleda."
 
-#: src/mainwindow.cpp:1738
+#: src/mainwindow.cpp:1739
 #, kde-format
 msgid "Start Preview Render"
 msgstr "Začni izris predogleda"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1742
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11534,178 +11534,178 @@ msgstr ""
 "navzdol, če želite videti seznam možnosti (npr. dodajte območje izrisa "
 "predogleda, odstranite vsa območja)."
 
-#: src/mainwindow.cpp:1743
+#: src/mainwindow.cpp:1744
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "Zaustavi izris predogleda"
 
-#: src/mainwindow.cpp:1746
+#: src/mainwindow.cpp:1747
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
 msgstr "Prilagodi časovni pas izboru"
 
-#: src/mainwindow.cpp:1748
+#: src/mainwindow.cpp:1749
 #, kde-format
 msgid "Select Clip"
 msgstr "Izberi posnetek"
 
-#: src/mainwindow.cpp:1750
+#: src/mainwindow.cpp:1751
 #, kde-format
 msgid "Deselect Clip"
 msgstr "Odstrani izbor posnetka"
 
-#: src/mainwindow.cpp:1752
+#: src/mainwindow.cpp:1753
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "Dodaj posnetek izboru"
 
-#: src/mainwindow.cpp:1754
+#: src/mainwindow.cpp:1755
 #, kde-format
 msgid "Select Transition"
 msgstr "Izberi prehod"
 
-#: src/mainwindow.cpp:1756
+#: src/mainwindow.cpp:1757
 #, kde-format
 msgid "Deselect Transition"
 msgstr "Odstrani izbor prehoda"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1759
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "Dodaj prehod izboru"
 
-#: src/mainwindow.cpp:1761
+#: src/mainwindow.cpp:1762
 #, kde-format
 msgid "Delete All Markers"
 msgstr "Izbriši vse označevalnike"
 
-#: src/mainwindow.cpp:1763
+#: src/mainwindow.cpp:1764
 #, kde-format
 msgid "Add Marker/Guide quickly"
 msgstr "Hitro dodaj označevalnik/vodilo"
 
-#: src/mainwindow.cpp:1767
+#: src/mainwindow.cpp:1768
 #, kde-format
 msgid "Current Selection"
 msgstr "Trenutna izbira"
 
-#: src/mainwindow.cpp:1769 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1770 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "Dodaj označevalnik"
 
-#: src/mainwindow.cpp:1773
+#: src/mainwindow.cpp:1774
 #, kde-format
 msgid "Delete Marker"
 msgstr "Izbriši označevalnik"
 
-#: src/mainwindow.cpp:1777
+#: src/mainwindow.cpp:1778
 #, kde-format
 msgid "Edit Marker…"
 msgstr "Uredi označevalnik …"
 
-#: src/mainwindow.cpp:1782 src/timeline2/model/timelinefunctions.cpp:1175
+#: src/mainwindow.cpp:1783 src/timeline2/model/timelinefunctions.cpp:1175
 #, kde-format
 msgid "Restore Audio"
 msgstr "Obnovi zvok"
 
-#: src/mainwindow.cpp:1788
+#: src/mainwindow.cpp:1789
 #, kde-format
 msgid "Extract Clip"
 msgstr "Pridobi posnetek"
 
-#: src/mainwindow.cpp:1794
+#: src/mainwindow.cpp:1795
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "Shrani kader v posodo"
 
-#: src/mainwindow.cpp:1799
+#: src/mainwindow.cpp:1800
 #, kde-format
 msgid "Disable Clip"
 msgstr "Onemogoči posnetek"
 
-#: src/mainwindow.cpp:1804
+#: src/mainwindow.cpp:1805
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "Nastavi referenco zvoka"
 
-#: src/mainwindow.cpp:1811
+#: src/mainwindow.cpp:1812
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "Poravnaj zvok na referenco"
 
-#: src/mainwindow.cpp:1816
+#: src/mainwindow.cpp:1817
 #, kde-format
 msgid "Edit Duration"
 msgstr "Uredi trajanje"
 
-#: src/mainwindow.cpp:1820
+#: src/mainwindow.cpp:1821
 #, kde-format
 msgid "Change Speed"
 msgstr "Spremeni hitrost"
 
-#: src/mainwindow.cpp:1826
+#: src/mainwindow.cpp:1827
 #, kde-format
 msgid "Time Remap"
 msgstr "Časovna preslikava"
 
-#: src/mainwindow.cpp:1833
+#: src/mainwindow.cpp:1834
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "Posnetek v posodi projekta"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1839 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1840 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "Odreži posnetek"
 
-#: src/mainwindow.cpp:1842
+#: src/mainwindow.cpp:1843
 #, kde-format
 msgid "Cut All Clips"
 msgstr "Odreži vse posnetke"
 
-#: src/mainwindow.cpp:1845
+#: src/mainwindow.cpp:1846
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Izbriši izbrani predmet"
 
-#: src/mainwindow.cpp:1848
+#: src/mainwindow.cpp:1849
 #, kde-format
 msgid "Resize Item Start"
 msgstr "Spremeni velikost: začetek"
 
-#: src/mainwindow.cpp:1852
+#: src/mainwindow.cpp:1853
 #, kde-format
 msgid "Resize Item End"
 msgstr "Spremeni velikost: konec"
 
-#: src/mainwindow.cpp:1856
+#: src/mainwindow.cpp:1857
 #, kde-format
 msgid "Paste Effects"
 msgstr "Prilepi učinke"
 
-#: src/mainwindow.cpp:1862
+#: src/mainwindow.cpp:1863
 #, kde-format
 msgid "Delete Effects"
 msgstr "Izbriši učinke"
 
-#: src/mainwindow.cpp:1869
+#: src/mainwindow.cpp:1870
 #, kde-format
 msgid "Group Clips"
 msgstr "Združi posnetke"
 
-#: src/mainwindow.cpp:1875
+#: src/mainwindow.cpp:1876
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "Razdruži posnetke"
 
-#: src/mainwindow.cpp:1881
+#: src/mainwindow.cpp:1882
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "Ustvari zaporedje iz izbora"
 
-#: src/mainwindow.cpp:1884
+#: src/mainwindow.cpp:1885
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11715,123 +11715,123 @@ msgstr ""
 "Trenutno izbrane posnetke na časovnici doda v nov posnetek zaporedja, ki ga "
 "lahko odprete v drugem zavihku časovnice."
 
-#: src/mainwindow.cpp:1895
+#: src/mainwindow.cpp:1896
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "Ključne sličice učinka"
 
-#: src/mainwindow.cpp:1896 src/monitor/view/EffectToolBar.qml:89
+#: src/mainwindow.cpp:1897 src/monitor/view/EffectToolBar.qml:89
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Dodaj/odstrani ključno sličico"
 
-#: src/mainwindow.cpp:1912
+#: src/mainwindow.cpp:1913
 #, kde-format
 msgid "Insert Space…"
 msgstr "Vstavi praznino …"
 
-#: src/mainwindow.cpp:1913
+#: src/mainwindow.cpp:1914
 #, kde-format
 msgid "Remove Space"
 msgstr "Odstrani praznino"
 
-#: src/mainwindow.cpp:1914
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "Odstrani vse praznine za kazalcem"
 
-#: src/mainwindow.cpp:1915
+#: src/mainwindow.cpp:1916
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "Odstrani vse posnetke za kazalcem"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1917
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "Odstrani praznino iz vseh stez"
 
-#: src/mainwindow.cpp:1919
+#: src/mainwindow.cpp:1920
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Vstavi stezo …"
 
-#: src/mainwindow.cpp:1923
+#: src/mainwindow.cpp:1924
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "Umeri vse steze na pogled"
 
-#: src/mainwindow.cpp:1929 src/timeline2/view/timelinecontroller.cpp:4925
+#: src/mainwindow.cpp:1930 src/timeline2/view/timelinecontroller.cpp:4925
 #, kde-format
 msgid "Master effects"
 msgstr "Glavni učinki"
 
-#: src/mainwindow.cpp:1936
+#: src/mainwindow.cpp:1937
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "Preklopi zvočni tok ciljne steze"
 
-#: src/mainwindow.cpp:1941
+#: src/mainwindow.cpp:1942
 #, kde-format
 msgid "Delete Track…"
 msgstr "Izbriši stezo …"
 
-#: src/mainwindow.cpp:1946
+#: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Show Record Controls"
 msgstr "Pokaži nadzornika snemanja"
 
-#: src/mainwindow.cpp:1952
+#: src/mainwindow.cpp:1953
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "Izberi vse na trenutni stezi"
 
-#: src/mainwindow.cpp:1969
+#: src/mainwindow.cpp:1970
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "Upravljanje s predpomnjeni podatki …"
 
-#: src/mainwindow.cpp:1972
+#: src/mainwindow.cpp:1973
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "Onemogoči predogled časovnice"
 
-#: src/mainwindow.cpp:1976
+#: src/mainwindow.cpp:1977
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "Dodaj/odstrani vodilo"
 
-#: src/mainwindow.cpp:1977
+#: src/mainwindow.cpp:1978
 #, kde-format
 msgid "Delete Guide"
 msgstr "Izbriši vodilo"
 
-#: src/mainwindow.cpp:1978
+#: src/mainwindow.cpp:1979
 #, kde-format
 msgid "Edit Guide…"
 msgstr "Uredi vodilo …"
 
-#: src/mainwindow.cpp:1979
+#: src/mainwindow.cpp:1980
 #, kde-format
 msgid "Search Guide…"
 msgstr "Poišči vodilo …"
 
-#: src/mainwindow.cpp:1980
+#: src/mainwindow.cpp:1981
 #, kde-format
 msgid "Export Guides…"
 msgstr "Izvozi vodila …"
 
-#: src/mainwindow.cpp:1983
+#: src/mainwindow.cpp:1984
 #, kde-format
 msgid "Guides Locked"
 msgstr "Vodila zaklenjena"
 
-#: src/mainwindow.cpp:1986
+#: src/mainwindow.cpp:1987
 #, kde-format
 msgid "Lock guides"
 msgstr "Zakleni vodila"
 
-#: src/mainwindow.cpp:1988
+#: src/mainwindow.cpp:1989
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11841,52 +11841,52 @@ msgstr ""
 "Zaklenite vodila. Če so zaklenjena, se vodila ne premikajo med uporabo "
 "orodja za praznine ali pri vstavljanju/odstranjevanju praznine na stezah."
 
-#: src/mainwindow.cpp:1990
+#: src/mainwindow.cpp:1991
 #, kde-format
 msgid "Delete All Guides"
 msgstr "Izbriši vsa vodila"
 
-#: src/mainwindow.cpp:1992
+#: src/mainwindow.cpp:1993
 #, kde-format
 msgid "Add Subtitle"
 msgstr "Dodaj podnaslov"
 
-#: src/mainwindow.cpp:1994
+#: src/mainwindow.cpp:1995
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "Onemogoči podnaslov"
 
-#: src/mainwindow.cpp:1995
+#: src/mainwindow.cpp:1996
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "Zakleni podnaslov"
 
-#: src/mainwindow.cpp:1997
+#: src/mainwindow.cpp:1998
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "Upravljaj podnaslove"
 
-#: src/mainwindow.cpp:1999
+#: src/mainwindow.cpp:2000
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "Uvozi datoteko s podnaslovi …"
 
-#: src/mainwindow.cpp:2001
+#: src/mainwindow.cpp:2002
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "Izvozi datoteko s podnaslovi …"
 
-#: src/mainwindow.cpp:2003 src/timeline2/model/timelinemodel.cpp:2146
+#: src/mainwindow.cpp:2004 src/timeline2/model/timelinemodel.cpp:2146
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Izbriši podnaslov"
 
-#: src/mainwindow.cpp:2004
+#: src/mainwindow.cpp:2005
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "Razpoznavanje govora …"
 
-#: src/mainwindow.cpp:2011
+#: src/mainwindow.cpp:2012
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11896,87 +11896,87 @@ msgstr ""
 "To preklopi med <emphasis>menijsko vrstico</emphasis> in gumbom "
 "<interface>hamburgerskega menija</interface> v glavni orodni vrstici."
 
-#: src/mainwindow.cpp:2040
+#: src/mainwindow.cpp:2041
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "Kopiraj podatke razhroščevanja"
 
-#: src/mainwindow.cpp:2042
+#: src/mainwindow.cpp:2043
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "Onemogoči učinke časovnice"
 
-#: src/mainwindow.cpp:2048
+#: src/mainwindow.cpp:2049
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "Preklop steze onemogočen"
 
-#: src/mainwindow.cpp:2050
+#: src/mainwindow.cpp:2051
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "Preklopi zaklep steze"
 
-#: src/mainwindow.cpp:2052
+#: src/mainwindow.cpp:2053
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "Preklopi zaklep vseh stez"
 
-#: src/mainwindow.cpp:2054
+#: src/mainwindow.cpp:2055
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "Preklopi ciljno stezo"
 
-#: src/mainwindow.cpp:2056
+#: src/mainwindow.cpp:2057
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "Preklopi aktivnost steze"
 
-#: src/mainwindow.cpp:2058
+#: src/mainwindow.cpp:2059
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "Preklopi aktivnost vseh stez"
 
-#: src/mainwindow.cpp:2060
+#: src/mainwindow.cpp:2061
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "Naredi vse steze aktivne"
 
-#: src/mainwindow.cpp:2062
+#: src/mainwindow.cpp:2063
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "Obnovi ciljne steze trenutnega posnetka"
 
-#: src/mainwindow.cpp:2064
+#: src/mainwindow.cpp:2065
 #, kde-format
 msgid "Add Project Note"
 msgstr "Dodaj opombo projektu"
 
-#: src/mainwindow.cpp:2070
+#: src/mainwindow.cpp:2071
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "Izberi zvočno stezo %1"
 
-#: src/mainwindow.cpp:2074
+#: src/mainwindow.cpp:2075
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "Izberi video stezo %1"
 
-#: src/mainwindow.cpp:2078
+#: src/mainwindow.cpp:2079
 #, kde-format
 msgid "Select Target %1"
 msgstr "Izberi cilj %1"
 
-#: src/mainwindow.cpp:2096
+#: src/mainwindow.cpp:2097
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Izvleci sličico …"
 
-#: src/mainwindow.cpp:2099
+#: src/mainwindow.cpp:2100
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Izvleci sličico v projekt …"
 
-#: src/mainwindow.cpp:2231
+#: src/mainwindow.cpp:2232
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -11985,13 +11985,13 @@ msgstr ""
 "Spremenili ste parametre posrednih posnetkov. Ali želite poustvariti vse "
 "posredne posnetke za ta projekt?"
 
-#: src/mainwindow.cpp:2232
+#: src/mainwindow.cpp:2233
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Ponovno ustvari"
 
-#: src/mainwindow.cpp:2233 src/onlineresources/resourcewidget.cpp:616
+#: src/mainwindow.cpp:2234 src/onlineresources/resourcewidget.cpp:616
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
 #: src/titler/titlewidget.cpp:2282
 #, kde-format
@@ -11999,7 +11999,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Nadaljuj brez"
 
-#: src/mainwindow.cpp:2289
+#: src/mainwindow.cpp:2290
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -12010,7 +12010,7 @@ msgstr ""
 "začasne datoteke premaknilo iz <br/><b>%1</b> v <b>%2</b>,<br/>nato pa bo "
 "projektna datoteka znova naložena"
 
-#: src/mainwindow.cpp:2297
+#: src/mainwindow.cpp:2298
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -12019,48 +12019,48 @@ msgstr ""
 "To bo premaknilo vse začasne datoteke iz<br/><b>%1</b> v <b>%2</b>,<br/>nato "
 "pa bo projektna datoteka znova naložena"
 
-#: src/mainwindow.cpp:2306 src/project/projectmanager.cpp:612
+#: src/mainwindow.cpp:2307 src/project/projectmanager.cpp:612
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Opravila ni možno izvesti. Neveljaven ID dokumenta: %1"
 
-#: src/mainwindow.cpp:2311 src/project/projectmanager.cpp:618
+#: src/mainwindow.cpp:2312 src/project/projectmanager.cpp:618
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Opravila ni možno izvesti. Ciljna mapa že obstaja: %1"
 
-#: src/mainwindow.cpp:2458
+#: src/mainwindow.cpp:2459
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "To bo odstranilo vse neuporabljene posnetke iz vašega projekta."
 
-#: src/mainwindow.cpp:2458
+#: src/mainwindow.cpp:2459
 #, kde-format
 msgid "Clean up project"
 msgstr "Počisti projekt"
 
-#: src/mainwindow.cpp:2601 src/mainwindow.cpp:2625
+#: src/mainwindow.cpp:2602 src/mainwindow.cpp:2626
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Prejmi nove sheme tipkovnic …"
 
-#: src/mainwindow.cpp:2612
+#: src/mainwindow.cpp:2613
 #, kde-format
 msgid "Current scheme:"
 msgstr "Trenutna shema:"
 
-#: src/mainwindow.cpp:2622
+#: src/mainwindow.cpp:2623
 #, kde-format
 msgid "More Actions"
 msgstr "Več dejavnosti"
 
-#: src/mainwindow.cpp:2635
+#: src/mainwindow.cpp:2636
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Splošno"
 
-#: src/mainwindow.cpp:2707
+#: src/mainwindow.cpp:2708
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -12069,28 +12069,28 @@ msgstr ""
 "To bo izbrisalo nastavitveno datoteko Kdenlive in ponovno zagnalo program. "
 "Ali želite nadaljevati?"
 
-#: src/mainwindow.cpp:2708
+#: src/mainwindow.cpp:2709
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Ponastavi prilagoditev"
 
-#: src/mainwindow.cpp:2840 src/mainwindow.cpp:2867
+#: src/mainwindow.cpp:2841 src/mainwindow.cpp:2868
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Posnetka, ki bi mu radi odstranili označevalnik, ni možno najti"
 
-#: src/mainwindow.cpp:2850 src/mainwindow.cpp:2896
+#: src/mainwindow.cpp:2851 src/mainwindow.cpp:2897
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Na mestu kazalca ni nobenega označevalnika"
 
-#: src/mainwindow.cpp:2872
+#: src/mainwindow.cpp:2873
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Prišlo je do napaka pri brisanju označevalnikov"
 
-#: src/mainwindow.cpp:2889 src/timeline2/view/timelinecontroller.cpp:1312
+#: src/mainwindow.cpp:2890 src/timeline2/view/timelinecontroller.cpp:1312
 #: src/timeline2/view/timelinecontroller.cpp:1320
 #: src/timeline2/view/timelinecontroller.cpp:1341
 #: src/timeline2/view/timelinecontroller.cpp:1381
@@ -12099,41 +12099,41 @@ msgstr "Prišlo je do napaka pri brisanju označevalnikov"
 msgid "Cannot find clip to edit marker"
 msgstr "Ni možno najti posnetka, kjer naj bi uredili označevalnik"
 
-#: src/mainwindow.cpp:3088 src/timeline2/model/timelinefunctions.cpp:753
+#: src/mainwindow.cpp:3089 src/timeline2/model/timelinefunctions.cpp:753
 #: src/timeline2/view/timelinecontroller.cpp:3111
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Prepiši območje"
 
-#: src/mainwindow.cpp:3090 src/mainwindow.cpp:3109
+#: src/mainwindow.cpp:3091 src/mainwindow.cpp:3110
 #: src/timeline2/model/timelinefunctions.cpp:755
 #: src/timeline2/view/timelinecontroller.cpp:3113
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Območja ni možno vstaviti"
 
-#: src/mainwindow.cpp:3100
+#: src/mainwindow.cpp:3101
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "V projektni posodi ni nobenega posnetka"
 
-#: src/mainwindow.cpp:3107 src/timeline2/model/timelinefunctions.cpp:753
+#: src/mainwindow.cpp:3108 src/timeline2/model/timelinefunctions.cpp:753
 #: src/timeline2/view/timelinecontroller.cpp:3111
 #, kde-format
 msgid "Insert zone"
 msgstr "Vstavi območje"
 
-#: src/mainwindow.cpp:3274
+#: src/mainwindow.cpp:3275
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Dejavnemu elementu ni možno dodati učinka"
 
-#: src/mainwindow.cpp:3336
+#: src/mainwindow.cpp:3337
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Stopnja približanja: %1/%2"
 
-#: src/mainwindow.cpp:3485
+#: src/mainwindow.cpp:3486
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12146,7 +12146,7 @@ msgstr ""
 "za premik skupine posnetkov na drugo stezo, <shortcut>krmilka+povlek</"
 "shortcut> za zasuk"
 
-#: src/mainwindow.cpp:3489
+#: src/mainwindow.cpp:3490
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12160,24 +12160,24 @@ msgstr ""
 "shortcut> za premik skupine posnetkov na drugo stezo, <shortcut>krmilka"
 "+povlek</shortcut> za zasuk"
 
-#: src/mainwindow.cpp:3492
+#: src/mainwindow.cpp:3493
 #, kde-format
 msgid "Select"
 msgstr "Izberi"
 
-#: src/mainwindow.cpp:3494
+#: src/mainwindow.cpp:3495
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Dvigalka</shortcut> za predogled porezane sličice"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3495 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3496 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Rezilo"
 
-#: src/mainwindow.cpp:3499
+#: src/mainwindow.cpp:3500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12188,12 +12188,12 @@ msgstr ""
 "<shortcut>dvigalka</shortcut> tudi za premikanje vodil. Lahko kombinirate "
 "oboje."
 
-#: src/mainwindow.cpp:3500
+#: src/mainwindow.cpp:3501
 #, kde-format
 msgid "Spacer"
 msgstr "Razmikalnik"
 
-#: src/mainwindow.cpp:3502
+#: src/mainwindow.cpp:3503
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12203,13 +12203,13 @@ msgstr ""
 "<shortcut>Kliknite</shortcut> posnetek za drsenje, <shortcut>dvigalka+klik</"
 "shortcut> za večkratni izbor"
 
-#: src/mainwindow.cpp:3503
+#: src/mainwindow.cpp:3504
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Drsenje"
 
-#: src/mainwindow.cpp:3508
+#: src/mainwindow.cpp:3509
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12221,13 +12221,13 @@ msgstr ""
 "+klik</shortcut> za večkraten izbor, <shortcut>izmenjalka+klik</shortcut> za "
 "izbor elementa v skupini, <shortcut>krmilka+povlek</shortcut> za zasuk"
 
-#: src/mainwindow.cpp:3510
+#: src/mainwindow.cpp:3511
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Izrivanje"
 
-#: src/mainwindow.cpp:3516
+#: src/mainwindow.cpp:3517
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12237,104 +12237,104 @@ msgstr ""
 "<shortcut>Kliknite</shortcut> pogled steze v ogledu projekta, da izvedete "
 "dvig vseh stez razen aktivne"
 
-#: src/mainwindow.cpp:3528
+#: src/mainwindow.cpp:3529
 #, kde-format
 msgid "Insert"
 msgstr "Vstavi"
 
-#: src/mainwindow.cpp:3531
+#: src/mainwindow.cpp:3532
 #, kde-format
 msgid "Overwrite"
 msgstr "Prepiši"
 
-#: src/mainwindow.cpp:3830 src/mainwindow.cpp:3832
+#: src/mainwindow.cpp:3831 src/mainwindow.cpp:3833
 #, kde-format
 msgid "Scopes"
 msgstr "Merilniki"
 
-#: src/mainwindow.cpp:3837
+#: src/mainwindow.cpp:3838
 #, kde-format
 msgid "Project Bins"
 msgstr "Projektne posode"
 
-#: src/mainwindow.cpp:3933
+#: src/mainwindow.cpp:3934
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Prilagodi posle posnetkov …"
 
-#: src/mainwindow.cpp:3939
+#: src/mainwindow.cpp:3940
 #, kde-format
 msgid "Transcoders"
 msgstr "Prekodirniki"
 
-#: src/mainwindow.cpp:3999
+#: src/mainwindow.cpp:4000
 #, kde-format
 msgid "-merged"
 msgstr "-spojeno"
 
-#: src/mainwindow.cpp:4002
+#: src/mainwindow.cpp:4003
 #, kde-format
 msgid "-stream-%1"
 msgstr "-tok-%1"
 
-#: src/mainwindow.cpp:4044
+#: src/mainwindow.cpp:4045
 #, kde-format
 msgid "Interface"
 msgstr "Vmesnik"
 
-#: src/mainwindow.cpp:4066
+#: src/mainwindow.cpp:4067
 #, kde-format
 msgid "Raise %1"
 msgstr "Dvigni %1"
 
-#: src/mainwindow.cpp:4133
+#: src/mainwindow.cpp:4134
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Datoteke za prekodiranje"
 
-#: src/mainwindow.cpp:4262
+#: src/mainwindow.cpp:4263
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektne datoteke ni možno shraniti za arhiv."
 
-#: src/mainwindow.cpp:4268
+#: src/mainwindow.cpp:4269
 #, kde-format
 msgid "Archiving project"
 msgstr "Arhiviranje projekta"
 
-#: src/mainwindow.cpp:4426
+#: src/mainwindow.cpp:4427
 #, kde-format
 msgid "Icon Size"
 msgstr "Velikost ikon"
 
-#: src/mainwindow.cpp:4430
+#: src/mainwindow.cpp:4431
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Privzeta"
 
-#: src/mainwindow.cpp:4451 src/mainwindow.cpp:4479
+#: src/mainwindow.cpp:4452 src/mainwindow.cpp:4480
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Majhna (%1x%2)"
 
-#: src/mainwindow.cpp:4453 src/mainwindow.cpp:4481
+#: src/mainwindow.cpp:4454 src/mainwindow.cpp:4482
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Srednja (%1x%2)"
 
-#: src/mainwindow.cpp:4455 src/mainwindow.cpp:4483
+#: src/mainwindow.cpp:4456 src/mainwindow.cpp:4484
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Velika (%1x%2)"
 
-#: src/mainwindow.cpp:4457 src/mainwindow.cpp:4485
+#: src/mainwindow.cpp:4458 src/mainwindow.cpp:4486
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Velikanska (%1x%2)"
 
-#: src/mainwindow.cpp:4541
+#: src/mainwindow.cpp:4542
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -12343,12 +12343,12 @@ msgstr ""
 "To bo povsem skrilo menijsko vrstico. Spet jo lahko prikažete s pritiskom "
 "krmilke+M."
 
-#: src/mainwindow.cpp:4541
+#: src/mainwindow.cpp:4542
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Skrij menijsko vrstico"
 
-#: src/mainwindow.cpp:4557
+#: src/mainwindow.cpp:4558
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -12356,22 +12356,22 @@ msgstr ""
 "Za spremembo teme ikon morate znova zagnati Kdenlive. Ali želite ponovni "
 "zagon zdaj?"
 
-#: src/mainwindow.cpp:4813 src/timeline2/view/timelinecontroller.cpp:5138
+#: src/mainwindow.cpp:4814 src/timeline2/view/timelinecontroller.cpp:5138
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "V trenutnem projektu ni podnaslovov"
 
-#: src/mainwindow.cpp:5100
+#: src/mainwindow.cpp:5101
 #, kde-format
 msgid "Go to download page"
 msgstr "Pojdi na stran prenosov"
 
-#: src/mainwindow.cpp:5103
+#: src/mainwindow.cpp:5104
 #, kde-format
 msgid "Never check again"
 msgstr "Ne preveri nikoli več"
 
-#: src/mainwindow.cpp:5106
+#: src/mainwindow.cpp:5107
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -12380,7 +12380,7 @@ msgstr ""
 "Vaša različica Kdenlive je starejša od 1 leta, zato vam priporočamo, da jo "
 "nadgradite"
 
-#: src/mainwindow.cpp:5109
+#: src/mainwindow.cpp:5110
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -12388,7 +12388,7 @@ msgstr ""
 "Vaša različica Kdenlive je starejša od 6 mesecev, zato vam priporočamo, da "
 "jo nadgradite"
 
-#: src/mainwindow.cpp:5152
+#: src/mainwindow.cpp:5153
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Preverjanje velikosti predpomnjenih podatkov"
