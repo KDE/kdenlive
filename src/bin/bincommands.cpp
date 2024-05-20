@@ -15,7 +15,7 @@ MoveBinClipCommand::MoveBinClipCommand(Bin *bin, QMap<QString, std::pair<QString
     , m_bin(bin)
     , m_clipIds(std::move(clipIds))
 {
-    setText(i18nc("@action", "Move Clip"));
+    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Move Clip")));
 }
 // virtual
 void MoveBinClipCommand::undo()
@@ -35,17 +35,19 @@ MoveBinFolderCommand::MoveBinFolderCommand(Bin *bin, QString clipId, QString old
     , m_oldParentId(std::move(oldParentId))
     , m_newParentId(std::move(newParentId))
 {
-    setText(i18nc("@action", "Move Clip"));
+    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Move Clip")));
 }
 // virtual
 void MoveBinFolderCommand::undo()
 {
     m_bin->doMoveFolder(m_clipId, m_oldParentId);
+    QUndoCommand::undo();
 }
 // virtual
 void MoveBinFolderCommand::redo()
 {
     m_bin->doMoveFolder(m_clipId, m_newParentId);
+    QUndoCommand::redo();
 }
 
 RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, QString clipId, QString newName, QString oldName, int in, int out, QUndoCommand *parent)
@@ -57,17 +59,19 @@ RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, QString clipId, QStri
     , m_in(in)
     , m_out(out)
 {
-    setText(i18n("Rename Zone"));
+    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Rename Zone")));
 }
 // virtual
 void RenameBinSubClipCommand::undo()
 {
     m_bin->renameSubClip(m_clipId, m_oldName, m_in, m_out);
+    QUndoCommand::undo();
 }
 // virtual
 void RenameBinSubClipCommand::redo()
 {
     m_bin->renameSubClip(m_clipId, m_newName, m_in, m_out);
+    QUndoCommand::redo();
 }
 
 EditClipCommand::EditClipCommand(Bin *bin, QString id, QMap<QString, QString> oldparams, QMap<QString, QString> newparams, bool doIt, QUndoCommand *parent)
@@ -79,12 +83,13 @@ EditClipCommand::EditClipCommand(Bin *bin, QString id, QMap<QString, QString> ol
     , m_doIt(doIt)
     , m_firstExec(true)
 {
-    setText(i18n("Edit clip"));
+    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Edit Clip")));
 }
 // virtual
 void EditClipCommand::undo()
 {
     m_bin->slotUpdateClipProperties(m_id, m_oldparams, true);
+    QUndoCommand::undo();
 }
 // virtual
 void EditClipCommand::redo()
@@ -94,4 +99,5 @@ void EditClipCommand::redo()
     }
     m_doIt = true;
     m_firstExec = false;
+    QUndoCommand::redo();
 }
