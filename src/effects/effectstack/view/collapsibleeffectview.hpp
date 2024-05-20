@@ -96,7 +96,7 @@ public Q_SLOTS:
     /** @brief Switch between collapsed/expanded state */
     void switchCollapsed(int row);
     /** @brief Open a save effect dialog */
-    void slotSaveEffect();
+    void slotSaveEffect(const QString title = QString(), const QString description = QString());
     /** @brief Show hide the count of grouped instances for this effect */
     void updateGroupedInstances();
 

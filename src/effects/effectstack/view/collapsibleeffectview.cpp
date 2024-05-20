@@ -234,7 +234,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     presetButton->setToolTip(i18n("Presets"));
     presetButton->setWhatsThis(xi18nc("@info:whatsthis", "Opens a list of advanced options to manage presets for the effect."));
 
-    connect(saveEffectButton, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotSaveEffect);
+    connect(saveEffectButton, &QAbstractButton::clicked, this, [this]() { slotSaveEffect(); });
     saveEffectButton->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
     saveEffectButton->setToolTip(i18n("Save effect"));
 
@@ -504,7 +504,7 @@ void CollapsibleEffectView::slotEffectDown()
     Q_EMIT moveEffect(m_model->row() + 2, m_model);
 }
 
-void CollapsibleEffectView::slotSaveEffect()
+void CollapsibleEffectView::slotSaveEffect(const QString title, const QString description)
 {
     QDialog dialog(this);
     QFormLayout form(&dialog);
@@ -515,6 +515,9 @@ void CollapsibleEffectView::slotSaveEffect()
     auto *descriptionBox = new QTextEdit(&dialog);
     form.addRow(i18n("Name:"), effectName);
     form.addRow(i18n("Comments:"), descriptionBox);
+
+    effectName->setText(title);
+    descriptionBox->setText(description);
 
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
@@ -612,10 +615,12 @@ void CollapsibleEffectView::slotSaveEffect()
             out.setCodec("UTF-8");
 #endif
             out << doc.toString();
+            file.close();
         } else {
             KMessageBox::error(this, i18n("Cannot write to file %1", file.fileName()));
+            slotSaveEffect(name, enteredDescription);
+            return;
         }
-        file.close();
         Q_EMIT reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     }
 }
