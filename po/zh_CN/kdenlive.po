@@ -10391,7 +10391,7 @@ msgstr "素材箱标签"
 #: src/mainwindow.cpp:174
 #, kde-format
 msgid "Style"
-msgstr "界面风格"
+msgstr "界面样式"
 
 #: src/mainwindow.cpp:238
 #, kde-format
