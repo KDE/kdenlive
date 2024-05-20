@@ -515,7 +515,16 @@ bool EffectStackView::isEmpty() const
 void EffectStackView::enableStack(bool enable)
 {
     if (m_model) {
-        m_model->setEffectStackEnabled(enable);
+        Fun redo = [model = m_model, enable]() {
+            model->setEffectStackEnabled(enable);
+            return true;
+        };
+        Fun undo = [model = m_model, enable]() {
+            model->setEffectStackEnabled(!enable);
+            return true;
+        };
+        redo();
+        pCore->pushUndo(undo, redo, enable ? i18n("Enable Effect Stack") : i18n("Disable Effect Stack"));
     }
 }
 

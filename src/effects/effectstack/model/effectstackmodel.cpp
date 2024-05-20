@@ -1041,6 +1041,7 @@ void EffectStackModel::deregisterItem(int id, TreeItem *item)
 void EffectStackModel::setEffectStackEnabled(bool enabled)
 {
     QWriteLocker locker(&m_lock);
+
     m_effectStackEnabled = enabled;
 
     QList<QModelIndex> indexes;
@@ -1105,7 +1106,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
-    bool effectEnabled = true;
+    bool effectEnabled = false;
     if (auto ptr = service.lock()) {
         int max = ptr->filter_count();
         int imported = 0;

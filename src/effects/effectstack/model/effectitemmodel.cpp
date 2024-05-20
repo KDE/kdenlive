@@ -17,7 +17,7 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_
     , m_childId(0)
 {
     if (m_asset->property_exists("kdenlive:bin-disabled")) {
-        // This effetct was disabled by the global disable bin option
+        // This effect was disabled by a global disable effects option
         m_effectStackEnabled = false;
         m_enabled = true;
     }
