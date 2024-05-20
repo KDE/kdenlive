@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Steve Allewell <steve.allewell@gmail.com>, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Steve Allewell <steve.allewell@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-19 00:38+0000\n"
-"PO-Revision-Date: 2023-05-27 13:10+0100\n"
+"POT-Creation-Date: 2024-05-20 00:38+0000\n"
+"PO-Revision-Date: 2024-05-19 15:44+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.03.70\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -504,10 +504,9 @@ msgid "Vertical multiplicator"
 msgstr "Vertical multiplicator"
 
 #: data/effects/box_blur.xml:15
-#, fuzzy, kde-format
-#| msgid "Preserve aspect ratio"
+#, kde-format
 msgid "Preserve alpha"
-msgstr "Preserve aspect ratio"
+msgstr "Preserve alpha"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -567,7 +566,7 @@ msgstr "Swap channels"
 #: data/effects/channelcopy.xml:17
 #, kde-format
 msgid "Swap the two channels instead of duplicating the source channel."
-msgstr ""
+msgstr "Swap the two channels instead of duplicating the source channel."
 
 #: data/effects/charcoal.xml:4
 #, kde-format
@@ -2794,13 +2793,12 @@ msgid "Modulators"
 msgstr "Modulators"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
-#| msgid "Noise Reduction and audio Restoration"
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
-msgstr "Noise Reduction and audio Restoration"
+msgstr "Noise Reduction and Audio Restoration"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:123 src/mainwindow.cpp:1492
+#: src/dialogs/kdenlivesettingsdialog.cpp:123 src/mainwindow.cpp:1493
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -2980,10 +2978,9 @@ msgid "Luma Map"
 msgstr "Luma Map"
 
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
-#, fuzzy, kde-format
-#| msgid "Make selected color transparent"
+#, kde-format
 msgid "Make padding transparent"
-msgstr "Make selected colour transparent"
+msgstr "Make padding transparent"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -3219,10 +3216,9 @@ msgid "Reload custom effect"
 msgstr "Reload custom effect"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:76
-#, fuzzy, kde-format
-#| msgid "Edit Info"
+#, kde-format
 msgid "Edit Info…"
-msgstr "Edit Info"
+msgstr "Edit Info…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:81
 #, kde-format
@@ -3296,11 +3292,10 @@ msgstr "Remove from favorites"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:405
 #: src/assets/assetlist/view/assetlistwidget.cpp:407
-#, fuzzy, kde-format
-#| msgid "Kdenlive document to open."
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr "Kdenlive document to open."
+msgstr "Online documentation"
 
 #: src/assets/assetpanel.cpp:68
 #, kde-format
@@ -3315,12 +3310,12 @@ msgstr "Adjust clip"
 #: src/assets/assetpanel.cpp:88
 #, kde-format
 msgid "Apply effect change to all clips in the group"
-msgstr ""
+msgstr "Apply effect change to all clips in the group"
 
 #: src/assets/assetpanel.cpp:92
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
-msgstr ""
+msgstr "Apply effect change to all clips in the group…"
 
 #: src/assets/assetpanel.cpp:94
 #, kde-kuit-format
@@ -3330,11 +3325,14 @@ msgid ""
 "the same effect will see the parameters adjusted as well. Deleting an effect "
 "will delete it in all clips in the group."
 msgstr ""
+"When enabled and the clip is in a group, all clips in this group that have "
+"the same effect will see the parameters adjusted as well. Deleting an effect "
+"will delete it in all clips in the group."
 
 #: src/assets/assetpanel.cpp:102
 #, kde-format
 msgid "Apply only to effects with same value"
-msgstr ""
+msgstr "Apply only to effects with same value"
 
 #: src/assets/assetpanel.cpp:112
 #, kde-format
@@ -3444,63 +3442,59 @@ msgid "Smooth"
 msgstr "Smooth"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:51
-#, fuzzy, kde-format
-#| msgid "Set Zone In"
+#, kde-format
 msgid "Bounce In"
-msgstr "Set Zone In"
+msgstr "Bounce In"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:52
-#, fuzzy, kde-format
-#| msgid "Set Zone Out"
+#, kde-format
 msgid "Bounce Out"
-msgstr "Set Zone Out"
+msgstr "Bounce Out"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:53
 #, kde-format
 msgid "Cubic In"
-msgstr ""
+msgstr "Cubic In"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:54
 #, kde-format
 msgid "Cubic Out"
-msgstr ""
+msgstr "Cubic Out"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:55
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "Exponential In"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:56
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "Exponential Out"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:57
 #, kde-format
 msgid "Circular In"
-msgstr ""
+msgstr "Circular In"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:58
 #, kde-format
 msgid "Circular Out"
-msgstr ""
+msgstr "Circular Out"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:59
 #, kde-format
 msgid "Elastic In"
-msgstr ""
+msgstr "Elastic In"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:60
-#, fuzzy, kde-format
-#| msgid "Gain Out"
+#, kde-format
 msgid "Elastic Out"
-msgstr "Gain Out"
+msgstr "Elastic Out"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:61
-#, fuzzy, kde-format
-#| msgid " - deprecated"
+#, kde-format
 msgid "Smooth (deprecated)"
-msgstr " - deprecated"
+msgstr "Smooth (deprecated)"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
@@ -3916,13 +3910,13 @@ msgid "Import keyframes from clipboard"
 msgstr "Import keyframes from clipboard"
 
 #: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1708
-#: src/mainwindow.cpp:1900
+#: src/mainwindow.cpp:1901
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Go to previous keyframe"
 
 #: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1705
-#: src/mainwindow.cpp:1898
+#: src/mainwindow.cpp:1899
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Go to next keyframe"
@@ -4193,10 +4187,9 @@ msgid "When selected mutes all other audio tracks."
 msgstr "When selected mutes all other audio tracks."
 
 #: src/audiomixer/mixerwidget.cpp:272
-#, fuzzy, kde-format
-#| msgid "Monitor audio input"
+#, kde-format
 msgid "Monitor audio"
-msgstr "Monitor audio input"
+msgstr "Monitor audio"
 
 #: src/audiomixer/mixerwidget.cpp:273
 #, kde-kuit-format
@@ -4268,10 +4261,9 @@ msgstr[0] "%1 pending job"
 msgstr[1] "%1 pending jobs"
 
 #: src/bin/bin.cpp:1200
-#, fuzzy, kde-format
-#| msgid "Search"
+#, kde-format
 msgid "Bin Search"
-msgstr "Search"
+msgstr "Bin Search"
 
 #: src/bin/bin.cpp:1242
 #, kde-format
@@ -4348,17 +4340,13 @@ msgid "Show Video Preview in Thumbnails"
 msgstr "Show Video Preview in Thumbnails"
 
 #: src/bin/bin.cpp:1353
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Opens a window to configure the project bin (e.g. view mode, sort, show "
-#| "rating)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
-"Opens a window to configure the project bin (e.g. view mode, sort, show "
+"Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 
 #: src/bin/bin.cpp:1360
@@ -4379,7 +4367,7 @@ msgstr "Show Rating"
 #: src/bin/bin.cpp:1379
 #, kde-format
 msgid "Open Current Folder In New Bin"
-msgstr ""
+msgstr "Open Current Folder In New Bin"
 
 #: src/bin/bin.cpp:1384
 #, kde-format
@@ -4399,10 +4387,9 @@ msgstr ""
 "settings."
 
 #: src/bin/bin.cpp:1441
-#, fuzzy, kde-format
-#| msgid "Delete current point."
+#, kde-format
 msgid "Close Current Bin"
-msgstr "Delete current point."
+msgstr "Close Current Bin"
 
 #: src/bin/bin.cpp:1453
 #, kde-format
@@ -4420,10 +4407,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Cancel Pending Jobs"
 
 #: src/bin/bin.cpp:1498
-#, fuzzy, kde-format
-#| msgid "Clip Properties"
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Clip Properties"
+msgstr "Bin Clip Properties"
 
 #: src/bin/bin.cpp:1798
 #, kde-format
@@ -4517,27 +4503,25 @@ msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
+"You need to select 2 clips (the replacement clip and the original clip) for "
+"timeline replacement."
 
 #: src/bin/bin.cpp:1967
-#, fuzzy, kde-format
-#| msgid ""
-#| "Delete clip <b>%2</b>?<br />This will also remove the clip in timeline"
-#| msgid_plural ""
-#| "Delete clip <b>%2</b>?<br />This will also remove its %1 clips in timeline"
+#, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
-msgstr "Delete clip <b>%2</b>?<br />This will also remove the clip in timeline"
+msgstr "The current clip <b>%1</b> is not inserted in the active timeline."
 
 #: src/bin/bin.cpp:1972
-#, fuzzy, kde-format
-#| msgid "You cannot insert a sequence containing itself"
+#, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
-msgstr "You cannot insert a sequence containing itself"
+msgstr "You cannot insert the sequence <b>%1</b> into itself."
 
 #: src/bin/bin.cpp:1991
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
+"The selected clips %1 and %2 don't match, cannot replace audio nor video"
 
 #: src/bin/bin.cpp:2002
 #, kde-format
@@ -4545,6 +4529,8 @@ msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
+"Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
+"with clip <b>%3</b> (%4)"
 
 #: src/bin/bin.cpp:2007
 #, kde-format
@@ -4552,18 +4538,18 @@ msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
+"Replacing instances of clip <b>%1</b><br/>in active timeline\n"
+"with clip <b>%2</b>"
 
 #: src/bin/bin.cpp:2009 src/timeline2/model/timelineitemmodel.cpp:950
-#, fuzzy, kde-format
-#| msgid "Record audio"
+#, kde-format
 msgid "Replace audio"
-msgstr "Record audio"
+msgstr "Replace audio"
 
 #: src/bin/bin.cpp:2012 src/timeline2/model/timelineitemmodel.cpp:950
-#, fuzzy, kde-format
-#| msgid "Restore video"
+#, kde-format
 msgid "Replace video"
-msgstr "Restore video"
+msgstr "Replace video"
 
 #: src/bin/bin.cpp:2022
 #, kde-format
@@ -4571,19 +4557,19 @@ msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr ""
+"Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
+"might not be replaced</b>"
 
 #: src/bin/bin.cpp:2025
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
-msgstr ""
+msgstr "Replacement clip duration is longer that your source clip"
 
 #: src/bin/bin.cpp:2061
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Open Replacement File"
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
-msgstr "Open Replacement File"
+msgstr "Open Replacement for %1"
 
 #: src/bin/bin.cpp:2095
 #, kde-format
@@ -4591,6 +4577,8 @@ msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
+"Replacement clip does not contain a video stream. Do you want to replace "
+"only the audio component of this clip in the active timeline ?"
 
 #: src/bin/bin.cpp:2100
 #, kde-format
@@ -4598,6 +4586,8 @@ msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
+"Replacement clip does not contain an audio stream. Do you want to replace "
+"only the video component of this clip in the active timeline ?"
 
 #: src/bin/bin.cpp:2104 src/bin/bin.cpp:2130
 #, kde-format
@@ -4605,12 +4595,13 @@ msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr ""
+"You cannot replace a clip with a different type of clip (audio/video not "
+"matching)."
 
 #: src/bin/bin.cpp:2107
-#, fuzzy, kde-format
-#| msgid "Main timeline"
+#, kde-format
 msgid "Replace in timeline"
-msgstr "Main timeline"
+msgstr "Replace in timeline"
 
 #: src/bin/bin.cpp:2128 src/bin/bin.cpp:5770 src/bin/clipcreator.cpp:325
 #, kde-format
@@ -4857,7 +4848,7 @@ msgstr "Create Animation…"
 msgid "Add Sequence…"
 msgstr "Add Sequence…"
 
-#: src/bin/bin.cpp:3642 src/mainwindow.cpp:407
+#: src/bin/bin.cpp:3642 src/mainwindow.cpp:408
 #, kde-format
 msgid "Online Resources"
 msgstr "Online Resources"
@@ -4883,10 +4874,9 @@ msgid "Replace Clip…"
 msgstr "Replace Clip…"
 
 #: src/bin/bin.cpp:3668
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "Replace Clip…"
+msgstr "Replace Clip In Timeline…"
 
 #: src/bin/bin.cpp:3673
 #, kde-format
@@ -4909,10 +4899,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "Default Target Folder for Sequences"
 
 #: src/bin/bin.cpp:3713
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "Default Target Folder for Sequences"
+msgstr "Default Target Folder for Audio Captures"
 
 #: src/bin/bin.cpp:3717
 #, kde-format
@@ -5123,7 +5112,7 @@ msgstr ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 
-#: src/bin/bin.cpp:5466 src/mainwindow.cpp:2822
+#: src/bin/bin.cpp:5466 src/mainwindow.cpp:2823
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Cannot find clip to add marker"
@@ -5183,21 +5172,19 @@ msgstr "Remove clip markers"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
-msgstr ""
+msgstr "We recommend that you save the project before the transcode operation"
 
 #: src/bin/bin.cpp:6113
-#, fuzzy, kde-format
-#| msgid "Save DVD Project"
+#, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
-msgstr "Save DVD Project"
+msgstr "Save Project"
 
 #: src/bin/bin.cpp:6114
-#, fuzzy, kde-format
-#| msgid "Transcoding"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
-msgstr "Transcoding"
+msgstr "Transcode Without Saving"
 
 #: src/bin/bin.cpp:6220 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1068
@@ -5205,12 +5192,12 @@ msgstr "Transcoding"
 msgid "Delete effect %1"
 msgstr "Delete effect %1"
 
-#: src/bin/bin.cpp:6284 src/mainwindow.cpp:400
+#: src/bin/bin.cpp:6284 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr "Project Bin"
 
-#: src/bin/bin.cpp:6287 src/bin/bin.cpp:6290 src/mainwindow.cpp:4944
+#: src/bin/bin.cpp:6287 src/bin/bin.cpp:6290 src/mainwindow.cpp:4945
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Project Bin %1"
@@ -5496,7 +5483,7 @@ msgstr "Add markers"
 
 #. i18n: ectx: Menu (subtitles)
 #: src/bin/model/subtitlemodel.cpp:78 src/core.cpp:703 src/kdenliveui.rc:30
-#: src/mainwindow.cpp:308 src/project/dialogs/archivewidget.cpp:99
+#: src/mainwindow.cpp:309 src/project/dialogs/archivewidget.cpp:99
 #: src/project/dialogs/projectsettings.cpp:435
 #, kde-format
 msgid "Subtitles"
@@ -5560,11 +5547,10 @@ msgid "Delete subtitle"
 msgstr "Delete subtitle"
 
 #: src/bin/model/subtitlemodel.cpp:1729 src/bin/model/subtitlemodel.cpp:1732
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Subtitles"
+msgstr "Subtitle %1"
 
 #: src/bin/projectclip.cpp:269
 #, kde-format
@@ -5572,8 +5558,7 @@ msgid "Timeline sequence"
 msgstr "Timeline sequence"
 
 #: src/bin/projectclip.cpp:578 src/timeline2/view/qml/Clip.qml:1097
-#, fuzzy, kde-format
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
@@ -5609,10 +5594,9 @@ msgid "File already exists"
 msgstr "File already exists"
 
 #: src/bin/projectclip.cpp:2679
-#, fuzzy, kde-format
-#| msgid "Paste timeline clips"
+#, kde-format
 msgid "Adjust timeline clips"
-msgstr "Paste timeline clips"
+msgstr "Adjust timeline clips"
 
 #: src/bin/projectclip.cpp:2925
 #, kde-format
@@ -5679,16 +5663,15 @@ msgstr "Add a sub clip"
 msgid "Rename Folder"
 msgstr "Rename Folder"
 
-#: src/bin/projectitemmodel.cpp:1038 src/mainwindow.cpp:1546
+#: src/bin/projectitemmodel.cpp:1038 src/mainwindow.cpp:1547
 #, kde-format
 msgid "Clean Project"
 msgstr "Clean Project"
 
 #: src/bin/projectitemmodel.cpp:1243
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "Loading project clips…"
+msgstr "Reading project clips…"
 
 #: src/bin/projectitemmodel.cpp:1349
 #, kde-format
@@ -6054,10 +6037,9 @@ msgid "Loading clips"
 msgstr "Loading clips"
 
 #: src/dialogs/clipcreationdialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "Color Clip"
+#, kde-format
 msgid "Color Clip Dialog"
-msgstr "Colour Clip"
+msgstr "Colour Clip Dialog"
 
 #: src/dialogs/clipcreationdialog.cpp:60
 #, kde-format
@@ -6071,16 +6053,14 @@ msgid "Color Clip"
 msgstr "Colour Clip"
 
 #: src/dialogs/clipcreationdialog.cpp:63
-#, fuzzy, kde-format
-#| msgid "Clip aligned."
+#, kde-format
 msgid "Clip Name"
-msgstr "Clip aligned."
+msgstr "Clip Name"
 
 #: src/dialogs/clipcreationdialog.cpp:67
-#, fuzzy, kde-format
-#| msgid "Create color clip"
+#, kde-format
 msgid "Create Color Clip"
-msgstr "Create colour clip"
+msgstr "Create Colour Clip"
 
 #: src/dialogs/clipcreationdialog.cpp:106
 #, kde-format
@@ -6142,6 +6122,10 @@ msgid ""
 "b> will be replaced by the second parameter value, <b>{output}</b> will be "
 "replaced by the output file name."
 msgstr ""
+"<b>{source}</b> will be replaced by the Bin Clip source file path, "
+"<b>{param1}</b> will be replaced by the first parameter value, <b>{param2}</"
+"b> will be replaced by the second parameter value, <b>{output}</b> will be "
+"replaced by the output file name."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6157,16 +6141,20 @@ msgid ""
 "inserted in place of <b>{output}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"The output file name will be the same as the source bin clip filename, with "
+"the modified extension. It will be appended at the end of the arguments or "
+"inserted in place of <b>{output}</b> if found. If output filename already "
+"exists, a -0001 pattern will be appended."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
+msgstr "If selected, a file path will be requested on execution"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
 #, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
-msgstr ""
+msgstr "If selected, a dropdown list of values will be shown on execution"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6174,12 +6162,15 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"If selected, the selected clip's current frame will be extracted to a "
+"temporary file and the parameter value will be the image path"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
 msgstr ""
+"A newline separated list of possible values that will be offered on execution"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
 #, kde-kuit-format
@@ -6188,6 +6179,8 @@ msgid ""
 "When the parameter is set to <b>Request Option from List</b> the user will "
 "be asked to choose a value in this list when the job is started."
 msgstr ""
+"When the parameter is set to <b>Request Option from List</b> the user will "
+"be asked to choose a value in this list when the job is started."
 
 #: src/dialogs/clipjobmanager.cpp:132 src/dialogs/clipjobmanager.cpp:280
 #, kde-format
@@ -6200,15 +6193,14 @@ msgid "Duplicate Clip with Speed Change…"
 msgstr "Duplicate Clip with Speed Change…"
 
 #: src/dialogs/clipjobmanager.cpp:252
-#, fuzzy, kde-format
-#| msgid "Missing clip"
+#, kde-format
 msgid "Missing executable"
-msgstr "Missing clip"
+msgstr "Missing executable"
 
 #: src/dialogs/clipjobmanager.cpp:255
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
-msgstr ""
+msgstr "Your script or application %1 is not executable, change permissions"
 
 #: src/dialogs/clipjobmanager.cpp:282
 #, kde-format
@@ -6240,23 +6232,20 @@ msgstr ""
 "%1 ?"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Compare Proxy Profile"
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "Compare Proxy Profile"
+msgstr "Edit Custom Camcorder Proxy Profiles"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
-msgstr ""
+msgstr "You can input several profiles in a preset, separated by a semicolon"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
-#, fuzzy, kde-format
-#| msgid "Preset already exists"
+#, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "Preset already exists"
+msgstr "Preset already exists, enter a new name:"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -6264,6 +6253,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
+"This will delete all custom camcorder profiles and reset values to the "
+"default settings"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6271,6 +6262,8 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"You are using multiple presets in one profile, ensure you have the same "
+"count of semicolon in each parameter. This profile will not be saved."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -6287,7 +6280,7 @@ msgstr "Proxy Clips"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:53 src/kdenliveui.rc:125
-#: src/mainwindow.cpp:642
+#: src/mainwindow.cpp:643
 #, kde-format
 msgid "Timeline Preview"
 msgstr "Timeline Preview"
@@ -6490,10 +6483,9 @@ msgid "Guide position in frames"
 msgstr "Guide position in frames"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Guide position in frames"
+#, kde-format
 msgid "Next guide position in frames"
-msgstr "Guide position in frames"
+msgstr "Next guide position in frames"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
@@ -6533,7 +6525,7 @@ msgstr "Encoding detected as %1"
 msgid "Import Subtitle"
 msgstr "Import Subtitle"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:4045
+#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:4046
 #, kde-format
 msgid "Timeline"
 msgstr "Timeline"
@@ -6648,6 +6640,9 @@ msgid ""
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
 "documentation</a>."
 msgstr ""
+"For device configuration see <a href=\"https://docs.kdenlive.org/"
+"user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
+"documentation</a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:518 src/dialogs/timeremap.cpp:1670
@@ -6697,7 +6692,7 @@ msgstr "ARTS Daemon"
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/kdenlivesettingsdialog.cpp:736
 #: src/dialogs/kdenlivesettingsdialog.cpp:737 src/dialogs/renderwidget.cpp:228
-#: src/mainwindow.cpp:214 src/ui/configproject_ui.ui:48
+#: src/mainwindow.cpp:215 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Default"
@@ -6712,7 +6707,7 @@ msgstr "SDL"
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:824 src/mainwindow.cpp:355
+#: src/dialogs/kdenlivesettingsdialog.cpp:824 src/mainwindow.cpp:356
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
@@ -6774,6 +6769,8 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"On first run, Whisper will <b>download the chosen model</b>. After that, "
+"processing will happen offline. CPU processing is very slow."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1783
 #, kde-format
@@ -6781,6 +6778,8 @@ msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
 "that, translations will happen offline."
 msgstr ""
+"On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
+"that, translations will happen offline."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -6788,41 +6787,37 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:1808
 #: src/dialogs/kdenlivesettingsdialog.cpp:2125 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
-#, fuzzy, kde-format
-#| msgid "Custom models folder"
+#, kde-format
 msgid "Models folder"
-msgstr "Custom models folder"
+msgstr "Models folder"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1850
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "Set the path for MLT environment."
+msgstr "Setting up virtual environment…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1852
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr ""
+msgstr "Disabling virtual environment"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1869
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Set the path for MLT environment."
+msgstr "Removing the virtual environment folder."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1874
-#, fuzzy, kde-format
-#| msgid "Sequence not found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
-msgstr "Sequence not found"
+msgstr "No python venv found"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1877
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr ""
+msgstr "Failed to remove the virtual environment folder."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1882
 #, kde-format
@@ -6895,25 +6890,22 @@ msgid "New dictionary installed."
 msgstr "New dictionary installed."
 
 #: src/dialogs/managesubtitles.cpp:28
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Subtitles"
+msgstr "Manage Subtitles"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Import Subtitle"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Import Subtitle"
+msgstr "Export Subtitle"
 
 #: src/dialogs/managesubtitles.cpp:109
 #, kde-format
@@ -6921,6 +6913,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
+"subtitle file: %2 "
 
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
@@ -7090,10 +7084,9 @@ msgid "Rendering aborted"
 msgstr "Rendering aborted"
 
 #: src/dialogs/renderwidget.cpp:216
-#, fuzzy, kde-format
-#| msgid "Nearest Neighbor (fast)"
+#, kde-format
 msgid "Nearest (fast)"
-msgstr "Nearest Neighbor (fast)"
+msgstr "Nearest (fast)"
 
 #: src/dialogs/renderwidget.cpp:217 src/monitor/monitormanager.cpp:597
 #, kde-format
@@ -7106,29 +7099,24 @@ msgid "Bicubic (better)"
 msgstr "Bicubic (better)"
 
 #: src/dialogs/renderwidget.cpp:219
-#, fuzzy, kde-format
-#| msgid "Hyper/Lanczos (best)"
+#, kde-format
 msgid "Lanczos (best)"
-msgstr "Hyper/Lanczos (best)"
+msgstr "Lanczos (best)"
 
 #: src/dialogs/renderwidget.cpp:229
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal (16:9)"
-msgstr "Horizontal"
+msgstr "Horizontal (16:9)"
 
 #: src/dialogs/renderwidget.cpp:230
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical (9:16)"
-msgstr "Vertical"
+msgstr "Vertical (9:16)"
 
 #: src/dialogs/renderwidget.cpp:231
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2"
+#, kde-format
 msgid "Square (1:1)"
-msgstr "Square 2"
+msgstr "Square (1:1)"
 
 #: src/dialogs/renderwidget.cpp:235 src/monitor/monitormanager.cpp:578
 #, kde-format
@@ -7146,15 +7134,14 @@ msgid "YADIF - temporal only (good)"
 msgstr "YADIF - temporal only (good)"
 
 #: src/dialogs/renderwidget.cpp:238
-#, fuzzy, kde-format
-#| msgid "Bicubic (better)"
+#, kde-format
 msgid "YADIF (better)"
-msgstr "Bicubic (better)"
+msgstr "YADIF (better)"
 
 #: src/dialogs/renderwidget.cpp:239
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (best)"
 
 #: src/dialogs/renderwidget.cpp:247 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -7257,17 +7244,18 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
+"Rendering a project with variable framerate clips can lead to audio/video "
+"desync.\n"
+"We recommend to transcode to an edit friendly format."
 
 #: src/dialogs/renderwidget.cpp:657
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
-msgstr "Render line"
+msgstr "Render Anyway"
 
 #: src/dialogs/renderwidget.cpp:660
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Transcode"
@@ -7288,10 +7276,9 @@ msgstr ""
 "Please make sure you have the required permissions."
 
 #: src/dialogs/renderwidget.cpp:732
-#, fuzzy, kde-format
-#| msgid "An error occurred while deleting markers"
+#, kde-format
 msgid "The following errors occurred while trying to render"
-msgstr "An error occurred while deleting markers"
+msgstr "The following errors occurred while trying to render"
 
 #: src/dialogs/renderwidget.cpp:765 src/dialogs/renderwidget.cpp:1492
 #, kde-format
@@ -7400,40 +7387,33 @@ msgid "Remove Job"
 msgstr "Remove Job"
 
 #: src/dialogs/renderwidget.cpp:1766
-#, fuzzy, kde-format
-#| msgid "Add a clip to timeline before rendering"
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Add a clip to timeline before rendering"
+msgstr "Add clips in timeline before rendering"
 
 #: src/dialogs/renderwidget.cpp:1771
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Rendered File Length: %1"
-msgstr "Render Duration: %1"
+msgstr "Rendered File Length: %1"
 
 #: src/dialogs/renderwidget.cpp:1775
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "You have %1 missing clip in your project."
-msgstr[1] "You have %1 missing clips in your project."
+msgstr[0] "<b>One missing clip used in the project.</b>"
+msgstr[1] "<b>%1 missing clips used in the project.</b>"
 
 #: src/dialogs/renderwidget.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Check missing clips"
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "Check missing clips"
-msgstr[1] "Check missing clips"
+msgstr[0] "One missing clip (unused)."
+msgstr[1] "%1 missing clips (unused)."
 
 #: src/dialogs/renderwidget.cpp:1779
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "You have %1 missing clip in your project."
+msgstr "%1 missing clips (<b>%2 used in the project</b>)."
 
 #: src/dialogs/renderwidget.cpp:1861
 #, kde-format
@@ -7445,16 +7425,14 @@ msgstr ""
 "%1"
 
 #: src/dialogs/renderwidget.cpp:1881
-#, fuzzy, kde-format
-#| msgid "Add to current project"
+#, kde-format
 msgid "Add to Current Project"
-msgstr "Add to current project"
+msgstr "Add to Current Project"
 
 #: src/dialogs/renderwidget.cpp:1884 src/library/librarywidget.cpp:256
-#, fuzzy, kde-format
-#| msgid "Destination folder"
+#, kde-format
 msgid "Open Containing Folder"
-msgstr "Destination folder"
+msgstr "Open Containing Folder"
 
 #: src/dialogs/speechdialog.cpp:44
 #, kde-format
@@ -7493,17 +7471,15 @@ msgstr "Please install speech recognition models"
 
 #: src/dialogs/speechdialog.cpp:245
 #: src/pythoninterfaces/abstractpythoninterface.cpp:175
-#, fuzzy, kde-format
-#| msgid "Checking system"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "Checking system"
+msgstr "Checking setup…"
 
 #: src/dialogs/speechdialog.cpp:252
-#, fuzzy, kde-format
-#| msgid "Please configure speech to text."
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "Please configure speech to text."
+msgstr "Please configure speech to text, missing dependencies: %1"
 
 #: src/dialogs/speechdialog.cpp:254 src/dialogs/textbasededit.cpp:932
 #: src/dialogs/textbasededit.cpp:946
@@ -7542,16 +7518,14 @@ msgid "Speech recognition failed"
 msgstr "Speech recognition failed"
 
 #: src/dialogs/speechdialog.cpp:453
-#, fuzzy, kde-format
-#| msgid "Translate text to English"
+#, kde-format
 msgid "Translating text to %1"
-msgstr "Translate text to English"
+msgstr "Translating text to %1"
 
 #: src/dialogs/speechdialog.cpp:455
-#, fuzzy, kde-format
-#| msgid "Invalid transition"
+#, kde-format
 msgid "Initializing translation model"
-msgstr "Invalid transition"
+msgstr "Initialising translation model"
 
 #: src/dialogs/speechdialog.cpp:466 src/pythoninterfaces/speechtotext.cpp:81
 #, kde-format
@@ -7604,10 +7578,9 @@ msgid "Burmese"
 msgstr "Burmese"
 
 #: src/dialogs/speechdialog.cpp:476
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Cantonese"
-msgstr "Chinese"
+msgstr "Cantonese"
 
 #: src/dialogs/speechdialog.cpp:477 src/pythoninterfaces/speechtotext.cpp:97
 #, kde-format
@@ -7617,12 +7590,12 @@ msgstr "Catalan"
 #: src/dialogs/speechdialog.cpp:478
 #, kde-format
 msgid "Cebuano"
-msgstr ""
+msgstr "Cebuano"
 
 #: src/dialogs/speechdialog.cpp:479
 #, kde-format
 msgid "Central Kurdish"
-msgstr ""
+msgstr "Central Kurdish"
 
 #: src/dialogs/speechdialog.cpp:480 src/pythoninterfaces/speechtotext.cpp:99
 #, kde-format
@@ -7647,7 +7620,7 @@ msgstr "Dutch"
 #: src/dialogs/speechdialog.cpp:484
 #, kde-format
 msgid "Egyptian Arabic"
-msgstr ""
+msgstr "Egyptian Arabic"
 
 #: src/dialogs/speechdialog.cpp:485 src/pythoninterfaces/speechtotext.cpp:103
 #, kde-format
@@ -7677,7 +7650,7 @@ msgstr "Galician"
 #: src/dialogs/speechdialog.cpp:490
 #, kde-format
 msgid "Ganda"
-msgstr ""
+msgstr "Ganda"
 
 #: src/dialogs/speechdialog.cpp:491 src/pythoninterfaces/speechtotext.cpp:110
 #, kde-format
@@ -7700,10 +7673,9 @@ msgid "Gujarati"
 msgstr "Gujarati"
 
 #: src/dialogs/speechdialog.cpp:495
-#, fuzzy, kde-format
-#| msgid "Mongolian"
+#, kde-format
 msgid "Halh Mongolian"
-msgstr "Mongolian"
+msgstr "Halh Mongolian"
 
 #: src/dialogs/speechdialog.cpp:496 src/pythoninterfaces/speechtotext.cpp:118
 #, kde-format
@@ -7728,7 +7700,7 @@ msgstr "Icelandic"
 #: src/dialogs/speechdialog.cpp:500
 #, kde-format
 msgid "Igbo"
-msgstr ""
+msgstr "Igbo"
 
 #: src/dialogs/speechdialog.cpp:501 src/pythoninterfaces/speechtotext.cpp:122
 #, kde-format
@@ -7736,11 +7708,9 @@ msgid "Indonesian"
 msgstr "Indonesian"
 
 #: src/dialogs/speechdialog.cpp:502
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Iris Box"
+#, kde-format
 msgid "Irish"
-msgstr "Iris Box"
+msgstr "Irish"
 
 #: src/dialogs/speechdialog.cpp:503 src/pythoninterfaces/speechtotext.cpp:123
 #, kde-format
@@ -7780,7 +7750,7 @@ msgstr "Korean"
 #: src/dialogs/speechdialog.cpp:510
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Kyrgyz"
 
 #: src/dialogs/speechdialog.cpp:511 src/pythoninterfaces/speechtotext.cpp:130
 #, kde-format
@@ -7793,10 +7763,9 @@ msgid "Lithuanian"
 msgstr "Lithuanian"
 
 #: src/dialogs/speechdialog.cpp:513
-#, fuzzy, kde-format
-#| msgid "Lao"
+#, kde-format
 msgid "Luo"
-msgstr "Lao"
+msgstr "Luo"
 
 #: src/dialogs/speechdialog.cpp:514 src/pythoninterfaces/speechtotext.cpp:137
 #, kde-format
@@ -7804,10 +7773,9 @@ msgid "Macedonian"
 msgstr "Macedonian"
 
 #: src/dialogs/speechdialog.cpp:515
-#, fuzzy, kde-format
-#| msgid "Swahili"
+#, kde-format
 msgid "Maithili"
-msgstr "Swahili"
+msgstr "Maithili"
 
 #: src/dialogs/speechdialog.cpp:516 src/pythoninterfaces/speechtotext.cpp:140
 #, kde-format
@@ -7820,10 +7788,9 @@ msgid "Maltese"
 msgstr "Maltese"
 
 #: src/dialogs/speechdialog.cpp:518 src/dialogs/speechdialog.cpp:519
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Mandarin Chinese"
-msgstr "Chinese"
+msgstr "Mandarin Chinese"
 
 #: src/dialogs/speechdialog.cpp:520 src/pythoninterfaces/speechtotext.cpp:143
 #, kde-format
@@ -7833,18 +7800,17 @@ msgstr "Marathi"
 #: src/dialogs/speechdialog.cpp:521
 #, kde-format
 msgid "Meitei"
-msgstr ""
+msgstr "Meitei"
 
 #: src/dialogs/speechdialog.cpp:522
-#, fuzzy, kde-format
-#| msgid "Video Standard"
+#, kde-format
 msgid "Modern Standard Arabic"
-msgstr "Video Standard"
+msgstr "Modern Standard Arabic"
 
 #: src/dialogs/speechdialog.cpp:523
 #, kde-format
 msgid "Moroccan Arabic"
-msgstr ""
+msgstr "Moroccan Arabic"
 
 #: src/dialogs/speechdialog.cpp:524 src/pythoninterfaces/speechtotext.cpp:148
 #, kde-format
@@ -7854,41 +7820,37 @@ msgstr "Nepali"
 #: src/dialogs/speechdialog.cpp:525
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr ""
+msgstr "Nigerian Fulfulde"
 
 #: src/dialogs/speechdialog.cpp:526
-#, fuzzy, kde-format
-#| msgid "Azerbaijani"
+#, kde-format
 msgid "North Azerbaijani"
-msgstr "Azerbaijani"
+msgstr "North Azerbaijani"
 
 #: src/dialogs/speechdialog.cpp:527
 #, kde-format
 msgid "Northern Uzbek"
-msgstr ""
+msgstr "Northern Uzbek"
 
 #: src/dialogs/speechdialog.cpp:528
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Bokmål"
-msgstr "Norwegian"
+msgstr "Norwegian Bokmål"
 
 #: src/dialogs/speechdialog.cpp:529
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Nynorsk"
-msgstr "Norwegian"
+msgstr "Norwegian Nynorsk"
 
 #: src/dialogs/speechdialog.cpp:530
-#, fuzzy, kde-format
-#| msgid "Panjabi"
+#, kde-format
 msgid "Nyanja"
-msgstr "Panjabi"
+msgstr "Nyanja"
 
 #: src/dialogs/speechdialog.cpp:531
 #, kde-format
 msgid "Odia"
-msgstr ""
+msgstr "Odia"
 
 #: src/dialogs/speechdialog.cpp:532 src/pythoninterfaces/speechtotext.cpp:155
 #, kde-format
@@ -7948,7 +7910,7 @@ msgstr "Somali"
 #: src/dialogs/speechdialog.cpp:543
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "Southern Pashto"
 
 #: src/dialogs/speechdialog.cpp:544 src/pythoninterfaces/speechtotext.cpp:170
 #, kde-format
@@ -7956,15 +7918,14 @@ msgid "Spanish"
 msgstr "Spanish"
 
 #: src/dialogs/speechdialog.cpp:545
-#, fuzzy, kde-format
-#| msgid "Latvian"
+#, kde-format
 msgid "Standard Latvian"
-msgstr "Latvian"
+msgstr "Standard Latvian"
 
 #: src/dialogs/speechdialog.cpp:546
 #, kde-format
 msgid "Standard Malay"
-msgstr ""
+msgstr "Standard Malay"
 
 #: src/dialogs/speechdialog.cpp:547 src/pythoninterfaces/speechtotext.cpp:172
 #, kde-format
@@ -8029,13 +7990,12 @@ msgstr "Welsh"
 #: src/dialogs/speechdialog.cpp:559
 #, kde-format
 msgid "West Central Oromo"
-msgstr ""
+msgstr "West Central Oromo"
 
 #: src/dialogs/speechdialog.cpp:560
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "Western Persian"
-msgstr "Persian"
+msgstr "Western Persian"
 
 #: src/dialogs/speechdialog.cpp:561 src/pythoninterfaces/speechtotext.cpp:190
 #, kde-format
@@ -8045,7 +8005,7 @@ msgstr "Yoruba"
 #: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "Zulu"
-msgstr ""
+msgstr "Zulu"
 
 #: src/dialogs/splash.cpp:35
 #, kde-format
@@ -8186,7 +8146,7 @@ msgstr "Top Right"
 #: src/dialogs/subtitleedit.cpp:489
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
-msgstr ""
+msgstr "Character: %1, total: <b>%2</b>"
 
 #: src/dialogs/textbasededit.cpp:55
 #, kde-format
@@ -8212,30 +8172,24 @@ msgid "Configure Speech Recognition"
 msgstr "Configure Speech Recognition"
 
 #: src/dialogs/textbasededit.cpp:654
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with edit"
-msgstr "Create New Sequence"
+msgstr "Create new sequence with edit"
 
 #: src/dialogs/textbasededit.cpp:655
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "Insert selection in timeline"
-msgstr "Insert selected blocks in timeline"
+msgstr "Insert selection in timeline"
 
 #: src/dialogs/textbasededit.cpp:656
-#, fuzzy, kde-format
-#| msgid "Save edited text in a new playlist"
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "Save edited text in a new playlist"
+msgstr "Save edited text in a playlist file"
 
 #: src/dialogs/textbasededit.cpp:663
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit "
-msgstr "Create New Sequence"
+msgstr "Create new sequence with text edit "
 
 #: src/dialogs/textbasededit.cpp:687
 #, kde-format
@@ -8253,16 +8207,14 @@ msgid "Delete selected text"
 msgstr "Delete selected text"
 
 #: src/dialogs/textbasededit.cpp:729
-#, fuzzy, kde-format
-#| msgid "Add bookmark for current selection"
+#, kde-format
 msgid "Add marker for current selection"
-msgstr "Add bookmark for current selection"
+msgstr "Add marker for current selection"
 
 #: src/dialogs/textbasededit.cpp:737
-#, fuzzy, kde-format
-#| msgid "Remove All Preview Zones"
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "Remove All Preview Zones"
+msgstr "Remove non speech zones"
 
 #: src/dialogs/textbasededit.cpp:916
 #, kde-format
@@ -8325,18 +8277,16 @@ msgid "Speech recognition finished."
 msgstr "Speech recognition finished."
 
 #: src/dialogs/textbasededit.cpp:1391
-#, fuzzy, kde-format
-#| msgid "Edit clip cut"
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "Edit clip cut"
+msgstr "Edit clip text"
 
 #: src/dialogs/textbasededit.cpp:1423 src/dialogs/textbasededit.cpp:1505
-#, fuzzy, kde-format
-#| msgid "Create Sequence Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
-msgstr "Create Sequence Clip"
+msgstr "Create sequence clip"
 
 #: src/dialogs/textbasededit.cpp:1430 src/dialogs/textbasededit.cpp:1466
 #, kde-format
@@ -8590,12 +8540,9 @@ msgstr ""
 "animations</li>"
 
 #: src/dialogs/wizard.cpp:423
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
-msgstr ""
-"<li>Missing app: <b>dvdauthor</b><br/>required for creation of DVD</li>"
+msgstr "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 
 #: src/dialogs/wizard.cpp:448
 #, kde-format
@@ -8654,13 +8601,12 @@ msgstr "hardware encoders found and enabled (%1)."
 #: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Recursive search: processing clips"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Search done"
+msgstr "Recursive search: done in %1 s"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -8673,57 +8619,51 @@ msgid "Enter new location for file"
 msgstr "Enter new location for file"
 
 #: src/doc/dcresolvedialog.cpp:194
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "The project contains:"
-msgstr "The project file contains missing clips or files."
+msgstr "The project contains:"
 
 #: src/doc/dcresolvedialog.cpp:200
-#, fuzzy, kde-format
-#| msgid "Check missing clips"
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "Check missing clips"
-msgstr[1] "Check missing clips"
+msgstr[0] "One missing clip"
+msgstr[1] "%1 missing clips"
 
 #: src/doc/dcresolvedialog.cpp:203
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Delete missing elements"
-msgstr[1] "Delete missing elements"
+msgstr[0] "One missing source with available proxy"
+msgstr[1] "%1 missing sources with available proxy"
 
 #: src/doc/dcresolvedialog.cpp:206
-#, fuzzy, kde-format
-#| msgid "Use placeholders for missing clips"
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "Use placeholders for missing clips"
-msgstr[1] "Use placeholders for missing clips"
+msgstr[0] "One placeholder clip"
+msgstr[1] "%1 placeholder clips"
 
 #: src/doc/dcresolvedialog.cpp:209
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "Remove clips"
-msgstr[1] "Remove clips"
+msgstr[0] "One removed clip"
+msgstr[1] "%1 removed clips"
 
 #: src/doc/dcresolvedialog.cpp:218
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "Delete missing elements"
-msgstr[1] "Delete missing elements"
+msgstr[0] "One missing proxy"
+msgstr[1] "%1 missing proxies"
 
 #: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "One proxy can be recovered"
+msgstr[1] "%1 proxies can be recovered"
 
 #: src/doc/dcresolvedialog.cpp:238
 #, kde-format
@@ -8734,19 +8674,19 @@ msgstr "Clips Folder"
 #: src/doc/documentchecker.cpp:138
 #, kde-format
 msgid "Applying fixes…"
-msgstr ""
+msgstr "Applying fixes…"
 
 #: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:237
-#, fuzzy, kde-format
-#| msgid "Checking system"
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "Checking system"
+msgstr "Checking for missing items…"
 
 #: src/doc/documentchecker.cpp:194
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
+"The document ID of your project was invalid, a new one has been created."
 
 #: src/doc/documentchecker.cpp:1617
 #, kde-format
@@ -8774,10 +8714,9 @@ msgid "Title Image"
 msgstr "Title Image"
 
 #: src/doc/documentchecker.cpp:1637
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#, kde-format
 msgid "Clip"
-msgstr "&Clip"
+msgstr "Clip"
 
 #: src/doc/documentchecker.cpp:1639
 #, kde-format
@@ -8812,10 +8751,9 @@ msgid "Transition"
 msgstr "Transition"
 
 #: src/doc/documentchecker.cpp:1653
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Corrupted sequence"
-msgstr "Create sequence"
+msgstr "Corrupted sequence"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
 #: src/doc/documentchecker.cpp:1663 src/ui/editrenderpreset_ui.ui:538
@@ -8824,10 +8762,9 @@ msgid "Fixed"
 msgstr "Fixed"
 
 #: src/doc/documentchecker.cpp:1665
-#, fuzzy, kde-format
-#| msgid "Reload Clip"
+#, kde-format
 msgid "Reload"
-msgstr "Reload Clip"
+msgstr "Reload"
 
 #: src/doc/documentchecker.cpp:1667
 #, kde-format
@@ -8835,10 +8772,9 @@ msgid "Missing"
 msgstr "Missing"
 
 #: src/doc/documentchecker.cpp:1669
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Missing proxy"
+msgstr "Missing, but proxy available"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1671 src/ui/editrenderpreset_ui.ui:525
@@ -8848,10 +8784,9 @@ msgstr "Placeholder"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1673 src/ui/missingclips_ui.ui:152
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
-msgstr "Removal"
+msgstr "Remove"
 
 #: src/doc/documentchecker.cpp:1684
 #, kde-format
@@ -8864,10 +8799,9 @@ msgid "Missing proxies can be recreated on opening."
 msgstr "Missing proxies can be recreated on opening."
 
 #: src/doc/documentvalidator.cpp:47
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "Loading project…"
+msgstr "Validating project…"
 
 #: src/doc/documentvalidator.cpp:89
 #, kde-format
@@ -8895,10 +8829,9 @@ msgid "Incorrect project file"
 msgstr "Incorrect project file"
 
 #: src/doc/documentvalidator.cpp:184
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "Loading project…"
+msgstr "Upgrading project version…"
 
 #: src/doc/documentvalidator.cpp:190
 #, kde-format
@@ -9127,11 +9060,13 @@ msgid ""
 "The project uses a non standard framerate (%1), this will result in "
 "misplaced clips and frame offset."
 msgstr ""
+"The project uses a non standard framerate (%1), this will result in "
+"misplaced clips and frame offset."
 
 #: src/doc/kdenlivedoc.cpp:1893
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr ""
+msgstr "Warning: non standard fps, adjusting to closest integer. "
 
 #: src/doc/kdenlivedoc.cpp:1912
 #, kde-format
@@ -9510,7 +9445,7 @@ msgstr "Save effect"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "%1 instances of this effect in the group"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:456
 #, kde-format
@@ -9519,6 +9454,8 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>Drag</b> effect to another timeline clip, track or project clip to copy "
+"it. <b>Alt Drag</b> to copy it to a single item in a group."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:480
 #, kde-format
@@ -9584,34 +9521,29 @@ msgstr ""
 "Save effect with no description?"
 
 #: src/filefilter.cpp:122
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "Audio Files"
-msgstr "Audio levels"
+msgstr "Audio Files"
 
 #: src/filefilter.cpp:124
-#, fuzzy, kde-format
-#| msgid "Image File"
+#, kde-format
 msgid "Image Files"
-msgstr "Image File"
+msgstr "Image Files"
 
 #: src/filefilter.cpp:126
-#, fuzzy, kde-format
-#| msgid "Video values"
+#, kde-format
 msgid "Video Files"
-msgstr "Video values"
+msgstr "Video Files"
 
 #: src/filefilter.cpp:128
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "User Files"
-msgstr "Clear Filters"
+msgstr "User Files"
 
 #: src/filefilter.cpp:130
-#, fuzzy, kde-format
-#| msgid "Other Clips"
+#, kde-format
 msgid "Other Files"
-msgstr "Other Clips"
+msgstr "Other Files"
 
 #: src/filefilter.cpp:134
 #, kde-format
@@ -9673,12 +9605,12 @@ msgstr "File <b>%1</b> is not seekable."
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "File <b>%1</b> has a variable frame rate."
 
-#: src/jobs/customjobtask.cpp:172
+#: src/jobs/customjobtask.cpp:173
 #, kde-format
 msgid "Application %1 not found, please update the job settings"
 msgstr "Application %1 not found, please update the job settings"
 
-#: src/jobs/customjobtask.cpp:289 src/jobs/customjobtask.cpp:309
+#: src/jobs/customjobtask.cpp:297 src/jobs/customjobtask.cpp:317
 #: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
 #: src/jobs/transcodetask.cpp:270
 #, kde-format
@@ -9930,13 +9862,13 @@ msgid "Markers"
 msgstr "Markers"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:81 src/mainwindow.cpp:3940
+#: src/kdenliveui.rc:81 src/mainwindow.cpp:3941
 #, kde-format
 msgid "Extract Audio"
 msgstr "Extract Audio"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:84 src/mainwindow.cpp:3914
+#: src/kdenliveui.rc:84 src/mainwindow.cpp:3915
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Clip Jobs"
@@ -9997,20 +9929,20 @@ msgstr "Space"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:172 src/mainwindow.cpp:1918
+#: src/kdenliveui.rc:172 src/mainwindow.cpp:1919
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
 msgstr "Tracks"
 
 #. i18n: ectx: Menu (video_effects_menu)
-#: src/kdenliveui.rc:192 src/mainwindow.cpp:576
+#: src/kdenliveui.rc:192 src/mainwindow.cpp:577
 #, kde-format
 msgid "Add Effect"
 msgstr "Add Effect"
 
 #. i18n: ectx: Menu (monitor)
-#: src/kdenliveui.rc:206 src/mainwindow.cpp:158
+#: src/kdenliveui.rc:206 src/mainwindow.cpp:159
 #, kde-format
 msgid "Monitor"
 msgstr "Monitor"
@@ -10034,7 +9966,7 @@ msgid "Current Monitor Overlay"
 msgstr "Current Monitor Overlay"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:250 src/mainwindow.cpp:1617
+#: src/kdenliveui.rc:250 src/mainwindow.cpp:1618
 #, kde-format
 msgid "Preview Resolution"
 msgstr "Preview Resolution"
@@ -10079,7 +10011,7 @@ msgstr "Logging"
 msgid "Editing"
 msgstr "Editing"
 
-#: src/layoutmanagement.cpp:37 src/mainwindow.cpp:496 src/mainwindow.cpp:577
+#: src/layoutmanagement.cpp:37 src/mainwindow.cpp:497 src/mainwindow.cpp:578
 #, kde-format
 msgid "Effects"
 msgstr "Effects"
@@ -10225,11 +10157,10 @@ msgid "Merged streams"
 msgstr "Merged streams"
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:84
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -10368,22 +10299,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Please report bugs to <a href=\"%1\">%2</a>"
 
 #: src/main.cpp:313
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "You are using the %1 package.<br>"
+msgstr "You are using the AppImage.<br>"
 
 #: src/main.cpp:316
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "You are using the %1 package.<br>"
+msgstr "You are using the Flatpak.<br>"
 
 #: src/main.cpp:319
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "You are using the %1 package.<br>"
+msgstr "You are using the Snap package.<br>"
 
 #: src/main.cpp:325
 #, kde-format
@@ -10396,10 +10324,9 @@ msgid "An open source video editor."
 msgstr "An open source video editor."
 
 #: src/main.cpp:326
-#, fuzzy, kde-format
-#| msgid "Copyright © 2007–2023 Kdenlive authors"
+#, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
-msgstr "Copyright © 2007–2023 Kdenlive authors"
+msgstr "Copyright © 2007–2024 Kdenlive authors"
 
 #: src/main.cpp:328
 #, kde-format
@@ -10588,15 +10515,14 @@ msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Comma separated list of files to add as clips to the bin."
 
 #: src/main.cpp:379
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Parent folder of the project file"
+msgstr "Directly render the project and exit."
 
 #: src/main.cpp:382
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
-msgstr ""
+msgstr "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 
 #: src/main.cpp:387
 #, kde-format
@@ -10604,6 +10530,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"Exit after (detached) render process started, without this flag it exists "
+"only after it finished."
 
 #: src/main.cpp:390
 #, kde-format
@@ -10611,164 +10539,160 @@ msgid "Kdenlive document to open."
 msgstr "Kdenlive document to open."
 
 #: src/main.cpp:391
-#, fuzzy, kde-format
-#| msgid "Output file extension"
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Output file extension"
+msgstr "Output file for rendered video."
 
 #: src/main.cpp:516
 #, kde-format
 msgid "Version %1"
 msgstr "Version %1"
 
-#: src/mainwindow.cpp:160
+#: src/mainwindow.cpp:161
 #, kde-format
 msgid "Add Clip"
 msgstr "Add Clip"
 
-#: src/mainwindow.cpp:162
+#: src/mainwindow.cpp:163
 #, kde-format
 msgid "Navigation and Playback"
 msgstr "Navigation and Playback"
 
-#: src/mainwindow.cpp:164
+#: src/mainwindow.cpp:165
 #, kde-format
 msgid "Bin Tags"
 msgstr "Bin Tags"
 
-#: src/mainwindow.cpp:184
+#: src/mainwindow.cpp:185
 #, kde-format
 msgid "Style"
 msgstr "Style"
 
-#: src/mainwindow.cpp:250
+#: src/mainwindow.cpp:251
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
 msgstr "Cannot find your default profile, switching to ATSC 1080p 25"
 
-#: src/mainwindow.cpp:307
+#: src/mainwindow.cpp:308
 #, kde-format
 msgid "Library"
 msgstr "Library"
 
-#: src/mainwindow.cpp:309
+#: src/mainwindow.cpp:310
 #, kde-format
 msgid "Speech Editor"
 msgstr "Speech Editor"
 
-#: src/mainwindow.cpp:310
+#: src/mainwindow.cpp:311
 #, kde-format
 msgid "Time Remapping"
 msgstr "Time Remapping"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/mainwindow.cpp:311 src/ui/guideslist_ui.ui:126
+#: src/mainwindow.cpp:312 src/ui/guideslist_ui.ui:126
 #: src/ui/projectsettings_ui.ui:547
 #, kde-format
 msgid "Guides"
 msgstr "Guides"
 
-#: src/mainwindow.cpp:363 src/timeline2/view/qml/AudioLevels.qml:28
+#: src/mainwindow.cpp:364 src/timeline2/view/qml/AudioLevels.qml:28
 #: src/timeline2/view/qml/AudioLevels.qml:44
 #, kde-format
 msgid "Record"
 msgstr "Record"
 
-#: src/mainwindow.cpp:369
-#, fuzzy, kde-format
-#| msgid "Enable edit mode in monitor to edit effect"
+#: src/mainwindow.cpp:370
+#, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
-msgstr "Enable edit mode in monitor to edit effect"
+msgstr "Enable audio monitoring from the Mixer to record"
 
-#: src/mainwindow.cpp:377 src/monitor/recmanager.cpp:103
+#: src/mainwindow.cpp:378 src/monitor/recmanager.cpp:103
 #, kde-format
 msgid "Configure Recording"
 msgstr "Configure Recording"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:380 src/monitor/recmanager.cpp:38
+#: src/mainwindow.cpp:381 src/monitor/recmanager.cpp:38
 #: src/monitor/recmanager.cpp:94 src/ui/configcapture_ui.ui:263
 #, kde-format
 msgid "Screen Grab"
 msgstr "Screen Grab"
 
-#: src/mainwindow.cpp:386
-#, fuzzy, kde-format
-#| msgid "Select a clip to create sequence"
+#: src/mainwindow.cpp:387
+#, kde-format
 msgid "Switch to next Sequence"
-msgstr "Select a clip to create sequence"
+msgstr "Switch to next Sequence"
 
-#: src/mainwindow.cpp:390
-#, fuzzy, kde-format
-#| msgid "Go to previous keyframe"
+#: src/mainwindow.cpp:391
+#, kde-format
 msgid "Switch to previous Sequence"
-msgstr "Go to previous keyframe"
+msgstr "Switch to previous Sequence"
 
-#: src/mainwindow.cpp:396
+#: src/mainwindow.cpp:397
 #, kde-format
 msgid "Audio Spectrum"
 msgstr "Audio Spectrum"
 
-#: src/mainwindow.cpp:403
+#: src/mainwindow.cpp:404
 #, kde-format
 msgid "Media Browser"
 msgstr "Media Browser"
 
-#: src/mainwindow.cpp:428
+#: src/mainwindow.cpp:429
 #, kde-format
 msgid "Effect/Composition Stack"
 msgstr "Effect/Composition Stack"
 
-#: src/mainwindow.cpp:499
+#: src/mainwindow.cpp:500
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
 #, kde-format
 msgid "Compositions"
 msgstr "Compositions"
 
-#: src/mainwindow.cpp:502
+#: src/mainwindow.cpp:503
 #, kde-format
 msgid "Clip Monitor"
 msgstr "Clip Monitor"
 
-#: src/mainwindow.cpp:503
+#: src/mainwindow.cpp:504
 #, kde-format
 msgid "Project Monitor"
 msgstr "Project Monitor"
 
-#: src/mainwindow.cpp:507
+#: src/mainwindow.cpp:508
 #, kde-format
 msgid "Clean"
 msgstr "Clean"
 
-#: src/mainwindow.cpp:509
+#: src/mainwindow.cpp:510
 #, kde-format
 msgid "Undo History"
 msgstr "Undo History"
 
-#: src/mainwindow.cpp:533
+#: src/mainwindow.cpp:534
 #, kde-format
 msgid "Force Breeze Icon Theme"
 msgstr "Force Breeze Icon Theme"
 
-#: src/mainwindow.cpp:540 src/mainwindow.cpp:542
+#: src/mainwindow.cpp:541 src/mainwindow.cpp:543
 #, kde-format
 msgid "Audio Mixer"
 msgstr "Audio Mixer"
 
-#: src/mainwindow.cpp:541
+#: src/mainwindow.cpp:542
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "Toggles the audio mixer panel/widget."
 
-#: src/mainwindow.cpp:580
+#: src/mainwindow.cpp:581
 #, kde-format
 msgid "Add Transition"
 msgstr "Add Transition"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:581 src/mainwindow.cpp:2085
+#: src/mainwindow.cpp:582 src/mainwindow.cpp:2086
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -10776,12 +10700,12 @@ msgid "Transitions"
 msgstr "Transitions"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:599 src/mainwindow.cpp:611 src/mainwindow.cpp:618
+#: src/mainwindow.cpp:600 src/mainwindow.cpp:612 src/mainwindow.cpp:619
 #, kde-format
 msgid "Favorite Effects"
 msgstr "Favorite Effects"
 
-#: src/mainwindow.cpp:600 src/mainwindow.cpp:613
+#: src/mainwindow.cpp:601 src/mainwindow.cpp:614
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10791,82 +10715,81 @@ msgstr ""
 "Click to show a list of favourite effects. Double-click on an effect to add "
 "it to the selected clip."
 
-#: src/mainwindow.cpp:626 src/mainwindow.cpp:1540
+#: src/mainwindow.cpp:627 src/mainwindow.cpp:1541
 #, kde-format
 msgid "Render…"
 msgstr "Render…"
 
-#: src/mainwindow.cpp:631
-#, fuzzy, kde-format
-#| msgid "Render Button"
+#: src/mainwindow.cpp:632
+#, kde-format
 msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
 "toolbar"
 msgid "Render Button"
 msgstr "Render Button"
 
-#: src/mainwindow.cpp:637
+#: src/mainwindow.cpp:638
 #, kde-format
 msgid "Rendering preview"
 msgstr "Rendering preview"
 
-#: src/mainwindow.cpp:695 src/monitor/monitor.cpp:411
+#: src/mainwindow.cpp:696 src/monitor/monitor.cpp:411
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Go to Guide…"
 
-#: src/mainwindow.cpp:723
+#: src/mainwindow.cpp:724
 #, kde-format
 msgid "Separate Channels"
 msgstr "Separate Channels"
 
-#: src/mainwindow.cpp:730
+#: src/mainwindow.cpp:731
 #, kde-format
 msgid "Normalize Audio Thumbnails"
 msgstr "Normalise Audio Thumbnails"
 
-#: src/mainwindow.cpp:737
+#: src/mainwindow.cpp:738
 #, kde-format
 msgid "Thumbnails"
 msgstr "Thumbnails"
 
-#: src/mainwindow.cpp:739
+#: src/mainwindow.cpp:740
 #, kde-format
 msgid "In Frame"
 msgstr "In Frame"
 
-#: src/mainwindow.cpp:743
+#: src/mainwindow.cpp:744
 #, kde-format
 msgid "In/Out Frames"
 msgstr "In/Out Frames"
 
-#: src/mainwindow.cpp:747
+#: src/mainwindow.cpp:748
 #, kde-format
 msgid "All Frames"
 msgstr "All Frames"
 
-#: src/mainwindow.cpp:751
+#: src/mainwindow.cpp:752
 #, kde-format
 msgid "No Thumbnails"
 msgstr "No Thumbnails"
 
-#: src/mainwindow.cpp:787
+#: src/mainwindow.cpp:788
 #, kde-format
 msgid "Preview Using Proxy Clips"
 msgstr "Preview Using Proxy Clips"
 
-#: src/mainwindow.cpp:794
+#: src/mainwindow.cpp:795
 #, kde-format
 msgid "Automatic Preview"
 msgstr "Automatic Preview"
 
-#: src/mainwindow.cpp:906
+#: src/mainwindow.cpp:907
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Loading Project"
 
-#: src/mainwindow.cpp:1054
+#: src/mainwindow.cpp:1055
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -10881,42 +10804,42 @@ msgstr[1] ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 
-#: src/mainwindow.cpp:1057
+#: src/mainwindow.cpp:1058
 #, kde-format
 msgid "Start them now"
 msgstr "Start them now"
 
-#: src/mainwindow.cpp:1057
+#: src/mainwindow.cpp:1058
 #, kde-format
 msgid "Delete them"
 msgstr "Delete them"
 
-#: src/mainwindow.cpp:1153 src/timeline2/view/timelinecontroller.cpp:2146
+#: src/mainwindow.cpp:1154 src/timeline2/view/timelinecontroller.cpp:2146
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Select a clip to compare effect"
 
-#: src/mainwindow.cpp:1203
+#: src/mainwindow.cpp:1204
 #, kde-format
 msgid "Normal Mode"
 msgstr "Normal Mode"
 
-#: src/mainwindow.cpp:1210
+#: src/mainwindow.cpp:1211
 #, kde-format
 msgid "Overwrite Mode"
 msgstr "Overwrite Mode"
 
-#: src/mainwindow.cpp:1217
+#: src/mainwindow.cpp:1218
 #, kde-format
 msgid "Insert Mode"
 msgstr "Insert Mode"
 
-#: src/mainwindow.cpp:1221
+#: src/mainwindow.cpp:1222
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "Timeline Edit Mode"
 
-#: src/mainwindow.cpp:1223
+#: src/mainwindow.cpp:1224
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10926,17 +10849,17 @@ msgstr ""
 "Switches between Normal, Overwrite and Insert Mode. Determines the default "
 "action when handling clips in the timeline."
 
-#: src/mainwindow.cpp:1236
+#: src/mainwindow.cpp:1237
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "Do not Use Timeline Zone for Insert"
 
-#: src/mainwindow.cpp:1236
+#: src/mainwindow.cpp:1237
 #, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "Use Timeline Zone for Insert"
 
-#: src/mainwindow.cpp:1237
+#: src/mainwindow.cpp:1238
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10944,69 +10867,69 @@ msgid ""
 msgstr ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 
-#: src/mainwindow.cpp:1244
+#: src/mainwindow.cpp:1245
 #, kde-format
 msgid "Enable Track Compositing"
 msgstr "Enable Track Compositing"
 
-#: src/mainwindow.cpp:1250
+#: src/mainwindow.cpp:1251
 #, kde-format
 msgid "Split Audio Tracks"
 msgstr "Split Audio Tracks"
 
-#: src/mainwindow.cpp:1256
+#: src/mainwindow.cpp:1257
 #, kde-format
 msgid "Split Audio Tracks (reverse)"
 msgstr "Split Audio Tracks (reverse)"
 
-#: src/mainwindow.cpp:1262
+#: src/mainwindow.cpp:1263
 #, kde-format
 msgid "Mixed Audio tracks"
 msgstr "Mixed Audio tracks"
 
-#: src/mainwindow.cpp:1288
+#: src/mainwindow.cpp:1289
 #, kde-format
 msgid "Track menu"
 msgstr "Track menu"
 
-#: src/mainwindow.cpp:1293 src/project/dialogs/slideshowclip.cpp:86
+#: src/mainwindow.cpp:1294 src/project/dialogs/slideshowclip.cpp:86
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "hh:mm:ss:ff"
 
-#: src/mainwindow.cpp:1294 src/project/dialogs/slideshowclip.cpp:87
+#: src/mainwindow.cpp:1295 src/project/dialogs/slideshowclip.cpp:87
 #, kde-format
 msgid "Frames"
 msgstr "Frames"
 
-#: src/mainwindow.cpp:1306
+#: src/mainwindow.cpp:1307
 #, kde-format
 msgid "Edit Subtitle Tool"
 msgstr "Edit Subtitle Tool"
 
-#: src/mainwindow.cpp:1307
+#: src/mainwindow.cpp:1308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Toggles the subtitle track in the timeline."
 
-#: src/mainwindow.cpp:1314 src/titler/titlewidget.cpp:380
+#: src/mainwindow.cpp:1315 src/titler/titlewidget.cpp:380
 #: src/titler/titlewidget.cpp:383
 #, kde-format
 msgid "Selection Tool"
 msgstr "Selection Tool"
 
-#: src/mainwindow.cpp:1319
+#: src/mainwindow.cpp:1320
 #, kde-format
 msgid "Razor Tool"
 msgstr "Razor Tool"
 
-#: src/mainwindow.cpp:1324
+#: src/mainwindow.cpp:1325
 #, kde-format
 msgid "Spacer Tool"
 msgstr "Spacer Tool"
 
-#: src/mainwindow.cpp:1327
+#: src/mainwindow.cpp:1328
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11016,12 +10939,12 @@ msgstr ""
 "When selected, clicking and dragging the mouse in the timeline temporarily "
 "groups separate clips and creates or removes space between clips."
 
-#: src/mainwindow.cpp:1332
+#: src/mainwindow.cpp:1333
 #, kde-format
 msgid "Ripple Tool"
 msgstr "Ripple Tool"
 
-#: src/mainwindow.cpp:1335
+#: src/mainwindow.cpp:1336
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11035,12 +10958,12 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1346
+#: src/mainwindow.cpp:1347
 #, kde-format
 msgid "Slip Tool"
 msgstr "Slip Tool"
 
-#: src/mainwindow.cpp:1347
+#: src/mainwindow.cpp:1348
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11050,22 +10973,22 @@ msgstr ""
 "When selected, dragging a clip slips the clip beneath the given window back "
 "and forth."
 
-#: src/mainwindow.cpp:1351
+#: src/mainwindow.cpp:1352
 #, kde-format
 msgid "Multicam Tool"
 msgstr "Multicam Tool"
 
-#: src/mainwindow.cpp:1373
+#: src/mainwindow.cpp:1374
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "Collapse/Expand Item"
 
-#: src/mainwindow.cpp:1377
+#: src/mainwindow.cpp:1378
 #, kde-format
 msgid "Mix Clips"
 msgstr "Mix Clips"
 
-#: src/mainwindow.cpp:1379
+#: src/mainwindow.cpp:1380
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11075,12 +10998,12 @@ msgstr ""
 "Creates a same-track transition between the selected clip and the adjacent "
 "one closest to the playhead."
 
-#: src/mainwindow.cpp:1387
+#: src/mainwindow.cpp:1388
 #, kde-format
 msgid "Show Video Thumbnails"
 msgstr "Show Video Thumbnails"
 
-#: src/mainwindow.cpp:1388
+#: src/mainwindow.cpp:1389
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11090,12 +11013,12 @@ msgstr ""
 "Toggles the display of video thumbnails for the clips in the timeline "
 "(default is On)."
 
-#: src/mainwindow.cpp:1396
+#: src/mainwindow.cpp:1397
 #, kde-format
 msgid "Show Audio Thumbnails"
 msgstr "Show Audio Thumbnails"
 
-#: src/mainwindow.cpp:1397
+#: src/mainwindow.cpp:1398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11105,17 +11028,17 @@ msgstr ""
 "Toggles the display of audio thumbnails for the clips in the timeline "
 "(default is On)."
 
-#: src/mainwindow.cpp:1403
+#: src/mainwindow.cpp:1404
 #, kde-format
 msgid "Show Markers Comments"
 msgstr "Show Markers Comments"
 
-#: src/mainwindow.cpp:1409
+#: src/mainwindow.cpp:1410
 #, kde-format
 msgid "Snap"
 msgstr "Snap"
 
-#: src/mainwindow.cpp:1410
+#: src/mainwindow.cpp:1411
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11125,23 +11048,23 @@ msgstr ""
 "Toggles the snap function (clips snap to playhead, edges, markers, guides "
 "and others)."
 
-#: src/mainwindow.cpp:1416
+#: src/mainwindow.cpp:1417
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "Show Colour Tags in Timeline"
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1418
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "Toggles the display of clip tags in the timeline (default is On)."
 
-#: src/mainwindow.cpp:1423
+#: src/mainwindow.cpp:1424
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "Fit Zoom to Project"
 
-#: src/mainwindow.cpp:1424
+#: src/mainwindow.cpp:1425
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11149,17 +11072,17 @@ msgid ""
 msgstr ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 
-#: src/mainwindow.cpp:1449
+#: src/mainwindow.cpp:1450
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Experimental GPU processing enabled - not for production"
 
-#: src/mainwindow.cpp:1459 src/mainwindow.cpp:3517
+#: src/mainwindow.cpp:1460 src/mainwindow.cpp:3518
 #, kde-format
 msgid "Multicam"
 msgstr "Multicam"
 
-#: src/mainwindow.cpp:1460
+#: src/mainwindow.cpp:1461
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr "Active tool and editing mode"
@@ -11167,240 +11090,239 @@ msgstr "Active tool and editing mode"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1511 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1512 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "Auto"
 
-#: src/mainwindow.cpp:1516
+#: src/mainwindow.cpp:1517
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1521
+#: src/mainwindow.cpp:1522
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "DirectX (ANGLE)"
 
-#: src/mainwindow.cpp:1526
+#: src/mainwindow.cpp:1527
 #, kde-format
 msgid "Software OpenGL"
 msgstr "Software OpenGL"
 
-#: src/mainwindow.cpp:1536
+#: src/mainwindow.cpp:1537
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "Run Configuration Wizard…"
 
-#: src/mainwindow.cpp:1537
+#: src/mainwindow.cpp:1538
 #, kde-format
 msgid "Project Settings…"
 msgstr "Project Settings…"
 
-#: src/mainwindow.cpp:1543
+#: src/mainwindow.cpp:1544
 #, kde-format
 msgid "Stop Render"
 msgstr "Stop Render"
 
-#: src/mainwindow.cpp:1548
+#: src/mainwindow.cpp:1549
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "Reset Configuration…"
 
-#: src/mainwindow.cpp:1553
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#: src/mainwindow.cpp:1554
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "Play Zone"
+msgstr "Play Zone From Cursor"
 
-#: src/mainwindow.cpp:1556
+#: src/mainwindow.cpp:1557
 #, kde-format
 msgid "Play Zone"
 msgstr "Play Zone"
 
-#: src/mainwindow.cpp:1558
+#: src/mainwindow.cpp:1559
 #, kde-format
 msgid "Loop Zone"
 msgstr "Loop Zone"
 
-#: src/mainwindow.cpp:1560
+#: src/mainwindow.cpp:1561
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "Loop Selected Clip"
 
-#: src/mainwindow.cpp:1564
+#: src/mainwindow.cpp:1565
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "Transcode Clips…"
 
-#: src/mainwindow.cpp:1565
+#: src/mainwindow.cpp:1566
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "OpenTimelineIO E&xport…"
 
-#: src/mainwindow.cpp:1568
+#: src/mainwindow.cpp:1569
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "OpenTimelineIO &Import…"
 
-#: src/mainwindow.cpp:1572
+#: src/mainwindow.cpp:1573
 #, kde-format
 msgid "Archive Project…"
 msgstr "Archive Project…"
 
-#: src/mainwindow.cpp:1574
+#: src/mainwindow.cpp:1575
 #, kde-format
 msgid "Switch Monitor"
 msgstr "Switch Monitor"
 
-#: src/mainwindow.cpp:1575
+#: src/mainwindow.cpp:1576
 #, kde-format
 msgid "Focus Timecode"
 msgstr "Focus Timecode"
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1577
 #, kde-format
 msgid "Expand Clip"
 msgstr "Expand Clip"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1579
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "Monitor Info Overlay"
 
-#: src/mainwindow.cpp:1583
+#: src/mainwindow.cpp:1584
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "Monitor Overlay Timecode"
 
-#: src/mainwindow.cpp:1588
+#: src/mainwindow.cpp:1589
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "Monitor Overlay Playback Fps"
 
-#: src/mainwindow.cpp:1593
+#: src/mainwindow.cpp:1594
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "Monitor Overlay Markers"
 
-#: src/mainwindow.cpp:1598
+#: src/mainwindow.cpp:1599
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "Monitor Overlay Audio Waveform"
 
-#: src/mainwindow.cpp:1603
+#: src/mainwindow.cpp:1604
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
 msgstr "Monitor Overlay Clip Jobs"
 
-#: src/mainwindow.cpp:1621
+#: src/mainwindow.cpp:1622
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "Full Resolution (1:1)"
 
-#: src/mainwindow.cpp:1625 src/monitor/monitor.cpp:218
+#: src/mainwindow.cpp:1626 src/monitor/monitor.cpp:218
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1629 src/monitor/monitor.cpp:218
+#: src/mainwindow.cpp:1630 src/monitor/monitor.cpp:218
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1633 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1634 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1637 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1638 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "270p"
 msgstr "270p"
 
-#: src/mainwindow.cpp:1668
+#: src/mainwindow.cpp:1669
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "Real Time (drop frames)"
 
-#: src/mainwindow.cpp:1674
+#: src/mainwindow.cpp:1675
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "Monitor Gamma"
 
-#: src/mainwindow.cpp:1675
+#: src/mainwindow.cpp:1676
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB (computer)"
 
-#: src/mainwindow.cpp:1676
+#: src/mainwindow.cpp:1677
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709 (TV)"
 
-#: src/mainwindow.cpp:1682
+#: src/mainwindow.cpp:1683
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "Insert Zone in Project Bin"
 
-#: src/mainwindow.cpp:1684
+#: src/mainwindow.cpp:1685
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "Creates a new clip in the project bin from the defined zone."
 
-#: src/mainwindow.cpp:1687
+#: src/mainwindow.cpp:1688
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "Go to Previous Snap Point"
 
-#: src/mainwindow.cpp:1689
+#: src/mainwindow.cpp:1690
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "Go to Next Snap Point"
 
-#: src/mainwindow.cpp:1692
+#: src/mainwindow.cpp:1693
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "Go to Clip Start"
 
-#: src/mainwindow.cpp:1694
+#: src/mainwindow.cpp:1695
 #, kde-format
 msgid "Go to Clip End"
 msgstr "Go to Clip End"
 
-#: src/mainwindow.cpp:1696
+#: src/mainwindow.cpp:1697
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "Go to Previous Guide"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1699
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "Go to Next Guide"
 
-#: src/mainwindow.cpp:1700
+#: src/mainwindow.cpp:1701
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "Align Playhead to Mouse Position"
 
-#: src/mainwindow.cpp:1703
+#: src/mainwindow.cpp:1704
 #, kde-format
 msgid "Grab Current Item"
 msgstr "Grab Current Item"
 
-#: src/mainwindow.cpp:1706
+#: src/mainwindow.cpp:1707
 #, kde-format
 msgid "Automatic Transition"
 msgstr "Automatic Transition"
 
-#: src/mainwindow.cpp:1713
+#: src/mainwindow.cpp:1714
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Overwrite Clip Zone in Timeline"
 
-#: src/mainwindow.cpp:1715
+#: src/mainwindow.cpp:1716
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11412,12 +11334,12 @@ msgstr ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and overwritten."
 
-#: src/mainwindow.cpp:1717
+#: src/mainwindow.cpp:1718
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "Insert Clip Zone in Timeline"
 
-#: src/mainwindow.cpp:1719
+#: src/mainwindow.cpp:1720
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11429,12 +11351,12 @@ msgstr ""
 "inserted at the playhead position in the active timeline. Clips at the "
 "insert position are cut and shifted to the right."
 
-#: src/mainwindow.cpp:1721
+#: src/mainwindow.cpp:1722
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "Extract Timeline Zone"
 
-#: src/mainwindow.cpp:1723
+#: src/mainwindow.cpp:1724
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11444,12 +11366,12 @@ msgstr ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "are shifted left."
 
-#: src/mainwindow.cpp:1724
+#: src/mainwindow.cpp:1725
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "Lift Timeline Zone"
 
-#: src/mainwindow.cpp:1726
+#: src/mainwindow.cpp:1727
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11459,12 +11381,12 @@ msgstr ""
 "Click to delete the timeline zone from the timeline. All clips to the right "
 "stay in position."
 
-#: src/mainwindow.cpp:1727
+#: src/mainwindow.cpp:1728
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "Add Preview Zone"
 
-#: src/mainwindow.cpp:1729
+#: src/mainwindow.cpp:1730
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11472,12 +11394,12 @@ msgid ""
 msgstr ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 
-#: src/mainwindow.cpp:1730
+#: src/mainwindow.cpp:1731
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Remove Preview Zone"
 
-#: src/mainwindow.cpp:1734
+#: src/mainwindow.cpp:1735
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11487,23 +11409,23 @@ msgstr ""
 "Removes the currently defined timeline/selection zone from the preview "
 "render zone. Note that this can leave gaps in the preview render zones."
 
-#: src/mainwindow.cpp:1735
+#: src/mainwindow.cpp:1736
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Remove All Preview Zones"
 
-#: src/mainwindow.cpp:1737
+#: src/mainwindow.cpp:1738
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "Remove all preview render zones."
 
-#: src/mainwindow.cpp:1738
+#: src/mainwindow.cpp:1739
 #, kde-format
 msgid "Start Preview Render"
 msgstr "Start Preview Render"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1742
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11515,179 +11437,178 @@ msgstr ""
 "with complex and many effects).<nl/>Click on the down-arrow icon to get a "
 "list of options (for example: add preview render zone, remove all zones)."
 
-#: src/mainwindow.cpp:1743
+#: src/mainwindow.cpp:1744
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "Stop Preview Render"
 
-#: src/mainwindow.cpp:1746
-#, fuzzy, kde-format
-#| msgid "Add Transition to Selection"
+#: src/mainwindow.cpp:1747
+#, kde-format
 msgid "Adjust Timeline Zone to Selection"
-msgstr "Add Transition to Selection"
+msgstr "Adjust Timeline Zone to Selection"
 
-#: src/mainwindow.cpp:1748
+#: src/mainwindow.cpp:1749
 #, kde-format
 msgid "Select Clip"
 msgstr "Select Clip"
 
-#: src/mainwindow.cpp:1750
+#: src/mainwindow.cpp:1751
 #, kde-format
 msgid "Deselect Clip"
 msgstr "Deselect Clip"
 
-#: src/mainwindow.cpp:1752
+#: src/mainwindow.cpp:1753
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "Add Clip to Selection"
 
-#: src/mainwindow.cpp:1754
+#: src/mainwindow.cpp:1755
 #, kde-format
 msgid "Select Transition"
 msgstr "Select Transition"
 
-#: src/mainwindow.cpp:1756
+#: src/mainwindow.cpp:1757
 #, kde-format
 msgid "Deselect Transition"
 msgstr "Deselect Transition"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1759
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "Add Transition to Selection"
 
-#: src/mainwindow.cpp:1761
+#: src/mainwindow.cpp:1762
 #, kde-format
 msgid "Delete All Markers"
 msgstr "Delete All Markers"
 
-#: src/mainwindow.cpp:1763
+#: src/mainwindow.cpp:1764
 #, kde-format
 msgid "Add Marker/Guide quickly"
 msgstr "Add Marker/Guide quickly"
 
-#: src/mainwindow.cpp:1767
+#: src/mainwindow.cpp:1768
 #, kde-format
 msgid "Current Selection"
 msgstr "Current Selection"
 
-#: src/mainwindow.cpp:1769 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1770 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "Add Marker"
 
-#: src/mainwindow.cpp:1773
+#: src/mainwindow.cpp:1774
 #, kde-format
 msgid "Delete Marker"
 msgstr "Delete Marker"
 
-#: src/mainwindow.cpp:1777
+#: src/mainwindow.cpp:1778
 #, kde-format
 msgid "Edit Marker…"
 msgstr "Edit Marker…"
 
-#: src/mainwindow.cpp:1782 src/timeline2/model/timelinefunctions.cpp:1175
+#: src/mainwindow.cpp:1783 src/timeline2/model/timelinefunctions.cpp:1175
 #, kde-format
 msgid "Restore Audio"
 msgstr "Restore Audio"
 
-#: src/mainwindow.cpp:1788
+#: src/mainwindow.cpp:1789
 #, kde-format
 msgid "Extract Clip"
 msgstr "Extract Clip"
 
-#: src/mainwindow.cpp:1794
+#: src/mainwindow.cpp:1795
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "Save Clip Part to Bin"
 
-#: src/mainwindow.cpp:1799
+#: src/mainwindow.cpp:1800
 #, kde-format
 msgid "Disable Clip"
 msgstr "Disable Clip"
 
-#: src/mainwindow.cpp:1804
+#: src/mainwindow.cpp:1805
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "Set Audio Reference"
 
-#: src/mainwindow.cpp:1811
+#: src/mainwindow.cpp:1812
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "Align Audio to Reference"
 
-#: src/mainwindow.cpp:1816
+#: src/mainwindow.cpp:1817
 #, kde-format
 msgid "Edit Duration"
 msgstr "Edit Duration"
 
-#: src/mainwindow.cpp:1820
+#: src/mainwindow.cpp:1821
 #, kde-format
 msgid "Change Speed"
 msgstr "Change Speed"
 
-#: src/mainwindow.cpp:1826
+#: src/mainwindow.cpp:1827
 #, kde-format
 msgid "Time Remap"
 msgstr "Time Remap"
 
-#: src/mainwindow.cpp:1833
+#: src/mainwindow.cpp:1834
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "Clip in Project Bin"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1839 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1840 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "Cut Clip"
 
-#: src/mainwindow.cpp:1842
+#: src/mainwindow.cpp:1843
 #, kde-format
 msgid "Cut All Clips"
 msgstr "Cut All Clips"
 
-#: src/mainwindow.cpp:1845
+#: src/mainwindow.cpp:1846
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Delete Selected Item"
 
-#: src/mainwindow.cpp:1848
+#: src/mainwindow.cpp:1849
 #, kde-format
 msgid "Resize Item Start"
 msgstr "Resize Item Start"
 
-#: src/mainwindow.cpp:1852
+#: src/mainwindow.cpp:1853
 #, kde-format
 msgid "Resize Item End"
 msgstr "Resize Item End"
 
-#: src/mainwindow.cpp:1856
+#: src/mainwindow.cpp:1857
 #, kde-format
 msgid "Paste Effects"
 msgstr "Paste Effects"
 
-#: src/mainwindow.cpp:1862
+#: src/mainwindow.cpp:1863
 #, kde-format
 msgid "Delete Effects"
 msgstr "Delete Effects"
 
-#: src/mainwindow.cpp:1869
+#: src/mainwindow.cpp:1870
 #, kde-format
 msgid "Group Clips"
 msgstr "Group Clips"
 
-#: src/mainwindow.cpp:1875
+#: src/mainwindow.cpp:1876
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "Ungroup Clips"
 
-#: src/mainwindow.cpp:1881
+#: src/mainwindow.cpp:1882
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "Create Sequence from Selection"
 
-#: src/mainwindow.cpp:1884
+#: src/mainwindow.cpp:1885
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11697,124 +11618,123 @@ msgstr ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 
-#: src/mainwindow.cpp:1895
+#: src/mainwindow.cpp:1896
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "Effect Keyframes"
 
-#: src/mainwindow.cpp:1896 src/monitor/view/EffectToolBar.qml:89
+#: src/mainwindow.cpp:1897 src/monitor/view/EffectToolBar.qml:89
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Add/Remove Keyframe"
 
-#: src/mainwindow.cpp:1912
+#: src/mainwindow.cpp:1913
 #, kde-format
 msgid "Insert Space…"
 msgstr "Insert Space…"
 
-#: src/mainwindow.cpp:1913
+#: src/mainwindow.cpp:1914
 #, kde-format
 msgid "Remove Space"
 msgstr "Remove Space"
 
-#: src/mainwindow.cpp:1914
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "Remove All Spaces After Cursor"
 
-#: src/mainwindow.cpp:1915
+#: src/mainwindow.cpp:1916
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "Remove All Clips After Cursor"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1917
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "Remove Space in All Tracks"
 
-#: src/mainwindow.cpp:1919
+#: src/mainwindow.cpp:1920
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Insert Track…"
 
-#: src/mainwindow.cpp:1923
+#: src/mainwindow.cpp:1924
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "Fit all Tracks in View"
 
-#: src/mainwindow.cpp:1929 src/timeline2/view/timelinecontroller.cpp:4925
+#: src/mainwindow.cpp:1930 src/timeline2/view/timelinecontroller.cpp:4925
 #, kde-format
 msgid "Master effects"
 msgstr "Master effects"
 
-#: src/mainwindow.cpp:1936
+#: src/mainwindow.cpp:1937
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "Switch Track Target Audio Stream"
 
-#: src/mainwindow.cpp:1941
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#: src/mainwindow.cpp:1942
+#, kde-format
 msgid "Delete Track…"
-msgstr "Delete Track"
+msgstr "Delete Track…"
 
-#: src/mainwindow.cpp:1946
+#: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Show Record Controls"
 msgstr "Show Record Controls"
 
-#: src/mainwindow.cpp:1952
+#: src/mainwindow.cpp:1953
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "Select All in Current Track"
 
-#: src/mainwindow.cpp:1969
+#: src/mainwindow.cpp:1970
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "Manage Cached Data…"
 
-#: src/mainwindow.cpp:1972
+#: src/mainwindow.cpp:1973
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "Disable Timeline Preview"
 
-#: src/mainwindow.cpp:1976
+#: src/mainwindow.cpp:1977
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "Add/Remove Guide"
 
-#: src/mainwindow.cpp:1977
+#: src/mainwindow.cpp:1978
 #, kde-format
 msgid "Delete Guide"
 msgstr "Delete Guide"
 
-#: src/mainwindow.cpp:1978
+#: src/mainwindow.cpp:1979
 #, kde-format
 msgid "Edit Guide…"
 msgstr "Edit Guide…"
 
-#: src/mainwindow.cpp:1979
+#: src/mainwindow.cpp:1980
 #, kde-format
 msgid "Search Guide…"
 msgstr "Search Guide…"
 
-#: src/mainwindow.cpp:1980
+#: src/mainwindow.cpp:1981
 #, kde-format
 msgid "Export Guides…"
 msgstr "Export Guides…"
 
-#: src/mainwindow.cpp:1983
+#: src/mainwindow.cpp:1984
 #, kde-format
 msgid "Guides Locked"
 msgstr "Guides Locked"
 
-#: src/mainwindow.cpp:1986
+#: src/mainwindow.cpp:1987
 #, kde-format
 msgid "Lock guides"
 msgstr "Lock guides"
 
-#: src/mainwindow.cpp:1988
+#: src/mainwindow.cpp:1989
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11824,53 +11744,52 @@ msgstr ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 
-#: src/mainwindow.cpp:1990
+#: src/mainwindow.cpp:1991
 #, kde-format
 msgid "Delete All Guides"
 msgstr "Delete All Guides"
 
-#: src/mainwindow.cpp:1992
+#: src/mainwindow.cpp:1993
 #, kde-format
 msgid "Add Subtitle"
 msgstr "Add Subtitle"
 
-#: src/mainwindow.cpp:1994
+#: src/mainwindow.cpp:1995
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "Disable Subtitle"
 
-#: src/mainwindow.cpp:1995
+#: src/mainwindow.cpp:1996
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "Lock Subtitle"
 
-#: src/mainwindow.cpp:1997
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#: src/mainwindow.cpp:1998
+#, kde-format
 msgid "Manage Subtitles"
-msgstr "Subtitles"
+msgstr "Manage Subtitles"
 
-#: src/mainwindow.cpp:1999
+#: src/mainwindow.cpp:2000
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "Import Subtitle File…"
 
-#: src/mainwindow.cpp:2001
+#: src/mainwindow.cpp:2002
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "Export Subtitle File…"
 
-#: src/mainwindow.cpp:2003 src/timeline2/model/timelinemodel.cpp:2146
+#: src/mainwindow.cpp:2004 src/timeline2/model/timelinemodel.cpp:2146
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Delete Subtitle"
 
-#: src/mainwindow.cpp:2004
+#: src/mainwindow.cpp:2005
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "Speech Recognition…"
 
-#: src/mainwindow.cpp:2011
+#: src/mainwindow.cpp:2012
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11880,87 +11799,87 @@ msgstr ""
 "This switches between having a <emphasis>Menubar</emphasis> and having a "
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 
-#: src/mainwindow.cpp:2040
+#: src/mainwindow.cpp:2041
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "Copy Debug Information"
 
-#: src/mainwindow.cpp:2042
+#: src/mainwindow.cpp:2043
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "Disable Timeline Effects"
 
-#: src/mainwindow.cpp:2048
+#: src/mainwindow.cpp:2049
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "Toggle Track Disabled"
 
-#: src/mainwindow.cpp:2050
+#: src/mainwindow.cpp:2051
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "Toggle Track Lock"
 
-#: src/mainwindow.cpp:2052
+#: src/mainwindow.cpp:2053
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "Toggle All Track Lock"
 
-#: src/mainwindow.cpp:2054
+#: src/mainwindow.cpp:2055
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "Toggle Track Target"
 
-#: src/mainwindow.cpp:2056
+#: src/mainwindow.cpp:2057
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "Toggle Track Active"
 
-#: src/mainwindow.cpp:2058
+#: src/mainwindow.cpp:2059
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "Toggle All Tracks Active"
 
-#: src/mainwindow.cpp:2060
+#: src/mainwindow.cpp:2061
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "Switch All Tracks Active"
 
-#: src/mainwindow.cpp:2062
+#: src/mainwindow.cpp:2063
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "Restore Current Clip Target Tracks"
 
-#: src/mainwindow.cpp:2064
+#: src/mainwindow.cpp:2065
 #, kde-format
 msgid "Add Project Note"
 msgstr "Add Project Note"
 
-#: src/mainwindow.cpp:2070
+#: src/mainwindow.cpp:2071
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "Select Audio Track %1"
 
-#: src/mainwindow.cpp:2074
+#: src/mainwindow.cpp:2075
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "Select Video Track %1"
 
-#: src/mainwindow.cpp:2078
+#: src/mainwindow.cpp:2079
 #, kde-format
 msgid "Select Target %1"
 msgstr "Select Target %1"
 
-#: src/mainwindow.cpp:2096
+#: src/mainwindow.cpp:2097
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Extract Frame…"
 
-#: src/mainwindow.cpp:2099
+#: src/mainwindow.cpp:2100
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Extract Frame to Project…"
 
-#: src/mainwindow.cpp:2231
+#: src/mainwindow.cpp:2232
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -11969,13 +11888,13 @@ msgstr ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 
-#: src/mainwindow.cpp:2232
+#: src/mainwindow.cpp:2233
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Recreate"
 
-#: src/mainwindow.cpp:2233 src/onlineresources/resourcewidget.cpp:616
+#: src/mainwindow.cpp:2234 src/onlineresources/resourcewidget.cpp:616
 #: src/scopes/colorscopes/colorplaneexport.cpp:158
 #: src/titler/titlewidget.cpp:2282
 #, kde-format
@@ -11983,7 +11902,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Continue without"
 
-#: src/mainwindow.cpp:2289
+#: src/mainwindow.cpp:2290
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -11994,7 +11913,7 @@ msgstr ""
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 
-#: src/mainwindow.cpp:2297
+#: src/mainwindow.cpp:2298
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -12003,48 +11922,48 @@ msgstr ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 
-#: src/mainwindow.cpp:2306 src/project/projectmanager.cpp:612
+#: src/mainwindow.cpp:2307 src/project/projectmanager.cpp:612
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Cannot perform operation, invalid document id: %1"
 
-#: src/mainwindow.cpp:2311 src/project/projectmanager.cpp:618
+#: src/mainwindow.cpp:2312 src/project/projectmanager.cpp:618
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Cannot perform operation, target directory already exists: %1"
 
-#: src/mainwindow.cpp:2458
+#: src/mainwindow.cpp:2459
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "This will remove all unused clips from your project."
 
-#: src/mainwindow.cpp:2458
+#: src/mainwindow.cpp:2459
 #, kde-format
 msgid "Clean up project"
 msgstr "Clean up project"
 
-#: src/mainwindow.cpp:2601 src/mainwindow.cpp:2625
+#: src/mainwindow.cpp:2602 src/mainwindow.cpp:2626
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Download New Keyboard Schemes…"
 
-#: src/mainwindow.cpp:2612
+#: src/mainwindow.cpp:2613
 #, kde-format
 msgid "Current scheme:"
 msgstr "Current scheme:"
 
-#: src/mainwindow.cpp:2622
+#: src/mainwindow.cpp:2623
 #, kde-format
 msgid "More Actions"
 msgstr "More Actions"
 
-#: src/mainwindow.cpp:2635
+#: src/mainwindow.cpp:2636
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "General"
 
-#: src/mainwindow.cpp:2707
+#: src/mainwindow.cpp:2708
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -12053,28 +11972,28 @@ msgstr ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 
-#: src/mainwindow.cpp:2708
+#: src/mainwindow.cpp:2709
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Reset Configuration"
 
-#: src/mainwindow.cpp:2840 src/mainwindow.cpp:2867
+#: src/mainwindow.cpp:2841 src/mainwindow.cpp:2868
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Cannot find clip to remove marker"
 
-#: src/mainwindow.cpp:2850 src/mainwindow.cpp:2896
+#: src/mainwindow.cpp:2851 src/mainwindow.cpp:2897
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "No marker found at cursor time"
 
-#: src/mainwindow.cpp:2872
+#: src/mainwindow.cpp:2873
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "An error occurred while deleting markers"
 
-#: src/mainwindow.cpp:2889 src/timeline2/view/timelinecontroller.cpp:1312
+#: src/mainwindow.cpp:2890 src/timeline2/view/timelinecontroller.cpp:1312
 #: src/timeline2/view/timelinecontroller.cpp:1320
 #: src/timeline2/view/timelinecontroller.cpp:1341
 #: src/timeline2/view/timelinecontroller.cpp:1381
@@ -12083,42 +12002,41 @@ msgstr "An error occurred while deleting markers"
 msgid "Cannot find clip to edit marker"
 msgstr "Cannot find clip to edit marker"
 
-#: src/mainwindow.cpp:3088 src/timeline2/model/timelinefunctions.cpp:753
+#: src/mainwindow.cpp:3089 src/timeline2/model/timelinefunctions.cpp:753
 #: src/timeline2/view/timelinecontroller.cpp:3111
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Overwrite zone"
 
-#: src/mainwindow.cpp:3090 src/mainwindow.cpp:3109
+#: src/mainwindow.cpp:3091 src/mainwindow.cpp:3110
 #: src/timeline2/model/timelinefunctions.cpp:755
 #: src/timeline2/view/timelinecontroller.cpp:3113
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Could not insert zone"
 
-#: src/mainwindow.cpp:3100
+#: src/mainwindow.cpp:3101
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "No clip selected in project bin"
 
-#: src/mainwindow.cpp:3107 src/timeline2/model/timelinefunctions.cpp:753
+#: src/mainwindow.cpp:3108 src/timeline2/model/timelinefunctions.cpp:753
 #: src/timeline2/view/timelinecontroller.cpp:3111
 #, kde-format
 msgid "Insert zone"
 msgstr "Insert zone"
 
-#: src/mainwindow.cpp:3274
-#, fuzzy, kde-format
-#| msgid "Cannot add effect to clip"
+#: src/mainwindow.cpp:3275
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "Cannot add effect to clip"
+msgstr "Cannot add effect to active item"
 
-#: src/mainwindow.cpp:3336
+#: src/mainwindow.cpp:3337
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Zoom Level: %1/%2"
 
-#: src/mainwindow.cpp:3485
+#: src/mainwindow.cpp:3486
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12130,7 +12048,7 @@ msgstr ""
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 
-#: src/mainwindow.cpp:3489
+#: src/mainwindow.cpp:3490
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12144,24 +12062,24 @@ msgstr ""
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
 "shortcut> to pan"
 
-#: src/mainwindow.cpp:3492
+#: src/mainwindow.cpp:3493
 #, kde-format
 msgid "Select"
 msgstr "Select"
 
-#: src/mainwindow.cpp:3494
+#: src/mainwindow.cpp:3495
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> to preview cut frame"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3495 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3496 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Razor"
 
-#: src/mainwindow.cpp:3499
+#: src/mainwindow.cpp:3500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12171,12 +12089,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</"
 "shortcut> to also move guides. You can combine both modifiers."
 
-#: src/mainwindow.cpp:3500
+#: src/mainwindow.cpp:3501
 #, kde-format
 msgid "Spacer"
 msgstr "Spacer"
 
-#: src/mainwindow.cpp:3502
+#: src/mainwindow.cpp:3503
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12186,20 +12104,14 @@ msgstr ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 
-#: src/mainwindow.cpp:3503
+#: src/mainwindow.cpp:3504
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Slip"
 
-#: src/mainwindow.cpp:3508
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
-#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
-#| "drag</shortcut> to pan"
+#: src/mainwindow.cpp:3509
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
@@ -12207,16 +12119,16 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
-"click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
-"move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
+"click</shortcut> for multiple selection, <shortcut>Alt click</shortcut> to "
+"select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 
-#: src/mainwindow.cpp:3510
+#: src/mainwindow.cpp:3511
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Ripple"
 
-#: src/mainwindow.cpp:3516
+#: src/mainwindow.cpp:3517
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12226,107 +12138,104 @@ msgstr ""
 "<shortcut>Click</shortcut> on a track view in the project monitor to perform "
 "a lift of all tracks except active one"
 
-#: src/mainwindow.cpp:3528
+#: src/mainwindow.cpp:3529
 #, kde-format
 msgid "Insert"
 msgstr "Insert"
 
-#: src/mainwindow.cpp:3531
+#: src/mainwindow.cpp:3532
 #, kde-format
 msgid "Overwrite"
 msgstr "Overwrite"
 
-#: src/mainwindow.cpp:3830 src/mainwindow.cpp:3832
+#: src/mainwindow.cpp:3831 src/mainwindow.cpp:3833
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "Scopes"
 
-#: src/mainwindow.cpp:3837
-#, fuzzy, kde-format
-#| msgid "Project Bin"
+#: src/mainwindow.cpp:3838
+#, kde-format
 msgid "Project Bins"
-msgstr "Project Bin"
+msgstr "Project Bins"
 
-#: src/mainwindow.cpp:3933
+#: src/mainwindow.cpp:3934
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Configure Clip Jobs…"
 
-#: src/mainwindow.cpp:3939
+#: src/mainwindow.cpp:3940
 #, kde-format
 msgid "Transcoders"
 msgstr "Transcoders"
 
-#: src/mainwindow.cpp:3999
-#, fuzzy, kde-format
-#| msgid "Merge"
+#: src/mainwindow.cpp:4000
+#, kde-format
 msgid "-merged"
-msgstr "Merge"
+msgstr "-merged"
 
-#: src/mainwindow.cpp:4002
-#, fuzzy, kde-format
-#| msgid "Video stream %1"
+#: src/mainwindow.cpp:4003
+#, kde-format
 msgid "-stream-%1"
-msgstr "Video stream %1"
+msgstr "-stream-%1"
 
-#: src/mainwindow.cpp:4044
+#: src/mainwindow.cpp:4045
 #, kde-format
 msgid "Interface"
 msgstr "Interface"
 
-#: src/mainwindow.cpp:4066
+#: src/mainwindow.cpp:4067
 #, kde-format
 msgid "Raise %1"
 msgstr "Raise %1"
 
-#: src/mainwindow.cpp:4133
+#: src/mainwindow.cpp:4134
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Files to Transcode"
 
-#: src/mainwindow.cpp:4262
+#: src/mainwindow.cpp:4263
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Project file could not be saved for archiving."
 
-#: src/mainwindow.cpp:4268
+#: src/mainwindow.cpp:4269
 #, kde-format
 msgid "Archiving project"
 msgstr "Archiving project"
 
-#: src/mainwindow.cpp:4426
+#: src/mainwindow.cpp:4427
 #, kde-format
 msgid "Icon Size"
 msgstr "Icon Size"
 
-#: src/mainwindow.cpp:4430
+#: src/mainwindow.cpp:4431
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Default"
 
-#: src/mainwindow.cpp:4451 src/mainwindow.cpp:4479
+#: src/mainwindow.cpp:4452 src/mainwindow.cpp:4480
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Small (%1x%2)"
 
-#: src/mainwindow.cpp:4453 src/mainwindow.cpp:4481
+#: src/mainwindow.cpp:4454 src/mainwindow.cpp:4482
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Medium (%1x%2)"
 
-#: src/mainwindow.cpp:4455 src/mainwindow.cpp:4483
+#: src/mainwindow.cpp:4456 src/mainwindow.cpp:4484
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Large (%1x%2)"
 
-#: src/mainwindow.cpp:4457 src/mainwindow.cpp:4485
+#: src/mainwindow.cpp:4458 src/mainwindow.cpp:4486
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Huge (%1x%2)"
 
-#: src/mainwindow.cpp:4541
+#: src/mainwindow.cpp:4542
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -12335,48 +12244,50 @@ msgstr ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 
-#: src/mainwindow.cpp:4541
+#: src/mainwindow.cpp:4542
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Hide menu bar"
 
-#: src/mainwindow.cpp:4557
+#: src/mainwindow.cpp:4558
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 
-#: src/mainwindow.cpp:4813 src/timeline2/view/timelinecontroller.cpp:5138
+#: src/mainwindow.cpp:4814 src/timeline2/view/timelinecontroller.cpp:5138
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "No subtitles in current project"
 
-#: src/mainwindow.cpp:5100
+#: src/mainwindow.cpp:5101
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "Go to download page"
 
-#: src/mainwindow.cpp:5103
-#, fuzzy, kde-format
-#| msgid "Check again"
+#: src/mainwindow.cpp:5104
+#, kde-format
 msgid "Never check again"
-msgstr "Check again"
+msgstr "Never check again"
 
-#: src/mainwindow.cpp:5106
+#: src/mainwindow.cpp:5107
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
+"Your Kdenlive version is older than 1 year, we strongly encourage you to "
+"upgrade"
 
-#: src/mainwindow.cpp:5109
+#: src/mainwindow.cpp:5110
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
+"Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 
-#: src/mainwindow.cpp:5152
+#: src/mainwindow.cpp:5153
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Checking cached data size"
@@ -13445,16 +13356,13 @@ msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr "<shortcut>Shift drag handle</shortcut> for centre-based resize"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:414
-#, fuzzy, kde-format
-#| msgid ""
-#| "Click to add points,\n"
-#| "right click to close shape."
+#, kde-format
 msgid ""
 "Click to add points,\n"
 "right click or press enter to close shape."
 msgstr ""
 "Click to add points,\n"
-"right click to close shape."
+"right click or press enter to close shape."
 
 #: src/monitor/view/MonitorRuler.qml:268
 #, kde-kuit-format
@@ -14103,10 +14011,9 @@ msgid "Archiving %1"
 msgstr "Archiving %1"
 
 #: src/project/dialogs/archivewidget.cpp:1131
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "Cannot open file %1"
+msgstr "Cannot copy file %1 to %2."
 
 #: src/project/dialogs/archivewidget.cpp:1161
 #, kde-format
@@ -14876,17 +14783,14 @@ msgid "Cannot perform assign"
 msgstr "Cannot perform assign"
 
 #: src/project/projectmanager.cpp:69
-#, fuzzy, kde-format
-#| msgid "Render Project"
+#, kde-format
 msgid "Kdenlive Project"
-msgstr "Render Project"
+msgstr "Kdenlive Project"
 
 #: src/project/projectmanager.cpp:71
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Archive Project"
+#, kde-format
 msgid "Archived Project"
-msgstr "Archive Project"
+msgstr "Archived Project"
 
 #: src/project/projectmanager.cpp:152
 #, kde-format
@@ -14915,13 +14819,12 @@ msgstr ""
 #: src/project/projectmanager.cpp:554
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr ""
+msgstr "Saving project file <br><b>%1</B> failed"
 
 #: src/project/projectmanager.cpp:587
-#, fuzzy, kde-format
-#| msgid "Starting process"
+#, kde-format
 msgid "Saving successful"
-msgstr "Starting process"
+msgstr "Saving successful"
 
 #: src/project/projectmanager.cpp:600
 #, kde-format
@@ -14941,10 +14844,9 @@ msgid "Save Copy"
 msgstr "Save Copy"
 
 #: src/project/projectmanager.cpp:747
-#, fuzzy, kde-format
-#| msgid "Auto-saved file exist. Do you want to recover now?"
+#, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
-msgstr "Auto-saved file exist. Do you want to recover now?"
+msgstr "Auto-saved file exists. Do you want to recover now?"
 
 #: src/project/projectmanager.cpp:747
 #, kde-format
@@ -15005,24 +14907,23 @@ msgstr ""
 "Your project was modified on opening, a backup will be created on next save"
 
 #: src/project/projectmanager.cpp:909
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Loading timeline…"
-msgstr "Downloading model…"
+msgstr "Loading timeline…"
 
 #: src/project/projectmanager.cpp:927
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "Timeline sequence"
+msgstr "Building sequences…"
 
 #: src/project/projectmanager.cpp:1066
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "Cannot open project file %1"
+msgstr ""
+"Cannot open the project file. Error:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:1106
 #, kde-format
@@ -15131,10 +15032,9 @@ msgid "Install missing dependencies"
 msgstr "Install missing dependencies"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:34
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Abort installation"
-msgstr "Check VOSK installation"
+msgstr "Abort installation"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:49
 #, kde-format
@@ -15147,16 +15047,14 @@ msgid "%1 is properly configured."
 msgstr "%1 is properly configured."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:55
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Everything is configured: %1"
+msgstr "Everything is configured:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:57
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 is configured: %2"
+msgstr "%1 is configured:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:76
 #: src/pythoninterfaces/abstractpythoninterface.cpp:87
@@ -15165,10 +15063,9 @@ msgid "Check for update"
 msgstr "Check for update"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:100
-#, fuzzy, kde-format
-#| msgid "Installing modules…"
+#, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Installing modules…"
+msgstr "Installing modules… this can take a while"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:110
 #, kde-format
@@ -15204,29 +15101,28 @@ msgstr ""
 "environment variable"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:223
-#, fuzzy, kde-format
-#| msgid "Using MLT version %1"
+#, kde-format
 msgid "Using python from %1"
-msgstr "Using MLT version %1"
+msgstr "Using python from %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:231
-#, fuzzy, kde-format
-#| msgid "Sequence not found"
+#, kde-format
 msgid "No python venv found"
-msgstr "Sequence not found"
+msgstr "No python venv found"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:244
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Python venv size: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:287
-#, fuzzy, kde-format
-#| msgid "Cannot find python3, please install it on your system."
+#, kde-format
 msgid ""
 "Cannot find python virtualenv, please install it on your system. Defaulting "
 "to system python."
-msgstr "Cannot find python3, please install it on your system."
+msgstr ""
+"Cannot find python virtualenv, please install it on your system. Defaulting "
+"to system python."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:327
 #, kde-format
@@ -15250,22 +15146,24 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive can install the missing python modules in a virtual environment "
+"under %1.\n"
+"This way, it won't touch your system libraries."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:431
-#, fuzzy, kde-format
-#| msgid "Environment"
+#, kde-format
 msgid "Python environment"
-msgstr "Environment"
+msgstr "Python environment"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:431
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "Use virtual environment (recommended)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:432
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "Use system install"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:450
 #: src/pythoninterfaces/abstractpythoninterface.cpp:529
@@ -15291,43 +15189,37 @@ msgid "Please consider to update your setup."
 msgstr "Please consider to update your setup."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:493
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "No information in clipboard"
+msgstr "No version information available."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Drawing options"
+msgstr "missing (optional)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:560
-#, fuzzy, kde-format
-#| msgid "Sequence not found"
+#, kde-format
 msgid "Python exec not found"
-msgstr "Sequence not found"
+msgstr "Python exec not found"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:562
-#, fuzzy, kde-format
-#| msgid "Failed to create file."
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Failed to create file."
+msgstr "Failed to find script file %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:597
-#, fuzzy, kde-format
-#| msgid ""
-#| "Error while running python3 script:\n"
-#| " %1"
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
 "Error while running python3 script:\n"
-" %1"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:619
 #, kde-format
@@ -15336,18 +15228,19 @@ msgid ""
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
+"This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
+"environment will be recreated and modules downloaded whenever you re-enable "
+"the python virtual environment."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "OpenTimelineIO conversion"
+msgstr "OpenTimelineIO core functionality"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "OpenTimelineIO conversion"
+msgstr "OpenTimelineIO Kdenlive support"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -15365,7 +15258,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "The Kdenlive adaptor was not found by OpenTimelineIO."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
@@ -15450,10 +15343,9 @@ msgid "automated subtitling"
 msgstr "automated subtitling"
 
 #: src/pythoninterfaces/speechtotext.cpp:39
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "adjust subtitles length"
-msgstr "Edit subtitle style"
+msgstr "adjust subtitles length"
 
 #: src/pythoninterfaces/speechtotext.cpp:40
 #, kde-format
@@ -15463,10 +15355,9 @@ msgstr "machine learning framework"
 #: src/pythoninterfaces/speechtotext.cpp:42
 #: src/pythoninterfaces/speechtotext.cpp:43
 #: src/pythoninterfaces/speechtotext.cpp:44
-#, fuzzy, kde-format
-#| msgid "Select Transition"
+#, kde-format
 msgid "SeamlessM4T translation"
-msgstr "Select Transition"
+msgstr "SeamlessM4T translation"
 
 #: src/pythoninterfaces/speechtotext.cpp:50
 #, kde-format
@@ -15477,68 +15368,60 @@ msgstr "Speech to text"
 #, kde-format
 msgctxt "Model file to download, smallest one"
 msgid "Tiny (72MB)"
-msgstr ""
+msgstr "Tiny (72MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:66
 #, kde-format
 msgctxt "Model file to download, basic one"
 msgid "Base (140MB)"
-msgstr ""
+msgstr "Base (140MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:67
-#, fuzzy, kde-format
-#| msgid "Small (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, small one"
 msgid "Small (460MB)"
-msgstr "Small (%1x%2)"
+msgstr "Small (460MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:68
-#, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, medium one"
 msgid "Medium (1.4GB)"
-msgstr "Medium (%1x%2)"
+msgstr "Medium (1.4GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:69
-#, fuzzy, kde-format
-#| msgid "Large (%1x%2)"
+#, kde-format
 msgctxt "Model file to download, large one"
 msgid "Large (2.9GB)"
-msgstr "Large (%1x%2)"
+msgstr "Large (2.9GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:70
-#, fuzzy, kde-format
-#| msgid "Tiny - English only"
+#, kde-format
 msgctxt "Model file to download, smallest one"
 msgid "Tiny - English only (39MB)"
-msgstr "Tiny - English only"
+msgstr "Tiny - English only (39MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:71
-#, fuzzy, kde-format
-#| msgid "Base - English only"
+#, kde-format
 msgctxt "Model file to download, basic one"
 msgid "Base - English only (74MB)"
-msgstr "Base - English only"
+msgstr "Base - English only (74MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:72
-#, fuzzy, kde-format
-#| msgid "Small - English only"
+#, kde-format
 msgctxt "Model file to download, small one"
 msgid "Small - English only (244MB)"
-msgstr "Small - English only"
+msgstr "Small - English only (244MB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:73
-#, fuzzy, kde-format
-#| msgid "Medium - English only"
+#, kde-format
 msgctxt "Model file to download, medium one"
 msgid "Medium - English only (1.5GB)"
-msgstr "Medium - English only"
+msgstr "Medium - English only (1.5GB)"
 
 #: src/pythoninterfaces/speechtotext.cpp:80
-#, fuzzy, kde-format
-#| msgid "Audodetect"
+#, kde-format
 msgid "Autodetect"
-msgstr "Audodetect"
+msgstr "Autodetect"
 
 #: src/pythoninterfaces/speechtotext.cpp:82
 #, kde-format
@@ -15765,15 +15648,12 @@ msgid "Could not create temporary subtitle file"
 msgstr "Could not create temporary subtitle file"
 
 #: src/render/renderrequest.cpp:234
-#, fuzzy, kde-format
-#| msgid ""
-#| "Script rendering and multi track audio export can not be used together.\n"
-#| "Script will be saved without multi track export."
+#, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
-"Script rendering and multi track audio export can not be used together.\n"
+"Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 
 #: src/render/renderrequest.cpp:307
@@ -16254,13 +16134,11 @@ msgstr ""
 "was set to forced track."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:312
-#, fuzzy, kde-format
-#| msgid ""
-#| "Invalid composition %1 found on track %2 at %3, compositing with track %4."
+#, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
 msgstr ""
-"Invalid composition %1 found on track %2 at %3, compositing with track %4."
+"Unknown composition %1 found on track %2 at %3, compositing with track %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:322
 #: src/timeline2/model/builders/meltBuilder.cpp:588
@@ -16414,11 +16292,10 @@ msgid "Insert Clips"
 msgstr "Insert Clips"
 
 #: src/timeline2/model/timelinefunctions.cpp:269
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "When cutting subtitles:"
+msgstr "Cannot cut overlapping subtitles"
 
 #: src/timeline2/model/timelinefunctions.cpp:339
 #: src/timeline2/model/timelinefunctions.cpp:358
@@ -16593,11 +16470,11 @@ msgid "No valid data in clipboard"
 msgstr "No valid data in clipboard"
 
 #: src/timeline2/model/timelinefunctions.cpp:1969
-#, fuzzy, kde-format
-#| msgid "Not enough tracks to paste clipboard"
+#, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
-msgstr "Not enough tracks to paste clipboard"
+msgstr ""
+"Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 
 #: src/timeline2/model/timelinefunctions.cpp:2101
 #: src/timeline2/model/timelinefunctions.cpp:2119
@@ -16685,27 +16562,25 @@ msgstr "Could not setup track compositing, check your install"
 #: src/timeline2/model/timelineitemmodel.cpp:917
 #, kde-format
 msgid "Clips replaced: %1. <b>Clips not replaced: %2</b>"
-msgstr ""
+msgstr "Clips replaced: %1. <b>Clips not replaced: %2</b>"
 
 #: src/timeline2/model/timelineitemmodel.cpp:919
 #: src/timeline2/model/timelineitemmodel.cpp:946
-#, fuzzy, kde-format
-#| msgid "No clip selected"
+#, kde-format
 msgid "One clip replaced"
 msgid_plural "%1 clips replaced"
-msgstr[0] "No clip selected"
-msgstr[1] "No clip selected"
+msgstr[0] "One clip replaced"
+msgstr[1] "%1 clips replaced"
 
 #: src/timeline2/model/timelineitemmodel.cpp:944
 #, kde-format
 msgid "Clips replaced: %1, Clips too long: %2"
-msgstr ""
+msgstr "Clips replaced: %1, Clips too long: %2"
 
 #: src/timeline2/model/timelineitemmodel.cpp:950
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "Replace Clip…"
+msgstr "Replace clip"
 
 #: src/timeline2/model/timelinemodel.cpp:975
 #: src/timeline2/model/timelinemodel.cpp:1192
@@ -16983,10 +16858,9 @@ msgid "Error initializing timeline preview"
 msgstr "Error initialising timeline preview"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:25
-#, fuzzy, kde-format
-#| msgid "View Mode"
+#, kde-format
 msgid "Editing in Ripple mode"
-msgstr "View Mode"
+msgstr "Editing in Ripple mode"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:25
 #, kde-format
@@ -17151,10 +17025,9 @@ msgid "Offset: %1"
 msgstr "Offset: %1"
 
 #: src/timeline2/view/qml/Clip.qml:1004
-#, fuzzy, kde-format
-#| msgid "<b>Click</b> to add composition"
+#, kde-format
 msgid " <b>Click</b> to align clips"
-msgstr "<b>Click</b> to add composition"
+msgstr " <b>Click</b> to align clips"
 
 #: src/timeline2/view/qml/Clip.qml:1248 src/timeline2/view/qml/Clip.qml:1285
 #, kde-format
@@ -17407,10 +17280,9 @@ msgid "No active track"
 msgstr "No active track"
 
 #: src/timeline2/view/timelinecontroller.cpp:1759
-#, fuzzy, kde-format
-#| msgid "Insert selected blocks in timeline"
+#, kde-format
 msgid "No item selected in timeline"
-msgstr "Insert selected blocks in timeline"
+msgstr "No item selected in timeline"
 
 #: src/timeline2/view/timelinecontroller.cpp:1894
 #, kde-format
@@ -17425,7 +17297,7 @@ msgstr "In:%1, Out:%2 (%3%4)"
 #: src/timeline2/view/timelinecontroller.cpp:2316
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
-msgstr ""
+msgstr "Slip can only be performed on video, audio or animation clips"
 
 #: src/timeline2/view/timelinecontroller.cpp:2714
 #, kde-format
@@ -17491,7 +17363,7 @@ msgstr "Set audio reference before attempting to align"
 #: src/timeline2/view/timelinecontroller.cpp:3496
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
-msgstr ""
+msgstr "All streams already assigned, deselect another audio target first"
 
 #: src/timeline2/view/timelinecontroller.cpp:3655
 #, kde-format
@@ -17627,18 +17499,16 @@ msgstr "Lock subtitle track"
 
 #: src/timeline2/view/timelinecontroller.cpp:5376
 #: src/timeline2/view/timelinecontroller.cpp:5385
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Subtitles"
 
 #: src/timeline2/view/timelinecontroller.cpp:5387
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Subtitles"
+msgstr "Manage Subtitles"
 
 #: src/timeline2/view/timelinetabs.cpp:49
 #, kde-format
@@ -17660,10 +17530,9 @@ msgid "Close %1"
 msgstr "Close %1"
 
 #: src/timeline2/view/timelinetabs.cpp:419
-#, fuzzy, kde-format
-#| msgid "Image Sequence"
+#, kde-format
 msgid "Rename Sequence"
-msgstr "Image Sequence"
+msgstr "Rename Sequence"
 
 #: src/timeline2/view/timelinewidget.cpp:73
 #, kde-format
@@ -18000,10 +17869,9 @@ msgid "Load Title"
 msgstr "Load Title"
 
 #: src/titler/titlewidget.cpp:2234
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Kdenlive title"
-msgstr "Kdenlive"
+msgstr "Kdenlive title"
 
 #: src/titler/titlewidget.cpp:2280
 #, kde-format
@@ -18448,10 +18316,9 @@ msgstr "Archive only timeline clips"
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1%"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -18726,58 +18593,57 @@ msgid ""
 "be replaced by the second parameter value</li><li><b>{output}</b> will be "
 "replaced by the output file name</li></ul>"
 msgstr ""
+"In the arguments, the following options are available: <ul><li><b>{source}</"
+"b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
+"will be replaced by the first parameter value</li><li><b>{param2}</b> will "
+"be replaced by the second parameter value</li><li><b>{output}</b> will be "
+"replaced by the output file name</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 1 {param1}"
-msgstr "Parameters"
+msgstr "Parameter 1 {param1}"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param1_list)
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, param2_list)
 #: src/ui/clipjobmanager_ui.ui:102 src/ui/clipjobmanager_ui.ui:178
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "List of options"
-msgstr "More options"
+msgstr "List of options"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_islist)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_islist)
 #: src/ui/clipjobmanager_ui.ui:109 src/ui/clipjobmanager_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Delete transition from clip"
+#, kde-format
 msgid "Request option from list"
-msgstr "Delete transition from clip"
+msgstr "Request option from list"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param1_name)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, param2_name)
 #: src/ui/clipjobmanager_ui.ui:129 src/ui/clipjobmanager_ui.ui:185
-#, fuzzy, kde-format
-#| msgid "Parameter description."
+#, kde-format
 msgid "Parameter description"
-msgstr "Parameter description."
+msgstr "Parameter description"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isfile)
 #. i18n: ectx: property (text), widget (QRadioButton, param2_isfile)
 #: src/ui/clipjobmanager_ui.ui:136 src/ui/clipjobmanager_ui.ui:199
 #, kde-format
 msgid "Request file path"
-msgstr ""
+msgstr "Request file path"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
-#| msgid "Current clip"
+#, kde-format
 msgid "Current clip frame"
-msgstr "Current clip"
+msgstr "Current clip frame"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Parameter 2 {param2}"
-msgstr "Parameters"
+msgstr "Parameter 2 {param2}"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/clipjobmanager_ui.ui:214
@@ -18789,14 +18655,13 @@ msgstr "Output file extension"
 #: src/ui/clipjobmanager_ui.ui:229
 #, kde-format
 msgid "Optional description that will show up if a parameter is requested"
-msgstr ""
+msgstr "Optional description that will show up if a parameter is requested"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/clipjobmanager_ui.ui:236
-#, fuzzy, kde-format
-#| msgid "Job description"
+#, kde-format
 msgid "Job Description"
-msgstr "Job description"
+msgstr "Job Description"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:292
@@ -18850,7 +18715,7 @@ msgstr "Custom clip jobs"
 #: src/ui/clipjobmanager_ui.ui:375
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Applies to"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
@@ -19214,10 +19079,9 @@ msgstr "Warn if cached data exceeds:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
-msgstr "Check for update"
+msgstr "Check for updates"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122
@@ -19304,17 +19168,15 @@ msgstr "Always use custom folder"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #: src/ui/configenv_ui.ui:241
-#, fuzzy, kde-format
-#| msgid "Always use active project folder"
+#, kde-format
 msgid "Always use a custom subfolder of project folder"
-msgstr "Always use active project folder"
+msgstr "Always use a custom subfolder of project folder"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
 #: src/ui/configenv_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Parent folder of project file"
+#, kde-format
 msgid "Subfolder of project folder"
-msgstr "Parent folder of project file"
+msgstr "Subfolder of project folder"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:263
@@ -19332,20 +19194,19 @@ msgstr "Folder for rendering, titles, scripts:"
 #: src/ui/configenv_ui.ui:336
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:363
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete "
-msgstr "Delete %1"
+msgstr "Delete "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:372
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "Use python virtual environment (recommended)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:400
@@ -19794,7 +19655,7 @@ msgstr "Enable"
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
-msgstr ""
+msgstr "Play/pause monitor on mouse click"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
@@ -19886,17 +19747,15 @@ msgstr "Custom models folder"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "Add folder"
+msgstr "Add Model"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Remove Folder"
+#, kde-format
 msgid "Remove Model"
-msgstr "Remove Folder"
+msgstr "Remove Model"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:189
@@ -19932,14 +19791,13 @@ msgstr "Whisper processing on CPU is very slow"
 #: src/ui/configspeech_ui.ui:281
 #, kde-format
 msgid "Enable translation through SeamlessM4T"
-msgstr ""
+msgstr "Enable translation through SeamlessM4T"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:308
-#, fuzzy, kde-format
-#| msgid "Check VOSK installation"
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "Check VOSK installation"
+msgstr "Check speech engine installation"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:311
@@ -20170,10 +20028,9 @@ msgstr "Suffix of proxy:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add new video file"
+#, kde-format
 msgid "Add new profile"
-msgstr "Add new video file"
+msgstr "Add new profile"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -20184,10 +20041,9 @@ msgstr "Delete profile"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
-#| msgid "Show all profiles"
+#, kde-format
 msgid "Reset all profiles"
-msgstr "Show all profiles"
+msgstr "Reset all profiles"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
@@ -20532,18 +20388,15 @@ msgstr "Custom Shadow"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
 #: src/ui/editsub_ui.ui:454
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Bold"
+#, kde-format
 msgid "Bold"
 msgstr "Bold"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
 #: src/ui/editsub_ui.ui:461
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Italic"
-msgstr "Italian"
+msgstr "Italic"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -20614,10 +20467,9 @@ msgstr "Exported:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
 #: src/ui/exportguidesdialog_ui.ui:223
-#, fuzzy, kde-format
-#| msgid "FFmpeg parameters"
+#, kde-format
 msgid "FFmpeg Chapters"
-msgstr "FFmpeg parameters"
+msgstr "FFmpeg Chapters"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/gradientedit_ui.ui:24
@@ -20749,17 +20601,15 @@ msgstr "Subtitle Preview"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Show subtitle track"
+msgstr "Create New Subtitle Track"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Show subtitle track"
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "Show subtitle track"
+msgstr "Subtitle Track Name"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -20983,17 +20833,15 @@ msgstr "Editing profiles for:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Create New"
-msgstr "Create"
+msgstr "Create New"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:46
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete"
-msgstr "Delete %1"
+msgstr "Delete"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
 #: src/ui/managesubtitles_ui.ui:108
@@ -21041,49 +20889,43 @@ msgstr " Clip Problems"
 #: src/ui/missingclips_ui.ui:92
 #, no-c-format, kde-format
 msgid "%v / %m"
-msgstr ""
+msgstr "%v / %m"
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:102
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Delete missing elements"
+msgstr "Recreate missing proxies"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:134
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Delete Selected Item"
+msgstr "Selected Items:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:141
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
-msgstr "Search manually"
+msgstr "Search Manually"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:170
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Missing item"
+msgstr "All Missing Items:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:177
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
-msgstr "Search recursively"
+msgstr "Search Recursively"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:188
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Placeholder"
+msgstr "Use Placeholders"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -21513,10 +21355,9 @@ msgstr "Overlay:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:615
-#, fuzzy, kde-format
-#| msgid "Aspect Ratio"
+#, kde-format
 msgid "Aspect Ratio:"
-msgstr "Aspect Ratio"
+msgstr "Aspect Ratio:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:637
@@ -21894,10 +21735,9 @@ msgstr "Timeline zone (selected track)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Fu&ll project"
+#, kde-format
 msgid "Full project"
-msgstr "Fu&ll project"
+msgstr "Full project"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/speechdialog_ui.ui:124
@@ -21907,31 +21747,27 @@ msgstr "Language"
 
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
-#, fuzzy, kde-format
-#| msgid "Maximum Rate Change"
+#, kde-format
 msgid "Maximum characters per line"
-msgstr "Maximum Rate Change"
+msgstr "Maximum characters per line"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_seamless)
 #: src/ui/speechdialog_ui.ui:162
-#, fuzzy, kde-format
-#| msgid "Translate to English"
+#, kde-format
 msgid "Translate with SeamlessM4T"
-msgstr "Translate to English"
+msgstr "Translate with SeamlessM4T"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_out_label)
 #: src/ui/speechdialog_ui.ui:178
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output language"
-msgstr "Output file"
+msgstr "Output language"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_in_label)
 #: src/ui/speechdialog_ui.ui:192
-#, fuzzy, kde-format
-#| msgid "Speech language"
+#, kde-format
 msgid "Input language"
-msgstr "Speech language"
+msgstr "Input language"
 
 #. i18n: ectx: property (text), widget (QLabel, label_template)
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -22401,7 +22237,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr ""
+msgstr "Replace clip by transcoded version in project"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24
