@@ -1644,7 +1644,7 @@ void Core::highlightFileInExplorer(QList<QUrl> urls)
 
 void Core::updateHoverItem(const QUuid &uuid)
 {
-    if (uuid == m_mainWindow->getCurrentTimeline()->getUuid()) {
+    if (m_guiConstructed && uuid == m_mainWindow->getCurrentTimeline()->getUuid()) {
         m_mainWindow->getCurrentTimeline()->regainFocus();
     }
 }
