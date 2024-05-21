@@ -1641,3 +1641,10 @@ void Core::highlightFileInExplorer(QList<QUrl> urls)
         KIO::highlightInFileManager(urls);
     }
 }
+
+void Core::updateHoverItem(const QUuid &uuid)
+{
+    if (uuid == m_mainWindow->getCurrentTimeline()->getUuid()) {
+        m_mainWindow->getCurrentTimeline()->regainFocus();
+    }
+}

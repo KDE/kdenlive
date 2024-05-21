@@ -342,6 +342,8 @@ public:
     void folderRenamed(const QString &binId, const QString &folderName);
     /** @brief Open a file in a file manager, workaround needed for Flatpak crash https://bugs.kde.org/show_bug.cgi?id=486494 */
     void highlightFileInExplorer(QList<QUrl> urls);
+    /** @brief When a timeline operation changes the clip under the mouse cursor, inform the qml view */
+    void updateHoverItem(const QUuid &uuid);
 
 private:
     explicit Core(const QString &packageType);

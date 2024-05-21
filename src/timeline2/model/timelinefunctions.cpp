@@ -212,6 +212,12 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
     TRACE_STATIC(timeline, clipId, position);
     bool result = TimelineFunctions::requestClipCut(timeline, clipId, position, undo, redo);
     if (result) {
+        std::function<bool(void)> local_refresh = [uuid = timeline->uuid()]() {
+            pCore->updateHoverItem(uuid);
+            return true;
+        };
+        local_refresh();
+        UPDATE_UNDO_REDO_NOLOCK(local_refresh, local_refresh, undo, redo);
         pCore->pushUndo(undo, redo, i18n("Cut clip"));
     }
     TRACE_RES(result);
