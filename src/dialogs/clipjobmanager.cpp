@@ -81,11 +81,8 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     param1Bg->addButton(param1_isframe);
 
     // Mark preset as dirty if anything changes
-    connect(url_binary, &KUrlRequester::textChanged, this, [this]() {
-        checkScript();
-        setDirty();
-    });
-    connect(job_params, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
+    connect(url_binary, &KUrlRequester::textChanged, this, [this]() { checkScript(); });
+    connect(job_params, &QPlainTextEdit::textChanged, this, &ClipJobManager::checkScript);
     connect(destination_pattern, &QLineEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(radio_replace, &QRadioButton::toggled, this, &ClipJobManager::setDirty);
     connect(combo_folder, &QComboBox::currentIndexChanged, this, &ClipJobManager::setDirty);
@@ -243,6 +240,15 @@ void ClipJobManager::displayJob(int row)
 
 void ClipJobManager::checkScript()
 {
+    // Check that we have an even number of quotes
+    int dquotes = job_params->toPlainText().count(QLatin1Char('"'));
+    int squotes = job_params->toPlainText().count(QLatin1Char('\''));
+    if (dquotes % 2 != 0 || squotes % 2 != 0) {
+        script_message->setText(i18n("Check your parameters syntax (incorrect number of quotes)"));
+        script_message->setVisible(true);
+        setDirty();
+        return;
+    }
     if (url_binary->text().isEmpty() || !url_binary->isEnabled()) {
         script_message->setVisible(false);
         return;
@@ -257,6 +263,7 @@ void ClipJobManager::checkScript()
     } else {
         script_message->setVisible(false);
     }
+    setDirty();
 }
 
 QMap<QString, QString> ClipJobManager::getClipJobNames()
