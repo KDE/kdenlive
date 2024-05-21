@@ -223,7 +223,25 @@ void CustomJobTask::run()
     }
     // Extract frame is necessary
     requestedOutput << destPath;
-    parameters << jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    QStringList splitParameters;
+    QStringList quotedStrings;
+    if (jobParameters.contains(QLatin1Char('"'))) {
+        quotedStrings = jobParameters.split(QLatin1Char('"'));
+    } else if (jobParameters.contains(QLatin1Char('\''))) {
+        quotedStrings = jobParameters.split(QLatin1Char('\''));
+    }
+    if (!quotedStrings.isEmpty()) {
+        for (int ix = 0; ix < quotedStrings.size(); ix++) {
+            if (ix % 2 == 0) {
+                splitParameters << quotedStrings.at(ix).split(QLatin1Char(' '), Qt::SkipEmptyParts);
+                continue;
+            }
+            splitParameters << quotedStrings.at(ix).simplified();
+        }
+    } else {
+        splitParameters = jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    }
+    parameters << splitParameters;
 
     bool outputPlaced = false;
     for (auto &p : parameters) {
