@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 00:38+0000\n"
+"POT-Creation-Date: 2024-05-21 00:38+0000\n"
 "PO-Revision-Date: 2024-05-19 22:35+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -3655,13 +3655,13 @@ msgstr "Anahtar kare değeri kopyalandı"
 msgid "Edit %1"
 msgstr "%1 Düzenle"
 
-#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:168
-#: src/assets/model/assetcommand.cpp:215 src/assets/model/assetcommand.cpp:217
+#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
+#: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "%1 anahtar kareyi düzenle"
 
-#: src/assets/model/assetcommand.cpp:273 src/assets/model/assetcommand.cpp:275
+#: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
 #, kde-format
 msgid "Update %1"
 msgstr "%1 Güncelle"
@@ -5219,15 +5219,19 @@ msgctxt "@action"
 msgid "Move Clip"
 msgstr "Klibi Taşı"
 
-#: src/bin/bincommands.cpp:60
-#, kde-format
+#: src/bin/bincommands.cpp:62
+#, fuzzy, kde-format
+#| msgid "Rename Zone"
+msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Bölgeyi Yeniden Adlandır"
 
-#: src/bin/bincommands.cpp:82
-#, kde-format
-msgid "Edit clip"
-msgstr "Klibi düzenle"
+#: src/bin/bincommands.cpp:86
+#, fuzzy, kde-format
+#| msgid "Edit Clip"
+msgctxt "@action"
+msgid "Edit Clip"
+msgstr "Klibi Düzenle"
 
 #: src/bin/clipcreator.cpp:71
 #, kde-format
@@ -5529,8 +5533,8 @@ msgid "Move subtitle"
 msgstr "Altyazıyı taşı"
 
 #: src/bin/model/subtitlemodel.cpp:1178
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:538
-#: src/effects/effectstack/view/effectstackview.cpp:601
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
 #, kde-format
@@ -6440,8 +6444,8 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
-#: src/effects/effectstack/view/effectstackview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/effectstackview.cpp:648
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:700
 #: src/project/dialogs/archivewidget.cpp:704
@@ -9276,7 +9280,7 @@ msgstr "Efekti kopyala"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:461
 #: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1138
+#: src/effects/effectstack/model/effectstackmodel.cpp:1139
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 etkisi iki kez eklenemiyor."
@@ -9497,40 +9501,52 @@ msgstr "Efekti Kaydet"
 msgid "Comments:"
 msgstr "Açıklamalar:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Ad verilmediğinden efekt kaydedilmedi."
 
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Enable Effect Stack"
+msgstr "Efekti etkinleştir"
+
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Disable Effect"
+msgid "Disable Effect Stack"
+msgstr "Efekti devre dışı bırak"
+
+#: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
 msgid "No effect selected."
 msgstr "Bir efekt seçilmedi."
 
-#: src/effects/effectstack/view/effectstackview.cpp:563
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Geçerli efekt yığınını kaydet"
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:577
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Kaydedilen yığın için ad:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:569
+#: src/effects/effectstack/view/effectstackview.cpp:578
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Açıklama:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:582
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Ad verilmediğinden efekt yığını kaydedilmedi."
 
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/effectstackview.cpp:598
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -22501,6 +22517,9 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid "Edit clip"
+#~ msgstr "Klibi düzenle"
 
 #~ msgctxt "@info:whatsthis"
 #~ msgid ""

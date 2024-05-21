@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 00:38+0000\n"
+"POT-Creation-Date: 2024-05-21 00:38+0000\n"
 "PO-Revision-Date: 2024-05-16 11:44+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3620,13 +3620,13 @@ msgstr "نسخت قيمة الإطار الرئيس"
 msgid "Edit %1"
 msgstr "حرّر %1"
 
-#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:168
-#: src/assets/model/assetcommand.cpp:215 src/assets/model/assetcommand.cpp:217
+#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
+#: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "حرّر الإطار الرئيس %1"
 
-#: src/assets/model/assetcommand.cpp:273 src/assets/model/assetcommand.cpp:275
+#: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
 #, kde-format
 msgid "Update %1"
 msgstr "حدّث %1"
@@ -5189,15 +5189,19 @@ msgctxt "@action"
 msgid "Move Clip"
 msgstr "لا تحريك تمّ"
 
-#: src/bin/bincommands.cpp:60
-#, kde-format
+#: src/bin/bincommands.cpp:62
+#, fuzzy, kde-format
+#| msgid "Rename Zone"
+msgctxt "@action"
 msgid "Rename Zone"
 msgstr "أعد تسمية المنطقة"
 
-#: src/bin/bincommands.cpp:82
-#, kde-format
-msgid "Edit clip"
-msgstr "تحرير مقطع"
+#: src/bin/bincommands.cpp:86
+#, fuzzy, kde-format
+#| msgid "Edit Clip"
+msgctxt "@action"
+msgid "Edit Clip"
+msgstr "حرّر المقطع"
 
 #: src/bin/clipcreator.cpp:71
 #, kde-format
@@ -5500,8 +5504,8 @@ msgid "Move subtitle"
 msgstr "حرك الترجمة"
 
 #: src/bin/model/subtitlemodel.cpp:1178
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:538
-#: src/effects/effectstack/view/effectstackview.cpp:601
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
 #, kde-format
@@ -6428,8 +6432,8 @@ msgstr "صدر بيانات الأدلة"
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
-#: src/effects/effectstack/view/effectstackview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/effectstackview.cpp:648
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:700
 #: src/project/dialogs/archivewidget.cpp:704
@@ -9286,7 +9290,7 @@ msgstr "تأثير النسخ"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:461
 #: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1138
+#: src/effects/effectstack/model/effectstackmodel.cpp:1139
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "لا يمكن إضافة التأثير %1 مرتين."
@@ -9499,40 +9503,52 @@ msgstr "احفظ التّأثير"
 msgid "Comments:"
 msgstr "التعليقات:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "الاسم لم يعطَ، لذا لم يحفظ التأثير."
 
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Enable Effect Stack"
+msgstr "فعّل التّأثير"
+
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Disable Effect"
+msgid "Disable Effect Stack"
+msgstr "عطّل التّأثير"
+
+#: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
 msgid "No effect selected."
 msgstr "لم يحدد تأثير"
 
-#: src/effects/effectstack/view/effectstackview.cpp:563
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "احفظ كومة التّأثير الحالي"
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:577
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "اسم الكومة المحفوظة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:569
+#: src/effects/effectstack/view/effectstackview.cpp:578
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "الوصف:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:582
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "الاسم لم يعطَ، لذا لم تحفظ كومة التأثيرات."
 
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/effectstackview.cpp:598
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -22438,6 +22454,9 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "Edit clip"
+#~ msgstr "تحرير مقطع"
 
 #~ msgctxt "@info:whatsthis"
 #~ msgid ""

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 00:38+0000\n"
-"PO-Revision-Date: 2024-05-18 07:31+0300\n"
+"POT-Creation-Date: 2024-05-21 00:38+0000\n"
+"PO-Revision-Date: 2024-05-19 08:10+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -3609,13 +3609,13 @@ msgstr "ערך תמונית המפתח הועתק"
 msgid "Edit %1"
 msgstr "עריכת %1"
 
-#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:168
-#: src/assets/model/assetcommand.cpp:215 src/assets/model/assetcommand.cpp:217
+#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
+#: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "עריכת תמונית מפתח %1"
 
-#: src/assets/model/assetcommand.cpp:273 src/assets/model/assetcommand.cpp:275
+#: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
 #, kde-format
 msgid "Update %1"
 msgstr "עדכון %1"
@@ -5164,14 +5164,18 @@ msgctxt "@action"
 msgid "Move Clip"
 msgstr "העברת סרטון"
 
-#: src/bin/bincommands.cpp:60
-#, kde-format
+#: src/bin/bincommands.cpp:62
+#, fuzzy, kde-format
+#| msgid "Rename Zone"
+msgctxt "@action"
 msgid "Rename Zone"
 msgstr "שינוי שם קטע"
 
-#: src/bin/bincommands.cpp:82
-#, kde-format
-msgid "Edit clip"
+#: src/bin/bincommands.cpp:86
+#, fuzzy, kde-format
+#| msgid "Edit Clip"
+msgctxt "@action"
+msgid "Edit Clip"
 msgstr "עריכת סרטון"
 
 #: src/bin/clipcreator.cpp:71
@@ -5474,8 +5478,8 @@ msgid "Move subtitle"
 msgstr "העברת כתובית"
 
 #: src/bin/model/subtitlemodel.cpp:1178
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:538
-#: src/effects/effectstack/view/effectstackview.cpp:601
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
 #, kde-format
@@ -6070,13 +6074,7 @@ msgid "Arguments for the command line script"
 msgstr "ארגומנטים לסקריפט בשורת הפקודה"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<b>{source}</b> will be replaced by the Bin Clip source file path, "
-#| "<b>{param1}</b> will be replaced by the first parameter value, <b>{param2}"
-#| "</b> will be replaced by the first parameter value, <b>{output}</b> will "
-#| "be replaced by the output file name."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{source}</b> will be replaced by the Bin Clip source file path, "
@@ -6388,8 +6386,8 @@ msgstr "ייצוא נתוני קווים מנחים"
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
-#: src/effects/effectstack/view/effectstackview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/effectstackview.cpp:648
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:700
 #: src/project/dialogs/archivewidget.cpp:704
@@ -9217,7 +9215,7 @@ msgstr "העתקת אפקט"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:461
 #: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1138
+#: src/effects/effectstack/model/effectstackmodel.cpp:1139
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "אי אפשר להוסיף את האפקט %1 פעמיים."
@@ -9430,40 +9428,52 @@ msgstr "שמירת אפקט"
 msgid "Comments:"
 msgstr "הערות:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "לא סופק שם, האפקט לא נשמר."
 
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Enable Effect Stack"
+msgstr "הפעלת אפקט"
+
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Disable Effect"
+msgid "Disable Effect Stack"
+msgstr "השבתת אפקט"
+
+#: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
 msgid "No effect selected."
 msgstr "לא נבחר אפקט."
 
-#: src/effects/effectstack/view/effectstackview.cpp:563
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "שמירת ערימת האפקטים הנוכחית"
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:577
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "שם לערימות שמורות:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:569
+#: src/effects/effectstack/view/effectstackview.cpp:578
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "תיאור:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:582
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "לא סופק שם, ערימת האפקטים לא נשמרה."
 
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/effectstackview.cpp:598
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -22325,6 +22335,9 @@ msgstr "%1 דק׳"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
+
+#~ msgid "Edit clip"
+#~ msgstr "עריכת סרטון"
 
 #~ msgctxt "@info:whatsthis"
 #~ msgid ""

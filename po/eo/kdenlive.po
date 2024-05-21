@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 00:38+0000\n"
-"PO-Revision-Date: 2024-05-17 06:24+0100\n"
+"POT-Creation-Date: 2024-05-21 00:38+0000\n"
+"PO-Revision-Date: 2024-05-20 13:35+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3640,13 +3640,13 @@ msgstr "Ŝlosilframa valoro kopiita"
 msgid "Edit %1"
 msgstr "Redakti %1"
 
-#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:168
-#: src/assets/model/assetcommand.cpp:215 src/assets/model/assetcommand.cpp:217
+#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
+#: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "Redakti %1 ŝlosilkadro"
 
-#: src/assets/model/assetcommand.cpp:273 src/assets/model/assetcommand.cpp:275
+#: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
 #, kde-format
 msgid "Update %1"
 msgstr "Ĝisdatigi %1"
@@ -5204,14 +5204,18 @@ msgctxt "@action"
 msgid "Move Clip"
 msgstr "Movi aŭdvidaĵon"
 
-#: src/bin/bincommands.cpp:60
-#, kde-format
+#: src/bin/bincommands.cpp:62
+#, fuzzy, kde-format
+#| msgid "Rename Zone"
+msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Alinomi Zonon"
 
-#: src/bin/bincommands.cpp:82
-#, kde-format
-msgid "Edit clip"
+#: src/bin/bincommands.cpp:86
+#, fuzzy, kde-format
+#| msgid "Edit Clip"
+msgctxt "@action"
+msgid "Edit Clip"
 msgstr "Redakti aŭdvidaĵon"
 
 #: src/bin/clipcreator.cpp:71
@@ -5515,8 +5519,8 @@ msgid "Move subtitle"
 msgstr "Movi subtitolon"
 
 #: src/bin/model/subtitlemodel.cpp:1178
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:538
-#: src/effects/effectstack/view/effectstackview.cpp:601
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
 #, kde-format
@@ -6110,13 +6114,7 @@ msgid "Arguments for the command line script"
 msgstr "Argumentoj por la komandlinia skripto"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{source}</b> will be replaced by the Bin Clip source file path, "
@@ -6124,11 +6122,10 @@ msgid ""
 "b> will be replaced by the second parameter value, <b>{output}</b> will be "
 "replaced by the output file name."
 msgstr ""
-"En la argumentoj disponeblas la jenaj opcioj: <ul><li><b>{source}</b> estos "
-"anstataŭigita per la fontdosiervojo de la Bin-tondaĵo</li><li><b>{output}</"
-"b> estos anstataŭigita per la eligodosiernomo</li><li><b>{param1}</b> estos "
-"anstataŭigita per la unua parametrovaloro</li><li><b>{param2}</b> estos "
-"anstataŭigita per la dua parametrovaloro</li></ul>"
+"<b>{source}</b> estos anstataŭigita per la fontdosiervojo de la Bin-tondaĵo, "
+"<b>{param1}</b> estos anstataŭigita per la unua parametrovaloro, <b>{param2}"
+"</b> estos anstataŭigita per la dua parametrovaloro, <b>{output}</b> estos "
+"anstataŭigita per la eligodosiernomo."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6136,13 +6133,7 @@ msgid "File extension for the output file"
 msgstr "Dosiera etendo por la eligodosiero"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "The output file name will be the same as the source bin clip filename, "
-#| "with the modified extension. It will be appended at the end of the "
-#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
-#| "filename already exists, a -0001 pattern will be appended."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
@@ -6152,7 +6143,7 @@ msgid ""
 msgstr ""
 "La eligodosiernomo estos la sama kiel la fonta dosiernomo de la bin-tondaĵo, "
 "kun la modifita finaĵo. Ĝi estos almetita ĉe la fino de la argumentoj aŭ "
-"enmetita anstataŭ <b>{&#x25;3}</b> se trovita. Se eliga dosiernomo jam "
+"enmetita anstataŭ <b>{output}</b> se trovita. Se eliga dosiernomo jam "
 "ekzistas, ŝablono -0001 estos almetita."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
@@ -6182,17 +6173,13 @@ msgstr ""
 "Novlinie apartigita listo de eblaj valoroj kiuj estos ofertitaj dum rulado"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When the parameter is set to <b>Request Option in List</b> the user will "
-#| "be asked to choose a value in this list when the job is started."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When the parameter is set to <b>Request Option from List</b> the user will "
 "be asked to choose a value in this list when the job is started."
 msgstr ""
-"Kiam la parametro estas metita al <b>Peti Opcion en Listo</b> la uzanto "
+"Kiam la parametro estas metita al <b>Peti Opcion el Listo</b> la uzanto "
 "estos petita elekti valoron en ĉi tiu listo kiam la laboro estas komencita."
 
 #: src/dialogs/clipjobmanager.cpp:132 src/dialogs/clipjobmanager.cpp:280
@@ -6406,7 +6393,7 @@ msgid ""
 "2. There must be at least three timestamps in ascending order.\n"
 "3. The minimum length for video chapters is 10 seconds."
 msgstr ""
-"Se vi uzas la eksportitan tekston por Jutubo, vi eble volas kontroli:\n"
+"Se vi uzas la eksportitan tekston por Jutubo, vi eble volos kontroli:\n"
 "1. La komenca tempo de 00:00 devas havi ĉapitron.\n"
 "2. Devas esti almenaŭ tri tempomarkoj en kreskanta ordo.\n"
 "3. La minimuma longeco por videoĉapitroj estas 10 sekundoj."
@@ -6444,8 +6431,8 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
-#: src/effects/effectstack/view/effectstackview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/effectstackview.cpp:648
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:700
 #: src/project/dialogs/archivewidget.cpp:704
@@ -7074,7 +7061,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 "La sekvaj parametroj ne efikos, ĉar ili estas anstataŭitaj de la "
-"ekvivalentaj opcioj de uzantinterfaco: <icode>%1</icode>"
+"ekvivalentaj elektebloj de uzantinterfaco: <icode>%1</icode>"
 
 #: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1505
 #, kde-format
@@ -8092,7 +8079,7 @@ msgstr "Ĝisdatigas la subtitolon en la templinio."
 #: src/dialogs/subtitleedit.cpp:120
 #, kde-format
 msgid "Show style options"
-msgstr "Montri stilopciojn"
+msgstr "Montri stil-elekteblojn"
 
 #: src/dialogs/subtitleedit.cpp:121
 #, kde-kuit-format
@@ -9286,7 +9273,7 @@ msgstr "Kopii efiko"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:461
 #: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1138
+#: src/effects/effectstack/model/effectstackmodel.cpp:1139
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efiko %1 ne povas esti aldonita dufoje."
@@ -9457,7 +9444,7 @@ msgstr "Antaŭagordoj"
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
-"Malfermas liston de altnivelaj opcioj por administri antaŭgordojn por la "
+"Malfermas liston de altnivelaj elektebloj por administri antaŭgordojn por la "
 "efiko."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:239
@@ -9501,40 +9488,52 @@ msgstr "Konservi Efekton"
 msgid "Comments:"
 msgstr "Komentoj:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Neniu nomo provizita, efiko ne konservita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Enable Effect Stack"
+msgstr "Ebligi Efekton"
+
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Disable Effect"
+msgid "Disable Effect Stack"
+msgstr "Malebligi Efekton"
+
+#: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
 msgid "No effect selected."
 msgstr "Neniu efiko elektita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:563
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Konservi aktualan Efektan Stakon"
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:577
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nomo por konservita stako:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:569
+#: src/effects/effectstack/view/effectstackview.cpp:578
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Priskribo:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:582
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Neniu nomo provizita, efekta stako ne konservita."
 
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/effectstackview.cpp:598
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -15322,7 +15321,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "La Kdenlive-adaptilo ne estis trovita per OpenTimelineIO."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
@@ -18657,13 +18656,7 @@ msgstr "Argumentoj"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
 "b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
@@ -18672,10 +18665,10 @@ msgid ""
 "replaced by the output file name</li></ul>"
 msgstr ""
 "En la argumentoj disponeblas la jenaj opcioj: <ul><li><b>{source}</b> estos "
-"anstataŭigita per la fontdosiervojo de la Bin-tondaĵo</li><li><b>{output}</"
-"b> estos anstataŭigita per la eligodosiernomo</li><li><b>{param1}</b> estos "
-"anstataŭigita per la unua parametrovaloro</li><li><b>{param2}</b> estos "
-"anstataŭigita per la dua parametrovaloro</li></ul>"
+"anstataŭigita per la fontdosiervojo de la Bin-tondaĵo</li><li><b>{param1}</"
+"b> estos anstataŭigita per la unua parametrovaloro</li><li><b>{param2}</b> "
+"estos anstataŭigita per la dua parametrovaloro</li></ul><b>{output}</b> "
+"estos anstataŭigita per la eligodosiernomo</li><li>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
@@ -22495,10 +22488,5 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
 
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
-#~ "b> by the second, <b>{&#x25;3}</b> by the output file path."
-#~ msgstr ""
-#~ "<b>{&#x25;1}</b> estos anstataŭigita per la unua parametro, <b>{&#x25;2}</"
-#~ "b> per la dua, <b>{&#x25;3}</b> per la eligdosiera vojo."
+#~ msgid "Edit clip"
+#~ msgstr "Redakti aŭdvidaĵon"
