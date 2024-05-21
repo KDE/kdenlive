@@ -84,7 +84,7 @@ Files: data/profiles/*
 Copyright: Jean-Baptiste Mardelle
 License: CC0-1.0
 
-Files: data/blacklisted_effects.txt data/blacklisted_transitions.txt
+Files: data/blacklisted_effects.txt data/blacklisted_transitions.txt data/whitelisted_effects.txt data/whitelisted_transitions.txt
 Copyright: Jean-Baptiste Mardelle, Massimo Stella
 License: CC0-1.0
 
