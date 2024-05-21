@@ -1,0 +1,10 @@
+# Basic operations
+qtblend
+
+# Audio
+volume
+gain
+
+# Color
+lift_gamma_gain
+

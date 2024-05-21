@@ -158,9 +158,20 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     QWidget *empty = new QWidget(this);
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(empty);
-    QAction *showInfo = new QAction(this);
+    // Whitelisting
+    QAction *whiteList = new QAction(QIcon::fromTheme(QStringLiteral("view-filter")), QString(), this);
+    whiteList->setCheckable(true);
+    // TODO: enable once the feature is ready
+    // whiteList->setChecked(KdenliveSettings::enableAssetsWhiteList());
+    connect(whiteList, &QAction::triggered, this, [this](bool enable) {
+        KdenliveSettings::setEnableAssetsWhiteList(enable);
+        m_proxyModel->updateWhiteList();
+    });
+    whiteList->setToolTip(i18n("Only show reviewed assets"));
+    m_toolbar->addAction(whiteList);
+    // Asset Info
+    QAction *showInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);
     showInfo->setCheckable(true);
-    showInfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
     showInfo->setToolTip(m_isEffect ? i18n("Show/hide description of the effects") : i18n("Show/hide description of the compositions"));
     m_toolbar->addAction(showInfo);
     m_lay->addWidget(m_toolbar);

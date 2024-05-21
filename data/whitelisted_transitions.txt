@@ -1,0 +1,5 @@
+# Necessary to basic operation
+
+frei0r.cairoblend
+qtblend
+mix

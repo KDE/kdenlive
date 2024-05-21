@@ -83,6 +83,9 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
         }
+        if (m_whitelist.contains(result.id)) {
+            result.whitelisted = true;
+        }
         if (getSingleTrackTransitions().contains(result.id)) {
             if (type == QLatin1String("audio")) {
                 result.type = AssetListType::AssetType::AudioTransition;
@@ -131,6 +134,11 @@ QSet<QString> TransitionsRepository::getSingleTrackTransitions()
     return {QStringLiteral("slide"), QStringLiteral("dissolve"), QStringLiteral("wipe"), QStringLiteral("mix")};
 }
 
+QString TransitionsRepository::assetWhiteListPath() const
+{
+    return QStringLiteral(":data/whitelisted_transitions.txt");
+}
+
 QString TransitionsRepository::assetBlackListPath() const
 {
     return QStringLiteral(":data/blacklisted_transitions.txt");
@@ -145,6 +153,7 @@ QString TransitionsRepository::assetPreferredListPath() const
 
 std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QString &transitionId) const
 {
+    qDebug() << "===== QUERYING TRANSITION: " << transitionId;
     Q_ASSERT(exists(transitionId));
     QString service_name = m_assets.at(transitionId).mltId;
     // We create the Mlt element from its name

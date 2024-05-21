@@ -142,6 +142,11 @@
       <default>00:00:03:00</default>
     </entry>
 
+    <entry name="enableAssetsWhiteList" type="Bool">
+      <label>Only display whitelisted assets.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="disable_effect_parameters" type="Bool">
       <label>Disable parameters when the effect is disabled.</label>
       <default>true</default>

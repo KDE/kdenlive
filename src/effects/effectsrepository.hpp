@@ -56,6 +56,9 @@ protected:
     */
     void parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const override;
 
+    /** @brief Returns the path to the effects' whitelist*/
+    QString assetWhiteListPath() const override;
+
     /** @brief Returns the path to the effects' blacklist*/
     QString assetBlackListPath() const override;
 

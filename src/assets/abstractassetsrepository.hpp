@@ -32,6 +32,7 @@ public:
 
     /** @brief Return type of asset */
     AssetType getType(const QString &assetId) const;
+    bool isWhiteListed(const QString &assetId) const;
 
     /** @brief Return type of asset */
     bool isUnique(const QString &assetId) const;
@@ -54,6 +55,7 @@ protected:
         QString mltId; //"tag" of the asset, that is the name of the mlt service
         QString name, description, author, version_str;
         int version{};
+        bool whitelisted{false};
         QDomElement xml;
         AssetType type;
     };
@@ -91,6 +93,9 @@ protected:
     virtual QStringList assetDirs() const = 0;
 
     /** @brief Returns the path to the assets' blacklist*/
+    virtual QString assetWhiteListPath() const = 0;
+
+    /** @brief Returns the path to the assets' blacklist*/
     virtual QString assetBlackListPath() const = 0;
 
     /** @brief Returns the path to the assets' preferred list*/
@@ -99,6 +104,7 @@ protected:
     std::unordered_map<QString, Info> m_assets;
 
     QSet<QString> m_blacklist;
+    QSet<QString> m_whitelist;
 
     QSet<QString> m_preferred_list;
 };

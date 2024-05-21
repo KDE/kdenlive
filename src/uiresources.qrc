@@ -46,7 +46,9 @@
         <file alias="kdenlivemonitortrimming.qml">monitor/view/kdenlivemonitortrimming.qml</file>
     </qresource>
     <qresource prefix="/data">
+        <file alias="whitelisted_effects.txt">../data/whitelisted_effects.txt</file>
         <file alias="blacklisted_effects.txt">../data/blacklisted_effects.txt</file>
+        <file alias="whitelisted_transitions.txt">../data/whitelisted_transitions.txt</file>
         <file alias="blacklisted_transitions.txt">../data/blacklisted_transitions.txt</file>
         <file alias="preferred_effects.txt">../data/preferred_effects.txt</file>
         <file alias="kdenlive_renderprofiles.knsrc">../data/knewstuff/kdenlive_renderprofiles.knsrc</file>

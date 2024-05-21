@@ -23,7 +23,7 @@ TransitionTreeModel::TransitionTreeModel(QObject *parent)
 std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, QObject *parent)
 {
     std::shared_ptr<TransitionTreeModel> self(new TransitionTreeModel(parent));
-    QList<QVariant> rootData{"Name", "ID", "Type", "isFav"};
+    QList<QVariant> rootData{"Name", "ID", "Type", "isFav", "Whitelist"};
     self->rootItem = TreeItem::construct(rootData, self, true);
 
     // We create categories, if requested
@@ -46,8 +46,9 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
 
         // we create the data list corresponding to this transition
         bool isFav = KdenliveSettings::favorite_transitions().contains(transition.first);
+        bool whiteListed = TransitionsRepository::get()->isWhiteListed(transition.first);
         // qDebug() << transition.second << transition.first << "in " << targetCategory->dataColumn(0).toString();
-        QList<QVariant> data{transition.second, transition.first, QVariant::fromValue(type), isFav};
+        QList<QVariant> data{transition.second, transition.first, QVariant::fromValue(type), isFav, 0, true, whiteListed};
 
         targetCategory->appendChild(data);
     }

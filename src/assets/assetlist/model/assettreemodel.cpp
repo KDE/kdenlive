@@ -94,6 +94,8 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     case NameRole:
     case Qt::DisplayRole:
         return item->dataColumn(index.column());
+    case WhiteListRole:
+        return item->dataColumn(AssetTreeModel::WhiteListCol);
     case Qt::DecorationRole: {
         if (item->dataColumn(AssetTreeModel::IdCol).toString() == QLatin1String("root") || item->dataColumn(0).toString().isEmpty()) {
             return QIcon();

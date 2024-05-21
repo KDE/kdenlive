@@ -117,6 +117,9 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 if (result.name.isEmpty()) {
                     result.name = result.id;
                 }
+                if (m_whitelist.contains(result.mltId)) {
+                    result.whitelisted = true;
+                }
                 customAssets[result.id] = result;
             }
             return;
@@ -180,6 +183,9 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         } else if (type == QLatin1String("text")) {
             result.type = AssetListType::AssetType::Text;
         }
+        if (m_whitelist.contains(result.mltId)) {
+            result.whitelisted = true;
+        }
         customAssets[result.id] = result;
     }
 }
@@ -204,6 +210,11 @@ void EffectsRepository::parseType(Mlt::Properties *metadata, Info &res)
     if (QString(tags.get(0)) == QLatin1String("Audio")) {
         res.type = AssetListType::AssetType::Audio;
     }
+}
+
+QString EffectsRepository::assetWhiteListPath() const
+{
+    return QStringLiteral(":data/whitelisted_effects.txt");
 }
 
 QString EffectsRepository::assetBlackListPath() const

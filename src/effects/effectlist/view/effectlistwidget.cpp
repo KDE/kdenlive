@@ -39,6 +39,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_effectsTree->setColumnHidden(1, true);
     m_effectsTree->setColumnHidden(2, true);
     m_effectsTree->setColumnHidden(3, true);
+    m_effectsTree->setColumnHidden(4, true);
     m_effectsTree->header()->setStretchLastSection(true);
     setFilterType("");
     QItemSelectionModel *sel = m_effectsTree->selectionModel();
