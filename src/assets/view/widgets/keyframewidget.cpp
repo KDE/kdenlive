@@ -170,9 +170,9 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     linear2->setData(int(KeyframeType::Linear));
     linear2->setCheckable(true);
     kfType->addAction(linear2);
-    QAction *curve2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Curve)),
-                                  KeyframeModel::getKeyframeTypes().value(KeyframeType::Curve), this);
-    curve2->setData(int(KeyframeType::Curve));
+    QAction *curve2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::CurveSmooth)),
+                                  KeyframeModel::getKeyframeTypes().value(KeyframeType::CurveSmooth), this);
+    curve2->setData(int(KeyframeType::CurveSmooth));
     curve2->setCheckable(true);
     kfType->addAction(curve2);
     switch (KdenliveSettings::defaultkeyframeinterp()) {
@@ -180,6 +180,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         kfType->setCurrentAction(discrete2);
         break;
     case int(KeyframeType::Curve):
+    case int(KeyframeType::CurveSmooth):
         kfType->setCurrentAction(curve2);
         break;
     default:
