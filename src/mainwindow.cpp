@@ -520,9 +520,12 @@ void MainWindow::init(const QString &mltPath)
     };
 
     QAction *stylesAction = KStyleManager::createConfigureAction(this);
-    for (QAction *child : stylesAction->menu()->actions()) {
-        if (stylesToHide.contains(child->data().toString(), Qt::CaseInsensitive)) {
-            child->setVisible(false);
+    // stylesAction->menu() is only available on non KDE platform
+    if (stylesAction->menu()) {
+        for (QAction *child : stylesAction->menu()->actions()) {
+            if (stylesToHide.contains(child->data().toString(), Qt::CaseInsensitive)) {
+                child->setVisible(false);
+            }
         }
     }
     addAction(QStringLiteral("styles_menu"), stylesAction);
