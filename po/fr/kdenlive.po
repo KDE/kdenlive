@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 00:38+0000\n"
-"PO-Revision-Date: 2024-05-16 10:57+0200\n"
+"POT-Creation-Date: 2024-05-21 00:38+0000\n"
+"PO-Revision-Date: 2024-05-19 22:23+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -3693,13 +3693,13 @@ msgstr "Copie de la valeur de l'image clé"
 msgid "Edit %1"
 msgstr "Éditer %1"
 
-#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:168
-#: src/assets/model/assetcommand.cpp:215 src/assets/model/assetcommand.cpp:217
+#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
+#: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "Modifier l'image clé %1"
 
-#: src/assets/model/assetcommand.cpp:273 src/assets/model/assetcommand.cpp:275
+#: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
 #, kde-format
 msgid "Update %1"
 msgstr "Actualiser %1"
@@ -5282,14 +5282,18 @@ msgctxt "@action"
 msgid "Move Clip"
 msgstr "Déplacer une vidéo"
 
-#: src/bin/bincommands.cpp:60
-#, kde-format
+#: src/bin/bincommands.cpp:62
+#, fuzzy, kde-format
+#| msgid "Rename Zone"
+msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Renommer la zone"
 
-#: src/bin/bincommands.cpp:82
-#, kde-format
-msgid "Edit clip"
+#: src/bin/bincommands.cpp:86
+#, fuzzy, kde-format
+#| msgid "Edit Clip"
+msgctxt "@action"
+msgid "Edit Clip"
 msgstr "Modifier le clip"
 
 #: src/bin/clipcreator.cpp:71
@@ -5595,8 +5599,8 @@ msgid "Move subtitle"
 msgstr "Déplacer un sous-titre"
 
 #: src/bin/model/subtitlemodel.cpp:1178
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:538
-#: src/effects/effectstack/view/effectstackview.cpp:601
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
 #, kde-format
@@ -6218,13 +6222,7 @@ msgid "File extension for the output file"
 msgstr "Extension de fichier pour le fichier de sortie"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "The output file name will be the same as the source bin clip filename, "
-#| "with the modified extension. It will be appended at the end of the "
-#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
-#| "filename already exists, a -0001 pattern will be appended."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
@@ -6233,9 +6231,9 @@ msgid ""
 "exists, a -0001 pattern will be appended."
 msgstr ""
 "Le nom du fichier de sortie sera le même que le nom de fichier de la vidéo "
-"du projet source, avec l'extension modifiée. Il sera ajouté à la fin des "
-"arguments ou inséré à la place de <b>{&#x25;3}</b> s'il est trouvé. Si le "
-"nom de fichier de sortie existe déjà, un motif « -0001 » sera ajouté."
+"du projet source, avec une extension modifiée. Elle sera ajoutée à la fin "
+"des arguments ou insérée à la place de <b>{output}</b> si trouvé. Si le nom "
+"de fichier de sortie existe déjà, une extension « -0001 » sera ajoutée."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
@@ -6270,18 +6268,14 @@ msgstr ""
 "proposées lors de l'exécution"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When the parameter is set to <b>Request Option in List</b> the user will "
-#| "be asked to choose a value in this list when the job is started."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When the parameter is set to <b>Request Option from List</b> the user will "
 "be asked to choose a value in this list when the job is started."
 msgstr ""
 "Lorsque le paramètre est défini sur <b>Demander une option dans la liste</"
-"b>, l'utilisateur est invité à choisir une valeur dans cette liste au "
+"b>, l'utilisateur est invité à sélectionner une valeur dans cette liste au "
 "démarrage de la tâche."
 
 #: src/dialogs/clipjobmanager.cpp:132 src/dialogs/clipjobmanager.cpp:280
@@ -6538,8 +6532,8 @@ msgstr "Exporter des données de guides"
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
-#: src/effects/effectstack/view/effectstackview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/effectstackview.cpp:648
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:700
 #: src/project/dialogs/archivewidget.cpp:704
@@ -9437,7 +9431,7 @@ msgstr "Copier l'effet"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:461
 #: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1138
+#: src/effects/effectstack/model/effectstackmodel.cpp:1139
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "L'effet %1 ne peut être ajouté une deuxième fois."
@@ -9657,40 +9651,52 @@ msgstr "Enregistrer un effet"
 msgid "Comments:"
 msgstr "Commentaires :"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Aucun nom fourni, l'effet n'a pas été enregistré."
 
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Enable Effect Stack"
+msgstr "Activer l'effet"
+
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Disable Effect"
+msgid "Disable Effect Stack"
+msgstr "Désactiver l'effet"
+
+#: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
 msgid "No effect selected."
 msgstr "Aucun effet sélectionné."
 
-#: src/effects/effectstack/view/effectstackview.cpp:563
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Enregistrer la pile d'effets courants"
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:577
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nom pour la pile enregistrée : "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:569
+#: src/effects/effectstack/view/effectstackview.cpp:578
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Description : "
 
-#: src/effects/effectstack/view/effectstackview.cpp:582
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Aucun nom fourni, la pile d'effets n'a pas été enregistrée."
 
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/effectstackview.cpp:598
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -18968,13 +18974,7 @@ msgstr "Arguments"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
 "b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
@@ -18984,10 +18984,10 @@ msgid ""
 msgstr ""
 "Dans les arguments, les options suivantes sont disponibles : "
 "<ul><li><b>{source}</b> sera remplacé par l'emplacement du fichier source de "
-"la vidéo du projet</li><li><b>{output}</b> sera remplacé par le nom du "
-"fichier de sortie</li><li><b>{param1}</b> sera remplacé par la première "
-"valeur du paramètre</li><li><b>{param2}</b> sera remplacé par la deuxième "
-"valeur du paramètre</li></ul>"
+"la vidéo du projet,</li><li><b>{param1}</b> sera remplacé par la première "
+"valeur du paramètre,</li><li><b>{param2}</b> sera remplacé par la deuxième "
+"valeur du paramètre,</li><li><b>{output}</b> sera remplacé par le nom du "
+"fichier de sortie.</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
@@ -22827,6 +22827,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Edit clip"
+#~ msgstr "Modifier le clip"
 
 #~ msgctxt "@info:whatsthis"
 #~ msgid ""

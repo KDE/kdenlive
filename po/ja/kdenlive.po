@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 00:38+0000\n"
+"POT-Creation-Date: 2024-05-21 00:38+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -3647,13 +3647,13 @@ msgstr "補間"
 msgid "Edit %1"
 msgstr "%1 を編集"
 
-#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:168
-#: src/assets/model/assetcommand.cpp:215 src/assets/model/assetcommand.cpp:217
+#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
+#: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "%1 のキーフレームを編集"
 
-#: src/assets/model/assetcommand.cpp:273 src/assets/model/assetcommand.cpp:275
+#: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
 #, kde-format
 msgid "Update %1"
 msgstr "%1 を更新"
@@ -5235,16 +5235,19 @@ msgctxt "@action"
 msgid "Move Clip"
 msgstr "クリップの移動"
 
-#: src/bin/bincommands.cpp:60
+#: src/bin/bincommands.cpp:62
 #, fuzzy, kde-format
 #| msgid "Rename folder"
+msgctxt "@action"
 msgid "Rename Zone"
 msgstr "フォルダの名前変更"
 
-#: src/bin/bincommands.cpp:82
-#, kde-format
-msgid "Edit clip"
-msgstr "クリップの編集"
+#: src/bin/bincommands.cpp:86
+#, fuzzy, kde-format
+#| msgid "Edit Clip"
+msgctxt "@action"
+msgid "Edit Clip"
+msgstr "クリップの編集(E)"
 
 #: src/bin/clipcreator.cpp:71
 #, fuzzy, kde-format
@@ -5562,8 +5565,8 @@ msgid "Move subtitle"
 msgstr "サブタイトルの移動"
 
 #: src/bin/model/subtitlemodel.cpp:1178
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:538
-#: src/effects/effectstack/view/effectstackview.cpp:601
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
 #, kde-format
@@ -6519,8 +6522,8 @@ msgstr "マーカーの編集(E)"
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
-#: src/effects/effectstack/view/effectstackview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/effectstackview.cpp:648
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:700
 #: src/project/dialogs/archivewidget.cpp:704
@@ -9511,7 +9514,7 @@ msgstr "効果をコピー"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:461
 #: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1138
+#: src/effects/effectstack/model/effectstackmodel.cpp:1139
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "効果 %1 を2回追加することはできません。"
@@ -9731,43 +9734,55 @@ msgstr "効果の保存"
 msgid "Comments:"
 msgstr "コメント: "
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "名前がありません、効果は保存されませんでした。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Enable Effect Stack"
+msgstr "効果の有効化"
+
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Save Effect"
+msgid "Disable Effect Stack"
+msgstr "効果の保存"
+
+#: src/effects/effectstack/view/effectstackview.cpp:566
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No effect selected."
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/effects/effectstack/view/effectstackview.cpp:563
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "効果の保存"
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:577
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "保存したスタックの名前: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:569
+#: src/effects/effectstack/view/effectstackview.cpp:578
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, fuzzy, kde-format
 #| msgid "Description"
 msgid "Description:"
 msgstr "説明"
 
-#: src/effects/effectstack/view/effectstackview.cpp:582
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "名前がありません、効果は保存されませんでした。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/effectstackview.cpp:598
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -23233,6 +23248,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Edit clip"
+#~ msgstr "クリップの編集"
 
 #~ msgid ""
 #~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"

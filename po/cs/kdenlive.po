@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-20 00:38+0000\n"
+"POT-Creation-Date: 2024-05-21 00:38+0000\n"
 "PO-Revision-Date: 2023-06-28 14:16+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -3533,13 +3533,13 @@ msgstr ""
 msgid "Edit %1"
 msgstr "Upravit %1"
 
-#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:168
-#: src/assets/model/assetcommand.cpp:215 src/assets/model/assetcommand.cpp:217
+#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
+#: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "Upravit %1 klíčový snímek"
 
-#: src/assets/model/assetcommand.cpp:273 src/assets/model/assetcommand.cpp:275
+#: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
 #, kde-format
 msgid "Update %1"
 msgstr "Aktualizovat %1"
@@ -5053,14 +5053,18 @@ msgctxt "@action"
 msgid "Move Clip"
 msgstr "Přesunout klip"
 
-#: src/bin/bincommands.cpp:60
-#, kde-format
+#: src/bin/bincommands.cpp:62
+#, fuzzy, kde-format
+#| msgid "Rename Zone"
+msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Přejmenovat zónu"
 
-#: src/bin/bincommands.cpp:82
-#, kde-format
-msgid "Edit clip"
+#: src/bin/bincommands.cpp:86
+#, fuzzy, kde-format
+#| msgid "Edit Clip"
+msgctxt "@action"
+msgid "Edit Clip"
 msgstr "Upravit klip"
 
 #: src/bin/clipcreator.cpp:71
@@ -5356,8 +5360,8 @@ msgid "Move subtitle"
 msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:1178
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:538
-#: src/effects/effectstack/view/effectstackview.cpp:601
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
 #, kde-format
@@ -6229,8 +6233,8 @@ msgstr ""
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:616
-#: src/effects/effectstack/view/effectstackview.cpp:639
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/effectstackview.cpp:648
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:700
 #: src/project/dialogs/archivewidget.cpp:704
@@ -9023,7 +9027,7 @@ msgstr "Kopírovat efekt"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:461
 #: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1138
+#: src/effects/effectstack/model/effectstackmodel.cpp:1139
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -9230,40 +9234,52 @@ msgstr "Uložit efekt"
 msgid "Comments:"
 msgstr "Komentáře:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:529
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:557
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Enable Effect"
+msgid "Enable Effect Stack"
+msgstr "Povolit efekt"
+
+#: src/effects/effectstack/view/effectstackview.cpp:527
+#, fuzzy, kde-format
+#| msgid "Disable Effect"
+msgid "Disable Effect Stack"
+msgstr "Vypnout efekt"
+
+#: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
 msgid "No effect selected."
 msgstr "Nebyl vybrán žádný efekt."
 
-#: src/effects/effectstack/view/effectstackview.cpp:563
+#: src/effects/effectstack/view/effectstackview.cpp:572
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:577
 #, kde-format
 msgid "Name for saved stack:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:569
+#: src/effects/effectstack/view/effectstackview.cpp:578
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Popis:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:582
+#: src/effects/effectstack/view/effectstackview.cpp:591
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:589
+#: src/effects/effectstack/view/effectstackview.cpp:598
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -21901,3 +21917,6 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Edit clip"
+#~ msgstr "Upravit klip"
