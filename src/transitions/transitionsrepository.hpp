@@ -52,10 +52,10 @@ protected:
     QStringList assetDirs() const override;
 
     /** @brief Returns the path to the effects' whitelist*/
-    QString assetWhiteListPath() const override;
+    QStringList assetWhiteListPath() const override;
 
     /** @brief Returns the path to the transitions' blacklist*/
-    QString assetBlackListPath() const override;
+    QStringList assetBlackListPath() const override;
 
     /** @brief Returns the path to the effects' preferred list*/
     QString assetPreferredListPath() const override;

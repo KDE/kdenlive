@@ -212,14 +212,19 @@ void EffectsRepository::parseType(Mlt::Properties *metadata, Info &res)
     }
 }
 
-QString EffectsRepository::assetWhiteListPath() const
+QStringList EffectsRepository::assetWhiteListPath() const
 {
-    return QStringLiteral(":data/whitelisted_effects.txt");
+    QStringList results = {QStringLiteral(":data/whitelisted_effects.txt")};
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+    if (dir.exists() && dir.exists(QStringLiteral("whitelisted_effects.txt"))) {
+        results << dir.absoluteFilePath(QStringLiteral("whitelisted_effects.txt"));
+    }
+    return results;
 }
 
-QString EffectsRepository::assetBlackListPath() const
+QStringList EffectsRepository::assetBlackListPath() const
 {
-    return QStringLiteral(":data/blacklisted_effects.txt");
+    return {QStringLiteral(":data/blacklisted_effects.txt")};
 }
 
 QString EffectsRepository::assetPreferredListPath() const

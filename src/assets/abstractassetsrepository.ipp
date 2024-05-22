@@ -28,7 +28,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     parseAssetList(assetWhiteListPath(), m_whitelist);
 
     // Parse preferred list
-    parseAssetList(assetPreferredListPath(), m_preferred_list);
+    parseAssetList({assetPreferredListPath()}, m_preferred_list);
 
     // Retrieve the list of MLT's available assets.
     QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());
@@ -128,18 +128,20 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     }
 }
 
-template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseAssetList(const QString &filePath, QSet<QString> &destination)
+template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseAssetList(const QStringList &filePaths, QSet<QString> &destination)
 {
-    if (filePath.isEmpty())
-        return;
-    QFile assetFile(filePath);
-    if (assetFile.open(QIODevice::ReadOnly)) {
-        QTextStream stream(&assetFile);
-        QString line;
-        while (stream.readLineInto(&line)) {
-            line = line.simplified();
-            if (!line.isEmpty() && !line.startsWith('#')) {
-                destination.insert(line);
+    for (auto &filePath : filePaths) {
+        if (filePath.isEmpty())
+            continue;
+        QFile assetFile(filePath);
+        if (assetFile.open(QIODevice::ReadOnly)) {
+            QTextStream stream(&assetFile);
+            QString line;
+            while (stream.readLineInto(&line)) {
+                line = line.simplified();
+                if (!line.isEmpty() && !line.startsWith('#')) {
+                    destination.insert(line);
+                }
             }
         }
     }

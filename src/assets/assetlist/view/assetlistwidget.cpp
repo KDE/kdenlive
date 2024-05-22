@@ -161,8 +161,9 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     // Whitelisting
     QAction *whiteList = new QAction(QIcon::fromTheme(QStringLiteral("view-filter")), QString(), this);
     whiteList->setCheckable(true);
-    // TODO: enable once the feature is ready
-    // whiteList->setChecked(KdenliveSettings::enableAssetsWhiteList());
+    // Disable whitelist on startup until ready
+    KdenliveSettings::setEnableAssetsWhiteList(false);
+    whiteList->setChecked(KdenliveSettings::enableAssetsWhiteList());
     connect(whiteList, &QAction::triggered, this, [this](bool enable) {
         KdenliveSettings::setEnableAssetsWhiteList(enable);
         m_proxyModel->updateWhiteList();

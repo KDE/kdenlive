@@ -61,7 +61,7 @@ protected:
     };
 
     // Reads the asset list from file and populates appropriate structure
-    void parseAssetList(const QString &filePath, QSet<QString> &destination);
+    void parseAssetList(const QStringList &filePaths, QSet<QString> &destination);
 
     void init();
     virtual Mlt::Properties *retrieveListFromMlt() const = 0;
@@ -93,10 +93,10 @@ protected:
     virtual QStringList assetDirs() const = 0;
 
     /** @brief Returns the path to the assets' blacklist*/
-    virtual QString assetWhiteListPath() const = 0;
+    virtual QStringList assetWhiteListPath() const = 0;
 
     /** @brief Returns the path to the assets' blacklist*/
-    virtual QString assetBlackListPath() const = 0;
+    virtual QStringList assetBlackListPath() const = 0;
 
     /** @brief Returns the path to the assets' preferred list*/
     virtual QString assetPreferredListPath() const = 0;

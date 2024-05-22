@@ -134,14 +134,19 @@ QSet<QString> TransitionsRepository::getSingleTrackTransitions()
     return {QStringLiteral("slide"), QStringLiteral("dissolve"), QStringLiteral("wipe"), QStringLiteral("mix")};
 }
 
-QString TransitionsRepository::assetWhiteListPath() const
+QStringList TransitionsRepository::assetWhiteListPath() const
 {
-    return QStringLiteral(":data/whitelisted_transitions.txt");
+    QStringList results = {QStringLiteral(":data/whitelisted_transitions.txt")};
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+    if (dir.exists() && dir.exists(QStringLiteral("whitelisted_transitions.txt"))) {
+        results << dir.absoluteFilePath(QStringLiteral("whitelisted_transitions.txt"));
+    }
+    return results;
 }
 
-QString TransitionsRepository::assetBlackListPath() const
+QStringList TransitionsRepository::assetBlackListPath() const
 {
-    return QStringLiteral(":data/blacklisted_transitions.txt");
+    return {QStringLiteral(":data/blacklisted_transitions.txt")};
 }
 
 QString TransitionsRepository::assetPreferredListPath() const
