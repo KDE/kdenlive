@@ -25,6 +25,7 @@
 #include "timelinewidget.h"
 #include "utils/clipboardproxy.hpp"
 
+#include <KQuickIconProvider>
 #include <QAction>
 #include <QActionGroup>
 #include <QFontDatabase>
@@ -34,14 +35,6 @@
 #include <QQuickItem>
 #include <QSortFilterProxyModel>
 #include <QUuid>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include "kdeclarative_version.h"
-#endif
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
-#include <KQuickIconProvider>
-#else
-#include <KDeclarative/KDeclarative>
-#endif
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
@@ -49,13 +42,7 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     : QQuickWidget(parent)
     , m_uuid(uuid)
 {
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
-#else
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupEngine(engine());
-#endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
     setClearColor(palette().window().color());
     setMouseTracking(true);

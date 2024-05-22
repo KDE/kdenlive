@@ -21,6 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/abstracteffectitem.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "filefilter.h"
 #include "glaxnimatelauncher.h"
 #include "jobs/abstracttask.h"
 #include "jobs/audiolevelstask.h"
@@ -55,9 +56,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "undohelper.hpp"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
-#include "filefilter.h"
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KActionMenu>
 #include <KColorScheme>
 #include <KIO/ApplicationLauncherJob>
@@ -1342,7 +1341,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(hoverPreview, &QAction::triggered, [](bool checked) { KdenliveSettings::setHoverPreview(checked); });
 
     m_listTypeAction->setToolBarMode(KSelectAction::MenuMode);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_listTypeAction, &KSelectAction::actionTriggered, this, &Bin::slotInitView);
 #else
     connect(m_listTypeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);

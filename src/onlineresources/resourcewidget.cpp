@@ -8,7 +8,6 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KFileItem>
 #include <KIO/FileCopyJob>
 #include <KIO/Global>
@@ -26,8 +25,6 @@
 #include <QMenu>
 #include <QToolBar>
 #include <QtConcurrent>
-
-#include <kcompletion_version.h>
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)

@@ -19,7 +19,6 @@
 #include <mlt++/Mlt.h>
 #include <mlt++/MltProperties.h>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KEncodingProber>
 #include <KLocalizedString>
 #include <KMessageBox>

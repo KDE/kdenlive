@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "profilewidget.h"
 #include "kdenlivesettings.h"
-#include "kxmlgui_version.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profiles/tree/profilefilter.hpp"

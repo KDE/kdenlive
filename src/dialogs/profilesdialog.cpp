@@ -12,7 +12,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 
 #include "klocalizedstring.h"
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <KMessageWidget>
 

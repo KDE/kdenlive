@@ -18,7 +18,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KGuiItem>
 #include <KLocalizedString>
 #include <KMessageBox>

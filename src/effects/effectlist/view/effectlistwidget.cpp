@@ -12,6 +12,7 @@
 #include <KIO/FileCopyJob>
 #include <KMessageBox>
 #include <KRecentDirs>
+
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -21,7 +22,6 @@
 #include <QMenu>
 #include <QStandardPaths>
 #include <QTextEdit>
-#include <knewstuff_version.h>
 
 #include <memory>
 

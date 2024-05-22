@@ -10,18 +10,17 @@
 
 #include <cmath>
 
+#include <KLocalizedString>
+
 #include <QAction>
 #include <QApplication>
 #include <QFocusEvent>
+#include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QMenu>
 #include <QMouseEvent>
-#include <QWheelEvent>
-
-#include <KLocalizedString>
-#include <QFontDatabase>
 #include <QStyle>
-#include <kwidgetsaddons_version.h>
+#include <QWheelEvent>
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
                      bool oddOnly, QWidget *parent)

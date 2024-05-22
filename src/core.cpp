@@ -32,9 +32,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinewidget.h"
 #include <mlt++/MltRepository.h>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
+
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QDir>
@@ -1475,13 +1475,6 @@ void Core::cleanup()
         m_mainWindow->getCurrentTimeline()->controller()->clipActions.clear();
     }
 }
-
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
-int Core::getNewStuff(const QString &config)
-{
-    return m_mainWindow->getNewStuff(config);
-}
-#endif
 
 void Core::addBin(const QString &id)
 {

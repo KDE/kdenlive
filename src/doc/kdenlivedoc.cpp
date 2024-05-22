@@ -32,7 +32,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "transitions/transitionsrepository.hpp"
 #include <config-kdenlive.h>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KBookmark>
 #include <KBookmarkManager>
 #include <KIO/CopyJob>

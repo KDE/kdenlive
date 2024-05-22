@@ -11,7 +11,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 #include "definitions.h"
 #include "dialogs/splash.hpp"
-#include "kcoreaddons_version.h"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"

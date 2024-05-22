@@ -20,7 +20,6 @@
 #include "project/projectmanager.h"
 #include "render/renderrequest.h"
 #include "utils/qstringutils.h"
-#include "utils/sysinfo.hpp"
 #include "utils/timecode.h"
 #include "xml/xml.hpp"
 
@@ -29,20 +28,13 @@
 
 #include <KColorScheme>
 #include <KIO/DesktopExecParser>
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KIO/JobUiDelegateFactory>
-#else
-#include <KIO/JobUiDelegate>
-#endif
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
-#include <knewstuff_version.h>
-#include <knotifications_version.h>
+#include <kmemoryinfo.h>
 
 #include "kdenlive_debug.h"
 #include <QDBusConnectionInterface>
@@ -66,13 +58,8 @@
 #include <QTreeWidgetItem>
 #include <QtGlobal>
 
-#include "purpose_version.h"
 #include <Purpose/AlternativesModel>
-#if PURPOSE_VERSION >= QT_VERSION_CHECK(5, 104, 0)
 #include <Purpose/Menu>
-#else
-#include <PurposeWidgets/Menu>
-#endif
 
 #include <locale>
 #ifdef Q_OS_MAC
@@ -975,11 +962,7 @@ void RenderWidget::loadProfile()
 
     QUrl url = filenameWithExtension(m_view.out_file->url(), profile->extension());
     m_view.out_file->setUrl(url);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
     m_view.out_file->setNameFilter("*." + profile->extension());
-#else
-    m_view.out_file->setFilter("*." + profile->extension());
-#endif
     m_view.buttonDelete->setEnabled(profile->editable());
     m_view.buttonEdit->setEnabled(profile->editable());
 
@@ -1255,14 +1238,17 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
         item->setData(1, LastTimeRole, elapsedTime);
         item->setData(1, LastFrameRole, frame);
     }
-    SysMemInfo meminfo = SysMemInfo::getMemoryInfo();
+
+    KMemoryInfo memInfo;
     // if system doesn't have much available memory, warn user
-    if (meminfo.isSuccessful()) {
-        if (meminfo.availableMemory() < LOW_MEMORY_THRESHOLD) {
-            qDebug() << "Low memory:" << meminfo.availableMemory() << "MB free, " << meminfo.totalMemory() << "MB total";
+    if (!memInfo.isNull()) {
+        int availableMemory = memInfo.availablePhysical() / 1024 / 1024;
+        if (availableMemory < LOW_MEMORY_THRESHOLD) {
+            int totalMemory = memInfo.totalPhysical() / 1024 / 1024;
+            qDebug() << "Low memory:" << availableMemory << "MB free, " << totalMemory << "MB total";
             m_view.jobInfo->show();
             m_view.jobInfo->setMessageType(KMessageWidget::Warning);
-            m_view.jobInfo->setText(i18n("Less than %1MB of available memory remaining.", meminfo.availableMemory()));
+            m_view.jobInfo->setText(i18n("Less than %1MB of available memory remaining.", availableMemory));
         } else {
             m_view.jobInfo->hide();
         }
@@ -1313,11 +1299,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
             }
             if (item->data(1, PlayAfterRole).toBool()) {
                 auto *job = new KIO::OpenUrlJob(url);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
                 job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-                job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
                 job->start();
             }
         }
@@ -1717,11 +1699,7 @@ void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
         return;
     }
     auto *job = new KIO::OpenUrlJob(QUrl::fromLocalFile(item->text(1)));
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
     job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
     job->start();
 }
 

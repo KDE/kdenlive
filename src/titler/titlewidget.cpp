@@ -26,7 +26,6 @@
 
 #include <cmath>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMessageWidget>

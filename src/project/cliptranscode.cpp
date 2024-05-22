@@ -6,12 +6,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "cliptranscode.h"
 #include "kdenlivesettings.h"
-#include "kxmlgui_version.h"
 
 #include <QFontDatabase>
 #include <QStandardPaths>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 

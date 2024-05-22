@@ -38,7 +38,7 @@ set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_
 
 # Qt version
 set(QT_MIN_VERSION 5.15.2)
-set(KF_DEP_VERSION "5.92.0")
+set(KF_DEP_VERSION "5.115.0")
 
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
@@ -93,7 +93,7 @@ if (NOT DEFINED KF_MAJOR)
 endif()
 
 if (KF_MAJOR STREQUAL "6")
-  set(KF_DEP_VERSION "5.240.0")
+  set(KF_DEP_VERSION "6.0.0")
 endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")

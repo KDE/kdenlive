@@ -19,7 +19,6 @@
 #include "titler/unicodedialog.h"
 #include "ui_titlewidget_ui.h"
 
-#include <knewstuff_version.h>
 #include <KNSWidgets/Action>
 #include <QMap>
 #include <QModelIndex>

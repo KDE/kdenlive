@@ -57,7 +57,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KRecentDirs>
 #include <KSelectAction>
 #include <KWindowConfig>
-#include <kio_version.h>
+
 #include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
@@ -421,7 +421,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     freeAction->setData(0);
     m_configMenuAction->addAction(m_forceSize);
     m_forceSize->setCurrentAction(freeAction);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_forceSize, &KSelectAction::actionTriggered, this, &Monitor::slotForceSize);
 #else
     connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
@@ -443,7 +443,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         } else {
             m_background->setCurrentAction(blackAction);
         }
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         connect(m_background, &KSelectAction::actionTriggered, this, [this](QAction *a) {
 #else
         connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a) {

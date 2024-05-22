@@ -19,8 +19,8 @@ class Menu;
 #include "renderpresets/renderpresetmodel.hpp"
 #include "renderpresets/tree/renderpresettreemodel.hpp"
 #include "ui_renderwidget_ui.h"
+
 #include <KNSWidgets/Button>
-#include <knewstuff_version.h>
 
 class QDomElement;
 class QKeyEvent;
@@ -105,13 +105,7 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    enum RenderError {
-        CompositeError = 0,
-        PresetError = 1,
-        ProxyWarning = 2,
-        PlaybackError = 3,
-        OptionsError = 4
-    };
+    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4 };
 
     explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
     ~RenderWidget() override;
@@ -143,8 +137,8 @@ public:
 protected:
     QSize sizeHint() const override;
     void keyPressEvent(QKeyEvent *e) override;
-    void parseProfile(QDomElement profile, QTreeWidgetItem *childitem, QString groupName,
-                      QString extension = QString(), QString renderer = QStringLiteral("avformat"));
+    void parseProfile(QDomElement profile, QTreeWidgetItem *childitem, QString groupName, QString extension = QString(),
+                      QString renderer = QStringLiteral("avformat"));
 
 public Q_SLOTS:
     void slotAbortCurrentJob();
@@ -207,11 +201,7 @@ private Q_SLOTS:
     void slotPrepareExport2(bool scriptExport = false);
 
 private:
-    enum Tabs {
-        RenderTab = 0,
-        JobsTab,
-        ScriptsTab
-    };
+    enum Tabs { RenderTab = 0, JobsTab, ScriptsTab };
 
     Ui::RenderWidget_UI m_view;
     QString m_projectFolder;

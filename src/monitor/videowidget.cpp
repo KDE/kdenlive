@@ -22,17 +22,10 @@
 #include <QtGlobal>
 #include <memory>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include "kdeclarative_version.h"
-#endif
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
-#include <KQuickIconProvider>
-#else
-#include <KDeclarative/KDeclarative>
-#endif
 #include <KLocalizedContext>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KQuickIconProvider>
 
 #include "bin/model/markersortmodel.h"
 #include "core.h"
@@ -95,13 +88,7 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_loopIn(0)
     , m_offset(QPoint(0, 0))
 {
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
-#else
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupEngine(engine());
-#endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");

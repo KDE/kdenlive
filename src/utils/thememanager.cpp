@@ -16,10 +16,8 @@
 #include <QStringList>
 
 #include <KActionMenu>
-#include <KColorSchemeModel>
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 107, 0)
 #include <KColorSchemeMenu>
-#endif
+#include <KColorSchemeModel>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
@@ -37,21 +35,13 @@ ThemeManager::ThemeManager(QObject *parent)
     if (!schemePath.isEmpty()) {
         for (int i = 1; i < model()->rowCount(); ++i) {
             QModelIndex index = model()->index(i, 0);
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 94, 0)
             if (index.data(KColorSchemeModel::PathRole).toString().endsWith(schemePath)) {
-#else
-            if (index.data(Qt::UserRole).toString().endsWith(schemePath)) {
-#endif
                 scheme = index.data(Qt::DisplayRole).toString();
             }
         }
     }
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 107, 0)
     m_menu = KColorSchemeMenu::createMenu(this, this);
     // TODO: select current action?
-#else
-    m_menu = createSchemeSelectionMenu(scheme, this);
-#endif
 
     connect(m_menu->menu(), &QMenu::triggered, this, [this](QAction *action) {
         QModelIndex schemeIndex = indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));

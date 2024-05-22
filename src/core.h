@@ -10,7 +10,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
 #include "utils/timecode.h"
+
 #include <KSharedDataCache>
+
 #include <QColor>
 #include <QMutex>
 #include <QObject>
@@ -18,12 +20,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTextEdit>
 #include <QThreadPool>
 #include <QUrl>
-#include <knewstuff_version.h>
+
 #include <memory>
 #include <unordered_set>
 
-#include <mlt++/MltProfile.h>
 #include <mlt++/MltPlaylist.h>
+#include <mlt++/MltProfile.h>
 
 class Bin;
 class DocUndoStack;
@@ -46,8 +48,8 @@ class GuidesList;
 class TimeRemap;
 
 namespace Mlt {
-    class Repository;
-    class Producer;
+class Repository;
+class Producer;
 } // namespace Mlt
 
 #define EXIT_RESTART (42)
@@ -181,7 +183,7 @@ public:
     /** @brief Seek a monitor to position */
     void seekMonitor(int id, int position);
     /** @brief Returns timeline's active track info (position and tag) */
-    QPair <int,QString> currentTrackInfo() const;
+    QPair<int, QString> currentTrackInfo() const;
     /** @brief This function must be called whenever the profile used changes */
     void profileChanged();
 
@@ -217,7 +219,7 @@ public:
     double getClipSpeed(ObjectId id) const;
     /** @brief Mark an item as invalid for timeline preview */
     void invalidateItem(ObjectId itemId);
-    void invalidateRange(QPair<int, int>range);
+    void invalidateRange(QPair<int, int> range);
     void prepareShutdown();
     void finishShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
@@ -258,7 +260,7 @@ public:
     /** @brief An error occurred within a filter, inform user */
     void processInvalidFilter(const QString &service, const QString &id, const QString &message);
     /** @brief Update current project's tags */
-    void updateProjectTags(int previousCount, const QMap <int, QStringList> &tags);
+    void updateProjectTags(int previousCount, const QMap<int, QStringList> &tags);
     /** @brief Returns the project profile */
     Mlt::Profile &getProjectProfile();
     /** @brief Returns the consumer profile, that will be scaled
@@ -275,7 +277,7 @@ public:
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
     /** @brief Add guides in the project. */
-    void addGuides(const QList <int> &guides);
+    void addGuides(const QList<int> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Transcode a video file. */
@@ -299,21 +301,12 @@ public:
     void clearTimeRemap();
     /** @brief Create the dock widgets */
     void buildDocks();
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
-    /** @brief Instantiates a "Get Hot New Stuff" dialog.
-     * @param configFile configuration file for KNewStuff
-     * @return number of installed items */
-    int getNewStuff(const QString &configFile);
-#endif
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist);
     /** @brief Returns true if the audio mixer widget is visible */
     bool audioMixerVisible{false};
-    LinuxPackageType packageType()
-    {
-        return m_packageType;
-    };
+    LinuxPackageType packageType() { return m_packageType; };
     /** @brief Start / stop audio capture */
     void switchCapture();
     /** @brief Get the uuid of currently active timeline */
@@ -397,7 +390,8 @@ public Q_SLOTS:
     /** @brief Add an action to the app's actionCollection */
     void addActionToCollection(const QString &name, QAction *action);
     /** @brief display a user info/warning message in the project bin */
-    void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
+    void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
+                           BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void displayBinLogMessage(const QString &text, int type, const QString logInfo);
     /** @brief Create small thumbnails for luma used in compositions */
     void buildLumaThumbs(const QStringList &values);
@@ -410,7 +404,7 @@ public Q_SLOTS:
     /** @brief Set current project modified. */
     void setDocumentModified();
     /** @brief Show currently selected effect zone in timeline ruler. */
-    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
+    void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     void updateMasterZones();
     /** @brief Open the proxies test dialog. */
     void testProxies();
@@ -432,7 +426,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     void coreIsReady();
     void updateLibraryPath();
-    //void updateMonitorProfile();
+    // void updateMonitorProfile();
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(Kdenlive::ConfigPage, int);
     void finalizeRecording(const QUuid uuid, const QString &captureFile);
@@ -462,7 +456,7 @@ Q_SIGNALS:
     /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
     void clipInstanceResized(const QString &binId);
     /** @brief Contains the project audio levels */
-    void audioLevelsAvailable(const QVector<double>& levels);
+    void audioLevelsAvailable(const QVector<double> &levels);
     /** @brief A frame was displayed in monitor, update audio mixer */
     void updateMixerLevels(int pos);
     /** @brief Audio recording was started or stopped*/

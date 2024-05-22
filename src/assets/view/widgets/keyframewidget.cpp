@@ -111,7 +111,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         m_selectType->addAction(kfTypeHandles[it.key()]);
     }
     m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeWidget::slotEditKeyframeType);
 #else
     connect(m_selectType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
@@ -187,7 +187,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         kfType->setCurrentAction(linear2);
         break;
     }
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(kfType, &KSelectAction::actionTriggered, this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
 #else
     connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this,

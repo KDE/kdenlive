@@ -49,7 +49,6 @@
 #include <QClipboard>
 #include <QFontDatabase>
 #include <QQuickItem>
-#include <kio_version.h>
 
 #include <QtMath>
 

@@ -22,17 +22,10 @@
 #include <QtGlobal>
 #include <memory>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include "kdeclarative_version.h"
-#endif
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
-#include <KQuickIconProvider>
-#else
-#include <KDeclarative/KDeclarative>
-#endif
 #include <KLocalizedContext>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KQuickIconProvider>
 
 #include "bin/model/markersortmodel.h"
 #include "core.h"
@@ -111,13 +104,8 @@ VideoWidget::VideoWidget(int id, QWidget *parent)
     , m_openGLSync(false)
     , m_ClientWaitSync(nullptr)
 {
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
-#else
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupEngine(engine());
-#endif
+
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
 
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
@@ -140,7 +128,7 @@ VideoWidget::VideoWidget(int id, QWidget *parent)
     // TODO: qt6
     quickWindow()->setPersistentGraphics(true);
     quickWindow()->setPersistentSceneGraph(true);
-    //quickWindow()->setClearBeforeRendering(false);
+    // quickWindow()->setClearBeforeRendering(false);
 #endif
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     auto fmt = QOpenGLContext::globalShareContext()->format();
@@ -212,7 +200,8 @@ void VideoWidget::initializeGL()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     quickWindow()->openglContext()->makeCurrent(&m_offscreenSurface);
 #else
-    QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    QOpenGLContext &context =
+        *static_cast<QOpenGLContext *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
     context.makeCurrent(&m_offscreenSurface);
 #endif
     initializeOpenGLFunctions();
@@ -470,16 +459,17 @@ bool VideoWidget::acquireSharedFrameTextures()
         uploadTextures(quickWindow()->openglContext(), m_sharedFrame, m_texture);
     } else
 #else
-        QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
-        if ((m_glslManager == nullptr) && !context.supportsThreadedOpenGL()) {
-            QMutexLocker locker(&m_contextSharedAccess);
-            if (!m_sharedFrame.is_valid()) {
-                return false;
-            }
-            uploadTextures(&context, m_sharedFrame, m_texture);
-        } else
+    QOpenGLContext &context =
+        *static_cast<QOpenGLContext *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    if ((m_glslManager == nullptr) && !context.supportsThreadedOpenGL()) {
+        QMutexLocker locker(&m_contextSharedAccess);
+        if (!m_sharedFrame.is_valid()) {
+            return false;
+        }
+        uploadTextures(&context, m_sharedFrame, m_texture);
+    } else
 #endif
-    if (m_glslManager) {
+        if (m_glslManager) {
         // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
@@ -546,7 +536,8 @@ bool VideoWidget::onlyGLESGPUAccel() const
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     return (m_glslManager != nullptr) && quickWindow()->openglContext()->isOpenGLES();
 #else
-    QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    QOpenGLContext &context =
+        *static_cast<QOpenGLContext *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
     return (m_glslManager != nullptr) && context.isOpenGLES();
 #endif
 }
@@ -568,7 +559,8 @@ bool VideoWidget::initGPUAccelSync()
 
     m_ClientWaitSync = ClientWaitSync_fp(quickWindow()->openglContext()->getProcAddress("glClientWaitSync"));
 #else
-    QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    QOpenGLContext &context =
+        *static_cast<QOpenGLContext *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
     if (!context.hasExtension("GL_ARB_sync")) return false;
 
     m_ClientWaitSync = ClientWaitSync_fp(context.getProcAddress("glClientWaitSync"));
@@ -590,7 +582,8 @@ void VideoWidget::paintGL()
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QOpenGLFunctions *f = quickWindow()->openglContext()->functions();
 #else
-    QOpenGLContext &context = *static_cast< QOpenGLContext  *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
+    QOpenGLContext &context =
+        *static_cast<QOpenGLContext *>(quickWindow()->rendererInterface()->getResource(quickWindow(), QSGRendererInterface::OpenGLContextResource));
     QOpenGLFunctions *f = context.functions();
 #endif
 

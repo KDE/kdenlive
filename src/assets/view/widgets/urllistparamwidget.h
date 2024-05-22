@@ -11,7 +11,6 @@
 #include <QFutureWatcher>
 #include <QVariant>
 #include <QWidget>
-#include <knewstuff_version.h>
 
 class AssetParameterModel;
 

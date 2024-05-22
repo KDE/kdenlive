@@ -25,7 +25,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/RenameDialog>
 #include <KLocalizedString>
 #include <KMessageBox>

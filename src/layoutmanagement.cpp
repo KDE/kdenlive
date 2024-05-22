@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "layoutmanagement.h"
 #include "core.h"
 #include "mainwindow.h"
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <QButtonGroup>
 #include <QDialog>
@@ -20,7 +19,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenuBar>
 #include <QVBoxLayout>
 
-#include "kwidgetsaddons_version.h"
+#include <kwidgetsaddons_version.h>
+
 #include <KColorScheme>
 #include <KConfigGroup>
 #include <KLocalizedString>
@@ -44,7 +44,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
 
     // Required to enable user to add the load layout action to toolbar
     layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_loadLayout, &KSelectAction::actionTriggered, this, &LayoutManagement::slotLoadLayout);
 #else
     connect(m_loadLayout, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &LayoutManagement::slotLoadLayout);
