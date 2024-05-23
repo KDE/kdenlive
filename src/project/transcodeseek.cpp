@@ -14,7 +14,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFontDatabase>
 #include <QPushButton>
 #include <QStandardPaths>
-#include <kxmlgui_version.h>
 
 TranscodeSeek::TranscodeSeek(bool onUserRequest, bool forceReplace, QWidget *parent)
     : QDialog(parent)

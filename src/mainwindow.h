@@ -27,8 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KColorSchemeManager>
 #include <KSelectAction>
 #include <KXmlGuiWindow>
-#include <knewstuff_version.h>
-#include <kxmlgui_version.h>
+
 #include <mlt++/Mlt.h>
 #include <utility>
 
@@ -104,8 +103,8 @@ public:
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon = QIcon(),
                        const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
     /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
-    QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon,
-                       const QKeySequence &shortcut, const QString &category);
+    QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon, const QKeySequence &shortcut,
+                       const QString &category);
 
     void processRestoreState(const QByteArray &state);
 
@@ -129,7 +128,7 @@ public:
     QList<QAction *> getExtraActions(const QString &name);
     /** @brief Returns true if docked widget is tabbed with another widget from its object name */
     bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
-    
+
     /** @brief Returns true if mixer widget is tabbed */
     bool isMixedTabbed() const;
 
@@ -144,10 +143,10 @@ public:
 
     /** @brief Returns true if a timeline widget is available */
     bool hasTimeline() const;
-    
+
     /** @brief Returns true if the timeline widget is visible */
     bool timelineVisible() const;
-    
+
     /** @brief Raise (show) the clip or project monitor */
     void raiseMonitor(bool clipMonitor);
 
@@ -188,13 +187,6 @@ public:
     void folderRenamed(const QString &binId, const QString &folderName);
     /** @brief Seek timeline if it is active */
     void seekIfCurrent(const QUuid uuid, int pos);
-
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
-    /** @brief Instantiates a "Get Hot New Stuff" dialog.
-     * @param configFile configuration file for KNewStuff
-     * @return number of installed items */
-    int getNewStuff(const QString &configFile);
-#endif
 
     /** @brief Check if the maximum cached data size is not exceeded. */
     void checkMaxCacheSize();
@@ -262,7 +254,7 @@ private:
     QAction *m_compositeAction;
 
     TimelineTabs *m_timelineTabs{nullptr};
-    QVector <Bin*>m_binWidgets;
+    QVector<Bin *> m_binWidgets;
 
     KActionCategory *m_effectActions;
     KActionCategory *m_transitionActions;
@@ -351,7 +343,7 @@ public Q_SLOTS:
     void slotReloadEffects(const QStringList &paths);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress, int frame);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
-    Q_SCRIPTABLE void addProjectClip(const QString &url, const QString & folder = QStringLiteral("-1"));
+    Q_SCRIPTABLE void addProjectClip(const QString &url, const QString &folder = QStringLiteral("-1"));
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
     Q_SCRIPTABLE void addEffect(const QString &effectId);
     Q_SCRIPTABLE void scriptRender(const QString &url);
@@ -521,9 +513,6 @@ private Q_SLOTS:
     /** @brief Select all clips in timeline. */
     void slotSelectAllTracks();
     void slotUnselectAllTracks();
-#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
-    void slotGetNewKeyboardStuff(QComboBox *schemesList);
-#endif
     void slotAutoTransition();
     void slotRunWizard();
     void slotGroupClips();

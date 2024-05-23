@@ -37,13 +37,8 @@
 #include <QTimer>
 #include <QXmlStreamWriter>
 
-#include <KIO/OpenUrlJob>
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KIO/JobUiDelegateFactory>
-#else
-#include <KIO/JobUiDelegate>
-#endif
+#include <KIO/OpenUrlJob>
 
 // Recommended MLT version
 MyWizardPage::MyWizardPage(QWidget *parent)
@@ -686,11 +681,7 @@ bool Wizard::isOk() const
 void Wizard::slotOpenManual()
 {
     auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")));
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
     job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
     // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
     // exist in both classes
     job->start();

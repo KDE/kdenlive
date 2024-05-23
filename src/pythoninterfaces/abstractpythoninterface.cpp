@@ -7,7 +7,6 @@
 #include "abstractpythoninterface.h"
 #include "core.h"
 #include "mainwindow.h"
-#include "utils/KMessageBox_KdenliveCompat.h"
 
 #include <KIO/DirectorySizeJob>
 #include <KLocalizedString>

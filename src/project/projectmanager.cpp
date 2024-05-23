@@ -38,7 +38,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KJob>
@@ -47,7 +46,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KNotification>
 #include <KRecentDirs>
-#include <kcoreaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <QAction>

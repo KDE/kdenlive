@@ -79,11 +79,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KStyleManager>
 #endif
 #include <kconfigwidgets_version.h>
-#include "knewstuff_version.h"
-#include "kwidgetsaddons_version.h"
 #include <kiconthemes_version.h>
+#include <knewstuff_version.h>
+#include <kwidgetsaddons_version.h>
+#include <kxmlgui_version.h>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KAboutData>
 #include <KActionCollection>
 #include <KActionMenu>
@@ -95,7 +95,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <KNSWidgets/Dialog>
 #else
 #include <KNS3/QtQuickDialogWrapper>
@@ -1229,7 +1229,7 @@ void MainWindow::setupActions()
     sceneMode->addAction(m_overwriteEditTool);
     sceneMode->addAction(m_insertEditTool);
     sceneMode->setCurrentItem(0);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 240, 0)
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(sceneMode, &KSelectAction::actionTriggered, this, &MainWindow::slotChangeEdit);
 #else
     connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
@@ -2600,7 +2600,6 @@ void MainWindow::slotEditKeys()
 {
     KShortcutsDialog *dialog = new KShortcutsDialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
 
-#if KXMLGUI_VERSION >= QT_VERSION_CHECK(5, 98, 0)
     KNSWidgets::Action *downloadKeybordSchemes =
         new KNSWidgets::Action(i18n("Download New Keyboard Schemes…"), QStringLiteral(":data/kdenlive_keyboardschemes.knsrc"), this);
     connect(downloadKeybordSchemes, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
@@ -2608,35 +2607,11 @@ void MainWindow::slotEditKeys()
             dialog->refreshSchemes();
         }
     });
+
     dialog->addActionToSchemesMoreButton(downloadKeybordSchemes);
-#else
-    // Find the combobox inside KShortcutsDialog for choosing keyboard scheme
-    QComboBox *schemesList = nullptr;
-    for (QLabel *label : dialog->findChildren<QLabel *>()) {
-        if (label->text() == i18n("Current scheme:")) {
-            schemesList = qobject_cast<QComboBox *>(label->buddy());
-            break;
-        }
-    }
-    // If scheme choosing combobox was found, find the "More Actions" button in the same
-    // dialog that provides a dropdown menu with additional actions, and add
-    // "Download New Keyboard Schemes…" button into that menu
-    if (schemesList) {
-        for (QPushButton *button : dialog->findChildren<QPushButton *>()) {
-            if (button->text() == i18n("More Actions")) {
-                QMenu *moreActionsMenu = button->menu();
-                if (moreActionsMenu) {
-                    moreActionsMenu->addAction(i18n("Download New Keyboard Schemes…"), this, [this, schemesList] { slotGetNewKeyboardStuff(schemesList); });
-                }
-                break;
-            }
-        }
-    } else {
-        qWarning() << "Could not get list of schemes. Downloading new schemes is not available.";
-    }
-#endif
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
+
     // Update the shortcut conflicts list bewtween mainwindow and media browser
     connect(dialog, &KShortcutsDialog::saved, this, [this] {
         pCore->mediaBrowser()->detectShortcutConflicts();
@@ -3712,47 +3687,6 @@ void MainWindow::slotResizeItemEnd()
     getCurrentTimeline()->controller()->setOutPoint(m_activeTool == ToolType::RippleTool);
 }
 
-#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
-int MainWindow::getNewStuff(const QString &configFile)
-{
-#if KNEWSTUFF_VERSION > QT_VERSION_CHECK(5, 240, 0)
-    KNSWidgets::Dialog dialog(configFile);
-#else
-    KNS3::QtQuickDialogWrapper dialog(configFile);
-#endif
-    const QList<KNSCore::EntryInternal> entries = dialog.exec();
-    for (const auto &entry : qAsConst(entries)) {
-        if (entry.status() == KNS3::Entry::Installed) {
-            qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
-        }
-    }
-    return entries.size();
-}
-#endif
-
-#if KXMLGUI_VERSION < QT_VERSION_CHECK(5, 98, 0)
-void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
-{
-    if (getNewStuff(QStringLiteral(":data/kdenlive_keyboardschemes.knsrc")) > 0) {
-        // Refresh keyboard schemes list (schemes list creation code copied from KShortcutSchemesEditor)
-        QStringList schemes;
-        schemes << QStringLiteral("Default");
-        // List files in the shortcuts subdir, each one is a scheme. See KShortcutSchemesHelper::{shortcutSchemeFileName,exportActionCollection}
-        const QStringList shortcutsDirs = QStandardPaths::locateAll(
-            QStandardPaths::GenericDataLocation, QCoreApplication::applicationName() + QStringLiteral("/shortcuts"), QStandardPaths::LocateDirectory);
-        qCDebug(KDENLIVE_LOG) << "shortcut scheme dirs:" << shortcutsDirs;
-        for (const QString &dir : shortcutsDirs) {
-            for (const QString &file : QDir(dir).entryList(QDir::Files | QDir::NoDotAndDotDot)) {
-                qCDebug(KDENLIVE_LOG) << "shortcut scheme file:" << file;
-                schemes << file;
-            }
-        }
-        schemesList->clear();
-        schemesList->addItems(schemes);
-    }
-}
-#endif
-
 void MainWindow::slotAutoTransition()
 {
     // TODO refac
@@ -4243,7 +4177,7 @@ void MainWindow::slotInsertZoneToTree()
     QString id;
     // clip monitor counts the frame after the out point as the zone out, so we
     // need to subtract 1 to get the actual last frame
-    pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y()-1, {}, m_clipMonitor->activeClipId());
+    pCore->projectItemModel()->requestAddBinSubClip(id, info.x(), info.y() - 1, {}, m_clipMonitor->activeClipId());
 }
 
 void MainWindow::slotUpdateProxySettings()

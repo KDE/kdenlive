@@ -29,7 +29,6 @@
 #include <QTreeView>
 #include <QVBoxLayout>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <utility>
 

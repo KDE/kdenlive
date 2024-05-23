@@ -14,7 +14,6 @@
 #include "transitions/transitionsrepository.hpp"
 
 #include <QHeaderView>
-#include <knewstuff_version.h>
 
 TransitionListWidget::TransitionListWidget(QWidget *parent)
     : AssetListWidget(false, parent)

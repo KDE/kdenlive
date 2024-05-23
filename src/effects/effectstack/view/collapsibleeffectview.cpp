@@ -32,7 +32,6 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KDualAction>
 #include <KLocalizedString>
 #include <KMessageBox>
