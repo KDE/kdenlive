@@ -32,9 +32,9 @@ public:
      */
     virtual void reloadFilterOnFavorite() = 0;
 
-    /** @brief WHitelist setting changed, refresh repositories
+    /** @brief IncludeList setting changed, refresh repositories
      */
-    void updateWhiteList();
+    void updateIncludeList();
 
     QVariantList getCategories();
     Q_INVOKABLE QModelIndex getNextChild(const QModelIndex &current);
@@ -60,6 +60,6 @@ protected:
     virtual bool applyAll(std::shared_ptr<TreeItem> item) const;
 
     bool m_name_enabled{false};
-    bool m_whiteListEnabled{false};
+    bool m_includeListEnabled{false};
     QString m_name_value;
 };

@@ -23,9 +23,9 @@ template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAsset
 
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 {
-    // Parse blacklist
-    parseAssetList(assetBlackListPath(), m_blacklist);
-    parseAssetList(assetWhiteListPath(), m_whitelist);
+    // Parse include/exclude lists
+    parseAssetList(assetExcludedPath(), m_excludedList);
+    parseAssetList(assetIncludedPath(), m_includedList);
 
     // Parse preferred list
     parseAssetList({assetPreferredListPath()}, m_preferred_list);
@@ -43,11 +43,11 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
             // sox effects are not used directly (parameters not available)
             continue;
         }
-        if (!m_blacklist.contains(name)) {
+        if (!m_excludedList.contains(name)) {
             if (parseInfoFromMlt(name, info)) {
                 m_assets[name] = info;
-                if (m_whitelist.contains(name)) {
-                    info.whitelisted = true;
+                if (m_includedList.contains(name)) {
+                    info.included = true;
                 }
                 if (info.xml.isNull()) {
                     // Metadata was invalid
@@ -313,10 +313,10 @@ template <typename AssetType> AssetType AbstractAssetsRepository<AssetType>::get
     return m_assets.at(assetId).type;
 }
 
-template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isWhiteListed(const QString &assetId) const
+template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isIncludedInList(const QString &assetId) const
 {
     Q_ASSERT(m_assets.count(assetId) > 0);
-    return m_assets.at(assetId).whitelisted;
+    return m_assets.at(assetId).included;
 }
 
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isUnique(const QString &assetId) const

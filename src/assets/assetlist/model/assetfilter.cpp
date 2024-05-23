@@ -16,7 +16,7 @@ AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
 
 {
-    m_whiteListEnabled = KdenliveSettings::enableAssetsWhiteList();
+    m_includeListEnabled = KdenliveSettings::enableAssetsIncludeList();
     setFilterRole(Qt::DisplayRole);
     setSortRole(Qt::DisplayRole);
     setDynamicSortFilter(false);
@@ -32,9 +32,9 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
     }
 }
 
-void AssetFilter::updateWhiteList()
+void AssetFilter::updateIncludeList()
 {
-    m_whiteListEnabled = KdenliveSettings::enableAssetsWhiteList();
+    m_includeListEnabled = KdenliveSettings::enableAssetsIncludeList();
     invalidateFilter();
 }
 
@@ -78,8 +78,8 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
     std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
     if (item->dataColumn(AssetTreeModel::IdCol) != QStringLiteral("root")) {
         // This is an asset
-        if (m_whiteListEnabled) {
-            if (!item->dataColumn(AssetTreeModel::WhiteListCol).toBool()) {
+        if (m_includeListEnabled) {
+            if (!item->dataColumn(AssetTreeModel::IncludeListCol).toBool()) {
                 return false;
             }
         }

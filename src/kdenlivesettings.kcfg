@@ -142,8 +142,8 @@
       <default>00:00:03:00</default>
     </entry>
 
-    <entry name="enableAssetsWhiteList" type="Bool">
-      <label>Only display whitelisted assets.</label>
+    <entry name="enableAssetsIncludeList" type="Bool">
+      <label>Only display include list assets.</label>
       <default>false</default>
     </entry>
 

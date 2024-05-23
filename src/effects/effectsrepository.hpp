@@ -25,7 +25,7 @@ public:
 
     /** @brief returns a fresh instance of the given effect */
     std::unique_ptr<Mlt::Filter> getEffect(const QString &effectId) const;
-    /** @brief returns true if an effect exists in MLT (bypasses the blacklist/metadata parsing) */
+    /** @brief returns true if an effect exists in MLT (bypasses the excludelist/metadata parsing) */
     bool hasInternalEffect(const QString &effectId) const;
     QPair<QString, QString> reloadCustom(const QString &path);
     QString getCustomPath(const QString &id);
@@ -56,11 +56,11 @@ protected:
     */
     void parseCustomAssetFile(const QString &file_name, std::unordered_map<QString, Info> &customAssets) const override;
 
-    /** @brief Returns the path to the effects' whitelist*/
-    QStringList assetWhiteListPath() const override;
+    /** @brief Returns the path to the effects that will be displayed*/
+    QStringList assetIncludedPath() const override;
 
-    /** @brief Returns the path to the effects' blacklist*/
-    QStringList assetBlackListPath() const override;
+    /** @brief Returns the path to the effects that will be hidden*/
+    QStringList assetExcludedPath() const override;
 
     /** @brief Returns the path to the effects' preferred list*/
     QString assetPreferredListPath() const override;

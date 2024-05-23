@@ -83,8 +83,8 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
         }
-        if (m_whitelist.contains(result.id)) {
-            result.whitelisted = true;
+        if (m_includedList.contains(result.id)) {
+            result.included = true;
         }
         if (getSingleTrackTransitions().contains(result.id)) {
             if (type == QLatin1String("audio")) {
@@ -134,19 +134,19 @@ QSet<QString> TransitionsRepository::getSingleTrackTransitions()
     return {QStringLiteral("slide"), QStringLiteral("dissolve"), QStringLiteral("wipe"), QStringLiteral("mix")};
 }
 
-QStringList TransitionsRepository::assetWhiteListPath() const
+QStringList TransitionsRepository::assetIncludedPath() const
 {
-    QStringList results = {QStringLiteral(":data/whitelisted_transitions.txt")};
+    QStringList results = {QStringLiteral(":data/included_transitions.txt")};
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
-    if (dir.exists() && dir.exists(QStringLiteral("whitelisted_transitions.txt"))) {
-        results << dir.absoluteFilePath(QStringLiteral("whitelisted_transitions.txt"));
+    if (dir.exists() && dir.exists(QStringLiteral("included_transitions.txt"))) {
+        results << dir.absoluteFilePath(QStringLiteral("included_transitions.txt"));
     }
     return results;
 }
 
-QStringList TransitionsRepository::assetBlackListPath() const
+QStringList TransitionsRepository::assetExcludedPath() const
 {
-    return {QStringLiteral(":data/blacklisted_transitions.txt")};
+    return {QStringLiteral(":data/excluded_transitions.txt")};
 }
 
 QString TransitionsRepository::assetPreferredListPath() const

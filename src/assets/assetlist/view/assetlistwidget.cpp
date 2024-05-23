@@ -158,18 +158,18 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     QWidget *empty = new QWidget(this);
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(empty);
-    // Whitelisting
-    QAction *whiteList = new QAction(QIcon::fromTheme(QStringLiteral("view-filter")), QString(), this);
-    whiteList->setCheckable(true);
-    // Disable whitelist on startup until ready
-    KdenliveSettings::setEnableAssetsWhiteList(false);
-    whiteList->setChecked(KdenliveSettings::enableAssetsWhiteList());
-    connect(whiteList, &QAction::triggered, this, [this](bool enable) {
-        KdenliveSettings::setEnableAssetsWhiteList(enable);
-        m_proxyModel->updateWhiteList();
+    // Include list
+    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("view-filter")), QString(), this);
+    includeList->setCheckable(true);
+    // Disable include list on startup until ready
+    KdenliveSettings::setEnableAssetsIncludeList(false);
+    includeList->setChecked(KdenliveSettings::enableAssetsIncludeList());
+    connect(includeList, &QAction::triggered, this, [this](bool enable) {
+        KdenliveSettings::setEnableAssetsIncludeList(enable);
+        m_proxyModel->updateIncludeList();
     });
-    whiteList->setToolTip(i18n("Only show reviewed assets"));
-    m_toolbar->addAction(whiteList);
+    includeList->setToolTip(i18n("Only show reviewed assets"));
+    m_toolbar->addAction(includeList);
     // Asset Info
     QAction *showInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);
     showInfo->setCheckable(true);

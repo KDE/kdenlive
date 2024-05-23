@@ -117,8 +117,8 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 if (result.name.isEmpty()) {
                     result.name = result.id;
                 }
-                if (m_whitelist.contains(result.mltId)) {
-                    result.whitelisted = true;
+                if (m_includedList.contains(result.mltId)) {
+                    result.included = true;
                 }
                 customAssets[result.id] = result;
             }
@@ -183,8 +183,8 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         } else if (type == QLatin1String("text")) {
             result.type = AssetListType::AssetType::Text;
         }
-        if (m_whitelist.contains(result.mltId)) {
-            result.whitelisted = true;
+        if (m_includedList.contains(result.mltId)) {
+            result.included = true;
         }
         customAssets[result.id] = result;
     }
@@ -212,19 +212,19 @@ void EffectsRepository::parseType(Mlt::Properties *metadata, Info &res)
     }
 }
 
-QStringList EffectsRepository::assetWhiteListPath() const
+QStringList EffectsRepository::assetIncludedPath() const
 {
-    QStringList results = {QStringLiteral(":data/whitelisted_effects.txt")};
+    QStringList results = {QStringLiteral(":data/included_effects.txt")};
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
-    if (dir.exists() && dir.exists(QStringLiteral("whitelisted_effects.txt"))) {
-        results << dir.absoluteFilePath(QStringLiteral("whitelisted_effects.txt"));
+    if (dir.exists() && dir.exists(QStringLiteral("included_effects.txt"))) {
+        results << dir.absoluteFilePath(QStringLiteral("included_effects.txt"));
     }
     return results;
 }
 
-QStringList EffectsRepository::assetBlackListPath() const
+QStringList EffectsRepository::assetExcludedPath() const
 {
-    return {QStringLiteral(":data/blacklisted_effects.txt")};
+    return {QStringLiteral(":data/excluded_effects.txt")};
 }
 
 QString EffectsRepository::assetPreferredListPath() const

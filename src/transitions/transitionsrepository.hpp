@@ -51,11 +51,11 @@ protected:
     /** @brief Returns the paths where the custom transitions' descriptions are stored */
     QStringList assetDirs() const override;
 
-    /** @brief Returns the path to the effects' whitelist*/
-    QStringList assetWhiteListPath() const override;
+    /** @brief Returns the path to the compositions that will be displayed*/
+    QStringList assetIncludedPath() const override;
 
-    /** @brief Returns the path to the transitions' blacklist*/
-    QStringList assetBlackListPath() const override;
+    /** @brief Returns the path to the compositions that will be hidden*/
+    QStringList assetExcludedPath() const override;
 
     /** @brief Returns the path to the effects' preferred list*/
     QString assetPreferredListPath() const override;
