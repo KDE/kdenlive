@@ -209,7 +209,7 @@ void CustomJobTask::run()
             fixedName.append(QString::asprintf("-%04d", 1));
         } else {
             const int currentSuffix = match.captured(1).toInt();
-            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("%04d", currentSuffix + 1));
         }
         destPath = baseDir.absoluteFilePath(fixedName + extension);
         while (QFileInfo::exists(destPath) || requestedOutput.contains(destPath)) {
@@ -217,7 +217,7 @@ void CustomJobTask::run()
             // increase the number
             match = regex.match(fixedName);
             const int currentSuffix = match.captured(1).toInt();
-            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("%04d", currentSuffix + 1));
             destPath = baseDir.absoluteFilePath(fixedName + extension);
         }
     }
