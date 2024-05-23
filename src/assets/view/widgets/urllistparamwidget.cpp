@@ -154,8 +154,7 @@ void UrlListParamWidget::slotRefresh()
     }
     // add all matching files in the location of the current item too
     if (!currentValue.isEmpty()) {
-        const QString path = QUrl(currentValue).adjusted(QUrl::RemoveFilename).toString();
-        QDir dir(path);
+        QDir dir = QFileInfo(currentValue).absoluteDir();
         if (dir.exists()) {
             QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
             for (const auto &filename : qAsConst(entrys)) {
@@ -309,7 +308,7 @@ void UrlListParamWidget::openFile()
     QString urlString = QFileDialog::getOpenFileName(this, QString(), path, filter);
 
     if (!urlString.isEmpty()) {
-        KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
+        KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QFileInfo(urlString).absolutePath());
         if (m_isLutList && urlString.toLower().endsWith(QLatin1String(".cube"))) {
             if (isValidCubeFile(urlString)) {
                 Q_EMIT valueChanged(m_index, urlString, true);
