@@ -86,6 +86,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     auto *l = static_cast<QHBoxLayout *>(frame->layout());
     title = new KSqueezedTextLabel(this);
     title->setToolTip(effectName);
+    title->setTextElideMode(Qt::ElideRight);
     title->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     l->insertWidget(1, title);
 
@@ -103,14 +104,28 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(m_keyframesButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotHideKeyframes);
     connect(m_model.get(), &AssetParameterModel::hideKeyframesChange, this, &CollapsibleEffectView::enableHideKeyframes);
 
-    // Enable button
-    m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
-    m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Disables the effect. Useful to compare before and after settings."));
-    m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Enables the effect. Useful to compare before and after settings."));
-    m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
-    m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
-    enabledButton->setDefaultAction(m_enabledButton);
-    connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
+    if (!m_model->isBuiltIn()) {
+        // Enable button
+        m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
+        m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Disables the effect. Useful to compare before and after settings."));
+        m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Enables the effect. Useful to compare before and after settings."));
+        m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
+        m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
+        enabledButton->setDefaultAction(m_enabledButton);
+        connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
+        if (!effectModel->isEnabled()) {
+            title->setEnabled(false);
+            if (KdenliveSettings::disable_effect_parameters()) {
+                widgetFrame->setEnabled(false);
+            }
+            m_enabledButton->setActive(true);
+        } else {
+            m_enabledButton->setActive(false);
+        }
+        connect(m_enabledButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotDisable);
+    } else {
+        enabledButton->hide();
+    }
     connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [=](ObjectId id, QPair<int, int> inOut, bool checked) {
         m_inOutButton->setChecked(checked);
         zoneFrame->setFixedHeight(checked ? frame->height() : 0);
@@ -189,6 +204,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);
 
     title->setText(effectName);
+    title->setStyleSheet("font-weight: bold");
     frame->setMinimumHeight(collapseButton->sizeHint().height());
 
     m_view = new AssetParameterView(this);
@@ -237,20 +253,14 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     saveEffectButton->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
     saveEffectButton->setToolTip(i18n("Save effect"));
 
-    if (!effectModel->isEnabled()) {
-        title->setEnabled(false);
-        if (KdenliveSettings::disable_effect_parameters()) {
-            widgetFrame->setEnabled(false);
-        }
-        m_enabledButton->setActive(true);
-    } else {
-        m_enabledButton->setActive(false);
-    }
-
-    connect(m_enabledButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotDisable);
     connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectUp);
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
+    if (m_model->isBuiltIn()) {
+        buttonUp->hide();
+        buttonDown->hide();
+        buttonDel->hide();
+    }
 
     for (QSpinBox *sp : findChildren<QSpinBox *>()) {
         sp->installEventFilter(this);
@@ -410,7 +420,7 @@ bool CollapsibleEffectView::isActive() const
 
 bool CollapsibleEffectView::isEnabled() const
 {
-    return m_enabledButton->isActive();
+    return m_enabledButton == nullptr || m_enabledButton->isActive();
 }
 
 void CollapsibleEffectView::slotActivateEffect(bool active)

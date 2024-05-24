@@ -285,10 +285,18 @@ void EffectStackView::loadEffects()
     if (max == 0) {
         // blank stack
         ObjectId item = m_model->getOwnerId();
-        pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
-            ->slotShowEffectScene(MonitorSceneDefault);
-        updateTreeHeight();
-        return;
+        auto avStack = pCore->assetHasAV(item);
+        if (avStack.first) {
+            // Initialize built-in effects
+            m_model->appendAudioBuildInEffects();
+            max = m_model->rowCount();
+        }
+        if (max == 0) {
+            pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
+                ->slotShowEffectScene(MonitorSceneDefault);
+            updateTreeHeight();
+            return;
+        }
     }
     int active = qBound(0, m_model->getActiveEffect(), max - 1);
     bool hasLift = false;

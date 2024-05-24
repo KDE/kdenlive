@@ -17,6 +17,7 @@
 #include <QFocusEvent>
 #include <QFontDatabase>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QMenu>
 #include <QMouseEvent>
 #include <QStyle>
@@ -43,8 +44,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     setFocusPolicy(Qt::StrongFocus);
 
     auto *l = new QHBoxLayout;
-    l->setSpacing(0);
+    // l->setSpacing(4);
     l->setContentsMargins(0, 0, 0, 0);
+    QLabel *lab = new QLabel(label, this);
+    l->addWidget(lab);
     m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
     m_label->setObjectName("draggLabel");
     l->addWidget(m_label);
@@ -412,7 +415,7 @@ void DragValue::setInTimelineProperty(bool intimeline)
 }
 
 CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidget *parent)
-    : QProgressBar(parent)
+    : QSlider(Qt::Horizontal, parent)
     , m_dragMode(false)
     , m_showSlider(showSlider)
     , m_step(10.0)
@@ -420,7 +423,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
 // m_precision(pow(10, precision)),
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    setFormat(QLatin1Char(' ') + label);
+    // setFormat(QLatin1Char(' ') + label);
     setFocusPolicy(Qt::StrongFocus);
     setCursor(Qt::PointingHandCursor);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
@@ -515,7 +518,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
             e->accept();
         }
     } else {
-        QProgressBar::mouseMoveEvent(e);
+        QSlider::mouseMoveEvent(e);
     }
 }
 

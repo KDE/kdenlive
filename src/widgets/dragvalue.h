@@ -7,6 +7,7 @@
 
 #include <QDoubleSpinBox>
 #include <QProgressBar>
+#include <QSlider>
 #include <QSpinBox>
 #include <QWidget>
 #include <kselectaction.h>
@@ -15,7 +16,7 @@ class QAction;
 class QMenu;
 class KSelectAction;
 
-class CustomLabel : public QProgressBar
+class CustomLabel : public QSlider
 {
     Q_OBJECT
 public:

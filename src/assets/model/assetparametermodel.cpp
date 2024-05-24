@@ -266,6 +266,11 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
 {
     Q_ASSERT(m_asset->is_valid());
     m_asset->set(name.toLatin1().constData(), value);
+    if (m_builtIn) {
+        if (m_asset->get_int("disable") == 1) {
+            m_asset->clear("disable");
+        }
+    }
     if (m_fixedParams.count(name) == 0) {
         m_params[name].value = value;
     } else {
@@ -387,8 +392,27 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
 
 void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
 {
-    // qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
+    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
     internalSetParameter(name, paramValue, paramIndex);
+    if (m_builtIn) {
+        if (m_asset->get_int("disable") == 1) {
+            m_asset->clear("disable");
+        }
+        if (m_assetId == QLatin1String("volume")) {
+            QStringList params = paramValue.split(QLatin1Char(';'));
+            bool enabled = false;
+            for (auto &p : params) {
+                if (p.section(QLatin1Char('='), 1).simplified().toInt() != 0) {
+                    enabled = true;
+                    break;
+                }
+            }
+            if (!enabled) {
+                qDebug() << "========\nDISABLING VOLUME EFFECT";
+                m_asset->set("disable", 1);
+            }
+        }
+    }
     bool updateChildRequired = true;
     if (m_assetId.startsWith(QStringLiteral("sox_"))) {
         // Warning, SOX effect, need unplug/replug
@@ -1504,4 +1528,10 @@ const QVariant AssetParameterModel::getParamFromName(const QString &paramName)
 const QModelIndex AssetParameterModel::getParamIndexFromName(const QString &paramName)
 {
     return index(m_rows.indexOf(paramName), 0);
+}
+
+void AssetParameterModel::setBuiltIn()
+{
+    m_builtIn = true;
+    m_asset->set("kdenlive:builtin", 1);
 }

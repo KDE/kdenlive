@@ -51,6 +51,7 @@ public:
     bool keyframesHiddenUnset() const;
     bool hasForcedInOut() const;
     bool isValid() const;
+    bool isBuiltIn() const;
     QPair<int, int> getInOut() const;
     void setInOut(const QString &effectName, QPair<int, int> bounds, bool enabled, bool withUndo);
 

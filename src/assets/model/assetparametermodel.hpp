@@ -198,6 +198,8 @@ public:
     Mlt::Properties *getAsset();
     /** @brief Returns a frame time as click time (00:00:00.000) */
     const QString framesToTime(int t) const;
+    /** @brief This is a built-in asset */
+    void setBuiltIn();
 
 public Q_SLOTS:
     /** @brief Sets the value of a list of parameters
@@ -241,6 +243,7 @@ protected:
     QString m_assetId;
     ObjectId m_ownerId;
     bool m_active;
+    bool m_builtIn{false};
     /** @brief Keep track of parameter order, important for sox */
     std::vector<QString> m_paramOrder;
     /** @brief Store all parameters by name */

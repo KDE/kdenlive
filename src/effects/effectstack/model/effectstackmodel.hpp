@@ -151,6 +151,9 @@ public:
     void applyAssetMultiKeyframeCommand(int row, const QList<QModelIndex> &indexes, GenTime pos, const QStringList &sourceValues, const QStringList &values,
                                         QUndoCommand *command);
 
+    /** @brief Add default built-in audio effects */
+    void appendAudioBuildInEffects();
+
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */
     void removeEffect(const std::shared_ptr<EffectItemModel> &effect);

@@ -132,7 +132,7 @@ private:
     bool m_blockWheel;
     /** @brief The add group action. */
     QAction *m_groupAction;
-    KDualAction *m_enabledButton;
+    KDualAction *m_enabledButton{nullptr};
     KDualAction *m_keyframesButton;
     QAction *m_inOutButton;
     QLabel *m_colorIcon;

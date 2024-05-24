@@ -1690,3 +1690,17 @@ void EffectStackModel::applyAssetMultiKeyframeCommand(int row, const QList<QMode
     }
     new AssetMultiKeyframeCommand(effectParamModel, indexes, sourceValues, values, pos, command);
 }
+
+void EffectStackModel::appendAudioBuildInEffects()
+{
+    auto effect = EffectItemModel::construct(QStringLiteral("volume"), shared_from_this());
+    effect->filter().set("disable", 1);
+    effect->filter().set("kdenlive:kfrhidden", 1);
+    effect->setBuiltIn();
+    effect->prepareKeyframes();
+    connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+    connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+    connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
+    Fun local_undo = addItem_lambda(effect, rootItem->getId());
+    local_undo();
+}

@@ -199,7 +199,7 @@ bool EffectItemModel::isValid() const
 void EffectItemModel::updateEnable(bool updateTimeline)
 {
     filter().set("disable", isEnabled() ? 0 : 1);
-    if (updateTimeline) {
+    if (updateTimeline && !isAudio()) {
         pCore->refreshProjectItem(m_ownerId);
         pCore->invalidateItem(m_ownerId);
     }
@@ -326,4 +326,9 @@ void EffectItemModel::setEffectStackEnabled(bool enabled)
         m_asset->set("kdenlive:bin-disabled", 1);
     }
     AbstractEffectItem::setEffectStackEnabled(enabled);
+}
+
+bool EffectItemModel::isBuiltIn() const
+{
+    return m_asset->property_exists("kdenlive:builtin");
 }
