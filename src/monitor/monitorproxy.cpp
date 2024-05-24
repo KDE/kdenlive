@@ -39,6 +39,24 @@ MonitorProxy::MonitorProxy(VideoWidget *parent)
     if (q->m_id == int(Kdenlive::ClipMonitor)) {
         connect(pCore->bin(), &Bin::clipNameChanged, this, &MonitorProxy::updateClipName);
     }
+    m_showGrid = KdenliveSettings::showMonitorGrid();
+}
+
+void MonitorProxy::switchGrid()
+{
+    m_showGrid = !m_showGrid;
+    KdenliveSettings::setShowMonitorGrid(m_showGrid);
+    Q_EMIT showGridChanged();
+}
+
+int MonitorProxy::gridH() const
+{
+    return KdenliveSettings::monitorGridH();
+}
+
+int MonitorProxy::gridV() const
+{
+    return KdenliveSettings::monitorGridV();
 }
 
 int MonitorProxy::getPosition() const

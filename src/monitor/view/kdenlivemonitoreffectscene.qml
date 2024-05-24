@@ -48,6 +48,17 @@ Item {
     signal effectChanged()
     signal centersChanged()
 
+    function getSnappedPos(position) {
+      if (!controller.showGrid) {
+        return position
+      }
+      var deltax = Math.round(position.x / root.scalex)
+      var deltay = Math.round(position.y / root.scaley)
+      deltax = Math.round(deltax / controller.gridH) * controller.gridH
+      deltay = Math.round(deltay / controller.gridV) * controller.gridV
+      return Qt.point(deltax * root.scalex, deltay * root.scaley)
+    }
+
     function updateClickCapture() {
         root.captureRightClick = false
     }
@@ -181,6 +192,28 @@ Item {
                 }
             }
         }
+        Repeater {
+          model: controller.showGrid ? Math.floor(root.profile.x / controller.gridH) : 0
+          Rectangle {
+            required property int index
+            opacity: 0.3
+            color: root.overlayColor
+            height: frame.height - 1
+            width: 1
+            x: ((index + 1) * controller.gridH * root.scalex)
+          }
+        }
+        Repeater {
+          model: controller.showGrid ? Math.floor(root.profile.y / controller.gridV) : 0
+          Rectangle {
+            required property int index
+            opacity: 0.3
+            color: root.overlayColor
+            height: 1
+            width: frame.width - 1
+            y: ((index + 1) * controller.gridV * root.scaley)
+          }
+        }
     }
     MouseArea {
         id: global
@@ -213,8 +246,15 @@ Item {
             }
             if (root.requestedKeyFrame != -1) {
                   isMoving = true
-                  root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
-                  root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
+                  if (!controller.showGrid) {
+                    root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
+                    root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
+                  } else {
+                    var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                    var adjustedMouse = getSnappedPos(positionInFrame)
+                    root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x / root.scalex;
+                    root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y / root.scaley;
+                  }
                   canvas.requestPaint()
                   root.centersChanged()
             }
@@ -302,18 +342,29 @@ Item {
               onPositionChanged: mouse => {
                 if (pressed) {
                   adjustedFrame = framesize
+                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var adjustedMouse = getSnappedPos(positionInFrame)
+                  console.log('ADJUSTED POSITION: ', adjustedMouse)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = Math.max(mouseX - oldMouseX, mouseY - oldMouseY)
+                      var delta = Math.max(adjustedMouse.x - framesize.x * root.scalex, adjustedMouse.y - framesize.y * root.scaley)
+                      if (delta == 0) {
+                        return
+                      }
+                      console.log('TOP LEF DELTA: ', delta)
                       var newwidth = framerect.width - delta
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
+                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ? root.lockratio : handleRatio))
                       adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
-                      adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width;
+                      adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width
                   } else {
-                    adjustedFrame.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
-                    adjustedFrame.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
-                    adjustedFrame.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
-                    adjustedFrame.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
+                    adjustedFrame.x = adjustedMouse.x / root.scalex
+                    adjustedFrame.y = adjustedMouse.y / root.scaley;
+                    if (adjustedFrame.x != framesize.x) {
+                      adjustedFrame.width = framesize.x + framesize.width - (adjustedMouse.x / root.scalex);
+                    }
+                    if (adjustedFrame.y != framesize.y) {
+                      adjustedFrame.height = framesize.y + framesize.height - (adjustedMouse.y / root.scaley);
+                    }
                   }
                   if (mouse.modifiers & Qt.ControlModifier) {
                       adjustedFrame.width -= (framesize.width - adjustedFrame.width)
@@ -386,16 +437,19 @@ Item {
               onPositionChanged: mouse => {
                 if (pressed) {
                   adjustedFrame = framesize
+                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var adjustedMouse = getSnappedPos(positionInFrame)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = Math.max(oldMouseX - mouseX, mouseY - oldMouseY)
-                      var newwidth = framerect.width - delta
+                      var newwidth = adjustedMouse.x - framesize.x * root.scalex
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
                       adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
-                      adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
+                      adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height
                   } else {
-                      adjustedFrame.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
-                      adjustedFrame.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
-                      adjustedFrame.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
+                      adjustedFrame.y = adjustedMouse.y / root.scaley;
+                      adjustedFrame.width = (adjustedMouse.x / root.scalex) - framesize.x;
+                      if (adjustedFrame.y != framesize.y) {
+                        adjustedFrame.height = framesize.y + framesize.height - (adjustedMouse.y / root.scaley);
+                      }
                   }
                   if (mouse.modifiers & Qt.ControlModifier) {
                       var xOffset = framesize.width - adjustedFrame.width
@@ -459,16 +513,19 @@ Item {
               onPositionChanged: mouse => {
                 if (pressed) {
                   adjustedFrame = framesize
+                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var adjustedMouse = getSnappedPos(positionInFrame)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = Math.max(mouseX - oldMouseX, oldMouseY - mouseY)
-                      var newwidth = framerect.width - delta
+                      var newwidth = (framesize.x + framesize.width) * root.scalex - adjustedMouse.x
                       adjustedFrame.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
                       adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                   } else {
-                    adjustedFrame.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
-                    adjustedFrame.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
-                    adjustedFrame.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
+                    adjustedFrame.x = adjustedMouse.x / root.scalex
+                    if (adjustedFrame.x != framesize.x) {
+                      adjustedFrame.width = framesize.x + framesize.width - (adjustedMouse.x / root.scalex);
+                    }
+                    adjustedFrame.height = (adjustedMouse.y / root.scaley) - framesize.y;
                   }
                   if (mouse.modifiers & Qt.ControlModifier) {
                       adjustedFrame.width -= (framesize.width - adjustedFrame.width)
@@ -532,14 +589,15 @@ Item {
               onPositionChanged: mouse => {
                 if (pressed) {
                    adjustedFrame = framesize
+                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                   var adjustedMouse = getSnappedPos(positionInFrame)
                    if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
-                      var delta = Math.max(oldMouseX - mouseX, oldMouseY - mouseY)
-                      var newwidth = framerect.width - delta
+                      var newwidth = adjustedMouse.x - framesize.x * root.scalex
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
                       adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                   } else {
-                    adjustedFrame.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
-                    adjustedFrame.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
+                    adjustedFrame.width = (adjustedMouse.x / root.scalex) - framesize.x;
+                    adjustedFrame.height = (adjustedMouse.y / root.scaley) - framesize.y;
                   }
                   if (mouse.modifiers & Qt.ControlModifier) {
                       var xOffset = framesize.width - adjustedFrame.width
@@ -602,8 +660,10 @@ Item {
               }
               onPositionChanged: {
                   if (pressed) {
-                      framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
-                      framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
+                      var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                      var adjustedMouse = getSnappedPos(positionInFrame)
+                      framesize.x = (adjustedMouse.x - framerect.width / 2) / root.scalex;
+                      framesize.y = (adjustedMouse.y - framerect.height / 2) / root.scaley;
                       root.effectChanged()
                   }
               }

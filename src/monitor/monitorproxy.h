@@ -42,6 +42,9 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
+    Q_PROPERTY(int gridH READ gridH NOTIFY gridChanged)
+    Q_PROPERTY(int gridV READ gridV NOTIFY gridChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
     Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
@@ -106,6 +109,9 @@ public:
     Q_INVOKABLE QString toTimecode(int frames) const;
     Q_INVOKABLE void startZoneMove();
     Q_INVOKABLE void endZoneMove();
+    Q_INVOKABLE void switchGrid();
+    Q_INVOKABLE int gridH() const;
+    Q_INVOKABLE int gridV() const;
     Q_INVOKABLE double fps() const;
     Q_INVOKABLE void switchAutoKeyframe();
     Q_INVOKABLE bool autoKeyframe() const;
@@ -151,6 +157,8 @@ Q_SIGNALS:
     void removeSnap(int);
     void triggerAction(const QString &name);
     void overlayTypeChanged();
+    void showGridChanged();
+    void gridChanged();
     void seekNextKeyframe();
     void seekPreviousKeyframe();
     void addRemoveKeyframe();
@@ -183,6 +191,7 @@ private:
     int m_zoneOut;
     bool m_hasAV;
     double m_speed;
+    bool m_showGrid{false};
     QList <int> m_audioStreams;
     QList <int> m_audioChannels;
     QString m_markerComment;

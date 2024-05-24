@@ -1235,6 +1235,15 @@ void KdenliveSettingsDialog::updateSettings()
         fullReset = true;
     }
 
+    if (m_configColors.kcfg_monitorGridH->value() != KdenliveSettings::monitorGridH()) {
+        KdenliveSettings::setMonitorGridH(m_configColors.kcfg_monitorGridH->value());
+        Q_EMIT updateMonitorGrid();
+    }
+    if (m_configColors.kcfg_monitorGridV->value() != KdenliveSettings::monitorGridV()) {
+        KdenliveSettings::setMonitorGridV(m_configColors.kcfg_monitorGridV->value());
+        Q_EMIT updateMonitorGrid();
+    }
+
     if (m_configColors.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configColors.kcfg_window_background->color());
         Q_EMIT updateMonitorBg();

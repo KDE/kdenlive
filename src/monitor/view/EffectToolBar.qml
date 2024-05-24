@@ -60,6 +60,16 @@ MouseArea {
             }
             MonitorToolButton {
                 objectName: "switchOverlay"
+                iconName: "snap"
+                toolTipText: i18n("Show Grid")
+                checkable: true
+                checked: controller.showGrid
+                onClicked: {
+                    controller.switchGrid()
+                }
+            }
+            MonitorToolButton {
+                objectName: "switchOverlay"
                 iconName: "view-grid"
                 toolTipText: i18n("Change Overlay")
                 onClicked: {

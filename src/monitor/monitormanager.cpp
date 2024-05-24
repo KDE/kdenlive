@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "monitorproxy.h"
 #include "timeline2/view/timelinewidget.h"
 
 #include <mlt++/Mlt.h>
@@ -844,5 +845,15 @@ void MonitorManager::updateBgColor()
     if (m_clipMonitor) {
         m_clipMonitor->updateBgColor();
         m_clipMonitor->forceMonitorRefresh();
+    }
+}
+
+void MonitorManager::updateGrid()
+{
+    if (m_projectMonitor) {
+        Q_EMIT m_projectMonitor->getControllerProxy()->gridChanged();
+    }
+    if (m_clipMonitor) {
+        Q_EMIT m_clipMonitor->getControllerProxy()->gridChanged();
     }
 }

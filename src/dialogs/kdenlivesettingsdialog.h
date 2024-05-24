@@ -193,6 +193,8 @@ Q_SIGNALS:
     void resetView();
     /** @brief Monitor background color changed, update monitors */
     void updateMonitorBg();
+    /** @brief Monitor grid changed, update monitors */
+    void updateMonitorGrid();
     /** @brief Trigger parsing of the speech models folder */
     void parseDictionaries();
 };

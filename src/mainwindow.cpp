@@ -2663,7 +2663,8 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
     connect(dialog, &KdenliveSettingsDialog::audioThumbFormatChanged, m_timelineTabs, &TimelineTabs::audioThumbFormatChanged);
     connect(dialog, &KdenliveSettingsDialog::resetView, this, &MainWindow::resetTimelineTracks);
-    connect(dialog, &KdenliveSettingsDialog::updateMonitorBg, [&]() { pCore->monitorManager()->updateBgColor(); });
+    connect(dialog, &KdenliveSettingsDialog::updateMonitorBg, pCore->monitorManager(), &MonitorManager::updateBgColor);
+    connect(dialog, &KdenliveSettingsDialog::updateMonitorGrid, pCore->monitorManager(), &MonitorManager::updateGrid);
 
     dialog->show();
     if (page != Kdenlive::NoPage) {

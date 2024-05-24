@@ -482,6 +482,21 @@
       <default>#535353</default>
     </entry>
 
+    <entry name="showMonitorGrid" type="Bool">
+      <label>Should we show the monitor grid.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="monitorGridH" type="Int">
+      <label>Default size for grid horizontal spacing.</label>
+      <default>100</default>
+    </entry>
+
+    <entry name="monitorGridV" type="Int">
+      <label>Default size for grid vertical spacing.</label>
+      <default>100</default>
+    </entry>
+
     <entry name="monitor_background" type="String">
       <label>Background color for clip monitor (only visible with transparent clips).</label>
       <default>black</default>
