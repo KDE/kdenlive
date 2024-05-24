@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-23 00:38+0000\n"
-"PO-Revision-Date: 2024-05-21 12:57+0200\n"
+"POT-Creation-Date: 2024-05-24 00:38+0000\n"
+"PO-Revision-Date: 2024-05-22 09:09+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -4141,12 +4141,12 @@ msgstr "<Choisir un mot clé>"
 msgid "None (Dissolve)"
 msgstr "Aucune (Dissoudre)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:227
+#: src/assets/view/widgets/urllistparamwidget.cpp:226
 #, kde-format
 msgid "Custom…"
 msgstr "Personnalisé..."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:319
+#: src/assets/view/widgets/urllistparamwidget.cpp:318
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Fichier « LUT » %1 non valable"
@@ -5288,18 +5288,16 @@ msgid "Move Clip"
 msgstr "Déplacer une vidéo"
 
 #: src/bin/bincommands.cpp:62
-#, fuzzy, kde-format
-#| msgid "Rename Zone"
+#, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Renommer la zone"
 
 #: src/bin/bincommands.cpp:86
-#, fuzzy, kde-format
-#| msgid "Edit Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
-msgstr "Modifier le clip"
+msgstr "Modifier une séquence"
 
 #: src/bin/clipcreator.cpp:70
 #, kde-format
@@ -9659,16 +9657,14 @@ msgid "No name provided, effect not saved."
 msgstr "Aucun nom fourni, l'effet n'a pas été enregistré."
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Activer l'effet"
+msgstr "Activer la pile d'effets"
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Désactiver l'effet"
+msgstr "Désactiver la pile d'effets"
 
 #: src/effects/effectstack/view/effectstackview.cpp:565
 #, kde-format
