@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-23 00:38+0000\n"
-"PO-Revision-Date: 2024-05-19 15:44+0100\n"
+"POT-Creation-Date: 2024-05-24 00:38+0000\n"
+"PO-Revision-Date: 2024-05-23 19:29+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -3273,7 +3273,7 @@ msgstr "Download New Wipes..."
 #: src/assets/assetlist/view/assetlistwidget.cpp:171
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr ""
+msgstr "Only show reviewed assets"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176
 #, kde-format
@@ -4088,12 +4088,12 @@ msgstr "<Select a Keyword>"
 msgid "None (Dissolve)"
 msgstr "None (Dissolve)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:227
+#: src/assets/view/widgets/urllistparamwidget.cpp:226
 #, kde-format
 msgid "Custom…"
 msgstr "Custom…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:319
+#: src/assets/view/widgets/urllistparamwidget.cpp:318
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Invalid LUT file %1"
@@ -5214,15 +5214,13 @@ msgid "Move Clip"
 msgstr "Move Clip"
 
 #: src/bin/bincommands.cpp:62
-#, fuzzy, kde-format
-#| msgid "Rename Zone"
+#, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Rename Zone"
 
 #: src/bin/bincommands.cpp:86
-#, fuzzy, kde-format
-#| msgid "Edit Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
 msgstr "Edit Clip"
@@ -6204,7 +6202,7 @@ msgstr "Duplicate Clip with Speed Change…"
 #: src/dialogs/clipjobmanager.cpp:247
 #, kde-format
 msgid "Check your parameters syntax (incorrect number of quotes)"
-msgstr ""
+msgstr "Check your parameters syntax (incorrect number of quotes)"
 
 #: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
@@ -9498,16 +9496,14 @@ msgid "No name provided, effect not saved."
 msgstr "No name provided, effect not saved."
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Enable Effect"
+msgstr "Enable Effect Stack"
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Disable Effect"
+msgstr "Disable Effect Stack"
 
 #: src/effects/effectstack/view/effectstackview.cpp:565
 #, kde-format

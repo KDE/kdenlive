@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-23 00:38+0000\n"
+"POT-Creation-Date: 2024-05-24 00:38+0000\n"
 "PO-Revision-Date: 2024-05-22 13:50+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -4113,12 +4113,12 @@ msgstr "<Selecteer een sleutelwoord>"
 msgid "None (Dissolve)"
 msgstr "Geen (oplossen)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:227
+#: src/assets/view/widgets/urllistparamwidget.cpp:226
 #, kde-format
 msgid "Custom…"
 msgstr "Aangepast…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:319
+#: src/assets/view/widgets/urllistparamwidget.cpp:318
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Ongeldig LUT-bestand %1"

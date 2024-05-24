@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-23 00:38+0000\n"
+"POT-Creation-Date: 2024-05-24 00:38+0000\n"
 "PO-Revision-Date: 2023-05-19 18:02+0200\n"
 "Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -4138,13 +4138,13 @@ msgstr "<Wählen Sie ein Schlüsselwort>"
 msgid "None (Dissolve)"
 msgstr "Keine (Auflösen)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:227
+#: src/assets/view/widgets/urllistparamwidget.cpp:226
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Benutzerdefiniert"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:319
+#: src/assets/view/widgets/urllistparamwidget.cpp:318
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid LUT file %1"

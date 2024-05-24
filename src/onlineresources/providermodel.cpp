@@ -77,56 +77,73 @@ ProviderModel::ProviderModel(const QString &path)
             m_type = SERVICETYPE::UNKNOWN;
         }
 
-        if (downloadOAuth2() == true) {
-            QJsonObject ouath2Info = m_doc["api"].toObject()["oauth2"].toObject();
-            auto replyHandler = new QOAuthHttpServerReplyHandler(1337, this);
-            m_oauth2.setReplyHandler(replyHandler);
-            m_oauth2.setAuthorizationUrl(QUrl(ouath2Info["authorizationUrl"].toString()));
-            m_oauth2.setAccessTokenUrl(QUrl(ouath2Info["accessTokenUrl"].toString()));
-            m_oauth2.setClientIdentifier(ouath2Info["clientId"].toString());
-            m_oauth2.setClientIdentifierSharedKey(m_clientkey);
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken){
-                KSharedConfigPtr config = KSharedConfig::openConfig();
-                KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
-                authGroup.writeEntry(QStringLiteral("refresh_token"), refreshToken);
-            });
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QVariantMap *parameters) {
-#else
-            m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant> *parameters) {
-#endif
-                if (stage == QAbstractOAuth::Stage::RequestingAuthorization) {
-                    if (m_oauth2.scope().isEmpty()) {
-                        parameters->remove("scope");
-                    }
-                }
-                if (stage == QAbstractOAuth::Stage::RefreshingAccessToken) {
-                    parameters->insert("client_id", m_oauth2.clientIdentifier());
-                    parameters->insert("client_secret", m_oauth2.clientIdentifierSharedKey());
-                }
-            });
-
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, this, [=](QAbstractOAuth::Status status) {
-                if (status == QAbstractOAuth::Status::Granted) {
-                    Q_EMIT authenticated(m_oauth2.token());
-                } else if (status == QAbstractOAuth::Status::NotAuthenticated) {
-                    KMessageBox::error(nullptr, "DEBUG: NotAuthenticated");
-                }
-            });
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, this, [=](const QString &error, const QString &errorDescription) {
-                qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
-                Q_EMIT authenticated(QString());
-            });
-            connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
-        }
     } else {
         qCWarning(KDENLIVE_LOG) << "The provider config file at " << path << " is invalid. ";
     }
 }
 
+void ProviderModel::initOAuth2()
+{
+    if (!downloadOAuth2()) {
+        return;
+    }
+
+    if (m_oauth2InitDone) {
+        return;
+    }
+
+    QJsonObject ouath2Info = m_doc["api"].toObject()["oauth2"].toObject();
+    m_replyHandler = new QOAuthHttpServerReplyHandler(1337, this);
+    m_replyHandler->close();
+    m_oauth2.setReplyHandler(m_replyHandler);
+    m_oauth2.setAuthorizationUrl(QUrl(ouath2Info["authorizationUrl"].toString()));
+    m_oauth2.setAccessTokenUrl(QUrl(ouath2Info["accessTokenUrl"].toString()));
+    m_oauth2.setClientIdentifier(ouath2Info["clientId"].toString());
+    m_oauth2.setClientIdentifierSharedKey(m_clientkey);
+    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken) {
+        KSharedConfigPtr config = KSharedConfig::openConfig();
+        KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
+        authGroup.writeEntry(QStringLiteral("refresh_token"), refreshToken);
+    });
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QVariantMap *parameters) {
+#else
+    m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant> *parameters) {
+#endif
+        if (stage == QAbstractOAuth::Stage::RequestingAuthorization) {
+            if (m_oauth2.scope().isEmpty()) {
+                parameters->remove("scope");
+            }
+        }
+        if (stage == QAbstractOAuth::Stage::RefreshingAccessToken) {
+            parameters->insert("client_id", m_oauth2.clientIdentifier());
+            parameters->insert("client_secret", m_oauth2.clientIdentifierSharedKey());
+        }
+    });
+
+    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, this, [=](QAbstractOAuth::Status status) {
+        if (status == QAbstractOAuth::Status::Granted) {
+            Q_EMIT authenticated(m_oauth2.token());
+        } else if (status == QAbstractOAuth::Status::NotAuthenticated) {
+            KMessageBox::error(nullptr, "DEBUG: NotAuthenticated");
+        }
+    });
+    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::granted, this, [&]() { m_replyHandler->close(); });
+    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, this, [=](const QString &error, const QString &errorDescription) {
+        m_replyHandler->close();
+        qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
+        Q_EMIT authenticated(QString());
+    });
+    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
+
+    m_oauth2InitDone = true;
+}
+
 void ProviderModel::authorize()
 {
+    initOAuth2();
+
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup authGroup(config, "OAuth2Authentication" + m_name);
 
@@ -137,6 +154,7 @@ void ProviderModel::authorize()
             m_oauth2.setRefreshToken(strRefreshTokenFromSettings);
             m_oauth2.refreshAccessToken();
         } else {
+            m_replyHandler->listen(QHostAddress::Any, 1337);
             m_oauth2.grant();
         }
     } else {
@@ -150,6 +168,7 @@ void ProviderModel::authorize()
 
 void ProviderModel::refreshAccessToken()
 {
+    initOAuth2();
     m_oauth2.refreshAccessToken();
 }
 

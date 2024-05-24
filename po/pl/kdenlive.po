@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-23 00:38+0000\n"
+"POT-Creation-Date: 2024-05-24 00:38+0000\n"
 "PO-Revision-Date: 2024-04-27 10:53+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -4097,12 +4097,12 @@ msgstr "<Wybierz słowo kluczowe>"
 msgid "None (Dissolve)"
 msgstr "Brak (Rozpływanie)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:227
+#: src/assets/view/widgets/urllistparamwidget.cpp:226
 #, kde-format
 msgid "Custom…"
 msgstr "Własny…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:319
+#: src/assets/view/widgets/urllistparamwidget.cpp:318
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Nieprawidłowy plik LUT %1"

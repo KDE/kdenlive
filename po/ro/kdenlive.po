@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-23 00:38+0000\n"
+"POT-Creation-Date: 2024-05-24 00:38+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -4257,13 +4257,13 @@ msgstr ""
 msgid "None (Dissolve)"
 msgstr "Dizolvă"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:227
+#: src/assets/view/widgets/urllistparamwidget.cpp:226
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Personalizat"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:319
+#: src/assets/view/widgets/urllistparamwidget.cpp:318
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid LUT file %1"
