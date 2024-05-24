@@ -199,7 +199,7 @@ bool EffectItemModel::isValid() const
 void EffectItemModel::updateEnable(bool updateTimeline)
 {
     filter().set("disable", isEnabled() ? 0 : 1);
-    if (updateTimeline) {
+    if (updateTimeline && !isAudio()) {
         pCore->refreshProjectItem(m_ownerId);
         pCore->invalidateItem(m_ownerId);
     }
