@@ -16,6 +16,46 @@ class QAction;
 class QMenu;
 class KSelectAction;
 
+class MySpinBox : public QSpinBox
+{
+    Q_OBJECT
+public:
+    explicit MySpinBox(QWidget *parent = nullptr);
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
+private:
+    QPointF m_clickPos;
+    QPointF m_startDragPos;
+    QPoint m_clickMouse;
+    bool m_dragging{false};
+    bool m_editing{false};
+
+Q_SIGNALS:
+    void resetValue();
+};
+
+class MyDoubleSpinBox : public QDoubleSpinBox
+{
+    Q_OBJECT
+public:
+    explicit MyDoubleSpinBox(QWidget *parent = nullptr);
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
+private:
+    QPointF m_clickPos;
+    QPointF m_startDragPos;
+    QPoint m_clickMouse;
+    bool m_dragging{false};
+    bool m_editing{false};
+
+Q_SIGNALS:
+    void resetValue();
+};
+
 class CustomLabel : public QSlider
 {
     Q_OBJECT
@@ -143,11 +183,11 @@ private:
     int m_decimals;
     double m_default;
     int m_id;
-    QSpinBox *m_intEdit;
-    QDoubleSpinBox *m_doubleEdit;
+    MySpinBox *m_intEdit{nullptr};
+    MyDoubleSpinBox *m_doubleEdit{nullptr};
 
     QMenu *m_menu;
     KSelectAction *m_scale;
     QAction *m_directUpdate;
-    CustomLabel *m_label;
+    CustomLabel *m_label{nullptr};
 };

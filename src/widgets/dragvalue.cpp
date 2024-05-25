@@ -18,10 +18,230 @@
 #include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QLineEdit>
 #include <QMenu>
 #include <QMouseEvent>
 #include <QStyle>
 #include <QWheelEvent>
+
+MySpinBox::MySpinBox(QWidget *parent)
+    : QSpinBox(parent)
+{
+    installEventFilter(this);
+    lineEdit()->installEventFilter(this);
+    setStyleSheet("QSpinBox {border: 1px; border-bottom-style: dotted; border-bottom-color: #FFFF00} QSpinBox:hover {border: 1px; border-bottom-style: dotted; "
+                  "border-bottom-color: #3DAEE9}");
+}
+
+bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == lineEdit()) {
+        if (event->type() == QEvent::MouseButtonPress) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            m_dragging = false;
+            m_editing = false;
+            if (me->buttons() & Qt::LeftButton) {
+                m_clickPos = me->position();
+                m_clickMouse = QCursor::pos();
+                event->accept();
+                return true;
+            }
+            if (me->buttons() & Qt::MiddleButton) {
+                Q_EMIT resetValue();
+                event->accept();
+                return true;
+            }
+        }
+        if (event->type() == QEvent::Wheel) {
+            auto *we = static_cast<QWheelEvent *>(event);
+            int mini = singleStep();
+            int factor = qMax(mini, (maximum() - minimum()) / 200);
+            factor = qMin(4, factor);
+            if (we->modifiers() & Qt::ControlModifier) {
+                factor *= 5;
+            } else if (we->modifiers() & Qt::ShiftModifier) {
+                factor = mini;
+            }
+            if (we->angleDelta().y() > 0) {
+                setValue(value() + factor);
+            } else if (we->angleDelta().y() < 0) {
+                setValue(value() - factor);
+            }
+            event->accept();
+            return true;
+        }
+        if (event->type() == QEvent::MouseMove) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (me->buttons() & Qt::LeftButton) {
+                QPointF movePos = me->position();
+                if (!m_editing) {
+                    if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
+                        QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
+                        m_dragging = true;
+                        m_clickPos = movePos;
+                        lineEdit()->clearFocus();
+                    }
+                    if (m_dragging) {
+                        int delta = movePos.x() - m_clickPos.x();
+                        if (delta != 0) {
+                            m_clickPos = movePos;
+                            int mini = singleStep();
+                            int factor = qMax(mini, (maximum() - minimum()) / 200);
+                            factor = qMin(4, factor);
+                            if (me->modifiers() & Qt::ControlModifier) {
+                                factor *= 5;
+                            } else if (me->modifiers() & Qt::ShiftModifier) {
+                                factor = mini;
+                            }
+                            setValue(value() + factor * delta);
+                        }
+                    }
+                    event->accept();
+                    return true;
+                }
+            }
+        }
+        if (event->type() == QEvent::MouseButtonRelease) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (me->buttons() & Qt::MiddleButton) {
+                event->accept();
+                return true;
+            }
+            if (m_dragging) {
+                QCursor::setPos(m_clickMouse);
+                QGuiApplication::restoreOverrideCursor();
+                m_dragging = false;
+                event->accept();
+                return true;
+            } else {
+                m_editing = true;
+                lineEdit()->setFocus();
+                lineEdit()->selectAll();
+            }
+        }
+        if (event->type() == QEvent::Enter) {
+            if (!m_editing) {
+                event->accept();
+                return true;
+            }
+        }
+    } else {
+        if (event->type() == QEvent::FocusIn || event->type() == QEvent::HoverMove) {
+            event->accept();
+            return true;
+        }
+    }
+    return QObject::eventFilter(watched, event);
+}
+
+MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
+    : QDoubleSpinBox(parent)
+{
+    installEventFilter(this);
+    lineEdit()->installEventFilter(this);
+    setStyleSheet("QDoubleSpinBox {border: 1px; border-bottom-style: dotted; border-bottom-color: #FFFF00} QDoubleSpinBox:hover {border: 1px; "
+                  "border-bottom-style: dotted; border-bottom-color: #3DAEE9}");
+}
+
+bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == lineEdit()) {
+        if (event->type() == QEvent::MouseButtonPress) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            m_dragging = false;
+            m_editing = false;
+            if (me->buttons() & Qt::LeftButton) {
+                m_clickPos = me->position();
+                m_clickMouse = QCursor::pos();
+                event->accept();
+                return true;
+            }
+            if (me->buttons() & Qt::MiddleButton) {
+                Q_EMIT resetValue();
+                event->accept();
+                return true;
+            }
+        }
+        if (event->type() == QEvent::Wheel) {
+            auto *we = static_cast<QWheelEvent *>(event);
+            double mini = singleStep();
+            double factor = qMax(mini, (maximum() - minimum()) / 200);
+            factor = qMin(4., factor);
+            if (we->modifiers() & Qt::ControlModifier) {
+                factor *= 5;
+            } else if (we->modifiers() & Qt::ShiftModifier) {
+                factor = mini;
+            }
+            if (we->angleDelta().y() > 0) {
+                setValue(value() + factor);
+            } else if (we->angleDelta().y() < 0) {
+                setValue(value() - factor);
+            }
+            event->accept();
+            return true;
+        }
+        if (event->type() == QEvent::MouseMove) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (me->buttons() & Qt::LeftButton) {
+                QPointF movePos = me->position();
+                if (!m_editing) {
+                    if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
+                        QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
+                        m_dragging = true;
+                        m_clickPos = movePos;
+                        lineEdit()->clearFocus();
+                    }
+                    if (m_dragging) {
+                        double delta = movePos.x() - m_clickPos.x();
+                        if (delta != 0) {
+                            m_clickPos = movePos;
+                            double factor = singleStep();
+                            factor = qMin(3., factor);
+                            if (me->modifiers() & Qt::ControlModifier) {
+                                factor *= 5;
+                            } else if (me->modifiers() & Qt::ShiftModifier) {
+                                factor *= 0.1;
+                            }
+                            setValue(value() + factor * delta);
+                        }
+                    }
+                    event->accept();
+                    return true;
+                }
+            }
+        }
+        if (event->type() == QEvent::MouseButtonRelease) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (me->buttons() & Qt::MiddleButton) {
+                event->accept();
+                return true;
+            }
+            if (m_dragging) {
+                QCursor::setPos(m_clickMouse);
+                QGuiApplication::restoreOverrideCursor();
+                m_dragging = false;
+                event->accept();
+                return true;
+            } else if (!m_editing) {
+                m_editing = true;
+                lineEdit()->setFocus();
+                lineEdit()->selectAll();
+            }
+        }
+        if (event->type() == QEvent::Enter) {
+            if (!m_editing) {
+                event->accept();
+                return true;
+            }
+        }
+    } else {
+        if (!m_editing && (event->type() == QEvent::FocusIn || event->type() == QEvent::HoverMove)) {
+            event->accept();
+            return true;
+        }
+    }
+    return QObject::eventFilter(watched, event);
+}
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
                      bool oddOnly, QWidget *parent)
@@ -31,8 +251,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     , m_decimals(decimals)
     , m_default(defaultValue)
     , m_id(id)
-    , m_intEdit(nullptr)
-    , m_doubleEdit(nullptr)
 {
     if (showSlider) {
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -44,18 +262,25 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     setFocusPolicy(Qt::StrongFocus);
 
     auto *l = new QHBoxLayout;
-    // l->setSpacing(4);
-    l->setContentsMargins(0, 0, 0, 0);
+    l->setSpacing(showSlider ? 4 : 0);
+    l->setContentsMargins(0, 0, 2, 0);
     QLabel *lab = new QLabel(label, this);
     l->addWidget(lab);
-    m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
-    m_label->setObjectName("draggLabel");
-    l->addWidget(m_label);
-    setMinimumHeight(m_label->sizeHint().height());
+    if (showSlider) {
+        m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
+        m_label->setObjectName("draggLabel");
+        l->addWidget(m_label);
+        setMinimumHeight(m_label->sizeHint().height());
+        connect(m_label, &CustomLabel::valueChanged, this, &DragValue::setValueFromProgress);
+        connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
+    }
     if (decimals == 0) {
-        m_label->setMaximum(max - min);
-        m_label->setStep(oddOnly ? 2 : 1);
-        m_intEdit = new QSpinBox(this);
+        if (m_label) {
+            m_label->setMaximum(max - min);
+            m_label->setStep(oddOnly ? 2 : 1);
+        }
+        m_intEdit = new MySpinBox(this);
+        connect(m_intEdit, &MySpinBox::resetValue, this, &DragValue::slotReset);
         m_intEdit->setObjectName(QStringLiteral("dragBox"));
         m_intEdit->setFocusPolicy(Qt::StrongFocus);
         if (!suffix.isEmpty()) {
@@ -76,7 +301,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_intEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
         m_intEdit->installEventFilter(this);
     } else {
-        m_doubleEdit = new QDoubleSpinBox(this);
+        m_doubleEdit = new MyDoubleSpinBox(this);
+        connect(m_doubleEdit, &MyDoubleSpinBox::resetValue, this, &DragValue::slotReset);
         m_doubleEdit->setDecimals(decimals);
         m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
         m_doubleEdit->setObjectName(QStringLiteral("dragBox"));
@@ -94,21 +320,22 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         double steps = (m_maximum - m_minimum) / factor;
         m_doubleEdit->setSingleStep(steps);
-        m_label->setStep(steps);
-        // m_label->setStep(1);
+        if (m_label) {
+            m_label->setStep(steps);
+        }
         l->addWidget(m_doubleEdit);
         m_doubleEdit->setValue(m_default);
         m_doubleEdit->installEventFilter(this);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     }
-    connect(m_label, &CustomLabel::valueChanged, this, &DragValue::setValueFromProgress);
-    connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
     setLayout(l);
-    if (m_intEdit) {
-        m_label->setMaximumHeight(m_intEdit->sizeHint().height());
-    } else {
-        m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
+    if (m_label) {
+        if (m_intEdit) {
+            m_label->setMaximumHeight(m_intEdit->sizeHint().height());
+        } else {
+            m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
+        }
     }
 
     m_menu = new QMenu(this);
@@ -132,7 +359,9 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     if (m_id > -1) {
         QAction *timeline = new QAction(QIcon::fromTheme(QStringLiteral("go-jump")), i18n("Show %1 in timeline", label), this);
         connect(timeline, &QAction::triggered, this, &DragValue::slotSetInTimeline);
-        connect(m_label, &CustomLabel::setInTimeline, this, &DragValue::slotSetInTimeline);
+        if (m_label) {
+            connect(m_label, &CustomLabel::setInTimeline, this, &DragValue::slotSetInTimeline);
+        }
         m_menu->addAction(timeline);
     }
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
@@ -164,22 +393,24 @@ bool DragValue::eventFilter(QObject *watched, QEvent *event)
             return true;
         }
 
-        auto *we = static_cast<QWheelEvent *>(event);
-        if (we->angleDelta().y() > 0) {
-            if (we->modifiers() == Qt::ControlModifier) {
-                m_label->slotValueInc(10);
-            } else if (we->modifiers() == Qt::AltModifier) {
-                m_label->slotValueInc(0.1);
+        if (m_label) {
+            auto *we = static_cast<QWheelEvent *>(event);
+            if (we->angleDelta().y() > 0) {
+                if (we->modifiers() == Qt::ControlModifier) {
+                    m_label->slotValueInc(10);
+                } else if (we->modifiers() == Qt::ShiftModifier) {
+                    m_label->slotValueInc(0.1);
+                } else {
+                    m_label->slotValueInc();
+                }
             } else {
-                m_label->slotValueInc();
-            }
-        } else {
-            if (we->modifiers() == Qt::ControlModifier) {
-                m_label->slotValueDec(10);
-            } else if (we->modifiers() == Qt::AltModifier) {
-                m_label->slotValueDec(0.1);
-            } else {
-                m_label->slotValueDec();
+                if (we->modifiers() == Qt::ControlModifier) {
+                    m_label->slotValueDec(10);
+                } else if (we->modifiers() == Qt::ShiftModifier) {
+                    m_label->slotValueDec(0.1);
+                } else {
+                    m_label->slotValueDec();
+                }
             }
         }
         // Stop processing, event accepted
@@ -273,7 +504,9 @@ void DragValue::setRange(qreal min, qreal max)
     } else {
         m_doubleEdit->setRange(m_minimum, m_maximum);
     }
-    m_label->setMaximum(max - min);
+    if (m_label) {
+        m_label->setMaximum(max - min);
+    }
 }
 
 void DragValue::setStep(qreal step)
@@ -283,7 +516,9 @@ void DragValue::setStep(qreal step)
     } else {
         m_doubleEdit->setSingleStep(step);
     }
-    m_label->setStep(step);
+    if (m_label) {
+        m_label->setStep(step);
+    }
 }
 
 void DragValue::slotReset()
@@ -299,7 +534,9 @@ void DragValue::slotReset()
         m_doubleEdit->blockSignals(false);
         Q_EMIT valueChanged(m_default, true);
     }
-    m_label->setProgressValue((m_default - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
+    if (m_label) {
+        m_label->setProgressValue((m_default - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
+    }
 }
 
 void DragValue::slotSetValue(int value)
@@ -333,7 +570,9 @@ void DragValue::setValue(double value, bool final, bool createUndoEntry, bool up
         Q_EMIT valueChanged(value, final, createUndoEntry);
         return;
     }
-    m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
+    if (m_label) {
+        m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
+    }
     if (m_intEdit) {
         m_intEdit->blockSignals(true);
         m_intEdit->setValue((int)value);
@@ -349,7 +588,6 @@ void DragValue::setValue(double value, bool final, bool createUndoEntry, bool up
 
 void DragValue::slotEditingFinished()
 {
-    qDebug() << "::: EDITING FINISHED...";
     if (m_intEdit) {
         int newValue = m_intEdit->value();
         m_intEdit->blockSignals(true);
@@ -563,7 +801,7 @@ void CustomLabel::wheelEvent(QWheelEvent *e)
     if (e->angleDelta().y() > 0) {
         if (e->modifiers() == Qt::ControlModifier) {
             slotValueInc(10);
-        } else if (e->modifiers() == Qt::AltModifier) {
+        } else if (e->modifiers() == Qt::ShiftModifier) {
             slotValueInc(0.1);
         } else {
             slotValueInc();
@@ -571,7 +809,7 @@ void CustomLabel::wheelEvent(QWheelEvent *e)
     } else if (e->angleDelta().y() < 0) {
         if (e->modifiers() == Qt::ControlModifier) {
             slotValueDec(10);
-        } else if (e->modifiers() == Qt::AltModifier) {
+        } else if (e->modifiers() == Qt::ShiftModifier) {
             slotValueDec(0.1);
         } else {
             slotValueDec();
