@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-24 00:38+0000\n"
+"POT-Creation-Date: 2024-05-25 00:38+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -3702,7 +3702,7 @@ msgstr "選択したクリップの削除"
 
 #: src/assets/view/assetparameterview.cpp:333
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1436
+#: src/dialogs/kdenlivesettingsdialog.cpp:1445
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
 msgctxt "@title:window"
@@ -3711,7 +3711,7 @@ msgstr "プリセット名の入力"
 
 #: src/assets/view/assetparameterview.cpp:333
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1436
+#: src/dialogs/kdenlivesettingsdialog.cpp:1445
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -5146,7 +5146,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5465 src/mainwindow.cpp:2801
+#: src/bin/bin.cpp:5465 src/mainwindow.cpp:2802
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "マーカーを追加すべきクリップが見つかりません"
@@ -5228,7 +5228,7 @@ msgstr "効果 %1の削除"
 msgid "Project Bin"
 msgstr "プロジェクトビン"
 
-#: src/bin/bin.cpp:6286 src/bin/bin.cpp:6289 src/mainwindow.cpp:4882
+#: src/bin/bin.cpp:6286 src/bin/bin.cpp:6289 src/mainwindow.cpp:4883
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -6633,7 +6633,7 @@ msgstr "デコードスレッド"
 msgid "Import Subtitle"
 msgstr "字幕をインポート"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:113 src/mainwindow.cpp:3983
+#: src/dialogs/kdenlivesettingsdialog.cpp:113 src/mainwindow.cpp:3984
 #, kde-format
 msgid "Timeline"
 msgstr "タイムライン(I)"
@@ -6843,26 +6843,26 @@ msgstr ""
 msgid "Please select a video profile"
 msgstr "ビデオプロファイルを選択してください"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1291
+#: src/dialogs/kdenlivesettingsdialog.cpp:1300
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "この変更には Kdenlive を再起動する必要があります"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1439
+#: src/dialogs/kdenlivesettingsdialog.cpp:1448
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "指定した名前のプロファイルは、既に存在しています"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1573
+#: src/dialogs/kdenlivesettingsdialog.cpp:1582
 #, kde-format
 msgid "Current settings"
 msgstr "現在の設定"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1611
-#: src/dialogs/kdenlivesettingsdialog.cpp:1647
-#: src/dialogs/kdenlivesettingsdialog.cpp:1664
+#: src/dialogs/kdenlivesettingsdialog.cpp:1620
+#: src/dialogs/kdenlivesettingsdialog.cpp:1656
+#: src/dialogs/kdenlivesettingsdialog.cpp:1673
 #: src/mltcontroller/clippropertiescontroller.cpp:552
 #: src/mltcontroller/clippropertiescontroller.cpp:1386
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -6871,15 +6871,15 @@ msgstr "現在の設定"
 msgid "Progressive"
 msgstr "プログレッシブ"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1754
-#: src/dialogs/kdenlivesettingsdialog.cpp:1778
+#: src/dialogs/kdenlivesettingsdialog.cpp:1763
+#: src/dialogs/kdenlivesettingsdialog.cpp:1787
 #, kde-format
 msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1775
+#: src/dialogs/kdenlivesettingsdialog.cpp:1784
 #, kde-format
 msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
@@ -6888,89 +6888,89 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1785
-#: src/dialogs/kdenlivesettingsdialog.cpp:1800
-#: src/dialogs/kdenlivesettingsdialog.cpp:2117 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:1794
+#: src/dialogs/kdenlivesettingsdialog.cpp:1809
+#: src/dialogs/kdenlivesettingsdialog.cpp:2126 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Models folder"
 msgstr "プロジェクトフォルダの使用"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1842
+#: src/dialogs/kdenlivesettingsdialog.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Setting up virtual environment…"
 msgstr "MLT 環境のパス設定"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1844
+#: src/dialogs/kdenlivesettingsdialog.cpp:1853
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1861
+#: src/dialogs/kdenlivesettingsdialog.cpp:1870
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "MLT 環境のパス設定"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1866
+#: src/dialogs/kdenlivesettingsdialog.cpp:1875
 #, fuzzy, kde-format
 #| msgid "No image found"
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "画像が見つかりません"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1869
+#: src/dialogs/kdenlivesettingsdialog.cpp:1878
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1874
+#: src/dialogs/kdenlivesettingsdialog.cpp:1883
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1929
-#: src/dialogs/kdenlivesettingsdialog.cpp:2114
+#: src/dialogs/kdenlivesettingsdialog.cpp:1938
+#: src/dialogs/kdenlivesettingsdialog.cpp:2123
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "遷移効果の選択(E)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1962
+#: src/dialogs/kdenlivesettingsdialog.cpp:1971
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1992
+#: src/dialogs/kdenlivesettingsdialog.cpp:2001
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1998
+#: src/dialogs/kdenlivesettingsdialog.cpp:2007
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "新しいワイプのダウンロード(D)..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2008
+#: src/dialogs/kdenlivesettingsdialog.cpp:2017
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2014
-#: src/dialogs/kdenlivesettingsdialog.cpp:2073
+#: src/dialogs/kdenlivesettingsdialog.cpp:2023
+#: src/dialogs/kdenlivesettingsdialog.cpp:2082
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "このクリップにはビデオ効果を追加できません"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2023
+#: src/dialogs/kdenlivesettingsdialog.cpp:2032
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6979,23 +6979,23 @@ msgstr ""
 "フォルダの削除:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2047
+#: src/dialogs/kdenlivesettingsdialog.cpp:2056
 #, kde-format
 msgid "Download error"
 msgstr "ダウンロードエラー"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2052
+#: src/dialogs/kdenlivesettingsdialog.cpp:2061
 #, kde-format
 msgid "Download error %1"
 msgstr "ダウンロードエラー %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2080
+#: src/dialogs/kdenlivesettingsdialog.cpp:2089
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "出力しています..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2087
+#: src/dialogs/kdenlivesettingsdialog.cpp:2096
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -7202,12 +7202,12 @@ msgstr "レンダリングを中止しました"
 msgid "Nearest (fast)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:204 src/monitor/monitormanager.cpp:596
+#: src/dialogs/renderwidget.cpp:204 src/monitor/monitormanager.cpp:597
 #, kde-format
 msgid "Bilinear (good)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:205 src/monitor/monitormanager.cpp:597
+#: src/dialogs/renderwidget.cpp:205 src/monitor/monitormanager.cpp:598
 #, kde-format
 msgid "Bicubic (better)"
 msgstr ""
@@ -7235,17 +7235,17 @@ msgstr "垂直方向"
 msgid "Square (1:1)"
 msgstr "正方形のぼかし"
 
-#: src/dialogs/renderwidget.cpp:222 src/monitor/monitormanager.cpp:577
+#: src/dialogs/renderwidget.cpp:222 src/monitor/monitormanager.cpp:578
 #, kde-format
 msgid "One Field (fast)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:223 src/monitor/monitormanager.cpp:578
+#: src/dialogs/renderwidget.cpp:223 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:579
+#: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:580
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr ""
@@ -10174,13 +10174,13 @@ msgid "Markers"
 msgstr "マーカー(M)"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:81 src/mainwindow.cpp:3878
+#: src/kdenliveui.rc:81 src/mainwindow.cpp:3879
 #, kde-format
 msgid "Extract Audio"
 msgstr "オーディオの抽出"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:84 src/mainwindow.cpp:3852
+#: src/kdenliveui.rc:84 src/mainwindow.cpp:3853
 #, kde-format
 msgid "Clip Jobs"
 msgstr "クリップジョブ"
@@ -11421,7 +11421,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1463 src/mainwindow.cpp:3496
+#: src/mainwindow.cpp:1463 src/mainwindow.cpp:3497
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -11979,7 +11979,7 @@ msgstr ""
 msgid "Effect Keyframes"
 msgstr "キーフレームの効果"
 
-#: src/mainwindow.cpp:1900 src/monitor/view/EffectToolBar.qml:89
+#: src/mainwindow.cpp:1900 src/monitor/view/EffectToolBar.qml:99
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "キーフレームを追加/削除"
@@ -12332,7 +12332,7 @@ msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "汎用"
 
-#: src/mainwindow.cpp:2686
+#: src/mainwindow.cpp:2687
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -12340,28 +12340,28 @@ msgid ""
 msgstr ""
 "Kdenlive の設定ファイルを削除しアプリケーションを再起動します。続けますか？"
 
-#: src/mainwindow.cpp:2687
+#: src/mainwindow.cpp:2688
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "設定をリセット"
 
-#: src/mainwindow.cpp:2819 src/mainwindow.cpp:2846
+#: src/mainwindow.cpp:2820 src/mainwindow.cpp:2847
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "マーカーを削除すべきクリップが見つかりません"
 
-#: src/mainwindow.cpp:2829 src/mainwindow.cpp:2875
+#: src/mainwindow.cpp:2830 src/mainwindow.cpp:2876
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "カーソルの時刻にはマーカーが見つかりません"
 
-#: src/mainwindow.cpp:2851
+#: src/mainwindow.cpp:2852
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "マーカーを削除する際にエラーが発生しました"
 
-#: src/mainwindow.cpp:2868 src/timeline2/view/timelinecontroller.cpp:1311
+#: src/mainwindow.cpp:2869 src/timeline2/view/timelinecontroller.cpp:1311
 #: src/timeline2/view/timelinecontroller.cpp:1319
 #: src/timeline2/view/timelinecontroller.cpp:1340
 #: src/timeline2/view/timelinecontroller.cpp:1380
@@ -12371,13 +12371,13 @@ msgstr "マーカーを削除する際にエラーが発生しました"
 msgid "Cannot find clip to edit marker"
 msgstr "マーカーを追加すべきクリップが見つかりません"
 
-#: src/mainwindow.cpp:3067 src/timeline2/model/timelinefunctions.cpp:758
+#: src/mainwindow.cpp:3068 src/timeline2/model/timelinefunctions.cpp:758
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, kde-format
 msgid "Overwrite zone"
 msgstr "上書き範囲(O)"
 
-#: src/mainwindow.cpp:3069 src/mainwindow.cpp:3088
+#: src/mainwindow.cpp:3070 src/mainwindow.cpp:3089
 #: src/timeline2/model/timelinefunctions.cpp:760
 #: src/timeline2/view/timelinecontroller.cpp:3112
 #, fuzzy, kde-format
@@ -12385,30 +12385,30 @@ msgstr "上書き範囲(O)"
 msgid "Could not insert zone"
 msgstr "挿入モード(I)"
 
-#: src/mainwindow.cpp:3079
+#: src/mainwindow.cpp:3080
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected in project bin"
 msgstr "利用可能なクリップが選択されていません"
 
-#: src/mainwindow.cpp:3086 src/timeline2/model/timelinefunctions.cpp:758
+#: src/mainwindow.cpp:3087 src/timeline2/model/timelinefunctions.cpp:758
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, kde-format
 msgid "Insert zone"
 msgstr "挿入範囲"
 
-#: src/mainwindow.cpp:3253
+#: src/mainwindow.cpp:3254
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to active item"
 msgstr "このクリップにはビデオ効果を追加できません"
 
-#: src/mainwindow.cpp:3315
+#: src/mainwindow.cpp:3316
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "拡大レベル: %1/%2"
 
-#: src/mainwindow.cpp:3464
+#: src/mainwindow.cpp:3465
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for "
@@ -12422,7 +12422,7 @@ msgstr ""
 "<b>シフト + ドラッグ</b>で矩形選択、<b>シフト + クリック</b>で複数選択、"
 "<b>Ctrl + ドラッグ</b>でパン"
 
-#: src/mainwindow.cpp:3468
+#: src/mainwindow.cpp:3469
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for "
@@ -12437,12 +12437,12 @@ msgstr ""
 "<b>シフト + ドラッグ</b>で矩形選択、<b>シフト + クリック</b>で複数選択、"
 "<b>Ctrl + ドラッグ</b>でパン"
 
-#: src/mainwindow.cpp:3471
+#: src/mainwindow.cpp:3472
 #, kde-format
 msgid "Select"
 msgstr "選択"
 
-#: src/mainwindow.cpp:3473
+#: src/mainwindow.cpp:3474
 #, fuzzy, kde-kuit-format
 #| msgid "<b>Shift</b> to preview cut frame"
 msgctxt "@info:whatsthis"
@@ -12450,13 +12450,13 @@ msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<b>シフト</b>でフレームカットプレビュー"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3474 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3475 src/ui/configtools_ui.ui:21
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "刈り取りツール(R)"
 
-#: src/mainwindow.cpp:3478
+#: src/mainwindow.cpp:3479
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Ctrl</b> to apply on current track only, <b>Shift</b> to also move "
@@ -12469,13 +12469,13 @@ msgstr ""
 "<b>Ctrl</b> で現在のトラックのみに適用、<b>シフト</b>でガイドも移動。両方を組"
 "み合わせることもできます。"
 
-#: src/mainwindow.cpp:3479
+#: src/mainwindow.cpp:3480
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "スペース(P)"
 
-#: src/mainwindow.cpp:3481
+#: src/mainwindow.cpp:3482
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -12489,14 +12489,14 @@ msgstr ""
 "<shortcut>クリック</shortcut> でポイントを追加、<shortcut>右クリック</"
 "shortcut> でシェイプを閉じる。"
 
-#: src/mainwindow.cpp:3482
+#: src/mainwindow.cpp:3483
 #, fuzzy, kde-format
 #| msgid "Slip"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "スリップ"
 
-#: src/mainwindow.cpp:3487
+#: src/mainwindow.cpp:3488
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Shift drag</b> for rubber-band selection, <b>Shift click</b> for "
@@ -12510,13 +12510,13 @@ msgstr ""
 "<b>シフト + ドラッグ</b>で矩形選択、<b>シフト + クリック</b>で複数選択、"
 "<b>Ctrl + ドラッグ</b>でパン"
 
-#: src/mainwindow.cpp:3489
+#: src/mainwindow.cpp:3490
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr ""
 
-#: src/mainwindow.cpp:3495
+#: src/mainwindow.cpp:3496
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12524,109 +12524,109 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3507
+#: src/mainwindow.cpp:3508
 #, kde-format
 msgid "Insert"
 msgstr "挿入"
 
-#: src/mainwindow.cpp:3510
+#: src/mainwindow.cpp:3511
 #, kde-format
 msgid "Overwrite"
 msgstr "上書き"
 
-#: src/mainwindow.cpp:3768 src/mainwindow.cpp:3770
+#: src/mainwindow.cpp:3769 src/mainwindow.cpp:3771
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3775
+#: src/mainwindow.cpp:3776
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bins"
 msgstr "プロジェクトビン"
 
-#: src/mainwindow.cpp:3871
+#: src/mainwindow.cpp:3872
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "クリップジョブを設定..."
 
-#: src/mainwindow.cpp:3877
+#: src/mainwindow.cpp:3878
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "トランスコード"
 
-#: src/mainwindow.cpp:3937
+#: src/mainwindow.cpp:3938
 #, kde-format
 msgid "-merged"
 msgstr ""
 
-#: src/mainwindow.cpp:3940
+#: src/mainwindow.cpp:3941
 #, fuzzy, kde-format
 #| msgid "Video stream %1"
 msgid "-stream-%1"
 msgstr "ビデオストリーム %1"
 
-#: src/mainwindow.cpp:3982
+#: src/mainwindow.cpp:3983
 #, kde-format
 msgid "Interface"
 msgstr "インターフェース"
 
-#: src/mainwindow.cpp:4004
+#: src/mainwindow.cpp:4005
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Raise %1"
 msgstr "効果の保存"
 
-#: src/mainwindow.cpp:4071
+#: src/mainwindow.cpp:4072
 #, fuzzy, kde-format
 #| msgid "Close after transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "トランスコード完了後に閉じる"
 
-#: src/mainwindow.cpp:4200
+#: src/mainwindow.cpp:4201
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "プロジェクトファイルをアーカイブできませんでした。"
 
-#: src/mainwindow.cpp:4206
+#: src/mainwindow.cpp:4207
 #, kde-format
 msgid "Archiving project"
 msgstr ""
 
-#: src/mainwindow.cpp:4364
+#: src/mainwindow.cpp:4365
 #, kde-format
 msgid "Icon Size"
 msgstr "アイコンのサイズ"
 
-#: src/mainwindow.cpp:4368
+#: src/mainwindow.cpp:4369
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "既定値"
 
-#: src/mainwindow.cpp:4389 src/mainwindow.cpp:4417
+#: src/mainwindow.cpp:4390 src/mainwindow.cpp:4418
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "小 (%1x%2)"
 
-#: src/mainwindow.cpp:4391 src/mainwindow.cpp:4419
+#: src/mainwindow.cpp:4392 src/mainwindow.cpp:4420
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "中 (%1x%2)"
 
-#: src/mainwindow.cpp:4393 src/mainwindow.cpp:4421
+#: src/mainwindow.cpp:4394 src/mainwindow.cpp:4422
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "大 (%1x%2)"
 
-#: src/mainwindow.cpp:4395 src/mainwindow.cpp:4423
+#: src/mainwindow.cpp:4396 src/mainwindow.cpp:4424
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "特大 (%1x%2)"
 
-#: src/mainwindow.cpp:4479
+#: src/mainwindow.cpp:4480
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -12634,12 +12634,12 @@ msgid ""
 msgstr ""
 "これはメニューバーを完全に隠します。Ctrl+M を押すことで再表示できます。"
 
-#: src/mainwindow.cpp:4479
+#: src/mainwindow.cpp:4480
 #, kde-format
 msgid "Hide menu bar"
 msgstr "メニューバーを隠す"
 
-#: src/mainwindow.cpp:4495
+#: src/mainwindow.cpp:4496
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -12647,35 +12647,35 @@ msgstr ""
 "アイコンテーマの変更を適用するために Kdenlive を再起動する必要があります。今"
 "すぐ再起動しますか？"
 
-#: src/mainwindow.cpp:4751 src/timeline2/view/timelinecontroller.cpp:5137
+#: src/mainwindow.cpp:4752 src/timeline2/view/timelinecontroller.cpp:5137
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "現在のプロジェクトには字幕がありません"
 
-#: src/mainwindow.cpp:5038
+#: src/mainwindow.cpp:5039
 #, kde-format
 msgid "Go to download page"
 msgstr "ダウンロードページを訪れる"
 
-#: src/mainwindow.cpp:5041
+#: src/mainwindow.cpp:5042
 #, kde-format
 msgid "Never check again"
 msgstr "再度確認しない"
 
-#: src/mainwindow.cpp:5044
+#: src/mainwindow.cpp:5045
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5047
+#: src/mainwindow.cpp:5048
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5090
+#: src/mainwindow.cpp:5091
 #, kde-format
 msgid "Checking cached data size"
 msgstr "キャッシュデータのサイズを確認中"
@@ -13219,34 +13219,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:356 src/monitor/monitormanager.cpp:638
+#: src/monitor/monitor.cpp:356 src/monitor/monitormanager.cpp:639
 #, kde-format
 msgid "Set Zone In"
 msgstr "ゾーン・インの設定(S)"
 
-#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:642
+#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:643
 #, kde-format
 msgid "Set Zone Out"
 msgstr "ゾーン・アウトの設定(Z)"
 
-#: src/monitor/monitor.cpp:369 src/monitor/monitormanager.cpp:522
+#: src/monitor/monitor.cpp:369 src/monitor/monitormanager.cpp:523
 #, kde-format
 msgid "Rewind"
 msgstr "巻き戻し(R)"
 
 #: src/monitor/monitor.cpp:374 src/monitor/monitor.cpp:377
-#: src/monitor/monitormanager.cpp:497
+#: src/monitor/monitormanager.cpp:498
 #, kde-format
 msgid "Play"
 msgstr "再生(P)"
 
-#: src/monitor/monitor.cpp:377 src/monitor/monitormanager.cpp:497
-#: src/monitor/monitormanager.cpp:503
+#: src/monitor/monitor.cpp:377 src/monitor/monitormanager.cpp:498
+#: src/monitor/monitormanager.cpp:504
 #, kde-format
 msgid "Pause"
 msgstr "一時停止(P)"
 
-#: src/monitor/monitor.cpp:397 src/monitor/monitormanager.cpp:535
+#: src/monitor/monitor.cpp:397 src/monitor/monitormanager.cpp:536
 #, kde-format
 msgid "Forward"
 msgstr "早送り(D)"
@@ -13439,7 +13439,7 @@ msgstr ""
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:199
+#: src/monitor/monitormanager.cpp:200
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
@@ -13448,7 +13448,7 @@ msgstr ""
 "タイムラインの表示に<a href=\"#clipmonitor\">クリップモニタを使用</a>します"
 "か？"
 
-#: src/monitor/monitormanager.cpp:218
+#: src/monitor/monitormanager.cpp:219
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
@@ -13457,131 +13457,131 @@ msgstr ""
 "タイムラインの表示に<a href=\"#projectmonitor\">プロジェクトモニタを使用</a>"
 "しますか？"
 
-#: src/monitor/monitormanager.cpp:507
+#: src/monitor/monitormanager.cpp:508
 #, fuzzy, kde-format
 #| msgid "Switch monitor fullscreen"
 msgid "Switch Monitor Fullscreen"
 msgstr "モニタをフルスクリーン表示(M)"
 
-#: src/monitor/monitormanager.cpp:512
+#: src/monitor/monitormanager.cpp:513
 #, fuzzy, kde-format
 #| msgid "Zoom In"
 msgid "Zoom In Monitor"
 msgstr "拡大(Z)"
 
-#: src/monitor/monitormanager.cpp:517
+#: src/monitor/monitormanager.cpp:518
 #, fuzzy, kde-format
 #| msgid "Switch monitor"
 msgid "Zoom Out Monitor"
 msgstr "モニタの切り替え(W)"
 
-#: src/monitor/monitormanager.cpp:526
+#: src/monitor/monitormanager.cpp:527
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "1 フレーム巻き戻し(1)"
 
-#: src/monitor/monitormanager.cpp:530
+#: src/monitor/monitormanager.cpp:531
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "1 秒巻き戻し(E)"
 
-#: src/monitor/monitormanager.cpp:539
+#: src/monitor/monitormanager.cpp:540
 #, kde-format
 msgid "Go to Project Start"
 msgstr "プロジェクトの開始点に移動(G)"
 
-#: src/monitor/monitormanager.cpp:543
+#: src/monitor/monitormanager.cpp:544
 #, kde-format
 msgid "Go to Project End"
 msgstr "プロジェクトの終了点に移動(P)"
 
-#: src/monitor/monitormanager.cpp:547
+#: src/monitor/monitormanager.cpp:548
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "1 フレーム早送り(O)"
 
-#: src/monitor/monitormanager.cpp:551
+#: src/monitor/monitormanager.cpp:552
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "1 秒早送り(F)"
 
-#: src/monitor/monitormanager.cpp:556
+#: src/monitor/monitormanager.cpp:557
 #, fuzzy, kde-format
 #| msgid "Split view"
 msgid "Multitrack View"
 msgstr "分割表示"
 
-#: src/monitor/monitormanager.cpp:565
+#: src/monitor/monitormanager.cpp:566
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:569
+#: src/monitor/monitormanager.cpp:570
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "編集モードの表示/非表示"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:571
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:576 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:577 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:580
+#: src/monitor/monitormanager.cpp:581
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:594 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:595 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "補間"
 
-#: src/monitor/monitormanager.cpp:595
+#: src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:598
+#: src/monitor/monitormanager.cpp:599
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:612
+#: src/monitor/monitormanager.cpp:613
 #, fuzzy, kde-format
 #| msgid "Progressive"
 msgid "Progressive playback"
 msgstr "プログレッシブ"
 
-#: src/monitor/monitormanager.cpp:618
+#: src/monitor/monitormanager.cpp:619
 #, fuzzy, kde-format
 #| msgid "Audio Spectrum"
 msgid "Audio Scrubbing"
 msgstr "オーディオスペクトラム"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:625
 #, kde-format
 msgid "Mute Monitor"
 msgstr "モニタをミュート"
 
-#: src/monitor/monitormanager.cpp:624
+#: src/monitor/monitormanager.cpp:625
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "モニタのミュートを解除"
 
-#: src/monitor/monitormanager.cpp:630
+#: src/monitor/monitormanager.cpp:631
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "ゾーンの開始点に移動(Z)"
 
-#: src/monitor/monitormanager.cpp:634
+#: src/monitor/monitormanager.cpp:635
 #, kde-format
 msgid "Go to Zone End"
 msgstr "ゾーンの終了点に移動(O)"
@@ -13655,31 +13655,37 @@ msgstr "オーディオスペクトラム(I)"
 msgid "Switch Full Screen"
 msgstr "モニタをフルスクリーン表示(M)"
 
-#: src/monitor/view/EffectToolBar.qml:64 src/monitor/view/SceneToolBar.qml:65
+#: src/monitor/view/EffectToolBar.qml:64
+#, fuzzy, kde-format
+#| msgid "Show alpha"
+msgid "Show Grid"
+msgstr "アルファ表示"
+
+#: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, fuzzy, kde-format
 #| msgid "Overlay"
 msgid "Change Overlay"
 msgstr "オーバーレイ"
 
-#: src/monitor/view/EffectToolBar.qml:77
+#: src/monitor/view/EffectToolBar.qml:87
 #, fuzzy, kde-format
 #| msgid "Go to next keyframe"
 msgid "Go to Next Keyframe"
 msgstr "次のキーフレームに移動"
 
-#: src/monitor/view/EffectToolBar.qml:83
+#: src/monitor/view/EffectToolBar.qml:93
 #, fuzzy, kde-format
 #| msgid "Go to previous keyframe"
 msgid "Go to Previous Keyframe"
 msgstr "前のキーフレームに移動"
 
-#: src/monitor/view/EffectToolBar.qml:94
+#: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
 msgid "Automatic Keyframes"
 msgstr "自動キーフレーム"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomIn)
-#: src/monitor/view/EffectToolBar.qml:102
+#: src/monitor/view/EffectToolBar.qml:112
 #: src/monitor/view/MultiScreenToolBar.qml:64
 #: src/monitor/view/SceneToolBar.qml:77 src/ui/bezierspline_ui.ui:169
 #, kde-format
@@ -13687,14 +13693,14 @@ msgid "Zoom in"
 msgstr "拡大"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonZoomOut)
-#: src/monitor/view/EffectToolBar.qml:107
+#: src/monitor/view/EffectToolBar.qml:117
 #: src/monitor/view/MultiScreenToolBar.qml:72
 #: src/monitor/view/SceneToolBar.qml:85 src/ui/bezierspline_ui.ui:186
 #, kde-format
 msgid "Zoom out"
 msgstr "縮小"
 
-#: src/monitor/view/EffectToolBar.qml:114
+#: src/monitor/view/EffectToolBar.qml:124
 #: src/monitor/view/MultiScreenToolBar.qml:81
 #: src/monitor/view/SceneToolBar.qml:112
 #, fuzzy, kde-format
@@ -13758,7 +13764,7 @@ msgstr ""
 "バー</b>でツールバー、<b>ホイール</b>または<b>矢印</b>でシーク、<b>Ctrl + ホ"
 "イール</b>でズーム"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:241
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -19723,16 +19729,23 @@ msgid "Audio thumbnail colors:"
 msgstr "オーディオのサムネイルを表示する(T)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
-#: src/ui/configcolors_ui.ui:41
+#: src/ui/configcolors_ui.ui:38
 #, kde-format
 msgid "Monitor overlay color:"
 msgstr "モニターのオーバーレイ色:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
-#: src/ui/configcolors_ui.ui:61
+#: src/ui/configcolors_ui.ui:48
 #, kde-format
 msgid "Monitor background color:"
 msgstr "背景色のモニタ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: src/ui/configcolors_ui.ui:58
+#, fuzzy, kde-format
+#| msgid "Monitor"
+msgid "Monitor grid"
+msgstr "モニタ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
