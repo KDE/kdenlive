@@ -32,6 +32,10 @@ public:
 private:
     QQuickWidget *m_view;
     MonitorSceneType m_sceneType;
+    bool m_sceneChangeBlocked{false};
+
+public Q_SLOTS:
+    void blockSceneChange(bool block);
 
 private Q_SLOTS:
     void effectRectChanged();

@@ -80,6 +80,8 @@ public:
 
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
+    /** @brief Set the active effect in the stack */
+    void setActiveEffect(int row);
 
     /** @brief Returns true if effect stack is enabled */
     bool stackEnabled() const;
@@ -118,6 +120,8 @@ public:
 
     /** @brief Replace the bin producer with another bin clip */
     void switchBinReference(const QString newId, const QUuid &uuid);
+    /** @brief Get the asset id of the active effect, empty if none */
+    const QString activeEffectId() const;
 
 protected:
     /** @brief helper functions that creates the lambda */

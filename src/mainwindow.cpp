@@ -5321,6 +5321,11 @@ void MainWindow::slotCreateSequenceFromSelection()
     pCore->projectManager()->slotCreateSequenceFromSelection();
 }
 
+ObjectId MainWindow::effectStackOwner()
+{
+    return m_assetPanel->effectStackOwner();
+}
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif
