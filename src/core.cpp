@@ -888,7 +888,8 @@ void Core::refreshProjectItem(const ObjectId &id)
             m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
             m_monitorManager->refreshClipMonitor(true);
         }
-        if (m_monitorManager->projectMonitorVisible() && m_mainWindow->getCurrentTimeline()->controller()->refreshIfVisible(id.itemId)) {
+        if (m_monitorManager->projectMonitorVisible() && m_mainWindow->getCurrentTimeline() &&
+            m_mainWindow->getCurrentTimeline()->controller()->refreshIfVisible(id.itemId)) {
             m_monitorManager->refreshTimer.start();
         }
         break;
