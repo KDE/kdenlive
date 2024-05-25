@@ -314,6 +314,7 @@ Item {
               property int oldMouseX
               property int oldMouseY
               property double handleRatio: 1
+              property bool dragging: false
               acceptedButtons: Qt.LeftButton
               width: parent.width; height: parent.height
               anchors.centerIn: parent
@@ -331,6 +332,7 @@ Item {
               }
               onPressed: mouse => {
                   root.captureRightClick = true
+                  dragging = false
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                     console.log('ADDREMOVE THAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -343,6 +345,10 @@ Item {
               }
               onPositionChanged: mouse => {
                 if (pressed) {
+                  if (!dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                    return
+                  }
+                  dragging = true
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
@@ -376,6 +382,7 @@ Item {
               }
               onReleased: {
                   root.captureRightClick = false
+                  dragging = false
                   effectsize.visible = false
                   tlhandle.color = '#ff0000'
                   handleRatio = 1
@@ -408,6 +415,7 @@ Item {
               property int oldMouseX
               property int oldMouseY
               property double handleRatio: 1
+              property bool dragging: false
               width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
@@ -424,6 +432,7 @@ Item {
               }
               onPressed: mouse => {
                   root.captureRightClick = true
+                  dragging = false
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE TRAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -436,6 +445,10 @@ Item {
               }
               onPositionChanged: mouse => {
                 if (pressed) {
+                  if (!dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                    return
+                  }
+                  dragging = true
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
@@ -463,6 +476,7 @@ Item {
               }
               onReleased: {
                   root.captureRightClick = false
+                  dragging = false
                   effectsize.visible = false
                   trhandle.color = '#ff0000'
                   handleRatio = 1
@@ -484,6 +498,7 @@ Item {
               property int oldMouseX
               property int oldMouseY
               property double handleRatio: 1
+              property bool dragging: false
               width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
@@ -500,6 +515,7 @@ Item {
               }
               onPressed: mouse => {
                   root.captureRightClick = true
+                  dragging = false
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE BLAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -512,6 +528,10 @@ Item {
               }
               onPositionChanged: mouse => {
                 if (pressed) {
+                  if (!dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                    return
+                  }
+                  dragging = true
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
@@ -539,6 +559,7 @@ Item {
               }
               onReleased: {
                   root.captureRightClick = false
+                  dragging = false
                   effectsize.visible = false
                   blhandle.color = '#ff0000'
                   handleRatio = 1
@@ -560,6 +581,7 @@ Item {
               property int oldMouseX
               property int oldMouseY
               property double handleRatio: 1
+              property bool dragging: false
               width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
@@ -576,6 +598,7 @@ Item {
               }
               onPressed: mouse => {
                   root.captureRightClick = true
+                  dragging = false
                   if (root.iskeyframe == false && controller.autoKeyframe) {
                       console.log('ADDREMOVE BRHAND PRESSED')
                     controller.addRemoveKeyframe();
@@ -588,6 +611,10 @@ Item {
               }
               onPositionChanged: mouse => {
                 if (pressed) {
+                  if (!dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                    return
+                  }
+                  dragging = true
                    adjustedFrame = framesize
                    var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                    var adjustedMouse = getSnappedPos(positionInFrame)
@@ -613,6 +640,7 @@ Item {
               }
               onReleased: {
                   root.captureRightClick = false
+                  dragging = false
                   effectsize.visible = false
                   brhandle.color = '#ff0000'
                   handleRatio = 1
