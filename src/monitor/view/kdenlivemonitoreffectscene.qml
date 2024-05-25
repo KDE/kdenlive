@@ -263,7 +263,9 @@ Item {
         onPressed: mouse => {
             root.captureRightClick = true
             if (mouse.button & Qt.LeftButton) {
-                if (root.requestedKeyFrame >= 0 && !isMoving) {
+                if (mouse.modifiers & Qt.AltModifier) {
+                    controller.switchFocusClip()
+                } else if (root.requestedKeyFrame >= 0 && !isMoving) {
                     controller.seekToKeyframe();
                 }
             }
@@ -344,13 +346,11 @@ Item {
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
-                  console.log('ADJUSTED POSITION: ', adjustedMouse)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(adjustedMouse.x - framesize.x * root.scalex, adjustedMouse.y - framesize.y * root.scaley)
                       if (delta == 0) {
                         return
                       }
-                      console.log('TOP LEF DELTA: ', delta)
                       var newwidth = framerect.width - delta
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
                       adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ? root.lockratio : handleRatio))

@@ -1549,7 +1549,8 @@ bool EffectStackModel::hasKeyFrame(int frame)
 int EffectStackModel::effectRow(const QString &assetId) const
 {
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        if (std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId() == assetId) {
+        auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effect->getAssetId() == assetId && effect->isEnabled()) {
             return i;
         }
     }

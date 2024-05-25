@@ -392,4 +392,5 @@ Q_SIGNALS:
     void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
     void zoneDurationChanged();
+    void blockSceneChange(bool);
 };

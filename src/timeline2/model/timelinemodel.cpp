@@ -577,6 +577,19 @@ int TimelineModel::getPreviousVideoTrackIndex(int trackId) const
     return 0;
 }
 
+int TimelineModel::getTopVideoTrackIndex()
+{
+    READ_LOCK();
+    auto it = m_allTracks.end();
+    --it;
+    if (it != m_allTracks.cbegin()) {
+        if (!(*it)->isAudioTrack()) {
+            return (*it)->getId();
+        }
+    }
+    return 0;
+}
+
 int TimelineModel::getPreviousVideoTrackPos(int trackId) const
 {
     READ_LOCK();
@@ -6606,7 +6619,9 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
 {
     QWriteLocker locker(&m_lock);
     TRACE(ids);
-    requestClearSelection();
+    if (m_currentSelection.size() > 0) {
+        requestClearSelection();
+    }
     // if the items are in groups, we must retrieve their topmost containing groups
     std::unordered_set<int> roots;
     std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return m_groups->getRootId(id); });

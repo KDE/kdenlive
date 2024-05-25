@@ -1584,3 +1584,21 @@ std::shared_ptr<KeyframeModelList> ClipModel::getKFModel(int row)
     std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
     return eff->getKeyframeModel();
 }
+
+const QString ClipModel::activeEffectId() const
+{
+    int activeEffect = m_effectStack->getActiveEffect();
+    if (activeEffect > -1) {
+        std::shared_ptr<AbstractEffectItem> item = m_effectStack->getEffectStackRow(activeEffect);
+        if (item) {
+            std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+            return eff->getAssetId();
+        }
+    }
+    return QString();
+}
+
+void ClipModel::setActiveEffect(int row)
+{
+    m_effectStack->setActiveEffect(row);
+}
