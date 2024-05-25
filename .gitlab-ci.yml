@@ -46,10 +46,3 @@ include:
 #    paths:
 #     - ".kde-ci-packages/"
 #     - ".logs/"
-
-
-flatpak:
-  before_script:
-    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
-    - git clone https://invent.kde.org/sysadmin/ci-notary-service.git --depth=1
-    - flatpak --user install -y flathub org.freedesktop.Sdk.Extension.llvm17
