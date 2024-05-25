@@ -1341,7 +1341,6 @@ void MainWindow::setupActions()
     m_buttonRippleTool->setChecked(false);
 
     /* TODO Implement Roll
-    // TODO icon available (and properly working) in KF 5.86
     m_buttonRollTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-rolling")), i18n("Roll Tool"), this);
 
     m_buttonRollTool->setCheckable(true);
@@ -1357,7 +1356,6 @@ void MainWindow::setupActions()
     m_buttonMulticamTool->setChecked(false);
 
     /* TODO Implement Slide
-    // TODO icon available (and properly working) in KF 5.86
     m_buttonSlideTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slide")), i18n("Slide Tool"), this);
     m_buttonSlideTool->setCheckable(true);
     m_buttonSlideTool->setChecked(false);*/
@@ -1930,7 +1928,11 @@ void MainWindow::setupActions()
     connect(autoTrackHeight, &QAction::triggered, this, &MainWindow::slotAutoTrackHeight);
     timelineActions->addAction(QStringLiteral("fit_all_tracks"), autoTrackHeight);
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-composite")), i18n("Master effects"), this);
+#else
+    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Master effects"), this);
+#endif
     connect(masterEffectStack, &QAction::triggered, this, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         getCurrentTimeline()->controller()->showMasterEffects();

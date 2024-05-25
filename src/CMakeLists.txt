@@ -166,6 +166,7 @@ target_link_libraries(kdenliveLib
     KF${KF_MAJOR}::Codecs
     KF${KF_MAJOR}::KIOFileWidgets
     KF${KF_MAJOR}::KIOWidgets
+    KF${KF_MAJOR}::NewStuffWidgets
     KF${KF_MAJOR}::NotifyConfig
     KF${KF_MAJOR}::XmlGui
     KF${KF_MAJOR}::GuiAddons
@@ -183,14 +184,6 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft)
-
-if(KF${KF_MAJOR}NewStuff_VERSION VERSION_LESS "5.90")
-    target_link_libraries(kdenliveLib
-        KF${KF_MAJOR}::NewStuff)
-else()
-    target_link_libraries(kdenliveLib
-        KF${KF_MAJOR}::NewStuffWidgets)
-endif()
 
 if (KF_MAJOR LESS "6")
     target_link_libraries(kdenliveLib
