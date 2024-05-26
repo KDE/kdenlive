@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-25 00:38+0000\n"
+"POT-Creation-Date: 2024-05-26 00:37+0000\n"
 "PO-Revision-Date: 2024-05-20 19:02+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -82,7 +82,7 @@ msgstr "A szintek megjelenítésére szolgáló grafikon típusa."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:431
+#: src/monitor/monitor.cpp:432
 #, kde-format
 msgid "Background Color"
 msgstr "Háttérszín"
@@ -2829,7 +2829,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:117 src/mainwindow.cpp:1496
+#: src/dialogs/kdenlivesettingsdialog.cpp:117 src/mainwindow.cpp:1494
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -4045,13 +4045,13 @@ msgid "Import keyframes from clipboard"
 msgstr "Kulcsképkockák importálása a klipből"
 
 #: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1708
-#: src/mainwindow.cpp:1904
+#: src/mainwindow.cpp:1902
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Ugrás az előző kulcsképre"
 
 #: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1705
-#: src/mainwindow.cpp:1902
+#: src/mainwindow.cpp:1900
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Ugrás a következő kulcsképre"
@@ -4948,7 +4948,7 @@ msgid "Create bin folder"
 msgstr "Mappa létrehozása"
 
 #: src/bin/bin.cpp:2706 src/bin/bin.cpp:2719 src/bin/bin.cpp:3701
-#: src/timeline2/model/timelinemodel.cpp:2142
+#: src/timeline2/model/timelinemodel.cpp:2155
 #, kde-format
 msgid "Delete Clip"
 msgstr "Klip törlése"
@@ -5336,7 +5336,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5465 src/mainwindow.cpp:2802
+#: src/bin/bin.cpp:5465 src/mainwindow.cpp:2804
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nem találom a klipet, amihez a jelölőt kellene adni"
@@ -5434,7 +5434,7 @@ msgstr "Effektus törlése"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6286 src/bin/bin.cpp:6289 src/mainwindow.cpp:4883
+#: src/bin/bin.cpp:6286 src/bin/bin.cpp:6289 src/mainwindow.cpp:4885
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -5780,7 +5780,7 @@ msgid "Cut clip"
 msgstr "Klip kivágása"
 
 #: src/bin/model/subtitlemodel.cpp:825 src/bin/model/subtitlemodel.cpp:1588
-#: src/timeline2/model/timelinemodel.cpp:3904
+#: src/timeline2/model/timelinemodel.cpp:3917
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
@@ -5788,7 +5788,7 @@ msgid "Resize subtitle"
 msgstr "Klip törlése "
 
 #: src/bin/model/subtitlemodel.cpp:1021
-#: src/timeline2/model/timelinemodel.cpp:1345
+#: src/timeline2/model/timelinemodel.cpp:1358
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
@@ -5956,7 +5956,7 @@ msgstr "Klip hozzáadása"
 msgid "Rename Folder"
 msgstr "Mappa átnevezése"
 
-#: src/bin/projectitemmodel.cpp:1038 src/mainwindow.cpp:1550
+#: src/bin/projectitemmodel.cpp:1038 src/mainwindow.cpp:1548
 #, kde-format
 msgid "Clean Project"
 msgstr "Projekt tisztítása"
@@ -6018,7 +6018,7 @@ msgstr "Sáv hozzáadása"
 msgid "New tag"
 msgstr ""
 
-#: src/capture/mediacapture.cpp:469
+#: src/capture/mediacapture.cpp:473
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -6346,7 +6346,7 @@ msgstr ""
 "A dokumentum projekt mappa érvénytelen. A következő alapértelmezett mappa "
 "lesz használatba véve: %1"
 
-#: src/core.cpp:977
+#: src/core.cpp:978
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipek betöltése"
@@ -6857,7 +6857,7 @@ msgstr "Visszaalakító szálak"
 msgid "Import Subtitle"
 msgstr "Jelölők betöltése"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:113 src/mainwindow.cpp:3984
+#: src/dialogs/kdenlivesettingsdialog.cpp:113 src/mainwindow.cpp:3986
 #, kde-format
 msgid "Timeline"
 msgstr "Idővonal"
@@ -7694,7 +7694,7 @@ msgstr "Video hangsáv nélkül"
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i> leképzése elkezdődött"
 
-#: src/dialogs/renderwidget.cpp:903 src/monitor/monitor.cpp:1267
+#: src/dialogs/renderwidget.cpp:903 src/monitor/monitor.cpp:1270
 #, kde-format
 msgid "untitled"
 msgstr "névtelen"
@@ -9755,7 +9755,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:537
-#: src/timeline2/model/timelinemodel.cpp:5017
+#: src/timeline2/model/timelinemodel.cpp:5030
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 effektus hozzáadása"
@@ -10424,13 +10424,13 @@ msgid "Markers"
 msgstr "Jelölők"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:81 src/mainwindow.cpp:3879
+#: src/kdenliveui.rc:81 src/mainwindow.cpp:3881
 #, kde-format
 msgid "Extract Audio"
 msgstr "Hang kibontása"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:84 src/mainwindow.cpp:3853
+#: src/kdenliveui.rc:84 src/mainwindow.cpp:3855
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klipfeladatok"
@@ -10495,7 +10495,7 @@ msgstr "Üres hely"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:172 src/mainwindow.cpp:1922
+#: src/kdenliveui.rc:172 src/mainwindow.cpp:1920
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
@@ -10534,7 +10534,7 @@ msgid "Current Monitor Overlay"
 msgstr "Rátét információk figyelése"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:250 src/mainwindow.cpp:1621
+#: src/kdenliveui.rc:250 src/mainwindow.cpp:1619
 #, fuzzy, kde-format
 #| msgid "Video Resolution"
 msgid "Preview Resolution"
@@ -10741,7 +10741,7 @@ msgstr ""
 msgid "Hz "
 msgstr "Hz"
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:303
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:304
 #, fuzzy, kde-format
 #| msgid "Razor all tracks"
 msgid "Merged streams"
@@ -11314,7 +11314,7 @@ msgid "Add Transition"
 msgstr "Átmenet hozzáadása"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:585 src/mainwindow.cpp:2089
+#: src/mainwindow.cpp:585 src/mainwindow.cpp:2091
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -11336,7 +11336,7 @@ msgid ""
 "it to the selected clip."
 msgstr ""
 
-#: src/mainwindow.cpp:630 src/mainwindow.cpp:1544
+#: src/mainwindow.cpp:630 src/mainwindow.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Render"
 msgid "Render…"
@@ -11357,7 +11357,7 @@ msgstr "Leképzés fájlba"
 msgid "Rendering preview"
 msgstr "Rögzítési előzetes"
 
-#: src/mainwindow.cpp:699 src/monitor/monitor.cpp:411
+#: src/mainwindow.cpp:699 src/monitor/monitor.cpp:412
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Guide…"
@@ -11601,13 +11601,13 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1350
+#: src/mainwindow.cpp:1349
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgid "Slip Tool"
 msgstr "Üres hely eszköz"
 
-#: src/mainwindow.cpp:1351
+#: src/mainwindow.cpp:1350
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11615,24 +11615,24 @@ msgid ""
 "and forth."
 msgstr ""
 
-#: src/mainwindow.cpp:1355
+#: src/mainwindow.cpp:1354
 #, fuzzy, kde-format
 #| msgid "Multiselect tool"
 msgid "Multicam Tool"
 msgstr "Kiválasztó eszköz"
 
-#: src/mainwindow.cpp:1377
+#: src/mainwindow.cpp:1375
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1381
+#: src/mainwindow.cpp:1379
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Mix Clips"
 msgstr "Klip"
 
-#: src/mainwindow.cpp:1383
+#: src/mainwindow.cpp:1381
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11640,13 +11640,13 @@ msgid ""
 "one closest to the playhead."
 msgstr ""
 
-#: src/mainwindow.cpp:1391
+#: src/mainwindow.cpp:1389
 #, fuzzy, kde-format
 #| msgid "Show video thumbnails"
 msgid "Show Video Thumbnails"
 msgstr "Videó előnézet megjelenítése"
 
-#: src/mainwindow.cpp:1392
+#: src/mainwindow.cpp:1390
 #, fuzzy, kde-kuit-format
 #| msgid "Show keyframes in timeline"
 msgctxt "@info:whatsthis"
@@ -11655,13 +11655,13 @@ msgid ""
 "(default is On)."
 msgstr "Kulcsképek megjelenítése az idővonalon"
 
-#: src/mainwindow.cpp:1400
+#: src/mainwindow.cpp:1398
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Show Audio Thumbnails"
 msgstr "Hang előnézet megjelenítése"
 
-#: src/mainwindow.cpp:1401
+#: src/mainwindow.cpp:1399
 #, fuzzy, kde-kuit-format
 #| msgid "Show keyframes in timeline"
 msgctxt "@info:whatsthis"
@@ -11670,18 +11670,18 @@ msgid ""
 "(default is On)."
 msgstr "Kulcsképek megjelenítése az idővonalon"
 
-#: src/mainwindow.cpp:1407
+#: src/mainwindow.cpp:1405
 #, fuzzy, kde-format
 #| msgid "Show markers comments"
 msgid "Show Markers Comments"
 msgstr "Jelölők megjegyzéseinek megjelenítése"
 
-#: src/mainwindow.cpp:1413
+#: src/mainwindow.cpp:1411
 #, kde-format
 msgid "Snap"
 msgstr "Igazítás"
 
-#: src/mainwindow.cpp:1414
+#: src/mainwindow.cpp:1412
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11689,43 +11689,43 @@ msgid ""
 "and others)."
 msgstr ""
 
-#: src/mainwindow.cpp:1420
+#: src/mainwindow.cpp:1418
 #, fuzzy, kde-format
 #| msgid "Show %1 in timeline"
 msgid "Show Color Tags in Timeline"
 msgstr "%1 megjelenítése az idővonalon"
 
-#: src/mainwindow.cpp:1421
+#: src/mainwindow.cpp:1419
 #, fuzzy, kde-kuit-format
 #| msgid "Show keyframes in timeline"
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "Kulcsképek megjelenítése az idővonalon"
 
-#: src/mainwindow.cpp:1427
+#: src/mainwindow.cpp:1425
 #, fuzzy, kde-format
 #| msgid "Fit zoom to project"
 msgid "Fit Zoom to Project"
 msgstr "Nagyítás illesztése a projekthez"
 
-#: src/mainwindow.cpp:1428
+#: src/mainwindow.cpp:1426
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr ""
 
-#: src/mainwindow.cpp:1453
+#: src/mainwindow.cpp:1451
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1463 src/mainwindow.cpp:3497
+#: src/mainwindow.cpp:1461 src/mainwindow.cpp:3499
 #, kde-format
 msgid "Multicam"
 msgstr ""
 
-#: src/mainwindow.cpp:1464
+#: src/mainwindow.cpp:1462
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr ""
@@ -11733,268 +11733,268 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1515 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1513 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "Automatikus"
 
-#: src/mainwindow.cpp:1520
+#: src/mainwindow.cpp:1518
 #, fuzzy, kde-format
 #| msgid "OpenGL"
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1525
+#: src/mainwindow.cpp:1523
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr ""
 
-#: src/mainwindow.cpp:1530
+#: src/mainwindow.cpp:1528
 #, kde-format
 msgid "Software OpenGL"
 msgstr ""
 
-#: src/mainwindow.cpp:1540
+#: src/mainwindow.cpp:1538
 #, fuzzy, kde-format
 #| msgid "Run Config Wizard"
 msgid "Run Config Wizard…"
 msgstr "Beállítástündér futtatása"
 
-#: src/mainwindow.cpp:1541
+#: src/mainwindow.cpp:1539
 #, fuzzy, kde-format
 #| msgid "Project Settings"
 msgid "Project Settings…"
 msgstr "Projekt beállítások"
 
-#: src/mainwindow.cpp:1547
+#: src/mainwindow.cpp:1545
 #, fuzzy, kde-format
 #| msgid "Start Rendering"
 msgid "Stop Render"
 msgstr "Leképzés indítása"
 
-#: src/mainwindow.cpp:1552
+#: src/mainwindow.cpp:1550
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Reset Configuration…"
 msgstr "Eszközbeállítás"
 
-#: src/mainwindow.cpp:1557
+#: src/mainwindow.cpp:1555
 #, fuzzy, kde-format
 #| msgid "Play Zone"
 msgid "Play Zone From Cursor"
 msgstr "Lejátszási zóna"
 
-#: src/mainwindow.cpp:1560
+#: src/mainwindow.cpp:1558
 #, kde-format
 msgid "Play Zone"
 msgstr "Lejátszási zóna"
 
-#: src/mainwindow.cpp:1562
+#: src/mainwindow.cpp:1560
 #, kde-format
 msgid "Loop Zone"
 msgstr "Kiválasztott zóna ismétlése"
 
-#: src/mainwindow.cpp:1564
+#: src/mainwindow.cpp:1562
 #, fuzzy, kde-format
 #| msgid "Loop selected clip"
 msgid "Loop Selected Clip"
 msgstr "Kiválasztott klip ismétlése"
 
-#: src/mainwindow.cpp:1568
+#: src/mainwindow.cpp:1566
 #, fuzzy, kde-format
 #| msgid "Transcode Clips"
 msgid "Transcode Clips…"
 msgstr "Klipek átkódolása"
 
-#: src/mainwindow.cpp:1569
+#: src/mainwindow.cpp:1567
 #, fuzzy, kde-format
 #| msgid "Timeline Toolbar"
 msgid "OpenTimelineIO E&xport…"
 msgstr "Idővonal Eszköztár "
 
-#: src/mainwindow.cpp:1572
+#: src/mainwindow.cpp:1570
 #, fuzzy, kde-format
 #| msgid "Timeline Toolbar"
 msgid "OpenTimelineIO &Import…"
 msgstr "Idővonal Eszköztár "
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1574
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgid "Archive Project…"
 msgstr "Archív projekt"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1576
 #, fuzzy, kde-format
 #| msgid "Switch monitor"
 msgid "Switch Monitor"
 msgstr "Monitor váltása"
 
-#: src/mainwindow.cpp:1579
+#: src/mainwindow.cpp:1577
 #, fuzzy, kde-format
 #| msgid "Timecode overlay"
 msgid "Focus Timecode"
 msgstr "Időkód megjelenítése"
 
-#: src/mainwindow.cpp:1580
+#: src/mainwindow.cpp:1578
 #, fuzzy, kde-format
 #| msgid "Edit Clip"
 msgid "Expand Clip"
 msgstr "Klip szerkesztése"
 
-#: src/mainwindow.cpp:1582
+#: src/mainwindow.cpp:1580
 #, fuzzy, kde-format
 #| msgid "Monitor overlay infos"
 msgid "Monitor Info Overlay"
 msgstr "Rátét információk figyelése"
 
-#: src/mainwindow.cpp:1587
+#: src/mainwindow.cpp:1585
 #, fuzzy, kde-format
 #| msgid "Monitor overlay infos"
 msgid "Monitor Overlay Timecode"
 msgstr "Rátét információk figyelése"
 
-#: src/mainwindow.cpp:1592
+#: src/mainwindow.cpp:1590
 #, fuzzy, kde-format
 #| msgid "Monitor overlay infos"
 msgid "Monitor Overlay Playback Fps"
 msgstr "Rátét információk figyelése"
 
-#: src/mainwindow.cpp:1597
+#: src/mainwindow.cpp:1595
 #, fuzzy, kde-format
 #| msgid "Monitor overlay infos"
 msgid "Monitor Overlay Markers"
 msgstr "Rátét információk figyelése"
 
-#: src/mainwindow.cpp:1602
+#: src/mainwindow.cpp:1600
 #, fuzzy, kde-format
 #| msgid "Monitor overlay infos"
 msgid "Monitor Overlay Audio Waveform"
 msgstr "Rátét információk figyelése"
 
-#: src/mainwindow.cpp:1607
+#: src/mainwindow.cpp:1605
 #, fuzzy, kde-format
 #| msgid "Monitor overlay infos"
 msgid "Monitor Overlay Clip Jobs"
 msgstr "Rátét információk figyelése"
 
-#: src/mainwindow.cpp:1625
+#: src/mainwindow.cpp:1623
 #, fuzzy, kde-format
 #| msgid "Resolution"
 msgid "Full Resolution (1:1)"
 msgstr "Felbontás"
 
-#: src/mainwindow.cpp:1629 src/monitor/monitor.cpp:218
+#: src/mainwindow.cpp:1627 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "720p"
 msgstr ""
 
-#: src/mainwindow.cpp:1633 src/monitor/monitor.cpp:218
+#: src/mainwindow.cpp:1631 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "540p"
 msgstr ""
 
-#: src/mainwindow.cpp:1637 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1635 src/monitor/monitor.cpp:220
 #, kde-format
 msgid "360p"
 msgstr ""
 
-#: src/mainwindow.cpp:1641 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1639 src/monitor/monitor.cpp:220
 #, kde-format
 msgid "270p"
 msgstr ""
 
-#: src/mainwindow.cpp:1672
+#: src/mainwindow.cpp:1670
 #, fuzzy, kde-format
 #| msgid "Real time (drop frames)"
 msgid "Real Time (drop frames)"
 msgstr "Valósidejű (képkockák eldobásával)"
 
-#: src/mainwindow.cpp:1678
+#: src/mainwindow.cpp:1676
 #, fuzzy, kde-format
 #| msgid "Monitor"
 msgid "Monitor Gamma"
 msgstr "Monitor"
 
-#: src/mainwindow.cpp:1679
+#: src/mainwindow.cpp:1677
 #, kde-format
 msgid "sRGB (computer)"
 msgstr ""
 
-#: src/mainwindow.cpp:1680
+#: src/mainwindow.cpp:1678
 #, fuzzy, kde-format
 #| msgid "Rec. 709"
 msgid "Rec. 709 (TV)"
 msgstr "Felv. 709"
 
-#: src/mainwindow.cpp:1686
+#: src/mainwindow.cpp:1684
 #, fuzzy, kde-format
 #| msgid "Insert zone in project tree"
 msgid "Insert Zone in Project Bin"
 msgstr "Zóna beszúrása a projektfába"
 
-#: src/mainwindow.cpp:1688
+#: src/mainwindow.cpp:1686
 #, fuzzy, kde-kuit-format
 #| msgid "Select a clip if you want to apply an effect"
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
-#: src/mainwindow.cpp:1691
+#: src/mainwindow.cpp:1689
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "Ugrás az előző igazítási pontig"
 
-#: src/mainwindow.cpp:1693
+#: src/mainwindow.cpp:1691
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "Ugrás a következő jelölőig"
 
-#: src/mainwindow.cpp:1696
+#: src/mainwindow.cpp:1694
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "Ugrás a klip elejére"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1696
 #, kde-format
 msgid "Go to Clip End"
 msgstr "Ugrás a klip végére"
 
-#: src/mainwindow.cpp:1700
+#: src/mainwindow.cpp:1698
 #, fuzzy, kde-format
 #| msgid "Go to previous keyframe"
 msgid "Go to Previous Guide"
 msgstr "Ugrás az előző kulcsképre"
 
-#: src/mainwindow.cpp:1702
+#: src/mainwindow.cpp:1700
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Next Guide"
 msgstr "Ugrás a jelölőhöz…"
 
-#: src/mainwindow.cpp:1704
+#: src/mainwindow.cpp:1702
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr ""
 
-#: src/mainwindow.cpp:1707
+#: src/mainwindow.cpp:1705
 #, kde-format
 msgid "Grab Current Item"
 msgstr ""
 
-#: src/mainwindow.cpp:1710
+#: src/mainwindow.cpp:1708
 #, kde-format
 msgid "Automatic Transition"
 msgstr "Automatikus átmenet"
 
-#: src/mainwindow.cpp:1717
+#: src/mainwindow.cpp:1715
 #, fuzzy, kde-format
 #| msgid "Insert zone in timeline"
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Zóna beszúrása az idővonalba"
 
-#: src/mainwindow.cpp:1719
+#: src/mainwindow.cpp:1717
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12003,13 +12003,13 @@ msgid ""
 "insert position are cut and overwritten."
 msgstr ""
 
-#: src/mainwindow.cpp:1721
+#: src/mainwindow.cpp:1719
 #, fuzzy, kde-format
 #| msgid "Insert zone in timeline"
 msgid "Insert Clip Zone in Timeline"
 msgstr "Zóna beszúrása az idővonalba"
 
-#: src/mainwindow.cpp:1723
+#: src/mainwindow.cpp:1721
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12018,13 +12018,13 @@ msgid ""
 "insert position are cut and shifted to the right."
 msgstr ""
 
-#: src/mainwindow.cpp:1725
+#: src/mainwindow.cpp:1723
 #, fuzzy, kde-format
 #| msgid "Extract Zone"
 msgid "Extract Timeline Zone"
 msgstr "Zóna kibontása"
 
-#: src/mainwindow.cpp:1727
+#: src/mainwindow.cpp:1725
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12032,13 +12032,13 @@ msgid ""
 "are shifted left."
 msgstr ""
 
-#: src/mainwindow.cpp:1728
+#: src/mainwindow.cpp:1726
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "Lift Timeline Zone"
 msgstr "Idővonal"
 
-#: src/mainwindow.cpp:1730
+#: src/mainwindow.cpp:1728
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12046,26 +12046,26 @@ msgid ""
 "stay in position."
 msgstr ""
 
-#: src/mainwindow.cpp:1731
+#: src/mainwindow.cpp:1729
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Add Preview Zone"
 msgstr "Hanghullám előnézet:"
 
-#: src/mainwindow.cpp:1733
+#: src/mainwindow.cpp:1731
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
 
-#: src/mainwindow.cpp:1734
+#: src/mainwindow.cpp:1732
 #, fuzzy, kde-format
 #| msgid "Use Zone"
 msgid "Remove Preview Zone"
 msgstr "Zóna használata"
 
-#: src/mainwindow.cpp:1738
+#: src/mainwindow.cpp:1736
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12073,26 +12073,26 @@ msgid ""
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
 
-#: src/mainwindow.cpp:1739
+#: src/mainwindow.cpp:1737
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Remove All Preview Zones"
 msgstr "Hanghullám előnézet:"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1739
 #, fuzzy, kde-kuit-format
 #| msgid "Preview volume:"
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "Hanghullám előnézet:"
 
-#: src/mainwindow.cpp:1742
+#: src/mainwindow.cpp:1740
 #, fuzzy, kde-format
 #| msgid "Start Rendering"
 msgid "Start Preview Render"
 msgstr "Leképzés indítása"
 
-#: src/mainwindow.cpp:1745
+#: src/mainwindow.cpp:1743
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12101,193 +12101,193 @@ msgid ""
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
 
-#: src/mainwindow.cpp:1747
+#: src/mainwindow.cpp:1745
 #, fuzzy, kde-format
 #| msgid "Start Rendering"
 msgid "Stop Preview Render"
 msgstr "Leképzés indítása"
 
-#: src/mainwindow.cpp:1750
+#: src/mainwindow.cpp:1748
 #, fuzzy, kde-format
 #| msgid "Add Transition To Selection"
 msgid "Adjust Timeline Zone to Selection"
 msgstr "Átmenet hozzáadás kiválasztáshoz"
 
-#: src/mainwindow.cpp:1752
+#: src/mainwindow.cpp:1750
 #, kde-format
 msgid "Select Clip"
 msgstr "Klip kijelölése"
 
-#: src/mainwindow.cpp:1754
+#: src/mainwindow.cpp:1752
 #, kde-format
 msgid "Deselect Clip"
 msgstr "Klipkiválasztás megszüntetése"
 
-#: src/mainwindow.cpp:1756
+#: src/mainwindow.cpp:1754
 #, fuzzy, kde-format
 #| msgid "Add Clip To Selection"
 msgid "Add Clip to Selection"
 msgstr "Klip hozzáadása a kiválasztáshoz"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1756
 #, kde-format
 msgid "Select Transition"
 msgstr "Átmenet kiválasztása"
 
-#: src/mainwindow.cpp:1760
+#: src/mainwindow.cpp:1758
 #, kde-format
 msgid "Deselect Transition"
 msgstr "Átmenet kiválasztásának megszüntetése"
 
-#: src/mainwindow.cpp:1762
+#: src/mainwindow.cpp:1760
 #, fuzzy, kde-format
 #| msgid "Add Transition To Selection"
 msgid "Add Transition to Selection"
 msgstr "Átmenet hozzáadás kiválasztáshoz"
 
-#: src/mainwindow.cpp:1765
+#: src/mainwindow.cpp:1763
 #, kde-format
 msgid "Delete All Markers"
 msgstr "Összes jelölő törlése"
 
-#: src/mainwindow.cpp:1767
+#: src/mainwindow.cpp:1765
 #, kde-format
 msgid "Add Marker/Guide quickly"
 msgstr "Jelző hozzáadása / gyors-segéd"
 
-#: src/mainwindow.cpp:1771
+#: src/mainwindow.cpp:1769
 #, fuzzy, kde-format
 #| msgid "Current Settings"
 msgid "Current Selection"
 msgstr "Jelenlegi beállítások"
 
-#: src/mainwindow.cpp:1773 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1771 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "Jelölő hozzáadása"
 
-#: src/mainwindow.cpp:1777
+#: src/mainwindow.cpp:1775
 #, kde-format
 msgid "Delete Marker"
 msgstr "Jelölő törlése"
 
-#: src/mainwindow.cpp:1781
+#: src/mainwindow.cpp:1779
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Marker…"
 msgstr "Jelölő szerkesztése"
 
-#: src/mainwindow.cpp:1786 src/timeline2/model/timelinefunctions.cpp:1180
+#: src/mainwindow.cpp:1784 src/timeline2/model/timelinefunctions.cpp:1180
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "Restore Audio"
 msgstr "Hang kibontása"
 
-#: src/mainwindow.cpp:1792
+#: src/mainwindow.cpp:1790
 #, fuzzy, kde-format
 #| msgid "Extract"
 msgid "Extract Clip"
 msgstr "Kibontás"
 
-#: src/mainwindow.cpp:1798
+#: src/mainwindow.cpp:1796
 #, fuzzy, kde-format
 #| msgid "Selection"
 msgid "Save Clip Part to Bin"
 msgstr "Kijelölés"
 
-#: src/mainwindow.cpp:1803
+#: src/mainwindow.cpp:1801
 #, fuzzy, kde-format
 #| msgid "Title Clip"
 msgid "Disable Clip"
 msgstr "Cím klip"
 
-#: src/mainwindow.cpp:1808
+#: src/mainwindow.cpp:1806
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "Hanghivatkozás beállítása"
 
-#: src/mainwindow.cpp:1815
+#: src/mainwindow.cpp:1813
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "Hang igazítása a hivatkozáshoz"
 
-#: src/mainwindow.cpp:1820
+#: src/mainwindow.cpp:1818
 #, kde-format
 msgid "Edit Duration"
 msgstr "Időtartam szerkesztése"
 
-#: src/mainwindow.cpp:1824
+#: src/mainwindow.cpp:1822
 #, fuzzy, kde-format
 #| msgid "Change Clip Speed"
 msgid "Change Speed"
 msgstr "Klip sebesség módosítása"
 
-#: src/mainwindow.cpp:1830
+#: src/mainwindow.cpp:1828
 #, kde-format
 msgid "Time Remap"
 msgstr ""
 
-#: src/mainwindow.cpp:1837
+#: src/mainwindow.cpp:1835
 #, fuzzy, kde-format
 #| msgid "Clip in Project Tree"
 msgid "Clip in Project Bin"
 msgstr "Klip a projektfán"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1843 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1841 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "Klip vágása"
 
-#: src/mainwindow.cpp:1846
+#: src/mainwindow.cpp:1844
 #, fuzzy, kde-format
 #| msgid "Cut Clip"
 msgid "Cut All Clips"
 msgstr "Klip vágása"
 
-#: src/mainwindow.cpp:1849
+#: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Kiválasztott elemek törlése"
 
-#: src/mainwindow.cpp:1852
+#: src/mainwindow.cpp:1850
 #, kde-format
 msgid "Resize Item Start"
 msgstr "Elem átméretezése kezdődik"
 
-#: src/mainwindow.cpp:1856
+#: src/mainwindow.cpp:1854
 #, kde-format
 msgid "Resize Item End"
 msgstr "Elem átméretezése befejeződik"
 
-#: src/mainwindow.cpp:1860
+#: src/mainwindow.cpp:1858
 #, kde-format
 msgid "Paste Effects"
 msgstr "Effektek beillesztése"
 
-#: src/mainwindow.cpp:1866
+#: src/mainwindow.cpp:1864
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete Effects"
 msgstr "Effektus törlése"
 
-#: src/mainwindow.cpp:1873
+#: src/mainwindow.cpp:1871
 #, kde-format
 msgid "Group Clips"
 msgstr "Klipek csoportosítása"
 
-#: src/mainwindow.cpp:1879
+#: src/mainwindow.cpp:1877
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "Klipek csoportjának felbontása"
 
-#: src/mainwindow.cpp:1885
+#: src/mainwindow.cpp:1883
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence from Selection"
 msgstr "Új szekvencia készítése"
 
-#: src/mainwindow.cpp:1888
+#: src/mainwindow.cpp:1886
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12295,141 +12295,142 @@ msgid ""
 "that can be opened in another timeline tab."
 msgstr ""
 
-#: src/mainwindow.cpp:1899
+#: src/mainwindow.cpp:1897
 #, fuzzy, kde-format
 #| msgid "Edit Keyframe"
 msgid "Effect Keyframes"
 msgstr "Kulcsképkocka szerkesztése"
 
-#: src/mainwindow.cpp:1900 src/monitor/view/EffectToolBar.qml:99
+#: src/mainwindow.cpp:1898 src/monitor/view/EffectToolBar.qml:99
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Add/Remove Keyframe"
 msgstr "Kulcskép törlése"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1914
 #, fuzzy, kde-format
 #| msgid "Insert Space"
 msgid "Insert Space…"
 msgstr "Üres hely beszúrása"
 
-#: src/mainwindow.cpp:1917
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Remove Space"
 msgstr "Üres hely eltávolítása"
 
-#: src/mainwindow.cpp:1918
+#: src/mainwindow.cpp:1916
 #, fuzzy, kde-format
 #| msgid "Reset keyframes after cursor"
 msgid "Remove All Spaces After Cursor"
 msgstr "Kulcsképkockák visszaállítása a kurzor után"
 
-#: src/mainwindow.cpp:1919
+#: src/mainwindow.cpp:1917
 #, fuzzy, kde-format
 #| msgid "Reset keyframes after cursor"
 msgid "Remove All Clips After Cursor"
 msgstr "Kulcsképkockák visszaállítása a kurzor után"
 
-#: src/mainwindow.cpp:1920
+#: src/mainwindow.cpp:1918
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove Space in All Tracks"
 msgstr "Üres hely eltávolítása"
 
-#: src/mainwindow.cpp:1923
+#: src/mainwindow.cpp:1921
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Sáv beszúrása"
 
-#: src/mainwindow.cpp:1927
+#: src/mainwindow.cpp:1925
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Fit all Tracks in View"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:1933 src/timeline2/view/timelinecontroller.cpp:4924
+#: src/mainwindow.cpp:1932 src/mainwindow.cpp:1934
+#: src/timeline2/view/timelinecontroller.cpp:4924
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Master effects"
 msgstr "Effektek beillesztése"
 
-#: src/mainwindow.cpp:1940
+#: src/mainwindow.cpp:1942
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr ""
 
-#: src/mainwindow.cpp:1945
+#: src/mainwindow.cpp:1947
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete Track…"
 msgstr "Sáv törlése"
 
-#: src/mainwindow.cpp:1950
+#: src/mainwindow.cpp:1952
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Record Controls"
 msgstr "Felvétel Monitor"
 
-#: src/mainwindow.cpp:1956
+#: src/mainwindow.cpp:1958
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "Az összes kijelölése a jelenlegi számban"
 
-#: src/mainwindow.cpp:1973
+#: src/mainwindow.cpp:1975
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr ""
 
-#: src/mainwindow.cpp:1976
+#: src/mainwindow.cpp:1978
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Disable Timeline Preview"
 msgstr "Kép-előnézet"
 
-#: src/mainwindow.cpp:1980
+#: src/mainwindow.cpp:1982
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Add/Remove Guide"
 msgstr "Fájl eltávolítása"
 
-#: src/mainwindow.cpp:1981
+#: src/mainwindow.cpp:1983
 #, kde-format
 msgid "Delete Guide"
 msgstr "Segédpont törlése"
 
-#: src/mainwindow.cpp:1982
+#: src/mainwindow.cpp:1984
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Guide…"
 msgstr "Segédpont szerkesztése"
 
-#: src/mainwindow.cpp:1983
+#: src/mainwindow.cpp:1985
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search Guide…"
 msgstr "Keresés"
 
-#: src/mainwindow.cpp:1984
+#: src/mainwindow.cpp:1986
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Export Guides…"
 msgstr "Jelölők betöltése"
 
-#: src/mainwindow.cpp:1987
+#: src/mainwindow.cpp:1989
 #, fuzzy, kde-format
 #| msgid "Guide zone"
 msgid "Guides Locked"
 msgstr "Segédpont zóna"
 
-#: src/mainwindow.cpp:1990
+#: src/mainwindow.cpp:1992
 #, fuzzy, kde-format
 #| msgid "Show curves"
 msgid "Lock guides"
 msgstr "Görbék megjelenítése"
 
-#: src/mainwindow.cpp:1992
+#: src/mainwindow.cpp:1994
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12437,62 +12438,62 @@ msgid ""
 "or inserting/removing blank in tracks."
 msgstr ""
 
-#: src/mainwindow.cpp:1994
+#: src/mainwindow.cpp:1996
 #, kde-format
 msgid "Delete All Guides"
 msgstr "Összes segédpont törlése"
 
-#: src/mainwindow.cpp:1996
+#: src/mainwindow.cpp:1998
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add Subtitle"
 msgstr "Segédpont hozzáadása"
 
-#: src/mainwindow.cpp:1998
+#: src/mainwindow.cpp:2000
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
 msgid "Disable Subtitle"
 msgstr "Klip törlése "
 
-#: src/mainwindow.cpp:1999
+#: src/mainwindow.cpp:2001
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock Subtitle"
 msgstr "névtelen"
 
-#: src/mainwindow.cpp:2001
+#: src/mainwindow.cpp:2003
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Manage Subtitles"
 msgstr "névtelen"
 
-#: src/mainwindow.cpp:2003
+#: src/mainwindow.cpp:2005
 #, fuzzy, kde-format
 #| msgid "Load markers"
 msgid "Import Subtitle File…"
 msgstr "Jelölők betöltése"
 
-#: src/mainwindow.cpp:2005
+#: src/mainwindow.cpp:2007
 #, fuzzy, kde-format
 #| msgid "Exporting to File"
 msgid "Export Subtitle File…"
 msgstr "Exportálás fájlba"
 
-#: src/mainwindow.cpp:2007 src/timeline2/model/timelinemodel.cpp:2146
+#: src/mainwindow.cpp:2009 src/timeline2/model/timelinemodel.cpp:2159
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
 msgid "Delete Subtitle"
 msgstr "Klip törlése "
 
-#: src/mainwindow.cpp:2008
+#: src/mainwindow.cpp:2010
 #, fuzzy, kde-format
 #| msgid "Startup options"
 msgid "Speech Recognition…"
 msgstr "Indulási beállítások"
 
-#: src/mainwindow.cpp:2015
+#: src/mainwindow.cpp:2017
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12500,102 +12501,102 @@ msgid ""
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
 
-#: src/mainwindow.cpp:2044
+#: src/mainwindow.cpp:2046
 #, kde-format
 msgid "Copy Debug Information"
 msgstr ""
 
-#: src/mainwindow.cpp:2046
+#: src/mainwindow.cpp:2048
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Timeline Effects"
 msgstr "Effekt letiltása"
 
-#: src/mainwindow.cpp:2052
+#: src/mainwindow.cpp:2054
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Toggle Track Disabled"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:2054
+#: src/mainwindow.cpp:2056
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Toggle Track Lock"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:2056
+#: src/mainwindow.cpp:2058
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Toggle All Track Lock"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:2058
+#: src/mainwindow.cpp:2060
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Toggle Track Target"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:2060
+#: src/mainwindow.cpp:2062
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Toggle Track Active"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:2062
+#: src/mainwindow.cpp:2064
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Toggle All Tracks Active"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:2064
+#: src/mainwindow.cpp:2066
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Switch All Tracks Active"
 msgstr "sávval"
 
-#: src/mainwindow.cpp:2066
+#: src/mainwindow.cpp:2068
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr ""
 
-#: src/mainwindow.cpp:2068
+#: src/mainwindow.cpp:2070
 #, fuzzy, kde-format
 #| msgid "Project Notes"
 msgid "Add Project Note"
 msgstr "Projekt megjegyzések"
 
-#: src/mainwindow.cpp:2074
+#: src/mainwindow.cpp:2076
 #, fuzzy, kde-format
 #| msgid "Audio Tracks"
 msgid "Select Audio Track %1"
 msgstr "Hangsávok "
 
-#: src/mainwindow.cpp:2078
+#: src/mainwindow.cpp:2080
 #, fuzzy, kde-format
 #| msgid "Select Previous Track"
 msgid "Select Video Track %1"
 msgstr "Előző sáv kiválasztása"
 
-#: src/mainwindow.cpp:2082
+#: src/mainwindow.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Select Target %1"
 msgstr "Effektus törlése"
 
-#: src/mainwindow.cpp:2100
+#: src/mainwindow.cpp:2102
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract Frame…"
 msgstr "Képkocka kibontása"
 
-#: src/mainwindow.cpp:2103
+#: src/mainwindow.cpp:2105
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract Frame to Project…"
 msgstr "Képkocka kibontása"
 
-#: src/mainwindow.cpp:2235
+#: src/mainwindow.cpp:2237
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -12604,14 +12605,14 @@ msgstr ""
 "Megváltoztatta a proxy paramétereit. Újra létre akarja hozni az összes proxy "
 "klipet a projekthez?"
 
-#: src/mainwindow.cpp:2236
+#: src/mainwindow.cpp:2238
 #, fuzzy, kde-format
 #| msgid "Create DVD"
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "DVD létrehozása"
 
-#: src/mainwindow.cpp:2237 src/onlineresources/resourcewidget.cpp:613
+#: src/mainwindow.cpp:2239 src/onlineresources/resourcewidget.cpp:613
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2281
 #, fuzzy, kde-format
@@ -12620,7 +12621,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Körvonal szélesség"
 
-#: src/mainwindow.cpp:2293
+#: src/mainwindow.cpp:2295
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -12628,77 +12629,77 @@ msgid ""
 "<br>and the project file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2301
+#: src/mainwindow.cpp:2303
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2310 src/project/projectmanager.cpp:610
+#: src/mainwindow.cpp:2312 src/project/projectmanager.cpp:610
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Üres hely eszköz nem használható zárolt sávokon"
 
-#: src/mainwindow.cpp:2315 src/project/projectmanager.cpp:616
+#: src/mainwindow.cpp:2317 src/project/projectmanager.cpp:616
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Üres hely eszköz nem használható zárolt sávokon"
 
-#: src/mainwindow.cpp:2462
+#: src/mainwindow.cpp:2464
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Ez a művelet eltávolítja az összes nem használt klipet a projektből."
 
-#: src/mainwindow.cpp:2462
+#: src/mainwindow.cpp:2464
 #, kde-format
 msgid "Clean up project"
 msgstr "A teljes projekt tisztítása"
 
-#: src/mainwindow.cpp:2604
+#: src/mainwindow.cpp:2606
 #, fuzzy, kde-format
 #| msgid "Download New Title Templates..."
 msgid "Download New Keyboard Schemes…"
 msgstr "Új címsablonok letöltése…"
 
-#: src/mainwindow.cpp:2613
+#: src/mainwindow.cpp:2615
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Általános"
 
-#: src/mainwindow.cpp:2687
+#: src/mainwindow.cpp:2689
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2688
+#: src/mainwindow.cpp:2690
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Eszközbeállítás"
 
-#: src/mainwindow.cpp:2820 src/mainwindow.cpp:2847
+#: src/mainwindow.cpp:2822 src/mainwindow.cpp:2849
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Nem találom a klipet, amitől a jelölőt el kellene távolítani"
 
-#: src/mainwindow.cpp:2830 src/mainwindow.cpp:2876
+#: src/mainwindow.cpp:2832 src/mainwindow.cpp:2878
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Nem található jelölő kurzornál"
 
-#: src/mainwindow.cpp:2852
+#: src/mainwindow.cpp:2854
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2869 src/timeline2/view/timelinecontroller.cpp:1311
+#: src/mainwindow.cpp:2871 src/timeline2/view/timelinecontroller.cpp:1311
 #: src/timeline2/view/timelinecontroller.cpp:1319
 #: src/timeline2/view/timelinecontroller.cpp:1340
 #: src/timeline2/view/timelinecontroller.cpp:1380
@@ -12708,14 +12709,14 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr "Nem találom a klipet, amihez a jelölőt kellene adni"
 
-#: src/mainwindow.cpp:3068 src/timeline2/model/timelinefunctions.cpp:758
+#: src/mainwindow.cpp:3070 src/timeline2/model/timelinefunctions.cpp:758
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite zone"
 msgstr "Felülírás mód"
 
-#: src/mainwindow.cpp:3070 src/mainwindow.cpp:3089
+#: src/mainwindow.cpp:3072 src/mainwindow.cpp:3091
 #: src/timeline2/model/timelinefunctions.cpp:760
 #: src/timeline2/view/timelinecontroller.cpp:3112
 #, fuzzy, kde-format
@@ -12723,32 +12724,32 @@ msgstr "Felülírás mód"
 msgid "Could not insert zone"
 msgstr "Beszúrás üzemmód"
 
-#: src/mainwindow.cpp:3080
+#: src/mainwindow.cpp:3082
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No clip selected in project bin"
 msgstr "Nincs elérhető klip kiválasztva"
 
-#: src/mainwindow.cpp:3087 src/timeline2/model/timelinefunctions.cpp:758
+#: src/mainwindow.cpp:3089 src/timeline2/model/timelinefunctions.cpp:758
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert zone"
 msgstr "Beszúrás üzemmód"
 
-#: src/mainwindow.cpp:3254
+#: src/mainwindow.cpp:3256
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to active item"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/mainwindow.cpp:3316
+#: src/mainwindow.cpp:3318
 #, fuzzy, kde-format
 #| msgid "Zoom Level: %1/13"
 msgid "Zoom Level: %1/%2"
 msgstr "Nagyítás: %1/13"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3467
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12757,7 +12758,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3469
+#: src/mainwindow.cpp:3471
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12767,26 +12768,26 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3472
+#: src/mainwindow.cpp:3474
 #, fuzzy, kde-format
 #| msgid "Select0r"
 msgid "Select"
 msgstr "Kiválasztó (Select0r)"
 
-#: src/mainwindow.cpp:3474
+#: src/mainwindow.cpp:3476
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3475 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3477 src/ui/configtools_ui.ui:21
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "Vágó eszköz"
 
-#: src/mainwindow.cpp:3479
+#: src/mainwindow.cpp:3481
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12794,13 +12795,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3480
+#: src/mainwindow.cpp:3482
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "Üres hely"
 
-#: src/mainwindow.cpp:3482
+#: src/mainwindow.cpp:3484
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12808,14 +12809,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3483
+#: src/mainwindow.cpp:3485
 #, fuzzy, kde-format
 #| msgid "Spacer tool"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Üres hely eszköz"
 
-#: src/mainwindow.cpp:3488
+#: src/mainwindow.cpp:3490
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12824,14 +12825,14 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3490
+#: src/mainwindow.cpp:3492
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Fájlkiterjesztés:"
 
-#: src/mainwindow.cpp:3496
+#: src/mainwindow.cpp:3498
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12839,164 +12840,164 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3508
+#: src/mainwindow.cpp:3510
 #, fuzzy, kde-format
 #| msgid "Insertion"
 msgid "Insert"
 msgstr "Beszúrás"
 
-#: src/mainwindow.cpp:3511
+#: src/mainwindow.cpp:3513
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
 msgstr "Felülírás mód"
 
-#: src/mainwindow.cpp:3769 src/mainwindow.cpp:3771
+#: src/mainwindow.cpp:3771 src/mainwindow.cpp:3773
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3776
+#: src/mainwindow.cpp:3778
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bins"
 msgstr "Projekt"
 
-#: src/mainwindow.cpp:3872
+#: src/mainwindow.cpp:3874
 #, fuzzy, kde-format
 #| msgid "Cancel Current Clip Jobs"
 msgid "Configure Clip Jobs…"
 msgstr "Jelenlegi klipfeladatok megszakítása"
 
-#: src/mainwindow.cpp:3878
+#: src/mainwindow.cpp:3880
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgid "Transcoders"
 msgstr "Átkódolás"
 
-#: src/mainwindow.cpp:3938
+#: src/mainwindow.cpp:3940
 #, fuzzy, kde-format
 #| msgid "Merge"
 msgid "-merged"
 msgstr "Egyesítés"
 
-#: src/mainwindow.cpp:3941
+#: src/mainwindow.cpp:3943
 #, fuzzy, kde-format
 #| msgid "Video stream %1"
 msgid "-stream-%1"
 msgstr "Videofolyam %1"
 
-#: src/mainwindow.cpp:3983
+#: src/mainwindow.cpp:3985
 #, kde-format
 msgid "Interface"
 msgstr "Felület"
 
-#: src/mainwindow.cpp:4005
+#: src/mainwindow.cpp:4007
 #, fuzzy, kde-format
 #| msgid "Capture audio"
 msgid "Raise %1"
 msgstr "Hang rögzítése"
 
-#: src/mainwindow.cpp:4072
+#: src/mainwindow.cpp:4074
 #, fuzzy, kde-format
 #| msgid "No clip to transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Nincs átkódolandó klip"
 
-#: src/mainwindow.cpp:4201
+#: src/mainwindow.cpp:4203
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4207
+#: src/mainwindow.cpp:4209
 #, kde-format
 msgid "Archiving project"
 msgstr "Projekt archiválása"
 
-#: src/mainwindow.cpp:4365
+#: src/mainwindow.cpp:4367
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Icon Size"
 msgstr "Betűméret"
 
-#: src/mainwindow.cpp:4369
+#: src/mainwindow.cpp:4371
 #, fuzzy, kde-format
 #| msgid "Default"
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: src/mainwindow.cpp:4390 src/mainwindow.cpp:4418
+#: src/mainwindow.cpp:4392 src/mainwindow.cpp:4420
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4392 src/mainwindow.cpp:4420
+#: src/mainwindow.cpp:4394 src/mainwindow.cpp:4422
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4394 src/mainwindow.cpp:4422
+#: src/mainwindow.cpp:4396 src/mainwindow.cpp:4424
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4396 src/mainwindow.cpp:4424
+#: src/mainwindow.cpp:4398 src/mainwindow.cpp:4426
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr ""
 
-#: src/mainwindow.cpp:4480
+#: src/mainwindow.cpp:4482
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4480
+#: src/mainwindow.cpp:4482
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide menu bar"
 msgstr "Képkocka elrejtése"
 
-#: src/mainwindow.cpp:4496
+#: src/mainwindow.cpp:4498
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
 
-#: src/mainwindow.cpp:4752 src/timeline2/view/timelinecontroller.cpp:5137
+#: src/mainwindow.cpp:4754 src/timeline2/view/timelinecontroller.cpp:5137
 #, fuzzy, kde-format
 #| msgid "Edit guide at cursor position"
 msgid "No subtitles in current project"
 msgstr "A kurzornál található segédpont szerkesztése"
 
-#: src/mainwindow.cpp:5039
+#: src/mainwindow.cpp:5041
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5042
+#: src/mainwindow.cpp:5044
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Eszközbeállítás"
 
-#: src/mainwindow.cpp:5045
+#: src/mainwindow.cpp:5047
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5048
+#: src/mainwindow.cpp:5050
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5091
+#: src/mainwindow.cpp:5093
 #, fuzzy, kde-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -13211,14 +13212,14 @@ msgid "Enable audio"
 msgstr "Hang rögzítése"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:701
-#: src/monitor/monitor.cpp:286
+#: src/monitor/monitor.cpp:287
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "Audio streams"
 msgstr "Hangfolyam %1"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:723
-#: src/monitor/monitor.cpp:1902
+#: src/monitor/monitor.cpp:1905
 #, fuzzy, kde-format
 #| msgid "Razor all tracks"
 msgid "Merge all streams"
@@ -13557,12 +13558,12 @@ msgstr "Hangerő"
 msgid "%1%"
 msgstr "%1 \\%"
 
-#: src/monitor/monitor.cpp:214
+#: src/monitor/monitor.cpp:215
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 
-#: src/monitor/monitor.cpp:215
+#: src/monitor/monitor.cpp:216
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13571,51 +13572,51 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:218
+#: src/monitor/monitor.cpp:219
 #, fuzzy, kde-format
 #| msgid "X11"
 msgid "1:1"
 msgstr "X11"
 
-#: src/monitor/monitor.cpp:356 src/monitor/monitormanager.cpp:639
+#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:639
 #, kde-format
 msgid "Set Zone In"
 msgstr "Zónakezdet beállítása"
 
-#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:643
+#: src/monitor/monitor.cpp:358 src/monitor/monitormanager.cpp:643
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Zónavég beállítása"
 
-#: src/monitor/monitor.cpp:369 src/monitor/monitormanager.cpp:523
+#: src/monitor/monitor.cpp:370 src/monitor/monitormanager.cpp:523
 #, kde-format
 msgid "Rewind"
 msgstr "Klip visszatekerése"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitor.cpp:377
+#: src/monitor/monitor.cpp:375 src/monitor/monitor.cpp:378
 #: src/monitor/monitormanager.cpp:498
 #, kde-format
 msgid "Play"
 msgstr "Lejátszás"
 
-#: src/monitor/monitor.cpp:377 src/monitor/monitormanager.cpp:498
+#: src/monitor/monitor.cpp:378 src/monitor/monitormanager.cpp:498
 #: src/monitor/monitormanager.cpp:504
 #, kde-format
 msgid "Pause"
 msgstr "Szünet"
 
-#: src/monitor/monitor.cpp:397 src/monitor/monitormanager.cpp:536
+#: src/monitor/monitor.cpp:398 src/monitor/monitormanager.cpp:536
 #, kde-format
 msgid "Forward"
 msgstr "Előre"
 
-#: src/monitor/monitor.cpp:401
+#: src/monitor/monitor.cpp:402
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "More Options…"
 msgstr "Beállítások megjelenítése vagy elrejtése"
 
-#: src/monitor/monitor.cpp:402
+#: src/monitor/monitor.cpp:403
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13623,137 +13624,137 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:411
+#: src/monitor/monitor.cpp:412
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Marker…"
 msgstr "Ugrás a jelölőhöz…"
 
-#: src/monitor/monitor.cpp:415
+#: src/monitor/monitor.cpp:416
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Force Monitor Size"
 msgstr "Betűméret"
 
-#: src/monitor/monitor.cpp:416
+#: src/monitor/monitor.cpp:417
 #, kde-format
 msgid "Force 100%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:418
+#: src/monitor/monitor.cpp:419
 #, kde-format
 msgid "Force 50%"
 msgstr ""
 
-#: src/monitor/monitor.cpp:420
+#: src/monitor/monitor.cpp:421
 #, fuzzy, kde-format
 #| msgid "Frame size"
 msgid "Free Resize"
 msgstr "Képméret"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:432 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:433 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:260 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "Fekete"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:434 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:435 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "Fehér"
 
-#: src/monitor/monitor.cpp:436
+#: src/monitor/monitor.cpp:437
 #, kde-format
 msgid "Pink"
 msgstr ""
 
-#: src/monitor/monitor.cpp:503
+#: src/monitor/monitor.cpp:506
 #, kde-format
 msgid "-5"
 msgstr ""
 
-#: src/monitor/monitor.cpp:509
+#: src/monitor/monitor.cpp:512
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "-1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:515
+#: src/monitor/monitor.cpp:518
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "+1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:521
+#: src/monitor/monitor.cpp:524
 #, kde-format
 msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:664
+#: src/monitor/monitor.cpp:667
 #, kde-format
 msgid "Extract Zone"
 msgstr "Zóna kibontása"
 
-#: src/monitor/monitor.cpp:677
+#: src/monitor/monitor.cpp:680
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Aktuális képkocka mentése előnézetként"
 
-#: src/monitor/monitor.cpp:684
+#: src/monitor/monitor.cpp:687
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "Hang előnézet megjelenítése"
 
-#: src/monitor/monitor.cpp:701
+#: src/monitor/monitor.cpp:704
 #, fuzzy, kde-format
 #| msgid "Sox echo audio effect"
 msgid "Show Audio Levels"
 msgstr "Sox visszhang-effektus"
 
-#: src/monitor/monitor.cpp:708
+#: src/monitor/monitor.cpp:711
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Source Timecode"
 msgstr "Felvétel Monitor"
 
-#: src/monitor/monitor.cpp:745
+#: src/monitor/monitor.cpp:748
 #, fuzzy, kde-format
 #| msgid "You must select one transition for this action"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Ehhez a művelethez meg kell adnia egy áttűnési effektust"
 
-#: src/monitor/monitor.cpp:886 src/monitor/monitor.cpp:917
+#: src/monitor/monitor.cpp:889 src/monitor/monitor.cpp:920
 #: src/timeline2/view/timelinecontroller.cpp:1797
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set Zone"
 msgstr "Zónakezdet beállítása"
 
-#: src/monitor/monitor.cpp:1279
+#: src/monitor/monitor.cpp:1282
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "DVD projekt mentése"
 
-#: src/monitor/monitor.cpp:1279
+#: src/monitor/monitor.cpp:1282
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Jelölők mentése"
 
-#: src/monitor/monitor.cpp:1286
+#: src/monitor/monitor.cpp:1289
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1887 src/monitor/monitor.cpp:2035
+#: src/monitor/monitor.cpp:1890 src/monitor/monitor.cpp:2038
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "%1 audio stream"
@@ -13761,38 +13762,38 @@ msgid_plural "%1 audio streams"
 msgstr[0] "Hangfolyam %1"
 msgstr[1] "Hangfolyam %1"
 
-#: src/monitor/monitor.cpp:2369
+#: src/monitor/monitor.cpp:2372
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2411 src/monitor/monitor.cpp:2468
+#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2431
+#: src/monitor/monitor.cpp:2434
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "A klipnek nincsenek jelölői"
 
-#: src/monitor/monitor.cpp:2433
+#: src/monitor/monitor.cpp:2436
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
-#: src/monitor/monitor.cpp:2475
+#: src/monitor/monitor.cpp:2478
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2521
+#: src/monitor/monitor.cpp:2524
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -14114,7 +14115,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:281
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -17450,7 +17451,7 @@ msgid "Delete clips on track"
 msgstr "Sáv törlése"
 
 #: src/timeline2/model/timelineitemmodel.cpp:137
-#: src/timeline2/model/timelinemodel.cpp:4598
+#: src/timeline2/model/timelinemodel.cpp:4611
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
@@ -17500,157 +17501,157 @@ msgstr ""
 msgid "Replace clip"
 msgstr "Virtuális klip létrehozása"
 
-#: src/timeline2/model/timelinemodel.cpp:975
-#: src/timeline2/model/timelinemodel.cpp:1192
+#: src/timeline2/model/timelinemodel.cpp:988
+#: src/timeline2/model/timelinemodel.cpp:1205
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to apply the mix"
 msgstr "Kiválasztó eszköz"
 
-#: src/timeline2/model/timelinemodel.cpp:1190
+#: src/timeline2/model/timelinemodel.cpp:1203
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "start"
 msgstr "Indítás"
 
-#: src/timeline2/model/timelinemodel.cpp:1190
+#: src/timeline2/model/timelinemodel.cpp:1203
 #, fuzzy, kde-format
 #| msgid "End"
 msgid "end"
 msgstr "Leállítás"
 
-#: src/timeline2/model/timelinemodel.cpp:1190
+#: src/timeline2/model/timelinemodel.cpp:1203
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1196
+#: src/timeline2/model/timelinemodel.cpp:1209
 #, fuzzy, kde-format
 #| msgid "Create DVD"
 msgid "Create mix"
 msgstr "DVD létrehozása"
 
-#: src/timeline2/model/timelinemodel.cpp:1271
-#: src/timeline2/model/timelinemodel.cpp:1306
+#: src/timeline2/model/timelinemodel.cpp:1284
+#: src/timeline2/model/timelinemodel.cpp:1319
 #, kde-format
 msgid "Move clip"
 msgstr "Klip mozgatása"
 
-#: src/timeline2/model/timelinemodel.cpp:1820
-#: src/timeline2/model/timelinemodel.cpp:1910
-#: src/timeline2/model/timelinemodel.cpp:1933
-#: src/timeline2/model/timelinemodel.cpp:1956
+#: src/timeline2/model/timelinemodel.cpp:1833
+#: src/timeline2/model/timelinemodel.cpp:1923
+#: src/timeline2/model/timelinemodel.cpp:1946
+#: src/timeline2/model/timelinemodel.cpp:1969
 #, kde-format
 msgid "No available track for insert operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:1825
+#: src/timeline2/model/timelinemodel.cpp:1838
 #, fuzzy, kde-format
 #| msgid "Insert clip"
 msgid "Insert Clip"
 msgstr "Klip beszúrása"
 
-#: src/timeline2/model/timelinemodel.cpp:1878
+#: src/timeline2/model/timelinemodel.cpp:1891
 #, fuzzy, kde-format
 #| msgid "You cannot include the current Kdenlive document in itself."
 msgid "You cannot insert a sequence containing itself"
 msgstr "Nem lehet beszúrni az aktuális Kdenlive dokumentumot saját magába."
 
-#: src/timeline2/model/timelinemodel.cpp:1926
-#: src/timeline2/model/timelinemodel.cpp:1948
+#: src/timeline2/model/timelinemodel.cpp:1939
+#: src/timeline2/model/timelinemodel.cpp:1961
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Kulcsképkockák importálása a klipből"
 
-#: src/timeline2/model/timelinemodel.cpp:2032
+#: src/timeline2/model/timelinemodel.cpp:2045
 #, kde-format
 msgid "No available track for split operation"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2069
+#: src/timeline2/model/timelinemodel.cpp:2082
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2077
+#: src/timeline2/model/timelinemodel.cpp:2090
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2139
+#: src/timeline2/model/timelinemodel.cpp:2152
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove group"
 msgstr "Csoport áthelyezése"
 
-#: src/timeline2/model/timelinemodel.cpp:2144
+#: src/timeline2/model/timelinemodel.cpp:2157
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Delete Composition"
 msgstr "Kompozit"
 
-#: src/timeline2/model/timelinemodel.cpp:2347
-#: src/timeline2/model/timelinemodel.cpp:2624
+#: src/timeline2/model/timelinemodel.cpp:2360
+#: src/timeline2/model/timelinemodel.cpp:2637
 #: src/timeline2/view/timelinecontroller.cpp:4315
 #, kde-format
 msgid "Move group"
 msgstr "Csoport áthelyezése"
 
-#: src/timeline2/model/timelinemodel.cpp:3316
+#: src/timeline2/model/timelinemodel.cpp:3329
 #, kde-format
 msgid "Resize group"
 msgstr "Csoport átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:3440
+#: src/timeline2/model/timelinemodel.cpp:3453
 #, fuzzy, kde-format
 #| msgid "Resize clip end"
 msgid "Resize clip speed"
 msgstr "Klip végének átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:3599
+#: src/timeline2/model/timelinemodel.cpp:3612
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "Fájl eltávolítása"
 
-#: src/timeline2/model/timelinemodel.cpp:3601
+#: src/timeline2/model/timelinemodel.cpp:3614
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "Fájl eltávolítása"
 
-#: src/timeline2/model/timelinemodel.cpp:3900
+#: src/timeline2/model/timelinemodel.cpp:3913
 #, kde-format
 msgid "Resize clip"
 msgstr "Klip átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:3902
+#: src/timeline2/model/timelinemodel.cpp:3915
 #, fuzzy, kde-format
 #| msgid "Resize transition end"
 msgid "Resize composition"
 msgstr "Átmeneti végpont átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:4224
+#: src/timeline2/model/timelinemodel.cpp:4237
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Ripple resize clip"
 msgstr "Klip átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:4226
+#: src/timeline2/model/timelinemodel.cpp:4239
 #, fuzzy, kde-format
 #| msgid "Resize transition end"
 msgid "Ripple resize composition"
 msgstr "Átmeneti végpont átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:4228
+#: src/timeline2/model/timelinemodel.cpp:4241
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
 msgid "Ripple resize subtitle"
 msgstr "Klip törlése "
 
-#: src/timeline2/model/timelinemodel.cpp:4371
+#: src/timeline2/model/timelinemodel.cpp:4384
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgctxt "Undo/Redo menu text"
@@ -17659,152 +17660,152 @@ msgid_plural "Slip clips"
 msgstr[0] "Cím klip"
 msgstr[1] "Cím klip"
 
-#: src/timeline2/model/timelinemodel.cpp:4406
+#: src/timeline2/model/timelinemodel.cpp:4419
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Slip clip"
 msgstr "Cím klip"
 
-#: src/timeline2/model/timelinemodel.cpp:4441
+#: src/timeline2/model/timelinemodel.cpp:4454
 #, kde-format
 msgid "Group clips"
 msgstr "Klipek csoportosítása"
 
-#: src/timeline2/model/timelinemodel.cpp:4526
-#: src/timeline2/model/timelinemodel.cpp:4542
+#: src/timeline2/model/timelinemodel.cpp:4539
+#: src/timeline2/model/timelinemodel.cpp:4555
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Klipek csoportjának felbontása"
 
-#: src/timeline2/model/timelinemodel.cpp:4707
+#: src/timeline2/model/timelinemodel.cpp:4720
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "Sáv törlése"
 
-#: src/timeline2/model/timelinemodel.cpp:4717
+#: src/timeline2/model/timelinemodel.cpp:4730
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "Cannot delete last track in timeline"
 msgstr "A klip nem illeszthető bele az idővonalba"
 
-#: src/timeline2/model/timelinemodel.cpp:4942
+#: src/timeline2/model/timelinemodel.cpp:4955
 #, fuzzy, kde-format
 #| msgid "Cannot add speed effect to track"
 msgid "Cannot add effect %1 to master track"
 msgstr "Nem adható sebesség effekt a sávhoz"
 
-#: src/timeline2/model/timelinemodel.cpp:4949
+#: src/timeline2/model/timelinemodel.cpp:4962
 #, fuzzy, kde-format
 #| msgid "Cannot add speed effect to track"
 msgid "Cannot add effect %1 to selected track"
 msgstr "Nem adható sebesség effekt a sávhoz"
 
-#: src/timeline2/model/timelinemodel.cpp:4970
+#: src/timeline2/model/timelinemodel.cpp:4983
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to master track"
 msgstr "Nem lehet a klipet beilleszteni a megadott helyre"
 
-#: src/timeline2/model/timelinemodel.cpp:4976
+#: src/timeline2/model/timelinemodel.cpp:4989
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to selected track"
 msgstr "Nem lehet a klipet beilleszteni a megadott helyre"
 
-#: src/timeline2/model/timelinemodel.cpp:5020
+#: src/timeline2/model/timelinemodel.cpp:5033
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/timeline2/model/timelinemodel.cpp:5044
+#: src/timeline2/model/timelinemodel.cpp:5057
 #, fuzzy, kde-format
 #| msgid "Adjust levels"
 msgid "Adjust Fade"
 msgstr "Szintek beállítása"
 
-#: src/timeline2/model/timelinemodel.cpp:5356
+#: src/timeline2/model/timelinemodel.cpp:5369
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert Composition"
 msgstr "Kompozit"
 
-#: src/timeline2/model/timelinemodel.cpp:5559
+#: src/timeline2/model/timelinemodel.cpp:5572
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Move composition"
 msgstr "Beállítások megjelenítése vagy elrejtése"
 
-#: src/timeline2/model/timelinemodel.cpp:6215
+#: src/timeline2/model/timelinemodel.cpp:6228
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Enable time remap"
 msgstr "Nyújtás engedélyezése"
 
-#: src/timeline2/model/timelinemodel.cpp:6289
+#: src/timeline2/model/timelinemodel.cpp:6302
 #, fuzzy, kde-format
 msgid "Change speed failed"
 msgstr "Hibás"
 
-#: src/timeline2/model/timelinemodel.cpp:6299
+#: src/timeline2/model/timelinemodel.cpp:6312
 #, fuzzy, kde-format
 #| msgid "Change Clip Speed"
 msgid "Change clip speed"
 msgstr "Klip sebesség módosítása"
 
-#: src/timeline2/model/timelinemodel.cpp:6728
+#: src/timeline2/model/timelinemodel.cpp:6743
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Sáv zárolása"
 
-#: src/timeline2/model/timelinemodel.cpp:6733
+#: src/timeline2/model/timelinemodel.cpp:6748
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Sáv feloldása"
 
-#: src/timeline2/model/timelinemodel.cpp:6767
-#: src/timeline2/model/timelinemodel.cpp:6829
+#: src/timeline2/model/timelinemodel.cpp:6782
+#: src/timeline2/model/timelinemodel.cpp:6844
 #, fuzzy, kde-format
 #| msgid "Change Track"
 msgid "Change composition"
 msgstr "Sáv változtatása"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
+#: src/timeline2/model/timelinemodel.cpp:6796
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6976
-#: src/timeline2/model/timelinemodel.cpp:7013
-#: src/timeline2/model/timelinemodel.cpp:7046
-#: src/timeline2/model/timelinemodel.cpp:7127
+#: src/timeline2/model/timelinemodel.cpp:6991
+#: src/timeline2/model/timelinemodel.cpp:7028
+#: src/timeline2/model/timelinemodel.cpp:7061
+#: src/timeline2/model/timelinemodel.cpp:7142
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Nem lehet áthelyezni a klipet a(z) %1 pozícióba"
 
-#: src/timeline2/model/timelinemodel.cpp:6987
-#: src/timeline2/model/timelinemodel.cpp:7021
-#: src/timeline2/model/timelinemodel.cpp:7065
-#: src/timeline2/model/timelinemodel.cpp:7151
+#: src/timeline2/model/timelinemodel.cpp:7002
+#: src/timeline2/model/timelinemodel.cpp:7036
+#: src/timeline2/model/timelinemodel.cpp:7080
+#: src/timeline2/model/timelinemodel.cpp:7166
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Az átmenet nem méretezhető át"
 
-#: src/timeline2/model/timelinemodel.cpp:7165
+#: src/timeline2/model/timelinemodel.cpp:7180
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "Klip átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:7285
+#: src/timeline2/model/timelinemodel.cpp:7300
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Error initializing timeline preview"

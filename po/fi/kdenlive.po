@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-25 00:38+0000\n"
+"POT-Creation-Date: 2024-05-26 00:37+0000\n"
 "PO-Revision-Date: 2024-01-31 01:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -91,7 +91,7 @@ msgstr "Ääniallon näyttävän kaavion tyyppi."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:431
+#: src/monitor/monitor.cpp:432
 #, kde-format
 msgid "Background Color"
 msgstr "Taustaväri"
@@ -2797,7 +2797,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "Kohinanvaimennus ja äänenkorjaus"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:117 src/mainwindow.cpp:1496
+#: src/dialogs/kdenlivesettingsdialog.cpp:117 src/mainwindow.cpp:1494
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3913,13 +3913,13 @@ msgid "Import keyframes from clipboard"
 msgstr "Tuo leikekehys leikepöydältä"
 
 #: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1708
-#: src/mainwindow.cpp:1904
+#: src/mainwindow.cpp:1902
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Siirry edelliseen leikekehykseen"
 
 #: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1705
-#: src/mainwindow.cpp:1902
+#: src/mainwindow.cpp:1900
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Siirry seuraavaan leikekehykseen"
@@ -4769,7 +4769,7 @@ msgid "Create bin folder"
 msgstr "Luo kansio"
 
 #: src/bin/bin.cpp:2706 src/bin/bin.cpp:2719 src/bin/bin.cpp:3701
-#: src/timeline2/model/timelinemodel.cpp:2142
+#: src/timeline2/model/timelinemodel.cpp:2155
 #, kde-format
 msgid "Delete Clip"
 msgstr "Poista leike"
@@ -5121,7 +5121,7 @@ msgstr ""
 "Projektisi tarvitsee lisää ääniraitoja kaiken videon käsittelemiseksi. "
 "Lisätäänkö %1 ääniraitaa?"
 
-#: src/bin/bin.cpp:5465 src/mainwindow.cpp:2802
+#: src/bin/bin.cpp:5465 src/mainwindow.cpp:2804
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Leikettä merkkauksen lisäämiseen ei löydy"
@@ -5206,7 +5206,7 @@ msgstr "Poista tehoste %1"
 msgid "Project Bin"
 msgstr "Projektikansio"
 
-#: src/bin/bin.cpp:6286 src/bin/bin.cpp:6289 src/mainwindow.cpp:4883
+#: src/bin/bin.cpp:6286 src/bin/bin.cpp:6289 src/mainwindow.cpp:4885
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projektikansio %1"
@@ -5518,13 +5518,13 @@ msgid "Cut clip"
 msgstr "Leikkaa leike"
 
 #: src/bin/model/subtitlemodel.cpp:825 src/bin/model/subtitlemodel.cpp:1588
-#: src/timeline2/model/timelinemodel.cpp:3904
+#: src/timeline2/model/timelinemodel.cpp:3917
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Poista tekstitys"
 
 #: src/bin/model/subtitlemodel.cpp:1021
-#: src/timeline2/model/timelinemodel.cpp:1345
+#: src/timeline2/model/timelinemodel.cpp:1358
 #, kde-format
 msgid "Move subtitle"
 msgstr "Siirrä tekstitys"
@@ -5675,7 +5675,7 @@ msgstr "Lisää alileike"
 msgid "Rename Folder"
 msgstr "Muuta kansion nimeä"
 
-#: src/bin/projectitemmodel.cpp:1038 src/mainwindow.cpp:1550
+#: src/bin/projectitemmodel.cpp:1038 src/mainwindow.cpp:1548
 #, kde-format
 msgid "Clean Project"
 msgstr "Puhdista projekti"
@@ -5731,7 +5731,7 @@ msgstr "Lisää luokitus"
 msgid "New tag"
 msgstr "Uusi luokitus"
 
-#: src/capture/mediacapture.cpp:469
+#: src/capture/mediacapture.cpp:473
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -6043,7 +6043,7 @@ msgstr "Kello myötäpäivään"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Projektin profiili on virheellinen: hahmonnus voi epäonnistua."
 
-#: src/core.cpp:977
+#: src/core.cpp:978
 #, kde-format
 msgid "Loading clips"
 msgstr "Avataan leikkeitä"
@@ -6562,7 +6562,7 @@ msgstr "Koodaukseksi tunnistettiin %1"
 msgid "Import Subtitle"
 msgstr "Tuo tekstitys"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:113 src/mainwindow.cpp:3984
+#: src/dialogs/kdenlivesettingsdialog.cpp:113 src/mainwindow.cpp:3986
 #, kde-format
 msgid "Timeline"
 msgstr "Aikajana"
@@ -7344,7 +7344,7 @@ msgstr "Ääni ilman videoraitaa"
 msgid "Rendering <i>%1</i> started"
 msgstr "Tiedoston <i>%1</i> hahmonnus aloitettu"
 
-#: src/dialogs/renderwidget.cpp:903 src/monitor/monitor.cpp:1267
+#: src/dialogs/renderwidget.cpp:903 src/monitor/monitor.cpp:1270
 #, kde-format
 msgid "untitled"
 msgstr "nimetön"
@@ -9325,7 +9325,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Tehostetta %1 ei voi lisätä kahdesti."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:537
-#: src/timeline2/model/timelinemodel.cpp:5017
+#: src/timeline2/model/timelinemodel.cpp:5030
 #, kde-format
 msgid "Add effect %1"
 msgstr "Lisää tehoste %1"
@@ -9934,13 +9934,13 @@ msgid "Markers"
 msgstr "Merkit"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:81 src/mainwindow.cpp:3879
+#: src/kdenliveui.rc:81 src/mainwindow.cpp:3881
 #, kde-format
 msgid "Extract Audio"
 msgstr "Poimi ääni"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:84 src/mainwindow.cpp:3853
+#: src/kdenliveui.rc:84 src/mainwindow.cpp:3855
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Leiketyöt"
@@ -10001,7 +10001,7 @@ msgstr "Välilyönti"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:172 src/mainwindow.cpp:1922
+#: src/kdenliveui.rc:172 src/mainwindow.cpp:1920
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
@@ -10038,7 +10038,7 @@ msgid "Current Monitor Overlay"
 msgstr "Nykyinen monitorin peittokuva"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:250 src/mainwindow.cpp:1621
+#: src/kdenliveui.rc:250 src/mainwindow.cpp:1619
 #, kde-format
 msgid "Preview Resolution"
 msgstr "Esikatselun tarkkuus"
@@ -10225,7 +10225,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:303
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Merged streams"
 msgstr "Yhdistetyt kanavat"
@@ -10778,7 +10778,7 @@ msgid "Add Transition"
 msgstr "Lisää siirtymä"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:585 src/mainwindow.cpp:2089
+#: src/mainwindow.cpp:585 src/mainwindow.cpp:2091
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -10801,7 +10801,7 @@ msgstr ""
 "Paina ja näe luettelo suosituista tehosteista. Painamalla kahdesti "
 "tehostetta se lisätään valittuun leikkeeseen."
 
-#: src/mainwindow.cpp:630 src/mainwindow.cpp:1544
+#: src/mainwindow.cpp:630 src/mainwindow.cpp:1542
 #, kde-format
 msgid "Render…"
 msgstr "Renderöinti…"
@@ -10820,7 +10820,7 @@ msgstr "Hahmonnuspainike"
 msgid "Rendering preview"
 msgstr "Hahmonnuksen esikatselu"
 
-#: src/mainwindow.cpp:699 src/monitor/monitor.cpp:411
+#: src/mainwindow.cpp:699 src/monitor/monitor.cpp:412
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Siirry opasteeseen…"
@@ -11047,12 +11047,12 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1350
+#: src/mainwindow.cpp:1349
 #, kde-format
 msgid "Slip Tool"
 msgstr "Liukutyökalu"
 
-#: src/mainwindow.cpp:1351
+#: src/mainwindow.cpp:1350
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11062,22 +11062,22 @@ msgstr ""
 "Kun valittuna, leikken vetäminen liu'uttaa leikettä annetun ikkunan alla "
 "edestakaisin."
 
-#: src/mainwindow.cpp:1355
+#: src/mainwindow.cpp:1354
 #, kde-format
 msgid "Multicam Tool"
 msgstr "Monikamera"
 
-#: src/mainwindow.cpp:1377
+#: src/mainwindow.cpp:1375
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "Kutista/laajenna"
 
-#: src/mainwindow.cpp:1381
+#: src/mainwindow.cpp:1379
 #, kde-format
 msgid "Mix Clips"
 msgstr "Sekoita leikkeet"
 
-#: src/mainwindow.cpp:1383
+#: src/mainwindow.cpp:1381
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11087,12 +11087,12 @@ msgstr ""
 "Luo saman raidan siirtymän valitun leikkeen ja toistopaikkaa lähinnä olevan "
 "leikkeen väliin."
 
-#: src/mainwindow.cpp:1391
+#: src/mainwindow.cpp:1389
 #, kde-format
 msgid "Show Video Thumbnails"
 msgstr "Näytä videopienoiskuvat"
 
-#: src/mainwindow.cpp:1392
+#: src/mainwindow.cpp:1390
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11102,12 +11102,12 @@ msgstr ""
 "Vaihtaa videoiden pikkukuvien näyttöä aikajanalla olevien leikkeiden "
 "kohdalla (oletuksena päällä)."
 
-#: src/mainwindow.cpp:1400
+#: src/mainwindow.cpp:1398
 #, kde-format
 msgid "Show Audio Thumbnails"
 msgstr "Näytä äänipienoiskuvat"
 
-#: src/mainwindow.cpp:1401
+#: src/mainwindow.cpp:1399
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11117,17 +11117,17 @@ msgstr ""
 "Vaihtaa aikajanalla olevien leikkeiden äänen pienoiskuvia (oletuksena "
 "päällä)."
 
-#: src/mainwindow.cpp:1407
+#: src/mainwindow.cpp:1405
 #, kde-format
 msgid "Show Markers Comments"
 msgstr "Näytä merkkien kommentit"
 
-#: src/mainwindow.cpp:1413
+#: src/mainwindow.cpp:1411
 #, kde-format
 msgid "Snap"
 msgstr "Tartu"
 
-#: src/mainwindow.cpp:1414
+#: src/mainwindow.cpp:1412
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11137,40 +11137,40 @@ msgstr ""
 "Kytkee napsuvan toiminnan päälle (leikkeet napsahtavat toistopaikkaan, "
 "reunoihin, merkkeihin, ohjaimiin ja muihin)."
 
-#: src/mainwindow.cpp:1420
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "Näytä aikajanalla väritunnisteet"
 
-#: src/mainwindow.cpp:1421
+#: src/mainwindow.cpp:1419
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "Vaihtaa leiketunnisteiden näyttämisen aikajanalla (oletuksena päällä)."
 
-#: src/mainwindow.cpp:1427
+#: src/mainwindow.cpp:1425
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "Sovita lähennys projektiin"
 
-#: src/mainwindow.cpp:1428
+#: src/mainwindow.cpp:1426
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr "Säätää skaalausta niin, että koko projekti sopii aikajanan ikkunoihin."
 
-#: src/mainwindow.cpp:1453
+#: src/mainwindow.cpp:1451
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "Kokeellinen GPU-laskenta käytössä - ei tuotantoon"
 
-#: src/mainwindow.cpp:1463 src/mainwindow.cpp:3497
+#: src/mainwindow.cpp:1461 src/mainwindow.cpp:3499
 #, kde-format
 msgid "Multicam"
 msgstr "Useampi kamera"
 
-#: src/mainwindow.cpp:1464
+#: src/mainwindow.cpp:1462
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr "Aktiivinen työkalu ja muokkaustila"
@@ -11178,242 +11178,242 @@ msgstr "Aktiivinen työkalu ja muokkaustila"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1515 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1513 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "Automaattinen"
 
-#: src/mainwindow.cpp:1520
+#: src/mainwindow.cpp:1518
 #, kde-format
 msgid "OpenGL"
 msgstr "OpenGL"
 
-#: src/mainwindow.cpp:1525
+#: src/mainwindow.cpp:1523
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "DirectX (ANGLE)"
 
-#: src/mainwindow.cpp:1530
+#: src/mainwindow.cpp:1528
 #, kde-format
 msgid "Software OpenGL"
 msgstr "OpenGL ohjelmallinen"
 
-#: src/mainwindow.cpp:1540
+#: src/mainwindow.cpp:1538
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "Suorita opastettu asetus…"
 
-#: src/mainwindow.cpp:1541
+#: src/mainwindow.cpp:1539
 #, kde-format
 msgid "Project Settings…"
 msgstr "Projektiasetukset…"
 
-#: src/mainwindow.cpp:1547
+#: src/mainwindow.cpp:1545
 #, kde-format
 msgid "Stop Render"
 msgstr "Pysäytä hahmonnus"
 
-#: src/mainwindow.cpp:1552
+#: src/mainwindow.cpp:1550
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "Palauta asetukset…"
 
 # *** TARKISTA: Koko käännöksessä ongelmana, että ”toistaa” voi merkitä niin montaa asiaa (loop, play…)
-#: src/mainwindow.cpp:1557
+#: src/mainwindow.cpp:1555
 #, fuzzy, kde-format
 #| msgid "Play Zone"
 msgid "Play Zone From Cursor"
 msgstr "Toista valittu alue"
 
 # *** TARKISTA: Koko käännöksessä ongelmana, että ”toistaa” voi merkitä niin montaa asiaa (loop, play…)
-#: src/mainwindow.cpp:1560
+#: src/mainwindow.cpp:1558
 #, kde-format
 msgid "Play Zone"
 msgstr "Toista valittu alue"
 
-#: src/mainwindow.cpp:1562
+#: src/mainwindow.cpp:1560
 #, kde-format
 msgid "Loop Zone"
 msgstr "Toista alue silmukassa"
 
-#: src/mainwindow.cpp:1564
+#: src/mainwindow.cpp:1562
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "Toista valittua leikettä"
 
-#: src/mainwindow.cpp:1568
+#: src/mainwindow.cpp:1566
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "Muunna leikkeitä…"
 
-#: src/mainwindow.cpp:1569
+#: src/mainwindow.cpp:1567
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "OpenTimelineIO-&vienti…"
 
-#: src/mainwindow.cpp:1572
+#: src/mainwindow.cpp:1570
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "OpenTimelineIO-t&uonti"
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1574
 #, kde-format
 msgid "Archive Project…"
 msgstr "Arkistoi projekti…"
 
-#: src/mainwindow.cpp:1578
+#: src/mainwindow.cpp:1576
 #, kde-format
 msgid "Switch Monitor"
 msgstr "Vaihda näyttöä"
 
-#: src/mainwindow.cpp:1579
+#: src/mainwindow.cpp:1577
 #, kde-format
 msgid "Focus Timecode"
 msgstr "Tarkenna aikakoodiin"
 
-#: src/mainwindow.cpp:1580
+#: src/mainwindow.cpp:1578
 #, kde-format
 msgid "Expand Clip"
 msgstr "Laajenna leike"
 
-#: src/mainwindow.cpp:1582
+#: src/mainwindow.cpp:1580
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "Monitorin tiedot"
 
-#: src/mainwindow.cpp:1587
+#: src/mainwindow.cpp:1585
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "Monitori aikakoodi"
 
-#: src/mainwindow.cpp:1592
+#: src/mainwindow.cpp:1590
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "Monitori toistonopeus"
 
-#: src/mainwindow.cpp:1597
+#: src/mainwindow.cpp:1595
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "Monitori merkit"
 
-#: src/mainwindow.cpp:1602
+#: src/mainwindow.cpp:1600
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "Monitori ääniaalto"
 
-#: src/mainwindow.cpp:1607
+#: src/mainwindow.cpp:1605
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
 msgstr "Tarkkaile peittokuvaleikkeitä"
 
-#: src/mainwindow.cpp:1625
+#: src/mainwindow.cpp:1623
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "Täysi tarkkuus (1:1)"
 
-#: src/mainwindow.cpp:1629 src/monitor/monitor.cpp:218
+#: src/mainwindow.cpp:1627 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1633 src/monitor/monitor.cpp:218
+#: src/mainwindow.cpp:1631 src/monitor/monitor.cpp:219
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1637 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1635 src/monitor/monitor.cpp:220
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1641 src/monitor/monitor.cpp:219
+#: src/mainwindow.cpp:1639 src/monitor/monitor.cpp:220
 #, kde-format
 msgid "270p"
 msgstr "270p"
 
-#: src/mainwindow.cpp:1672
+#: src/mainwindow.cpp:1670
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "Reaaliaikainen (jättää ruutuja pois toistettaessa)"
 
-#: src/mainwindow.cpp:1678
+#: src/mainwindow.cpp:1676
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "Näytön gamma"
 
-#: src/mainwindow.cpp:1679
+#: src/mainwindow.cpp:1677
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB (tietokone)"
 
-#: src/mainwindow.cpp:1680
+#: src/mainwindow.cpp:1678
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709 (TV)"
 
-#: src/mainwindow.cpp:1686
+#: src/mainwindow.cpp:1684
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "Lisää alue projektikansioon"
 
-#: src/mainwindow.cpp:1688
+#: src/mainwindow.cpp:1686
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "Luo määritetystä alueesta uuden leikkeen projektikansioon."
 
-#: src/mainwindow.cpp:1691
+#: src/mainwindow.cpp:1689
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "Siirry edelliseen tartuntaan"
 
-#: src/mainwindow.cpp:1693
+#: src/mainwindow.cpp:1691
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "Siirry seuraavaan tartuntaan"
 
-#: src/mainwindow.cpp:1696
+#: src/mainwindow.cpp:1694
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "Siirry leikkeen alkuun"
 
-#: src/mainwindow.cpp:1698
+#: src/mainwindow.cpp:1696
 #, kde-format
 msgid "Go to Clip End"
 msgstr "Siirry leikkeen loppuun"
 
-#: src/mainwindow.cpp:1700
+#: src/mainwindow.cpp:1698
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "Siirry edelliseen opasteeseen"
 
-#: src/mainwindow.cpp:1702
+#: src/mainwindow.cpp:1700
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "Siirry suraavaan opasteeseen"
 
-#: src/mainwindow.cpp:1704
+#: src/mainwindow.cpp:1702
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "Aseta toistokohta hiiren sijaintiin"
 
-#: src/mainwindow.cpp:1707
+#: src/mainwindow.cpp:1705
 #, kde-format
 msgid "Grab Current Item"
 msgstr "Sieppaa nykyinen kohta"
 
-#: src/mainwindow.cpp:1710
+#: src/mainwindow.cpp:1708
 #, kde-format
 msgid "Automatic Transition"
 msgstr "Automaattinen siirtymä"
 
-#: src/mainwindow.cpp:1717
+#: src/mainwindow.cpp:1715
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "Korvaa leikealue aikajanalla"
 
-#: src/mainwindow.cpp:1719
+#: src/mainwindow.cpp:1717
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11424,12 +11424,12 @@ msgstr ""
 "Painamalla projektikansioon valitua leikettä alue lisätään aktiiviselle "
 "aikajanalle. Lisäysalueella olevat leikkeet leikataan ja kirjoitetaan päälle."
 
-#: src/mainwindow.cpp:1721
+#: src/mainwindow.cpp:1719
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "Lisää leikealue aikajanalle"
 
-#: src/mainwindow.cpp:1723
+#: src/mainwindow.cpp:1721
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11440,12 +11440,12 @@ msgstr ""
 "Kun painetaan, projektikansion valituun leikkeeseen alue lisätään aktiivisen "
 "aikajanan osoittimen kohtaan. Leike leikataan ja siirretään oikealle."
 
-#: src/mainwindow.cpp:1725
+#: src/mainwindow.cpp:1723
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "Poimi alue aikajanalta"
 
-#: src/mainwindow.cpp:1727
+#: src/mainwindow.cpp:1725
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11455,12 +11455,12 @@ msgstr ""
 "Paina ja poista alue aikajanalta. Kaikki oikealla olevat leikkeet siirretään "
 "vasemmalle."
 
-#: src/mainwindow.cpp:1728
+#: src/mainwindow.cpp:1726
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "Nosta alue aikajanalta"
 
-#: src/mainwindow.cpp:1730
+#: src/mainwindow.cpp:1728
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11470,12 +11470,12 @@ msgstr ""
 "Paina ja poista alue aikajanalta. Kaikki oikealla olevat leikkeet pysyvät "
 "paikoillaan."
 
-#: src/mainwindow.cpp:1731
+#: src/mainwindow.cpp:1729
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "Lisää esikatselualue"
 
-#: src/mainwindow.cpp:1733
+#: src/mainwindow.cpp:1731
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11484,12 +11484,12 @@ msgstr ""
 "Lisää tällä hetkellä määritetty aikajana/alue esikatseluun "
 "renderöintialueelle"
 
-#: src/mainwindow.cpp:1734
+#: src/mainwindow.cpp:1732
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "Poista esikatselualue"
 
-#: src/mainwindow.cpp:1738
+#: src/mainwindow.cpp:1736
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11500,23 +11500,23 @@ msgstr ""
 "renderötialueelta. Huomaa, että tämä voi jättää aukkoja esikatseluun "
 "renderöintialueille."
 
-#: src/mainwindow.cpp:1739
+#: src/mainwindow.cpp:1737
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "Poista esikatselualueet"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1739
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "Poista kaikki esikatselun renderöintialueet."
 
-#: src/mainwindow.cpp:1742
+#: src/mainwindow.cpp:1740
 #, kde-format
 msgid "Start Preview Render"
 msgstr "Käynnistä esikatselun renderöinti"
 
-#: src/mainwindow.cpp:1745
+#: src/mainwindow.cpp:1743
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11529,179 +11529,179 @@ msgstr ""
 ">Paina alas osoittavaa nuolikuvaketta ja saat luettelon vaihtoehdoista "
 "(esim.: lisää renderöintialue tai poista kaikki vyöhykkeet) ."
 
-#: src/mainwindow.cpp:1747
+#: src/mainwindow.cpp:1745
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "Pysäytä esikatselun renderöinti"
 
-#: src/mainwindow.cpp:1750
+#: src/mainwindow.cpp:1748
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
 msgstr "Säädä aikajana valinnaksi"
 
-#: src/mainwindow.cpp:1752
+#: src/mainwindow.cpp:1750
 #, kde-format
 msgid "Select Clip"
 msgstr "Valitse leike"
 
-#: src/mainwindow.cpp:1754
+#: src/mainwindow.cpp:1752
 #, kde-format
 msgid "Deselect Clip"
 msgstr "Poista leikkeen valinta"
 
-#: src/mainwindow.cpp:1756
+#: src/mainwindow.cpp:1754
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "Lisää valintaan leike"
 
-#: src/mainwindow.cpp:1758
+#: src/mainwindow.cpp:1756
 #, kde-format
 msgid "Select Transition"
 msgstr "Valitse siirtymätehoste"
 
-#: src/mainwindow.cpp:1760
+#: src/mainwindow.cpp:1758
 #, kde-format
 msgid "Deselect Transition"
 msgstr "Poista valittu siirtymätehoste"
 
-#: src/mainwindow.cpp:1762
+#: src/mainwindow.cpp:1760
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "Lisää valintaan siirtymä"
 
-#: src/mainwindow.cpp:1765
+#: src/mainwindow.cpp:1763
 #, kde-format
 msgid "Delete All Markers"
 msgstr "Poista kaikki merkit"
 
-#: src/mainwindow.cpp:1767
+#: src/mainwindow.cpp:1765
 #, kde-format
 msgid "Add Marker/Guide quickly"
 msgstr "Lisää nopeasti merkki/opaste"
 
-#: src/mainwindow.cpp:1771
+#: src/mainwindow.cpp:1769
 #, kde-format
 msgid "Current Selection"
 msgstr "Nykyinen valinta"
 
-#: src/mainwindow.cpp:1773 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1771 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "Lisää merkki"
 
-#: src/mainwindow.cpp:1777
+#: src/mainwindow.cpp:1775
 #, kde-format
 msgid "Delete Marker"
 msgstr "Poista merkki"
 
-#: src/mainwindow.cpp:1781
+#: src/mainwindow.cpp:1779
 #, kde-format
 msgid "Edit Marker…"
 msgstr "Muokkaa merkkiä…"
 
-#: src/mainwindow.cpp:1786 src/timeline2/model/timelinefunctions.cpp:1180
+#: src/mainwindow.cpp:1784 src/timeline2/model/timelinefunctions.cpp:1180
 #, kde-format
 msgid "Restore Audio"
 msgstr "Palauta ääni"
 
-#: src/mainwindow.cpp:1792
+#: src/mainwindow.cpp:1790
 #, kde-format
 msgid "Extract Clip"
 msgstr "Poimi leike"
 
-#: src/mainwindow.cpp:1798
+#: src/mainwindow.cpp:1796
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "Tallenna leike kansioon"
 
-#: src/mainwindow.cpp:1803
+#: src/mainwindow.cpp:1801
 #, kde-format
 msgid "Disable Clip"
 msgstr "Poista leike käytöstä"
 
-#: src/mainwindow.cpp:1808
+#: src/mainwindow.cpp:1806
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "Aseta viiteääni"
 
-#: src/mainwindow.cpp:1815
+#: src/mainwindow.cpp:1813
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "Tasoita ääni viitteen mukaan"
 
-#: src/mainwindow.cpp:1820
+#: src/mainwindow.cpp:1818
 #, kde-format
 msgid "Edit Duration"
 msgstr "Muokkaa kestoa"
 
-#: src/mainwindow.cpp:1824
+#: src/mainwindow.cpp:1822
 #, kde-format
 msgid "Change Speed"
 msgstr "Muuta nopeutta"
 
-#: src/mainwindow.cpp:1830
+#: src/mainwindow.cpp:1828
 #, kde-format
 msgid "Time Remap"
 msgstr "Aikakatoitus"
 
-#: src/mainwindow.cpp:1837
+#: src/mainwindow.cpp:1835
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "Leike projektikansiossa"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1843 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1841 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "Leikkaa leike"
 
-#: src/mainwindow.cpp:1846
+#: src/mainwindow.cpp:1844
 #, kde-format
 msgid "Cut All Clips"
 msgstr "Leikkaa leikkeet"
 
 # Poista valittu kohde olisi oikein, mutta Poista valittu näyttää paremmalta.
-#: src/mainwindow.cpp:1849
+#: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "Poista valittu"
 
-#: src/mainwindow.cpp:1852
+#: src/mainwindow.cpp:1850
 #, kde-format
 msgid "Resize Item Start"
 msgstr "Muuta kohteen alkua"
 
-#: src/mainwindow.cpp:1856
+#: src/mainwindow.cpp:1854
 #, kde-format
 msgid "Resize Item End"
 msgstr "Muuta kohteen loppua"
 
-#: src/mainwindow.cpp:1860
+#: src/mainwindow.cpp:1858
 #, kde-format
 msgid "Paste Effects"
 msgstr "Liitä tehosteet"
 
-#: src/mainwindow.cpp:1866
+#: src/mainwindow.cpp:1864
 #, kde-format
 msgid "Delete Effects"
 msgstr "Poista tehosteet"
 
-#: src/mainwindow.cpp:1873
+#: src/mainwindow.cpp:1871
 #, kde-format
 msgid "Group Clips"
 msgstr "Ryhmitä leikkeet"
 
-#: src/mainwindow.cpp:1879
+#: src/mainwindow.cpp:1877
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "Poista leikkeiden ryhmitys"
 
-#: src/mainwindow.cpp:1885
+#: src/mainwindow.cpp:1883
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "Luo valinnasta kuvasarja"
 
-#: src/mainwindow.cpp:1888
+#: src/mainwindow.cpp:1886
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11711,123 +11711,124 @@ msgstr ""
 "Lisää aikajanalla valitut leikkeet uuteen sarjaleikkeeseen, joka voidaan "
 "avata toisen aikajanan välilehdellä."
 
-#: src/mainwindow.cpp:1899
+#: src/mainwindow.cpp:1897
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "Leikekehyksien tehoste"
 
-#: src/mainwindow.cpp:1900 src/monitor/view/EffectToolBar.qml:99
+#: src/mainwindow.cpp:1898 src/monitor/view/EffectToolBar.qml:99
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "Lisää/poista leikekehys"
 
-#: src/mainwindow.cpp:1916
+#: src/mainwindow.cpp:1914
 #, kde-format
 msgid "Insert Space…"
 msgstr "Lisää tyhjää…"
 
-#: src/mainwindow.cpp:1917
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Remove Space"
 msgstr "Poista tyhjä tila"
 
-#: src/mainwindow.cpp:1918
+#: src/mainwindow.cpp:1916
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "Poista kaikki kohdistimen jälkeiset välit"
 
-#: src/mainwindow.cpp:1919
+#: src/mainwindow.cpp:1917
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "Poista kaikki kohdistimen jälkeiset leikkeet"
 
-#: src/mainwindow.cpp:1920
+#: src/mainwindow.cpp:1918
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "Poista tyhjä kaikilta raidoilta"
 
-#: src/mainwindow.cpp:1923
+#: src/mainwindow.cpp:1921
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "Lisää raita…"
 
-#: src/mainwindow.cpp:1927
+#: src/mainwindow.cpp:1925
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "Sovita kaikki raidat näkymään"
 
-#: src/mainwindow.cpp:1933 src/timeline2/view/timelinecontroller.cpp:4924
+#: src/mainwindow.cpp:1932 src/mainwindow.cpp:1934
+#: src/timeline2/view/timelinecontroller.cpp:4924
 #, kde-format
 msgid "Master effects"
 msgstr "Alkuperäiset tehosteet"
 
-#: src/mainwindow.cpp:1940
+#: src/mainwindow.cpp:1942
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "Vaihda raidan kodeääntä"
 
-#: src/mainwindow.cpp:1945
+#: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Delete Track…"
 msgstr "Poista raita..."
 
-#: src/mainwindow.cpp:1950
+#: src/mainwindow.cpp:1952
 #, kde-format
 msgid "Show Record Controls"
 msgstr "Näytä nauhoitussäätimet"
 
-#: src/mainwindow.cpp:1956
+#: src/mainwindow.cpp:1958
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "Valitse kaikki nykyiseltä raidata"
 
-#: src/mainwindow.cpp:1973
+#: src/mainwindow.cpp:1975
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "Hallitse välimuistitietoja…"
 
-#: src/mainwindow.cpp:1976
+#: src/mainwindow.cpp:1978
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "Poista aikajanan esikatselu käytöstä"
 
-#: src/mainwindow.cpp:1980
+#: src/mainwindow.cpp:1982
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "Lisää/poista opaste"
 
-#: src/mainwindow.cpp:1981
+#: src/mainwindow.cpp:1983
 #, kde-format
 msgid "Delete Guide"
 msgstr "Poista opaste"
 
-#: src/mainwindow.cpp:1982
+#: src/mainwindow.cpp:1984
 #, kde-format
 msgid "Edit Guide…"
 msgstr "Muokkaa opastetta…"
 
-#: src/mainwindow.cpp:1983
+#: src/mainwindow.cpp:1985
 #, kde-format
 msgid "Search Guide…"
 msgstr "Etsi opaste…"
 
-#: src/mainwindow.cpp:1984
+#: src/mainwindow.cpp:1986
 #, kde-format
 msgid "Export Guides…"
 msgstr "Vie opasteet..."
 
-#: src/mainwindow.cpp:1987
+#: src/mainwindow.cpp:1989
 #, kde-format
 msgid "Guides Locked"
 msgstr "Opasteet lukittu"
 
-#: src/mainwindow.cpp:1990
+#: src/mainwindow.cpp:1992
 #, kde-format
 msgid "Lock guides"
 msgstr "Lukitse apuvivat"
 
-#: src/mainwindow.cpp:1992
+#: src/mainwindow.cpp:1994
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11837,52 +11838,52 @@ msgstr ""
 "Lukitse opasteet. Kun opasteet on lukittu, ne eivät suostu liikkumaan kun "
 "käytetään välin lisäämistä tai aihiota lisätään/poistetaan raidoilta."
 
-#: src/mainwindow.cpp:1994
+#: src/mainwindow.cpp:1996
 #, kde-format
 msgid "Delete All Guides"
 msgstr "Poista kaikki opasteet"
 
-#: src/mainwindow.cpp:1996
+#: src/mainwindow.cpp:1998
 #, kde-format
 msgid "Add Subtitle"
 msgstr "Lisää tekstitys"
 
-#: src/mainwindow.cpp:1998
+#: src/mainwindow.cpp:2000
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "Poista tekstitys käytöstä"
 
-#: src/mainwindow.cpp:1999
+#: src/mainwindow.cpp:2001
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "Lukitse tekstitys"
 
-#: src/mainwindow.cpp:2001
+#: src/mainwindow.cpp:2003
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "Hallitse tekstityksiä"
 
-#: src/mainwindow.cpp:2003
+#: src/mainwindow.cpp:2005
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "Tuo tekstitystiedosto…"
 
-#: src/mainwindow.cpp:2005
+#: src/mainwindow.cpp:2007
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "Vie tekstitystiedosto…"
 
-#: src/mainwindow.cpp:2007 src/timeline2/model/timelinemodel.cpp:2146
+#: src/mainwindow.cpp:2009 src/timeline2/model/timelinemodel.cpp:2159
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Poista tekstitys"
 
-#: src/mainwindow.cpp:2008
+#: src/mainwindow.cpp:2010
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "Tunnista puhe…"
 
-#: src/mainwindow.cpp:2015
+#: src/mainwindow.cpp:2017
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11892,87 +11893,87 @@ msgstr ""
 "Tämä vaihtaa <emphasis>Valikkopalkin</emphasis> ja "
 "<interface>Hampurilaisvalikon</interface> painiketta työkalupalkissa."
 
-#: src/mainwindow.cpp:2044
+#: src/mainwindow.cpp:2046
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "Kopioi virhetieto"
 
-#: src/mainwindow.cpp:2046
+#: src/mainwindow.cpp:2048
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "Poista aikajanan tehosteet käytöstä"
 
-#: src/mainwindow.cpp:2052
+#: src/mainwindow.cpp:2054
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "Raita pois käytöstä"
 
-#: src/mainwindow.cpp:2054
+#: src/mainwindow.cpp:2056
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "Raita lukituksi"
 
-#: src/mainwindow.cpp:2056
+#: src/mainwindow.cpp:2058
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "Lukitse kaikki raidat"
 
-#: src/mainwindow.cpp:2058
+#: src/mainwindow.cpp:2060
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "Raita kohteeksi"
 
-#: src/mainwindow.cpp:2060
+#: src/mainwindow.cpp:2062
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "Raita aktiiviseksi"
 
-#: src/mainwindow.cpp:2062
+#: src/mainwindow.cpp:2064
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "Aseta kaikki raidat aktiivisiksi"
 
-#: src/mainwindow.cpp:2064
+#: src/mainwindow.cpp:2066
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "Vaihda kaikki raidat aktiiviseksi"
 
-#: src/mainwindow.cpp:2066
+#: src/mainwindow.cpp:2068
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "Palauta nykyisen leikkeen kohderaita"
 
-#: src/mainwindow.cpp:2068
+#: src/mainwindow.cpp:2070
 #, kde-format
 msgid "Add Project Note"
 msgstr "Lisää projektimerkki"
 
-#: src/mainwindow.cpp:2074
+#: src/mainwindow.cpp:2076
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "Valitse ääniraita %1"
 
-#: src/mainwindow.cpp:2078
+#: src/mainwindow.cpp:2080
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "Valitse videoraita %1"
 
-#: src/mainwindow.cpp:2082
+#: src/mainwindow.cpp:2084
 #, kde-format
 msgid "Select Target %1"
 msgstr "Valitse kohde %1"
 
-#: src/mainwindow.cpp:2100
+#: src/mainwindow.cpp:2102
 #, kde-format
 msgid "Extract Frame…"
 msgstr "Poimi ruutu…"
 
-#: src/mainwindow.cpp:2103
+#: src/mainwindow.cpp:2105
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "Poimi ruutu projektiin…"
 
-#: src/mainwindow.cpp:2235
+#: src/mainwindow.cpp:2237
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -11981,13 +11982,13 @@ msgstr ""
 "Olet muuttanut puskurin asetuksia. Haluatko luoda projektin kaikki "
 "puskuroidut leikkeet uudestaan?"
 
-#: src/mainwindow.cpp:2236
+#: src/mainwindow.cpp:2238
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Luo uudelleen"
 
-#: src/mainwindow.cpp:2237 src/onlineresources/resourcewidget.cpp:613
+#: src/mainwindow.cpp:2239 src/onlineresources/resourcewidget.cpp:613
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2281
 #, kde-format
@@ -11995,7 +11996,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Jatka ilman"
 
-#: src/mainwindow.cpp:2293
+#: src/mainwindow.cpp:2295
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -12006,7 +12007,7 @@ msgstr ""
 "sitten siirtää kaikki väliaikaiset tiedostot kansiosta <br/><b>%1</b> "
 "kansioon <b>%2</b><br>ja lataa projektin tiedoston uudelleen"
 
-#: src/mainwindow.cpp:2301
+#: src/mainwindow.cpp:2303
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -12015,39 +12016,39 @@ msgstr ""
 "Tämä siirtää kaikki väliaikaiset tiedostot kansiosta <br/><b>%1</b> kansioon "
 "<b>%2</b>,<br/>ja lataa projektin tiedoston uudelleen"
 
-#: src/mainwindow.cpp:2310 src/project/projectmanager.cpp:610
+#: src/mainwindow.cpp:2312 src/project/projectmanager.cpp:610
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Toimenpidettä ei voi tehdä, koska tiedoston tunniste on virheellinen: %1"
 
-#: src/mainwindow.cpp:2315 src/project/projectmanager.cpp:616
+#: src/mainwindow.cpp:2317 src/project/projectmanager.cpp:616
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Toimenpidettä ei voi tehdä, koska kohdekansio on jo olemassa: %1"
 
-#: src/mainwindow.cpp:2462
+#: src/mainwindow.cpp:2464
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Tämä poistaa kaikki käyttämättömät leikkeet projektista."
 
-#: src/mainwindow.cpp:2462
+#: src/mainwindow.cpp:2464
 #, kde-format
 msgid "Clean up project"
 msgstr "Siivoa projekti"
 
-#: src/mainwindow.cpp:2604
+#: src/mainwindow.cpp:2606
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Lataa uusia pikanäppäinasetteluja…"
 
-#: src/mainwindow.cpp:2613
+#: src/mainwindow.cpp:2615
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Yleistä"
 
-#: src/mainwindow.cpp:2687
+#: src/mainwindow.cpp:2689
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -12056,28 +12057,28 @@ msgstr ""
 "Tämä poistaa Kdenliven asetustiedoston ja käynnistää ohjelman uudelleen."
 "Haluatko jatkaa?"
 
-#: src/mainwindow.cpp:2688
+#: src/mainwindow.cpp:2690
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Palauta asetukset"
 
-#: src/mainwindow.cpp:2820 src/mainwindow.cpp:2847
+#: src/mainwindow.cpp:2822 src/mainwindow.cpp:2849
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Leikettä merkinnän poistamiseksi ei löydy"
 
-#: src/mainwindow.cpp:2830 src/mainwindow.cpp:2876
+#: src/mainwindow.cpp:2832 src/mainwindow.cpp:2878
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Merkkiä kohdistimen kohdalta ei löydy"
 
-#: src/mainwindow.cpp:2852
+#: src/mainwindow.cpp:2854
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Merkkejä poistettaessa tapahtui virhe"
 
-#: src/mainwindow.cpp:2869 src/timeline2/view/timelinecontroller.cpp:1311
+#: src/mainwindow.cpp:2871 src/timeline2/view/timelinecontroller.cpp:1311
 #: src/timeline2/view/timelinecontroller.cpp:1319
 #: src/timeline2/view/timelinecontroller.cpp:1340
 #: src/timeline2/view/timelinecontroller.cpp:1380
@@ -12086,41 +12087,41 @@ msgstr "Merkkejä poistettaessa tapahtui virhe"
 msgid "Cannot find clip to edit marker"
 msgstr "Ei löydy leikettä muokattavaa merkkiä varten"
 
-#: src/mainwindow.cpp:3068 src/timeline2/model/timelinefunctions.cpp:758
+#: src/mainwindow.cpp:3070 src/timeline2/model/timelinefunctions.cpp:758
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Korvausvyöhyke"
 
-#: src/mainwindow.cpp:3070 src/mainwindow.cpp:3089
+#: src/mainwindow.cpp:3072 src/mainwindow.cpp:3091
 #: src/timeline2/model/timelinefunctions.cpp:760
 #: src/timeline2/view/timelinecontroller.cpp:3112
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Vyöhykettä ei voitu lisätä"
 
-#: src/mainwindow.cpp:3080
+#: src/mainwindow.cpp:3082
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Leikettä ei ole valittu projektista"
 
-#: src/mainwindow.cpp:3087 src/timeline2/model/timelinefunctions.cpp:758
+#: src/mainwindow.cpp:3089 src/timeline2/model/timelinefunctions.cpp:758
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, kde-format
 msgid "Insert zone"
 msgstr "Lisäysvyöhyke"
 
-#: src/mainwindow.cpp:3254
+#: src/mainwindow.cpp:3256
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Ei voi lisätä tehostetta aktiiviseen kohteeseen"
 
-#: src/mainwindow.cpp:3316
+#: src/mainwindow.cpp:3318
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Lähennystaso: %1/%2"
 
-#: src/mainwindow.cpp:3465
+#: src/mainwindow.cpp:3467
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12133,7 +12134,7 @@ msgstr ""
 "siirtää ryhmitellyn leikkeen toiseen raitaan <shortcut>Ctrl-vedä</shortcut> "
 "panorointi"
 
-#: src/mainwindow.cpp:3469
+#: src/mainwindow.cpp:3471
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12147,12 +12148,12 @@ msgstr ""
 "shortcut> siirtää ryhmitellyn leikkeen toiseen raitaan, <shortcut>Ctrl-"
 "vetämällä</shortcut> panorointi"
 
-#: src/mainwindow.cpp:3472
+#: src/mainwindow.cpp:3474
 #, kde-format
 msgid "Select"
 msgstr "Valinta"
 
-#: src/mainwindow.cpp:3474
+#: src/mainwindow.cpp:3476
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
@@ -12160,12 +12161,12 @@ msgstr "<shortcut>Shift</shortcut> katso leikattua ruutua"
 
 # *** TARKISTA: Onko razor todella videokäsittelytermistössä ”sakset”?
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3475 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3477 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Sakset"
 
-#: src/mainwindow.cpp:3479
+#: src/mainwindow.cpp:3481
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12175,12 +12176,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> lisää vain nykyiselle raidalle, <shortcut>Shift</"
 "shortcut> myös opasteen siirtämiseen. Voit yhdistää molemmat muuntajat."
 
-#: src/mainwindow.cpp:3480
+#: src/mainwindow.cpp:3482
 #, kde-format
 msgid "Spacer"
 msgstr "Erotin"
 
-#: src/mainwindow.cpp:3482
+#: src/mainwindow.cpp:3484
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12190,13 +12191,13 @@ msgstr ""
 "<shortcut>Napsauta</shortcut> kohteen päällä liukua, <shortcut>Shift-"
 "napsauta</shortcut> useamman valintaan"
 
-#: src/mainwindow.cpp:3483
+#: src/mainwindow.cpp:3485
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Liuku"
 
-#: src/mainwindow.cpp:3488
+#: src/mainwindow.cpp:3490
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12208,13 +12209,13 @@ msgstr ""
 "napsautus</shortcut> useamman valintaan, <shortcut>Alt-napsautus</shortcut> "
 "valitsee kohteen ryhmästä, <shortcut>Ctrl-vetämällä</shortcut> panorointi"
 
-#: src/mainwindow.cpp:3490
+#: src/mainwindow.cpp:3492
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Venytä"
 
-#: src/mainwindow.cpp:3496
+#: src/mainwindow.cpp:3498
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12224,105 +12225,105 @@ msgstr ""
 "<shortcut>Napsauta</shortcut> projektin valvonnan näkymässä raitojen nosto, "
 "lukuun ottamatta aktiivista"
 
-#: src/mainwindow.cpp:3508
+#: src/mainwindow.cpp:3510
 #, kde-format
 msgid "Insert"
 msgstr "Lisää"
 
-#: src/mainwindow.cpp:3511
+#: src/mainwindow.cpp:3513
 #, kde-format
 msgid "Overwrite"
 msgstr "Korvaa"
 
-#: src/mainwindow.cpp:3769 src/mainwindow.cpp:3771
+#: src/mainwindow.cpp:3771 src/mainwindow.cpp:3773
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3776
+#: src/mainwindow.cpp:3778
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bins"
 msgstr "Projektikansio"
 
-#: src/mainwindow.cpp:3872
+#: src/mainwindow.cpp:3874
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Leiketöiden asetukset…"
 
-#: src/mainwindow.cpp:3878
+#: src/mainwindow.cpp:3880
 #, kde-format
 msgid "Transcoders"
 msgstr "Muuntimet"
 
-#: src/mainwindow.cpp:3938
+#: src/mainwindow.cpp:3940
 #, kde-format
 msgid "-merged"
 msgstr "-merged"
 
-#: src/mainwindow.cpp:3941
+#: src/mainwindow.cpp:3943
 #, kde-format
 msgid "-stream-%1"
 msgstr "-stream-%1"
 
-#: src/mainwindow.cpp:3983
+#: src/mainwindow.cpp:3985
 #, kde-format
 msgid "Interface"
 msgstr "Käyttöliittymä"
 
-#: src/mainwindow.cpp:4005
+#: src/mainwindow.cpp:4007
 #, kde-format
 msgid "Raise %1"
 msgstr "Nosta %1"
 
-#: src/mainwindow.cpp:4072
+#: src/mainwindow.cpp:4074
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Muunnettavat tiedostot"
 
-#: src/mainwindow.cpp:4201
+#: src/mainwindow.cpp:4203
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektin tiedostoa ei voitu tallentaa arkistointia varten."
 
-#: src/mainwindow.cpp:4207
+#: src/mainwindow.cpp:4209
 #, kde-format
 msgid "Archiving project"
 msgstr "Arkistoidaan projektia"
 
-#: src/mainwindow.cpp:4365
+#: src/mainwindow.cpp:4367
 #, kde-format
 msgid "Icon Size"
 msgstr "Kuvakkeen koko"
 
-#: src/mainwindow.cpp:4369
+#: src/mainwindow.cpp:4371
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Oletus"
 
-#: src/mainwindow.cpp:4390 src/mainwindow.cpp:4418
+#: src/mainwindow.cpp:4392 src/mainwindow.cpp:4420
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Pieni (%1×%2)"
 
-#: src/mainwindow.cpp:4392 src/mainwindow.cpp:4420
+#: src/mainwindow.cpp:4394 src/mainwindow.cpp:4422
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Keskikokoinen (%1×%2)"
 
-#: src/mainwindow.cpp:4394 src/mainwindow.cpp:4422
+#: src/mainwindow.cpp:4396 src/mainwindow.cpp:4424
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Suuri (%1×%2)"
 
-#: src/mainwindow.cpp:4396 src/mainwindow.cpp:4424
+#: src/mainwindow.cpp:4398 src/mainwindow.cpp:4426
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Valtava (%1×%2)"
 
-#: src/mainwindow.cpp:4480
+#: src/mainwindow.cpp:4482
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -12330,12 +12331,12 @@ msgid ""
 msgstr ""
 "Tämä piilottaa valikon täysin. Saat sen uudelleen näkyviin painamalla Ctrl-M."
 
-#: src/mainwindow.cpp:4480
+#: src/mainwindow.cpp:4482
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Piilota valikko"
 
-#: src/mainwindow.cpp:4496
+#: src/mainwindow.cpp:4498
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -12343,22 +12344,22 @@ msgstr ""
 "Kdenlive on käynnistettävä uudelleen, jotta kuvakkeiden muutos otetaan "
 "käyttöön. Käynnistä uudelleen nyt?"
 
-#: src/mainwindow.cpp:4752 src/timeline2/view/timelinecontroller.cpp:5137
+#: src/mainwindow.cpp:4754 src/timeline2/view/timelinecontroller.cpp:5137
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Projektissa ei ole tekstityksiä"
 
-#: src/mainwindow.cpp:5039
+#: src/mainwindow.cpp:5041
 #, kde-format
 msgid "Go to download page"
 msgstr "Siirry lataussivulle"
 
-#: src/mainwindow.cpp:5042
+#: src/mainwindow.cpp:5044
 #, kde-format
 msgid "Never check again"
 msgstr "Älä tarkista uudelleen"
 
-#: src/mainwindow.cpp:5045
+#: src/mainwindow.cpp:5047
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -12366,7 +12367,7 @@ msgid ""
 msgstr ""
 "Kdenlive-versiosi on vanhempi kuin 1 vuosi, joten suosittelemme päivittämään"
 
-#: src/mainwindow.cpp:5048
+#: src/mainwindow.cpp:5050
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -12374,7 +12375,7 @@ msgstr ""
 "Kdenlive-versiosi on yli 6 kuukautta vanhempi, joten suosittelemme "
 "päivittämään"
 
-#: src/mainwindow.cpp:5091
+#: src/mainwindow.cpp:5093
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Tarkistetaan välimuistissa olevan datan kokoa"
@@ -12562,13 +12563,13 @@ msgid "Enable audio"
 msgstr "Ota ääni käyttöön"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:701
-#: src/monitor/monitor.cpp:286
+#: src/monitor/monitor.cpp:287
 #, kde-format
 msgid "Audio streams"
 msgstr "Äänikanava"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:723
-#: src/monitor/monitor.cpp:1902
+#: src/monitor/monitor.cpp:1905
 #, kde-format
 msgid "Merge all streams"
 msgstr "Yhdistä kaikki kanavat"
@@ -12863,12 +12864,12 @@ msgstr "Voimakkuus"
 msgid "%1%"
 msgstr "%1%"
 
-#: src/monitor/monitor.cpp:214
+#: src/monitor/monitor.cpp:215
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr "Esikatselun tarkkuus: pienempi tarkoittaa nopeampaa esikatselua"
 
-#: src/monitor/monitor.cpp:215
+#: src/monitor/monitor.cpp:216
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12879,49 +12880,49 @@ msgstr ""
 "Asettaa projektin/leikenäytön esikatselun resoluution. Sen voi valita1:1, "
 "720p, 540p, 360p, 270p (pienempi resoluutio, sitä nopeampiesikatselu)."
 
-#: src/monitor/monitor.cpp:218
+#: src/monitor/monitor.cpp:219
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:356 src/monitor/monitormanager.cpp:639
+#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:639
 #, kde-format
 msgid "Set Zone In"
 msgstr "Aseta alueen alku"
 
-#: src/monitor/monitor.cpp:357 src/monitor/monitormanager.cpp:643
+#: src/monitor/monitor.cpp:358 src/monitor/monitormanager.cpp:643
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Aseta alueen loppu"
 
-#: src/monitor/monitor.cpp:369 src/monitor/monitormanager.cpp:523
+#: src/monitor/monitor.cpp:370 src/monitor/monitormanager.cpp:523
 #, kde-format
 msgid "Rewind"
 msgstr "Taaksepäin"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitor.cpp:377
+#: src/monitor/monitor.cpp:375 src/monitor/monitor.cpp:378
 #: src/monitor/monitormanager.cpp:498
 #, kde-format
 msgid "Play"
 msgstr "Toista"
 
-#: src/monitor/monitor.cpp:377 src/monitor/monitormanager.cpp:498
+#: src/monitor/monitor.cpp:378 src/monitor/monitormanager.cpp:498
 #: src/monitor/monitormanager.cpp:504
 #, kde-format
 msgid "Pause"
 msgstr "Tauko"
 
-#: src/monitor/monitor.cpp:397 src/monitor/monitormanager.cpp:536
+#: src/monitor/monitor.cpp:398 src/monitor/monitormanager.cpp:536
 #, kde-format
 msgid "Forward"
 msgstr "Eteenpäin"
 
-#: src/monitor/monitor.cpp:401
+#: src/monitor/monitor.cpp:402
 #, kde-format
 msgid "More Options…"
 msgstr "Lisää valintoja…"
 
-#: src/monitor/monitor.cpp:402
+#: src/monitor/monitor.cpp:403
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12931,137 +12932,137 @@ msgstr ""
 "Avaa luettelon projektin/leikkeen valvonnan valinnoista (esim. "
 "äänenvoimakkuus, näytön koko)."
 
-#: src/monitor/monitor.cpp:411
+#: src/monitor/monitor.cpp:412
 #, kde-format
 msgid "Go to Marker…"
 msgstr "Siirry merkkiin…"
 
-#: src/monitor/monitor.cpp:415
+#: src/monitor/monitor.cpp:416
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Pakota monitorin koko"
 
-#: src/monitor/monitor.cpp:416
+#: src/monitor/monitor.cpp:417
 #, kde-format
 msgid "Force 100%"
 msgstr "Pakota 100 %"
 
-#: src/monitor/monitor.cpp:418
+#: src/monitor/monitor.cpp:419
 #, kde-format
 msgid "Force 50%"
 msgstr "Pakota 50 %"
 
-#: src/monitor/monitor.cpp:420
+#: src/monitor/monitor.cpp:421
 #, kde-format
 msgid "Free Resize"
 msgstr "Vapaa koko"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:432 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:433 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:260 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "Musta"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:434 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:435 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "Valkoinen"
 
-#: src/monitor/monitor.cpp:436
+#: src/monitor/monitor.cpp:437
 #, kde-format
 msgid "Pink"
 msgstr "Vaaleanpunainen"
 
-#: src/monitor/monitor.cpp:503
+#: src/monitor/monitor.cpp:506
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:509
+#: src/monitor/monitor.cpp:512
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:515
+#: src/monitor/monitor.cpp:518
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:521
+#: src/monitor/monitor.cpp:524
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:664
+#: src/monitor/monitor.cpp:667
 #, kde-format
 msgid "Extract Zone"
 msgstr "Poimi alue"
 
-#: src/monitor/monitor.cpp:677
+#: src/monitor/monitor.cpp:680
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Aseta kuva leikkeen pienoiskuvaksi"
 
-#: src/monitor/monitor.cpp:684
+#: src/monitor/monitor.cpp:687
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Näytä äänen pienoiskuvat"
 
-#: src/monitor/monitor.cpp:701
+#: src/monitor/monitor.cpp:704
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Näytä äänitasot"
 
-#: src/monitor/monitor.cpp:708
+#: src/monitor/monitor.cpp:711
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Näytä lähteen aikakoodi"
 
-#: src/monitor/monitor.cpp:745
+#: src/monitor/monitor.cpp:748
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Näytön tarkkuus ei riitä tähän toimenpiteeseen"
 
-#: src/monitor/monitor.cpp:886 src/monitor/monitor.cpp:917
+#: src/monitor/monitor.cpp:889 src/monitor/monitor.cpp:920
 #: src/timeline2/view/timelinecontroller.cpp:1797
 #, kde-format
 msgid "Set Zone"
 msgstr "Aseta alue"
 
-#: src/monitor/monitor.cpp:1279
+#: src/monitor/monitor.cpp:1282
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Tallenna kuva projektiin"
 
-#: src/monitor/monitor.cpp:1279
+#: src/monitor/monitor.cpp:1282
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Tallenna kuva"
 
-#: src/monitor/monitor.cpp:1286
+#: src/monitor/monitor.cpp:1289
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Vie kuva alkuperäisellä tarkkuudella"
 
-#: src/monitor/monitor.cpp:1887 src/monitor/monitor.cpp:2035
+#: src/monitor/monitor.cpp:1890 src/monitor/monitor.cpp:2038
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 äänen toisto"
 msgstr[1] "%1 äänien toisto"
 
-#: src/monitor/monitor.cpp:2369
+#: src/monitor/monitor.cpp:2372
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movitin GLSL-hallintaa ei voi alustaa: poista Movit käytöstä"
 
-#: src/monitor/monitor.cpp:2411 src/monitor/monitor.cpp:2468
+#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13070,17 +13071,17 @@ msgstr ""
 "Ominaisuutta varten tarvitaan alphagrad-suodatin, asenna frei0r ja käynnistä "
 "Kdenlive uudelleen"
 
-#: src/monitor/monitor.cpp:2431
+#: src/monitor/monitor.cpp:2434
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Leikkeellä ei ole tehosteita"
 
-#: src/monitor/monitor.cpp:2433
+#: src/monitor/monitor.cpp:2436
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Valitse leike tehosteen vertaamiseksi"
 
-#: src/monitor/monitor.cpp:2475
+#: src/monitor/monitor.cpp:2478
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13089,7 +13090,7 @@ msgstr ""
 "Ominaisuutta varten tarvitaan Cairoblend-siirtymä, asenna frei0r ja "
 "käynnistä Kdenlive uudelleen"
 
-#: src/monitor/monitor.cpp:2521
+#: src/monitor/monitor.cpp:2524
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ota käyttöön muokkaustila näytöllä tehosteen muokkaamiseksi"
@@ -13407,7 +13408,7 @@ msgstr ""
 "<b>Leijuta oikealla</b> työkaluriville, <b>Rulla</b> tai <b>nuolet</b> "
 "kelaamiseen, <b>Ctrl-rulla</b> lähentää"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:281
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -16667,7 +16668,7 @@ msgid "Delete clips on track"
 msgstr "Poista leikkeet raidalta"
 
 #: src/timeline2/model/timelineitemmodel.cpp:137
-#: src/timeline2/model/timelinemodel.cpp:4598
+#: src/timeline2/model/timelinemodel.cpp:4611
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16712,141 +16713,141 @@ msgstr "Leikkeet vaihdettu: %1, iian pitkät leikkeet: %2"
 msgid "Replace clip"
 msgstr "Korvaa leike"
 
-#: src/timeline2/model/timelinemodel.cpp:975
-#: src/timeline2/model/timelinemodel.cpp:1192
+#: src/timeline2/model/timelinemodel.cpp:988
+#: src/timeline2/model/timelinemodel.cpp:1205
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "Käytä käsittelyä valitsemalla leike"
 
-#: src/timeline2/model/timelinemodel.cpp:1190
+#: src/timeline2/model/timelinemodel.cpp:1203
 #, kde-format
 msgid "start"
 msgstr "alku"
 
-#: src/timeline2/model/timelinemodel.cpp:1190
+#: src/timeline2/model/timelinemodel.cpp:1203
 #, kde-format
 msgid "end"
 msgstr "loppu"
 
-#: src/timeline2/model/timelinemodel.cpp:1190
+#: src/timeline2/model/timelinemodel.cpp:1203
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "Leikkeen %1 ruutuja ei ole tarpeeksi käsittelyn käyttämiseen"
 
-#: src/timeline2/model/timelinemodel.cpp:1196
+#: src/timeline2/model/timelinemodel.cpp:1209
 #, kde-format
 msgid "Create mix"
 msgstr "Luo käsittely"
 
-#: src/timeline2/model/timelinemodel.cpp:1271
-#: src/timeline2/model/timelinemodel.cpp:1306
+#: src/timeline2/model/timelinemodel.cpp:1284
+#: src/timeline2/model/timelinemodel.cpp:1319
 #, kde-format
 msgid "Move clip"
 msgstr "Siirrä leike"
 
-#: src/timeline2/model/timelinemodel.cpp:1820
-#: src/timeline2/model/timelinemodel.cpp:1910
-#: src/timeline2/model/timelinemodel.cpp:1933
-#: src/timeline2/model/timelinemodel.cpp:1956
+#: src/timeline2/model/timelinemodel.cpp:1833
+#: src/timeline2/model/timelinemodel.cpp:1923
+#: src/timeline2/model/timelinemodel.cpp:1946
+#: src/timeline2/model/timelinemodel.cpp:1969
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Lisäämistä varten ei ole käytettävissä olevaa raitaa"
 
-#: src/timeline2/model/timelinemodel.cpp:1825
+#: src/timeline2/model/timelinemodel.cpp:1838
 #, kde-format
 msgid "Insert Clip"
 msgstr "Lisää leike"
 
-#: src/timeline2/model/timelinemodel.cpp:1878
+#: src/timeline2/model/timelinemodel.cpp:1891
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Et voi lisätä sarjaa, joka sisältää itsensä"
 
-#: src/timeline2/model/timelinemodel.cpp:1926
-#: src/timeline2/model/timelinemodel.cpp:1948
+#: src/timeline2/model/timelinemodel.cpp:1939
+#: src/timeline2/model/timelinemodel.cpp:1961
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Ääniraitoja ei ole tarpeeksi kaikille kanaville (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2032
+#: src/timeline2/model/timelinemodel.cpp:2045
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Ei käytettävissä olevaa raitaa jakamiseen"
 
-#: src/timeline2/model/timelinemodel.cpp:2069
+#: src/timeline2/model/timelinemodel.cpp:2082
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Äänen jako epäonnistui: ei kelvollista raitaa"
 
-#: src/timeline2/model/timelinemodel.cpp:2077
+#: src/timeline2/model/timelinemodel.cpp:2090
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Äänen jako epäonnistui: äänileikkeen luominen on mahdotonta"
 
-#: src/timeline2/model/timelinemodel.cpp:2139
+#: src/timeline2/model/timelinemodel.cpp:2152
 #, kde-format
 msgid "Remove group"
 msgstr "Poista ryhmä"
 
-#: src/timeline2/model/timelinemodel.cpp:2144
+#: src/timeline2/model/timelinemodel.cpp:2157
 #, kde-format
 msgid "Delete Composition"
 msgstr "Poista koostaminen"
 
-#: src/timeline2/model/timelinemodel.cpp:2347
-#: src/timeline2/model/timelinemodel.cpp:2624
+#: src/timeline2/model/timelinemodel.cpp:2360
+#: src/timeline2/model/timelinemodel.cpp:2637
 #: src/timeline2/view/timelinecontroller.cpp:4315
 #, kde-format
 msgid "Move group"
 msgstr "Siirrä ryhmä"
 
-#: src/timeline2/model/timelinemodel.cpp:3316
+#: src/timeline2/model/timelinemodel.cpp:3329
 #, kde-format
 msgid "Resize group"
 msgstr "Muuta ryhmän kokoa"
 
 # *** TARKISTA: Tulkintani id:stä!
-#: src/timeline2/model/timelinemodel.cpp:3440
+#: src/timeline2/model/timelinemodel.cpp:3453
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Muuta leikkeen nopeutta"
 
-#: src/timeline2/model/timelinemodel.cpp:3599
+#: src/timeline2/model/timelinemodel.cpp:3612
 #, kde-format
 msgid "Remove mix"
 msgstr "Poista käsittely"
 
-#: src/timeline2/model/timelinemodel.cpp:3601
+#: src/timeline2/model/timelinemodel.cpp:3614
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Käsittelyn poisto epäonnistui"
 
-#: src/timeline2/model/timelinemodel.cpp:3900
+#: src/timeline2/model/timelinemodel.cpp:3913
 #, kde-format
 msgid "Resize clip"
 msgstr "Muuta leikkeen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:3902
+#: src/timeline2/model/timelinemodel.cpp:3915
 #, kde-format
 msgid "Resize composition"
 msgstr "Muuta koostamisen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:4224
+#: src/timeline2/model/timelinemodel.cpp:4237
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Venyttää leikkeen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:4226
+#: src/timeline2/model/timelinemodel.cpp:4239
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Venyttää koostamisen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:4228
+#: src/timeline2/model/timelinemodel.cpp:4241
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Venyttää tekstityksen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:4371
+#: src/timeline2/model/timelinemodel.cpp:4384
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16854,90 +16855,90 @@ msgid_plural "Slip clips"
 msgstr[0] "Liukuleike"
 msgstr[1] "Liukuleikkeet"
 
-#: src/timeline2/model/timelinemodel.cpp:4406
+#: src/timeline2/model/timelinemodel.cpp:4419
 #, kde-format
 msgid "Slip clip"
 msgstr "Liukuleike"
 
-#: src/timeline2/model/timelinemodel.cpp:4441
+#: src/timeline2/model/timelinemodel.cpp:4454
 #, kde-format
 msgid "Group clips"
 msgstr "Ryhmitä leikkeet"
 
-#: src/timeline2/model/timelinemodel.cpp:4526
-#: src/timeline2/model/timelinemodel.cpp:4542
+#: src/timeline2/model/timelinemodel.cpp:4539
+#: src/timeline2/model/timelinemodel.cpp:4555
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Poista leikkeiden ryhmitys"
 
-#: src/timeline2/model/timelinemodel.cpp:4707
+#: src/timeline2/model/timelinemodel.cpp:4720
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "Poista raita"
 
-#: src/timeline2/model/timelinemodel.cpp:4717
+#: src/timeline2/model/timelinemodel.cpp:4730
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Aikajanan viimeistä raitaa ei voi poistaa"
 
-#: src/timeline2/model/timelinemodel.cpp:4942
+#: src/timeline2/model/timelinemodel.cpp:4955
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Tehostetta %1 ei voi lisätä pääraidalle"
 
-#: src/timeline2/model/timelinemodel.cpp:4949
+#: src/timeline2/model/timelinemodel.cpp:4962
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Tehostetta %1 ei voi lisätä valittuun raitaan"
 
-#: src/timeline2/model/timelinemodel.cpp:4970
+#: src/timeline2/model/timelinemodel.cpp:4983
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Tehostetta ei voi liittää pääraidalle"
 
-#: src/timeline2/model/timelinemodel.cpp:4976
+#: src/timeline2/model/timelinemodel.cpp:4989
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Tehostetta ei voi liittää valittuun raitaan"
 
-#: src/timeline2/model/timelinemodel.cpp:5020
+#: src/timeline2/model/timelinemodel.cpp:5033
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Tehostetta %1 ei voi lisätä valittuun leikkeeseen"
 
-#: src/timeline2/model/timelinemodel.cpp:5044
+#: src/timeline2/model/timelinemodel.cpp:5057
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Säädä häivytystä"
 
-#: src/timeline2/model/timelinemodel.cpp:5356
+#: src/timeline2/model/timelinemodel.cpp:5369
 #, kde-format
 msgid "Insert Composition"
 msgstr "Lisää koostaminen"
 
-#: src/timeline2/model/timelinemodel.cpp:5559
+#: src/timeline2/model/timelinemodel.cpp:5572
 #, kde-format
 msgid "Move composition"
 msgstr "Siirrä koostaminen"
 
-#: src/timeline2/model/timelinemodel.cpp:6215
+#: src/timeline2/model/timelinemodel.cpp:6228
 #, kde-format
 msgid "Enable time remap"
 msgstr "Ota ajan kartoitus käyttöön"
 
-#: src/timeline2/model/timelinemodel.cpp:6289
+#: src/timeline2/model/timelinemodel.cpp:6302
 #, kde-format
 msgid "Change speed failed"
 msgstr "Nopeuden muutos epäonnistui"
 
-#: src/timeline2/model/timelinemodel.cpp:6299
+#: src/timeline2/model/timelinemodel.cpp:6312
 #, kde-format
 msgid "Change clip speed"
 msgstr "Muuta leikkeen nopeutta"
 
-#: src/timeline2/model/timelinemodel.cpp:6728
+#: src/timeline2/model/timelinemodel.cpp:6743
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
@@ -16945,7 +16946,7 @@ msgid "Lock track"
 msgstr "Lukitse raita"
 
 # Avaa lukitus parempi kuin avaa raidan lukitus
-#: src/timeline2/model/timelinemodel.cpp:6733
+#: src/timeline2/model/timelinemodel.cpp:6748
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
@@ -16953,39 +16954,39 @@ msgid "Unlock track"
 msgstr "Avaa lukitus"
 
 # Vai keskiön, keskikohdan…?
-#: src/timeline2/model/timelinemodel.cpp:6767
-#: src/timeline2/model/timelinemodel.cpp:6829
+#: src/timeline2/model/timelinemodel.cpp:6782
+#: src/timeline2/model/timelinemodel.cpp:6844
 #, kde-format
 msgid "Change composition"
 msgstr "Muuta koostamista"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
+#: src/timeline2/model/timelinemodel.cpp:6796
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ryhmittettyä ei voi käyttää, poista ryhmitys"
 
-#: src/timeline2/model/timelinemodel.cpp:6976
-#: src/timeline2/model/timelinemodel.cpp:7013
-#: src/timeline2/model/timelinemodel.cpp:7046
-#: src/timeline2/model/timelinemodel.cpp:7127
+#: src/timeline2/model/timelinemodel.cpp:6991
+#: src/timeline2/model/timelinemodel.cpp:7028
+#: src/timeline2/model/timelinemodel.cpp:7061
+#: src/timeline2/model/timelinemodel.cpp:7142
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Käsittelyn kokoa ei voi muuttaa alle 1 ruudun"
 
-#: src/timeline2/model/timelinemodel.cpp:6987
-#: src/timeline2/model/timelinemodel.cpp:7021
-#: src/timeline2/model/timelinemodel.cpp:7065
-#: src/timeline2/model/timelinemodel.cpp:7151
+#: src/timeline2/model/timelinemodel.cpp:7002
+#: src/timeline2/model/timelinemodel.cpp:7036
+#: src/timeline2/model/timelinemodel.cpp:7080
+#: src/timeline2/model/timelinemodel.cpp:7166
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Käsittelyn kokoa ei voi muuttaa"
 
-#: src/timeline2/model/timelinemodel.cpp:7165
+#: src/timeline2/model/timelinemodel.cpp:7180
 #, kde-format
 msgid "Resize mix"
 msgstr "Käsittelyn koko"
 
-#: src/timeline2/model/timelinemodel.cpp:7285
+#: src/timeline2/model/timelinemodel.cpp:7300
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Virhe alustettaessa aikajanan esikatselua"
