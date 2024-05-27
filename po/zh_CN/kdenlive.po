@@ -3223,7 +3223,7 @@ msgstr "下载新擦除方式..."
 #: src/assets/assetlist/view/assetlistwidget.cpp:171
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr ""
+msgstr "仅显示已审核的资源"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176
 #, kde-format
@@ -6101,7 +6101,7 @@ msgstr "创建更改速度的剪辑副本…"
 #: src/dialogs/clipjobmanager.cpp:247
 #, kde-format
 msgid "Check your parameters syntax (incorrect number of quotes)"
-msgstr ""
+msgstr "请检查参数语法 (引用数量不正确)"
 
 #: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
@@ -13030,10 +13030,9 @@ msgid "Switch Full Screen"
 msgstr "切换全屏"
 
 #: src/monitor/view/EffectToolBar.qml:64
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Grid"
-msgstr "显示场"
+msgstr ""
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -18772,10 +18771,9 @@ msgstr "监视器背景颜色："
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "监视器"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -22141,9 +22139,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "Current scheme:"
-#~ msgstr "当前方案："
-
-#~ msgid "More Actions"
-#~ msgstr "更多操作"

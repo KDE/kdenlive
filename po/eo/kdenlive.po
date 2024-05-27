@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 00:37+0000\n"
-"PO-Revision-Date: 2024-05-25 15:43+0200\n"
+"PO-Revision-Date: 2024-05-26 21:13+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -18670,7 +18670,7 @@ msgstr ""
 "anstataŭigita per la fontdosiervojo de la Bin-tondaĵo</li><li><b>{param1}</"
 "b> estos anstataŭigita per la unua parametrovaloro</li><li><b>{param2}</b> "
 "estos anstataŭigita per la dua parametrovaloro</li></ul><b>{output}</b> "
-"estos anstataŭigita per la eligodosiernomo</li><li>"
+"estos anstataŭigita per la eligodosiernomo</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93

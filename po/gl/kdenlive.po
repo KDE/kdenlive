@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 00:37+0000\n"
-"PO-Revision-Date: 2024-05-24 08:29+0200\n"
+"PO-Revision-Date: 2024-05-26 08:25+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -13343,10 +13343,9 @@ msgid "Switch Full Screen"
 msgstr "Cambiar a pantalla completa"
 
 #: src/monitor/view/EffectToolBar.qml:64
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Grid"
-msgstr "Amosar os campos"
+msgstr "Amosar a grade"
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -19250,10 +19249,9 @@ msgstr "Cor de fondo do monitor:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Monitor"
+msgstr "Grade de monitor"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
