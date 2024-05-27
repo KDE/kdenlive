@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 02:24+0000\n"
-"PO-Revision-Date: 2024-05-18 17:30+0900\n"
+"PO-Revision-Date: 2024-05-26 23:57+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -1641,7 +1641,7 @@ msgstr "老膠片"
 #: data/effects/oldfilm.xml:5
 #, kde-format
 msgid "Moves the Picture up and down and random brightness change"
-msgstr ""
+msgstr "讓影像上下移動，並使亮度隨機變動"
 
 #: data/effects/oldfilm.xml:8
 #, kde-format
@@ -1753,13 +1753,17 @@ msgstr "旋轉"
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:33
 #: data/transitions/qtblend.xml:14
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
 "Color burn,Hard light,Soft light,Difference,Exclusion,Bitwise or,Bitwise and,"
 "Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
 "Destination out"
 msgstr ""
+"Alpha 混合,Xor,加算,乘算,Screen,Overlay,Darken,Lighten,Color dodge,Color "
+"burn,Hard light,Soft light,Difference,Exclusion,Bitwise or,Bitwise and,"
+"Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
+"Destination out"
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:34
 #: data/transitions/qtblend.xml:15
@@ -2950,7 +2954,7 @@ msgstr ""
 #, kde-format
 msgctxt "Regionalize Transition Name"
 msgid "Regionalize"
-msgstr ""
+msgstr "區域化"
 
 #: data/transitions/region.xml:5
 #, kde-format
@@ -2965,7 +2969,7 @@ msgstr "遮罩素材"
 #: data/transitions/region.xml:14
 #, kde-format
 msgid "Over,And,Or,Xor"
-msgstr ""
+msgstr "Over,And,Or,Xor"
 
 #: data/transitions/region.xml:15
 #, kde-format
@@ -3708,14 +3712,14 @@ msgstr "右下方"
 #: src/assets/view/widgets/keyframeimport.cpp:246
 #, kde-format
 msgid "Map "
-msgstr ""
+msgstr "映射"
 
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label1)
 #: src/assets/view/widgets/keyframeimport.cpp:247
 #: src/ui/import_subtitle_ui.ui:131
 #, kde-format
 msgid " to "
-msgstr ""
+msgstr " 到 "
 
 #: src/assets/view/widgets/keyframeimport.cpp:288
 #, kde-format
@@ -3924,7 +3928,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Opens a list of further actions for managing keyframes (for example: copy to "
 "and pasting keyframes from clipboard)."
-msgstr ""
+msgstr "開啟管理關鍵幀用的更多動作的列表（例如：關鍵幀的複製或貼上）。"
 
 #: src/assets/view/widgets/keyframewidget.cpp:254
 #: src/assets/view/widgets/keyframewidget.cpp:306
@@ -4008,6 +4012,8 @@ msgid ""
 "\n"
 "R:"
 msgstr ""
+"\n"
+"紅："
 
 #: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1007
 #, kde-format
@@ -4025,7 +4031,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the output volume of the audio track (affects all audio clips "
 "equally)."
-msgstr ""
+msgstr "調整音訊軌道的輸出音量（會同等影響所有音訊素材）。"
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:522
 #: src/mltcontroller/clippropertiescontroller.cpp:904
@@ -4041,12 +4047,14 @@ msgid ""
 "towards the left, positive values to the right. Affects all audio clips "
 "equally."
 msgstr ""
+"調整軌道的輸出左右平衡。負數代表將輸出向左移動，正數代表將輸出向右移動。會同"
+"等影響所有音訊素材。"
 
 #: src/audiomixer/mixerwidget.cpp:145
 #, kde-format
 msgctxt "Left"
 msgid "L"
-msgstr ""
+msgstr "左"
 
 #: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
@@ -4103,7 +4111,7 @@ msgstr "顯示頻道"
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
-msgstr ""
+msgstr "切換顯示音訊混音器檢視中的音訊軌道控制元件。"
 
 #: src/audiomixer/mixerwidget.cpp:299
 #, kde-format
@@ -6010,7 +6018,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "A newline separated list of possible values that will be offered on execution"
-msgstr ""
+msgstr "執行時會提供的可用數值列表，一行一個項目"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
 #, kde-kuit-format
@@ -6040,7 +6048,7 @@ msgstr "缺乏執行檔"
 #: src/dialogs/clipjobmanager.cpp:255
 #, kde-format
 msgid "Your script or application %1 is not executable, change permissions"
-msgstr ""
+msgstr "您的文稿或應用程式 %1 不是可執行的，請變更權限"
 
 #: src/dialogs/clipjobmanager.cpp:282
 #, kde-format
@@ -6228,6 +6236,10 @@ msgid ""
 "2. There must be at least three timestamps in ascending order.\n"
 "3. The minimum length for video chapters is 10 seconds."
 msgstr ""
+"如果您要將匯出的文字用於 YouTube，您將需要檢查：\n"
+"1. 開始時間 00:00 必須有章節。\n"
+"2. 至少要有三個時間戳，以遞增排序。\n"
+"3. 影片章節的最低長度是 10 秒。"
 
 #: src/dialogs/exportguidesdialog.cpp:54
 #, kde-format
@@ -6307,7 +6319,7 @@ msgstr "參照線位置，格式為 (HH:)MM.SS"
 #: src/dialogs/exportguidesdialog.cpp:115
 #, kde-format
 msgid "Next guide position in (HH:)MM.SS"
-msgstr ""
+msgstr "下一個參照線位置，格式為 (HH:)MM.SS"
 
 #: src/dialogs/exportguidesdialog.cpp:116
 #, kde-format
@@ -6317,7 +6329,7 @@ msgstr "參照線位置，格式為影格編號"
 #: src/dialogs/exportguidesdialog.cpp:117
 #, kde-format
 msgid "Next guide position in frames"
-msgstr ""
+msgstr "下一個參照線位置，格式為影格編號"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
@@ -6476,7 +6488,7 @@ msgstr "轉換編碼"
 #: src/dialogs/kdenlivesettingsdialog.cpp:530
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
-msgstr ""
+msgstr "GPU 處理需要有編譯時包含 Movit 與 Rtaudio 模組的 MLT"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:700
 #, kde-format
@@ -6590,6 +6602,8 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"初次執行時，Whisper 會<b>下載所選擇的模型</b>。在那之後，處理會在線下發生。"
+"CPU 處理會非常耗時。"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1765
 #, kde-format
@@ -6597,6 +6611,8 @@ msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
 "that, translations will happen offline."
 msgstr ""
+"初次執行時，SeamlessM4T 會<b>下載 9GB 大的模型資料</b>。在那之後，翻譯會在線"
+"下處理。"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -6734,12 +6750,12 @@ msgstr "這會刪除 <b>%1</b> 及字幕檔 %2 當中的<br/>所有字幕條目"
 #: src/dialogs/profilesdialog.cpp:111
 #, kde-format
 msgid "Profile width must be a multiple of 2. It was adjusted to %1"
-msgstr ""
+msgstr "編碼方案寬度必須是 2 的倍數。已將它調整為 %1"
 
 #: src/dialogs/profilesdialog.cpp:126
 #, kde-format
 msgid "Profile height must be a multiple of 2. It was adjusted to %1"
-msgstr ""
+msgstr "編碼方案高度必須是 2 的倍數。已將它調整為 %1"
 
 #: src/dialogs/profilesdialog.cpp:199
 #, kde-format
@@ -6873,6 +6889,7 @@ msgid ""
 "The following parameters will not have an effect, because they get "
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
+"以下參數不會有效果，因為它們被同用途的使用者介面選項覆寫了：<icode>%1</icode>"
 
 #: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1505
 #, kde-format
@@ -7163,7 +7180,7 @@ msgstr "（影格 %1 於 %2 fps）"
 #: src/dialogs/renderwidget.cpp:1265
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
-msgstr ""
+msgstr "剩餘不到 %1MB 的可用記憶體。"
 
 #: src/dialogs/renderwidget.cpp:1295
 #, kde-format
@@ -7250,7 +7267,7 @@ msgstr "語音辨識紀錄"
 #: src/dialogs/speechdialog.cpp:107
 #, kde-format
 msgid "Process"
-msgstr ""
+msgstr "程序"
 
 #: src/dialogs/speechdialog.cpp:145
 #, kde-format
@@ -7826,7 +7843,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
-msgstr ""
+msgstr "將時間軸中的播放頭移動到右方的字幕的開頭。"
 
 #: src/dialogs/subtitleedit.cpp:110
 #, kde-format
@@ -7839,7 +7856,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
-msgstr ""
+msgstr "將時間軸中的播放頭移動到左方的字幕的開頭。"
 
 #: src/dialogs/subtitleedit.cpp:113
 #, kde-kuit-format
@@ -7849,6 +7866,8 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
+"在目前播放頭位置建立新的預設長度的字幕（預設長度可於<interface>設定→設定 "
+"Kdenlive…→其他</interface>進行設定）。"
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -8112,13 +8131,13 @@ msgstr "在目前播放頭位置插入關鍵幀。"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the right."
-msgstr ""
+msgstr "將播放頭移動到右方的下一個關鍵幀。"
 
 #: src/dialogs/timeremap.cpp:1709
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Moves the playhead to the next keyframe to the left."
-msgstr ""
+msgstr "將播放頭移動到左方的下一個關鍵幀。"
 
 #: src/dialogs/timeremap.cpp:1714 src/dialogs/timeremap.cpp:1716
 #, kde-kuit-format
@@ -8130,7 +8149,7 @@ msgstr "將選取的關鍵幀移動到目前播放頭的位置。"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the keyframe at the current position of the playhead."
-msgstr ""
+msgstr "刪除目前播放頭位置上的關鍵幀。"
 
 #: src/dialogs/timeremap.cpp:1825
 #, kde-format
@@ -8235,12 +8254,12 @@ msgstr "檢查硬體加速"
 #: src/dialogs/wizard.cpp:230
 #, kde-format
 msgid "<li>Cannot start MLT backend, check your installation</li>"
-msgstr ""
+msgstr "<li>無法啟動 MLT 後端，請檢查您的安裝</li>"
 
 #: src/dialogs/wizard.cpp:236
 #, kde-format
 msgid "<li>Unsupported MLT version<br/>Please <b>upgrade</b> to %1.%2.%3</li>"
-msgstr ""
+msgstr "<li>不支援的 MLT 版本<br/>請<b>更新</b>到 %1.%2.%3</li>"
 
 #: src/dialogs/wizard.cpp:263
 #, kde-format
@@ -8656,6 +8675,9 @@ msgid ""
 "Do you want to convert the project to a non-GPU version?\n"
 "This might result in data loss."
 msgstr ""
+"此專案檔使用 GPU 效果，但目前並未啟用 GPU 加速。\n"
+"您要將它轉換為不需要 GPU 的版本嗎？\n"
+"這可能會造成資料遺失。"
 
 #: src/doc/documentvalidator.cpp:2241
 #, kde-format
@@ -9195,7 +9217,7 @@ msgstr "儲存效果"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:300
 #, kde-format
 msgid "%1 instances of this effect in the group"
-msgstr ""
+msgstr "此效果在群組中有 %1 個實體"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:456
 #, kde-format
@@ -9204,6 +9226,8 @@ msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
+"<b>拖曳</b>效果到另一個時間軸素材、軌道或專案素材來複製它。<b>Alt-拖曳</b>來"
+"將它複製到群組中的單一項目。"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:480
 #, kde-format
@@ -9232,16 +9256,14 @@ msgid "No name provided, effect not saved."
 msgstr "未提供名稱，因此未儲存效果。"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "啟用效果"
+msgstr "啟用效果堆疊"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "停用效果"
+msgstr "停用效果堆疊"
 
 #: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
@@ -9925,7 +9947,7 @@ msgstr "%p%"
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
 msgid "Check your settings, Library path is invalid: %1"
-msgstr ""
+msgstr "請檢查您的設定，資料庫路徑是無效的：%1"
 
 #: src/library/librarywidget.cpp:228
 #, kde-format
@@ -9983,7 +10005,7 @@ msgstr ""
 #: src/library/librarywidget.cpp:343
 #, kde-format
 msgid "You are trying to remove an invalid folder: %1"
-msgstr ""
+msgstr "您正嘗試移除無效的資料夾：%1"
 
 #: src/library/librarywidget.cpp:348
 #, kde-format
@@ -10240,7 +10262,7 @@ msgstr "FFmpeg"
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
-msgstr ""
+msgstr "完整且跨平台的影音錄製、轉換與串流解決方案。"
 
 #: src/main.cpp:197
 #, kde-format
@@ -10260,7 +10282,7 @@ msgstr "設定 MLT 紀錄等級。維持不設定則代表 \"warning\"（警告�
 #: src/main.cpp:203
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
-msgstr ""
+msgstr "要作為素材加入素材庫的檔案列表，以逗號分隔。"
 
 #: src/main.cpp:207
 #, kde-format
@@ -10452,7 +10474,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Click to show a list of favorite effects. Double-click on an effect to add "
 "it to the selected clip."
-msgstr ""
+msgstr "點擊來顯示最愛效果的列表。雙擊效果來將它新增到所選的素材上。"
 
 #: src/mainwindow.cpp:595 src/mainwindow.cpp:1509
 #, kde-format
@@ -12530,7 +12552,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Opens the list of project/clip monitor options (e.g. audio volume, monitor "
 "size)."
-msgstr ""
+msgstr "開啟專案/素材預覽視窗選項列表（例如音訊音量、預覽視窗大小等）。"
 
 #: src/monitor/monitor.cpp:411
 #, kde-format
@@ -12695,14 +12717,14 @@ msgstr "在預覽視窗啟用編輯模式來編輯效果"
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
 "timeline?"
-msgstr ""
+msgstr "您要<a href=\"#clipmonitor\">顯示素材預覽視窗</a>來檢視時間軸嗎？"
 
 #: src/monitor/monitormanager.cpp:219
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
 "view timeline?"
-msgstr ""
+msgstr "您要<a href=\"#clipmonitor\">顯示專案預覽視窗</a>來檢視時間軸嗎？"
 
 #: src/monitor/monitormanager.cpp:508
 #, kde-format
@@ -15889,22 +15911,22 @@ msgstr ""
 #: src/timeline2/model/builders/meltBuilder.cpp:980
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
-msgstr ""
+msgstr "找到 %1 個無效素材 (%2) 並已移除"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:957
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found and fixed on track %2 at %3."
-msgstr ""
+msgstr "在軌道 %2 上於 %3 找到位於不正確子軌道上的素材 %1，並已修正。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:959
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
-msgstr ""
+msgstr "找到 %1 個位於不正確的子軌道的素材 (%2) 並已修正 / %3"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:962
 #, kde-format
 msgid "Clip %1 on incorrect subtrack found on track %2 at %3."
-msgstr ""
+msgstr "在軌道 %2 上於 %3 找到位於不正確子軌道上的素材 %1。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:964
 #, kde-format
@@ -15969,7 +15991,7 @@ msgstr "刪除區段後前移"
 #: src/timeline2/model/timelinefunctions.cpp:794
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
-msgstr ""
+msgstr "請點擊軌道名稱，將軌道設為作用中"
 
 #: src/timeline2/model/timelinefunctions.cpp:917
 #: src/timeline2/view/timelinecontroller.cpp:1210
@@ -16021,7 +16043,7 @@ msgstr "停用素材"
 #: src/timeline2/model/timelinefunctions.cpp:1136
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
-msgstr ""
+msgstr "有一個或多個素材沒有音訊或是已經是音訊"
 
 #: src/timeline2/model/timelinefunctions.cpp:1153
 #, kde-format
@@ -16944,7 +16966,7 @@ msgstr "沒有要編輯的項目"
 #: src/timeline2/view/timelinecontroller.cpp:5302
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
-msgstr ""
+msgstr "請為此操作點擊軌道名稱，將軌道設為作用中"
 
 #: src/timeline2/view/timelinecontroller.cpp:3156
 #, kde-format

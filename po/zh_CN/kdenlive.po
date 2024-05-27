@@ -9317,16 +9317,14 @@ msgid "No name provided, effect not saved."
 msgstr "未提供名称，效果未保存。"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "启用效果"
+msgstr "启用效果堆栈"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "禁用效果"
+msgstr "禁用效果堆栈"
 
 #: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format

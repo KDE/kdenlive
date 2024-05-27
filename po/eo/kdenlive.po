@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 02:24+0000\n"
-"PO-Revision-Date: 2024-05-17 06:24+0100\n"
+"PO-Revision-Date: 2024-05-26 21:13+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -4888,7 +4888,7 @@ msgstr "Proprecoj de Aŭdvidaĵo"
 #: src/bin/bin.cpp:3690 src/mltcontroller/clippropertiescontroller.cpp:296
 #, kde-format
 msgid "Edit Clip"
-msgstr "Redakti aŭdvidaĵon"
+msgstr "Redakti Aŭdvidaĵon"
 
 #: src/bin/bin.cpp:3708
 #, kde-format
@@ -6386,7 +6386,7 @@ msgid ""
 "2. There must be at least three timestamps in ascending order.\n"
 "3. The minimum length for video chapters is 10 seconds."
 msgstr ""
-"Se vi uzas la eksportitan tekston por Jutubo, vi eble volas kontroli:\n"
+"Se vi uzas la eksportitan tekston por Jutubo, vi eble volos kontroli:\n"
 "1. La komenca tempo de 00:00 devas havi ĉapitron.\n"
 "2. Devas esti almenaŭ tri tempomarkoj en kreskanta ordo.\n"
 "3. La minimuma longeco por videoĉapitroj estas 10 sekundoj."
@@ -7044,7 +7044,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 "La sekvaj parametroj ne efikos, ĉar ili estas anstataŭitaj de la "
-"ekvivalentaj opcioj de uzantinterfaco: <icode>%1</icode>"
+"ekvivalentaj elektebloj de uzantinterfaco: <icode>%1</icode>"
 
 #: src/dialogs/renderwidget.cpp:116 src/dialogs/renderwidget.cpp:1505
 #, kde-format
@@ -8062,7 +8062,7 @@ msgstr "Ĝisdatigas la subtitolon en la templinio."
 #: src/dialogs/subtitleedit.cpp:120
 #, kde-format
 msgid "Show style options"
-msgstr "Montri stilopciojn"
+msgstr "Montri stil-elekteblojn"
 
 #: src/dialogs/subtitleedit.cpp:121
 #, kde-kuit-format
@@ -9427,7 +9427,7 @@ msgstr "Antaŭagordoj"
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
-"Malfermas liston de altnivelaj opcioj por administri antaŭgordojn por la "
+"Malfermas liston de altnivelaj elektebloj por administri antaŭgordojn por la "
 "efiko."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:239
@@ -9477,16 +9477,14 @@ msgid "No name provided, effect not saved."
 msgstr "Neniu nomo provizita, efiko ne konservita."
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Ebligi Efekton"
+msgstr "Ebligi Efektostakon"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Malebligi Efekton"
+msgstr "Malebligi Efektostakon"
 
 #: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
@@ -15286,7 +15284,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "La Kdenlive-adaptilo ne estis trovita per OpenTimelineIO."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format

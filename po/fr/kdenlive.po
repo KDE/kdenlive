@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 02:24+0000\n"
-"PO-Revision-Date: 2024-05-16 10:57+0200\n"
+"PO-Revision-Date: 2024-05-23 09:02+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -9631,16 +9631,14 @@ msgid "No name provided, effect not saved."
 msgstr "Aucun nom fourni, l'effet n'a pas été enregistré."
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Activer l'effet"
+msgstr "Activer la pile d'effets"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Désactiver l'effet"
+msgstr "Désactiver la pile d'effets"
 
 #: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
