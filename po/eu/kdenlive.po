@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 02:24+0000\n"
-"PO-Revision-Date: 2024-05-18 15:09+0200\n"
+"PO-Revision-Date: 2024-05-27 16:39+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -9542,16 +9542,14 @@ msgid "No name provided, effect not saved."
 msgstr "Ez da izenik eman, ez da efektua gorde."
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Gaitu efektu"
+msgstr "Gaitu efektu-pila"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Desgaitu efektua"
+msgstr "Ezgaitu efektu-pila"
 
 #: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
