@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 00:37+0000\n"
-"PO-Revision-Date: 2024-05-23 09:02+0200\n"
+"PO-Revision-Date: 2024-05-26 09:19+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -13469,10 +13469,9 @@ msgid "Switch Full Screen"
 msgstr "Basculer en mode plein écran"
 
 #: src/monitor/view/EffectToolBar.qml:64
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Grid"
-msgstr "Afficher les champs"
+msgstr "Afficher la grille"
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -19422,10 +19421,9 @@ msgstr "Couleur d'arrière-plan du moniteur :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Moniteur"
+msgstr "Grille de surveillance"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33

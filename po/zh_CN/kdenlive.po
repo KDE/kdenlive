@@ -13032,7 +13032,7 @@ msgstr "切换全屏"
 #: src/monitor/view/EffectToolBar.qml:64
 #, kde-format
 msgid "Show Grid"
-msgstr ""
+msgstr "显示网格"
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -18773,7 +18773,7 @@ msgstr "监视器背景颜色："
 #: src/ui/configcolors_ui.ui:58
 #, kde-format
 msgid "Monitor grid"
-msgstr ""
+msgstr "监视器网格"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33

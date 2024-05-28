@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 00:37+0000\n"
-"PO-Revision-Date: 2024-05-19 08:54+0200\n"
+"PO-Revision-Date: 2024-05-27 16:40+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -3293,7 +3293,7 @@ msgstr "Jaitsi gortina berriak..."
 #: src/assets/assetlist/view/assetlistwidget.cpp:171
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr ""
+msgstr "Berrikusitako aktiboak bakarrik erakutsi"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176
 #, kde-format
@@ -5240,15 +5240,13 @@ msgid "Move Clip"
 msgstr "Mugitu klipa"
 
 #: src/bin/bincommands.cpp:62
-#, fuzzy, kde-format
-#| msgid "Rename Zone"
+#, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Berrizendatu eskualdea"
 
 #: src/bin/bincommands.cpp:86
-#, fuzzy, kde-format
-#| msgid "Edit Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
 msgstr "Editatu klipa"
@@ -6232,7 +6230,7 @@ msgstr "Bikoiztu klipa abiadura aldaketarekin…"
 #: src/dialogs/clipjobmanager.cpp:247
 #, kde-format
 msgid "Check your parameters syntax (incorrect number of quotes)"
-msgstr ""
+msgstr "Egiaztatu zure parametroen sintaxia (komatxo kopuru okerra)"
 
 #: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
@@ -9570,16 +9568,14 @@ msgid "No name provided, effect not saved."
 msgstr "Ez da izenik eman, ez da efektua gorde."
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Gaitu efektu"
+msgstr "Gaitu efektu-pila"
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Desgaitu efektua"
+msgstr "Ezgaitu efektu-pila"
 
 #: src/effects/effectstack/view/effectstackview.cpp:565
 #, kde-format
@@ -13331,10 +13327,9 @@ msgid "Switch Full Screen"
 msgstr "Aldatu pantaila osoko modua"
 
 #: src/monitor/view/EffectToolBar.qml:64
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Grid"
-msgstr "Erakutsi eremuak"
+msgstr "Erakutsi sareta"
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -19213,10 +19208,9 @@ msgstr "Monitorearen atzeko planoko kolorea:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Monitorea"
+msgstr "Monitoreko sareta"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
