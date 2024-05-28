@@ -15,7 +15,11 @@
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
+#if QT_CONFIG(opengles2)
+#include <QOpenGLFunctions_ES2>
+#else
 #include <QOpenGLFunctions_3_2_Core>
+#endif
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
