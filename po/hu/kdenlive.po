@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-26 02:24+0000\n"
-"PO-Revision-Date: 2024-05-20 19:02+0200\n"
+"POT-Creation-Date: 2024-05-29 03:08+0000\n"
+"PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -330,8 +330,7 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:18
-#, fuzzy, kde-format
-#| msgid "Foreground Color"
+#, kde-format
 msgid "Foreground color"
 msgstr "Előtérszín"
 
@@ -429,10 +428,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
-#, fuzzy, kde-format
-#| msgid "Window"
+#, kde-format
 msgid "Window Size"
-msgstr "Ablak"
+msgstr "Ablakméret"
 
 #: data/effects/audiospectrum.xml:67
 #, kde-format
@@ -789,8 +787,7 @@ msgid "Maximal number of dust"
 msgstr "A por maximális száma"
 
 #: data/effects/dynamic_loudness.xml:4
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgctxt "Normalize Effect Name"
 msgid "Normalize"
 msgstr "Normalizálás"
@@ -1260,16 +1257,14 @@ msgid "Threshold"
 msgstr "Tűréshatár"
 
 #: data/effects/lightshow.xml:20
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgid "1st Color"
-msgstr "Szín"
+msgstr "1. szín"
 
 #: data/effects/lightshow.xml:23
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgid "2nd Color"
-msgstr "Szín"
+msgstr "2. szín"
 
 #: data/effects/loudness.xml:4
 #, fuzzy, kde-format
@@ -1419,10 +1414,9 @@ msgstr ""
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8 src/bin/bin.cpp:1400
 #: src/bin/bin.cpp:1405 src/bin/bin.cpp:2338
-#, fuzzy, kde-format
-#| msgid "Filter %1"
+#, kde-format
 msgid "Filter"
-msgstr "%1 szűrése"
+msgstr "Szűrő"
 
 #: data/effects/mask_start_frei0r_select0r.xml:11
 #, kde-format
@@ -13495,19 +13489,19 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Elemzési adatok megnyitása"
 
-#: src/monitor/glwidget.cpp:1655 src/monitor/videowidget.cpp:1091
+#: src/monitor/glwidget.cpp:1655 src/monitor/videowidget.cpp:1095
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a zone to play"
 msgstr "Kiválasztó eszköz"
 
-#: src/monitor/glwidget.cpp:1704 src/monitor/videowidget.cpp:1140
+#: src/monitor/glwidget.cpp:1704 src/monitor/videowidget.cpp:1144
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Kiválasztó eszköz"
 
-#: src/monitor/glwidget.cpp:1786 src/monitor/videowidget.cpp:1221
+#: src/monitor/glwidget.cpp:1786 src/monitor/videowidget.cpp:1225
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -23049,8 +23043,7 @@ msgstr "2 menetes"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SpacerDialog_UI)
 #: src/ui/spacerdialog_ui.ui:18
-#, fuzzy, kde-format
-#| msgid "Add space"
+#, kde-format
 msgid "Add Space"
 msgstr "Kitöltő hozzáadása"
 
@@ -23084,10 +23077,9 @@ msgstr "Klipek kijelölése"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/speechdialog_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Mode"
+#, kde-format
 msgid "Model"
-msgstr "Mód"
+msgstr "Modell"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_track)
 #: src/ui/speechdialog_ui.ui:101
@@ -23099,8 +23091,7 @@ msgstr "Idővonal és sávok"
 
 #. i18n: ectx: property (text), widget (QRadioButton, timeline_full)
 #: src/ui/speechdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Full project"
+#, kde-format
 msgid "Full project"
 msgstr "Teljes projekt"
 
@@ -23154,10 +23145,9 @@ msgstr "Visszhang idő"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:63
-#, fuzzy, kde-format
-#| msgid "File size"
+#, kde-format
 msgid "File Size"
-msgstr "Fájl méret"
+msgstr "Fájlméret"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
@@ -23181,10 +23171,9 @@ msgstr "Forrásklip"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/timeremap_ui.ui:144
-#, fuzzy, kde-format
-#| msgid "Output file"
+#, kde-format
 msgid "Output"
-msgstr "Kimeneti fájl"
+msgstr "Kimenet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_sourceTC)
 #: src/ui/timeremap_ui.ui:253
@@ -23256,10 +23245,9 @@ msgstr "Ellenőrzés"
 
 #. i18n: ectx: property (text), widget (QToolButton, createButton)
 #: src/ui/titlewidget_ui.ui:178
-#, fuzzy, kde-format
-#| msgid "Create DVD"
+#, kde-format
 msgid "Create"
-msgstr "DVD létrehozása"
+msgstr "Létrehozás"
 
 #. i18n: ectx: property (text), widget (QLabel, label_zIndex)
 #: src/ui/titlewidget_ui.ui:283
@@ -23269,23 +23257,21 @@ msgstr "Z-Index:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_height)
 #: src/ui/titlewidget_ui.ui:313
-#, fuzzy, kde-format
-#| msgid ":"
+#, kde-format
 msgid "H:"
-msgstr ":"
+msgstr "M:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_width)
 #: src/ui/titlewidget_ui.ui:351
-#, fuzzy, kde-format
-#| msgid ":"
+#, kde-format
 msgid "W:"
-msgstr ":"
+msgstr "SZ:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_grid)
 #: src/ui/titlewidget_ui.ui:381
 #, kde-format
 msgid "Use grid"
-msgstr ""
+msgstr "Rács használata"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectImages)
 #: src/ui/titlewidget_ui.ui:401
@@ -23340,17 +23326,15 @@ msgstr "A"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
 #: src/ui/titlewidget_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "Rotate:"
+#, kde-format
 msgid "Rotate"
 msgstr "Forgatás"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/ui/titlewidget_ui.ui:553
-#, fuzzy, kde-format
-#| msgid "X"
+#, kde-format
 msgid "X:"
-msgstr "X"
+msgstr "X:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/ui/titlewidget_ui.ui:576
@@ -23360,10 +23344,9 @@ msgstr "Y:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateZ)
 #: src/ui/titlewidget_ui.ui:602
-#, fuzzy, kde-format
-#| msgid ":"
+#, kde-format
 msgid "Z:"
-msgstr ":"
+msgstr "Z:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_itemzoom)
 #: src/ui/titlewidget_ui.ui:637
@@ -23482,24 +23465,21 @@ msgstr "Interpolálás"
 
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
 #: src/ui/titlewidget_ui.ui:1140
-#, fuzzy, kde-format
-#| msgid "Align"
+#, kde-format
 msgid "Align:"
-msgstr "Igazítás"
+msgstr "Igazítás:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignRight)
 #: src/ui/titlewidget_ui.ui:1147
-#, fuzzy, kde-format
-#| msgid "Align right"
+#, kde-format
 msgid "Align right."
-msgstr "Igazítás jobbra"
+msgstr "Igazítás jobbra."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAlignLeft)
 #: src/ui/titlewidget_ui.ui:1170
-#, fuzzy, kde-format
-#| msgid "Align left"
+#, kde-format
 msgid "Align left."
-msgstr "Igazítás balra"
+msgstr "Igazítás balra."
 
 #. i18n: ectx: property (text), widget (QLabel, label_border)
 #: src/ui/titlewidget_ui.ui:1320
@@ -23572,66 +23552,57 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_add)
 #: src/ui/titlewidget_ui.ui:1591
-#, fuzzy, kde-format
-#| msgid "Add chapter"
+#, kde-format
 msgid "Add pattern."
-msgstr "Fejezet hozzáadása"
+msgstr "Minta hozzáadása."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
 #: src/ui/titlewidget_ui.ui:1608
-#, fuzzy, kde-format
-#| msgid "Delete marker"
+#, kde-format
 msgid "Delete pattern."
-msgstr "Jelző törlése"
+msgstr "Minta törlése."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
 #: src/ui/titlewidget_ui.ui:1622
-#, fuzzy, kde-format
-#| msgid "Delete All Markers"
+#, kde-format
 msgid "Delete all patterns."
-msgstr "Összes jelölő törlése"
+msgstr "Összes minta törlése"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemleft)
 #: src/ui/titlewidget_ui.ui:1689
-#, fuzzy, kde-format
-#| msgid "Align item to left"
+#, kde-format
 msgid "Align item to left."
-msgstr "Elem igazítása balra"
+msgstr "Elem igazítása balra."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemhcenter)
 #: src/ui/titlewidget_ui.ui:1703
-#, fuzzy, kde-format
-#| msgid "Align item horizontally"
+#, kde-format
 msgid "Align item horizontally."
-msgstr "Elemek rendezése vízszintesen"
+msgstr "Elem igazítása vízszintesen."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemright)
 #: src/ui/titlewidget_ui.ui:1717
-#, fuzzy, kde-format
-#| msgid "Align item to right"
+#, kde-format
 msgid "Align item to right."
-msgstr "Elem igazítása jobbra"
+msgstr "Elem igazítása jobbra."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemtop)
 #: src/ui/titlewidget_ui.ui:1731
-#, fuzzy, kde-format
-#| msgid "Align item to top"
+#, kde-format
 msgid "Align item to top."
-msgstr "Elem igazítása felülre"
+msgstr "Elem igazítása felülre."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemvcenter)
 #: src/ui/titlewidget_ui.ui:1745
-#, fuzzy, kde-format
-#| msgid "Align item vertically"
+#, kde-format
 msgid "Align item vertically."
-msgstr "Elemek rendezése függőlegesen"
+msgstr "Elem igazítása függőlegesen."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itembottom)
 #: src/ui/titlewidget_ui.ui:1759
-#, fuzzy, kde-format
-#| msgid "Align item to bottom"
+#, kde-format
 msgid "Align item to bottom."
-msgstr "Elem igazítása alulra"
+msgstr "Elem igazítása alulra."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/transcodeseekable_ui.ui:24
@@ -23669,10 +23640,9 @@ msgstr "További információ"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/wipeval_ui.ui:141 src/ui/wipeval_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Transparency"
+#, kde-format
 msgid "Transparency:"
-msgstr "Átlátszóság"
+msgstr "Átlátszóság:"
 
 #: src/widgets/colorpickerwidget.cpp:102
 #, fuzzy, kde-format
@@ -23755,10 +23725,9 @@ msgid "W"
 msgstr "W"
 
 #: src/widgets/geometrywidget.cpp:56
-#, fuzzy, kde-format
-#| msgid "Force aspect ratio"
+#, kde-format
 msgid "Lock aspect ratio"
-msgstr "Méretarány erőétetése"
+msgstr "Méretarány rögzítése"
 
 #: src/widgets/geometrywidget.cpp:63
 #, kde-format
@@ -23809,36 +23778,33 @@ msgstr "Alulra igazítás"
 
 #: src/widgets/markercategorybutton.cpp:129
 #: src/widgets/markercategorychooser.cpp:41
-#, fuzzy, kde-format
-#| msgid "Color to select"
+#, kde-format
 msgid "Nothing to select"
-msgstr "Kiválasztandó szín"
+msgstr "Nincs mit kiválasztani"
 
 #: src/widgets/markercategorybutton.cpp:134
 #: src/widgets/markercategorychooser.cpp:47
-#, fuzzy, kde-format
-#| msgid "All categories"
+#, kde-format
 msgid "All Categories"
 msgstr "Minden kategória"
 
 #: src/widgets/progressbutton.cpp:54
-#, fuzzy, kde-format
-#| msgid "%1 fps"
+#, kde-format
 msgctxt "s as seconds"
 msgid "%1s"
-msgstr "%1 képkocka/s"
+msgstr "%1 m"
 
 #: src/widgets/progressbutton.cpp:58
 #, kde-format
 msgctxt "m as minutes"
 msgid "%1m"
-msgstr ""
+msgstr "%1 p"
 
 #: src/widgets/progressbutton.cpp:60
 #, kde-format
 msgctxt "h as hours"
 msgid "%1h"
-msgstr ""
+msgstr "%1 ó"
 
 #, fuzzy
 #~| msgid "Zone duration: %1"
