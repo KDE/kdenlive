@@ -5059,18 +5059,16 @@ msgid "Move Clip"
 msgstr "Přesunout klip"
 
 #: src/bin/bincommands.cpp:62
-#, fuzzy, kde-format
-#| msgid "Rename Zone"
+#, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
-msgstr "Přejmenovat zónu"
+msgstr ""
 
 #: src/bin/bincommands.cpp:86
-#, fuzzy, kde-format
-#| msgid "Edit Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
-msgstr "Upravit klip"
+msgstr ""
 
 #: src/bin/clipcreator.cpp:70
 #, kde-format
@@ -9250,16 +9248,14 @@ msgid "No name provided, effect not saved."
 msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Povolit efekt"
+msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Vypnout efekt"
+msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:565
 #, kde-format
@@ -12909,10 +12905,9 @@ msgid "Switch Full Screen"
 msgstr ""
 
 #: src/monitor/view/EffectToolBar.qml:64
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Grid"
-msgstr "Zobrazit pole"
+msgstr "Zobrazit mřížku"
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -18562,10 +18557,9 @@ msgstr "Barva pozadí monitoru:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Monitor"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -21931,12 +21925,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Current scheme:"
-#~ msgstr "Současné schéma:"
-
-#~ msgid "More Actions"
-#~ msgstr "Další činnosti"
-
-#~ msgid "Edit clip"
-#~ msgstr "Upravit klip"

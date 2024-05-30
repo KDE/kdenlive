@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-26 00:37+0000\n"
-"PO-Revision-Date: 2024-05-16 09:43+0200\n"
-"Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
+"PO-Revision-Date: 2024-05-29 12:55+0200\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -3283,7 +3283,7 @@ msgstr "Prejmi nove zavese …"
 #: src/assets/assetlist/view/assetlistwidget.cpp:171
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr ""
+msgstr "Pokaži samo pregledana sredstva"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176
 #, kde-format
@@ -5239,15 +5239,13 @@ msgid "Move Clip"
 msgstr "Premakni posnetek"
 
 #: src/bin/bincommands.cpp:62
-#, fuzzy, kde-format
-#| msgid "Rename Zone"
+#, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Preimenuj območje"
 
 #: src/bin/bincommands.cpp:86
-#, fuzzy, kde-format
-#| msgid "Edit Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
 msgstr "Uredi posnetek"
@@ -6149,13 +6147,7 @@ msgid "Arguments for the command line script"
 msgstr "Argumenti za skript ukazne vrstice"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{source}</b> will be replaced by the Bin Clip source file path, "
@@ -6163,11 +6155,10 @@ msgid ""
 "b> will be replaced by the second parameter value, <b>{output}</b> will be "
 "replaced by the output file name."
 msgstr ""
-"V argumentih so na voljo naslednje možnosti: <ul><li><b>{source}</b> se "
-"nadomesti s potjo do datoteke izvornega posnetka iz koša</li><li><b>{output}"
-"</b> se nadomesti z imenom izhodne datoteke</li><li><b>{param1}</b> se "
-"nadomesti z vrednostjo prvega parametra</li><li><b>{param2}</b> se nadomesti "
-"z vrednostjo drugega parametra</li></ul>"
+" <ul><li><b>{source}</b> se nadomesti s potjo do datoteke izvornega posnetka "
+"iz posode;</li><li><b>{output}</b> se nadomesti z imenom izhodne datoteke;</"
+"li><li><b>{param1}</b> se nadomesti z vrednostjo prvega parametra;</"
+"li><li><b>{param2}</b> se nadomesti z vrednostjo drugega parametra.</li></ul>"
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6175,13 +6166,7 @@ msgid "File extension for the output file"
 msgstr "Pripona izhodne datoteke"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "The output file name will be the same as the source bin clip filename, "
-#| "with the modified extension. It will be appended at the end of the "
-#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
-#| "filename already exists, a -0001 pattern will be appended."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
@@ -6189,7 +6174,7 @@ msgid ""
 "inserted in place of <b>{output}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
-"Ime izhodne datoteke bo enako imenu datoteke posnetka izvornega koša s "
+"Ime izhodne datoteke bo enako imenu datoteke posnetka izvornega posode s "
 "spremenjeno končnico. Če je najdena, bo dodana na konec argumentov ali "
 "vstavljena namesto <b>{&#x25;3}</b>. Če ime izhodne datoteke že obstaja, bo "
 "dodan vzorec -0001."
@@ -6222,11 +6207,7 @@ msgstr ""
 "vrstice"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When the parameter is set to <b>Request Option in List</b> the user will "
-#| "be asked to choose a value in this list when the job is started."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When the parameter is set to <b>Request Option from List</b> the user will "
@@ -6248,7 +6229,7 @@ msgstr "Podvoji posnetek s spremembo hitrosti …"
 #: src/dialogs/clipjobmanager.cpp:247
 #, kde-format
 msgid "Check your parameters syntax (incorrect number of quotes)"
-msgstr ""
+msgstr "Preverite skladnjo parametrov (napačno število narekovajev)"
 
 #: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
@@ -8111,9 +8092,9 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
-"Ustvari nov podnapis privzete dolžine (določene pod "
-"<interface>Nastavitve→Nastavi Kdenlive …→Razno</interface>) na trenutne "
-"položaju/sličici predvajalne glave."
+"Ustvari nov podnaslov privzete dolžine (določene pod <interface>Nastavitve→ "
+"Prilagodi Kdenlive …→ Razno</interface>) na trenutne položaju/sličici "
+"predvajalne glave."
 
 #: src/dialogs/subtitleedit.cpp:115
 #, kde-format
@@ -8127,7 +8108,7 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
-"Izreže besedilo podnapisa na položaju kazalca in ustvari nov podnapis na "
+"Izreže besedilo podnaslova na položaju kazalca in ustvari nov podnaslov na "
 "desni (kot bi odrezali posnetek)."
 
 #: src/dialogs/subtitleedit.cpp:118
@@ -8542,7 +8523,7 @@ msgid ""
 "feature. Install recommended</li>"
 msgstr ""
 "<li>Manjka filter: <b>avfilter.subtitles</b>,<br/>potreben za izdelavo in "
-"urejanje podnapisov. Priporočamo namestitev.</li>"
+"urejanje podnaslovov. Priporočamo namestitev.</li>"
 
 #: src/dialogs/wizard.cpp:307
 #, kde-format
@@ -9580,16 +9561,14 @@ msgid "No name provided, effect not saved."
 msgstr "Ime ni podano, učinek ni shranjen."
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Omogoči učinek"
+msgstr "Omogoči sklad učinkov"
 
 #: src/effects/effectstack/view/effectstackview.cpp:526
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Onemogoči učinek"
+msgstr "Onemogoči sklad učinkov"
 
 #: src/effects/effectstack/view/effectstackview.cpp:565
 #, kde-format
@@ -13338,10 +13317,9 @@ msgid "Switch Full Screen"
 msgstr "Preklopi v celozaslonski način"
 
 #: src/monitor/view/EffectToolBar.qml:64
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Grid"
-msgstr "Pokaži polja"
+msgstr "Pokaži mrežo"
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -17671,7 +17649,7 @@ msgid ""
 "feature will probably not work as expected."
 msgstr ""
 "Filter avfilter.subtitles je obvezen, vendar ga ni možno najti. Funkcija "
-"podnapisov verjetno ne bo delovala na pričakovan način."
+"podnaslovov verjetno ne bo delovala na pričakovan način."
 
 #: src/timeline2/view/timelinecontroller.cpp:5188
 #, kde-format
@@ -18782,13 +18760,7 @@ msgstr "Argumenti"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
 "b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
@@ -18797,10 +18769,10 @@ msgid ""
 "replaced by the output file name</li></ul>"
 msgstr ""
 "V argumentih so na voljo naslednje možnosti: <ul><li><b>{source}</b> se "
-"nadomesti s potjo do datoteke izvornega posnetka iz koša</li><li><b>{output}"
-"</b> se nadomesti z imenom izhodne datoteke</li><li><b>{param1}</b> se "
-"nadomesti z vrednostjo prvega parametra</li><li><b>{param2}</b> se nadomesti "
-"z vrednostjo drugega parametra</li></ul>"
+"nadomesti s potjo do datoteke izvornega posnetka iz posode;</"
+"li><li><b>{output}</b> se nadomesti z imenom izhodne datoteke;</"
+"li><li><b>{param1}</b> se nadomesti z vrednostjo prvega parametra;</"
+"li><li><b>{param2}</b> se nadomesti z vrednostjo drugega parametra.</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
@@ -19236,10 +19208,9 @@ msgstr "Barva ozadja ogleda:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Prikaz"
+msgstr "Mreža ogleda"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -22624,27 +22595,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Current scheme:"
-#~ msgstr "Trenutna shema:"
-
-#~ msgid "More Actions"
-#~ msgstr "Več dejavnosti"
-
-#~ msgid "Edit clip"
-#~ msgstr "Uredi posnetek"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
-#~ "b> by the second, <b>{&#x25;3}</b> by the output file path."
-#~ msgstr ""
-#~ "<b>{&#x25;1}</b> se nadomesti s prvim parametrom, <b>{&#x25;2}</b> z "
-#~ "drugim, <b>{&#x25;3}</b> s potjo do izhodne datoteke."
-
-#~ msgid ""
-#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-#~ "Please install version >= 0.12\n"
-#~ msgstr ""
-#~ "Vaš modul OpenTimelineIO ne vsebuje adapterja Kdenlive.\n"
-#~ "Namestite različico >= 0.12\n"
