@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-29 03:08+0000\n"
-"PO-Revision-Date: 2024-05-26 23:57+0900\n"
+"PO-Revision-Date: 2024-05-30 04:06+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -585,7 +585,7 @@ msgstr "混合"
 #: data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
-msgstr "負片"
+msgstr "反轉"
 
 #: data/effects/chroma.xml:4
 #, kde-format
@@ -1721,12 +1721,12 @@ msgstr "關閉鏡像"
 #: data/effects/pillar_echo.xml:4
 #, kde-format
 msgid "Pillar Echo"
-msgstr ""
+msgstr "支柱重複"
 
 #: data/effects/pillar_echo.xml:5
 #, kde-format
 msgid "Create an echo effect (blur) outside of an area of interest."
-msgstr ""
+msgstr "在一個聚焦區域外建立重複效果（模糊）。"
 
 #: data/effects/pillar_echo.xml:11 data/effects/tracker.xml:31
 #, kde-format
@@ -1753,17 +1753,16 @@ msgstr "旋轉"
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:33
 #: data/transitions/qtblend.xml:14
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Alpha blend,Xor,Plus,Multiply,Screen,Overlay,Darken,Lighten,Color dodge,"
 "Color burn,Hard light,Soft light,Difference,Exclusion,Bitwise or,Bitwise and,"
 "Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
 "Destination out"
 msgstr ""
-"Alpha 混合,Xor,加算,乘算,Screen,Overlay,Darken,Lighten,Color dodge,Color "
-"burn,Hard light,Soft light,Difference,Exclusion,Bitwise or,Bitwise and,"
-"Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
-"Destination out"
+"Alpha 混合,互斥或 (XOR),相加,色彩增值,濾色,覆蓋,變暗,變亮,加亮顏色,加深顏色,"
+"實光,柔光,差異化,排除,位元 OR,位元 AND,位元 XOR,位元 NOR,位元 NAND,位元 NOT "
+"XOR,目標輸入,目標輸出"
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:34
 #: data/transitions/qtblend.xml:15
@@ -5729,13 +5728,13 @@ msgstr ""
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
-msgstr ""
+msgstr "螺旋"
 
 #: src/core.cpp:395
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
-msgstr ""
+msgstr "螺旋 2"
 
 #: src/core.cpp:396
 #, kde-format
@@ -5753,7 +5752,7 @@ msgstr ""
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
-msgstr ""
+msgstr "時鐘"
 
 #: src/core.cpp:400
 #, kde-format
@@ -10158,7 +10157,7 @@ msgstr "Simon A. Eugster"
 #: src/main.cpp:163
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
-msgstr ""
+msgstr "顏色示波器、錯誤修正等等"
 
 #: src/main.cpp:164
 #, kde-format
@@ -11869,7 +11868,7 @@ msgstr "覆寫"
 #: src/mainwindow.cpp:3799 src/mainwindow.cpp:3801
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "示波器"
 
 #: src/mainwindow.cpp:3806
 #, kde-format
