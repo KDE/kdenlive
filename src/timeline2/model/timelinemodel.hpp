@@ -153,6 +153,8 @@ public:
         TrackTagRole,         /// track only
         FadeInRole,           /// clip only
         FadeOutRole,          /// clip only
+        FadeInMethodRole,     /// clip only
+        FadeOutMethodRole,    /// clip only
         FileHashRole,         /// clip only
         SpeedRole,            /// clip only
         ClipThumbRole,        /// clip only

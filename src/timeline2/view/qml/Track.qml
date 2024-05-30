@@ -128,6 +128,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "fadeInMethod"
+                    value: model.fadeInMethod
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
                     property: "positionOffset"
                     value: model.positionOffset
                     when: loader.status == Loader.Ready && clipItem
@@ -154,6 +160,12 @@ Item{
                     target: loader.item
                     property: "fadeOut"
                     value: model.fadeOut
+                    when: loader.status == Loader.Ready && clipItem
+                }
+                Binding {
+                    target: loader.item
+                    property: "fadeOutMethod"
+                    value: model.fadeOutMethod
                     when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {

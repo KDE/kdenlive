@@ -262,6 +262,8 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[IsLockedRole] = "locked";
     roles[FadeInRole] = "fadeIn";
     roles[FadeOutRole] = "fadeOut";
+    roles[FadeInMethodRole] = "fadeInMethod";
+    roles[FadeOutMethodRole] = "fadeOutMethod";
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
     roles[TimeRemapRole] = "timeremap";
@@ -382,6 +384,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->fadeIn();
         case FadeOutRole:
             return clip->fadeOut();
+        case FadeInMethodRole:
+            return clip->fadeMethod(true);
+        case FadeOutMethodRole:
+            return clip->fadeMethod(false);
         case MixRole:
             return clip->getMixDuration();
         case MixCutRole:

@@ -198,6 +198,8 @@ public:
     Mlt::Properties *getAsset();
     /** @brief Returns a frame time as click time (00:00:00.000) */
     const QString framesToTime(int t) const;
+    /** @brief Given an animation keyframe string, find out the keyframe type */
+    static const QChar getKeyframeType(const QString keyframeString);
 
 public Q_SLOTS:
     /** @brief Sets the value of a list of parameters

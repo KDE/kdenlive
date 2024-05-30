@@ -1135,6 +1135,11 @@ int ClipModel::fadeOut() const
     return m_effectStack->getFadePosition(false);
 }
 
+int ClipModel::fadeMethod(bool fadeIn) const
+{
+    return m_effectStack->getFadeMethod(fadeIn);
+}
+
 double ClipModel::getSpeed() const
 {
     return m_speed;

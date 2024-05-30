@@ -211,12 +211,6 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
                 }
                 Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
             }
-            // TODO: only update if effect is fade or keyframe
-            /*if (inFades < 0) {
-                pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"));
-            } else if (outFades < 0) {
-                pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
-            }*/
             updateEffectZones();
             pCore->updateItemKeyframes(m_ownerId);
             return true;
@@ -399,11 +393,23 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             effect->filter().set("in", currentIn);
             effect->filter().set("out", currentIn + duration);
             if (effectId.startsWith(QLatin1String("fade_"))) {
+                const QString keyframeString = Xml::getXmlProperty(node, QLatin1String("level\nalpha"));
+                const QChar mod = AssetParameterModel::getKeyframeType(keyframeString);
                 if (effect->filter().get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
-                    effect->filter().set("level", "0=0;-1=1");
+                    if (!mod.isNull()) {
+                        QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                        effect->filter().set("level", val.toUtf8().constData());
+                    } else {
+                        effect->filter().set("level", "0=0;-1=1");
+                    }
                 } else if (effect->filter().get("level") == QLatin1String("1")) {
-                    effect->filter().set("alpha", "0=0;-1=1");
+                    if (!mod.isNull()) {
+                        QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                        effect->filter().set("alpha", val.toUtf8().constData());
+                    } else {
+                        effect->filter().set("alpha", "0=0;-1=1");
+                    }
                 }
             }
         } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
@@ -413,11 +419,23 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             effect->filter().set("in", filterOut - duration);
             effect->filter().set("out", filterOut);
             if (effectId.startsWith(QLatin1String("fade_"))) {
+                const QString keyframeString = Xml::getXmlProperty(node, QLatin1String("level\nalpha"));
+                const QChar mod = AssetParameterModel::getKeyframeType(keyframeString);
                 if (effect->filter().get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
-                    effect->filter().set("level", "0=1;-1=0");
+                    if (!mod.isNull()) {
+                        QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
+                        effect->filter().set("level", val.toUtf8().constData());
+                    } else {
+                        effect->filter().set("level", "0=1;-1=0");
+                    }
                 } else if (effect->filter().get("level") == QLatin1String("1")) {
-                    effect->filter().set("alpha", "0=1;-1=0");
+                    if (!mod.isNull()) {
+                        QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
+                        effect->filter().set("alpha", val.toUtf8().constData());
+                    } else {
+                        effect->filter().set("alpha", "0=1;-1=0");
+                    }
                 }
             }
         }
@@ -827,15 +845,30 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 indexes << getIndexFromItem(effect);
                 if (effect->filter().get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
-                    effect->filter().set("level", "0=0;-1=1");
+                    const QString current = effect->filter().get("level");
+                    const QChar mod = AssetParameterModel::getKeyframeType(current);
+                    if (!mod.isNull()) {
+                        const QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                        effect->filter().set("level", val.toUtf8().constData());
+                    } else {
+                        effect->filter().set("level", "0=0;-1=1");
+                    }
                 } else if (effect->filter().get("level") == QLatin1String("1")) {
-                    effect->filter().set("alpha", "0=0;-1=1");
+                    // Adjust level value to match filter end
+                    const QString current = effect->filter().get("alpha");
+                    const QChar mod = AssetParameterModel::getKeyframeType(current);
+                    if (!mod.isNull()) {
+                        const QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                        effect->filter().set("alpha", val.toUtf8().constData());
+                    } else {
+                        effect->filter().set("alpha", "0=0;-1=1");
+                    }
                 }
             }
         }
         if (!indexes.isEmpty()) {
             Q_EMIT dataChanged(indexes.first(), indexes.last(), QVector<int>());
-            pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"));
+            pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"), QStringLiteral("out"));
             if (videoFade) {
                 int min = pCore->getItemPosition(m_ownerId);
                 QPair<int, int> range = {min, min + qMax(duration, oldDuration)};
@@ -876,15 +909,29 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 indexes << getIndexFromItem(effect);
                 if (effect->filter().get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
-                    effect->filter().set("level", "0=1;-1=0");
+                    const QString current = effect->filter().get("level");
+                    const QChar mod = AssetParameterModel::getKeyframeType(current);
+                    if (!mod.isNull()) {
+                        const QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
+                        effect->filter().set("level", val.toUtf8().constData());
+                    } else {
+                        effect->filter().set("level", "0=1;-1=0");
+                    }
                 } else if (effect->filter().get("level") == QLatin1String("1")) {
-                    effect->filter().set("alpha", "0=1;-1=0");
+                    const QString current = effect->filter().get("alpha");
+                    const QChar mod = AssetParameterModel::getKeyframeType(current);
+                    if (!mod.isNull()) {
+                        const QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
+                        effect->filter().set("alpha", val.toUtf8().constData());
+                    } else {
+                        effect->filter().set("alpha", "0=1;-1=0");
+                    }
                 }
             }
         }
         if (!indexes.isEmpty()) {
             Q_EMIT dataChanged(indexes.first(), indexes.last(), QVector<int>());
-            pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
+            pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"), QStringLiteral("in"));
             if (videoFade) {
                 int min = pCore->getItemPosition(m_ownerId);
                 QPair<int, int> range = {min + itemDuration - qMax(duration, oldDuration), min + itemDuration};
@@ -896,6 +943,85 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         }
     }
     return true;
+}
+
+int EffectStackModel::keyframeTypeFromSeparator(const QChar mod)
+{
+    if (mod == '~') {
+        return int(KeyframeType::CurveSmooth);
+    }
+    if (mod == 'g') {
+        return int(KeyframeType::CubicIn);
+    }
+    if (mod == 'h') {
+        return int(KeyframeType::CubicOut);
+    }
+    if (mod == 'p') {
+        return int(KeyframeType::ExponentialIn);
+    }
+    if (mod == 'q') {
+        return int(KeyframeType::ExponentialOut);
+    }
+    if (mod == 's') {
+        return int(KeyframeType::CircularIn);
+    }
+    if (mod == 'y') {
+        return int(KeyframeType::ElasticIn);
+    }
+    if (mod == 'B') {
+        return int(KeyframeType::BounceIn);
+    }
+    return 0;
+}
+
+int EffectStackModel::getFadeMethod(bool fromStart)
+{
+    QWriteLocker locker(&m_lock);
+    if (fromStart) {
+        if (m_fadeIns.empty()) {
+            return 0;
+        }
+        for (int i = 0; i < rootItem->childCount(); ++i) {
+            if (*(m_fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
+                std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                QString fadeData = effect->filter().get("alpha");
+                if (!fadeData.contains(QLatin1Char('='))) {
+                    fadeData = effect->filter().get("level");
+                    if (!fadeData.contains(QLatin1Char('='))) {
+                        return 0;
+                    }
+                }
+                QChar mod = fadeData.section(QLatin1Char('='), 0, -2).back();
+                qDebug() << "RRRR GOT FADE METHOD: " << fadeData << "\nMOD: " << mod;
+                if (!mod.isDigit()) {
+                    return keyframeTypeFromSeparator(mod);
+                }
+                return 0;
+            }
+        }
+    } else {
+        if (m_fadeOuts.empty()) {
+            return 0;
+        }
+        for (int i = 0; i < rootItem->childCount(); ++i) {
+            if (*(m_fadeOuts.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
+                std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                QString fadeData = effect->filter().get("alpha");
+                if (!fadeData.contains(QLatin1Char('='))) {
+                    fadeData = effect->filter().get("level");
+                    if (!fadeData.contains(QLatin1Char('='))) {
+                        return 0;
+                    }
+                }
+                QChar mod = fadeData.section(QLatin1Char('='), 0, -2).back();
+                if (!mod.isDigit()) {
+                    return keyframeTypeFromSeparator(mod);
+                }
+                return 0;
+            }
+        }
+    }
+    return 0;
 }
 
 int EffectStackModel::getFadePosition(bool fromStart)

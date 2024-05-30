@@ -6,6 +6,7 @@
 */
 
 #include "multiswitchparamwidget.hpp"
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
 
 MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
@@ -16,42 +17,72 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
     // setup the comment
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
+    const QMap<KeyframeType, QString> keyframeTypes = KeyframeModel::getKeyframeTypes();
     m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
+    // Linear
+    methodCombo->addItem(keyframeTypes.value(KeyframeType::Linear), QVariant(QChar()));
+    // Cubic In
+    methodCombo->addItem(keyframeTypes.value(KeyframeType::CubicIn), QVariant(QLatin1Char('g')));
+    // Exponential In
+    methodCombo->addItem(keyframeTypes.value(KeyframeType::ExponentialIn), QVariant(QLatin1Char('p')));
+    // Cubic Out
+    methodCombo->addItem(keyframeTypes.value(KeyframeType::CubicOut), QVariant(QLatin1Char('h')));
+    // Exponential Out
+    methodCombo->addItem(keyframeTypes.value(KeyframeType::ExponentialOut), QVariant(QLatin1Char('q')));
 
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
-    setMinimumHeight(m_labelName->sizeHint().height());
+    const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    QChar mod = value.section(QLatin1Char('='), 0, -2).back();
+    if (mod.isDigit()) {
+        mod = QChar();
+    }
+    if (!mod.isNull()) {
+        int ix = methodCombo->findData(QVariant(mod));
+        if (ix > -1) {
+            methodCombo->setCurrentIndex(ix);
+        }
+    }
+    setMinimumHeight(m_labelName->sizeHint().height() + methodCombo->height());
 
     // set check state
     slotRefresh();
+    connect(methodCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() { paramChanged(m_checkBox->checkState()); });
 
     // Q_EMIT the signal of the base class when appropriate
-    connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this](int state) {
-        QString value;
-        if (state == Qt::Checked) {
-            value = m_model->data(m_index, AssetParameterModel::MaxRole).toString();
-            if (value.contains(QLatin1String("0="))) {
-                value.replace(QLatin1String("0="), QLatin1String("00:00:00.000="));
-            }
-            if (value.contains(QLatin1String("-1="))) {
-                // Replace -1 with out position
-                int out = m_model->data(m_index, AssetParameterModel::OutRole).toInt() - m_model->data(m_index, AssetParameterModel::InRole).toInt();
-                value.replace(QLatin1String("-1="), QString("%1=").arg(m_model->framesToTime(out)));
-            }
-        } else {
-            value = m_model->data(m_index, AssetParameterModel::MinRole).toString();
-            if (value.contains(QLatin1String("0="))) {
-                value.replace(QLatin1String("0="), QLatin1String("00:00:00.000="));
-            }
-            if (value.contains(QLatin1String("-1="))) {
-                // Replace -1 with out position
-                int out = m_model->data(m_index, AssetParameterModel::OutRole).toInt() - m_model->data(m_index, AssetParameterModel::InRole).toInt();
-                value.replace(QLatin1String("-1="), QString("%1=").arg(m_model->framesToTime(out)));
+    connect(m_checkBox, &QCheckBox::stateChanged, this, &MultiSwitchParamWidget::paramChanged);
+}
+
+void MultiSwitchParamWidget::paramChanged(int state)
+{
+    const QString sep = methodCombo->currentData().toChar().isNull() ? QStringLiteral("=") : methodCombo->currentData().toChar() + QLatin1Char('=');
+    QString value;
+    if (state == Qt::Checked) {
+        value = m_model->data(m_index, AssetParameterModel::MaxRole).toString();
+    } else {
+        value = m_model->data(m_index, AssetParameterModel::MinRole).toString();
+    }
+    QStringList vals = value.split(QLatin1Char('='));
+    if (vals.size() > 3) {
+        for (auto &v : vals) {
+            if (!v.back().isDigit()) {
+                // Remove existing separator
+                v.chop(1);
             }
         }
-        Q_EMIT valueChanged(m_index, value, true);
-    });
+        if (vals.at(0) == QLatin1String("0")) {
+            vals[0] = QLatin1String("00:00:00.000");
+        }
+        if (vals.at(2).endsWith(QLatin1String(";-1"))) {
+            // Replace -1 with out position
+            int out = m_model->data(m_index, AssetParameterModel::OutRole).toInt() - m_model->data(m_index, AssetParameterModel::InRole).toInt();
+            vals[2].chop(3);
+            vals[2].append(QStringLiteral(";") + m_model->framesToTime(out));
+        }
+    }
+    value = vals.join(sep);
+    Q_EMIT valueChanged(m_index, value, true);
 }
 
 void MultiSwitchParamWidget::slotShowComment(bool show)
@@ -65,7 +96,22 @@ void MultiSwitchParamWidget::slotRefresh()
 {
     const QSignalBlocker bk(m_checkBox);
     QString max = m_model->data(m_index, AssetParameterModel::MaxRole).toString();
-    const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    QChar mod = value.section(QLatin1Char('='), 0, -2).back();
+    if (mod.isDigit()) {
+        mod = QChar();
+    }
+    QSignalBlocker bk2(methodCombo);
+    if (!mod.isNull()) {
+        QString toReplace = mod + QLatin1Char('=');
+        value.replace(toReplace, QStringLiteral("="));
+        int ix = methodCombo->findData(QVariant(mod));
+        if (ix > -1) {
+            methodCombo->setCurrentIndex(ix);
+        }
+    } else {
+        methodCombo->setCurrentIndex(0);
+    }
     bool convertToTime = false;
     if (value.contains(QLatin1Char(':'))) {
         convertToTime = true;
@@ -76,7 +122,6 @@ void MultiSwitchParamWidget::slotRefresh()
     if (max.contains(QLatin1String("-1=")) && !value.contains(QLatin1String("-1="))) {
         // Replace -1 with out position
         int out = m_model->data(m_index, AssetParameterModel::OutRole).toInt() - m_model->data(m_index, AssetParameterModel::InRole).toInt();
-        qDebug() << "=== REPLACING WITH MAX OUT: " << out;
         if (convertToTime) {
             max.replace(QLatin1String("-1="), QString("%1=").arg(m_model->framesToTime(out)));
         } else {

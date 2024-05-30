@@ -158,6 +158,7 @@ public:
 
     int fadeIn() const;
     int fadeOut() const;
+    int fadeMethod(bool fadeIn) const;
 
     /** @brief Tracks have two sub playlists to enable same track transitions. This returns the index of the sub-playlist containing this clip */
     int getSubPlaylistIndex() const;

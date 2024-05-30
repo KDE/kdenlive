@@ -288,7 +288,7 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
         Q_EMIT modelChanged();
         Q_EMIT dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         // Update fades in timeline
-        pCore->updateItemModel(m_ownerId, m_assetId);
+        pCore->updateItemModel(m_ownerId, m_assetId, name);
         if (!m_isAudio) {
             // Trigger monitor refresh
             pCore->refreshProjectItem(m_ownerId);
@@ -329,7 +329,18 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
             QStringList values = paramValue.split(QLatin1Char('\n'));
             if (names.count() == values.count()) {
                 for (int i = 0; i < names.count(); i++) {
-                    m_asset->set(names.at(i).toLatin1().constData(), values.at(i).toLatin1().constData());
+                    const QString currentVal(m_asset->get(names.at(i).toLatin1().constData()));
+                    QString updatedValue = values.at(i);
+                    QChar mod;
+                    if (currentVal.contains(QLatin1Char('='))) {
+                        mod = getKeyframeType(currentVal);
+                        if (!mod.isNull()) {
+                            QString replacement = mod + QLatin1Char('=');
+                            updatedValue.replace(QLatin1Char('='), replacement);
+                            QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                        }
+                    }
+                    m_asset->set(names.at(i).toLatin1().constData(), updatedValue.toLatin1().constData());
                 }
                 m_params[name].value = paramValue;
             }
@@ -369,20 +380,60 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
         if (m_assetId.startsWith(QLatin1String("fade_from"))) {
             if (getAsset()->get("alpha") == QLatin1String("1")) {
                 // Adjust level value to match filter end
-                getAsset()->set("level", "0=0;-1=1");
+                const QString current = getAsset()->get("level");
+                const QChar mod = getKeyframeType(current);
+                if (!mod.isNull()) {
+                    QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                    getAsset()->set("level", val.toUtf8().constData());
+                } else {
+                    getAsset()->set("level", "0=0;-1=1");
+                }
             } else if (getAsset()->get("level") == QLatin1String("1")) {
-                getAsset()->set("alpha", "0=0;-1=1");
+                const QString current = getAsset()->get("alpha");
+                const QChar mod = getKeyframeType(current);
+                if (!mod.isNull()) {
+                    QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                    getAsset()->set("alpha", val.toUtf8().constData());
+                } else {
+                    getAsset()->set("alpha", "0=0;-1=1");
+                }
             }
         } else {
             if (getAsset()->get("alpha") == QLatin1String("1")) {
                 // Adjust level value to match filter end
-                getAsset()->set("level", "0=1;-1=0");
+                const QString current = getAsset()->get("level");
+                const QChar mod = getKeyframeType(current);
+                if (!mod.isNull()) {
+                    QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
+                    getAsset()->set("level", val.toUtf8().constData());
+                } else {
+                    getAsset()->set("level", "0=1;-1=0");
+                }
             } else if (getAsset()->get("level") == QLatin1String("1")) {
-                getAsset()->set("alpha", "0=1;-1=0");
+                const QString current = getAsset()->get("alpha");
+                const QChar mod = getKeyframeType(current);
+                if (!mod.isNull()) {
+                    QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
+                    getAsset()->set("alpha", val.toUtf8().constData());
+                } else {
+                    getAsset()->set("alpha", "0=1;-1=0");
+                }
             }
         }
     }
     // qDebug() << " = = SET EFFECT PARAM: " << name << " = " << m_asset->get(name.toLatin1().constData());
+}
+
+const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
+{
+    QChar mod;
+    if (keyframeString.contains(QLatin1Char('='))) {
+        mod = keyframeString.section(QLatin1Char('='), 0, -2).back();
+        if (mod.isDigit()) {
+            mod = QChar();
+        }
+    }
+    return mod;
 }
 
 void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
@@ -422,7 +473,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         if (!update) Q_EMIT modelChanged();
     } else {
         // Update fades in timeline
-        pCore->updateItemModel(m_ownerId, m_assetId);
+        pCore->updateItemModel(m_ownerId, m_assetId, name);
         if (!m_isAudio) {
             // Trigger monitor refresh
             pCore->refreshProjectItem(m_ownerId);
@@ -1385,6 +1436,8 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
                 }
             }
         }
+    } else {
+        pCore->displayMessage(i18nc("@info:status", "Failed to load preset %1", presetFile), ErrorMessage);
     }
     return params;
 }
