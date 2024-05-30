@@ -401,6 +401,347 @@ Item {
             }
         }
         Rectangle {
+            id: tophandle
+            anchors {
+              top: parent.top
+              horizontalCenter: parent.horizontalCenter
+            }
+            width: root.baseUnit
+            height: width
+            color: "red"
+            visible: root.iskeyframe || controller.autoKeyframe
+            opacity: root.iskeyframe ? 1 : 0.4
+            MouseArea {
+              property int oldMouseX
+              property int oldMouseY
+              property double handleRatio: 1
+              property bool dragging: false
+              acceptedButtons: Qt.LeftButton
+              width: parent.width; height: parent.height
+              anchors.centerIn: parent
+              hoverEnabled: true
+              cursorShape: Qt.SizeVerCursor
+              onEntered: {
+                if (!pressed) {
+                  tophandle.color = framerect.hoverColor
+                }
+              }
+              onExited: {
+                if (!pressed) {
+                  tophandle.color = '#ff0000'
+                }
+              }
+              onPressed: mouse => {
+                  root.captureRightClick = true
+                  dragging = false
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
+                  oldMouseX = mouseX
+                  oldMouseY = mouseY
+                  effectsize.visible = true
+                  tophandle.color = framerect.hoverColor
+                  handleRatio = framesize.width / framesize.height
+              }
+              onPositionChanged: mouse => {
+                if (pressed) {
+                  if (!dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                    return
+                  }
+                  dragging = true
+                  adjustedFrame = framesize
+                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var adjustedMouse = getSnappedPos(positionInFrame)
+                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
+                      var delta = adjustedMouse.y - framesize.y * root.scaley
+                      if (delta == 0) {
+                        return
+                      }
+                      var newheight = framerect.height - delta
+                      adjustedFrame.height = Math.round(newheight / root.scalex);
+                      adjustedFrame.width = Math.round(adjustedFrame.height * (root.lockratio > 0 ? root.lockratio : handleRatio))
+                      adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
+                      adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width
+                  } else {
+                    adjustedFrame.y = adjustedMouse.y / root.scaley;
+                    if (adjustedFrame.y != framesize.y) {
+                      adjustedFrame.height = framesize.y + framesize.height - (adjustedMouse.y / root.scaley);
+                    }
+                  }
+                  if (mouse.modifiers & Qt.ControlModifier) {
+                      adjustedFrame.width -= (framesize.width - adjustedFrame.width)
+                      adjustedFrame.height -= (framesize.height - adjustedFrame.height)
+                  }
+                  framesize = adjustedFrame
+                  root.effectChanged()
+                }
+              }
+              onReleased: {
+                  root.captureRightClick = false
+                  dragging = false
+                  effectsize.visible = false
+                  tophandle.color = '#ff0000'
+                  handleRatio = 1
+              }
+            }
+        }
+        Rectangle {
+            id: bottomhandle
+            anchors {
+              bottom: parent.bottom
+              horizontalCenter: parent.horizontalCenter
+            }
+            width: root.baseUnit
+            height: width
+            color: "red"
+            visible: root.iskeyframe || controller.autoKeyframe
+            opacity: root.iskeyframe ? 1 : 0.4
+            MouseArea {
+              property int oldMouseX
+              property int oldMouseY
+              property double handleRatio: 1
+              property bool dragging: false
+              acceptedButtons: Qt.LeftButton
+              width: parent.width; height: parent.height
+              anchors.centerIn: parent
+              hoverEnabled: true
+              cursorShape: Qt.SizeVerCursor
+              onEntered: {
+                if (!pressed) {
+                  bottomhandle.color = framerect.hoverColor
+                }
+              }
+              onExited: {
+                if (!pressed) {
+                  bottomhandle.color = '#ff0000'
+                }
+              }
+              onPressed: mouse => {
+                  root.captureRightClick = true
+                  dragging = false
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
+                  oldMouseX = mouseX
+                  oldMouseY = mouseY
+                  effectsize.visible = true
+                  bottomhandle.color = framerect.hoverColor
+                  handleRatio = framesize.width / framesize.height
+              }
+              onPositionChanged: mouse => {
+                if (pressed) {
+                  if (!dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                    return
+                  }
+                  dragging = true
+                  adjustedFrame = framesize
+                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var adjustedMouse = getSnappedPos(positionInFrame)
+                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
+                      var delta = adjustedMouse.y - (framesize.y + framesize.height) * root.scaley
+                      if (delta == 0) {
+                        return
+                      }
+                      var newheight = framerect.height + delta
+                      adjustedFrame.height = Math.round(newheight / root.scalex);
+                      adjustedFrame.width = Math.round(adjustedFrame.height * (root.lockratio > 0 ? root.lockratio : handleRatio))
+                  } else {
+                      adjustedFrame.height = adjustedMouse.y / root.scaley - adjustedFrame.y;
+                  }
+                  if (mouse.modifiers & Qt.ControlModifier) {
+                      var xOffset = framesize.width - adjustedFrame.width
+                      adjustedFrame.x += xOffset
+                      adjustedFrame.width -= xOffset
+                      var yOffset = framesize.height - adjustedFrame.height
+                      adjustedFrame.y += yOffset
+                      adjustedFrame.height -= yOffset
+                  }
+                  framesize = adjustedFrame
+                  root.effectChanged()
+                }
+              }
+              onReleased: {
+                  root.captureRightClick = false
+                  dragging = false
+                  effectsize.visible = false
+                  bottomhandle.color = '#ff0000'
+                  handleRatio = 1
+              }
+            }
+        }
+        Rectangle {
+            id: lefthandle
+            anchors {
+              verticalCenter: parent.verticalCenter
+              left: parent.left
+            }
+            width: root.baseUnit
+            height: width
+            color: "red"
+            visible: root.iskeyframe || controller.autoKeyframe
+            opacity: root.iskeyframe ? 1 : 0.4
+            MouseArea {
+              property int oldMouseX
+              property int oldMouseY
+              property double handleRatio: 1
+              property bool dragging: false
+              acceptedButtons: Qt.LeftButton
+              width: parent.width; height: parent.height
+              anchors.centerIn: parent
+              hoverEnabled: true
+              cursorShape: Qt.SizeHorCursor
+              onEntered: {
+                if (!pressed) {
+                  lefthandle.color = framerect.hoverColor
+                }
+              }
+              onExited: {
+                if (!pressed) {
+                  lefthandle.color = '#ff0000'
+                }
+              }
+              onPressed: mouse => {
+                  root.captureRightClick = true
+                  dragging = false
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
+                  oldMouseX = mouseX
+                  oldMouseY = mouseY
+                  effectsize.visible = true
+                  lefthandle.color = framerect.hoverColor
+                  handleRatio = framesize.width / framesize.height
+              }
+              onPositionChanged: mouse => {
+                if (pressed) {
+                  if (!dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                    return
+                  }
+                  dragging = true
+                  adjustedFrame = framesize
+                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var adjustedMouse = getSnappedPos(positionInFrame)
+                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
+                      var delta = adjustedMouse.x - framesize.x * root.scaley
+                      if (delta == 0) {
+                        return
+                      }
+                      var newwidth = framerect.width - delta
+                      adjustedFrame.width = Math.round(newwidth / root.scalex);
+                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ? root.lockratio : handleRatio))
+                      adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width
+                  } else {
+                      adjustedFrame.x = adjustedMouse.x / root.scalex
+                      if (adjustedFrame.x != framesize.x) {
+                        adjustedFrame.width = framesize.x + framesize.width - (adjustedMouse.x / root.scalex);
+                      }
+                  }
+                  if (mouse.modifiers & Qt.ControlModifier) {
+                      adjustedFrame.width -= (framesize.width - adjustedFrame.width)
+                      var yOffset = framesize.height - adjustedFrame.height
+                      adjustedFrame.y += yOffset
+                      adjustedFrame.height -= yOffset
+                  }
+                  framesize = adjustedFrame
+                  root.effectChanged()
+                }
+              }
+              onReleased: {
+                  root.captureRightClick = false
+                  dragging = false
+                  effectsize.visible = false
+                  lefthandle.color = '#ff0000'
+                  handleRatio = 1
+              }
+            }
+        }
+        Rectangle {
+            id: righthandle
+            anchors {
+              verticalCenter: parent.verticalCenter
+              right: parent.right
+            }
+            width: root.baseUnit
+            height: width
+            color: "red"
+            visible: root.iskeyframe || controller.autoKeyframe
+            opacity: root.iskeyframe ? 1 : 0.4
+            MouseArea {
+              property int oldMouseX
+              property int oldMouseY
+              property double handleRatio: 1
+              property bool dragging: false
+              acceptedButtons: Qt.LeftButton
+              width: parent.width; height: parent.height
+              anchors.centerIn: parent
+              hoverEnabled: true
+              cursorShape: Qt.SizeHorCursor
+              onEntered: {
+                if (!pressed) {
+                  righthandle.color = framerect.hoverColor
+                }
+              }
+              onExited: {
+                if (!pressed) {
+                  righthandle.color = '#ff0000'
+                }
+              }
+              onPressed: mouse => {
+                  root.captureRightClick = true
+                  dragging = false
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
+                  oldMouseX = mouseX
+                  oldMouseY = mouseY
+                  effectsize.visible = true
+                  righthandle.color = framerect.hoverColor
+                  handleRatio = framesize.width / framesize.height
+              }
+              onPositionChanged: mouse => {
+                if (pressed) {
+                  if (!dragging && Math.abs(mouseX - oldMouseX) + Math.abs(mouseY - oldMouseY) < Qt.styleHints.startDragDistance) {
+                    return
+                  }
+                  dragging = true
+                  adjustedFrame = framesize
+                  var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                  var adjustedMouse = getSnappedPos(positionInFrame)
+                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
+                      var delta = adjustedMouse.x - (framesize.x + framesize.width) * root.scaley
+                      if (delta == 0) {
+                        return
+                      }
+
+                      var newwidth = framerect.width + delta
+                      adjustedFrame.width = Math.round(newwidth / root.scalex);
+                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ? root.lockratio : handleRatio))
+                  } else {
+                      adjustedFrame.width = (adjustedMouse.x / root.scalex) - framesize.x;
+                  }
+                  if (mouse.modifiers & Qt.ControlModifier) {
+                      var xOffset = framesize.width - adjustedFrame.width
+                      adjustedFrame.x += xOffset
+                      adjustedFrame.width -= xOffset
+                      var yOffset = framesize.height - adjustedFrame.height
+                      adjustedFrame.y += yOffset
+                      adjustedFrame.height -= yOffset
+
+                  }
+                  framesize = adjustedFrame
+                  root.effectChanged()
+                }
+              }
+              onReleased: {
+                  root.captureRightClick = false
+                  dragging = false
+                  effectsize.visible = false
+                  righthandle.color = '#ff0000'
+                  handleRatio = 1
+              }
+            }
+        }
+        Rectangle {
             id: trhandle
             anchors {
             top: parent.top
@@ -434,7 +775,6 @@ Item {
                   root.captureRightClick = true
                   dragging = false
                   if (root.iskeyframe == false && controller.autoKeyframe) {
-                      console.log('ADDREMOVE TRAND PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
@@ -517,7 +857,6 @@ Item {
                   root.captureRightClick = true
                   dragging = false
                   if (root.iskeyframe == false && controller.autoKeyframe) {
-                      console.log('ADDREMOVE BLAND PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
@@ -600,7 +939,6 @@ Item {
                   root.captureRightClick = true
                   dragging = false
                   if (root.iskeyframe == false && controller.autoKeyframe) {
-                      console.log('ADDREMOVE BRHAND PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
@@ -679,7 +1017,6 @@ Item {
               onPressed: {
                   root.captureRightClick = true
                   if (root.iskeyframe == false && controller.autoKeyframe) {
-                      console.log('ADDREMOVE CENTER PRESSED')
                     controller.addRemoveKeyframe();
                   }
                   oldMouseX = mouseX
