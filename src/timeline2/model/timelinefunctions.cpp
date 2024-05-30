@@ -560,6 +560,8 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
                         int blank = timeline->getTrackById_const(it.key())->getBlankSizeAtPos(clipPos - 1);
                         spaceDuration = qMin(blank, spaceDuration);
                     }
+                } else {
+                    spaceDuration = 0;
                 }
             }
             if (relatedMaxSpace.contains(it.key())) {
