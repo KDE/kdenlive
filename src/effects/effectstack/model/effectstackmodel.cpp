@@ -543,7 +543,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
 
 bool EffectStackModel::appendEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo)
 {
-    return doAppendEffect(effectId, false, {}, undo, redo);
+    return doAppendEffect(effectId, true, {}, undo, redo);
 }
 
 bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent, stringMap params)
