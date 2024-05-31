@@ -30,9 +30,6 @@ MySpinBox::MySpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
-    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
-    setStyleSheet(QStringLiteral("QSpinBox:hover {border-style: solid; border-width: 1px; border-radius: 4px; border-color: %1}").arg(hover_bg.name()));
 }
 
 bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -43,7 +40,11 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
             m_dragging = false;
             m_editing = false;
             if (me->buttons() & Qt::LeftButton) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                m_clickPos = me->pos();
+#else
                 m_clickPos = me->position();
+#endif
                 m_cursorClickPos = lineEdit()->cursorPositionAt(m_clickPos.toPoint());
                 m_clickMouse = QCursor::pos();
                 event->accept();
@@ -76,7 +77,11 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseMove) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::LeftButton) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                QPointF movePos(me->pos());
+#else
                 QPointF movePos = me->position();
+#endif
                 if (!m_editing) {
                     if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
                         QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
@@ -136,12 +141,6 @@ MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
-    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
-    setStyleSheet(QStringLiteral("QDoubleSpinBox:hover {border-style: solid; border-width: 1px; border-radius: 4px; border-color: %1}").arg(hover_bg.name()));
-
-    /*setStyleSheet("QDoubleSpinBox {border: 1px; border-bottom-style: dotted; border-bottom-color: #FFFF00} QDoubleSpinBox:hover {border: 1px; "
-                  "border-bottom-style: dotted; border-bottom-color: #3DAEE9}");*/
 }
 
 bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -152,7 +151,11 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
             m_dragging = false;
             m_editing = false;
             if (me->buttons() & Qt::LeftButton) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                m_clickPos = me->pos();
+#else
                 m_clickPos = me->position();
+#endif
                 m_clickMouse = QCursor::pos();
                 event->accept();
                 return true;
@@ -184,7 +187,11 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseMove) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::LeftButton) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+                QPointF movePos(me->pos());
+#else
                 QPointF movePos = me->position();
+#endif
                 if (!m_editing) {
                     if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
                         QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));

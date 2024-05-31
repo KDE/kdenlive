@@ -409,10 +409,10 @@ const QString AssetPanel::getStyleSheet()
 
     // spin box for draggable widget
     stylesheet.append(
-        QStringLiteral("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: "
-                       "4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px "
+        QStringLiteral("QAbstractSpinBox#dragBox {background-color: transparent }"
+                       "QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px} "
                        "solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { "
-                       "border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ")
+                       "border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;border-radius: 4px} ")
             .arg(hover_bg.name(), selected_bg.name()));
 
     // minimal double edit
