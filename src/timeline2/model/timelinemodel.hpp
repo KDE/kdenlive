@@ -153,6 +153,8 @@ public:
         TrackTagRole,         /// track only
         FadeInRole,           /// clip only
         FadeOutRole,          /// clip only
+        FadeInMethodRole,     /// clip only
+        FadeOutMethodRole,    /// clip only
         FileHashRole,         /// clip only
         SpeedRole,            /// clip only
         ClipThumbRole,        /// clip only
@@ -373,6 +375,7 @@ public:
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackIndex(int trackId) const;
+    int getTopVideoTrackIndex();
 
     /** @brief Set the marker model on this timeline (usually the marker model from its Bin Sequence clip.
      */

@@ -587,8 +587,8 @@
         "--enable-cuvid"
       ],
       "build-options": {
-        "append-path": "/usr/lib/sdk/llvm17/bin",
-        "prepend-ld-library-path": "/usr/lib/sdk/llvm17/lib"
+        "append-path": "/usr/lib/sdk/llvm18/bin",
+        "prepend-ld-library-path": "/usr/lib/sdk/llvm18/lib"
       },
       "cleanup": [
         "/share/ffmpeg/examples"

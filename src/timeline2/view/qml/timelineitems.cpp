@@ -5,6 +5,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include "assets/keyframes/model/keyframemodel.hpp"
 #include "bin/projectitemmodel.h"
 #include "capture/mediacapture.h"
 #include "core.h"
@@ -20,25 +21,77 @@ class TimelineTriangle : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QColor fillColor MEMBER m_color)
+    Q_PROPERTY(bool endFade MEMBER m_endFade)
+    Q_PROPERTY(int curveType MEMBER m_curveType NOTIFY curveChanged)
 public:
     TimelineTriangle(QQuickItem *parent = nullptr)
         : QQuickPaintedItem(parent)
     {
         setAntialiasing(true);
+        connect(this, &TimelineTriangle::curveChanged, this, [&]() { update(); });
     }
     void paint(QPainter *painter) override
     {
         QPainterPath path;
-        path.moveTo(0, 0);
+        path.moveTo(0, height());
+        path.lineTo(0, 0);
         path.lineTo(width(), 0);
-        path.lineTo(0, height());
+        switch (m_curveType) {
+        case int(KeyframeType::CubicIn): {
+            if (m_endFade) {
+                double factor = width() / height();
+                path.quadTo(width() * 0.1, height() * 0.1 * factor, 0, height());
+            } else {
+                double factor = width() / height();
+                path.quadTo(width() - width() * 0.1, height() - height() * 0.1 * factor, 0, height());
+            }
+            break;
+        }
+        case int(KeyframeType::ExponentialIn): {
+            if (m_endFade) {
+                double factor = width() / height();
+                path.cubicTo(width() * 0.15 * factor, 0, 0, height() * 0.15, 0, height());
+            } else {
+                double factor = width() / height();
+                path.cubicTo(width(), height() - height() * 0.15, width() - width() * 0.15 * factor, height(), 0, height());
+            }
+            break;
+        }
+        case int(KeyframeType::CubicOut): {
+            if (m_endFade) {
+                double factor = width() / height();
+                path.quadTo(width() - width() * 0.1, height() - height() * 0.1 * factor, 0, height());
+            } else {
+                double factor = width() / height();
+                path.quadTo(width() * 0.1, height() * 0.1 * factor, 0, height());
+            }
+            break;
+        }
+        case int(KeyframeType::ExponentialOut): {
+            if (m_endFade) {
+                double factor = width() / height();
+                path.cubicTo(width(), height() - height() * 0.15, width() - width() * 0.15 * factor, height(), 0, height());
+            } else {
+                double factor = width() / height();
+                path.cubicTo(width() * 0.15 * factor, 0, 0, height() * 0.15, 0, height());
+            }
+            break;
+        }
+        default:
+            break;
+        }
         painter->fillPath(path, m_color);
         painter->setPen(Qt::white);
-        painter->drawLine(int(width()), 0, 0, int(height()));
+        // painter->drawLine(int(width()), 0, 0, int(height()));
     }
 
 private:
     QColor m_color;
+    int m_curveType{0};
+    bool m_endFade{false};
+
+Q_SIGNALS:
+    void curveChanged();
 };
 
 class TimelinePlayhead : public QQuickPaintedItem

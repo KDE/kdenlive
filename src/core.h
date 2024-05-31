@@ -225,7 +225,7 @@ public:
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
     void updateItemKeyframes(ObjectId id);
     /** A fade for clip id changed, update timeline */
-    void updateItemModel(ObjectId id, const QString &service);
+    void updateItemModel(ObjectId id, const QString &service, const QString &updatedParam);
     /** Show / hide keyframes for a timeline clip */
     void showClipKeyframes(ObjectId id, bool enable);
     Mlt::Profile &thumbProfile();

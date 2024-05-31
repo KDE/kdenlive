@@ -1098,14 +1098,27 @@ void Core::updateItemKeyframes(ObjectId id)
     }
 }
 
-void Core::updateItemModel(ObjectId id, const QString &service)
+void Core::updateItemModel(ObjectId id, const QString &service, const QString &updatedParam)
 {
     if (m_guiConstructed && id.type == KdenliveObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading &&
         service.startsWith(QLatin1String("fade"))) {
         auto tl = m_mainWindow->getTimeline(id.uuid);
         if (tl) {
             bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
-            tl->controller()->updateClip(id.itemId, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
+            QVector<int> roles;
+            if (startFade) {
+                roles = {TimelineModel::FadeInRole, TimelineModel::FadeInMethodRole};
+                if (updatedParam == QLatin1String("alpha") || updatedParam == QLatin1String("level")) {
+                    roles << TimelineModel::FadeInMethodRole;
+                }
+            } else {
+                roles = {TimelineModel::FadeOutRole, TimelineModel::FadeOutMethodRole};
+                if (updatedParam == QLatin1String("alpha") || updatedParam == QLatin1String("level")) {
+                    roles << TimelineModel::FadeOutMethodRole;
+                }
+            }
+            qDebug() << "==== UPDATING FADE ROLES";
+            tl->controller()->updateClip(id.itemId, roles);
         }
     }
 }

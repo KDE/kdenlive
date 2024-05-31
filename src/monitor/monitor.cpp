@@ -180,6 +180,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
+    connect(this, &Monitor::blockSceneChange, m_qmlManager, &QmlManager::blockSceneChange);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
     connect(m_qmlManager, &QmlManager::activateTrack, this, [&](int ix) { Q_EMIT activateTrack(ix, false); });
 
@@ -464,6 +465,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id == Kdenlive::ProjectMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZoneWithUndo, this, &Monitor::zoneUpdatedWithUndo);
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::switchFocusClip, this,
+                [this]() { pCore->window()->getCurrentTimeline()->controller()->switchFocusClip(); });
     } else if (id == Kdenlive::ClipMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateClipZone);
     }

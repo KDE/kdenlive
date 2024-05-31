@@ -30,9 +30,14 @@ void QmlManager::setProperty(const QString &name, const QVariant &value)
     m_view->rootObject()->setProperty(name.toUtf8().constData(), value);
 }
 
+void QmlManager::blockSceneChange(bool block)
+{
+    m_sceneChangeBlocked = block;
+}
+
 void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration)
 {
-    if (type == m_sceneType) {
+    if (type == m_sceneType || m_sceneChangeBlocked) {
         // Scene type already active
         return;
     }

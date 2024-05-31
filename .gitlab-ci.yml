@@ -4,8 +4,10 @@
 include:
   - project: sysadmin/ci-utilities
     file:
-      # CI
+      # Linting
       - /gitlab-templates/reuse-lint.yml
+      - /gitlab-templates/xml-lint.yml
+      # CI
       - /gitlab-templates/linux.yml
       # The FreeBSD is not containerized and hence has Qt5 and Qt6 around
       # Kdenlive preferes Qt6 and there is no way to tell the CI to use Qt5 in this case
@@ -44,26 +46,3 @@ include:
 #    paths:
 #     - ".kde-ci-packages/"
 #     - ".logs/"
-
-
-xml_lint:
-  stage: build
-  image: invent-registry.kde.org/sysadmin/ci-images/suse-qt515:latest
-  tags:
-    - Linux
-  script:
-    # enable globstar to be able to use ** as recursive wildcard
-    - shopt -s globstar
-    # exit shell on non-zero exit code
-    - set -e
-    # execute xmllint for all xml files
-    - for x in **/*.xml; do echo "Processing $x"; xmllint -noout "$x"; done
-  rules:
-    - changes: [ "**/*.xml" ]
-
-
-flatpak:
-  before_script:
-    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
-    - git clone https://invent.kde.org/sysadmin/ci-notary-service.git --depth=1
-    - flatpak --user install -y flathub org.freedesktop.Sdk.Extension.llvm17

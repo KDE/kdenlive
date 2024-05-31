@@ -183,6 +183,8 @@ Q_SIGNALS:
     void jobsProgressChanged();
     void addTimelineEffect(const QStringList &);
     void lastClipsChanged();
+    /** @brief Switch to another clip at the same time position that uses the same effect scene*/
+    void switchFocusClip();
 
 private:
     VideoWidget *q;

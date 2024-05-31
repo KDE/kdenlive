@@ -732,6 +732,8 @@ public Q_SLOTS:
     Q_INVOKABLE void subtitlesMenuActivatedAsync(int ix);
     /** @brief Switch the active subtitle in the list. */
     void subtitlesMenuActivated(int ix);
+    /** @brief Select a clip in the next track that has the same effect as current clip. */
+    void switchFocusClip();
 
 private Q_SLOTS:
     void updateVideoTarget();

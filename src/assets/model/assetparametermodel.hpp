@@ -201,6 +201,8 @@ public:
     const QString framesToTime(int t) const;
     /** @brief This is a built-in asset */
     void setBuiltIn();
+    /** @brief Given an animation keyframe string, find out the keyframe type */
+    static const QChar getKeyframeType(const QString keyframeString);
 
 public Q_SLOTS:
     /** @brief Sets the value of a list of parameters

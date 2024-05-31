@@ -5471,3 +5471,43 @@ const QString TimelineController::getActionShortcut(const QString actionName)
     }
     return shortcut;
 }
+
+void TimelineController::switchFocusClip()
+{
+    ObjectId owner = pCore->window()->effectStackOwner();
+    if (owner.type == KdenliveObjectType::TimelineClip) {
+        std::shared_ptr<ClipModel> clip = m_model->getClipPtr(owner.itemId);
+        if (clip) {
+            int tid = m_model->getClipTrackId(owner.itemId);
+            const QString assetId = clip->activeEffectId();
+            if (!assetId.isEmpty()) {
+                int track = m_model->getPreviousVideoTrackIndex(tid);
+                if (track == 0) {
+                    track = m_model->getTopVideoTrackIndex();
+                }
+                while (track != tid) {
+                    if (track == 0) {
+                        // No other available track to check
+                        return;
+                    }
+                    int nextClip = m_model->getTrackById_const(track)->getClipByPosition(pCore->getMonitorPosition());
+                    if (nextClip > -1) {
+                        std::shared_ptr<ClipModel> clip2 = m_model->getClipPtr(nextClip);
+                        int row = clip2->assetRow(assetId);
+                        if (row > -1) {
+                            clip2->setActiveEffect(row);
+                            pCore->monitorManager()->projectMonitor()->blockSceneChange(true);
+                            selectItems({nextClip});
+                            pCore->monitorManager()->projectMonitor()->blockSceneChange(false);
+                            return;
+                        }
+                    }
+                    track = m_model->getPreviousVideoTrackIndex(track);
+                    if (track == 0) {
+                        track = m_model->getTopVideoTrackIndex();
+                    }
+                }
+            }
+        }
+    }
+}

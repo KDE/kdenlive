@@ -197,6 +197,7 @@ public:
     void connectTimeline();
     void disconnectTimeline(TimelineWidget *timeline);
     static QProcessEnvironment getCleanEnvironement();
+    ObjectId effectStackOwner();
 
 protected:
     /** @brief Closes the window.

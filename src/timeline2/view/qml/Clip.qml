@@ -46,7 +46,9 @@ Rectangle {
     property int clipStatus: 0
     property int itemType: 0
     property int fadeIn: 0
+    property int fadeInMethod: 0
     property int fadeOut: 0
+    property int fadeOutMethod: 0
     property int binId: 0
     property int positionOffset: 0
     property var parentTrack
@@ -911,6 +913,7 @@ Rectangle {
                 // Green fade in triangle
                 id: fadeInTriangle
                 fillColor: 'green'
+                curveType: clipRoot.fadeInMethod
                 width: Math.min(clipRoot.fadeIn * clipRoot.timeScale, container.width)
                 height: parent.height
                 anchors.left: parent.left
@@ -922,12 +925,14 @@ Rectangle {
                 // Red fade out triangle
                 id: fadeOutCanvas
                 fillColor: 'red'
+                curveType: clipRoot.fadeOutMethod
                 width: Math.min(clipRoot.fadeOut * clipRoot.timeScale, container.width)
                 height: parent.height
                 anchors.right: parent.right
                 anchors.top: parent.top
+                endFade: true
                 opacity: 0.4
-                transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2}
+                transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2 }
             }
 
             Item {
