@@ -410,7 +410,8 @@ void MediaCapture::switchMonitorState(bool run)
 #if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
         qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
 #else
-        qreal linearVolume = QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
+        qreal linearVolume =
+            QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
 #endif
         m_audioSource->setVolume(linearVolume);
         m_audioInfo->open(QIODevice::WriteOnly);
@@ -568,7 +569,8 @@ void MediaCapture::recordAudio(const QUuid &uuid, int tid, bool record)
 #if QT_VERSION < QT_VERSION_CHECK(6, 7, 0)
         qreal linearVolume = QAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QAudio::LogarithmicVolumeScale, QAudio::LinearVolumeScale);
 #else
-        qreal linearVolume = QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
+        qreal linearVolume =
+            QtAudio::convertVolume(KdenliveSettings::audiocapturevolume() / 100.0, QtAudio::LogarithmicVolumeScale, QtAudio::LinearVolumeScale);
 #endif
         m_audioSource->setVolume(linearVolume);
         // qDebug()<<"START AREC: "<<m_path<<"\n; CODECS: "<<m_audioRecorder->supportedAudioCodecs();
