@@ -182,6 +182,7 @@
       <li xml:lang="uk">Області: гістограма, векторскоп, розкладка RGB, форма хвилі та рівень звуку</li>
       <li xml:lang="x-test">xxScopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meterxx</li>
       <li xml:lang="zh-CN">示波器：直方图、矢量示波器、RGB Parade 直方图、波形图、音量计</li>
+      <li xml:lang="zh-TW">示波器：直方圖、向量示波器、RGB 檢視、波形以及音訊音量測量</li>
       <li>Proxy editing</li>
       <li xml:lang="ar">التحرير بواسطة الوسطاء</li>
       <li xml:lang="ca">Edició d'intermediaris</li>
@@ -404,6 +405,7 @@
       <caption xml:lang="uk">Титрування</caption>
       <caption xml:lang="x-test">xxTitlingxx</caption>
       <caption xml:lang="zh-CN">字幕功能</caption>
+      <caption xml:lang="zh-TW">傾斜</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k5.png</image>
     </screenshot>
     <screenshot type="source">
@@ -425,6 +427,7 @@
       <caption xml:lang="uk">Переприв'язка за часом та переходи на одній доріжці</caption>
       <caption xml:lang="x-test">xxTime remapping and same-track transitionsxx</caption>
       <caption xml:lang="zh-CN">时间重新映射和同轨转场功能</caption>
+      <caption xml:lang="zh-TW">時間重映射與單軌道轉場特效</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>
   </screenshots>
