@@ -31,6 +31,8 @@ private:
     QPoint m_clickMouse;
     bool m_dragging{false};
     bool m_editing{false};
+    /** @brief the position of the lineedit cursor on mouse click */
+    int m_cursorClickPos{0};
 
 Q_SIGNALS:
     void resetValue();

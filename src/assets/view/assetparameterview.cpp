@@ -28,7 +28,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
 {
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 2);
-    m_lay->setSpacing(0);
+    m_lay->setSpacing(2);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Presets Combo
     m_presetMenu = new QMenu(this);

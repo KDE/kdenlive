@@ -634,7 +634,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         double factor = m_model->data(index, AssetParameterModel::FactorRole).toDouble();
         factor = qFuzzyIsNull(factor) ? 1 : factor;
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
-                                             m_model->data(index, AssetParameterModel::OddRole).toBool(), this);
+                                             m_model->data(index, AssetParameterModel::OddRole).toBool(),
+                                             m_model->data(index, AssetParameterModel::CompactRole).toBool(), this);
         connect(doubleWidget, &DoubleWidget::valueChanged, this, [this, index](double v) {
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), -1, index);

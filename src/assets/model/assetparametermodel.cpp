@@ -612,6 +612,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     }
     case NewStuffRole:
         return element.attribute(QStringLiteral("newstuff"));
+    case CompactRole:
+        return element.hasAttribute(QStringLiteral("compact"));
     case ModeRole:
         return element.attribute(QStringLiteral("mode"));
     case List1Role:

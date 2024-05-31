@@ -10,8 +10,9 @@
 
 #include <cmath>
 
+#include <KColorScheme>
+#include <KColorUtils>
 #include <KLocalizedString>
-
 #include <QAction>
 #include <QApplication>
 #include <QFocusEvent>
@@ -29,8 +30,9 @@ MySpinBox::MySpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
-    setStyleSheet("QSpinBox {border: 1px; border-bottom-style: dotted; border-bottom-color: #FFFF00} QSpinBox:hover {border: 1px; border-bottom-style: dotted; "
-                  "border-bottom-color: #3DAEE9}");
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
+    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
+    setStyleSheet(QStringLiteral("QSpinBox:hover {border-style: solid; border-width: 1px; border-radius: 4px; border-color: %1}").arg(hover_bg.name()));
 }
 
 bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -42,6 +44,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
             m_editing = false;
             if (me->buttons() & Qt::LeftButton) {
                 m_clickPos = me->position();
+                m_cursorClickPos = lineEdit()->cursorPositionAt(m_clickPos.toPoint());
                 m_clickMouse = QCursor::pos();
                 event->accept();
                 return true;
@@ -115,8 +118,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 return true;
             } else {
                 m_editing = true;
-                lineEdit()->setFocus();
-                lineEdit()->selectAll();
+                lineEdit()->setFocus(Qt::MouseFocusReason);
             }
         }
         if (event->type() == QEvent::Enter) {
@@ -124,11 +126,6 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 event->accept();
                 return true;
             }
-        }
-    } else {
-        if (event->type() == QEvent::FocusIn || event->type() == QEvent::HoverMove) {
-            event->accept();
-            return true;
         }
     }
     return QObject::eventFilter(watched, event);
@@ -139,8 +136,12 @@ MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
-    setStyleSheet("QDoubleSpinBox {border: 1px; border-bottom-style: dotted; border-bottom-color: #FFFF00} QDoubleSpinBox:hover {border: 1px; "
-                  "border-bottom-style: dotted; border-bottom-color: #3DAEE9}");
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
+    QColor hover_bg = scheme.decoration(KColorScheme::HoverColor).color();
+    setStyleSheet(QStringLiteral("QDoubleSpinBox:hover {border-style: solid; border-width: 1px; border-radius: 4px; border-color: %1}").arg(hover_bg.name()));
+
+    /*setStyleSheet("QDoubleSpinBox {border: 1px; border-bottom-style: dotted; border-bottom-color: #FFFF00} QDoubleSpinBox:hover {border: 1px; "
+                  "border-bottom-style: dotted; border-bottom-color: #3DAEE9}");*/
 }
 
 bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -224,8 +225,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 return true;
             } else if (!m_editing) {
                 m_editing = true;
-                lineEdit()->setFocus();
-                lineEdit()->selectAll();
+                lineEdit()->setFocus(Qt::MouseFocusReason);
             }
         }
         if (event->type() == QEvent::Enter) {
@@ -233,11 +233,6 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 event->accept();
                 return true;
             }
-        }
-    } else {
-        if (!m_editing && (event->type() == QEvent::FocusIn || event->type() == QEvent::HoverMove)) {
-            event->accept();
-            return true;
         }
     }
     return QObject::eventFilter(watched, event);
@@ -252,10 +247,11 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     , m_default(defaultValue)
     , m_id(id)
 {
+    // setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     if (showSlider) {
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     } else {
-        setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+        setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     }
     setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -264,8 +260,13 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     auto *l = new QHBoxLayout;
     l->setSpacing(showSlider ? 4 : 0);
     l->setContentsMargins(0, 0, 2, 0);
-    QLabel *lab = new QLabel(label, this);
-    l->addWidget(lab);
+    if (!label.isEmpty()) {
+        QLabel *lab = new QLabel(label, this);
+        QPalette palette = lab->palette();
+        palette.setColor(QPalette::Text, palette.color(QPalette::PlaceholderText));
+        lab->setPalette(palette);
+        l->addWidget(lab);
+    }
     if (showSlider) {
         m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
         m_label->setObjectName("draggLabel");
@@ -328,6 +329,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit->installEventFilter(this);
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
+    }
+    if (!showSlider) {
+        l->addStretch();
+        // l->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
     }
     setLayout(l);
     if (m_label) {

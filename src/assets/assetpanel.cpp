@@ -353,9 +353,9 @@ void AssetPanel::clear()
 void AssetPanel::updatePalette()
 {
     QString styleSheet = getStyleSheet();
-    /*setStyleSheet(styleSheet);
+    setStyleSheet(styleSheet);
     m_transitionWidget->setStyleSheet(styleSheet);
-    m_effectStackWidget->setStyleSheet(styleSheet);*/
+    m_effectStackWidget->setStyleSheet(styleSheet);
     m_mixWidget->setStyleSheet(styleSheet);
 }
 

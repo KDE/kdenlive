@@ -37,17 +37,17 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
 
     auto *horLayout = new QHBoxLayout;
     horLayout->setSpacing(2);
-    m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
+    m_spinX = new DragValue(i18nc("Object position", "Position"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
     connect(m_spinX, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectXKeyframeValue);
     horLayout->addWidget(m_spinX);
     m_spinX->setObjectName("spinX");
 
-    m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
+    m_spinY = new DragValue(i18nc("y axis position", "x"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
     connect(m_spinY, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectYKeyframeValue);
     horLayout->addWidget(m_spinY);
     m_spinY->setObjectName("spinY");
-
-    m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, this);
+    horLayout->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
+    m_spinWidth = new DragValue(i18nc("Frame width", "Size"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, this);
     connect(m_spinWidth, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectWidth);
     horLayout->addWidget(m_spinWidth);
     m_spinWidth->setObjectName("spinW");
@@ -60,22 +60,22 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     ratioButton->setDefaultAction(m_lockRatio);
     horLayout->addWidget(ratioButton);
 
-    m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_defaultSize.height(), 0, 1, 99000, -1, QString(), false, false, this);
+    m_spinHeight = new DragValue(QString(), m_defaultSize.height(), 0, 1, 99000, -1, QString(), false, false, this);
     connect(m_spinHeight, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectHeight);
     m_spinHeight->setObjectName("spinH");
     horLayout->addWidget(m_spinHeight);
-    horLayout->addStretch(10);
+    // horLayout->addStretch(10);
 
     auto *horLayout2 = new QHBoxLayout;
     horLayout2->setSpacing(2);
-    m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, false, this);
+    m_spinSize = new DragValue(i18n("Scale"), 100, 2, 1, 99000, -1, i18n("%"), false, false, this);
     m_spinSize->setStep(5);
     m_spinSize->setObjectName("spinS");
     connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
     horLayout2->addWidget(m_spinSize);
 
     if (useOpacity) {
-        m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, false, this);
+        m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), false, false, this);
         m_opacity->setValue((int)(opacity * m_opacityFactor));
         connect(m_opacity, &DragValue::valueChanged, this, [&]() { Q_EMIT valueChanged(getValue(), 4); });
         m_opacity->setObjectName("spinO");
@@ -160,8 +160,8 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     alignLayout->addWidget(alignButton);
     alignLayout->addStretch(10);
 
-    layout->addLayout(horLayout);
     layout->addLayout(alignLayout);
+    layout->addLayout(horLayout);
     layout->addLayout(horLayout2);
     slotUpdateGeometryRect(rect);
     slotAdjustRectKeyframeValue();
