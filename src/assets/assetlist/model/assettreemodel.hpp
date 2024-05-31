@@ -28,7 +28,7 @@ public:
     /** @brief  Helper function to retrieve description */
     QString getDescription(bool isEffect, const QModelIndex &index) const;
     /** @brief Helper function to retrieve if an effect is categorized as favorite */
-    bool isFavorite(const QModelIndex &index) const;
+    bool isFavorite(const QModelIndex &index, bool isEffect) const;
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
     virtual void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) = 0;
