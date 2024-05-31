@@ -278,7 +278,7 @@ QString AssetListWidget::getName(const QModelIndex &index) const
 
 bool AssetListWidget::isFavorite(const QModelIndex &index) const
 {
-    return m_model->isFavorite(m_proxyModel->mapToSource(index));
+    return m_model->isFavorite(m_proxyModel->mapToSource(index), isEffect());
 }
 
 void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite)
