@@ -952,18 +952,26 @@ void EffectStackModel::moveEffectByRow(int destRow, int srcRow)
 void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item)
 {
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_allItems.count(item->getId()) > 0);
+    int itemId = item->getId();
+    Q_ASSERT(m_allItems.count(itemId) > 0);
     int oldRow = item->row();
-    Fun undo = moveItem_lambda(item->getId(), oldRow);
-    Fun redo = moveItem_lambda(item->getId(), destRow);
+    Fun redo = moveItem_lambda(itemId, destRow);
     bool res = redo();
     if (res) {
-        Fun update = [this]() {
+        Fun undo = moveItem_lambda(itemId, oldRow);
+        Fun update_redo = [this, row = destRow > oldRow ? destRow - 1 : destRow]() {
+            setActiveEffect(row);
             Q_EMIT this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
             return true;
         };
-        update();
-        UPDATE_UNDO_REDO(update, update, undo, redo);
+        Fun update_undo = [this, oldRow]() {
+            setActiveEffect(oldRow);
+            Q_EMIT this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
+            return true;
+        };
+        update_redo();
+        PUSH_LAMBDA(update_redo, redo);
+        PUSH_LAMBDA(update_undo, undo);
         auto effectId = std::static_pointer_cast<EffectItemModel>(item)->getAssetId();
         PUSH_UNDO(undo, redo, i18n("Move effect %1", EffectsRepository::get()->getName(effectId)));
     }

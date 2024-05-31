@@ -373,8 +373,9 @@ const QString AssetPanel::getStyleSheet()
     QString stylesheet;
 
     // effect background
-    stylesheet.append(QStringLiteral("QFrame#decoframe {border-bottom:2px solid "
-                                     "palette(mid);background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;}")
+    stylesheet.append(QStringLiteral("QFrame#decoframe {border-top:1px solid "
+                                     "palette(shadow);border-bottom:2px solid "
+                                     "palette(shadow);background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;}")
                           .arg(hgh.name()));
 
     // effect in group background

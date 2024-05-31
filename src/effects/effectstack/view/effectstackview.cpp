@@ -96,7 +96,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_effectsTree->setRootIsDecorated(false);
     m_effectsTree->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QString style = QStringLiteral("QTreeView {border: none;}");
-    // m_effectsTree->viewport()->setAutoFillBackground(false);
+    m_effectsTree->viewport()->setAutoFillBackground(false);
     m_effectsTree->setStyleSheet(style);
     m_effectsTree->setVisible(!KdenliveSettings::showbuiltstack());
     m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
