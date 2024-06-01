@@ -19,12 +19,11 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     , m_max(range.second)
     , m_active(false)
     , m_monitor(monitor)
-    , m_opacity(nullptr)
     , m_opacityFactor(100.)
 {
     Q_UNUSED(useRatioLock)
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    auto *layout = new QVBoxLayout(this);
+    auto *layout = new QGridLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     m_defaultSize = pCore->getCurrentFrameSize();
@@ -35,21 +34,20 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
         comment = i18n(comment.toUtf8().data());
     }*/
 
-    auto *horLayout = new QHBoxLayout;
-    horLayout->setSpacing(2);
-    m_spinX = new DragValue(i18nc("Object position", "Position"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
+    // auto *positionLayout = new QHBoxLayout;
+    m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, false, this, true);
     connect(m_spinX, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectXKeyframeValue);
-    horLayout->addWidget(m_spinX);
+    layout->addWidget(m_spinX, 0, 0);
     m_spinX->setObjectName("spinX");
 
-    m_spinY = new DragValue(i18nc("y axis position", "x"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
+    m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, false, this, true);
     connect(m_spinY, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectYKeyframeValue);
-    horLayout->addWidget(m_spinY);
+    layout->addWidget(m_spinY, 0, 2);
     m_spinY->setObjectName("spinY");
-    horLayout->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
-    m_spinWidth = new DragValue(i18nc("Frame width", "Size"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, this);
+
+    m_spinWidth = new DragValue(i18nc("Image width", "W"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, this, true);
     connect(m_spinWidth, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectWidth);
-    horLayout->addWidget(m_spinWidth);
+    layout->addWidget(m_spinWidth, 1, 0);
     m_spinWidth->setObjectName("spinW");
 
     // Lock ratio stuff
@@ -58,30 +56,12 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     connect(m_lockRatio, &QAction::triggered, this, &GeometryWidget::slotLockRatio);
     auto *ratioButton = new QToolButton;
     ratioButton->setDefaultAction(m_lockRatio);
-    horLayout->addWidget(ratioButton);
+    layout->addWidget(ratioButton, 1, 1);
 
-    m_spinHeight = new DragValue(QString(), m_defaultSize.height(), 0, 1, 99000, -1, QString(), false, false, this);
+    m_spinHeight = new DragValue(i18nc("Image height", "H"), m_defaultSize.height(), 0, 1, 99000, -1, QString(), false, false, this, true);
     connect(m_spinHeight, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectHeight);
     m_spinHeight->setObjectName("spinH");
-    horLayout->addWidget(m_spinHeight);
-    // horLayout->addStretch(10);
-
-    auto *horLayout2 = new QHBoxLayout;
-    horLayout2->setSpacing(2);
-    m_spinSize = new DragValue(i18n("Scale"), 100, 2, 1, 99000, -1, i18n("%"), false, false, this);
-    m_spinSize->setStep(5);
-    m_spinSize->setObjectName("spinS");
-    connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
-    horLayout2->addWidget(m_spinSize);
-
-    if (useOpacity) {
-        m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), false, false, this);
-        m_opacity->setValue((int)(opacity * m_opacityFactor));
-        connect(m_opacity, &DragValue::valueChanged, this, [&]() { Q_EMIT valueChanged(getValue(), 4); });
-        m_opacity->setObjectName("spinO");
-        horLayout2->addWidget(m_opacity);
-    }
-    horLayout2->addStretch(10);
+    layout->addWidget(m_spinHeight, 1, 2);
 
     // Build buttons
     m_originalSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Adjust to original size"), this);
@@ -107,65 +87,48 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     QAction *alignbottom = new QAction(QIcon::fromTheme(QStringLiteral("align-vertical-bottom")), i18n("Align bottom"), this);
     connect(alignbottom, &QAction::triggered, this, &GeometryWidget::slotMoveBottom);
 
-    auto *alignLayout = new QHBoxLayout;
-    alignLayout->setSpacing(0);
-    auto *alignButton = new QToolButton;
-    alignButton->setDefaultAction(alignleft);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
+    QToolBar *tbAlign = new QToolBar(this);
+    tbAlign->setStyleSheet(QStringLiteral("QToolBar { padding: 0; } QToolBar QToolButton { padding: 0; margin: 0; }"));
+    tbAlign->setFixedHeight(m_spinX->height());
+    tbAlign->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    tbAlign->addAction(alignleft);
+    tbAlign->addAction(alignhcenter);
+    tbAlign->addAction(alignright);
+    tbAlign->addAction(aligntop);
+    tbAlign->addAction(alignvcenter);
+    tbAlign->addAction(alignbottom);
 
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(alignhcenter);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
+    QToolBar *tbScale = new QToolBar(this);
+    tbScale->setStyleSheet(QStringLiteral("QToolBar { padding: 0; } QToolBar QToolButton { padding: 0; margin: 0; }"));
+    tbScale->setFixedHeight(m_spinX->height());
+    tbScale->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    tbScale->addAction(m_originalSize);
+    tbScale->addAction(adjustSize);
+    tbScale->addAction(fitToWidth);
+    tbScale->addAction(fitToHeight);
+    tbScale->setMinimumWidth(m_spinX->height());
 
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(alignright);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
+    layout->addWidget(tbAlign, 0, 3, 1, -1);
+    layout->addWidget(tbScale, 1, 4, 1, -1);
+    layout->setColumnStretch(4, 10);
+    // sizeLayout->addStretch(10);
+    // layout->addLayout(sizeLayout);
+    m_spinSize = new DragValue(i18n("Scale"), 100, 2, 1, 99000, -1, i18n("%"), false, false, this, true);
+    m_spinSize->setStep(5);
+    m_spinSize->setObjectName("spinS");
+    connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
+    layout->addWidget(m_spinSize, 2, 0);
 
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(aligntop);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
-
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(alignvcenter);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
-
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(alignbottom);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
-
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(m_originalSize);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
-
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(adjustSize);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
-
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(fitToWidth);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
-
-    alignButton = new QToolButton;
-    alignButton->setDefaultAction(fitToHeight);
-    alignButton->setAutoRaise(true);
-    alignLayout->addWidget(alignButton);
-    alignLayout->addStretch(10);
-
-    layout->addLayout(alignLayout);
-    layout->addLayout(horLayout);
-    layout->addLayout(horLayout2);
+    if (useOpacity) {
+        m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), false, false, this, true);
+        m_opacity->setValue((int)(opacity * m_opacityFactor));
+        connect(m_opacity, &DragValue::valueChanged, this, [&]() { Q_EMIT valueChanged(getValue(), 4); });
+        m_opacity->setObjectName("spinO");
+        layout->addWidget(m_opacity, 2, 1, 1, 2, Qt::AlignRight);
+    }
     slotUpdateGeometryRect(rect);
     slotAdjustRectKeyframeValue();
-    setMinimumHeight(horLayout->sizeHint().height() + horLayout2->sizeHint().height() + alignLayout->sizeHint().height());
+    setMinimumHeight(m_spinX->sizeHint().height() + m_spinSize->sizeHint().height() + (m_opacity ? m_opacity->sizeHint().height() : 0));
 }
 
 void GeometryWidget::slotAdjustToSource()

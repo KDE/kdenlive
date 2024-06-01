@@ -30,7 +30,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     layout->addWidget(label);
     layout->addWidget(m_slider, 0, Qt::AlignVCenter);
     layout->addWidget(m_display);
-    layout->setContentsMargins(6, 2, 6, 2);
+    layout->setContentsMargins(6, 0, 6, 0);
     m_inverted = m_model->data(m_index, AssetParameterModel::DefaultRole).toInt() < 0;
     m_toTime = m_model->data(m_index, AssetParameterModel::ToTimePosRole).toBool();
     slotRefresh();

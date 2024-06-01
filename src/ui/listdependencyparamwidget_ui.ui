@@ -11,12 +11,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>304</width>
-    <height>78</height>
+    <height>84</height>
    </rect>
   </property>
   <layout class="QGridLayout">
    <property name="topMargin">
-    <number>2</number>
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
    </property>
    <property name="spacing">
     <number>0</number>
@@ -54,7 +57,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    </item>
    <item row="1" column="0" colspan="2">
     <widget class="KMessageWidget" name="m_infoMessage">
-     <property name="wordWrap" stdset="0">
+     <property name="wordWrap">
       <bool>true</bool>
      </property>
     </widget>

@@ -228,7 +228,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     keyframesButton->setVisible(m_view->keyframesAllowed());
     auto *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 0);
-    lay->setSpacing(2);
+    lay->setSpacing(0);
     lay->addWidget(m_view);
 
     if (!effectParamModel->hasMoreThanOneKeyframe()) {

@@ -43,7 +43,7 @@ private:
     DragValue *m_spinWidth;
     DragValue *m_spinHeight;
     DragValue *m_spinSize;
-    DragValue *m_opacity;
+    DragValue *m_opacity{nullptr};
     double m_opacityFactor;
     QSize m_defaultSize;
     QSize m_sourceSize;

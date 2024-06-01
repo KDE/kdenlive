@@ -35,6 +35,12 @@ MySpinBox::MySpinBox(QWidget *parent)
 bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == lineEdit()) {
+        if (event->type() == QEvent::ContextMenu) {
+            auto *me = static_cast<QContextMenuEvent *>(event);
+            Q_EMIT showMenu(me->globalPos());
+            event->accept();
+            return true;
+        }
         if (event->type() == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             m_dragging = false;
@@ -132,6 +138,15 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 return true;
             }
         }
+    } else {
+        if (event->type() == QEvent::MouseButtonPress) {
+            auto *me = static_cast<QMouseEvent *>(event);
+            if (me->buttons() & Qt::RightButton) {
+                qDebug() << ":::::: RIGHT MOUSE BUTTON SPIN";
+                event->accept();
+                return true;
+            }
+        }
     }
     return QObject::eventFilter(watched, event);
 }
@@ -146,6 +161,12 @@ MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
 bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == lineEdit()) {
+        if (event->type() == QEvent::ContextMenu) {
+            auto *me = static_cast<QContextMenuEvent *>(event);
+            Q_EMIT showMenu(me->globalPos());
+            event->accept();
+            return true;
+        }
         if (event->type() == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             m_dragging = false;
@@ -246,7 +267,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
 }
 
 DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
-                     bool oddOnly, QWidget *parent)
+                     bool oddOnly, QWidget *parent, bool isInGroup)
     : QWidget(parent)
     , m_maximum(max)
     , m_minimum(min)
@@ -254,33 +275,30 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     , m_default(defaultValue)
     , m_id(id)
 {
-    // setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    if (showSlider) {
-        setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    } else {
-        setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-    }
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setFocusPolicy(Qt::StrongFocus);
 
     auto *l = new QHBoxLayout;
-    l->setSpacing(showSlider ? 4 : 0);
-    l->setContentsMargins(0, 0, 2, 0);
+    l->setSpacing(4);
+    l->setContentsMargins(0, 0, 0, 0);
+    int minWidth = 0;
     if (!label.isEmpty()) {
         QLabel *lab = new QLabel(label, this);
-        QPalette palette = lab->palette();
-        palette.setColor(QPalette::Text, palette.color(QPalette::PlaceholderText));
-        lab->setPalette(palette);
         l->addWidget(lab);
+        minWidth += lab->sizeHint().width();
     }
     if (showSlider) {
         m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
         m_label->setObjectName("draggLabel");
-        l->addWidget(m_label);
+        l->addWidget(m_label, 0, Qt::AlignVCenter);
         setMinimumHeight(m_label->sizeHint().height());
         connect(m_label, &CustomLabel::valueChanged, this, &DragValue::setValueFromProgress);
         connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
+        minWidth += m_label->sizeHint().width();
+    } else if (isInGroup) {
+        l->addStretch();
     }
     if (decimals == 0) {
         if (m_label) {
@@ -289,6 +307,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         m_intEdit = new MySpinBox(this);
         connect(m_intEdit, &MySpinBox::resetValue, this, &DragValue::slotReset);
+        connect(m_intEdit, &MySpinBox::showMenu, this, [this](const QPoint &pos) { m_menu->popup(pos); });
         m_intEdit->setObjectName(QStringLiteral("dragBox"));
         m_intEdit->setFocusPolicy(Qt::StrongFocus);
         if (!suffix.isEmpty()) {
@@ -300,6 +319,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_intEdit->setRange((int)m_minimum, (int)m_maximum);
         m_intEdit->setValue((int)m_default);
+        minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);
         }
@@ -311,6 +331,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     } else {
         m_doubleEdit = new MyDoubleSpinBox(this);
         connect(m_doubleEdit, &MyDoubleSpinBox::resetValue, this, &DragValue::slotReset);
+        connect(m_doubleEdit, &MyDoubleSpinBox::showMenu, this, [this](const QPoint &pos) { m_menu->popup(pos); });
         m_doubleEdit->setDecimals(decimals);
         m_doubleEdit->setFocusPolicy(Qt::StrongFocus);
         m_doubleEdit->setObjectName(QStringLiteral("dragBox"));
@@ -328,6 +349,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         double steps = (m_maximum - m_minimum) / factor;
         m_doubleEdit->setSingleStep(steps);
+        minWidth += m_doubleEdit->sizeHint().width();
         if (m_label) {
             m_label->setStep(steps);
         }
@@ -337,9 +359,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     }
-    if (!showSlider) {
+    if (!showSlider && !isInGroup) {
         l->addStretch();
-        // l->addSpacerItem(new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
     }
     setLayout(l);
     if (m_label) {
@@ -376,6 +397,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         m_menu->addAction(timeline);
     }
+
+    setMinimumWidth(minWidth);
     connect(this, &QWidget::customContextMenuRequested, this, &DragValue::slotShowContextMenu);
     connect(m_scale, &KSelectAction::indexTriggered, this, &DragValue::slotSetScaleMode);
     connect(m_directUpdate, &QAction::triggered, this, &DragValue::slotSetDirectUpdate);

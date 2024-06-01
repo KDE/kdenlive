@@ -27,7 +27,6 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
     int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
     double factor = m_model->data(m_index, AssetParameterModel::FactorRole).toDouble();
-
     // Construct object
     m_doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
                                       m_model->data(m_index, AssetParameterModel::OddRole).toBool(),

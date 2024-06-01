@@ -36,6 +36,7 @@ private:
 
 Q_SIGNALS:
     void resetValue();
+    void showMenu(const QPoint &p);
 };
 
 class MyDoubleSpinBox : public QDoubleSpinBox
@@ -56,6 +57,7 @@ private:
 
 Q_SIGNALS:
     void resetValue();
+    void showMenu(const QPoint &p);
 };
 
 class CustomLabel : public QSlider
@@ -112,7 +114,7 @@ public:
      * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
      */
     explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1,
-                       const QString &suffix = QString(), bool showSlider = true, bool oddOnly = false, QWidget *parent = nullptr);
+                       const QString &suffix = QString(), bool showSlider = true, bool oddOnly = false, QWidget *parent = nullptr, bool isInGroup = false);
     ~DragValue() override;
 
     /** @brief Returns the precision = number of decimals */

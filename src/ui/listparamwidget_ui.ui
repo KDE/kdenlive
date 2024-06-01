@@ -11,15 +11,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>167</width>
-    <height>61</height>
+    <height>62</height>
    </rect>
   </property>
   <layout class="QGridLayout">
    <property name="topMargin">
-    <number>2</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>2</number>
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
    </property>
    <property name="spacing">
     <number>0</number>

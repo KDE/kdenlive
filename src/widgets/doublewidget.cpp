@@ -20,7 +20,7 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    m_dragVal = new DragValue(name, defaultValue * m_factor, decimals, min, max, id, suffix, compact, oddOnly, this);
+    m_dragVal = new DragValue(name, defaultValue * m_factor, decimals, min, max, id, suffix, !compact, oddOnly, this);
     if (suffix == QStringLiteral("°")) {
         QToolButton *rotationTb = new QToolButton(this);
         rotationTb->setIcon(QIcon::fromTheme("object-rotate-right"));
