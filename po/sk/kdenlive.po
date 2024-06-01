@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:38+0000\n"
+"POT-Creation-Date: 2024-06-01 00:38+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -9702,7 +9702,7 @@ msgstr "Kopírovať efekt"
 #: src/effects/effectstack/model/effectstackmodel.cpp:345
 #: src/effects/effectstack/model/effectstackmodel.cpp:479
 #: src/effects/effectstack/model/effectstackmodel.cpp:564
-#: src/effects/effectstack/model/effectstackmodel.cpp:1265
+#: src/effects/effectstack/model/effectstackmodel.cpp:1273
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -9713,7 +9713,7 @@ msgstr ""
 msgid "Add effect %1"
 msgstr "Pridať efekt %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1094
+#: src/effects/effectstack/model/effectstackmodel.cpp:1102
 #, kde-format
 msgid "Move effect %1"
 msgstr "Presunúť efekt %1"
@@ -13940,7 +13940,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:283
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

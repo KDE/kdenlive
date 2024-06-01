@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:38+0000\n"
+"POT-Creation-Date: 2024-06-01 00:38+0000\n"
 "PO-Revision-Date: 2023-12-28 21:23+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -9343,7 +9343,7 @@ msgstr "Kopiera effekt"
 #: src/effects/effectstack/model/effectstackmodel.cpp:345
 #: src/effects/effectstack/model/effectstackmodel.cpp:479
 #: src/effects/effectstack/model/effectstackmodel.cpp:564
-#: src/effects/effectstack/model/effectstackmodel.cpp:1265
+#: src/effects/effectstack/model/effectstackmodel.cpp:1273
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Effekten %1 kan inte läggas till två gånger."
@@ -9354,7 +9354,7 @@ msgstr "Effekten %1 kan inte läggas till två gånger."
 msgid "Add effect %1"
 msgstr "Lägg till effekt %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1094
+#: src/effects/effectstack/model/effectstackmodel.cpp:1102
 #, kde-format
 msgid "Move effect %1"
 msgstr "Flytta effekt %1"
@@ -13433,7 +13433,7 @@ msgstr ""
 "på höger sida</b> för verktygsrad, <b>Mushjul</b> eller <b>pilar</b> för att "
 "söka, <b>Ctrl mushjul</b> för att zooma"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:283
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

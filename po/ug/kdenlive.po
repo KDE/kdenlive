@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:38+0000\n"
+"POT-Creation-Date: 2024-06-01 00:38+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -9517,7 +9517,7 @@ msgstr "ئۈنۈم يوق"
 #: src/effects/effectstack/model/effectstackmodel.cpp:345
 #: src/effects/effectstack/model/effectstackmodel.cpp:479
 #: src/effects/effectstack/model/effectstackmodel.cpp:564
-#: src/effects/effectstack/model/effectstackmodel.cpp:1265
+#: src/effects/effectstack/model/effectstackmodel.cpp:1273
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -9529,7 +9529,7 @@ msgstr ""
 msgid "Add effect %1"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1094
+#: src/effects/effectstack/model/effectstackmodel.cpp:1102
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Move effect %1"
@@ -13757,7 +13757,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:283
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

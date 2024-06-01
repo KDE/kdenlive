@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:38+0000\n"
+"POT-Creation-Date: 2024-06-01 00:38+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3612,11 +3612,10 @@ msgid "Cannot open preset file %1"
 msgstr "无法打开预设文件 %1"
 
 #: src/assets/model/assetparametermodel.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Failed to find script file %1"
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "无法找到脚本文件 %1"
+msgstr ""
 
 #: src/assets/view/assetparameterview.cpp:50
 #, kde-format
@@ -9129,7 +9128,7 @@ msgstr "复制效果"
 #: src/effects/effectstack/model/effectstackmodel.cpp:345
 #: src/effects/effectstack/model/effectstackmodel.cpp:479
 #: src/effects/effectstack/model/effectstackmodel.cpp:564
-#: src/effects/effectstack/model/effectstackmodel.cpp:1265
+#: src/effects/effectstack/model/effectstackmodel.cpp:1273
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 不能被添加两次。"
@@ -9140,7 +9139,7 @@ msgstr "效果 %1 不能被添加两次。"
 msgid "Add effect %1"
 msgstr "添加效果 %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1094
+#: src/effects/effectstack/model/effectstackmodel.cpp:1102
 #, kde-format
 msgid "Move effect %1"
 msgstr "移动效果 %1"
@@ -13134,7 +13133,7 @@ msgstr ""
 "<b>点击</b>播放，<b>双击</b>全屏，<b>右侧悬浮</b>显示工具栏，<b>鼠标滚轮</b>"
 "或<b>方向键</b>时移，<b>Ctrl+鼠标滚轮</b>缩放视图"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:283
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:38+0000\n"
-"PO-Revision-Date: 2024-05-30 07:49+0200\n"
+"POT-Creation-Date: 2024-06-01 00:38+0000\n"
+"PO-Revision-Date: 2024-05-31 16:13+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3663,11 +3663,10 @@ msgid "Cannot open preset file %1"
 msgstr "Ne povas malfermi antaŭdifinitan dosieron %1"
 
 #: src/assets/model/assetparametermodel.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Failed to find script file %1"
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "Malsukcesis trovi skriptdosieron %1"
+msgstr "Malsukcesis trovi antaŭmeton %1"
 
 #: src/assets/view/assetparameterview.cpp:50
 #, kde-format
@@ -9288,7 +9287,7 @@ msgstr "Kopii efiko"
 #: src/effects/effectstack/model/effectstackmodel.cpp:345
 #: src/effects/effectstack/model/effectstackmodel.cpp:479
 #: src/effects/effectstack/model/effectstackmodel.cpp:564
-#: src/effects/effectstack/model/effectstackmodel.cpp:1265
+#: src/effects/effectstack/model/effectstackmodel.cpp:1273
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efiko %1 ne povas esti aldonita dufoje."
@@ -9299,7 +9298,7 @@ msgstr "Efiko %1 ne povas esti aldonita dufoje."
 msgid "Add effect %1"
 msgstr "Aldoni efekton %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1094
+#: src/effects/effectstack/model/effectstackmodel.cpp:1102
 #, kde-format
 msgid "Move effect %1"
 msgstr "Movi efekton %1"
@@ -13364,7 +13363,7 @@ msgstr ""
 "dekstren</b> por ilobreto, <b>Rado</b> aŭ <b>sagoj</b> b> por serĉi, <b>Ktrl-"
 "rado</b> por zomi"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:283
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -18676,8 +18675,8 @@ msgstr ""
 "En la argumentoj disponeblas la jenaj opcioj: <ul><li><b>{source}</b> estos "
 "anstataŭigita per la fontdosiervojo de la Bin-tondaĵo</li><li><b>{param1}</"
 "b> estos anstataŭigita per la unua parametrovaloro</li><li><b>{param2}</b> "
-"estos anstataŭigita per la dua parametrovaloro</li></ul><b>{output}</b> "
-"estos anstataŭigita per la eligodosiernomo</li></ul>"
+"estos anstataŭigita per la dua parametrovaloro</li><li><b>{output}</b> estos "
+"anstataŭigita per la eligodosiernomo</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93

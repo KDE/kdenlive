@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-31 00:38+0000\n"
-"PO-Revision-Date: 2024-05-29 12:55+0200\n"
+"POT-Creation-Date: 2024-06-01 00:38+0000\n"
+"PO-Revision-Date: 2024-05-30 21:43+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -9347,7 +9347,7 @@ msgstr "Kopiraj učinek"
 #: src/effects/effectstack/model/effectstackmodel.cpp:345
 #: src/effects/effectstack/model/effectstackmodel.cpp:479
 #: src/effects/effectstack/model/effectstackmodel.cpp:564
-#: src/effects/effectstack/model/effectstackmodel.cpp:1265
+#: src/effects/effectstack/model/effectstackmodel.cpp:1273
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Učinka %1 ni možno dodati dvakrat."
@@ -9358,7 +9358,7 @@ msgstr "Učinka %1 ni možno dodati dvakrat."
 msgid "Add effect %1"
 msgstr "Dodaj učinek %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1094
+#: src/effects/effectstack/model/effectstackmodel.cpp:1102
 #, kde-format
 msgid "Move effect %1"
 msgstr "Premakni učinek %1"
@@ -13423,7 +13423,7 @@ msgstr ""
 "postoj</b> za orodno vrstico, <b>kolešček miške</b> ali <b>smerne tipke</b> "
 "za iskanje, <b>krmilka+kolešček</b> za povečavo"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:283
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15347,7 +15347,7 @@ msgstr "Razmislite o posodobitvi svoje namestitve."
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Ni informacij na različici."
+msgstr "Ni podatkov o različici."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:509
 #, kde-format
@@ -19920,7 +19920,7 @@ msgstr "VOSK"
 #: src/ui/configspeech_ui.ui:37
 #, kde-format
 msgid "Whisper"
-msgstr "Šepet"
+msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configspeech_ui.ui:66
@@ -19974,7 +19974,7 @@ msgstr "Prevedi besedilo v angleški jezik"
 #: src/ui/configspeech_ui.ui:237
 #, kde-format
 msgid "Whisper processing on cpu is very slow"
-msgstr "Obdelava šepeta je na CPE zelo počasna"
+msgstr "Obdelava Whisper je na CPE zelo počasna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableSeamless)
 #: src/ui/configspeech_ui.ui:281
