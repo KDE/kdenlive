@@ -2159,7 +2159,7 @@ msgstr "叠加显示一个计时器到视频中"
 #: data/effects/timer.xml:14
 #, kde-format
 msgid "Font Style"
-msgstr "字体风格"
+msgstr "字体样式"
 
 #: data/effects/timer.xml:46
 #, kde-format
@@ -7955,7 +7955,7 @@ msgid ""
 "Toggles a list to adjust font, size, color, outline style, shadow, position "
 "and background."
 msgstr ""
-"显示/隐藏一个设置列表，以调整字体、字体大小、颜色、轮廓风格、阴影、位置和背景"
+"显示/隐藏一个设置列表，以调整字体、字体大小、颜色、轮廓样式、阴影、位置和背景"
 "色。"
 
 #: src/dialogs/subtitleedit.cpp:123
