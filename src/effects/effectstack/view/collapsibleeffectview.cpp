@@ -125,7 +125,10 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         connect(m_enabledButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotDisable);
     } else {
         enabledButton->hide();
+        // frame->hide();
+        decoframe->setProperty("class", "builtin");
     }
+    frame->setMinimumHeight(collapseButton->sizeHint().height());
     connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [=](ObjectId id, QPair<int, int> inOut, bool checked) {
         m_inOutButton->setChecked(checked);
         zoneFrame->setFixedHeight(checked ? frame->height() : 0);
@@ -205,7 +208,6 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
 
     title->setText(effectName);
     title->setStyleSheet("font-weight: bold");
-    frame->setMinimumHeight(collapseButton->sizeHint().height());
 
     m_view = new AssetParameterView(this);
     const std::shared_ptr<AssetParameterModel> effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);

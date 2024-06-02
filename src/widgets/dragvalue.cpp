@@ -30,6 +30,7 @@ MySpinBox::MySpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
+    // setStyleSheet(QStringLiteral("QSpinBox { padding: 0; margin: 0} QLineEdit { padding: 0; margin: 0}"));
 }
 
 bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -294,13 +295,13 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     , m_default(defaultValue)
     , m_id(id)
 {
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setFocusPolicy(Qt::StrongFocus);
 
     auto *l = new QHBoxLayout;
-    l->setSpacing(4);
+    l->setSpacing(2);
     l->setContentsMargins(0, 0, 0, 0);
     int minWidth = 0;
     if (!label.isEmpty()) {
@@ -312,7 +313,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
         m_label->setObjectName("draggLabel");
         l->addWidget(m_label, 0, Qt::AlignVCenter);
-        setMinimumHeight(m_label->sizeHint().height());
+        // setMinimumHeight(m_label->sizeHint().height());
         connect(m_label, &CustomLabel::valueChanged, this, &DragValue::setValueFromProgress);
         connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
         minWidth += m_label->sizeHint().width();
@@ -342,6 +343,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         // Try to have all spin boxes of the same size
         int maxWidth = m_intEdit->charWidth();
         m_intEdit->setMinimumWidth(maxWidth * 9);
+        setFixedHeight(m_intEdit->sizeHint().height());
         minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);

@@ -11,6 +11,7 @@
 
 #include <KLocalizedString>
 #include <QGridLayout>
+#include <QStyle>
 
 GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
                                bool useOpacity, QWidget *parent)
@@ -88,6 +89,8 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     connect(alignbottom, &QAction::triggered, this, &GeometryWidget::slotMoveBottom);
 
     QToolBar *tbAlign = new QToolBar(this);
+    int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
+    tbAlign->setIconSize(QSize(size, size));
     tbAlign->setStyleSheet(QStringLiteral("QToolBar { padding: 0; } QToolBar QToolButton { padding: 0; margin: 0; }"));
     tbAlign->setFixedHeight(m_spinX->height());
     tbAlign->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -99,6 +102,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     tbAlign->addAction(alignbottom);
 
     QToolBar *tbScale = new QToolBar(this);
+    tbScale->setIconSize(QSize(size, size));
     tbScale->setStyleSheet(QStringLiteral("QToolBar { padding: 0; } QToolBar QToolButton { padding: 0; margin: 0; }"));
     tbScale->setFixedHeight(m_spinX->height());
     tbScale->setToolButtonStyle(Qt::ToolButtonIconOnly);
