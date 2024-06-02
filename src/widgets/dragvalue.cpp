@@ -44,7 +44,9 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             m_dragging = false;
-            m_editing = false;
+            if (!lineEdit()->hasFocus()) {
+                m_editing = false;
+            }
             if (me->buttons() & Qt::LeftButton) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 m_clickPos = me->pos();
@@ -53,8 +55,10 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
 #endif
                 m_cursorClickPos = lineEdit()->cursorPositionAt(m_clickPos.toPoint());
                 m_clickMouse = QCursor::pos();
-                event->accept();
-                return true;
+                if (!lineEdit()->hasFocus()) {
+                    event->accept();
+                    return true;
+                }
             }
             if (me->buttons() & Qt::MiddleButton) {
                 Q_EMIT resetValue();
@@ -139,16 +143,23 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
             }
         }
     } else {
+        if (event->type() == QEvent::FocusOut) {
+            m_editing = false;
+        }
         if (event->type() == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::RightButton) {
-                qDebug() << ":::::: RIGHT MOUSE BUTTON SPIN";
                 event->accept();
                 return true;
             }
         }
     }
     return QObject::eventFilter(watched, event);
+}
+
+int MySpinBox::charWidth() const
+{
+    return QFontMetrics(lineEdit()->font()).averageCharWidth();
 }
 
 MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
@@ -170,7 +181,9 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             m_dragging = false;
-            m_editing = false;
+            if (!lineEdit()->hasFocus()) {
+                m_editing = false;
+            }
             if (me->buttons() & Qt::LeftButton) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
                 m_clickPos = me->pos();
@@ -178,8 +191,10 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 m_clickPos = me->position();
 #endif
                 m_clickMouse = QCursor::pos();
-                event->accept();
-                return true;
+                if (!lineEdit()->hasFocus()) {
+                    event->accept();
+                    return true;
+                }
             }
             if (me->buttons() & Qt::MiddleButton) {
                 Q_EMIT resetValue();
@@ -262,6 +277,10 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 return true;
             }
         }
+    } else {
+        if (event->type() == QEvent::FocusOut) {
+            m_editing = false;
+        }
     }
     return QObject::eventFilter(watched, event);
 }
@@ -297,9 +316,10 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_label, &CustomLabel::valueChanged, this, &DragValue::setValueFromProgress);
         connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
         minWidth += m_label->sizeHint().width();
-    } else if (isInGroup) {
+    } else if (!isInGroup) {
         l->addStretch();
     }
+
     if (decimals == 0) {
         if (m_label) {
             m_label->setMaximum(max - min);
@@ -315,10 +335,13 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         m_intEdit->setKeyboardTracking(false);
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
-        m_intEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        m_intEdit->setAlignment(Qt::AlignCenter);
         m_intEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_intEdit->setRange((int)m_minimum, (int)m_maximum);
         m_intEdit->setValue((int)m_default);
+        // Try to have all spin boxes of the same size
+        int maxWidth = m_intEdit->charWidth();
+        m_intEdit->setMinimumWidth(maxWidth * 9);
         minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);
@@ -340,7 +363,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         }
         m_doubleEdit->setKeyboardTracking(false);
         m_doubleEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
-        m_doubleEdit->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        m_doubleEdit->setAlignment(Qt::AlignCenter);
         m_doubleEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_doubleEdit->setRange(m_minimum, m_maximum);
         double factor = 100;

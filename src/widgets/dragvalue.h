@@ -21,6 +21,7 @@ class MySpinBox : public QSpinBox
     Q_OBJECT
 public:
     explicit MySpinBox(QWidget *parent = nullptr);
+    int charWidth() const;
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
