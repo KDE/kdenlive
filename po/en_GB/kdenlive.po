@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-01 00:38+0000\n"
-"PO-Revision-Date: 2024-05-30 16:15+0100\n"
+"PO-Revision-Date: 2024-06-02 11:35+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -3666,11 +3666,10 @@ msgid "Cannot open preset file %1"
 msgstr "Cannot open preset file %1"
 
 #: src/assets/model/assetparametermodel.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Failed to find script file %1"
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "Failed to find script file %1"
+msgstr "Failed to load preset %1"
 
 #: src/assets/view/assetparameterview.cpp:50
 #, kde-format

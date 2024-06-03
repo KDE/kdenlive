@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-01 00:38+0000\n"
-"PO-Revision-Date: 2024-05-26 09:19+0200\n"
+"PO-Revision-Date: 2024-06-01 09:50+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -3716,11 +3716,10 @@ msgid "Cannot open preset file %1"
 msgstr "Impossible d'ouvrir le fichier de préréglage %1"
 
 #: src/assets/model/assetparametermodel.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Failed to find script file %1"
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "Impossible de trouver le fichier de script %1."
+msgstr "Impossible de charger le préréglages %1"
 
 #: src/assets/view/assetparameterview.cpp:50
 #, kde-format

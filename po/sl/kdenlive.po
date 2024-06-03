@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-01 00:38+0000\n"
-"PO-Revision-Date: 2024-05-30 21:43+0200\n"
+"PO-Revision-Date: 2024-06-02 07:41+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3681,11 +3681,10 @@ msgid "Cannot open preset file %1"
 msgstr "Ni možno odpreti datoteke prednastavitev %1"
 
 #: src/assets/model/assetparametermodel.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Failed to find script file %1"
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "Ni bilo mogoče najti skriptne datoteke %1"
+msgstr "Ni bilo mogoče naložiti prednastavitve %1"
 
 #: src/assets/view/assetparameterview.cpp:50
 #, kde-format

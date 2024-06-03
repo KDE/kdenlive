@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-01 00:38+0000\n"
-"PO-Revision-Date: 2024-05-26 08:25+0200\n"
+"PO-Revision-Date: 2024-06-02 11:51+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3684,11 +3684,10 @@ msgid "Cannot open preset file %1"
 msgstr "Non é posíbel abrir o ficheiro de predefinición %1"
 
 #: src/assets/model/assetparametermodel.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Failed to find script file %1"
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "Non foi posíbel atopar o ficheiro de guión %1"
+msgstr "Non foi posíbel cargar a predefinición %1."
 
 #: src/assets/view/assetparameterview.cpp:50
 #, kde-format
