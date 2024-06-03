@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-29 03:08+0000\n"
-"PO-Revision-Date: 2024-05-03 03:43+0200\n"
+"PO-Revision-Date: 2024-06-02 05:48+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1307,6 +1307,11 @@ msgid ""
 "typical use case is to add effects in the following sequence: this effect, "
 "zero or more effects, mask_apply."
 msgstr ""
+"ეს ფილტრი ქმნის კადრის სწრაფ ასლს მანამდე, სანამ ის დახატავს მარტივ ფიგურებს "
+"ალფა არხში. გამოიყენეთ ის mask_apply ფილტრთან ერთად, რომელიც იყენებს "
+"გადასვლას, რომ შეადგინოს მიმდინარე კადრის გამოსახულება სწრაფი ასლის ზემოდან. "
+"ამის გამოყენება, ამატებს ეფექტებს შემდეგი მიმდევრობით: ეს ეფექტი, ნული ან "
+"მეტი ეფექტი, mask_apply."
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
@@ -9438,16 +9443,14 @@ msgid "No name provided, effect not saved."
 msgstr "სახელი მითითებული არაა. ეფექტი შენახული არ იქნება."
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "ეფექტის ჩართვა"
+msgstr "ეფექტების სტეკის ჩართვა"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "ეფექტის გამორთვა"
+msgstr "ეფექტების სტეკის გამორთვა"
 
 #: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
@@ -15161,16 +15164,14 @@ msgstr ""
 "მოდულები თავიდან გადმოიწერება."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "OpenTimelineIO გადაყვანა"
+msgstr "OpenTimelineIO-ის ძირითადი ფუნქციონალი"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "OpenTimelineIO გადაყვანა"
+msgstr "OpenTimelineIO-ის მხარდაჭერა Kdenlive-სთვის"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -15187,7 +15188,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "OpenTimelineIO-მა Kdenlive-ის ადაპტერი ვერ იპოვა."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format

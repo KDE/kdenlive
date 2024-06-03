@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-29 03:08+0000\n"
-"PO-Revision-Date: 2024-05-30 04:06+0900\n"
+"PO-Revision-Date: 2024-06-02 18:50+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -174,7 +174,7 @@ msgstr "將頻譜從矩形中心鏡像翻轉。"
 #: data/transitions/mix.xml:8
 #, kde-format
 msgid "Reverse"
-msgstr "反轉"
+msgstr "倒轉"
 
 #: data/effects/audiolevelgraph.xml:46
 #, kde-format
@@ -416,7 +416,7 @@ msgstr "頻率範圍內聲音要套用數值的最低振幅。"
 #: data/effects/audiospectrum.xml:66 data/effects/dance.xml:44
 #, kde-format
 msgid "Window Size"
-msgstr "視窗大小"
+msgstr "窗口大小"
 
 #: data/effects/audiospectrum.xml:67
 #, kde-format
@@ -428,6 +428,9 @@ msgid ""
 "performed as a sliding window so that the most recent samples are always "
 "transformed."
 msgstr ""
+"進行 FFT 時使用的樣本數量。窗口大小比一幀內的樣本數量還要小的時候，額外的樣本"
+"會被忽略。窗口大小比一幀內的樣本數量還要多的時候，樣本則會從先前的影格緩衝來"
+"填滿窗口。緩衝會以滑動窗口方式進行，讓轉換時會使用最新的樣本。"
 
 #: data/effects/audiowave.xml:4
 #, kde-format
@@ -1277,6 +1280,9 @@ msgid ""
 "typical use case is to add effects in the following sequence: this effect, "
 "zero or more effects, mask_apply."
 msgstr ""
+"這個過濾器會建立影格的快照，然後將簡單的形狀繪製到 alpha 頻道中。與「遮罩套"
+"用」(mask_apply) 效果一同使用來使用轉場來將目前影格的影像與快照進行合成。通常"
+"的使用方法會是以這個序列新增效果：這個效果、0 個或更多個別的效果、遮罩套用。"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:8
 #, kde-format
@@ -1356,6 +1362,10 @@ msgid ""
 "case is to add effects in the following sequence: this effect, zero or more "
 "effects, mask_apply."
 msgstr ""
+"這個過濾器會建立影格的快照，然後套用可設關鍵幀、有更多進階選項（像是不同的色"
+"彩模型）的色度鍵選擇。與「遮罩套用」(mask_apply) 效果一同使用來使用轉場來將目"
+"前影格的影像與快照進行合成。通常的使用方法會是以這個序列新增效果：這個效果、"
+"0 個或更多個別的效果、遮罩套用。"
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
@@ -1434,6 +1444,9 @@ msgid ""
 "The typical use case is to add effects in the following sequence: this "
 "effect, zero or more effects, mask_apply."
 msgstr ""
+"這個過濾器會建立影格的快照，然後套用可設關鍵幀、基於向量的轉描。與「遮罩套"
+"用」(mask_apply) 效果一同使用來使用轉場來將目前影格的影像與快照進行合成。通常"
+"的使用方法會是以這個序列新增效果：這個效果、0 個或更多個別的效果、遮罩套用。"
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
@@ -1484,6 +1497,10 @@ msgid ""
 "frame's image over the snapshot. The typical use case is to add effects in "
 "the following sequence: this effect, zero or more effects, mask_apply."
 msgstr ""
+"這個過濾器會建立影格的快照，然後基於另一個資源建立 alpha 頻道（透明度）。與"
+"「遮罩套用」(mask_apply) 效果一同使用來使用轉場來將目前影格的影像與快照進行合"
+"成。通常的使用方法會是以這個序列新增效果：這個效果、0 個或更多個別的效果、遮"
+"罩套用。"
 
 #: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
@@ -5650,25 +5667,25 @@ msgstr "載入專案中…"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
-msgstr ""
+msgstr "方形 2 條狀"
 
 #: src/core.cpp:382
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
-msgstr ""
+msgstr "棋盤狀（小）"
 
 #: src/core.cpp:383
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
-msgstr ""
+msgstr "水平窗簾"
 
 #: src/core.cpp:384
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
-msgstr "放射"
+msgstr "圓形"
 
 #: src/core.cpp:385
 #, kde-format
@@ -5698,31 +5715,31 @@ msgstr "雙線性 Y"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
-msgstr "平方"
+msgstr "方形"
 
 #: src/core.cpp:390
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
-msgstr "平方 2"
+msgstr "方形 2"
 
 #: src/core.cpp:391
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
-msgstr ""
+msgstr "雲朵"
 
 #: src/core.cpp:392
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
-msgstr ""
+msgstr "時鐘（對稱）"
 
 #: src/core.cpp:393
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
-msgstr ""
+msgstr "放射條狀"
 
 #: src/core.cpp:394
 #, kde-format
@@ -5740,13 +5757,13 @@ msgstr "螺旋 2"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
-msgstr ""
+msgstr "布幕"
 
 #: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
-msgstr ""
+msgstr "撕裂"
 
 #: src/core.cpp:398
 #, kde-format
@@ -5758,133 +5775,133 @@ msgstr "時鐘"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
-msgstr ""
+msgstr "長條水平"
 
 #: src/core.cpp:401
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
-msgstr ""
+msgstr "長條垂直"
 
 #: src/core.cpp:402
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
-msgstr ""
+msgstr "兩側長條水平"
 
 #: src/core.cpp:403
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
-msgstr ""
+msgstr "兩側長條垂直"
 
 #: src/core.cpp:404
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
-msgstr ""
+msgstr "兩側長條斜角（左下/右上）"
 
 #: src/core.cpp:405
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
-msgstr ""
+msgstr "兩側長條斜角（左上/右下）"
 
 #: src/core.cpp:406
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
-msgstr ""
+msgstr "對角線左上"
 
 #: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
-msgstr ""
+msgstr "對角線右上"
 
 #: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
-msgstr ""
+msgstr "矩陣瀑布水平"
 
 #: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
-msgstr ""
+msgstr "矩陣瀑布垂直"
 
 #: src/core.cpp:410
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
-msgstr ""
+msgstr "矩陣蛇行水平"
 
 #: src/core.cpp:411
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
-msgstr ""
+msgstr "矩陣蛇行同步水平"
 
 #: src/core.cpp:412
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
-msgstr ""
+msgstr "矩陣蛇行垂直"
 
 #: src/core.cpp:413
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
-msgstr ""
+msgstr "矩陣蛇行同步垂直"
 
 #: src/core.cpp:414
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
-msgstr ""
+msgstr "兩側 V 字向上"
 
 #: src/core.cpp:415
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
-msgstr ""
+msgstr "虹膜圓形"
 
 #: src/core.cpp:416
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
-msgstr ""
+msgstr "雙重虹膜"
 
 #: src/core.cpp:417
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
-msgstr ""
+msgstr "虹膜方框"
 
 #: src/core.cpp:418
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
-msgstr ""
+msgstr "方塊右下"
 
 #: src/core.cpp:419
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
-msgstr ""
+msgstr "方塊左下"
 
 #: src/core.cpp:420
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
-msgstr ""
+msgstr "方塊中右"
 
 #: src/core.cpp:421
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
-msgstr ""
+msgstr "時鐘頂部"
 
 #: src/core.cpp:647
 #, kde-format
@@ -7983,7 +8000,7 @@ msgstr "設定語音辨識"
 #: src/dialogs/textbasededit.cpp:654
 #, kde-format
 msgid "Create new sequence with edit"
-msgstr ""
+msgstr "建立有編輯的新序列"
 
 #: src/dialogs/textbasededit.cpp:655
 #, kde-format
@@ -7998,7 +8015,7 @@ msgstr "將已編輯的文字儲存在一個播放清單檔案中"
 #: src/dialogs/textbasededit.cpp:663
 #, kde-format
 msgid "Create new sequence with text edit "
-msgstr ""
+msgstr "建立有文字編輯的新序列 "
 
 #: src/dialogs/textbasededit.cpp:687
 #, kde-format
@@ -15614,9 +15631,9 @@ msgid "UV angle"
 msgstr "UV 角度"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:224
-#, fuzzy, kde-format
+#, kde-format
 msgid "Angle through the UV plane, with all possible Y values."
-msgstr "所有可能 Y 值通過 UV 平面的角度。"
+msgstr "通過 UV 平面的角度，取所有可能的 Y 值。"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:235
 #: src/scopes/colorscopes/colorplaneexport.cpp:263
@@ -18326,7 +18343,7 @@ msgstr "適用於"
 #: src/ui/clipspeed_ui.ui:103
 #, kde-format
 msgid "Reverse clip"
-msgstr "素材反轉"
+msgstr "素材倒轉"
 
 #. i18n: ectx: property (text), widget (QLabel, label_dest)
 #: src/ui/clipspeed_ui.ui:112 src/ui/cliptranscode_ui.ui:90

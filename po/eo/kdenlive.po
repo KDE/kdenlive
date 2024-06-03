@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-29 03:08+0000\n"
-"PO-Revision-Date: 2024-05-26 21:13+0200\n"
+"PO-Revision-Date: 2024-05-31 16:13+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -21317,7 +21317,7 @@ msgstr "Generi Skripton"
 #: src/ui/renderwidget_ui.ui:374
 #, kde-format
 msgid "Fu&ll project"
-msgstr "Plena projekto"
+msgstr "P&lena projekto"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_zone)
 #: src/ui/renderwidget_ui.ui:384
@@ -21673,7 +21673,7 @@ msgstr "&MIME-tipo"
 #: src/ui/slideshowclip_ui.ui:176
 #, kde-format
 msgid "Fi&lename pattern"
-msgstr "Dosiernomo ŝablono"
+msgstr "Dosiernoma ŝab&lono"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/slideshowclip_ui.ui:190
