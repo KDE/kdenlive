@@ -235,6 +235,9 @@ protected:
     */
     void addKeyframeParam(const QModelIndex &index, int in, int out);
 
+    /** @brief Check if all parameters for this asset are set to the default */
+    bool isDefault() const;
+
     struct ParamRow
     {
         ParamType type;
@@ -283,7 +286,8 @@ Q_SIGNALS:
     void compositionTrackChanged();
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);
     void rebuildEffect(std::shared_ptr<AssetParameterModel> asset);
-    void enabledChange(bool);
+    /** @brief Emitted when a builtin effect status changes between enabled/disabled */
+    void enabledChange(bool enabled);
     void hideKeyframesChange(bool);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
 };

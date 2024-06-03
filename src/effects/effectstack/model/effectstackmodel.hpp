@@ -155,6 +155,8 @@ public:
 
     /** @brief Add default built-in audio effects */
     void appendAudioBuildInEffects();
+    /** @brief Add default built-in video effects */
+    void appendVideoBuildInEffects();
 
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */

@@ -1839,3 +1839,20 @@ void EffectStackModel::appendAudioBuildInEffects()
     Fun local_undo = addItem_lambda(effect, rootItem->getId());
     local_undo();
 }
+
+void EffectStackModel::appendVideoBuildInEffects()
+{
+    if (m_ownerId.type == KdenliveObjectType::TimelineClip || m_ownerId.type == KdenliveObjectType::BinClip) {
+        auto effect = EffectItemModel::construct(QStringLiteral("qtblend"), shared_from_this());
+        effect->filter().set("disable", 1);
+        effect->filter().set("kdenlive:kfrhidden", 1);
+        effect->filter().set("kdenlive:collapsed", 1);
+        effect->setBuiltIn();
+        effect->prepareKeyframes();
+        connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
+        connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
+        connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
+        Fun local_undo = addItem_lambda(effect, rootItem->getId());
+        local_undo();
+    }
+}

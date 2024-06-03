@@ -124,7 +124,12 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         }
         connect(m_enabledButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotDisable);
     } else {
-        enabledButton->hide();
+        // Add reset button
+        enabledButton->setIcon(QIcon::fromTheme(QStringLiteral("edit-reset")));
+        enabledButton->setToolTip(i18n("Reset Effect"));
+        connect(enabledButton, &QToolButton::clicked, this, &CollapsibleEffectView::slotResetEffect);
+        connect(m_model.get(), &AssetParameterModel::enabledChange, enabledButton, &QToolButton::setEnabled);
+        enabledButton->setEnabled(m_model->isEnabled());
         // frame->hide();
         decoframe->setProperty("class", "builtin");
     }

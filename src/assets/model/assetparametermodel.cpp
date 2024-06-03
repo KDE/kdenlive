@@ -446,22 +446,15 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
     qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
     internalSetParameter(name, paramValue, paramIndex);
     if (m_builtIn) {
-        if (m_asset->get_int("disable") == 1) {
-            m_asset->clear("disable");
-        }
-        if (m_assetId == QLatin1String("volume")) {
-            QStringList params = paramValue.split(QLatin1Char(';'));
-            bool enabled = false;
-            for (auto &p : params) {
-                if (p.section(QLatin1Char('='), 1).simplified().toInt() != 0) {
-                    enabled = true;
-                    break;
-                }
-            }
-            if (!enabled) {
-                qDebug() << "========\nDISABLING VOLUME EFFECT";
+        bool isDisabled = m_asset->get_int("disable") == 1;
+        bool shouldDisable = isDefault();
+        if (isDisabled != shouldDisable) {
+            if (shouldDisable) {
                 m_asset->set("disable", 1);
+            } else {
+                m_asset->clear("disable");
             }
+            Q_EMIT enabledChange(!shouldDisable);
         }
     }
     bool updateChildRequired = true;
@@ -1589,4 +1582,27 @@ void AssetParameterModel::setBuiltIn()
 {
     m_builtIn = true;
     m_asset->set("kdenlive:builtin", 1);
+}
+
+bool AssetParameterModel::isDefault() const
+{
+    for (const auto &name : m_rows) {
+        ParamRow currentRow = m_params.at(name);
+        const QDomElement &element = currentRow.xml;
+        QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), element);
+        QString value = defaultValue.toString();
+        if (isAnimated(currentRow.type) && currentRow.type != ParamType::Roto_spline) {
+            // Roto_spline keyframes are stored as JSON so do not apply this to roto
+            if (!value.contains(QLatin1Char('='))) {
+                value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
+            }
+            // TODO: Fix opacity sometimes set to 1.00000 vs 1 in default fails comparison
+        }
+        if (currentRow.value != value) {
+            qDebug() << "======= ERROR COMPARING PARMA VALUES:\n" << currentRow.value << " = " << value;
+            return false;
+        }
+    }
+    qDebug() << "YYYYYYYYYYYYY DISABLING EFFECT:\n";
+    return true;
 }

@@ -291,6 +291,12 @@ void EffectStackView::loadEffects()
             m_model->appendAudioBuildInEffects();
             max = m_model->rowCount();
         }
+        if (avStack.second) {
+            // Initialize built-in effects
+            m_model->appendVideoBuildInEffects();
+            max = m_model->rowCount();
+        }
+
         if (max == 0) {
             pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
                 ->slotShowEffectScene(MonitorSceneDefault);
