@@ -37,7 +37,9 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
             m_dragVal->setValue(val);
         });
     }
-    layout->addStretch(10);
+    if (compact) {
+        layout->addStretch(10);
+    }
     setMinimumHeight(m_dragVal->height());
 
     if (!comment.isEmpty()) {
