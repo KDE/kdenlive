@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-01 00:38+0000\n"
-"PO-Revision-Date: 2024-06-02 18:50+0900\n"
+"PO-Revision-Date: 2024-06-04 06:21+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -2596,7 +2596,7 @@ msgstr "音效"
 #: data/generators/count.xml:21
 #, kde-format
 msgid "Drop frame timecode"
-msgstr "丟棄影格時間碼"
+msgstr "省略影格時間碼"
 
 #: data/generators/frei0r_test_pat_b.xml:3
 #, kde-format
@@ -4272,7 +4272,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
-msgstr ""
+msgstr "開啟設定專案素材庫的選單（例如檢視模式、排序、是否顯示評分）。"
 
 #: src/bin/bin.cpp:1359
 #, kde-format
@@ -4434,13 +4434,13 @@ msgstr "目前素材 <b>%1</b> 未插入作用中時間軸。"
 #: src/bin/bin.cpp:1971
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
-msgstr ""
+msgstr "您不能將序列 <b>%1</b> 插入它自己當中。"
 
 #: src/bin/bin.cpp:1990
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
-msgstr ""
+msgstr "選取的素材 %1 與 %2 不相符，無法取代音訊或視訊"
 
 #: src/bin/bin.cpp:2001
 #, kde-format
@@ -4505,7 +4505,7 @@ msgstr ""
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
-msgstr ""
+msgstr "您不能將素材取代為另一種類的素材（音訊/視訊不相符）。"
 
 #: src/bin/bin.cpp:2106
 #, kde-format
@@ -5651,7 +5651,7 @@ msgstr ""
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
-msgstr ""
+msgstr "預設的 Kdenlive 設定檔未設定或無效，請點擊確認來為它設定一個正確的值。"
 
 #: src/core.cpp:230
 #, kde-format
@@ -5671,6 +5671,8 @@ msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
+"指定的設定檔是無效的。已使用預設設定檔「dv_pal」，但您還是可以從 Kdenlive 的"
+"設定面板變更此選項"
 
 #: src/core.cpp:263 src/project/projectmanager.cpp:828
 #, kde-format
@@ -6013,11 +6015,14 @@ msgid ""
 "b> will be replaced by the second parameter value, <b>{output}</b> will be "
 "replaced by the output file name."
 msgstr ""
+"<b>{source}</b> 會取代為素材庫素材的來源檔案路徑，<b>{param1}</b> 會取代為第"
+"一個參數數值，<b>{param2}</b> 會取代為第二個參數數值，<b>{output}</b> 會取代"
+"為輸出檔案名稱。"
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
 msgid "File extension for the output file"
-msgstr ""
+msgstr "輸出檔的副檔名"
 
 #: src/dialogs/clipjobmanager.cpp:51
 #, kde-kuit-format
@@ -6028,6 +6033,9 @@ msgid ""
 "inserted in place of <b>{output}</b> if found. If output filename already "
 "exists, a -0001 pattern will be appended."
 msgstr ""
+"輸出檔案名稱將與來源素材庫素材檔案名稱相同，但副檔名會修改。它會被插入參數的"
+"尾端，或是有使用 <b>{output}</b> 佔位符時取代它的位置。輸出檔案名稱已經存在"
+"時，會在尾端加上 -0001 檔名樣式。"
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
 #, kde-format
@@ -6045,6 +6053,7 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"若選取，會將所選素材的目前影格取出至暫存檔，而參數值將會是該暫存影像的路徑"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -7032,7 +7041,7 @@ msgstr "時間碼"
 #: src/dialogs/renderwidget.cpp:236
 #, kde-format
 msgid "Timecode Non Drop Frame"
-msgstr ""
+msgstr "時間碼不省略影格"
 
 #: src/dialogs/renderwidget.cpp:237
 #, kde-format
@@ -7059,12 +7068,12 @@ msgstr "已儲存的播放清單"
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
-msgstr ""
+msgstr "找不到 kdenlive_render 應用程式，您的安裝有問題。無法進行算繪"
 
 #: src/dialogs/renderwidget.cpp:364
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
-msgstr ""
+msgstr "只支援 Matroska (mkv) 格式"
 
 #: src/dialogs/renderwidget.cpp:371
 #, kde-format
@@ -7086,7 +7095,7 @@ msgstr "成功分享文件"
 #: src/dialogs/renderwidget.cpp:379
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
-msgstr ""
+msgstr "您可以在這裡找到分享的文件：<a href=\"%1\">%1</a>"
 
 #: src/dialogs/renderwidget.cpp:499
 #, kde-format
@@ -7102,7 +7111,7 @@ msgstr "結束"
 #: src/dialogs/renderwidget.cpp:627
 #, kde-format
 msgid "Add a clip to timeline before rendering"
-msgstr ""
+msgstr "算繪前請先將素材加入時間軸"
 
 #: src/dialogs/renderwidget.cpp:633
 #, kde-format
@@ -7150,7 +7159,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:719
 #, kde-format
 msgid "The following errors occurred while trying to render"
-msgstr ""
+msgstr "嘗試進行算繪時發生以下錯誤"
 
 #: src/dialogs/renderwidget.cpp:752 src/dialogs/renderwidget.cpp:1474
 #, kde-format
@@ -7206,7 +7215,7 @@ msgstr "無效的預設檔"
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
-msgstr ""
+msgstr "音訊與視訊皆未啟用時無法進行算繪。請至少啟用其中一個。"
 
 #: src/dialogs/renderwidget.cpp:1230
 #, kde-format
@@ -9504,7 +9513,7 @@ msgstr "正在提取 %1/%2"
 #: src/jobs/stabilizetask.cpp:106 src/jobs/stabilizetask.cpp:123
 #, kde-format
 msgid "No producer for this clip."
-msgstr ""
+msgstr "此素材沒有產生者。"
 
 #: src/jobs/cuttask.cpp:217 src/jobs/cuttask.cpp:219
 #, kde-format
@@ -9534,7 +9543,7 @@ msgstr "無法開啟來源。"
 #: src/jobs/filtertask.cpp:175
 #, kde-format
 msgid "Cannot create consumer."
-msgstr ""
+msgstr "無法建立利用者。"
 
 #: src/jobs/filtertask.cpp:187
 #, kde-format
@@ -10360,6 +10369,7 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"在分離式的算繪行程開始之後便離開，未提供此旗標時會在該行程結束後才離開。"
 
 #: src/main.cpp:389
 #, kde-format
@@ -11867,6 +11877,8 @@ msgid ""
 "<shortcut>Ctrl</shortcut> to apply on current track only, <shortcut>Shift</"
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
+"<shortcut>Ctrl</shortcut> 來只套用到目前軌道，<shortcut>Shift</shortcut> 來同"
+"時移動參照線。兩個修飾鍵可以同時使用。"
 
 #: src/mainwindow.cpp:3482
 #, kde-format
@@ -11914,6 +11926,8 @@ msgid ""
 "<shortcut>Click</shortcut> on a track view in the project monitor to perform "
 "a lift of all tracks except active one"
 msgstr ""
+"<shortcut>點擊</shortcut>專案預覽視窗中的軌道檢視來刪除 (lift) 作用中軌道以外"
+"的所有軌道"
 
 #: src/mainwindow.cpp:3510
 #, kde-format
@@ -11963,7 +11977,7 @@ msgstr "介面"
 #: src/mainwindow.cpp:4007
 #, kde-format
 msgid "Raise %1"
-msgstr ""
+msgstr "抬升 %1"
 
 #: src/mainwindow.cpp:4074
 #, kde-format
@@ -15842,7 +15856,7 @@ msgstr "在素材庫找到了無效的序列素材"
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
-msgstr ""
+msgstr "在軌道 %2 於 %3 找到無效合成方案 %1，與軌道 %4 進行合成。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:307
 #: src/timeline2/model/builders/meltBuilder.cpp:574
@@ -15851,6 +15865,7 @@ msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
 "was set to forced track."
 msgstr ""
+"在軌道 %2 於 %3 找到不正確的合成方案 %1，與軌道 %4 進行的合成已設為強制軌道。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:312
 #, kde-format
@@ -15943,7 +15958,7 @@ msgstr "找到 %1 個有不正確的素材庫參照的時間軸素材 (%2) 並�
 #: src/timeline2/model/builders/meltBuilder.cpp:835
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
-msgstr ""
+msgstr "無效素材 %1 (%2) 未於專案素材庫中找到，已復原。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:907
 #: src/timeline2/model/builders/meltBuilder.cpp:940
@@ -15973,7 +15988,7 @@ msgstr ""
 #: src/timeline2/model/builders/meltBuilder.cpp:975
 #, kde-format
 msgid "Invalid clip %1 found on track %2 at %3."
-msgstr ""
+msgstr "在軌道 %2 於 %3 找到無效素材 %1。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:935
 #: src/timeline2/model/builders/meltBuilder.cpp:980
@@ -15999,7 +16014,7 @@ msgstr "在軌道 %2 上於 %3 找到位於不正確子軌道上的素材 %1。"
 #: src/timeline2/model/builders/meltBuilder.cpp:964
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
-msgstr ""
+msgstr "找到 %1 個子播放清單不正確的素材 (%2)"
 
 #: src/timeline2/model/timelinefunctions.cpp:117
 #, kde-format
@@ -16861,13 +16876,13 @@ msgstr "速度調整"
 msgid ""
 "Click to toggle track as target. Target tracks will receive the inserted "
 "clips"
-msgstr ""
+msgstr "點擊來切換軌道是否為目標。素材插入會在是目標的軌道上進行。"
 
 #: src/timeline2/view/qml/TrackHead.qml:275
 #, kde-format
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
-msgstr ""
+msgstr "<b>Shift</b> 來收起或展開所有同類型（音訊/影片）的軌道"
 
 #: src/timeline2/view/qml/TrackHead.qml:295
 #, kde-format
@@ -16994,7 +17009,7 @@ msgstr "沒有可分割的素材"
 #: src/timeline2/view/timelinecontroller.cpp:2227
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
-msgstr ""
+msgstr "輸入：%1，輸出：%2 (%3%4)"
 
 #: src/timeline2/view/timelinecontroller.cpp:2315
 #, kde-format
@@ -17060,12 +17075,12 @@ msgstr "無法移動素材到影格 %1。"
 #: src/timeline2/view/timelinecontroller.cpp:3331
 #, kde-format
 msgid "Set audio reference before attempting to align"
-msgstr ""
+msgstr "嘗試對齊前先設定音訊參照"
 
 #: src/timeline2/view/timelinecontroller.cpp:3495
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
-msgstr ""
+msgstr "所有串流皆已被指定，請先取消選取另一個音訊目標"
 
 #: src/timeline2/view/timelinecontroller.cpp:3654
 #, kde-format
@@ -17175,6 +17190,8 @@ msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
+"需要 avfilter.subtitles 過濾器，但並未找到它。字幕功能應該不會如預期正常運"
+"作。"
 
 #: src/timeline2/view/timelinecontroller.cpp:5188
 #, kde-format
@@ -17363,22 +17380,22 @@ msgstr "插入 Unicode 字元"
 #: src/titler/titlewidget.cpp:292
 #, kde-format
 msgid "Raise object"
-msgstr "上移一層"
+msgstr "將物件上移一層"
 
 #: src/titler/titlewidget.cpp:298
 #, kde-format
 msgid "Lower object"
-msgstr "下降一層"
+msgstr "將物件下移一層"
 
 #: src/titler/titlewidget.cpp:306
 #, kde-format
 msgid "Raise object to top"
-msgstr "移至頂層"
+msgstr "將物件移至最上層"
 
 #: src/titler/titlewidget.cpp:313
 #, kde-format
 msgid "Lower object to bottom"
-msgstr "降至底層"
+msgstr "將物件移至最下層"
 
 #: src/titler/titlewidget.cpp:319
 #, kde-format
@@ -19572,7 +19589,7 @@ msgstr "預設軌道高度："
 #: src/ui/configtimeline_ui.ui:149
 #, kde-format
 msgid "Raise Properties Pane when Selecting in Timeline"
-msgstr "在時間軸上選取時提起屬性面板"
+msgstr "在時間軸上選取時將屬性面板提至上層"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropsclips)
 #: src/ui/configtimeline_ui.ui:155
