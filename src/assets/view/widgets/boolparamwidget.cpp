@@ -31,7 +31,7 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     });
 }
 
-void BoolParamWidget::slotShowComment(bool show) {}
+void BoolParamWidget::slotShowComment(bool) {}
 
 void BoolParamWidget::slotRefresh()
 {
