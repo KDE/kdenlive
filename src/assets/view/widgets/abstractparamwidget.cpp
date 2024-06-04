@@ -60,14 +60,19 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
 {
 }
 
+QLabel *AbstractParamWidget::createLabel()
+{
+    return new QLabel(m_model->data(m_index, Qt::DisplayRole).toString());
+}
+
 AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize,
-                                                    QWidget *parent)
+                                                    QWidget *parent, QFormLayout *layout)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
 
     if (AssetParameterModel::isAnimated(type)) {
-        return new KeyframeWidget(model, index, frameSize, parent);
+        return new KeyframeWidget(model, index, frameSize, parent, layout);
     }
 
     AbstractParamWidget *widget = nullptr;
@@ -90,7 +95,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         widget = new BoolParamWidget(model, index, parent);
         break;
     case ParamType::Geometry:
-        widget = new GeometryEditWidget(model, index, frameSize, parent);
+        widget = new GeometryEditWidget(model, index, frameSize, parent, layout);
         break;
     case ParamType::Position:
         widget = new PositionEditWidget(model, index, parent);

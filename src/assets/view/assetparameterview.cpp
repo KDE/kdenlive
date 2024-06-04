@@ -16,7 +16,9 @@
 #include <QDebug>
 #include <QDir>
 #include <QFontDatabase>
+#include <QFormLayout>
 #include <QInputDialog>
+#include <QLabel>
 #include <QMenu>
 #include <QStandardPaths>
 #include <QVBoxLayout>
@@ -26,9 +28,10 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
 
 {
-    m_lay = new QVBoxLayout(this);
+    m_lay = new QFormLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 2);
-    m_lay->setSpacing(2);
+    m_lay->setVerticalSpacing(0);
+    m_lay->setHorizontalSpacing(6);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Presets Combo
     m_presetMenu = new QMenu(this);
@@ -84,7 +87,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 m_mainKeyframeWidget->addParameter(index);
             }
         } else {
-            auto *w = AbstractParamWidget::construct(model, index, frameSize, this);
+            auto *w = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
             connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
@@ -101,7 +104,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
                 connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
             } else {
-                m_lay->addWidget(w);
+                m_lay->addRow(w->createLabel(), w);
                 minHeight += w->minimumHeight();
             }
             m_widgets.push_back(w);
@@ -110,12 +113,12 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     if (m_mainKeyframeWidget) {
         // Add keyframe widget to the bottom to have a clear seperation
         // between animated an non-animated params
-        m_lay->addWidget(m_mainKeyframeWidget);
+        // m_lay->addWidget(m_mainKeyframeWidget);
         minHeight += m_mainKeyframeWidget->minimumHeight();
     }
     setMinimumHeight(minHeight);
     if (addSpacer) {
-        m_lay->addStretch();
+        // m_lay->addStretch();
     }
     // Ensure effect parameters are adjusted to current position
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
@@ -157,7 +160,6 @@ void AssetParameterView::resetValues()
     QAction *ac = m_presetGroup->checkedAction();
     if (ac) {
         ac->setChecked(false);
-        ;
     }
 }
 

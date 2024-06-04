@@ -6,6 +6,7 @@
 #pragma once
 
 #include <QDoubleSpinBox>
+#include <QLabel>
 #include <QProgressBar>
 #include <QSlider>
 #include <QSpinBox>
@@ -144,6 +145,8 @@ public:
     void setSpinSize(int width);
     /** @brief Returns true if widget is currently being edited */
     bool hasEditFocus() const;
+    /** @brief Returns the parameter's label widget */
+    QLabel *createLabel();
 
 public Q_SLOTS:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
@@ -188,6 +191,7 @@ private:
     int m_decimals;
     double m_default;
     int m_id;
+    QString m_labelText;
     MySpinBox *m_intEdit{nullptr};
     MyDoubleSpinBox *m_doubleEdit{nullptr};
 

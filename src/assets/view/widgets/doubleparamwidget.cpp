@@ -40,6 +40,11 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     slotRefresh();
 }
 
+QLabel *DoubleParamWidget::createLabel()
+{
+    return m_doubleWidget->createLabel();
+}
+
 void DoubleParamWidget::slotRefresh()
 {
     QSignalBlocker bk(m_doubleWidget);

@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QWidget>
 
 class DragValue;
+class QLabel;
 
 /** @class DoubleWidget
     @brief Widget to choose a double parameter (for a effect) with the help of a slider and a spinbox.
@@ -43,6 +44,8 @@ public:
     bool hasEditFocus() const;
     /** @brief Define dragValue object name */
     void setDragObjectName(const QString &name);
+    /** @brief Create the parameter's label widget */
+    QLabel *createLabel();
 
 public Q_SLOTS:
     /** @brief Sets the value to @param value. */

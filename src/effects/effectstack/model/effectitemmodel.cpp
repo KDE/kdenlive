@@ -198,7 +198,7 @@ bool EffectItemModel::isValid() const
 
 void EffectItemModel::updateEnable(bool updateTimeline)
 {
-    filter().set("disable", isEnabled() ? 0 : 1);
+    filter().set("disable", isAssetEnabled() ? 0 : 1);
     if (updateTimeline && !isAudio()) {
         pCore->refreshProjectItem(m_ownerId);
         pCore->invalidateItem(m_ownerId);
@@ -206,7 +206,7 @@ void EffectItemModel::updateEnable(bool updateTimeline)
     const QModelIndex start = AssetParameterModel::index(0, 0);
     const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
     Q_EMIT dataChanged(start, end, QVector<int>());
-    Q_EMIT enabledChange(!isEnabled());
+    Q_EMIT enabledChange(!isAssetEnabled());
     // Update timeline child producers
     Q_EMIT AssetParameterModel::updateChildren({QStringLiteral("disable")});
 }

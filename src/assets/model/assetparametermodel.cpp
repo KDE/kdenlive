@@ -36,6 +36,9 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
     m_requiresInOut = assetXml.hasAttribute(QStringLiteral("requires_in_out"));
     m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
+    if (m_asset->property_exists("kdenlive:builtin")) {
+        m_builtIn = true;
+    }
 
     bool needsLocaleConversion = false;
     QString separator;
@@ -267,8 +270,15 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
     Q_ASSERT(m_asset->is_valid());
     m_asset->set(name.toLatin1().constData(), value);
     if (m_builtIn) {
-        if (m_asset->get_int("disable") == 1) {
-            m_asset->clear("disable");
+        bool isDisabled = m_asset->get_int("disable") == 1;
+        bool shouldDisable = isDefault();
+        if (isDisabled != shouldDisable) {
+            if (shouldDisable) {
+                m_asset->set("disable", 1);
+            } else {
+                m_asset->clear("disable");
+            }
+            Q_EMIT enabledChange(!shouldDisable);
         }
     }
     if (m_fixedParams.count(name) == 0) {
@@ -1596,7 +1606,34 @@ bool AssetParameterModel::isDefault() const
             if (!value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
-            // TODO: Fix opacity sometimes set to 1.00000 vs 1 in default fails comparison
+            if (currentRow.value.toString() != value && !currentRow.value.toString().contains(QLatin1Char(';'))) {
+                const QStringList values = currentRow.value.toString().section(QLatin1Char('='), 1).split(QLatin1Char(' '));
+                const QStringList defaults = value.section(QLatin1Char('='), 1).split(QLatin1Char(' '));
+                if (defaults.count() != values.count()) {
+                    // Not the same count of parameters
+                    return false;
+                }
+                int ix = 0;
+                bool ok;
+                for (auto &v : values) {
+                    if (v != defaults.at(ix)) {
+                        double val = v.toDouble(&ok);
+                        double def;
+                        if (ok) {
+                            def = defaults.at(ix).toDouble(&ok);
+                        }
+                        if (!ok) {
+                            // not a double, abort
+                            return false;
+                        }
+                        if (def != val) {
+                            return false;
+                        }
+                    }
+                    ix++;
+                }
+                return true;
+            }
         }
         if (currentRow.value != value) {
             qDebug() << "======= ERROR COMPARING PARMA VALUES:\n" << currentRow.value << " = " << value;

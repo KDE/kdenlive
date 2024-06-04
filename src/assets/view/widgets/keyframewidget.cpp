@@ -34,6 +34,7 @@
 #include <QCheckBox>
 #include <QClipboard>
 #include <QDialogButtonBox>
+#include <QFormLayout>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -46,18 +47,16 @@
 #include <kwidgetsaddons_version.h>
 #include <utility>
 
-KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
+KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_monitorHelper(nullptr)
     , m_neededScene(MonitorSceneType::MonitorSceneDefault)
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
     , m_baseHeight(0)
     , m_addedHeight(0)
+    , m_layout(layout)
 {
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    m_lay = new QVBoxLayout(this);
-    m_lay->setSpacing(0);
-
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
@@ -216,12 +215,12 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     menuAction->addAction(removeNext);
     m_toolbar->addAction(menuAction);
 
-    m_lay->addWidget(m_keyframeview);
+    m_layout->addRow(m_keyframeview);
     auto *hlay = new QHBoxLayout;
     hlay->addWidget(m_toolbar);
     hlay->addWidget(m_time);
     hlay->addStretch();
-    m_lay->addLayout(hlay);
+    m_layout->addRow(hlay);
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
     connect(m_keyframeview, &KeyframeView::seekToPos, this, [&](int pos) {
@@ -350,7 +349,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         return;
     });
     // m_baseHeight = m_keyframeview->height() + m_selectType->defaultWidget()->sizeHint().height();
-    QMargins mrg = m_lay->contentsMargins();
+    QMargins mrg = m_layout->contentsMargins();
     m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height();
     m_addedHeight = mrg.top() + mrg.bottom();
     setFixedHeight(m_baseHeight + m_addedHeight);
@@ -403,6 +402,7 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
 
 void KeyframeWidget::slotRefreshParams()
 {
+    qDebug() << "===============0\nKFRWIDGET REFRESH!!!!!!!!!!!!!!!!";
     int pos = getPosition();
     KeyframeType keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     int i = 0;
@@ -420,6 +420,7 @@ void KeyframeWidget::slotRefreshParams()
             (static_cast<DoubleWidget *>(w.second))->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
         } else if (type == ParamType::AnimatedRect) {
             const QString val = m_keyframes->getInterpolatedValue(pos, w.first).toString();
+            qDebug() << "=== QUERY REFRESH FOR: " << val;
             const QStringList vals = val.split(QLatin1Char(' '));
             QRect rect;
             double opacity = -1;
@@ -429,7 +430,12 @@ void KeyframeWidget::slotRefreshParams()
                     opacity = vals.at(4).toDouble();
                 }
             }
-            (static_cast<GeometryWidget *>(w.second))->setValue(rect, opacity);
+            if (m_geom) {
+                qDebug() << "=== QUERY REFRESH DONE FOR: " << val;
+                m_geom->setValue(rect, opacity);
+            } else {
+                qDebug() << "=== QUERY REFRESH FAILED!!!: " << val;
+            }
         } else if (type == ParamType::ColorWheel) {
             (static_cast<LumaLiftGainParam *>(w.second)->slotRefresh(pos));
         } else if (type == ParamType::Color) {
@@ -475,7 +481,9 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
     Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
-        w.second->setEnabled(atKeyframe || singleKeyframe);
+        if (w.second) {
+            w.second->setEnabled(atKeyframe || singleKeyframe);
+        }
     }
 }
 
@@ -549,18 +557,17 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
             }
         }
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
-        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
-                                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
-        connect(geomWidget, &GeometryWidget::valueChanged, this, [this, index](const QString &v, int ix) {
+        m_geom.reset(new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
+                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, m_layout));
+        connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this, index](const QString &v, int ix) {
             Q_EMIT activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), ix, index);
         });
-        connect(geomWidget, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
+        connect(m_geom.get(), &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
             if (m_model->isActive()) {
                 pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);
             }
         });
-        paramWidget = geomWidget;
     } else if (type == ParamType::ColorWheel) {
         auto colorWheelWidget = new LumaLiftGainParam(m_model, index, this);
         connect(colorWheelWidget, &LumaLiftGainParam::valuesChanged, this,
@@ -642,21 +649,19 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         });
         doubleWidget->setDragObjectName(QString::number(index.row()));
         paramWidget = doubleWidget;
+        labelWidget = doubleWidget->createLabel();
     }
     if (paramWidget) {
         m_parameters[index] = paramWidget;
         if (labelWidget) {
-            auto *hbox = new QHBoxLayout(this);
-            hbox->setContentsMargins(0, 0, 0, 0);
-            hbox->setSpacing(0);
-            hbox->addWidget(labelWidget, 1);
-            hbox->addWidget(paramWidget, 1);
-            m_lay->addLayout(hbox);
+            m_layout->addRow(labelWidget, paramWidget);
         } else {
-            m_lay->addWidget(paramWidget);
+            m_layout->addRow(paramWidget);
         }
         m_addedHeight += paramWidget->minimumHeight();
         setFixedHeight(m_baseHeight + m_addedHeight);
+    } else {
+        m_parameters[index] = nullptr;
     }
 }
 
@@ -697,12 +702,8 @@ void KeyframeWidget::connectMonitor(bool active)
         disconnect(this, &KeyframeWidget::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe);
         disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe);
     }
-    for (const auto &w : m_parameters) {
-        auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::AnimatedRect) {
-            (static_cast<GeometryWidget *>(w.second))->connectMonitor(active);
-            break;
-        }
+    if (m_geom) {
+        m_geom->connectMonitor(active);
     }
 }
 

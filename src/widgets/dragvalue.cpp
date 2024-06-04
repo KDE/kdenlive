@@ -30,7 +30,6 @@ MySpinBox::MySpinBox(QWidget *parent)
 {
     installEventFilter(this);
     lineEdit()->installEventFilter(this);
-    // setStyleSheet(QStringLiteral("QSpinBox { padding: 0; margin: 0} QLineEdit { padding: 0; margin: 0}"));
 }
 
 bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
@@ -294,6 +293,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     , m_decimals(decimals)
     , m_default(defaultValue)
     , m_id(id)
+    , m_labelText(label)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     setFocusPolicy(Qt::StrongFocus);
@@ -304,11 +304,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     l->setSpacing(2);
     l->setContentsMargins(0, 0, 0, 0);
     int minWidth = 0;
-    if (!label.isEmpty()) {
-        QLabel *lab = new QLabel(label, this);
-        l->addWidget(lab);
-        minWidth += lab->sizeHint().width();
-    }
     if (showSlider) {
         m_label = new CustomLabel(label, showSlider, m_maximum - m_minimum, this);
         m_label->setObjectName("draggLabel");
@@ -394,6 +389,12 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         } else {
             m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
         }
+    } else {
+        if (m_intEdit) {
+            setMinimumHeight(m_intEdit->sizeHint().height());
+        } else {
+            setMinimumHeight(m_doubleEdit->sizeHint().height());
+        }
     }
 
     m_menu = new QMenu(this);
@@ -437,6 +438,11 @@ DragValue::~DragValue()
     delete m_label;
     // delete m_scale;
     // delete m_directUpdate;
+}
+
+QLabel *DragValue::createLabel()
+{
+    return new QLabel(m_labelText);
 }
 
 bool DragValue::eventFilter(QObject *watched, QEvent *event)

@@ -11,11 +11,12 @@
 class QAction;
 class DragValue;
 class Monitor;
+class QFormLayout;
 
 /** @class GeometryWidget
     @brief A widget for modifying numbers by dragging, using the mouse wheel or entering them with the keyboard.
  */
-class GeometryWidget : public QWidget
+class GeometryWidget : public QObject
 {
     Q_OBJECT
 
@@ -29,7 +30,7 @@ public:
      * @param useRatioLock When true, width/height will keep the profile's aspect ratio on resize
      */
     explicit GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
-                            bool useOpacity, QWidget *parent = nullptr);
+                            bool useOpacity, QWidget *parent, QFormLayout *layout);
     void setValue(const QRect r, double opacity = 1);
     void connectMonitor(bool activate);
 
@@ -45,6 +46,7 @@ private:
     DragValue *m_spinSize;
     DragValue *m_opacity{nullptr};
     double m_opacityFactor;
+    QFormLayout *m_layout;
     QSize m_defaultSize;
     QSize m_sourceSize;
     QAction *m_originalSize;

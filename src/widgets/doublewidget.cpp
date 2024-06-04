@@ -21,6 +21,7 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     m_dragVal = new DragValue(name, defaultValue * m_factor, decimals, min, max, id, suffix, !compact, oddOnly, this);
+    layout->addWidget(m_dragVal);
     if (suffix == QStringLiteral("°")) {
         QToolButton *rotationTb = new QToolButton(this);
         rotationTb->setIcon(QIcon::fromTheme("object-rotate-right"));
@@ -36,7 +37,7 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
             m_dragVal->setValue(val);
         });
     }
-    layout->addWidget(m_dragVal);
+    layout->addStretch(10);
     setMinimumHeight(m_dragVal->height());
 
     if (!comment.isEmpty()) {
@@ -44,6 +45,11 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     }
     m_dragVal->setValue(value * factor, false);
     connect(m_dragVal, &DragValue::valueChanged, this, &DoubleWidget::slotSetValue);
+}
+
+QLabel *DoubleWidget::createLabel()
+{
+    return m_dragVal->createLabel();
 }
 
 void DoubleWidget::setDragObjectName(const QString &name)

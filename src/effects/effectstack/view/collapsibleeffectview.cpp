@@ -113,7 +113,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
         enabledButton->setDefaultAction(m_enabledButton);
         connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
-        if (!effectModel->isEnabled()) {
+        if (!effectModel->isAssetEnabled()) {
             title->setEnabled(false);
             if (KdenliveSettings::disable_effect_parameters()) {
                 widgetFrame->setEnabled(false);
@@ -128,8 +128,14 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         enabledButton->setIcon(QIcon::fromTheme(QStringLiteral("edit-reset")));
         enabledButton->setToolTip(i18n("Reset Effect"));
         connect(enabledButton, &QToolButton::clicked, this, &CollapsibleEffectView::slotResetEffect);
-        connect(m_model.get(), &AssetParameterModel::enabledChange, enabledButton, &QToolButton::setEnabled);
-        enabledButton->setEnabled(m_model->isEnabled());
+        connect(m_model.get(), &AssetParameterModel::enabledChange, this, [this](bool enable) {
+            enabledButton->setEnabled(enable);
+            if (m_model->isAssetEnabled() != enable) {
+                m_model->setAssetEnabled(enable, false);
+                pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
+            }
+        });
+        enabledButton->setEnabled(m_model->isAssetEnabled());
         // frame->hide();
         decoframe->setProperty("class", "builtin");
     }
@@ -216,12 +222,14 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
 
     m_view = new AssetParameterView(this);
     const std::shared_ptr<AssetParameterModel> effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
-    m_view->setModel(effectParamModel, frameSize);
+    m_view->setModel(effectParamModel, frameSize, false);
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
     connect(m_view, &AssetParameterView::activateEffect, this, [this]() {
-        if (!decoframe->property("active").toBool()) {
+        qDebug() << "///// TRYING TO ACTIVATE EFFECT....";
+        if (!decoframe->property("active").toBool() || !m_model->isAssetEnabled()) {
             // Activate effect if not already active
             Q_EMIT activateEffect(m_model->row());
+            qDebug() << "///// TRYING TO ACTIVATE EFFECT.... DONE";
         }
     });
 
@@ -432,9 +440,11 @@ bool CollapsibleEffectView::isEnabled() const
 
 void CollapsibleEffectView::slotActivateEffect(bool active)
 {
+    qDebug() << "===== ACTIVATING EFFECT: " << active << "\n+++++++++++";
     decoframe->setProperty("active", active);
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (active) {
+        qDebug() << "=============\nSHOWING MONITOR SCENE: " << needsMonitorEffectScene();
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     }
     Q_EMIT m_view->initKeyframeView(active);
@@ -502,7 +512,7 @@ void CollapsibleEffectView::slotDisable(bool disable)
 void CollapsibleEffectView::updateScene()
 {
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    Q_EMIT m_view->initKeyframeView(m_model->isEnabled());
+    Q_EMIT m_view->initKeyframeView(m_model->isAssetEnabled());
 }
 
 void CollapsibleEffectView::slotDeleteEffect()
@@ -902,7 +912,7 @@ void CollapsibleEffectView::adjustButtons(int ix, int max)
 
 MonitorSceneType CollapsibleEffectView::needsMonitorEffectScene() const
 {
-    if (!m_model->isEnabled() || !m_view) {
+    if (!m_model->isAssetEnabled() || !m_view) {
         return MonitorSceneDefault;
     }
     return m_view->needsMonitorEffectScene();

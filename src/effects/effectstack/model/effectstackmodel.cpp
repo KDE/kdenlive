@@ -479,7 +479,7 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
         pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
         return false;
     }
-    bool enabled = sourceEffect->isEnabled();
+    bool enabled = sourceEffect->isAssetEnabled();
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), enabled);
     effect->setParameters(sourceEffect->getAllParameters());
     if (!enabled) {
@@ -1211,7 +1211,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
         // NO undo. this should only be used on project opening
         if (copyEffect(item, state, false)) {
             found = true;
-            if (item->isEnabled()) {
+            if (item->isAssetEnabled()) {
                 effectEnabled = true;
             }
             imported++;
@@ -1226,7 +1226,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
         for (int i = 0; i < rootItem->childCount(); ++i) {
             std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
             sourceEffect->setEffectStackEnabled(false);
-            sourceEffect->setEnabled(true);
+            sourceEffect->setAssetEnabled(true);
         }
     }
     if (found) {
@@ -1339,7 +1339,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
         for (int i = 0; i < rootItem->childCount(); ++i) {
             std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
             sourceEffect->setEffectStackEnabled(false);
-            sourceEffect->setEnabled(true);
+            sourceEffect->setAssetEnabled(true);
         }
     }
     m_loadingExisting = false;
@@ -1684,7 +1684,7 @@ int EffectStackModel::effectRow(const QString &assetId) const
 {
     for (int i = 0; i < rootItem->childCount(); ++i) {
         auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-        if (effect->getAssetId() == assetId && effect->isEnabled()) {
+        if (effect->getAssetId() == assetId && effect->isAssetEnabled()) {
             return i;
         }
     }
@@ -1828,7 +1828,7 @@ void EffectStackModel::applyAssetMultiKeyframeCommand(int row, const QList<QMode
 
 void EffectStackModel::appendAudioBuildInEffects()
 {
-    auto effect = EffectItemModel::construct(QStringLiteral("volume"), shared_from_this());
+    auto effect = EffectItemModel::construct(QStringLiteral("volume"), shared_from_this(), false);
     effect->filter().set("disable", 1);
     effect->filter().set("kdenlive:kfrhidden", 1);
     effect->setBuiltIn();
@@ -1843,7 +1843,7 @@ void EffectStackModel::appendAudioBuildInEffects()
 void EffectStackModel::appendVideoBuildInEffects()
 {
     if (m_ownerId.type == KdenliveObjectType::TimelineClip || m_ownerId.type == KdenliveObjectType::BinClip) {
-        auto effect = EffectItemModel::construct(QStringLiteral("qtblend"), shared_from_this());
+        auto effect = EffectItemModel::construct(QStringLiteral("qtblend"), shared_from_this(), false);
         effect->filter().set("disable", 1);
         effect->filter().set("kdenlive:kfrhidden", 1);
         effect->filter().set("kdenlive:collapsed", 1);
