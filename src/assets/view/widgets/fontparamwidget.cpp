@@ -15,9 +15,6 @@ FontParamWidget::FontParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
 
-    // setup the name
-    labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
-
     // set check state
     slotRefresh();
     setMinimumHeight(fontfamilywidget->sizeHint().height());

@@ -37,8 +37,6 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_list->setIconSize(QSize(50, 30));
     setMinimumHeight(m_list->sizeHint().height());
-    // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
 
     QString dependencies = m_model->data(m_index, AssetParameterModel::ListDependenciesRole).toString();
     if (!dependencies.isEmpty()) {

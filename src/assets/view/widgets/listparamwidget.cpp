@@ -8,6 +8,9 @@
 #include "core.h"
 #include "mainwindow.h"
 
+#include <QComboBox>
+#include <QHBoxLayout>
+
 ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {

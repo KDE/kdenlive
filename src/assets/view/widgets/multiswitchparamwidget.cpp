@@ -31,8 +31,6 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
     // Exponential Out
     methodCombo->addItem(keyframeTypes.value(KeyframeType::ExponentialOut), QVariant(QLatin1Char('q')));
 
-    // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QChar mod = value.section(QLatin1Char('='), 0, -2).back();
     if (mod.isDigit()) {
@@ -44,8 +42,6 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
             methodCombo->setCurrentIndex(ix);
         }
     }
-    setMinimumHeight(m_labelName->sizeHint().height() + methodCombo->height());
-
     // set check state
     slotRefresh();
     connect(methodCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() { paramChanged(m_checkBox->checkState()); });

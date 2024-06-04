@@ -103,7 +103,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
                 connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
-            } else {
+            } else if (type != ParamType::Hidden) {
                 m_lay->addRow(w->createLabel(), w);
                 minHeight += w->minimumHeight();
             }

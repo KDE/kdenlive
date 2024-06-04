@@ -46,7 +46,6 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
         m_knsbutton->hide();
     }
     // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     m_isLutList = m_model->getAssetId().startsWith(QLatin1String("avfilter.lut3d"));
     UrlListParamWidget::slotRefresh();
 

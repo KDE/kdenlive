@@ -6,6 +6,9 @@
 #include "boolparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 
+#include <QCheckBox>
+#include <QHBoxLayout>
+
 BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {

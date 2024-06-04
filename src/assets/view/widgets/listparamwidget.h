@@ -6,16 +6,16 @@
 #pragma once
 
 #include "assets/view/widgets/abstractparamwidget.hpp"
-#include "ui_listparamwidget_ui.h"
 #include <QVariant>
 #include <QWidget>
 
 class AssetParameterModel;
+class QComboBox;
 
 /** @brief This class represents a parameter that requires
            the user to choose a value from a list
  */
-class ListParamWidget : public AbstractParamWidget, public Ui::ListParamWidget_UI
+class ListParamWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
@@ -66,4 +66,6 @@ public Q_SLOTS:
      */
     void slotRefresh() override;
 
+private:
+    QComboBox *m_list;
 };
