@@ -36,14 +36,18 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     connect(m_spinY, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectYKeyframeValue);
     m_spinY->setObjectName("spinY");
 
-    QHBoxLayout *l = new QHBoxLayout;
-    l->addWidget(m_spinX);
-    l->addWidget(m_spinY->createLabel());
-    l->addWidget(m_spinY);
-    l->addStretch(10);
-    layout->addRow(m_spinX->createLabel(), l);
+    int maxLabelWidth = 0;
+    QHBoxLayout *poslayout = new QHBoxLayout;
+    poslayout->addWidget(m_spinX);
+    QLabel *label = m_spinY->createLabel();
+    int posLabel = label->sizeHint().width();
+    maxLabelWidth = posLabel;
+    poslayout->addWidget(label);
+    poslayout->addSpacing(layout->horizontalSpacing() / 3);
+    poslayout->addWidget(m_spinY);
+    poslayout->addStretch(10);
 
-    m_spinWidth = new DragValue(i18n("Image Width"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, parent, true);
+    m_spinWidth = new DragValue(i18nc("Image Size (Width)", "Size W"), m_defaultSize.width(), 0, 1, 99000, -1, QString(), false, false, parent, true);
     connect(m_spinWidth, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectWidth);
     m_spinWidth->setObjectName("spinW");
 
@@ -53,18 +57,22 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     connect(m_lockRatio, &QAction::triggered, this, &GeometryWidget::slotLockRatio);
     auto *ratioButton = new QToolButton;
     ratioButton->setDefaultAction(m_lockRatio);
+    ratioButton->setAutoRaise(true);
+    ratioButton->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     m_spinHeight = new DragValue(i18nc("Image Height", "H"), m_defaultSize.height(), 0, 1, 99000, -1, QString(), false, false, parent, true);
     connect(m_spinHeight, &DragValue::valueChanged, this, &GeometryWidget::slotAdjustRectHeight);
     m_spinHeight->setObjectName("spinH");
-    l = new QHBoxLayout;
-    l->addWidget(m_spinWidth);
-    l->addWidget(ratioButton);
-    l->addWidget(m_spinHeight->createLabel());
-    l->addWidget(m_spinHeight);
-    l->addStretch(10);
-
-    layout->addRow(m_spinWidth->createLabel(), l);
+    QHBoxLayout *sizelayout = new QHBoxLayout;
+    sizelayout->addWidget(m_spinWidth);
+    sizelayout->addWidget(ratioButton);
+    label = m_spinHeight->createLabel();
+    int sizeLabel = label->sizeHint().width() + ratioButton->sizeHint().width();
+    maxLabelWidth = qMax(maxLabelWidth, sizeLabel);
+    sizelayout->addWidget(label);
+    sizelayout->addSpacing(layout->horizontalSpacing() / 3);
+    sizelayout->addWidget(m_spinHeight);
+    sizelayout->addStretch(10);
 
     // Build buttons
     m_originalSize = new QAction(QIcon::fromTheme(QStringLiteral("zoom-original")), i18n("Adjust to original size"), parent);
@@ -114,25 +122,54 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     tbAlign->addAction(fitToHeight);
     tbAlign->setMinimumWidth(m_spinX->height());
 
-    layout->addRow(i18n("Align"), tbAlign);
-
-    l = new QHBoxLayout;
+    QHBoxLayout *scaleLayout = new QHBoxLayout;
     m_spinSize = new DragValue(i18n("Scale"), 100, 2, 1, 99000, -1, i18n("%"), false, false, parent, true);
     m_spinSize->setStep(5);
     m_spinSize->setObjectName("spinS");
     connect(m_spinSize, &DragValue::valueChanged, this, &GeometryWidget::slotResize);
-    l->addWidget(m_spinSize);
+    scaleLayout->addWidget(m_spinSize);
+    int opacityLabel = 0;
 
     if (useOpacity) {
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), false, false, parent, true);
         m_opacity->setValue((int)(opacity * m_opacityFactor));
         connect(m_opacity, &DragValue::valueChanged, this, [&]() { Q_EMIT valueChanged(getValue(), 4); });
         m_opacity->setObjectName("spinO");
-        l->addWidget(m_opacity->createLabel());
-        l->addWidget(m_opacity);
+        label = m_opacity->createLabel();
+        opacityLabel = label->sizeHint().width();
+        maxLabelWidth = qMax(maxLabelWidth, opacityLabel);
+        scaleLayout->addWidget(label);
+        scaleLayout->addSpacing(layout->horizontalSpacing() / 3);
+        scaleLayout->addWidget(m_opacity);
     }
-    l->addStretch(10);
-    layout->addRow(m_spinSize->createLabel(), l);
+    scaleLayout->addStretch(10);
+    maxLabelWidth += layout->horizontalSpacing() / 3;
+    posLabel += m_spinX->sizeHint().width();
+    sizeLabel += m_spinWidth->sizeHint().width();
+    if (opacityLabel > 0) {
+        opacityLabel += m_spinSize->sizeHint().width();
+    }
+    int offset = qMax(m_spinX->sizeHint().width(), m_spinWidth->sizeHint().width());
+    offset = qMax(offset, m_spinSize->sizeHint().width());
+    maxLabelWidth += offset;
+    int diff = maxLabelWidth - posLabel;
+    if (diff > 0) {
+        poslayout->insertSpacing(1, diff);
+    }
+    layout->addRow(m_spinX->createLabel(), poslayout);
+    diff = maxLabelWidth - sizeLabel;
+    if (diff > 0) {
+        sizelayout->insertSpacing(1, diff);
+    }
+    layout->addRow(m_spinWidth->createLabel(), sizelayout);
+    layout->addRow(i18n("Align"), tbAlign);
+    if (opacityLabel > 0) {
+        diff = maxLabelWidth - opacityLabel;
+        if (diff > 0) {
+            scaleLayout->insertSpacing(1, diff);
+        }
+    }
+    layout->addRow(m_spinSize->createLabel(), scaleLayout);
 
     slotUpdateGeometryRect(rect);
     slotAdjustRectKeyframeValue();

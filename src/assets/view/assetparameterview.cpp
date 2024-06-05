@@ -31,7 +31,7 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     m_lay = new QFormLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 2);
     m_lay->setVerticalSpacing(0);
-    m_lay->setHorizontalSpacing(6);
+    m_lay->setHorizontalSpacing(m_lay->horizontalSpacing() * 3);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Presets Combo
     m_presetMenu = new QMenu(this);
