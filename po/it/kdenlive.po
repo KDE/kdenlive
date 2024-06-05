@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-01 00:38+0000\n"
-"PO-Revision-Date: 2024-05-26 11:51+0200\n"
+"PO-Revision-Date: 2024-06-01 14:55+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -3309,7 +3309,7 @@ msgstr "Scarica nuove tendine..."
 #: src/assets/assetlist/view/assetlistwidget.cpp:171
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr ""
+msgstr "Mostra solo le risorse revisionate"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176
 #, kde-format
@@ -3708,11 +3708,10 @@ msgid "Cannot open preset file %1"
 msgstr "Impossibile aprire il file di preimpostazioni %1"
 
 #: src/assets/model/assetparametermodel.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Failed to find script file %1"
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "Impossibile trovare il file di script %1"
+msgstr "Impossibile caricare la preimpostazione %1"
 
 #: src/assets/view/assetparameterview.cpp:50
 #, kde-format
@@ -6185,13 +6184,7 @@ msgid "Arguments for the command line script"
 msgstr "Argomenti per lo script da riga di comando"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{source}</b> will be replaced by the Bin Clip source file path, "
@@ -6199,12 +6192,10 @@ msgid ""
 "b> will be replaced by the second parameter value, <b>{output}</b> will be "
 "replaced by the output file name."
 msgstr ""
-"Negli argomenti sono disponibili le opzioni seguenti: <ul><li><b>{source}</"
-"b> verrà sostituito dal percorso del file della clip nel contenitore</"
-"li><li><b>{output}</b> verrà sostituito dal percorso del file in uscita</"
-"li><li><b>{param1}</b> verrà sostituito dal valore del primo parametro</"
-"li><li><b>{param2}</b> verrà sostituito dal valore del secondo parametro</"
-"li></ul>"
+"<b>{source}</b> verrà sostituito dal percorso del file sorgente della clip "
+"nel contenitore<b>{param1}</b> verrà sostituito dal primo valore del "
+"parametro<b>{param2}</b> verrà sostituito dal valore del secondo valore del "
+"parametro, <b>{output}</b> verrà sostituito dal nome del file in uscita."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6212,13 +6203,7 @@ msgid "File extension for the output file"
 msgstr "Estensione del file di uscita"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "The output file name will be the same as the source bin clip filename, "
-#| "with the modified extension. It will be appended at the end of the "
-#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
-#| "filename already exists, a -0001 pattern will be appended."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
@@ -6227,8 +6212,8 @@ msgid ""
 "exists, a -0001 pattern will be appended."
 msgstr ""
 "Il nome del file in uscita sarà lo stesso di quello della clip sorgente nel "
-"contenitore, ma con l'estensione modificata. Se trovata verrà aggiunto alla "
-"fine alla fine dell'argomento, oppure inserita al posto di <b>{&#x25;3}</b>. "
+"contenitore, ma con l'estensione modificata. Se trovata verrà aggiunta alla "
+"fine alla fine dell'argomento, oppure inserita al posto di <b>(output)</b>. "
 "Se il nome del file in uscita esiste già, verrà aggiunto un modello -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
@@ -6284,7 +6269,7 @@ msgstr "Duplica la clip con cambio di velocità…"
 #: src/dialogs/clipjobmanager.cpp:247
 #, kde-format
 msgid "Check your parameters syntax (incorrect number of quotes)"
-msgstr ""
+msgstr "Controlla la sintassi dei parametri (numero errato di virgolette)"
 
 #: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
@@ -19390,10 +19375,9 @@ msgstr "Colore di sfondo del controllo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Controlla"
+msgstr "Griglia del controllo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
