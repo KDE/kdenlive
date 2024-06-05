@@ -111,10 +111,16 @@ void ManageSubtitles::deleteSubtitle()
     }
     qDebug() << ":::: DELETING SUBTITLE WIT TREE INDEX: " << subtitlesList->indexOfTopLevelItem(subtitlesList->currentItem());
     int ix = subtitlesList->indexOfTopLevelItem(subtitlesList->currentItem());
+    if (ix == -1) {
+        auto parentItem = subtitlesList->currentItem()->parent();
+        if (parentItem) {
+            ix = subtitlesList->indexOfTopLevelItem(parentItem);
+        }
+    }
     // Makes last item active
     int nextId = -1;
     int id = subtitlesList->currentItem()->data(0, Qt::UserRole).toInt();
-    if (ix == 0) {
+    if (ix <= 0) {
         nextId = subtitlesList->topLevelItem(1)->data(0, Qt::UserRole).toInt();
     } else {
         nextId = subtitlesList->topLevelItem(ix - 1)->data(0, Qt::UserRole).toInt();
