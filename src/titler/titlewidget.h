@@ -75,7 +75,7 @@ public:
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
      * @return list of the image files */
-    static QStringList extractImageList(QString &xml, const QString &root);
+    static QStringList extractImageList(const QString &xml, const QString &root);
     /** @brief Checks for the images referenced by a title clip, and modifies the urls to ensure they are absolute
      * @param xml XML data representing the title
      * @return list of the image files / fonts */
