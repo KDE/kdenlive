@@ -4679,8 +4679,8 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         }
         return true;
     };
+    PUSH_LAMBDA(local_update_undo, local_undo);
     if (addCompositing) {
-        PUSH_LAMBDA(local_update_undo, local_undo);
         PUSH_LAMBDA(rebuild_compositing, local_undo);
     }
     PUSH_LAMBDA(local_name_update, local_undo);
