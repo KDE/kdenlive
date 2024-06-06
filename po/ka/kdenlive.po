@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-01 00:38+0000\n"
+"POT-Creation-Date: 2024-06-06 00:38+0000\n"
 "PO-Revision-Date: 2024-05-31 06:46+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -12716,17 +12716,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "ანალიზის მონაცემების გახსნა"
 
-#: src/monitor/glwidget.cpp:1648 src/monitor/videowidget.cpp:1078
+#: src/monitor/glwidget.cpp:1648 src/monitor/videowidget.cpp:1082
 #, kde-format
 msgid "Select a zone to play"
 msgstr "აირჩიეთ დასაკრავი ზონა"
 
-#: src/monitor/glwidget.cpp:1697 src/monitor/videowidget.cpp:1127
+#: src/monitor/glwidget.cpp:1697 src/monitor/videowidget.cpp:1131
 #, kde-format
 msgid "Select a clip to play"
 msgstr "აირჩიეთ დასაკრავი კლიპი"
 
-#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1208
+#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1212
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

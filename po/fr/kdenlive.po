@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-01 00:38+0000\n"
+"POT-Creation-Date: 2024-06-06 00:38+0000\n"
 "PO-Revision-Date: 2024-06-01 09:50+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -13000,18 +13000,18 @@ msgid "Open Analysis Data"
 msgstr "Ouvrir les données d'analyse"
 
 # unreviewed-context
-#: src/monitor/glwidget.cpp:1648 src/monitor/videowidget.cpp:1078
+#: src/monitor/glwidget.cpp:1648 src/monitor/videowidget.cpp:1082
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Sélectionnez une zone à jouer."
 
 # unreviewed-context
-#: src/monitor/glwidget.cpp:1697 src/monitor/videowidget.cpp:1127
+#: src/monitor/glwidget.cpp:1697 src/monitor/videowidget.cpp:1131
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Sélectionnez une vidéo à lire."
 
-#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1208
+#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1212
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

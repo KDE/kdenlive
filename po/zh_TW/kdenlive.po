@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-01 00:38+0000\n"
-"PO-Revision-Date: 2024-06-04 06:21+0900\n"
+"POT-Creation-Date: 2024-06-06 00:38+0000\n"
+"PO-Revision-Date: 2024-06-05 19:21+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -2175,6 +2175,8 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[計時器要開始往上或往下數的時間。\n"
+"過濾器開始後但起始時間還沒過之前文字會靜止在 00:00:00.000。]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -2184,6 +2186,8 @@ msgid ""
 "The text will be frozen at the duration time after the duration has "
 "elapsed.]]>"
 msgstr ""
+"<![CDATA[計時器在起始時間過了之後最長能經過的時間。\n"
+"過了這個時長之後文字會靜止於當下的時間。]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
 #: data/effects/timer.xml:60 src/ui/configcapture_ui.ui:330
@@ -2200,6 +2204,9 @@ msgid ""
 "When the direction is up, the timer will count up starting from \"offset"
 "\".]]>"
 msgstr ""
+"<![CDATA[要加到計時器數值的偏移值。\n"
+"倒數時，計時器會倒數到偏移值而非 00:00:00.000。\n"
+"往上數的時候，計時器會從偏移值開始計時。]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
 #, kde-format
@@ -2231,7 +2238,7 @@ msgstr "選取所選區段來跟著移動"
 #: data/effects/tracker.xml:11
 #, kde-format
 msgid "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
-msgstr ""
+msgstr "KCF,CSRT,MOSSE,MIL,MedianFlow,DaSIAM,Nano"
 
 #: data/effects/tracker.xml:12
 #, kde-format
@@ -2354,7 +2361,7 @@ msgstr "間隔大小"
 #: data/effects/vidstab.xml:17
 #, kde-format
 msgid "Stepsize of Detection process minimum around"
-msgstr ""
+msgstr "最低周圍處理的偵測間隔大小"
 
 #: data/effects/vidstab.xml:20
 #, kde-format
@@ -3382,52 +3389,52 @@ msgstr "平滑"
 #: src/assets/keyframes/model/keyframemodel.cpp:51
 #, kde-format
 msgid "Bounce In"
-msgstr ""
+msgstr "彈入"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:52
 #, kde-format
 msgid "Bounce Out"
-msgstr ""
+msgstr "彈出"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:53
 #, kde-format
 msgid "Cubic In"
-msgstr ""
+msgstr "立方入"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:54
 #, kde-format
 msgid "Cubic Out"
-msgstr ""
+msgstr "立方出"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:55
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "指數入"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:56
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "指數出"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:57
 #, kde-format
 msgid "Circular In"
-msgstr ""
+msgstr "圓入"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:58
 #, kde-format
 msgid "Circular Out"
-msgstr ""
+msgstr "圓出"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:59
 #, kde-format
 msgid "Elastic In"
-msgstr ""
+msgstr "彈性入"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:60
 #, kde-format
 msgid "Elastic Out"
-msgstr ""
+msgstr "彈性出"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:61
 #, kde-format
@@ -4448,6 +4455,8 @@ msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
+"正在將作用中時間軸中素材 <b>%1</b> (%2) 的實體<br/>\n"
+"取代為素材 <b>%3</b> (%4)"
 
 #: src/bin/bin.cpp:2006
 #, kde-format
@@ -4455,6 +4464,8 @@ msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
+"正在將作用中時間軸中素材 <b>%1</b> 的實體<br/>\n"
+"取代為素材 <b>%2</b>"
 
 #: src/bin/bin.cpp:2008 src/timeline2/model/timelineitemmodel.cpp:956
 #, kde-format
@@ -7267,7 +7278,7 @@ msgstr "移除工作"
 #: src/dialogs/renderwidget.cpp:1744
 #, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr ""
+msgstr "請將素材加入時間軸後再進行算繪"
 
 #: src/dialogs/renderwidget.cpp:1749
 #, kde-format
@@ -7278,7 +7289,7 @@ msgstr "輸出檔案長度：%1"
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] ""
+msgstr[0] "<b>專案中使用了 %1 個遺失的素材。</b>"
 
 #: src/dialogs/renderwidget.cpp:1755
 #, kde-format
@@ -10592,12 +10603,12 @@ msgstr "縮圖"
 #: src/mainwindow.cpp:743
 #, kde-format
 msgid "In Frame"
-msgstr ""
+msgstr "入 影格"
 
 #: src/mainwindow.cpp:747
 #, kde-format
 msgid "In/Out Frames"
-msgstr ""
+msgstr "入/出 影格"
 
 #: src/mainwindow.cpp:751
 #, kde-format
@@ -10803,7 +10814,7 @@ msgstr "選取時，拖曳素材會前後滑動其中視窗內的素材。"
 #: src/mainwindow.cpp:1354
 #, kde-format
 msgid "Multicam Tool"
-msgstr ""
+msgstr "多相機工具"
 
 #: src/mainwindow.cpp:1375
 #, kde-format
@@ -10898,7 +10909,7 @@ msgstr "已啟用實驗性 GPU 處理 — 不適合生產用途"
 #: src/mainwindow.cpp:1461 src/mainwindow.cpp:3499
 #, kde-format
 msgid "Multicam"
-msgstr ""
+msgstr "多相機"
 
 #: src/mainwindow.cpp:1462
 #, kde-format
@@ -12531,17 +12542,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "開啟分析數據"
 
-#: src/monitor/glwidget.cpp:1648 src/monitor/videowidget.cpp:1078
+#: src/monitor/glwidget.cpp:1648 src/monitor/videowidget.cpp:1082
 #, kde-format
 msgid "Select a zone to play"
 msgstr "選取要播放的區段"
 
-#: src/monitor/glwidget.cpp:1697 src/monitor/videowidget.cpp:1127
+#: src/monitor/glwidget.cpp:1697 src/monitor/videowidget.cpp:1131
 #, kde-format
 msgid "Select a clip to play"
 msgstr "選擇要播放的素材"
 
-#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1208
+#: src/monitor/glwidget.cpp:1779 src/monitor/videowidget.cpp:1212
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -16859,7 +16870,7 @@ msgstr "錄製"
 #: src/timeline2/view/qml/timeline.qml:2214
 #, kde-format
 msgid "Multicam In"
-msgstr ""
+msgstr "多相機 入"
 
 #: src/timeline2/view/qml/Track.qml:511 src/timeline2/view/qml/Track.qml:529
 #, kde-format
@@ -17019,7 +17030,7 @@ msgstr "滑動操作僅適用於視訊、音訊與動畫素材"
 #: src/timeline2/view/timelinecontroller.cpp:2713
 #, kde-format
 msgid "No clips found to insert space"
-msgstr ""
+msgstr "找不到要在其之間插入空白空間的素材"
 
 #: src/timeline2/view/timelinecontroller.cpp:2730
 #, kde-format
