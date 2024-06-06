@@ -96,7 +96,7 @@ In your development directory, run:
 git clone https://invent.kde.org/multimedia/kdenlive.git
 ```
 
-#### Building MLT (not usually necessary)
+#### Building MLT (necessary only to get latest git or if your distro's MLT is compiled with a different Qt major version than Kdenlive)
 It is recommended to use your distro packages unless you have a reason to use MLT's git.
 To build manually:
 
