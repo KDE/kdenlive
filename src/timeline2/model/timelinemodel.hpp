@@ -1094,6 +1094,7 @@ protected:
 protected:
     /** @brief Rebuild track compositing */
     virtual void buildTrackCompositing(bool rebuild = false) = 0;
+    virtual void removeTrackCompositing() = 0;
     virtual void _beginRemoveRows(const QModelIndex &, int, int) = 0;
     virtual void _beginInsertRows(const QModelIndex &, int, int) = 0;
     virtual void _endRemoveRows() = 0;

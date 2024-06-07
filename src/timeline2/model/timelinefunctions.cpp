@@ -1260,10 +1260,10 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     Fun local_redo = [timeline, cid, aTrack, autoTrack, start, end]() {
         timeline->unplantComposition(cid);
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
-        field->lock();
+        field->block();
         timeline->getCompositionPtr(cid)->setForceTrack(!autoTrack);
         timeline->getCompositionPtr(cid)->setATrack(aTrack, aTrack < 1 ? -1 : timeline->getTrackIndexFromPosition(aTrack - 1));
-        field->unlock();
+        field->unblock();
         timeline->replantCompositions(cid, true);
         Q_EMIT timeline->invalidateZone(start, end);
         timeline->checkRefresh(start, end);
@@ -1272,10 +1272,10 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     Fun local_undo = [timeline, cid, previousATrack, previousAutoTrack, start, end]() {
         timeline->unplantComposition(cid);
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
-        field->lock();
+        field->block();
         timeline->getCompositionPtr(cid)->setForceTrack(previousAutoTrack == 0);
         timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack < 1 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
-        field->unlock();
+        field->unblock();
         timeline->replantCompositions(cid, true);
         Q_EMIT timeline->invalidateZone(start, end);
         timeline->checkRefresh(start, end);
@@ -1305,7 +1305,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     // First, dis/enable track compositing
     QScopedPointer<Mlt::Service> service(timeline->m_tractor->field());
     Mlt::Field *field = timeline->m_tractor->field();
-    field->lock();
+    field->block();
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
@@ -1443,7 +1443,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
             field->plant_transition(transition, 0, b_track);
         }
     }
-    field->unlock();
+    field->unblock();
     if (refresh) {
         Q_EMIT timeline->requestMonitorRefresh();
     }

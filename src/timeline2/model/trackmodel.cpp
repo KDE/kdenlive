@@ -90,7 +90,7 @@ TrackModel::~TrackModel()
     if (!m_softDelete) {
         QScopedPointer<Mlt::Service> service(m_track->field());
         QScopedPointer<Mlt::Field> field(m_track->field());
-        field->lock();
+        field->block();
         while (service != nullptr && service->is_valid()) {
             if (service->type() == mlt_service_transition_type) {
                 Mlt::Transition t(mlt_transition(service->get_service()));
@@ -102,7 +102,7 @@ TrackModel::~TrackModel()
                 service.reset(service->producer());
             }
         }
-        field->unlock();
+        field->unblock();
         m_sameCompositions.clear();
         m_allClips.clear();
         m_allCompositions.clear();
@@ -1778,9 +1778,9 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
             // Delete transition
             Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[clipIds.second]->getAsset());
             QScopedPointer<Mlt::Field> field(m_track->field());
-            field->lock();
+            field->block();
             field->disconnect_service(transition);
-            field->unlock();
+            field->unblock();
             m_sameCompositions.erase(clipIds.second);
             m_mixList.remove(clipIds.first);
             if (auto ptr = m_parent.lock()) {
@@ -2139,9 +2139,9 @@ bool TrackModel::requestClipMix(const QString &mixId, std::pair<int, int> clipId
             QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
             Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::StartRole, TimelineModel::MixRole, TimelineModel::MixCutRole});
             QScopedPointer<Mlt::Field> field(m_track->field());
-            field->lock();
+            field->block();
             field->disconnect_service(transition);
-            field->unlock();
+            field->unblock();
             m_sameCompositions.erase(clipIds.second);
             m_mixList.remove(clipIds.first);
         }
@@ -2274,9 +2274,9 @@ bool TrackModel::deleteMix(int clipId, bool final, bool notify)
         if (final) {
             Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[clipId]->getAsset());
             QScopedPointer<Mlt::Field> field(m_track->field());
-            field->lock();
+            field->block();
             field->disconnect_service(transition);
-            field->unlock();
+            field->unblock();
             m_sameCompositions.erase(clipId);
             int firstClip = m_mixList.key(clipId, -1);
             if (firstClip > -1) {
@@ -2463,9 +2463,9 @@ void TrackModel::removeMix(const MixInfo &info)
     Q_ASSERT(m_sameCompositions.count(info.secondClipId) > 0);
     Mlt::Transition &transition = *static_cast<Mlt::Transition *>(m_sameCompositions[info.secondClipId]->getAsset());
     QScopedPointer<Mlt::Field> field(m_track->field());
-    field->lock();
+    field->block();
     field->disconnect_service(transition);
-    field->unlock();
+    field->unblock();
     m_sameCompositions.erase(info.secondClipId);
     m_mixList.remove(info.firstClipId);
 }

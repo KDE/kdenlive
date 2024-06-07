@@ -107,10 +107,14 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
     bool result = true;
 
     int insertionIndex = position;
-
+    Fun clean_compositing = [this]() {
+        removeTrackCompositing();
+        return true;
+    };
+    clean_compositing();
     for (int ix = 0; ix < tracksCount; ++ix) {
         int newTid;
-        result = requestTrackInsertion(insertionIndex, newTid, trackName, addAudioTrack, undo, redo);
+        result = requestTrackInsertion(insertionIndex, newTid, trackName, addAudioTrack, undo, redo, false);
         // bump up insertion index so that the next new track goes after this one
         insertionIndex++;
         if (result) {
@@ -121,7 +125,7 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
                 if (mirrorId > -1) {
                     mirrorPos = getTrackMltIndex(mirrorId);
                 }
-                result = requestTrackInsertion(mirrorPos, newTid2, trackName, true, undo, redo);
+                result = requestTrackInsertion(mirrorPos, newTid2, trackName, true, undo, redo, false);
                 // because we also added an audio track, we need to put the next
                 // new track's index is 1 further
                 insertionIndex++;
@@ -134,10 +138,20 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
         }
     }
     if (result) {
+        Fun local_redo = [this]() {
+            buildTrackCompositing(true);
+            return true;
+        };
+        local_redo();
+        PUSH_FRONT_LAMBDA(clean_compositing, redo);
+        PUSH_FRONT_LAMBDA(clean_compositing, undo);
+        PUSH_LAMBDA(local_redo, redo);
+        PUSH_LAMBDA(local_redo, undo);
         pCore->pushUndo(undo, redo, addAVTrack || tracksCount > 1 ? i18nc("@action", "Insert Tracks") : i18nc("@action", "Insert Track"));
         return true;
     } else {
         undo();
+        buildTrackCompositing(true);
         return false;
     }
 }
@@ -743,40 +757,50 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
     return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);
 }
 
+void TimelineItemModel::removeTrackCompositing()
+{
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    QScopedPointer<Mlt::Service> service(m_tractor->field());
+    field->block();
+    mlt_service nextservice = mlt_service_get_producer(field->get_service());
+    mlt_service_type mlt_type = mlt_service_identify(nextservice);
+    while (mlt_type == mlt_service_transition_type) {
+        Mlt::Transition transition(reinterpret_cast<mlt_transition>(nextservice));
+        nextservice = mlt_service_producer(nextservice);
+        if (transition.get_int("internal_added") == 237) {
+            // remove all compositing transitions
+            qDebug() << "!!!!!!!!!!!!! REMOVING COMPO: " << transition.get_a_track() << " / " << transition.get_b_track();
+            field->disconnect_service(transition);
+            transition.disconnect_all_producers();
+        }
+        if (nextservice == nullptr) {
+            break;
+        }
+        mlt_type = mlt_service_identify(nextservice);
+    }
+    field->unblock();
+}
+
 void TimelineItemModel::buildTrackCompositing(bool rebuild)
 {
     READ_LOCK();
     bool isMultiTrack = pCore->enableMultiTrack(false);
-    auto it = m_allTracks.cbegin();
-    QScopedPointer<Mlt::Service> service(m_tractor->field());
-    QScopedPointer<Mlt::Field> field(m_tractor->field());
-    field->lock();
-    // Make sure all previous track compositing is removed
     if (rebuild) {
-        while (service != nullptr && service->is_valid()) {
-            if (service->type() == mlt_service_transition_type) {
-                Mlt::Transition t(mlt_transition(service->get_service()));
-                service.reset(service->producer());
-                if (t.get_int("internal_added") == 237) {
-                    // remove all compositing transitions
-                    field->disconnect_service(t);
-                    t.disconnect_all_producers();
-                }
-            } else {
-                service.reset(service->producer());
-            }
-        }
+        removeTrackCompositing();
     }
     if (m_closing) {
-        field->unlock();
         return;
     }
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    QScopedPointer<Mlt::Service> service(m_tractor->field());
+    field->block();
     QString composite;
     if (pCore->currentDoc()->getSequenceProperty(m_uuid, QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0) {
         composite = TransitionsRepository::get()->getCompositingTransition();
     }
     int videoTracks = 0;
     int audioTracks = 0;
+    auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
         int trackPos = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
@@ -800,7 +824,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         }
         ++it;
     }
-    field->unlock();
+    field->unblock();
     if (rebuild) {
         rebuildMixer();
     }
