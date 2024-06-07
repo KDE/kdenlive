@@ -178,7 +178,7 @@ TimelineModel::~TimelineModel()
         qDebug() << "::::::==\n\nCLOSING TIMELINE MODEL\n\n::::::::";
         QScopedPointer<Mlt::Service> service(m_tractor->field());
         QScopedPointer<Mlt::Field> field(m_tractor->field());
-        field->lock();
+        field->block();
         // Make sure all previous track compositing is removed
         while (service != nullptr && service->is_valid()) {
             if (service->type() == mlt_service_transition_type) {
@@ -191,7 +191,7 @@ TimelineModel::~TimelineModel()
                 service.reset(service->producer());
             }
         }
-        field->unlock();
+        field->unblock();
         m_allTracks.clear();
         if (pCore && !pCore->closing && pCore->currentDoc() && !pCore->currentDoc()->closing) {
             // If we are not closing the project, unregister this timeline clips from bin
@@ -4627,14 +4627,14 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
             }
         }
     }
-    Fun local_update = [position, updatedCompositions]() {
-        for (auto &compo : updatedCompositions) {
+    Fun local_update = [position, cp = updatedCompositions]() {
+        for (auto &compo : cp) {
             compo->setATrack(position + 1, -1);
         }
         return true;
     };
-    Fun local_update_undo = [position, updatedCompositions]() {
-        for (auto &compo : updatedCompositions) {
+    Fun local_update_undo = [position, cp = updatedCompositions]() {
+        for (auto &compo : cp) {
             compo->setATrack(position, -1);
         }
         return true;
@@ -5097,6 +5097,7 @@ void TimelineModel::updateDuration()
     if (m_closing) {
         return;
     }
+
     int current = m_blackClip->get_playtime() - TimelineModel::seekDuration - 1;
     int duration = 0;
     for (const auto &tck : m_iteratorTable) {
@@ -5115,10 +5116,9 @@ void TimelineModel::updateDuration()
     }
     if (duration != current) {
         // update black track length
-        std::unique_ptr<Mlt::Field> field(m_tractor->field());
-        field->lock();
+        m_blackClip->block();
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
-        field->unlock();
+        m_blackClip->unblock();
         Q_EMIT durationUpdated(m_uuid);
         if (m_masterStack) {
             Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
@@ -5702,26 +5702,26 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
 
     // Unplant track compositing
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
-    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString resource = mlt_properties_get(properties, "mlt_service");
-
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     QList<Mlt::Transition *> trackCompositions;
+    QString resource;
     while (mlt_type == mlt_service_transition_type) {
         Mlt::Transition transition(reinterpret_cast<mlt_transition>(nextservice));
         nextservice = mlt_service_producer(nextservice);
+        resource = transition.get("mlt_service");
         int internal = transition.get_int("internal_added");
-        if (internal > 0 && resource != QLatin1String("mix")) {
-            trackCompositions << new Mlt::Transition(transition);
-            field->disconnect_service(transition);
-            transition.disconnect_all_producers();
+        if (internal > 0) {
+            if (resource != QLatin1String("mix")) {
+                trackCompositions << new Mlt::Transition(transition);
+                field->disconnect_service(transition);
+                transition.disconnect_all_producers();
+            }
         }
+
         if (nextservice == nullptr) {
             break;
         }
         mlt_type = mlt_service_identify(nextservice);
-        properties = MLT_SERVICE_PROPERTIES(nextservice);
-        resource = mlt_properties_get(properties, "mlt_service");
     }
     // Sort track compositing
     std::sort(trackCompositions.begin(), trackCompositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
@@ -5742,9 +5742,11 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         }
     }
     // Replant last tracks compositing
+    Mlt::Transition *firstTr = nullptr;
     while (!trackCompositions.isEmpty()) {
-        Mlt::Transition *firstTr = trackCompositions.takeFirst();
+        firstTr = trackCompositions.takeFirst();
         field->plant_transition(*firstTr, firstTr->get_a_track(), firstTr->get_b_track());
+        delete firstTr;
     }
     field->unlock();
     if (updateView) {
@@ -5760,7 +5762,7 @@ bool TimelineModel::unplantComposition(int compoId)
     mlt_service consumer = mlt_service_consumer(transition.get_service());
     Q_ASSERT(consumer != nullptr);
     QScopedPointer<Mlt::Field> field(m_tractor->field());
-    field->lock();
+    field->block();
     field->disconnect_service(transition);
     int ret = transition.disconnect_all_producers();
 
@@ -5768,7 +5770,7 @@ bool TimelineModel::unplantComposition(int compoId)
     // mlt_service consumer = mlt_service_consumer(transition.get_service());
     Q_ASSERT(nextservice == nullptr);
     // Q_ASSERT(consumer == nullptr);
-    field->unlock();
+    field->unblock();
     return ret != 0;
 }
 
@@ -5895,7 +5897,7 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
         }
     }
     QScopedPointer<Mlt::Field> field(m_tractor->field());
-    field->lock();
+    field->block();
 
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
@@ -5931,7 +5933,7 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
                 qWarning() << "No matching composition IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack << " / " << currentATrack
                            << ", SERVICE: " << mlt_properties_get(MLT_TRANSITION_PROPERTIES(tr), "mlt_service")
                            << "\nID: " << mlt_properties_get(MLT_TRANSITION_PROPERTIES(tr), "id");
-                field->unlock();
+                field->unblock();
                 return false;
             }
             remaining_compo.erase(foundId);
@@ -5942,7 +5944,7 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
         }
         mlt_type = mlt_service_identify(nextservice);
     }
-    field->unlock();
+    field->unblock();
 
     if (!remaining_compo.empty()) {
         qWarning() << "Compositions have not been found:";

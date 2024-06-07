@@ -763,10 +763,12 @@ QString VideoWidget::frameToTime(int frames) const
 void VideoWidget::refresh()
 {
     m_refreshTimer.stop();
-    QMutexLocker locker(&m_mltMutex);
-    if (m_consumer) {
-        restartConsumer();
-        m_consumer->set("refresh", 1);
+    if (m_mltMutex.tryLock()) {
+        if (m_consumer) {
+            restartConsumer();
+            m_consumer->set("refresh", 1);
+        }
+        m_mltMutex.unlock();
     }
 }
 

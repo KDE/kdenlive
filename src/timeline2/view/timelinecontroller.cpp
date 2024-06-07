@@ -5049,13 +5049,18 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
     int total = videoTracks + audioTracks;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    Fun clean_compositing = [this]() {
+        m_model->removeTrackCompositing();
+        return true;
+    };
+    clean_compositing();
     while (videoTracks + audioTracks > 0) {
         int newTid;
         if (audioTracks > 0) {
-            result = m_model->requestTrackInsertion(0, newTid, QString(), true, undo, redo);
+            result = m_model->requestTrackInsertion(0, newTid, QString(), true, undo, redo, false);
             audioTracks--;
         } else {
-            result = m_model->requestTrackInsertion(-1, newTid, QString(), false, undo, redo);
+            result = m_model->requestTrackInsertion(-1, newTid, QString(), false, undo, redo, false);
             videoTracks--;
         }
         if (!result) {
@@ -5063,6 +5068,15 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
         }
     }
     if (result) {
+        Fun local_redo = [this]() {
+            m_model->buildTrackCompositing(true);
+            return true;
+        };
+        local_redo();
+        PUSH_FRONT_LAMBDA(clean_compositing, redo);
+        PUSH_FRONT_LAMBDA(clean_compositing, undo);
+        PUSH_LAMBDA(local_redo, redo);
+        PUSH_LAMBDA(local_redo, undo);
         pCore->pushUndo(undo, redo, i18np("Insert Track", "Insert Tracks", total));
     } else {
         pCore->displayMessage(i18n("Could not insert track"), ErrorMessage, 500);
