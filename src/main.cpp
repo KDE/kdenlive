@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "logger.hpp"
 #endif
 #include "dialogs/splash.hpp"
+#include "dialogs/wizard.h"
 #include <config-kdenlive.h>
 
 #include <mlt++/Mlt.h>
@@ -264,6 +265,9 @@ int main(int argc, char *argv[])
         }
         pCore->initHeadless(url);
         app.processEvents();
+
+        // ensure we have a proper kdenlive_render path, particular important for AppImage
+        Wizard::fixKdenliveRenderPath();
 
         RenderRequest *renderrequest = new RenderRequest();
         renderrequest->setOutputFile(renderUrl.toLocalFile());
