@@ -2135,7 +2135,8 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     TRACE(itemId, logUndo);
     Q_ASSERT(isItem(itemId));
     QString actionLabel;
-    if (m_groups->isInGroup(itemId) && !m_singleSelectionMode) {
+    bool singleSelectOperation = m_singleSelectionMode && m_currentSelection.find(itemId) != m_currentSelection.end();
+    if (m_groups->isInGroup(itemId) && !singleSelectOperation) {
         actionLabel = i18n("Remove group");
     } else {
         if (isClip(itemId)) {
@@ -2150,7 +2151,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     Fun redo = []() { return true; };
 
     bool res = true;
-    if (m_singleSelectionMode) {
+    if (singleSelectOperation) {
         // Ungroup all items first
         auto selection = m_currentSelection;
         extractSelectionFromGroup(selection, undo, redo);
