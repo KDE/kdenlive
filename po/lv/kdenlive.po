@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-08 00:38+0000\n"
+"POT-Creation-Date: 2024-06-09 00:38+0000\n"
 "PO-Revision-Date: 2024-05-24 21:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -7325,7 +7325,7 @@ msgstr "Video bez audio celiņa"
 msgid "Audio without video track"
 msgstr "Audio bez video celiņa"
 
-#: src/dialogs/renderwidget.cpp:841 src/main.cpp:478
+#: src/dialogs/renderwidget.cpp:841 src/main.cpp:482
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Sākusies <i>%1</i> renderēšana"
@@ -10348,199 +10348,199 @@ msgstr "Bibliotēkas ceļš ir iestatīts uz noklusējumu: %1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "Nevar rakstīt bibliotēkas ceļā: %1, izmanto noklusējumu"
 
-#: src/main.cpp:307
+#: src/main.cpp:308
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Aicinām par kļūdām ziņot, apmeklējot <a href=\"%1\">%2</a>"
 
-#: src/main.cpp:312
+#: src/main.cpp:313
 #, kde-format
 msgid "You are using the AppImage.<br>"
 msgstr "Jūs izmantojat „AppImage“.<br>"
 
-#: src/main.cpp:315
+#: src/main.cpp:316
 #, kde-format
 msgid "You are using the Flatpak.<br>"
 msgstr "Jūs izmantojat „Flatpak“.<br>"
 
-#: src/main.cpp:318
+#: src/main.cpp:319
 #, kde-format
 msgid "You are using the Snap package.<br>"
 msgstr "Jūs izmantojat „Snap“ pakotni.<br>"
 
-#: src/main.cpp:324
+#: src/main.cpp:325
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:324
+#: src/main.cpp:325
 #, kde-format
 msgid "An open source video editor."
 msgstr "Atvērtā koda video redaktors."
 
-#: src/main.cpp:325
+#: src/main.cpp:326
 #, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "Autortiesības © 2007—2024 „Kdenlive“ autori"
 
-#: src/main.cpp:327
+#: src/main.cpp:328
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:327
+#: src/main.cpp:328
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT un KDE SC 4 / KF5 ports, galvenais izstrādātājs un uzturētājs"
 
-#: src/main.cpp:329
+#: src/main.cpp:330
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:329
+#: src/main.cpp:330
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "Koda arhitektūras un laika joslas pārrakstīšana (2019)"
 
-#: src/main.cpp:330
+#: src/main.cpp:331
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:330
+#: src/main.cpp:331
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "Iespēju izstrāde, pakošana, kļūdu labojumi"
 
-#: src/main.cpp:331
+#: src/main.cpp:332
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:331
+#: src/main.cpp:332
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 ports, „Windows“ būvējums, pakošana, kļūdu labojumi"
 
-#: src/main.cpp:333
+#: src/main.cpp:334
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:333
+#: src/main.cpp:334
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT uzturētājs, kļūdu labojumi u.c."
 
-#: src/main.cpp:334
+#: src/main.cpp:335
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:334
+#: src/main.cpp:335
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "Krāsu apgabali, kļūdu labojumi u.c,"
 
-#: src/main.cpp:335
+#: src/main.cpp:336
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:335
+#: src/main.cpp:336
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "Kļūdu labojumi un testu uzlabojumi"
 
-#: src/main.cpp:337
+#: src/main.cpp:338
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:337
+#: src/main.cpp:338
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "Sākotnējās KDE 3 versijas autors (vairs nav aktīvs)"
 
-#: src/main.cpp:339
+#: src/main.cpp:340
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:339
+#: src/main.cpp:340
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "Logotips, reklamēšana, testēšana"
 
-#: src/main.cpp:340
+#: src/main.cpp:341
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:340
+#: src/main.cpp:341
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "Kļūdu šķirošana, testēšana, dokumentācijas uzturētājs"
 
-#: src/main.cpp:341
+#: src/main.cpp:342
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:341
+#: src/main.cpp:342
 #, kde-format
 msgid "Logo"
 msgstr "Logotips"
 
-#: src/main.cpp:342
+#: src/main.cpp:343
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:342
+#: src/main.cpp:343
 #, kde-format
 msgid "Testing"
 msgstr "Testēšana"
 
-#: src/main.cpp:343
+#: src/main.cpp:344
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:343
+#: src/main.cpp:344
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "Eksperta viedoklis, testēšana"
 
-#: src/main.cpp:345
+#: src/main.cpp:346
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "Toms Trasūns"
 
-#: src/main.cpp:345
+#: src/main.cpp:346
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "toms.trasuns@posteo.net"
 
-#: src/main.cpp:348
+#: src/main.cpp:349
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:348
+#: src/main.cpp:349
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "Atvērtā koda multivides satvars."
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:350 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
+#: src/main.cpp:351 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:350
+#: src/main.cpp:351
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
@@ -10549,40 +10549,40 @@ msgstr ""
 "Pilnīgs vairākplatformu risinājums audio un video ierakstīšanai, "
 "pārveidošanai un straumēšanai."
 
-#: src/main.cpp:368
+#: src/main.cpp:369
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "Iestatīt pielāgotu konfigurācijas datnes nosaukumu."
 
-#: src/main.cpp:369
+#: src/main.cpp:370
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "Iestatīt MLT vides ceļu."
 
-#: src/main.cpp:371
+#: src/main.cpp:372
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr ""
 "Iestatīt MLT žurnāla līmeni. Atstājiet neiestatītu „Brīdinājumu“ līmenim."
 
-#: src/main.cpp:374
+#: src/main.cpp:375
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Ar komatu atdalīts datņu saraksts, ko pievienot lādei kā klipus."
 
-#: src/main.cpp:378
+#: src/main.cpp:379
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "Tiešā veidā renderēt projektu un iziet."
 
-#: src/main.cpp:381
+#: src/main.cpp:382
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
 "„Kdenlive“ renderēšanas priekšiestatījuma nosaukums (ja nenorādīsiet, "
 "programma izmantos MP4-H264/AAC)."
 
-#: src/main.cpp:386
+#: src/main.cpp:387
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -10591,17 +10591,17 @@ msgstr ""
 "Iziet pēc (neatkarīga) renderēšanas procesa sākšanas. Bez šī karodziņa iziet "
 "tikai tad, kad tas ir beidzies."
 
-#: src/main.cpp:389
+#: src/main.cpp:390
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "„Kdenlive“ atveramais dokuments."
 
-#: src/main.cpp:390
+#: src/main.cpp:391
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "Renderēta video izvades datne."
 
-#: src/main.cpp:515
+#: src/main.cpp:519
 #, kde-format
 msgid "Version %1"
 msgstr "Versija %1"

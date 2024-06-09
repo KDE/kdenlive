@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-08 00:38+0000\n"
-"PO-Revision-Date: 2024-06-05 19:21+0900\n"
+"POT-Creation-Date: 2024-06-09 00:38+0000\n"
+"PO-Revision-Date: 2024-06-09 03:14+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -2302,10 +2302,11 @@ msgstr "打字機效果 v0.3.3。只適用於標題素材。"
 msgid "Frames step"
 msgstr "影格間隔"
 
+# 我不知道為什麼這叫做 sigma，但是在測試時它的確跟 titlewidget_ui.ui 裡的 typewriter 設定的 variation 是一樣的效果。
 #: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
-msgstr ""
+msgstr "變異度"
 
 #: data/effects/typewriter.xml:14
 #, kde-format
@@ -2949,7 +2950,7 @@ msgstr "擦拭方法"
 #: data/transitions/matte.xml:4
 #, kde-format
 msgid "Matte"
-msgstr ""
+msgstr "遮罩"
 
 #: data/transitions/matte.xml:5
 #, kde-format
@@ -3350,7 +3351,7 @@ msgstr "切換時間軸中是否顯示素材的關鍵幀"
 #: src/assets/assetpanel.cpp:265
 #, kde-format
 msgid "%1 effects"
-msgstr "%1 個效果"
+msgstr "%1 的效果"
 
 #: src/assets/assetpanel.cpp:270 src/jobs/customjobtask.cpp:73
 #, kde-format
@@ -4175,7 +4176,7 @@ msgstr "<b>雙擊</b>來新增檔案到專案"
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
-msgstr ""
+msgstr "在縮圖上 <b>Shift+跳轉</b>來設定預設縮圖，<b>F2</b> 來重新命名選取項目"
 
 #: src/bin/bin.cpp:814 src/bin/bin.cpp:923
 #, kde-format
@@ -4968,7 +4969,7 @@ msgstr "只儲存於專案中"
 #: src/bin/bin.cpp:4844 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
-msgstr "字幕 / 標題素材"
+msgstr "標題素材"
 
 #: src/bin/bin.cpp:4894
 #, kde-format
@@ -6005,7 +6006,7 @@ msgstr "建立文字素材"
 #: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1157
 #, kde-format
 msgid "Template title clip"
-msgstr "字幕 / 標題樣板素材"
+msgstr "標題樣板素材"
 
 #: src/dialogs/clipjobmanager.cpp:25
 #, kde-format
@@ -6722,7 +6723,7 @@ msgstr "移除 virtualenv 資料夾失敗。"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1883
 #, kde-format
 msgid "Probing..."
-msgstr ""
+msgstr "探測中…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1938
 #: src/dialogs/kdenlivesettingsdialog.cpp:2123
@@ -6935,7 +6936,7 @@ msgstr "編輯算繪預設檔"
 #: src/dialogs/renderpresetdialog.cpp:166
 #, kde-format
 msgid "Constrained VBR"
-msgstr ""
+msgstr "受限 VBR"
 
 #: src/dialogs/renderpresetdialog.cpp:417
 #: src/dialogs/renderpresetdialog.cpp:438
@@ -7196,7 +7197,7 @@ msgstr "不含音軌的影片"
 msgid "Audio without video track"
 msgstr "不含視訊軌的音訊"
 
-#: src/dialogs/renderwidget.cpp:841 src/main.cpp:478
+#: src/dialogs/renderwidget.cpp:841 src/main.cpp:482
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "算繪 <i>%1</i> 已開始"
@@ -10145,236 +10146,236 @@ msgstr "資料庫路徑已設為自訂：%1"
 msgid "Cannot write to Library path: %1, using default"
 msgstr "無法寫入資料庫路徑：%1，將使用預設"
 
-#: src/main.cpp:307
+#: src/main.cpp:308
 #, kde-format
 msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "請報告問題到 <a href=\"%1\">%2</a>。"
 
-#: src/main.cpp:312
+#: src/main.cpp:313
 #, kde-format
 msgid "You are using the AppImage.<br>"
 msgstr "您目前使用 AppImage 版。<br>"
 
-#: src/main.cpp:315
+#: src/main.cpp:316
 #, kde-format
 msgid "You are using the Flatpak.<br>"
 msgstr "您目前使用 Flatpak 版。<br>"
 
-#: src/main.cpp:318
+#: src/main.cpp:319
 #, kde-format
 msgid "You are using the Snap package.<br>"
 msgstr "您目前使用 Snap 版套件。<br>"
 
-#: src/main.cpp:324
+#: src/main.cpp:325
 #, kde-format
 msgid "Kdenlive"
 msgstr "Kdenlive"
 
-#: src/main.cpp:324
+#: src/main.cpp:325
 #, kde-format
 msgid "An open source video editor."
 msgstr "一款開源的影片剪輯工具。"
 
-#: src/main.cpp:325
+#: src/main.cpp:326
 #, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
 msgstr "版權所有 © 2007–2024 Kdenlive 開發團隊"
 
-#: src/main.cpp:327
+#: src/main.cpp:328
 #, kde-format
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: src/main.cpp:327
+#: src/main.cpp:328
 #, kde-format
 msgid "MLT and KDE SC 4 / KF5 port, main developer and maintainer"
 msgstr "MLT 及 KDE SC 4 / KF5 移植、主要開發者與維護者"
 
-#: src/main.cpp:329
+#: src/main.cpp:330
 #, kde-format
 msgid "Nicolas Carion"
 msgstr "Nicolas Carion"
 
-#: src/main.cpp:329
+#: src/main.cpp:330
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
 msgstr "程式碼架構重建與時間軸重寫 (2019)"
 
-#: src/main.cpp:330
+#: src/main.cpp:331
 #, kde-format
 msgid "Julius Künzel"
 msgstr "Julius Künzel"
 
-#: src/main.cpp:330
+#: src/main.cpp:331
 #, kde-format
 msgid "Feature development, packaging, bug fixing"
 msgstr "功能開發、打包、錯誤修正"
 
-#: src/main.cpp:331
+#: src/main.cpp:332
 #, kde-format
 msgid "Vincent Pinon"
 msgstr "Vincent Pinon"
 
-#: src/main.cpp:331
+#: src/main.cpp:332
 #, kde-format
 msgid "KF5 port, Windows cross-build, packaging, bug fixing"
 msgstr "KF5 移植、Windows 跨平台編譯、打包、錯誤修正"
 
-#: src/main.cpp:333
+#: src/main.cpp:334
 #, kde-format
 msgid "Dan Dennedy"
 msgstr "Dan Dennedy"
 
-#: src/main.cpp:333
+#: src/main.cpp:334
 #, kde-format
 msgid "MLT maintainer, Bug fixing, etc."
 msgstr "MLT 維護者、錯誤修正等等"
 
-#: src/main.cpp:334
+#: src/main.cpp:335
 #, kde-format
 msgid "Simon A. Eugster"
 msgstr "Simon A. Eugster"
 
-#: src/main.cpp:334
+#: src/main.cpp:335
 #, kde-format
 msgid "Color scopes, bug fixing, etc."
 msgstr "顏色示波器、錯誤修正等等"
 
-#: src/main.cpp:335
+#: src/main.cpp:336
 #, kde-format
 msgid "Eric Jiang"
 msgstr "Eric Jiang"
 
-#: src/main.cpp:335
+#: src/main.cpp:336
 #, kde-format
 msgid "Bug fixing and test improvements"
 msgstr "錯誤修正與測試改進"
 
-#: src/main.cpp:337
+#: src/main.cpp:338
 #, kde-format
 msgid "Jason Wood"
 msgstr "Jason Wood"
 
-#: src/main.cpp:337
+#: src/main.cpp:338
 #, kde-format
 msgid "Original KDE 3 version author (not active anymore)"
 msgstr "原來的 KDE 3 版本作者 (不再開發)"
 
-#: src/main.cpp:339
+#: src/main.cpp:340
 #, kde-format
 msgid "Farid Abdelnour"
 msgstr "Farid Abdelnour"
 
-#: src/main.cpp:339
+#: src/main.cpp:340
 #, kde-format
 msgid "Logo, Promotion, testing"
 msgstr "標誌、宣傳、測試"
 
-#: src/main.cpp:340
+#: src/main.cpp:341
 #, kde-format
 msgid "Eugen Mohr"
 msgstr "Eugen Mohr"
 
-#: src/main.cpp:340
+#: src/main.cpp:341
 #, kde-format
 msgid "Bug triage, testing, documentation maintainer"
 msgstr "錯誤分類、測試、文件維護者"
 
-#: src/main.cpp:341
+#: src/main.cpp:342
 #, kde-format
 msgid "Nara Oliveira"
 msgstr "Nara Oliveira"
 
-#: src/main.cpp:341
+#: src/main.cpp:342
 #, kde-format
 msgid "Logo"
 msgstr "圖標"
 
-#: src/main.cpp:342
+#: src/main.cpp:343
 #, kde-format
 msgid "Bruno Santos"
 msgstr "Bruno Santos"
 
-#: src/main.cpp:342
+#: src/main.cpp:343
 #, kde-format
 msgid "Testing"
 msgstr "測試"
 
-#: src/main.cpp:343
+#: src/main.cpp:344
 #, kde-format
 msgid "Massimo Stella"
 msgstr "Massimo Stella"
 
-#: src/main.cpp:343
+#: src/main.cpp:344
 #, kde-format
 msgid "Expert advice, testing"
 msgstr "專家建議、測試"
 
-#: src/main.cpp:345
+#: src/main.cpp:346
 #, kde-format
 msgid "NAME OF TRANSLATORS"
 msgstr "大寶"
 
-#: src/main.cpp:345
+#: src/main.cpp:346
 #, kde-format
 msgid "EMAIL OF TRANSLATORS"
 msgstr "linux.dabao@gmail.com"
 
-#: src/main.cpp:348
+#: src/main.cpp:349
 #, kde-format
 msgid "MLT"
 msgstr "MLT"
 
-#: src/main.cpp:348
+#: src/main.cpp:349
 #, kde-format
 msgid "Open source multimedia framework."
 msgstr "開源多媒體框架。"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #. i18n: ectx: attribute (title), widget (QWidget, ffmpeg_tab)
-#: src/main.cpp:350 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
+#: src/main.cpp:351 src/ui/configcapture_ui.ui:38 src/ui/configcapture_ui.ui:61
 #, kde-format
 msgid "FFmpeg"
 msgstr "FFmpeg"
 
-#: src/main.cpp:350
+#: src/main.cpp:351
 #, kde-format
 msgid ""
 "A complete, cross-platform solution to record, convert and stream audio and "
 "video."
 msgstr "完整且跨平台的影音錄製、轉換與串流解決方案。"
 
-#: src/main.cpp:368
+#: src/main.cpp:369
 #, kde-format
 msgid "Set a custom config file name."
 msgstr "設定自訂設定檔案名稱。"
 
-#: src/main.cpp:369
+#: src/main.cpp:370
 #, kde-format
 msgid "Set the path for MLT environment."
 msgstr "設定 MLT 環境的路徑。"
 
-#: src/main.cpp:371
+#: src/main.cpp:372
 #, kde-format
 msgid "Set the MLT log level. Leave this unset for level \"warning\"."
 msgstr "設定 MLT 紀錄等級。維持不設定則代表 \"warning\"（警告）。"
 
-#: src/main.cpp:374
+#: src/main.cpp:375
 #, kde-format
 msgid "Comma separated list of files to add as clips to the bin."
 msgstr "要作為素材加入素材庫的檔案列表，以逗號分隔。"
 
-#: src/main.cpp:378
+#: src/main.cpp:379
 #, kde-format
 msgid "Directly render the project and exit."
 msgstr "直接算繪專案並離開。"
 
-#: src/main.cpp:381
+#: src/main.cpp:382
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr "Kdenlive 算繪預設檔名稱（沒有提供時會使用 MP4-H264/AAC）"
 
-#: src/main.cpp:386
+#: src/main.cpp:387
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
@@ -10382,17 +10383,17 @@ msgid ""
 msgstr ""
 "在分離式的算繪行程開始之後便離開，未提供此旗標時會在該行程結束後才離開。"
 
-#: src/main.cpp:389
+#: src/main.cpp:390
 #, kde-format
 msgid "Kdenlive document to open."
 msgstr "要開啟的 Kdenlive 文件。"
 
-#: src/main.cpp:390
+#: src/main.cpp:391
 #, kde-format
 msgid "Output file for rendered video."
 msgstr "算繪後影片的輸出檔案。"
 
-#: src/main.cpp:515
+#: src/main.cpp:519
 #, kde-format
 msgid "Version %1"
 msgstr "版本 %1"
@@ -10454,7 +10455,7 @@ msgstr "錄製"
 #: src/mainwindow.cpp:370
 #, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
-msgstr ""
+msgstr "請從混音器啟用音訊監聽之後再進行錄製"
 
 #: src/mainwindow.cpp:378 src/monitor/recmanager.cpp:103
 #, kde-format
@@ -11617,6 +11618,8 @@ msgid ""
 "This switches between having a <emphasis>Menubar</emphasis> and having a "
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
+"這會切換要使用<emphasis>選單列</emphasis>還是要將選單放於主工具列中的"
+"<interface>三點選單</interface>按鈕中。"
 
 #: src/mainwindow.cpp:2046
 #, kde-format
@@ -12334,7 +12337,7 @@ msgstr "色彩範圍："
 #: src/mltcontroller/clippropertiescontroller.cpp:987
 #, kde-format
 msgid "Broadcast limited (MPEG)"
-msgstr ""
+msgstr "有限 (MPEG)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:988
 #, kde-format
@@ -12911,7 +12914,7 @@ msgstr "漸進式播放"
 #: src/monitor/monitormanager.cpp:619
 #, kde-format
 msgid "Audio Scrubbing"
-msgstr ""
+msgstr "拖動播放頭時播放音訊"
 
 #: src/monitor/monitormanager.cpp:625
 #, kde-format
@@ -14534,7 +14537,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Creates markers in the timeline from the selected timecodes (doesn’t matter "
 "if other text is selected too)."
-msgstr "從所選的時間碼在時間軸上建立標記（不管其他文字是否選取）。"
+msgstr "從所選的時間碼在時間軸上建立標記（不管是否有選取其他文字）。"
 
 #: src/project/notesplugin.cpp:75
 #, kde-format
@@ -15901,18 +15904,18 @@ msgstr "在您的專案檔案中找到問題"
 #: src/timeline2/model/builders/meltBuilder.cpp:559
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
-msgstr "找到 %1 個有無效軌道參照的合成方案 (%2) 並已移除。"
+msgstr "%1 找到有無效軌道參照的合成方案 (%2) 並已移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:573
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
-msgstr "%1 個合成方案未套用到預期的軌道上，請手動強制設定軌道。"
+msgstr "%1 合成方案未套用到預期的軌道上，請手動強制設定軌道。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:587
 #, kde-format
 msgid "%1 Invalid composition found and removed."
-msgstr "找到 %1 個無效合成方案並已移除。"
+msgstr "%1 找到無效的合成方案並已移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:623
 #, kde-format
@@ -15952,7 +15955,7 @@ msgstr "在軌道 %1 於 %2 找到無效混合，已移除素材 %3。"
 #: src/timeline2/model/builders/meltBuilder.cpp:837
 #, kde-format
 msgid "%1 Timeline clip (%2) without bin reference found and removed."
-msgstr "找到 %1 個沒有素材庫參照的時間軸素材 (%2) 並已移除。"
+msgstr "%1 找到沒有素材庫參照的時間軸素材 (%2) 並已移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:805
 #: src/timeline2/model/builders/meltBuilder.cpp:817
@@ -15964,36 +15967,37 @@ msgstr "專案已毀損。素材 %1（%2）未於專案素材庫中找到。"
 #: src/timeline2/model/builders/meltBuilder.cpp:834
 #, kde-format
 msgid "%1 Timeline clip (%2) with incorrect bin reference found and recovered."
-msgstr "找到 %1 個有不正確的素材庫參照的時間軸素材 (%2) 並已移除。"
+msgstr "%1 找到素材庫參照不正確的時間軸素材 (%2) 並已復原。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:835
 #, kde-format
 msgid "Invalid clip %1 (%2) not found in project bin, recovered."
 msgstr "無效素材 %1 (%2) 未於專案素材庫中找到，已復原。"
 
+# %1 是一個內部連結，顯示文字是 trackTag + timecode
 #: src/timeline2/model/builders/meltBuilder.cpp:907
 #: src/timeline2/model/builders/meltBuilder.cpp:940
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and resized"
-msgstr ""
+msgstr "%1 找到缺乏混合的素材 (%2) 並已調整大小"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:908
 #: src/timeline2/model/builders/meltBuilder.cpp:938
 #, kde-format
 msgid "Clip without mix %1 found and resized on track %2 at %3."
-msgstr ""
+msgstr "在軌道 %2 上於 %3 找到缺乏混合的素材 %1 並已調整大小。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:913
 #: src/timeline2/model/builders/meltBuilder.cpp:944
 #, kde-format
 msgid "Invalid clip without mix %1 found and removed on track %2 at %3."
-msgstr ""
+msgstr "在軌道 %2 上於 %3 找到缺乏混合的無效素材 %1 並已移除。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:915
 #: src/timeline2/model/builders/meltBuilder.cpp:946
 #, kde-format
 msgid "%1 Clip (%2) with missing mix found and removed"
-msgstr ""
+msgstr "%1 找到缺乏混合的素材 (%2) 並已移除"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:933
 #: src/timeline2/model/builders/meltBuilder.cpp:975
@@ -16005,7 +16009,7 @@ msgstr "在軌道 %2 於 %3 找到無效素材 %1。"
 #: src/timeline2/model/builders/meltBuilder.cpp:980
 #, kde-format
 msgid "%1 Invalid clip (%2) found and removed"
-msgstr "找到 %1 個無效素材 (%2) 並已移除"
+msgstr "%1 找到無效的素材 (%2) 並已移除"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:957
 #, kde-format
@@ -16015,7 +16019,7 @@ msgstr "在軌道 %2 上於 %3 找到位於不正確子軌道上的素材 %1，�
 #: src/timeline2/model/builders/meltBuilder.cpp:959
 #, kde-format
 msgid "%1 Clip (%2) on incorrect subtrack found and fixed / %3"
-msgstr "找到 %1 個位於不正確的子軌道的素材 (%2) 並已修正 / %3"
+msgstr "%1 找到位於不正確的子軌道的素材 (%2) 並已修正 / %3"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:962
 #, kde-format
@@ -16025,7 +16029,7 @@ msgstr "在軌道 %2 上於 %3 找到位於不正確子軌道上的素材 %1。"
 #: src/timeline2/model/builders/meltBuilder.cpp:964
 #, kde-format
 msgid "%1 Clip (%2) with incorrect subplaylist found"
-msgstr "找到 %1 個子播放清單不正確的素材 (%2)"
+msgstr "%1 找到子播放清單不正確的素材 (%2)"
 
 #: src/timeline2/model/timelinefunctions.cpp:117
 #, kde-format
@@ -17285,7 +17289,7 @@ msgstr "漸層 %1"
 #: src/titler/titledocument.cpp:384
 #, kde-format
 msgid "This title clip was created with a different frame size."
-msgstr "這個字幕 / 標題素材是在不同大小的畫面中建立的。"
+msgstr "這個標題素材是在不同大小的畫面中建立的。"
 
 #: src/titler/titledocument.cpp:384
 #, kde-format
@@ -18902,7 +18906,7 @@ msgstr "資料庫資料夾："
 #: src/ui/configenv_ui.ui:280
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr "算繪、標題與程式檔的資料夾："
+msgstr "算繪、標題與文稿的資料夾："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/configenv_ui.ui:336
@@ -19990,7 +19994,7 @@ msgstr "速度選項："
 #: src/ui/editrenderpreset_ui.ui:1026
 #, kde-format
 msgid "One line of options per speedup step, from slowest to fastest"
-msgstr ""
+msgstr "一行一個加速步驟，從慢到快"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/editrenderpreset_ui.ui:1036
@@ -20107,7 +20111,7 @@ msgstr "斜體"
 #: src/ui/exportguidesdialog_ui.ui:27
 #, kde-format
 msgid "Formatted chapter marker text will be generated here."
-msgstr "格式化的章節標記文字會在此產生。"
+msgstr "格式化的章節標記文字會生成於此。"
 
 #. i18n: ectx: property (title), widget (QGroupBox, textOptions)
 #: src/ui/exportguidesdialog_ui.ui:44
@@ -20986,7 +20990,7 @@ msgstr "算繪到檔案"
 #: src/ui/renderwidget_ui.ui:343
 #, kde-format
 msgid "Generate Script"
-msgstr "生成程式檔"
+msgstr "產生文稿"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
 #: src/ui/renderwidget_ui.ui:374
@@ -21212,13 +21216,13 @@ msgstr "算繪完成後關閉電腦"
 #: src/ui/renderwidget_ui.ui:1050
 #, kde-format
 msgid "Scripts"
-msgstr "程式檔"
+msgstr "文稿"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
 #: src/ui/renderwidget_ui.ui:1078
 #, kde-format
 msgid "Start Script"
-msgstr "啟動程式檔"
+msgstr "啟動文稿"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
 #: src/ui/renderwidget_ui.ui:1085
@@ -21551,7 +21555,7 @@ msgstr "保留接下來的關鍵幀的速度"
 #: src/ui/titlewidget_ui.ui:18
 #, kde-format
 msgid "Title Clip"
-msgstr "字幕 / 標題素材"
+msgstr "標題素材"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonFitZoom)
 #. i18n: ectx: property (text), widget (QToolButton, buttonRealSize)
