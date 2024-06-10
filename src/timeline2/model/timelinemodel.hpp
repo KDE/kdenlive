@@ -214,7 +214,7 @@ public:
     Q_INVOKABLE int getClipTrackId(int clipId) const;
 
     /** @brief Returns the row of the effect if the clip has it in its effectstack, -1 otherwise */
-    int clipAssetRow(int cid, const QString &assetId) const;
+    int clipAssetRow(int cid, const QString &assetId, int eid = -1) const;
 
     /** @brief Returns the id of the track containing composition (-1 if it is not inserted)
        @param clipId Id of the composition to test */

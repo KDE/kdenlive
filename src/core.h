@@ -323,7 +323,7 @@ public:
     void groupAssetMultiKeyframeCommand(const ObjectId &id, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                         const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
     /** @brief Remove all effect instances in a group */
-    void removeGroupEffect(const ObjectId &id, const QString &assetId);
+    void removeGroupEffect(const ObjectId &id, const QString &assetId, int originalId);
     /** @brief Disable/enable all instance of an effect in a group */
     void applyEffectDisableToGroup(const ObjectId &id, const QString &assetId, bool disable, Fun &undo, Fun &redo);
     /** @brief Returns true if all ui elements have been initialized */

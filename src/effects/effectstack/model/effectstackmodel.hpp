@@ -136,7 +136,7 @@ public:
     bool checkConsistency() override;
 
     /** @brief Return the row of the effect in the stack, -1 if not */
-    int effectRow(const QString &assetId) const;
+    int effectRow(const QString &assetId, int eid = -1) const;
 
     /** @brief Remove all effects for this stack */
     void removeAllEffects(Fun &undo, Fun &redo);
@@ -160,7 +160,7 @@ public Q_SLOTS:
         @param effect The effect to be deleted
         @param effectName Will be set to the effect name
     */
-    void removeEffectWithUndo(const QString &assetId, QString &effectName, Fun &undo, Fun &redo);
+    void removeEffectWithUndo(const QString &assetId, QString &effectName, int assetRow, Fun &undo, Fun &redo);
     void removeEffectWithUndo(const std::shared_ptr<EffectItemModel> &effect, QString &effectName, Fun &undo, Fun &redo);
     /** @brief Move an effect in the stack */
     void moveEffectByRow(int destRow, int srcRow);

@@ -158,8 +158,15 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
     PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
 }
 
-void EffectStackModel::removeEffectWithUndo(const QString &assetId, QString &effectName, Fun &undo, Fun &redo)
+void EffectStackModel::removeEffectWithUndo(const QString &assetId, QString &effectName, int assetRow, Fun &undo, Fun &redo)
 {
+    if (assetRow > -1 && assetRow < rootItem->childCount()) {
+        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(assetRow));
+        if (assetId == sourceEffect->getAssetId()) {
+            removeEffectWithUndo(sourceEffect, effectName, undo, redo);
+            return;
+        }
+    }
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         if (assetId == sourceEffect->getAssetId()) {
@@ -171,7 +178,6 @@ void EffectStackModel::removeEffectWithUndo(const QString &assetId, QString &eff
 
 void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemModel> &effect, QString &effectName, Fun &undo, Fun &redo)
 {
-    qDebug() << "* * ** REMOVING EFFECT FROM STACK!!!\n!!!!!!!!!";
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allItems.count(effect->getId()) > 0);
     int parentId = -1;
@@ -1680,12 +1686,18 @@ bool EffectStackModel::hasKeyFrame(int frame)
     return listModel->hasKeyframe(frame);
 }
 
-int EffectStackModel::effectRow(const QString &assetId) const
+int EffectStackModel::effectRow(const QString &assetId, int eid) const
 {
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-        if (effect->getAssetId() == assetId && effect->isEnabled()) {
-            return i;
+        if (eid > -1) {
+            if (rootItem->child(i)->getId() == eid) {
+                return i;
+            }
+        } else {
+            auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+            if (effect->getAssetId() == assetId && effect->isEnabled()) {
+                return i;
+            }
         }
     }
     return -1;
