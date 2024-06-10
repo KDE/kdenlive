@@ -1064,7 +1064,7 @@ void TimelineItemModel::applyClipAssetGroupMultiKeyframeCommand(int cid, const Q
     }
 }
 
-void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId)
+void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId, int originalId)
 {
     int gid = m_groups->getRootId(cid);
     std::unordered_set<int> sub;
@@ -1080,12 +1080,17 @@ void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId)
         sub = {cid};
     }
     QString effectName;
+    int assetRow = -1;
     for (auto &id : sub) {
         if (isClip(id)) {
-            int assetRow = clipAssetRow(id, assetId);
+            if (id == cid && originalId > -1) {
+                assetRow = clipAssetRow(id, assetId, originalId);
+            } else {
+                assetRow = clipAssetRow(id, assetId);
+            }
             if (assetRow > -1) {
                 const auto clip = getClipPtr(id);
-                clip->m_effectStack->removeEffectWithUndo(assetId, effectName, undo, redo);
+                clip->m_effectStack->removeEffectWithUndo(assetId, effectName, assetRow, undo, redo);
             }
         }
     }
@@ -1105,12 +1110,13 @@ void TimelineItemModel::disableEffectFromGroup(int cid, const QString &assetId, 
     } else {
         return;
     }
+    int assetRow = -1;
     for (auto &id : sub) {
         if (id == cid) {
             continue;
         }
         if (isClip(id)) {
-            int assetRow = clipAssetRow(id, assetId);
+            assetRow = clipAssetRow(id, assetId);
             if (assetRow > -1) {
                 const auto clip = getClipPtr(id);
                 auto effect = clip->m_effectStack->getEffectStackRow(assetRow);

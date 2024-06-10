@@ -294,12 +294,12 @@ int TimelineModel::getClipTrackId(int clipId) const
     return clip->getCurrentTrackId();
 }
 
-int TimelineModel::clipAssetRow(int clipId, const QString &assetId) const
+int TimelineModel::clipAssetRow(int clipId, const QString &assetId, int eid) const
 {
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     const auto clip = m_allClips.at(clipId);
-    return clip->assetRow(assetId);
+    return clip->assetRow(assetId, eid);
 }
 
 int TimelineModel::getCompositionTrackId(int compoId) const

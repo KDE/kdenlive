@@ -49,7 +49,7 @@ public:
     virtual int getOut() const;
 
     /** @brief Does a clip contain this asset in its effectstack */
-    virtual int assetRow(const QString &assetId) const;
+    virtual int assetRow(const QString &assetId, int eid = -1) const;
 
     /** @brief Set grab status */
     virtual void setGrab(bool grab) = 0;

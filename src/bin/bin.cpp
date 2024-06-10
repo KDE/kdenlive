@@ -6205,16 +6205,21 @@ void Bin::applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetI
     }
 }
 
-void Bin::removeEffectFromGroup(const QString &assetId)
+void Bin::removeEffectFromGroup(int bid, const QString &assetId, int eid)
 {
     QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     QString effectName;
+    int assetRow = -1;
     for (auto &c : clips) {
-        int assetRow = c->getEffectStack()->effectRow(assetId);
+        if (c->binId().toInt() == bid) {
+            assetRow = c->getEffectStack()->effectRow(assetId, eid);
+        } else {
+            assetRow = c->getEffectStack()->effectRow(assetId);
+        }
         if (assetRow > -1) {
-            c->getEffectStack()->removeEffectWithUndo(assetId, effectName, undo, redo);
+            c->getEffectStack()->removeEffectWithUndo(assetId, effectName, assetRow, undo, redo);
         }
     }
     pCore->pushUndo(undo, redo, i18n("Delete effect %1", effectName));
@@ -6226,11 +6231,12 @@ void Bin::disableEffectFromGroup(int cid, const QString &assetId, bool disable, 
     if (clips.size() < 2) {
         return;
     }
+    int assetRow = -1;
     for (auto &c : clips) {
         if (c->binId().toInt() == cid) {
             continue;
         }
-        int assetRow = c->getEffectStack()->effectRow(assetId);
+        assetRow = c->getEffectStack()->effectRow(assetId);
         if (assetRow > -1) {
             auto effect = c->getEffectStack()->getEffectStackRow(assetRow);
             if (effect) {

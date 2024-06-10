@@ -99,7 +99,7 @@ public:
     void applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                                  const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
     QList<std::shared_ptr<KeyframeModelList>> getGroupKeyframeModels(int cid, const QString &assetId);
-    void removeEffectFromGroup(int cid, const QString &assetId);
+    void removeEffectFromGroup(int cid, const QString &assetId, int originalId);
     void disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo);
 
     const QString groupsData();

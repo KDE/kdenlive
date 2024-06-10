@@ -370,7 +370,7 @@ void EffectStackView::loadEffects()
 void EffectStackView::slotDeleteEffect(const std::shared_ptr<EffectItemModel> &effect)
 {
     if (KdenliveSettings::applyEffectParamsToGroup()) {
-        pCore->removeGroupEffect(m_model->getOwnerId(), effect->getAssetId());
+        pCore->removeGroupEffect(m_model->getOwnerId(), effect->getAssetId(), effect->getId());
     } else {
         m_model->removeEffect(effect);
     }
