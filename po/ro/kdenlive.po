@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-09 00:38+0000\n"
+"POT-Creation-Date: 2024-06-10 00:38+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -4975,7 +4975,7 @@ msgid "Create bin folder"
 msgstr "Creează dosar"
 
 #: src/bin/bin.cpp:2706 src/bin/bin.cpp:2719 src/bin/bin.cpp:3701
-#: src/timeline2/model/timelinemodel.cpp:2155
+#: src/timeline2/model/timelinemodel.cpp:2156
 #, kde-format
 msgid "Delete Clip"
 msgstr "Ștergere clip"
@@ -5789,7 +5789,7 @@ msgid "Cut clip"
 msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:825 src/bin/model/subtitlemodel.cpp:1588
-#: src/timeline2/model/timelinemodel.cpp:3917
+#: src/timeline2/model/timelinemodel.cpp:3918
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
@@ -9708,7 +9708,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:555
-#: src/timeline2/model/timelinemodel.cpp:5030
+#: src/timeline2/model/timelinemodel.cpp:5031
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add effect %1"
@@ -12424,7 +12424,7 @@ msgstr "Încarcă marcaje"
 msgid "Export Subtitle File…"
 msgstr "Adaugă ghidaj"
 
-#: src/mainwindow.cpp:2009 src/timeline2/model/timelinemodel.cpp:2159
+#: src/mainwindow.cpp:2009 src/timeline2/model/timelinemodel.cpp:2160
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
@@ -17340,7 +17340,7 @@ msgid "Delete clips on track"
 msgstr "Șterge pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4611
+#: src/timeline2/model/timelinemodel.cpp:4612
 #, fuzzy, kde-format
 #| msgid "Insert Track"
 msgctxt "@action"
@@ -17467,79 +17467,79 @@ msgstr ""
 msgid "Audio split failed: impossible to create audio clip"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:2152
+#: src/timeline2/model/timelinemodel.cpp:2153
 #, fuzzy, kde-format
 #| msgid "Move group"
 msgid "Remove group"
 msgstr "Mută grupul"
 
-#: src/timeline2/model/timelinemodel.cpp:2157
+#: src/timeline2/model/timelinemodel.cpp:2158
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Delete Composition"
 msgstr "Compozit"
 
-#: src/timeline2/model/timelinemodel.cpp:2360
-#: src/timeline2/model/timelinemodel.cpp:2637
+#: src/timeline2/model/timelinemodel.cpp:2361
+#: src/timeline2/model/timelinemodel.cpp:2638
 #: src/timeline2/view/timelinecontroller.cpp:4315
 #, kde-format
 msgid "Move group"
 msgstr "Mută grupul"
 
-#: src/timeline2/model/timelinemodel.cpp:3329
+#: src/timeline2/model/timelinemodel.cpp:3330
 #, kde-format
 msgid "Resize group"
 msgstr "Redimenzionează grupul"
 
-#: src/timeline2/model/timelinemodel.cpp:3453
+#: src/timeline2/model/timelinemodel.cpp:3454
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize clip speed"
 msgstr "Redimensionează clipul"
 
-#: src/timeline2/model/timelinemodel.cpp:3612
+#: src/timeline2/model/timelinemodel.cpp:3613
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove mix"
 msgstr "Șterge fișierul"
 
-#: src/timeline2/model/timelinemodel.cpp:3614
+#: src/timeline2/model/timelinemodel.cpp:3615
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Removing mix failed"
 msgstr "Șterge fișierul"
 
-#: src/timeline2/model/timelinemodel.cpp:3913
+#: src/timeline2/model/timelinemodel.cpp:3914
 #, kde-format
 msgid "Resize clip"
 msgstr "Redimensionează clipul"
 
-#: src/timeline2/model/timelinemodel.cpp:3915
+#: src/timeline2/model/timelinemodel.cpp:3916
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Resize composition"
 msgstr "Compozit"
 
-#: src/timeline2/model/timelinemodel.cpp:4237
+#: src/timeline2/model/timelinemodel.cpp:4238
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Ripple resize clip"
 msgstr "Redimensionează clipul"
 
-#: src/timeline2/model/timelinemodel.cpp:4239
+#: src/timeline2/model/timelinemodel.cpp:4240
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Ripple resize composition"
 msgstr "Compozit"
 
-#: src/timeline2/model/timelinemodel.cpp:4241
+#: src/timeline2/model/timelinemodel.cpp:4242
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
 msgid "Ripple resize subtitle"
 msgstr "Șterge clipul"
 
-#: src/timeline2/model/timelinemodel.cpp:4384
+#: src/timeline2/model/timelinemodel.cpp:4385
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgctxt "Undo/Redo menu text"
@@ -17549,154 +17549,154 @@ msgstr[0] "Titlu clip"
 msgstr[1] "Titlu clip"
 msgstr[2] "Titlu clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4419
+#: src/timeline2/model/timelinemodel.cpp:4420
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Slip clip"
 msgstr "Titlu clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4454
+#: src/timeline2/model/timelinemodel.cpp:4455
 #, kde-format
 msgid "Group clips"
 msgstr "Grupează clipurile"
 
-#: src/timeline2/model/timelinemodel.cpp:4539
-#: src/timeline2/model/timelinemodel.cpp:4555
+#: src/timeline2/model/timelinemodel.cpp:4540
+#: src/timeline2/model/timelinemodel.cpp:4556
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Degrupează clipurile"
 
-#: src/timeline2/model/timelinemodel.cpp:4720
+#: src/timeline2/model/timelinemodel.cpp:4721
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "Șterge pista"
 
-#: src/timeline2/model/timelinemodel.cpp:4730
+#: src/timeline2/model/timelinemodel.cpp:4731
 #, fuzzy, kde-format
 #| msgid "Cannot cut a transition"
 msgid "Cannot delete last track in timeline"
 msgstr "Nu se poate tăia o tranziție"
 
-#: src/timeline2/model/timelinemodel.cpp:4955
+#: src/timeline2/model/timelinemodel.cpp:4956
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot add effect %1 to master track"
 msgstr "Nu se poate lipi clipul în locul selectat"
 
-#: src/timeline2/model/timelinemodel.cpp:4962
+#: src/timeline2/model/timelinemodel.cpp:4963
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot add effect %1 to selected track"
 msgstr "Nu se poate lipi clipul în locul selectat"
 
-#: src/timeline2/model/timelinemodel.cpp:4983
+#: src/timeline2/model/timelinemodel.cpp:4984
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to master track"
 msgstr "Nu se poate lipi clipul în locul selectat"
 
-#: src/timeline2/model/timelinemodel.cpp:4989
+#: src/timeline2/model/timelinemodel.cpp:4990
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "Cannot paste effect to selected track"
 msgstr "Nu se poate lipi clipul în locul selectat"
 
-#: src/timeline2/model/timelinemodel.cpp:5033
+#: src/timeline2/model/timelinemodel.cpp:5034
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Nu se poate adăuga un efect video la acest clip"
 
-#: src/timeline2/model/timelinemodel.cpp:5057
+#: src/timeline2/model/timelinemodel.cpp:5058
 #, fuzzy, kde-format
 #| msgid "Adjust levels"
 msgid "Adjust Fade"
 msgstr "Ajustează nivelele"
 
-#: src/timeline2/model/timelinemodel.cpp:5369
+#: src/timeline2/model/timelinemodel.cpp:5370
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert Composition"
 msgstr "Compozit"
 
-#: src/timeline2/model/timelinemodel.cpp:5572
+#: src/timeline2/model/timelinemodel.cpp:5573
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Move composition"
 msgstr "Arată/ascunde opțiunile"
 
-#: src/timeline2/model/timelinemodel.cpp:6230
+#: src/timeline2/model/timelinemodel.cpp:6231
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable time remap"
 msgstr "Activează efectul"
 
-#: src/timeline2/model/timelinemodel.cpp:6304
+#: src/timeline2/model/timelinemodel.cpp:6305
 #, fuzzy, kde-format
 #| msgid "Captured files"
 msgid "Change speed failed"
 msgstr "Fișiere captate"
 
-#: src/timeline2/model/timelinemodel.cpp:6314
+#: src/timeline2/model/timelinemodel.cpp:6315
 #, fuzzy, kde-format
 #| msgid "Change clip type"
 msgid "Change clip speed"
 msgstr "Schimbă tipul clipului"
 
-#: src/timeline2/model/timelinemodel.cpp:6745
+#: src/timeline2/model/timelinemodel.cpp:6746
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Blochează pista"
 
-#: src/timeline2/model/timelinemodel.cpp:6750
+#: src/timeline2/model/timelinemodel.cpp:6751
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Deblochează pista"
 
-#: src/timeline2/model/timelinemodel.cpp:6784
-#: src/timeline2/model/timelinemodel.cpp:6846
+#: src/timeline2/model/timelinemodel.cpp:6785
+#: src/timeline2/model/timelinemodel.cpp:6847
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Change composition"
 msgstr "Interpolare"
 
-#: src/timeline2/model/timelinemodel.cpp:6798
+#: src/timeline2/model/timelinemodel.cpp:6799
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:6993
-#: src/timeline2/model/timelinemodel.cpp:7030
-#: src/timeline2/model/timelinemodel.cpp:7063
-#: src/timeline2/model/timelinemodel.cpp:7144
+#: src/timeline2/model/timelinemodel.cpp:6994
+#: src/timeline2/model/timelinemodel.cpp:7031
+#: src/timeline2/model/timelinemodel.cpp:7064
+#: src/timeline2/model/timelinemodel.cpp:7145
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Nu se poate muta clipul la poziția %1"
 
-#: src/timeline2/model/timelinemodel.cpp:7004
-#: src/timeline2/model/timelinemodel.cpp:7038
-#: src/timeline2/model/timelinemodel.cpp:7082
-#: src/timeline2/model/timelinemodel.cpp:7168
+#: src/timeline2/model/timelinemodel.cpp:7005
+#: src/timeline2/model/timelinemodel.cpp:7039
+#: src/timeline2/model/timelinemodel.cpp:7083
+#: src/timeline2/model/timelinemodel.cpp:7169
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Nu se poate redimensiona tranziția"
 
-#: src/timeline2/model/timelinemodel.cpp:7182
+#: src/timeline2/model/timelinemodel.cpp:7183
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "Redimensionează clipul"
 
-#: src/timeline2/model/timelinemodel.cpp:7302
+#: src/timeline2/model/timelinemodel.cpp:7303
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Error initializing timeline preview"

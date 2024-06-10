@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-09 00:38+0000\n"
+"POT-Creation-Date: 2024-06-10 00:38+0000\n"
 "PO-Revision-Date: 2024-01-31 01:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -4776,7 +4776,7 @@ msgid "Create bin folder"
 msgstr "Luo kansio"
 
 #: src/bin/bin.cpp:2706 src/bin/bin.cpp:2719 src/bin/bin.cpp:3701
-#: src/timeline2/model/timelinemodel.cpp:2155
+#: src/timeline2/model/timelinemodel.cpp:2156
 #, kde-format
 msgid "Delete Clip"
 msgstr "Poista leike"
@@ -5525,7 +5525,7 @@ msgid "Cut clip"
 msgstr "Leikkaa leike"
 
 #: src/bin/model/subtitlemodel.cpp:825 src/bin/model/subtitlemodel.cpp:1588
-#: src/timeline2/model/timelinemodel.cpp:3917
+#: src/timeline2/model/timelinemodel.cpp:3918
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Poista tekstitys"
@@ -9332,7 +9332,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Tehostetta %1 ei voi lisätä kahdesti."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:555
-#: src/timeline2/model/timelinemodel.cpp:5030
+#: src/timeline2/model/timelinemodel.cpp:5031
 #, kde-format
 msgid "Add effect %1"
 msgstr "Lisää tehoste %1"
@@ -11880,7 +11880,7 @@ msgstr "Tuo tekstitystiedosto…"
 msgid "Export Subtitle File…"
 msgstr "Vie tekstitystiedosto…"
 
-#: src/mainwindow.cpp:2009 src/timeline2/model/timelinemodel.cpp:2159
+#: src/mainwindow.cpp:2009 src/timeline2/model/timelinemodel.cpp:2160
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Poista tekstitys"
@@ -16675,7 +16675,7 @@ msgid "Delete clips on track"
 msgstr "Poista leikkeet raidalta"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4611
+#: src/timeline2/model/timelinemodel.cpp:4612
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16791,70 +16791,70 @@ msgstr "Äänen jako epäonnistui: ei kelvollista raitaa"
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Äänen jako epäonnistui: äänileikkeen luominen on mahdotonta"
 
-#: src/timeline2/model/timelinemodel.cpp:2152
+#: src/timeline2/model/timelinemodel.cpp:2153
 #, kde-format
 msgid "Remove group"
 msgstr "Poista ryhmä"
 
-#: src/timeline2/model/timelinemodel.cpp:2157
+#: src/timeline2/model/timelinemodel.cpp:2158
 #, kde-format
 msgid "Delete Composition"
 msgstr "Poista koostaminen"
 
-#: src/timeline2/model/timelinemodel.cpp:2360
-#: src/timeline2/model/timelinemodel.cpp:2637
+#: src/timeline2/model/timelinemodel.cpp:2361
+#: src/timeline2/model/timelinemodel.cpp:2638
 #: src/timeline2/view/timelinecontroller.cpp:4315
 #, kde-format
 msgid "Move group"
 msgstr "Siirrä ryhmä"
 
-#: src/timeline2/model/timelinemodel.cpp:3329
+#: src/timeline2/model/timelinemodel.cpp:3330
 #, kde-format
 msgid "Resize group"
 msgstr "Muuta ryhmän kokoa"
 
 # *** TARKISTA: Tulkintani id:stä!
-#: src/timeline2/model/timelinemodel.cpp:3453
+#: src/timeline2/model/timelinemodel.cpp:3454
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Muuta leikkeen nopeutta"
 
-#: src/timeline2/model/timelinemodel.cpp:3612
+#: src/timeline2/model/timelinemodel.cpp:3613
 #, kde-format
 msgid "Remove mix"
 msgstr "Poista käsittely"
 
-#: src/timeline2/model/timelinemodel.cpp:3614
+#: src/timeline2/model/timelinemodel.cpp:3615
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Käsittelyn poisto epäonnistui"
 
-#: src/timeline2/model/timelinemodel.cpp:3913
+#: src/timeline2/model/timelinemodel.cpp:3914
 #, kde-format
 msgid "Resize clip"
 msgstr "Muuta leikkeen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:3915
+#: src/timeline2/model/timelinemodel.cpp:3916
 #, kde-format
 msgid "Resize composition"
 msgstr "Muuta koostamisen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:4237
+#: src/timeline2/model/timelinemodel.cpp:4238
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Venyttää leikkeen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:4239
+#: src/timeline2/model/timelinemodel.cpp:4240
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Venyttää koostamisen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:4241
+#: src/timeline2/model/timelinemodel.cpp:4242
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Venyttää tekstityksen kokoa"
 
-#: src/timeline2/model/timelinemodel.cpp:4384
+#: src/timeline2/model/timelinemodel.cpp:4385
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16862,90 +16862,90 @@ msgid_plural "Slip clips"
 msgstr[0] "Liukuleike"
 msgstr[1] "Liukuleikkeet"
 
-#: src/timeline2/model/timelinemodel.cpp:4419
+#: src/timeline2/model/timelinemodel.cpp:4420
 #, kde-format
 msgid "Slip clip"
 msgstr "Liukuleike"
 
-#: src/timeline2/model/timelinemodel.cpp:4454
+#: src/timeline2/model/timelinemodel.cpp:4455
 #, kde-format
 msgid "Group clips"
 msgstr "Ryhmitä leikkeet"
 
-#: src/timeline2/model/timelinemodel.cpp:4539
-#: src/timeline2/model/timelinemodel.cpp:4555
+#: src/timeline2/model/timelinemodel.cpp:4540
+#: src/timeline2/model/timelinemodel.cpp:4556
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Poista leikkeiden ryhmitys"
 
-#: src/timeline2/model/timelinemodel.cpp:4720
+#: src/timeline2/model/timelinemodel.cpp:4721
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "Poista raita"
 
-#: src/timeline2/model/timelinemodel.cpp:4730
+#: src/timeline2/model/timelinemodel.cpp:4731
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Aikajanan viimeistä raitaa ei voi poistaa"
 
-#: src/timeline2/model/timelinemodel.cpp:4955
+#: src/timeline2/model/timelinemodel.cpp:4956
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Tehostetta %1 ei voi lisätä pääraidalle"
 
-#: src/timeline2/model/timelinemodel.cpp:4962
+#: src/timeline2/model/timelinemodel.cpp:4963
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Tehostetta %1 ei voi lisätä valittuun raitaan"
 
-#: src/timeline2/model/timelinemodel.cpp:4983
+#: src/timeline2/model/timelinemodel.cpp:4984
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Tehostetta ei voi liittää pääraidalle"
 
-#: src/timeline2/model/timelinemodel.cpp:4989
+#: src/timeline2/model/timelinemodel.cpp:4990
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Tehostetta ei voi liittää valittuun raitaan"
 
-#: src/timeline2/model/timelinemodel.cpp:5033
+#: src/timeline2/model/timelinemodel.cpp:5034
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Tehostetta %1 ei voi lisätä valittuun leikkeeseen"
 
-#: src/timeline2/model/timelinemodel.cpp:5057
+#: src/timeline2/model/timelinemodel.cpp:5058
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Säädä häivytystä"
 
-#: src/timeline2/model/timelinemodel.cpp:5369
+#: src/timeline2/model/timelinemodel.cpp:5370
 #, kde-format
 msgid "Insert Composition"
 msgstr "Lisää koostaminen"
 
-#: src/timeline2/model/timelinemodel.cpp:5572
+#: src/timeline2/model/timelinemodel.cpp:5573
 #, kde-format
 msgid "Move composition"
 msgstr "Siirrä koostaminen"
 
-#: src/timeline2/model/timelinemodel.cpp:6230
+#: src/timeline2/model/timelinemodel.cpp:6231
 #, kde-format
 msgid "Enable time remap"
 msgstr "Ota ajan kartoitus käyttöön"
 
-#: src/timeline2/model/timelinemodel.cpp:6304
+#: src/timeline2/model/timelinemodel.cpp:6305
 #, kde-format
 msgid "Change speed failed"
 msgstr "Nopeuden muutos epäonnistui"
 
-#: src/timeline2/model/timelinemodel.cpp:6314
+#: src/timeline2/model/timelinemodel.cpp:6315
 #, kde-format
 msgid "Change clip speed"
 msgstr "Muuta leikkeen nopeutta"
 
-#: src/timeline2/model/timelinemodel.cpp:6745
+#: src/timeline2/model/timelinemodel.cpp:6746
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
@@ -16953,7 +16953,7 @@ msgid "Lock track"
 msgstr "Lukitse raita"
 
 # Avaa lukitus parempi kuin avaa raidan lukitus
-#: src/timeline2/model/timelinemodel.cpp:6750
+#: src/timeline2/model/timelinemodel.cpp:6751
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
@@ -16961,39 +16961,39 @@ msgid "Unlock track"
 msgstr "Avaa lukitus"
 
 # Vai keskiön, keskikohdan…?
-#: src/timeline2/model/timelinemodel.cpp:6784
-#: src/timeline2/model/timelinemodel.cpp:6846
+#: src/timeline2/model/timelinemodel.cpp:6785
+#: src/timeline2/model/timelinemodel.cpp:6847
 #, kde-format
 msgid "Change composition"
 msgstr "Muuta koostamista"
 
-#: src/timeline2/model/timelinemodel.cpp:6798
+#: src/timeline2/model/timelinemodel.cpp:6799
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ryhmittettyä ei voi käyttää, poista ryhmitys"
 
-#: src/timeline2/model/timelinemodel.cpp:6993
-#: src/timeline2/model/timelinemodel.cpp:7030
-#: src/timeline2/model/timelinemodel.cpp:7063
-#: src/timeline2/model/timelinemodel.cpp:7144
+#: src/timeline2/model/timelinemodel.cpp:6994
+#: src/timeline2/model/timelinemodel.cpp:7031
+#: src/timeline2/model/timelinemodel.cpp:7064
+#: src/timeline2/model/timelinemodel.cpp:7145
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Käsittelyn kokoa ei voi muuttaa alle 1 ruudun"
 
-#: src/timeline2/model/timelinemodel.cpp:7004
-#: src/timeline2/model/timelinemodel.cpp:7038
-#: src/timeline2/model/timelinemodel.cpp:7082
-#: src/timeline2/model/timelinemodel.cpp:7168
+#: src/timeline2/model/timelinemodel.cpp:7005
+#: src/timeline2/model/timelinemodel.cpp:7039
+#: src/timeline2/model/timelinemodel.cpp:7083
+#: src/timeline2/model/timelinemodel.cpp:7169
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Käsittelyn kokoa ei voi muuttaa"
 
-#: src/timeline2/model/timelinemodel.cpp:7182
+#: src/timeline2/model/timelinemodel.cpp:7183
 #, kde-format
 msgid "Resize mix"
 msgstr "Käsittelyn koko"
 
-#: src/timeline2/model/timelinemodel.cpp:7302
+#: src/timeline2/model/timelinemodel.cpp:7303
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Virhe alustettaessa aikajanan esikatselua"
