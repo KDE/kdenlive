@@ -1590,17 +1590,17 @@ void Core::groupAssetMultiKeyframeCommand(const ObjectId &id, const QString &ass
     }
 }
 
-void Core::removeGroupEffect(const ObjectId &id, const QString &assetId)
+void Core::removeGroupEffect(const ObjectId &id, const QString &assetId, int originalId)
 {
     switch (id.type) {
     case KdenliveObjectType::TimelineClip:
         if (auto tl = currentDoc()->getTimeline(id.uuid)) {
-            tl->removeEffectFromGroup(id.itemId, assetId);
+            tl->removeEffectFromGroup(id.itemId, assetId, originalId);
         }
         break;
     case KdenliveObjectType::BinClip:
         if (bin() != nullptr) {
-            bin()->removeEffectFromGroup(assetId);
+            bin()->removeEffectFromGroup(id.itemId, assetId, originalId);
         }
         break;
     default:

@@ -109,7 +109,7 @@ public:
     int getMixCutPosition() const;
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
-    int assetRow(const QString &assetId) const override;
+    int assetRow(const QString &assetId, int eid = -1) const override;
     std::shared_ptr<KeyframeModelList> getKFModel(int row);
 
     /** @brief Returns an XML representation of the clip with its effects */

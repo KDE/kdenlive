@@ -621,7 +621,7 @@ TitleWidget::~TitleWidget()
 }
 
 // static
-QStringList TitleWidget::extractImageList(QString &xml, const QString &root)
+QStringList TitleWidget::extractImageList(const QString &xml, const QString &root)
 {
     QStringList result;
     if (xml.isEmpty()) {

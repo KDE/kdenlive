@@ -373,7 +373,7 @@ public:
     void applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                                  const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
     int clipAssetGroupInstances(int cid, const QString &assetId);
-    void removeEffectFromGroup(const QString &assetId);
+    void removeEffectFromGroup(int bid, const QString &assetId, int eid);
     void disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo);
     /** @brief The root id of the folder that this bin displays */
     const QString rootFolderId() const;

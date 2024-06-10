@@ -7,8 +7,12 @@
 #include "core.h"
 #include "profiles/profilemodel.hpp"
 
+#if QT_CONFIG(opengles2)
+#include <QOpenGLFunctions_ES2>
+#else
 #include <QOpenGLFunctions_1_1>
 #include <QOpenGLFunctions_3_2_Core>
+#endif
 #include <QOpenGLVersionFunctionsFactory>
 #include <utility>
 

@@ -88,7 +88,9 @@ Item {
     }
     onFakePositionChanged: {
         console.log('COMPOSITION POS CHANGED TO: ', fakePosition)
-        x = fakePosition * timeScale
+        if (fakePosition > -1) {
+            x = fakePosition * timeScale
+        }
     }
     onFakeTidChanged: {
         if (compositionRoot.fakeTid > -1 && parentTrack) {

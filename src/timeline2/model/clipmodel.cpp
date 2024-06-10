@@ -1574,9 +1574,9 @@ void ClipModel::switchBinReference(const QString newId, const QUuid &uuid)
     }
 }
 
-int ClipModel::assetRow(const QString &assetId) const
+int ClipModel::assetRow(const QString &assetId, int eid) const
 {
-    return m_effectStack->effectRow(assetId);
+    return m_effectStack->effectRow(assetId, eid);
 }
 
 std::shared_ptr<KeyframeModelList> ClipModel::getKFModel(int row)
