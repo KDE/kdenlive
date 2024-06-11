@@ -134,6 +134,9 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
                 m_model->setAssetEnabled(enable, false);
                 pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
             }
+            // Update asset names
+            Q_EMIT effectNamesUpdated();
+
         });
         enabledButton->setEnabled(m_model->isAssetEnabled());
         // frame->hide();

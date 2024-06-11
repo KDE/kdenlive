@@ -115,6 +115,8 @@ public:
 
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
+    /** @brief Returns true there are effect (built in disabled effects don't count */
+    bool hasEffects() const;
 
     /** @brief Returns a list of external file urls used by the effects (e.g. LUTs) */
     QStringList externalFiles() const;

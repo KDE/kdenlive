@@ -1601,9 +1601,25 @@ const QString EffectStackModel::effectNames() const
 {
     QStringList effects;
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        effects.append(EffectsRepository::get()->getName(std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId()));
+        const auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effect->isBuiltIn() && !effect->isAssetEnabled()) {
+            continue;
+        }
+        effects.append(EffectsRepository::get()->getName(effect->getAssetId()));
     }
     return effects.join(QLatin1Char('/'));
+}
+
+bool EffectStackModel::hasEffects() const
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        const auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effect->isBuiltIn() && !effect->isAssetEnabled()) {
+            continue;
+        }
+        return true;
+    }
+    return false;
 }
 
 QStringList EffectStackModel::externalFiles() const
@@ -1695,7 +1711,7 @@ int EffectStackModel::effectRow(const QString &assetId, int eid) const
             }
         } else {
             auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-            if (effect->getAssetId() == assetId && effect->isActive()) {
+            if (effect->getAssetId() == assetId) {
                 return i;
             }
         }

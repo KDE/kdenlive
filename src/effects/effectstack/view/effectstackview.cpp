@@ -15,6 +15,7 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "timeline2/model/timelinemodel.hpp"
 
 #include <QDir>
 #include <QDrag>
@@ -327,6 +328,8 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
         connect(view, &CollapsibleEffectView::activateEffect, this, [=](int row) { m_model->setActiveEffect(row); });
+        connect(view, &CollapsibleEffectView::effectNamesUpdated, this,
+                [=]() { Q_EMIT m_model->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole}); });
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::showEffectZone, pCore.get(), &Core::showEffectZone);
         connect(this, &EffectStackView::blockWheelEvent, view, &CollapsibleEffectView::blockWheelEvent);
@@ -466,7 +469,11 @@ void EffectStackView::resizeEvent(QResizeEvent *event)
 
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
-    Q_UNUSED(roles)
+    const QVector<int> doNothingRole = {TimelineModel::EffectNamesRole};
+    if (roles == doNothingRole) {
+        // We just refreshed effect names, eg when an effect is dis/enabled, nothing else to do
+        return;
+    }
     if (!topLeft.isValid() || !bottomRight.isValid()) {
         loadEffects();
         return;

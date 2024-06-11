@@ -174,5 +174,7 @@ Q_SIGNALS:
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
     void activateEffect(int row);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
+    /** @brief A built in effect was enabled/disabled, udate effect names. */
+    void effectNamesUpdated();
     void refresh();
 };

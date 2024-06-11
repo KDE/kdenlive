@@ -207,17 +207,8 @@ void AssetParameterView::unsetModel()
 
     // clear layout
     m_widgets.clear();
-    QLayoutItem *child = nullptr;
-    while ((child = m_lay->takeAt(0)) != nullptr) {
-        if (child->layout()) {
-            QLayoutItem *subchild = nullptr;
-            while ((subchild = child->layout()->takeAt(0)) != nullptr) {
-                delete subchild->widget();
-                delete subchild->spacerItem();
-            }
-        }
-        delete child->widget();
-        delete child->spacerItem();
+    while (m_lay->rowCount() > 0) {
+        m_lay->takeRow(0);
     }
 
     // Release ownership of smart pointer

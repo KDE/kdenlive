@@ -432,6 +432,8 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
 
 DragValue::~DragValue()
 {
+    // Ensure the cursor does not stay hidden if the widget is deleted
+    QGuiApplication::restoreOverrideCursor();
     delete m_intEdit;
     delete m_doubleEdit;
     delete m_menu;
