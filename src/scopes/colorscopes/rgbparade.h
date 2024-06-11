@@ -16,7 +16,7 @@ class RGBParadeGenerator;
 
 /**
  * @brief Displays the RGB waveform of a frame.
- * This is the same as the Waveform, but for each colour channel separately.
+ * This is the same as the Waveform, but for each color channel separately.
  */
 class RGBParade : public AbstractGfxScopeWidget
 {

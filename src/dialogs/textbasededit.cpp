@@ -977,7 +977,7 @@ void TextBasedEdit::startRecognition()
             clipName = clipItem->clipName();
             hasAudio = clipItem->hasAudio();
             if (speech_zone->isChecked()) {
-                // Analyse clip zone only
+                // Analyze clip zone only
                 QPoint zone = clipItem->zone();
                 m_lastPosition = zone.x();
                 m_clipOffset = GenTime(zone.x(), pCore->getCurrentFps()).seconds();

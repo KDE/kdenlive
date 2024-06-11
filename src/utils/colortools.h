@@ -77,7 +77,7 @@ public:
       Basic HSV plane with two components varying on the x and y axis.
       If both components are the same, then the y axis will be considered.
       MIN/MAX give the minimum/maximum saturation, usually 0..255.
-      Missing colour components will be taken from baseColor.
+      Missing color components will be taken from baseColor.
       For shear == true, the image will be sheared such that the x axis goes through (0,0) and (1,1). offsetY can additionally
       shift the whole x axis vertically.
       */

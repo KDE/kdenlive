@@ -143,7 +143,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 value.replace(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
                 break;
             case ParamType::ColorWheel:
-                // Colour wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
+                // Color wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
             case ParamType::Double:
             case ParamType::Hidden:
             case ParamType::List:
