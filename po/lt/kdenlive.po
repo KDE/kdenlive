@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-10 02:50+0000\n"
+"POT-Creation-Date: 2024-06-11 02:33+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -5153,14 +5153,14 @@ msgstr ""
 msgid "Cannot apply effects on folders"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/bin/bin.cpp:4009 src/effects/effectstack/model/effectstackmodel.cpp:560
-#: src/effects/effectstack/model/effectstackmodel.cpp:566
+#: src/bin/bin.cpp:4009 src/effects/effectstack/model/effectstackmodel.cpp:566
+#: src/effects/effectstack/model/effectstackmodel.cpp:572
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect to clip"
 msgstr "Nepavysta rašyti į failą %1"
 
-#: src/bin/bin.cpp:4040 src/effects/effectstack/model/effectstackmodel.cpp:521
+#: src/bin/bin.cpp:4040 src/effects/effectstack/model/effectstackmodel.cpp:527
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Paste effect"
@@ -5387,20 +5387,20 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Perkoduojama"
 
-#: src/bin/bin.cpp:6220 src/effects/effectstack/model/effectstackmodel.cpp:158
-#: src/timeline2/model/timelineitemmodel.cpp:1092
+#: src/bin/bin.cpp:6225 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/timeline2/model/timelineitemmodel.cpp:1097
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete effect %1"
 msgstr "Šalinti %1"
 
-#: src/bin/bin.cpp:6284 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6290 src/mainwindow.cpp:388
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Project Bin"
 msgstr "Projektų failai"
 
-#: src/bin/bin.cpp:6287 src/bin/bin.cpp:6290 src/mainwindow.cpp:4890
+#: src/bin/bin.cpp:6293 src/bin/bin.cpp:6296 src/mainwindow.cpp:4890
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Project Bin %1"
@@ -9567,7 +9567,7 @@ msgstr "Pašalinti failą"
 msgid "Update zone for %1"
 msgstr "Atnaujinti profilį"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:255
+#: src/effects/effectstack/model/effectstackmodel.cpp:261
 #: src/timeline2/model/timelineitemmodel.cpp:734
 #: src/timeline2/model/timelineitemmodel.cpp:747
 #, fuzzy, kde-format
@@ -9575,22 +9575,22 @@ msgstr "Atnaujinti profilį"
 msgid "Copy effect"
 msgstr "efektas"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:351
-#: src/effects/effectstack/model/effectstackmodel.cpp:461
-#: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1147
+#: src/effects/effectstack/model/effectstackmodel.cpp:357
+#: src/effects/effectstack/model/effectstackmodel.cpp:467
+#: src/effects/effectstack/model/effectstackmodel.cpp:552
+#: src/effects/effectstack/model/effectstackmodel.cpp:1153
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:537
+#: src/effects/effectstack/model/effectstackmodel.cpp:543
 #: src/timeline2/model/timelinemodel.cpp:5018
 #, fuzzy, kde-format
 #| msgid "Add new video file"
 msgid "Add effect %1"
 msgstr "Pridėti naują video failą"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:976
+#: src/effects/effectstack/model/effectstackmodel.cpp:982
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Move effect %1"
@@ -18155,7 +18155,7 @@ msgstr ""
 msgid "Close %1"
 msgstr "Uždaryti"
 
-#: src/timeline2/view/timelinetabs.cpp:419
+#: src/timeline2/view/timelinetabs.cpp:423
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Rename Sequence"

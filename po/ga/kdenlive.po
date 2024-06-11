@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-10 02:50+0000\n"
+"POT-Creation-Date: 2024-06-11 02:33+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -5189,14 +5189,14 @@ msgstr ""
 msgid "Cannot apply effects on folders"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/bin/bin.cpp:4009 src/effects/effectstack/model/effectstackmodel.cpp:560
-#: src/effects/effectstack/model/effectstackmodel.cpp:566
+#: src/bin/bin.cpp:4009 src/effects/effectstack/model/effectstackmodel.cpp:566
+#: src/effects/effectstack/model/effectstackmodel.cpp:572
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot add effect to clip"
 msgstr "Ní féidir comhad %1 a scríobh"
 
-#: src/bin/bin.cpp:4040 src/effects/effectstack/model/effectstackmodel.cpp:521
+#: src/bin/bin.cpp:4040 src/effects/effectstack/model/effectstackmodel.cpp:527
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "Paste effect"
@@ -5425,20 +5425,20 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Traschódaigh"
 
-#: src/bin/bin.cpp:6220 src/effects/effectstack/model/effectstackmodel.cpp:158
-#: src/timeline2/model/timelineitemmodel.cpp:1092
+#: src/bin/bin.cpp:6225 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/timeline2/model/timelineitemmodel.cpp:1097
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete effect %1"
 msgstr "Scrios %1"
 
-#: src/bin/bin.cpp:6284 src/mainwindow.cpp:388
+#: src/bin/bin.cpp:6290 src/mainwindow.cpp:388
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Tionscadal"
 
-#: src/bin/bin.cpp:6287 src/bin/bin.cpp:6290 src/mainwindow.cpp:4890
+#: src/bin/bin.cpp:6293 src/bin/bin.cpp:6296 src/mainwindow.cpp:4890
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -9609,7 +9609,7 @@ msgstr "Bain an comhad"
 msgid "Update zone for %1"
 msgstr "Nuashonraigh próifíl"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:255
+#: src/effects/effectstack/model/effectstackmodel.cpp:261
 #: src/timeline2/model/timelineitemmodel.cpp:734
 #: src/timeline2/model/timelineitemmodel.cpp:747
 #, fuzzy, kde-format
@@ -9617,22 +9617,22 @@ msgstr "Nuashonraigh próifíl"
 msgid "Copy effect"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:351
-#: src/effects/effectstack/model/effectstackmodel.cpp:461
-#: src/effects/effectstack/model/effectstackmodel.cpp:546
-#: src/effects/effectstack/model/effectstackmodel.cpp:1147
+#: src/effects/effectstack/model/effectstackmodel.cpp:357
+#: src/effects/effectstack/model/effectstackmodel.cpp:467
+#: src/effects/effectstack/model/effectstackmodel.cpp:552
+#: src/effects/effectstack/model/effectstackmodel.cpp:1153
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:537
+#: src/effects/effectstack/model/effectstackmodel.cpp:543
 #: src/timeline2/model/timelinemodel.cpp:5018
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add effect %1"
 msgstr "Cuir maisíocht nua leis"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:976
+#: src/effects/effectstack/model/effectstackmodel.cpp:982
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Move effect %1"
@@ -18211,7 +18211,7 @@ msgstr ""
 msgid "Close %1"
 msgstr "Dún"
 
-#: src/timeline2/view/timelinetabs.cpp:419
+#: src/timeline2/view/timelinetabs.cpp:423
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Rename Sequence"
