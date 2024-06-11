@@ -63,6 +63,7 @@
   <summary xml:lang="pl">Edytor wideo</summary>
   <summary xml:lang="pt-BR">Editor de Vídeo</summary>
   <summary xml:lang="sl">Program za videomontažo</summary>
+  <summary xml:lang="sv">Videoeditor</summary>
   <summary xml:lang="tr">Video Düzenleyicisi</summary>
   <summary xml:lang="uk">Відеоредактор</summary>
   <summary xml:lang="x-test">xxVideo editorxx</summary>
@@ -319,6 +320,7 @@
       <caption xml:lang="pl">Ciemny wygląd</caption>
       <caption xml:lang="pt-BR">Tema escuro</caption>
       <caption xml:lang="sl">Temna tema</caption>
+      <caption xml:lang="sv">Mörkt tema</caption>
       <caption xml:lang="tr">Koyu tema</caption>
       <caption xml:lang="uk">Темна тема</caption>
       <caption xml:lang="x-test">xxDark themexx</caption>
@@ -368,6 +370,7 @@
       <caption xml:lang="pl">Poprawki barw</caption>
       <caption xml:lang="pt-BR">Correção de cores</caption>
       <caption xml:lang="sl">Korekcija barv</caption>
+      <caption xml:lang="sv">Färgkorrektion</caption>
       <caption xml:lang="tr">Renk düzeltmesi</caption>
       <caption xml:lang="uk">Виправлення кольорів</caption>
       <caption xml:lang="x-test">xxColor correctionxx</caption>
