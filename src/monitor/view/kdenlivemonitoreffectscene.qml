@@ -300,6 +300,10 @@ Item {
         id: framerect
         property color hoverColor: activePalette.highlight //"#ffff00"
         property bool dragging: false
+        property double handlesBottomMargin: root.height - clipMonitorRuler.height - framerect.y - framerect.height < root.baseUnit/2 ? 0 : -root.baseUnit/2
+        property double handlesRightMargin: root.width - framerect.x - framerect.width < root.baseUnit/2 ? 0 : -root.baseUnit/2
+        property double handlesTopMargin: framerect.y < root.baseUnit/2 ? 0 : -root.baseUnit/2
+        property double handlesLeftMargin: framerect.x < root.baseUnit/2 ? 0 : -root.baseUnit/2
         x: frame.x + root.framesize.x * root.scalex
         y: frame.y + root.framesize.y * root.scaley
         width: root.framesize.width * root.scalex
@@ -374,12 +378,14 @@ Item {
         Rectangle {
             id: tlhandle
             anchors {
-            top: parent.top
-            left: parent.left
+              top: parent.top
+              left: parent.left
+              topMargin: framerect.handlesTopMargin
+              leftMargin: framerect.handlesLeftMargin
             }
             width: root.baseUnit
             height: width
-            color: "#66ff0000"
+            color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.iskeyframe || controller.autoKeyframe
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
@@ -409,6 +415,8 @@ Item {
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
+                  adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
+                  adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(adjustedMouse.x - framesize.x * root.scalex, adjustedMouse.y - framesize.y * root.scaley)
                       if (delta == 0) {
@@ -459,11 +467,12 @@ Item {
             id: tophandle
             anchors {
               top: parent.top
+              topMargin: framerect.handlesTopMargin
               horizontalCenter: parent.horizontalCenter
             }
             width: root.baseUnit
             height: width
-            color: "#66ff0000"
+            color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.iskeyframe || controller.autoKeyframe
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
@@ -493,6 +502,7 @@ Item {
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
+                  adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = adjustedMouse.y - framesize.y * root.scaley
                       if (delta == 0) {
@@ -528,11 +538,12 @@ Item {
             id: bottomhandle
             anchors {
               bottom: parent.bottom
+              bottomMargin: framerect.handlesBottomMargin
               horizontalCenter: parent.horizontalCenter
             }
             width: root.baseUnit
             height: width
-            color: "#66ff0000"
+            color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.iskeyframe || controller.autoKeyframe
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
@@ -562,6 +573,7 @@ Item {
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
+                  adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = adjustedMouse.y - (framesize.y + framesize.height) * root.scaley
                       if (delta == 0) {
@@ -597,10 +609,11 @@ Item {
             anchors {
               verticalCenter: parent.verticalCenter
               left: parent.left
+              leftMargin: framerect.handlesLeftMargin
             }
             width: root.baseUnit
             height: width
-            color: "#66ff0000"
+            color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.iskeyframe || controller.autoKeyframe
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
@@ -630,6 +643,7 @@ Item {
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
+                  adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = adjustedMouse.x - framesize.x * root.scaley
                       if (delta == 0) {
@@ -667,10 +681,12 @@ Item {
             anchors {
               verticalCenter: parent.verticalCenter
               right: parent.right
+              rightMargin: framerect.handlesRightMargin
+
             }
             width: root.baseUnit
             height: width
-            color: "#66ff0000"
+            color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.iskeyframe || controller.autoKeyframe
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
@@ -700,6 +716,7 @@ Item {
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
+                  adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = adjustedMouse.x - (framesize.x + framesize.width) * root.scaley
                       if (delta == 0) {
@@ -735,12 +752,14 @@ Item {
         Rectangle {
             id: trhandle
             anchors {
-            top: parent.top
-            right: parent.right
+              top: parent.top
+              right: parent.right
+              topMargin: framerect.handlesTopMargin
+              rightMargin: framerect.handlesRightMargin
             }
             width: root.baseUnit
             height: width
-            color: "#66ff0000"
+            color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.iskeyframe || controller.autoKeyframe
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
@@ -769,6 +788,8 @@ Item {
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
+                  adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
+                  adjustedMouse.y = Math.min(adjustedMouse.y, (framesize.y + framesize.height) * root.scaley - 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var newwidth = adjustedMouse.x - framesize.x * root.scalex
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
@@ -801,12 +822,14 @@ Item {
         Rectangle {
             id: blhandle
             anchors {
-            bottom: parent.bottom
-            left: parent.left
+              bottom: parent.bottom
+              left: parent.left
+              bottomMargin: framerect.handlesBottomMargin
+              leftMargin: framerect.handlesLeftMargin
             }
             width: root.baseUnit
             height: width
-            color: "#66ff0000"
+            color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.iskeyframe || controller.autoKeyframe
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
@@ -835,6 +858,8 @@ Item {
                   adjustedFrame = framesize
                   var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                   var adjustedMouse = getSnappedPos(positionInFrame)
+                  adjustedMouse.x = Math.min(adjustedMouse.x, (framesize.x + framesize.width) * root.scalex - 1)
+                  adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var newwidth = (framesize.x + framesize.width) * root.scalex - adjustedMouse.x
                       adjustedFrame.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
@@ -880,12 +905,14 @@ Item {
         Rectangle {
             id: brhandle
             anchors {
-            bottom: parent.bottom
-            right: parent.right
+              bottom: parent.bottom
+              right: parent.right
+              bottomMargin: framerect.handlesBottomMargin
+              rightMargin: framerect.handlesRightMargin
             }
             width: root.baseUnit
             height: width
-            color: "#66ff0000"
+            color: "#99ffffff"
             border.color: "#ff0000"
             visible: root.iskeyframe || controller.autoKeyframe
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
@@ -914,6 +941,8 @@ Item {
                    adjustedFrame = framesize
                    var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
                    var adjustedMouse = getSnappedPos(positionInFrame)
+                   adjustedMouse.x = Math.max(adjustedMouse.x, framesize.x * root.scalex + 1)
+                  adjustedMouse.y = Math.max(adjustedMouse.y, framesize.y * root.scaley + 1)
                    if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var newwidth = adjustedMouse.x - framesize.x * root.scalex
                       adjustedFrame.width = Math.round(newwidth / root.scalex);

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-10 00:38+0000\n"
+"POT-Creation-Date: 2024-06-11 00:38+0000\n"
 "PO-Revision-Date: 2023-10-02 19:42+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -4948,13 +4948,13 @@ msgstr "Pilih klip untuk menerapkan efek"
 msgid "Cannot apply effects on folders"
 msgstr "Tidak bisa menerapkan efek di folder"
 
-#: src/bin/bin.cpp:4008 src/effects/effectstack/model/effectstackmodel.cpp:578
-#: src/effects/effectstack/model/effectstackmodel.cpp:584
+#: src/bin/bin.cpp:4008 src/effects/effectstack/model/effectstackmodel.cpp:584
+#: src/effects/effectstack/model/effectstackmodel.cpp:590
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Tidak bisa menambahkan efek ke klip"
 
-#: src/bin/bin.cpp:4039 src/effects/effectstack/model/effectstackmodel.cpp:539
+#: src/bin/bin.cpp:4039 src/effects/effectstack/model/effectstackmodel.cpp:545
 #, kde-format
 msgid "Paste effect"
 msgstr "Tempel efek"
@@ -5173,18 +5173,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Mentranskode"
 
-#: src/bin/bin.cpp:6219 src/effects/effectstack/model/effectstackmodel.cpp:158
-#: src/timeline2/model/timelineitemmodel.cpp:1098
+#: src/bin/bin.cpp:6224 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/timeline2/model/timelineitemmodel.cpp:1103
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Hapus efek %1"
 
-#: src/bin/bin.cpp:6283 src/mainwindow.cpp:401
+#: src/bin/bin.cpp:6289 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr "Bin Proyek"
 
-#: src/bin/bin.cpp:6286 src/bin/bin.cpp:6289 src/mainwindow.cpp:4885
+#: src/bin/bin.cpp:6292 src/bin/bin.cpp:6295 src/mainwindow.cpp:4885
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Bin Proyek %1"
@@ -9270,28 +9270,28 @@ msgstr "Tampilkan keyframe"
 msgid "Update zone for %1"
 msgstr "Perbarui zona %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:249
+#: src/effects/effectstack/model/effectstackmodel.cpp:255
 #: src/timeline2/model/timelineitemmodel.cpp:740
 #: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "Salin efek"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:345
-#: src/effects/effectstack/model/effectstackmodel.cpp:479
-#: src/effects/effectstack/model/effectstackmodel.cpp:564
-#: src/effects/effectstack/model/effectstackmodel.cpp:1273
+#: src/effects/effectstack/model/effectstackmodel.cpp:351
+#: src/effects/effectstack/model/effectstackmodel.cpp:485
+#: src/effects/effectstack/model/effectstackmodel.cpp:570
+#: src/effects/effectstack/model/effectstackmodel.cpp:1279
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efek %1 tidak bisa ditambahkan dua kali."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:555
+#: src/effects/effectstack/model/effectstackmodel.cpp:561
 #: src/timeline2/model/timelinemodel.cpp:5031
 #, kde-format
 msgid "Add effect %1"
 msgstr "Tambahkan efek %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1102
+#: src/effects/effectstack/model/effectstackmodel.cpp:1108
 #, kde-format
 msgid "Move effect %1"
 msgstr "Pindahkan efek %1"
@@ -17623,7 +17623,7 @@ msgstr ""
 msgid "Close %1"
 msgstr "Tutup %1"
 
-#: src/timeline2/view/timelinetabs.cpp:419
+#: src/timeline2/view/timelinetabs.cpp:423
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Rename Sequence"

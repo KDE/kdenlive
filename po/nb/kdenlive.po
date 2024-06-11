@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-10 00:38+0000\n"
+"POT-Creation-Date: 2024-06-11 00:38+0000\n"
 "PO-Revision-Date: 2012-01-01 20:29+0100\n"
 "Last-Translator: Kjetil Kilhavn <kjetil@kilhavn.no>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -4795,13 +4795,13 @@ msgstr ""
 msgid "Cannot apply effects on folders"
 msgstr ""
 
-#: src/bin/bin.cpp:4008 src/effects/effectstack/model/effectstackmodel.cpp:578
-#: src/effects/effectstack/model/effectstackmodel.cpp:584
+#: src/bin/bin.cpp:4008 src/effects/effectstack/model/effectstackmodel.cpp:584
+#: src/effects/effectstack/model/effectstackmodel.cpp:590
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr ""
 
-#: src/bin/bin.cpp:4039 src/effects/effectstack/model/effectstackmodel.cpp:539
+#: src/bin/bin.cpp:4039 src/effects/effectstack/model/effectstackmodel.cpp:545
 #, kde-format
 msgid "Paste effect"
 msgstr ""
@@ -5012,18 +5012,18 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr ""
 
-#: src/bin/bin.cpp:6219 src/effects/effectstack/model/effectstackmodel.cpp:158
-#: src/timeline2/model/timelineitemmodel.cpp:1098
+#: src/bin/bin.cpp:6224 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/timeline2/model/timelineitemmodel.cpp:1103
 #, kde-format
 msgid "Delete effect %1"
 msgstr ""
 
-#: src/bin/bin.cpp:6283 src/mainwindow.cpp:401
+#: src/bin/bin.cpp:6289 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr ""
 
-#: src/bin/bin.cpp:6286 src/bin/bin.cpp:6289 src/mainwindow.cpp:4885
+#: src/bin/bin.cpp:6292 src/bin/bin.cpp:6295 src/mainwindow.cpp:4885
 #, kde-format
 msgid "Project Bin %1"
 msgstr ""
@@ -8923,28 +8923,28 @@ msgstr ""
 msgid "Update zone for %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:249
+#: src/effects/effectstack/model/effectstackmodel.cpp:255
 #: src/timeline2/model/timelineitemmodel.cpp:740
 #: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:345
-#: src/effects/effectstack/model/effectstackmodel.cpp:479
-#: src/effects/effectstack/model/effectstackmodel.cpp:564
-#: src/effects/effectstack/model/effectstackmodel.cpp:1273
+#: src/effects/effectstack/model/effectstackmodel.cpp:351
+#: src/effects/effectstack/model/effectstackmodel.cpp:485
+#: src/effects/effectstack/model/effectstackmodel.cpp:570
+#: src/effects/effectstack/model/effectstackmodel.cpp:1279
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:555
+#: src/effects/effectstack/model/effectstackmodel.cpp:561
 #: src/timeline2/model/timelinemodel.cpp:5031
 #, kde-format
 msgid "Add effect %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1102
+#: src/effects/effectstack/model/effectstackmodel.cpp:1108
 #, kde-format
 msgid "Move effect %1"
 msgstr ""
@@ -16904,7 +16904,7 @@ msgstr ""
 msgid "Close %1"
 msgstr ""
 
-#: src/timeline2/view/timelinetabs.cpp:419
+#: src/timeline2/view/timelinetabs.cpp:423
 #, kde-format
 msgid "Rename Sequence"
 msgstr ""
