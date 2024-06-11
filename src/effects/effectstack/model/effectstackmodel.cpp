@@ -1695,7 +1695,7 @@ int EffectStackModel::effectRow(const QString &assetId, int eid) const
             }
         } else {
             auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-            if (effect->getAssetId() == assetId && effect->isEnabled()) {
+            if (effect->getAssetId() == assetId && effect->isActive()) {
                 return i;
             }
         }
