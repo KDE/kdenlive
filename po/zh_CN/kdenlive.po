@@ -16377,7 +16377,7 @@ msgstr "没有可用于拆分操作的轨道"
 #: src/timeline2/model/timelinemodel.cpp:2069
 #, kde-format
 msgid "Audio split failed: no viable track"
-msgstr "音频拆分失败：无可用轨道"
+msgstr "音频拆分失败：没有可用的轨道"
 
 #: src/timeline2/model/timelinemodel.cpp:2077
 #, kde-format
@@ -17260,7 +17260,7 @@ msgstr "插入合成..."
 #: src/timeline2/view/timelinewidget.cpp:342
 #, kde-format
 msgid "No available stream"
-msgstr "无可用流"
+msgstr "没有可用的流"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
 #: src/titler/titlewidget.cpp:3339 src/titler/titlewidget.cpp:3342
@@ -17892,7 +17892,7 @@ msgstr ""
 #: src/titler/unicodedialog.cpp:211
 #, kde-format
 msgid "<small>No additional information available for this character.</small>"
-msgstr "<small>此字符无可用额外信息。</small>"
+msgstr "<small>此字符没有可用的额外信息。</small>"
 
 #: src/transitions/transitionsrepository.cpp:30
 #, kde-format
