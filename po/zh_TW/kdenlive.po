@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-11 00:38+0000\n"
-"PO-Revision-Date: 2024-06-09 03:14+0900\n"
+"PO-Revision-Date: 2024-06-12 03:08+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -11674,7 +11674,7 @@ msgstr "回復目前的素材目標軌道"
 #: src/mainwindow.cpp:2070
 #, kde-format
 msgid "Add Project Note"
-msgstr "新增專案備註"
+msgstr "新增專案筆記"
 
 #: src/mainwindow.cpp:2076
 #, kde-format
@@ -14542,7 +14542,7 @@ msgstr "從所選的時間碼在時間軸上建立標記（不管是否有選取
 #: src/project/notesplugin.cpp:75
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
-msgstr "無法新增備註，專案素材庫中沒有選取素材"
+msgstr "無法新增筆記，專案素材庫中沒有選取素材"
 
 #: src/project/notesplugin.cpp:102
 #, kde-format
