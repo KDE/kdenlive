@@ -2394,7 +2394,7 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
         int old_trackId = getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
-            if (getTrackById_const(old_trackId)->isLocked()) {
+            if (trackIsLocked(old_trackId)) {
                 locked_items.insert(item);
                 continue;
             }
@@ -3400,7 +3400,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     bool result = true;
     for (int id : all_items) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         // First delete clip, then timewarp, resize and reinsert
@@ -3870,10 +3870,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     int finalSize;
     for (int id : all_items) {
         int trackId = getItemTrackId(id);
-        if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
-            continue;
-        }
-        if (isSubtitleTrack(trackId) && m_subtitleModel && m_subtitleModel->isLocked()) {
+        if (trackId > -1 && trackIsLocked(trackId)) {
             continue;
         }
         if (right) {
@@ -4207,10 +4204,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
     int resizedCount = 0;
     for (int id : all_items) {
         int trackId = getItemTrackId(id);
-        if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
-            continue;
-        }
-        if (isSubtitleTrack(trackId) && m_subtitleModel && m_subtitleModel->isLocked()) {
+        if (trackId > -1 && trackIsLocked(trackId)) {
             continue;
         }
         if (right) {
@@ -4368,7 +4362,7 @@ int TimelineModel::requestSlipSelection(int offset, bool logUndo)
     int slipCount = 0;
     for (auto id : getCurrentSelection()) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         if (!isClip(id)) {
@@ -4406,7 +4400,7 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool al
     int slipCount = 0;
     for (int id : all_items) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         result = result && requestClipSlip(id, offset, logUndo, undo, redo);
