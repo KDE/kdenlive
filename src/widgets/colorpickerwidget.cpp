@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <QApplication>
+#ifndef NODBUS
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusMetaType>
@@ -17,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDBusPendingCall>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
+#endif
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QMouseEvent>
@@ -31,6 +33,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <fixx11h.h>
 #endif
 
+#ifndef NODBUS
 QDBusArgument &operator<<(QDBusArgument &arg, const QColor &color)
 {
     arg.beginStructure();
@@ -51,6 +54,7 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, QColor &color)
 
     return arg;
 }
+#endif
 
 MyFrame::MyFrame(QWidget *parent)
     : QFrame(parent)
@@ -108,8 +112,10 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
         setFocusPolicy(Qt::StrongFocus);
         setMouseTracking(true);
     } else {
+#ifndef NODBUS
         qDBusRegisterMetaType<QColor>();
         connect(button, &QAbstractButton::clicked, this, &ColorPickerWidget::grabColorDBus);
+#endif
     }
 
     layout->addWidget(button);
@@ -330,6 +336,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
 #endif
 }
 
+#ifndef NODBUS
 void ColorPickerWidget::grabColorDBus()
 {
     QDBusMessage message = QDBusMessage::createMethodCall(QLatin1String("org.freedesktop.portal.Desktop"), QLatin1String("/org/freedesktop/portal/desktop"),
@@ -364,3 +371,4 @@ void ColorPickerWidget::gotColorResponse(uint response, const QVariantMap &resul
         qWarning() << "Failed to take screenshot" << response << results;
     }
 }
+#endif

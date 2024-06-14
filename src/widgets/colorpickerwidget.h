@@ -79,10 +79,12 @@ private Q_SLOTS:
     /** @brief Calculates the average color for the pixels in the rect m_grabRect and emits colorPicked. */
     void slotGetAverageColor();
 
+#ifndef NODBUS
     /** @brief Send a DBus message to the Freedesktop portal to request a color picker operation */
     void grabColorDBus();
     /** @brief To be called by the DBus connection when a response comes in */
     void gotColorResponse(uint response, const QVariantMap &results);
+#endif
 
 Q_SIGNALS:
     /** @brief Signal fired when a new color has been picked */
