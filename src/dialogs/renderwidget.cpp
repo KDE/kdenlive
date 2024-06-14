@@ -45,7 +45,9 @@
 #include <knotifications_version.h>
 
 #include "kdenlive_debug.h"
+#ifndef NODBUS
 #include <QDBusConnectionInterface>
+#endif
 #include <QDir>
 #include <QDomDocument>
 #include <QFileIconProvider>
@@ -359,12 +361,15 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         }
     }
 
+#ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
     if ((interface == nullptr) ||
         (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
         m_view.shutdown->setEnabled(false);
     }
-
+#else
+    m_view.shutdown->setVisible(false);
+#endif
     m_shareMenu = new Purpose::Menu();
     m_view.shareButton->setMenu(m_shareMenu);
     m_view.shareButton->setIcon(QIcon::fromTheme(QStringLiteral("document-share")));
