@@ -442,6 +442,32 @@ std::vector<RenderRequest::RenderSection> RenderRequest::getGuideSections()
     return sections;
 }
 
+int RenderRequest::guideSectionsCount()
+{
+    std::vector<RenderRequest::RenderSection> sections = RenderRequest::getGuideSections();
+    return sections.size();
+}
+
+QVector<std::pair<int, int>> RenderRequest::getSectionsInOut()
+{
+    std::vector<RenderRequest::RenderSection> sections = RenderRequest::getGuideSections();
+    QVector<std::pair<int, int>> results;
+    for (auto &sec : sections) {
+        results.append({sec.in, sec.out});
+    }
+    return results;
+}
+
+QStringList RenderRequest::getSectionsNames()
+{
+    QStringList names;
+    std::vector<RenderRequest::RenderSection> sections = RenderRequest::getGuideSections();
+    for (const auto &section : sections) {
+        names << section.name;
+    }
+    return names;
+}
+
 void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile,
                                            const QUuid &uuid)
 {

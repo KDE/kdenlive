@@ -43,12 +43,11 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     KdenliveDoc &mockedDoc = docMock.get();
 
-    pCore->projectManager()->m_project = &mockedDoc;
+    pCore->projectManager()->testSetDocument(&mockedDoc);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     REQUIRE(timeline->getCompositionsCount() == 0);
     int id1 = CompositionModel::construct(timeline, aCompo, QString());
@@ -81,12 +80,11 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     KdenliveDoc &mockedDoc = docMock.get();
 
-    pCore->projectManager()->m_project = &mockedDoc;
+    pCore->projectManager()->testSetDocument(&mockedDoc);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     QString aCompo = getACompo();
 
@@ -213,8 +211,7 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
 
         REQUIRE(timeline->getCompositionPlaytime(cid2) == length);
         REQUIRE(timeline->requestItemResize(cid2, 5, true) > -1);
-        auto inOut = std::pair<int, int>{0, 4};
-        REQUIRE(timeline->m_allCompositions[cid2]->getInOut() == inOut);
+        REQUIRE(timeline->getCompositionPosition(cid2) == 0);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == 5);
         REQUIRE(timeline->requestItemResize(cid2, 10, false) > -1);
         REQUIRE(timeline->getCompositionPlaytime(cid2) == 10);

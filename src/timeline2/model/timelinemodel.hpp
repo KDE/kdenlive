@@ -105,6 +105,7 @@ public:
     friend class MarkerListModel;
     friend class TimeRemap;
     friend struct TimelineFunctions;
+    friend class KdenliveTests;
 
     bool isClosed{true};
     Q_PROPERTY(QString visibleSequenceName MEMBER m_visibleSequenceName NOTIFY visibleSequenceNameChanged)
@@ -237,7 +238,9 @@ public:
     int getItemPlaytime(int itemId) const;
     /** @brief Returns an item's out point on its track, item can be clip, subtitle or composition */
     int getItemEnd(int itemId) const;
-
+    /** @brief Returns a clip in / out frames */
+    std::pair<int, int> getClipInOut(int cid) const;
+    bool clipIsValid(int cid) const;
     /** @brief Returns the subplaylist index of a clip in a track */
     int getClipSubPlaylistIndex(int cid) const;
     /** @brief Returns the name of a timeline clip */

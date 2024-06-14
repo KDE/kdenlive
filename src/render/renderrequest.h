@@ -12,6 +12,7 @@
 class RenderRequest
 {
 public:
+    friend class KdenliveTests;
     RenderRequest();
 
     struct RenderJob
@@ -45,6 +46,15 @@ public:
 
     static QStringList argsByJob(const RenderJob &job);
 
+    /** @brief Some methods used for tests */
+    int guideSectionsCount();
+    QVector<std::pair<int, int>> getSectionsInOut();
+    QStringList getSectionsNames();
+
+protected:
+    int m_boundingIn;
+    int m_boundingOut;
+
 private:
     struct RenderSection
     {
@@ -61,8 +71,6 @@ private:
     bool m_delayedRendering = false;
     QString m_outputFile;
     bool m_embedSubtitles = false;
-    int m_boundingIn;
-    int m_boundingOut;
     std::weak_ptr<MarkerListModel> m_guidesModel;
     bool m_guideMultiExport = false;
     int m_guideCategory = -1; /// category used as filter if @variable guideMultiExport is @value true
@@ -73,6 +81,7 @@ private:
     void setDocGeneralParams(QDomDocument doc, int in, int out);
     void setDocTwoPassParams(int pass, QDomDocument &doc, const QString &outputFile);
     std::vector<RenderSection> getGuideSections();
+
     static void prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile,
                                        const QUuid &uuid);
 

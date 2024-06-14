@@ -37,65 +37,65 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 
     // Create document
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
-    KdenliveDoc::next_id = 0;
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+    KdenliveTests::resetNextId();
 
-    GroupsModel groups(timeline);
+    GroupsModel *groups = KdenliveTests::groupsModel(timeline);
+
     for (int i = 0; i < 10; i++) {
-        groups.createGroupItem(i);
+        groups->createGroupItem(i);
     }
 
     SECTION("Test Basic Creation")
     {
         for (int i = 0; i < 10; i++) {
-            REQUIRE(groups.getRootId(i) == i);
-            REQUIRE(groups.isLeaf(i));
-            REQUIRE(groups.getLeaves(i).size() == 1);
-            REQUIRE(groups.getSubtree(i).size() == 1);
+            REQUIRE(groups->getRootId(i) == i);
+            REQUIRE(groups->isLeaf(i));
+            REQUIRE(groups->getLeaves(i).size() == 1);
+            REQUIRE(groups->getSubtree(i).size() == 1);
         }
     }
 
-    groups.setGroup(0, 1);
-    groups.setGroup(1, 2);
-    groups.setGroup(3, 2);
-    groups.setGroup(9, 3);
-    groups.setGroup(6, 3);
-    groups.setGroup(4, 3);
-    groups.setGroup(7, 3);
-    groups.setGroup(8, 5);
+    groups->setGroup(0, 1);
+    groups->setGroup(1, 2);
+    groups->setGroup(3, 2);
+    groups->setGroup(9, 3);
+    groups->setGroup(6, 3);
+    groups->setGroup(4, 3);
+    groups->setGroup(7, 3);
+    groups->setGroup(8, 5);
 
     SECTION("Test leaf nodes")
     {
         std::unordered_set<int> nodes = {1, 2, 3, 5};
         for (int i = 0; i < 10; i++) {
-            REQUIRE(groups.isLeaf(i) != (nodes.count(i) > 0));
+            REQUIRE(groups->isLeaf(i) != (nodes.count(i) > 0));
             if (nodes.count(i) == 0) {
-                REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-                REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+                REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+                REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
             }
         }
     }
 
     SECTION("Test leaves retrieving")
     {
-        REQUIRE(groups.getLeaves(2) == std::unordered_set<int>({0, 4, 6, 7, 9}));
-        REQUIRE(groups.getLeaves(3) == std::unordered_set<int>({4, 6, 7, 9}));
-        REQUIRE(groups.getLeaves(1) == std::unordered_set<int>({0}));
-        REQUIRE(groups.getLeaves(5) == std::unordered_set<int>({8}));
+        REQUIRE(groups->getLeaves(2) == std::unordered_set<int>({0, 4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(3) == std::unordered_set<int>({4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(1) == std::unordered_set<int>({0}));
+        REQUIRE(groups->getLeaves(5) == std::unordered_set<int>({8}));
     }
 
     SECTION("Test subtree retrieving")
     {
-        REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({0, 1, 2, 3, 4, 6, 7, 9}));
-        REQUIRE(groups.getSubtree(3) == std::unordered_set<int>({3, 4, 6, 7, 9}));
-        REQUIRE(groups.getSubtree(5) == std::unordered_set<int>({5, 8}));
+        REQUIRE(groups->getSubtree(2) == std::unordered_set<int>({0, 1, 2, 3, 4, 6, 7, 9}));
+        REQUIRE(groups->getSubtree(3) == std::unordered_set<int>({3, 4, 6, 7, 9}));
+        REQUIRE(groups->getSubtree(5) == std::unordered_set<int>({5, 8}));
     }
 
     SECTION("Test root retrieving")
@@ -103,41 +103,41 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
         std::set<int> first_tree = {0, 1, 2, 3, 4, 6, 7, 9};
         for (int n : first_tree) {
             CAPTURE(n);
-            REQUIRE(groups.getRootId(n) == 2);
+            REQUIRE(groups->getRootId(n) == 2);
         }
         std::unordered_set<int> second_tree = {5, 8};
         for (int n : second_tree) {
-            REQUIRE(groups.getRootId(n) == 5);
+            REQUIRE(groups->getRootId(n) == 5);
         }
     }
 
-    groups.setGroup(3, 8);
+    groups->setGroup(3, 8);
     SECTION("Test leaf nodes 2")
     {
         std::unordered_set<int> nodes = {1, 2, 3, 5, 8};
         for (int i = 0; i < 10; i++) {
-            REQUIRE(groups.isLeaf(i) != (nodes.count(i) > 0));
+            REQUIRE(groups->isLeaf(i) != (nodes.count(i) > 0));
             if (nodes.count(i) == 0) {
-                REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-                REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+                REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+                REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
             }
         }
     }
 
     SECTION("Test leaves retrieving 2")
     {
-        REQUIRE(groups.getLeaves(1) == std::unordered_set<int>({0}));
-        REQUIRE(groups.getLeaves(2) == std::unordered_set<int>({0}));
-        REQUIRE(groups.getLeaves(3) == std::unordered_set<int>({4, 6, 7, 9}));
-        REQUIRE(groups.getLeaves(5) == std::unordered_set<int>({4, 6, 7, 9}));
-        REQUIRE(groups.getLeaves(8) == std::unordered_set<int>({4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(1) == std::unordered_set<int>({0}));
+        REQUIRE(groups->getLeaves(2) == std::unordered_set<int>({0}));
+        REQUIRE(groups->getLeaves(3) == std::unordered_set<int>({4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(5) == std::unordered_set<int>({4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(8) == std::unordered_set<int>({4, 6, 7, 9}));
     }
 
     SECTION("Test subtree retrieving 2")
     {
-        REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({0, 1, 2}));
-        REQUIRE(groups.getSubtree(3) == std::unordered_set<int>({3, 4, 6, 7, 9}));
-        REQUIRE(groups.getSubtree(5) == std::unordered_set<int>({5, 8, 3, 4, 6, 7, 9}));
+        REQUIRE(groups->getSubtree(2) == std::unordered_set<int>({0, 1, 2}));
+        REQUIRE(groups->getSubtree(3) == std::unordered_set<int>({3, 4, 6, 7, 9}));
+        REQUIRE(groups->getSubtree(5) == std::unordered_set<int>({5, 8, 3, 4, 6, 7, 9}));
     }
 
     SECTION("Test root retrieving 2")
@@ -145,77 +145,77 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
         std::set<int> first_tree = {0, 1, 2};
         for (int n : first_tree) {
             CAPTURE(n);
-            REQUIRE(groups.getRootId(n) == 2);
+            REQUIRE(groups->getRootId(n) == 2);
         }
         std::unordered_set<int> second_tree = {5, 8, 3, 4, 6, 7, 9};
         for (int n : second_tree) {
-            REQUIRE(groups.getRootId(n) == 5);
+            REQUIRE(groups->getRootId(n) == 5);
         }
     }
 
-    groups.setGroup(5, 2);
+    groups->setGroup(5, 2);
     SECTION("Test leaf nodes 3")
     {
         std::unordered_set<int> nodes = {1, 2, 3, 5, 8};
         for (int i = 0; i < 10; i++) {
-            REQUIRE(groups.isLeaf(i) != (nodes.count(i) > 0));
+            REQUIRE(groups->isLeaf(i) != (nodes.count(i) > 0));
             if (nodes.count(i) == 0) {
-                REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-                REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+                REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+                REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
             }
         }
     }
 
     SECTION("Test leaves retrieving 3")
     {
-        REQUIRE(groups.getLeaves(1) == std::unordered_set<int>({0}));
-        REQUIRE(groups.getLeaves(2) == std::unordered_set<int>({0, 4, 6, 7, 9}));
-        REQUIRE(groups.getLeaves(3) == std::unordered_set<int>({4, 6, 7, 9}));
-        REQUIRE(groups.getLeaves(5) == std::unordered_set<int>({4, 6, 7, 9}));
-        REQUIRE(groups.getLeaves(8) == std::unordered_set<int>({4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(1) == std::unordered_set<int>({0}));
+        REQUIRE(groups->getLeaves(2) == std::unordered_set<int>({0, 4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(3) == std::unordered_set<int>({4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(5) == std::unordered_set<int>({4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(8) == std::unordered_set<int>({4, 6, 7, 9}));
     }
 
     SECTION("Test subtree retrieving 3")
     {
-        REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({0, 1, 2, 3, 4, 5, 6, 7, 8, 9}));
-        REQUIRE(groups.getSubtree(3) == std::unordered_set<int>({3, 4, 6, 7, 9}));
-        REQUIRE(groups.getSubtree(5) == std::unordered_set<int>({5, 8, 3, 4, 6, 7, 9}));
+        REQUIRE(groups->getSubtree(2) == std::unordered_set<int>({0, 1, 2, 3, 4, 5, 6, 7, 8, 9}));
+        REQUIRE(groups->getSubtree(3) == std::unordered_set<int>({3, 4, 6, 7, 9}));
+        REQUIRE(groups->getSubtree(5) == std::unordered_set<int>({5, 8, 3, 4, 6, 7, 9}));
     }
 
     SECTION("Test root retrieving 3")
     {
         for (int i = 0; i < 10; i++) {
             CAPTURE(i);
-            REQUIRE(groups.getRootId(i) == 2);
+            REQUIRE(groups->getRootId(i) == 2);
         }
     }
 
-    groups.destructGroupItem(8, false, undo, redo);
+    KdenliveTests::destructGroupItem(timeline, 8, false, undo, redo);
     SECTION("Test leaf nodes 4")
     {
         std::unordered_set<int> nodes = {1, 2, 3};
         for (int i = 0; i < 10; i++) {
             if (i == 8) continue;
-            REQUIRE(groups.isLeaf(i) != (nodes.count(i) > 0));
+            REQUIRE(groups->isLeaf(i) != (nodes.count(i) > 0));
             if (nodes.count(i) == 0) {
-                REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-                REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+                REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+                REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
             }
         }
     }
 
     SECTION("Test leaves retrieving 4")
     {
-        REQUIRE(groups.getLeaves(1) == std::unordered_set<int>({0}));
-        REQUIRE(groups.getLeaves(2) == std::unordered_set<int>({0, 5}));
-        REQUIRE(groups.getLeaves(3) == std::unordered_set<int>({4, 6, 7, 9}));
+        REQUIRE(groups->getLeaves(1) == std::unordered_set<int>({0}));
+        REQUIRE(groups->getLeaves(2) == std::unordered_set<int>({0, 5}));
+        REQUIRE(groups->getLeaves(3) == std::unordered_set<int>({4, 6, 7, 9}));
     }
 
     SECTION("Test subtree retrieving 4")
     {
-        REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({0, 1, 2, 5}));
-        REQUIRE(groups.getSubtree(3) == std::unordered_set<int>({3, 4, 6, 7, 9}));
-        REQUIRE(groups.getSubtree(5) == std::unordered_set<int>({5}));
+        REQUIRE(groups->getSubtree(2) == std::unordered_set<int>({0, 1, 2, 5}));
+        REQUIRE(groups->getSubtree(3) == std::unordered_set<int>({3, 4, 6, 7, 9}));
+        REQUIRE(groups->getSubtree(5) == std::unordered_set<int>({5}));
     }
 
     SECTION("Test root retrieving 4")
@@ -223,12 +223,12 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
         std::set<int> first_tree = {0, 1, 2, 5};
         for (int n : first_tree) {
             CAPTURE(n);
-            REQUIRE(groups.getRootId(n) == 2);
+            REQUIRE(groups->getRootId(n) == 2);
         }
         std::unordered_set<int> second_tree = {3, 4, 6, 7, 9};
         for (int n : second_tree) {
             CAPTURE(n);
-            REQUIRE(groups.getRootId(n) == 3);
+            REQUIRE(groups->getRootId(n) == 3);
         }
     }
     pCore->projectManager()->closeCurrentDocument(false, false);
@@ -242,74 +242,73 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
 
     // Create document
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    GroupsModel groups(timeline);
+    GroupsModel *groups = KdenliveTests::groupsModel(timeline);
 
     for (int i = 0; i < 10; i++) {
-        groups.createGroupItem(i);
+        groups->createGroupItem(i);
         // the following call shouldn't do anything, but we test that behaviour too.
-        groups.ungroupItem(i, undo, redo);
-        REQUIRE(groups.getRootId(i) == i);
-        REQUIRE(groups.isLeaf(i));
-        REQUIRE(groups.getLeaves(i).size() == 1);
-        REQUIRE(groups.getSubtree(i).size() == 1);
-        REQUIRE(groups.checkConsistency(false));
+        groups->ungroupItem(i, undo, redo);
+        REQUIRE(groups->getRootId(i) == i);
+        REQUIRE(groups->isLeaf(i));
+        REQUIRE(groups->getLeaves(i).size() == 1);
+        REQUIRE(groups->getSubtree(i).size() == 1);
+        REQUIRE(groups->checkConsistency(false));
     }
-    KdenliveDoc::next_id = 10;
+    KdenliveTests::resetNextId(10);
 
     auto g1 = std::unordered_set<int>({4, 6, 7, 9});
-    int gid1 = groups.groupItems(g1, undo, redo);
+    int gid1 = groups->groupItems(g1, undo, redo);
 
     SECTION("One single group")
     {
         for (int i = 0; i < 10; i++) {
             if (g1.count(i) > 0) {
-                REQUIRE(groups.getRootId(i) == gid1);
+                REQUIRE(groups->getRootId(i) == gid1);
             } else {
-                REQUIRE(groups.getRootId(i) == i);
+                REQUIRE(groups->getRootId(i) == i);
             }
-            REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-            REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
         }
-        REQUIRE(groups.getLeaves(gid1) == g1);
+        REQUIRE(groups->getLeaves(gid1) == g1);
         auto g1b = g1;
         g1b.insert(gid1);
-        REQUIRE(groups.getSubtree(gid1) == g1b);
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(groups->getSubtree(gid1) == g1b);
+        REQUIRE(groups->checkConsistency(false));
     }
     SECTION("Twice the same group")
     {
         int old_gid1 = gid1;
-        gid1 = groups.groupItems(g1, undo, redo); // recreate the same group (will create a parent with the old group as only element)
+        gid1 = groups->groupItems(g1, undo, redo); // recreate the same group (will create a parent with the old group as only element)
         for (int i = 0; i < 10; i++) {
             if (g1.count(i) > 0) {
-                REQUIRE(groups.getRootId(i) == gid1);
+                REQUIRE(groups->getRootId(i) == gid1);
             } else {
-                REQUIRE(groups.getRootId(i) == i);
+                REQUIRE(groups->getRootId(i) == i);
             }
-            REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-            REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
         }
-        REQUIRE(groups.getLeaves(gid1) == g1);
-        REQUIRE(groups.getLeaves(old_gid1) == g1);
+        REQUIRE(groups->getLeaves(gid1) == g1);
+        REQUIRE(groups->getLeaves(old_gid1) == g1);
         auto g1b = g1;
         g1b.insert(old_gid1);
-        REQUIRE(groups.getSubtree(old_gid1) == g1b);
+        REQUIRE(groups->getSubtree(old_gid1) == g1b);
         g1b.insert(gid1);
-        REQUIRE(groups.getSubtree(gid1) == g1b);
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(groups->getSubtree(gid1) == g1b);
+        REQUIRE(groups->checkConsistency(false));
     }
 
     auto g2 = std::unordered_set<int>({3, 5, 7});
-    int gid2 = groups.groupItems(g2, undo, redo);
+    int gid2 = groups->groupItems(g2, undo, redo);
     auto all_g2 = g2;
     all_g2.insert(4);
     all_g2.insert(6);
@@ -320,23 +319,23 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         for (int i = 0; i < 10; i++) {
             CAPTURE(i);
             if (all_g2.count(i) > 0) {
-                REQUIRE(groups.getRootId(i) == gid2);
+                REQUIRE(groups->getRootId(i) == gid2);
             } else {
-                REQUIRE(groups.getRootId(i) == i);
+                REQUIRE(groups->getRootId(i) == i);
             }
-            REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-            REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
         }
-        REQUIRE(groups.getLeaves(gid1) == g1);
-        REQUIRE(groups.getLeaves(gid2) == all_g2);
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(groups->getLeaves(gid1) == g1);
+        REQUIRE(groups->getLeaves(gid2) == all_g2);
+        REQUIRE(groups->checkConsistency(false));
     }
 
     auto g3 = std::unordered_set<int>({0, 1});
-    int gid3 = groups.groupItems(g3, undo, redo);
+    int gid3 = groups->groupItems(g3, undo, redo);
 
     auto g4 = std::unordered_set<int>({0, 4});
-    int gid4 = groups.groupItems(g4, undo, redo);
+    int gid4 = groups->groupItems(g4, undo, redo);
     auto all_g4 = all_g2;
     for (int i : g3)
         all_g4.insert(i);
@@ -346,41 +345,41 @@ TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")
         for (int i = 0; i < 10; i++) {
             CAPTURE(i);
             if (all_g4.count(i) > 0) {
-                REQUIRE(groups.getRootId(i) == gid4);
+                REQUIRE(groups->getRootId(i) == gid4);
             } else {
-                REQUIRE(groups.getRootId(i) == i);
+                REQUIRE(groups->getRootId(i) == i);
             }
-            REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-            REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
         }
-        REQUIRE(groups.getLeaves(gid1) == g1);
-        REQUIRE(groups.getLeaves(gid2) == all_g2);
-        REQUIRE(groups.getLeaves(gid3) == g3);
-        REQUIRE(groups.getLeaves(gid4) == all_g4);
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(groups->getLeaves(gid1) == g1);
+        REQUIRE(groups->getLeaves(gid2) == all_g2);
+        REQUIRE(groups->getLeaves(gid3) == g3);
+        REQUIRE(groups->getLeaves(gid4) == all_g4);
+        REQUIRE(groups->checkConsistency(false));
     }
 
     // the following should delete g4
-    groups.ungroupItem(3, undo, redo);
+    groups->ungroupItem(3, undo, redo);
 
     SECTION("Ungroup")
     {
         for (int i = 0; i < 10; i++) {
             CAPTURE(i);
             if (all_g2.count(i) > 0) {
-                REQUIRE(groups.getRootId(i) == gid2);
+                REQUIRE(groups->getRootId(i) == gid2);
             } else if (g3.count(i) > 0) {
-                REQUIRE(groups.getRootId(i) == gid3);
+                REQUIRE(groups->getRootId(i) == gid3);
             } else {
-                REQUIRE(groups.getRootId(i) == i);
+                REQUIRE(groups->getRootId(i) == i);
             }
-            REQUIRE(groups.getSubtree(i) == std::unordered_set<int>({i}));
-            REQUIRE(groups.getLeaves(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getSubtree(i) == std::unordered_set<int>({i}));
+            REQUIRE(groups->getLeaves(i) == std::unordered_set<int>({i}));
         }
-        REQUIRE(groups.getLeaves(gid1) == g1);
-        REQUIRE(groups.checkConsistency(false));
-        REQUIRE(groups.getLeaves(gid2) == all_g2);
-        REQUIRE(groups.getLeaves(gid3) == g3);
+        REQUIRE(groups->getLeaves(gid1) == g1);
+        REQUIRE(groups->checkConsistency(false));
+        REQUIRE(groups->getLeaves(gid2) == all_g2);
+        REQUIRE(groups->getLeaves(gid3) == g3);
     }
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
@@ -393,70 +392,68 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 
     // Create document
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    KdenliveDoc::next_id = 0;
-    GroupsModel groups(timeline);
+    KdenliveTests::resetNextId();
+    GroupsModel *groups = KdenliveTests::groupsModel(timeline);
 
     for (int i = 0; i < 4; i++) {
-        groups.createGroupItem(i);
+        groups->createGroupItem(i);
     }
-    KdenliveDoc::next_id = 5;
+    KdenliveTests::resetNextId(5);
     auto g1 = std::unordered_set<int>({0, 1});
-    int gid1 = groups.groupItems(g1, undo, redo);
+    int gid1 = groups->groupItems(g1, undo, redo);
 
     auto g2 = std::unordered_set<int>({2, 3});
-    int gid2 = groups.groupItems(g2, undo, redo);
+    int gid2 = groups->groupItems(g2, undo, redo);
     Q_UNUSED(gid2);
 
     auto g3 = std::unordered_set<int>({0, 3});
-    int gid3 = groups.groupItems(g3, undo, redo);
+    int gid3 = groups->groupItems(g3, undo, redo);
 
-    REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({0, 1, 2, 3}));
-    REQUIRE(groups.checkConsistency(false));
+    REQUIRE(groups->getLeaves(gid3) == std::unordered_set<int>({0, 1, 2, 3}));
+    REQUIRE(groups->checkConsistency(false));
 
-    groups.destructGroupItem(0, true, undo, redo);
+    KdenliveTests::destructGroupItem(timeline, 0, true, undo, redo);
 
-    REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({1, 2, 3}));
-    REQUIRE(groups.checkConsistency(false));
+    REQUIRE(groups->getLeaves(gid3) == std::unordered_set<int>({1, 2, 3}));
+    REQUIRE(groups->checkConsistency(false));
 
     SECTION("Normal deletion")
     {
-        groups.destructGroupItem(1, false, undo, redo);
+        KdenliveTests::destructGroupItem(timeline, 1, false, undo, redo);
 
-        REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({gid1, 2, 3}));
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(groups->getLeaves(gid3) == std::unordered_set<int>({gid1, 2, 3}));
+        REQUIRE(groups->checkConsistency(false));
+        KdenliveTests::destructGroupItem(timeline, gid1, true, undo, redo);
 
-        groups.destructGroupItem(gid1, true, undo, redo);
-
-        REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({2, 3}));
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(groups->getLeaves(gid3) == std::unordered_set<int>({2, 3}));
+        REQUIRE(groups->checkConsistency(false));
     }
 
     SECTION("Cascade deletion")
     {
-        groups.destructGroupItem(1, true, undo, redo);
+        KdenliveTests::destructGroupItem(timeline, 1, true, undo, redo);
 
-        REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({2, 3}));
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(groups->getLeaves(gid3) == std::unordered_set<int>({2, 3}));
+        REQUIRE(groups->checkConsistency(false));
 
-        groups.destructGroupItem(2, true, undo, redo);
+        KdenliveTests::destructGroupItem(timeline, 2, true, undo, redo);
 
-        REQUIRE(groups.getLeaves(gid3) == std::unordered_set<int>({3}));
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(groups->getLeaves(gid3) == std::unordered_set<int>({3}));
+        REQUIRE(groups->checkConsistency(false));
 
-        REQUIRE(groups.m_downLink.count(gid3) > 0);
-        groups.destructGroupItem(3, true, undo, redo);
-        REQUIRE(groups.m_downLink.count(gid3) == 0);
-        REQUIRE(groups.m_downLink.size() == 0);
-        REQUIRE(groups.checkConsistency(false));
+        REQUIRE(KdenliveTests::downLinks(timeline, gid3) > 0);
+        KdenliveTests::destructGroupItem(timeline, 3, true, undo, redo);
+        REQUIRE(KdenliveTests::downLinks(timeline, gid3) == 0);
+        REQUIRE(KdenliveTests::downLinksSize(timeline) == 0);
+        REQUIRE(groups->checkConsistency(false));
     }
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
@@ -470,15 +467,14 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
 
     // Create document
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     QDateTime documentDate = QDateTime::currentDateTime();
     const QUuid uuid1 = document.uuid();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(uuid1);
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Create a new sequence clip
     std::pair<int, int> tracks = {2, 2};
@@ -501,22 +497,21 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
     /*TimelineItemModel tim(mockedDoc.uuid(), pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
 
     QUuid uuid2 = QUuid::createUuid();
     TimelineItemModel tim2(uuid2, pCore->getProjectProfile(), undoStack);
     Mock<TimelineItemModel> timMock2(tim2);
     auto timeline2 = std::shared_ptr<TimelineItemModel>(&timMock2.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline2);
+    KdenliveTests::finishTimelineConstruct(timeline2);
     mockedDoc.addTimeline(uuid2, timeline2);
 
     RESET(timMock2);*/
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducerWithSound(pCore->getProjectProfile(), binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int length = binModel->getClipByBinID(binId)->frameDuration();
-    GroupsModel groups(timeline);
 
     std::vector<int> clips;
     for (int i = 0; i < 4; i++) {
@@ -524,7 +519,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
             clips.push_back(ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly));
         } else {
             clips.push_back(ClipModel::construct(timeline, binId, -1, PlaylistState::AudioOnly));
-            timeline->m_allClips[clips.back()]->m_canBeAudio = true;
+            KdenliveTests::forceClipAudio(timeline, clips.back());
         }
     }
     std::vector<int> clips2;
@@ -533,7 +528,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
             clips2.push_back(ClipModel::construct(timeline2, binId, -1, PlaylistState::VideoOnly));
         } else {
             clips2.push_back(ClipModel::construct(timeline2, binId, -1, PlaylistState::AudioOnly));
-            timeline2->m_allClips[clips2.back()]->m_canBeAudio = true;
+            KdenliveTests::forceClipAudio(timeline2, clips2.back());
         }
     }
     int tid1 = TrackModel::construct(timeline);
@@ -553,10 +548,10 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
     SECTION("Basic Creation and export/import from json")
     {
         auto check_roots = [&](int r1, int r2, int r3, int r4) {
-            REQUIRE(timeline->m_groups->getRootId(clips[0]) == r1);
-            REQUIRE(timeline->m_groups->getRootId(clips[1]) == r2);
-            REQUIRE(timeline->m_groups->getRootId(clips[2]) == r3);
-            REQUIRE(timeline->m_groups->getRootId(clips[3]) == r4);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(clips[0]) == r1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(clips[1]) == r2);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(clips[2]) == r3);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(clips[3]) == r4);
         };
 
         // the following function is a recursive function to check the correctness of a json import
@@ -565,7 +560,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         std::function<int(int)> rec_check;
         rec_check = [&](int gid) {
             // we first check if the gid is a leaf
-            if (timeline2->m_groups->isLeaf(gid)) {
+            if (KdenliveTests::groupsModel(timeline2)->isLeaf(gid)) {
                 // then it must be a clip/composition
                 int found = -1;
                 for (int i = 0; i < 4; i++) {
@@ -581,7 +576,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
                 }
             } else {
                 // we find correspondences of all the children
-                auto children = timeline2->m_groups->getDirectChildren(gid);
+                auto children = KdenliveTests::groupsModel(timeline2)->getDirectChildren(gid);
                 std::unordered_set<int> corresp;
                 for (int c : children) {
                     corresp.insert(rec_check(c));
@@ -592,7 +587,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
                 std::unordered_set<int> parents;
                 for (int c : corresp) {
                     // we find the parents of the corresponding groups in the original hierarchy
-                    parents.insert(timeline->m_groups->m_upLink[c]);
+                    parents.insert(KdenliveTests::groupUpLink(timeline)[c]);
                 }
                 // if the matching is correct, we should have found only one parent
                 if (parents.size() != 1) {
@@ -607,23 +602,23 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
             for (int i = 0; i < 4; i++) {
-                while (timeline2->m_groups->getRootId(clips2[i]) != clips2[i]) {
-                    timeline2->m_groups->ungroupItem(clips2[i], undo, redo);
+                while (KdenliveTests::groupsModel(timeline2)->getRootId(clips2[i]) != clips2[i]) {
+                    KdenliveTests::groupsModel(timeline2)->ungroupItem(clips2[i], undo, redo);
                 }
             }
             // we do the export then import
-            REQUIRE(timeline2->m_groups->fromJson(timeline->m_groups->toJson()));
+            REQUIRE(KdenliveTests::groupsModel(timeline2)->fromJson(KdenliveTests::groupsModel(timeline)->toJson()));
             std::unordered_map<int, int> roots;
             for (int i = 0; i < 4; i++) {
-                int r = timeline2->m_groups->getRootId(clips2[i]);
+                int r = KdenliveTests::groupsModel(timeline2)->getRootId(clips2[i]);
                 if (roots.count(r) == 0) {
                     roots[r] = rec_check(r);
                     REQUIRE(roots[r] != -1);
                 }
             }
             for (int i = 0; i < 4; i++) {
-                int r = timeline->m_groups->getRootId(clips[i]);
-                int r2 = timeline2->m_groups->getRootId(clips2[i]);
+                int r = KdenliveTests::groupsModel(timeline)->getRootId(clips[i]);
+                int r2 = KdenliveTests::groupsModel(timeline2)->getRootId(clips2[i]);
                 REQUIRE(roots[r2] == r);
             }
             pCore->projectManager()->setActiveTimeline(uuid1);
@@ -657,11 +652,11 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         init_index = undoStack->index();
         REQUIRE(timeline->requestClipsGroup(g1, true, GroupType::Normal) > 0);
         auto state1 = [&]() {
-            gid1 = timeline->m_groups->getRootId(clips[0]);
+            gid1 = KdenliveTests::groupsModel(timeline)->getRootId(clips[0]);
             check_roots(gid1, gid1, clips[2], clips[3]);
-            REQUIRE(timeline->m_groups->getType(gid1) == GroupType::Normal);
-            REQUIRE(timeline->m_groups->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid1) == GroupType::Normal);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
             REQUIRE(undoStack->index() == init_index + 1);
             pCore->projectManager()->setActiveTimeline(uuid1);
             REQUIRE(timeline->checkConsistency());
@@ -674,14 +669,14 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         auto g2 = std::unordered_set<int>({clips[2], clips[3]});
         REQUIRE(timeline->requestClipsGroup(g2, true, GroupType::AVSplit) > 0);
         auto state2 = [&]() {
-            gid2 = timeline->m_groups->getRootId(clips[2]);
+            gid2 = KdenliveTests::groupsModel(timeline)->getRootId(clips[2]);
             check_roots(gid1, gid1, gid2, gid2);
-            REQUIRE(timeline->m_groups->getType(gid1) == GroupType::Normal);
-            REQUIRE(timeline->m_groups->getType(gid2) == GroupType::AVSplit);
-            REQUIRE(timeline->m_groups->getSubtree(gid2) == std::unordered_set<int>({gid2, clips[2], clips[3]}));
-            REQUIRE(timeline->m_groups->getLeaves(gid2) == std::unordered_set<int>({clips[2], clips[3]}));
-            REQUIRE(timeline->m_groups->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid1) == GroupType::Normal);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid2) == GroupType::AVSplit);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getSubtree(gid2) == std::unordered_set<int>({gid2, clips[2], clips[3]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid2) == std::unordered_set<int>({clips[2], clips[3]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
             REQUIRE(undoStack->index() == init_index + 2);
             pCore->projectManager()->setActiveTimeline(uuid1);
             REQUIRE(timeline->checkConsistency());
@@ -694,17 +689,18 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         REQUIRE(timeline->requestClipsGroup(g3, true, GroupType::Normal) > 0);
         auto state3 = [&]() {
             REQUIRE(undoStack->index() == init_index + 3);
-            gid3 = timeline->m_groups->getRootId(clips[0]);
+            gid3 = KdenliveTests::groupsModel(timeline)->getRootId(clips[0]);
             check_roots(gid3, gid3, gid3, gid3);
-            REQUIRE(timeline->m_groups->getType(gid1) == GroupType::Normal);
-            REQUIRE(timeline->m_groups->getType(gid2) == GroupType::AVSplit);
-            REQUIRE(timeline->m_groups->getType(gid3) == GroupType::Normal);
-            REQUIRE(timeline->m_groups->getSubtree(gid3) == std::unordered_set<int>({gid1, clips[0], clips[1], gid3, gid2, clips[2], clips[3]}));
-            REQUIRE(timeline->m_groups->getLeaves(gid3) == std::unordered_set<int>({clips[2], clips[3], clips[0], clips[1]}));
-            REQUIRE(timeline->m_groups->getSubtree(gid2) == std::unordered_set<int>({gid2, clips[2], clips[3]}));
-            REQUIRE(timeline->m_groups->getLeaves(gid2) == std::unordered_set<int>({clips[2], clips[3]}));
-            REQUIRE(timeline->m_groups->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid1) == GroupType::Normal);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid2) == GroupType::AVSplit);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid3) == GroupType::Normal);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getSubtree(gid3) ==
+                    std::unordered_set<int>({gid1, clips[0], clips[1], gid3, gid2, clips[2], clips[3]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid3) == std::unordered_set<int>({clips[2], clips[3], clips[0], clips[1]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getSubtree(gid2) == std::unordered_set<int>({gid2, clips[2], clips[3]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid2) == std::unordered_set<int>({clips[2], clips[3]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getSubtree(gid1) == std::unordered_set<int>({gid1, clips[0], clips[1]}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({clips[0], clips[1]}));
             pCore->projectManager()->setActiveTimeline(uuid1);
             REQUIRE(timeline->checkConsistency());
         };
@@ -770,7 +766,7 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         REQUIRE(timeline->requestClipMove(clips[3], tid3, 50 + 3 * length));
 
         auto state0 = [&]() {
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
             REQUIRE(timeline->getTrackClipsCount(tid3) == 2);
             REQUIRE(timeline->getClipsCount() == 4);
@@ -787,9 +783,9 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
 
         auto state = [&](int gid1, int gid2, int gid3) {
             state0();
-            REQUIRE(timeline->m_groups->getType(gid1) == GroupType::AVSplit);
-            REQUIRE(timeline->m_groups->getType(gid2) == GroupType::AVSplit);
-            REQUIRE(timeline->m_groups->getType(gid3) == GroupType::Normal);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid1) == GroupType::AVSplit);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid2) == GroupType::AVSplit);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid3) == GroupType::Normal);
             REQUIRE(timeline->checkConsistency());
         };
         state0();
@@ -811,8 +807,8 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
             REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
             REQUIRE(timeline->getTrackClipsCount(tid3) == 0);
             REQUIRE(timeline->getClipsCount() == 0);
-            REQUIRE(timeline->getTrackById(tid1)->checkConsistency());
-            REQUIRE(timeline->getTrackById(tid3)->checkConsistency());
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->checkConsistency());
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->checkConsistency());
             REQUIRE(timeline->checkConsistency());
 
             undoStack->undo();
@@ -998,52 +994,51 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
 
     // Create document
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
-    KdenliveDoc::next_id = 0;
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+    KdenliveTests::resetNextId();
 
-    GroupsModel groups(timeline);
+    GroupsModel *groups = KdenliveTests::groupsModel(timeline);
 
     SECTION("MergeSingleGroups")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        REQUIRE(groups.m_upLink.size() == 0);
+        REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 0);
 
         for (int i = 0; i < 6; i++) {
-            groups.createGroupItem(i);
+            groups->createGroupItem(i);
         }
-        groups.setGroup(0, 3);
-        groups.setGroup(2, 4);
-        groups.setGroup(3, 1);
-        groups.setGroup(4, 1);
-        groups.setGroup(5, 0);
+        groups->setGroup(0, 3);
+        groups->setGroup(2, 4);
+        groups->setGroup(3, 1);
+        groups->setGroup(4, 1);
+        groups->setGroup(5, 0);
 
         auto test_tree = [&]() {
-            REQUIRE(groups.getSubtree(1) == std::unordered_set<int>({0, 1, 2, 3, 4, 5}));
-            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({5}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({3, 4}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({0}));
-            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({2}));
-            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
-            REQUIRE(groups.checkConsistency(false));
+            REQUIRE(groups->getSubtree(1) == std::unordered_set<int>({0, 1, 2, 3, 4, 5}));
+            REQUIRE(groups->getDirectChildren(0) == std::unordered_set<int>({5}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({3, 4}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({0}));
+            REQUIRE(groups->getDirectChildren(4) == std::unordered_set<int>({2}));
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups->checkConsistency(false));
         };
         test_tree();
 
-        REQUIRE(groups.mergeSingleGroups(1, undo, redo));
+        REQUIRE(groups->mergeSingleGroups(1, undo, redo));
         auto test_tree2 = [&]() {
-            REQUIRE(groups.getSubtree(1) == std::unordered_set<int>({1, 2, 5}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({2, 5}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getSubtree(1) == std::unordered_set<int>({1, 2, 5}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({2, 5}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups->checkConsistency());
         };
         test_tree2();
 
@@ -1058,29 +1053,29 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        REQUIRE(groups.m_upLink.size() == 0);
+        REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 0);
 
         for (int i = 0; i < 3; i++) {
-            groups.createGroupItem(i);
+            groups->createGroupItem(i);
         }
-        groups.setGroup(1, 0);
-        groups.setGroup(2, 1);
+        groups->setGroup(1, 0);
+        groups->setGroup(2, 1);
 
         auto test_tree = [&]() {
-            REQUIRE(groups.getSubtree(0) == std::unordered_set<int>({0, 1, 2}));
-            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({2}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
-            REQUIRE(groups.checkConsistency(false));
+            REQUIRE(groups->getSubtree(0) == std::unordered_set<int>({0, 1, 2}));
+            REQUIRE(groups->getDirectChildren(0) == std::unordered_set<int>({1}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({2}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups->checkConsistency(false));
         };
         test_tree();
 
-        REQUIRE(groups.mergeSingleGroups(0, undo, redo));
+        REQUIRE(groups->mergeSingleGroups(0, undo, redo));
         auto test_tree2 = [&]() {
-            REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({2}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
-            REQUIRE(groups.getRootId(2) == 2);
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getSubtree(2) == std::unordered_set<int>({2}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups->getRootId(2) == 2);
+            REQUIRE(groups->checkConsistency());
         };
         test_tree2();
 
@@ -1095,42 +1090,42 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        REQUIRE(groups.m_upLink.size() == 0);
+        REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 0);
 
         for (int i = 0; i < 6; i++) {
-            groups.createGroupItem(i);
+            groups->createGroupItem(i);
         }
-        groups.setGroup(0, 2);
-        groups.setGroup(1, 0);
-        groups.setGroup(3, 1);
-        groups.setGroup(4, 1);
-        groups.setGroup(5, 4);
+        groups->setGroup(0, 2);
+        groups->setGroup(1, 0);
+        groups->setGroup(3, 1);
+        groups->setGroup(4, 1);
+        groups->setGroup(5, 4);
 
         auto test_tree = [&]() {
             for (int i = 0; i < 6; i++) {
-                REQUIRE(groups.getRootId(i) == 2);
+                REQUIRE(groups->getRootId(i) == 2);
             }
-            REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({0, 1, 2, 3, 4, 5}));
-            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({4, 3}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({0}));
-            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({5}));
-            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
-            REQUIRE(groups.checkConsistency(false));
+            REQUIRE(groups->getSubtree(2) == std::unordered_set<int>({0, 1, 2, 3, 4, 5}));
+            REQUIRE(groups->getDirectChildren(0) == std::unordered_set<int>({1}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({4, 3}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({0}));
+            REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(4) == std::unordered_set<int>({5}));
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups->checkConsistency(false));
         };
         test_tree();
 
-        REQUIRE(groups.mergeSingleGroups(2, undo, redo));
+        REQUIRE(groups->mergeSingleGroups(2, undo, redo));
         auto test_tree2 = [&]() {
-            REQUIRE(groups.getRootId(1) == 1);
-            REQUIRE(groups.getRootId(3) == 1);
-            REQUIRE(groups.getRootId(5) == 1);
-            REQUIRE(groups.getSubtree(1) == std::unordered_set<int>({1, 3, 5}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({3, 5}));
-            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getRootId(1) == 1);
+            REQUIRE(groups->getRootId(3) == 1);
+            REQUIRE(groups->getRootId(5) == 1);
+            REQUIRE(groups->getSubtree(1) == std::unordered_set<int>({1, 3, 5}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({3, 5}));
+            REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups->checkConsistency());
         };
         test_tree2();
 
@@ -1144,28 +1139,28 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        REQUIRE(groups.m_upLink.size() == 0);
+        REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 0);
 
         // This is a dummy split criterion
         auto criterion = [](int a) { return a % 2 == 0; };
         auto criterion2 = [](int a) { return a % 2 != 0; };
 
         // We create a leaf
-        groups.createGroupItem(1);
+        groups->createGroupItem(1);
         auto test_leaf = [&]() {
-            REQUIRE(groups.getRootId(1) == 1);
-            REQUIRE(groups.isLeaf(1));
-            REQUIRE(groups.m_upLink.size() == 1);
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getRootId(1) == 1);
+            REQUIRE(groups->isLeaf(1));
+            REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 1);
+            REQUIRE(groups->checkConsistency());
         };
         test_leaf();
 
-        REQUIRE(groups.split(1, criterion, undo, redo));
+        REQUIRE(groups->split(1, criterion, undo, redo));
         test_leaf();
         undo();
         test_leaf();
         redo();
-        REQUIRE(groups.split(1, criterion2, undo, redo));
+        REQUIRE(groups->split(1, criterion2, undo, redo));
         test_leaf();
         undo();
         test_leaf();
@@ -1175,40 +1170,40 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        REQUIRE(groups.m_upLink.size() == 0);
+        REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 0);
 
         // This is a dummy split criterion
         auto criterion = [](int a) { return a % 2 == 0; };
-        KdenliveDoc::next_id = 0;
+        KdenliveTests::resetNextId();
 
         // We create a very simple tree
         for (int i = 0; i < 3; i++) {
-            groups.createGroupItem(i);
+            groups->createGroupItem(i);
         }
-        groups.setGroup(1, 0);
-        groups.setGroup(2, 0);
-        KdenliveDoc::next_id = 3;
+        groups->setGroup(1, 0);
+        groups->setGroup(2, 0);
+        KdenliveTests::resetNextId(3);
         auto test_tree = [&]() {
-            REQUIRE(groups.getRootId(0) == 0);
-            REQUIRE(groups.getRootId(1) == 0);
-            REQUIRE(groups.getRootId(2) == 0);
-            REQUIRE(groups.getSubtree(0) == std::unordered_set<int>({0, 1, 2}));
-            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1, 2}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getRootId(0) == 0);
+            REQUIRE(groups->getRootId(1) == 0);
+            REQUIRE(groups->getRootId(2) == 0);
+            REQUIRE(groups->getSubtree(0) == std::unordered_set<int>({0, 1, 2}));
+            REQUIRE(groups->getDirectChildren(0) == std::unordered_set<int>({1, 2}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups->checkConsistency());
         };
         test_tree();
 
-        REQUIRE(groups.split(0, criterion, undo, redo));
+        REQUIRE(groups->split(0, criterion, undo, redo));
         auto test_tree2 = [&]() {
-            REQUIRE(groups.getRootId(1) == 1);
-            REQUIRE(groups.getRootId(2) == 2);
-            REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({2}));
-            REQUIRE(groups.getSubtree(1) == std::unordered_set<int>({1}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getRootId(1) == 1);
+            REQUIRE(groups->getRootId(2) == 2);
+            REQUIRE(groups->getSubtree(2) == std::unordered_set<int>({2}));
+            REQUIRE(groups->getSubtree(1) == std::unordered_set<int>({1}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups->checkConsistency());
         };
         test_tree2();
 
@@ -1223,68 +1218,68 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        REQUIRE(groups.m_upLink.size() == 0);
+        REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 0);
 
         // This is a dummy split criterion
         auto criterion = [](int a) { return a % 2 != 0; };
 
         for (int i = 0; i < 9; i++) {
-            groups.createGroupItem(i);
+            groups->createGroupItem(i);
         }
-        KdenliveDoc::next_id = 9;
-        groups.setGroup(0, 3);
-        groups.setGroup(1, 0);
-        groups.setGroup(3, 2);
-        groups.setGroup(4, 3);
-        groups.setGroup(5, 8);
-        groups.setGroup(6, 0);
-        groups.setGroup(7, 8);
-        groups.setGroup(8, 2);
+        KdenliveTests::resetNextId(9);
+        groups->setGroup(0, 3);
+        groups->setGroup(1, 0);
+        groups->setGroup(3, 2);
+        groups->setGroup(4, 3);
+        groups->setGroup(5, 8);
+        groups->setGroup(6, 0);
+        groups->setGroup(7, 8);
+        groups->setGroup(8, 2);
 
         auto test_tree = [&]() {
             for (int i = 0; i < 9; i++) {
-                REQUIRE(groups.getRootId(i) == 2);
+                REQUIRE(groups->getRootId(i) == 2);
             }
-            REQUIRE(groups.getSubtree(2) == std::unordered_set<int>({0, 1, 2, 3, 4, 5, 6, 7, 8}));
-            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({1, 6}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({3, 8}));
-            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({0, 4}));
-            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(6) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(7) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(8) == std::unordered_set<int>({5, 7}));
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getSubtree(2) == std::unordered_set<int>({0, 1, 2, 3, 4, 5, 6, 7, 8}));
+            REQUIRE(groups->getDirectChildren(0) == std::unordered_set<int>({1, 6}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({3, 8}));
+            REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({0, 4}));
+            REQUIRE(groups->getDirectChildren(4) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(6) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(7) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(8) == std::unordered_set<int>({5, 7}));
+            REQUIRE(groups->checkConsistency());
         };
         test_tree();
 
-        REQUIRE(groups.split(2, criterion, undo, redo));
+        REQUIRE(groups->split(2, criterion, undo, redo));
         auto test_tree2 = [&]() {
-            REQUIRE(groups.getRootId(6) == 3);
-            REQUIRE(groups.getRootId(3) == 3);
-            REQUIRE(groups.getRootId(4) == 3);
-            REQUIRE(groups.getSubtree(3) == std::unordered_set<int>({3, 4, 6}));
-            REQUIRE(groups.getDirectChildren(6) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({6, 4}));
+            REQUIRE(groups->getRootId(6) == 3);
+            REQUIRE(groups->getRootId(3) == 3);
+            REQUIRE(groups->getRootId(4) == 3);
+            REQUIRE(groups->getSubtree(3) == std::unordered_set<int>({3, 4, 6}));
+            REQUIRE(groups->getDirectChildren(6) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(4) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({6, 4}));
             // new tree
-            int newRoot = groups.getRootId(1);
-            REQUIRE(groups.getRootId(1) == newRoot);
-            REQUIRE(groups.getRootId(5) == newRoot);
-            REQUIRE(groups.getRootId(7) == newRoot);
+            int newRoot = groups->getRootId(1);
+            REQUIRE(groups->getRootId(1) == newRoot);
+            REQUIRE(groups->getRootId(5) == newRoot);
+            REQUIRE(groups->getRootId(7) == newRoot);
             int other = -1;
-            REQUIRE(groups.getDirectChildren(newRoot).size() == 2);
-            for (int c : groups.getDirectChildren(newRoot))
+            REQUIRE(groups->getDirectChildren(newRoot).size() == 2);
+            for (int c : groups->getDirectChildren(newRoot))
                 if (c != 1) other = c;
             REQUIRE(other != -1);
-            REQUIRE(groups.getSubtree(newRoot) == std::unordered_set<int>({1, 5, 7, newRoot, other}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(7) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(newRoot) == std::unordered_set<int>({1, other}));
-            REQUIRE(groups.getDirectChildren(other) == std::unordered_set<int>({5, 7}));
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getSubtree(newRoot) == std::unordered_set<int>({1, 5, 7, newRoot, other}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(7) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(newRoot) == std::unordered_set<int>({1, other}));
+            REQUIRE(groups->getDirectChildren(other) == std::unordered_set<int>({5, 7}));
+            REQUIRE(groups->checkConsistency());
         };
         test_tree2();
 
@@ -1298,70 +1293,70 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        REQUIRE(groups.m_upLink.size() == 0);
+        REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 0);
 
         // This is a dummy split criterion
         auto criterion = [](int a) { return a % 2 == 0; };
 
         // We create a very simple tree
         for (int i = 0; i <= 6; i++) {
-            groups.createGroupItem(i);
+            groups->createGroupItem(i);
         }
-        KdenliveDoc::next_id = 7;
-        groups.setGroup(0, 4);
-        groups.setGroup(2, 4);
-        groups.setGroup(1, 5);
-        groups.setGroup(3, 5);
+        KdenliveTests::resetNextId(7);
+        groups->setGroup(0, 4);
+        groups->setGroup(2, 4);
+        groups->setGroup(1, 5);
+        groups->setGroup(3, 5);
 
-        groups.setGroup(4, 6);
-        groups.setGroup(5, 6);
+        groups->setGroup(4, 6);
+        groups->setGroup(5, 6);
 
-        groups.setType(4, GroupType::AVSplit);
-        groups.setType(5, GroupType::AVSplit);
-        groups.setType(6, GroupType::Normal);
+        KdenliveTests::setGroupType(timeline, 4, GroupType::AVSplit);
+        KdenliveTests::setGroupType(timeline, 5, GroupType::AVSplit);
+        KdenliveTests::setGroupType(timeline, 6, GroupType::Normal);
 
         auto test_tree = [&]() {
-            REQUIRE(groups.m_upLink.size() == 7);
+            REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 7);
             for (int i = 0; i <= 6; i++) {
-                REQUIRE(groups.getRootId(i) == 6);
+                REQUIRE(groups->getRootId(i) == 6);
             }
-            REQUIRE(groups.getSubtree(6) == std::unordered_set<int>({0, 1, 2, 3, 4, 5, 6}));
-            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(4) == std::unordered_set<int>({0, 2}));
-            REQUIRE(groups.getDirectChildren(5) == std::unordered_set<int>({1, 3}));
-            REQUIRE(groups.getDirectChildren(6) == std::unordered_set<int>({4, 5}));
-            REQUIRE(groups.getType(4) == GroupType::AVSplit);
-            REQUIRE(groups.getType(5) == GroupType::AVSplit);
-            REQUIRE(groups.getType(6) == GroupType::Normal);
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getSubtree(6) == std::unordered_set<int>({0, 1, 2, 3, 4, 5, 6}));
+            REQUIRE(groups->getDirectChildren(0) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(4) == std::unordered_set<int>({0, 2}));
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({1, 3}));
+            REQUIRE(groups->getDirectChildren(6) == std::unordered_set<int>({4, 5}));
+            REQUIRE(groups->getType(4) == GroupType::AVSplit);
+            REQUIRE(groups->getType(5) == GroupType::AVSplit);
+            REQUIRE(groups->getType(6) == GroupType::Normal);
+            REQUIRE(groups->checkConsistency());
         };
         test_tree();
         qDebug() << " done testing";
 
-        REQUIRE(groups.split(6, criterion, undo, redo));
+        REQUIRE(groups->split(6, criterion, undo, redo));
         qDebug() << " done splitting";
         auto test_tree2 = [&]() {
-            // REQUIRE(groups.m_upLink.size() == 6);
-            int r1 = groups.getRootId(0);
-            int r2 = groups.getRootId(1);
+            // REQUIRE(KdenliveTests::groupUpLink(timeline).size() == 6);
+            int r1 = groups->getRootId(0);
+            int r2 = groups->getRootId(1);
             bool ok = r1 == 4 || r2 == 5;
             REQUIRE(ok);
-            REQUIRE(groups.getRootId(2) == r1);
-            REQUIRE(groups.getRootId(3) == r2);
-            REQUIRE(groups.getSubtree(r1) == std::unordered_set<int>({r1, 0, 2}));
-            REQUIRE(groups.getSubtree(r2) == std::unordered_set<int>({r2, 1, 3}));
-            REQUIRE(groups.getDirectChildren(0) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(1) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(2) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(3) == std::unordered_set<int>({}));
-            REQUIRE(groups.getDirectChildren(r1) == std::unordered_set<int>({0, 2}));
-            REQUIRE(groups.getDirectChildren(r2) == std::unordered_set<int>({1, 3}));
-            REQUIRE(groups.getType(r1) == GroupType::AVSplit);
-            REQUIRE(groups.getType(r2) == GroupType::AVSplit);
-            REQUIRE(groups.checkConsistency());
+            REQUIRE(groups->getRootId(2) == r1);
+            REQUIRE(groups->getRootId(3) == r2);
+            REQUIRE(groups->getSubtree(r1) == std::unordered_set<int>({r1, 0, 2}));
+            REQUIRE(groups->getSubtree(r2) == std::unordered_set<int>({r2, 1, 3}));
+            REQUIRE(groups->getDirectChildren(0) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(1) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(2) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({}));
+            REQUIRE(groups->getDirectChildren(r1) == std::unordered_set<int>({0, 2}));
+            REQUIRE(groups->getDirectChildren(r2) == std::unordered_set<int>({1, 3}));
+            REQUIRE(groups->getType(r1) == GroupType::AVSplit);
+            REQUIRE(groups->getType(r2) == GroupType::AVSplit);
+            REQUIRE(groups->checkConsistency());
         };
         test_tree2();
 

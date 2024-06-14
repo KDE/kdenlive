@@ -1657,3 +1657,17 @@ int KeyframeModel::getIndexForPos(const GenTime pos) const
     }
     return static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
 }
+
+int KeyframeModel::keyframesCount() const
+{
+    return static_cast<int>(m_keyframeList.size());
+}
+
+QList<QVariant> KeyframeModel::testSerializeKeyframes() const
+{
+    QList<QVariant> model;
+    for (const auto &m : m_keyframeList) {
+        model << m.first.frames(25) << (int)m.second.first << m.second.second;
+    }
+    return model;
+}

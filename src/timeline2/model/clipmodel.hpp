@@ -34,6 +34,7 @@ protected:
               PlaylistState::ClipState state, double speed = 1.);
 
 public:
+    friend class KdenliveTests;
     ~ClipModel() override;
     /** @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip

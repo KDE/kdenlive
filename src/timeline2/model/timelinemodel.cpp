@@ -225,8 +225,9 @@ int TimelineModel::getTracksCount() const
     }
     Q_ASSERT(count >= 0);
     // don't count the black background track
-    Q_ASSERT(count - 1 == static_cast<int>(m_allTracks.size()));
-    return count - 1;
+    count--;
+    Q_ASSERT(count == static_cast<int>(m_allTracks.size()));
+    return count;
 }
 
 QPair<int, int> TimelineModel::getAVtracksCount() const
@@ -396,8 +397,7 @@ const QString TimelineModel::getClipBinId(int clipId) const
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     const auto clip = m_allClips.at(clipId);
-    QString id = clip->binId();
-    return id;
+    return clip->binId();
 }
 
 int TimelineModel::getClipPlaytime(int clipId) const
@@ -5485,6 +5485,12 @@ int TimelineModel::getItemFakePosition(int itemId) const
     return -1;
 }
 
+std::pair<int, int> TimelineModel::getClipInOut(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->getInOut();
+}
+
 int TimelineModel::getClipSubPlaylistIndex(int cid) const
 {
     Q_ASSERT(isClip(cid));
@@ -5495,6 +5501,12 @@ const QString TimelineModel::getClipName(int cid) const
 {
     Q_ASSERT(isClip(cid));
     return m_allClips.at(cid)->clipName();
+}
+
+bool TimelineModel::clipIsValid(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->isValid();
 }
 
 int TimelineModel::getItemEnd(int itemId) const

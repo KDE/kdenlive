@@ -17,6 +17,8 @@ class EffectFilter : public AssetFilter
     Q_OBJECT
 
 public:
+    friend class KdenliveTests;
+
     EffectFilter(QObject *parent = nullptr);
 
     /** @brief Manage the type filter

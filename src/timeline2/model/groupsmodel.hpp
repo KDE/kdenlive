@@ -22,6 +22,7 @@ class GroupsModel
 {
 
 public:
+    friend class KdenliveTests;
     GroupsModel() = delete;
     GroupsModel(std::weak_ptr<TimelineItemModel> parent);
 

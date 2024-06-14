@@ -24,6 +24,7 @@ class RenderPresetRepository
 {
 
 public:
+    friend class KdenliveTests;
     // Returns the instance of the Singleton
     static std::unique_ptr<RenderPresetRepository> &get();
 

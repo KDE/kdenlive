@@ -336,9 +336,13 @@ void ProjectManager::activateDocument(const QUuid &uuid)
     // pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
 }
 
-void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline)
+void ProjectManager::testSetDocument(KdenliveDoc *doc)
 {
     m_project = doc;
+}
+
+void ProjectManager::testSetActiveTimeline(std::shared_ptr<TimelineItemModel> timeline)
+{
     if (timeline == nullptr) {
         // New nested document format, build timeline model now
         const QUuid uuid = m_project->uuid();
@@ -1094,7 +1098,7 @@ void ProjectManager::doOpenFileHeadless(const QUrl &url)
     }
 
     auto timeline = m_project->getTimeline(activeUuid);
-    testSetActiveDocument(m_project, timeline);
+    testSetActiveTimeline(timeline);
 }
 
 void ProjectManager::slotRevert()

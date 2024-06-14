@@ -21,14 +21,13 @@ TEST_CASE("Show/hide tracks", "[HideTracks]")
 
     // Create document
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Audio tracks
     /*int tid1 =*/timeline->getTrackIndexFromPosition(0);
@@ -38,14 +37,14 @@ TEST_CASE("Show/hide tracks", "[HideTracks]")
     int tid4 = timeline->getTrackIndexFromPosition(3);
 
     // Create clip with audio (100 frames long)
-    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
     // Create color clip (50 frames long)
-    QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 50, false);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 50, false);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
-    timeline->m_binAudioTargets = audioInfo;
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
 
     int cid1;
     int cid2;
@@ -55,7 +54,7 @@ TEST_CASE("Show/hide tracks", "[HideTracks]")
     cid2 = timeline->getClipSplitPartner(cid1);
 
     // Remove video part
-    timeline->m_groups->ungroupItem(cid2, undo, redo);
+    timeline->requestClipUngroup(cid2, undo, redo);
     timeline->requestItemDeletion(cid1);
 
     SECTION("Disable, enable audio track and check length")

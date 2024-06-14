@@ -41,6 +41,7 @@ class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
 
 public:
     friend class RenderRequest;
+    friend class KdenliveTests;
     /** @brief Sets up actions to interact for project interaction (undo, redo, open, save, ...) and creates an empty project. */
     explicit ProjectManager(QObject *parent = nullptr);
     ~ProjectManager() override;
@@ -102,9 +103,6 @@ public:
     void addAudioTracks(int tracksCount);
     /** @brief This method is only there for tests, do not use in real app.
      */
-    void testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline = nullptr);
-    /** @brief This method is only there for tests, do not use in real app.
-     */
     bool testSaveFileAs(const QString &outputFileName);
     /** @brief Retrieve the current timeline (mostly used for testing.
      */
@@ -138,6 +136,12 @@ public:
      */
     void replaceTimelineInstances(const QString &sourceId, const QString &replacementId, bool replaceAudio, bool replaceVideo);
     void buildNotesWidget();
+    /** @brief Used for testing only
+     */
+    /** @brief This method is only there for tests, do not use in real app.
+     */
+    void testSetActiveTimeline(std::shared_ptr<TimelineItemModel> timeline = nullptr);
+    void testSetDocument(KdenliveDoc *doc);
 
 public Q_SLOTS:
     void newFile(QString profileName, bool showProjectSettings = true);

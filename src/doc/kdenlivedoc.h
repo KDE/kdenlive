@@ -89,6 +89,7 @@ class KdenliveDoc : public QObject
 public:
     friend class LoadJob;
     friend class TimelineModel;
+    friend class KdenliveTests;
     /** @brief Create a new empty Kdenlive project with the specified profile and requested number of tracks.
      *
      * @param tracks The number of <video, audio> tracks to create in the project.

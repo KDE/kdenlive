@@ -30,16 +30,14 @@ TEST_CASE("Cache insert-remove", "[Cache]")
     When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     KdenliveDoc &mockedDoc = docMock.get();
 
-    pCore->projectManager()->m_project = &mockedDoc;
+    pCore->projectManager()->testSetDocument(&mockedDoc);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-
-    pCore->projectManager()->testSetActiveDocument(&mockedDoc, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Create bin clip
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
     SECTION("Insert and remove thumbnail")
     {
@@ -65,16 +63,14 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
     When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
     KdenliveDoc &mockedDoc = docMock.get();
 
-    pCore->m_projectManager->m_project = &mockedDoc;
+    pCore->projectManager()->testSetDocument(&mockedDoc);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->m_projectManager->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    pCore->m_projectManager->m_activeTimelineModel = timeline;
-
-    pCore->m_projectManager->testSetActiveDocument(&mockedDoc, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Create bin clip
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
     SECTION("Request invalid id")
     {
@@ -83,13 +79,13 @@ TEST_CASE("getAudioKey() should dereference `ok` param", "ThumbnailCache") {
         // instead of
         //     if (*ok) {
         bool ok = true;
-        ThumbnailCache::getAudioKey(QStringLiteral("nonexistent-key"), &ok);
+        KdenliveTests::getAudioKey(QStringLiteral("nonexistent-key"), &ok);
         REQUIRE(ok == false);
     }
     SECTION("Request valid id")
     {
         bool ok = false;
-        ThumbnailCache::getAudioKey(binId, &ok);
+        KdenliveTests::getAudioKey(binId, &ok);
         REQUIRE(ok == true);
     }
     pCore->projectManager()->closeCurrentDocument(false, false);

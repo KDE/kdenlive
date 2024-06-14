@@ -32,37 +32,25 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
 
     // Create document
     KdenliveDoc document(undoStack);
-    Mock<KdenliveDoc> docMock(document);
-    KdenliveDoc &mockedDoc = docMock.get();
-
-    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-    Mock<ProjectManager> pmMock;
-    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
-    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-    ProjectManager &mocked = pmMock.get();
-    pCore->m_projectManager = &mocked;
-    mocked.m_project = &mockedDoc;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    mocked.updateTimeline(false, QString(), QString(), documentDate, 0);
-    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    mocked.m_activeTimelineModel = timeline;
-
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+    auto timeline = document.getTimeline(document.uuid());
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
-    mockedDoc.setDocumentProperty(QStringLiteral("documentid"), documentId);
-    mockedDoc.setDocumentProperty(QStringLiteral("previewextension"), QStringLiteral("avi"));
-    mockedDoc.setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral("vcodec=mjpeg progressive=1 qscale=10"));
+    document.setDocumentProperty(QStringLiteral("documentid"), documentId);
+    document.setDocumentProperty(QStringLiteral("previewextension"), QStringLiteral("avi"));
+    document.setDocumentProperty(QStringLiteral("previewparameters"), QStringLiteral("vcodec=mjpeg progressive=1 qscale=10"));
 
     // Create base tmp folder
     bool ok = false;
-    QDir dir = mockedDoc.getCacheDir(CacheBase, &ok);
+    QDir dir = document.getCacheDir(CacheBase, &ok);
     dir.mkpath(QStringLiteral("."));
     dir.mkdir(QLatin1String("preview"));
 
     int tid3 = timeline->getTrackIndexFromPosition(2);
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
 
     // Initialize timeline preview
     timeline->initializePreviewManager();
@@ -100,7 +88,7 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     // Setup insert stream data
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
-    timeline->m_binAudioTargets = audioInfo;
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
     REQUIRE(timeline->requestClipInsertion(binId, tid3, 50, cid1, true, true, false));
     REQUIRE(timeline->getClipsCount() == 1);
     timeline->previewManager()->invalidatePreviews();
@@ -113,6 +101,5 @@ TEST_CASE("Timeline preview insert-remove", "[TimelinePreview]")
     timeline->resetPreviewManager();
     // Ensure preview project folder is deleted on close
     REQUIRE(dir.exists() == false);
-    binModel->clean();
-    pCore->m_projectManager = nullptr;
+    pCore->projectManager()->closeCurrentDocument(false, false);
 }

@@ -48,6 +48,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
 
 public:
     friend class Bin;
+    friend class KdenliveTests;
     friend bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps); // for testing
     /**
      * @brief Constructor; used when loading a project and the producer is already available.

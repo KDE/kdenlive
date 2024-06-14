@@ -29,24 +29,23 @@ TEST_CASE("Effects stack", "[Effects]")
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
 
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Create a request
     int tid1;
     REQUIRE(timeline->requestTrackInsertion(-1, tid1));
 
     // Create clip
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
     int cid1;
     REQUIRE(timeline->requestClipInsertion(binId, tid1, 100, cid1));
     std::shared_ptr<ProjectClip> clip = binModel->getClipByBinID(binId);
 
-    auto model = clip->m_effectStack;
+    auto model = clip->getEffectStack();
 
     REQUIRE(model->checkConsistency());
     REQUIRE(model->rowCount() == 0);
@@ -76,7 +75,7 @@ TEST_CASE("Effects stack", "[Effects]")
 
     SECTION("Create cut with fade in")
     {
-        auto clipModel = timeline->getClipPtr(cid1)->m_effectStack;
+        auto clipModel = timeline->getClipEffectStackModel(cid1);
         REQUIRE(clipModel->rowCount() == 0);
         clipModel->appendEffect("fade_from_black");
         REQUIRE(clipModel->checkConsistency());
@@ -85,14 +84,14 @@ TEST_CASE("Effects stack", "[Effects]")
         int l = timeline->getClipPlaytime(cid1);
         REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 100 + l - 10));
         int splitted = timeline->getClipByPosition(tid1, 100 + l - 9);
-        auto splitModel = timeline->getClipPtr(splitted)->m_effectStack;
+        auto splitModel = timeline->getClipEffectStackModel(splitted);
         REQUIRE(clipModel->rowCount() == 1);
         REQUIRE(splitModel->rowCount() == 0);
     }
 
     SECTION("Create cut with fade out")
     {
-        auto clipModel = timeline->getClipPtr(cid1)->m_effectStack;
+        auto clipModel = timeline->getClipEffectStackModel(cid1);
         REQUIRE(clipModel->rowCount() == 0);
         clipModel->appendEffect("fade_to_black");
         REQUIRE(clipModel->checkConsistency());
@@ -101,7 +100,7 @@ TEST_CASE("Effects stack", "[Effects]")
         int l = timeline->getClipPlaytime(cid1);
         REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 100 + l - 10));
         int splitted = timeline->getClipByPosition(tid1, 100 + l - 9);
-        auto splitModel = timeline->getClipPtr(splitted)->m_effectStack;
+        auto splitModel = timeline->getClipEffectStackModel(splitted);
         REQUIRE(clipModel->rowCount() == 0);
         REQUIRE(splitModel->rowCount() == 1);
     }

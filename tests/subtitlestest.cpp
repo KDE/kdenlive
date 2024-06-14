@@ -23,25 +23,16 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     // Here we do some trickery to enable testing.
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
-    Mock<KdenliveDoc> docMock(document);
-    KdenliveDoc &mockedDoc = docMock.get();
-
-    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-    Mock<ProjectManager> pmMock;
-    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
-    When(Method(pmMock, cacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
-    ProjectManager &mocked = pmMock.get();
-    pCore->m_projectManager = &mocked;
-
-    mocked.m_project = &mockedDoc;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    mocked.updateTimeline(false, QString(), QString(), documentDate, 0);
-    auto timeline = mockedDoc.getTimeline(mockedDoc.uuid());
-    mocked.m_activeTimelineModel = timeline;
-    mocked.testSetActiveDocument(&mockedDoc, timeline);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+    auto timeline = document.getTimeline(document.uuid());
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+    KdenliveTests::resetNextId();
+    QDir dir = QDir::temp();
+
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
-    mockedDoc.setDocumentProperty(QStringLiteral("documentid"), documentId);
+    document.setDocumentProperty(QStringLiteral("documentid"), documentId);
 
     // Initialize subtitle model
     std::shared_ptr<SubtitleModel> subtitleModel = timeline->createSubtitleModel();
@@ -187,9 +178,9 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     SECTION("Ensure 2 subtitles cannot be place at same frame position")
     {
         // In our current implementation, having 2 subtitles at same start time is not allowed
-        int subId = TimelineModel::getNextId();
-        int subId2 = TimelineModel::getNextId();
-        int subId3 = TimelineModel::getNextId();
+        int subId = KdenliveTests::getNextId();
+        int subId2 = KdenliveTests::getNextId();
+        int subId3 = KdenliveTests::getNextId();
         double fps = pCore->getCurrentFps();
         REQUIRE(subtitleModel->addSubtitle(subId, GenTime(50, fps), GenTime(70, fps), QStringLiteral("Hello"), false, false));
         REQUIRE(subtitleModel->addSubtitle(subId2, GenTime(50, fps), GenTime(90, fps), QStringLiteral("Hello2"), false, false) == false);
@@ -204,8 +195,8 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     SECTION("Ensure we cannot cut overlapping subtitles (it would create 2 subtitles at same frame position")
     {
         // In our current implementation, having 2 subtitles at same start time is not allowed
-        int subId = TimelineModel::getNextId();
-        int subId2 = TimelineModel::getNextId();
+        int subId = KdenliveTests::getNextId();
+        int subId2 = KdenliveTests::getNextId();
         double fps = pCore->getCurrentFps();
         REQUIRE(subtitleModel->addSubtitle(subId, GenTime(50, fps), GenTime(70, fps), QStringLiteral("Hello"), false, false));
         REQUIRE(subtitleModel->addSubtitle(subId2, GenTime(60, fps), GenTime(90, fps), QStringLiteral("Hello2"), false, false));
@@ -217,5 +208,5 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
     }
 
     binModel->clean();
-    pCore->m_projectManager = nullptr;
+    pCore->projectManager()->closeCurrentDocument(false, false);
 }

@@ -12,9 +12,7 @@
 TEST_CASE("Basic tests of the render preset model", "[RenderPresets]")
 {
 
-    RenderPresetRepository::m_acodecsList = QStringList(QStringLiteral("libvorbis"));
-    RenderPresetRepository::m_vcodecsList = QStringList(QStringLiteral("libvpx"));
-    RenderPresetRepository::m_supportedFormats = QStringList(QStringLiteral("mp4"));
+    KdenliveTests::initRenderRepository();
 
     SECTION("Test getters")
     {
@@ -220,76 +218,64 @@ TEST_CASE("Tests of the render functions to use guides for sections", "[RenderRe
     int out = 100;
 
     RenderRequest *r = new RenderRequest();
-    r->m_boundingIn = in;
-    r->m_boundingOut = out;
-
-    std::vector<RenderRequest::RenderSection> sections;
+    KdenliveTests::setRenderRequestBounds(r, in, out);
 
     SECTION("Single Guide")
     {
         // Category 1 contains only one guide and hence should have 2 sections
         r->setGuideParams(markerModel, true, 1);
-        sections = r->getGuideSections();
-        CHECK(sections.size() == 2);
+        CHECK(r->guideSectionsCount() == 2);
     }
 
     SECTION("No markers at all")
     {
         // Category 0 has no guides and should return no sections at all
         r->setGuideParams(markerModel, true, 0);
-        sections = r->getGuideSections();
-        CHECK(sections.size() == 0);
+        CHECK(r->guideSectionsCount() == 0);
     }
 
     SECTION("Multiple Guides")
     {
         r->setGuideParams(markerModel, true, guideCategory);
-        sections = r->getGuideSections();
-        CHECK(sections.size() == 3);
+        CHECK(r->guideSectionsCount() == 3);
 
         // Add one more marker and check this leads to one more section
         markerModel->addMarker(GenTime(51, pCore->getCurrentFps()), QStringLiteral("test marker"), guideCategory);
-        sections = r->getGuideSections();
-        CHECK(sections.size() == 4);
+        CHECK(r->guideSectionsCount() == 4);
 
         // The size should not change if we add a guide at the start, because there should always be a section from the start.
         // Our guide should only replace the automatically generated section which in our case should only affect the name.
         markerModel->addMarker(GenTime(0, pCore->getCurrentFps()), QStringLiteral("test marker"), guideCategory);
-        sections = r->getGuideSections();
-        CHECK(sections.size() == 4);
+        CHECK(r->guideSectionsCount() == 4);
 
         // check in and out points
-        CHECK(sections.at(0).in == in);
-        CHECK(sections.at(0).out == 24);
-        CHECK(sections.at(1).in == 25);
-        CHECK(sections.at(1).out == 50);
-        CHECK(sections.at(2).in == 51);
-        CHECK(sections.at(2).out == 69);
-        CHECK(sections.at(3).in == 70);
-        CHECK(sections.at(3).out == out);
+        QVector<std::pair<int, int>> sections = r->getSectionsInOut();
+        CHECK(sections.at(0).first == in);
+        CHECK(sections.at(0).second == 24);
+        CHECK(sections.at(1).first == 25);
+        CHECK(sections.at(1).second == 50);
+        CHECK(sections.at(2).first == 51);
+        CHECK(sections.at(2).second == 69);
+        CHECK(sections.at(3).first == 70);
+        CHECK(sections.at(3).second == out);
 
         // check no section name appears twice, eventhough we have guides with the same name
-        QStringList names;
-        for (const auto &section : sections) {
-            names << section.name;
-        }
+        QStringList names = r->getSectionsNames();
         CHECK(names.removeDuplicates() == 0);
 
         // change the bounding range
         in = 10;
         out = 60;
-        r->m_boundingIn = in;
-        r->m_boundingOut = out;
+        KdenliveTests::setRenderRequestBounds(r, in, out);
 
-        sections = r->getGuideSections();
-        CHECK(sections.size() == 3);
-
+        CHECK(r->guideSectionsCount() == 3);
+        sections = r->getSectionsInOut();
         // check in and out points
-        CHECK(sections.at(0).in == in);
-        CHECK(sections.at(0).out == 24);
-        CHECK(sections.at(1).in == 25);
-        CHECK(sections.at(1).out == 50);
-        CHECK(sections.at(2).in == 51);
-        CHECK(sections.at(2).out == out);
+        CHECK(sections.at(0).first == in);
+        CHECK(sections.at(0).second == 24);
+        CHECK(sections.at(1).first == 25);
+        CHECK(sections.at(1).second == 50);
+        CHECK(sections.at(2).first == 51);
+        CHECK(sections.at(2).second == out);
     }
 }

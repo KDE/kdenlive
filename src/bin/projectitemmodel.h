@@ -53,6 +53,7 @@ public:
 
     friend class ProjectClip;
     friend class ThumbnailCache;
+    friend class KdenliveTests;
     /** @brief Timer checking if we have missing clips in the project */
     QTimer missingClipTimer;
 

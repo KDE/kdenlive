@@ -22,14 +22,13 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
 
     // Create document
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Create a request
     int tid1 = timeline->getTrackIndexFromPosition(1);
@@ -38,13 +37,13 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
 
     // Create clip with audio (40 frames long)
     // QString binId = createAVProducer(*pCore->getProjectProfile(), binModel);
-    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 100, false);
+    QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 100, false);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
-    timeline->m_binAudioTargets = audioInfo;
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
 
     // Create AV clip 1
     int cid1;
@@ -61,8 +60,8 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
     {
         REQUIRE(timeline->getItemTrackId(cid2) == tid1);
         REQUIRE(timeline->getItemTrackId(cid1) == tid2);
-        Mlt::Producer prod1 = *(timeline->getClipPtr(cid1));
-        Mlt::Producer prod2 = *(timeline->getClipPtr(cid2));
+        Mlt::Producer prod1 = *(KdenliveTests::getClipPtr(timeline, cid1));
+        Mlt::Producer prod2 = *(KdenliveTests::getClipPtr(timeline, cid2));
         // Clips on different tracks shoud not use the same producer
         REQUIRE(!prod1.same_clip(prod2));
 
@@ -73,8 +72,8 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
         REQUIRE(timeline->getItemTrackId(cid4) == tid1);
         REQUIRE(timeline->getItemTrackId(cid3) == tid2);
 
-        Mlt::Producer prod3 = *(timeline->getClipPtr(cid3));
-        Mlt::Producer prod4 = *(timeline->getClipPtr(cid4));
+        Mlt::Producer prod3 = *(KdenliveTests::getClipPtr(timeline, cid3));
+        Mlt::Producer prod4 = *(KdenliveTests::getClipPtr(timeline, cid4));
         // Clips on different tracks shoud not use the same producer
         REQUIRE(!prod3.same_clip(prod4));
         // Clips on same track shoud use the same producer
@@ -85,8 +84,8 @@ TEST_CASE("Cut undo/redo", "[MoveClips]")
         undoStack->undo();
         undoStack->redo();
 
-        prod3 = *(timeline->getClipPtr(cid3));
-        prod4 = *(timeline->getClipPtr(cid4));
+        prod3 = *(KdenliveTests::getClipPtr(timeline, cid3));
+        prod4 = *(KdenliveTests::getClipPtr(timeline, cid4));
         // Clips on different tracks shoud not use the same producer
         REQUIRE(!prod3.same_clip(prod4));
         // Clips on same track shoud use the same producer
