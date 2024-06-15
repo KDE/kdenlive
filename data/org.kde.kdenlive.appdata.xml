@@ -51,6 +51,7 @@
   <summary xml:lang="ar">محرّر فيديوهات</summary>
   <summary xml:lang="ca">Editor de vídeo</summary>
   <summary xml:lang="ca-valencia">Editor de vídeo</summary>
+  <summary xml:lang="cs">Editor videa</summary>
   <summary xml:lang="en-GB">Video editor</summary>
   <summary xml:lang="eo">Videoredaktilo</summary>
   <summary xml:lang="es">Editor de video</summary>
@@ -193,6 +194,7 @@
       <li xml:lang="ar">التحرير بواسطة الوسطاء</li>
       <li xml:lang="ca">Edició d'intermediaris</li>
       <li xml:lang="ca-valencia">Editeu intermediaris</li>
+      <li xml:lang="cs">Úprava proxy</li>
       <li xml:lang="en-GB">Proxy editing</li>
       <li xml:lang="eo">Redaktado de Prokurilo</li>
       <li xml:lang="es">Edición usando reemplazos</li>
@@ -308,6 +310,7 @@
       <caption xml:lang="ar">سمة مظلمة</caption>
       <caption xml:lang="ca">Tema fosc</caption>
       <caption xml:lang="ca-valencia">Tema fosc</caption>
+      <caption xml:lang="cs">Tmavý motiv</caption>
       <caption xml:lang="en-GB">Dark theme</caption>
       <caption xml:lang="eo">Malhela etoso</caption>
       <caption xml:lang="es">Tema oscuro</caption>
