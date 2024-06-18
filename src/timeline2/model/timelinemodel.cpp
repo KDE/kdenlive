@@ -5111,9 +5111,9 @@ void TimelineModel::updateDuration()
     }
     if (duration != current) {
         // update black track length
-        m_blackClip->block();
+        m_blackClip->lock();
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
-        m_blackClip->unblock();
+        m_blackClip->unlock();
         Q_EMIT durationUpdated(m_uuid);
         if (m_masterStack) {
             Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
