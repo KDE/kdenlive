@@ -51,6 +51,7 @@
   <summary xml:lang="ar">محرّر فيديوهات</summary>
   <summary xml:lang="ca">Editor de vídeo</summary>
   <summary xml:lang="ca-valencia">Editor de vídeo</summary>
+  <summary xml:lang="cs">Editor videa</summary>
   <summary xml:lang="en-GB">Video editor</summary>
   <summary xml:lang="eo">Videoredaktilo</summary>
   <summary xml:lang="es">Editor de video</summary>
@@ -85,6 +86,7 @@
     <p xml:lang="nl">Kdenlive is een toepassing voor video bewerken met ondersteuning voor vele audio- en videoformaten. Het biedt geavanceerde bewerkingsfuncties, een verscheidenheid aan effecten en transities, kleurcorrectie, audio nabewerking en hulpmiddelen voor ondertiteling. Bovendien levert het de flexibiliteit om te renderen in praktisch elk formaat van uw keuze.</p>
     <p xml:lang="pl">Kdenlive jest aplikacją do edytowania wideo z obsługą wielu formatów dźwięku i obrazu. Daje rozbudowane możliwości, wiele efektów i przejść, poprawianie barw, po-produkcję dźwięki oraz narzędzia do napisów. Dodatkowo, zapewnia możliwość zapisania do właściwie dowolnego formatu jaki sobie wybierzesz.</p>
     <p xml:lang="sl">Kdenlive je program za montažo videoposnetkov s podporo za številne zvokovne in video zapise. Ponuja napredne funkcije montaže, urejanja, različne učinke in prehode, korekcijo barv, poprodukcijo zvoka in orodja za podnaslavljanje. Poleg tega zagotavlja prilagodljivost za izrisovanje v praktično poljuben zapis po vašem izboru.</p>
+    <p xml:lang="sv">Kdenlive är ett videoredigeringsprogram med stöd för många ljud- och videoformat. Det erbjuder avancerade redigeringsfunktioner, en mängd olika effekter och övergångar, färgkorrigering, efterproduktion av ljud och textningsverktyg. Dessutom ger det flexibiliteten att återge till praktiskt taget vilket format som helst.</p>
     <p xml:lang="tr">Kdenlive, birçok ses ve video biçimini destekleyen bir video düzenleme uygulamasıdır. Gelişmiş düzenleme özellikleri, çeşitli efektler ve geçişler, renk düzeltme, ses post prodüksiyon ve altyazı araçları sunar. Ek olarak, neredeyse seçtiğiniz herhangi bir biçime dönüştürme esnekliği de sağlar.</p>
     <p xml:lang="uk">Kdenlive — програма для редагування відео із підтримкою багатьох форматів даних відео та звуку. У ній реалізовано широкі можливості з редагування, спектр ефектів та переходів, виправлення кольорів, остаточну обробку звуку та засоби субтитрування. Крім того, програма здатна гнучко обробляти дані практично до будь-якого вибраного вами формату.</p>
     <p xml:lang="x-test">xxKdenlive is a video editing application with support for many audio and video formats. It offers advanced editing features, a variety of effects and transitions, color correction, audio post-production and subtitling tools. Additionally, it provides the flexibility to render into practically any format of your choice.xx</p>
@@ -144,6 +146,7 @@
       <li xml:lang="nl">Geneste sequenties</li>
       <li xml:lang="pl">Osadzone odcinki</li>
       <li xml:lang="sl">Ugnezdena zaporedja</li>
+      <li xml:lang="sv">Nästlade sekvenser</li>
       <li xml:lang="tr">İç içe geçmiş sekanslar</li>
       <li xml:lang="uk">Вкладені послідовності</li>
       <li xml:lang="x-test">xxNested Sequencesxx</li>
@@ -164,6 +167,7 @@
       <li xml:lang="nl">Te configureren interface en sneltoetsen</li>
       <li xml:lang="pl">Interfejs i skróty dające się dostosować</li>
       <li xml:lang="sl">Nastavljiv vmesnik in bližnjice</li>
+      <li xml:lang="sv">Anpassningsbart gränssnitt och genvägar</li>
       <li xml:lang="tr">Yapılandırılabilir arayüz ve kısayollar</li>
       <li xml:lang="uk">Можливість налаштовування інтерфейсу та клавіатурних скорочень</li>
       <li xml:lang="x-test">xxConfigurable interface and shortcutsxx</li>
@@ -184,6 +188,7 @@
       <li xml:lang="nl">Scopes: Histogram, Vectorscope, RGB Parade, golfvorm en Audio-meter</li>
       <li xml:lang="pl">Widoki: Histogram, Wektoroskop, Parada RGB, Kształt Fali oraz Miernik Dźwięku</li>
       <li xml:lang="sl">Merilniki: histogram, vektroskop, parada RGB, signalna oblika in merilnik jakosti zvoka</li>
+      <li xml:lang="sv">Oscilloskop: Histogram, vektoroscilloskop, RGB-parad, vågform och ljudmätare</li>
       <li xml:lang="tr">Kapsamlar: Histogram, Vektörskop, RGB Geçidi, Dalga Biçimi ve Ses Ölçeri</li>
       <li xml:lang="uk">Області: гістограма, векторскоп, розкладка RGB, форма хвилі та рівень звуку</li>
       <li xml:lang="x-test">xxScopes: Histogram, Vectorscope, RGB Parade, Waveform and Audio Meterxx</li>
@@ -193,6 +198,7 @@
       <li xml:lang="ar">التحرير بواسطة الوسطاء</li>
       <li xml:lang="ca">Edició d'intermediaris</li>
       <li xml:lang="ca-valencia">Editeu intermediaris</li>
+      <li xml:lang="cs">Úprava proxy</li>
       <li xml:lang="en-GB">Proxy editing</li>
       <li xml:lang="eo">Redaktado de Prokurilo</li>
       <li xml:lang="es">Edición usando reemplazos</li>
@@ -204,6 +210,7 @@
       <li xml:lang="nl">Proxy-bewerking</li>
       <li xml:lang="pl">Edytowanie pośredników</li>
       <li xml:lang="sl">Montaža posrednih posnetkov</li>
+      <li xml:lang="sv">Ersättningsredigering</li>
       <li xml:lang="tr">Vekilli düzenleme</li>
       <li xml:lang="uk">Редагування із проміжними кліпами</li>
       <li xml:lang="x-test">xxProxy editingxx</li>
@@ -224,6 +231,7 @@
       <li xml:lang="nl">Vrij online bezit en sjablonen</li>
       <li xml:lang="pl">Darmowe zasoby i wzorce z sieci</li>
       <li xml:lang="sl">Brezplačna spletna sredstva in predloge</li>
+      <li xml:lang="sv">Fria tillgångar och mallar på nätet</li>
       <li xml:lang="tr">Ücretsiz çevrimiçi kaynaklar ve şablonlar</li>
       <li xml:lang="uk">Безкоштовні ресурси та шаблони в інтернеті</li>
       <li xml:lang="x-test">xxFree online assets and templatesxx</li>
@@ -245,6 +253,7 @@
       <li xml:lang="pl">Śledzenie ruchu</li>
       <li xml:lang="pt-BR">Rastreamento de movimento</li>
       <li xml:lang="sl">Sledenje gibanju</li>
+      <li xml:lang="sv">Rörelseföljning</li>
       <li xml:lang="tr">Hareket izlemesi</li>
       <li xml:lang="uk">Стеження за рухом</li>
       <li xml:lang="x-test">xxMotion trackingxx</li>
@@ -266,6 +275,7 @@
       <li xml:lang="pl">Narzędzia wspomagane SI</li>
       <li xml:lang="pt-BR">Ferramentas com IA</li>
       <li xml:lang="sl">Orodja, ki jih poganja umetna inteligenca</li>
+      <li xml:lang="sv">AI-drivna verktyg</li>
       <li xml:lang="tr">Yapay Zeka destekli araçlar</li>
       <li xml:lang="uk">Інструменти на основі ШІ</li>
       <li xml:lang="x-test">xxAI powered toolsxx</li>
@@ -308,6 +318,7 @@
       <caption xml:lang="ar">سمة مظلمة</caption>
       <caption xml:lang="ca">Tema fosc</caption>
       <caption xml:lang="ca-valencia">Tema fosc</caption>
+      <caption xml:lang="cs">Tmavý motiv</caption>
       <caption xml:lang="en-GB">Dark theme</caption>
       <caption xml:lang="eo">Malhela etoso</caption>
       <caption xml:lang="es">Tema oscuro</caption>
@@ -345,6 +356,7 @@
       <caption xml:lang="pl">Domyślny interfejs</caption>
       <caption xml:lang="pt-BR">Interface padrão</caption>
       <caption xml:lang="sl">Privzeti vmesnik</caption>
+      <caption xml:lang="sv">Standardgränssnitt</caption>
       <caption xml:lang="tr">Öntanımlı arayüz</caption>
       <caption xml:lang="uk">Типовий інтерфейс</caption>
       <caption xml:lang="x-test">xxDefault interfacexx</caption>
@@ -395,6 +407,7 @@
       <caption xml:lang="pl">Interfejs dający się dostosować</caption>
       <caption xml:lang="pt-BR">Interface configurável</caption>
       <caption xml:lang="sl">Nastavljiv vmesnik</caption>
+      <caption xml:lang="sv">Anpassningsbart gränssnitt</caption>
       <caption xml:lang="tr">Yapılandırılabilir arayüz</caption>
       <caption xml:lang="uk">Придатний до налаштовування інтерфейс</caption>
       <caption xml:lang="x-test">xxConfigurable interfacexx</caption>
@@ -419,6 +432,7 @@
       <caption xml:lang="pl">Nadawanie tytułów</caption>
       <caption xml:lang="pt-BR">Gerador de caracteres</caption>
       <caption xml:lang="sl">Naslavljanje</caption>
+      <caption xml:lang="sv">Textning</caption>
       <caption xml:lang="tr">Başlıklandırma</caption>
       <caption xml:lang="uk">Титрування</caption>
       <caption xml:lang="x-test">xxTitlingxx</caption>
@@ -442,6 +456,7 @@
       <caption xml:lang="nl">Snelheid van video wijzigen (time remapping) en overgangen in dezelfde track</caption>
       <caption xml:lang="pl">Przemapowywanie czasu oraz przejścia w obrębie jednej ścieżki</caption>
       <caption xml:lang="sl">Preslikava časa in prehodi na isti stezi</caption>
+      <caption xml:lang="sv">Tidsomvandling och övergångar i samma spår</caption>
       <caption xml:lang="tr">Zaman eşlemlemesi ve aynı izde geçişler</caption>
       <caption xml:lang="uk">Переприв'язка за часом та переходи на одній доріжці</caption>
       <caption xml:lang="x-test">xxTime remapping and same-track transitionsxx</caption>
