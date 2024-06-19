@@ -4355,18 +4355,14 @@ msgid "Show Video Preview in Thumbnails"
 msgstr "Küçük Görsellerde Video Önizlemelerini Göster"
 
 #: src/bin/bin.cpp:1353
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "Opens a window to configure the project bin (e.g. view mode, sort, show "
-#| "rating)."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
-"Proje kovasını yapılandırmak için bir pencere açar (örn. görünüm kipi, "
-"sırala, derecelendirmeyi göster)."
+"Proje kovasını yapılandırmak için bir menü açar (örn. görünüm kipi, sırala, "
+"derecelendirmeyi göster)."
 
 #: src/bin/bin.cpp:1360
 #, kde-format
@@ -4386,7 +4382,7 @@ msgstr "Derecelendirmeyi Göster"
 #: src/bin/bin.cpp:1379
 #, kde-format
 msgid "Open Current Folder In New Bin"
-msgstr ""
+msgstr "Geçerli Klasörü Yeni Kovada Aç"
 
 #: src/bin/bin.cpp:1384
 #, kde-format
@@ -4406,10 +4402,9 @@ msgstr ""
 "tıklayın."
 
 #: src/bin/bin.cpp:1441
-#, fuzzy, kde-format
-#| msgid "Delete current point."
+#, kde-format
 msgid "Close Current Bin"
-msgstr "Geçerli noktayı silin."
+msgstr "Geçerli Kovayı Kapat"
 
 #: src/bin/bin.cpp:1453
 #, kde-format
@@ -7106,23 +7101,19 @@ msgid "Lanczos (best)"
 msgstr "Lanczos (en iyi)"
 
 #: src/dialogs/renderwidget.cpp:231
-#, fuzzy, kde-format
-#| msgid "Horizontal"
+#, kde-format
 msgid "Horizontal (16:9)"
-msgstr "Yatay"
+msgstr "Yatay (16:9)"
 
 #: src/dialogs/renderwidget.cpp:232
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical (9:16)"
-msgstr "Dikey"
+msgstr "Dikey (9:16)"
 
 #: src/dialogs/renderwidget.cpp:233
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square 2"
+#, kde-format
 msgid "Square (1:1)"
-msgstr "Kare 2"
+msgstr "Kare (1:1)"
 
 #: src/dialogs/renderwidget.cpp:237 src/monitor/monitormanager.cpp:578
 #, kde-format
@@ -9501,16 +9492,14 @@ msgid "No name provided, effect not saved."
 msgstr "Ad verilmediğinden efekt kaydedilmedi."
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Efekti etkinleştir"
+msgstr "Efekt Yığınını Etkinleştir"
 
 #: src/effects/effectstack/view/effectstackview.cpp:527
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Efekti devre dışı bırak"
+msgstr "Efekt Yığınını Devre Dışı Bırak"
 
 #: src/effects/effectstack/view/effectstackview.cpp:566
 #, kde-format
@@ -21422,8 +21411,7 @@ msgstr "Üzerine Koy:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:615
-#, fuzzy, kde-format
-#| msgid "Aspect ratio:"
+#, kde-format
 msgid "Aspect Ratio:"
 msgstr "En–boy oranı:"
 
@@ -22484,89 +22472,3 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
-
-#~ msgid ""
-#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-#~ "Please install version >= 0.12\n"
-#~ msgstr ""
-#~ "OpenTimelineIO modülünüz Kdenlive adaptörünü içermiyor.\n"
-#~ "Lütfen 0.12’den daha yeni bir sürümünü kurun.\n"
-
-#~ msgid "Render Duration: %1. "
-#~ msgstr "Sunum süresi: %1. "
-
-#~ msgid "Open in new bin"
-#~ msgstr "Yeni kovada aç"
-
-#~ msgid "Bins"
-#~ msgstr "Kovalar"
-
-#~ msgid "Project file is corrupted (no tracks). Try to find a backup file?"
-#~ msgstr ""
-#~ "Proje dosyası bozuk (iz yok). Bir yedekleme dosyası mı bulmaya "
-#~ "çalışıyorsunuz?"
-
-#~ msgid "Tiny"
-#~ msgstr "Ufak"
-
-#~ msgid "Base"
-#~ msgstr "Temel"
-
-#~ msgid "Small"
-#~ msgstr "Küçük"
-
-#~ msgid "Medium"
-#~ msgstr "Orta"
-
-#~ msgid "Large"
-#~ msgstr "Büyük"
-
-#~ msgid "OpenGL Backend"
-#~ msgstr "OpenGL Arka Ucu"
-
-#~ msgid ""
-#~ "Kdenlive needs to be restarted to change this setting. Do you want to "
-#~ "proceed?"
-#~ msgstr ""
-#~ "Bu ayarı değiştirmek için Kdenlive’in yeniden başlatılması gerekiyor. "
-#~ "Sürdürmek istiyor musunuz?"
-
-#~ msgid "KSqueezedTextLabel"
-#~ msgstr "KSıkıştırılmışMetinEtiketi"
-
-#~ msgid "Loading project"
-#~ msgstr "Proje yükleniyor"
-
-#~ msgid "%1 %%"
-#~ msgstr "%​%1"
-
-#~ msgid "Select an item to add effect"
-#~ msgstr "Efekt eklenecek bir öge seçin"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<shortcut>Shift drag</shortcut> for rubber-band selection, "
-#~ "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Ctrl "
-#~ "drag</shortcut> to pan"
-#~ msgstr ""
-#~ "Lastik seçimi için <shortcut>Üst Karakter+sürükle</shortcut>, çoklu seçim "
-#~ "için<shortcut>Üst Karakter+tıkla</shortcut>, kaydırma için "
-#~ "<shortcut>Kontrol+sürükle</shortcut>"
-
-#~ msgctxt "@label:textbox"
-#~ msgid "Checking modules version…"
-#~ msgstr "Modül sürümleri denetleniyor…"
-
-#~ msgid ""
-#~ "\n"
-#~ "Warning: unknown non integer fps, might cause incorrect duration display."
-#~ msgstr ""
-#~ "\n"
-#~ "Dikkat: Bilinmeyen tamsayı olmayan fps, bu doğru olmayan süre "
-#~ "görüntülenmesine neden olabilir."
-
-#~ msgid "Add a new speech model from an archive file"
-#~ msgstr "Bir arşiv dosyasından yeni bir konuşma modeli ekle"
-
-#~ msgid "Delete the selected speech model"
-#~ msgstr "Seçili konuşma modelini sil"
