@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-15 00:38+0000\n"
-"PO-Revision-Date: 2024-06-18 16:03+0200\n"
+"PO-Revision-Date: 2024-06-19 14:59+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -3114,7 +3114,7 @@ msgstr ""
 #: src/assets/assetlist/view/assetlistwidget.cpp:76
 #, kde-format
 msgid "Edit Info…"
-msgstr ""
+msgstr "Upravit informace…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:81
 #, kde-format
@@ -3196,7 +3196,7 @@ msgstr "Odstranit z oblíbených"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
-msgstr ""
+msgstr "Online dokumentace"
 
 #: src/assets/assetpanel.cpp:68
 #, kde-format
@@ -4420,7 +4420,7 @@ msgstr ""
 #: src/bin/bin.cpp:2011 src/timeline2/model/timelineitemmodel.cpp:980
 #, kde-format
 msgid "Replace video"
-msgstr ""
+msgstr "Nahradit video"
 
 #: src/bin/bin.cpp:2021
 #, kde-format
@@ -5034,7 +5034,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
-msgstr ""
+msgstr "Uložit projekt"
 
 #: src/bin/bin.cpp:6113
 #, kde-format
@@ -5068,13 +5068,13 @@ msgstr "Přesunout klip"
 #, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
-msgstr ""
+msgstr "Přejmenovat zónu"
 
 #: src/bin/bincommands.cpp:86
 #, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
-msgstr ""
+msgstr "Upravit klip"
 
 #: src/bin/clipcreator.cpp:70
 #, kde-format
@@ -5400,7 +5400,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr ""
+msgstr "Titulky %1"
 
 #: src/bin/projectclip.cpp:268
 #, kde-format
@@ -5411,7 +5411,7 @@ msgstr "Sekvence časové osy"
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #: src/bin/projectclip.cpp:655
 #, kde-format
@@ -6599,7 +6599,7 @@ msgstr ""
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
-msgstr ""
+msgstr "Složka modelů"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1851
 #, kde-format
@@ -6707,7 +6707,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
-msgstr ""
+msgstr "Importovat titulky"
 
 #: src/dialogs/managesubtitles.cpp:45
 #, kde-format
@@ -6908,17 +6908,17 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:218
 #, kde-format
 msgid "Horizontal (16:9)"
-msgstr ""
+msgstr "Vodorovně (16:9)"
 
 #: src/dialogs/renderwidget.cpp:219
 #, kde-format
 msgid "Vertical (9:16)"
-msgstr ""
+msgstr "Svisle (9:16)"
 
 #: src/dialogs/renderwidget.cpp:220
 #, kde-format
 msgid "Square (1:1)"
-msgstr ""
+msgstr "Čtverec (1:1)"
 
 #: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:578
 #, kde-format
@@ -6938,12 +6938,12 @@ msgstr "YADIF - pouze časový (dobrý)"
 #: src/dialogs/renderwidget.cpp:227
 #, kde-format
 msgid "YADIF (better)"
-msgstr ""
+msgstr "YADIF (lepší)"
 
 #: src/dialogs/renderwidget.cpp:228
 #, kde-format
 msgid "BWDIF (best)"
-msgstr ""
+msgstr "BWDIF (nejlepší)"
 
 #: src/dialogs/renderwidget.cpp:236 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
@@ -7056,7 +7056,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
-msgstr ""
+msgstr "Překódovat"
 
 #: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:1467
 #: src/project/dialogs/archivewidget.cpp:895
@@ -7549,7 +7549,7 @@ msgstr "Korejština"
 #: src/dialogs/speechdialog.cpp:505
 #, kde-format
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Kyrgyzština"
 
 #: src/dialogs/speechdialog.cpp:506 src/pythoninterfaces/speechtotext.cpp:130
 #, kde-format
@@ -7564,7 +7564,7 @@ msgstr "Litevský"
 #: src/dialogs/speechdialog.cpp:508
 #, kde-format
 msgid "Luo"
-msgstr ""
+msgstr "Luo"
 
 #: src/dialogs/speechdialog.cpp:509 src/pythoninterfaces/speechtotext.cpp:137
 #, kde-format
@@ -7589,7 +7589,7 @@ msgstr "Maltézský"
 #: src/dialogs/speechdialog.cpp:513 src/dialogs/speechdialog.cpp:514
 #, kde-format
 msgid "Mandarin Chinese"
-msgstr ""
+msgstr "Mandarinská Čínština"
 
 #: src/dialogs/speechdialog.cpp:515 src/pythoninterfaces/speechtotext.cpp:143
 #, kde-format
@@ -7599,17 +7599,17 @@ msgstr "Maráthí"
 #: src/dialogs/speechdialog.cpp:516
 #, kde-format
 msgid "Meitei"
-msgstr ""
+msgstr "Meitei"
 
 #: src/dialogs/speechdialog.cpp:517
 #, kde-format
 msgid "Modern Standard Arabic"
-msgstr ""
+msgstr "Východní standardní arabština"
 
 #: src/dialogs/speechdialog.cpp:518
 #, kde-format
 msgid "Moroccan Arabic"
-msgstr ""
+msgstr "Marocká arabština"
 
 #: src/dialogs/speechdialog.cpp:519 src/pythoninterfaces/speechtotext.cpp:148
 #, kde-format
@@ -7634,7 +7634,7 @@ msgstr ""
 #: src/dialogs/speechdialog.cpp:523
 #, kde-format
 msgid "Norwegian Bokmål"
-msgstr ""
+msgstr "Norský Bokmål"
 
 #: src/dialogs/speechdialog.cpp:524
 #, kde-format
@@ -7644,7 +7644,7 @@ msgstr "Norština (Nynorsk)"
 #: src/dialogs/speechdialog.cpp:525
 #, kde-format
 msgid "Nyanja"
-msgstr ""
+msgstr "Nyanja"
 
 #: src/dialogs/speechdialog.cpp:526
 #, kde-format
@@ -7710,7 +7710,7 @@ msgstr "Somálština"
 #: src/dialogs/speechdialog.cpp:538
 #, kde-format
 msgid "Southern Pashto"
-msgstr ""
+msgstr "Jižní Paštunština"
 
 #: src/dialogs/speechdialog.cpp:539 src/pythoninterfaces/speechtotext.cpp:170
 #, kde-format
@@ -7720,12 +7720,12 @@ msgstr "Španělština"
 #: src/dialogs/speechdialog.cpp:540
 #, kde-format
 msgid "Standard Latvian"
-msgstr ""
+msgstr "Standardní Lotyština"
 
 #: src/dialogs/speechdialog.cpp:541
 #, kde-format
 msgid "Standard Malay"
-msgstr ""
+msgstr "Standardní Malajština"
 
 #: src/dialogs/speechdialog.cpp:542 src/pythoninterfaces/speechtotext.cpp:172
 #, kde-format
@@ -9316,7 +9316,7 @@ msgstr "Video Soubory"
 #: src/filefilter.cpp:128
 #, kde-format
 msgid "User Files"
-msgstr ""
+msgstr "Uživatelské soubory"
 
 #: src/filefilter.cpp:130
 #, kde-format
@@ -9940,7 +9940,7 @@ msgstr ""
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -10102,7 +10102,7 @@ msgstr "Open source editor videí"
 #: src/main.cpp:326
 #, kde-format
 msgid "Copyright © 2007–2024 Kdenlive authors"
-msgstr ""
+msgstr "Autorská práva © 2007–2024 autoři Kdenlive"
 
 #: src/main.cpp:328
 #, kde-format
@@ -10496,7 +10496,7 @@ msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
 "toolbar"
 msgid "Render Button"
-msgstr ""
+msgstr "Tlačítko renderování"
 
 #: src/mainwindow.cpp:641
 #, kde-format
@@ -11415,7 +11415,7 @@ msgstr ""
 #: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Delete Track…"
-msgstr ""
+msgstr "Smazat stopu…"
 
 #: src/mainwindow.cpp:1952
 #, kde-format
@@ -14405,12 +14405,12 @@ msgstr ""
 #: src/project/projectmanager.cpp:67
 #, kde-format
 msgid "Kdenlive Project"
-msgstr ""
+msgstr "Projekt Kdenlive"
 
 #: src/project/projectmanager.cpp:69
 #, kde-format
 msgid "Archived Project"
-msgstr ""
+msgstr "Archivovaný projekt"
 
 #: src/project/projectmanager.cpp:150
 #, kde-format
@@ -14444,7 +14444,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:589
 #, kde-format
 msgid "Saving successful"
-msgstr ""
+msgstr "Ukládání bylo úspěšné"
 
 #: src/project/projectmanager.cpp:602
 #, kde-format
@@ -16151,7 +16151,7 @@ msgstr ""
 #: src/timeline2/model/timelineitemmodel.cpp:980
 #, kde-format
 msgid "Replace clip"
-msgstr ""
+msgstr "Nahradit klip"
 
 #: src/timeline2/model/timelinemodel.cpp:988
 #: src/timeline2/model/timelinemodel.cpp:1205
@@ -17062,7 +17062,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
-msgstr ""
+msgstr "Titulky"
 
 #: src/timeline2/view/timelinecontroller.cpp:5400
 #, kde-format
@@ -17855,7 +17855,7 @@ msgstr ""
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:59
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr ""
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -18191,7 +18191,7 @@ msgstr ""
 #: src/ui/clipjobmanager_ui.ui:236
 #, kde-format
 msgid "Job Description"
-msgstr ""
+msgstr "Popis úlohy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, folder_box)
 #: src/ui/clipjobmanager_ui.ui:292
@@ -18245,7 +18245,7 @@ msgstr ""
 #: src/ui/clipjobmanager_ui.ui:375
 #, kde-format
 msgid "Applies to"
-msgstr ""
+msgstr "Platí pro"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBox)
 #: src/ui/clipspeed_ui.ui:103
@@ -18736,7 +18736,7 @@ msgstr "Python"
 #: src/ui/configenv_ui.ui:363
 #, kde-format
 msgid "Delete "
-msgstr ""
+msgstr "Smazat "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:372
@@ -19580,7 +19580,7 @@ msgstr "Smazat profil"
 #: src/ui/customcamcorderproxy_ui.ui:135
 #, kde-format
 msgid "Reset all profiles"
-msgstr ""
+msgstr "Resetovat všechny profily"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_more)
 #: src/ui/cutjobdialog_ui.ui:81
@@ -20429,31 +20429,31 @@ msgstr ""
 #: src/ui/missingclips_ui.ui:134
 #, kde-format
 msgid "Selected Items:"
-msgstr ""
+msgstr "Vybrané položky:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:141
 #, kde-format
 msgid "Search Manually"
-msgstr ""
+msgstr "Vyhledat ručně"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:170
 #, kde-format
 msgid "All Missing Items:"
-msgstr ""
+msgstr "Chybějící položky:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:177
 #, kde-format
 msgid "Search Recursively"
-msgstr ""
+msgstr "Vyhledat rekurzivně"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:188
 #, kde-format
 msgid "Use Placeholders"
-msgstr ""
+msgstr "Použít zástupce"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
