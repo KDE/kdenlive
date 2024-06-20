@@ -410,7 +410,7 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
     pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>());
     // QString scene = m_activeTimelineModel->sceneList(saveFolder);
     int duration = m_activeTimelineModel->duration();
-    QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), m_activeTimelineModel->tractor(), duration);
+    QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), m_activeTimelineModel->tractor(), duration).first;
     if (scene.isEmpty()) {
         qDebug() << "//////  ERROR writing EMPTY scene list to file: " << outputFileName;
         return false;
@@ -541,7 +541,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateWorkFilesBeforeSave(outputFileName);
     checkProjectIntegrity();
-    QString scene = projectSceneList(saveFolder);
+    QString scene = projectSceneList(saveFolder).first;
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
         while (i.hasNext()) {
@@ -1171,7 +1171,7 @@ void ProjectManager::slotAutoSave()
     }
     prepareSave();
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
-    QString scene = projectSceneList(saveFolder);
+    QString scene = projectSceneList(saveFolder).first;
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
         while (i.hasNext()) {
@@ -1188,7 +1188,7 @@ void ProjectManager::slotAutoSave()
     m_lastSave.start();
 }
 
-QString ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData, const QString &aspectRatio)
+std::pair<QString, QString> ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData, const QString &aspectRatio)
 {
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager() && pCore->monitorManager()->isMultiTrack();
@@ -1209,7 +1209,8 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
 
     // We must save from the primary timeline model
     int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
-    QString scene = pCore->projectItemModel()->sceneList(outputFolder, overlayData, m_activeTimelineModel->tractor(), duration, aspectRatio);
+    std::pair<QString, QString> scene =
+        pCore->projectItemModel()->sceneList(outputFolder, overlayData, m_activeTimelineModel->tractor(), duration, aspectRatio);
     if (pCore->mixer()) {
         pCore->mixer()->pauseMonitoring(false);
     }
@@ -1691,7 +1692,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
             return;
         }
         prepareSave();
-        QString scene = projectSceneList(saveFolder);
+        QString scene = projectSceneList(saveFolder).first;
         if (!m_replacementPattern.isEmpty()) {
             QMapIterator<QString, QString> i(m_replacementPattern);
             while (i.hasNext()) {

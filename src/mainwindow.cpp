@@ -4225,7 +4225,7 @@ void MainWindow::slotArchiveProject()
 {
     KdenliveDoc *doc = pCore->currentDoc();
     pCore->projectManager()->prepareSave();
-    QString sceneData = pCore->projectManager()->projectSceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
+    QString sceneData = pCore->projectManager()->projectSceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()).first;
     if (sceneData.isEmpty()) {
         KMessageBox::error(this, i18n("Project file could not be saved for archiving."));
         return;
