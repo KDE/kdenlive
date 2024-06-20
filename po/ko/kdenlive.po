@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-15 02:26+0000\n"
+"POT-Creation-Date: 2024-06-20 02:32+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -22907,12 +22907,12 @@ msgstr "추가 정보"
 msgid "Transparency:"
 msgstr "투명도:"
 
-#: src/widgets/colorpickerwidget.cpp:102
+#: src/widgets/colorpickerwidget.cpp:106
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr ""
 
-#: src/widgets/colorpickerwidget.cpp:105
+#: src/widgets/colorpickerwidget.cpp:109
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Pick a color on the screen. By pressing the mouse button and then moving "

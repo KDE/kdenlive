@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-15 02:26+0000\n"
+"POT-Creation-Date: 2024-06-20 02:32+0000\n"
 "PO-Revision-Date: 2024-06-12 03:08+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -21888,12 +21888,12 @@ msgstr "附加資訊"
 msgid "Transparency:"
 msgstr "透明度："
 
-#: src/widgets/colorpickerwidget.cpp:102
+#: src/widgets/colorpickerwidget.cpp:106
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "從螢幕上提取顏色。"
 
-#: src/widgets/colorpickerwidget.cpp:105
+#: src/widgets/colorpickerwidget.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

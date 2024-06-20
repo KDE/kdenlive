@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-15 02:26+0000\n"
+"POT-Creation-Date: 2024-06-20 02:32+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -23230,13 +23230,13 @@ msgstr "Lisateave"
 msgid "Transparency:"
 msgstr "Läbipaistvus"
 
-#: src/widgets/colorpickerwidget.cpp:102
+#: src/widgets/colorpickerwidget.cpp:106
 #, fuzzy, kde-format
 #| msgid "Pick a color on the screen"
 msgid "Pick a color on the screen."
 msgstr "Vali ekraanilt värv"
 
-#: src/widgets/colorpickerwidget.cpp:105
+#: src/widgets/colorpickerwidget.cpp:109
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Pick a color on the screen. By pressing the mouse button and then moving "
