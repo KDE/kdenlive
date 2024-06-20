@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-15 02:26+0000\n"
+"POT-Creation-Date: 2024-06-20 02:32+0000\n"
 "PO-Revision-Date: 2024-04-23 19:26\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -21931,12 +21931,12 @@ msgstr "额外信息"
 msgid "Transparency:"
 msgstr "透明度："
 
-#: src/widgets/colorpickerwidget.cpp:102
+#: src/widgets/colorpickerwidget.cpp:106
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "拾取屏幕上的颜色。"
 
-#: src/widgets/colorpickerwidget.cpp:105
+#: src/widgets/colorpickerwidget.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
