@@ -68,7 +68,7 @@ public:
      * @param overlayData The overlay data for the project.
      * @param aspectRation The aspect ratio for the project (e.g. square).
      */
-    QString projectSceneList(const QString &outputFolder, const QString &overlayData = QString(), const QString &aspectRation = QString());
+    std::pair<QString, QString> projectSceneList(const QString &outputFolder, const QString &overlayData = QString(), const QString &aspectRation = QString());
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
