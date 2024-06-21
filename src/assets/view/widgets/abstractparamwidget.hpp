@@ -58,7 +58,7 @@ public Q_SLOTS:
 
     /** @brief initialize qml keyframe view after creating it
      */
-    virtual void slotInitMonitor(bool /*active*/) {}
+    virtual void slotInitMonitor(bool /*active*/, bool) {}
 
 protected:
     std::shared_ptr<AssetParameterModel> m_model;

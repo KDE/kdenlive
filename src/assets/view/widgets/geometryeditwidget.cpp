@@ -89,18 +89,18 @@ void GeometryEditWidget::monitorSeek(int pos)
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
     if (pos >= start && pos < end) {
         m_geom->connectMonitor(true);
-        pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(true);
+        pCore->getMonitor(m_model->monitorId)->setEffectKeyframe(true, false);
     } else {
         m_geom->connectMonitor(false);
     }
 }
 
-void GeometryEditWidget::slotInitMonitor(bool active)
+void GeometryEditWidget::slotInitMonitor(bool active, bool outside)
 {
     m_geom->connectMonitor(active);
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (active) {
-        monitor->setEffectKeyframe(true);
+        monitor->setEffectKeyframe(true, outside);
         connect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);
     } else {
         disconnect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek);

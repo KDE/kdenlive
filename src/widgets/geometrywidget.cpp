@@ -433,16 +433,13 @@ const QString GeometryWidget::getValue() const
 
 void GeometryWidget::connectMonitor(bool activate)
 {
-    if (m_active == activate) {
-        return;
-    }
     m_active = activate;
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
         Q_EMIT updateMonitorGeometry(rect);
     } else {
-        m_monitor->setEffectKeyframe(false);
+        m_monitor->setEffectKeyframe(false, true);
         disconnect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect);
     }
 }

@@ -37,6 +37,7 @@ Item {
     onOffsetyChanged: canvas.requestPaint()
     onSourcedarChanged: refreshdar()
     property bool iskeyframe
+    property bool cursorOutsideEffect: false
     property int requestedKeyFrame
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
@@ -62,6 +63,9 @@ Item {
     onWidthChanged: {
         clipMonitorRuler.updateRuler()
     }
+    onCursorOutsideEffectChanged: {
+        canvas.requestPaint()
+    }
 
     FontMetrics {
         id: fontMetrics
@@ -70,13 +74,14 @@ Item {
 
     Canvas {
       id: canvas
-      property double handleSize
+      property double handleSize: root.baseUnit * 0.5
       property double darOffset : 0
+      property color fillColor: Qt.rgba(1, 1, 1, 0.5)
+      property color selectedColor: activePalette.highlight
       width: root.width
       height: root.height
       anchors.centerIn: root
       contextType: "2d";
-      handleSize: root.baseUnit / 2
       renderTarget: Canvas.FramebufferObject
       renderStrategy: Canvas.Cooperative
       onPaint:
@@ -86,7 +91,7 @@ Item {
             ctx.clearRect(0,0, width, height);
             ctx.beginPath()
             ctx.strokeStyle = Qt.rgba(1, 0, 0, 0.5)
-            ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+            ctx.fillStyle = canvas.fillColor
             ctx.lineWidth = 2
             var p1 = convertPoint(root.centerPoints[0])
             var p2 = convertPoint(root.centerPoints[1])
@@ -95,33 +100,46 @@ Item {
             //console.log('paint' + p1);
 
           // Handles
-          if (root.iskeyframe == true) {
+          if (root.iskeyframe && !root.cursorOutsideEffect) {
             if (root.requestedKeyFrame == 0) {
-                ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
-                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                ctx.fillStyle = canvas.fillColor
+            } else {
+                ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
             }
-            else ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
+            ctx.strokeRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
             if (root.requestedKeyFrame == 1) {
-                ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p2.x - handleSize, p2.y - handleSize, 2 * handleSize, 2 * handleSize);
-                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                ctx.fillStyle = canvas.fillColor
+            } else {
+                ctx.fillRect(p2.x - handleSize, p2.y - handleSize, 2 * handleSize, 2 * handleSize);
             }
-            else ctx.fillRect(p2.x - handleSize, p2.y - handleSize, 2 * handleSize, 2 * handleSize);
+            ctx.strokeRect(p2.x - handleSize, p2.y - handleSize, 2 * handleSize, 2 * handleSize);
             if (root.requestedKeyFrame == 2) {
-                ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p3.x - handleSize, p3.y - handleSize, 2 * handleSize, 2 * handleSize);
-                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                ctx.fillStyle = canvas.fillColor
+            } else {
+                ctx.fillRect(p3.x - handleSize, p3.y - handleSize, 2 * handleSize, 2 * handleSize);
             }
-            else ctx.fillRect(p3.x - handleSize, p3.y - handleSize, 2 * handleSize, 2 * handleSize);
+            ctx.strokeRect(p3.x - handleSize, p3.y - handleSize, 2 * handleSize, 2 * handleSize);
             if (root.requestedKeyFrame == 3) {
-                ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                ctx.fillStyle = canvas.selectedColor
                 ctx.fillRect(p4.x - handleSize, p4.y - handleSize, 2 * handleSize, 2 * handleSize);
-                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                ctx.fillStyle = canvas.fillColor
+            } else {
+                ctx.fillRect(p4.x - handleSize, p4.y - handleSize, 2 * handleSize, 2 * handleSize);
             }
-            else ctx.fillRect(p4.x - handleSize, p4.y - handleSize, 2 * handleSize, 2 * handleSize);
+            ctx.strokeRect(p4.x - handleSize, p4.y - handleSize, 2 * handleSize, 2 * handleSize);
           }
           // Rect
+          if (root.cursorOutsideEffect) {
+            ctx.setLineDash([4]);
+          } else {
+            ctx.setLineDash([]);
+          }
           ctx.moveTo(p1.x, p1.y)
           ctx.lineTo(p2.x, p2.y)
           ctx.lineTo(p3.x, p3.y)

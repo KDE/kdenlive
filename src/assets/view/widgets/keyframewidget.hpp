@@ -51,7 +51,7 @@ public Q_SLOTS:
     void slotRefresh() override;
     /** @brief initialize qml overlay
      */
-    void slotInitMonitor(bool active) override;
+    void slotInitMonitor(bool active, bool) override;
     /** @brief Activate a standard action passed from the mainwindow, like copy or paste */
     void sendStandardCommand(int command);
 
@@ -88,6 +88,7 @@ private:
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
     MonitorSceneType m_neededScene;
+    bool m_monitorActive{false};
     QSize m_sourceFrameSize;
     void connectMonitor(bool active);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
@@ -97,7 +98,7 @@ private:
 Q_SIGNALS:
     void addIndex(QPersistentModelIndex ix);
     void setKeyframes(const QString &);
-    void updateEffectKeyframe(bool);
+    void updateEffectKeyframe(bool atkeyframe, bool outside);
     void goToNext();
     void goToPrevious();
     void addRemove();

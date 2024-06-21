@@ -91,7 +91,7 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void seekToPos(int);
-    void initKeyframeView(bool active);
+    void initKeyframeView(bool active, bool outside);
     /** @brief clear and refill the effect presets */
     void updatePresets(const QString &presetName = QString());
     void updateHeight();

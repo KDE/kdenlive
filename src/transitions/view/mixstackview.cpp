@@ -69,8 +69,12 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     if (kfr) {
         connect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
     }
-    Q_EMIT initKeyframeView(true);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
+    if (pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position())) {
+        Q_EMIT initKeyframeView(true, true);
+    } else {
+        Q_EMIT initKeyframeView(false, false);
+    }
 
     const QSignalBlocker bk0(m_duration);
     const QSignalBlocker bk1(m_position);

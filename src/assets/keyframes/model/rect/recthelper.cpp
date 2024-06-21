@@ -28,7 +28,7 @@ bool RectHelper::connectMonitor(bool activate)
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &RectHelper::slotUpdateFromMonitorRect, Qt::UniqueConnection);
     } else {
-        m_monitor->setEffectKeyframe(false);
+        m_monitor->setEffectKeyframe(false, true);
         disconnect(m_monitor, &Monitor::effectChanged, this, &RectHelper::slotUpdateFromMonitorRect);
     }
     return m_active;

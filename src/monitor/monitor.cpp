@@ -2252,11 +2252,12 @@ QVariantList Monitor::effectRoto() const
     return mix;
 }
 
-void Monitor::setEffectKeyframe(bool enable)
+void Monitor::setEffectKeyframe(bool enable, bool outside)
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (root) {
         root->setProperty("iskeyframe", enable);
+        root->setProperty("cursorOutsideEffect", outside);
     }
 }
 

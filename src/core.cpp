@@ -863,6 +863,27 @@ int Core::getItemTrack(const ObjectId &id)
     return 0;
 }
 
+bool Core::itemContainsPos(const ObjectId &id, int pos)
+{
+    if (!m_guiConstructed || (!id.uuid.isNull() && !m_mainWindow->getTimeline(id.uuid))) return false;
+    switch (id.type) {
+    case KdenliveObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineMix: {
+        int itemPos = getItemPosition(id);
+        if (pos < itemPos) {
+            return false;
+        }
+        if (pos >= itemPos + getItemDuration(id)) {
+            return false;
+        }
+        return true;
+    }
+    default:
+        return true;
+    }
+}
+
 void Core::refreshProjectItem(const ObjectId &id)
 {
     if (!m_guiConstructed || (!id.uuid.isNull() && !m_mainWindow->getTimeline(id.uuid))) return;

@@ -30,7 +30,7 @@ bool KeyframeMonitorHelper::connectMonitor(bool activate)
     if (activate) {
         connect(m_monitor, &Monitor::effectPointsChanged, this, &KeyframeMonitorHelper::slotUpdateFromMonitorData, Qt::UniqueConnection);
     } else {
-        m_monitor->setEffectKeyframe(false);
+        m_monitor->setEffectKeyframe(false, true);
         disconnect(m_monitor, &Monitor::effectPointsChanged, this, &KeyframeMonitorHelper::slotUpdateFromMonitorData);
     }
     return m_active;
