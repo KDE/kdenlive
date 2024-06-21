@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-15 00:38+0000\n"
+"POT-Creation-Date: 2024-06-21 00:38+0000\n"
 "PO-Revision-Date: 2024-05-31 16:13+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -4732,8 +4732,8 @@ msgstr "Ludlisto"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1537
-#: src/project/projectmanager.cpp:1539 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1540 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sekvoj"
@@ -5531,7 +5531,7 @@ msgstr "Movi subtitolon"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:541
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:329
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6453,7 +6453,7 @@ msgstr "Eksporti Gvidilojn Datumojn"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1839 src/render/renderrequest.cpp:272
+#: src/project/projectmanager.cpp:1840 src/render/renderrequest.cpp:301
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5168
@@ -6519,7 +6519,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Se ne certas, provu :<br/><b>Unikodo (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1726
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1727
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -9016,15 +9016,15 @@ msgstr ""
 "Via projektdosiero estis ĝisdatigita al la plej nova dokumentversio de "
 "Kdenlive, sed ne eblis krei la rezervan kopion %1."
 
-#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1411
-#: src/project/projectmanager.cpp:1447
+#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1412
+#: src/project/projectmanager.cpp:1448
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Eraro dum la dosierujo de la projekto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1082 src/doc/kdenlivedoc.cpp:2329
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1668
 #, kde-format
 msgid "Untitled"
 msgstr "Sentitola"
@@ -14872,7 +14872,7 @@ msgstr "Malfermi Rezervan Dosieron…"
 msgid "Save changes to document?"
 msgstr "Ĉu konservi ŝanĝojn al dokumento?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1667
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15016,23 +15016,23 @@ msgstr ""
 "Projekto estis koruptita, ne povas rezerva. Bonvolu fermi kaj remalfermi "
 "vian projektdosieron por reakiri lastan sekurkopion"
 
-#: src/project/projectmanager.cpp:1389
+#: src/project/projectmanager.cpp:1390
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Eraro movante projektdosierujon, ne povas aliri kaŝmemordosierujon"
 
-#: src/project/projectmanager.cpp:1425
+#: src/project/projectmanager.cpp:1426
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movante projektdosierujon"
 
-#: src/project/projectmanager.cpp:1516 src/project/projectmanager.cpp:1574
-#: src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1517 src/project/projectmanager.cpp:1575
+#: src/project/projectmanager.cpp:1579
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekvenco 1"
 
-#: src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:1528
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15040,13 +15040,13 @@ msgstr ""
 "Projektdosiero estas koruptita - malsukcesis ŝargi trakojn. Ĉu provi trovi "
 "rezervan dosieron?"
 
-#: src/project/projectmanager.cpp:1672 src/project/projectmanager.cpp:1677
-#: src/project/projectmanager.cpp:1687 src/project/projectmanager.cpp:1701
+#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1678
+#: src/project/projectmanager.cpp:1688 src/project/projectmanager.cpp:1702
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Ŝanĝo de la profila projekto ĉesigita"
 
-#: src/project/projectmanager.cpp:1824
+#: src/project/projectmanager.cpp:1825
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15055,12 +15055,12 @@ msgstr ""
 "Eligaĵdosiero %1 jam ekzistas.\n"
 "Ĉu vi volas anstataŭigi ĝin?"
 
-#: src/project/projectmanager.cpp:1849
+#: src/project/projectmanager.cpp:1850
 #, kde-format
 msgid "Project profile changed"
 msgstr "Projektprofilo ŝanĝita"
 
-#: src/project/projectmanager.cpp:1910
+#: src/project/projectmanager.cpp:1911
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15069,18 +15069,18 @@ msgstr ""
 "Ne povas krei templinion el ĉi tiu tondaĵo:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1992
+#: src/project/projectmanager.cpp:1993
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importante sekvencotondaĵon, ĉi tio estas nuntempe en eksperimenta stato"
 
-#: src/project/projectmanager.cpp:2181
+#: src/project/projectmanager.cpp:2182
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Elekti tondaĵon por krei sekvencon"
 
-#: src/project/projectmanager.cpp:2219
+#: src/project/projectmanager.cpp:2220
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Krei sekvencan aŭdvidaĵon"
@@ -15713,12 +15713,12 @@ msgstr ""
 "Ne eblis krei dosierujon de aktivoj:\n"
 " %1"
 
-#: src/render/renderrequest.cpp:205
+#: src/render/renderrequest.cpp:234
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Ne eblis krei provizoran subtitolan dosieron"
 
-#: src/render/renderrequest.cpp:232
+#: src/render/renderrequest.cpp:261
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
@@ -15727,23 +15727,23 @@ msgstr ""
 "Skriptobildigo kaj plurtraka soneksporto ne povas esti uzataj kune. Skripto "
 "estos konservita sen plurtraka eksporto."
 
-#: src/render/renderrequest.cpp:305
+#: src/render/renderrequest.cpp:334
 #, kde-format
 msgid "export"
 msgstr "eksporti"
 
-#: src/render/renderrequest.cpp:320
+#: src/render/renderrequest.cpp:349
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Malfrua Bildo"
 
-#: src/render/renderrequest.cpp:320
+#: src/render/renderrequest.cpp:349
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Elektu nomon por ĉi tiu bildigo."
 
-#: src/render/renderrequest.cpp:418
+#: src/render/renderrequest.cpp:447
 #, kde-format
 msgid "begin"
 msgstr "komenci"
