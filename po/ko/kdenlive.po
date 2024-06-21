@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-20 02:32+0000\n"
+"POT-Creation-Date: 2024-06-21 02:27+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4726,8 +4726,8 @@ msgstr "재생 목록"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2468 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1526
-#: src/project/projectmanager.cpp:1528 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:1529 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequences"
@@ -5548,7 +5548,7 @@ msgstr "자막 이동"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:542
 #: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
-#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
+#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:360
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6472,7 +6472,7 @@ msgstr "안내선 가져오기"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1828 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1829 src/render/renderrequest.cpp:303
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5169
@@ -6542,7 +6542,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1715
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1716
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -9119,15 +9119,15 @@ msgstr ""
 "프로젝트 파일이 최신 Kdenlive 문서 버전으로 업그레이드되었지만 백업 복사본 %1"
 "을(를) 만들 수 없습니다."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1400
-#: src/project/projectmanager.cpp:1436
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1401
+#: src/project/projectmanager.cpp:1437
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2330
 #: src/project/dialogs/archivewidget.cpp:241
-#: src/project/projectmanager.cpp:1656
+#: src/project/projectmanager.cpp:1657
 #, kde-format
 msgid "Untitled"
 msgstr "제목 없음"
@@ -15093,7 +15093,7 @@ msgstr "백업 파일 열기"
 msgid "Save changes to document?"
 msgstr "변경 사항을 문서에 저장하시겠습니까?"
 
-#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1656
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15238,38 +15238,38 @@ msgstr ""
 "프로젝트가 손상되어서 백업할 수 없습니다. 프로젝트 파일을 닫았다 다시 열어서 "
 "마지막 백업에서 복구하십시오"
 
-#: src/project/projectmanager.cpp:1378
+#: src/project/projectmanager.cpp:1379
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
-#: src/project/projectmanager.cpp:1414
+#: src/project/projectmanager.cpp:1415
 #, kde-format
 msgid "Moving project folder"
 msgstr "프로젝트 폴더 이동"
 
-#: src/project/projectmanager.cpp:1505 src/project/projectmanager.cpp:1563
-#: src/project/projectmanager.cpp:1567
+#: src/project/projectmanager.cpp:1506 src/project/projectmanager.cpp:1564
+#: src/project/projectmanager.cpp:1568
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "이미지 시퀀스"
 
-#: src/project/projectmanager.cpp:1516
+#: src/project/projectmanager.cpp:1517
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "프로젝트 파일이 잘못되었습니다(트랙 없음). 백업 파일이 있습니까?"
 
-#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1666
-#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1690
+#: src/project/projectmanager.cpp:1662 src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1677 src/project/projectmanager.cpp:1691
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "프로젝트 프로필 변경 중단됨"
 
-#: src/project/projectmanager.cpp:1813
+#: src/project/projectmanager.cpp:1814
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15278,12 +15278,12 @@ msgstr ""
 "출력 파일 %1이(가) 이미 있습니다.\n"
 "덮어쓰시겠습니까?"
 
-#: src/project/projectmanager.cpp:1838
+#: src/project/projectmanager.cpp:1839
 #, kde-format
 msgid "Project profile changed"
 msgstr "프로젝트 프로필 변경됨"
 
-#: src/project/projectmanager.cpp:1899
+#: src/project/projectmanager.cpp:1900
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -15291,18 +15291,18 @@ msgid ""
 "%1"
 msgstr "%1 필터를 만들 수 없음"
 
-#: src/project/projectmanager.cpp:1981
+#: src/project/projectmanager.cpp:1982
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2170
+#: src/project/projectmanager.cpp:2171
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "효과를 비교할 클립을 선택하십시오"
 
-#: src/project/projectmanager.cpp:2208
+#: src/project/projectmanager.cpp:2209
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"
@@ -15986,37 +15986,37 @@ msgid ""
 " %1"
 msgstr "자동 저장 파일 %1을(를) 생성할 수 없음"
 
-#: src/render/renderrequest.cpp:207
+#: src/render/renderrequest.cpp:236
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary subtitle file"
 msgstr "임시 파일을 만들 수 없음"
 
-#: src/render/renderrequest.cpp:234
+#: src/render/renderrequest.cpp:263
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/render/renderrequest.cpp:307
+#: src/render/renderrequest.cpp:336
 #, kde-format
 msgid "export"
 msgstr "내보내기"
 
-#: src/render/renderrequest.cpp:322
+#: src/render/renderrequest.cpp:351
 #, fuzzy, kde-format
 #| msgid "Delayed rendering"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "지연된 렌더링"
 
-#: src/render/renderrequest.cpp:322
+#: src/render/renderrequest.cpp:351
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "이 렌더링의 이름을 지정하십시오."
 
-#: src/render/renderrequest.cpp:420
+#: src/render/renderrequest.cpp:449
 #, kde-format
 msgid "begin"
 msgstr ""

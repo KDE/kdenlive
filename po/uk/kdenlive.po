@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-20 02:32+0000\n"
+"POT-Creation-Date: 2024-06-21 02:27+0000\n"
 "PO-Revision-Date: 2024-05-28 09:35+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -4771,8 +4771,8 @@ msgstr "Список відтворення"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2468 src/bin/clipcreator.cpp:239 src/bin/clipcreator.cpp:241
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1526
-#: src/project/projectmanager.cpp:1528 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:1529 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Послідовності"
@@ -5575,7 +5575,7 @@ msgstr "Пересунути субтитри"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:542
 #: src/effects/effectstack/view/effectstackview.cpp:610
 #: src/project/cliptranscode.cpp:154 src/project/dialogs/archivewidget.cpp:868
-#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:331
+#: src/project/dialogs/archivewidget.cpp:882 src/render/renderrequest.cpp:360
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6502,7 +6502,7 @@ msgstr "Експортування даних напрямних"
 #: src/project/dialogs/archivewidget.cpp:890
 #: src/project/dialogs/archivewidget.cpp:902
 #: src/project/dialogs/archivewidget.cpp:908
-#: src/project/projectmanager.cpp:1828 src/render/renderrequest.cpp:274
+#: src/project/projectmanager.cpp:1829 src/render/renderrequest.cpp:303
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5169
@@ -6568,7 +6568,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "якщо не певні, скористайтеся таким:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:54 src/dialogs/importsubtitle.cpp:97
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1715
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1716
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -9103,15 +9103,15 @@ msgstr ""
 "Файл вашого проєкту було оновлено до поточної версії формату документів "
 "Kdenlive, але створення резервної копії %1 було неможливим."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1400
-#: src/project/projectmanager.cpp:1436
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1401
+#: src/project/projectmanager.cpp:1437
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Помилка під час спроби пересунути теку проєкту: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2330
 #: src/project/dialogs/archivewidget.cpp:241
-#: src/project/projectmanager.cpp:1656
+#: src/project/projectmanager.cpp:1657
 #, kde-format
 msgid "Untitled"
 msgstr "Без назви"
@@ -15019,7 +15019,7 @@ msgstr "Відкриття файла резервної копії…"
 msgid "Save changes to document?"
 msgstr "Зберегти зміни у документі?"
 
-#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1655
+#: src/project/projectmanager.cpp:442 src/project/projectmanager.cpp:1656
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15166,25 +15166,25 @@ msgstr ""
 "знову відкрийте ваш файл проєкту, щоб відновити дані з останньої резервної "
 "копії."
 
-#: src/project/projectmanager.cpp:1378
+#: src/project/projectmanager.cpp:1379
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Помилка під час спроби пересунути теку проєкту, не вдалося отримати доступ "
 "до теки кешу"
 
-#: src/project/projectmanager.cpp:1414
+#: src/project/projectmanager.cpp:1415
 #, kde-format
 msgid "Moving project folder"
 msgstr "Пересуваємо теку проєкту"
 
-#: src/project/projectmanager.cpp:1505 src/project/projectmanager.cpp:1563
-#: src/project/projectmanager.cpp:1567
+#: src/project/projectmanager.cpp:1506 src/project/projectmanager.cpp:1564
+#: src/project/projectmanager.cpp:1568
 #, kde-format
 msgid "Sequence 1"
 msgstr "Послідовність 1"
 
-#: src/project/projectmanager.cpp:1516
+#: src/project/projectmanager.cpp:1517
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15192,13 +15192,13 @@ msgstr ""
 "Файл проєкту пошкоджено — не вдалося завантажити доріжки. Спробувати знайти "
 "резервний файл?"
 
-#: src/project/projectmanager.cpp:1661 src/project/projectmanager.cpp:1666
-#: src/project/projectmanager.cpp:1676 src/project/projectmanager.cpp:1690
+#: src/project/projectmanager.cpp:1662 src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1677 src/project/projectmanager.cpp:1691
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Перервано зміну профілю проєкту"
 
-#: src/project/projectmanager.cpp:1813
+#: src/project/projectmanager.cpp:1814
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15207,12 +15207,12 @@ msgstr ""
 "Файл виводу даних %1 вже існує.\n"
 "Перезаписати його?"
 
-#: src/project/projectmanager.cpp:1838
+#: src/project/projectmanager.cpp:1839
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профіль проєкту змінено"
 
-#: src/project/projectmanager.cpp:1899
+#: src/project/projectmanager.cpp:1900
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15221,17 +15221,17 @@ msgstr ""
 "Не вдалося створити вміст монтажного стола з цього кліпу:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1981
+#: src/project/projectmanager.cpp:1982
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Імпорт кліпу послідовності, у поточній версії у стані експерименту"
 
-#: src/project/projectmanager.cpp:2170
+#: src/project/projectmanager.cpp:2171
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Виберіть кліп для створення послідовності"
 
-#: src/project/projectmanager.cpp:2208
+#: src/project/projectmanager.cpp:2209
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Створити кліп послідовності"
@@ -15869,12 +15869,12 @@ msgstr ""
 "Не вдалося створити теку матеріалів:\n"
 " %1"
 
-#: src/render/renderrequest.cpp:207
+#: src/render/renderrequest.cpp:236
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Не вдалося створити тимчасовий файл субтитрів"
 
-#: src/render/renderrequest.cpp:234
+#: src/render/renderrequest.cpp:263
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
@@ -15884,23 +15884,23 @@ msgstr ""
 "експортування багатодоріжкового звуку. Скрипт буде збережено без "
 "багатодоріжкового експортування."
 
-#: src/render/renderrequest.cpp:307
+#: src/render/renderrequest.cpp:336
 #, kde-format
 msgid "export"
 msgstr "експортувати"
 
-#: src/render/renderrequest.cpp:322
+#: src/render/renderrequest.cpp:351
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Відкладена обробка"
 
-#: src/render/renderrequest.cpp:322
+#: src/render/renderrequest.cpp:351
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Виберіть назву для цієї обробки."
 
-#: src/render/renderrequest.cpp:420
+#: src/render/renderrequest.cpp:449
 #, kde-format
 msgid "begin"
 msgstr "початок"
