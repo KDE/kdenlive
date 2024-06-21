@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-15 00:38+0000\n"
+"POT-Creation-Date: 2024-06-21 00:38+0000\n"
 "PO-Revision-Date: 2024-06-09 10:56+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -4762,8 +4762,8 @@ msgstr "Lista de reprodución"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1537
-#: src/project/projectmanager.cpp:1539 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1540 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Secuencias"
@@ -5559,7 +5559,7 @@ msgstr "Mover o subtítulo"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:541
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:329
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6487,7 +6487,7 @@ msgstr "Exportar os datos das guías"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1839 src/render/renderrequest.cpp:272
+#: src/project/projectmanager.cpp:1840 src/render/renderrequest.cpp:301
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5168
@@ -6554,7 +6554,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Ante a dúbida, probe:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1726
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1727
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -9074,15 +9074,15 @@ msgstr ""
 "O ficheiro do proxecto anovouse para usar a última versión de documento de "
 "Kdenlive, pero non foi posíbel crear a salvagarda %1."
 
-#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1411
-#: src/project/projectmanager.cpp:1447
+#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1412
+#: src/project/projectmanager.cpp:1448
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Produciuse un erro ao mover o cartafol do proxecto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1082 src/doc/kdenlivedoc.cpp:2329
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1668
 #, kde-format
 msgid "Untitled"
 msgstr "Sen título"
@@ -14965,7 +14965,7 @@ msgstr "Abrir o ficheiro de salvagarda…"
 msgid "Save changes to document?"
 msgstr "Gardar os cambios no documento?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1667
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15109,25 +15109,25 @@ msgstr ""
 "O proxecto corrompeuse, non se pode salvagardar. Peche e reabra o ficheiro "
 "de proxecto para recuperar a última salvagarda"
 
-#: src/project/projectmanager.cpp:1389
+#: src/project/projectmanager.cpp:1390
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Produciuse un erro ao mover o cartafol do proxecto, non se pode acceder ao "
 "cartafol da caché"
 
-#: src/project/projectmanager.cpp:1425
+#: src/project/projectmanager.cpp:1426
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movendo o cartafol do proxecto"
 
-#: src/project/projectmanager.cpp:1516 src/project/projectmanager.cpp:1574
-#: src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1517 src/project/projectmanager.cpp:1575
+#: src/project/projectmanager.cpp:1579
 #, kde-format
 msgid "Sequence 1"
 msgstr "Secuencia 1"
 
-#: src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:1528
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15135,13 +15135,13 @@ msgstr ""
 "O ficheiro de proxecto está corrompido (non foi posíbel cargar as pistas). "
 "Quere intentar atopar un ficheiro de salvagarda?"
 
-#: src/project/projectmanager.cpp:1672 src/project/projectmanager.cpp:1677
-#: src/project/projectmanager.cpp:1687 src/project/projectmanager.cpp:1701
+#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1678
+#: src/project/projectmanager.cpp:1688 src/project/projectmanager.cpp:1702
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Interrompeuse o cambio de perfil de proxecto"
 
-#: src/project/projectmanager.cpp:1824
+#: src/project/projectmanager.cpp:1825
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15150,12 +15150,12 @@ msgstr ""
 "O ficheiro de saída %1 xa existe.\n"
 "Quéreo substituír?"
 
-#: src/project/projectmanager.cpp:1849
+#: src/project/projectmanager.cpp:1850
 #, kde-format
 msgid "Project profile changed"
 msgstr "O perfil de proxecto cambiou"
 
-#: src/project/projectmanager.cpp:1910
+#: src/project/projectmanager.cpp:1911
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15164,19 +15164,19 @@ msgstr ""
 "Non é posíbel crear unha cronoloxía a partir deste fragmento:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1992
+#: src/project/projectmanager.cpp:1993
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importando un fragmento de secuencia, actualmente isto está en estado "
 "experimental"
 
-#: src/project/projectmanager.cpp:2181
+#: src/project/projectmanager.cpp:2182
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccionar un fragmento para crear unha secuencia"
 
-#: src/project/projectmanager.cpp:2219
+#: src/project/projectmanager.cpp:2220
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crear un fragmento de secuencia"
@@ -15809,12 +15809,12 @@ msgstr ""
 "Non foi posíbel crear o cartafol de activos:\n"
 "%1"
 
-#: src/render/renderrequest.cpp:205
+#: src/render/renderrequest.cpp:234
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Non foi posíbel crear o ficheiro temporal de subtítulo"
 
-#: src/render/renderrequest.cpp:232
+#: src/render/renderrequest.cpp:261
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
@@ -15823,23 +15823,23 @@ msgstr ""
 "A renderización de guión e a exportación de son de varias pistas non poden "
 "usarse xuntas. O guión gardarase sen exportación de varias pistas."
 
-#: src/render/renderrequest.cpp:305
+#: src/render/renderrequest.cpp:334
 #, kde-format
 msgid "export"
 msgstr "exportar"
 
-#: src/render/renderrequest.cpp:320
+#: src/render/renderrequest.cpp:349
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Renderización atrasada"
 
-#: src/render/renderrequest.cpp:320
+#: src/render/renderrequest.cpp:349
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Seleccione un nome para esta renderización."
 
-#: src/render/renderrequest.cpp:418
+#: src/render/renderrequest.cpp:447
 #, kde-format
 msgid "begin"
 msgstr "comezo"

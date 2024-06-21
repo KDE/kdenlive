@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-15 00:38+0000\n"
+"POT-Creation-Date: 2024-06-21 00:38+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -4938,8 +4938,8 @@ msgstr "Clip cu listă de redare"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1537
-#: src/project/projectmanager.cpp:1539 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1540 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -5807,7 +5807,7 @@ msgstr "Mută ghidajul"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:541
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:329
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6764,7 +6764,7 @@ msgstr "Încarcă marcaje"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1839 src/render/renderrequest.cpp:272
+#: src/project/projectmanager.cpp:1840 src/render/renderrequest.cpp:301
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5168
@@ -6834,7 +6834,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1726
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1727
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
@@ -9419,8 +9419,8 @@ msgstr ""
 "Fișierul proiect a fost actualizat la ultima versiune de document Kdenlive, "
 "dar nu a fost posibil să se creeze copia de rezervă %1."
 
-#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1411
-#: src/project/projectmanager.cpp:1447
+#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1412
+#: src/project/projectmanager.cpp:1448
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -9428,7 +9428,7 @@ msgstr "Dosar proiect: %1"
 
 #: src/doc/kdenlivedoc.cpp:1082 src/doc/kdenlivedoc.cpp:2329
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/projectmanager.cpp:1667
+#: src/project/projectmanager.cpp:1668
 #, kde-format
 msgid "Untitled"
 msgstr "Fără titlu"
@@ -15567,7 +15567,7 @@ msgstr "Deschide fișier rezervă"
 msgid "Save changes to document?"
 msgstr "Se salvează modificările la document?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1666
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1667
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15707,39 +15707,39 @@ msgid ""
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1389
+#: src/project/projectmanager.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Dosar proiect: %1"
 
-#: src/project/projectmanager.cpp:1425
+#: src/project/projectmanager.cpp:1426
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Folosește dosarul proiectului"
 
-#: src/project/projectmanager.cpp:1516 src/project/projectmanager.cpp:1574
-#: src/project/projectmanager.cpp:1578
+#: src/project/projectmanager.cpp:1517 src/project/projectmanager.cpp:1575
+#: src/project/projectmanager.cpp:1579
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Denumirea secvenței"
 
-#: src/project/projectmanager.cpp:1527
+#: src/project/projectmanager.cpp:1528
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1672 src/project/projectmanager.cpp:1677
-#: src/project/projectmanager.cpp:1687 src/project/projectmanager.cpp:1701
+#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1678
+#: src/project/projectmanager.cpp:1688 src/project/projectmanager.cpp:1702
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Profil proiect: %1"
 
-#: src/project/projectmanager.cpp:1824
+#: src/project/projectmanager.cpp:1825
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -15751,13 +15751,13 @@ msgstr ""
 "Fișierul „%1” există deja.\n"
 "Doriți să îl suprascrieți?"
 
-#: src/project/projectmanager.cpp:1849
+#: src/project/projectmanager.cpp:1850
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Profil proiect: %1"
 
-#: src/project/projectmanager.cpp:1910
+#: src/project/projectmanager.cpp:1911
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid ""
@@ -15765,18 +15765,18 @@ msgid ""
 "%1"
 msgstr "Fișierul temporar nu poate fi creat"
 
-#: src/project/projectmanager.cpp:1992
+#: src/project/projectmanager.cpp:1993
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2181
+#: src/project/projectmanager.cpp:2182
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Selectați un clip dacă doriți să aplicați un efect"
 
-#: src/project/projectmanager.cpp:2219
+#: src/project/projectmanager.cpp:2220
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -16415,38 +16415,38 @@ msgid ""
 " %1"
 msgstr "Fișierul temporar nu poate fi creat"
 
-#: src/render/renderrequest.cpp:205
+#: src/render/renderrequest.cpp:234
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary subtitle file"
 msgstr "Fișierul temporar nu poate fi creat"
 
-#: src/render/renderrequest.cpp:232
+#: src/render/renderrequest.cpp:261
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/render/renderrequest.cpp:305
+#: src/render/renderrequest.cpp:334
 #, fuzzy, kde-format
 #| msgid "import"
 msgid "export"
 msgstr "import"
 
-#: src/render/renderrequest.cpp:320
+#: src/render/renderrequest.cpp:349
 #, fuzzy, kde-format
 #| msgid "File rendering"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Randare fișier"
 
-#: src/render/renderrequest.cpp:320
+#: src/render/renderrequest.cpp:349
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr ""
 
-#: src/render/renderrequest.cpp:418
+#: src/render/renderrequest.cpp:447
 #, kde-format
 msgid "begin"
 msgstr ""
