@@ -102,7 +102,7 @@ ecm_qt_declare_logging_category(kdenlive_SRCS
     EXPORT KDENLIVE
 )
 
-if(NOT NODBUS)
+if(USE_DBUS)
     if(USE_VERSIONLESS_TARGETS)
         qt_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
     else()
@@ -217,7 +217,7 @@ if(WIN32 AND QT_MAJOR_VERSION STREQUAL "6")
     target_link_libraries(kdenliveLib d3d11 d3dcompiler)
 endif()
 
-if(NOT NODBUS)
+if(USE_DBUS)
   target_link_libraries(kdenliveLib KF${KF_MAJOR}::DBusAddons)
 endif()
 if(BUILD_COVERAGE)
@@ -272,7 +272,7 @@ if(APPLE)
 endif()
 
 
-if(NODBUS)
+if(NOT USE_DBUS)
     target_compile_definitions(kdenliveLib PRIVATE -DNODBUS)
     target_compile_definitions(kdenlive PRIVATE -DNODBUS)
 endif()
