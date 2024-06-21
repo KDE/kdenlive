@@ -652,9 +652,11 @@ bool EffectStackModel::doAppendEffect(const QString &effectId, bool makeCurrent,
             Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
             return true;
         };
-        update();
-        PUSH_LAMBDA(update, local_redo);
-        PUSH_LAMBDA(update_undo, local_undo);
+        if (!effect->isBuiltIn()) {
+            update();
+            PUSH_LAMBDA(update, local_redo);
+            PUSH_LAMBDA(update_undo, local_undo);
+        }
         PUSH_LAMBDA(local_redo, redo);
         PUSH_LAMBDA(local_undo, undo);
     } else if (makeCurrent) {

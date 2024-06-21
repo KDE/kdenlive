@@ -26,6 +26,7 @@ enum class ParamType {
     UrlList,            // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
     Bool,
     Switch,
+    EffectButtons,
     MultiSwitch,
     AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
     Geometry,

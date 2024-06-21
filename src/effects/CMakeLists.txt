@@ -12,6 +12,7 @@ set(kdenlive_SRCS
   effects/effectstack/model/abstracteffectitem.cpp
   effects/effectstack/model/effectgroupmodel.cpp
   effects/effectstack/model/effectitemmodel.cpp
+  effects/effectstack/model/effectstackfilter.cpp
   effects/effectstack/model/effectstackmodel.cpp
   effects/effectstack/view/abstractcollapsiblewidget.cpp
   effects/effectstack/view/collapsibleeffectview.cpp

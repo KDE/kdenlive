@@ -215,7 +215,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     } else {
         zoneFrame->setFixedHeight(0);
     }
-    inOutButton->setVisible(m_model->getOwnerId().type != KdenliveObjectType::TimelineClip);
+    inOutButton->setVisible(m_model->getOwnerId().type != KdenliveObjectType::TimelineClip && !m_model->isBuiltIn());
     connect(m_inPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_outPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);

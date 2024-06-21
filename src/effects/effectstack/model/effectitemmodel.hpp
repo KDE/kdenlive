@@ -52,6 +52,7 @@ public:
     bool hasForcedInOut() const;
     bool isValid() const;
     bool isBuiltIn() const;
+    bool isHiddenBuiltIn() const;
     QPair<int, int> getInOut() const;
     void setInOut(const QString &effectName, QPair<int, int> bounds, bool enabled, bool withUndo);
 

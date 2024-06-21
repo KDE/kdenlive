@@ -332,3 +332,8 @@ bool EffectItemModel::isBuiltIn() const
 {
     return m_asset->property_exists("kdenlive:builtin");
 }
+
+bool EffectItemModel::isHiddenBuiltIn() const
+{
+    return m_asset->property_exists("kdenlive:hiddenbuiltin");
+}

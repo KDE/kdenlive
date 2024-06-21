@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "curves/cubic/kis_curve_widget.h"
 #include "curves/curveparamwidget.h"
 #include "doubleparamwidget.hpp"
+#include "effectbuttonsparamwidget.hpp"
 #include "fontparamwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "hideparamwidget.hpp"
@@ -108,6 +109,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Switch:
         widget = new SwitchParamWidget(model, index, parent);
+        break;
+    case ParamType::EffectButtons:
+        widget = new EffectButtonsParamWidget(model, index, parent);
         break;
     case ParamType::MultiSwitch:
         widget = new MultiSwitchParamWidget(model, index, parent);

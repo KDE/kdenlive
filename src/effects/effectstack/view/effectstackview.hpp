@@ -7,6 +7,7 @@
 
 #include "definitions.h"
 #include <QMutex>
+#include <QReadWriteLock>
 #include <QStyledItemDelegate>
 #include <QTimer>
 #include <QWidget>
@@ -20,6 +21,7 @@ class EffectStackModel;
 class EffectItemModel;
 class AssetIconProvider;
 class BuiltStack;
+class EffectStackFilter;
 class AssetPanel;
 
 class WidgetDelegate : public QStyledItemDelegate
@@ -33,7 +35,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
-    QMap<QModelIndex, int> m_height;
+    QMap<QPersistentModelIndex, int> m_height;
+    mutable QReadWriteLock m_lock;
 };
 
 class EffectStackView : public QWidget
@@ -89,6 +92,7 @@ private:
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
+    std::shared_ptr<EffectStackFilter> m_filter;
     QTimer m_scrollTimer;
     QTimer m_timerHeight;
     QPoint m_dragStart;

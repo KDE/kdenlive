@@ -12,6 +12,7 @@
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
+#include "effects/effectstack/model/effectstackfilter.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
@@ -19,13 +20,16 @@
 
 #include <QDir>
 #include <QDrag>
-#include <QFormLayout>
 #include <QDragEnterEvent>
 #include <QFontDatabase>
+#include <QFormLayout>
+#include <QHBoxLayout>
 #include <QInputDialog>
+#include <QLabel>
 #include <QMimeData>
 #include <QMutexLocker>
 #include <QPainter>
+#include <QPushButton>
 #include <QScrollBar>
 #include <QTreeView>
 #include <QVBoxLayout>
@@ -44,19 +48,22 @@ QSize WidgetDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelI
 {
     QSize s = QStyledItemDelegate::sizeHint(option, index);
     if (m_height.contains(index)) {
-        s.setHeight(m_height.value(index));
+        s.setHeight(height(index));
     }
     return s;
 }
 
 void WidgetDelegate::setHeight(const QModelIndex &index, int height)
 {
+    QWriteLocker lock(&m_lock);
     m_height[index] = height;
+    lock.unlock();
     Q_EMIT sizeHintChanged(index);
 }
 
 int WidgetDelegate::height(const QModelIndex &index) const
 {
+    QReadLocker lock(&m_lock);
     return m_height.value(index);
 }
 
@@ -90,6 +97,52 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_builtStack->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay->addWidget(m_builtStack);
     m_builtStack->setVisible(KdenliveSettings::showbuiltstack());*/
+    QWidget *builtStack = new QWidget(this);
+    QFormLayout *layout = new QFormLayout(builtStack);
+    QPushButton *flipH = new QPushButton(this);
+    flipH->setToolTip(i18n("Horizontal Flip"));
+    flipH->setIcon(QIcon::fromTheme("object-flip-horizontal"));
+    flipH->setCheckable(true);
+    flipH->setFlat(true);
+    QPushButton *flipV = new QPushButton(this);
+    flipV->setToolTip(i18n("Vertical Flip"));
+    flipV->setIcon(QIcon::fromTheme("object-flip-vertical"));
+    flipV->setCheckable(true);
+    flipV->setFlat(true);
+    QHBoxLayout *lay = new QHBoxLayout;
+    lay->addWidget(flipH);
+    lay->addWidget(flipV);
+    layout->addRow(new QLabel(i18n("Flip")), lay);
+    m_lay->addWidget(builtStack);
+    connect(flipH, &QPushButton::clicked, this, [this](bool checked) {
+        if (checked) {
+            QMap<QString, QString> params;
+            params.insert(QStringLiteral("kdenlive:builtin"), QStringLiteral("1"));
+            params.insert(QStringLiteral("kdenlive:hiddenbuiltin"), QStringLiteral("1"));
+            m_model->appendEffect(QStringLiteral("avfilter.hflip"), false, params);
+        } else {
+            auto item = m_model->getAssetModelById("avfilter.hflip");
+            if (item) {
+                std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(item);
+                m_model->removeEffect(sourceEffect);
+            }
+        }
+    });
+    connect(flipV, &QPushButton::clicked, this, [this](bool checked) {
+        if (checked) {
+            QMap<QString, QString> params;
+            params.insert(QStringLiteral("kdenlive:builtin"), QStringLiteral("1"));
+            params.insert(QStringLiteral("kdenlive:hiddenbuiltin"), QStringLiteral("1"));
+            m_model->appendEffect(QStringLiteral("avfilter.vflip"), false, params);
+        } else {
+            auto item = m_model->getAssetModelById("avfilter.vflip");
+            if (item) {
+                std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(item);
+                m_model->removeEffect(sourceEffect);
+            }
+        }
+    });
+
     m_effectsTree = new QTreeView(this);
     m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     m_effectsTree->setHeaderHidden(true);
@@ -227,7 +280,6 @@ void EffectStackView::paintEvent(QPaintEvent *event)
 
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QSize frameSize)
 {
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! setmodel";
     m_mutex.lock();
     QItemSelectionModel *m = m_effectsTree->selectionModel();
     unsetModel(false);
@@ -239,14 +291,15 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     m_effectsTree->setFixedHeight(0);
     m_model = std::move(model);
     m_sourceFrameSize = frameSize;
-    m_effectsTree->setModel(m_model.get());
+    m_filter.reset(new EffectStackFilter(this));
+    m_filter->setSourceModel(m_model.get());
+    m_effectsTree->setModel(m_filter.get());
     m_effectsTree->setColumnHidden(1, true);
     m_effectsTree->setAcceptDrops(true);
     m_effectsTree->setDragDropMode(QAbstractItemView::DragDrop);
     m_effectsTree->setDragEnabled(true);
     m_effectsTree->setUniformRowHeights(false);
     m_mutex.unlock();
-    qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! setmodel";
     loadEffects();
     m_scrollTimer.start();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
@@ -349,7 +402,10 @@ void EffectStackView::loadEffects()
                 view->updateInOut({p.x(), p.y()}, withUndo);
             }
         });
-        QModelIndex ix = m_model->getIndexFromItem(effectModel);
+        QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(effectModel));
+        if (!ix.isValid()) {
+            continue;
+        }
         if (active == i) {
             effectModel->setActive(true);
             activeIndex = ix;
@@ -404,7 +460,7 @@ void EffectStackView::updateTreeHeight()
         std::shared_ptr<AbstractEffectItem> item2 = m_model->getEffectStackRow(j);
         std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item2);
         QModelIndex idx = m_model->getIndexFromItem(eff);
-        auto w = m_effectsTree->indexWidget(idx);
+        auto w = m_effectsTree->indexWidget(m_filter->mapFromSource(idx));
         if (w) {
             totalHeight += w->height();
         }
@@ -447,7 +503,7 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
     if (!m_model) {
         return;
     }
-    QModelIndex ix = m_model->getIndexFromItem(effectModel);
+    QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(effectModel));
     if (ix.isValid()) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
@@ -467,20 +523,22 @@ void EffectStackView::resizeEvent(QResizeEvent *event)
     m_scrollTimer.start();
 }
 
-void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+void EffectStackView::refresh(const QModelIndex &topL, const QModelIndex &bottomR, const QVector<int> &roles)
 {
     const QVector<int> doNothingRole = {TimelineModel::EffectNamesRole};
     if (roles == doNothingRole) {
         // We just refreshed effect names, eg when an effect is dis/enabled, nothing else to do
         return;
     }
+    const QModelIndex topLeft = m_filter->mapFromSource(topL);
+    const QModelIndex bottomRight = m_filter->mapFromSource(bottomR);
     if (!topLeft.isValid() || !bottomRight.isValid()) {
         loadEffects();
         return;
     }
     for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
         for (int j = topLeft.column(); j <= bottomRight.column(); ++j) {
-            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, j, topLeft.parent())));
+            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_filter->index(i, j, topLeft.parent())));
             if (w) {
                 Q_EMIT w->refresh();
             }

@@ -173,6 +173,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             case ParamType::Switch:
             case ParamType::MultiSwitch:
             case ParamType::Wipe:
+            case ParamType::EffectButtons:
                 // Pretty sure that those are fine
                 converted = false;
                 break;
@@ -740,6 +741,9 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("switch")) {
         return ParamType::Switch;
+    }
+    if (type == QLatin1String("effectbuttons")) {
+        return ParamType::EffectButtons;
     }
     if (type == QLatin1String("multiswitch")) {
         return ParamType::MultiSwitch;
