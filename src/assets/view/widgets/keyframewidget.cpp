@@ -479,10 +479,14 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe);
     Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, !m_monitorActive);
-    m_selectType->setEnabled(atKeyframe || singleKeyframe);
+    bool enableWidgets = m_monitorActive && (atKeyframe || singleKeyframe);
+    m_selectType->setEnabled(enableWidgets);
+    if (m_geom) {
+        m_geom->setEnabled(enableWidgets);
+    }
     for (const auto &w : m_parameters) {
         if (w.second) {
-            w.second->setEnabled(atKeyframe || singleKeyframe);
+            w.second->setEnabled(enableWidgets);
         }
     }
 }
@@ -704,22 +708,25 @@ void KeyframeWidget::connectMonitor(bool active)
             disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe);
         }
     }
-<<<<<<< HEAD
-    if (m_geom) {
-        m_geom->connectMonitor(active);
-=======
     m_monitorActive = active;
 
-    for (const auto &w : m_parameters) {
-        auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::AnimatedRect) {
-            (static_cast<GeometryWidget *>(w.second))->connectMonitor(active);
-            if (active) {
-                m_keyframeview->initKeyframePos();
+    /*for (const auto &w : m_parameters) {
+        if (w.second) {
+            auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
+            if (type == ParamType::AnimatedRect) {
+                (static_cast<GeometryWidget *>(w.second))->connectMonitor(active);
+                if (active) {
+                    m_keyframeview->initKeyframePos();
+                }
+                break;
             }
-            break;
         }
->>>>>>> master
+    }*/
+    if (m_geom) {
+        m_geom->connectMonitor(active);
+        if (active) {
+            m_keyframeview->initKeyframePos();
+        }
     }
     if (!active) {
         Q_EMIT updateEffectKeyframe(false, true);

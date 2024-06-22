@@ -35,13 +35,22 @@ MySpinBox::MySpinBox(QWidget *parent)
 bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == lineEdit()) {
-        if (event->type() == QEvent::ContextMenu) {
+        QEvent::Type type = event->type();
+        QList<QEvent::Type> handledTypes = {
+            QEvent::ContextMenu, QEvent::MouseButtonPress, QEvent::MouseButtonRelease, QEvent::MouseMove, QEvent::Wheel, QEvent::Enter, QEvent::Leave,
+            QEvent::FocusIn,     QEvent::FocusOut};
+        if (!isEnabled() && handledTypes.contains(type)) {
+            // Widget is disabled
+            event->accept();
+            return true;
+        }
+        if (type == QEvent::ContextMenu) {
             auto *me = static_cast<QContextMenuEvent *>(event);
             Q_EMIT showMenu(me->globalPos());
             event->accept();
             return true;
         }
-        if (event->type() == QEvent::MouseButtonPress) {
+        if (type == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             m_dragging = false;
             if (!lineEdit()->hasFocus()) {
@@ -66,7 +75,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 return true;
             }
         }
-        if (event->type() == QEvent::Wheel) {
+        if (type == QEvent::Wheel) {
             auto *we = static_cast<QWheelEvent *>(event);
             int mini = singleStep();
             int factor = qMax(mini, (maximum() - minimum()) / 200);
@@ -84,7 +93,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
             event->accept();
             return true;
         }
-        if (event->type() == QEvent::MouseMove) {
+        if (type == QEvent::MouseMove) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::LeftButton) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -119,7 +128,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 }
             }
         }
-        if (event->type() == QEvent::MouseButtonRelease) {
+        if (type == QEvent::MouseButtonRelease) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::MiddleButton) {
                 event->accept();
@@ -136,7 +145,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 lineEdit()->setFocus(Qt::MouseFocusReason);
             }
         }
-        if (event->type() == QEvent::Enter) {
+        if (type == QEvent::Enter) {
             if (!m_editing) {
                 event->accept();
                 return true;
@@ -172,13 +181,22 @@ MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
 bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == lineEdit()) {
-        if (event->type() == QEvent::ContextMenu) {
+        QEvent::Type type = event->type();
+        QList<QEvent::Type> handledTypes = {
+            QEvent::ContextMenu, QEvent::MouseButtonPress, QEvent::MouseButtonRelease, QEvent::MouseMove, QEvent::Wheel, QEvent::Enter, QEvent::Leave,
+            QEvent::FocusIn,     QEvent::FocusOut};
+        if (!isEnabled() && handledTypes.contains(type)) {
+            // Widget is disabled
+            event->accept();
+            return true;
+        }
+        if (type == QEvent::ContextMenu) {
             auto *me = static_cast<QContextMenuEvent *>(event);
             Q_EMIT showMenu(me->globalPos());
             event->accept();
             return true;
         }
-        if (event->type() == QEvent::MouseButtonPress) {
+        if (type == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
             m_dragging = false;
             if (!lineEdit()->hasFocus()) {
@@ -202,7 +220,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 return true;
             }
         }
-        if (event->type() == QEvent::Wheel) {
+        if (type == QEvent::Wheel) {
             auto *we = static_cast<QWheelEvent *>(event);
             double mini = singleStep();
             double factor = qMax(mini, (maximum() - minimum()) / 200);
@@ -220,7 +238,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
             event->accept();
             return true;
         }
-        if (event->type() == QEvent::MouseMove) {
+        if (type == QEvent::MouseMove) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::LeftButton) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -254,7 +272,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 }
             }
         }
-        if (event->type() == QEvent::MouseButtonRelease) {
+        if (type == QEvent::MouseButtonRelease) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::MiddleButton) {
                 event->accept();
@@ -271,7 +289,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 lineEdit()->setFocus(Qt::MouseFocusReason);
             }
         }
-        if (event->type() == QEvent::Enter) {
+        if (type == QEvent::Enter) {
             if (!m_editing) {
                 event->accept();
                 return true;

@@ -709,7 +709,7 @@ void CollapsibleEffectView::switchCollapsed(int row)
 
 void CollapsibleEffectView::slotSwitch(bool collapse)
 {
-    widgetFrame->setFixedHeight(collapse ? 0 : m_view->height());
+    widgetFrame->setFixedHeight(collapse ? 0 : m_view->sizeHint().height());
     zoneFrame->setFixedHeight(collapse || !m_inOutButton->isChecked() ? 0 : frame->height());
     setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->height() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
     m_model->setCollapsed(collapse);

@@ -33,6 +33,7 @@ public:
                             bool useOpacity, QWidget *parent, QFormLayout *layout);
     void setValue(const QRect r, double opacity = 1);
     void connectMonitor(bool activate);
+    void setEnabled(bool enable);
 
 private:
     int m_min;
@@ -51,6 +52,7 @@ private:
     QSize m_sourceSize;
     QAction *m_originalSize;
     QAction *m_lockRatio;
+    QList<QWidget *> m_allWidgets;
     const QString getValue() const;
     void adjustSizeValue();
 
