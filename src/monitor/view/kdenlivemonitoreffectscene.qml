@@ -4,6 +4,7 @@
 */
 
 import QtQuick 2.15
+import QtQuick.Shapes 1.15
 
 Item {
     id: root
@@ -41,6 +42,8 @@ Item {
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
     property bool iskeyframe
+    property bool cursorOutsideEffect
+    property bool showHandles: (root.iskeyframe || controller.autoKeyframe) && !root.cursorOutsideEffect
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
@@ -95,7 +98,7 @@ Item {
             var p1 = convertPoint(root.centerPoints[0])
             context.moveTo(p1.x, p1.y)
             context.clearRect(0,0, width, height);
-            if (root.centerPoints.length > 1) {
+            if (root.centerPoints.length > 1 && !root.cursorOutsideEffect) {
               for(var i = 0; i < root.centerPoints.length; i++)
               {
                 context.translate(p1.x, p1.y)
@@ -229,7 +232,7 @@ Item {
               if (isMoving) {
                   return true;
               }
-              if (root.centerPoints.length <= 1) {
+              if (root.cursorOutsideEffect || root.centerPoints.length <= 1) {
                 root.requestedKeyFrame = -1
                 return false
               }
@@ -298,7 +301,6 @@ Item {
 
     Rectangle {
         id: framerect
-        property color hoverColor: activePalette.highlight //"#ffff00"
         property bool dragging: false
         property double handlesBottomMargin: root.height - clipMonitorRuler.height - framerect.y - framerect.height < root.baseUnit/2 ? 0 : -root.baseUnit/2
         property double handlesRightMargin: root.width - framerect.x - framerect.width < root.baseUnit/2 ? 0 : -root.baseUnit/2
@@ -310,7 +312,39 @@ Item {
         height: root.framesize.height * root.scaley
         enabled: root.iskeyframe || controller.autoKeyframe
         color: "transparent"
-        border.color: "#ff0000"
+        border.color: root.cursorOutsideEffect ? 'transparent' : "#ff0000"
+        Shape {
+            id: shape
+            anchors.fill: parent
+            visible: root.cursorOutsideEffect
+            ShapePath {
+                strokeColor: 'red'
+                strokeWidth: 1
+                fillColor: 'transparent'
+                strokeStyle: ShapePath.DashLine
+                dashPattern: [4, 4]
+                PathLine {
+                    x: 0
+                    y: 0
+                }
+                PathLine {
+                    x: shape.width
+                    y: 0
+                }
+                PathLine {
+                    x: shape.width
+                    y: shape.height
+                }
+                PathLine {
+                    x: 0
+                    y: shape.height
+                }
+                PathLine {
+                    x: 0
+                    y: 0
+                }
+            }
+        }
         MouseArea {
           id: moveArea
           anchors.fill: parent
@@ -318,6 +352,7 @@ Item {
           propagateComposedEvents: true
           property var mouseClickPos
           property var frameClicksize: Qt.point(0, 0)
+          enabled: root.showHandles
           hoverEnabled: true
           readonly property bool handleContainsMouse: {
               if (pressed) {
@@ -370,6 +405,9 @@ Item {
                 var adjustedMouse = getSnappedPos(delta)
                 framesize.x = adjustedMouse.x / root.scalex;
                 framesize.y = adjustedMouse.y / root.scaley;
+                if (root.iskeyframe == false && controller.autoKeyframe) {
+                  controller.addRemoveKeyframe();
+                }
                 root.effectChanged()
                 mouse.accepted = true
             }
@@ -387,7 +425,7 @@ Item {
             height: width
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.iskeyframe || controller.autoKeyframe
+            visible: root.showHandles
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
@@ -399,9 +437,6 @@ Item {
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   handleRatio = framesize.width / framesize.height
@@ -442,6 +477,9 @@ Item {
                       adjustedFrame.height -= (framesize.height - adjustedFrame.height)
                   }
                   framesize = adjustedFrame
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   root.effectChanged()
                 }
               }
@@ -474,7 +512,7 @@ Item {
             height: width
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.iskeyframe || controller.autoKeyframe
+            visible: root.showHandles
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
@@ -486,9 +524,6 @@ Item {
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   handleRatio = framesize.width / framesize.height
@@ -524,6 +559,9 @@ Item {
                       adjustedFrame.height -= (framesize.height - adjustedFrame.height)
                   }
                   framesize = adjustedFrame
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   root.effectChanged()
                 }
               }
@@ -545,7 +583,7 @@ Item {
             height: width
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.iskeyframe || controller.autoKeyframe
+            visible: root.showHandles
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
@@ -557,9 +595,6 @@ Item {
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   handleRatio = framesize.width / framesize.height
@@ -594,6 +629,9 @@ Item {
                       adjustedFrame.height -= yOffset
                   }
                   framesize = adjustedFrame
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   root.effectChanged()
                 }
               }
@@ -615,7 +653,7 @@ Item {
             height: width
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.iskeyframe || controller.autoKeyframe
+            visible: root.showHandles
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
@@ -627,9 +665,6 @@ Item {
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   handleRatio = framesize.width / framesize.height
@@ -666,6 +701,9 @@ Item {
                       adjustedFrame.height -= yOffset
                   }
                   framesize = adjustedFrame
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   root.effectChanged()
                 }
               }
@@ -688,7 +726,7 @@ Item {
             height: width
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.iskeyframe || controller.autoKeyframe
+            visible: root.showHandles
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
@@ -700,9 +738,6 @@ Item {
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   handleRatio = framesize.width / framesize.height
@@ -739,6 +774,9 @@ Item {
 
                   }
                   framesize = adjustedFrame
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   root.effectChanged()
                 }
               }
@@ -761,7 +799,7 @@ Item {
             height: width
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.iskeyframe || controller.autoKeyframe
+            visible: root.showHandles
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
@@ -772,9 +810,6 @@ Item {
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   handleRatio = framesize.width / framesize.height
@@ -809,6 +844,9 @@ Item {
                       adjustedFrame.height -= (framesize.height - adjustedFrame.height)
                   }
                   framesize = adjustedFrame
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   root.effectChanged()
                 }
               }
@@ -831,7 +869,7 @@ Item {
             height: width
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.iskeyframe || controller.autoKeyframe
+            visible: root.showHandles
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
@@ -842,9 +880,6 @@ Item {
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   handleRatio = framesize.width / framesize.height
@@ -879,6 +914,9 @@ Item {
                       adjustedFrame.height -= yOffset
                   }
                   framesize = adjustedFrame
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   root.effectChanged()
                 }
               }
@@ -914,7 +952,7 @@ Item {
             height: width
             color: "#99ffffff"
             border.color: "#ff0000"
-            visible: root.iskeyframe || controller.autoKeyframe
+            visible: root.showHandles
             opacity: framerect.dragging ? 0 : root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
@@ -925,9 +963,6 @@ Item {
               onPressed: mouse => {
                   root.captureRightClick = true
                   framerect.dragging = false
-                  if (root.iskeyframe == false && controller.autoKeyframe) {
-                    controller.addRemoveKeyframe();
-                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   handleRatio = framesize.width / framesize.height
@@ -960,6 +995,9 @@ Item {
                       adjustedFrame.height -= yOffset
                   }
                   framesize = adjustedFrame
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   root.effectChanged()
                 }
               }

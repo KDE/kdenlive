@@ -16,16 +16,16 @@ TEST_CASE("Basic tests of the document checker parts", "[DocumentChecker]")
         QDomDocument doc;
         Xml::docContentFromFile(doc, path, false);
 
-        QStringList filters = DocumentChecker::getAssetsServiceIds(doc, QStringLiteral("filter"));
+        QStringList filters = KdenliveTests::getAssetsServiceIds(doc, QStringLiteral("filter"));
         CHECK(filters == QStringList({"volume", "panner", "audiolevel", "avfilter.fieldorder"}));
         qDebug() << filters;
 
-        DocumentChecker::removeAssetsById(doc, QStringLiteral("filter"), QStringList({"volume"}));
-        filters = DocumentChecker::getAssetsServiceIds(doc, QStringLiteral("filter"));
+        KdenliveTests::removeAssetsById(doc, QStringLiteral("filter"), QStringList({"volume"}));
+        filters = KdenliveTests::getAssetsServiceIds(doc, QStringLiteral("filter"));
 
         CHECK(filters == QStringList({"panner", "audiolevel", "avfilter.fieldorder"}));
 
-        QStringList transitions = DocumentChecker::getAssetsServiceIds(doc, QStringLiteral("transition"));
+        QStringList transitions = KdenliveTests::getAssetsServiceIds(doc, QStringLiteral("transition"));
         CHECK(transitions == QStringList{"luma", "mix", "frei0r.cairoblend"});
 
         qDebug() << filters;
@@ -34,10 +34,10 @@ TEST_CASE("Basic tests of the document checker parts", "[DocumentChecker]")
 
     SECTION("Check build-in luma detection")
     {
-        CHECK(DocumentChecker::isMltBuildInLuma(QStringLiteral("luma05.pgm")));
-        CHECK_FALSE(DocumentChecker::isMltBuildInLuma(QStringLiteral("luma05.png")));
-        CHECK_FALSE(DocumentChecker::isMltBuildInLuma(QStringLiteral("my-luma05.pgm")));
-        CHECK_FALSE(DocumentChecker::isMltBuildInLuma(QStringLiteral("luma87.pgm")));
+        CHECK(KdenliveTests::isMltBuildInLuma(QStringLiteral("luma05.pgm")));
+        CHECK_FALSE(KdenliveTests::isMltBuildInLuma(QStringLiteral("luma05.png")));
+        CHECK_FALSE(KdenliveTests::isMltBuildInLuma(QStringLiteral("my-luma05.pgm")));
+        CHECK_FALSE(KdenliveTests::isMltBuildInLuma(QStringLiteral("luma87.pgm")));
     }
 }
 

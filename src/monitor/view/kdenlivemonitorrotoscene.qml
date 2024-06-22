@@ -43,6 +43,7 @@ Item {
     onScaleyChanged: canvas.requestPaint()
     onSourcedarChanged: refreshdar()
     property bool iskeyframe : true
+    property bool cursorOutsideEffect: false
     property bool autoKeyframe: controller.autoKeyframe
     property bool isDefined: false
     property int requestedKeyFrame : -1
@@ -97,7 +98,6 @@ Item {
     }
 
     onIskeyframeChanged: {
-        console.log('KEYFRAME CHANGED: ', iskeyframe)
         if (root.displayResize && !controller.autoKeyframe) {
             root.displayResize = false
         }
@@ -163,11 +163,11 @@ Item {
 
     Canvas {
       id: canvas
-      property double handleSize
+      property double handleSize: root.baseUnit * 0.5
       property double darOffset : 0
+      property color fillColor: Qt.rgba(1, 1, 1, 0.5)
       anchors.fill: parent
       contextType: "2d";
-      handleSize: root.baseUnit / 2
       renderTarget: Canvas.FramebufferObject
       renderStrategy: Canvas.Cooperative
 
@@ -178,7 +178,7 @@ Item {
             ctx.clearRect(0,0, width, height);
             ctx.beginPath()
             ctx.strokeStyle = Qt.rgba(1, 0, 0, 0.5)
-            ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+            ctx.fillStyle = canvas.fillColor
             ctx.lineWidth = 2
             if (root.centerPoints.length == 0) {
                 // no points defined yet
@@ -193,21 +193,27 @@ Item {
                     ctx.fillStyle = activePalette.highlight
                 }
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
-                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                ctx.fillStyle = canvas.fillColor
                 for (var i = 1; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     ctx.lineTo(p1.x, p1.y);
                     if (i == root.requestedKeyFrame) {
                         ctx.fillStyle = activePalette.highlight
                         ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
-                        ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                        ctx.fillStyle = canvas.fillColor
                     } else {
                         ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                     }
+                    ctx.strokeRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                 }
             } else {
                 var c1; var c2
                 var alphaColor = Qt.hsla(activePalette.highlight.hslHue, activePalette.highlight.hslSaturation, activePalette.highlight.hslLightness, 0.5)
+                if (root.cursorOutsideEffect) {
+                    ctx.setLineDash([4]);
+                } else {
+                    ctx.setLineDash([]);
+                }
                 for (var i = 0; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     // Control points
@@ -234,29 +240,30 @@ Item {
                     }
                     c2 = convertPoint(root.centerPointsTypes[2*i])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p1.x, p1.y);
-                    if ((iskeyframe || autoKeyframe) && !root.displayResize) {
+                    if ((iskeyframe || autoKeyframe) && !root.displayResize && !root.cursorOutsideEffect) {
                         // Draw control points and segments
                         if (subkf) {
                             ctx.fillStyle = activePalette.highlight
                             ctx.fillRect(c1.x - handleSize/2, c1.y - handleSize/2, handleSize, handleSize);
-                            ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                            ctx.fillStyle = canvas.fillColor
                         } else {
                             ctx.fillRect(c1.x - handleSize/2, c1.y - handleSize/2, handleSize, handleSize);
                         }
                         if (root.requestedSubKeyFrame == 2 * i) {
                             ctx.fillStyle = activePalette.highlight
                             ctx.fillRect(c2.x - handleSize/2, c2.y - handleSize/2, handleSize, handleSize);
-                            ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                            ctx.fillStyle = canvas.fillColor
                         } else {
                             ctx.fillRect(c2.x - handleSize/2, c2.y - handleSize/2, handleSize, handleSize);
                         }
                         if (i == root.requestedKeyFrame) {
                             ctx.fillStyle = activePalette.highlight
                             ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
-                            ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                            ctx.fillStyle = canvas.fillColor
                         } else {
                             ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                         }
+                        ctx.strokeRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                         c1 = convertPoint(root.centerPointsTypes[2*i + 1])
                         ctx.lineTo(c1.x, c1.y)
                         ctx.moveTo(p1.x, p1.y)

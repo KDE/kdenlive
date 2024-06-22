@@ -26,7 +26,7 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
     m_producer = clip->cloneProducer();
     if (length > 2000) {
-        // Analyse on timeline clip zone only
+        // Analyze on timeline clip zone only
         m_offset = 0;
         m_producer->set_in_and_out(int(offset), int(offset + length));
     }

@@ -1496,7 +1496,8 @@ std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
     return m_projectTractor;
 }
 
-const QString ProjectItemModel::sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration, const QString &aspectRatio)
+const std::pair<QString, QString> ProjectItemModel::sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration,
+                                                              const QString &aspectRatio)
 {
     QWriteLocker lock(&pCore->xmlMutex);
     LocaleHandling::resetLocale();
@@ -1507,7 +1508,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fi
         tempFile.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.kdenlive")));
         if (!tempFile.open()) {
             qDebug() << "Could not open temporary file for writing";
-            return QString();
+            return {};
         }
     }
 
@@ -1518,7 +1519,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fi
         xmlConsumer.set("root", root.toUtf8().constData());
     }
     if (!xmlConsumer.is_valid()) {
-        return QString();
+        return {};
     }
     xmlConsumer.set("store", "kdenlive");
     xmlConsumer.set("time_format", "clock");
@@ -1547,10 +1548,10 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fi
     }
     if (aspectRatio.isEmpty()) {
         playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
-        return playlist;
+        return {playlist, QString()};
     }
 
-   double targetAspectRatio = 16.0 / 9.0; // default to horizontal (16:9)
+    double targetAspectRatio = 16.0 / 9.0; // default to horizontal (16:9)
     if (aspectRatio == "vertical") {
         targetAspectRatio = 9.0 / 16.0;
     } else if (aspectRatio == "square") {
@@ -1605,7 +1606,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fi
     xmlConsumer2.run();
 
     playlist = QString::fromUtf8(xmlConsumer2.get("kdenlive_playlist"));
-    return playlist;
+    return {playlist, tempFile.fileName()};
 }
 
 std::shared_ptr<Mlt::Tractor> ProjectItemModel::getExtraTimeline(const QString &uuid)

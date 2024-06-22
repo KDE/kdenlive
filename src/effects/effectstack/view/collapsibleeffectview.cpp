@@ -450,7 +450,10 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
         qDebug() << "=============\nSHOWING MONITOR SCENE: " << needsMonitorEffectScene();
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     }
-    Q_EMIT m_view->initKeyframeView(active);
+    if (active) {
+        active = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
+    }
+    Q_EMIT m_view->initKeyframeView(active, active);
     if (m_inOutButton->isChecked()) {
         Q_EMIT showEffectZone(m_model->getOwnerId(), m_model->getInOut(), true);
     } else {
@@ -508,14 +511,18 @@ void CollapsibleEffectView::slotDisable(bool disable)
     redo();
     pCore->pushUndo(undo, redo, disable ? i18n("Disable %1", effectName) : i18n("Enable %1", effectName));
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    Q_EMIT m_view->initKeyframeView(!disable);
+    if (!disable) {
+        disable = !pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
+    }
+    Q_EMIT m_view->initKeyframeView(!disable, disable);
     Q_EMIT activateEffect(m_model->row());
 }
 
 void CollapsibleEffectView::updateScene()
 {
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    Q_EMIT m_view->initKeyframeView(m_model->isAssetEnabled());
+    bool contains = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
+    Q_EMIT m_view->initKeyframeView(m_model->isAssetEnabled(), !contains);
 }
 
 void CollapsibleEffectView::slotDeleteEffect()

@@ -20,6 +20,7 @@ class DocumentChecker : public QObject
 public:
     enum MissingStatus { Fixed, Reload, Missing, MissingButProxy, Placeholder, Remove };
     enum MissingType { Clip, Proxy, Luma, AssetFile, TitleImage, TitleFont, Effect, Transition, CircularRef };
+    friend class KdenliveTests;
     struct DocumentResource
     {
         MissingStatus status = MissingStatus::Missing;
@@ -57,6 +58,11 @@ public:
     QMap<DocumentChecker::MissingType, int> getCheckResults();
 
     std::vector<DocumentResource> resourceItems() { return m_items; }
+
+protected:
+    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
+    static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
+    static bool isMltBuildInLuma(const QString &lumaName);
 
 private:
     QUrl m_url;
@@ -102,11 +108,9 @@ private:
     QString getProducerResource(const QDomElement &producer);
     static QString getKdenliveClipId(const QDomElement &producer);
     static QStringList getAssetsFilesByMltTag(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
-    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
 
     QStringList getInfoMessages();
 
-    static bool isMltBuildInLuma(const QString &lumaName);
     static bool isSlideshow(const QString &resource);
     bool isSequenceWithSpeedEffect(const QDomElement &producer);
     static bool isProfileHD(const QDomDocument &doc);
@@ -120,7 +124,7 @@ private:
     void fixTitleImage(QDomElement &e, const QString &oldPath, const QString &newPath);
     void fixTitleFont(const QDomNodeList &producers, const QString &oldFont, const QString &newFont);
     void fixAssetResource(const QDomNodeList &assets, const QMap<QString, QString> &searchPairs, const QString &oldPath, const QString &newPath);
-    static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
+
     /** @brief Update a filter's tag and id with a new name */
     static void fixAssetsById(QDomDocument &doc, const QString &tagName, const QString &oldId, const QString &newId);
     void usePlaceholderForClip(const QDomNodeList &items, const QString &clipId);

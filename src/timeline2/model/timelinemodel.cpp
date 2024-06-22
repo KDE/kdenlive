@@ -225,8 +225,9 @@ int TimelineModel::getTracksCount() const
     }
     Q_ASSERT(count >= 0);
     // don't count the black background track
-    Q_ASSERT(count - 1 == static_cast<int>(m_allTracks.size()));
-    return count - 1;
+    count--;
+    Q_ASSERT(count == static_cast<int>(m_allTracks.size()));
+    return count;
 }
 
 QPair<int, int> TimelineModel::getAVtracksCount() const
@@ -396,8 +397,7 @@ const QString TimelineModel::getClipBinId(int clipId) const
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     const auto clip = m_allClips.at(clipId);
-    QString id = clip->binId();
-    return id;
+    return clip->binId();
 }
 
 int TimelineModel::getClipPlaytime(int clipId) const
@@ -2394,7 +2394,7 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
         int old_trackId = getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
-            if (getTrackById_const(old_trackId)->isLocked()) {
+            if (trackIsLocked(old_trackId)) {
                 locked_items.insert(item);
                 continue;
             }
@@ -3400,7 +3400,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     bool result = true;
     for (int id : all_items) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         // First delete clip, then timewarp, resize and reinsert
@@ -3870,10 +3870,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     int finalSize;
     for (int id : all_items) {
         int trackId = getItemTrackId(id);
-        if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
-            continue;
-        }
-        if (isSubtitleTrack(trackId) && m_subtitleModel && m_subtitleModel->isLocked()) {
+        if (trackId > -1 && trackIsLocked(trackId)) {
             continue;
         }
         if (right) {
@@ -4207,10 +4204,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
     int resizedCount = 0;
     for (int id : all_items) {
         int trackId = getItemTrackId(id);
-        if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
-            continue;
-        }
-        if (isSubtitleTrack(trackId) && m_subtitleModel && m_subtitleModel->isLocked()) {
+        if (trackId > -1 && trackIsLocked(trackId)) {
             continue;
         }
         if (right) {
@@ -4368,7 +4362,7 @@ int TimelineModel::requestSlipSelection(int offset, bool logUndo)
     int slipCount = 0;
     for (auto id : getCurrentSelection()) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         if (!isClip(id)) {
@@ -4406,7 +4400,7 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool al
     int slipCount = 0;
     for (int id : all_items) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         result = result && requestClipSlip(id, offset, logUndo, undo, redo);
@@ -5130,9 +5124,9 @@ void TimelineModel::updateDuration()
     }
     if (duration != current) {
         // update black track length
-        m_blackClip->block();
+        m_blackClip->lock();
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
-        m_blackClip->unblock();
+        m_blackClip->unlock();
         Q_EMIT durationUpdated(m_uuid);
         if (m_masterStack) {
             Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
@@ -5491,6 +5485,12 @@ int TimelineModel::getItemFakePosition(int itemId) const
     return -1;
 }
 
+std::pair<int, int> TimelineModel::getClipInOut(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->getInOut();
+}
+
 int TimelineModel::getClipSubPlaylistIndex(int cid) const
 {
     Q_ASSERT(isClip(cid));
@@ -5501,6 +5501,12 @@ const QString TimelineModel::getClipName(int cid) const
 {
     Q_ASSERT(isClip(cid));
     return m_allClips.at(cid)->clipName();
+}
+
+bool TimelineModel::clipIsValid(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->isValid();
 }
 
 int TimelineModel::getItemEnd(int itemId) const

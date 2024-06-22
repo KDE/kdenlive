@@ -64,7 +64,12 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     }
     connect(model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
     connect(m_trackBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrack(int)));
-    Q_EMIT initKeyframeView(true);
+    if (pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position())) {
+        Q_EMIT initKeyframeView(true, true);
+    } else {
+        Q_EMIT initKeyframeView(false, false);
+    }
+
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
 }
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-11 00:38+0000\n"
+"POT-Creation-Date: 2024-06-21 00:38+0000\n"
 "PO-Revision-Date: 2024-05-31 09:44+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -4781,8 +4781,8 @@ msgstr "Список відтворення"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2467 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1533
-#: src/project/projectmanager.cpp:1535 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1538
+#: src/project/projectmanager.cpp:1540 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Послідовності"
@@ -5572,7 +5572,7 @@ msgid "Cut clip"
 msgstr "Розрізати кліп"
 
 #: src/bin/model/subtitlemodel.cpp:825 src/bin/model/subtitlemodel.cpp:1588
-#: src/timeline2/model/timelinemodel.cpp:3918
+#: src/timeline2/model/timelinemodel.cpp:3915
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Змінити розмір субтитрів"
@@ -5587,7 +5587,7 @@ msgstr "Пересунути субтитри"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:541
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:329
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -5851,7 +5851,7 @@ msgstr ""
 "Вказаний профіль є некоректним. Повертаємося до типового профілю «dv_pal». "
 "Ви можете змінити цей профіль за допомогою панелі параметрів Kdenlive."
 
-#: src/core.cpp:263 src/project/projectmanager.cpp:828
+#: src/core.cpp:263 src/project/projectmanager.cpp:832
 #, kde-format
 msgid "Loading project…"
 msgstr "Завантаження проєкту…"
@@ -6509,8 +6509,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Експортування даних напрямних"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1657
-#: src/dialogs/renderwidget.cpp:1684 src/doc/kdenlivedoc.cpp:758
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1663
+#: src/dialogs/renderwidget.cpp:1690 src/doc/kdenlivedoc.cpp:758
 #: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1309
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
@@ -6523,7 +6523,7 @@ msgstr "Експортування даних напрямних"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1835 src/render/renderrequest.cpp:272
+#: src/project/projectmanager.cpp:1840 src/render/renderrequest.cpp:301
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5168
@@ -6589,7 +6589,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "якщо не певні, скористайтеся таким:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1722
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1727
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -6778,7 +6778,7 @@ msgstr "Фонова служба ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/kdenlivesettingsdialog.cpp:728
-#: src/dialogs/kdenlivesettingsdialog.cpp:729 src/dialogs/renderwidget.cpp:215
+#: src/dialogs/kdenlivesettingsdialog.cpp:729 src/dialogs/renderwidget.cpp:217
 #: src/mainwindow.cpp:215 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -7153,123 +7153,123 @@ msgstr ""
 "Вказані нижче параметри ні на що не впливатимуть, оскільки їх перезаписано "
 "еквівалентними параметрами в інтерфейсі користувача: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:103 src/dialogs/renderwidget.cpp:1487
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1493
 #, kde-format
 msgid "Waiting…"
 msgstr "Очікування…"
 
-#: src/dialogs/renderwidget.cpp:106
+#: src/dialogs/renderwidget.cpp:108
 #, kde-format
 msgid "Rendering finished"
 msgstr "Обробку завершено"
 
-#: src/dialogs/renderwidget.cpp:111
+#: src/dialogs/renderwidget.cpp:113
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Спроба обробки завершилася аварійно"
 
-#: src/dialogs/renderwidget.cpp:116
+#: src/dialogs/renderwidget.cpp:118
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Обробку перервано"
 
-#: src/dialogs/renderwidget.cpp:203
+#: src/dialogs/renderwidget.cpp:205
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Найближче (швидко)"
 
-#: src/dialogs/renderwidget.cpp:204 src/monitor/monitormanager.cpp:597
+#: src/dialogs/renderwidget.cpp:206 src/monitor/monitormanager.cpp:597
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Білінійне (якісно)"
 
-#: src/dialogs/renderwidget.cpp:205 src/monitor/monitormanager.cpp:598
+#: src/dialogs/renderwidget.cpp:207 src/monitor/monitormanager.cpp:598
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Бікубічне (якісніше)"
 
-#: src/dialogs/renderwidget.cpp:206
+#: src/dialogs/renderwidget.cpp:208
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Ланцошеве (найкраще)"
 
-#: src/dialogs/renderwidget.cpp:216
+#: src/dialogs/renderwidget.cpp:218
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "Горизонтально (16:9)"
 
-#: src/dialogs/renderwidget.cpp:217
+#: src/dialogs/renderwidget.cpp:219
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "Вертикально (9:16)"
 
-#: src/dialogs/renderwidget.cpp:218
+#: src/dialogs/renderwidget.cpp:220
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Квадрат (1:1)"
 
-#: src/dialogs/renderwidget.cpp:222 src/monitor/monitormanager.cpp:578
+#: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:578
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Одне поле (швидко)"
 
-#: src/dialogs/renderwidget.cpp:223 src/monitor/monitormanager.cpp:579
+#: src/dialogs/renderwidget.cpp:225 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Лінійне змішування (швидко)"
 
-#: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:580
+#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:580
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF, лише за часом (якісно)"
 
-#: src/dialogs/renderwidget.cpp:225
+#: src/dialogs/renderwidget.cpp:227
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (кращий)"
 
-#: src/dialogs/renderwidget.cpp:226
+#: src/dialogs/renderwidget.cpp:228
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (найкращий)"
 
-#: src/dialogs/renderwidget.cpp:234 src/project/dialogs/slideshowclip.cpp:60
+#: src/dialogs/renderwidget.cpp:236 src/project/dialogs/slideshowclip.cpp:60
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
 msgstr "Немає"
 
-#: src/dialogs/renderwidget.cpp:235
+#: src/dialogs/renderwidget.cpp:237
 #, kde-format
 msgid "Timecode"
 msgstr "Часова позначка"
 
-#: src/dialogs/renderwidget.cpp:236
+#: src/dialogs/renderwidget.cpp:238
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Часова позначка невикидного кадру"
 
-#: src/dialogs/renderwidget.cpp:237
+#: src/dialogs/renderwidget.cpp:239
 #, kde-format
 msgid "Frame Number"
 msgstr "Номер кадру"
 
-#: src/dialogs/renderwidget.cpp:241
+#: src/dialogs/renderwidget.cpp:243
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Обробка з використанням низькоякісних проміжних кліпів"
 
-#: src/dialogs/renderwidget.cpp:323
+#: src/dialogs/renderwidget.cpp:325
 #, kde-format
 msgid "File"
 msgstr "Файл"
 
-#: src/dialogs/renderwidget.cpp:332
+#: src/dialogs/renderwidget.cpp:334
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Збережені списки відтворення"
 
-#: src/dialogs/renderwidget.cpp:345 src/timeline2/view/previewmanager.cpp:49
+#: src/dialogs/renderwidget.cpp:347 src/timeline2/view/previewmanager.cpp:49
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -7278,57 +7278,57 @@ msgstr ""
 "Не вдалося знайти програму kdenlive_render. Щось не так зі встановленим "
 "пакунком. Обробка відео не працюватиме."
 
-#: src/dialogs/renderwidget.cpp:364
+#: src/dialogs/renderwidget.cpp:370
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Працює лише для формату matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:371
+#: src/dialogs/renderwidget.cpp:377
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Під час спроби оприлюднити документ виникли проблеми: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:371 src/dialogs/renderwidget.cpp:379
+#: src/dialogs/renderwidget.cpp:377 src/dialogs/renderwidget.cpp:385
 #: src/ui/renderwidget_ui.ui:911
 #, kde-format
 msgid "Share"
 msgstr "Оприлюднити"
 
-#: src/dialogs/renderwidget.cpp:376
+#: src/dialogs/renderwidget.cpp:382
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Документ успішно оприлюднено"
 
-#: src/dialogs/renderwidget.cpp:379
+#: src/dialogs/renderwidget.cpp:385
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "Оприлюднений документ можна знайти тут: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:499
+#: src/dialogs/renderwidget.cpp:505
 #, kde-format
 msgid "Beginning"
 msgstr "Початок"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:506 src/ui/wipeval_ui.ui:172
+#: src/dialogs/renderwidget.cpp:512 src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Кінець"
 
-#: src/dialogs/renderwidget.cpp:627
+#: src/dialogs/renderwidget.cpp:633
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Додати кліп до монтажного столу до обробки"
 
-#: src/dialogs/renderwidget.cpp:633
+#: src/dialogs/renderwidget.cpp:639
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Не вдалося знайти програми melt, потрібної для обробки (програма є частиною "
 "Mlt)"
 
-#: src/dialogs/renderwidget.cpp:642
+#: src/dialogs/renderwidget.cpp:648
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -7341,25 +7341,25 @@ msgstr ""
 "Рекомендуємо перекодування кліпів до якогось зручного для редагування "
 "формату."
 
-#: src/dialogs/renderwidget.cpp:644
+#: src/dialogs/renderwidget.cpp:650
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Обробити попри це"
 
-#: src/dialogs/renderwidget.cpp:647
+#: src/dialogs/renderwidget.cpp:653
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Перекодувати"
 
-#: src/dialogs/renderwidget.cpp:670 src/dialogs/renderwidget.cpp:1461
+#: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:1467
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Файл виводу даних вже існує. Перезаписати його?"
 
-#: src/dialogs/renderwidget.cpp:678 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:684 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -7368,12 +7368,12 @@ msgstr ""
 "Не вдалося створити каталог %1.\n"
 "Переконайтеся, що маєте потрібні права доступу."
 
-#: src/dialogs/renderwidget.cpp:719
+#: src/dialogs/renderwidget.cpp:725
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "Під час спроби обробки сталися вказані нижче помилки"
 
-#: src/dialogs/renderwidget.cpp:752 src/dialogs/renderwidget.cpp:1474
+#: src/dialogs/renderwidget.cpp:758 src/dialogs/renderwidget.cpp:1480
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7382,47 +7382,47 @@ msgstr ""
 "Файл запису завдань вже створено:<br /><b>%1</b><br />Перервіть виконання "
 "завдання, якщо бажаєте перезаписати цей файл…"
 
-#: src/dialogs/renderwidget.cpp:753 src/dialogs/renderwidget.cpp:1475
+#: src/dialogs/renderwidget.cpp:759 src/dialogs/renderwidget.cpp:1481
 #, kde-format
 msgid "Already running"
 msgstr "Вже працює"
 
-#: src/dialogs/renderwidget.cpp:775
+#: src/dialogs/renderwidget.cpp:781
 #, kde-format
 msgid "Video without audio track"
 msgstr "Відео без звукової доріжки"
 
-#: src/dialogs/renderwidget.cpp:777
+#: src/dialogs/renderwidget.cpp:783
 #, kde-format
 msgid "Audio without video track"
 msgstr "Звук без відеодоріжки"
 
-#: src/dialogs/renderwidget.cpp:841 src/main.cpp:482
+#: src/dialogs/renderwidget.cpp:847 src/main.cpp:482
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Почато обробку <i>%1</i>"
 
-#: src/dialogs/renderwidget.cpp:903 src/monitor/monitor.cpp:1270
+#: src/dialogs/renderwidget.cpp:909 src/monitor/monitor.cpp:1270
 #, kde-format
 msgid "untitled"
 msgstr "без назви"
 
-#: src/dialogs/renderwidget.cpp:941
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "No preset selected"
 msgstr "Не вибрано жодного набору"
 
-#: src/dialogs/renderwidget.cpp:943
+#: src/dialogs/renderwidget.cpp:949
 #, kde-format
 msgid "No matching preset"
 msgstr "Немає відповідного набору"
 
-#: src/dialogs/renderwidget.cpp:955
+#: src/dialogs/renderwidget.cpp:961
 #, kde-format
 msgid "Invalid preset"
 msgstr "Некоректний набір"
 
-#: src/dialogs/renderwidget.cpp:1068
+#: src/dialogs/renderwidget.cpp:1074
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -7430,12 +7430,12 @@ msgid ""
 msgstr ""
 "Обробка неможлива без відео і звуку. Будь ласка, увімкніть хоч щось з двох."
 
-#: src/dialogs/renderwidget.cpp:1230
+#: src/dialogs/renderwidget.cpp:1236
 #, kde-format
 msgid "Remaining time "
 msgstr "Лишилося часу "
 
-#: src/dialogs/renderwidget.cpp:1232 src/dialogs/renderwidget.cpp:1279
+#: src/dialogs/renderwidget.cpp:1238 src/dialogs/renderwidget.cpp:1285
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
@@ -7444,54 +7444,54 @@ msgstr[1] "%1 дні "
 msgstr[2] "%1 днів "
 msgstr[3] "1 день"
 
-#: src/dialogs/renderwidget.cpp:1236
+#: src/dialogs/renderwidget.cpp:1242
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (кадр %1 при %2 кд/с)"
 
-#: src/dialogs/renderwidget.cpp:1251
+#: src/dialogs/renderwidget.cpp:1257
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Лишилося менше %1 МБ доступної пам'яті."
 
-#: src/dialogs/renderwidget.cpp:1281
+#: src/dialogs/renderwidget.cpp:1287
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Обробку завершено за %1"
 
-#: src/dialogs/renderwidget.cpp:1289
+#: src/dialogs/renderwidget.cpp:1295
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Обробку %1 завершено за %2"
 
-#: src/dialogs/renderwidget.cpp:1309
+#: src/dialogs/renderwidget.cpp:1315
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr ""
 "<strong>Спроба обробки %1 завершилася у аварійному режимі</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1352 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1358 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Перервати виконання"
 
-#: src/dialogs/renderwidget.cpp:1355
+#: src/dialogs/renderwidget.cpp:1361
 #, kde-format
 msgid "Remove Job"
 msgstr "Вилучити завдання"
 
-#: src/dialogs/renderwidget.cpp:1744
+#: src/dialogs/renderwidget.cpp:1750
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Додати кліпи до монтажного столу до обробки"
 
-#: src/dialogs/renderwidget.cpp:1749
+#: src/dialogs/renderwidget.cpp:1755
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Тривалість обробленого файла: %1"
 
-#: src/dialogs/renderwidget.cpp:1753
+#: src/dialogs/renderwidget.cpp:1759
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -7500,7 +7500,7 @@ msgstr[1] "<b>Не вистачає %1 використаних у проєкт�
 msgstr[2] "<b>Не вистачає %1 використаних у проєкті кліпів.</b>"
 msgstr[3] "<b>Не вистачає одного використаного у проєкті кліпу.</b>"
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1761
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -7509,12 +7509,12 @@ msgstr[1] "%1 пропущені кліпи (не використано)."
 msgstr[2] "%1 пропущених кліпів (не використано)."
 msgstr[3] "Один пропущений кліп (не використано)."
 
-#: src/dialogs/renderwidget.cpp:1757
+#: src/dialogs/renderwidget.cpp:1763
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Не вистачає %1 кліпів (<b>у проєкті використано %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:1839
+#: src/dialogs/renderwidget.cpp:1845
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7523,12 +7523,12 @@ msgstr ""
 "Параметри швидкості кодека:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1859
+#: src/dialogs/renderwidget.cpp:1865
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Додати до поточного проєкту"
 
-#: src/dialogs/renderwidget.cpp:1862 src/library/librarywidget.cpp:256
+#: src/dialogs/renderwidget.cpp:1868 src/library/librarywidget.cpp:256
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Відкрити теку з даними"
@@ -9056,8 +9056,8 @@ msgstr "З проєкту було вилучено такі фільтри і �
 msgid "Invalid file path"
 msgstr "Некоректний шлях до файла"
 
-#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:813
-#: src/project/projectmanager.cpp:855
+#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:817
+#: src/project/projectmanager.cpp:859
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не вдалося відновити пошкоджений файл."
@@ -9135,15 +9135,15 @@ msgstr ""
 "Файл вашого проєкту було оновлено до поточної версії формату документів "
 "Kdenlive, але створення резервної копії %1 було неможливим."
 
-#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1407
-#: src/project/projectmanager.cpp:1443
+#: src/doc/kdenlivedoc.cpp:892 src/project/projectmanager.cpp:1412
+#: src/project/projectmanager.cpp:1448
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Помилка під час спроби пересунути теку проєкту: %1"
 
 #: src/doc/kdenlivedoc.cpp:1082 src/doc/kdenlivedoc.cpp:2329
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/projectmanager.cpp:1663
+#: src/project/projectmanager.cpp:1668
 #, kde-format
 msgid "Untitled"
 msgstr "Без назви"
@@ -9416,7 +9416,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Ефект %1 не можна додавати двічі."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:561
-#: src/timeline2/model/timelinemodel.cpp:5031
+#: src/timeline2/model/timelinemodel.cpp:5025
 #, kde-format
 msgid "Add effect %1"
 msgstr "Додавання ефекту %1"
@@ -12120,12 +12120,12 @@ msgstr ""
 "У результаті усі тимчасові файли буде пересунуто з<br/><b>%1</b> до <b>%2</"
 "b>,<br/>потім файл проєкту буде перезавантажено."
 
-#: src/mainwindow.cpp:2312 src/project/projectmanager.cpp:610
+#: src/mainwindow.cpp:2312 src/project/projectmanager.cpp:614
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Не вдалося виконати дію, некоректний ідентифікатор документа: %1"
 
-#: src/mainwindow.cpp:2317 src/project/projectmanager.cpp:616
+#: src/mainwindow.cpp:2317 src/project/projectmanager.cpp:620
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Не вдалося виконати дію, каталог призначення вже існує: %1"
@@ -15060,12 +15060,12 @@ msgstr "Зберегти копію…"
 msgid "Open Backup File…"
 msgstr "Відкриття файла резервної копії…"
 
-#: src/project/projectmanager.cpp:438
+#: src/project/projectmanager.cpp:442
 #, kde-format
 msgid "Save changes to document?"
 msgstr "Зберегти зміни у документі?"
 
-#: src/project/projectmanager.cpp:440 src/project/projectmanager.cpp:1662
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1667
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15074,17 +15074,17 @@ msgstr ""
 "До проєкту <b>«%1»</b> було внесено зміни.\n"
 "Бажаєте зберегти внесені зміни?"
 
-#: src/project/projectmanager.cpp:552
+#: src/project/projectmanager.cpp:556
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Не вдалося зберегти файл проєкту <br><b>%1</B>"
 
-#: src/project/projectmanager.cpp:585
+#: src/project/projectmanager.cpp:589
 #, kde-format
 msgid "Saving successful"
 msgstr "Успішно збережено"
 
-#: src/project/projectmanager.cpp:598
+#: src/project/projectmanager.cpp:602
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -15096,39 +15096,39 @@ msgstr ""
 "результаті усі тимчасові файли буде пересунуто з <b>%1</b> до <b>%2</b>, "
 "потім файл проєкту буде перезавантажено."
 
-#: src/project/projectmanager.cpp:639
+#: src/project/projectmanager.cpp:643
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Збереження копії"
 
-#: src/project/projectmanager.cpp:745
+#: src/project/projectmanager.cpp:749
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr ""
 "Виявлено файл автоматичного збереження. Бажаєте відновити дані за цим файлом?"
 
-#: src/project/projectmanager.cpp:745
+#: src/project/projectmanager.cpp:749
 #, kde-format
 msgid "File Recovery"
 msgstr "Відновлення файлів"
 
-#: src/project/projectmanager.cpp:746 src/project/projectmanager.cpp:843
+#: src/project/projectmanager.cpp:750 src/project/projectmanager.cpp:847
 #, kde-format
 msgid "Recover"
 msgstr "Відновити"
 
-#: src/project/projectmanager.cpp:746
+#: src/project/projectmanager.cpp:750
 #, kde-format
 msgid "Do not recover"
 msgstr "Не відновлювати"
 
-#: src/project/projectmanager.cpp:798
+#: src/project/projectmanager.cpp:802
 #, kde-format
 msgid "Opening file %1"
 msgstr "Відкривається файл %1"
 
-#: src/project/projectmanager.cpp:842
+#: src/project/projectmanager.cpp:846
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15139,29 +15139,29 @@ msgstr ""
 "%1\n"
 "Хочете відкрити файл резервної копії?"
 
-#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1037
+#: src/project/projectmanager.cpp:847 src/project/projectmanager.cpp:1041
 #, kde-format
 msgid "Error opening file"
 msgstr "Помилка під час відкриття файла"
 
-#: src/project/projectmanager.cpp:843 src/project/projectmanager.cpp:1038
+#: src/project/projectmanager.cpp:847 src/project/projectmanager.cpp:1042
 #, kde-format
 msgid "Open Backup"
 msgstr "Відкрити резервну копію"
 
-#: src/project/projectmanager.cpp:859
+#: src/project/projectmanager.cpp:863
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Не вдалося відкрити резервну копію файла проєкту."
 
-#: src/project/projectmanager.cpp:874
+#: src/project/projectmanager.cpp:878
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Ваш проєкт оновлено, резервну копію буде створено під час наступного "
 "збереження"
 
-#: src/project/projectmanager.cpp:876
+#: src/project/projectmanager.cpp:880
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -15169,17 +15169,17 @@ msgstr ""
 "Ваш проєкт було змінено при відкритті, резервну копію буде створено під час "
 "наступного збереження"
 
-#: src/project/projectmanager.cpp:907
+#: src/project/projectmanager.cpp:911
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Завантаження монтажного столу…"
 
-#: src/project/projectmanager.cpp:925
+#: src/project/projectmanager.cpp:929
 #, kde-format
 msgid "Building sequences…"
 msgstr "Побудова послідовностей…"
 
-#: src/project/projectmanager.cpp:1064
+#: src/project/projectmanager.cpp:1068
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15188,7 +15188,7 @@ msgstr ""
 "Не вдалося відкрити файл проєкту. Помилка:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1104
+#: src/project/projectmanager.cpp:1108
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -15197,12 +15197,12 @@ msgstr ""
 "Буде вилучено всі зміни, внесені з часу останнього зберігання вашого "
 "проєкту. Ви справді бажаєте виконати цю дію?"
 
-#: src/project/projectmanager.cpp:1105
+#: src/project/projectmanager.cpp:1109
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Повернутися до останньої збереженої версії"
 
-#: src/project/projectmanager.cpp:1191
+#: src/project/projectmanager.cpp:1195
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -15212,25 +15212,25 @@ msgstr ""
 "знову відкрийте ваш файл проєкту, щоб відновити дані з останньої резервної "
 "копії."
 
-#: src/project/projectmanager.cpp:1385
+#: src/project/projectmanager.cpp:1390
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Помилка під час спроби пересунути теку проєкту, не вдалося отримати доступ "
 "до теки кешу"
 
-#: src/project/projectmanager.cpp:1421
+#: src/project/projectmanager.cpp:1426
 #, kde-format
 msgid "Moving project folder"
 msgstr "Пересуваємо теку проєкту"
 
-#: src/project/projectmanager.cpp:1512 src/project/projectmanager.cpp:1570
-#: src/project/projectmanager.cpp:1574
+#: src/project/projectmanager.cpp:1517 src/project/projectmanager.cpp:1575
+#: src/project/projectmanager.cpp:1579
 #, kde-format
 msgid "Sequence 1"
 msgstr "Послідовність 1"
 
-#: src/project/projectmanager.cpp:1523
+#: src/project/projectmanager.cpp:1528
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15238,13 +15238,13 @@ msgstr ""
 "Файл проєкту пошкоджено — не вдалося завантажити доріжки. Спробувати знайти "
 "резервний файл?"
 
-#: src/project/projectmanager.cpp:1668 src/project/projectmanager.cpp:1673
-#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1673 src/project/projectmanager.cpp:1678
+#: src/project/projectmanager.cpp:1688 src/project/projectmanager.cpp:1702
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Перервано зміну профілю проєкту"
 
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1825
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15253,12 +15253,12 @@ msgstr ""
 "Файл виводу даних %1 вже існує.\n"
 "Перезаписати його?"
 
-#: src/project/projectmanager.cpp:1845
+#: src/project/projectmanager.cpp:1850
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профіль проєкту змінено"
 
-#: src/project/projectmanager.cpp:1906
+#: src/project/projectmanager.cpp:1911
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15267,17 +15267,17 @@ msgstr ""
 "Не вдалося створити вміст монтажного стола з цього кліпу:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1988
+#: src/project/projectmanager.cpp:1993
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Імпорт кліпу послідовності, у поточній версії у стані експерименту"
 
-#: src/project/projectmanager.cpp:2177
+#: src/project/projectmanager.cpp:2182
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Виберіть кліп для створення послідовності"
 
-#: src/project/projectmanager.cpp:2215
+#: src/project/projectmanager.cpp:2220
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Створити кліп послідовності"
@@ -15915,12 +15915,12 @@ msgstr ""
 "Не вдалося створити теку матеріалів:\n"
 " %1"
 
-#: src/render/renderrequest.cpp:205
+#: src/render/renderrequest.cpp:234
 #, kde-format
 msgid "Could not create temporary subtitle file"
 msgstr "Не вдалося створити тимчасовий файл субтитрів"
 
-#: src/render/renderrequest.cpp:232
+#: src/render/renderrequest.cpp:261
 #, kde-format
 msgid ""
 "Script rendering and multi track audio export can not be used together. "
@@ -15930,23 +15930,23 @@ msgstr ""
 "експортування багатодоріжкового звуку. Скрипт буде збережено без "
 "багатодоріжкового експортування."
 
-#: src/render/renderrequest.cpp:305
+#: src/render/renderrequest.cpp:334
 #, kde-format
 msgid "export"
 msgstr "експортувати"
 
-#: src/render/renderrequest.cpp:320
+#: src/render/renderrequest.cpp:349
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Відкладена обробка"
 
-#: src/render/renderrequest.cpp:320
+#: src/render/renderrequest.cpp:349
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Виберіть назву для цієї обробки."
 
-#: src/render/renderrequest.cpp:418
+#: src/render/renderrequest.cpp:447
 #, kde-format
 msgid "begin"
 msgstr "початок"
@@ -16830,7 +16830,7 @@ msgid "Delete clips on track"
 msgstr "Вилучити кліпи на доріжці"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4612
+#: src/timeline2/model/timelinemodel.cpp:4606
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16987,32 +16987,32 @@ msgstr "Вилучити мікс"
 msgid "Removing mix failed"
 msgstr "Не вдалося вилучити мікс"
 
-#: src/timeline2/model/timelinemodel.cpp:3914
+#: src/timeline2/model/timelinemodel.cpp:3911
 #, kde-format
 msgid "Resize clip"
 msgstr "Змінити розміри кліпу"
 
-#: src/timeline2/model/timelinemodel.cpp:3916
+#: src/timeline2/model/timelinemodel.cpp:3913
 #, kde-format
 msgid "Resize composition"
 msgstr "Змінити розмір композиції"
 
-#: src/timeline2/model/timelinemodel.cpp:4238
+#: src/timeline2/model/timelinemodel.cpp:4232
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Змінити розміри кліпу з брижами"
 
-#: src/timeline2/model/timelinemodel.cpp:4240
+#: src/timeline2/model/timelinemodel.cpp:4234
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Змінити розмір композиції з брижами"
 
-#: src/timeline2/model/timelinemodel.cpp:4242
+#: src/timeline2/model/timelinemodel.cpp:4236
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Змінити розмір субтитрів з брижами"
 
-#: src/timeline2/model/timelinemodel.cpp:4385
+#: src/timeline2/model/timelinemodel.cpp:4379
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -17022,137 +17022,137 @@ msgstr[1] "Зсунути кліпи"
 msgstr[2] "Зсунути кліпи"
 msgstr[3] "Зсунути кліп"
 
-#: src/timeline2/model/timelinemodel.cpp:4420
+#: src/timeline2/model/timelinemodel.cpp:4414
 #, kde-format
 msgid "Slip clip"
 msgstr "Зсунути кліп"
 
-#: src/timeline2/model/timelinemodel.cpp:4455
+#: src/timeline2/model/timelinemodel.cpp:4449
 #, kde-format
 msgid "Group clips"
 msgstr "Згрупувати кліпи"
 
-#: src/timeline2/model/timelinemodel.cpp:4540
-#: src/timeline2/model/timelinemodel.cpp:4556
+#: src/timeline2/model/timelinemodel.cpp:4534
+#: src/timeline2/model/timelinemodel.cpp:4550
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Розгрупувати кліпи"
 
-#: src/timeline2/model/timelinemodel.cpp:4721
+#: src/timeline2/model/timelinemodel.cpp:4715
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "Вилучити доріжку"
 
-#: src/timeline2/model/timelinemodel.cpp:4731
+#: src/timeline2/model/timelinemodel.cpp:4725
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Не можна вилучати останню доріжку на монтажному столі"
 
-#: src/timeline2/model/timelinemodel.cpp:4956
+#: src/timeline2/model/timelinemodel.cpp:4950
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Не вдалося додати ефект %1 до основної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:4963
+#: src/timeline2/model/timelinemodel.cpp:4957
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Не вдалося додати ефект %1 до позначеної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:4984
+#: src/timeline2/model/timelinemodel.cpp:4978
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Не вдалося вставити ефект до основної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:4990
+#: src/timeline2/model/timelinemodel.cpp:4984
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Не вдалося вставити ефект до позначеної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:5034
+#: src/timeline2/model/timelinemodel.cpp:5028
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Не вдалося додати ефект %1 до позначеного кліпу"
 
-#: src/timeline2/model/timelinemodel.cpp:5058
+#: src/timeline2/model/timelinemodel.cpp:5052
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Скоригувати перехід"
 
-#: src/timeline2/model/timelinemodel.cpp:5370
+#: src/timeline2/model/timelinemodel.cpp:5364
 #, kde-format
 msgid "Insert Composition"
 msgstr "Вставити композицію"
 
-#: src/timeline2/model/timelinemodel.cpp:5573
+#: src/timeline2/model/timelinemodel.cpp:5579
 #, kde-format
 msgid "Move composition"
 msgstr "Пересунути композицію"
 
-#: src/timeline2/model/timelinemodel.cpp:6231
+#: src/timeline2/model/timelinemodel.cpp:6237
 #, kde-format
 msgid "Enable time remap"
 msgstr "Дозволити переприв'язування до часу"
 
-#: src/timeline2/model/timelinemodel.cpp:6305
+#: src/timeline2/model/timelinemodel.cpp:6311
 #, kde-format
 msgid "Change speed failed"
 msgstr "Не вдалося змінити швидкість"
 
-#: src/timeline2/model/timelinemodel.cpp:6315
+#: src/timeline2/model/timelinemodel.cpp:6321
 #, kde-format
 msgid "Change clip speed"
 msgstr "Змінити швидкість кліпу"
 
-#: src/timeline2/model/timelinemodel.cpp:6746
+#: src/timeline2/model/timelinemodel.cpp:6752
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокувати доріжку"
 
-#: src/timeline2/model/timelinemodel.cpp:6751
+#: src/timeline2/model/timelinemodel.cpp:6757
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Розблокувати доріжку"
 
-#: src/timeline2/model/timelinemodel.cpp:6785
-#: src/timeline2/model/timelinemodel.cpp:6847
+#: src/timeline2/model/timelinemodel.cpp:6791
+#: src/timeline2/model/timelinemodel.cpp:6853
 #, kde-format
 msgid "Change composition"
 msgstr "Змінити композицію"
 
-#: src/timeline2/model/timelinemodel.cpp:6799
+#: src/timeline2/model/timelinemodel.cpp:6805
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Обробка згрупованої композиції неможлива. Будь ласка, розгрупуйте композицію."
 
-#: src/timeline2/model/timelinemodel.cpp:6994
-#: src/timeline2/model/timelinemodel.cpp:7031
-#: src/timeline2/model/timelinemodel.cpp:7064
-#: src/timeline2/model/timelinemodel.cpp:7145
+#: src/timeline2/model/timelinemodel.cpp:7000
+#: src/timeline2/model/timelinemodel.cpp:7037
+#: src/timeline2/model/timelinemodel.cpp:7070
+#: src/timeline2/model/timelinemodel.cpp:7151
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Не можна змінювати розмір мікшування до менше, ніж 1 кадр"
 
-#: src/timeline2/model/timelinemodel.cpp:7005
-#: src/timeline2/model/timelinemodel.cpp:7039
-#: src/timeline2/model/timelinemodel.cpp:7083
-#: src/timeline2/model/timelinemodel.cpp:7169
+#: src/timeline2/model/timelinemodel.cpp:7011
+#: src/timeline2/model/timelinemodel.cpp:7045
+#: src/timeline2/model/timelinemodel.cpp:7089
+#: src/timeline2/model/timelinemodel.cpp:7175
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Не вдалося змінити розміри мікшування"
 
-#: src/timeline2/model/timelinemodel.cpp:7183
+#: src/timeline2/model/timelinemodel.cpp:7189
 #, kde-format
 msgid "Resize mix"
 msgstr "Мікшування зі зміною розміру"
 
-#: src/timeline2/model/timelinemodel.cpp:7303
+#: src/timeline2/model/timelinemodel.cpp:7309
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr ""
@@ -22610,12 +22610,12 @@ msgstr "Додаткова інформація"
 msgid "Transparency:"
 msgstr "Прозорість:"
 
-#: src/widgets/colorpickerwidget.cpp:102
+#: src/widgets/colorpickerwidget.cpp:106
 #, kde-format
 msgid "Pick a color on the screen."
 msgstr "Вибрати колір на екрані."
 
-#: src/widgets/colorpickerwidget.cpp:105
+#: src/widgets/colorpickerwidget.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""

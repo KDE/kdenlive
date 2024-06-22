@@ -15,22 +15,15 @@ using namespace fakeit;
 bool test_model_equality(const std::shared_ptr<KeyframeModel> &m1, const std::shared_ptr<KeyframeModel> &m2)
 {
     // we cheat a bit by simply comparing the underlying map
-    qDebug() << "Equality test" << m1->m_keyframeList.size() << m2->m_keyframeList.size();
-    QList<QVariant> model1;
-    QList<QVariant> model2;
-    for (const auto &m : m1->m_keyframeList) {
-        model1 << m.first.frames(25) << (int)m.second.first << m.second.second;
-    }
-    for (const auto &m : m2->m_keyframeList) {
-        model2 << m.first.frames(25) << (int)m.second.first << m.second.second;
-    }
+    qDebug() << "Equality test" << m1->keyframesCount() << m2->keyframesCount();
+    QList<QVariant> model1 = m1->testSerializeKeyframes();
+    QList<QVariant> model2 = m2->testSerializeKeyframes();
     return model1 == model2;
 }
 
 bool check_anim_identity(const std::shared_ptr<KeyframeModel> &m)
 {
-    auto m2 = std::make_shared<KeyframeModel>(m->m_model, m->m_index, m->m_undoStack);
-    m2->parseAnimProperty(m->getAnimProperty());
+    auto m2 = KdenliveTests::cloneModel(m);
     return test_model_equality(m, m2);
 }
 
@@ -44,16 +37,15 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
 
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    const QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 100, false);
+    const QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 100, false);
     std::shared_ptr<ProjectClip> clip = binModel->getClipByBinID(binId);
-    auto effectstack = clip->m_effectStack;
+    auto effectstack = clip->getEffectStack();
 
     effectstack->appendEffect(QStringLiteral("audiobalance"));
     REQUIRE(effectstack->checkConsistency());
@@ -75,7 +67,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         };
         state0();
 
-        REQUIRE(model->addKeyframe(GenTime(1.1), KeyframeType::Linear, 42));
+        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(1.1), KeyframeType::Linear, 42));
         auto state1 = [&]() {
             REQUIRE(model->rowCount() == 2);
             REQUIRE(check_anim_identity(model));
@@ -107,7 +99,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->redo();
         state1();
 
-        REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
+        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(12.6), KeyframeType::Discrete, 33));
         auto state2 = [&]() {
             REQUIRE(model->rowCount() == 3);
             REQUIRE(check_anim_identity(model));
@@ -147,7 +139,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->redo();
         state2();
 
-        REQUIRE(model->removeKeyframe(GenTime(1.1)));
+        REQUIRE(KdenliveTests::removeKeyframe(model, GenTime(1.1)));
         auto state3 = [&]() {
             REQUIRE(model->rowCount() == 2);
             REQUIRE(check_anim_identity(model));
@@ -190,9 +182,9 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->redo();
         state3();
 
-        REQUIRE(model->removeAllKeyframes());
+        REQUIRE(KdenliveTests::removeAllKeyframes(model));
         state0();
-        REQUIRE(model->removeAllKeyframes());
+        REQUIRE(KdenliveTests::removeAllKeyframes(model));
         state0();
         undoStack->undo();
         state0();
@@ -210,7 +202,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         };
         state0();
 
-        REQUIRE(model->addKeyframe(GenTime(1.1), KeyframeType::Linear, 42));
+        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(1.1), KeyframeType::Linear, 42));
         auto state1 = [&](double pos) {
             REQUIRE(model->rowCount() == 2);
             REQUIRE(check_anim_identity(model));
@@ -257,7 +249,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         undoStack->redo();
         state1(6.1);
 
-        REQUIRE(model->addKeyframe(GenTime(12.6), KeyframeType::Discrete, 33));
+        REQUIRE(KdenliveTests::addKeyframe(model, GenTime(12.6), KeyframeType::Discrete, 33));
         // Moving a keyframe past another one another will move it 1 frame before or after.
         REQUIRE(model->moveKeyframe(GenTime(6.1), GenTime(14), -1, true));
         bool ok;

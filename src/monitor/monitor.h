@@ -98,7 +98,7 @@ public:
     QRect effectRect() const;
     QVariantList effectPolygon() const;
     QVariantList effectRoto() const;
-    void setEffectKeyframe(bool enable);
+    void setEffectKeyframe(bool enable, bool outside);
     void sendFrameForAnalysis(bool analyse);
     void updateAudioForAnalysis();
     void switchMonitorInfo(int code);

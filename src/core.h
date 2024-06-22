@@ -178,6 +178,8 @@ public:
     void refreshProjectRange(QPair<int, int> range);
     /** @brief Request project monitor refresh if referenced item is under cursor */
     void refreshProjectItem(const ObjectId &id);
+    /** @brief Returns true if position pos is inside the item */
+    bool itemContainsPos(const ObjectId &id, int pos);
     /** @brief Returns a reference to a monitor (clip or project monitor) */
     Monitor *getMonitor(int id);
     /** @brief Seek a monitor to position */

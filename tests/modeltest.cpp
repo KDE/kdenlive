@@ -19,12 +19,12 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 
     // Here we do some trickery to enable testing.
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
-    TimelineItemModel tim(document.uuid(), undoStack);
-    Mock<TimelineItemModel> timMock(tim);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -88,7 +88,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
         REQUIRE(timeline->requestTrackInsertion(-1, tid2));
         REQUIRE(timeline->checkConsistency());
 
-        QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+        QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
         int length = 20;
         int cid1, cid2, cid3, cid4;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
@@ -124,12 +124,12 @@ TEST_CASE("Adding multiple A/V tracks", "[TrackModel]")
     KdenliveDoc document(undoStack);
 
     // We also mock timeline object to spy few functions and mock others
-    pCore->projectManager()->m_project = &document;
-    TimelineItemModel tim(document.uuid(), undoStack);
-    Mock<TimelineItemModel> timMock(tim);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     SECTION("Check AV track ordering")
     {
@@ -173,16 +173,15 @@ TEST_CASE("Adding multiple A/V tracks", "[TrackModel]")
         REQUIRE(timeline->getTracksCount() == 10);
 
         // first 5 tracks should be audio, and last 5 tracks should be video
-        auto it = timeline->m_allTracks.cbegin();
-        int position = 0;
-        while (it != timeline->m_allTracks.cend()) {
-            if (position < 5) {
-                CHECK((*it)->isAudioTrack());
+        int max = timeline->getTracksCount();
+        for (int ix = 0; ix < max; ix++) {
+            int tid = timeline->getTrackIndexFromPosition(ix);
+            auto trackModel = KdenliveTests::getTrackById_const(timeline, tid);
+            if (ix < 5) {
+                CHECK(trackModel->isAudioTrack());
             } else {
-                CHECK(!(*it)->isAudioTrack());
+                CHECK(!(trackModel->isAudioTrack()));
             }
-            it++;
-            position++;
         }
         // V1 track should be at index 5 (i.e. we shouldn't have inserted any video
         // tracks before it)
@@ -202,15 +201,15 @@ TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
     KdenliveDoc document(undoStack);
 
     // We also mock timeline object to spy few functions and mock others
-    pCore->projectManager()->m_project = &document;
-    TimelineItemModel tim(document.uuid(), undoStack);
-    Mock<TimelineItemModel> timMock(tim);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "green", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "green", binModel);
 
     REQUIRE(timeline->getClipsCount() == 0);
     int id1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
@@ -249,13 +248,13 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     KdenliveDoc document(undoStack);
 
     // We also mock timeline object to spy few functions and mock others
-    pCore->projectManager()->m_project = &document;
-    TimelineItemModel tim(document.uuid(), undoStack);
-    Mock<TimelineItemModel> timMock(tim);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
 
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -265,10 +264,10 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     Fake(Method(timMock, _endInsertRows));
     Fake(Method(timMock, _endRemoveRows));
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
-    QString binId3 = createProducer(pCore->getProjectProfile(), "green", binModel);
-    QString binId_unlimited = createProducer(pCore->getProjectProfile(), "green", binModel, 20, false);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId3 = KdenliveTests::createProducer(pCore->getProjectProfile(), "green", binModel);
+    QString binId_unlimited = KdenliveTests::createProducer(pCore->getProjectProfile(), "green", binModel, 20, false);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1, tid2, tid3;
@@ -440,7 +439,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->checkConsistency());
         REQUIRE(binModel->getClipByBinID(binId)->getFramePlaytime() == length);
         auto inOut = std::pair<int, int>{0, 4};
-        REQUIRE(timeline->m_allClips[cid2]->getInOut() == inOut);
+        REQUIRE(timeline->getClipInOut(cid2) == inOut);
         REQUIRE(timeline->getClipPlaytime(cid2) == 5);
         REQUIRE(timeline->requestItemResize(cid2, 10, false) == -1);
         REQUIRE(timeline->requestItemResize(cid2, length + 1, true) == -1);
@@ -450,12 +449,12 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->requestItemResize(cid2, 2, false) == 2);
         REQUIRE(timeline->checkConsistency());
         inOut = std::pair<int, int>{3, 4};
-        REQUIRE(timeline->m_allClips[cid2]->getInOut() == inOut);
+        REQUIRE(timeline->getClipInOut(cid2) == inOut);
         REQUIRE(timeline->getClipPlaytime(cid2) == 2);
         REQUIRE(timeline->requestItemResize(cid2, length, true) == -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipPlaytime(cid2) == 2);
-        CAPTURE(timeline->m_allClips[cid2]->m_producer->get_in());
+        // CAPTURE(timeline->m_allClips[cid2]->m_producer->get_in());
         REQUIRE(timeline->requestItemResize(cid2, length - 2, true) == -1);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->requestItemResize(cid2, length - 3, true) == length - 3);
@@ -701,19 +700,19 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         };
         auto state0 = [&]() {
             pos_state();
-            REQUIRE_FALSE(timeline->m_groups->isInGroup(cid1));
-            REQUIRE_FALSE(timeline->m_groups->isInGroup(cid2));
-            REQUIRE_FALSE(timeline->m_groups->isInGroup(cid3));
+            REQUIRE_FALSE(timeline->isInGroup(cid1));
+            REQUIRE_FALSE(timeline->isInGroup(cid2));
+            REQUIRE_FALSE(timeline->isInGroup(cid3));
         };
         state0();
 
         REQUIRE(timeline->requestClipsGroup({cid1, cid2}));
         auto state = [&]() {
             pos_state();
-            REQUIRE_FALSE(timeline->m_groups->isInGroup(cid3));
-            REQUIRE(timeline->m_groups->isInGroup(cid1));
-            int gid = timeline->m_groups->getRootId(cid1);
-            REQUIRE(timeline->m_groups->getLeaves(gid) == std::unordered_set<int>{cid1, cid2});
+            REQUIRE_FALSE(timeline->isInGroup(cid3));
+            REQUIRE(timeline->isInGroup(cid1));
+            int gid = KdenliveTests::groupsModel(timeline)->getRootId(cid1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid) == std::unordered_set<int>{cid1, cid2});
         };
         state();
 
@@ -1009,22 +1008,22 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
             REQUIRE(timeline->getTrackClipsCount(tid6) == 0);
         };
         state0();
-        QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
+        QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
 
         int cid6 = -1;
         // Setup insert stream data
         QMap<int, QString> audioInfo;
         audioInfo.insert(1, QStringLiteral("stream1"));
-        timeline->m_binAudioTargets = audioInfo;
+        KdenliveTests::setAudioTargets(timeline, audioInfo);
         REQUIRE(timeline->requestClipInsertion(binId3, tid5, 3, cid6, true, true, false));
-        int cid7 = timeline->m_groups->getSplitPartner(cid6);
+        int cid7 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid6);
 
         auto check_group = [&]() {
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid6) == std::unordered_set<int>({cid6, cid7}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid6);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid6);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
 
         auto state = [&](int pos) {
@@ -1035,8 +1034,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
             REQUIRE(timeline->getClipTrackId(cid7) == tid6);
             REQUIRE(timeline->getClipPosition(cid6) == pos);
             REQUIRE(timeline->getClipPosition(cid7) == pos);
-            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid7)->clipState() == PlaylistState::AudioOnly);
             check_group();
         };
         state(3);
@@ -1085,8 +1084,8 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
             REQUIRE(timeline->getClipTrackId(cid7) == tid6b);
             REQUIRE(timeline->getClipPosition(cid6) == pos);
             REQUIRE(timeline->getClipPosition(cid7) == pos);
-            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid7)->clipState() == PlaylistState::AudioOnly);
             check_group();
         };
         state2(7);
@@ -1120,7 +1119,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
         REQUIRE(TimelineFunctions::cloneClip(timeline, cid6, newId, PlaylistState::VideoOnly, undo, redo));
-        REQUIRE(timeline->m_allClips[cid6]->binId() == timeline->m_allClips[newId]->binId());
+        REQUIRE(timeline->getClipBinId(cid6) == timeline->getClipBinId(newId));
         // TODO check effects
     }
     pCore->projectManager()->closeCurrentDocument(false, false);
@@ -1137,17 +1136,17 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     KdenliveDoc document(undoStack);
 
     // We also mock timeline object to spy few functions and mock others
-    pCore->projectManager()->m_project = &document;
-    TimelineItemModel tim(document.uuid(), undoStack);
-    Mock<TimelineItemModel> timMock(tim);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
 
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     RESET(timMock);
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
 
     std::vector<int> track_ids;
     std::unordered_set<int> all_ids;
@@ -1188,17 +1187,17 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     KdenliveDoc document(undoStack);
 
     // We also mock timeline object to spy few functions and mock others
-    pCore->projectManager()->m_project = &document;
-    TimelineItemModel tim(document.uuid(), undoStack);
-    Mock<TimelineItemModel> timMock(tim);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     RESET(timMock);
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = TrackModel::construct(timeline);
@@ -1206,7 +1205,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
     int length = 20;
-    unsigned long nclips = timeline->m_allClips.size();
+    int nclips = timeline->getClipsCount();
 
     SECTION("requestCreateClip")
     {
@@ -1215,27 +1214,27 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
             int temp;
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            REQUIRE_FALSE(timeline->requestClipCreation("impossible bin id", temp, PlaylistState::VideoOnly, 1, 1., false, undo, redo));
+            REQUIRE_FALSE(KdenliveTests::requestClipCreation(timeline, "impossible bin id", temp, PlaylistState::VideoOnly, 1, 1., false, undo, redo));
         }
 
         auto state0 = [&]() {
             REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->m_allClips.size() == nclips);
+            REQUIRE(timeline->getClipsCount() == nclips);
         };
         state0();
 
-        QString binId3 = createProducer(pCore->getProjectProfile(), "green", binModel);
+        QString binId3 = KdenliveTests::createProducer(pCore->getProjectProfile(), "green", binModel);
         int cid3;
         {
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            REQUIRE(timeline->requestClipCreation(binId3, cid3, PlaylistState::VideoOnly, 1, 1., false, undo, redo));
+            REQUIRE(KdenliveTests::requestClipCreation(timeline, binId3, cid3, PlaylistState::VideoOnly, 1, 1., false, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
 
         auto state1 = [&]() {
             REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->m_allClips.size() == nclips + 1);
+            REQUIRE(timeline->getClipsCount() == nclips + 1);
             REQUIRE(timeline->getClipPlaytime(cid3) == length);
             REQUIRE(timeline->getClipTrackId(cid3) == -1);
         };
@@ -1246,17 +1245,17 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            REQUIRE(timeline->requestClipCreation(binId4, cid4, PlaylistState::VideoOnly, 1, 1., false, undo, redo));
+            REQUIRE(KdenliveTests::requestClipCreation(timeline, binId4, cid4, PlaylistState::VideoOnly, 1, 1., false, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
 
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->m_allClips.size() == nclips + 2);
+            REQUIRE(timeline->getClipsCount() == nclips + 2);
             REQUIRE(timeline->getClipPlaytime(cid4) == 10);
             REQUIRE(timeline->getClipTrackId(cid4) == -1);
             auto inOut = std::pair<int, int>({1, 10});
-            REQUIRE(timeline->m_allClips.at(cid4)->getInOut() == inOut);
+            REQUIRE(timeline->getClipInOut(cid4) == inOut);
             REQUIRE(timeline->getClipPlaytime(cid3) == length);
             REQUIRE(timeline->getClipTrackId(cid3) == -1);
         };
@@ -1275,17 +1274,17 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     {
         auto state0 = [&]() {
             REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->m_allClips.size() == nclips);
+            REQUIRE(timeline->getClipsCount() == nclips);
         };
         state0();
 
-        QString binId3 = createProducer(pCore->getProjectProfile(), "green", binModel);
+        QString binId3 = KdenliveTests::createProducer(pCore->getProjectProfile(), "green", binModel);
         int cid3;
         REQUIRE(timeline->requestClipInsertion(binId3, tid1, 12, cid3, true));
 
         auto state1 = [&]() {
             REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->m_allClips.size() == nclips + 1);
+            REQUIRE(timeline->getClipsCount() == nclips + 1);
             REQUIRE(timeline->getClipPlaytime(cid3) == length);
             REQUIRE(timeline->getClipTrackId(cid3) == tid1);
             REQUIRE(timeline->getClipPosition(cid3) == 12);
@@ -1298,12 +1297,12 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->m_allClips.size() == nclips + 2);
+            REQUIRE(timeline->getClipsCount() == nclips + 2);
             REQUIRE(timeline->getClipPlaytime(cid4) == 10);
             REQUIRE(timeline->getClipTrackId(cid4) == tid2);
             REQUIRE(timeline->getClipPosition(cid4) == 17);
             auto inOut = std::pair<int, int>({1, 10});
-            REQUIRE(timeline->m_allClips.at(cid4)->getInOut() == inOut);
+            REQUIRE(timeline->getClipInOut(cid4) == inOut);
             REQUIRE(timeline->getClipPlaytime(cid3) == length);
             REQUIRE(timeline->getClipTrackId(cid3) == tid1);
             REQUIRE(timeline->getClipPosition(cid3) == 12);
@@ -1482,7 +1481,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     }
     SECTION("Clip Insertion Undo")
     {
-        QString binId3 = createProducer(pCore->getProjectProfile(), "red", binModel);
+        QString binId3 = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
 
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         auto state1 = [&]() {
@@ -1509,7 +1508,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
             REQUIRE(timeline->getClipTrackId(cid3) == tid1);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
             REQUIRE(timeline->getClipPosition(cid3) == 5 + length);
-            REQUIRE(timeline->m_allClips[cid3]->isValid());
+            REQUIRE(timeline->clipIsValid(cid3));
             REQUIRE(undoStack->index() == init_index + 2);
         };
         state2();
@@ -1638,13 +1637,16 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     SECTION("Track insertion undo")
     {
         std::map<int, int> orig_trackPositions, final_trackPositions;
-        for (const auto &it : timeline->m_iteratorTable) {
-            int track = it.first;
-            int pos = timeline->getTrackPosition(track);
-            orig_trackPositions[track] = pos;
+
+        int max = timeline->getTracksCount();
+        for (int ix = 0; ix < max; ix++) {
+            int tid = timeline->getTrackIndexFromPosition(ix);
+            int pos = ix;
+            orig_trackPositions[tid] = pos;
             if (pos >= 1) pos++;
-            final_trackPositions[track] = pos;
+            final_trackPositions[tid] = pos;
         }
+
         auto checkPositions = [&](const std::map<int, int> &pos) {
             for (const auto &p : pos) {
                 REQUIRE(timeline->getTrackPosition(p.first) == p.second);
@@ -1696,12 +1698,12 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
     }
 
-    unsigned long clipCount = timeline->m_allClips.size();
+    int clipCount = timeline->getClipsCount();
     SECTION("Clip creation and resize")
     {
         int cid6;
         auto state0 = [&]() {
-            REQUIRE(timeline->m_allClips.size() == clipCount);
+            REQUIRE(timeline->getClipsCount() == clipCount);
             REQUIRE(timeline->checkConsistency());
         };
         state0();
@@ -1709,13 +1711,13 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            REQUIRE(timeline->requestClipCreation(binId, cid6, PlaylistState::VideoOnly, 1, 1., false, undo, redo));
+            REQUIRE(KdenliveTests::requestClipCreation(timeline, binId, cid6, PlaylistState::VideoOnly, 1, 1., false, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
         int l = timeline->getClipPlaytime(cid6);
 
         auto state1 = [&]() {
-            REQUIRE(timeline->m_allClips.size() == clipCount + 1);
+            REQUIRE(timeline->getClipsCount() == clipCount + 1);
             REQUIRE(timeline->isClip(cid6));
             REQUIRE(timeline->getClipTrackId(cid6) == -1);
             REQUIRE(timeline->getClipPlaytime(cid6) == l);
@@ -1730,7 +1732,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
             pCore->pushUndo(undo, redo, QString());
         }
         auto state2 = [&]() {
-            REQUIRE(timeline->m_allClips.size() == clipCount + 1);
+            REQUIRE(timeline->getClipsCount() == clipCount + 1);
             REQUIRE(timeline->isClip(cid6));
             REQUIRE(timeline->getClipTrackId(cid6) == -1);
             REQUIRE(timeline->getClipPlaytime(cid6) == l - 5);
@@ -1744,7 +1746,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
             pCore->pushUndo(undo, redo, QString());
         }
         auto state3 = [&]() {
-            REQUIRE(timeline->m_allClips.size() == clipCount + 1);
+            REQUIRE(timeline->getClipsCount() == clipCount + 1);
             REQUIRE(timeline->isClip(cid6));
             REQUIRE(timeline->getClipTrackId(cid6) == tid1);
             REQUIRE(timeline->getClipPosition(cid6) == 7);
@@ -1760,7 +1762,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
             pCore->pushUndo(undo, redo, QString());
         }
         auto state4 = [&]() {
-            REQUIRE(timeline->m_allClips.size() == clipCount + 1);
+            REQUIRE(timeline->getClipsCount() == clipCount + 1);
             REQUIRE(timeline->isClip(cid6));
             REQUIRE(timeline->getClipTrackId(cid6) == tid1);
             REQUIRE(timeline->getClipPosition(cid6) == 8);
@@ -1800,17 +1802,17 @@ TEST_CASE("Snapping", "[Snapping]")
     Mock<KdenliveDoc> docMock(document);
 
     // We also mock timeline object to spy few functions and mock others
-    pCore->projectManager()->m_project = &document;
-    TimelineItemModel tim(document.uuid(), undoStack);
-    Mock<TimelineItemModel> timMock(tim);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     RESET(timMock);
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 50);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 50);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
 
     int tid1 = TrackModel::construct(timeline);
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
@@ -1824,29 +1826,29 @@ TEST_CASE("Snapping", "[Snapping]")
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
 
         // before
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, false) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid1, false) == 0);
         // after
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, true) == INT_MAX);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid1, true) == INT_MAX);
         REQUIRE(timeline->requestClipMove(cid1, tid1, 10));
         // before
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, false) == 10);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid1, false) == 10);
         // after
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, true) == INT_MAX);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid1, true) == INT_MAX);
         REQUIRE(timeline->requestClipMove(cid2, tid1, 25 + length));
         // before
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, false) == 10);
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid2, false) == 15);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid1, false) == 10);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid2, false) == 15);
         // after
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, true) == 15);
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid2, true) == INT_MAX);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid1, true) == 15);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid2, true) == INT_MAX);
 
         REQUIRE(timeline->requestClipMove(cid2, tid1, 10 + length));
         // before
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, false) == 10);
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid2, false) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid1, false) == 10);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid2, false) == 0);
         // after
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid1, true) == 0);
-        REQUIRE(timeline->getTrackById(tid1)->getBlankSizeNearClip(cid2, true) == INT_MAX);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid1, true) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->getBlankSizeNearClip(cid2, true) == INT_MAX);
     }
     SECTION("Snap move to a single clip")
     {
@@ -1924,12 +1926,12 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     Mock<KdenliveDoc> docMock(document);
 
     // We also mock timeline object to spy few functions and mock others
-    pCore->projectManager()->m_project = &document;
-    TimelineItemModel tim(document.uuid(), undoStack);
-    Mock<TimelineItemModel> timMock(tim);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
-    TimelineItemModel::finishConstruct(timeline);
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    KdenliveTests::finishTimelineConstruct(timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     Fake(Method(timMock, adjustAssetRange));
 
@@ -1939,8 +1941,8 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     Fake(Method(timMock, _endInsertRows));
     Fake(Method(timMock, _endRemoveRows));
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int tid1, tid2, tid3;
     REQUIRE(timeline->requestTrackInsertion(-1, tid1));
@@ -1952,7 +1954,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     SECTION("Locked track can't receive insertion")
     {
         timeline->setTrackLockedState(tid1, true);
-        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->getClipsCount() == 0);
         REQUIRE(timeline->checkConsistency());
         int cid1 = -1;
@@ -1963,7 +1965,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // now unlock and check that insertion becomes possible again
         timeline->setTrackLockedState(tid1, false);
-        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE_FALSE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->getClipsCount() == 0);
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
@@ -1987,7 +1989,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
 
         timeline->setTrackLockedState(tid1, true);
-        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipsCount() == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
@@ -1995,7 +1997,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, 6));
 
-        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipsCount() == 1);
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
@@ -2003,7 +2005,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // unlock, move should work again
         timeline->setTrackLockedState(tid1, false);
-        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE_FALSE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->requestClipMove(cid1, tid1, 6));
         REQUIRE(timeline->getClipsCount() == 1);
@@ -2015,7 +2017,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     {
         int compo = CompositionModel::construct(timeline, aCompo, QString());
         timeline->setTrackLockedState(tid1, true);
-        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->checkConsistency());
 
         REQUIRE(timeline->getCompositionTrackId(compo) == -1);
@@ -2028,7 +2030,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // unlock to be able to insert
         timeline->setTrackLockedState(tid1, false);
-        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE_FALSE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->requestCompositionMove(compo, tid1, pos));
         REQUIRE(timeline->checkConsistency());
@@ -2038,7 +2040,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // relock
         timeline->setTrackLockedState(tid1, true);
-        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->checkConsistency());
         REQUIRE_FALSE(timeline->requestCompositionMove(compo, tid1, pos + 10));
         REQUIRE(timeline->checkConsistency());
@@ -2066,7 +2068,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // lock
         timeline->setTrackLockedState(tid1, true);
-        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         check(18);
         REQUIRE(timeline->requestItemResize(cid1, 17, true) == -1);
         check(18);
@@ -2079,7 +2081,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // unlock, resize should work again
         timeline->setTrackLockedState(tid1, false);
-        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE_FALSE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         check(18);
         REQUIRE(timeline->requestItemResize(cid1, 17, true) == 17);
         check(17);
@@ -2105,7 +2107,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // lock
         timeline->setTrackLockedState(tid1, true);
-        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         check(18);
         REQUIRE(timeline->requestItemResize(compo, 17, true) == -1);
         check(18);
@@ -2118,7 +2120,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // unlock, resize should work again
         timeline->setTrackLockedState(tid1, false);
-        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE_FALSE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         check(18);
         REQUIRE(timeline->requestItemResize(compo, 17, true) == 17);
         check(17);
@@ -2138,7 +2140,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // lock the track
         timeline->setTrackLockedState(tid1, true);
-        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipTrackId(cid1) == tid1);
 
@@ -2151,7 +2153,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
         // unlock track, bin clip deletion should work now
         timeline->setTrackLockedState(tid1, false);
-        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE_FALSE(KdenliveTests::getTrackById_const(timeline, tid1)->isLocked());
         REQUIRE(binModel->requestBinClipDeletion(binModel->getClipByBinID(binId), undo, redo));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipsCount() == 0);
@@ -2179,15 +2181,14 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
     {
         // Create document
         KdenliveDoc doc(undoStack, {0, 2});
-        pCore->projectManager()->m_project = &doc;
+        pCore->projectManager()->testSetDocument(&doc);
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(doc.uuid());
         pCore->projectManager()->openTimeline(firstSeqId, -1, doc.uuid());
         auto timeline = doc.getTimeline(doc.uuid());
-        pCore->projectManager()->m_activeTimelineModel = timeline;
-        pCore->projectManager()->testSetActiveDocument(&doc, timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
         // since there are only 2 tracks, the activeTrack position should be 0 or 1
         CHECK(doc.getDocumentProperty("activeTrack").toInt() >= 0);
         CHECK(doc.getDocumentProperty("activeTrack").toInt() < 2);
@@ -2197,15 +2198,14 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
     SECTION("both audio and video tracks")
     {
         KdenliveDoc doc(undoStack, {2, 2});
-        pCore->projectManager()->m_project = &doc;
+        pCore->projectManager()->testSetDocument(&doc);
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(doc.uuid());
         pCore->projectManager()->openTimeline(firstSeqId, -1, doc.uuid());
         auto timeline = doc.getTimeline(doc.uuid());
-        pCore->projectManager()->m_activeTimelineModel = timeline;
-        pCore->projectManager()->testSetActiveDocument(&doc, timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
 
         CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() >= 0);
         CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() < 4);
@@ -2222,15 +2222,14 @@ TEST_CASE("New KdenliveDoc activeTrack", "KdenliveDoc")
     SECTION("0 audio tracks")
     {
         KdenliveDoc doc(undoStack, {2, 0});
-        pCore->projectManager()->m_project = &doc;
+        pCore->projectManager()->testSetDocument(&doc);
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(doc.uuid());
         pCore->projectManager()->openTimeline(firstSeqId, -1, doc.uuid());
         auto timeline = doc.getTimeline(doc.uuid());
-        pCore->projectManager()->m_activeTimelineModel = timeline;
-        pCore->projectManager()->testSetActiveDocument(&doc, timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
 
         CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() >= 0);
         CHECK(doc.getSequenceProperty(doc.uuid(), "activeTrack").toInt() < 2);

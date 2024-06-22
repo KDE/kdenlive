@@ -33,6 +33,7 @@ class TimelineItemModel : public TimelineModel
     Q_OBJECT
 
 public:
+    friend class KdenliveTests;
     /** @brief construct a timeline object and returns a pointer to the created object
        @param undo_stack is a weak pointer to the undo stack of the project
        @param guideModel ptr to the guide model of the project

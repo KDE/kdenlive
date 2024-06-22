@@ -61,6 +61,7 @@ class KeyframeModel : public QAbstractListModel
     Q_OBJECT
 
 public:
+    friend class KdenliveTests;
     /** @brief Construct a keyframe list bound to the given effect
        @param init_value is the value taken by the param at time 0.
        @param model is the asset this parameter belong to
@@ -191,6 +192,9 @@ public:
     static const QString getIconByKeyframeType(KeyframeType type);
     static void initKeyframeTypes();
     static const QMap<KeyframeType, QString> getKeyframeTypes();
+    /** @brief Used for testing */
+    int keyframesCount() const;
+    QList<QVariant> testSerializeKeyframes() const;
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
@@ -223,10 +227,12 @@ protected:
     void parseAnimProperty(const QString &prop, int in = -1, int out = -1);
     void parseRotoProperty(const QString &prop);
 
-private:
+protected:
     std::weak_ptr<AssetParameterModel> m_model;
     std::weak_ptr<DocUndoStack> m_undoStack;
     QPersistentModelIndex m_index;
+
+private:
     QString m_lastData;
     ParamType m_paramType;
     /** @brief This is a lock that ensures safety in case of concurrent access */

@@ -33,7 +33,7 @@ public Q_SLOTS:
 
     /** @brief initialize qml overlay
      */
-    void slotInitMonitor(bool active) override;
+    void slotInitMonitor(bool active, bool outside) override;
 
 private Q_SLOTS:
     /** @brief monitor seek pos changed. */

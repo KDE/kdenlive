@@ -131,6 +131,8 @@ public:
     void switchMix(int cid, const QString &composition, Fun &undo, Fun &redo);
     /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
+    /** @brief Returns the number of same track transitions (mix) in this track */
+    int mixCount() const;
     /** @brief Remove a mix in the track (if its clip was removed) */
     void removeMix(const MixInfo &info);
     /** @brief Switch a clip from one playlist to the other */
@@ -148,6 +150,15 @@ public:
     bool hasClipStart(int pos);
     /** @brief Calculate a hash based on all clips an d mixes positions/playtime */
     QByteArray trackHash();
+    /** @brief This is an helper function that test frame level consistency with the MLT structures */
+    bool checkConsistency();
+    /** @brief Check if a mix is reversed (moslty used in tests) */
+    bool mixIsReversed(int cid) const;
+    /** @brief Returns the size of the blank before or after the given clip
+       @param clipId is the id of the clip
+       @param after is true if we query the blank after, false otherwise
+    */
+    int getBlankSizeNearClip(int clipId, bool after);
 
 protected:
     /** @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
@@ -218,11 +229,6 @@ protected:
     Fun requestCompositionDeletion_lambda(int compoId, bool updateView, bool finalMove = false);
     Fun requestCompositionResize_lambda(int compoId, int in, int out = -1, bool logUndo = false);
 
-    /** @brief Returns the size of the blank before or after the given clip
-       @param clipId is the id of the clip
-       @param after is true if we query the blank after, false otherwise
-    */
-    int getBlankSizeNearClip(int clipId, bool after);
     int getBlankSizeNearComposition(int compoId, bool after);
     int getBlankStart(int position);
     int getPreviousBlankEnd(int position);
@@ -264,9 +270,6 @@ protected:
       Given a composition ID, returns the row of the composition.
     */
     int getRowfromComposition(int compoId) const;
-
-    /** @brief This is an helper function that test frame level consistency with the MLT structures */
-    bool checkConsistency();
 
     /** @brief Returns true if we have a composition intersecting with the range [in,out]*/
     bool hasIntersectingComposition(int in, int out) const;
@@ -324,8 +327,6 @@ protected:
     bool isAvailable(int position, int duration, int playlist);
     /** @brief Returns true if we have a blank at position for duration, with the exception of clip ids exception */
     bool isAvailableWithExceptions(int position, int duration, const QVector<int> &exceptions);
-    /** @brief Returns the number of same track transitions (mix) in this track */
-    int mixCount() const;
     /** @brief Returns true if the track has a same track transition for this clip (cid) */
     bool hasMix(int cid) const;
     /** @brief Returns true if this clip has a mix at start */
@@ -339,8 +340,7 @@ protected:
     int isOnCut(int cid);
     /** @brief Returns all mix info as xml */
     QDomElement mixXml(QDomDocument &document, int cid) const;
-    /** @brief Check if a mix is reversed (moslty used in tests) */
-    bool mixIsReversed(int cid) const;
+
     /** @brief Adjust effect stack length to current track duration */
     void adjustStackLength(int duration, int newDuration, Fun &undo, Fun &redo);
 

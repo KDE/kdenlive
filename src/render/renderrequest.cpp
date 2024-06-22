@@ -142,12 +142,24 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         dir.cd(QFileInfo(playlistPath).baseName());
         project->prepareRenderAssets(dir);
     }
+    bool modified = false;
 
-    QString playlistContent =
-        pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData, m_aspectRatio);
+    std::pair<QString, QString> playlistContent = pCore->projectManager()->projectSceneList(
+        project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), m_overlayData, m_aspectRatio);
 
     QDomDocument doc;
-    doc.setContent(playlistContent);
+    if (!playlistContent.second.isEmpty()) {
+        // The real xml content of the project is saved in a file, open it and process
+        QFile file(playlistContent.second);
+        if (!file.open(QIODevice::ReadOnly)) return {};
+        if (!doc.setContent(&file)) {
+            file.close();
+            return {};
+        }
+        file.close();
+    } else {
+        doc.setContent(playlistContent.first);
+    }
 
     if (m_delayedRendering) {
         project->restoreRenderAssets();
@@ -159,17 +171,34 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
     // Do we want proxy rendering
     if (!m_proxyRendering && project->useProxy()) {
         KdenliveDoc::useOriginals(doc);
+        modified = true;
     }
 
     if (m_embedSubtitles && project->hasSubtitles()) {
         // disable subtitle filter(s) as they will be embedded in a second step of rendering
         KdenliveDoc::disableSubtitles(doc);
+        modified = true;
     }
 
     // If we use a pix_fmt with alpha channel (ie. transparent),
     // we need to remove the black background track
     if (m_presetParams.hasAlpha()) {
         KdenliveDoc::makeBackgroundTrackTransparent(doc);
+        modified = true;
+    }
+
+    if (!playlistContent.second.isEmpty()) {
+        // Save back the modified xml
+        if (modified) {
+            QFile file(playlistContent.second);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                return {};
+            }
+            QTextStream stream(&file);
+            stream << doc.toString();
+            file.close();
+        }
+        doc.setContent(playlistContent.first);
     }
 
     std::vector<RenderSection> sections;
@@ -440,6 +469,32 @@ std::vector<RenderRequest::RenderSection> RenderRequest::getGuideSections()
         }
     }
     return sections;
+}
+
+int RenderRequest::guideSectionsCount()
+{
+    std::vector<RenderRequest::RenderSection> sections = RenderRequest::getGuideSections();
+    return sections.size();
+}
+
+QVector<std::pair<int, int>> RenderRequest::getSectionsInOut()
+{
+    std::vector<RenderRequest::RenderSection> sections = RenderRequest::getGuideSections();
+    QVector<std::pair<int, int>> results;
+    for (auto &sec : sections) {
+        results.append({sec.in, sec.out});
+    }
+    return results;
+}
+
+QStringList RenderRequest::getSectionsNames()
+{
+    QStringList names;
+    std::vector<RenderRequest::RenderSection> sections = RenderRequest::getGuideSections();
+    for (const auto &section : sections) {
+        names << section.name;
+    }
+    return names;
 }
 
 void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const QDomDocument &doc, const QString &playlistFile, const QString &targetFile,

@@ -25,24 +25,25 @@ TEST_CASE("Save File", "[SF]")
     {
         // Create document
         KdenliveDoc document(undoStack);
-        pCore->projectManager()->m_project = &document;
+        pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
-        pCore->projectManager()->testSetActiveDocument(&document, timeline);
-        KdenliveDoc::next_id = 0;
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+        KdenliveTests::resetNextId();
         QDir dir = QDir::temp();
 
-        QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
-        QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
+        QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
+        QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
         int tid1 = timeline->getTrackIndexFromPosition(2);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
         audioInfo.insert(1, QStringLiteral("stream1"));
-        timeline->m_binAudioTargets = audioInfo;
-        timeline->m_videoTarget = tid1;
+        KdenliveTests::setAudioTargets(timeline, audioInfo);
+        KdenliveTests::setVideoTargets(timeline, tid1);
+
         // Insert 2 clips (length=20, pos = 80 / 100)
         int cid1 = -1;
         REQUIRE(timeline->requestClipInsertion(binId2, tid1, 80, cid1, true, true, false));
@@ -77,7 +78,7 @@ TEST_CASE("Save File", "[SF]")
     {
         // Create new document
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-        KdenliveDoc::next_id = 0;
+        KdenliveTests::resetNextId();
         QString saveFile = QDir::temp().absoluteFilePath(QStringLiteral("test.kdenlive"));
         QUrl openURL = QUrl::fromLocalFile(saveFile);
 
@@ -87,12 +88,12 @@ TEST_CASE("Save File", "[SF]")
         REQUIRE(openResults.isSuccessful() == true);
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
-        pCore->projectManager()->m_project = openedDoc.get();
+        pCore->projectManager()->testSetDocument(openedDoc.get());
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get());
-        auto timeline = pCore->projectManager()->m_project->getTimeline(uuid);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->testSetActiveTimeline();
+        auto timeline = openedDoc->getTimeline(uuid);
         const QString hash = openedDoc->getSequenceProperty(uuid, QStringLiteral("timelineHash"));
         REQUIRE(timeline->getTracksCount() == 4);
         REQUIRE(timeline->checkConsistency());
@@ -130,12 +131,12 @@ TEST_CASE("Save File", "[SF]")
         REQUIRE(openResults.isSuccessful() == true);
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
 
-        pCore->projectManager()->m_project = openedDoc.get();
+        pCore->projectManager()->testSetDocument(openedDoc.get());
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
-        auto timeline = pCore->projectManager()->m_project->getTimeline(uuid);
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+        auto timeline = openedDoc->getTimeline(uuid);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
 
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(0);
@@ -183,16 +184,16 @@ TEST_CASE("Check File Corruption", "[CFC]")
         // Mock<KdenliveDoc> docMock(*openedDoc.get());
         // When(Method(docMock, getCacheDir)).AlwaysReturn(QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
         // KdenliveDoc &mockedDoc = docMock.get();
-        pCore->projectManager()->m_project = openedDoc.get();
+        pCore->projectManager()->testSetDocument(openedDoc.get());
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
 
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
         pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         std::shared_ptr<TimelineItemModel> timeline = openedDoc->getTimeline(uuid);
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
 
         // Now reopen all timeline sequences
         QList<QUuid> allUuids = allSequences.keys();
@@ -233,14 +234,14 @@ TEST_CASE("Check File Corruption", "[CFC]")
         REQUIRE(cid2b > -1);
         REQUIRE(cid3b > -1);
         REQUIRE(cid4b > -1);
-        REQUIRE(timeline->getClipPtr(cid1)->clipName() == QLatin1String("blue.mpg"));
-        REQUIRE(timeline->getClipPtr(cid1b)->clipName() == QLatin1String("blue.mpg"));
-        REQUIRE(timeline->getClipPtr(cid2)->clipName() == QLatin1String("green.mpg"));
-        REQUIRE(timeline->getClipPtr(cid2b)->clipName() == QLatin1String("green.mpg"));
-        REQUIRE(timeline->getClipPtr(cid3)->clipName() == QLatin1String("red.mpg"));
-        REQUIRE(timeline->getClipPtr(cid3b)->clipName() == QLatin1String("red.mpg"));
-        REQUIRE(timeline->getClipPtr(cid4)->clipName() == QLatin1String("yellow.mpg"));
-        REQUIRE(timeline->getClipPtr(cid4b)->clipName() == QLatin1String("yellow.mpg"));
+        REQUIRE(timeline->getClipName(cid1) == QLatin1String("blue.mpg"));
+        REQUIRE(timeline->getClipName(cid1b) == QLatin1String("blue.mpg"));
+        REQUIRE(timeline->getClipName(cid2) == QLatin1String("green.mpg"));
+        REQUIRE(timeline->getClipName(cid2b) == QLatin1String("green.mpg"));
+        REQUIRE(timeline->getClipName(cid3) == QLatin1String("red.mpg"));
+        REQUIRE(timeline->getClipName(cid3b) == QLatin1String("red.mpg"));
+        REQUIRE(timeline->getClipName(cid4) == QLatin1String("yellow.mpg"));
+        REQUIRE(timeline->getClipName(cid4b) == QLatin1String("yellow.mpg"));
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
 }
@@ -269,12 +270,11 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
     {
         // Create document
         KdenliveDoc document(undoStack);
-        pCore->projectManager()->m_project = &document;
+        pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
-        pCore->projectManager()->m_activeTimelineModel = timeline;
-        pCore->projectManager()->testSetActiveDocument(&document, timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
         QDir dir = QDir::temp();
 
         // create a simple title with the non-BMP test string
@@ -288,7 +288,7 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
             QString("</content>\n </item>\n <startviewport rect=\"0,0,1920,1080\"/>\n <endviewport rect=\"0,0,1920,1080\"/>\n <background "
                     "color=\"0,0,0,0\"/>\n</kdenlivetitle>\n");
 
-        QString binId2 = createTextProducer(pCore->getProjectProfile(), binModel, titleXml, emojiTestString, 150);
+        QString binId2 = KdenliveTests::createTextProducer(pCore->getProjectProfile(), binModel, titleXml, emojiTestString, 150);
 
         TrackModel::construct(timeline, -1, -1, QString(), true);
         TrackModel::construct(timeline, -1, -1, QString(), true);
@@ -297,8 +297,8 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
         audioInfo.insert(1, QStringLiteral("stream1"));
-        timeline->m_binAudioTargets = audioInfo;
-        timeline->m_videoTarget = tid1;
+        KdenliveTests::setAudioTargets(timeline, audioInfo);
+        KdenliveTests::setVideoTargets(timeline, tid1);
 
         pCore->projectManager()->testSaveFileAs(saveFile.fileName());
 
@@ -324,20 +324,20 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         REQUIRE(openResults.isSuccessful() == true);
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
-        QDomDocument *newDoc = &openedDoc->m_document;
-        auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
+        QDomDocument newDoc = KdenliveTests::getDocument(openedDoc.get());
+        auto producers = newDoc.elementsByTagName(QStringLiteral("producer"));
         QDomElement textTitle;
         for (int i = 0; i < producers.size(); i++) {
-            auto kdenliveid = getProperty(producers.at(i).toElement(), QStringLiteral("kdenlive:id"));
+            auto kdenliveid = KdenliveTests::getProperty(producers.at(i).toElement(), QStringLiteral("kdenlive:id"));
             if (kdenliveid != nullptr && kdenliveid->text() == binId2) {
                 textTitle = producers.at(i).toElement();
                 break;
             }
         }
-        auto clipname = getProperty(textTitle, QStringLiteral("kdenlive:clipname"));
+        auto clipname = KdenliveTests::getProperty(textTitle, QStringLiteral("kdenlive:clipname"));
         REQUIRE(clipname != nullptr);
         CHECK(clipname->text() == emojiTestString);
-        auto xmldata = getProperty(textTitle, QStringLiteral("xmldata"));
+        auto xmldata = KdenliveTests::getProperty(textTitle, QStringLiteral("xmldata"));
         REQUIRE(xmldata != nullptr);
         CHECK(clipname->text().contains(emojiTestString));
         pCore->projectManager()->closeCurrentDocument(false, false);
@@ -351,11 +351,11 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         KdenliveDoc document(undoStack);
 
         // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
-        pCore->projectManager()->m_project = &document;
+        pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
-        pCore->projectManager()->testSetActiveDocument(&document, timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
 
         QDir dir = QDir::temp();
         int tid1 = timeline->getTrackIndexFromPosition(2);
@@ -363,8 +363,8 @@ TEST_CASE("Non-BMP Unicode", "[NONBMP]")
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
         audioInfo.insert(1, QStringLiteral("stream1"));
-        timeline->m_binAudioTargets = audioInfo;
-        timeline->m_videoTarget = tid1;
+        KdenliveTests::setAudioTargets(timeline, audioInfo);
+        KdenliveTests::setVideoTargets(timeline, tid1);
 
         pCore->projectManager()->testSaveFileAs(saveFile.fileName());
 
@@ -406,21 +406,21 @@ TEST_CASE("Opening Mix", "[OPENMIX]")
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
 
-        pCore->projectManager()->m_project = openedDoc.get();
+        pCore->projectManager()->testSetDocument(openedDoc.get());
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = openedDoc->getTimeline(uuid);
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
 
         REQUIRE(timeline->getTracksCount() == 4);
         int mixtrackId = timeline->getTrackIndexFromPosition(2);
-        REQUIRE(timeline->getTrackById_const(mixtrackId)->mixCount() == 2);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, mixtrackId)->mixCount() == 2);
         int mixtrackId2 = timeline->getTrackIndexFromPosition(3);
-        REQUIRE(timeline->getTrackById_const(mixtrackId2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, mixtrackId2)->mixCount() == 1);
 
-        QDomDocument *newDoc = &openedDoc->m_document;
-        auto producers = newDoc->elementsByTagName(QStringLiteral("producer"));
+        QDomDocument newDoc = KdenliveTests::getDocument(openedDoc.get());
+        auto producers = newDoc.elementsByTagName(QStringLiteral("producer"));
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
 }
@@ -443,12 +443,12 @@ TEST_CASE("Opening File With Keyframes", "[OPENKFRS]")
         REQUIRE(openResults.isSuccessful() == true);
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
 
-        pCore->projectManager()->m_project = openedDoc.get();
+        pCore->projectManager()->testSetDocument(openedDoc.get());
         const QUuid uuid = openedDoc->uuid();
         QDateTime documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get());
-        auto timeline = pCore->projectManager()->m_project->getTimeline(uuid);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+        pCore->projectManager()->testSetActiveTimeline();
+        auto timeline = openedDoc->getTimeline(uuid);
 
         REQUIRE(timeline->checkConsistency());
         int tid1 = timeline->getTrackIndexFromPosition(0);

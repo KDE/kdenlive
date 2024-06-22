@@ -478,7 +478,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
 {
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe);
-    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe);
+    Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, !m_monitorActive);
     m_selectType->setEnabled(atKeyframe || singleKeyframe);
     for (const auto &w : m_parameters) {
         if (w.second) {
@@ -665,7 +665,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     }
 }
 
-void KeyframeWidget::slotInitMonitor(bool active)
+void KeyframeWidget::slotInitMonitor(bool active, bool)
 {
     connectMonitor(active);
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
@@ -688,22 +688,41 @@ void KeyframeWidget::connectMonitor(bool active)
             disconnect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor);
         }
     }
-    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    if (active) {
-        connect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext, Qt::UniqueConnection);
-        connect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev, Qt::UniqueConnection);
-        connect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove, Qt::UniqueConnection);
-        connect(this, &KeyframeWidget::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe, Qt::DirectConnection);
-        connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe, Qt::UniqueConnection);
-    } else {
-        disconnect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext);
-        disconnect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev);
-        disconnect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove);
-        disconnect(this, &KeyframeWidget::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe);
-        disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe);
+
+    if (m_monitorActive != active) {
+        Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+        if (active) {
+            connect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext, Qt::UniqueConnection);
+            connect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev, Qt::UniqueConnection);
+            connect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove, Qt::UniqueConnection);
+            connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe, Qt::UniqueConnection);
+            connect(this, &KeyframeWidget::updateEffectKeyframe, monitor, &Monitor::setEffectKeyframe, Qt::DirectConnection);
+        } else {
+            disconnect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext);
+            disconnect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev);
+            disconnect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove);
+            disconnect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe);
+        }
     }
+<<<<<<< HEAD
     if (m_geom) {
         m_geom->connectMonitor(active);
+=======
+    m_monitorActive = active;
+
+    for (const auto &w : m_parameters) {
+        auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
+        if (type == ParamType::AnimatedRect) {
+            (static_cast<GeometryWidget *>(w.second))->connectMonitor(active);
+            if (active) {
+                m_keyframeview->initKeyframePos();
+            }
+            break;
+        }
+>>>>>>> master
+    }
+    if (!active) {
+        Q_EMIT updateEffectKeyframe(false, true);
     }
 }
 
