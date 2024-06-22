@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 00:38+0000\n"
+"POT-Creation-Date: 2024-06-22 00:38+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -4080,7 +4080,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:864
+#: src/assets/view/widgets/keyframewidget.cpp:874
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Paste keyframe"
@@ -4192,28 +4192,28 @@ msgstr "Ábra elhelyezkedése"
 msgid "Select parameters to copy"
 msgstr "Paraméterek"
 
-#: src/assets/view/widgets/keyframewidget.cpp:769
+#: src/assets/view/widgets/keyframewidget.cpp:779
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframes copied"
 msgstr "Interpolálás"
 
-#: src/assets/view/widgets/keyframewidget.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:828
+#: src/assets/view/widgets/keyframewidget.cpp:790
+#: src/assets/view/widgets/keyframewidget.cpp:831
+#: src/assets/view/widgets/keyframewidget.cpp:838
 #, fuzzy, kde-format
 #| msgid "No clip in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "Nincs klip a vágólapon"
 
-#: src/assets/view/widgets/keyframewidget.cpp:872
+#: src/assets/view/widgets/keyframewidget.cpp:882
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Nem hozható létre átmeneti fájl"
 
-#: src/assets/view/widgets/keyframewidget.cpp:877
-#: src/assets/view/widgets/keyframewidget.cpp:888
+#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:898
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Current values copied"
@@ -5601,7 +5601,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:189
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:522
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, fuzzy, kde-format
@@ -5796,7 +5796,7 @@ msgid "Move subtitle"
 msgstr "Segédpont áthelyezése"
 
 #: src/bin/model/subtitlemodel.cpp:1177
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
@@ -6347,7 +6347,7 @@ msgstr ""
 "A dokumentum projekt mappa érvénytelen. A következő alapértelmezett mappa "
 "lesz használatba véve: %1"
 
-#: src/core.cpp:978
+#: src/core.cpp:999
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipek betöltése"
@@ -6756,7 +6756,7 @@ msgstr "Jelölők betöltése"
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:647
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9946,7 +9946,7 @@ msgstr "Effektus mentése"
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:455
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:458
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9954,32 +9954,32 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, fuzzy, kde-format
 #| msgid "Capture audio"
 msgid "Disable %1"
 msgstr "Hang rögzítése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, fuzzy, kde-format
 #| msgid "Capture audio"
 msgid "Enable %1"
 msgstr "Hang rögzítése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Effektus mentése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
 #, fuzzy, kde-format
 #| msgid "Comment"
 msgid "Comments:"
 msgstr "Megjegyzés"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
@@ -13763,38 +13763,38 @@ msgid_plural "%1 audio streams"
 msgstr[0] "Hangfolyam %1"
 msgstr[1] "Hangfolyam %1"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2373
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2415 src/monitor/monitor.cpp:2472
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2435
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "A klipnek nincsenek jelölői"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2437
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2479
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2525
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -14116,7 +14116,7 @@ msgid ""
 "for toolbar, <b>Wheel</b> or <b>arrows</b> to seek, <b>Ctrl wheel</b> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14126,7 +14126,7 @@ msgid ""
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:68
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14134,7 +14134,7 @@ msgid ""
 "to close shape."
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14144,13 +14144,13 @@ msgid ""
 "to create new keyframe, <shortcut>Hover right</shortcut> for toolbar"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:421
 #, kde-format
 msgid ""
 "Click to add points,\n"

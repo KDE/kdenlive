@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 00:38+0000\n"
+"POT-Creation-Date: 2024-06-22 00:38+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3944,7 +3944,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:864
+#: src/assets/view/widgets/keyframewidget.cpp:874
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -4050,28 +4050,28 @@ msgstr "X 위치"
 msgid "Select parameters to copy"
 msgstr "복사할 인자 선택"
 
-#: src/assets/view/widgets/keyframewidget.cpp:769
+#: src/assets/view/widgets/keyframewidget.cpp:779
 #, fuzzy, kde-format
 #| msgid "Keyframe value copied"
 msgid "Keyframes copied"
 msgstr "키프레임 값 복사됨"
 
-#: src/assets/view/widgets/keyframewidget.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:828
+#: src/assets/view/widgets/keyframewidget.cpp:790
+#: src/assets/view/widgets/keyframewidget.cpp:831
+#: src/assets/view/widgets/keyframewidget.cpp:838
 #, fuzzy, kde-format
 #| msgid "No valid data in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "클립보드에 유효한 데이터가 없음"
 
-#: src/assets/view/widgets/keyframewidget.cpp:872
+#: src/assets/view/widgets/keyframewidget.cpp:882
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary files"
 msgid "Cannot copy current parameter values"
 msgstr "임시 파일을 만들 수 없음"
 
-#: src/assets/view/widgets/keyframewidget.cpp:877
-#: src/assets/view/widgets/keyframewidget.cpp:888
+#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:898
 #, fuzzy, kde-format
 #| msgid "Keyframe value copied"
 msgid "Current values copied"
@@ -5376,7 +5376,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:189
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:522
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5561,7 +5561,7 @@ msgid "Move subtitle"
 msgstr "자막 이동"
 
 #: src/bin/model/subtitlemodel.cpp:1177
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
@@ -6085,7 +6085,7 @@ msgstr "시계 위"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "프로젝트 프로필이 유효하지 않습니다. 렌더링이 실패할 수 있습니다."
 
-#: src/core.cpp:978
+#: src/core.cpp:999
 #, kde-format
 msgid "Loading clips"
 msgstr "클립 불러오는 중"
@@ -6487,7 +6487,7 @@ msgstr "안내선 가져오기"
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:647
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9608,7 +9608,7 @@ msgstr "효과 저장"
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:455
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:458
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9616,29 +9616,29 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 비활성화"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 활성화"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "효과 저장"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
 #, fuzzy, kde-format
 #| msgid "Comments : "
 msgid "Comments:"
 msgstr "주석: "
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "이름을 지정하지 않았습니다. 효과를 저장하지 않았습니다."
@@ -13239,12 +13239,12 @@ msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "오디오 스트림 %1개"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2373
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit의 GLSL 관리자를 초기화할 수 없습니다. Movit을 비활성화하십시오"
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2415 src/monitor/monitor.cpp:2472
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13253,17 +13253,17 @@ msgstr ""
 "해당 기능에 alphagrad 필터가 필요합니다. frei0r를 설치하고 Kdenlive를 다시 시"
 "작하십시오"
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2435
 #, kde-format
 msgid "Clip has no effects"
 msgstr "클립 효과 없음"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2437
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "효과를 비교하려면 프로젝트 보관함에서 클립을 선택하십시오"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2479
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13272,7 +13272,7 @@ msgstr ""
 "해당 기능에는 cairoblend 전환이 필요합니다. frei0r를 설치하고 Kdenlive를 다"
 "시 시작하십시오"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2525
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "효과를 편집하려면 모니터에서 편집 모드 활성화"
@@ -13596,7 +13596,7 @@ msgstr ""
 "이동</b>하여 도구 모음 표시, <b>휠</b> 또는 <b>방향 키</b>로 검색, <b>Ctrl 키"
 "를 누르면서 휠</b>을 돌려서 확대/축소"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13611,7 +13611,7 @@ msgstr ""
 "</shortcut>하여 도구 모음 표시, 마우스 가운데 단추를 <shortcut>클릭</"
 "shortcut>하여 키프레임으로 이동"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:68
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13621,7 +13621,7 @@ msgstr ""
 "<shortcut>클릭</shortcut>하여 지점을 추가하고, <shortcut>마우스 오른쪽 단추"
 "를 클릭</shortcut>하여 도형을 닫습니다."
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13635,7 +13635,7 @@ msgstr ""
 "shortcut>하여 삭제, 배경을 <shortcut>두 번 클릭</shortcut>하여 새 키 프레임 "
 "만들기, <shortcut>오른쪽으로 커서를 이동</shortcut>하여 도구 모음 보기"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -13643,7 +13643,7 @@ msgstr ""
 "<shortcut>Ctrl 키를 누르면서 핸들을 드래그</shortcut>하여 중심점 기준 크기 조"
 "정"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:421
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click to add points,\n"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 00:38+0000\n"
+"POT-Creation-Date: 2024-06-22 00:38+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -3981,7 +3981,7 @@ msgstr ""
 "parâmetros atuais se nenhum quadro-chave for selecionado."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:864
+#: src/assets/view/widgets/keyframewidget.cpp:874
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Colar quadro-chave"
@@ -4086,25 +4086,25 @@ msgstr "Posição X"
 msgid "Select parameters to copy"
 msgstr "Selecione parâmetros para copiar"
 
-#: src/assets/view/widgets/keyframewidget.cpp:769
+#: src/assets/view/widgets/keyframewidget.cpp:779
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Quadros-chave copiados"
 
-#: src/assets/view/widgets/keyframewidget.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:828
+#: src/assets/view/widgets/keyframewidget.cpp:790
+#: src/assets/view/widgets/keyframewidget.cpp:831
+#: src/assets/view/widgets/keyframewidget.cpp:838
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Nenhum dado de quadro-chave válido na área de transferência"
 
-#: src/assets/view/widgets/keyframewidget.cpp:872
+#: src/assets/view/widgets/keyframewidget.cpp:882
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Não foi possível copiar os valores dos parâmetros"
 
-#: src/assets/view/widgets/keyframewidget.cpp:877
-#: src/assets/view/widgets/keyframewidget.cpp:888
+#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:898
 #, kde-format
 msgid "Current values copied"
 msgstr "Valores atuais copiados"
@@ -5394,7 +5394,7 @@ msgstr "Importar arquivo com duplo clique"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:189
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:522
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5569,7 +5569,7 @@ msgid "Move subtitle"
 msgstr "Mover legenda"
 
 #: src/bin/model/subtitlemodel.cpp:1177
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
@@ -6096,7 +6096,7 @@ msgstr ""
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "O perfil do seu projeto é inválido, a renderização pode falhar."
 
-#: src/core.cpp:978
+#: src/core.cpp:999
 #, kde-format
 msgid "Loading clips"
 msgstr "Carregando clipes"
@@ -6491,7 +6491,7 @@ msgstr "Exportar dados das guias"
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:647
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9612,7 +9612,7 @@ msgstr "Salvar efeito"
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:455
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:458
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9620,28 +9620,28 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, kde-format
 msgid "Disable %1"
 msgstr "Desativar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, kde-format
 msgid "Enable %1"
 msgstr "Ativar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Salvar efeito"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
 #, kde-format
 msgid "Comments:"
 msgstr "Comentários:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Nenhum nome fornecido, efeito não foi salvo."
@@ -13274,13 +13274,13 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 fluxo de áudio"
 msgstr[1] "%1 fluxos de áudio"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2373
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Não é possível iniciar o gerenciador de GLSL do Movit - desative o Movit"
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2415 src/monitor/monitor.cpp:2472
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13289,17 +13289,17 @@ msgstr ""
 "O filtro alphagrad é necessário para esse recurso, instale o frei0r e "
 "reinicie o Kdenlive"
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2435
 #, kde-format
 msgid "Clip has no effects"
 msgstr "O clipe não tem efeitos"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2437
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Selecione um clipe nos arquivos do projeto para comparar o efeito"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2479
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13308,7 +13308,7 @@ msgstr ""
 "A transição 'cairoblend' é necessária para este recurso; instale o 'frei0r' "
 "e reinicie o Kdenlive"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2525
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ative o modo de edição no monitor para editar o efeito"
@@ -13637,7 +13637,7 @@ msgstr ""
 "ou as <b>setas</b> para buscar, <b>use a roda do mouse pressionando ctrl</b> "
 "para ampliar"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13653,7 +13653,7 @@ msgstr ""
 "shortcut> para a barra de ferramentas, <shortcut>clique</shortcut> em um "
 "centro para buscar o seu quadro-chave"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:68
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13663,7 +13663,7 @@ msgstr ""
 "<shortcut>Clique</shortcut> para adicionar pontos, <shortcut>botão direito "
 "do mouse</shortcut> para fechar forma."
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13679,7 +13679,7 @@ msgstr ""
 "quadro-chave, <shortcut>passe o mouse à direita</shortcut> para a barra de "
 "ferramentas"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -13687,7 +13687,7 @@ msgstr ""
 "<shortcut>Arraste o separador pressionando Shift</shortcut> para "
 "redimensionamento baseado no centro"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:421
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click to add points,\n"
