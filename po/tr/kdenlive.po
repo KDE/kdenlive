@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 00:38+0000\n"
+"POT-Creation-Date: 2024-06-22 00:38+0000\n"
 "PO-Revision-Date: 2024-05-31 14:23+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -3967,7 +3967,7 @@ msgstr ""
 "kareyi veya geçerli parametreleri kopyalayın."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:864
+#: src/assets/view/widgets/keyframewidget.cpp:874
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Anahtar kareyi yapıştır"
@@ -4072,25 +4072,25 @@ msgstr "X konumu"
 msgid "Select parameters to copy"
 msgstr "Kopyalanacak parametreleri seçin"
 
-#: src/assets/view/widgets/keyframewidget.cpp:769
+#: src/assets/view/widgets/keyframewidget.cpp:779
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Anahtar kareler kopyalandı"
 
-#: src/assets/view/widgets/keyframewidget.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:828
+#: src/assets/view/widgets/keyframewidget.cpp:790
+#: src/assets/view/widgets/keyframewidget.cpp:831
+#: src/assets/view/widgets/keyframewidget.cpp:838
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Panoda geçerli anahtar kare verisi yok"
 
-#: src/assets/view/widgets/keyframewidget.cpp:872
+#: src/assets/view/widgets/keyframewidget.cpp:882
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Geçerli parametre değerleri kopyalanamıyor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:877
-#: src/assets/view/widgets/keyframewidget.cpp:888
+#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:898
 #, kde-format
 msgid "Current values copied"
 msgstr "Geçerli değerler kopyalandı"
@@ -5364,7 +5364,7 @@ msgstr "Çift Tıklamada Dosya İçe Aktar"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:189
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:522
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5542,7 +5542,7 @@ msgid "Move subtitle"
 msgstr "Altyazıyı taşı"
 
 #: src/bin/model/subtitlemodel.cpp:1177
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
@@ -6054,7 +6054,7 @@ msgstr "Üstte Saat"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Proje profiliniz geçersiz, sunum başarısız olabilir."
 
-#: src/core.cpp:978
+#: src/core.cpp:999
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipler yükleniyor"
@@ -6458,7 +6458,7 @@ msgstr "Kılavuzlar Verisini Dışa Aktar"
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:647
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9483,7 +9483,7 @@ msgstr "Efekti kaydet"
 msgid "%1 instances of this effect in the group"
 msgstr "Grupta bu efektin %1 örneği var"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:455
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:458
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9494,28 +9494,28 @@ msgstr ""
 "proje klibine <b>sürükleyin</b>. Onu gruptaki tek bir ögeye kopyalamak için "
 "<b>Seçenek</b> düğmesini basılıp tutup sürükleyin."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 Devre Dışı Bırak"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 Etkinleştir"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Efekti Kaydet"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
 #, kde-format
 msgid "Comments:"
 msgstr "Açıklamalar:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Ad verilmediğinden efekt kaydedilmedi."
@@ -13034,13 +13034,13 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 ses akışı"
 msgstr[1] "%1 ses akışı"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2373
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit’in GLSL yöneticisi başlatılamıyor, lütfen Movit’i devre dışı bırakın"
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2415 src/monitor/monitor.cpp:2472
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13049,17 +13049,17 @@ msgstr ""
 "Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2435
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip bir efekt içermiyor"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2437
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Efekti uygulamak için proje kovasından bir klip seçin"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2479
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13068,7 +13068,7 @@ msgstr ""
 "Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2525
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Efekti düzenlemek için monitörde düzenleme modunu etkinleştir"
@@ -13383,7 +13383,7 @@ msgstr ""
 "Sağa gelin </b>araç çubuğu için, aramak için <b> Tekerlek </b> veya <b> "
 "oklar </b>, yakınlaştırmak için <b> Kontrol tekerleği </b>"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13398,7 +13398,7 @@ msgstr ""
 "için <shortcut>sağa gelin</shortcut>, bir merkezin anahtar karesine gitmek "
 "için <shortcut>tıklayın</shortcut>"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:68
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13408,7 +13408,7 @@ msgstr ""
 "Puan eklemek için <shortcut>tıklayın</shortcut>, şekli kapatmak için "
 "<shortcut>sağ tıklayın</shortcut>."
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13423,7 +13423,7 @@ msgstr ""
 "anahtar kare oluşturmak için arka plana <shortcut>çift tıklayın</shortcut>, "
 "araç çubuğu için <shortcut>fareyi sağa getirin</shortcut>"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -13431,7 +13431,7 @@ msgstr ""
 "Merkez tabanlı yeniden boyutlandırma için tutacı <shortcut>Üst Karakter ile "
 "sürükle</shortcut>"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:421
 #, kde-format
 msgid ""
 "Click to add points,\n"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 00:38+0000\n"
+"POT-Creation-Date: 2024-06-22 00:38+0000\n"
 "PO-Revision-Date: 2023-10-02 19:42+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
@@ -3953,7 +3953,7 @@ msgstr ""
 "jika tidak ada keyframe yang dipilih."
 
 #: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:864
+#: src/assets/view/widgets/keyframewidget.cpp:874
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Tempel keyframe"
@@ -4056,25 +4056,25 @@ msgstr "Posisi X"
 msgid "Select parameters to copy"
 msgstr "Pilih parameter untuk salin"
 
-#: src/assets/view/widgets/keyframewidget.cpp:769
+#: src/assets/view/widgets/keyframewidget.cpp:779
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Keyframe disalin"
 
-#: src/assets/view/widgets/keyframewidget.cpp:780
-#: src/assets/view/widgets/keyframewidget.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:828
+#: src/assets/view/widgets/keyframewidget.cpp:790
+#: src/assets/view/widgets/keyframewidget.cpp:831
+#: src/assets/view/widgets/keyframewidget.cpp:838
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Tidak ada data keyframe yang valid dalam papan klip"
 
-#: src/assets/view/widgets/keyframewidget.cpp:872
+#: src/assets/view/widgets/keyframewidget.cpp:882
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Tidak dapat menyalin nilai parameter saat ini"
 
-#: src/assets/view/widgets/keyframewidget.cpp:877
-#: src/assets/view/widgets/keyframewidget.cpp:888
+#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:898
 #, kde-format
 msgid "Current values copied"
 msgstr "Nilai saat ini disalin"
@@ -5332,7 +5332,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:189
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:522
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5506,7 +5506,7 @@ msgid "Move subtitle"
 msgstr "Pindahkan subtitel"
 
 #: src/bin/model/subtitlemodel.cpp:1177
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:541
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
 #: src/effects/effectstack/view/effectstackview.cpp:609
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
@@ -6023,7 +6023,7 @@ msgstr "Jam Atas"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Profil proyek Anda tidak valid, rendering mungkin gagal."
 
-#: src/core.cpp:978
+#: src/core.cpp:999
 #, kde-format
 msgid "Loading clips"
 msgstr "Memuat klip"
@@ -6407,7 +6407,7 @@ msgstr "Ekspor Data Pancangan"
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:620
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:647
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9459,7 +9459,7 @@ msgstr "Simpan efek"
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:455
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:458
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9467,28 +9467,28 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, kde-format
 msgid "Disable %1"
 msgstr "Nonfungsikan %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:479
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
 #, kde-format
 msgid "Enable %1"
 msgstr "Fungsikan %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:511
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Simpan Efek"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
 #, kde-format
 msgid "Comments:"
 msgstr "Komentar:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Tidak ada nama yang disediakan, efek tidak tersimpan."
@@ -12981,13 +12981,13 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 stream audio"
 msgstr[1] "%1 stream audio"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2373
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Tidak bisa menginisial manajer Movit's GLSL, silakan nonfungsikan Movit"
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2415 src/monitor/monitor.cpp:2472
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -12996,17 +12996,17 @@ msgstr ""
 "Filter alphagrad diperlukan untuk fitur tersebut, mohon instal frei0r dan "
 "jalankan ulang Kdenlive"
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2435
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip tidak memiliki efek"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2437
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Pilih klip di bin proyek untuk membandingkan efek"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2479
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13015,7 +13015,7 @@ msgstr ""
 "Transisi cairoblend diperlukan untuk fitur tersebut, mohon instal frei0r dan "
 "jalankan ulang Kdenlive"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2525
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Fungsikan mode edit di monitor untuk mengedit efek"
@@ -13330,7 +13330,7 @@ msgstr ""
 "kanan</b> untuk bilah alat, <b>Roda gulir</b> atau <b>panah</b> untuk "
 "jangka, <b>Ctrl roda</b> untuk memperbesar atau memperkecil"
 
-#: src/monitor/view/kdenlivemonitoreffectscene.qml:289
+#: src/monitor/view/kdenlivemonitoreffectscene.qml:292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13345,7 +13345,7 @@ msgstr ""
 "kanan</shortcut> untuk bilah alat, <shortcut>Klik</shortcut> di tengah untuk "
 "menjangka ke keyframe-nya"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:68
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13355,7 +13355,7 @@ msgstr ""
 "<shortcut>Klik</shortcut> untuk menambah poin, <shortcut>Klik kanan</"
 "shortcut> untuk menutup bentuk."
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:69
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13370,7 +13370,7 @@ msgstr ""
 "<shortcut>Klik dua kali</shortcut> latar belakang untuk membuat keyframe "
 "baru, <shortcut>Arahkan kursor ke kanan</shortcut> untuk bilah alat"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:70
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:71
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
@@ -13378,7 +13378,7 @@ msgstr ""
 "<shortcut>Shift pegang seret</shortcut> untuk mengubah ukuran berdasarkan "
 "tengah"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:414
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:421
 #, fuzzy, kde-format
 #| msgid ""
 #| "Click to add points,\n"
