@@ -479,7 +479,7 @@ void KeyframeWidget::slotAtKeyframe(bool atKeyframe, bool singleKeyframe)
     m_addDeleteAction->setActive(!atKeyframe);
     m_centerAction->setEnabled(!atKeyframe);
     Q_EMIT updateEffectKeyframe(atKeyframe || singleKeyframe, !m_monitorActive);
-    bool enableWidgets = m_monitorActive && (atKeyframe || singleKeyframe);
+    bool enableWidgets = (m_monitorActive && atKeyframe) || singleKeyframe;
     m_selectType->setEnabled(enableWidgets);
     if (m_geom) {
         m_geom->setEnabled(enableWidgets);
@@ -723,7 +723,7 @@ void KeyframeWidget::connectMonitor(bool active)
         }
     }*/
     if (m_geom) {
-        m_geom->connectMonitor(active);
+        m_geom->connectMonitor(active, m_keyframes->singleKeyframe());
         if (active) {
             m_keyframeview->initKeyframePos();
         }

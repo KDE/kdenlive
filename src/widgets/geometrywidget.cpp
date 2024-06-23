@@ -458,10 +458,10 @@ const QString GeometryWidget::getValue() const
     return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
 }
 
-void GeometryWidget::connectMonitor(bool activate)
+void GeometryWidget::connectMonitor(bool activate, bool singleKeyframe)
 {
     m_active = activate;
-    setEnabled(activate);
+    setEnabled(activate || singleKeyframe);
     if (activate) {
         connect(m_monitor, &Monitor::effectChanged, this, &GeometryWidget::slotUpdateGeometryRect, Qt::UniqueConnection);
         QRect rect(m_spinX->value(), m_spinY->value(), m_spinWidth->value(), m_spinHeight->value());
