@@ -97,6 +97,8 @@ QList<int> MarkerListModel::loadCategories(const QStringList &categories, bool n
     // Trigger a refresh of all markers
     if (notify) {
         Q_EMIT dataChanged(index(0), index(m_markerList.size() - 1), {ColorRole});
+        // Save Categories in document
+        Q_EMIT pCore->saveGuideCategories();
     }
     return previousCategories;
 }

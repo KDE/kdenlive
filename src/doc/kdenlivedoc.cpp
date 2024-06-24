@@ -379,6 +379,7 @@ void KdenliveDoc::initializeProperties(bool newDocument, std::pair<int, int> tra
         // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
         m_documentProperties[QStringLiteral("guidesCategories")] = MarkerListModel::categoriesListToJSon(KdenliveSettings::guidesCategories());
     }
+    connect(pCore.get(), &Core::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
 }
 
 const QStringList KdenliveDoc::guidesCategories()
@@ -2260,7 +2261,6 @@ void KdenliveDoc::loadSequenceGroupsAndGuides(const QUuid &uuid)
     model->getGuideModel()->loadCategories(guidesCategories(), false);
     model->updateFieldOrderFilter(pCore->getCurrentProfile());
     loadDocumentGuides(uuid, model);
-    connect(model.get(), &TimelineModel::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
 }
 
 void KdenliveDoc::closeTimeline(const QUuid uuid, bool onDeletion)

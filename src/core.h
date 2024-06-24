@@ -486,4 +486,6 @@ Q_SIGNALS:
     void mltWarning(const QString &message);
     /** @brief Request display of effect stack for a Bin clip. */
     void requestShowBinEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
+    /** @brief Save guide categories in document properties */
+    void saveGuideCategories();
 };

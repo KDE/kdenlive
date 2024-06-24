@@ -213,7 +213,7 @@ void TimelineModel::setMarkerModel(std::shared_ptr<MarkerListModel> markerModel)
     m_guidesFilterModel->setSourceModel(m_guidesModel.get());
     m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
     m_guidesFilterModel->sort(0, Qt::AscendingOrder);
-    m_guidesModel->loadCategories(KdenliveSettings::guidesCategories());
+    m_guidesModel->loadCategories(KdenliveSettings::guidesCategories(), false);
 }
 
 int TimelineModel::getTracksCount() const
