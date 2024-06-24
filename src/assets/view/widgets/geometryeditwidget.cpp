@@ -57,7 +57,6 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
 
     // Q_EMIT the signal of the base class when appropriate
     connect(this->m_geom, &GeometryWidget::valueChanged, this, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
-
     setToolTip(comment);
 }
 
@@ -95,12 +94,14 @@ void GeometryEditWidget::monitorSeek(int pos)
     }
 }
 
-void GeometryEditWidget::slotInitMonitor(bool active, bool outside)
+void GeometryEditWidget::slotInitMonitor(bool active, bool)
 {
     m_geom->connectMonitor(active);
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (active) {
-        monitor->setEffectKeyframe(true, outside);
+        pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(m_geom->getRect());
+        // We have no keyframes, allow editing even if
+        monitor->setEffectKeyframe(true, false);
         connect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek, Qt::UniqueConnection);
     } else {
         disconnect(monitor, &Monitor::seekPosition, this, &GeometryEditWidget::monitorSeek);

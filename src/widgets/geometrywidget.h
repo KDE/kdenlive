@@ -32,6 +32,7 @@ public:
                             bool useOpacity, QWidget *parent = nullptr);
     void setValue(const QRect r, double opacity = 1);
     void connectMonitor(bool activate);
+    const QRect getRect() const;
 
 private:
     int m_min;

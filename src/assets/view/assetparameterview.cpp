@@ -5,6 +5,7 @@
 
 #include "assetparameterview.hpp"
 
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/model/assetcommand.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/abstractparamwidget.hpp"
@@ -278,6 +279,14 @@ void AssetParameterView::slotRefresh()
 bool AssetParameterView::keyframesAllowed() const
 {
     return m_mainKeyframeWidget != nullptr;
+}
+
+bool AssetParameterView::hasMultipleKeyframes() const
+{
+    if (m_model->getKeyframeModel()) {
+        return !m_model->getKeyframeModel()->singleKeyframe();
+    }
+    return false;
 }
 
 bool AssetParameterView::modelHideKeyframes() const

@@ -439,7 +439,6 @@ void KeyframeWidget::slotRefreshParams()
     }
     if (m_monitorHelper && m_model->isActive()) {
         m_monitorHelper->refreshParams(pos);
-        return;
     }
 }
 void KeyframeWidget::slotSetPosition(int pos, bool update)
@@ -496,6 +495,7 @@ void KeyframeWidget::slotRefresh()
     } else {
         int pos = m_time->getValue();
         bool isInRange = pos >= in && pos < out;
+        qDebug() << "::: MONITOR SEEK FROM KFRW2: " << (isInRange && m_model->isActive());
         connectMonitor(isInRange && m_model->isActive());
         m_addDeleteAction->setEnabled(isInRange && pos > in);
         int framePos = qBound(in, pos, out) - in;
@@ -667,6 +667,9 @@ void KeyframeWidget::slotInitMonitor(bool active, bool)
         m_keyframeview->initKeyframePos();
         connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
     }
+    if (m_monitorHelper) {
+        m_monitorHelper->refreshParams(getPosition());
+    }
 }
 
 void KeyframeWidget::connectMonitor(bool active)
@@ -709,9 +712,6 @@ void KeyframeWidget::connectMonitor(bool active)
             }
             break;
         }
-    }
-    if (!active) {
-        Q_EMIT updateEffectKeyframe(false, true);
     }
 }
 
@@ -911,8 +911,14 @@ void KeyframeWidget::slotImportKeyframes()
     }
     QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(),
                                                          m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(), this);
+    connect(import, &KeyframeImport::updateQmlView, this, [this](QPersistentModelIndex ix, const QString animData) {
+        auto kfModel = m_keyframes->getKeyModel(ix);
+        if (kfModel) {
+            kfModel->parseAnimProperty(animData);
+        }
+    });
+    import->updateView();
     import->show();
-    connect(import, &KeyframeImport::updateQmlView, this, &KeyframeWidget::slotRefreshParams);
 }
 
 void KeyframeWidget::slotRemoveNextKeyframes()
