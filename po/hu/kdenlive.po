@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-22 00:38+0000\n"
+"POT-Creation-Date: 2024-06-24 00:38+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -3244,7 +3244,7 @@ msgid "Generator Failed"
 msgstr "A létrehozó meghiúsult"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:60
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, fuzzy, kde-format
 #| msgid "Copy profile to favorites"
 msgid "Add to favorites"
@@ -3344,20 +3344,20 @@ msgstr "Leírás"
 msgid "Show/hide description of the compositions"
 msgstr "Leírás"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:186 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:184 src/bin/bin.cpp:1197
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
 msgstr "Keresés"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove from favorites"
 msgstr "Fájl eltávolítása"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:417
-#: src/assets/assetlist/view/assetlistwidget.cpp:419
+#: src/assets/assetlist/view/assetlistwidget.cpp:414
+#: src/assets/assetlist/view/assetlistwidget.cpp:416
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgctxt "@info:tooltip"

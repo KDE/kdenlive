@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-22 00:38+0000\n"
+"POT-Creation-Date: 2024-06-24 00:38+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -3181,7 +3181,7 @@ msgid "Generator Failed"
 msgstr "생성기 실패"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:60
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, kde-format
 msgid "Add to favorites"
 msgstr "책갈피에 추가"
@@ -3267,19 +3267,19 @@ msgstr "효과 설명 표시/숨기기"
 msgid "Show/hide description of the compositions"
 msgstr "합성 설명 표시/숨기기"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:186 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:184 src/bin/bin.cpp:1197
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Search…"
 msgstr "검색"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, kde-format
 msgid "Remove from favorites"
 msgstr "책갈피에서 삭제"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:417
-#: src/assets/assetlist/view/assetlistwidget.cpp:419
+#: src/assets/assetlist/view/assetlistwidget.cpp:414
+#: src/assets/assetlist/view/assetlistwidget.cpp:416
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgctxt "@info:tooltip"

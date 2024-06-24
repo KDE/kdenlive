@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-22 00:38+0000\n"
+"POT-Creation-Date: 2024-06-24 00:38+0000\n"
 "PO-Revision-Date: 2024-05-27 16:40+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -3220,7 +3220,7 @@ msgid "Generator Failed"
 msgstr "Sorgailuak huts egin du"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:60
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, kde-format
 msgid "Add to favorites"
 msgstr "Gehitu efektua gogokoenetara"
@@ -3305,18 +3305,18 @@ msgstr "Erakutsi/Ezkutatu efektuen deskribapena"
 msgid "Show/hide description of the compositions"
 msgstr "Erakutsi/ezkutatu konposizioen deskribapena"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:186 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:184 src/bin/bin.cpp:1197
 #, kde-format
 msgid "Search…"
 msgstr "Bilatu…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Kendu gogokoenetatik"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:417
-#: src/assets/assetlist/view/assetlistwidget.cpp:419
+#: src/assets/assetlist/view/assetlistwidget.cpp:414
+#: src/assets/assetlist/view/assetlistwidget.cpp:416
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"

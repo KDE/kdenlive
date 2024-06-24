@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-22 00:38+0000\n"
+"POT-Creation-Date: 2024-06-24 00:38+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -3220,7 +3220,7 @@ msgid "Generator Failed"
 msgstr "Falha no gerador"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:60
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, kde-format
 msgid "Add to favorites"
 msgstr "Adicionar aos favoritos"
@@ -3305,18 +3305,18 @@ msgstr "Mostrar/ocultar a descrição dos efeitos"
 msgid "Show/hide description of the compositions"
 msgstr "Mostrar/ocultar a descrição das composições"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:186 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:184 src/bin/bin.cpp:1197
 #, kde-format
 msgid "Search…"
 msgstr "Pesquisar…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Remover dos favoritos"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:417
-#: src/assets/assetlist/view/assetlistwidget.cpp:419
+#: src/assets/assetlist/view/assetlistwidget.cpp:414
+#: src/assets/assetlist/view/assetlistwidget.cpp:416
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgctxt "@info:tooltip"

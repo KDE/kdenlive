@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-22 00:38+0000\n"
+"POT-Creation-Date: 2024-06-24 00:38+0000\n"
 "PO-Revision-Date: 2024-06-18 00:20+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -3203,7 +3203,7 @@ msgid "Generator Failed"
 msgstr "Generator misslyckades"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:60
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, kde-format
 msgid "Add to favorites"
 msgstr "Lägg till i favoriter"
@@ -3288,18 +3288,18 @@ msgstr "Visa eller dölj beskrivning av effekterna"
 msgid "Show/hide description of the compositions"
 msgstr "Visa eller dölj beskrivning av kompositionerna"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:186 src/bin/bin.cpp:1197
+#: src/assets/assetlist/view/assetlistwidget.cpp:184 src/bin/bin.cpp:1197
 #, kde-format
 msgid "Search…"
 msgstr "Sök…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:395
+#: src/assets/assetlist/view/assetlistwidget.cpp:392
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Ta bort från favoriter"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:417
-#: src/assets/assetlist/view/assetlistwidget.cpp:419
+#: src/assets/assetlist/view/assetlistwidget.cpp:414
+#: src/assets/assetlist/view/assetlistwidget.cpp:416
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
