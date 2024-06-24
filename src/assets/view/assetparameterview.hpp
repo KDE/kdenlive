@@ -43,6 +43,8 @@ public:
 
     /** Returns true is the effect can use keyframes */
     bool keyframesAllowed() const;
+    /** @brief Returns true is the model has more than one keyframe */
+    bool hasMultipleKeyframes() const;
     /** Returns true is the keyframes should be hidden on first opening*/
     bool modelHideKeyframes() const;
     /** Returns the preset menu to be embedded in toolbars */
