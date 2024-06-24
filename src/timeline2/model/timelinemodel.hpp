@@ -1022,8 +1022,6 @@ Q_SIGNALS:
     void checkItemDeletion(int cid);
     /** @brief request animation of the track tid lock icon */
     void flashLock(int tid);
-    /** @brief Save guide categories in document properties */
-    void saveGuideCategories();
     /** @brief Highlight a subtitle item in timeline */
     void highlightSub(int index);
     /** @brief The visible sequence name has to be changed */

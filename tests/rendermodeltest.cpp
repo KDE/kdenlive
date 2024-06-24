@@ -204,7 +204,7 @@ TEST_CASE("Tests of the render functions to use guides for sections", "[RenderRe
 {
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> markerModel(new MarkerListModel(QString(), undoStack));
-    markerModel->loadCategories(KdenliveDoc::getDefaultGuideCategories());
+    markerModel->loadCategories(KdenliveDoc::getDefaultGuideCategories(), false);
 
     int guideCategory = 3;
 
