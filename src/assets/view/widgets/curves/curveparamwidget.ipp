@@ -9,6 +9,7 @@
 #include "kdenlivesettings.h"
 #include "widgets/dragvalue.h"
 #include <KLocalizedString>
+#include "curveparamwidget.h"
 
 /** @brief this label is a pixmap corresponding to a legend of the axis*/
 template <typename CurveWidget_t> class ValueLabel : public QLabel

@@ -817,25 +817,30 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             return defaultValue;
         }
     }
-    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    int width = profile->width();
-    int height = profile->height();
+    QSize profileSize = pCore->getCurrentFrameSize();
     QSize frameSize = pCore->getItemFrameSize(owner);
-    if (type == ParamType::AnimatedRect && content == "adjustcenter" && !frameSize.isEmpty()) {
-        int contentHeight = height;
-        int contentWidth = width;
+    if (frameSize.isEmpty()) {
+        frameSize = profileSize;
+    }
+    if (type == ParamType::AnimatedRect && content == "adjustcenter") {
+        int contentHeight = profileSize.height();
+        int contentWidth = profileSize.width();
         double sourceDar = frameSize.width() / frameSize.height();
         if (sourceDar > pCore->getCurrentDar()) {
             // Fit to width
-            double factor = double(width) / frameSize.width() * pCore->getCurrentSar();
-            contentHeight = qRound(height * factor);
+            double factor = double(profileSize.width()) / frameSize.width() * pCore->getCurrentSar();
+            contentHeight = qRound(profileSize.height() * factor);
         } else {
             // Fit to height
-            double factor = double(height) / frameSize.height();
+            double factor = double(profileSize.height()) / frameSize.height();
             contentWidth = qRound(frameSize.width() / pCore->getCurrentSar() * factor);
         }
         // Center
-        content = QString("%1 %2 %3 %4").arg((width - contentWidth) / 2).arg((height - contentHeight) / 2).arg(contentWidth).arg(contentHeight);
+        content = QString("%1 %2 %3 %4")
+                      .arg((profileSize.width() - contentWidth) / 2)
+                      .arg((profileSize.height() - contentHeight) / 2)
+                      .arg(contentWidth)
+                      .arg(contentHeight);
     } else if (content.contains(QLatin1Char('%'))) {
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner) - 1;
@@ -852,12 +857,12 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             currentPos = qBound(itemIn, currentPos, itemIn + pCore->getItemDuration(m_ownerId) - 1);
         }
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
-        double fitScale = qMin(double(width) / double(frameSize.width()), double(height) / double(frameSize.height()));
+        double fitScale = qMin(double(profileSize.width()) / double(frameSize.width()), double(profileSize.height()) / double(frameSize.height()));
         // replace symbols in the double parameter
-        content.replace(QLatin1String("%maxWidth"), QString::number(width))
-            .replace(QLatin1String("%maxHeight"), QString::number(height))
-            .replace(QLatin1String("%width"), QString::number(width))
-            .replace(QLatin1String("%height"), QString::number(height))
+        content.replace(QLatin1String("%maxWidth"), QString::number(profileSize.width()))
+            .replace(QLatin1String("%maxHeight"), QString::number(profileSize.height()))
+            .replace(QLatin1String("%width"), QString::number(profileSize.width()))
+            .replace(QLatin1String("%height"), QString::number(profileSize.height()))
             .replace(QLatin1String("%position"), QString::number(currentPos))
             .replace(QLatin1String("%contentWidth"), QString::number(frameSize.width()))
             .replace(QLatin1String("%contentHeight"), QString::number(frameSize.height()))
@@ -876,9 +881,9 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                         val.chop(1);
                         double n = val.toDouble() / 100.;
                         if (ix % 2 == 0) {
-                            n *= width;
+                            n *= profileSize.width();
                         } else {
-                            n *= height;
+                            n *= profileSize.height();
                         }
                         ix++;
                         content.append(QString("%1 ").arg(qRound(n)));

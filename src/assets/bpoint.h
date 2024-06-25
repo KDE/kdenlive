@@ -13,10 +13,12 @@
 class BPoint
 {
 public:
+    /** @brief P = control point, H1, H2 = handles */
     enum class PointType { H1 = 0, P = 1, H2 = 2 };
     /** @brief Sets the point to -1, -1 to mark it as unusable (until point + handles have proper values) */
     BPoint();
-    /** @brief Sets up according to the params. Linking detecting is done using autoSetLinked(). */
+    /** @brief Sets up according to the params. Linking detecting is done using autoSetLinked().
+     * We assume that handles are disabled for the current point if all three parameters are equal. */
     BPoint(const QPointF &handle1, const QPointF &point, const QPointF &handle2);
 
     bool operator==(const BPoint &point) const;

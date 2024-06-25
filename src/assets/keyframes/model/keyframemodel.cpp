@@ -381,7 +381,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
     Fun local_redo = []() { return true; };
     qDebug() << getAnimProperty();
     // TODO: use the new Animation::key_set_frame to move a keyframe
-    bool res = removeKeyframe(oldPos, local_undo, local_redo, true, false);
+    bool res = removeKeyframe(oldPos, local_undo, local_redo, updateView, false);
     qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
     if (res) {
@@ -1264,17 +1264,16 @@ void KeyframeModel::sendModification()
     }
 }
 
-QString KeyframeModel::realValue(double normalizedValue) const
+QString KeyframeModel::realValueFromInternal(double internalValue) const
 {
-    double value = getNormalizedValue(normalizedValue).toDouble();
     if (auto ptr = m_model.lock()) {
         int decimals = ptr->data(m_index, AssetParameterModel::DecimalsRole).toInt();
-        value *= ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
+        double value = internalValue * ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
         QString result;
         if (decimals == 0) {
-            if (m_paramType == ParamType::AnimatedRect) {
-                value = qRound(value * 100.);
-            }
+            // if (m_paramType == ParamType::AnimatedRect) {
+            //     value = qRound(value * 100.);
+            // }
             // Fix rounding erros in double > int conversion
             if (value > 0.) {
                 value += 0.001;
@@ -1288,7 +1287,12 @@ QString KeyframeModel::realValue(double normalizedValue) const
         result.append(ptr->data(m_index, AssetParameterModel::SuffixRole).toString());
         return result;
     }
-    return QString::number(value);
+    return QString::number(internalValue);
+}
+QString KeyframeModel::realValue(double normalizedValue) const
+{
+    double value = getNormalizedValue(normalizedValue).toDouble();
+    return realValueFromInternal(value);
 }
 
 void KeyframeModel::refresh(int in, int out)

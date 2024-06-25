@@ -51,8 +51,6 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     m_offset = m_size / 4;
     setFixedHeight(m_size);
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
-    connect(m_model.get(), &KeyframeModelList::modelChanged, this, &KeyframeView::slotModelChanged);
-    connect(m_model.get(), &KeyframeModelList::modelDisplayChanged, this, &KeyframeView::slotModelDisplayChanged);
     m_centerConnection = connect(this, &KeyframeView::updateKeyframeOriginal, this, [&](int pos) {
         m_currentKeyframeOriginal = pos;
         update();
@@ -64,6 +62,18 @@ KeyframeView::~KeyframeView()
     QObject::disconnect(m_centerConnection);
 }
 
+void KeyframeView::slotOnFocus()
+{
+    connect(m_model.get(), &KeyframeModelList::modelChanged, this, &KeyframeView::slotModelChanged);
+    connect(m_model.get(), &KeyframeModelList::modelDisplayChanged, this, &KeyframeView::slotModelDisplayChanged);
+    update();
+}
+
+void KeyframeView::slotLoseFocus()
+{
+    disconnect(m_model.get(), &KeyframeModelList::modelChanged, this, &KeyframeView::slotModelChanged);
+    disconnect(m_model.get(), &KeyframeModelList::modelDisplayChanged, this, &KeyframeView::slotModelDisplayChanged);
+}
 void KeyframeView::slotModelChanged()
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());
@@ -88,8 +98,6 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
     }
     if (pos != m_position) {
         m_position = pos;
-        int offset = pCore->getItemIn(m_model->getOwnerId());
-        Q_EMIT atKeyframe(m_model->hasKeyframe(pos + offset), m_model->singleKeyframe());
         double zoomPos = double(m_position) / m_duration;
         if (zoomPos < m_zoomHandle.x()) {
             double interval = m_zoomHandle.y() - m_zoomHandle.x();
@@ -132,41 +140,9 @@ void KeyframeView::slotDuplicateKeyframe()
     }
 }
 
-bool KeyframeView::slotAddKeyframe(int pos)
-{
-    if (pos < 0) {
-        pos = m_position;
-    }
-    int offset = pCore->getItemIn(m_model->getOwnerId());
-    return m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
-}
-
 const QString KeyframeView::getAssetId()
 {
     return m_model->getAssetId();
-}
-
-void KeyframeView::slotAddRemove()
-{
-    Q_EMIT activateEffect();
-    int offset = pCore->getItemIn(m_model->getOwnerId());
-    if (m_model->hasKeyframe(m_position + offset)) {
-        if (m_model->selectedKeyframes().contains(m_position)) {
-            // Delete all selected keyframes
-            slotRemoveKeyframe(m_model->selectedKeyframes());
-        } else {
-            slotRemoveKeyframe({m_position});
-        }
-    } else {
-        if (slotAddKeyframe(m_position)) {
-            GenTime position(m_position + offset, pCore->getCurrentFps());
-            int currentIx = m_model->getIndexForPos(position);
-            if (currentIx > -1) {
-                m_model->setSelectedKeyframes({currentIx});
-                m_model->setActiveKeyframe(currentIx);
-            }
-        }
-    }
 }
 
 void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
@@ -177,83 +153,10 @@ void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
     }
 }
 
-void KeyframeView::slotRemoveKeyframe(const QVector<int> &positions)
-{
-    if (m_model->singleKeyframe()) {
-        // Don't allow zero keyframe
-        pCore->displayMessage(i18n("Cannot remove the last keyframe"), MessageType::ErrorMessage, 500);
-        return;
-    }
-    int offset = pCore->getItemIn(m_model->getOwnerId());
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    for (int pos : positions) {
-        if (pos == 0) {
-            // Don't allow moving first keyframe
-            continue;
-        }
-        m_model->removeKeyframeWithUndo(GenTime(pos + offset, pCore->getCurrentFps()), undo, redo);
-    }
-    pCore->pushUndo(undo, redo, i18np("Remove keyframe", "Remove keyframes", positions.size()));
-}
-
 void KeyframeView::setDuration(int duration)
 {
     m_duration = duration;
-    int offset = pCore->getItemIn(m_model->getOwnerId());
-    Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
-    // Unselect keyframes that are outside range if any
-    QVector<int> toDelete;
-    int kfrIx = 0;
-    for (auto &p : m_model->selectedKeyframes()) {
-        int kfPos = m_model->getPosAtIndex(p).frames(pCore->getCurrentFps());
-        if (kfPos < offset || kfPos >= offset + m_duration) {
-            toDelete << kfrIx;
-        }
-        kfrIx++;
-    }
-    for (auto &p : toDelete) {
-        m_model->removeFromSelected(p);
-    }
     update();
-}
-
-void KeyframeView::slotGoToNext()
-{
-    Q_EMIT activateEffect();
-    if (m_position == m_duration - 1) {
-        return;
-    }
-
-    bool ok;
-    int offset = pCore->getItemIn(m_model->getOwnerId());
-    auto next = m_model->getNextKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
-
-    if (ok) {
-        Q_EMIT seekToPos(qMin(int(next.first.frames(pCore->getCurrentFps())) - offset, m_duration - 1));
-    } else {
-        // no keyframe after current position
-        Q_EMIT seekToPos(m_duration - 1);
-    }
-}
-
-void KeyframeView::slotGoToPrev()
-{
-    Q_EMIT activateEffect();
-    if (m_position == 0) {
-        return;
-    }
-
-    bool ok;
-    int offset = pCore->getItemIn(m_model->getOwnerId());
-    auto prev = m_model->getPrevKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
-
-    if (ok) {
-        Q_EMIT seekToPos(qMax(0, int(prev.first.frames(pCore->getCurrentFps())) - offset));
-    } else {
-        // no keyframe after current position
-        Q_EMIT seekToPos(m_duration - 1);
-    }
 }
 
 void KeyframeView::slotCenterKeyframe()
@@ -686,6 +589,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }
+    update();
 }
 
 void KeyframeView::wheelEvent(QWheelEvent *event)
@@ -693,9 +597,9 @@ void KeyframeView::wheelEvent(QWheelEvent *event)
     if (event->modifiers() & Qt::AltModifier) {
         // Alt modifier seems to invert x/y axis
         if (event->angleDelta().x() > 0) {
-            slotGoToPrev();
+            Q_EMIT goToPrevious();
         } else {
-            slotGoToNext();
+            Q_EMIT goToNext();
         }
         event->setAccepted(true);
         return;
