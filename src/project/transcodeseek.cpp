@@ -140,8 +140,11 @@ QMap<QString, QStringList> TranscodeSeek::ids() const
     return urls;
 }
 
-QString TranscodeSeek::params(int clipType) const
+QString TranscodeSeek::params(int clipType, std::pair<int, int> fps_info) const
 {
+    QString params = m_encodeParams.value(encodingprofiles->currentText());
+    params = params.section(QLatin1Char(';'), 0, -2);
+    QStringList splitParams = params.split(QLatin1Char(' '));
     switch (clipType) {
     case ClipType::Audio: {
         if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
@@ -157,26 +160,43 @@ QString TranscodeSeek::params(int clipType) const
         break;
     }
     case ClipType::Video: {
-        if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";video"))) {
-            // Switch to video only profile
-            QMapIterator<QString, QString> i(m_encodeParams);
-            while (i.hasNext()) {
-                i.next();
-                if (i.value().endsWith(QLatin1String(";video"))) {
-                    return i.value().section(QLatin1Char(';'), 0, -2);
+        if (m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";av"))) {
+            KdenliveSettings::setTranscodeFriendly(encodingprofiles->currentText());
+            // Remove audio options
+            int ix = splitParams.indexOf(QLatin1String("-codec:a"));
+            if (ix == -1) {
+                ix = splitParams.indexOf(QLatin1String("-c:a"));
+            }
+            if (ix > -1 && ix + 1 < splitParams.count()) {
+                // Remove audio codec
+                splitParams.removeAt(ix + 1);
+                splitParams[ix] = QStringLiteral("-an");
+            }
+            // Now, remove audio bitrate info if any
+            ix = splitParams.indexOf(QLatin1String("-ab"));
+            if (ix > -1) {
+                // Remove -ab
+                splitParams.removeAt(ix);
+                if (ix < splitParams.count()) {
+                    // Remove bitrate
+                    splitParams.removeAt(ix);
                 }
             }
         }
         break;
     }
     default:
+        if (m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";av"))) {
+            // Only store selected av preset
+            KdenliveSettings::setTranscodeFriendly(encodingprofiles->currentText());
+        }
         break;
     }
-    if (m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";av"))) {
-        // Only store selected av preset
-        KdenliveSettings::setTranscodeFriendly(encodingprofiles->currentText());
-    }
-    return m_encodeParams.value(encodingprofiles->currentText()).section(QLatin1Char(';'), 0, -2);
+    // Enforce constant fps
+    splitParams.insert(splitParams.count() - 1, QStringLiteral("-filter:v"));
+    splitParams.insert(splitParams.count() - 1, QStringLiteral("fps=fps=%1/%2").arg(fps_info.first).arg(fps_info.second));
+    params = splitParams.join(QLatin1Char(' '));
+    return params;
 }
 
 QString TranscodeSeek::preParams() const

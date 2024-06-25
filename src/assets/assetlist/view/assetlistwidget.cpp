@@ -179,8 +179,6 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
 
     // Search line
     m_searchLine = new QLineEdit(this);
-    m_searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    // m_searchLine->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_searchLine->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search…"));
@@ -189,10 +187,9 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) { setFilterName(str); });
     m_lay->addWidget(m_searchLine);
 
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setAcceptDrops(true);
     m_effectsTree = new QTreeView(this);
-    m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_effectsTree->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     m_effectsTree->setHeaderHidden(true);
     m_effectsTree->setAlternatingRowColors(true);
     m_effectsTree->setRootIsDecorated(true);

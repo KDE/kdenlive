@@ -3185,3 +3185,25 @@ QPixmap ProjectClip::pixmap(int framePosition, int width, int height)
     QImage img = KThumb::getFrame(frame.data());
     return QPixmap::fromImage(img /*.scaled(height, width, Qt::KeepAspectRatio)*/);
 }
+
+std::pair<int, int> ProjectClip::fpsInfo() const
+{
+    if (m_clipStatus == FileStatus::StatusReady) {
+        std::vector<int> allowedfps = {0, 1, 2, 125, 1001};
+        int fps_num = m_masterProducer->get_int("meta.media.frame_rate_num");
+        int fps_den = m_masterProducer->get_int("meta.media.frame_rate_den");
+        if (std::find(allowedfps.begin(), allowedfps.end(), fps_den) == allowedfps.end()) {
+            // This is not an allowed fps_den, adjust
+            double target_fps = double(fps_num) / fps_den;
+            bool adjusted = false;
+            std::pair<int, int> fpsInfo = KdenliveDoc::getFpsFraction(target_fps, &adjusted);
+            fps_num = fpsInfo.first;
+            fps_den = fpsInfo.second;
+        }
+        if (fps_den > 0) {
+            return {fps_num, fps_den};
+        }
+    }
+    auto prof = pCore->getProjectProfile();
+    return {prof.frame_rate_num(), prof.frame_rate_den()};
+}

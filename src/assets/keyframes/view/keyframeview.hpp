@@ -30,25 +30,16 @@ public:
 public Q_SLOTS:
     /** @brief moves the current position*/
     void slotSetPosition(int pos, bool isInRange);
-    /** @brief remove the keyframe at given position
-       If pos is negative, we remove keyframe at current position
-     */
-    void slotRemoveKeyframe(const QVector<int> &positions);
-    /** @brief Add a keyframe with given parameter value at given pos.
-       If pos is negative, then keyframe is added at current position
-    */
-    bool slotAddKeyframe(int pos = -1);
     /** @brief Duplicate selected keyframe at cursor position
      */
     void slotDuplicateKeyframe();
     /** @brief If there is a keyframe at current position, it is removed.
        Otherwise, we add a new one with given value.
     */
-    void slotAddRemove();
-    void slotGoToNext();
-    void slotGoToPrev();
     void slotModelChanged();
     void slotModelDisplayChanged();
+    void slotOnFocus();
+    void slotLoseFocus();
     void slotEditType(int type, const QPersistentModelIndex &index);
     /** @brief Emit initial info for monitor. */
     void initKeyframePos();
@@ -104,4 +95,6 @@ Q_SIGNALS:
     void modified();
     void activateEffect();
     void updateKeyframeOriginal(int pos);
+    void goToNext();
+    void goToPrevious();
 };

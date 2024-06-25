@@ -19,7 +19,7 @@ class CubicBezierSpline
 
 public:
     using Point_t = BPoint;
-    explicit CubicBezierSpline();
+    explicit CubicBezierSpline(bool empty = false);
     CubicBezierSpline(const CubicBezierSpline &spline);
     CubicBezierSpline &operator=(const CubicBezierSpline &spline);
 

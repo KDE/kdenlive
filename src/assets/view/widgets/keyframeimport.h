@@ -53,8 +53,8 @@ private:
     QList<QPoint> m_maximas;
     QDoubleSpinBox m_destMin;
     QDoubleSpinBox m_destMax;
-    QSpinBox m_offsetX;
-    QSpinBox m_offsetY;
+    QSpinBox *m_offsetX;
+    QSpinBox *m_offsetY;
     /** @brief Contains the 4 dimensional (x,y,w,h) target parameter names / tag **/
     QMap<QString, QModelIndex> m_geometryTargets;
     /** @brief Contains the 1 dimensional target parameter names / tag **/
@@ -84,12 +84,12 @@ private Q_SLOTS:
     void updateDisplay();
     void updateRange();
     void updateDestinationRange();
-    void updateView();
 
 public Q_SLOTS:
     virtual void accept() override;
     virtual void reject() override;
+    void updateView();
 
 Q_SIGNALS:
-    void updateQmlView();
+    void updateQmlView(QPersistentModelIndex, const QString animData);
 };

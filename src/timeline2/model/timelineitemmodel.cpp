@@ -112,8 +112,8 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
         return true;
     };
     clean_compositing();
+    int newTid;
     for (int ix = 0; ix < tracksCount; ++ix) {
-        int newTid;
         result = requestTrackInsertion(insertionIndex, newTid, trackName, addAudioTrack, undo, redo, false);
         // bump up insertion index so that the next new track goes after this one
         insertionIndex++;
@@ -130,16 +130,16 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
                 // new track's index is 1 further
                 insertionIndex++;
             }
-            if (addRecTrack) {
-                pCore->mixer()->monitorAudio(newTid, true);
-            }
         } else {
             break;
         }
     }
     if (result) {
-        Fun local_redo = [this]() {
+        Fun local_redo = [this, addRecTrack, newTid]() {
             buildTrackCompositing(true);
+            if (addRecTrack) {
+                pCore->mixer()->monitorAudio(newTid, true);
+            }
             return true;
         };
         local_redo();

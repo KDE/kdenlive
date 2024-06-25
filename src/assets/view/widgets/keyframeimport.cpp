@@ -7,6 +7,7 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialogButtonBox>
+#include <QFormLayout>
 #include <QHBoxLayout>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -220,7 +221,6 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         ix++;
     }*/
     connect(m_sourceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateRange);
-    connect(m_sourceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateView);
     m_alignSourceCombo = new QComboBox(this);
     m_alignSourceCombo->addItem(i18n("Top left"), 0);
     m_alignSourceCombo->addItem(i18n("Top center"), 1);
@@ -277,26 +277,59 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         // Target contains several animatable parameters, propose choice
     }
     lay->addLayout(l1);
+    QFormLayout *fl = new QFormLayout;
 
-    m_offsetX.setRange(-pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->width());
-    m_offsetY.setRange(-pCore->getCurrentProfile()->height(), pCore->getCurrentProfile()->height());
-    connect(&m_offsetX, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KeyframeImport::updateView);
-    connect(&m_offsetY, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KeyframeImport::updateView);
+    // m_offsetX = new QSpinBoxPositionWidget(i18n("Horizontal offset:"), 0, -pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->width(),
+    // QStringLiteral(), this);
+    m_offsetX = new QSpinBox(this);
+    m_offsetX->setRange(-pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->width());
+    m_offsetX->setValue(0);
+    connect(m_offsetX, &QSpinBox::valueChanged, this, &KeyframeImport::updateView);
+    QSlider *hslay = new QSlider(Qt::Horizontal, this);
+    hslay->setRange(-pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->width());
+    hslay->setValue(0);
+    connect(hslay, &QSlider::valueChanged, this, [&](int val) {
+        QSignalBlocker bk(m_offsetX);
+        m_offsetX->setValue(val);
+        updateView();
+    });
+    connect(m_offsetX, &QSpinBox::valueChanged, this, [hslay](int val) {
+        QSignalBlocker bk(hslay);
+        hslay->setValue(val);
+    });
+    QHBoxLayout *hlay = new QHBoxLayout;
+    hlay->addWidget(hslay);
+    hlay->addWidget(m_offsetX);
 
-    // Destination range
-    l1 = new QHBoxLayout;
-    lab = new QLabel(i18n("Position offset:"), this);
-    l1->addWidget(lab);
-    l1->addWidget(&m_offsetX);
-    l1->addWidget(&m_offsetY);
-    lay->addLayout(l1);
+    m_offsetY = new QSpinBox(this);
+    m_offsetY->setRange(-pCore->getCurrentProfile()->height(), pCore->getCurrentProfile()->height());
+    m_offsetY->setValue(0);
+    connect(m_offsetY, &QSpinBox::valueChanged, this, &KeyframeImport::updateView);
+    QSlider *vslay = new QSlider(Qt::Horizontal, this);
+    vslay->setRange(-pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->width());
+    vslay->setValue(0);
+    connect(vslay, &QSlider::valueChanged, this, [&](int val) {
+        QSignalBlocker bk(m_offsetY);
+        m_offsetY->setValue(val);
+        updateView();
+    });
+    connect(m_offsetY, &QSpinBox::valueChanged, this, [vslay](int val) {
+        QSignalBlocker bk(vslay);
+        vslay->setValue(val);
+    });
+    QHBoxLayout *vlay = new QHBoxLayout;
+    vlay->addWidget(vslay);
+    vlay->addWidget(m_offsetY);
+
+    fl->addRow(new QLabel(i18n("Horizontal offset:")), hlay);
+    fl->addRow(new QLabel(i18n("Vertical offset:")), vlay);
+    lay->addLayout(fl);
 
     // Source range
     m_sourceRangeLabel = new QLabel(i18n("Source range %1 to %2", 0, 100), this);
     lay->addWidget(m_sourceRangeLabel);
 
     // update range info
-
     connect(m_targetCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateDestinationRange);
 
     // Destination range
@@ -336,7 +369,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     m_isReady = true;
     updateDestinationRange();
     updateDataDisplay();
-    updateView();
+    connect(m_sourceCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &KeyframeImport::updateView);
 }
 
 KeyframeImport::~KeyframeImport() = default;
@@ -418,8 +451,8 @@ void KeyframeImport::updateRange()
     int pos = m_sourceCombo->currentData().toInt();
     m_alignSourceCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
     m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
-    m_offsetX.setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
-    m_offsetY.setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
+    m_offsetX->setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
+    m_offsetY->setEnabled(pos != ImportRoles::SimpleValue && pos != ImportRoles::RotoData);
     m_alignTargetCombo->setEnabled(pos == ImportRoles::Position || pos == ImportRoles::InvertedPosition);
     m_limitRange->setEnabled(pos != ImportRoles::RotoData);
     QString rangeText;
@@ -805,7 +838,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         if (wDist > 0) {
             painter.setPen(cW);
             int val = int((rect.w - wOffset) * maxHeight / wDist);
-            qDebug() << "// OFFSET: " << wOffset << ", maxH: " << maxHeight << ", wDIst:" << wDist << " = " << val;
+            // qDebug() << "// OFFSET: " << wOffset << ", maxH: " << maxHeight << ", wDIst:" << wDist << " = " << val;
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (hDist > 0) {
@@ -856,6 +889,15 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
 
 void KeyframeImport::importSelectedData()
 {
+    // First, restore original keyframes
+    for (int i = 0; i < m_targetCombo->count(); i++) {
+        QPersistentModelIndex ix = m_targetCombo->itemData(i).toModelIndex();
+        if (m_originalParams.contains(ix)) {
+            QString paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
+            m_model->getAsset()->set(paramName.toUtf8().constData(), m_originalParams.value(ix).toUtf8().constData());
+            Q_EMIT updateQmlView(ix, m_originalParams.value(ix).toUtf8().constData());
+        }
+    }
     // Simple double value
     std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, selectedData());
     std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
@@ -1023,8 +1065,8 @@ void KeyframeImport::importSelectedData()
                         break;
                     }
                 }
-                rect.x += m_offsetX.value();
-                rect.y += m_offsetY.value();
+                rect.x += m_offsetX->value();
+                rect.y += m_offsetY->value();
                 switch (convertMode) {
                 case ImportRoles::RotoData:
                     break;
@@ -1277,8 +1319,8 @@ void KeyframeImport::updateView()
                 break;
             }
         }
-        rect.x += m_offsetX.value();
-        rect.y += m_offsetY.value();
+        rect.x += m_offsetX->value();
+        rect.y += m_offsetY->value();
         switch (convertMode) {
         case ImportRoles::RotoData:
             break;
@@ -1363,12 +1405,12 @@ void KeyframeImport::updateView()
     std::shared_ptr<Mlt::Animation> anim2(new Mlt::Animation(animData->get_animation("key2")));
     anim2->interpolate();
     m_model->getAsset()->set(paramName.toUtf8().constData(), anim2->serialize_cut());
+    Q_EMIT updateQmlView(ix, anim2->serialize_cut());
     if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
         pCore->getMonitor(Kdenlive::ClipMonitor)->refreshMonitor();
     } else {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitor();
     }
-    Q_EMIT updateQmlView();
 }
 
 void KeyframeImport::reject()
@@ -1383,6 +1425,7 @@ void KeyframeImport::reject()
         if (m_originalParams.contains(ix)) {
             QString paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
             m_model->getAsset()->set(paramName.toUtf8().constData(), m_originalParams.value(ix).toUtf8().constData());
+            Q_EMIT updateQmlView(ix, m_originalParams.value(ix).toUtf8().constData());
         }
     }
     if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
@@ -1390,7 +1433,6 @@ void KeyframeImport::reject()
     } else {
         pCore->getMonitor(Kdenlive::ProjectMonitor)->refreshMonitor();
     }
-    Q_EMIT updateQmlView();
     QDialog::reject();
 }
 

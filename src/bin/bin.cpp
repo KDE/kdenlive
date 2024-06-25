@@ -4007,6 +4007,14 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
         if (!res) {
             pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::ErrorMessage);
         } else {
+            const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+            for (auto &ix : indexes) {
+                if (m_proxyModel->mapToSource(ix) == parent) {
+                    // Clip is already selected, nothing to do
+                    return;
+                }
+            }
+            setCurrent(parentItem);
             m_proxyModel->selectionModel()->clearSelection();
             const QModelIndex id = m_itemModel->index(row, 0, parentIndex);
             const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, parentIndex);
@@ -4014,7 +4022,6 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
                 m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
                                                        QItemSelectionModel::Select);
             }
-            setCurrent(parentItem);
         }
     }
 }
@@ -5614,11 +5621,12 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
                 ObjectId oid(KdenliveObjectType::BinClip, i.key().toInt(), QUuid());
                 if (clip->clipType() == ClipType::Timeline) {
                     // Ensure we use the correct out point
-                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), 0,
-                                         clip->frameDuration(), replace, clip.get(), false, false);
+                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
+                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), 0, clip->frameDuration(), replace, clip.get(),
+                                         false, false);
                 } else {
-                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1,
-                                         replace, clip.get(), false, false);
+                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
+                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, replace, clip.get(), false, false);
                 }
             }
             m_transcodingDialog->deleteLater();
@@ -5662,7 +5670,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
                     i.next();
                     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
                     TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false,
+                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, true, clip.get(), false,
                                          i.key() == firstId ? checkProfile : false);
                 }
             }

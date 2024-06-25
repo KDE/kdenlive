@@ -34,6 +34,7 @@ public:
     void setValue(const QRect r, double opacity = 1);
     void connectMonitor(bool activate, bool singleKeyframe = false);
     void setEnabled(bool enable);
+    const QRect getRect() const;
 
 private:
     int m_min;

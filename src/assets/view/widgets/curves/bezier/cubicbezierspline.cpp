@@ -12,10 +12,12 @@ static bool pointLessThan(const BPoint &a, const BPoint &b)
     return a.p.x() < b.p.x();
 }
 
-CubicBezierSpline::CubicBezierSpline()
+CubicBezierSpline::CubicBezierSpline(bool empty)
 {
-    m_points.append(BPoint(QPointF(0, 0), QPointF(0, 0), QPointF(.1, .1)));
-    m_points.append(BPoint(QPointF(.9, .9), QPointF(1, 1), QPointF(1, 1)));
+    if (!empty) {
+        m_points.append(BPoint(QPointF(0, 0), QPointF(0, 0), QPointF(.1, .1)));
+        m_points.append(BPoint(QPointF(.9, .9), QPointF(1, 1), QPointF(1, 1)));
+    }
 }
 
 CubicBezierSpline::CubicBezierSpline(const CubicBezierSpline &spline)
@@ -114,9 +116,10 @@ BPoint CubicBezierSpline::getPoint(int ix, int normalisedWidth, int normalisedHe
     BPoint p = m_points.at(ix);
     for (int i = 0; i < 3; ++i) {
         p[i].rx() *= normalisedWidth;
-        p[i].ry() *= normalisedHeight;
         if (invertHeight) {
-            p[i].ry() = normalisedHeight - p[i].y();
+            p[i].ry() = normalisedHeight * (1. - p[i].y());
+        } else {
+            p[i].ry() *= normalisedHeight;
         }
     }
     return p;
@@ -177,6 +180,9 @@ std::pair<int, BPoint::PointType> CubicBezierSpline::closestPoint(const QPointF 
     for (const auto &point : m_points) {
         for (int j = 0; j < 3; ++j) {
             double dx = point[j].x() - p.x();
+            if (qAbs(dx) > nearestDistanceSquared) {
+                continue;
+            }
             double dy = point[j].y() - p.y();
             double distanceSquared = dx * dx + dy * dy;
             if (distanceSquared < nearestDistanceSquared) {

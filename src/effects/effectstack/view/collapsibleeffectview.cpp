@@ -449,9 +449,9 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
     if (active) {
         qDebug() << "=============\nSHOWING MONITOR SCENE: " << needsMonitorEffectScene();
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    }
-    if (active) {
-        active = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
+        if (m_view->keyframesAllowed() && m_view->hasMultipleKeyframes()) {
+            active = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
+        }
     }
     Q_EMIT m_view->initKeyframeView(active, active);
     if (m_inOutButton->isChecked()) {

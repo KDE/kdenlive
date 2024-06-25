@@ -42,8 +42,9 @@ Item {
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
     property bool iskeyframe
-    property bool cursorOutsideEffect
-    property bool showHandles: (root.iskeyframe || controller.autoKeyframe) && !root.cursorOutsideEffect
+    property bool cursorOutsideEffect: true
+    property bool disableHandles: root.cursorOutsideEffect && root.centerPoints.length > 1
+    property bool showHandles: (root.iskeyframe || controller.autoKeyframe) && !disableHandles
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
@@ -98,7 +99,7 @@ Item {
             var p1 = convertPoint(root.centerPoints[0])
             context.moveTo(p1.x, p1.y)
             context.clearRect(0,0, width, height);
-            if (root.centerPoints.length > 1 && !root.cursorOutsideEffect) {
+            if (!root.disableHandles) {
               for(var i = 0; i < root.centerPoints.length; i++)
               {
                 context.translate(p1.x, p1.y)
@@ -232,7 +233,7 @@ Item {
               if (isMoving) {
                   return true;
               }
-              if (root.cursorOutsideEffect || root.centerPoints.length <= 1) {
+              if (root.disableHandles) {
                 root.requestedKeyFrame = -1
                 return false
               }
@@ -312,11 +313,11 @@ Item {
         height: root.framesize.height * root.scaley
         enabled: root.iskeyframe || controller.autoKeyframe
         color: "transparent"
-        border.color: root.cursorOutsideEffect ? 'transparent' : "#ff0000"
+        border.color: root.disableHandles ? 'transparent' : "#ff0000"
         Shape {
             id: shape
             anchors.fill: parent
-            visible: root.cursorOutsideEffect
+            visible: root.disableHandles
             ShapePath {
                 strokeColor: 'red'
                 strokeWidth: 1
