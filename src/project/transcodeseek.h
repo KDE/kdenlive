@@ -24,7 +24,7 @@ public:
 
     void addUrl(const QString &file, const QString &id, const QString &suffix, ClipType::ProducerType type, const QString &message);
     QMap<QString,QStringList>  ids() const;
-    QString params(int clipType) const;
+    QString params(int clipType, std::pair<int, int> fps_info) const;
     QString preParams() const;
     
 private:

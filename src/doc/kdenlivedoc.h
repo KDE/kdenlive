@@ -328,6 +328,8 @@ public:
     bool checkConsistency();
     /** @brief Returns true if the document is loading or closing */
     bool isBusy() const;
+    /** @brief Returns a valid {fps_num, fps_den} based on a fps */
+    static std::pair<int, int> getFpsFraction(double fps, bool *adjusted);
 
 protected:
     static int next_id; /// next valid id to assign

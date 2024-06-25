@@ -1852,6 +1852,42 @@ void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThum
     Q_EMIT docModified(true);
 }
 
+std::pair<int, int> KdenliveDoc::getFpsFraction(double fps, bool *adjusted)
+{
+    int m_frame_rate_num = 0;
+    int m_frame_rate_den = 0;
+    double fps_int;
+    double fps_frac = std::modf(fps, &fps_int);
+    if (fps_frac < 0.4) {
+        m_frame_rate_num = int(fps_int);
+        m_frame_rate_den = 1;
+    } else {
+        // Check for 23.98, 29.97, 59.94
+        if (qFuzzyCompare(fps_int, 23.0)) {
+            if (qFuzzyCompare(fps, 23.98) || fps_frac > 0.94) {
+                m_frame_rate_num = 24000;
+                m_frame_rate_den = 1001;
+            }
+        } else if (qFuzzyCompare(fps_int, 29.0)) {
+            if (qFuzzyCompare(fps, 29.97) || fps_frac > 0.94) {
+                m_frame_rate_num = 30000;
+                m_frame_rate_den = 1001;
+            }
+        } else if (qFuzzyCompare(fps_int, 59.0)) {
+            if (qFuzzyCompare(fps, 59.94) || fps_frac > 0.9) {
+                m_frame_rate_num = 60000;
+                m_frame_rate_den = 1001;
+            }
+        }
+        if (m_frame_rate_den == 0) {
+            *adjusted = true;
+            m_frame_rate_num = qRound(fps);
+            m_frame_rate_den = 1;
+        }
+    }
+    return {m_frame_rate_num, m_frame_rate_den};
+}
+
 void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
 {
     // Request profile update
@@ -1859,39 +1895,12 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
     QString adjustMessage;
     std::unique_ptr<ProfileParam> profile(pf);
     double fps = double(profile->frame_rate_num()) / profile->frame_rate_den();
-    double fps_int;
-    double fps_frac = std::modf(fps, &fps_int);
-    if (fps_frac < 0.4) {
-        profile->m_frame_rate_num = int(fps_int);
-        profile->m_frame_rate_den = 1;
-    } else {
-        // Check for 23.98, 29.97, 59.94
-        bool fpsFixed = false;
-        if (qFuzzyCompare(fps_int, 23.0)) {
-            if (qFuzzyCompare(fps, 23.98) || fps_frac > 0.94) {
-                profile->m_frame_rate_num = 24000;
-                profile->m_frame_rate_den = 1001;
-                fpsFixed = true;
-            }
-        } else if (qFuzzyCompare(fps_int, 29.0)) {
-            if (qFuzzyCompare(fps, 29.97) || fps_frac > 0.94) {
-                profile->m_frame_rate_num = 30000;
-                profile->m_frame_rate_den = 1001;
-                fpsFixed = true;
-            }
-        } else if (qFuzzyCompare(fps_int, 59.0)) {
-            if (qFuzzyCompare(fps, 59.94) || fps_frac > 0.9) {
-                profile->m_frame_rate_num = 60000;
-                profile->m_frame_rate_den = 1001;
-                fpsFixed = true;
-            }
-        }
-        if (!fpsFixed) {
-            // Unknown profile fps, warn user
-            profile->m_frame_rate_num = qRound(fps);
-            profile->m_frame_rate_den = 1;
-            adjustMessage = i18n("Warning: non standard fps, adjusting to closest integer. ");
-        }
+    bool adjusted = false;
+    std::pair<int, int> fpsInfo = getFpsFraction(fps, &adjusted);
+    profile->m_frame_rate_num = fpsInfo.first;
+    profile->m_frame_rate_den = fpsInfo.second;
+    if (adjusted) {
+        adjustMessage = i18n("Warning: non standard fps, adjusting to closest integer. ");
     }
     QString matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
     if (matchingProfile.isEmpty() && (profile->width() % 2 != 0)) {

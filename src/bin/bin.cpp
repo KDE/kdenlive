@@ -5621,11 +5621,12 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
                 ObjectId oid(KdenliveObjectType::BinClip, i.key().toInt(), QUuid());
                 if (clip->clipType() == ClipType::Timeline) {
                     // Ensure we use the correct out point
-                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), 0,
-                                         clip->frameDuration(), replace, clip.get(), false, false);
+                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
+                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), 0, clip->frameDuration(), replace, clip.get(),
+                                         false, false);
                 } else {
-                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(), m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1,
-                                         replace, clip.get(), false, false);
+                    TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
+                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, replace, clip.get(), false, false);
                 }
             }
             m_transcodingDialog->deleteLater();
@@ -5669,7 +5670,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
                     i.next();
                     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
                     TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(i.value().at(1).toInt()), -1, -1, true, clip.get(), false,
+                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, true, clip.get(), false,
                                          i.key() == firstId ? checkProfile : false);
                 }
             }
