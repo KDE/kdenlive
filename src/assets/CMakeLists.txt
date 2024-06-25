@@ -45,6 +45,7 @@ set(kdenlive_SRCS
   assets/view/widgets/curves/abstractcurvewidget.h
   assets/view/widgets/curves/bezier/beziersplineeditor.cpp
   assets/view/widgets/curves/bezier/cubicbezierspline.cpp
+  assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp
   assets/view/widgets/curves/cubic/kis_curve_widget.cpp
   assets/view/widgets/curves/cubic/kis_cubic_curve.cpp
   PARENT_SCOPE)

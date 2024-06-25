@@ -249,7 +249,7 @@ namespace Catch {
 #  define CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION  __pragma( warning(pop) )
 
 // Universal Windows platform does not support SEH
-// Or console colors (or console at all...)
+// Or console colours (or console at all...)
 #  if defined(WINAPI_FAMILY) && (WINAPI_FAMILY == WINAPI_FAMILY_APP)
 #    define CATCH_CONFIG_COLOUR_NONE
 #  else
@@ -2212,7 +2212,7 @@ namespace Catch {
             m_result( result )
         {}
 
-        // We don't actually need a virtual destructor, but many static analyzers
+        // We don't actually need a virtual destructor, but many static analysers
         // complain if it's not here :-(
         virtual ~ITransientExpression();
 
@@ -7183,7 +7183,8 @@ namespace Catch {
 // end catch_estimate_clock.hpp
 // start catch_analyse.hpp
 
-// Run and analyze one benchmark
+ // Run and analyse one benchmark
+
 
 // start catch_sample_analysis.hpp
 
