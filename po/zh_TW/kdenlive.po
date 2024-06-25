@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-21 02:27+0000\n"
+"POT-Creation-Date: 2024-06-25 02:24+0000\n"
 "PO-Revision-Date: 2024-06-12 03:08+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4374,7 +4374,7 @@ msgstr "缺乏來源素材"
 msgid "Unable to write to file %1"
 msgstr "無法寫入到檔案 %1"
 
-#: src/bin/bin.cpp:1881 src/bin/bin.cpp:2551 src/doc/kdenlivedoc.cpp:742
+#: src/bin/bin.cpp:1881 src/bin/bin.cpp:2551 src/doc/kdenlivedoc.cpp:743
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -5293,28 +5293,28 @@ msgstr ""
 msgid "Update guides categories"
 msgstr "更新參照線分類"
 
-#: src/bin/model/markerlistmodel.cpp:258 src/bin/model/markerlistmodel.cpp:276
+#: src/bin/model/markerlistmodel.cpp:260 src/bin/model/markerlistmodel.cpp:278
 #, kde-format
 msgid "Rename marker"
 msgstr "重新命名標記"
 
-#: src/bin/model/markerlistmodel.cpp:260 src/bin/model/markerlistmodel.cpp:278
+#: src/bin/model/markerlistmodel.cpp:262 src/bin/model/markerlistmodel.cpp:280
 #: src/dialogs/textbasededit.cpp:53
 #, kde-format
 msgid "Add marker"
 msgstr "新增標記"
 
-#: src/bin/model/markerlistmodel.cpp:308
+#: src/bin/model/markerlistmodel.cpp:310
 #, kde-format
 msgid "Delete marker"
 msgstr "刪除標記"
 
-#: src/bin/model/markerlistmodel.cpp:335
+#: src/bin/model/markerlistmodel.cpp:337
 #, kde-format
 msgid "Edit marker"
 msgstr "編輯標記"
 
-#: src/bin/model/markerlistmodel.cpp:690 src/bin/model/markerlistmodel.cpp:701
+#: src/bin/model/markerlistmodel.cpp:692 src/bin/model/markerlistmodel.cpp:703
 #, kde-format
 msgid "Import markers"
 msgstr "匯入標記"
@@ -5322,56 +5322,56 @@ msgstr "匯入標記"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/model/markerlistmodel.cpp:729 src/definitions.cpp:75
+#: src/bin/model/markerlistmodel.cpp:731 src/definitions.cpp:75
 #: src/definitions.cpp:100 src/ui/exportguidesdialog_ui.ui:18
 #: src/ui/markerdialog_ui.ui:24 src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "標記"
 
-#: src/bin/model/markerlistmodel.cpp:737
+#: src/bin/model/markerlistmodel.cpp:739
 #, kde-format
 msgid "Recovered %1"
 msgstr "已復原 %1"
 
-#: src/bin/model/markerlistmodel.cpp:859
+#: src/bin/model/markerlistmodel.cpp:861
 #, kde-format
 msgid "Delete all markers"
 msgstr "刪除所有標記"
 
-#: src/bin/model/markerlistmodel.cpp:868 src/bin/model/markerlistmodel.cpp:906
-#: src/bin/model/markerlistmodel.cpp:931
+#: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:908
+#: src/bin/model/markerlistmodel.cpp:933
 #: src/timeline2/view/timelinecontroller.cpp:1500
 #, kde-format
 msgid "No guide found at current position"
 msgstr "游標時間上沒有參照線"
 
-#: src/bin/model/markerlistmodel.cpp:871
+#: src/bin/model/markerlistmodel.cpp:873
 #, kde-format
 msgid "Edit Markers Category"
 msgstr "編輯標記分類"
 
-#: src/bin/model/markerlistmodel.cpp:877
+#: src/bin/model/markerlistmodel.cpp:879
 #, kde-format
 msgid "Markers Category"
 msgstr "標記分類"
 
-#: src/bin/model/markerlistmodel.cpp:895
+#: src/bin/model/markerlistmodel.cpp:897
 #, kde-format
 msgid "Edit markers"
 msgstr "編輯標記"
 
-#: src/bin/model/markerlistmodel.cpp:913
+#: src/bin/model/markerlistmodel.cpp:915
 #, kde-format
 msgid "Edit Marker"
 msgstr "編輯標記"
 
-#: src/bin/model/markerlistmodel.cpp:938
+#: src/bin/model/markerlistmodel.cpp:940
 #, kde-format
 msgid "Add Markers"
 msgstr "新增標記"
 
-#: src/bin/model/markerlistmodel.cpp:953
+#: src/bin/model/markerlistmodel.cpp:955
 #, kde-format
 msgid "Add markers"
 msgstr "新增標記"
@@ -5988,7 +5988,7 @@ msgstr "文字素材"
 msgid "Create Text clip"
 msgstr "建立文字素材"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1158
+#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1159
 #, kde-format
 msgid "Template title clip"
 msgstr "標題樣板素材"
@@ -6304,8 +6304,8 @@ msgid "Export Guides Data"
 msgstr "匯出參照線資料"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1680
-#: src/dialogs/renderwidget.cpp:1707 src/doc/kdenlivedoc.cpp:759
-#: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1310
+#: src/dialogs/renderwidget.cpp:1707 src/doc/kdenlivedoc.cpp:760
+#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1311
 #: src/effects/effectlist/model/effecttreemodel.cpp:292
 #: src/effects/effectlist/model/effecttreemodel.cpp:308
 #: src/effects/effectsrepository.cpp:406
@@ -8782,19 +8782,19 @@ msgstr ""
 msgid "Document project folder is invalid, using system default folders"
 msgstr "文件資料夾無效，將使用系統預設資料夾"
 
-#: src/doc/kdenlivedoc.cpp:577 src/doc/kdenlivedoc.cpp:587
+#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:588
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "無法建立自動儲存檔案 %1"
 
-#: src/doc/kdenlivedoc.cpp:582 src/doc/kdenlivedoc.cpp:720
+#: src/doc/kdenlivedoc.cpp:583 src/doc/kdenlivedoc.cpp:721
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr ""
 "無法寫入檔案 %1。\n"
 "場景清單不正確。"
 
-#: src/doc/kdenlivedoc.cpp:738
+#: src/doc/kdenlivedoc.cpp:739
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -8803,43 +8803,43 @@ msgstr ""
 "您的專案檔案已更新至最新的 Kdenlive 文件版本。\n"
 "為了確保沒有喪失資料，已經建立了稱作 %1 的備份複本。"
 
-#: src/doc/kdenlivedoc.cpp:752
+#: src/doc/kdenlivedoc.cpp:753
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
 "it was not possible to create the backup copy %1."
 msgstr "您的專案檔案已更新至最新的 Kdenlive 文件版本，但無法建立備份複本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1401
+#: src/doc/kdenlivedoc.cpp:894 src/project/projectmanager.cpp:1401
 #: src/project/projectmanager.cpp:1437
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移動專案資料夾時發生錯誤：%1"
 
-#: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2330
+#: src/doc/kdenlivedoc.cpp:1084 src/doc/kdenlivedoc.cpp:2330
 #: src/project/dialogs/archivewidget.cpp:241
 #: src/project/projectmanager.cpp:1657
 #, kde-format
 msgid "Untitled"
 msgstr "無標題"
 
-#: src/doc/kdenlivedoc.cpp:1144
+#: src/doc/kdenlivedoc.cpp:1145
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "輸入樣板路徑"
 
-#: src/doc/kdenlivedoc.cpp:1317
+#: src/doc/kdenlivedoc.cpp:1318
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "從專案匯入了以下效果："
 
-#: src/doc/kdenlivedoc.cpp:1354 src/doc/kdenlivedoc.cpp:1368
+#: src/doc/kdenlivedoc.cpp:1355 src/doc/kdenlivedoc.cpp:1369
 #, kde-format
 msgid "Project Folder"
 msgstr "專案資料夾"
 
-#: src/doc/kdenlivedoc.cpp:1412 src/doc/kdenlivedoc.cpp:1421
+#: src/doc/kdenlivedoc.cpp:1413 src/doc/kdenlivedoc.cpp:1422
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -8848,24 +8848,24 @@ msgstr ""
 "無法建立備份複本：\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1566
+#: src/doc/kdenlivedoc.cpp:1567
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "新增代理素材"
 
-#: src/doc/kdenlivedoc.cpp:1568
+#: src/doc/kdenlivedoc.cpp:1569
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "移除代理素材"
 
-#: src/doc/kdenlivedoc.cpp:1612 src/doc/kdenlivedoc.cpp:1670
+#: src/doc/kdenlivedoc.cpp:1613 src/doc/kdenlivedoc.cpp:1671
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "素材型態不支援代理"
 
-#: src/doc/kdenlivedoc.cpp:1808
+#: src/doc/kdenlivedoc.cpp:1809
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -8874,12 +8874,12 @@ msgid ""
 msgstr ""
 "專案使用非標準的幀率（%1），這會造成素材位置些微不正確以及影格有時間位移。"
 
-#: src/doc/kdenlivedoc.cpp:1893
+#: src/doc/kdenlivedoc.cpp:1894
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "警告：非標準的 FPS，將調整至最近的整數。"
 
-#: src/doc/kdenlivedoc.cpp:1912
+#: src/doc/kdenlivedoc.cpp:1913
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -8888,43 +8888,43 @@ msgstr ""
 "您的預設專案編碼方案是 %1，但是您的素材的編碼方案 (%2) 是 %3。\n"
 "您要變更未來專案的預設編碼方案嗎？"
 
-#: src/doc/kdenlivedoc.cpp:1914
+#: src/doc/kdenlivedoc.cpp:1915
 #, kde-format
 msgid "Change default project profile"
 msgstr "變更預設專案編碼方案"
 
-#: src/doc/kdenlivedoc.cpp:1914
+#: src/doc/kdenlivedoc.cpp:1915
 #, kde-format
 msgid "Change default to %1"
 msgstr "將預設改為 %1"
 
-#: src/doc/kdenlivedoc.cpp:1915
+#: src/doc/kdenlivedoc.cpp:1916
 #, kde-format
 msgid "Keep current default %1"
 msgstr "保留目前預設 %1"
 
-#: src/doc/kdenlivedoc.cpp:1915
+#: src/doc/kdenlivedoc.cpp:1916
 #, kde-format
 msgid "Ask me later"
 msgstr "稍後問我"
 
-#: src/doc/kdenlivedoc.cpp:1935
+#: src/doc/kdenlivedoc.cpp:1936
 #, kde-format
 msgid "Switch"
 msgstr "切換"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1937 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1938 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "取消"
 
-#: src/doc/kdenlivedoc.cpp:1939
+#: src/doc/kdenlivedoc.cpp:1940
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "要切換到素材 (%1) 設定檔 %2 嗎？"
 
-#: src/doc/kdenlivedoc.cpp:1944
+#: src/doc/kdenlivedoc.cpp:1945
 #, kde-format
 msgid ""
 "\n"
@@ -8933,7 +8933,7 @@ msgstr ""
 "\n"
 "設定檔 FPS 已從原始 %1 調整"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1949
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
