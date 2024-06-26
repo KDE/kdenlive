@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-25 00:38+0000\n"
+"POT-Creation-Date: 2024-06-26 00:38+0000\n"
 "PO-Revision-Date: 2024-05-31 18:32+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -880,13 +880,23 @@ msgid "Text"
 msgstr "النص"
 
 #: data/effects/dynamictext.xml:44
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "timecode,frame,file date,local file date,source frame rate,source codec,"
+#| "source bit rate,source width,source height,source comment"
 msgid ""
-"timecode,frame,file date,local file date,source frame rate,source codec,"
-"source bit rate,source width,source height,source comment"
+"timecode,frame,creation date,file date (GMT),file date (local),source frame "
+"rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
 "رمز الوقت,إطار,تاريخ الملف,تاريخ الملف المحلي,معدل أطر المصدر,مزمار المصدر,"
 "معدل بت المصدر,عرض المصدر,ارتفاع المصدر,ملاحظة المصدر"
+
+#: data/effects/dynamictext.xml:45
+#, no-c-format, kde-format
+msgid ""
+"You can also enter strftime parameters to customize the output, like: "
+"#createdate %H:%M %D#"
+msgstr ""
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -3473,7 +3483,7 @@ msgstr "سلس (مهمل)"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:210
-#: src/assets/view/widgets/keyframewidget.cpp:70 src/dialogs/timeremap.cpp:1702
+#: src/assets/view/widgets/keyframewidget.cpp:90 src/dialogs/timeremap.cpp:1702
 #: src/dialogs/timeremap.cpp:1727
 #, kde-format
 msgid "Add keyframe"
@@ -3488,7 +3498,7 @@ msgstr "غير نوع الإطار الرئيس"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:262
-#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1723
+#: src/assets/view/widgets/keyframewidget.cpp:92 src/dialogs/timeremap.cpp:1723
 #, kde-format
 msgid "Delete keyframe"
 msgstr "احذف الإطار الرئيس"
@@ -3502,7 +3512,7 @@ msgstr "حرك الإطار الرئيس"
 #: src/assets/keyframes/model/keyframemodel.cpp:460
 #: src/assets/keyframes/model/keyframemodellist.cpp:378
 #: src/assets/keyframes/model/keyframemodellist.cpp:464
-#: src/assets/keyframes/view/keyframeview.cpp:296
+#: src/assets/keyframes/view/keyframeview.cpp:199
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3530,7 +3540,7 @@ msgstr "تأثير"
 msgid "Reset %1"
 msgstr "صفّر %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1356
+#: src/assets/keyframes/model/keyframemodel.cpp:1360
 #, kde-format
 msgid "Reset effect"
 msgstr "صفّر التّأثير"
@@ -3541,7 +3551,7 @@ msgid "Delete keyframes"
 msgstr "احذف الأطر الرئيسة"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:702
-#: src/assets/model/assetparametermodel.cpp:1466
+#: src/assets/model/assetparametermodel.cpp:1471
 #, kde-format
 msgid "Update effect"
 msgstr "حدث التأثير"
@@ -3551,28 +3561,12 @@ msgstr "حدث التأثير"
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "عثر على إطار رئيس مفقود عند %1، وأضيف آلياً"
 
-#: src/assets/keyframes/view/keyframeview.cpp:131
+#: src/assets/keyframes/view/keyframeview.cpp:139
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "كرر الإطار الرئيس"
 
-#: src/assets/keyframes/view/keyframeview.cpp:184
-#, kde-format
-msgid "Cannot remove the last keyframe"
-msgstr "لا يمكن إزالة الإطار الرئيس الأخير"
-
-#: src/assets/keyframes/view/keyframeview.cpp:197
-#, kde-format
-msgid "Remove keyframe"
-msgid_plural "Remove keyframes"
-msgstr[0] "إزالة الإطار الرئيس"
-msgstr[1] "إزالة الإطار الرئيس"
-msgstr[2] "إزالة الإطارين الرئيسين"
-msgstr[3] "إزالة الإطارات الرئيسة"
-msgstr[4] "إزالة الإطارات الرئيسة"
-msgstr[5] "إزالة الإطارات الرئيسة"
-
-#: src/assets/keyframes/view/keyframeview.cpp:646
+#: src/assets/keyframes/view/keyframeview.cpp:549
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
@@ -3583,38 +3577,38 @@ msgstr[3] "حرك إطارات مفتاحيّة"
 msgstr[4] "حرك إطارات مفتاحيّة"
 msgstr[5] "حرك إطارات مفتاحيّة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:905
+#: src/assets/keyframes/view/keyframeview.cpp:809
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "حدّث موضع س للأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:913
+#: src/assets/keyframes/view/keyframeview.cpp:817
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "حدّث موضع ص للأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:921
+#: src/assets/keyframes/view/keyframeview.cpp:825
 #, kde-format
 msgid "Update keyframes width"
 msgstr "حدّث عرض للأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:929
+#: src/assets/keyframes/view/keyframeview.cpp:833
 #, kde-format
 msgid "Update keyframes height"
 msgstr "حدّث ارتفاع للأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
+#: src/assets/keyframes/view/keyframeview.cpp:841
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "حدّث عتمة الأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:942
-#: src/assets/keyframes/view/keyframeview.cpp:944
+#: src/assets/keyframes/view/keyframeview.cpp:846
+#: src/assets/keyframes/view/keyframeview.cpp:848
 #, kde-format
 msgid "Update keyframes value"
 msgstr "حدّث قيمة الأطر الرئيسة"
 
-#: src/assets/keyframes/view/keyframeview.cpp:948
+#: src/assets/keyframes/view/keyframeview.cpp:852
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "نسخت قيمة الإطار الرئيس"
@@ -3636,13 +3630,13 @@ msgstr "حرّر الإطار الرئيس %1"
 msgid "Update %1"
 msgstr "حدّث %1"
 
-#: src/assets/model/assetparametermodel.cpp:1316
-#: src/assets/model/assetparametermodel.cpp:1363
+#: src/assets/model/assetparametermodel.cpp:1321
+#: src/assets/model/assetparametermodel.cpp:1368
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "تعذّر فتح ملفّ المعد مسبقا %1"
 
-#: src/assets/model/assetparametermodel.cpp:1440
+#: src/assets/model/assetparametermodel.cpp:1445
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -3710,6 +3704,13 @@ msgstr "خ: "
 #, kde-format
 msgid "B: "
 msgstr "ز: "
+
+#: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
+#, fuzzy, kde-format
+#| msgid "Move keyframe"
+#| msgid_plural "Move keyframes"
+msgid "Move Keyframe"
+msgstr "حرك الإطار الرئيس"
 
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, kde-format
@@ -3865,16 +3866,18 @@ msgstr "ص"
 
 #: src/assets/view/widgets/keyframeimport.cpp:426
 #: src/assets/view/widgets/keyframeimport.cpp:813
-#: src/assets/view/widgets/keyframewidget.cpp:257
-#: src/assets/view/widgets/keyframewidget.cpp:318
+#: src/assets/view/widgets/keyframewidget.cpp:272
+#: src/assets/view/widgets/keyframewidget.cpp:333
+#: src/assets/view/widgets/keyframewidget.cpp:577
 #, kde-format
 msgid "Width"
 msgstr "العرض"
 
 #: src/assets/view/widgets/keyframeimport.cpp:429
 #: src/assets/view/widgets/keyframeimport.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:256
-#: src/assets/view/widgets/keyframewidget.cpp:312
+#: src/assets/view/widgets/keyframewidget.cpp:271
+#: src/assets/view/widgets/keyframewidget.cpp:327
+#: src/assets/view/widgets/keyframewidget.cpp:578
 #, kde-format
 msgid "Height"
 msgstr "الارتفاع"
@@ -3902,31 +3905,42 @@ msgstr "ص"
 msgid "Import keyframes from clipboard"
 msgstr "استورد الأطر الرئيسة من الحافظة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1708
+#: src/assets/view/widgets/keyframewidget.cpp:74
+#, fuzzy, kde-format
+#| msgid "Timeline Preview"
+msgid "Switch to timeline view"
+msgstr "معاينة الخطّ الزّمنيّ"
+
+#: src/assets/view/widgets/keyframewidget.cpp:76
+#, kde-format
+msgid "Switch to curve editor view"
+msgstr ""
+
+#: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "انتقل إلى الإطار الرئيس السّابق"
 
-#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1705
-#: src/mainwindow.cpp:1900
+#: src/assets/view/widgets/keyframewidget.cpp:101
+#: src/dialogs/timeremap.cpp:1705 src/mainwindow.cpp:1900
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "انتقل إلى الإطار الرئيس التّالي"
 
-#: src/assets/view/widgets/keyframewidget.cpp:86 src/dialogs/timeremap.cpp:1713
-#: src/dialogs/timeremap.cpp:1715
+#: src/assets/view/widgets/keyframewidget.cpp:106
+#: src/dialogs/timeremap.cpp:1713 src/dialogs/timeremap.cpp:1715
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "انقل الإطار الرئيس إلى المؤشّر"
 
-#: src/assets/view/widgets/keyframewidget.cpp:89
-#: src/assets/view/widgets/keyframewidget.cpp:91
+#: src/assets/view/widgets/keyframewidget.cpp:109
+#: src/assets/view/widgets/keyframewidget.cpp:111
 #, kde-format
 msgid "Copy keyframes"
 msgstr "انسخ الأطر الرئيسة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:93
+#: src/assets/view/widgets/keyframewidget.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3936,35 +3950,35 @@ msgstr ""
 "انسخ الأطر الرئيسة. انسخ الأطر الرئيسة المحددة أو قيم المعاملات الحالية إذا "
 "لم يكن هناك إطار رئيس محدد."
 
-#: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:874
+#: src/assets/view/widgets/keyframewidget.cpp:115
+#: src/assets/view/widgets/keyframewidget.cpp:930
 #, kde-format
 msgid "Paste keyframe"
 msgstr "ألصق الإطار الرئيس"
 
-#: src/assets/view/widgets/keyframewidget.cpp:97
+#: src/assets/view/widgets/keyframewidget.cpp:117
 #, kde-format
 msgid "Paste keyframes"
 msgstr "ألصق الأطر الرئيسة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:98
+#: src/assets/view/widgets/keyframewidget.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
 msgstr "ألص الأطر الرئيسة. ألصق بيانات الحافظة كأطر رئيسة عند الموضع الحالي."
 
-#: src/assets/view/widgets/keyframewidget.cpp:100
+#: src/assets/view/widgets/keyframewidget.cpp:120
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "طبّق قيمة الموضع الحالي على الأطر الرئيسة المحددة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:103
-#: src/assets/view/widgets/keyframewidget.cpp:120
+#: src/assets/view/widgets/keyframewidget.cpp:123
+#: src/assets/view/widgets/keyframewidget.cpp:140
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "استكمال المشهد الرئيس"
 
-#: src/assets/view/widgets/keyframewidget.cpp:121
+#: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3974,39 +3988,39 @@ msgstr ""
 "استكمال الإطار الرئيس. يعرف هذا أي نوع من الاستكمال سيستخدم للإطار الرئيس "
 "الحالي."
 
-#: src/assets/view/widgets/keyframewidget.cpp:143
+#: src/assets/view/widgets/keyframewidget.cpp:162
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "اقصد الإطار الرئيس عند التحديد"
 
-#: src/assets/view/widgets/keyframewidget.cpp:148
+#: src/assets/view/widgets/keyframewidget.cpp:167
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "انسخ كل الأطر الرئيسة إلى الحافظة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:150
+#: src/assets/view/widgets/keyframewidget.cpp:169
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "استورد الأطر الرئيسة من مقطع…"
 
-#: src/assets/view/widgets/keyframewidget.cpp:158
+#: src/assets/view/widgets/keyframewidget.cpp:177
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "أزل كلّ الأطر الرئيسة بعد المؤشّر"
 
-#: src/assets/view/widgets/keyframewidget.cpp:162
+#: src/assets/view/widgets/keyframewidget.cpp:181
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "نوع الإطار الرئيس المبدئي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:206 src/bin/bin.cpp:1351
+#: src/assets/view/widgets/keyframewidget.cpp:225 src/bin/bin.cpp:1351
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "خيارات"
 
-#: src/assets/view/widgets/keyframewidget.cpp:208
+#: src/assets/view/widgets/keyframewidget.cpp:227
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4016,52 +4030,71 @@ msgstr ""
 "تفتح  قائمة الإجراءات الممكنة لإدارة الأطر الرئيسة (مثل نسخ ولصق الأطر "
 "الرئيسة من الحافظة)"
 
-#: src/assets/view/widgets/keyframewidget.cpp:254
-#: src/assets/view/widgets/keyframewidget.cpp:306
+#: src/assets/view/widgets/keyframewidget.cpp:269
+#: src/assets/view/widgets/keyframewidget.cpp:321
+#: src/assets/view/widgets/keyframewidget.cpp:580
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "العُتَمَة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:258
-#: src/assets/view/widgets/keyframewidget.cpp:330
+#: src/assets/view/widgets/keyframewidget.cpp:273
+#: src/assets/view/widgets/keyframewidget.cpp:345
+#: src/assets/view/widgets/keyframewidget.cpp:577
 #, kde-format
 msgid "Y position"
 msgstr "موضع ص"
 
-#: src/assets/view/widgets/keyframewidget.cpp:259
-#: src/assets/view/widgets/keyframewidget.cpp:324
+#: src/assets/view/widgets/keyframewidget.cpp:274
+#: src/assets/view/widgets/keyframewidget.cpp:339
+#: src/assets/view/widgets/keyframewidget.cpp:577
 #, kde-format
 msgid "X position"
 msgstr "موضع س"
 
-#: src/assets/view/widgets/keyframewidget.cpp:278
+#: src/assets/view/widgets/keyframewidget.cpp:293
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "حدد المعاملات لنسخها"
 
-#: src/assets/view/widgets/keyframewidget.cpp:779
+#: src/assets/view/widgets/keyframewidget.cpp:835
 #, kde-format
 msgid "Keyframes copied"
 msgstr "نسخت الأطر الرئيسة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:790
-#: src/assets/view/widgets/keyframewidget.cpp:831
-#: src/assets/view/widgets/keyframewidget.cpp:838
+#: src/assets/view/widgets/keyframewidget.cpp:846
+#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:894
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "لا يوجد إطار رئيس صالح في الحافظة"
 
-#: src/assets/view/widgets/keyframewidget.cpp:882
+#: src/assets/view/widgets/keyframewidget.cpp:938
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "تعذّر نسخ قيم المعامل الحالي"
 
-#: src/assets/view/widgets/keyframewidget.cpp:887
-#: src/assets/view/widgets/keyframewidget.cpp:898
+#: src/assets/view/widgets/keyframewidget.cpp:943
+#: src/assets/view/widgets/keyframewidget.cpp:954
 #, kde-format
 msgid "Current values copied"
 msgstr "نُسخت القيم الحالية"
+
+#: src/assets/view/widgets/keyframewidget.cpp:1019
+#, kde-format
+msgid "Cannot remove the last keyframe"
+msgstr "لا يمكن إزالة الإطار الرئيس الأخير"
+
+#: src/assets/view/widgets/keyframewidget.cpp:1031
+#, kde-format
+msgid "Remove keyframe"
+msgid_plural "Remove keyframes"
+msgstr[0] "إزالة الإطار الرئيس"
+msgstr[1] "إزالة الإطار الرئيس"
+msgstr[2] "إزالة الإطارين الرئيسين"
+msgstr[3] "إزالة الإطارات الرئيسة"
+msgstr[4] "إزالة الإطارات الرئيسة"
+msgstr[5] "إزالة الإطارات الرئيسة"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4591,7 +4624,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "استبدل في الخطّ الزّمني"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5776 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5777 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5115,17 +5148,17 @@ msgstr "لم يعثر على مقطع ليضيف علامة لها"
 msgid "Could not find master clip"
 msgstr "لم يعثر على المقطع الرئيس"
 
-#: src/bin/bin.cpp:5798
+#: src/bin/bin.cpp:5799
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> مقطع | "
 
-#: src/bin/bin.cpp:5800
+#: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> مقطع (%2 محددة) | "
 
-#: src/bin/bin.cpp:5867 src/bin/bin.cpp:5944
+#: src/bin/bin.cpp:5868 src/bin/bin.cpp:5945
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5136,12 +5169,12 @@ msgstr[3] "أضف تدفقات إضافياً إلى مقطع"
 msgstr[4] "أضف دفقاً إضافياً إلى مقطع"
 msgstr[5] "أضف دفقاً إضافياً إلى مقطع"
 
-#: src/bin/bin.cpp:5888
+#: src/bin/bin.cpp:5889
 #, kde-format
 msgid "Import selected clips"
 msgstr "استورد المقاطع المحدّدة"
 
-#: src/bin/bin.cpp:5890
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5150,51 +5183,51 @@ msgstr ""
 "تدفقات إضافية للمقطع\n"
 " %1"
 
-#: src/bin/bin.cpp:5903 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5904 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "دفق الفيديو %1"
 
-#: src/bin/bin.cpp:5918
+#: src/bin/bin.cpp:5919
 #, kde-format
 msgid "Audio stream %1"
 msgstr "دفق الصّوت %1"
 
-#: src/bin/bin.cpp:5971
+#: src/bin/bin.cpp:5972
 #, kde-format
 msgid "Remove clip markers"
 msgstr "أزل علامات المقطع"
 
-#: src/bin/bin.cpp:6118
+#: src/bin/bin.cpp:6119
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "نوصي بحفظ المشروع قبل عملية تحويل الترميز"
 
-#: src/bin/bin.cpp:6119
+#: src/bin/bin.cpp:6120
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "احفظ المشروع"
 
-#: src/bin/bin.cpp:6120
+#: src/bin/bin.cpp:6121
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "يبدل الترميز دون حفظ"
 
-#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1103
 #, kde-format
 msgid "Delete effect %1"
 msgstr "احذف التّأثير %1"
 
-#: src/bin/bin.cpp:6296 src/mainwindow.cpp:401
+#: src/bin/bin.cpp:6297 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4885
+#: src/bin/bin.cpp:6300 src/bin/bin.cpp:6303 src/mainwindow.cpp:4885
 #, kde-format
 msgid "Project Bin %1"
 msgstr "سلّة المشروع %1"
@@ -9022,7 +9055,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "خطأ في نقل مجلّد المشروع: %1"
 
-#: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2329
+#: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2338
 #: src/project/dialogs/archivewidget.cpp:240
 #: src/project/projectmanager.cpp:1668
 #, kde-format
@@ -9091,12 +9124,12 @@ msgstr ""
 "يستخدم المشروع معدل إطارات غير قياسي (%1)، سيؤدي ذلك إلى وجود مقاطع في غير "
 "موضعها وإزاحة إطار."
 
-#: src/doc/kdenlivedoc.cpp:1893
+#: src/doc/kdenlivedoc.cpp:1903
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "تحذير: إطارًا في الثانية غير قياسي، سيعدل لأقرب عدد صحيح."
 
-#: src/doc/kdenlivedoc.cpp:1912
+#: src/doc/kdenlivedoc.cpp:1921
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -9105,43 +9138,43 @@ msgstr ""
 "تشكيلة المشروع الافتراضيّة هي %1، بينما تشكيلة المقطع (%2) هي %3.\n"
 "أتريد تغيير التشكيلة الافتراضيّة للمشاريع القادمة؟"
 
-#: src/doc/kdenlivedoc.cpp:1914
+#: src/doc/kdenlivedoc.cpp:1923
 #, kde-format
 msgid "Change default project profile"
 msgstr "غيّر تشكيلة المشاريع الافتراضيّة"
 
-#: src/doc/kdenlivedoc.cpp:1914
+#: src/doc/kdenlivedoc.cpp:1923
 #, kde-format
 msgid "Change default to %1"
 msgstr "غيّر الافتراضيّ إلى %1"
 
-#: src/doc/kdenlivedoc.cpp:1915
+#: src/doc/kdenlivedoc.cpp:1924
 #, kde-format
 msgid "Keep current default %1"
 msgstr "أبقِ الحاليّ %1 افتراضيّ"
 
-#: src/doc/kdenlivedoc.cpp:1915
+#: src/doc/kdenlivedoc.cpp:1924
 #, kde-format
 msgid "Ask me later"
 msgstr "اسألني لاحقًا"
 
-#: src/doc/kdenlivedoc.cpp:1935
+#: src/doc/kdenlivedoc.cpp:1944
 #, kde-format
 msgid "Switch"
 msgstr "بدّل"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1937 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1946 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "ألغِ"
 
-#: src/doc/kdenlivedoc.cpp:1939
+#: src/doc/kdenlivedoc.cpp:1948
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "أأبدّل إلى تشكيلة (%1) المقطع %2؟"
 
-#: src/doc/kdenlivedoc.cpp:1944
+#: src/doc/kdenlivedoc.cpp:1953
 #, kde-format
 msgid ""
 "\n"
@@ -9150,7 +9183,7 @@ msgstr ""
 "\n"
 "عُدلت تشكيلة معدل الأطر عن الأصل %1"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1957
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -9159,13 +9192,13 @@ msgstr ""
 "لم يُعثر على تشكيلة لمقطعك %1.\n"
 "أأنشئ واحدة وأحوّل إلى التشكيلة الجديدة (%2×%3، %4 إطار/ثا)؟%5"
 
-#: src/doc/kdenlivedoc.cpp:2368 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2377 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "الأحمر"
 
-#: src/doc/kdenlivedoc.cpp:2369 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2378 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9173,24 +9206,24 @@ msgstr "الأحمر"
 msgid "Green"
 msgstr "الأخضر"
 
-#: src/doc/kdenlivedoc.cpp:2370 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2379 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "الأزرق"
 
-#: src/doc/kdenlivedoc.cpp:2371 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2380 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "الأصفر"
 
-#: src/doc/kdenlivedoc.cpp:2372
+#: src/doc/kdenlivedoc.cpp:2381
 #, kde-format
 msgid "Cyan"
 msgstr "أزرق سماوي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2677 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2686 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
