@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 00:38+0000\n"
-"PO-Revision-Date: 2024-06-25 05:16+0200\n"
+"PO-Revision-Date: 2024-06-26 05:42+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -892,15 +892,12 @@ msgid "Text"
 msgstr "ტექსტი"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"დროის კოდი, კადრი, ფაილის თარიღი, ლოკალური ფაილის მონაცემები, წყაროს "
+"დროის კოდი, კადრი, ფაილის თარიღი (GMT), ფაილის მონაცემები (ლოკალური), წყაროს "
 "კადრების სიხშირე, წყაროს კოდეკი, წყაროს ბიტური სიხშირე, წყაროს სიგანე, "
 "წყაროს სიმაღლე, წყაროს კომენტარი"
 
@@ -910,6 +907,8 @@ msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
+"გამოტანის მოსარგებად strftime პარამეტრის შეყვანაც შეგიძლიათ. მაგ: "
+"#createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -3694,9 +3693,7 @@ msgid "B: "
 msgstr "ლ: "
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
 msgstr "ძირითადი კადრის გადატანა"
 
@@ -3894,15 +3891,14 @@ msgid "Import keyframes from clipboard"
 msgstr "საკვანძო კადრების შემოტანა ბუფერიდან"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "დროის ხაზისმინიატურა"
+msgstr "გადართვა დროის ხაზის ხედზე"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "გადართვა მრუდის რედაქტორზე"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
@@ -6296,7 +6292,7 @@ msgstr "პროქსი კლიპები"
 #: src/mainwindow.cpp:646
 #, kde-format
 msgid "Timeline Preview"
-msgstr "დროის ხაზისმინიატურა"
+msgstr "დროის ხაზის მინიატურა"
 
 #: src/dialogs/encodingprofilesdialog.cpp:54
 #, kde-format
@@ -11830,6 +11826,8 @@ msgid ""
 "This switches between having a <emphasis>Menubar</emphasis> and having a "
 "<interface>Hamburger Menu</interface> button in the main Toolbar."
 msgstr ""
+"ეს მთავარ პანელზე <emphasis>მენიუს ზოლსა</emphasis> და <interface>ჰამბურგერ "
+"მენიუს</interface> შორის გადართავს."
 
 #: src/mainwindow.cpp:2046
 #, kde-format

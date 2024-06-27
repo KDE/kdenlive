@@ -879,16 +879,11 @@ msgid "Text"
 msgstr "文字"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"时间码,帧,文件日期,本地文件日期,来源帧率,来源编码,来源比特率,来源宽度,来源高"
-"度,来源注释"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -3680,11 +3675,9 @@ msgid "B: "
 msgstr "蓝："
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
-msgstr "移动关键帧"
+msgstr ""
 
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, kde-format
@@ -3774,12 +3767,12 @@ msgstr " 到 "
 #: src/assets/view/widgets/keyframeimport.cpp:324
 #, kde-format
 msgid "Horizontal offset:"
-msgstr ""
+msgstr "水平偏移："
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
 #, kde-format
 msgid "Vertical offset:"
-msgstr ""
+msgstr "垂直偏移："
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -3880,10 +3873,9 @@ msgid "Import keyframes from clipboard"
 msgstr "从剪贴板导入关键帧"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "时间轴预览"
+msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format

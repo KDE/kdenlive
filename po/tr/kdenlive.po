@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 00:38+0000\n"
-"PO-Revision-Date: 2024-06-26 01:05+0300\n"
+"PO-Revision-Date: 2024-06-27 00:38+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -725,7 +725,7 @@ msgid ""
 "An audio visualization filter that moves the image around proportional to "
 "the magnitude of the audio spectrum."
 msgstr ""
-"Görüntüyü, ses tayfının büyüklüğüne orantılı olarak hareket ettiren bir ses "
+"Görseli, ses tayfının büyüklüğüne orantılı olarak hareket ettiren bir ses "
 "görselleştirme süzgeci."
 
 #: data/effects/dance.xml:17 data/effects/lightshow.xml:17
@@ -892,17 +892,14 @@ msgid "Text"
 msgstr "Metin"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
 "zaman kodu, çerçeve, dosya verisi, yerel dosya verisi, kaynak kare hızı, "
 "kaynak kodeki, kaynak bit hızı, kaynak genişliği, kaynak yüksekliği, kaynak "
-"açıklaması"
+"açıklaması, oluşturma tarihi, dosya tarihi (GMT), dosya tarihi (yerel)"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -910,6 +907,8 @@ msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
+"Ayrıca çıktıyı özelleştirmek için strftime parametreleri de girebilirsiniz; "
+"örneğin, #createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -1703,7 +1702,7 @@ msgstr "Alan"
 #: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Oldfilm"
-msgstr "Eski film"
+msgstr "Eski Film"
 
 #: data/effects/oldfilm.xml:5
 #, kde-format
@@ -1713,12 +1712,12 @@ msgstr "Resmi yukarı ve aşağı taşır ve rastgele parlaklık değişimi olu�
 #: data/effects/oldfilm.xml:8
 #, kde-format
 msgid "Y-Delta"
-msgstr "Y-Delta"
+msgstr "Y Farkı"
 
 #: data/effects/oldfilm.xml:11
 #, no-c-format, kde-format
 msgid "% of picture have a delta"
-msgstr "Resmin % kaçı deltaya sahip"
+msgstr "Resmin yüzde kaçı farklı"
 
 #: data/effects/oldfilm.xml:14
 #, kde-format
@@ -2681,7 +2680,7 @@ msgstr "Renk Çubukları"
 #: data/generators/frei0r_test_pat_b.xml:4
 #, kde-format
 msgid "Generates test card lookalikes"
-msgstr "Test kartı görünümleri oluşturur"
+msgstr "Sınama kartı benzerleri üretir"
 
 #: data/generators/frei0r_test_pat_b.xml:7
 #, no-c-format, kde-format
@@ -2706,7 +2705,7 @@ msgstr "Beyaz Gürültü"
 #: data/generators/noise.xml:4
 #, kde-format
 msgid "White noise producer"
-msgstr "Beyaz gürültü üreticisi"
+msgstr "Beyaz gürültü üreteci"
 
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
@@ -3215,7 +3214,7 @@ msgstr ""
 #: plugins/sampleplugin/sampleplugin.cpp:95
 #, kde-format
 msgid "Generator Failed"
-msgstr "Oluşturucu başarısız"
+msgstr "Üreteç başarısız oldu"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:60
 #: src/assets/assetlist/view/assetlistwidget.cpp:392
@@ -3745,11 +3744,9 @@ msgid "B: "
 msgstr "M "
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
-msgstr "Anahtar kareyi taşı"
+msgstr "Anahtar Kareyi Taşı"
 
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, kde-format
@@ -3945,15 +3942,14 @@ msgid "Import keyframes from clipboard"
 msgstr "Panodan anahtar kareleri içe aktar"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "Zaman Akışı Önizlemesi"
+msgstr "Zaman Akışı Görünümüne Geç"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "Eğri Düzenleyicisi Görünümüne Geç"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
@@ -6318,8 +6314,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
-"Bu, tüm kayıt aygıtı profillerini siler ve değerleri öntanımlı ayarlarına "
-"geri döndürür"
+"Bu, tüm kayıt aygıtı profillerini siler ve değerleri öntanımlı ayarlara geri "
+"döndürür"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -8524,7 +8520,7 @@ msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
 "many effects and transitions. Install recommended</li>"
 msgstr ""
-"<li>Eksik paket: <b>Frei0r</b> efekti (frei0r-plugins)<br/>Birçok efekt ve "
+"<li>Eksik paket: <b>Frei0r</b> efekti (frei0r-plugins)<br/>Birçok efekti ve "
 "geçişi sağlar. Kurulması tavsiye edilir</li>"
 
 #: src/dialogs/wizard.cpp:273
@@ -9929,7 +9925,7 @@ msgstr "Pro&je"
 #: src/kdenliveui.rc:28
 #, kde-format
 msgid "Generators"
-msgstr "Oluşturucular"
+msgstr "Üreteçler"
 
 #. i18n: ectx: Menu (tool)
 #: src/kdenliveui.rc:58
@@ -10820,7 +10816,7 @@ msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
 "toolbar"
 msgid "Render Button"
-msgstr "Sunum düğmesi"
+msgstr "Sunum Düğmesi"
 
 #: src/mainwindow.cpp:641
 #, kde-format
@@ -12350,8 +12346,8 @@ msgstr "Menü çubuğunu gizle"
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
-"Simge temasını değişikliğini uygulamak için Kdenlive yeniden "
-"başlatılmalıdır. Şimdi yeniden başlatılsın mı?"
+"Simge teması değişikliğini uygulamak için Kdenlive yeniden başlatılmalıdır. "
+"Şimdi yeniden başlatılsın mı?"
 
 #: src/mainwindow.cpp:4754 src/timeline2/view/timelinecontroller.cpp:5151
 #, kde-format
@@ -16543,7 +16539,7 @@ msgstr "Geri yükleme işlemi için kullanılabilir video izi yok"
 #: src/timeline2/model/timelinefunctions.cpp:1235
 #, kde-format
 msgid "Video restore failed"
-msgstr "Video geri yükleme başarısız"
+msgstr "Videoyu geri yükleme başarısız"
 
 #: src/timeline2/model/timelinefunctions.cpp:1241
 #, kde-format
@@ -19074,13 +19070,13 @@ msgstr "Yakalanacak bölge:"
 #: src/ui/configcapture_ui.ui:277
 #, kde-format
 msgid "Full Screen"
-msgstr "Tam Ekran"
+msgstr "Tam ekran"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:282
 #, kde-format
 msgid "Rectangular Region"
-msgstr "Dikdörtgen Bölge"
+msgstr "Dikdörtgen bölge"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:301
@@ -19681,7 +19677,7 @@ msgid ""
 "These are the default settings for new projects. To edit the parameters of "
 "the current project, use the project settings."
 msgstr ""
-"Bunlar, yeni projeler için öntanımlı ayarlarıdır. Geçerli projenin "
+"Bunlar, yeni projeler için olan öntanımlı ayarlardır. Geçerli projenin "
 "parametrelerini düzenlemek için proje ayarlarını kullanın."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -22569,30 +22565,3 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
-
-#~ msgid "Position offset:"
-#~ msgstr "Konum ofseti:"
-
-#~ msgid "Current scheme:"
-#~ msgstr "Geçerli şema:"
-
-#~ msgid "More Actions"
-#~ msgstr "Daha Fazla Eylem"
-
-#~ msgid "Edit clip"
-#~ msgstr "Klibi düzenle"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
-#~ "b> by the second, <b>{&#x25;3}</b> by the output file path."
-#~ msgstr ""
-#~ "<b>{&#x25;1}</b> ilk parametreyle, <b>{&#x25;2}</b> ikinciyle ve "
-#~ "<b>{&#x25;3}</b> çıktı dosyası yoluyla değiştirilecek."
-
-#~ msgid ""
-#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-#~ "Please install version >= 0.12\n"
-#~ msgstr ""
-#~ "OpenTimelineIO modülünüz Kdenlive adaptörünü içermiyor.\n"
-#~ "Lütfen 0.12’den daha yeni bir sürümünü kurun.\n"
