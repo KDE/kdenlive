@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 00:38+0000\n"
-"PO-Revision-Date: 2024-06-02 07:41+0200\n"
+"PO-Revision-Date: 2024-06-26 23:25+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -895,16 +895,14 @@ msgid "Text"
 msgstr "Besedilo"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"timecode,frame,file date,local file date,source frame rate,source codec,"
-"source bit rate,source width,source height,source comment"
+"časovna koda,sličica,datum nastanka,datum datoteke (GMT),datum datoteke "
+"(krajevno),izvorna hitrost v sličicah,izvorni kodek,bitna hitrost vira,"
+"širina vira,višina vira,komentar vira"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -912,6 +910,8 @@ msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
+"Vnesete lahko tudi parametre strftime, da prilagodite izhod, npr.: "
+"#createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -3746,11 +3746,9 @@ msgid "B: "
 msgstr "B: "
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
-msgstr "Premakni ključne sličice"
+msgstr "Premakni ključno sličico"
 
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, kde-format
@@ -3838,16 +3836,14 @@ msgid " to "
 msgstr " v "
 
 #: src/assets/view/widgets/keyframeimport.cpp:324
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Horizontal offset:"
-msgstr "Vodoravna razpršenost"
+msgstr "Vodoravni odmik:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Vertical offset:"
-msgstr "Navpična razpršenost"
+msgstr "Navpični odmik:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -3948,15 +3944,14 @@ msgid "Import keyframes from clipboard"
 msgstr "Uvozi ključne sličice iz odložišča"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "Predogled časovnice"
+msgstr "Preklop na pogled časovnice"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "Preklop na pogled urejevalnika krivulj"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
@@ -22641,6 +22636,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Position offset:"
-#~ msgstr "Zamik položaja:"

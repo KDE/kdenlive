@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 00:38+0000\n"
-"PO-Revision-Date: 2024-06-25 12:09+0200\n"
+"PO-Revision-Date: 2024-06-26 10:29+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -896,17 +896,14 @@ msgid "Text"
 msgstr "Tekst"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"tijdcode,frame,bestand datum,datum lokaal bestand,framesnelheid van bron,"
-"codec van bron,bitsnelheid van bron,breedte van bron,hoogte van bron,"
-"commentaar bij bron"
+"tijdcode,frame,aanmaakdatum,bestandsdatum (GMT),bestandsdatum (lokaal),"
+"framesnelheid van bron,codec van bron,bitsnelheid van bron,breedte van bron,"
+"hoogte van bron,commentaar bij bron"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -914,6 +911,8 @@ msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
+"U kunt ook strftime-parameters invoeren om de uitvoer aan te passen, zoals: "
+"#createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -3757,9 +3756,7 @@ msgid "B: "
 msgstr "B: "
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
 msgstr "Keyframe verplaatsen"
 
@@ -3957,15 +3954,14 @@ msgid "Import keyframes from clipboard"
 msgstr "Keyframes importeren uit klembord"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "Tijdlijnvoorbeeldweergave"
+msgstr "Omschakelen naar tijdlijnweergave"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "Omschakelen naar weergave voor bewerker van kromme"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
