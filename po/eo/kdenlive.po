@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 00:38+0000\n"
-"PO-Revision-Date: 2024-05-31 16:13+0200\n"
+"PO-Revision-Date: 2024-06-28 16:51+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -888,16 +888,14 @@ msgid "Text"
 msgstr "Teksto"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"tempokodo,kadro,dosierdato,loka dosierdato,fonta framfrekvenco,fonta kodeko,"
-"fonta bitrapideco,fontolarĝo,fonta alteco,fonta komento"
+"tempokodo,framo,kreodato,dosierdato (GMT),dosierdato (loka),fonta fram-"
+"rapideco,fonta kodeko,fonta bitrapideco,fonta larĝeco,fonta alteco,fonta "
+"komento"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -905,6 +903,8 @@ msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
+"Vi ankaŭ povas enigi strftime-parametrojn por personecigi la eligon, kiel: "
+"createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -3730,11 +3730,9 @@ msgid "B: "
 msgstr "B:"
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
-msgstr "Movi ŝlosilkadron"
+msgstr "Movi Ŝlosilkadron"
 
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, kde-format
@@ -3819,19 +3817,17 @@ msgstr "Mapo"
 #: src/ui/import_subtitle_ui.ui:131
 #, kde-format
 msgid " to "
-msgstr "al"
+msgstr " al "
 
 #: src/assets/view/widgets/keyframeimport.cpp:324
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Horizontal offset:"
-msgstr "Horizontala disvastigo"
+msgstr "Horizontala deŝovo:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Vertical offset:"
-msgstr "Vertikala disvastigo"
+msgstr "Vertikala deŝovo:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -3932,15 +3928,14 @@ msgid "Import keyframes from clipboard"
 msgstr "Importi ŝlosilkadrojn el tondujo"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "Templinio Antaŭrigardo"
+msgstr "Ŝanĝi al templinia vido"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "Ŝanĝi al kurboredaktila vido"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
@@ -22541,6 +22536,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Position offset:"
-#~ msgstr "Pozicia kompenso:"
