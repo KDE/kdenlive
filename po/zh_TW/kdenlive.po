@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-26 00:38+0000\n"
-"PO-Revision-Date: 2024-06-26 06:37+0900\n"
+"PO-Revision-Date: 2024-06-30 11:05+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -874,23 +874,20 @@ msgid "Text"
 msgstr "文字"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"時間碼,影格,檔案日期,本地檔案日期,來源影格率,來源編碼,來源位元率,來源寬度,來"
-"源高度,來源註解"
+"時間碼,影格,建立日期,檔案日期（GMT）,檔案日期（本地時間）,來源影格率,來源編"
+"碼,來源位元率,來源寬度,來源高度,來源註解"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
 msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
-msgstr ""
+msgstr "您也可以輸入 strftime 參數來自訂輸出，例如：#createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -3673,9 +3670,7 @@ msgid "B: "
 msgstr "藍："
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
 msgstr "移動關鍵幀"
 
@@ -3873,15 +3868,14 @@ msgid "Import keyframes from clipboard"
 msgstr "從剪貼簿匯入關鍵幀"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "時間軸預覽"
+msgstr "切換至時間軸檢視"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "切換至曲線編輯器檢視"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
