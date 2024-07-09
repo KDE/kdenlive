@@ -265,6 +265,8 @@ public:
     void updateProjectTags(int previousCount, const QMap<int, QStringList> &tags);
     /** @brief Returns the project profile */
     Mlt::Profile &getProjectProfile();
+    /** @brief Returns the project profile frame rate num/den */
+    std::pair<int, int> getProjectFpsInfo() const;
     /** @brief Returns the consumer profile, that will be scaled
      *  according to preview settings. Should only be used on the consumer */
     Mlt::Profile &getMonitorProfile();

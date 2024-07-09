@@ -5645,7 +5645,8 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
             if (clipService.startsWith(QLatin1String("avformat"))) {
                 QString resource = clip->clipUrl();
                 ClipType::ProducerType type = clip->clipType();
-                int integerFps = qRound(clip->originalFps());
+                std::pair<int, int> fpsInfo = clip->fpsInfo();
+                int integerFps = qRound(double(fpsInfo.first) / fpsInfo.second);
                 QString suffix = QString("-%1fps").arg(integerFps);
                 m_transcodingDialog->addUrl(resource, id, suffix, type, QString());
             } else {

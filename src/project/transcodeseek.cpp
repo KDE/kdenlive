@@ -192,9 +192,11 @@ QString TranscodeSeek::params(int clipType, std::pair<int, int> fps_info) const
         }
         break;
     }
-    // Enforce constant fps
-    splitParams.insert(splitParams.count() - 1, QStringLiteral("-filter:v"));
-    splitParams.insert(splitParams.count() - 1, QStringLiteral("fps=fps=%1/%2").arg(fps_info.first).arg(fps_info.second));
+    if (clipType != ClipType::Audio && !m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
+        // Enforce constant fps for clips with video
+        splitParams.insert(splitParams.count() - 1, QStringLiteral("-filter:v"));
+        splitParams.insert(splitParams.count() - 1, QStringLiteral("fps=fps=%1/%2").arg(fps_info.first).arg(fps_info.second));
+    }
     params = splitParams.join(QLatin1Char(' '));
     return params;
 }

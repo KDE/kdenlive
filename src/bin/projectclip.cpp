@@ -3204,6 +3204,5 @@ std::pair<int, int> ProjectClip::fpsInfo() const
             return {fps_num, fps_den};
         }
     }
-    auto prof = pCore->getProjectProfile();
-    return {prof.frame_rate_num(), prof.frame_rate_den()};
+    return pCore->getProjectFpsInfo();
 }

@@ -575,6 +575,11 @@ Mlt::Profile &Core::getProjectProfile()
     return m_projectProfile;
 }
 
+std::pair<int, int> Core::getProjectFpsInfo() const
+{
+    return {m_projectProfile.frame_rate_num(), m_projectProfile.frame_rate_den()};
+}
+
 void Core::updateMonitorProfile()
 {
     m_monitorProfile.set_colorspace(m_projectProfile.colorspace());
