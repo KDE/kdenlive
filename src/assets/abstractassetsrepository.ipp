@@ -203,6 +203,37 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     }
                 }
 
+
+		if (paramType == QLatin1String("string") && paramdesc.get_data("values")) {
+		  Mlt::Properties param_list_values(mlt_properties(paramdesc.get_data("values")));
+
+		  if (param_list_values.count() > 1)
+		    {
+		      QString paramlist_str(param_list_values.get(0));
+		      QString paramlistdisplay_str(param_list_values.get_name(0));
+
+		      for (int jff = 1; jff < param_list_values.count(); ++jff) {
+			paramlist_str += QLatin1String(",")+QLatin1String(param_list_values.get(jff));
+			paramlistdisplay_str += QLatin1String(";")+QLatin1String(param_list_values.get_name(jff));
+		      }
+
+		      // qDebug() << " paramlist: " << paramlist_str << "\n";
+		      params.setAttribute(QStringLiteral("paramlist"), paramlistdisplay_str);
+
+		      QDomElement pname = doc.createElement(QStringLiteral("paramlistdisplay"));
+		      pname.appendChild(doc.createTextNode(paramlist_str));
+		      params.appendChild(pname);
+
+		      QDomElement pnamez = doc.createElement(QStringLiteral("name"));
+		      if (paramdesc.property_exists("title"))
+			pnamez.appendChild(doc.createTextNode(paramdesc.get("title")));
+		      else
+			pnamez.appendChild(doc.createTextNode(paramdesc.get("identifier")));
+		      params.appendChild(pnamez);
+
+		    }
+		}
+
                 if (paramType == QLatin1String("integer")) {
                     if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1")) {
                         params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
@@ -215,9 +246,12 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     params.setAttribute(QStringLiteral("decimals"), QStringLiteral("3"));
                 } else if (paramType == QLatin1String("boolean")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
+
                 } else if (paramType == QLatin1String("geometry")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("geometry"));
-                } else if (paramType == QLatin1String("string")) {
+                } else if (paramType == QLatin1String("string") && paramdesc.get_data("values")) {
+		    params.setAttribute(QStringLiteral("type"), QStringLiteral("list"));
+		} else if (paramType == QLatin1String("string")) {
                     // string parameter are not really supported, so if we have a default value, enforce it
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("fixed"));
                     if (paramdesc.get("default")) {

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-25 00:38+0000\n"
-"PO-Revision-Date: 2024-05-31 14:23+0300\n"
+"POT-Creation-Date: 2024-06-26 00:38+0000\n"
+"PO-Revision-Date: 2024-06-27 00:38+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -725,7 +725,7 @@ msgid ""
 "An audio visualization filter that moves the image around proportional to "
 "the magnitude of the audio spectrum."
 msgstr ""
-"Görüntüyü, ses tayfının büyüklüğüne orantılı olarak hareket ettiren bir ses "
+"Görseli, ses tayfının büyüklüğüne orantılı olarak hareket ettiren bir ses "
 "görselleştirme süzgeci."
 
 #: data/effects/dance.xml:17 data/effects/lightshow.xml:17
@@ -894,12 +894,21 @@ msgstr "Metin"
 #: data/effects/dynamictext.xml:44
 #, kde-format
 msgid ""
-"timecode,frame,file date,local file date,source frame rate,source codec,"
-"source bit rate,source width,source height,source comment"
+"timecode,frame,creation date,file date (GMT),file date (local),source frame "
+"rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
 "zaman kodu, çerçeve, dosya verisi, yerel dosya verisi, kaynak kare hızı, "
 "kaynak kodeki, kaynak bit hızı, kaynak genişliği, kaynak yüksekliği, kaynak "
-"açıklaması"
+"açıklaması, oluşturma tarihi, dosya tarihi (GMT), dosya tarihi (yerel)"
+
+#: data/effects/dynamictext.xml:45
+#, no-c-format, kde-format
+msgid ""
+"You can also enter strftime parameters to customize the output, like: "
+"#createdate %H:%M %D#"
+msgstr ""
+"Ayrıca çıktıyı özelleştirmek için strftime parametreleri de girebilirsiniz; "
+"örneğin, #createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -1693,7 +1702,7 @@ msgstr "Alan"
 #: data/effects/oldfilm.xml:4
 #, kde-format
 msgid "Oldfilm"
-msgstr "Eski film"
+msgstr "Eski Film"
 
 #: data/effects/oldfilm.xml:5
 #, kde-format
@@ -1703,12 +1712,12 @@ msgstr "Resmi yukarı ve aşağı taşır ve rastgele parlaklık değişimi olu�
 #: data/effects/oldfilm.xml:8
 #, kde-format
 msgid "Y-Delta"
-msgstr "Y-Delta"
+msgstr "Y Farkı"
 
 #: data/effects/oldfilm.xml:11
 #, no-c-format, kde-format
 msgid "% of picture have a delta"
-msgstr "Resmin % kaçı deltaya sahip"
+msgstr "Resmin yüzde kaçı farklı"
 
 #: data/effects/oldfilm.xml:14
 #, kde-format
@@ -2671,7 +2680,7 @@ msgstr "Renk Çubukları"
 #: data/generators/frei0r_test_pat_b.xml:4
 #, kde-format
 msgid "Generates test card lookalikes"
-msgstr "Test kartı görünümleri oluşturur"
+msgstr "Sınama kartı benzerleri üretir"
 
 #: data/generators/frei0r_test_pat_b.xml:7
 #, no-c-format, kde-format
@@ -2696,7 +2705,7 @@ msgstr "Beyaz Gürültü"
 #: data/generators/noise.xml:4
 #, kde-format
 msgid "White noise producer"
-msgstr "Beyaz gürültü üreticisi"
+msgstr "Beyaz gürültü üreteci"
 
 #: data/kdenliveeffectscategory.rc:6
 #, kde-format
@@ -3205,7 +3214,7 @@ msgstr ""
 #: plugins/sampleplugin/sampleplugin.cpp:95
 #, kde-format
 msgid "Generator Failed"
-msgstr "Oluşturucu başarısız"
+msgstr "Üreteç başarısız oldu"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:60
 #: src/assets/assetlist/view/assetlistwidget.cpp:392
@@ -3515,7 +3524,7 @@ msgstr "Pürüzsüz (Artık Kullanılmıyor)"
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:210
-#: src/assets/view/widgets/keyframewidget.cpp:70 src/dialogs/timeremap.cpp:1702
+#: src/assets/view/widgets/keyframewidget.cpp:90 src/dialogs/timeremap.cpp:1702
 #: src/dialogs/timeremap.cpp:1727
 #, kde-format
 msgid "Add keyframe"
@@ -3530,7 +3539,7 @@ msgstr "Anahtar kare türünü değiştir"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:240
 #: src/assets/keyframes/model/keyframemodellist.cpp:262
-#: src/assets/view/widgets/keyframewidget.cpp:72 src/dialogs/timeremap.cpp:1723
+#: src/assets/view/widgets/keyframewidget.cpp:92 src/dialogs/timeremap.cpp:1723
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Anahtar kare sil"
@@ -3544,7 +3553,7 @@ msgstr "Anahtar Kareleri Taşı"
 #: src/assets/keyframes/model/keyframemodel.cpp:460
 #: src/assets/keyframes/model/keyframemodellist.cpp:378
 #: src/assets/keyframes/model/keyframemodellist.cpp:464
-#: src/assets/keyframes/view/keyframeview.cpp:296
+#: src/assets/keyframes/view/keyframeview.cpp:199
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframe"
@@ -3572,7 +3581,7 @@ msgstr "efekt"
 msgid "Reset %1"
 msgstr "%1 Sıfırla"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1356
+#: src/assets/keyframes/model/keyframemodel.cpp:1360
 #, kde-format
 msgid "Reset effect"
 msgstr "Efekti sıfırla"
@@ -3583,7 +3592,7 @@ msgid "Delete keyframes"
 msgstr "Anahtar kareleri sil"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:702
-#: src/assets/model/assetparametermodel.cpp:1466
+#: src/assets/model/assetparametermodel.cpp:1471
 #, kde-format
 msgid "Update effect"
 msgstr "Efekti Güncelle"
@@ -3594,62 +3603,50 @@ msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
 "%1 konumunda eksik anahtar kare algılandı, kendiliğinden yeniden eklendi"
 
-#: src/assets/keyframes/view/keyframeview.cpp:131
+#: src/assets/keyframes/view/keyframeview.cpp:139
 #, kde-format
 msgid "Duplicate keyframe"
 msgstr "Anahtar kareyi yinele"
 
-#: src/assets/keyframes/view/keyframeview.cpp:184
-#, kde-format
-msgid "Cannot remove the last keyframe"
-msgstr "Son anahtar kare kaldırılamıyor"
-
-#: src/assets/keyframes/view/keyframeview.cpp:197
-#, kde-format
-msgid "Remove keyframe"
-msgid_plural "Remove keyframes"
-msgstr[0] "Anahtar kareyi kaldır"
-msgstr[1] "Anahtar kareleri kaldır"
-
-#: src/assets/keyframes/view/keyframeview.cpp:646
+#: src/assets/keyframes/view/keyframeview.cpp:549
 #, kde-format
 msgid "Move keyframe"
 msgid_plural "Move keyframes"
 msgstr[0] "Anahtar kareyi taşı"
 msgstr[1] "Anahtar kareleri taşı"
 
-#: src/assets/keyframes/view/keyframeview.cpp:905
+#: src/assets/keyframes/view/keyframeview.cpp:809
 #, kde-format
 msgid "Update keyframes X position"
 msgstr "Anahtar kare X konumunu güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:913
+#: src/assets/keyframes/view/keyframeview.cpp:817
 #, kde-format
 msgid "Update keyframes Y position"
 msgstr "Anahtar kare Y konumunu güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:921
+#: src/assets/keyframes/view/keyframeview.cpp:825
 #, kde-format
 msgid "Update keyframes width"
 msgstr "Anahtar kare genişliğini güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:929
+#: src/assets/keyframes/view/keyframeview.cpp:833
 #, kde-format
 msgid "Update keyframes height"
 msgstr "Anahtar kare yüksekliğini güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:937
+#: src/assets/keyframes/view/keyframeview.cpp:841
 #, kde-format
 msgid "Update keyframes opacity"
 msgstr "Anahtar kare matlığını güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:942
-#: src/assets/keyframes/view/keyframeview.cpp:944
+#: src/assets/keyframes/view/keyframeview.cpp:846
+#: src/assets/keyframes/view/keyframeview.cpp:848
 #, kde-format
 msgid "Update keyframes value"
 msgstr "Anahtar kare değerini güncelle"
 
-#: src/assets/keyframes/view/keyframeview.cpp:948
+#: src/assets/keyframes/view/keyframeview.cpp:852
 #, kde-format
 msgid "Keyframe value copied"
 msgstr "Anahtar kare değeri kopyalandı"
@@ -3671,13 +3668,13 @@ msgstr "%1 anahtar kareyi düzenle"
 msgid "Update %1"
 msgstr "%1 Güncelle"
 
-#: src/assets/model/assetparametermodel.cpp:1316
-#: src/assets/model/assetparametermodel.cpp:1363
+#: src/assets/model/assetparametermodel.cpp:1321
+#: src/assets/model/assetparametermodel.cpp:1368
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Önayar dosyası %1 açılamıyor"
 
-#: src/assets/model/assetparametermodel.cpp:1440
+#: src/assets/model/assetparametermodel.cpp:1445
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -3745,6 +3742,11 @@ msgstr "Y "
 #, kde-format
 msgid "B: "
 msgstr "M "
+
+#: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
+#, kde-format
+msgid "Move Keyframe"
+msgstr "Anahtar Kareyi Taşı"
 
 #: src/assets/view/widgets/keyframeimport.cpp:47
 #, kde-format
@@ -3832,16 +3834,14 @@ msgid " to "
 msgstr " şuna "
 
 #: src/assets/view/widgets/keyframeimport.cpp:324
-#, fuzzy, kde-format
-#| msgid "Horizontal scatter"
+#, kde-format
 msgid "Horizontal offset:"
-msgstr "Yatay yayılım"
+msgstr "Yatay ofset:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
-#, fuzzy, kde-format
-#| msgid "Vertical scatter"
+#, kde-format
 msgid "Vertical offset:"
-msgstr "Dikey yayılma"
+msgstr "Dikey ofset:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -3902,16 +3902,18 @@ msgstr "Y"
 
 #: src/assets/view/widgets/keyframeimport.cpp:426
 #: src/assets/view/widgets/keyframeimport.cpp:813
-#: src/assets/view/widgets/keyframewidget.cpp:257
-#: src/assets/view/widgets/keyframewidget.cpp:318
+#: src/assets/view/widgets/keyframewidget.cpp:272
+#: src/assets/view/widgets/keyframewidget.cpp:333
+#: src/assets/view/widgets/keyframewidget.cpp:577
 #, kde-format
 msgid "Width"
 msgstr "Genişlik"
 
 #: src/assets/view/widgets/keyframeimport.cpp:429
 #: src/assets/view/widgets/keyframeimport.cpp:821
-#: src/assets/view/widgets/keyframewidget.cpp:256
-#: src/assets/view/widgets/keyframewidget.cpp:312
+#: src/assets/view/widgets/keyframewidget.cpp:271
+#: src/assets/view/widgets/keyframewidget.cpp:327
+#: src/assets/view/widgets/keyframewidget.cpp:578
 #, kde-format
 msgid "Height"
 msgstr "Yükseklik"
@@ -3939,31 +3941,41 @@ msgstr "Y"
 msgid "Import keyframes from clipboard"
 msgstr "Panodan anahtar kareleri içe aktar"
 
-#: src/assets/view/widgets/keyframewidget.cpp:77 src/dialogs/timeremap.cpp:1708
+#: src/assets/view/widgets/keyframewidget.cpp:74
+#, kde-format
+msgid "Switch to timeline view"
+msgstr "Zaman Akışı Görünümüne Geç"
+
+#: src/assets/view/widgets/keyframewidget.cpp:76
+#, kde-format
+msgid "Switch to curve editor view"
+msgstr "Eğri Düzenleyicisi Görünümüne Geç"
+
+#: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "Önceki anahtar kareye git"
 
-#: src/assets/view/widgets/keyframewidget.cpp:81 src/dialogs/timeremap.cpp:1705
-#: src/mainwindow.cpp:1900
+#: src/assets/view/widgets/keyframewidget.cpp:101
+#: src/dialogs/timeremap.cpp:1705 src/mainwindow.cpp:1900
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "Sonraki anahtar kareye git"
 
-#: src/assets/view/widgets/keyframewidget.cpp:86 src/dialogs/timeremap.cpp:1713
-#: src/dialogs/timeremap.cpp:1715
+#: src/assets/view/widgets/keyframewidget.cpp:106
+#: src/dialogs/timeremap.cpp:1713 src/dialogs/timeremap.cpp:1715
 #, kde-format
 msgid "Move selected keyframe to cursor"
 msgstr "Seçili anahtar kareyi imlece taşı"
 
-#: src/assets/view/widgets/keyframewidget.cpp:89
-#: src/assets/view/widgets/keyframewidget.cpp:91
+#: src/assets/view/widgets/keyframewidget.cpp:109
+#: src/assets/view/widgets/keyframewidget.cpp:111
 #, kde-format
 msgid "Copy keyframes"
 msgstr "Anahtar kareleri kopyala"
 
-#: src/assets/view/widgets/keyframewidget.cpp:93
+#: src/assets/view/widgets/keyframewidget.cpp:113
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3973,18 +3985,18 @@ msgstr ""
 "Anahtar kareleri kopyala. Hiçbir anahtar kare seçili değilse seçili anahtar "
 "kareyi veya geçerli parametreleri kopyalayın."
 
-#: src/assets/view/widgets/keyframewidget.cpp:95
-#: src/assets/view/widgets/keyframewidget.cpp:874
+#: src/assets/view/widgets/keyframewidget.cpp:115
+#: src/assets/view/widgets/keyframewidget.cpp:930
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Anahtar kareyi yapıştır"
 
-#: src/assets/view/widgets/keyframewidget.cpp:97
+#: src/assets/view/widgets/keyframewidget.cpp:117
 #, kde-format
 msgid "Paste keyframes"
 msgstr "Anahtar kareleri yapıştır"
 
-#: src/assets/view/widgets/keyframewidget.cpp:98
+#: src/assets/view/widgets/keyframewidget.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Paste keyframes. Paste clipboard data as keyframes at current position."
@@ -3992,18 +4004,18 @@ msgstr ""
 "Anahtar kareleri yapıştır. Pano verisini geçerli konumda anahtar kareler "
 "olarak yapıştırın."
 
-#: src/assets/view/widgets/keyframewidget.cpp:100
+#: src/assets/view/widgets/keyframewidget.cpp:120
 #, kde-format
 msgid "Apply current position value to selected keyframes"
 msgstr "Geçerli konum değerini seçili anahtar karelere uygula"
 
-#: src/assets/view/widgets/keyframewidget.cpp:103
-#: src/assets/view/widgets/keyframewidget.cpp:120
+#: src/assets/view/widgets/keyframewidget.cpp:123
+#: src/assets/view/widgets/keyframewidget.cpp:140
 #, kde-format
 msgid "Keyframe interpolation"
 msgstr "Anahtar Kare Aradeğerlemesi"
 
-#: src/assets/view/widgets/keyframewidget.cpp:121
+#: src/assets/view/widgets/keyframewidget.cpp:141
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4013,39 +4025,39 @@ msgstr ""
 "Anahtar kare aradeğerleme. Bu, geçerli anahtar kare için hangi "
 "aradeğerlemenin kullanılacağını tanımlar."
 
-#: src/assets/view/widgets/keyframewidget.cpp:143
+#: src/assets/view/widgets/keyframewidget.cpp:162
 #, kde-format
 msgid "Seek to Keyframe on Select"
 msgstr "Seçili Anahtar Kareye Git"
 
-#: src/assets/view/widgets/keyframewidget.cpp:148
+#: src/assets/view/widgets/keyframewidget.cpp:167
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
 msgstr "Tüm Anahtar Kareleri Panoya Kopyala"
 
-#: src/assets/view/widgets/keyframewidget.cpp:150
+#: src/assets/view/widgets/keyframewidget.cpp:169
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
 msgstr "Panodan Anahtar Kareler İçe Aktar…"
 
-#: src/assets/view/widgets/keyframewidget.cpp:158
+#: src/assets/view/widgets/keyframewidget.cpp:177
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
 msgstr "İmleçten Sonraki Tüm Anahtar Kareleri Sil"
 
-#: src/assets/view/widgets/keyframewidget.cpp:162
+#: src/assets/view/widgets/keyframewidget.cpp:181
 #, kde-format
 msgid "Default Keyframe Type"
 msgstr "Öntanımlı Anahtar Kare Türü"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframewidget.cpp:206 src/bin/bin.cpp:1351
+#: src/assets/view/widgets/keyframewidget.cpp:225 src/bin/bin.cpp:1351
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
 msgstr "Seçenekler"
 
-#: src/assets/view/widgets/keyframewidget.cpp:208
+#: src/assets/view/widgets/keyframewidget.cpp:227
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4055,52 +4067,67 @@ msgstr ""
 "Anahtar kareleri yönetmek için ek eylemlerin bir listesini açar (örneğin "
 "panoya anahtar kare kopyalanması veya panodan yapıştırılması gibi)."
 
-#: src/assets/view/widgets/keyframewidget.cpp:254
-#: src/assets/view/widgets/keyframewidget.cpp:306
+#: src/assets/view/widgets/keyframewidget.cpp:269
+#: src/assets/view/widgets/keyframewidget.cpp:321
+#: src/assets/view/widgets/keyframewidget.cpp:580
 #: src/widgets/geometrywidget.cpp:78
 #, kde-format
 msgid "Opacity"
 msgstr "Matlık"
 
-#: src/assets/view/widgets/keyframewidget.cpp:258
-#: src/assets/view/widgets/keyframewidget.cpp:330
+#: src/assets/view/widgets/keyframewidget.cpp:273
+#: src/assets/view/widgets/keyframewidget.cpp:345
+#: src/assets/view/widgets/keyframewidget.cpp:577
 #, kde-format
 msgid "Y position"
 msgstr "Y konumu"
 
-#: src/assets/view/widgets/keyframewidget.cpp:259
-#: src/assets/view/widgets/keyframewidget.cpp:324
+#: src/assets/view/widgets/keyframewidget.cpp:274
+#: src/assets/view/widgets/keyframewidget.cpp:339
+#: src/assets/view/widgets/keyframewidget.cpp:577
 #, kde-format
 msgid "X position"
 msgstr "X konumu"
 
-#: src/assets/view/widgets/keyframewidget.cpp:278
+#: src/assets/view/widgets/keyframewidget.cpp:293
 #, kde-format
 msgid "Select parameters to copy"
 msgstr "Kopyalanacak parametreleri seçin"
 
-#: src/assets/view/widgets/keyframewidget.cpp:779
+#: src/assets/view/widgets/keyframewidget.cpp:835
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Anahtar kareler kopyalandı"
 
-#: src/assets/view/widgets/keyframewidget.cpp:790
-#: src/assets/view/widgets/keyframewidget.cpp:831
-#: src/assets/view/widgets/keyframewidget.cpp:838
+#: src/assets/view/widgets/keyframewidget.cpp:846
+#: src/assets/view/widgets/keyframewidget.cpp:887
+#: src/assets/view/widgets/keyframewidget.cpp:894
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Panoda geçerli anahtar kare verisi yok"
 
-#: src/assets/view/widgets/keyframewidget.cpp:882
+#: src/assets/view/widgets/keyframewidget.cpp:938
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Geçerli parametre değerleri kopyalanamıyor"
 
-#: src/assets/view/widgets/keyframewidget.cpp:887
-#: src/assets/view/widgets/keyframewidget.cpp:898
+#: src/assets/view/widgets/keyframewidget.cpp:943
+#: src/assets/view/widgets/keyframewidget.cpp:954
 #, kde-format
 msgid "Current values copied"
 msgstr "Geçerli değerler kopyalandı"
+
+#: src/assets/view/widgets/keyframewidget.cpp:1019
+#, kde-format
+msgid "Cannot remove the last keyframe"
+msgstr "Son anahtar kare kaldırılamıyor"
+
+#: src/assets/view/widgets/keyframewidget.cpp:1031
+#, kde-format
+msgid "Remove keyframe"
+msgid_plural "Remove keyframes"
+msgstr[0] "Anahtar kareyi kaldır"
+msgstr[1] "Anahtar kareleri kaldır"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4632,7 +4659,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Zaman akışında değiştir"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5776 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5777 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5151,29 +5178,29 @@ msgstr "İmleyici eklenecek klip bulunamadı"
 msgid "Could not find master clip"
 msgstr "Ana klip bulunamadı"
 
-#: src/bin/bin.cpp:5798
+#: src/bin/bin.cpp:5799
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klip | "
 
-#: src/bin/bin.cpp:5800
+#: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klip (%2 seçili) | "
 
-#: src/bin/bin.cpp:5867 src/bin/bin.cpp:5944
+#: src/bin/bin.cpp:5868 src/bin/bin.cpp:5945
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Klip için ek akış ekle"
 msgstr[1] "Klip için ek akışlar ekle"
 
-#: src/bin/bin.cpp:5888
+#: src/bin/bin.cpp:5889
 #, kde-format
 msgid "Import selected clips"
 msgstr "Seçili klipleri içe aktar"
 
-#: src/bin/bin.cpp:5890
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5182,51 +5209,51 @@ msgstr ""
 "Klip için ek akışlar\n"
 "%1"
 
-#: src/bin/bin.cpp:5903 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5904 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video akışı %1"
 
-#: src/bin/bin.cpp:5918
+#: src/bin/bin.cpp:5919
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Ses akışı %1"
 
-#: src/bin/bin.cpp:5971
+#: src/bin/bin.cpp:5972
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Klip imleyicilerini kaldır"
 
-#: src/bin/bin.cpp:6118
+#: src/bin/bin.cpp:6119
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Arakodlama işlemi öncesi projenizi kaydetmenizi öneririz"
 
-#: src/bin/bin.cpp:6119
+#: src/bin/bin.cpp:6120
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Projeyi Kaydet"
 
-#: src/bin/bin.cpp:6120
+#: src/bin/bin.cpp:6121
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Kaydetmeden Arakodla"
 
-#: src/bin/bin.cpp:6231 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1103
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 Efektini Sil"
 
-#: src/bin/bin.cpp:6296 src/mainwindow.cpp:401
+#: src/bin/bin.cpp:6297 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:6299 src/bin/bin.cpp:6302 src/mainwindow.cpp:4885
+#: src/bin/bin.cpp:6300 src/bin/bin.cpp:6303 src/mainwindow.cpp:4885
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
@@ -6287,8 +6314,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
-"Bu, tüm kayıt aygıtı profillerini siler ve değerleri öntanımlı ayarlarına "
-"geri döndürür"
+"Bu, tüm kayıt aygıtı profillerini siler ve değerleri öntanımlı ayarlara geri "
+"döndürür"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -8493,7 +8520,7 @@ msgid ""
 "<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides "
 "many effects and transitions. Install recommended</li>"
 msgstr ""
-"<li>Eksik paket: <b>Frei0r</b> efekti (frei0r-plugins)<br/>Birçok efekt ve "
+"<li>Eksik paket: <b>Frei0r</b> efekti (frei0r-plugins)<br/>Birçok efekti ve "
 "geçişi sağlar. Kurulması tavsiye edilir</li>"
 
 #: src/dialogs/wizard.cpp:273
@@ -9038,7 +9065,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Proje klasörü taşınırken hata: %1"
 
-#: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2329
+#: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2338
 #: src/project/dialogs/archivewidget.cpp:240
 #: src/project/projectmanager.cpp:1668
 #, kde-format
@@ -9099,12 +9126,12 @@ msgstr ""
 "Bu proje, standart olmayan bir kare hızı (%1) kullanıyor; bu, yanlış "
 "yerleştirilmiş kliplere ve kare ofsetine neden olur."
 
-#: src/doc/kdenlivedoc.cpp:1893
+#: src/doc/kdenlivedoc.cpp:1903
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "Uyarı: Standart olmayın FPS, en yakın tamsayıya düzeltiliyor. "
 
-#: src/doc/kdenlivedoc.cpp:1912
+#: src/doc/kdenlivedoc.cpp:1921
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -9113,43 +9140,43 @@ msgstr ""
 "Öntanımlı proje profiliniz %1 ancak klip profiliniz %2 (%3).\n"
 "Gelecek projeler için öntanımlı profilinizi değiştirmek ister misiniz?"
 
-#: src/doc/kdenlivedoc.cpp:1914
+#: src/doc/kdenlivedoc.cpp:1923
 #, kde-format
 msgid "Change default project profile"
 msgstr "Öntanımlı proje profilini değiştir"
 
-#: src/doc/kdenlivedoc.cpp:1914
+#: src/doc/kdenlivedoc.cpp:1923
 #, kde-format
 msgid "Change default to %1"
 msgstr "Varsayılanı %1 olarak değiştir"
 
-#: src/doc/kdenlivedoc.cpp:1915
+#: src/doc/kdenlivedoc.cpp:1924
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Şu geçerli öntanımlıyı koru: %1"
 
-#: src/doc/kdenlivedoc.cpp:1915
+#: src/doc/kdenlivedoc.cpp:1924
 #, kde-format
 msgid "Ask me later"
 msgstr "Daha sonra sor"
 
-#: src/doc/kdenlivedoc.cpp:1935
+#: src/doc/kdenlivedoc.cpp:1944
 #, kde-format
 msgid "Switch"
 msgstr "Değiştir"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1937 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1946 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "İptal"
 
-#: src/doc/kdenlivedoc.cpp:1939
+#: src/doc/kdenlivedoc.cpp:1948
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "%2 klip profiline (%1) geçilsin mi?"
 
-#: src/doc/kdenlivedoc.cpp:1944
+#: src/doc/kdenlivedoc.cpp:1953
 #, kde-format
 msgid ""
 "\n"
@@ -9158,7 +9185,7 @@ msgstr ""
 "\n"
 "Profil fps’i %1 orjinaline ayarlandı"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1957
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -9167,13 +9194,13 @@ msgstr ""
 "%1 klibiniz için profil bulunamadı.\n"
 "Yeni bir profil oluşturup ona geçin (%2 × %3, %4 fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2368 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2377 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Kırmızı"
 
-#: src/doc/kdenlivedoc.cpp:2369 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2378 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9181,24 +9208,24 @@ msgstr "Kırmızı"
 msgid "Green"
 msgstr "Yeşil"
 
-#: src/doc/kdenlivedoc.cpp:2370 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2379 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Mavi"
 
-#: src/doc/kdenlivedoc.cpp:2371 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2380 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Sarı"
 
-#: src/doc/kdenlivedoc.cpp:2372
+#: src/doc/kdenlivedoc.cpp:2381
 #, kde-format
 msgid "Cyan"
 msgstr "Turkuaz"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2677 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2686 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -9898,7 +9925,7 @@ msgstr "Pro&je"
 #: src/kdenliveui.rc:28
 #, kde-format
 msgid "Generators"
-msgstr "Oluşturucular"
+msgstr "Üreteçler"
 
 #. i18n: ectx: Menu (tool)
 #: src/kdenliveui.rc:58
@@ -10789,7 +10816,7 @@ msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
 "toolbar"
 msgid "Render Button"
-msgstr "Sunum düğmesi"
+msgstr "Sunum Düğmesi"
 
 #: src/mainwindow.cpp:641
 #, kde-format
@@ -12319,8 +12346,8 @@ msgstr "Menü çubuğunu gizle"
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr ""
-"Simge temasını değişikliğini uygulamak için Kdenlive yeniden "
-"başlatılmalıdır. Şimdi yeniden başlatılsın mı?"
+"Simge teması değişikliğini uygulamak için Kdenlive yeniden başlatılmalıdır. "
+"Şimdi yeniden başlatılsın mı?"
 
 #: src/mainwindow.cpp:4754 src/timeline2/view/timelinecontroller.cpp:5151
 #, kde-format
@@ -16512,7 +16539,7 @@ msgstr "Geri yükleme işlemi için kullanılabilir video izi yok"
 #: src/timeline2/model/timelinefunctions.cpp:1235
 #, kde-format
 msgid "Video restore failed"
-msgstr "Video geri yükleme başarısız"
+msgstr "Videoyu geri yükleme başarısız"
 
 #: src/timeline2/model/timelinefunctions.cpp:1241
 #, kde-format
@@ -19043,13 +19070,13 @@ msgstr "Yakalanacak bölge:"
 #: src/ui/configcapture_ui.ui:277
 #, kde-format
 msgid "Full Screen"
-msgstr "Tam Ekran"
+msgstr "Tam ekran"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_grab_capture_type)
 #: src/ui/configcapture_ui.ui:282
 #, kde-format
 msgid "Rectangular Region"
-msgstr "Dikdörtgen Bölge"
+msgstr "Dikdörtgen bölge"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_follow_mouse)
 #: src/ui/configcapture_ui.ui:301
@@ -19650,7 +19677,7 @@ msgid ""
 "These are the default settings for new projects. To edit the parameters of "
 "the current project, use the project settings."
 msgstr ""
-"Bunlar, yeni projeler için öntanımlı ayarlarıdır. Geçerli projenin "
+"Bunlar, yeni projeler için olan öntanımlı ayarlardır. Geçerli projenin "
 "parametrelerini düzenlemek için proje ayarlarını kullanın."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
@@ -22538,30 +22565,3 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
-
-#~ msgid "Position offset:"
-#~ msgstr "Konum ofseti:"
-
-#~ msgid "Current scheme:"
-#~ msgstr "Geçerli şema:"
-
-#~ msgid "More Actions"
-#~ msgstr "Daha Fazla Eylem"
-
-#~ msgid "Edit clip"
-#~ msgstr "Klibi düzenle"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</"
-#~ "b> by the second, <b>{&#x25;3}</b> by the output file path."
-#~ msgstr ""
-#~ "<b>{&#x25;1}</b> ilk parametreyle, <b>{&#x25;2}</b> ikinciyle ve "
-#~ "<b>{&#x25;3}</b> çıktı dosyası yoluyla değiştirilecek."
-
-#~ msgid ""
-#~ "Your OpenTimelineIO module does not include Kdenlive adapter.\n"
-#~ "Please install version >= 0.12\n"
-#~ msgstr ""
-#~ "OpenTimelineIO modülünüz Kdenlive adaptörünü içermiyor.\n"
-#~ "Lütfen 0.12’den daha yeni bir sürümünü kurun.\n"
