@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-26 00:38+0000\n"
+"POT-Creation-Date: 2024-07-10 00:38+0000\n"
 "PO-Revision-Date: 2024-06-30 11:05+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4556,7 +4556,7 @@ msgstr "您不能將素材取代為另一種類的素材（音訊/視訊不相�
 msgid "Replace in timeline"
 msgstr "在時間軸中取代"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5777 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5778 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5068,28 +5068,28 @@ msgstr "無法找到要新增標記的素材"
 msgid "Could not find master clip"
 msgstr "找不到 master 素材"
 
-#: src/bin/bin.cpp:5799
+#: src/bin/bin.cpp:5800
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> 個素材 | "
 
-#: src/bin/bin.cpp:5801
+#: src/bin/bin.cpp:5802
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> 個素材（已選 %2 個）| "
 
-#: src/bin/bin.cpp:5868 src/bin/bin.cpp:5945
+#: src/bin/bin.cpp:5869 src/bin/bin.cpp:5946
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "為素材新增額外串流"
 
-#: src/bin/bin.cpp:5889
+#: src/bin/bin.cpp:5890
 #, kde-format
 msgid "Import selected clips"
 msgstr "匯入所選素材"
 
-#: src/bin/bin.cpp:5891
+#: src/bin/bin.cpp:5892
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5098,51 +5098,51 @@ msgstr ""
 "以下素材的額外串流\n"
 " %1"
 
-#: src/bin/bin.cpp:5904 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5905 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "視訊串流 %1"
 
-#: src/bin/bin.cpp:5919
+#: src/bin/bin.cpp:5920
 #, kde-format
 msgid "Audio stream %1"
 msgstr "音訊串流 %1"
 
-#: src/bin/bin.cpp:5972
+#: src/bin/bin.cpp:5973
 #, kde-format
 msgid "Remove clip markers"
 msgstr "移除素材標記"
 
-#: src/bin/bin.cpp:6119
+#: src/bin/bin.cpp:6120
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我們建議您在進行轉碼前先儲存專案"
 
-#: src/bin/bin.cpp:6120
+#: src/bin/bin.cpp:6121
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "儲存專案"
 
-#: src/bin/bin.cpp:6121
+#: src/bin/bin.cpp:6122
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "繼續轉換編碼而不儲存"
 
-#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6233 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1103
 #, kde-format
 msgid "Delete effect %1"
 msgstr "刪除效果 %1"
 
-#: src/bin/bin.cpp:6297 src/mainwindow.cpp:401
+#: src/bin/bin.cpp:6298 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr "專案素材庫"
 
-#: src/bin/bin.cpp:6300 src/bin/bin.cpp:6303 src/mainwindow.cpp:4885
+#: src/bin/bin.cpp:6301 src/bin/bin.cpp:6304 src/mainwindow.cpp:4885
 #, kde-format
 msgid "Project Bin %1"
 msgstr "專案素材庫 %1"
@@ -5424,7 +5424,7 @@ msgid "Add markers"
 msgstr "新增標記"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:77 src/core.cpp:703 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:77 src/core.cpp:708 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:309 src/project/dialogs/archivewidget.cpp:98
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -5963,12 +5963,12 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "時鐘頂部"
 
-#: src/core.cpp:648
+#: src/core.cpp:653
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的專案編碼方案是無效的，算繪可能會失敗。"
 
-#: src/core.cpp:999
+#: src/core.cpp:1004
 #, kde-format
 msgid "Loading clips"
 msgstr "載入素材中"

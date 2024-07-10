@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-26 00:38+0000\n"
+"POT-Creation-Date: 2024-07-10 00:38+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4644,7 +4644,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "기본 타임라인"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5777 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5778 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5186,29 +5186,29 @@ msgstr "마커를 추가할 클립을 찾을 수 없음"
 msgid "Could not find master clip"
 msgstr "마스터 클립을 찾을 수 없음"
 
-#: src/bin/bin.cpp:5799
+#: src/bin/bin.cpp:5800
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5801
+#: src/bin/bin.cpp:5802
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5868 src/bin/bin.cpp:5945
+#: src/bin/bin.cpp:5869 src/bin/bin.cpp:5946
 #, fuzzy, kde-format
 #| msgid "Add additional streams for clip"
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "클립에 추가 스트림 추가"
 
-#: src/bin/bin.cpp:5889
+#: src/bin/bin.cpp:5890
 #, kde-format
 msgid "Import selected clips"
 msgstr "선택한 클립 가져오기"
 
-#: src/bin/bin.cpp:5891
+#: src/bin/bin.cpp:5892
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5217,54 +5217,54 @@ msgstr ""
 "%1\n"
 "클립의 추가 스트림"
 
-#: src/bin/bin.cpp:5904 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5905 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "동영상 스트림 %1"
 
-#: src/bin/bin.cpp:5919
+#: src/bin/bin.cpp:5920
 #, kde-format
 msgid "Audio stream %1"
 msgstr "오디오 스트림 %1"
 
-#: src/bin/bin.cpp:5972
+#: src/bin/bin.cpp:5973
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
 msgstr "클립 삭제"
 
-#: src/bin/bin.cpp:6119
+#: src/bin/bin.cpp:6120
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6120
+#: src/bin/bin.cpp:6121
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "DVD 프로젝트 저장"
 
-#: src/bin/bin.cpp:6121
+#: src/bin/bin.cpp:6122
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "트랜스코딩: %1"
 
-#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6233 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1103
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 효과 삭제"
 
-#: src/bin/bin.cpp:6297 src/mainwindow.cpp:401
+#: src/bin/bin.cpp:6298 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:6300 src/bin/bin.cpp:6303 src/mainwindow.cpp:4885
+#: src/bin/bin.cpp:6301 src/bin/bin.cpp:6304 src/mainwindow.cpp:4885
 #, kde-format
 msgid "Project Bin %1"
 msgstr "프로젝트 보관함 %1"
@@ -5562,7 +5562,7 @@ msgid "Add markers"
 msgstr "마커 추가"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:77 src/core.cpp:703 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:77 src/core.cpp:708 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:309 src/project/dialogs/archivewidget.cpp:98
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -6119,12 +6119,12 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "시계 위"
 
-#: src/core.cpp:648
+#: src/core.cpp:653
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "프로젝트 프로필이 유효하지 않습니다. 렌더링이 실패할 수 있습니다."
 
-#: src/core.cpp:999
+#: src/core.cpp:1004
 #, kde-format
 msgid "Loading clips"
 msgstr "클립 불러오는 중"

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-06-26 00:38+0000\n"
-"PO-Revision-Date: 2024-06-24 16:18+0200\n"
+"POT-Creation-Date: 2024-07-10 00:38+0000\n"
+"PO-Revision-Date: 2024-07-09 14:04+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -896,17 +896,14 @@ msgid "Text"
 msgstr "Testua"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"denbora-kodea,fotograma,fitxategiaren data,fitxategi lokalaren data,"
-"iturburuaren bit-emaria,iturburu codec-a,iturburu bit-emaria,iturburu "
-"zabalera,iturburu altuera,iturburu iruzkina"
+"denbora-kodea,fotograma,sorrera-data,fitxategiaren data (GMT),fitxategiaren "
+"data (lokala),iturburuaren bit-emaria,iturburu-kodeka,iturburuaren bit-"
+"emaria,iturburuaren zabalera,iturburuaren altuera,iturburuaren iruzkina"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -914,6 +911,8 @@ msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
+"Irteera neurrira ipintzeko «strftime» parametroak ere sar ditzakezu, adib: "
+"#createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -3754,9 +3753,7 @@ msgid "B: "
 msgstr "B: "
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
 msgstr "Mugitu gako-fotograma"
 
@@ -3846,16 +3843,14 @@ msgid " to "
 msgstr " hona "
 
 #: src/assets/view/widgets/keyframeimport.cpp:324
-#, fuzzy, kde-format
-#| msgid "Horizontal center"
+#, kde-format
 msgid "Horizontal offset:"
-msgstr "Zentratu horizontalki"
+msgstr "Jatorri-aldaketa horizontala:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
-#, fuzzy, kde-format
-#| msgid "Vertical center"
+#, kde-format
 msgid "Vertical offset:"
-msgstr "Zentratu bertikalki"
+msgstr "Jatorri-aldaketa bertikala:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -3956,15 +3951,14 @@ msgid "Import keyframes from clipboard"
 msgstr "Inportatu gako-fotogramak arbeletik"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "Denbora-lerroaren aurreikuspena"
+msgstr "Aldatu denbora-lerro ikuspegira"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "Aldatu kurba-editore ikuspegira"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
@@ -4679,7 +4673,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Ordeztu denbora-lerroan"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5777 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5778 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5198,29 +5192,29 @@ msgstr "Ezin izan da klipa aurkitu markatzailea gehitzeko"
 msgid "Could not find master clip"
 msgstr "Ezin da klip maisua aurkitu"
 
-#: src/bin/bin.cpp:5799
+#: src/bin/bin.cpp:5800
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klipak | "
 
-#: src/bin/bin.cpp:5801
+#: src/bin/bin.cpp:5802
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klipak (%2 hautatuak) | "
 
-#: src/bin/bin.cpp:5868 src/bin/bin.cpp:5945
+#: src/bin/bin.cpp:5869 src/bin/bin.cpp:5946
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Gehitu korronte gehigarria kliparentzako"
 msgstr[1] "Gehitu korronte gehigarriak kliparentzako"
 
-#: src/bin/bin.cpp:5889
+#: src/bin/bin.cpp:5890
 #, kde-format
 msgid "Import selected clips"
 msgstr "Inportatu hautatutako klipak"
 
-#: src/bin/bin.cpp:5891
+#: src/bin/bin.cpp:5892
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5229,52 +5223,52 @@ msgstr ""
 "Korronte gehigarriak kliparentzako\n"
 "%1"
 
-#: src/bin/bin.cpp:5904 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5905 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "%1 bideo-korrontea"
 
-#: src/bin/bin.cpp:5919
+#: src/bin/bin.cpp:5920
 #, kde-format
 msgid "Audio stream %1"
 msgstr "%1 audio korrontea"
 
-#: src/bin/bin.cpp:5972
+#: src/bin/bin.cpp:5973
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Kendu klip-markatzaileak"
 
-#: src/bin/bin.cpp:6119
+#: src/bin/bin.cpp:6120
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Transkodetze eragiketa aurretik proiektua gordetzea gomendatzen dizugu."
 
-#: src/bin/bin.cpp:6120
+#: src/bin/bin.cpp:6121
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Gorde proiektua"
 
-#: src/bin/bin.cpp:6121
+#: src/bin/bin.cpp:6122
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkodetu gorde gabe"
 
-#: src/bin/bin.cpp:6232 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6233 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1103
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Ezabatu %1 efektua"
 
-#: src/bin/bin.cpp:6297 src/mainwindow.cpp:401
+#: src/bin/bin.cpp:6298 src/mainwindow.cpp:401
 #, kde-format
 msgid "Project Bin"
 msgstr "Proiektu-ontzia"
 
-#: src/bin/bin.cpp:6300 src/bin/bin.cpp:6303 src/mainwindow.cpp:4885
+#: src/bin/bin.cpp:6301 src/bin/bin.cpp:6304 src/mainwindow.cpp:4885
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proiektu-ontzia %1"
@@ -5559,7 +5553,7 @@ msgid "Add markers"
 msgstr "Gehitu markatzaileak"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:77 src/core.cpp:703 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:77 src/core.cpp:708 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:309 src/project/dialogs/archivewidget.cpp:98
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -6103,12 +6097,12 @@ msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Erlojua Goian"
 
-#: src/core.cpp:648
+#: src/core.cpp:653
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Proiektuaren profila ez da baliozkoa, errendatzeak huts egin dezake."
 
-#: src/core.cpp:999
+#: src/core.cpp:1004
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipak kargatzen"
