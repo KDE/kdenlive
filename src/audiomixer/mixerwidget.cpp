@@ -230,13 +230,18 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             if (m_levelFilter) {
                 if (active) {
                     m_lastVolume = m_levelFilter->get_double("level");
+                    m_levelFilter->set("kdenlive:muted_level", m_lastVolume);
                     m_levelFilter->set("level", -1000);
                     m_levelFilter->set("disable", 0);
                 } else {
+                    m_lastVolume = m_levelFilter->get_double("kdenlive:muted_level");
                     m_levelFilter->set("level", m_lastVolume);
                     m_levelFilter->set("disable", qFuzzyIsNull(m_lastVolume) ? 1 : 0);
+                    m_volumeSpin->setValue(m_lastVolume);
+                    m_volumeSlider->setValue(fromDB(m_lastVolume) * 100.);
                 }
             }
+            setMute(active);
         } else {
             Q_EMIT muteTrack(m_tid, !active);
             reset();
@@ -280,6 +285,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             }
             m_manager->monitorAudio(m_tid, toggled);
         });
+        if (service->get_int("hide") > 1) {
+            setMute(true);
+        }
     } else {
         m_collapse = new QToolButton(this);
         m_collapse->setIcon(KdenliveSettings::mixerCollapse() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
@@ -293,6 +301,10 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
             m_collapse->setIcon(m_collapse->isChecked() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
             m_manager->collapseMixers();
         });
+        double volume = m_levelFilter->get_double("level");
+        if (volume < -999) {
+            setMute(true);
+        }
     }
     showEffects = new QToolButton(this);
     showEffects->setIcon(QIcon::fromTheme("autocorrection"));
@@ -379,9 +391,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackName)
     lay->addWidget(m_volumeSpin);
     lay->setStretch(4, 10);
     setLayout(lay);
-    if (service->get_int("hide") > 1) {
-        setMute(true);
-    }
 }
 
 void MixerWidget::mousePressEvent(QMouseEvent *event)
