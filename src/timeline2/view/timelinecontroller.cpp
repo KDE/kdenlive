@@ -5306,7 +5306,7 @@ void TimelineController::processMultitrackOperation(int tid, int in)
     // Lift all tracks except tid
     while (it != m_model->m_allTracks.cend()) {
         int target_track = (*it)->getId();
-        if (target_track != tid && !(*it)->isAudioTrack() && m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+        if (target_track != tid && !(*it)->isAudioTrack() && !m_model->getTrackById_const(target_track)->isLocked()) {
             tracks << target_track;
         }
         ++it;
