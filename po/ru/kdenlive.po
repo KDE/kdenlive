@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-10 00:38+0000\n"
+"POT-Creation-Date: 2024-07-11 00:38+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -4247,7 +4247,7 @@ msgstr ""
 "Настраивает громкость звука аудио дорожки (одинаково воздействует на все "
 "аудио клипы)."
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:522
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:904
 #, kde-format
 msgid "dB"
@@ -4293,35 +4293,35 @@ msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr "Выключает/включает звуковую дорожку."
 
-#: src/audiomixer/mixerwidget.cpp:262
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "Режим соло"
 
-#: src/audiomixer/mixerwidget.cpp:263
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr "Выключает все выбранные звуковые дорожки."
 
-#: src/audiomixer/mixerwidget.cpp:272
+#: src/audiomixer/mixerwidget.cpp:277
 #, fuzzy, kde-format
 #| msgid "Monitor audio input"
 msgid "Monitor audio"
 msgstr "Слежение за входящим звуком"
 
-#: src/audiomixer/mixerwidget.cpp:273
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr "Переводит звуковую дорожку в режим записи."
 
-#: src/audiomixer/mixerwidget.cpp:286
+#: src/audiomixer/mixerwidget.cpp:294
 #, kde-format
 msgid "Show channels"
 msgstr "Показать каналы"
 
-#: src/audiomixer/mixerwidget.cpp:287
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4330,18 +4330,18 @@ msgstr ""
 "Переключает отображение элементов управления звуковой дорожки в звуковом "
 "микшере."
 
-#: src/audiomixer/mixerwidget.cpp:299
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "Открыть стек эффектов"
 
-#: src/audiomixer/mixerwidget.cpp:301
+#: src/audiomixer/mixerwidget.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "Открывает стек эффектов для звуковой дорожки."
 
-#: src/audiomixer/mixerwidget.cpp:303
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."

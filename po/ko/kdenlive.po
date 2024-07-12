@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-10 00:38+0000\n"
+"POT-Creation-Date: 2024-07-11 00:38+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4174,7 +4174,7 @@ msgid ""
 "equally)."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:522
+#: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:904
 #, kde-format
 msgid "dB"
@@ -4217,55 +4217,55 @@ msgctxt "@info:whatsthis"
 msgid "Mutes/un-mutes the audio track."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:262
+#: src/audiomixer/mixerwidget.cpp:267
 #, kde-format
 msgid "Solo mode"
 msgstr "단독 모드"
 
-#: src/audiomixer/mixerwidget.cpp:263
+#: src/audiomixer/mixerwidget.cpp:268
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "When selected mutes all other audio tracks."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:272
+#: src/audiomixer/mixerwidget.cpp:277
 #, fuzzy, kde-format
 #| msgid "Monitor config"
 msgid "Monitor audio"
 msgstr "모니터 설정"
 
-#: src/audiomixer/mixerwidget.cpp:273
+#: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Puts the audio track into recording mode."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:286
+#: src/audiomixer/mixerwidget.cpp:294
 #, fuzzy, kde-format
 #| msgid "Show Channels"
 msgid "Show channels"
 msgstr "채널 표시"
 
-#: src/audiomixer/mixerwidget.cpp:287
+#: src/audiomixer/mixerwidget.cpp:295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/audiomixer/mixerwidget.cpp:299
+#: src/audiomixer/mixerwidget.cpp:311
 #, kde-format
 msgid "Open Effect Stack"
 msgstr "효과 스택 열기"
 
-#: src/audiomixer/mixerwidget.cpp:301
+#: src/audiomixer/mixerwidget.cpp:313
 #, fuzzy, kde-kuit-format
 #| msgid "Fade in audio track"
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio track."
 msgstr "오디오 트랙 페이드 인"
 
-#: src/audiomixer/mixerwidget.cpp:303
+#: src/audiomixer/mixerwidget.cpp:315
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
