@@ -40,16 +40,14 @@ ThemeManager::ThemeManager(QObject *parent)
             }
         }
     }
+    activateScheme(indexForScheme(scheme));
     m_menu = KColorSchemeMenu::createMenu(this, this);
-    // TODO: select current action?
 
     connect(m_menu->menu(), &QMenu::triggered, this, [this](QAction *action) {
         QModelIndex schemeIndex = indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
         const QString path = model()->data(schemeIndex, Qt::UserRole).toString();
         slotSchemeChanged(path);
     });
-
-    activateScheme(indexForScheme(scheme));
 }
 
 QString ThemeManager::loadCurrentPath() const
