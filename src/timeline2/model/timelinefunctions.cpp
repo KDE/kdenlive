@@ -1351,10 +1351,10 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
                     break;
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("0 0 33% 50% 100%");
+                    geometry = QStringLiteral("0 0 33.3% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("0 0 33% 33% 100%");
+                    geometry = QStringLiteral("0 0 33.3% 33.3% 100%");
                     break;
                 }
                 break;
@@ -1369,10 +1369,10 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
                     break;
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("33% 0 33% 50% 100%");
+                    geometry = QStringLiteral("33.3% 0 33.3% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("33% 0 33% 33% 100%");
+                    geometry = QStringLiteral("33.3% 0 33.3% 33.3% 100%");
                     break;
                 }
                 break;
@@ -1384,10 +1384,10 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
                     break;
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("66% 0 33% 50% 100%");
+                    geometry = QStringLiteral("66.6% 0 33.3% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("66% 0 33% 33% 100%");
+                    geometry = QStringLiteral("66.6% 0 33.3% 33.3% 100%");
                     break;
                 }
                 break;
@@ -1398,10 +1398,10 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
                     break;
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("0 50% 33% 50% 100%");
+                    geometry = QStringLiteral("0 50% 33.3% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("0 33% 33% 33% 100%");
+                    geometry = QStringLiteral("0 33.3% 33.3% 33.3% 100%");
                     break;
                 }
                 break;
@@ -1409,31 +1409,31 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
                 switch (videoTracks.size()) {
                 case 5:
                 case 6:
-                    geometry = QStringLiteral("33% 50% 33% 50% 100%");
+                    geometry = QStringLiteral("33.3% 50% 33.3% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("33% 33% 33% 33% 100%");
+                    geometry = QStringLiteral("33.3% 33.3% 33.3% 33.3% 100%");
                     break;
                 }
                 break;
             case 5:
                 switch (videoTracks.size()) {
                 case 6:
-                    geometry = QStringLiteral("66% 50% 33% 50% 100%");
+                    geometry = QStringLiteral("66.6% 50% 33.3% 50% 100%");
                     break;
                 default:
-                    geometry = QStringLiteral("66% 33% 33% 33% 100%");
+                    geometry = QStringLiteral("66.6% 33.3% 33.3% 33.3% 100%");
                     break;
                 }
                 break;
             case 6:
-                geometry = QStringLiteral("0 66% 33% 33% 100%");
+                geometry = QStringLiteral("0 66.6% 33.3% 33.3% 100%");
                 break;
             case 7:
-                geometry = QStringLiteral("33% 66% 33% 33% 100%");
+                geometry = QStringLiteral("33.3% 66.6% 33.3% 33.3% 100%");
                 break;
             default:
-                geometry = QStringLiteral("66% 66% 33% 33% 100%");
+                geometry = QStringLiteral("66.6% 66.6% 33.3% 33.3% 100%");
                 break;
             }
             count++;
