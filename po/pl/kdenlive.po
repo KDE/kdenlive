@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-11 00:38+0000\n"
-"PO-Revision-Date: 2024-05-26 11:14+0200\n"
+"PO-Revision-Date: 2024-07-14 13:04+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -889,17 +890,14 @@ msgid "Text"
 msgstr "Tekst"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"kod czasu,klatka,data pliku,data pliku lokalnego,szybkość klatek źródła,"
-"kodek źródła,szybkość bitowa źródła,szerokość źródła,wysokość źródła,"
-"komentarz źródła"
+"kod czasu,klatka,data utworzenia,data pliku (GMT),data pliku (lokalna),"
+"szybkość klatek źródła,kodek źródła,szybkość bitowa źródła,szerokość źródła,"
+"wysokość źródła,komentarz źródła"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -907,6 +905,8 @@ msgid ""
 "You can also enter strftime parameters to customize the output, like: "
 "#createdate %H:%M %D#"
 msgstr ""
+"Możesz także wpisać parametry strftime, aby dostosować wynik, np: "
+"#createdate %H:%M %D#"
 
 #: data/effects/fade_from_black.xml:4
 #, kde-format
@@ -3288,7 +3288,7 @@ msgstr "Pobierz nowe przejścia…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:171
 #, kde-format
 msgid "Only show reviewed assets"
-msgstr ""
+msgstr "Pokaż tylko przejrzane zasoby"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:176
 #, kde-format
@@ -3670,11 +3670,10 @@ msgid "Cannot open preset file %1"
 msgstr "Nie można otworzyć pliku nastaw %1"
 
 #: src/assets/model/assetparametermodel.cpp:1445
-#, fuzzy, kde-format
-#| msgid "Failed to find script file %1"
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "Nie udało się znaleźć pliku skryptu %1"
+msgstr "Nie udało się wczytać nastawy %1"
 
 #: src/assets/view/assetparameterview.cpp:51
 #, kde-format
@@ -3740,9 +3739,7 @@ msgid "B: "
 msgstr "B: "
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
-#, fuzzy, kde-format
-#| msgid "Move keyframe"
-#| msgid_plural "Move keyframes"
+#, kde-format
 msgid "Move Keyframe"
 msgstr "Przenieś klatkę kluczową"
 
@@ -3832,16 +3829,14 @@ msgid " to "
 msgstr " do "
 
 #: src/assets/view/widgets/keyframeimport.cpp:324
-#, fuzzy, kde-format
-#| msgid "Horizontal center"
+#, kde-format
 msgid "Horizontal offset:"
-msgstr "Środek w poziomie"
+msgstr "Przesuniecie w poziomie:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
-#, fuzzy, kde-format
-#| msgid "Vertical center"
+#, kde-format
 msgid "Vertical offset:"
-msgstr "Środek w pionie"
+msgstr "Przesuniecie w pionie:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -3942,15 +3937,14 @@ msgid "Import keyframes from clipboard"
 msgstr "Zaimportuj klatki kluczowe ze schowka"
 
 #: src/assets/view/widgets/keyframewidget.cpp:74
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "Switch to timeline view"
-msgstr "Podgląd na osi czasu"
+msgstr "Przełącz na widok osi czasu"
 
 #: src/assets/view/widgets/keyframewidget.cpp:76
 #, kde-format
 msgid "Switch to curve editor view"
-msgstr ""
+msgstr "Przełącz na widok edytora krzywych"
 
 #: src/assets/view/widgets/keyframewidget.cpp:97 src/dialogs/timeremap.cpp:1708
 #: src/mainwindow.cpp:1902
@@ -4247,10 +4241,9 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Po zaznaczeniu wycisza wszystkie pozostałe ścieżki dźwiękowe."
 
 #: src/audiomixer/mixerwidget.cpp:277
-#, fuzzy, kde-format
-#| msgid "Monitor audio input"
+#, kde-format
 msgid "Monitor audio"
-msgstr "Monitoruj wejście dźwięku"
+msgstr "Monitoruj dźwięk"
 
 #: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
@@ -5284,8 +5277,7 @@ msgid "Rename Zone"
 msgstr "Przemianuj zakres"
 
 #: src/bin/bincommands.cpp:86
-#, fuzzy, kde-format
-#| msgid "Edit Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
 msgstr "Edytuj wycinek"
@@ -6189,13 +6181,7 @@ msgid "Arguments for the command line script"
 msgstr "Argumenty dla skryptu wiersza poleceń"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{source}</b> will be replaced by the Bin Clip source file path, "
@@ -6203,12 +6189,10 @@ msgid ""
 "b> will be replaced by the second parameter value, <b>{output}</b> will be "
 "replaced by the output file name."
 msgstr ""
-"W argumentach, dostępne są następujące ustawienia: <ul><li><b>{source}</b> "
-"zostanie zastąpione ścieżką do pojemnika wycinka źródłowego</"
-"li><li><b>{output}</b> zostanie zastąpione ścieżką do pliku wyjściowego</"
-"li><li><b>{param1}</b> zostanie zastąpione wartością pierwszego parametru</"
-"li><li><b>{param2}</b> zostanie zastąpione wartością drugiego parametru</"
-"li></ul>"
+"<b>{source}</b> zostanie zastąpione ścieżką do pojemnika wycinka źródłowego, "
+"<b>{param1}</b> zostanie zastąpione wartością pierwszego parametru,"
+"<b>{param2}</b> zostanie zastąpione wartością drugiego parametru, <b>{output}"
+"</b> zostanie zastąpione ścieżką do pliku wyjściowego"
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6216,13 +6200,7 @@ msgid "File extension for the output file"
 msgstr "Rozszerzenie pliku dla pliku wynikowego"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "The output file name will be the same as the source bin clip filename, "
-#| "with the modified extension. It will be appended at the end of the "
-#| "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output "
-#| "filename already exists, a -0001 pattern will be appended."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
@@ -6232,7 +6210,7 @@ msgid ""
 msgstr ""
 "Nazwa pliku wyjściowego będzie taka sama jak wycinka źródłowego ze "
 "zmienionym rozszerzenie. Zostanie ono dołączone na końcu argumentów lub "
-"wstawione za <b>{&#x25;3}</b>, jeśli zostanie znalezione. Jeśli plik "
+"wstawione za <b>{output}</b>, jeśli zostanie znalezione. Jeśli plik "
 "wyjściowy już istnieje, to zostanie dołączony przyrostek -0001."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
@@ -6263,17 +6241,13 @@ msgstr ""
 "przedstawiona przy wykonywaniu"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "When the parameter is set to <b>Request Option in List</b> the user will "
-#| "be asked to choose a value in this list when the job is started."
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When the parameter is set to <b>Request Option from List</b> the user will "
 "be asked to choose a value in this list when the job is started."
 msgstr ""
-"Gdy parametr jest ustawiony na <b>Zażądaj ustawienia na liście</b> to "
+"Gdy parametr jest ustawiony na <b>Zażądaj ustawienia z listy</b> to "
 "użytkownik zostanie zapytany o wybranie wartości z listy po rozpoczęciu "
 "zadania."
 
@@ -6291,6 +6265,7 @@ msgstr "Powielenie wycinka ze zmianą szybkości…"
 #, kde-format
 msgid "Check your parameters syntax (incorrect number of quotes)"
 msgstr ""
+"Sprawdź składnię swoich parametrów (niepoprawna liczba znaków cytujących)"
 
 #: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
@@ -6743,6 +6718,9 @@ msgid ""
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
 "documentation</a>."
 msgstr ""
+"Aby dowiedzieć się więcej o ustawianiu urządzenia, zajrzyj do <a href="
+"\"https://docs.kdenlive.org/user_interface/menu/settings_menu/"
+"configure_kdenlive.html#windows\">naszej dokumentacji</a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:510 src/dialogs/timeremap.cpp:1670
@@ -10450,22 +10428,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Błędy zgłaszaj na <a href=\"%1\">%2</a>"
 
 #: src/main.cpp:313
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "Używasz pakietu %1.<br>"
+msgstr "Używasz pakietu AppImage.<br>"
 
 #: src/main.cpp:316
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "Używasz pakietu %1.<br>"
+msgstr "Używasz pakietu Flatpak.<br>"
 
 #: src/main.cpp:319
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "Używasz pakietu %1.<br>"
+msgstr "Używasz pakietu Snap.<br>"
 
 #: src/main.cpp:325
 #, kde-format
@@ -10766,10 +10741,9 @@ msgid "Record"
 msgstr "Nagraj"
 
 #: src/mainwindow.cpp:370
-#, fuzzy, kde-format
-#| msgid "Enable edit mode in monitor to edit effect"
+#, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
-msgstr "Włącz tryb edycji w monitorze, aby edytować efekt"
+msgstr "Włącz monitorowanie dźwięku z miksera do nagrywania"
 
 #: src/mainwindow.cpp:378 src/monitor/recmanager.cpp:103
 #, kde-format
@@ -13391,10 +13365,9 @@ msgid "Switch Full Screen"
 msgstr "Przełącz na pełny ekran"
 
 #: src/monitor/view/EffectToolBar.qml:64
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Grid"
-msgstr "Pokaż pola"
+msgstr "Pokaż siatkę"
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -15050,8 +15023,7 @@ msgid "Save Copy"
 msgstr "Zapisz kopię"
 
 #: src/project/projectmanager.cpp:749
-#, fuzzy, kde-format
-#| msgid "Auto-saved file exist. Do you want to recover now?"
+#, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Napotkano na samozapisany plik. Czy odzyskać go?"
 
@@ -18850,13 +18822,7 @@ msgstr "Argumenty"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, fuzzy, kde-format
-#| msgid ""
-#| "In the arguments, the following options are available: <ul><li><b>{source}"
-#| "</b> will be replaced by the Bin Clip source file path</li><li><b>{output}"
-#| "</b> will be replaced by the output file name</li><li><b>{param1}</b> "
-#| "will be replaced by the first parameter value</li><li><b>{param2}</b> "
-#| "will be replaced by the second parameter value</li></ul>"
+#, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
 "b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
@@ -18866,10 +18832,10 @@ msgid ""
 msgstr ""
 "W argumentach, dostępne są następujące ustawienia: <ul><li><b>{source}</b> "
 "zostanie zastąpione ścieżką do pojemnika wycinka źródłowego</"
-"li><li><b>{output}</b> zostanie zastąpione ścieżką do pliku wyjściowego</"
 "li><li><b>{param1}</b> zostanie zastąpione wartością pierwszego parametru</"
-"li><li><b>{param2}</b> zostanie zastąpione wartością drugiego parametru</"
-"li></ul>"
+"li><li><b>{param2}</b> zostanie zastąpione wartością drugiego parametru</li> "
+"<li><b>{output}</b> zostanie zastąpione ścieżką do pliku wyjściowego</li></"
+"ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
@@ -19305,10 +19271,9 @@ msgstr "Kolor tła monitora:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Monitor"
+msgstr "Monitoruj siatkę"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -19937,7 +19902,7 @@ msgstr "Włącz"
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
-msgstr ""
+msgstr "Odtwórz/wstrzymaj monitor po naciśnięciu myszą"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
