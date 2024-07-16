@@ -2686,17 +2686,18 @@ void ProjectClip::replaceInTimeline()
 
 void ProjectClip::updateTimelineClips(const QVector<int> &roles)
 {
-    const QUuid uuid = pCore->currentTimelineId();
-    if (m_registeredClipsByUuid.contains(uuid)) {
-        QList<int> instances = m_registeredClipsByUuid.value(uuid);
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    while (i.hasNext()) {
+        i.next();
+        QList<int> instances = i.value();
         if (!instances.isEmpty()) {
-            auto timeline = pCore->currentDoc()->getTimeline(uuid);
+            auto timeline = pCore->currentDoc()->getTimeline(i.key());
             if (!timeline) {
                 if (pCore->projectItemModel()->closing) {
                     return;
                 }
                 qDebug() << "Error while reloading clip: timeline unavailable";
-                Q_ASSERT(false);
+                continue;
             }
             for (auto &cid : instances) {
                 timeline->requestClipUpdate(cid, roles);
