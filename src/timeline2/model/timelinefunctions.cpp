@@ -1802,6 +1802,10 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     QPair<int, int> avTracks = timeline->getAVtracksCount();
     container.setAttribute(QStringLiteral("audioTracks"), avTracks.first);
     container.setAttribute(QStringLiteral("videoTracks"), avTracks.second);
+    if (timeline->singleSelectionMode()) {
+        // Don't include group info
+        return copiedItems.toString();
+    }
     QDomElement grp = copiedItems.createElement(QStringLiteral("groups"));
     container.appendChild(grp);
     std::unordered_set<int> groupRoots;
