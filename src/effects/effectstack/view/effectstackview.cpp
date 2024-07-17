@@ -368,7 +368,8 @@ void EffectStackView::loadEffects()
 
 void EffectStackView::slotDeleteEffect(const std::shared_ptr<EffectItemModel> &effect)
 {
-    if (KdenliveSettings::applyEffectParamsToGroup()) {
+    auto type = m_model->getOwnerId().type;
+    if ((type == KdenliveObjectType::TimelineClip || type == KdenliveObjectType::BinClip) && KdenliveSettings::applyEffectParamsToGroup()) {
         pCore->removeGroupEffect(m_model->getOwnerId(), effect->getAssetId(), effect->getId());
     } else {
         m_model->removeEffect(effect);
