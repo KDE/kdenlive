@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-11 00:38+0000\n"
+"POT-Creation-Date: 2024-07-17 00:38+0000\n"
 "PO-Revision-Date: 2024-07-09 14:04+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -5669,12 +5669,12 @@ msgstr "Fitxategia badago lehendik ere"
 msgid "Adjust timeline clips"
 msgstr "Doitu denbora-lerroko klipak"
 
-#: src/bin/projectclip.cpp:2924
+#: src/bin/projectclip.cpp:2925
 #, kde-format
 msgid "Add stream effect"
 msgstr "Gehitu korronte efektua"
 
-#: src/bin/projectclip.cpp:2949
+#: src/bin/projectclip.cpp:2950
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ezabatu korronte efektua"
