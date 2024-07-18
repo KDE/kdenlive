@@ -1078,7 +1078,7 @@ void KeyframeWidget::slotRemoveNextKeyframes()
 
 void KeyframeWidget::slotSeekToKeyframe(int ix)
 {
-    int pos = m_keyframes->getPosAtIndex(ix).frames(pCore->getCurrentFps());
+    int pos = m_keyframes->getPosAtIndex(ix).frames(pCore->getCurrentFps()) - m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     slotSetPosition(pos, true);
 }
 void KeyframeWidget::slotSeekToPos(int pos)
