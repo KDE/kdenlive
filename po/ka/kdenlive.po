@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-18 00:38+0000\n"
-"PO-Revision-Date: 2024-06-26 05:42+0200\n"
+"PO-Revision-Date: 2024-07-18 13:02+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1400,6 +1400,12 @@ msgid ""
 "case is to add effects in the following sequence: this effect, zero or more "
 "effects, mask_apply."
 msgstr ""
+"ეს ფილტრი ქმნის კადრის სწრაფ ასლს, სანამ მასზე ქრომატული მანიპულირება მეტი "
+"პარამეტრით (ანუ, სხვადასხვა ფერის მოდელები) გადატარდება. გამოიყენეთ ის "
+"ნიღბის გადატარების ეფექტთან ერთად, რომელიც იყენებს გადასვლას სწრაფ ასლზე "
+"მიმდინარე კადრის სწრაფი ასლის ზემოდან დასადებად. ტიპიურად ეს გამოიყენება "
+"ეფექტების შემდეგი მიმდევრობით დასამატებლად: ეს ეფექტი, ნული ან მეტი ეფექტი, "
+"ნიღბის გადატარება."
 
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
@@ -1478,6 +1484,11 @@ msgid ""
 "The typical use case is to add effects in the following sequence: this "
 "effect, zero or more effects, mask_apply."
 msgstr ""
+"ეს ფილტრი ქმნის კადრის სწრაფ ასლს ვექტორული როტოსკოპინგის გადატარებამდე. "
+"გამოიყენება ნიღბის გადატარების ეფექტთან ერთად, რომელიც იყენებს გადასვლას "
+"მიმდინარე კადრს გამოსახულების სწრაფ ასლზე დასადებად. ტიპიურად გამოიყენება "
+"ეფექტების შემდეგი მიმდევრობით: ეს ეფექტი, ნული ან მეტი ეფექტი, ნიღბის "
+"გადატარება."
 
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
@@ -1528,6 +1539,11 @@ msgid ""
 "frame's image over the snapshot. The typical use case is to add effects in "
 "the following sequence: this effect, zero or more effects, mask_apply."
 msgstr ""
+"ეს ფილტრი ქმნის კადრის სწრაფ ასლს ალფა არხის (გამჭვირვალობის) შექმნამდე სხვა "
+"რესურსზე დამოკიდებულებით. გამოიყენეთ ის ნიღბის გადატარების ეფექტთან ერთად, "
+"რომელიც იყენებს გადასვლას მიმდინარე კადრის გამოსახულებას სწრაფ ასლზე "
+"დასადებად. ტიპიურად გამოიყენება ეფექტები დასადებად შემდეგი მიმდევრობით: ეს "
+"ეფექტი, ნული ან მეტი ეფექტი, ნიღბის გადატარება."
 
 #: data/effects/mask_start_shape.xml:11 data/effects/shape.xml:8
 #, kde-format
@@ -1883,6 +1899,11 @@ msgid ""
 "less than one for downwards) is: o = log(f) / log(2). Ignored if pitchscale "
 "is set."
 msgstr ""
+"ოქტავის წანაცვლება. ეს წყაროს სიხშირის ოქტავის წანაცვლება. მაგალითად, +1 "
+"წანაცვლება სიხშირეს გააორმაგებს, -1 კი გაანახევრებს. 0 ხმას უცვლელს "
+"დატოვებს. სიხშირის სიტყვებით, სიხშირის წანაცვლება f (სადაც f > 1 ნიშნავს "
+"ზემოთ წანაცვლებას და f < 1, ქვემოთ) წარმოადგენს: o = log(f) / log(2). "
+"გამოტოვებულია, თუ დაყენებულია ხმის მასშტაბი."
 
 #: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
 #, kde-format
@@ -1928,6 +1949,12 @@ msgid ""
 "(where o is positive for an upwards shift and negative for downwards) is: f "
 "= pow(2.0, o). Overrides octaveshift."
 msgstr ""
+"ხმის სიძლიერის მასშტაბის კოეფიციენტი. წარმოადგენს სამიზნე სიხშირის "
+"შეფარდებას წყარო სიხშირესთან. მაგალითად, კოეფიციენტი 2.0 ერთი ოქტავით მაღლა "
+"წანაცვლებას მოახდენს, 1.0 მასშტაბს უცვლელს დატოვებს. მუსიკის ტერმინებით, "
+"ხმის სიმაღლის მასშტაბის კოეფიციენტის შეესაბამება o ოქტავის წანაცვლებას "
+"(სადაც, თუ o დადებითია, წანაცვლება მაღლაა და უარყოფითი - დაბლა) წარმადგენს: "
+"f = pow(2.0, o). გადაფარავს ოქტავის წანაცვლებას."
 
 #: data/effects/rotation.xml:4
 #, kde-format
@@ -2109,6 +2136,8 @@ msgid ""
 "interpolated from the nearest pixels immediately outside of the specified "
 "area."
 msgstr ""
+"ალაგის ჩანაცვლება ინტერპოლირებული პიქსელებით. ახალი პიქსელის მნიშვნელობები "
+"ინტერპოლირებულია უახლოესი პიქსელებიდან მითითებული ალაგის საზღვრებს ახლოდან."
 
 #: data/effects/spot_remover.xml:9
 #, kde-format
@@ -2200,6 +2229,9 @@ msgid ""
 "The text will be frozen at 00:00:00.000 from the start of the filter until "
 "the start time has elapsed.]]>"
 msgstr ""
+"<![CDATA[დრო, საიდანაც ტაიმერმა თვლა ზრდადობით ან კლებადობით დაიწყებს.\n"
+"ტექსტი გაყინული იქნება 00:00:00.000 ფილტრის დასაწყისიდან, სანამ დაწყების დრო "
+"არ გავა.]]>"
 
 #: data/effects/timer.xml:57
 #, kde-format
@@ -11648,6 +11680,8 @@ msgid ""
 "Adds the clip(s) currently selected in the timeline to a new sequence clip "
 "that can be opened in another timeline tab."
 msgstr ""
+"დაამატებს ამჟამად დროის ხაზზე მონიშნულ კლიპ(ებ)-ს ახალ მიმდევრობის კლიპს, "
+"რომლის გახსნაც ცალკე დროის ხაზის ჩანართში შეგიძლიათ."
 
 #: src/mainwindow.cpp:1897
 #, kde-format
@@ -11773,6 +11807,8 @@ msgid ""
 "Lock guides. When locked, the guides won't move when using the spacer tool "
 "or inserting/removing blank in tracks."
 msgstr ""
+"მიმმართველების ჩაკეტვა. როცა მიმმართველები ჩაკეტილია, ისინი ხელსაწყოთი ან "
+"ტრეკებში ცარიელი ადგილების ჩასმა/წაშლით გადაადგილებული არ იქნება."
 
 #: src/mainwindow.cpp:1996
 #, kde-format
@@ -12115,6 +12151,8 @@ msgid ""
 "<shortcut>Click</shortcut> on an item to slip, <shortcut>Shift click</"
 "shortcut> for multiple selection"
 msgstr ""
+"<shortcut>წკაპი</shortcut> ელემენტზე მის გადასათრევად, <shortcut>Shift"
+"+წკაპი</shortcut> ერთზე მეტი ელემენტის მოსანიშნად"
 
 #: src/mainwindow.cpp:3485
 #, kde-format
@@ -12144,6 +12182,8 @@ msgid ""
 "<shortcut>Click</shortcut> on a track view in the project monitor to perform "
 "a lift of all tracks except active one"
 msgstr ""
+"<shortcut>წკაპი</shortcut> ტრეკის ხედზე პროექტის მონიტორში, რომ აქტიურის "
+"გარდა ყველა ტრეკის აწევა მოახდინოთ"
 
 #: src/mainwindow.cpp:3510
 #, kde-format
@@ -13281,6 +13321,10 @@ msgid ""
 "shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</"
 "shortcut> to zoom"
 msgstr ""
+"<shortcut>წკაპი</shortcut> დასაკრავად, <shortcut>ორმაგი წკაპი</shortcut> "
+"სრულ ეკრანზე გასატანად, <shortcut>გადაატარეთ მარჯვნივ</shortcut> "
+"ხელსაწყოების პანელისთვის, <shortcut>ბორბალი</shortcut> ან <shortcut>ისრები</"
+"shortcut> გადასახვევად, <shortcut>Ctrl+ბორბალი</shortcut> გასადიდებლად"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:524
 #: src/monitor/view/kdenlivemonitor.qml:199
@@ -13337,6 +13381,8 @@ msgid ""
 "<shortcut>Click</shortcut> to add points, <shortcut>Right click</shortcut> "
 "to close shape."
 msgstr ""
+"<shortcut>წკაპი</shortcut> წერტილების დასამატებლად, <shortcut>მარჯვენა "
+"წკაპი</shortcut> ფიგურის დასასრულებლად."
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:70
 #, kde-kuit-format
@@ -14574,6 +14620,14 @@ msgid ""
 "files used for faster editing. Deleting is safe, proxy clips can be "
 "recreated if you have the original source clips."
 msgstr ""
+"<b>დაკეშილი მონაცემები</b> შედგება კლიპის მინიატურებისგან და დროი ხაზის "
+"მინიატურის ვიდეოებისგან. მისი წაშლა უსაფრთხოა, რადგან ეს მონაცემები თავიდან "
+"შეიქმნება პროექტის გახსნისას.<br/><b>მარქაფის მონაცემები</b> თქვენი პროექტის "
+"ფაილების წინა ვერსიების არქივია. სასარგებლოა, თუ გნებავთ, პროექტის წინა "
+"ვერსია აღადგინოთ. ამ მონაცემების აღდგენა შეუძლებელია.<br/><b>პროქსი კლიპები</"
+"b>დაბალი გაფართოების მქონე ვიდეოფაილებია, რომლებიც სწრაფი ჩასწორებისთვის "
+"გამოიყენება. წაშლა უსაფრთხოა. პროქსი კლიპების თავიდან შექმნა შესაძლებელია, "
+"თუ საწყისი წყარო კლიპები გაქვთ."
 
 #: src/project/dialogs/temporarydata.cpp:185
 #, kde-format
@@ -17101,6 +17155,8 @@ msgid ""
 "<b>Drag</b> to move selected keyframes position. <b>Shift drag</b> to move "
 "all keyframes after this one."
 msgstr ""
+"<b>გადაათრიეთ</b> მონიშნული საკვანძო კადრის მდებარეობის შესაცვლელად. <b>Shift"
+"+გადათრევა</b> ყველა საკვანძო კადრის ამის შემდეგ გადასატანად."
 
 #: src/timeline2/view/qml/KeyframeView.qml:281
 #, kde-format
@@ -17108,6 +17164,8 @@ msgid ""
 "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</b> "
 "for multiple keyframe selection."
 msgstr ""
+"<b>Shift+გადათრევა</b> მონიშნული საკვანძო კადრების მნიშვნელობის შესაცვლელად. "
+"<b>Ctrl+წკაპი</b> ერთზე მეტი საკვანძო კადრის მოსანიშნად."
 
 #: src/timeline2/view/qml/SubTitle.qml:102
 #, kde-format
@@ -17187,6 +17245,7 @@ msgstr ""
 msgid ""
 "<b>Shift</b> to collapse/expand all tracks of the same type (audio/video)"
 msgstr ""
+"<b>Shift</b> იგივე ტიპის (აუდიო/ვიდეო) მქონე ყველა ტრეკის ჩამოშლა/აკეცვა"
 
 #: src/timeline2/view/qml/TrackHead.qml:295
 #, kde-format
@@ -17321,6 +17380,7 @@ msgstr "შეყვ:%1, გამოყვ:%2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
+"სრიალი, მხოლოდ, ვიდეო, აუდიო ან ანიმაციის კლიპებზე შეგიძლიათ, გამოიყენოთ"
 
 #: src/timeline2/view/timelinecontroller.cpp:2713
 #, kde-format
@@ -18064,6 +18124,8 @@ msgid ""
 "Figure space (non-breaking). Width of a digit if digits have fixed width in "
 "this font."
 msgstr ""
+"ჰარე (არაგადატანადი) ციფრის სიგანით, თუ ამ ფონტში ციფრებს ფიქსირებული სიგანე "
+"გააჩნიათ."
 
 #: src/titler/unicodedialog.cpp:171
 #, kde-format
@@ -18135,6 +18197,8 @@ msgid ""
 "Ellipsis: If text has been left o&#x2026; See <a href=\"https://en.wikipedia."
 "org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>"
 msgstr ""
+"მრავალწერტილი. თუ ტექსტი ჯერ კიდევ დარჩენილია o&#x2026; მეტი ინფორმაციისთვის "
+"იხილეთ <a href=\"https://en.wikipedia.org/wiki/Ellipsis\">სტატია ვიკიზე</a>"
 
 #: src/titler/unicodedialog.cpp:196
 #, kde-format
@@ -18152,6 +18216,8 @@ msgid ""
 "Quarter note (Am.) or crochet (Brit.). See <a href=\"https://en.wikipedia."
 "org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>"
 msgstr ""
+"მეოთხედი ნოტა. მეტი ინფორმაციისთვის იხილეთ <a href=\"https://en.wikipedia."
+"org/wiki/Quarter_note\">სტატია ვიკიზე</a>"
 
 #: src/titler/unicodedialog.cpp:202
 #, kde-format
@@ -18160,6 +18226,8 @@ msgid ""
 "+2669). See <a href=\"https://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:"
 "Eighth_note</a>"
 msgstr ""
+"მერვედი ნოტა. მეოთხედი ნოტის (U+2669) ნახევარი. მეტი ინფორმაციისთვის იხილეთ "
+"<a href=\"https://en.wikipedia.org/wiki/Eighth_note\">სტატია ვიკიზე</a>"
 
 #: src/titler/unicodedialog.cpp:205
 #, kde-format
@@ -18168,6 +18236,9 @@ msgid ""
 "+266a). See <a href=\"https://en.wikipedia.org/wiki/Sixteenth_note"
 "\">Wikipedia:Sixteenth_note</a>"
 msgstr ""
+"მეთექვსმეტედი ნოტა. მერვედი ნოტის (U+266a) ნახევარი. მეტი ინფორმაციისთვის "
+"იხილეთ <a href=\"https://en.wikipedia.org/wiki/Sixteenth_note\">სტატია "
+"ვიკიზე</a>"
 
 #: src/titler/unicodedialog.cpp:208
 #, kde-format
@@ -18176,6 +18247,9 @@ msgid ""
 "sixteenth note (U+266b). See <a href=\"https://en.wikipedia.org/wiki/Thirty-"
 "second_note\">Wikipedia:Thirty-second_note</a>"
 msgstr ""
+"ოცდამეთორმეტედი ნოტა. მეთექვსმეტედი ნოტის (U+266b) ნახევარი. მეტი "
+"ინფორმაციისთვის იხილეთ <a href=\"https://en.wikipedia.org/wiki/Thirty-"
+"second_note\">სტატია ვიკიზე</a>"
 
 #: src/titler/unicodedialog.cpp:211
 #, kde-format
@@ -18486,6 +18560,8 @@ msgid ""
 "Link the handles' position for current point.<br />Results in a natural "
 "spline."
 msgstr ""
+"დამმუშავებლის მდებარეობის მიბმა მიმდინარე წერტილთან.<br/> შედეგია ბუნებრივი "
+"სპლაინი."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetSpline)
 #: src/ui/bezierspline_ui.ui:118
