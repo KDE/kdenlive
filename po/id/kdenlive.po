@@ -1,7 +1,7 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 # Rendiyono Wahyu Saputro <rendi.7936@gmail.com>, 2015.
-# SPDX-FileCopyrightText: 2018, 2019, 2020, 2021, 2022, 2023 Wantoyèk <wantoyek@gmail.com>
+# SPDX-FileCopyrightText: 2018, 2019, 2020, 2021, 2022, 2023, 2024 Wantoyèk <wantoyek@gmail.com>
 # Linerly <linerly@protonmail.com>, 2022, 2023.
 #
 # Translators:
@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-06-25 02:24+0000\n"
-"PO-Revision-Date: 2023-10-02 19:42+0700\n"
+"PO-Revision-Date: 2024-07-18 22:44+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
-"Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
+"Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -12406,12 +12406,12 @@ msgstr "Urutan bidang:"
 #: src/mltcontroller/clippropertiescontroller.cpp:573
 #, kde-format
 msgid "Bottom First"
-msgstr "Pertama Bawah"
+msgstr "Bawah Dulu"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:574
 #, kde-format
 msgid "Top First"
-msgstr "Pertama Atas"
+msgstr "Atas Dulu"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:613
 #, kde-format
@@ -14294,12 +14294,12 @@ msgstr "Terjalin: %1"
 #: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
 msgid "Bottom field first"
-msgstr "Bidang bawah pertama"
+msgstr "Bidang bawah dulu"
 
 #: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
 msgid "Top field first"
-msgstr "Bidang atas pertama"
+msgstr "Bidang atas dulu"
 
 #: src/project/dialogs/profilewidget.cpp:207
 #, kde-format
@@ -19980,13 +19980,13 @@ msgstr "Semua Stream Audio"
 #: src/ui/configtimeline_ui.ui:210
 #, kde-format
 msgid "First Audio Stream"
-msgstr "Stream Audio Pertama"
+msgstr "Stream Audio Dulu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_multistream)
 #: src/ui/configtimeline_ui.ui:215
 #, kde-format
 msgid "First 2 Audio Streams"
-msgstr "Sream Audio 2 Pertama"
+msgstr "Stream Audio 2 Dulu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configtimeline_ui.ui:223
@@ -20166,14 +20166,14 @@ msgstr "Rasio Aspek Pixel:"
 #: src/ui/editrenderpreset_ui.ui:277 src/ui/profiledialog_ui.ui:150
 #, kde-format
 msgid "Bottom Field First"
-msgstr "Bidang Bawah Pertama"
+msgstr "Bidang Bawah Dulu"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
 #: src/ui/editrenderpreset_ui.ui:282 src/ui/profiledialog_ui.ui:145
 #, kde-format
 msgid "Top Field First"
-msgstr "Bidang Atas Pertama"
+msgstr "Bidang Atas Dulu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cField)
 #: src/ui/editrenderpreset_ui.ui:296
@@ -21757,7 +21757,7 @@ msgstr "Tipe citra:"
 #: src/ui/slideshowclip_ui.ui:227
 #, kde-format
 msgid "First frame"
-msgstr "Nama pertama"
+msgstr "Fame pertama"
 
 #. i18n: ectx: property (text), widget (QCheckBox, slide_loop)
 #: src/ui/slideshowclip_ui.ui:267
