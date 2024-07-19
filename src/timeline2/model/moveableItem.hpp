@@ -75,6 +75,15 @@ public:
     bool selected{false};
     /** @brief Set selected status */
     virtual void setSelected(bool sel) = 0;
+    /** @brief The fake track is used in insert/overwrite mode.
+     *  in this case, dragging a clip is always accepted, but the change is not applied to the model.
+     *  so we use a 'fake' track id to pass to the qml view
+     */
+    int getFakeTrackId() const;
+    void setFakeTrackId(int fid);
+    void setFakePosition(int fpos);
+    int getFakePosition() const;
+    void cleanFakeState();
 
 protected:
     /** @brief Returns a pointer to the service. It may be used but do NOT store it*/
@@ -113,6 +122,9 @@ protected:
     int m_position;
     int m_currentTrackId;
     bool m_grabbed;
+    /** @brief Fake track id, used when dragging in insert/overwrite mode */
+    int m_fakeTrack;
+    int m_fakePosition;
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
 };

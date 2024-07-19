@@ -32,8 +32,6 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     , forceThumbReload(false)
     , m_currentState(state)
     , m_speed(speed)
-    , m_fakeTrack(-1)
-    , m_fakePosition(-1)
     , m_positionOffset(0)
     , m_subPlaylistIndex(0)
     , m_mixDuration(0)
@@ -1320,26 +1318,6 @@ const QStringList ClipModel::externalFiles() const
 {
     READ_LOCK();
     return m_effectStack->externalFiles();
-}
-
-int ClipModel::getFakeTrackId() const
-{
-    return m_fakeTrack;
-}
-
-void ClipModel::setFakeTrackId(int fid)
-{
-    m_fakeTrack = fid;
-}
-
-int ClipModel::getFakePosition() const
-{
-    return m_fakePosition;
-}
-
-void ClipModel::setFakePosition(int fpos)
-{
-    m_fakePosition = fpos;
 }
 
 QDomElement ClipModel::toXml(QDomDocument &document)

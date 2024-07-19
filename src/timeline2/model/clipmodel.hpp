@@ -96,14 +96,6 @@ public:
     ClipType::ProducerType clipType() const;
     /** @brief Sets the timeline clip status (video / audio only) */
     bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo);
-    /** @brief The fake track is used in insert/overwrite mode.
-     *  in this case, dragging a clip is always accepted, but the change is not applied to the model.
-     *  so we use a 'fake' track id to pass to the qml view
-     */
-    int getFakeTrackId() const;
-    void setFakeTrackId(int fid);
-    void setFakePosition(int fpos);
-    int getFakePosition() const;
     void setMixDuration(int mix, int offset);
     void setMixDuration(int mix);
     int getMixDuration() const;
@@ -277,9 +269,6 @@ protected:
     double m_speed = -1;
 
     bool m_canBeVideo, m_canBeAudio;
-    /** @brief Fake track id, used when dragging in insert/overwrite mode */
-    int m_fakeTrack;
-    int m_fakePosition;
     /** @brief Temporary val to store offset between two clips with same bin id. */
     int m_positionOffset;
     /** @brief Tracks have two sub playlists to enable same track transitions, we store in which one this clip is. */

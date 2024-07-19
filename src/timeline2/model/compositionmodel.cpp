@@ -16,8 +16,6 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::uni
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
     , AssetParameterModel(std::move(transition), transitionXml, transitionId, ObjectId(KdenliveObjectType::TimelineComposition, m_id, uuid),
                           originalDecimalPoint)
-    , m_fakeTrack(-1)
-    , m_fakePosition(-1)
     , m_a_track(-1)
     , m_duration(0)
 {
@@ -356,24 +354,4 @@ QDomElement CompositionModel::toXml(QDomDocument &document)
         Xml::setXmlProperty(container, name, props->get(i));
     }
     return container;
-}
-
-int CompositionModel::getFakeTrackId() const
-{
-    return m_fakeTrack;
-}
-
-void CompositionModel::setFakeTrackId(int fid)
-{
-    m_fakeTrack = fid;
-}
-
-int CompositionModel::getFakePosition() const
-{
-    return m_fakePosition;
-}
-
-void CompositionModel::setFakePosition(int fpos)
-{
-    m_fakePosition = fpos;
 }

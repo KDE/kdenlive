@@ -13,6 +13,8 @@ MoveableItem<Service>::MoveableItem(std::weak_ptr<TimelineModel> parent, int id)
     , m_position(-1)
     , m_currentTrackId(-1)
     , m_grabbed(false)
+    , m_fakeTrack(-1)
+    , m_fakePosition(-1)
     , m_lock(QReadWriteLock::Recursive)
 {
 }
@@ -97,5 +99,31 @@ template <typename Service> bool MoveableItem<Service>::isGrabbed() const
 {
     READ_LOCK();
     return m_grabbed;
+}
+
+template <typename Service> int MoveableItem<Service>::getFakeTrackId() const
+{
+    return m_fakeTrack;
+}
+
+template <typename Service> void MoveableItem<Service>::setFakeTrackId(int fid)
+{
+    m_fakeTrack = fid;
+}
+
+template <typename Service> int MoveableItem<Service>::getFakePosition() const
+{
+    return m_fakePosition;
+}
+
+template <typename Service> void MoveableItem<Service>::setFakePosition(int fpos)
+{
+    m_fakePosition = fpos;
+}
+
+template <typename Service> void MoveableItem<Service>::cleanFakeState()
+{
+    m_fakePosition = -1;
+    m_fakeTrack = -1;
 }
 

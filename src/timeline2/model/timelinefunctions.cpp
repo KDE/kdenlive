@@ -633,12 +633,21 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     if (liftOk && (mainGroup > -1 || clips.size() == 1)) {
         if (clips.size() > 1) {
             final = timeline->requestGroupMove(itemId, mainGroup, 0, endPosition - startPosition, true, true, undo, redo);
+            for (auto i : clips) {
+                if (timeline->isClip(i)) {
+                    timeline->m_allClips[i]->cleanFakeState();
+                } else if (timeline->isComposition(i)) {
+                    timeline->m_allCompositions[i]->cleanFakeState();
+                }
+            }
         } else {
             // only 1 clip to be moved
             if (isClip) {
                 final = timeline->requestClipMove(itemId, track, endPosition, true, true, true, true, undo, redo);
+                timeline->m_allClips[itemId]->setFakePosition(-1);
             } else if (timeline->isComposition(itemId)) {
                 final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, true, undo, redo);
+                timeline->m_allCompositions[itemId]->setFakePosition(-1);
             } else {
                 final = timeline->requestSubtitleMove(itemId, endPosition, true, true, true, true, undo, redo);
             }
