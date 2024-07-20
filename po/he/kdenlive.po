@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-18 00:38+0000\n"
+"POT-Creation-Date: 2024-07-20 00:38+0000\n"
 "PO-Revision-Date: 2024-06-26 15:18+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -5589,7 +5589,7 @@ msgstr "שגוי"
 
 #: src/bin/projectclip.cpp:1436 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1465
+#: src/timeline2/model/timelinefunctions.cpp:1474
 #, kde-format
 msgid "File already exists"
 msgstr "הקובץ כבר קיים"
@@ -11502,7 +11502,7 @@ msgstr "מחיקת סמן"
 msgid "Edit Marker…"
 msgstr "עריכת סמן…"
 
-#: src/mainwindow.cpp:1784 src/timeline2/model/timelinefunctions.cpp:1182
+#: src/mainwindow.cpp:1784 src/timeline2/model/timelinefunctions.cpp:1191
 #, kde-format
 msgid "Restore Audio"
 msgstr "שחזור שמע"
@@ -11984,14 +11984,14 @@ msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 msgid "Cannot find clip to edit marker"
 msgstr "לא ניתן לאתר את הסרטון לעריכת הסמן"
 
-#: src/mainwindow.cpp:3070 src/timeline2/model/timelinefunctions.cpp:760
+#: src/mainwindow.cpp:3070 src/timeline2/model/timelinefunctions.cpp:769
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, kde-format
 msgid "Overwrite zone"
 msgstr "שכתוב קטע"
 
 #: src/mainwindow.cpp:3072 src/mainwindow.cpp:3091
-#: src/timeline2/model/timelinefunctions.cpp:762
+#: src/timeline2/model/timelinefunctions.cpp:771
 #: src/timeline2/view/timelinecontroller.cpp:3112
 #, kde-format
 msgid "Could not insert zone"
@@ -12002,7 +12002,7 @@ msgstr "לא ניתן להוסיף קטע"
 msgid "No clip selected in project bin"
 msgstr "לא נבחר אף סרטון בסל המיזם"
 
-#: src/mainwindow.cpp:3089 src/timeline2/model/timelinefunctions.cpp:760
+#: src/mainwindow.cpp:3089 src/timeline2/model/timelinefunctions.cpp:769
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, kde-format
 msgid "Insert zone"
@@ -16293,35 +16293,35 @@ msgstr "אין סרטונים לגזירה"
 msgid "Cut all clips"
 msgstr "גזירת כל הסרטונים"
 
-#: src/timeline2/model/timelinefunctions.cpp:654
+#: src/timeline2/model/timelinefunctions.cpp:663
 #: src/timeline2/view/timelinecontroller.cpp:1470
 #, kde-format
 msgid "Insert space"
 msgstr "הוספת רווח"
 
-#: src/timeline2/model/timelinefunctions.cpp:656
+#: src/timeline2/model/timelinefunctions.cpp:665
 #: src/timeline2/view/timelinecontroller.cpp:1472
 #, kde-format
 msgid "Remove space"
 msgstr "הסרת רווח"
 
-#: src/timeline2/model/timelinefunctions.cpp:725
+#: src/timeline2/model/timelinefunctions.cpp:734
 #, kde-format
 msgid "Lift zone"
 msgstr "הגבהת קטע"
 
-#: src/timeline2/model/timelinefunctions.cpp:725
+#: src/timeline2/model/timelinefunctions.cpp:734
 #: src/timeline2/view/timelinecontroller.cpp:709
 #, kde-format
 msgid "Extract zone"
 msgstr "חילוץ קטע"
 
-#: src/timeline2/model/timelinefunctions.cpp:795
+#: src/timeline2/model/timelinefunctions.cpp:804
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "נא להפעיל רצועה לחיצה על תווית הרצועה"
 
-#: src/timeline2/model/timelinefunctions.cpp:918
+#: src/timeline2/model/timelinefunctions.cpp:927
 #: src/timeline2/view/timelinecontroller.cpp:1209
 #: src/timeline2/view/timelinecontroller.cpp:1289
 #: src/timeline2/view/timelinecontroller.cpp:1299
@@ -16347,104 +16347,104 @@ msgstr "נא להפעיל רצועה לחיצה על תווית הרצועה"
 msgid "No clip selected"
 msgstr "לא נבחרו סרטונים"
 
-#: src/timeline2/model/timelinefunctions.cpp:983
+#: src/timeline2/model/timelinefunctions.cpp:992
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "לא ניתן להעביר את הקבוצה הנבחרת"
 
-#: src/timeline2/model/timelinefunctions.cpp:1084
-#: src/timeline2/model/timelinefunctions.cpp:1088
-#: src/timeline2/model/timelinefunctions.cpp:1095
+#: src/timeline2/model/timelinefunctions.cpp:1093
+#: src/timeline2/model/timelinefunctions.cpp:1097
+#: src/timeline2/model/timelinefunctions.cpp:1104
 #: src/timeline2/view/timelinecontroller.cpp:4082
 #, kde-format
 msgid "Enable clip"
 msgstr "הפעלת סרטון"
 
-#: src/timeline2/model/timelinefunctions.cpp:1084
-#: src/timeline2/model/timelinefunctions.cpp:1088
-#: src/timeline2/model/timelinefunctions.cpp:1095
+#: src/timeline2/model/timelinefunctions.cpp:1093
+#: src/timeline2/model/timelinefunctions.cpp:1097
+#: src/timeline2/model/timelinefunctions.cpp:1104
 #: src/timeline2/view/timelinecontroller.cpp:4082
 #, kde-format
 msgid "Disable clip"
 msgstr "השבתת סרטון"
 
-#: src/timeline2/model/timelinefunctions.cpp:1137
+#: src/timeline2/model/timelinefunctions.cpp:1146
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "לסרטון אחד או יותר אין שמע או שהם כבר שמע"
 
-#: src/timeline2/model/timelinefunctions.cpp:1154
+#: src/timeline2/model/timelinefunctions.cpp:1163
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "אין רצועת שמע זמינה לפעולת שחזור"
 
-#: src/timeline2/model/timelinefunctions.cpp:1162
-#: src/timeline2/model/timelinefunctions.cpp:1175
+#: src/timeline2/model/timelinefunctions.cpp:1171
+#: src/timeline2/model/timelinefunctions.cpp:1184
 #, kde-format
 msgid "Audio restore failed"
 msgstr "שחזור השמע נכשל"
 
-#: src/timeline2/model/timelinefunctions.cpp:1214
+#: src/timeline2/model/timelinefunctions.cpp:1223
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "אין רצועה זמינה לפעולת שחזור"
 
-#: src/timeline2/model/timelinefunctions.cpp:1222
-#: src/timeline2/model/timelinefunctions.cpp:1235
+#: src/timeline2/model/timelinefunctions.cpp:1231
+#: src/timeline2/model/timelinefunctions.cpp:1244
 #, kde-format
 msgid "Video restore failed"
 msgstr "שחזור הווידאו נכשל"
 
-#: src/timeline2/model/timelinefunctions.cpp:1241
+#: src/timeline2/model/timelinefunctions.cpp:1250
 #, kde-format
 msgid "Restore Video"
 msgstr "שחזור וידאו"
 
-#: src/timeline2/model/timelinefunctions.cpp:1288
+#: src/timeline2/model/timelinefunctions.cpp:1297
 #, kde-format
 msgid "Change Composition Track"
 msgstr "שינוי רצועת הרכבה"
 
-#: src/timeline2/model/timelinefunctions.cpp:1303
+#: src/timeline2/model/timelinefunctions.cpp:1312
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "לא ניתן להפעיל תצוגת ריבוי רצועות על רצועה בודדת"
 
-#: src/timeline2/model/timelinefunctions.cpp:1457
+#: src/timeline2/model/timelinefunctions.cpp:1466
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "הוספת סרטון לספרייה"
 
-#: src/timeline2/model/timelinefunctions.cpp:1457
+#: src/timeline2/model/timelinefunctions.cpp:1466
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "נא למלא שם לסרטון בספרייה"
 
-#: src/timeline2/model/timelinefunctions.cpp:1846
+#: src/timeline2/model/timelinefunctions.cpp:1855
 #, kde-format
 msgid "Paste clips"
 msgstr "הדבקת סרטונים"
 
-#: src/timeline2/model/timelinefunctions.cpp:1860
-#: src/timeline2/model/timelinefunctions.cpp:2032
-#: src/timeline2/model/timelinefunctions.cpp:2055
-#: src/timeline2/model/timelinefunctions.cpp:2094
-#: src/timeline2/model/timelinefunctions.cpp:2372
+#: src/timeline2/model/timelinefunctions.cpp:1869
+#: src/timeline2/model/timelinefunctions.cpp:2041
+#: src/timeline2/model/timelinefunctions.cpp:2064
+#: src/timeline2/model/timelinefunctions.cpp:2103
+#: src/timeline2/model/timelinefunctions.cpp:2381
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "אין מספיק רצועות להדבקת לוח הגזירים"
 
-#: src/timeline2/model/timelinefunctions.cpp:1929
+#: src/timeline2/model/timelinefunctions.cpp:1938
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "פעולת הדבקה אחרת מתבצעת כרגע"
 
-#: src/timeline2/model/timelinefunctions.cpp:1941
+#: src/timeline2/model/timelinefunctions.cpp:1950
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "אין נתונים תקפים בלוח הגזירים"
 
-#: src/timeline2/model/timelinefunctions.cpp:1980
+#: src/timeline2/model/timelinefunctions.cpp:1989
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -16452,15 +16452,15 @@ msgstr ""
 "אין מספיק רצועות כדי להדביק את לוח הגזירים (דרושות %1 רצועות שמע, %2 רצועות "
 "וידאו)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2112
-#: src/timeline2/model/timelinefunctions.cpp:2130
-#: src/timeline2/model/timelinefunctions.cpp:2161
-#: src/timeline2/model/timelinefunctions.cpp:2166
+#: src/timeline2/model/timelinefunctions.cpp:2121
+#: src/timeline2/model/timelinefunctions.cpp:2139
+#: src/timeline2/model/timelinefunctions.cpp:2170
+#: src/timeline2/model/timelinefunctions.cpp:2175
 #, kde-format
 msgid "Pasted clips"
 msgstr "סרטונים שהודבקו"
 
-#: src/timeline2/model/timelinefunctions.cpp:2150
+#: src/timeline2/model/timelinefunctions.cpp:2159
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -16469,45 +16469,45 @@ msgstr ""
 "למיזם המקור יש קצב תמוניות שונה (%1 תמוניות לשנייה) מהמיזם הנוכחי שלך. <br/"
 ">סרטונים או תמוניות מפתח עלולים להתחרבש קמעה."
 
-#: src/timeline2/model/timelinefunctions.cpp:2152
+#: src/timeline2/model/timelinefunctions.cpp:2161
 #, kde-format
 msgid "Pasting Warning"
 msgstr "אזהרת הדבקה"
 
-#: src/timeline2/model/timelinefunctions.cpp:2152
+#: src/timeline2/model/timelinefunctions.cpp:2161
 #, kde-format
 msgid "Paste"
 msgstr "הדבקה"
 
-#: src/timeline2/model/timelinefunctions.cpp:2234
-#: src/timeline2/model/timelinefunctions.cpp:2242
-#: src/timeline2/model/timelinefunctions.cpp:2310
+#: src/timeline2/model/timelinefunctions.cpp:2243
+#: src/timeline2/model/timelinefunctions.cpp:2251
+#: src/timeline2/model/timelinefunctions.cpp:2319
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "לא ניתן להוסיף סרטון מהסל"
 
-#: src/timeline2/model/timelinefunctions.cpp:2364
+#: src/timeline2/model/timelinefunctions.cpp:2373
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "לא כל הסרטונים הועתקו בהצלחה"
 
-#: src/timeline2/model/timelinefunctions.cpp:2414
-#: src/timeline2/model/timelinefunctions.cpp:2593
+#: src/timeline2/model/timelinefunctions.cpp:2423
+#: src/timeline2/model/timelinefunctions.cpp:2602
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "לא ניתן להדביק פריטים בציר הזמן"
 
-#: src/timeline2/model/timelinefunctions.cpp:2613
+#: src/timeline2/model/timelinefunctions.cpp:2622
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "הדבקת סרטונים בציר הזמן"
 
-#: src/timeline2/model/timelinefunctions.cpp:2831
+#: src/timeline2/model/timelinefunctions.cpp:2840
 #, kde-format
 msgid "Remove space on track"
 msgstr "הסרת מרווח ברצועה"
 
-#: src/timeline2/model/timelinefunctions.cpp:2858
+#: src/timeline2/model/timelinefunctions.cpp:2867
 #, kde-format
 msgid "Delete clips on track"
 msgstr "מחיקת סרטונים מהרצועה"
