@@ -239,6 +239,8 @@ protected:
     QMap<int, QStringList> m_streamEffects;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QString m_temporaryUrl;
+    /** @brief A unique id identifying this clip, will never change. */
+    QUuid m_controlUuid;
 
 private:
     /** @brief Temporarily store clip properties until producer is available */

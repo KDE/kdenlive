@@ -79,6 +79,8 @@ private:
 
     QStringList m_binIds;
     QStringList m_warnings;
+    QMap<int, std::pair<QString, QUuid>> m_recoveryMap;
+    QMap<int, QString> m_hashMap;
 
     QString ensureAbsolutePath(QString filepath);
 

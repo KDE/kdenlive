@@ -1585,6 +1585,7 @@ void ProjectManager::passSequenceProperties(const QUuid &uuid, std::shared_ptr<M
     }
     prod->parent().set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
     prod->parent().set("kdenlive:sequenceproperties.documentuuid", m_project->uuid().toString().toUtf8().constData());
+    prod->parent().set("kdenlive:control_uuid", m_project->uuid().toString().toUtf8().constData());
     if (tractor.property_exists("kdenlive:duration")) {
         const QString duration(tractor.get("kdenlive:duration"));
         const QString maxduration(tractor.get("kdenlive:maxduration"));

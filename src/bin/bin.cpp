@@ -2249,6 +2249,8 @@ void Bin::slotDuplicateClip()
                     Fun redo = []() { return true; };
                     xmlProd->set("kdenlive:clipname", i18n("%1 (copy)", currentItem->clipName()).toUtf8().constData());
                     xmlProd->set("kdenlive:sequenceproperties.documentuuid", m_doc->uuid().toString().toUtf8().constData());
+                    Mlt::Properties props(xmlProd->get_properties());
+                    props.clear("kdenlive:control_uuid");
                     m_itemModel->requestAddBinClip(id, xmlProd, item->parent()->clipId(), undo, redo, callBack);
                     pCore->pushUndo(undo, redo, i18n("Duplicate clip"));
                 } else {
@@ -2270,6 +2272,7 @@ void Bin::slotDuplicateClip()
                             // Remove unique id
                             Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:uniqueId"));
                         }
+                        Xml::removeXmlProperty(xml, QStringLiteral("kdenlive:control_uuid"));
                         m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"), callBack);
                     }
                 }
@@ -2553,7 +2556,7 @@ void Bin::createClip(const QDomElement &xml)
             }
         }
     }
-    QString id = Xml::getTagContentByAttribute(xml, QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("kdenlive:id"));
+    QString id = Xml::getXmlProperty(xml, QStringLiteral("kdenlive:id"));
     if (id.isEmpty()) {
         id = QString::number(m_itemModel->getFreeClipId());
     }
