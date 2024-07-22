@@ -3789,7 +3789,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             }
         }
     }
-    if (!allowSingleResize && m_groups->isInGroup(itemId)) {
+    if ((!m_singleSelectionMode && !allowSingleResize) && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
         std::unordered_set<int> items = m_groups->getLeaves(groupId);
         /*if (m_groups->getType(groupId) == GroupType::AVSplit) {
