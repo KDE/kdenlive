@@ -182,8 +182,8 @@ bool DocumentChecker::hasErrorInProject()
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.count(); ++i) {
         if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
+            // This is the bin playlist
             QDomElement mainBinPlaylist = playlists.at(i).toElement();
-
             // ensure the documentid is valid
             m_documentid = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.documentid"));
             if (m_documentid.isEmpty()) {
@@ -236,8 +236,64 @@ bool DocumentChecker::hasErrorInProject()
     const int taskCount = documentProducers.count() + documentChains.count() + documentTractors.count();
     Q_EMIT pCore->loadingMessageNewStage(i18n("Checking for missing items…"), taskCount);
 
-    QStringList verifiedPaths;
+    // First ensure that each bin item has a kdenlive:uuid value and build a map of kdenlive:id, {resource, uuid}
     int max = documentProducers.count();
+    bool uuidUpgrade = false;
+    for (int i = 0; i < max; ++i) {
+        QDomElement e = documentProducers.item(i).toElement();
+        const QString id = e.attribute(QLatin1String("id"));
+        if (!m_binIds.contains(id)) {
+            continue;
+        }
+        if (!Xml::hasXmlProperty(e, "kdenlive:control_uuid")) {
+            const QUuid uuid = QUuid::createUuid();
+            const QString resource = Xml::getXmlProperty(e, "resource");
+            const QString kid = Xml::getXmlProperty(e, "kdenlive:id");
+            Xml::setXmlProperty(e, "kdenlive:control_uuid", uuid.toString());
+            m_recoveryMap.insert(kid.toInt(), {resource, uuid});
+            m_hashMap.insert(kid.toInt(), Xml::getXmlProperty(e, "kdenlive:file_hash"));
+            uuidUpgrade = true;
+        }
+    }
+    max = documentChains.count();
+    for (int i = 0; i < max; ++i) {
+        QDomElement e = documentChains.item(i).toElement();
+        const QString id = e.attribute(QLatin1String("id"));
+        if (!m_binIds.contains(id)) {
+            continue;
+        }
+        if (!Xml::hasXmlProperty(e, "kdenlive:control_uuid")) {
+            const QUuid uuid = QUuid::createUuid();
+            const QString resource = Xml::getXmlProperty(e, "resource");
+            const QString kid = Xml::getXmlProperty(e, "kdenlive:id");
+            Xml::setXmlProperty(e, "kdenlive:control_uuid", uuid.toString());
+            m_recoveryMap.insert(kid.toInt(), {resource, uuid});
+            m_hashMap.insert(kid.toInt(), Xml::getXmlProperty(e, "kdenlive:file_hash"));
+            uuidUpgrade = true;
+        }
+    }
+    max = documentTractors.count();
+    for (int i = 0; i < max; ++i) {
+        QDomElement e = documentTractors.item(i).toElement();
+        const QString id = e.attribute(QLatin1String("id"));
+        if (!m_binIds.contains(id)) {
+            continue;
+        }
+        if (!Xml::hasXmlProperty(e, "kdenlive:control_uuid")) {
+            const QUuid uuid = QUuid::createUuid();
+            const QString resource = Xml::getXmlProperty(e, "kdenlive:uuid");
+            const QString kid = Xml::getXmlProperty(e, "kdenlive:id");
+            Xml::setXmlProperty(e, "kdenlive:control_uuid", uuid.toString());
+            m_recoveryMap.insert(kid.toInt(), {resource, uuid});
+            uuidUpgrade = true;
+        }
+    }
+    if (uuidUpgrade) {
+        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+    }
+
+    QStringList verifiedPaths;
+    max = documentProducers.count();
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
         verifiedPaths << getMissingProducers(e, entries, storageFolder);
@@ -639,6 +695,72 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
 
 QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QString &storageFolder)
 {
+    bool isBinClip = m_binIds.contains(e.attribute(QLatin1String("id")));
+    // Ensure each timeline producer is connected to a bin clip
+    if (!isBinClip && !Xml::hasXmlProperty(e, QStringLiteral("kdenlive:control_uuid"))) {
+        if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:playlistid"))) {
+            // Black track producer, ignore
+            return QString();
+        }
+        int currentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")).toInt();
+        QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+        if (currentId > 0 && m_recoveryMap.contains(currentId) && m_recoveryMap.value(currentId).first == resource) {
+            // Match
+            Xml::setXmlProperty(e, "kdenlive:control_uuid", m_recoveryMap.value(currentId).second.toString());
+        } else {
+            bool processed = false;
+            // Something is wrong, try matching the url
+            if (Xml::hasXmlProperty(e, QStringLiteral("warp_resource"))) {
+                resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
+            } else {
+                if (Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("xml") && !e.firstChildElement(QStringLiteral("link")).isNull()) {
+                    // timewarp on a sequence
+                    if (m_recoveryMap.contains(currentId)) {
+                        Xml::setXmlProperty(e, QStringLiteral("kdenlive:control_uuid"), m_recoveryMap.value(currentId).second.toString());
+                        processed = true;
+                    } else {
+                        qDebug() << "=== TESTING SEQUENCE....NOT FOUND";
+                    }
+                }
+            }
+            if (!processed) {
+                QMapIterator<int, std::pair<QString, QUuid>> i(m_recoveryMap);
+                QMap<int, QUuid> matchingIds;
+                while (i.hasNext()) {
+                    i.next();
+                    if (i.value().first == resource) {
+                        // Match
+                        matchingIds.insert(i.key(), i.value().second);
+                        break;
+                    }
+                }
+                if (matchingIds.isEmpty()) {
+                    // Try finding match with hash
+                    const QString hash = Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_hash"));
+                    if (!hash.isEmpty()) {
+                        QMapIterator<int, QString> j(m_hashMap);
+                        QMap<int, QUuid> matchingIds;
+                        while (j.hasNext()) {
+                            j.next();
+                            if (j.value() == hash) {
+                                // Match
+                                matchingIds.insert(j.key(), m_recoveryMap.value(j.key()).second);
+                            }
+                        }
+                    }
+                }
+                if (matchingIds.size() > 0) {
+                    // Good, we can safely restore the correct id
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:id"), QString::number(matchingIds.firstKey()));
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:control_uuid"), matchingIds.value(matchingIds.firstKey()).toString());
+                } else {
+                    qDebug() << "=============\nCANNOT RECOVER BIN ID FOR ITEM: " << e.attribute(QLatin1String("id")) << ", DELETING";
+                    Xml::setXmlProperty(e, QStringLiteral("kdenlive:remove"), QStringLiteral("1"));
+                    // exit(1);
+                }
+            }
+        }
+    }
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
     QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"),  QStringLiteral("pixbuf"), QStringLiteral("timewarp"),
                                   QStringLiteral("framebuffer"),   QStringLiteral("xml"),     QStringLiteral("qtext"),  QStringLiteral("tractor"),
@@ -652,8 +774,6 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
     if (ensureProducerIsNotPlaceholder(e)) {
         return QString();
     }
-
-    bool isBinClip = m_binIds.contains(e.attribute(QLatin1String("id")));
 
     if (service == QLatin1String("qtext")) {
         checkMissingImagesAndFonts(QStringList(), QStringList(Xml::getXmlProperty(e, QStringLiteral("family"))), e.attribute(QStringLiteral("id")));

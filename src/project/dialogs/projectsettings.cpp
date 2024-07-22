@@ -470,23 +470,29 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         }
         case ClipType::Audio:
             new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl());
+            count++;
             break;
         case ClipType::Image:
             new QTreeWidgetItem(images, QStringList() << clip->clipUrl());
+            count++;
             break;
         case ClipType::Playlist: {
             new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl());
+            count++;
             const QStringList files = extractPlaylistUrls(clip->clipUrl());
             for (const QString &file : files) {
                 new QTreeWidgetItem(others, QStringList() << file);
+                count++;
             }
             break;
         }
         case ClipType::Unknown:
             new QTreeWidgetItem(others, QStringList() << clip->clipUrl());
+            count++;
             break;
         default:
             new QTreeWidgetItem(videos, QStringList() << clip->clipUrl());
+            count++;
             break;
         }
     }
