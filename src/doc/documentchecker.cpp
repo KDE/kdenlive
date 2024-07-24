@@ -305,6 +305,14 @@ bool DocumentChecker::hasErrorInProject()
         verifiedPaths << getMissingProducers(e, entries, storageFolder);
         Q_EMIT pCore->loadingMessageIncrease();
     }
+    max = documentTractors.count();
+    for (int i = 0; i < max; ++i) {
+        QDomElement e = documentTractors.item(i).toElement();
+        bool isBinClip = m_binIds.contains(e.attribute(QLatin1String("id")));
+        // Ensure each timeline producer is connected to a bin clip
+        ensureControlIdForItem(e, isBinClip);
+        Q_EMIT pCore->loadingMessageIncrease();
+    }
     // Check that we don't have circular dependencies (a sequence embedding itself as a track / ptoducer
     max = documentTractors.count();
     QStringList circularRefs;
@@ -693,17 +701,21 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
     }
 }
 
-QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QString &storageFolder)
+bool DocumentChecker::ensureControlIdForItem(QDomElement &e, bool isBinClip)
 {
-    bool isBinClip = m_binIds.contains(e.attribute(QLatin1String("id")));
-    // Ensure each timeline producer is connected to a bin clip
     if (!isBinClip && !Xml::hasXmlProperty(e, QStringLiteral("kdenlive:control_uuid"))) {
         if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:playlistid"))) {
             // Black track producer, ignore
-            return QString();
+            return false;
         }
         int currentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")).toInt();
         QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+        if (resource.isEmpty()) {
+            // Check for sequence
+            if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:producer_type")).toInt() == ClipType::Timeline) {
+                resource = Xml::getXmlProperty(e, QStringLiteral("kdenlive:uuid"));
+            }
+        }
         if (currentId > 0 && m_recoveryMap.contains(currentId) && m_recoveryMap.value(currentId).first == resource) {
             // Match
             Xml::setXmlProperty(e, "kdenlive:control_uuid", m_recoveryMap.value(currentId).second.toString());
@@ -756,10 +768,19 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
                 } else {
                     qDebug() << "=============\nCANNOT RECOVER BIN ID FOR ITEM: " << e.attribute(QLatin1String("id")) << ", DELETING";
                     Xml::setXmlProperty(e, QStringLiteral("kdenlive:remove"), QStringLiteral("1"));
-                    // exit(1);
                 }
             }
         }
+    }
+    return true;
+}
+
+QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList &entries, const QString &storageFolder)
+{
+    bool isBinClip = m_binIds.contains(e.attribute(QLatin1String("id")));
+    // Ensure each timeline producer is connected to a bin clip
+    if (!ensureControlIdForItem(e, isBinClip)) {
+        return QString();
     }
     QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
     QStringList serviceToCheck = {QStringLiteral("kdenlivetitle"), QStringLiteral("qimage"),  QStringLiteral("pixbuf"), QStringLiteral("timewarp"),
