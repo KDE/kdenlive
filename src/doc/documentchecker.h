@@ -93,6 +93,7 @@ private:
      *  @returns true if the producer has been changed (id recovered), false if it was either already okay or could not be recovered
      */
     bool ensureProducerHasId(QDomElement &producer, const QDomNodeList &entries);
+    bool ensureControlIdForItem(QDomElement &e, bool isBinClip);
     /** @brief Check if the producer represents an "invalid" placeholder (project saved with missing source). If such a placeholder is detected, it tries to
      * recover the original clip.
      *  @returns true if the producer has been changed (recovered), false if it was either already okay or could not be recovered

@@ -777,7 +777,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 // This is a bin clip, already processed no need to change id
                 binId = QString(clip->parent().get("kdenlive:id"));
             } else {
-                QString clipId = clip->parent().get("kdenlive:control_uuid");
+                const QString clipId = clip->parent().get("kdenlive:control_uuid");
                 if (QUuid(clipId).isNull()) {
                     qDebug() << "===== ERROR IN CLIP: " << clip->parent().get("kdenlive:id") << ", UUID: " << clipId;
                     const QString tcInfo =
