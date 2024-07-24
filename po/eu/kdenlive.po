@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 00:39+0000\n"
-"PO-Revision-Date: 2024-07-09 14:04+0200\n"
+"PO-Revision-Date: 2024-07-23 11:41+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -16402,10 +16402,9 @@ msgstr ""
 "ezabatu da."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "Proiektua hondatuta. %1 (%2) klipa ez da proiektu-ontzian aurkitu."
+msgstr "Proiektua hondatuta dago. %1 (%2) klipak ID baliogabea du."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
