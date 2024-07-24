@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-23 02:32+0000\n"
-"PO-Revision-Date: 2024-06-27 00:38+0300\n"
+"PO-Revision-Date: 2024-07-23 14:32+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -16331,10 +16331,9 @@ msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "Kova başvurusuz %1 Zaman Akışı klibi (%2) bulundu ve kaldırıldı."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "Proje hasarlı. %1 (%2) klibi proje kovasında bulunamadı."
+msgstr "Proje hasarlı. Geçersiz kimlikli %1 (%2) klibi."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
