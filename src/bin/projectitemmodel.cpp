@@ -1271,6 +1271,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         trac->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
                         trac->set("length", prod->parent().get("length"));
                         trac->set("out", prod->parent().get("out"));
+                        trac->set("kdenlive:control_uuid", prod->parent().get("kdenlive:control_uuid"));
                         trac->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
                         trac->set("kdenlive:description", prod->parent().get("kdenlive:description"));
                         trac->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
@@ -1284,6 +1285,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         prod2->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
                         prod2->set("length", prod->parent().get("length"));
                         prod2->set("out", prod->parent().get("out"));
+                        prod2->set("kdenlive:control_uuid", prod->parent().get("kdenlive:control_uuid"));
                         prod2->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
                         prod2->set("kdenlive:description", prod->parent().get("kdenlive:description"));
                         prod2->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
@@ -1365,9 +1367,10 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                     }
                 }
                 prod->set("_kdenlive_processed", 1);
+                const QString uuid(prod->get("kdenlive:control_uuid"));
                 requestAddBinClip(newId, prod, parentId, undo, redo);
                 qApp->processEvents();
-                binIdCorresp[QString::number(bid)] = newId;
+                binIdCorresp[uuid] = newId;
             }
         }
     } else {
@@ -1425,17 +1428,21 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
                     qDebug() << ":::: LOOKING FOR A MATCHING ITEM TYPE: " << matchType;
                     // Try to find matching clip
                     bool found = false;
-                    for (const auto &clip : m_allItems) {
-                        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-                        if (c->itemType() == AbstractProjectItem::ClipItem) {
-                            if (c->clipType() == matchType) {
-                                std::shared_ptr<ProjectClip> pClip = std::static_pointer_cast<ProjectClip>(c);
-                                qDebug() << "::::::\nTRYING TO MATCH: " << pClip->getProducerProperty(QStringLiteral("resource")) << " = " << resource;
-                                if (pClip->getProducerProperty(QStringLiteral("kdenlive:file_hash")) == hash) {
-                                    // Found a match
-                                    binIdCorresp[QString::number(cid)] = pClip->clipId();
-                                    found = true;
-                                    break;
+                    const QString uuid = clip->parent().get("kdenlive:uuid");
+                    if (uuid.isEmpty() || binIdCorresp.find(uuid) == binIdCorresp.end()) {
+                        for (const auto &clipLoop : m_allItems) {
+                            auto c = std::static_pointer_cast<AbstractProjectItem>(clipLoop.second.lock());
+                            if (c->itemType() == AbstractProjectItem::ClipItem) {
+                                if (c->clipType() == matchType) {
+                                    std::shared_ptr<ProjectClip> pClip = std::static_pointer_cast<ProjectClip>(c);
+                                    qDebug() << "::::::\nTRYING TO MATCH: " << pClip->getProducerProperty(QStringLiteral("resource")) << " = " << resource;
+                                    if (pClip->getProducerProperty(QStringLiteral("kdenlive:file_hash")) == hash) {
+                                        // Found a match
+                                        // binIdCorresp[QString::number(cid)] = pClip->clipId();
+                                        clip->parent().set("kdenlive:uuid", pClip->getProducerProperty(QStringLiteral("kdenlive:uuid")).toUtf8().constData());
+                                        found = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -1468,9 +1475,10 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
             }
         }
         prod->set("_kdenlive_processed", 1);
+        const QString uuid(prod->get("kdenlive:control_uuid"));
         qDebug() << "======\nADDING NEW CLIP: " << newId << " = " << prod->is_valid();
         requestAddBinClip(newId, prod, parentId, undo, redo);
-        binIdCorresp[QString::number(bid)] = newId;
+        binIdCorresp[uuid] = newId;
     }
 }
 

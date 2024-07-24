@@ -777,22 +777,26 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 // This is a bin clip, already processed no need to change id
                 binId = QString(clip->parent().get("kdenlive:id"));
             } else {
-                QString clipId = clip->parent().get("kdenlive:id");
-                if (clipId.startsWith(QStringLiteral("slowmotion"))) {
-                    clipId = clipId.section(QLatin1Char(':'), 1, 1);
-                }
-                if (clipId.isEmpty()) {
-                    clipId = clip->get("kdenlive:id");
+                QString clipId = clip->parent().get("kdenlive:control_uuid");
+                if (QUuid(clipId).isNull()) {
+                    qDebug() << "===== ERROR IN CLIP: " << clip->parent().get("kdenlive:id") << ", UUID: " << clipId;
+                    const QString tcInfo =
+                        QString("<a href=\"%1!%2?%3\">%4 %5</a>")
+                            .arg(timeline->uuid().toString(), QString::number(position), QString::number(timeline->getTrackPosition(tid) + 1), trackTag,
+                                 pCore->timecode().getTimecodeFromFrames(position));
+                    m_notesLog << i18n("%1 Timeline clip (%2) without bin reference found and removed.", tcInfo, clip->parent().get("id"));
+                    m_errorMessage << i18n("Project corrupted. Clip %1 (%2) with invalid Id.", clip->parent().get("id"), clipId);
+                    continue;
                 }
                 const QString service = clip->parent().get("mlt_service");
+                int cType = clip->parent().get_int("kdenlive:producer_type");
                 QString resource = service == QLatin1String("timewarp") ? clip->parent().get("warp_resource") : clip->parent().get("resource");
-                if (!useMappedIds || binIdCorresp.size() == 0 || (clip->parent().get_int("kdenlive:producer_type") == ClipType::Timeline)) {
-                    // Currently "sequence" clips inserted in timeline are cuts of the bin clip, so it's kdenlive id is changed in loadBinPlaylist
-                    if (clip->parent().get_int("kdenlive:producer_type") == ClipType::Timeline && binIdCorresp.count(clipId) > 0 &&
-                        !clip->parent().property_exists("_kdenlive_processed")) {
+                if (!useMappedIds || binIdCorresp.size() == 0 || cType == ClipType::Timeline) {
+                    qDebug() << "Trying to map CLIP CONTROL UUID: " << clipId << ", ID: " << clip->parent().get("id");
+                    if (binIdCorresp.find(clipId) != binIdCorresp.end()) {
                         binId = binIdCorresp.at(clipId);
                     } else {
-                        binId = clipId;
+                        binId = QString(clip->parent().get("kdenlive:id"));
                     }
                     // Ensure we don't try to embed a sequence into itself
                     if (binId == sequenceBinId) {
@@ -823,7 +827,9 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                         continue;
                     }
                     // Project was somehow corrupted
-                    qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
+                    qWarning() << "can't find clip with id: " << clipId << "in bin playlist\n"
+                               << "CID: " << clip->parent().get("id");
+                    exit(1);
                     QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(resource));
                     const QString tcInfo =
                         QString("<a href=\"%1!%2?%3\">%4 %5</a>")

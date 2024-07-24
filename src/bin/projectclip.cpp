@@ -899,7 +899,7 @@ void ProjectClip::createDisabledMasterProducer()
             m_disabledProducer = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(pCore->getProjectProfile(), "color", "red"));
             Mlt::Properties original(m_masterProducer->get_properties());
             Mlt::Properties target(m_disabledProducer->get_properties());
-            target.pass_list(original, "kdenlive:id,kdenlive:duration,kdenlive:maxduration,length");
+            target.pass_list(original, "kdenlive:control_uuid,kdenlive:id,kdenlive:duration,kdenlive:maxduration,length");
         } else {
             m_disabledProducer = cloneProducer();
             m_effectStack->addService(m_disabledProducer);
@@ -1248,6 +1248,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     warpProducer->set("set.test_audio", 1);
     warpProducer->set("set.test_image", 1);
     warpProducer->set("kdenlive:id", binId().toUtf8().constData());
+    warpProducer->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
+
     if (state == PlaylistState::AudioOnly) {
         warpProducer->set("set.test_audio", 0);
     }
