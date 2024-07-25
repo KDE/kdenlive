@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="230" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="232" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -75,6 +75,18 @@
         <Action name="edit_clip_marker" />
         <Action name="delete_clip_marker" />
         <Action name="delete_all_clip_markers" />
+          <Menu name="marker_category_menu" ><text>Add Markers by Category</text>
+            <Action name="add_marker_guide_1" />
+            <Action name="add_marker_guide_2" />
+            <Action name="add_marker_guide_3" />
+            <Action name="add_marker_guide_4" />
+            <Action name="add_marker_guide_5" />
+            <Action name="add_marker_guide_6" />
+            <Action name="add_marker_guide_7" />
+            <Action name="add_marker_guide_8" />
+            <Action name="add_marker_guide_9" />
+            <Action name="add_marker_guide_10" />
+          </Menu>
         </Menu>
 	  <Action name="auto_transition" />
       <Action name="delete_effects" />
