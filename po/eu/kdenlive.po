@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-23 00:39+0000\n"
+"POT-Creation-Date: 2024-07-25 00:38+0000\n"
 "PO-Revision-Date: 2024-07-23 11:41+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -5701,8 +5701,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Erabilpena"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1747
-#: src/doc/documentchecker.cpp:1775 src/doc/documentchecker.cpp:1795
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1768
+#: src/doc/documentchecker.cpp:1796 src/doc/documentchecker.cpp:1816
 #: src/mltcontroller/clipcontroller.cpp:524 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8798,112 +8798,112 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Zure proiektuaren dokumentu-ID baliogabea da, berri bat sortu da."
 
-#: src/doc/documentchecker.cpp:1737
+#: src/doc/documentchecker.cpp:1758
 #, kde-format
 msgid "Video clip"
 msgstr "Bideo klipa"
 
-#: src/doc/documentchecker.cpp:1739
+#: src/doc/documentchecker.cpp:1760
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Irudi-segida klipa"
 
-#: src/doc/documentchecker.cpp:1741
+#: src/doc/documentchecker.cpp:1762
 #, kde-format
 msgid "Image clip"
 msgstr "Irudi klipa"
 
-#: src/doc/documentchecker.cpp:1743
+#: src/doc/documentchecker.cpp:1764
 #, kde-format
 msgid "Playlist clip"
 msgstr "Erreprodukzio-zerrenda klipa"
 
-#: src/doc/documentchecker.cpp:1745 src/doc/documentchecker.cpp:1761
+#: src/doc/documentchecker.cpp:1766 src/doc/documentchecker.cpp:1782
 #, kde-format
 msgid "Title Image"
 msgstr "Izenburu Irudia"
 
-#: src/doc/documentchecker.cpp:1757
+#: src/doc/documentchecker.cpp:1778
 #, kde-format
 msgid "Clip"
 msgstr "Klipa"
 
-#: src/doc/documentchecker.cpp:1759
+#: src/doc/documentchecker.cpp:1780
 #, kde-format
 msgid "Title Font"
 msgstr "Izenburuaren letra-tipoa"
 
-#: src/doc/documentchecker.cpp:1763
+#: src/doc/documentchecker.cpp:1784
 #, kde-format
 msgid "Luma file"
 msgstr "Luma fitxategia"
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1786
 #, kde-format
 msgid "Asset file"
 msgstr "Aktiboen fitxategia"
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1788
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Klip-ordezkaria"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1790
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efektua"
 
-#: src/doc/documentchecker.cpp:1771
+#: src/doc/documentchecker.cpp:1792
 #, kde-format
 msgid "Transition"
 msgstr "Trantsizioa"
 
-#: src/doc/documentchecker.cpp:1773
+#: src/doc/documentchecker.cpp:1794
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Sekuentzia akastuna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1783 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1804 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Finkoa"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1806
 #, kde-format
 msgid "Reload"
 msgstr "Birkargatu"
 
-#: src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1808
 #, kde-format
 msgid "Missing"
 msgstr "Falta da"
 
-#: src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1810
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Falta da, baina ordezkari erabilgarri dago"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1791 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1812 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Leku-marka"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1793 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1814 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Kendu"
 
-#: src/doc/documentchecker.cpp:1804
+#: src/doc/documentchecker.cpp:1825
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Proiektuaren fitxategiak falta diren klip edo fitxategiak ditu."
 
-#: src/doc/documentchecker.cpp:1807
+#: src/doc/documentchecker.cpp:1828
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Falta diren ordezkariak irekitzerakoan birsor daitezke."
