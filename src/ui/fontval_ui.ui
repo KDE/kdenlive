@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
-    <height>60</height>
+    <width>257</width>
+    <height>32</height>
    </rect>
   </property>
   <layout class="QGridLayout">
@@ -31,13 +31,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QLabel" name="labelName">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
     <widget class="QFontComboBox" name="fontfamilywidget"/>
    </item>
   </layout>

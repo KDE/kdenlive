@@ -16,18 +16,15 @@ ColorEditWidget::ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QMo
     : AbstractParamWidget(std::move(model), index, parent)
 {
     // setup the comment
-    QString name = m_model->data(m_index, Qt::DisplayRole).toString();
     bool alphaEnabled = m_model->data(m_index, AssetParameterModel::AlphaRole).toBool();
     QString color = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
 
-    QLabel *label = new QLabel(name, this);
     m_choosecolor = new ChooseColorWidget(this, QColorUtils::stringToColor(color), alphaEnabled);
 
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    layout->addWidget(label, 1);
     layout->addWidget(m_choosecolor, 1);
 
     // Q_EMIT the signal of the base class when appropriate

@@ -24,6 +24,7 @@ set(kdenlive_SRCS
   assets/view/widgets/buttonparamwidget.cpp
   assets/view/widgets/switchparamwidget.cpp
   assets/view/widgets/multiswitchparamwidget.cpp
+  assets/view/widgets/effectbuttonsparamwidget.cpp
   assets/view/widgets/urllistparamwidget.cpp
   assets/view/widgets/urlparamwidget.cpp
   assets/view/widgets/doubleparamwidget.cpp

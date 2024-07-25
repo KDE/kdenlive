@@ -25,6 +25,7 @@ class TimecodeDisplay;
 class KSelectAction;
 class KeyframeMonitorHelper;
 class KDualAction;
+class GeometryWidget;
 class QStackedWidget;
 class QTabWidget;
 
@@ -33,7 +34,7 @@ class KeyframeWidget : public AbstractParamWidget
     Q_OBJECT
 
 public:
-    explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent = nullptr);
+    explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout);
     ~KeyframeWidget() override;
 
     /** @brief Add a new parameter to be managed using the same keyframe viewer. Also handles creation of KeyframeCurveEditor objects */
@@ -91,7 +92,6 @@ private Q_SLOTS:
     void disconnectEffectStack();
 
 private:
-    QVBoxLayout *m_lay;
     QToolBar *m_toolbar;
     QToolButton *m_viewswitch;
     std::shared_ptr<KeyframeModelList> m_keyframes;
@@ -119,6 +119,8 @@ private:
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
     int m_baseHeight;
     int m_addedHeight;
+    QFormLayout *m_layout;
+    std::unique_ptr<GeometryWidget> m_geom;
     int m_curveContainerHeight = 0;
 
 Q_SIGNALS:

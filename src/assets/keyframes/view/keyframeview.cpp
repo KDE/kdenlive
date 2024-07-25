@@ -317,6 +317,9 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
 #else
     int pos = int(((double(event->position().x()) - m_offset) / zoomFactor + zoomStart) / m_scale);
 #endif
+    if (m_duration <= 1) {
+        return;
+    }
     pos = qBound(0, pos, m_duration - 1);
     GenTime position(pos + offset, pCore->getCurrentFps());
     if ((event->buttons() & Qt::LeftButton) != 0u) {

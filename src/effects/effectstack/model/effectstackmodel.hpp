@@ -115,6 +115,10 @@ public:
 
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
+    /** @brief Returns true there are effect (built in disabled effects don't count */
+    bool hasEffects() const;
+    /** @brief Returns true there is an active built in effect with this MLT id */
+    bool hasBuiltInEffect(const QString effectId) const;
 
     /** @brief Returns a list of external file urls used by the effects (e.g. LUTs) */
     QStringList externalFiles() const;
@@ -152,6 +156,11 @@ public:
                                    QUndoCommand *command);
     void applyAssetMultiKeyframeCommand(int row, const QList<QModelIndex> &indexes, GenTime pos, const QStringList &sourceValues, const QStringList &values,
                                         QUndoCommand *command);
+
+    /** @brief Add default built-in audio effects */
+    void appendAudioBuildInEffects();
+    /** @brief Add default built-in video effects */
+    void appendVideoBuildInEffects();
 
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */

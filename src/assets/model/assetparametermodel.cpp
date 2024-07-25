@@ -36,6 +36,9 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
     m_requiresInOut = assetXml.hasAttribute(QStringLiteral("requires_in_out"));
     m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
+    if (m_asset->property_exists("kdenlive:builtin")) {
+        m_builtIn = true;
+    }
 
     bool needsLocaleConversion = false;
     QString separator;
@@ -170,6 +173,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             case ParamType::Switch:
             case ParamType::MultiSwitch:
             case ParamType::Wipe:
+            case ParamType::EffectButtons:
                 // Pretty sure that those are fine
                 converted = false;
                 break;
@@ -266,6 +270,18 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
 {
     Q_ASSERT(m_asset->is_valid());
     m_asset->set(name.toLatin1().constData(), value);
+    if (m_builtIn) {
+        bool isDisabled = m_asset->get_int("disable") == 1;
+        bool shouldDisable = isDefault();
+        if (isDisabled != shouldDisable) {
+            if (shouldDisable) {
+                m_asset->set("disable", 1);
+            } else {
+                m_asset->clear("disable");
+            }
+            Q_EMIT enabledChange(!shouldDisable);
+        }
+    }
     if (m_fixedParams.count(name) == 0) {
         m_params[name].value = value;
     } else {
@@ -438,8 +454,22 @@ const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
 
 void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
 {
-    // qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
+    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
     internalSetParameter(name, paramValue, paramIndex);
+    QStringList paramName = {name};
+    if (m_builtIn) {
+        bool isDisabled = m_asset->get_int("disable") == 1;
+        bool shouldDisable = isDefault();
+        if (isDisabled != shouldDisable) {
+            if (shouldDisable) {
+                m_asset->set("disable", 1);
+            } else {
+                m_asset->clear("disable");
+            }
+            paramName << QStringLiteral("disable");
+            Q_EMIT enabledChange(!shouldDisable);
+        }
+    }
     bool updateChildRequired = true;
     if (m_assetId.startsWith(QStringLiteral("sox_"))) {
         // Warning, SOX effect, need unplug/replug
@@ -465,7 +495,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         Q_EMIT modelChanged();
     }
     if (updateChildRequired) {
-        Q_EMIT updateChildren({name});
+        Q_EMIT updateChildren({paramName});
     }
     // Update timeline view if necessary
     if (m_ownerId.type == KdenliveObjectType::NoItem) {
@@ -639,6 +669,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     }
     case NewStuffRole:
         return element.attribute(QStringLiteral("newstuff"));
+    case CompactRole:
+        return element.hasAttribute(QStringLiteral("compact"));
     case ModeRole:
         return element.attribute(QStringLiteral("mode"));
     case List1Role:
@@ -711,6 +743,9 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("switch")) {
         return ParamType::Switch;
+    }
+    if (type == QLatin1String("effectbuttons")) {
+        return ParamType::EffectButtons;
     }
     if (type == QLatin1String("multiswitch")) {
         return ParamType::MultiSwitch;
@@ -1562,4 +1597,60 @@ const QVariant AssetParameterModel::getParamFromName(const QString &paramName)
 const QModelIndex AssetParameterModel::getParamIndexFromName(const QString &paramName)
 {
     return index(m_rows.indexOf(paramName), 0);
+}
+
+void AssetParameterModel::setBuiltIn()
+{
+    m_builtIn = true;
+    m_asset->set("kdenlive:builtin", 1);
+}
+
+bool AssetParameterModel::isDefault() const
+{
+    for (const auto &name : m_rows) {
+        ParamRow currentRow = m_params.at(name);
+        const QDomElement &element = currentRow.xml;
+        QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), element);
+        QString value = defaultValue.toString();
+        if (isAnimated(currentRow.type) && currentRow.type != ParamType::Roto_spline) {
+            // Roto_spline keyframes are stored as JSON so do not apply this to roto
+            if (!value.contains(QLatin1Char('='))) {
+                value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
+            }
+            if (currentRow.value.toString() != value && !currentRow.value.toString().contains(QLatin1Char(';'))) {
+                const QStringList values = currentRow.value.toString().section(QLatin1Char('='), 1).split(QLatin1Char(' '));
+                const QStringList defaults = value.section(QLatin1Char('='), 1).split(QLatin1Char(' '));
+                if (defaults.count() != values.count()) {
+                    // Not the same count of parameters
+                    return false;
+                }
+                int ix = 0;
+                bool ok;
+                for (auto &v : values) {
+                    if (v != defaults.at(ix)) {
+                        double val = v.toDouble(&ok);
+                        double def;
+                        if (ok) {
+                            def = defaults.at(ix).toDouble(&ok);
+                        }
+                        if (!ok) {
+                            // not a double, abort
+                            return false;
+                        }
+                        if (def != val) {
+                            return false;
+                        }
+                    }
+                    ix++;
+                }
+                return true;
+            }
+        }
+        if (currentRow.value != value) {
+            qDebug() << "======= ERROR COMPARING PARMA VALUES:\n" << currentRow.value << " = " << value;
+            return false;
+        }
+    }
+    qDebug() << "YYYYYYYYYYYYY DISABLING EFFECT:\n";
+    return true;
 }

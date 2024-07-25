@@ -228,7 +228,7 @@ Item {
         anchors.bottomMargin: clipMonitorRuler.height
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : moveArea.containsMouse ? Qt.SizeAllCursor : Qt.ArrowCursor
+        cursorShape: handleContainsMouse ? Qt.PointingHandCursor : (moveArea.containsMouse && !root.cursorOutsideEffect) ? Qt.SizeAllCursor : Qt.ArrowCursor
         readonly property bool handleContainsMouse: {
               if (isMoving) {
                   return true;
@@ -349,7 +349,7 @@ Item {
         MouseArea {
           id: moveArea
           anchors.fill: parent
-          cursorShape: handleContainsMouse ? Qt.PointingHandCursor : Qt.SizeAllCursor
+          cursorShape: handleContainsMouse ? Qt.PointingHandCursor : enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
           propagateComposedEvents: true
           property var mouseClickPos
           property var frameClicksize: Qt.point(0, 0)

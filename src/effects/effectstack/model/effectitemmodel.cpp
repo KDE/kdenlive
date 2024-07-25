@@ -115,6 +115,9 @@ void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
             if (effName == m_assetId && filt->get_int("_kdenlive_processed") == 0) {
                 if (auto ptr2 = m_model.lock()) {
                     effect = EffectItemModel::construct(std::move(filt), ptr2, QString());
+                    if (filter().get_int("disable") == 1) {
+                        effect->filter().set("disable", 1);
+                    }
                     int childId = ptr->get_int("_childid");
                     if (childId == 0) {
                         childId = m_childId++;
@@ -132,14 +135,26 @@ void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
     Q_ASSERT(false);
 }
 
-void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service)
+void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int target)
 {
     if (auto ptr = service.lock()) {
         const QString effectId = getAssetId();
         std::shared_ptr<EffectItemModel> effect = nullptr;
+        bool targetHasAudio = ptr->get_int("set.test_audio") == 0;
+        bool targetHasVideo = ptr->get_int("set.test_image") == 0;
         if (auto ptr2 = m_model.lock()) {
             effect = EffectItemModel::construct(effectId, ptr2);
+            if (isAudio()) {
+                if (!targetHasAudio) {
+                    return;
+                }
+            } else if (!targetHasVideo) {
+                return;
+            }
             effect->setParameters(getAllParameters(), false);
+            if (filter().get_int("disable") == 1) {
+                effect->filter().set("disable", 1);
+            }
             int childId = ptr->get_int("_childid");
             if (childId == 0) {
                 childId = m_childId++;
@@ -147,6 +162,9 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service)
             }
             m_childEffects.insert(childId, effect);
             int ret = ptr->attach(effect->filter());
+            if (ret == 0 && target > -1) {
+                ptr->move_filter(ptr->count() - 1, target);
+            }
             Q_ASSERT(ret == 0);
             return;
         }
@@ -198,7 +216,7 @@ bool EffectItemModel::isValid() const
 
 void EffectItemModel::updateEnable(bool updateTimeline)
 {
-    filter().set("disable", isEnabled() ? 0 : 1);
+    filter().set("disable", isAssetEnabled() ? 0 : 1);
     if (updateTimeline && !isAudio()) {
         pCore->refreshProjectItem(m_ownerId);
         pCore->invalidateItem(m_ownerId);
@@ -206,7 +224,7 @@ void EffectItemModel::updateEnable(bool updateTimeline)
     const QModelIndex start = AssetParameterModel::index(0, 0);
     const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
     Q_EMIT dataChanged(start, end, QVector<int>());
-    Q_EMIT enabledChange(!isEnabled());
+    Q_EMIT enabledChange(!isAssetEnabled());
     // Update timeline child producers
     Q_EMIT AssetParameterModel::updateChildren({QStringLiteral("disable")});
 }
@@ -326,4 +344,14 @@ void EffectItemModel::setEffectStackEnabled(bool enabled)
         m_asset->set("kdenlive:bin-disabled", 1);
     }
     AbstractEffectItem::setEffectStackEnabled(enabled);
+}
+
+bool EffectItemModel::isBuiltIn() const
+{
+    return KdenliveSettings::enableBuiltInEffects() && m_asset->get_int("kdenlive:builtin") == 1;
+}
+
+bool EffectItemModel::isHiddenBuiltIn() const
+{
+    return KdenliveSettings::enableBuiltInEffects() && m_asset->get_int("kdenlive:hiddenbuiltin") == 1;
 }

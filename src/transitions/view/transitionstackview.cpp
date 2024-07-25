@@ -12,6 +12,7 @@
 #include <KLocalizedString>
 #include <QComboBox>
 #include <QDebug>
+#include <QFormLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QSignalBlocker>
@@ -51,15 +52,11 @@ void TransitionStackView::refreshTracks()
 
 void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
 {
-    auto *lay = new QHBoxLayout;
     m_trackBox = new QComboBox(this);
     AssetParameterView::setModel(model, frameSize, addSpacer);
     model->setActive(true);
     refreshTracks();
-    QLabel *title = new QLabel(i18n("Composition track:"), this);
-    lay->addWidget(title);
-    lay->addWidget(m_trackBox);
-    m_lay->insertLayout(0, lay);
+    m_lay->insertRow(0, i18n("Composition track:"), m_trackBox);
     auto kfr = model->getKeyframeModel();
     if (kfr) {
         connect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
@@ -73,7 +70,6 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     }
 
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    m_lay->addStretch(10);
 }
 
 void TransitionStackView::unsetModel()

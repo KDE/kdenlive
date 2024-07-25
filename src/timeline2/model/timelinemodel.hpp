@@ -166,6 +166,7 @@ public:
         ItemIdRole,
         ThumbsFormatRole,   /// track only
         EffectNamesRole,    /// track and clip only
+        EffectCountRole,    /// track and clip only
         EffectsEnabledRole, /// track and clip only
         GrabbedRole,        /// clip+composition only
         SelectedRole,       /// clip+composition only

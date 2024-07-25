@@ -13,6 +13,7 @@
 #include <memory>
 
 class QVBoxLayout;
+class QFormLayout;
 class QMenu;
 class QActionGroup;
 class AbstractParamWidget;
@@ -68,7 +69,7 @@ protected:
         It basically instructs the widgets in the given range to be refreshed */
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 
-    QVBoxLayout *m_lay;
+    QFormLayout *m_lay;
     /** @brief Protect from concurrent operations
      **/
     QMutex m_lock;

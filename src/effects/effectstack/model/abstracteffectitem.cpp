@@ -23,21 +23,23 @@ AbstractEffectItem::AbstractEffectItem(EffectItemType type, const QList<QVariant
 void AbstractEffectItem::markEnabled(bool enabled, Fun &undo, Fun &redo)
 {
     Fun local_undo = [this, enabled]() {
-        setEnabled(!enabled);
+        setAssetEnabled(!enabled);
         return true;
     };
     Fun local_redo = [this, enabled]() {
-        setEnabled(enabled);
+        setAssetEnabled(enabled);
         return true;
     };
     PUSH_LAMBDA(local_undo, undo);
     PUSH_LAMBDA(local_redo, redo);
 }
 
-void AbstractEffectItem::setEnabled(bool enabled)
+void AbstractEffectItem::setAssetEnabled(bool enabled, bool update)
 {
     m_enabled = enabled;
-    updateEnable();
+    if (update) {
+        updateEnable();
+    }
 }
 
 void AbstractEffectItem::setEffectStackEnabled(bool enabled)
@@ -49,15 +51,16 @@ void AbstractEffectItem::setEffectStackEnabled(bool enabled)
     updateEnable(false);
 }
 
-bool AbstractEffectItem::isEnabled() const
+bool AbstractEffectItem::isAssetEnabled() const
 {
     bool parentEnabled = true;
     if (auto ptr = std::static_pointer_cast<AbstractEffectItem>(m_parentItem.lock())) {
-        parentEnabled = ptr->isEnabled();
+        parentEnabled = ptr->isAssetEnabled();
     } else {
         // Root item, always return true
         return true;
     }
+    qDebug() << "=== EFFECT ITEM M_ENABLED: " << m_enabled << " / " << m_effectStackEnabled;
     return m_enabled && m_effectStackEnabled && parentEnabled;
 }
 

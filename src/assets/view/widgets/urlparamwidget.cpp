@@ -27,12 +27,7 @@ UrlParamWidget::UrlParamWidget(std::shared_ptr<AssetParameterModel> model, QMode
         urlwidget->setAcceptMode(QFileDialog::AcceptSave);
         urlwidget->setMode(KFile::File);
     }
-    slotRefresh();
-
-    // setup the name
-    label->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     setMinimumHeight(urlwidget->sizeHint().height());
-
     // set check state
     slotRefresh();
 

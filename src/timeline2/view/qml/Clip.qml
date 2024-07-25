@@ -1145,7 +1145,8 @@ Rectangle {
                 clip: true
                 anchors.fill: parent
                 asynchronous: true
-                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && clipRoot.width > 2 * root.baseUnit
+                property bool hasKeyframes: false
+                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * root.baseUnit
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item

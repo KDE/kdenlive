@@ -29,7 +29,8 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     double factor = m_model->data(m_index, AssetParameterModel::FactorRole).toDouble();
     // Construct object
     m_doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals,
-                                      m_model->data(m_index, AssetParameterModel::OddRole).toBool(), this);
+                                      m_model->data(m_index, AssetParameterModel::OddRole).toBool(),
+                                      m_model->data(m_index, AssetParameterModel::CompactRole).toBool(), this);
     m_lay->addWidget(m_doubleWidget);
     setMinimumHeight(m_doubleWidget->height());
 
@@ -37,6 +38,11 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     connect(m_doubleWidget, &DoubleWidget::valueChanged, this,
             [this](double val, bool createUndoEntry) { Q_EMIT valueChanged(m_index, QString::number(val, 'f'), createUndoEntry); });
     slotRefresh();
+}
+
+QLabel *DoubleParamWidget::createLabel()
+{
+    return m_doubleWidget->createLabel();
 }
 
 void DoubleParamWidget::slotRefresh()
