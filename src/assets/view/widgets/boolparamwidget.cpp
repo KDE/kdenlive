@@ -6,21 +6,17 @@
 #include "boolparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 
+#include <QCheckBox>
+#include <QHBoxLayout>
+
 BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    setupUi(this);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    // setup the comment
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
-    m_labelComment->setText(comment);
-    m_widgetComment->setHidden(true);
-
-    // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
-    setMinimumHeight(m_labelName->sizeHint().height());
-
+    QHBoxLayout *lay = new QHBoxLayout(this);
+    lay->setContentsMargins(0, 0, 0, 0);
+    m_checkBox = new QCheckBox(this);
+    lay->addWidget(m_checkBox);
     // set check state
     slotRefresh();
 
@@ -35,12 +31,7 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     });
 }
 
-void BoolParamWidget::slotShowComment(bool show)
-{
-    if (!m_labelComment->text().isEmpty()) {
-        m_widgetComment->setVisible(show);
-    }
-}
+void BoolParamWidget::slotShowComment(bool) {}
 
 void BoolParamWidget::slotRefresh()
 {

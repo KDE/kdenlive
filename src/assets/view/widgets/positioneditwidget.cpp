@@ -18,19 +18,16 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     : AbstractParamWidget(std::move(model), index, parent)
 {
     auto *layout = new QHBoxLayout(this);
-    QString name = m_model->data(m_index, Qt::DisplayRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    QLabel *label = new QLabel(name, this);
     m_slider = new QSlider(Qt::Horizontal, this);
     m_slider->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
 
     m_display = new TimecodeDisplay(this);
     m_display->setSizePolicy(QSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred));
 
-    layout->addWidget(label);
     layout->addWidget(m_slider, 0, Qt::AlignVCenter);
     layout->addWidget(m_display);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(6, 0, 6, 0);
     m_inverted = m_model->data(m_index, AssetParameterModel::DefaultRole).toInt() < 0;
     m_toTime = m_model->data(m_index, AssetParameterModel::ToTimePosRole).toBool();
     slotRefresh();

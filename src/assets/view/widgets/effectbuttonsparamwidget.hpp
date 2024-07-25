@@ -1,6 +1,8 @@
 /*
-    SPDX-FileCopyrightText: 2018 Jean-Baptiste Mardelle
-    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+    SPDX-FileCopyrightText: 2024 Jean-Baptiste Mardelle
+    This file is part of Kdenlive. See www.kdenlive.org.
+
+    SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #pragma once
@@ -8,12 +10,10 @@
 #include "abstractparamwidget.hpp"
 #include <QWidget>
 
-class QCheckBox;
-
 /** @brief This class represents a parameter that requires
            the user to choose tick a checkbox
  */
-class SwitchParamWidget : public AbstractParamWidget
+class EffectButtonsParamWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
@@ -23,13 +23,18 @@ public:
         @param checked Boolean indicating whether the checkbox should initially be checked
         @param parent Parent widget
     */
-    SwitchParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
+    EffectButtonsParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
 public Q_SLOTS:
+    /** @brief Toggle the comments on or off
+     */
+    void slotShowComment(bool show) override;
+
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh() override;
 
-private:
-    QCheckBox *m_checkBox;
+private Q_SLOTS:
+    void buttonClicked(bool checked);
+    void paramChanged(int state);
 };

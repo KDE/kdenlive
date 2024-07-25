@@ -6,7 +6,9 @@
 #pragma once
 
 #include <QDoubleSpinBox>
+#include <QLabel>
 #include <QProgressBar>
+#include <QSlider>
 #include <QSpinBox>
 #include <QWidget>
 #include <kselectaction.h>
@@ -15,7 +17,52 @@ class QAction;
 class QMenu;
 class KSelectAction;
 
-class CustomLabel : public QProgressBar
+class MySpinBox : public QSpinBox
+{
+    Q_OBJECT
+public:
+    explicit MySpinBox(QWidget *parent = nullptr);
+    int charWidth() const;
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
+private:
+    QPointF m_clickPos;
+    QPointF m_startDragPos;
+    QPoint m_clickMouse;
+    bool m_dragging{false};
+    bool m_editing{false};
+    /** @brief the position of the lineedit cursor on mouse click */
+    int m_cursorClickPos{0};
+
+Q_SIGNALS:
+    void resetValue();
+    void showMenu(const QPoint &p);
+};
+
+class MyDoubleSpinBox : public QDoubleSpinBox
+{
+    Q_OBJECT
+public:
+    explicit MyDoubleSpinBox(QWidget *parent = nullptr);
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
+private:
+    QPointF m_clickPos;
+    QPointF m_startDragPos;
+    QPoint m_clickMouse;
+    bool m_dragging{false};
+    bool m_editing{false};
+
+Q_SIGNALS:
+    void resetValue();
+    void showMenu(const QPoint &p);
+};
+
+class CustomLabel : public QSlider
 {
     Q_OBJECT
 public:
@@ -69,7 +116,7 @@ public:
      * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
      */
     explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1,
-                       const QString &suffix = QString(), bool showSlider = true, bool oddOnly = false, QWidget *parent = nullptr);
+                       const QString &suffix = QString(), bool showSlider = true, bool oddOnly = false, QWidget *parent = nullptr, bool isInGroup = false);
     ~DragValue() override;
 
     /** @brief Returns the precision = number of decimals */
@@ -98,6 +145,8 @@ public:
     void setSpinSize(int width);
     /** @brief Returns true if widget is currently being edited */
     bool hasEditFocus() const;
+    /** @brief Returns the parameter's label widget */
+    QLabel *createLabel();
 
 public Q_SLOTS:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */
@@ -142,11 +191,12 @@ private:
     int m_decimals;
     double m_default;
     int m_id;
-    QSpinBox *m_intEdit;
-    QDoubleSpinBox *m_doubleEdit;
+    QString m_labelText;
+    MySpinBox *m_intEdit{nullptr};
+    MyDoubleSpinBox *m_doubleEdit{nullptr};
 
     QMenu *m_menu;
     KSelectAction *m_scale;
     QAction *m_directUpdate;
-    CustomLabel *m_label;
+    CustomLabel *m_label{nullptr};
 };

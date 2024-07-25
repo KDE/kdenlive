@@ -6,13 +6,14 @@
 #pragma once
 
 #include "abstractparamwidget.hpp"
-#include "ui_boolparamwidget_ui.h"
 #include <QWidget>
+
+class QCheckBox;
 
 /** @brief This class represents a parameter that requires
            the user to choose tick a checkbox
  */
-class BoolParamWidget : public AbstractParamWidget, public Ui::BoolParamWidget_UI
+class BoolParamWidget : public AbstractParamWidget
 {
     Q_OBJECT
 public:
@@ -36,4 +37,7 @@ public Q_SLOTS:
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh() override;
+
+private:
+    QCheckBox *m_checkBox;
 };

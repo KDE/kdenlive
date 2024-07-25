@@ -10,6 +10,7 @@
 #include "jobs/filtertask.h"
 #include <mlt++/Mlt.h>
 
+#include <QLabel>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -172,6 +173,11 @@ void ButtonParamWidget::slotShowComment(bool show)
     // if (!m_labelComment->text().isEmpty()) {
     //    m_widgetComment->setVisible(show);
     //}
+}
+
+QLabel *ButtonParamWidget::createLabel()
+{
+    return new QLabel();
 }
 
 void ButtonParamWidget::slotRefresh()

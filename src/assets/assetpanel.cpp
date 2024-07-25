@@ -28,6 +28,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QFontDatabase>
+#include <QFormLayout>
 #include <QMenu>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -76,11 +77,19 @@ AssetPanel::AssetPanel(QWidget *parent)
 
     m_switchBuiltStack = new QToolButton(this);
     m_switchBuiltStack->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
-    m_switchBuiltStack->setToolTip(i18n("Adjust clip"));
+    m_switchBuiltStack->setToolTip(i18n("Enable Builtin Effects"));
+    m_switchBuiltStack->setWhatsThis(xi18nc(
+        "@info:whatsthis", "When enabled, this will add basic effects (Flip, Transform, Volume) to all clips for convenience. These effects are disabled "
+                           "and will only be applied if you change a parameter."));
     m_switchBuiltStack->setCheckable(true);
-    m_switchBuiltStack->setChecked(KdenliveSettings::showbuiltstack());
-    m_switchBuiltStack->setVisible(false);
-    // connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
+    m_switchBuiltStack->setChecked(KdenliveSettings::enableBuiltInEffects());
+    connect(m_switchBuiltStack, &QToolButton::toggled, this, [this](bool enable) {
+        KdenliveSettings::setEnableBuiltInEffects(enable);
+        pCore->clearAssetPanel(-1);
+        if (m_effectStackWidget) {
+            m_effectStackWidget->unsetModel();
+        }
+    });
     buttonToolbar->addWidget(m_switchBuiltStack);
 
     QToolButton *applyEffectGroupsButton = new QToolButton(this);
@@ -121,6 +130,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_splitButton = new KDualAction(i18n("Normal view"), i18n("Compare effect"), this);
     m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
     m_splitButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
+    m_splitButton->setCheckable(true);
     m_splitButton->setToolTip(i18n("Compare effect"));
     m_splitButton->setWhatsThis(xi18nc(
         "@info:whatsthis",
@@ -375,7 +385,10 @@ const QString AssetPanel::getStyleSheet()
     // effect background
     stylesheet.append(QStringLiteral("QFrame#decoframe {border-top:1px solid "
                                      "palette(shadow);border-bottom:2px solid "
-                                     "palette(shadow);background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;}")
+                                     "palette(shadow);background: transparent} QFrame#decoframe.builtin {border-top:1px solid "
+                                     "palette(shadow);border-bottom:2px solid "
+                                     "#33FF0000 ;background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;} "
+                                     "QFrame#decoframe.builtin[active=\"true\"] {background: %1;}")
                           .arg(hgh.name()));
 
     // effect in group background
@@ -409,10 +422,10 @@ const QString AssetPanel::getStyleSheet()
 
     // spin box for draggable widget
     stylesheet.append(
-        QStringLiteral("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: "
-                       "4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px "
+        QStringLiteral("QAbstractSpinBox#dragBox {border-width: 2px; border-style: solid; border-radius: 4px; border-color: transparent }"
+                       "QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px} "
                        "solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { "
-                       "border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ")
+                       "border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;border-radius: 4px} ")
             .arg(hover_bg.name(), selected_bg.name()));
 
     // minimal double edit

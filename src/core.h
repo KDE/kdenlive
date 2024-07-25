@@ -344,6 +344,8 @@ public:
     void highlightFileInExplorer(QList<QUrl> urls);
     /** @brief When a timeline operation changes the clip under the mouse cursor, inform the qml view */
     void updateHoverItem(const QUuid &uuid);
+    /** @brief Returns true if the asset has {audio, video} */
+    std::pair<bool, bool> assetHasAV(ObjectId id);
 
 private:
     explicit Core(LinuxPackageType packageType);

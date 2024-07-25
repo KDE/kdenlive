@@ -15,10 +15,9 @@
 #include <framework/mlt_types.h>
 #include <mlt++/MltProperties.h>
 
-GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
+GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    auto *layout = new QVBoxLayout(this);
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
@@ -43,20 +42,16 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
         rect = QRect(50, 50, 200, 200);
     }
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    m_geom = new GeometryWidget(monitor, QPair<int, int>(start, end), rect, 100, frameSize, false,
-                                m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this);
-    m_geom->setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
-    connect(m_geom, &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
+    m_geom.reset(new GeometryWidget(monitor, QPair<int, int>(start, end), rect, 100, frameSize, false,
+                                    m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), this, layout));
+    connect(m_geom.get(), &GeometryWidget::updateMonitorGeometry, this, [this](const QRect r) {
         if (m_model->isActive()) {
             pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);
         }
     });
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(m_geom);
-    setFixedHeight(m_geom->sizeHint().height());
 
     // Q_EMIT the signal of the base class when appropriate
-    connect(this->m_geom, &GeometryWidget::valueChanged, this, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
+    connect(m_geom.get(), &GeometryWidget::valueChanged, this, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
     setToolTip(comment);
 }
 

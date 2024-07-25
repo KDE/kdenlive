@@ -30,7 +30,7 @@ public:
     /** @brief This function plants the effect into the given service in last position
      */
     void plant(const std::weak_ptr<Mlt::Service> &service) override;
-    void plantClone(const std::weak_ptr<Mlt::Service> &service) override;
+    void plantClone(const std::weak_ptr<Mlt::Service> &service, int target = -1) override;
     void loadClone(const std::weak_ptr<Mlt::Service> &service);
     /** @brief This function unplants (removes) the effect from the given service
      */
@@ -51,6 +51,8 @@ public:
     bool keyframesHiddenUnset() const;
     bool hasForcedInOut() const;
     bool isValid() const;
+    bool isBuiltIn() const;
+    bool isHiddenBuiltIn() const;
     QPair<int, int> getInOut() const;
     void setInOut(const QString &effectName, QPair<int, int> bounds, bool enabled, bool withUndo);
 

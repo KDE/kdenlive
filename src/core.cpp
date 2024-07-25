@@ -1682,3 +1682,37 @@ void Core::updateHoverItem(const QUuid &uuid)
         m_mainWindow->getCurrentTimeline()->regainFocus();
     }
 }
+
+std::pair<bool, bool> Core::assetHasAV(ObjectId id)
+{
+    switch (id.type) {
+    case KdenliveObjectType::Master:
+        return {true, true};
+    case KdenliveObjectType::TimelineTrack: {
+        auto timeline = m_mainWindow->getTimeline(id.uuid);
+        if (timeline && timeline->model()->isAudioTrack(id.itemId)) {
+            return {true, false};
+        }
+        return {false, true};
+    }
+    case KdenliveObjectType::TimelineClip: {
+        auto timeline = m_mainWindow->getTimeline(id.uuid);
+        if (timeline && timeline->model()->clipIsAudio(id.itemId)) {
+            return {true, false};
+        }
+        return {false, true};
+    }
+    case KdenliveObjectType::BinClip: {
+        PlaylistState::ClipState state = bin()->getClipState(id.itemId);
+        if (state == PlaylistState::Disabled) {
+            return {true, true};
+        } else if (state == PlaylistState::AudioOnly) {
+            return {true, false};
+        } else {
+            return {false, true};
+        }
+    }
+    default:
+        return {false, false};
+    }
+}

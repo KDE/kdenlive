@@ -8,23 +8,25 @@
 #include "core.h"
 #include "mainwindow.h"
 
+#include <QComboBox>
+#include <QHBoxLayout>
+
 ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    setupUi(this);
-
     // Get data from model
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
 
+    QHBoxLayout *lay = new QHBoxLayout(this);
+    lay->setContentsMargins(0, 0, 0, 0);
+    m_list = new QComboBox(this);
+    lay->addWidget(m_list);
+
     // setup the comment
-    setToolTip(comment);
-    m_labelComment->setText(comment);
-    m_widgetComment->setHidden(true);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_list->setIconSize(QSize(50, 30));
     setMinimumHeight(m_list->sizeHint().height());
     // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     slotRefresh();
 
     // Q_EMIT the signal of the base class when appropriate
@@ -60,9 +62,9 @@ void ListParamWidget::setIconSize(const QSize &size)
 
 void ListParamWidget::slotShowComment(bool show)
 {
-    if (!m_labelComment->text().isEmpty()) {
+    /*if (!m_labelComment->text().isEmpty()) {
         m_widgetComment->setVisible(show);
-    }
+    }*/
 }
 
 QString ListParamWidget::getValue()

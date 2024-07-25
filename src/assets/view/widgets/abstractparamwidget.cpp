@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "curves/cubic/kis_curve_widget.h"
 #include "curves/curveparamwidget.h"
 #include "doubleparamwidget.hpp"
+#include "effectbuttonsparamwidget.hpp"
 #include "fontparamwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "hideparamwidget.hpp"
@@ -60,14 +61,19 @@ AbstractParamWidget::AbstractParamWidget(std::shared_ptr<AssetParameterModel> mo
 {
 }
 
+QLabel *AbstractParamWidget::createLabel()
+{
+    return new QLabel(m_model->data(m_index, Qt::DisplayRole).toString());
+}
+
 AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QSize frameSize,
-                                                    QWidget *parent)
+                                                    QWidget *parent, QFormLayout *layout)
 {
     // We retrieve the parameter type
     auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
 
     if (AssetParameterModel::isAnimated(type)) {
-        return new KeyframeWidget(model, index, frameSize, parent);
+        return new KeyframeWidget(model, index, frameSize, parent, layout);
     }
 
     AbstractParamWidget *widget = nullptr;
@@ -90,7 +96,7 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         widget = new BoolParamWidget(model, index, parent);
         break;
     case ParamType::Geometry:
-        widget = new GeometryEditWidget(model, index, frameSize, parent);
+        widget = new GeometryEditWidget(model, index, frameSize, parent, layout);
         break;
     case ParamType::Position:
         widget = new PositionEditWidget(model, index, parent);
@@ -103,6 +109,9 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         break;
     case ParamType::Switch:
         widget = new SwitchParamWidget(model, index, parent);
+        break;
+    case ParamType::EffectButtons:
+        widget = new EffectButtonsParamWidget(model, index, parent);
         break;
     case ParamType::MultiSwitch:
         widget = new MultiSwitchParamWidget(model, index, parent);

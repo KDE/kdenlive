@@ -14,6 +14,7 @@
 #include <KLocalizedString>
 #include <QComboBox>
 #include <QDebug>
+#include <QFormLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QSignalBlocker>
@@ -28,7 +29,6 @@ MixStackView::MixStackView(QWidget *parent)
     m_durationLayout = new QHBoxLayout;
     m_duration = new TimecodeDisplay(this);
     m_duration->setRange(1, -1);
-    m_durationLayout->addWidget(new QLabel(i18n("Duration:")));
     m_durationLayout->addWidget(m_duration);
     m_alignLeft = new QToolButton(this);
     m_alignLeft->setIcon(QIcon::fromTheme(QStringLiteral("align-horizontal-left")));
@@ -85,9 +85,8 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &MixStackView::durationChanged);
 
     // The layout is handled by AssetParameterView, so we can only add our custom stuff later here
-    m_lay->addLayout(m_durationLayout);
-    m_lay->addWidget(m_position);
-    m_lay->addStretch(10);
+    m_lay->addRow(i18n("Duration:"), m_durationLayout);
+    m_lay->addRow(i18n("Position:"), m_position);
     checkAlignment();
 }
 
