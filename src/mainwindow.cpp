@@ -160,6 +160,8 @@ MainWindow::MainWindow(QWidget *parent)
     kdenliveCategoryMap.insert(QStringLiteral("monitor"), category);
     category = new KActionCategory(i18n("Add Clip"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("addclip"), category);
+    category = new KActionCategory(i18n("Add Marker/Guide by Category Number"), actionCollection());
+    kdenliveCategoryMap.insert(QStringLiteral("guidecategorynumber"), category);
     category = new KActionCategory(i18n("Navigation and Playback"), actionCollection());
     kdenliveCategoryMap.insert(QStringLiteral("navandplayback"), category);
     category = new KActionCategory(i18n("Bin Tags"), actionCollection());
@@ -319,6 +321,7 @@ void MainWindow::init(const QString &mltPath)
     });
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
+    connect(m_clipMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerWithCategory);
     connect(m_clipMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteClipMarker);
     connect(m_clipMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_clipMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
@@ -327,6 +330,7 @@ void MainWindow::init(const QString &mltPath)
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
     connect(m_projectMonitor, &Monitor::passKeyPress, this, &MainWindow::triggerKey);
     connect(m_projectMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerGuideQuickly);
+    connect(m_projectMonitor, &Monitor::addMarker, this, &MainWindow::slotAddMarkerWithCategory);
     connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteGuide);
     connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_projectMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
@@ -1762,8 +1766,49 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
-    addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker/Guide quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
+    addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker/Guide Quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_Asterisk));
+
+    QAction *addMarkerWithCategory1 =
+        addAction(QStringLiteral("add_marker_guide_1"), i18n("Add Marker/Guide 1"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_1), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory1->setData(1);
+    QAction *addMarkerWithCategory2 =
+        addAction(QStringLiteral("add_marker_guide_2"), i18n("Add Marker/Guide 2"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_2), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory2->setData(2);
+    QAction *addMarkerWithCategory3 =
+        addAction(QStringLiteral("add_marker_guide_3"), i18n("Add Marker/Guide 3"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_3), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory3->setData(3);
+    QAction *addMarkerWithCategory4 =
+        addAction(QStringLiteral("add_marker_guide_4"), i18n("Add Marker/Guide 4"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_4), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory4->setData(4);
+    QAction *addMarkerWithCategory5 =
+        addAction(QStringLiteral("add_marker_guide_5"), i18n("Add Marker/Guide 5"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_5), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory5->setData(5);
+    QAction *addMarkerWithCategory6 =
+        addAction(QStringLiteral("add_marker_guide_6"), i18n("Add Marker/Guide 6"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_6), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory6->setData(6);
+    QAction *addMarkerWithCategory7 =
+        addAction(QStringLiteral("add_marker_guide_7"), i18n("Add Marker/Guide 7"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_7), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory7->setData(7);
+    QAction *addMarkerWithCategory8 =
+        addAction(QStringLiteral("add_marker_guide_8"), i18n("Add Marker/Guide 8"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_8), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory8->setData(8);
+    QAction *addMarkerWithCategory9 =
+        addAction(QStringLiteral("add_marker_guide_9"), i18n("Add Marker/Guide 9"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_9), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory9->setData(9);
+    QAction *addMarkerWithCategory10 =
+        addAction(QStringLiteral("add_marker_guide_10"), i18n("Add Marker/Guide 10"), this, SLOT(slotAddMarkerWithCategory()),
+                  QIcon::fromTheme(QStringLiteral("bookmark-new")), QKeySequence(Qt::KeypadModifier | Qt::Key_0), QStringLiteral("guidecategorynumber"));
+    addMarkerWithCategory10->setData(10);
 
     // Clip actions. We set some category info on the action data to enable/disable it contextually in timelinecontroller
     KActionCategory *clipActionCategory = new KActionCategory(i18n("Current Selection"), actionCollection());
@@ -2902,6 +2947,44 @@ void MainWindow::slotAddMarkerGuideQuickly()
             getCurrentTimeline()->controller()->addQuickMarker(selectedClip);
         }
     }
+}
+
+void MainWindow::slotAddMarkerWithCategory()
+{
+    if (!getCurrentTimeline() || !pCore->currentDoc()) {
+        return;
+    }
+
+
+    auto *caller = qobject_cast<QAction *>(QObject::sender());
+    if (!caller) {
+        return;
+    }
+    // subtract 1 due to default category descriptions being 1-indexed
+    int category = caller->data().toInt() - 1;
+
+    // check if category exists
+    if (!pCore->markerTypes.contains(category)) {
+        pCore->displayMessage(i18n("Marker category does not exist"), ErrorMessage);
+        return;
+    }
+    int currentCategory = KdenliveSettings::default_marker_type();
+
+    KdenliveSettings::setDefault_marker_type(category);
+    if (m_clipMonitor->isActive()) {
+        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), {m_clipMonitor->position()});
+    } else {
+        int selectedClip = getCurrentTimeline()->controller()->getMainSelectedItem();
+        if (selectedClip == -1) {
+            // Add timeline guide
+            getCurrentTimeline()->controller()->switchGuide();
+        } else {
+            // Add marker to main clip
+            getCurrentTimeline()->controller()->addQuickMarker(selectedClip);
+        }
+    }
+    // return to previously-chosen default category
+    KdenliveSettings::setDefault_marker_type(currentCategory);
 }
 
 void MainWindow::slotAddGuide()

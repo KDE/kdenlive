@@ -446,6 +446,7 @@ private Q_SLOTS:
      * The comment is set to the current position (therefore not dialog).
      * This can be useful to mark something during playback. */
     void slotAddMarkerGuideQuickly();
+    void slotAddMarkerWithCategory();
     void slotCutTimelineClip();
     void slotCutTimelineAllClips();
     void slotInsertClipOverwrite();
