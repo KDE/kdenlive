@@ -983,6 +983,9 @@ void TimelineItemModel::processTimelineReplacement(QList<int> instances, const Q
 
 int TimelineItemModel::clipAssetGroupInstances(int cid, const QString &assetId)
 {
+    if (!isClip(cid)) {
+        return 0;
+    }
     int gid = m_groups->getRootId(cid);
     int count = 0;
     if (gid > -1) {
@@ -999,6 +1002,9 @@ int TimelineItemModel::clipAssetGroupInstances(int cid, const QString &assetId)
 void TimelineItemModel::applyClipAssetGroupCommand(int cid, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
                                                    QUndoCommand *command)
 {
+    if (!isClip(cid)) {
+        return;
+    }
     int gid = m_groups->getRootId(cid);
     if (gid > -1) {
         std::unordered_set<int> sub;
@@ -1023,6 +1029,9 @@ void TimelineItemModel::applyClipAssetGroupCommand(int cid, const QString &asset
 void TimelineItemModel::applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, const QModelIndex &index, GenTime pos,
                                                            const QVariant &previousValue, const QVariant &value, int ix, QUndoCommand *command)
 {
+    if (!isClip(cid)) {
+        return;
+    }
     int gid = m_groups->getRootId(cid);
     if (gid > -1) {
         std::unordered_set<int> sub;
@@ -1072,6 +1081,9 @@ void TimelineItemModel::applyClipAssetGroupMultiKeyframeCommand(int cid, const Q
 
 void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId, int originalId)
 {
+    if (!isClip(cid)) {
+        return;
+    }
     int gid = m_groups->getRootId(cid);
     std::unordered_set<int> sub;
     Fun undo = []() { return true; };
@@ -1105,6 +1117,9 @@ void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId, i
 
 void TimelineItemModel::disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo)
 {
+    if (!isClip(cid)) {
+        return;
+    }
     int gid = m_groups->getRootId(cid);
     std::unordered_set<int> sub;
     if (gid > -1) {
@@ -1136,6 +1151,9 @@ void TimelineItemModel::disableEffectFromGroup(int cid, const QString &assetId, 
 
 QList<std::shared_ptr<KeyframeModelList>> TimelineItemModel::getGroupKeyframeModels(int cid, const QString &assetId)
 {
+    if (!isClip(cid) && !isComposition(cid)) {
+        return {};
+    }
     QList<std::shared_ptr<KeyframeModelList>> models;
     int gid = m_groups->getRootId(cid);
     if (gid > -1) {
