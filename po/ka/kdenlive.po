@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-25 02:28+0000\n"
-"PO-Revision-Date: 2024-07-19 06:27+0200\n"
+"PO-Revision-Date: 2024-07-25 05:59+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16322,10 +16322,9 @@ msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "აღმოჩენილი და წაშლილია %1 დროის ხაზის კლიპი (%2)."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "პროექტი დაზიანებულია. კლიპი %1 (%2) პროექტის კალათაში აღმოჩენილი არაა."
+msgstr "პროექტი დაზიანებულია. კლიპის %1 (%2) Id არასწორია."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821

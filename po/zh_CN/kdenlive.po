@@ -16026,7 +16026,7 @@ msgstr "发现没有素材箱引用的 %1 时间轴剪辑 (%2)，已经移除。
 #: src/timeline2/model/builders/meltBuilder.cpp:788
 #, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr ""
+msgstr "项目已损坏。剪辑 %1 (%2) 包含无效的 ID。"
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
