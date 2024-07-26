@@ -29,6 +29,96 @@ Item{
         return type != ProducerType.Composition && type != ProducerType.Track;
     }
 
+    function clipTrimming(clip, newDuration, shiftTrim, controlTrim, right) {
+        if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
+            if (!speedController.visible) {
+                // Store original speed
+                speedController.originalSpeed = clip.speed
+            }
+            speedController.x = clip.x + clip.border.width
+            newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, right, root.snapping)
+            if (!right) {
+                clip.x += clip.width - (newDuration * root.timeScale)
+            }
+            clip.width = newDuration * root.timeScale
+            speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
+            speedController.lastValidDuration = newDuration
+            clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
+            speedController.visible = true
+            // var delta = newDuration - clip.originalDuration
+            // var s = timeline.simplifiedTC(Math.abs(delta))
+            let s = '%1:%2\%, %3:%4'.arg(i18n("Speed"))
+                .arg(Math.round(clip.speed*100))
+                .arg(i18n("Duration"))
+                .arg(timeline.simplifiedTC(newDuration))
+            timeline.showToolTip(s)
+            return
+        }
+        var new_duration = 0;
+        if (root.activeTool === ProjectTool.RippleTool) {
+            console.log("Trimming request for " + newDuration + " right: " + right)
+            new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, right, false, root.snapping, shiftTrim)
+            timeline.requestStartTrimmingMode(clip.clipId, false, right);
+            timeline.ripplePosChanged(new_duration, right);
+        } else {
+            new_duration = controller.requestItemResize(clip.clipId, newDuration, right, false, root.snapping, shiftTrim)
+        }
+        if (new_duration > 0) {
+            clip.lastValidDuration = new_duration
+            if (!right) {
+                clip.originalX = clip.draggedX
+            }
+
+            // Show amount trimmed as a time in a "bubble" help.
+            let s;
+            if (right) {
+                let delta = clip.originalDuration - new_duration
+                s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
+                    .arg(s)
+                    .arg(i18n("Duration"))
+                    .arg(timeline.simplifiedTC(new_duration))
+            } else {
+                let delta = new_duration - clip.originalDuration
+                s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
+                    .arg(s)
+                    .arg(i18n("In"))
+                    .arg(timeline.simplifiedTC(clip.inPoint))
+            }
+            timeline.showToolTip(s);
+        }
+    }
+
+    function trimedClip(clip, shiftTrim, controlTrim, right) {
+        //bubbleHelp.hide()
+        timeline.showToolTip();
+        if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
+            // We only resize one element
+            if (root.activeTool === ProjectTool.RippleTool) {
+                timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
+            } else {
+                controller.requestItemResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
+            }
+
+            if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
+                // Update speed
+                speedController.visible = false
+                controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, right, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
+                speedController.originalSpeed = 1
+            } else {
+                if (root.activeTool === ProjectTool.RippleTool) {
+                    timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, right, true, 0, shiftTrim)
+                    timeline.requestEndTrimmingMode();
+                } else {
+                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, right, true, 0, shiftTrim)
+                }
+            }
+        } else {
+            var updatedGroupData = controller.getGroupData(clip.clipId)
+            controller.processGroupResize(root.groupTrimData, updatedGroupData, right)
+        }
+        root.groupTrimData = undefined
+    }
+
     width: clipRow.width
 
     DelegateModel {
@@ -344,154 +434,10 @@ Item{
                 // We are resizing a group, remember coordinates of all elements
                 root.groupTrimData = controller.getGroupData(clipId)
             }
-            onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => {
-                if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
-                    newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, false, root.snapping)
-                    if (!speedController.visible) {
-                        // Store original speed
-                        speedController.originalSpeed = clip.speed
-                    }
-                    clip.x += clip.width - (newDuration * root.timeScale)
-                    clip.width = newDuration * root.timeScale
-                    speedController.x = clip.x + clip.border.width
-                    speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
-                    speedController.lastValidDuration = newDuration
-                    clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
-                    speedController.visible = true
-                    var delta = newDuration - clip.originalDuration
-                    var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = '%1:%2, %3:%4'.arg(i18n("Speed"))
-                        .arg(clip.speed)
-                        .arg(i18n("Duration"))
-                        .arg(timeline.simplifiedTC(newDuration))
-                    timeline.showToolTip(s)
-                    return
-                }
-                var new_duration = 0;
-                if (root.activeTool === ProjectTool.RippleTool) {
-                    console.log("In: Request for " + newDuration)
-                    new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
-                    timeline.requestStartTrimmingMode(clip.clipId, false, false);
-                    timeline.ripplePosChanged(new_duration, false);
-                } else {
-                    new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
-                }
-
-                if (new_duration > 0) {
-                    clip.lastValidDuration = new_duration
-                    clip.originalX = clip.draggedX
-                    // Show amount trimmed as a time in a "bubble" help.
-                    var delta = new_duration - clip.originalDuration
-                    var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
-                        .arg(s)
-                        .arg(i18n("In"))
-                        .arg(timeline.simplifiedTC(clip.inPoint))
-                    timeline.showToolTip(s)
-                    //bubbleHelp.show(clip.x - 20, trackRoot.y + trackRoot.height, s)
-                }
-            }
-            onTrimmedIn: (clip, shiftTrim, controlTrim) => {
-                //bubbleHelp.hide()
-                timeline.showToolTip();
-                if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
-                    // We only resize one element
-                    if (root.activeTool === ProjectTool.RippleTool) {
-                        timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
-                    } else {
-                        controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
-                    }
-
-                    if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
-                        // Update speed
-                        speedController.visible = false
-                        controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, false, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
-                        speedController.originalSpeed = 1
-                    } else {
-                        if (root.activeTool === ProjectTool.RippleTool) {
-                            timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
-                            timeline.requestEndTrimmingMode();
-                        } else {
-                            controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
-                        }
-                    }
-                } else {
-                    var updatedGroupData = controller.getGroupData(clip.clipId)
-                    controller.processGroupResize(root.groupTrimData, updatedGroupData, false)
-                }
-                root.groupTrimData = undefined
-            }
-            onTrimmingOut: (clip, newDuration, shiftTrim, controlTrim) => {
-                if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
-                    if (!speedController.visible) {
-                        // Store original speed
-                        speedController.originalSpeed = clip.speed
-                    }
-                    speedController.x = clip.x + clip.border.width
-                    newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, true, root.snapping)
-                    clip.width = newDuration * root.timeScale
-                    speedController.width = Math.max(0, clip.width - 2 * clip.border.width)
-                    speedController.lastValidDuration = newDuration
-                    clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
-                    speedController.visible = true
-                    var s = '%1:%2\%, %3:%4'.arg(i18n("Speed"))
-                        .arg(Math.round(clip.speed*100))
-                        .arg(i18n("Duration"))
-                        .arg(timeline.simplifiedTC(newDuration))
-                    timeline.showToolTip(s)
-                    return
-                }
-                var new_duration = 0;
-                if (root.activeTool === ProjectTool.RippleTool) {
-                    console.log("Out: Request for " + newDuration)
-                    new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
-                    timeline.requestStartTrimmingMode(clip.clipId, false, true);
-                    timeline.ripplePosChanged(new_duration, true);
-                } else {
-                    new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
-                }
-                if (new_duration > 0) {
-                    clip.lastValidDuration = new_duration
-                    // Show amount trimmed as a time in a "bubble" help.
-                    var delta = clip.originalDuration - new_duration
-                    var s = timeline.simplifiedTC(Math.abs(delta))
-                    s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
-                        .arg(s)
-                        .arg(i18n("Duration"))
-                        .arg(timeline.simplifiedTC(new_duration))
-                    timeline.showToolTip(s);
-                    //bubbleHelp.show(clip.x + clip.width - 20, trackRoot.y + trackRoot.height, s)
-                }
-            }
-            onTrimmedOut: (clip, shiftTrim, controlTrim) => {
-                timeline.showToolTip();
-                //bubbleHelp.hide()
-                if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
-                    if (root.activeTool === ProjectTool.RippleTool) {
-                        timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
-                    } else {
-                        controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
-                    }
-
-                    if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
-                        speedController.visible = false
-                        // Update speed
-                        controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, true, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
-                        speedController.originalSpeed = 1
-                    } else {
-                        if (root.activeTool === ProjectTool.RippleTool) {
-                            timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
-                            timeline.requestEndTrimmingMode();
-                        } else {
-                            controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
-                        }
-                    }
-                } else {
-                    var updatedGroupData = controller.getGroupData(clip.clipId)
-                    controller.processGroupResize(root.groupTrimData, updatedGroupData, true)
-                }
-                root.groupTrimData = undefined
-            }
+            onTrimmingIn: (clip, newDuration, shiftTrim, controlTrim) => { clipTrimming(clip, newDuration, shiftTrim, controlTrim, false) }
+            onTrimmedIn: (clip, shiftTrim, controlTrim) => { trimedClip(clip, shiftTrim, controlTrim, false) }
+            onTrimmingOut: (clip, newDuration, shiftTrim, controlTrim) => { clipTrimming(clip, newDuration, shiftTrim, controlTrim, true) }
+            onTrimmedOut: (clip, shiftTrim, controlTrim) => { trimedClip(clip, shiftTrim, controlTrim, true) }
         }
     }
     Component {
