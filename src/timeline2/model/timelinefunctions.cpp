@@ -75,6 +75,9 @@ bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &time
     bool warp_pitch = timeline->m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
     int audioStream = timeline->m_allClips[clipId]->getIntProperty(QStringLiteral("audio_index"));
     bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, audioStream, clipSpeed, warp_pitch, undo, redo);
+    if (!res) {
+        return false;
+    }
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
 
     // copy useful timeline properties
@@ -140,6 +143,10 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     // Check if clip has an end Mix
     bool res = cloneClip(timeline, clipId, newId, state, undo, redo);
+    if (!res) {
+        qDebug() << "// CLONING CLIP FAILED";
+        return false;
+    }
     timeline->m_blockRefresh = true;
 
     int updatedDuration = position - start;
