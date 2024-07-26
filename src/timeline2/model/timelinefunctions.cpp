@@ -2024,7 +2024,9 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
         // enough tracks above and below, keep the current
         // ensure it is one of the existing tracks
-        targetTrackId = qBound(targetTracks.first(), targetTrackId, targetTracks.last());
+        if (!targetTracks.contains(targetTrackId)) {
+            targetTrackId = targetTracks.last();
+        }
     };
 
     // Find destination master track
