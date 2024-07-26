@@ -1493,7 +1493,6 @@ void DocumentChecker::fixAssetResource(const QDomNodeList &assets, const QMap<QS
 void DocumentChecker::usePlaceholderForClip(const QDomNodeList &items, const QString &clipId)
 {
     // items: chains or producers
-
     QDomElement e;
     for (int i = items.count() - 1; i >= 0; --i) {
         // Setting the tag name (see below) might change it and this will remove the item from the original list, so we need to parse in reverse order
@@ -1501,7 +1500,13 @@ void DocumentChecker::usePlaceholderForClip(const QDomNodeList &items, const QSt
         if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")) == clipId) {
             // Fix clip
             Xml::setXmlProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
-            Xml::setXmlProperty(e, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(e, QStringLiteral("mlt_service")));
+            QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
+            Xml::setXmlProperty(e, QStringLiteral("kdenlive:orig_service"), service);
+            if (service == QLatin1String("avformat-novalidate")) {
+                // Ensure the producer gets an "Invalid" markup
+                service = QStringLiteral("avformat");
+                Xml::setXmlProperty(e, QStringLiteral("mlt_service"), service);
+            }
 
             // In MLT 7.14/15, link_swresample crashes on invalid avformat clips,
             // so switch to producer instead of chain to use filter_swresample.
