@@ -173,6 +173,8 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
             break;
         }
     }
+    Q_EMIT checkDragScrolling();
+
     if (dragRow == m_model->rowCount() && event->source() == this) {
         QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
         int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();

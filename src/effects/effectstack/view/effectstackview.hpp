@@ -132,5 +132,6 @@ Q_SIGNALS:
     void blockWheelEvent(bool block);
     void checkScrollBar();
     void scrollView(QRect);
+    void checkDragScrolling();
     void updateEffectsGroupesInstances();
 };

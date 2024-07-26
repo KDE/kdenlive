@@ -184,6 +184,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     updatePalette();
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
     connect(m_effectStackWidget, &EffectStackView::scrollView, this, &AssetPanel::scrollTo);
+    connect(m_effectStackWidget, &EffectStackView::checkDragScrolling, this, &AssetPanel::checkDragScroll);
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
@@ -510,6 +511,19 @@ void AssetPanel::scrollTo(QRect rect)
         m_sc->ensureVisible(0, rect.y() + rect.height(), 0, 0);
     } else {
         m_sc->ensureVisible(0, rect.y() + m_sc->height(), 0, 0);
+    }
+}
+
+void AssetPanel::checkDragScroll()
+{
+    int yPos = m_sc->mapFromGlobal(QCursor::pos()).y();
+    int currentPos = m_sc->verticalScrollBar()->value();
+    if (currentPos > 0 && yPos < 15) {
+        m_sc->verticalScrollBar()->setValue(qMax(0, currentPos - m_sc->verticalScrollBar()->singleStep()));
+        QTimer::singleShot(400, this, &AssetPanel::checkDragScroll);
+    } else if (m_sc->height() - yPos < 15) {
+        m_sc->verticalScrollBar()->setValue(currentPos + m_sc->verticalScrollBar()->singleStep());
+        QTimer::singleShot(400, this, &AssetPanel::checkDragScroll);
     }
 }
 

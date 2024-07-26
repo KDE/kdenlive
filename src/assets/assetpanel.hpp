@@ -102,6 +102,8 @@ private Q_SLOTS:
     void enableStack(bool enable);
     /** Scroll effects view */
     void scrollTo(QRect rect);
+    /** Check if view needs to be scrolled on drag move */
+    void checkDragScroll();
 
 Q_SIGNALS:
     void doSplitEffect(bool);
