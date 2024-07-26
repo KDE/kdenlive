@@ -1211,11 +1211,9 @@ void MainWindow::setupActions()
     m_buttonRippleTool->setCheckable(true);
     m_buttonRippleTool->setChecked(false);
 
-    /* TODO Implement Roll
     m_buttonRollTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-rolling")), i18n("Roll Tool"), this);
-
     m_buttonRollTool->setCheckable(true);
-    m_buttonRollTool->setChecked(false);*/
+    m_buttonRollTool->setChecked(false);
 
     m_buttonSlipTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-slip")), i18n("Slip Tool"), this);
     m_buttonSlipTool->setWhatsThis(xi18nc("@info:whatsthis", "When selected, dragging a clip slips the clip beneath the given window back and forth."));
@@ -1236,7 +1234,7 @@ void MainWindow::setupActions()
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
     toolGroup->addAction(m_buttonRippleTool);
-    // toolGroup->addAction(m_buttonRollTool);
+    toolGroup->addAction(m_buttonRollTool);
     toolGroup->addAction(m_buttonSlipTool);
     // toolGroup->addAction(m_buttonSlideTool);
     toolGroup->addAction(m_buttonMulticamTool);
@@ -1367,7 +1365,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X, toolsActionCategory);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M, toolsActionCategory);
     addAction(QStringLiteral("ripple_tool"), m_buttonRippleTool, {}, toolsActionCategory);
-    // addAction(QStringLiteral("roll_tool"), m_buttonRollTool, QKeySequence(), toolsActionCategory);
+    addAction(QStringLiteral("roll_tool"), m_buttonRollTool, QKeySequence(), toolsActionCategory);
     addAction(QStringLiteral("slip_tool"), m_buttonSlipTool, {}, toolsActionCategory);
     addAction(QStringLiteral("multicam_tool"), m_buttonMulticamTool, {}, toolsActionCategory);
     // addAction(QStringLiteral("slide_tool"), m_buttonSlideTool);
@@ -3429,9 +3427,9 @@ void MainWindow::showToolMessage()
         message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple "
                                             "selection, <shortcut>Alt click</shortcut> to select an item in a group, <shortcut>Ctrl drag</shortcut> to pan");
         toolLabel = i18nc("Timeline Tool", "Ripple");
-    } /*else if (m_buttonRollTool->isChecked()) { // TODO implement Slide
+    } else if (m_buttonRollTool->isChecked()) {
         toolLabel = i18nc("Timeline Tool", "Roll");
-    }*/
+    }
     else if (m_buttonMulticamTool->isChecked()) {
         message =
             xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> on a track view in the project monitor to perform a lift of all tracks except active one");
