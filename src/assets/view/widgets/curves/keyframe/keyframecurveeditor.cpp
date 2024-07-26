@@ -611,9 +611,11 @@ void KeyframeCurveEditor::updateInterval()
             val.append(m_model->getInterpolatedValue(pos, m_paramindex).toDouble());
         }
     }
-    m_minVal = *std::min_element(val.begin(), val.end());
-    m_maxVal = *std::max_element(val.begin(), val.end());
-    m_interval = qAbs(m_maxVal - m_minVal);
+    if (!val.isEmpty()) {
+        m_minVal = *std::min_element(val.begin(), val.end());
+        m_maxVal = *std::max_element(val.begin(), val.end());
+        m_interval = qAbs(m_maxVal - m_minVal);
+    }
 }
 double KeyframeCurveEditor::getPadding()
 {
