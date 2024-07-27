@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-26 00:39+0000\n"
-"PO-Revision-Date: 2024-07-23 11:41+0200\n"
+"POT-Creation-Date: 2024-07-27 00:40+0000\n"
+"PO-Revision-Date: 2024-07-26 21:26+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -931,8 +931,8 @@ msgstr "Bideoa beltzetik itzaltzea"
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:171
 #: src/bin/bin.cpp:1298 src/bin/projectitemmodel.cpp:330
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
-#: src/timeline2/view/qml/Track.qml:365 src/timeline2/view/qml/Track.qml:439
-#: src/timeline2/view/qml/Track.qml:460 src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
+#: src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "Iraupena"
@@ -940,7 +940,7 @@ msgstr "Iraupena"
 #: data/effects/fade_from_black.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:168
 #: src/monitor/view/kdenlivemonitortrimming.qml:109
-#: src/timeline2/view/qml/Track.qml:388
+#: src/timeline2/view/qml/Track.qml:84
 #, kde-format
 msgid "In"
 msgstr "Sartu"
@@ -2123,8 +2123,7 @@ msgstr "Sortu alfa kanala (gardentasuna) beste baliabide batetik"
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
-#: src/timeline2/view/qml/Track.qml:363 src/timeline2/view/qml/Track.qml:437
-#: src/ui/clipspeed_ui.ui:36
+#: src/timeline2/view/qml/Track.qml:50 src/ui/clipspeed_ui.ui:36
 #, kde-format
 msgid "Speed"
 msgstr "Abiadura"
@@ -3338,10 +3337,9 @@ msgid "Change composition type"
 msgstr "Aldatu konposizio-mota"
 
 #: src/assets/assetpanel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "Enable Builtin Effects"
-msgstr "Ezgaitu Ontziko efektuak"
+msgstr "Gaitu barneratutako efektuak"
 
 #: src/assets/assetpanel.cpp:82
 #, kde-kuit-format
@@ -3351,6 +3349,9 @@ msgid ""
 "clips for convenience. These effects are disabled and will only be applied "
 "if you change a parameter."
 msgstr ""
+"Gaituta dagoenean, erosotasunagatik, klip guztietan oinarrizko efektuak "
+"gehituko ditu (Irauli, Eraldatu, Bolumena). Efektu horiek ezgaituta daude "
+"eta parametro bat aldatzen baduzu aplikatuko dira."
 
 #: src/assets/assetpanel.cpp:97
 #, kde-format
@@ -3448,22 +3449,22 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Denbora-lerroan klipeko gako-fotogramak azaltzea txandakatzen du"
 
-#: src/assets/assetpanel.cpp:275
+#: src/assets/assetpanel.cpp:276
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efektu"
 
-#: src/assets/assetpanel.cpp:280 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:281 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parametro"
 
-#: src/assets/assetpanel.cpp:284
+#: src/assets/assetpanel.cpp:285
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 pistaren efektuak"
 
-#: src/assets/assetpanel.cpp:289
+#: src/assets/assetpanel.cpp:290
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Ontziko %1 efektuak"
@@ -4836,7 +4837,7 @@ msgid "Create bin folder"
 msgstr "Sortu ontzi karpeta"
 
 #: src/bin/bin.cpp:2709 src/bin/bin.cpp:2722 src/bin/bin.cpp:3704
-#: src/timeline2/model/timelinemodel.cpp:2156
+#: src/timeline2/model/timelinemodel.cpp:2160
 #, kde-format
 msgid "Delete Clip"
 msgstr "Ezabatu klipa"
@@ -5265,7 +5266,7 @@ msgid "Transcode Without Saving"
 msgstr "Transkodetu gorde gabe"
 
 #: src/bin/bin.cpp:6236 src/effects/effectstack/model/effectstackmodel.cpp:158
-#: src/timeline2/model/timelineitemmodel.cpp:1103
+#: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Ezabatu %1 efektua"
@@ -5579,13 +5580,13 @@ msgid "Edit subtitle"
 msgstr "Editatu azpidatzia"
 
 #: src/bin/model/subtitlemodel.cpp:663 src/bin/model/subtitlemodel.cpp:1656
-#: src/timeline2/model/timelinefunctions.cpp:220
+#: src/timeline2/model/timelinefunctions.cpp:227
 #, kde-format
 msgid "Cut clip"
 msgstr "Moztu klipa"
 
 #: src/bin/model/subtitlemodel.cpp:825 src/bin/model/subtitlemodel.cpp:1588
-#: src/timeline2/model/timelinemodel.cpp:3915
+#: src/timeline2/model/timelinemodel.cpp:3919
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Azpidatziaren tamaina aldatu"
@@ -5598,7 +5599,7 @@ msgstr "Mugitu azpidatzia"
 
 #: src/bin/model/subtitlemodel.cpp:1177
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:578
-#: src/effects/effectstack/view/effectstackview.cpp:746
+#: src/effects/effectstack/view/effectstackview.cpp:748
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
 #, kde-format
@@ -5635,7 +5636,7 @@ msgstr "%1 azpidatzia"
 msgid "Timeline sequence"
 msgstr "Denbora-lerro sekuentzia"
 
-#: src/bin/projectclip.cpp:577 src/timeline2/view/qml/Clip.qml:1102
+#: src/bin/projectclip.cpp:577 src/timeline2/view/qml/Clip.qml:1154
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -5666,7 +5667,7 @@ msgstr "Baliogabea"
 
 #: src/bin/projectclip.cpp:1438 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1474
+#: src/timeline2/model/timelinefunctions.cpp:1481
 #, kde-format
 msgid "File already exists"
 msgstr "Fitxategia badago lehendik ere"
@@ -5708,8 +5709,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Erabilpena"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1768
-#: src/doc/documentchecker.cpp:1796 src/doc/documentchecker.cpp:1816
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1773
+#: src/doc/documentchecker.cpp:1801 src/doc/documentchecker.cpp:1821
 #: src/mltcontroller/clipcontroller.cpp:524 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6523,7 +6524,7 @@ msgstr "Esportatu Gidalerroen datuak"
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:657
-#: src/effects/effectstack/view/effectstackview.cpp:784
+#: src/effects/effectstack/view/effectstackview.cpp:786
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -8805,112 +8806,112 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Zure proiektuaren dokumentu-ID baliogabea da, berri bat sortu da."
 
-#: src/doc/documentchecker.cpp:1758
+#: src/doc/documentchecker.cpp:1763
 #, kde-format
 msgid "Video clip"
 msgstr "Bideo klipa"
 
-#: src/doc/documentchecker.cpp:1760
+#: src/doc/documentchecker.cpp:1765
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Irudi-segida klipa"
 
-#: src/doc/documentchecker.cpp:1762
+#: src/doc/documentchecker.cpp:1767
 #, kde-format
 msgid "Image clip"
 msgstr "Irudi klipa"
 
-#: src/doc/documentchecker.cpp:1764
+#: src/doc/documentchecker.cpp:1769
 #, kde-format
 msgid "Playlist clip"
 msgstr "Erreprodukzio-zerrenda klipa"
 
-#: src/doc/documentchecker.cpp:1766 src/doc/documentchecker.cpp:1782
+#: src/doc/documentchecker.cpp:1771 src/doc/documentchecker.cpp:1787
 #, kde-format
 msgid "Title Image"
 msgstr "Izenburu Irudia"
 
-#: src/doc/documentchecker.cpp:1778
+#: src/doc/documentchecker.cpp:1783
 #, kde-format
 msgid "Clip"
 msgstr "Klipa"
 
-#: src/doc/documentchecker.cpp:1780
+#: src/doc/documentchecker.cpp:1785
 #, kde-format
 msgid "Title Font"
 msgstr "Izenburuaren letra-tipoa"
 
-#: src/doc/documentchecker.cpp:1784
+#: src/doc/documentchecker.cpp:1789
 #, kde-format
 msgid "Luma file"
 msgstr "Luma fitxategia"
 
-#: src/doc/documentchecker.cpp:1786
+#: src/doc/documentchecker.cpp:1791
 #, kde-format
 msgid "Asset file"
 msgstr "Aktiboen fitxategia"
 
-#: src/doc/documentchecker.cpp:1788
+#: src/doc/documentchecker.cpp:1793
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Klip-ordezkaria"
 
-#: src/doc/documentchecker.cpp:1790
+#: src/doc/documentchecker.cpp:1795
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efektua"
 
-#: src/doc/documentchecker.cpp:1792
+#: src/doc/documentchecker.cpp:1797
 #, kde-format
 msgid "Transition"
 msgstr "Trantsizioa"
 
-#: src/doc/documentchecker.cpp:1794
+#: src/doc/documentchecker.cpp:1799
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Sekuentzia akastuna"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1804 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1809 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Finkoa"
 
-#: src/doc/documentchecker.cpp:1806
+#: src/doc/documentchecker.cpp:1811
 #, kde-format
 msgid "Reload"
 msgstr "Birkargatu"
 
-#: src/doc/documentchecker.cpp:1808
+#: src/doc/documentchecker.cpp:1813
 #, kde-format
 msgid "Missing"
 msgstr "Falta da"
 
-#: src/doc/documentchecker.cpp:1810
+#: src/doc/documentchecker.cpp:1815
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Falta da, baina ordezkari erabilgarri dago"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1812 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1817 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Leku-marka"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1814 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1819 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Kendu"
 
-#: src/doc/documentchecker.cpp:1825
+#: src/doc/documentchecker.cpp:1830
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Proiektuaren fitxategiak falta diren klip edo fitxategiak ditu."
 
-#: src/doc/documentchecker.cpp:1828
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Falta diren ordezkariak irekitzerakoan birsor daitezke."
@@ -9393,7 +9394,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "%1 efektua ezin da bitan gehitu."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:590
-#: src/timeline2/model/timelinemodel.cpp:5025
+#: src/timeline2/model/timelinemodel.cpp:5029
 #, kde-format
 msgid "Add effect %1"
 msgstr "Gehitu %1 efektua"
@@ -9614,64 +9615,60 @@ msgstr "Iruzkinak:"
 msgid "No name provided, effect not saved."
 msgstr "Ez da izenik eman, ez da efektua gorde."
 
-#: src/effects/effectstack/view/effectstackview.cpp:272
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#: src/effects/effectstack/view/effectstackview.cpp:274
+#, kde-format
 msgid "Horizontal Flip"
-msgstr "Pertsiana horizontala"
+msgstr "Iraultze horizontala"
 
-#: src/effects/effectstack/view/effectstackview.cpp:277
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#: src/effects/effectstack/view/effectstackview.cpp:279
+#, kde-format
 msgid "Vertical Flip"
-msgstr "Bertikala"
+msgstr "Iraultze bertikala"
 
-#: src/effects/effectstack/view/effectstackview.cpp:284
-#, fuzzy, kde-format
-#| msgid "Flippo"
+#: src/effects/effectstack/view/effectstackview.cpp:286
+#, kde-format
 msgid "Flip"
-msgstr "Flippo"
+msgstr "Irauli"
 
-#: src/effects/effectstack/view/effectstackview.cpp:663
+#: src/effects/effectstack/view/effectstackview.cpp:665
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Gaitu efektu-pila"
 
-#: src/effects/effectstack/view/effectstackview.cpp:663
+#: src/effects/effectstack/view/effectstackview.cpp:665
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Ezgaitu efektu-pila"
 
-#: src/effects/effectstack/view/effectstackview.cpp:702
+#: src/effects/effectstack/view/effectstackview.cpp:704
 #, kde-format
 msgid "No effect selected."
 msgstr "Ez da efekturik hautatu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:708
+#: src/effects/effectstack/view/effectstackview.cpp:710
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Gorde uneko efektu-pila"
 
-#: src/effects/effectstack/view/effectstackview.cpp:713
+#: src/effects/effectstack/view/effectstackview.cpp:715
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Gordetako pilarentzako izena:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:714
+#: src/effects/effectstack/view/effectstackview.cpp:716
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Deskribapena:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:727
+#: src/effects/effectstack/view/effectstackview.cpp:729
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Ez da izenik eman, ez da efektu-pila gorde."
 
-#: src/effects/effectstack/view/effectstackview.cpp:734
+#: src/effects/effectstack/view/effectstackview.cpp:736
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -10024,10 +10021,9 @@ msgstr "Markatzaileak"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Markatzaileen kategoria"
+msgstr "Gehitu markatzaileen kategoriaren arabera"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10728,10 +10724,9 @@ msgid "Add Clip"
 msgstr "Gehitu Klipa"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa kategoria zenbakiaren arabera"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11671,70 +11666,59 @@ msgid "Delete All Markers"
 msgstr "Ezabatu markatzaile guztiak"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa azkar"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -11756,7 +11740,7 @@ msgstr "Ezabatu markatzailea"
 msgid "Edit Marker…"
 msgstr "Editatu Markatzailea…"
 
-#: src/mainwindow.cpp:1829 src/timeline2/model/timelinefunctions.cpp:1191
+#: src/mainwindow.cpp:1829 src/timeline2/model/timelinefunctions.cpp:1198
 #, kde-format
 msgid "Restore Audio"
 msgstr "Leheneratu audioa"
@@ -12029,7 +12013,7 @@ msgstr "Inportatu Azpidatzien Fitxategia…"
 msgid "Export Subtitle File…"
 msgstr "Esportatu Azpidatzi Fitxategia…"
 
-#: src/mainwindow.cpp:2054 src/timeline2/model/timelinemodel.cpp:2160
+#: src/mainwindow.cpp:2054 src/timeline2/model/timelinemodel.cpp:2164
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Ezabatu Azpidatzia"
@@ -12243,19 +12227,18 @@ msgid "Cannot find clip to edit marker"
 msgstr "Ezin izan da klipa aurkitu markatzailea editatzeko"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Markatzaileen kategoria"
+msgstr "Markatzaile-kategoria ez da existitzen"
 
-#: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:769
+#: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Gainidatzi eskualdea"
 
 #: src/mainwindow.cpp:3155 src/mainwindow.cpp:3174
-#: src/timeline2/model/timelinefunctions.cpp:771
+#: src/timeline2/model/timelinefunctions.cpp:778
 #: src/timeline2/view/timelinecontroller.cpp:3112
 #, kde-format
 msgid "Could not insert zone"
@@ -12266,7 +12249,7 @@ msgstr "Ezin izan da eskualdea txertatu"
 msgid "No clip selected in project bin"
 msgstr "Proiektu-ontzian ez da klipik hautatu"
 
-#: src/mainwindow.cpp:3172 src/timeline2/model/timelinefunctions.cpp:769
+#: src/mainwindow.cpp:3172 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
 #, kde-format
 msgid "Insert zone"
@@ -16591,67 +16574,67 @@ msgstr "%1 klipa azpi-pista ez egokian dago eta %2 pistan %3n aurkitu da."
 msgid "%1 Clip (%2) with incorrect subplaylist found"
 msgstr "%1 klipa (%2) azpi-pista ez-egokiarekin aurkitu da"
 
-#: src/timeline2/model/timelinefunctions.cpp:117
+#: src/timeline2/model/timelinefunctions.cpp:120
 #, kde-format
 msgid "Insert Clips"
 msgstr "Txertatu klipak"
 
-#: src/timeline2/model/timelinefunctions.cpp:274
+#: src/timeline2/model/timelinefunctions.cpp:281
 #, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
 msgstr "Ezin ditu gainjarritako azpidatziak ebaki"
 
-#: src/timeline2/model/timelinefunctions.cpp:344
-#: src/timeline2/model/timelinefunctions.cpp:363
+#: src/timeline2/model/timelinefunctions.cpp:351
+#: src/timeline2/model/timelinefunctions.cpp:370
 #, kde-format
 msgid "Failed to cut clip"
 msgstr "Huts egin du klipa mozteak"
 
-#: src/timeline2/model/timelinefunctions.cpp:354
+#: src/timeline2/model/timelinefunctions.cpp:361
 #, kde-format
 msgid "All tracks are locked"
 msgstr "Pista guztiak giltzatuta daude"
 
-#: src/timeline2/model/timelinefunctions.cpp:374
+#: src/timeline2/model/timelinefunctions.cpp:381
 #, kde-format
 msgid "No clips to cut"
 msgstr "Ez dago mozteko klipik"
 
-#: src/timeline2/model/timelinefunctions.cpp:376
+#: src/timeline2/model/timelinefunctions.cpp:383
 #, kde-format
 msgid "Cut all clips"
 msgstr "Moztu klip guztiak"
 
-#: src/timeline2/model/timelinefunctions.cpp:663
+#: src/timeline2/model/timelinefunctions.cpp:670
 #: src/timeline2/view/timelinecontroller.cpp:1470
 #, kde-format
 msgid "Insert space"
 msgstr "Txertatu zuriunea"
 
-#: src/timeline2/model/timelinefunctions.cpp:665
+#: src/timeline2/model/timelinefunctions.cpp:672
 #: src/timeline2/view/timelinecontroller.cpp:1472
 #, kde-format
 msgid "Remove space"
 msgstr "Ezabatu zuriunea"
 
-#: src/timeline2/model/timelinefunctions.cpp:734
+#: src/timeline2/model/timelinefunctions.cpp:741
 #, kde-format
 msgid "Lift zone"
 msgstr "Altxatze eskualdea"
 
-#: src/timeline2/model/timelinefunctions.cpp:734
+#: src/timeline2/model/timelinefunctions.cpp:741
 #: src/timeline2/view/timelinecontroller.cpp:709
 #, kde-format
 msgid "Extract zone"
 msgstr "Erauzketa eskualdea"
 
-#: src/timeline2/model/timelinefunctions.cpp:804
+#: src/timeline2/model/timelinefunctions.cpp:811
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Mesedez, aktibatu pista bat bere etiketan klik eginez"
 
-#: src/timeline2/model/timelinefunctions.cpp:927
+#: src/timeline2/model/timelinefunctions.cpp:934
 #: src/timeline2/view/timelinecontroller.cpp:1209
 #: src/timeline2/view/timelinecontroller.cpp:1289
 #: src/timeline2/view/timelinecontroller.cpp:1299
@@ -16677,104 +16660,104 @@ msgstr "Mesedez, aktibatu pista bat bere etiketan klik eginez"
 msgid "No clip selected"
 msgstr "Ez da klipik hautatu"
 
-#: src/timeline2/model/timelinefunctions.cpp:992
+#: src/timeline2/model/timelinefunctions.cpp:999
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Ezin da hautatutako taldea mugitu"
 
-#: src/timeline2/model/timelinefunctions.cpp:1093
-#: src/timeline2/model/timelinefunctions.cpp:1097
+#: src/timeline2/model/timelinefunctions.cpp:1100
 #: src/timeline2/model/timelinefunctions.cpp:1104
+#: src/timeline2/model/timelinefunctions.cpp:1111
 #: src/timeline2/view/timelinecontroller.cpp:4082
 #, kde-format
 msgid "Enable clip"
 msgstr "Gaitu klipa"
 
-#: src/timeline2/model/timelinefunctions.cpp:1093
-#: src/timeline2/model/timelinefunctions.cpp:1097
+#: src/timeline2/model/timelinefunctions.cpp:1100
 #: src/timeline2/model/timelinefunctions.cpp:1104
+#: src/timeline2/model/timelinefunctions.cpp:1111
 #: src/timeline2/view/timelinecontroller.cpp:4082
 #, kde-format
 msgid "Disable clip"
 msgstr "Desgaitu klipa"
 
-#: src/timeline2/model/timelinefunctions.cpp:1146
+#: src/timeline2/model/timelinefunctions.cpp:1153
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Klip batek edo gehiagok ez dute audiorik, edo audioa dira dagoeneko"
 
-#: src/timeline2/model/timelinefunctions.cpp:1163
+#: src/timeline2/model/timelinefunctions.cpp:1170
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "Ez dago audio pista erabilgarririk leheneratze eragiketarako"
 
-#: src/timeline2/model/timelinefunctions.cpp:1171
-#: src/timeline2/model/timelinefunctions.cpp:1184
+#: src/timeline2/model/timelinefunctions.cpp:1178
+#: src/timeline2/model/timelinefunctions.cpp:1191
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Audioaren  leheneratzeak huts egin du"
 
-#: src/timeline2/model/timelinefunctions.cpp:1223
+#: src/timeline2/model/timelinefunctions.cpp:1230
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Ez dago bideo pista erabilgarririk leheneratze eragiketarako"
 
-#: src/timeline2/model/timelinefunctions.cpp:1231
-#: src/timeline2/model/timelinefunctions.cpp:1244
+#: src/timeline2/model/timelinefunctions.cpp:1238
+#: src/timeline2/model/timelinefunctions.cpp:1251
 #, kde-format
 msgid "Video restore failed"
 msgstr "Bideoaren leheneratzeak huts egin du"
 
-#: src/timeline2/model/timelinefunctions.cpp:1250
+#: src/timeline2/model/timelinefunctions.cpp:1257
 #, kde-format
 msgid "Restore Video"
 msgstr "Bideoa leheneratu"
 
-#: src/timeline2/model/timelinefunctions.cpp:1297
+#: src/timeline2/model/timelinefunctions.cpp:1304
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Aldatu konposiziorako pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:1312
+#: src/timeline2/model/timelinefunctions.cpp:1319
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "Ezin da pista anitzeko ikuspegia gaitu pista bakarrean"
 
-#: src/timeline2/model/timelinefunctions.cpp:1466
+#: src/timeline2/model/timelinefunctions.cpp:1473
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Gehitu klipa liburutegian"
 
-#: src/timeline2/model/timelinefunctions.cpp:1466
+#: src/timeline2/model/timelinefunctions.cpp:1473
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Sartu izen bat liburutegiko kliparentzat"
 
-#: src/timeline2/model/timelinefunctions.cpp:1855
+#: src/timeline2/model/timelinefunctions.cpp:1862
 #, kde-format
 msgid "Paste clips"
 msgstr "Itsatsi klipak"
 
-#: src/timeline2/model/timelinefunctions.cpp:1869
-#: src/timeline2/model/timelinefunctions.cpp:2041
-#: src/timeline2/model/timelinefunctions.cpp:2064
-#: src/timeline2/model/timelinefunctions.cpp:2103
-#: src/timeline2/model/timelinefunctions.cpp:2381
+#: src/timeline2/model/timelinefunctions.cpp:1876
+#: src/timeline2/model/timelinefunctions.cpp:2050
+#: src/timeline2/model/timelinefunctions.cpp:2073
+#: src/timeline2/model/timelinefunctions.cpp:2112
+#: src/timeline2/model/timelinefunctions.cpp:2390
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Ez dago pista nahikorik arbela itsasteko"
 
-#: src/timeline2/model/timelinefunctions.cpp:1938
+#: src/timeline2/model/timelinefunctions.cpp:1945
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Beste itsaste eragiketa bat dago martxan"
 
-#: src/timeline2/model/timelinefunctions.cpp:1950
+#: src/timeline2/model/timelinefunctions.cpp:1957
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Datu onargarririk ez arbelean"
 
-#: src/timeline2/model/timelinefunctions.cpp:1989
+#: src/timeline2/model/timelinefunctions.cpp:1996
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -16782,15 +16765,15 @@ msgstr ""
 "Ez dago arbeletik itsasteko pista nahikorik (%1 audio, %2 bideo pista behar "
 "ditu)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2121
-#: src/timeline2/model/timelinefunctions.cpp:2139
-#: src/timeline2/model/timelinefunctions.cpp:2170
-#: src/timeline2/model/timelinefunctions.cpp:2175
+#: src/timeline2/model/timelinefunctions.cpp:2130
+#: src/timeline2/model/timelinefunctions.cpp:2148
+#: src/timeline2/model/timelinefunctions.cpp:2179
+#: src/timeline2/model/timelinefunctions.cpp:2184
 #, kde-format
 msgid "Pasted clips"
 msgstr "Itsatsitako klipak"
 
-#: src/timeline2/model/timelinefunctions.cpp:2159
+#: src/timeline2/model/timelinefunctions.cpp:2168
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -16799,51 +16782,51 @@ msgstr ""
 "Iturri-proiektuak uneko proiektuaren fotograma-emari ezberdina du (%1 fps) . "
 "<br/>Klipak edo gako-fotogramak apurtu daitezke."
 
-#: src/timeline2/model/timelinefunctions.cpp:2161
+#: src/timeline2/model/timelinefunctions.cpp:2170
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Itsaste Abisua"
 
-#: src/timeline2/model/timelinefunctions.cpp:2161
+#: src/timeline2/model/timelinefunctions.cpp:2170
 #, kde-format
 msgid "Paste"
 msgstr "Itsatsi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2243
-#: src/timeline2/model/timelinefunctions.cpp:2251
-#: src/timeline2/model/timelinefunctions.cpp:2319
+#: src/timeline2/model/timelinefunctions.cpp:2252
+#: src/timeline2/model/timelinefunctions.cpp:2260
+#: src/timeline2/model/timelinefunctions.cpp:2328
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Ezin izan du ontziko klipa gehitu"
 
-#: src/timeline2/model/timelinefunctions.cpp:2373
+#: src/timeline2/model/timelinefunctions.cpp:2382
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Klip guztiak ez dira ondo kopiatu"
 
-#: src/timeline2/model/timelinefunctions.cpp:2423
-#: src/timeline2/model/timelinefunctions.cpp:2602
+#: src/timeline2/model/timelinefunctions.cpp:2432
+#: src/timeline2/model/timelinefunctions.cpp:2611
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Ezin izan dira elementuak itsatsi denbora-lerroan"
 
-#: src/timeline2/model/timelinefunctions.cpp:2622
+#: src/timeline2/model/timelinefunctions.cpp:2631
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Itsatsi denbora-lerroko klipak"
 
-#: src/timeline2/model/timelinefunctions.cpp:2840
+#: src/timeline2/model/timelinefunctions.cpp:2849
 #, kde-format
 msgid "Remove space on track"
 msgstr "Kendu pistako espazioa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2867
+#: src/timeline2/model/timelinefunctions.cpp:2876
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Ezabatu pistako klipak"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4606
+#: src/timeline2/model/timelinemodel.cpp:4610
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16920,108 +16903,108 @@ msgstr "Sortu nahasketa"
 msgid "Move clip"
 msgstr "Mugitu klipa"
 
-#: src/timeline2/model/timelinemodel.cpp:1833
-#: src/timeline2/model/timelinemodel.cpp:1923
-#: src/timeline2/model/timelinemodel.cpp:1946
-#: src/timeline2/model/timelinemodel.cpp:1969
+#: src/timeline2/model/timelinemodel.cpp:1837
+#: src/timeline2/model/timelinemodel.cpp:1927
+#: src/timeline2/model/timelinemodel.cpp:1950
+#: src/timeline2/model/timelinemodel.cpp:1973
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Ez dagi pista erabilgarririk txertatze eragiterako"
 
-#: src/timeline2/model/timelinemodel.cpp:1838
+#: src/timeline2/model/timelinemodel.cpp:1842
 #, kde-format
 msgid "Insert Clip"
 msgstr "Txertatu klipa"
 
-#: src/timeline2/model/timelinemodel.cpp:1891
+#: src/timeline2/model/timelinemodel.cpp:1895
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Ezin duzu txertatu bere burua barruan duen sekuentzia bat"
 
-#: src/timeline2/model/timelinemodel.cpp:1939
-#: src/timeline2/model/timelinemodel.cpp:1961
+#: src/timeline2/model/timelinemodel.cpp:1943
+#: src/timeline2/model/timelinemodel.cpp:1965
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Ez dago audio-pista nahikorik korronte guztientzako (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2045
+#: src/timeline2/model/timelinemodel.cpp:2049
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Ez dago pista erabilgarririk topatu banatze eragiketarako"
 
-#: src/timeline2/model/timelinemodel.cpp:2082
+#: src/timeline2/model/timelinemodel.cpp:2086
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Audio zatitzeak huts egin du: ez dago pista bideragarririk"
 
-#: src/timeline2/model/timelinemodel.cpp:2090
+#: src/timeline2/model/timelinemodel.cpp:2094
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Audio zatitzeak huts egin du: ezin izan da audio-klipa sortu"
 
-#: src/timeline2/model/timelinemodel.cpp:2153
+#: src/timeline2/model/timelinemodel.cpp:2157
 #, kde-format
 msgid "Remove group"
 msgstr "Ezabatu taldea"
 
-#: src/timeline2/model/timelinemodel.cpp:2158
+#: src/timeline2/model/timelinemodel.cpp:2162
 #, kde-format
 msgid "Delete Composition"
 msgstr "Ezabatu konposizioa"
 
-#: src/timeline2/model/timelinemodel.cpp:2361
-#: src/timeline2/model/timelinemodel.cpp:2638
+#: src/timeline2/model/timelinemodel.cpp:2365
+#: src/timeline2/model/timelinemodel.cpp:2642
 #: src/timeline2/view/timelinecontroller.cpp:4315
 #, kde-format
 msgid "Move group"
 msgstr "Mugitu taldea"
 
-#: src/timeline2/model/timelinemodel.cpp:3330
+#: src/timeline2/model/timelinemodel.cpp:3334
 #, kde-format
 msgid "Resize group"
 msgstr "Tamaina aldatu taldeari"
 
-#: src/timeline2/model/timelinemodel.cpp:3454
+#: src/timeline2/model/timelinemodel.cpp:3458
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Kliparen abiaduraren tamaina aldatu"
 
-#: src/timeline2/model/timelinemodel.cpp:3613
+#: src/timeline2/model/timelinemodel.cpp:3617
 #, kde-format
 msgid "Remove mix"
 msgstr "Kendu nahasketa"
 
-#: src/timeline2/model/timelinemodel.cpp:3615
+#: src/timeline2/model/timelinemodel.cpp:3619
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Nahasketa kentzeak huts egin du"
 
-#: src/timeline2/model/timelinemodel.cpp:3911
+#: src/timeline2/model/timelinemodel.cpp:3915
 #, kde-format
 msgid "Resize clip"
 msgstr "Kliparen tamaina aldatu"
 
-#: src/timeline2/model/timelinemodel.cpp:3913
+#: src/timeline2/model/timelinemodel.cpp:3917
 #, kde-format
 msgid "Resize composition"
 msgstr "Tamaina aldatu konposizioari"
 
-#: src/timeline2/model/timelinemodel.cpp:4232
+#: src/timeline2/model/timelinemodel.cpp:4236
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Izurdurarekin kliparen neurria aldatzea"
 
-#: src/timeline2/model/timelinemodel.cpp:4234
+#: src/timeline2/model/timelinemodel.cpp:4238
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Izurdurarekin konposizioaren neurria aldatzea"
 
-#: src/timeline2/model/timelinemodel.cpp:4236
+#: src/timeline2/model/timelinemodel.cpp:4240
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Izurdurarekin azpidatzien tamaina aldatzea"
 
-#: src/timeline2/model/timelinemodel.cpp:4379
+#: src/timeline2/model/timelinemodel.cpp:4383
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -17029,137 +17012,137 @@ msgid_plural "Slip clips"
 msgstr[0] "Higitu klipa"
 msgstr[1] "Higitu klipak"
 
-#: src/timeline2/model/timelinemodel.cpp:4414
+#: src/timeline2/model/timelinemodel.cpp:4418
 #, kde-format
 msgid "Slip clip"
 msgstr "Higitu klipa"
 
-#: src/timeline2/model/timelinemodel.cpp:4449
+#: src/timeline2/model/timelinemodel.cpp:4453
 #, kde-format
 msgid "Group clips"
 msgstr "Taldekatu klipak"
 
-#: src/timeline2/model/timelinemodel.cpp:4534
-#: src/timeline2/model/timelinemodel.cpp:4550
+#: src/timeline2/model/timelinemodel.cpp:4538
+#: src/timeline2/model/timelinemodel.cpp:4554
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Klipak taldetik banandu"
 
-#: src/timeline2/model/timelinemodel.cpp:4715
+#: src/timeline2/model/timelinemodel.cpp:4719
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "Ezabatu pista"
 
-#: src/timeline2/model/timelinemodel.cpp:4725
+#: src/timeline2/model/timelinemodel.cpp:4729
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Ezin izan da denbora-lerroko azken pista ezabatu"
 
-#: src/timeline2/model/timelinemodel.cpp:4950
+#: src/timeline2/model/timelinemodel.cpp:4954
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Ezin da %1 efektua gehitu pista maisuan"
 
-#: src/timeline2/model/timelinemodel.cpp:4957
+#: src/timeline2/model/timelinemodel.cpp:4961
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Ezin da %1 efektua gehitu hautatutako pistan"
 
-#: src/timeline2/model/timelinemodel.cpp:4978
+#: src/timeline2/model/timelinemodel.cpp:4982
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Ezin da efektua itsatsi pista maisuan"
 
-#: src/timeline2/model/timelinemodel.cpp:4984
+#: src/timeline2/model/timelinemodel.cpp:4988
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Ezin da efektua itsatsi hautatutako pistan"
 
-#: src/timeline2/model/timelinemodel.cpp:5028
+#: src/timeline2/model/timelinemodel.cpp:5032
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Ezin izan zaio efektua gehitu hautatutako %1 klipari"
 
-#: src/timeline2/model/timelinemodel.cpp:5052
+#: src/timeline2/model/timelinemodel.cpp:5056
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Doitu itzaltzea"
 
-#: src/timeline2/model/timelinemodel.cpp:5364
+#: src/timeline2/model/timelinemodel.cpp:5368
 #, kde-format
 msgid "Insert Composition"
 msgstr "Txertatu konposizioa"
 
-#: src/timeline2/model/timelinemodel.cpp:5579
+#: src/timeline2/model/timelinemodel.cpp:5583
 #, kde-format
 msgid "Move composition"
 msgstr "Mugitu konposizioa"
 
-#: src/timeline2/model/timelinemodel.cpp:6237
+#: src/timeline2/model/timelinemodel.cpp:6241
 #, kde-format
 msgid "Enable time remap"
 msgstr "Gaitu denbora bermapatzea"
 
-#: src/timeline2/model/timelinemodel.cpp:6311
+#: src/timeline2/model/timelinemodel.cpp:6315
 #, kde-format
 msgid "Change speed failed"
 msgstr "Abiadura aldatzeak huts egin du"
 
-#: src/timeline2/model/timelinemodel.cpp:6321
+#: src/timeline2/model/timelinemodel.cpp:6325
 #, kde-format
 msgid "Change clip speed"
 msgstr "Aldatu kliparen abidadura"
 
-#: src/timeline2/model/timelinemodel.cpp:6752
+#: src/timeline2/model/timelinemodel.cpp:6756
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Giltzatu pista"
 
-#: src/timeline2/model/timelinemodel.cpp:6757
+#: src/timeline2/model/timelinemodel.cpp:6761
 #: src/timeline2/view/qml/timeline.qml:1206
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Giltzapetik askatu pista"
 
-#: src/timeline2/model/timelinemodel.cpp:6791
-#: src/timeline2/model/timelinemodel.cpp:6853
+#: src/timeline2/model/timelinemodel.cpp:6795
+#: src/timeline2/model/timelinemodel.cpp:6857
 #, kde-format
 msgid "Change composition"
 msgstr "Aldatu konposizioa"
 
-#: src/timeline2/model/timelinemodel.cpp:6805
+#: src/timeline2/model/timelinemodel.cpp:6809
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Ezin a taldekatutako konposizioan lan egin, taldekatzetik atera mesedez"
 
-#: src/timeline2/model/timelinemodel.cpp:7000
-#: src/timeline2/model/timelinemodel.cpp:7037
-#: src/timeline2/model/timelinemodel.cpp:7070
-#: src/timeline2/model/timelinemodel.cpp:7151
+#: src/timeline2/model/timelinemodel.cpp:7004
+#: src/timeline2/model/timelinemodel.cpp:7041
+#: src/timeline2/model/timelinemodel.cpp:7074
+#: src/timeline2/model/timelinemodel.cpp:7155
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ezin da nahasketa fotograma 1 baino gutxiagora tamaina aldatu"
 
-#: src/timeline2/model/timelinemodel.cpp:7011
-#: src/timeline2/model/timelinemodel.cpp:7045
-#: src/timeline2/model/timelinemodel.cpp:7089
-#: src/timeline2/model/timelinemodel.cpp:7175
+#: src/timeline2/model/timelinemodel.cpp:7015
+#: src/timeline2/model/timelinemodel.cpp:7049
+#: src/timeline2/model/timelinemodel.cpp:7093
+#: src/timeline2/model/timelinemodel.cpp:7179
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Ezin da nahasketaren tamaina aldatu"
 
-#: src/timeline2/model/timelinemodel.cpp:7189
+#: src/timeline2/model/timelinemodel.cpp:7193
 #, kde-format
 msgid "Resize mix"
 msgstr "Tamaina aldatu nahasketari"
 
-#: src/timeline2/model/timelinemodel.cpp:7309
+#: src/timeline2/model/timelinemodel.cpp:7313
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Errorea denbora-lerroaren aurreikuspena hasieratzean"
@@ -17260,7 +17243,7 @@ msgid "Stop"
 msgstr "Gelditu"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2122
+#: src/timeline2/view/qml/timeline.qml:2141
 #, kde-format
 msgid "Paused"
 msgstr "Pausatuta"
@@ -17270,7 +17253,7 @@ msgstr "Pausatuta"
 msgid "Mic level"
 msgstr "Mikrofonoaren maila"
 
-#: src/timeline2/view/qml/Clip.qml:231 src/timeline2/view/qml/Clip.qml:873
+#: src/timeline2/view/qml/Clip.qml:231 src/timeline2/view/qml/Clip.qml:922
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posizioa: %4, Iraupena: %5"
@@ -17282,32 +17265,32 @@ msgstr "%1 (%2-%3), Posizioa: %4, Iraupena: %5"
 msgid "Position: %1"
 msgstr "Posizioa: %1"
 
-#: src/timeline2/view/qml/Clip.qml:481
+#: src/timeline2/view/qml/Clip.qml:507
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Nahasketaren iraupena: %1, Moztu hemen: %2"
 
-#: src/timeline2/view/qml/Clip.qml:542
+#: src/timeline2/view/qml/Clip.qml:570
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Nahasketaren iraupena: %2"
 
-#: src/timeline2/view/qml/Clip.qml:544
+#: src/timeline2/view/qml/Clip.qml:572
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Nahasketaren iraupena: %2"
 
-#: src/timeline2/view/qml/Clip.qml:547 src/timeline2/view/qml/Clip.qml:560
+#: src/timeline2/view/qml/Clip.qml:575 src/timeline2/view/qml/Clip.qml:590
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Nahasketaren iraupena::%1"
 
-#: src/timeline2/view/qml/Clip.qml:736
+#: src/timeline2/view/qml/Clip.qml:781
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Sarrera:%1, Posizioa: %2"
 
-#: src/timeline2/view/qml/Clip.qml:739 src/timeline2/view/qml/Clip.qml:863
+#: src/timeline2/view/qml/Clip.qml:784 src/timeline2/view/qml/Clip.qml:912
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -17316,54 +17299,54 @@ msgstr ""
 "<b>Ctrl arrastatu</b> abiadura aldatzeko, <b>Klik bikoitza</b> ondoko "
 "kliparekin nahasteko clip"
 
-#: src/timeline2/view/qml/Clip.qml:741
+#: src/timeline2/view/qml/Clip.qml:786
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrastatu</b> nahasketaren iraupena aldatzeko"
 
-#: src/timeline2/view/qml/Clip.qml:860
+#: src/timeline2/view/qml/Clip.qml:909
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Irteera:%1, Posizioa: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1008
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplazamendua: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1008
+#: src/timeline2/view/qml/Clip.qml:1060
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplazamendua: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1009
+#: src/timeline2/view/qml/Clip.qml:1061
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr "Egin <b>klik</b> klipak lerrokatzeko"
 
-#: src/timeline2/view/qml/Clip.qml:1254 src/timeline2/view/qml/Clip.qml:1291
+#: src/timeline2/view/qml/Clip.qml:1306 src/timeline2/view/qml/Clip.qml:1343
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Klik</b> konposizioa gehitzeko"
 
-#: src/timeline2/view/qml/Clip.qml:1368 src/timeline2/view/qml/Clip.qml:1375
+#: src/timeline2/view/qml/Clip.qml:1420 src/timeline2/view/qml/Clip.qml:1427
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Irteera itzaltzea: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1379 src/timeline2/view/qml/Clip.qml:1486
+#: src/timeline2/view/qml/Clip.qml:1431 src/timeline2/view/qml/Clip.qml:1538
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrastatu</b>itzaltzea doitzeko, <b>Klik</b> lehenetsitako itzaltze "
 "iraupena gehitzeko"
 
-#: src/timeline2/view/qml/Clip.qml:1475 src/timeline2/view/qml/Clip.qml:1482
+#: src/timeline2/view/qml/Clip.qml:1527 src/timeline2/view/qml/Clip.qml:1534
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Sarrera itzaltzea: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1570
+#: src/timeline2/view/qml/Clip.qml:1622
 #, kde-format
 msgid "Slip Clip"
 msgstr "Higitu klipa"
@@ -17432,33 +17415,33 @@ msgstr "Erakutsi"
 msgid "Hide"
 msgstr "Ezkutatu"
 
-#: src/timeline2/view/qml/timeline.qml:1795
+#: src/timeline2/view/qml/timeline.qml:1809
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Klik bikoitza</b> azpidatzia gehitzeko"
 
-#: src/timeline2/view/qml/timeline.qml:1957
+#: src/timeline2/view/qml/timeline.qml:1976
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Sarrera:%1, Posizioa: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2111
-#: src/timeline2/view/qml/timeline.qml:2120
+#: src/timeline2/view/qml/timeline.qml:2130
+#: src/timeline2/view/qml/timeline.qml:2139
 #, kde-format
 msgid "Recording"
 msgstr "Grabazio"
 
-#: src/timeline2/view/qml/timeline.qml:2214
+#: src/timeline2/view/qml/timeline.qml:2233
 #, kde-format
 msgid "Multicam In"
 msgstr "Kamer-anitz Sarrera"
 
-#: src/timeline2/view/qml/Track.qml:511 src/timeline2/view/qml/Track.qml:529
+#: src/timeline2/view/qml/Track.qml:457 src/timeline2/view/qml/Track.qml:475
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, Iraupena = %3"
 
-#: src/timeline2/view/qml/Track.qml:553
+#: src/timeline2/view/qml/Track.qml:499
 #, kde-format
 msgid "Adjusting speed"
 msgstr "Abiadura doitzen"
@@ -22647,8 +22630,7 @@ msgid "Shift + Drag to adjust value one by one."
 msgstr "«Maius + Arrastatu» balioak banan-banan doitzeko."
 
 #: src/widgets/geometrywidget.cpp:32
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "X posizioa"
@@ -22660,11 +22642,10 @@ msgid "Y"
 msgstr "Y"
 
 #: src/widgets/geometrywidget.cpp:54
-#, fuzzy, kde-format
-#| msgid "Size X"
+#, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
-msgstr "X tamaina"
+msgstr "W tamaina"
 
 #: src/widgets/geometrywidget.cpp:60
 #, kde-format
@@ -22672,8 +22653,7 @@ msgid "Lock aspect ratio"
 msgstr "Blokeatu aspektu erlazioa"
 
 #: src/widgets/geometrywidget.cpp:69
-#, fuzzy, kde-format
-#| msgid "H"
+#, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "H"
