@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 02:33+0000\n"
-"PO-Revision-Date: 2024-07-23 18:20+0200\n"
+"PO-Revision-Date: 2024-07-26 23:16+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -10002,10 +10002,9 @@ msgstr "Marcadores"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Categoría de marcadores"
+msgstr "Engadir marcadores por categoría"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10711,10 +10710,9 @@ msgid "Add Clip"
 msgstr "Engadir un fragmento"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir un marcador/guía por número de categoría"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11657,70 +11655,59 @@ msgid "Delete All Markers"
 msgstr "Eliminar todos os marcadores"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Engadir un marcador/guía rapidamente"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Engadir un marcador/guía rapidamente"
+msgstr "Engadir o marcador/guía 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12233,10 +12220,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Non é posíbel atopar o fragmento ao que editar o marcador"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Categoría de marcadores"
+msgstr "A categoría de marcadores non existe."
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110

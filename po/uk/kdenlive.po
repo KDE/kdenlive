@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 02:33+0000\n"
-"PO-Revision-Date: 2024-06-26 20:30+0300\n"
+"PO-Revision-Date: 2024-07-27 09:06+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
-"Language-Team: Ukrainian\n"
+"Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10062,10 +10062,9 @@ msgstr "Позначки"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Категорія позначок"
+msgstr "Додати позначки за категорією"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10775,10 +10774,9 @@ msgid "Add Clip"
 msgstr "Додати кліп"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну за номером категорії"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11725,70 +11723,59 @@ msgid "Delete All Markers"
 msgstr "Вилучити всі позначки"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Додати позначку/напрямну нашвидкуруч"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Додати позначку/напрямну нашвидкуруч"
+msgstr "Додати позначку/напрямну 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12299,10 +12286,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Не вдалося знайти кліп для зміни позначки"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Категорія позначок"
+msgstr "Категорії позначок не існує"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
@@ -16611,10 +16597,9 @@ msgstr ""
 "%1 Виявлено і вилучено кліп монтажного столу без посилання у ієрархії (%2)."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "Проєкт пошкоджено. Кліп %1 (%2) не знайдено у контейнері проєкту."
+msgstr "Проєкт пошкоджено. Кліп %1 (%2) з некоректним ідентифікатором."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821

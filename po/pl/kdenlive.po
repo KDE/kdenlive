@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 02:33+0000\n"
-"PO-Revision-Date: 2024-07-14 13:04+0200\n"
+"PO-Revision-Date: 2024-07-27 09:11+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -9991,10 +9991,9 @@ msgstr "Znaczniki"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Kategoria znaczników"
+msgstr "Dodaj znaczniki po kategorii"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10698,10 +10697,9 @@ msgid "Add Clip"
 msgstr "Dodaj wycinek"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę po numerze kategorii"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11644,70 +11642,59 @@ msgid "Delete All Markers"
 msgstr "Usuń wszystkie znaczniki"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Szybko dodaj znacznik/prowadnicę"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12217,10 +12204,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Nie można znaleźć wycinka do edycji znacznika"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Kategoria znaczników"
+msgstr "Kategoria znaczników nie istnieje"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
@@ -16490,11 +16476,9 @@ msgstr ""
 "pojemnika."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr ""
-"Projekt jest uszkodzony. Nie znaleziono wycinka %1 (%2) w pojemniku projektu."
+msgstr "Projekt jest uszkodzony. Wycinek %1 (%2) ma nie prawidłowe ID."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821

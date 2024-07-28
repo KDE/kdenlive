@@ -4,7 +4,7 @@
 #
 # Andrej Mernik <andrejm@ubuntu.si>, 2015, 2016, 2017, 2018, 2019, 2020.
 # Martin Srebotnjak <miles@filmsi.net>, 2015, 2019, 2020, 2021, 2022, 2023.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024 Matjaž Jeran <matjaz.jeran@amis.net>
 #
 # SPDX-FileCopyrightText: 2024 Jure Repinc <jlp@holodeck1.com>
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 02:33+0000\n"
-"PO-Revision-Date: 2024-07-23 07:49+0200\n"
+"PO-Revision-Date: 2024-07-27 07:16+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Martin Srebotnjak <miles@filmsi.net>\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Lokalize 24.05.2\n"
 "X-Poedit-SourceCharset: ISO-8859-1\n"
 
 #, kde-format
@@ -9993,10 +9993,9 @@ msgstr "Označevalniki"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Kategorija označevalnikov"
+msgstr "Dodaj označevalnike po kategoriji"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10695,10 +10694,9 @@ msgid "Add Clip"
 msgstr "Dodaj posnetek"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo po številki kategorije"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11639,70 +11637,59 @@ msgid "Delete All Markers"
 msgstr "Izbriši vse označevalnike"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Hitro dodaj označevalnik/vodilo"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Hitro dodaj označevalnik/vodilo"
+msgstr "Dodaj označevalnik/vodilo 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12211,10 +12198,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Ni možno najti posnetka, kjer naj bi uredili označevalnik"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Kategorija označevalnikov"
+msgstr "Kategorija označevalnikov ne obstaja"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
