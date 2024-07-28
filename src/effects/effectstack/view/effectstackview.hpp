@@ -69,6 +69,8 @@ public:
     void addRemoveKeyframe();
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
+    /** @brief The drag vertical pos, -1 if not dragging */
+    int dragYPos{-1};
 
 public Q_SLOTS:
     /** @brief Save current effect stack

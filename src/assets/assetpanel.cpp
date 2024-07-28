@@ -193,6 +193,9 @@ AssetPanel::AssetPanel(QWidget *parent)
             [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
 
     connect(this, &AssetPanel::slotSaveStack, m_effectStackWidget, &EffectStackView::slotSaveStack);
+    m_dragScrollTimer.setSingleShot(true);
+    m_dragScrollTimer.setInterval(200);
+    connect(&m_dragScrollTimer, &QTimer::timeout, this, &AssetPanel::checkDragScroll);
 }
 
 void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transitionModel)
@@ -516,14 +519,21 @@ void AssetPanel::scrollTo(QRect rect)
 
 void AssetPanel::checkDragScroll()
 {
-    int yPos = m_sc->mapFromGlobal(QCursor::pos()).y();
-    int currentPos = m_sc->verticalScrollBar()->value();
-    if (currentPos > 0 && yPos < 15) {
-        m_sc->verticalScrollBar()->setValue(qMax(0, currentPos - m_sc->verticalScrollBar()->singleStep()));
-        QTimer::singleShot(400, this, &AssetPanel::checkDragScroll);
-    } else if (m_sc->height() - yPos < 15) {
-        m_sc->verticalScrollBar()->setValue(currentPos + m_sc->verticalScrollBar()->singleStep());
-        QTimer::singleShot(400, this, &AssetPanel::checkDragScroll);
+    if (m_effectStackWidget->dragYPos < 0) {
+        return;
+    }
+    int mousePos = m_effectStackWidget->mapTo(m_sc, QPoint(0, m_effectStackWidget->dragYPos)).y();
+    int viewPos = m_sc->verticalScrollBar()->value();
+    if (viewPos > 0 && mousePos < 15) {
+        m_sc->verticalScrollBar()->setValue(qMax(0, viewPos - m_sc->verticalScrollBar()->singleStep()));
+        viewPos -= m_sc->verticalScrollBar()->value();
+        m_effectStackWidget->dragYPos -= viewPos;
+        m_dragScrollTimer.start();
+    } else if (m_sc->height() - mousePos < 15) {
+        m_sc->verticalScrollBar()->setValue(viewPos + m_sc->verticalScrollBar()->singleStep());
+        viewPos -= m_sc->verticalScrollBar()->value();
+        m_effectStackWidget->dragYPos -= viewPos;
+        m_dragScrollTimer.start();
     }
 }
 
