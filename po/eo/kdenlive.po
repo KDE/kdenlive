@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 00:40+0000\n"
-"PO-Revision-Date: 2024-06-28 16:51+0200\n"
+"PO-Revision-Date: 2024-07-27 14:20+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3313,10 +3313,9 @@ msgid "Change composition type"
 msgstr "Ŝanĝi kompontipon"
 
 #: src/assets/assetpanel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "Enable Builtin Effects"
-msgstr "Malebligi Bin-Efikojn"
+msgstr "Ebligi Enkonstruitajn Efikojn"
 
 #: src/assets/assetpanel.cpp:82
 #, kde-kuit-format
@@ -3326,6 +3325,8 @@ msgid ""
 "clips for convenience. These effects are disabled and will only be applied "
 "if you change a parameter."
 msgstr ""
+"Ebligite, ĉi tio aldonos bazajn efikojn (Inversigo, Transformo, Laŭteco) al "
+"ĉiuj tondaĵoj por konveno."
 
 #: src/assets/assetpanel.cpp:97
 #, kde-format
@@ -9549,22 +9550,19 @@ msgid "No name provided, effect not saved."
 msgstr "Neniu nomo provizita, efiko ne konservita."
 
 #: src/effects/effectstack/view/effectstackview.cpp:274
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal Flip"
-msgstr "Horizontala Kurtenoj"
+msgstr "Horizontala Inversigo"
 
 #: src/effects/effectstack/view/effectstackview.cpp:279
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical Flip"
-msgstr "Vertikala"
+msgstr "Vertikala Inversigo"
 
 #: src/effects/effectstack/view/effectstackview.cpp:286
 #, kde-format
 msgid "Flip"
-msgstr ""
+msgstr "Inversigo"
 
 #: src/effects/effectstack/view/effectstackview.cpp:665
 #, kde-format
@@ -9958,10 +9956,9 @@ msgstr "Markiloj"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Markiloj Kategorio"
+msgstr "Aldoni Markilojn laŭ Kategorio"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10662,10 +10659,9 @@ msgid "Add Clip"
 msgstr "Aldoni aŭdvidaĵon"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon laŭ Kategoria Numero"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11602,70 +11598,59 @@ msgid "Delete All Markers"
 msgstr "Forigi ĉiujn markilojn"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon Rapide"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Aldoni Markilon/Gvidilon rapide"
+msgstr "Aldoni Markilon/Gvidilon 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12174,10 +12159,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Ne povas trovi tondaĵon por redakti markilon"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Markiloj Kategorio"
+msgstr "Markila kategorio ne elzistas"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
@@ -16426,10 +16410,9 @@ msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "%1 Templinia tondaĵo (%2) sen bin-referenco trovita kaj forigita."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "Projekto koruptita. Aŭdvidaĵo %1 (%2) ne trovita en projektujo."
+msgstr "Projekto difektita. Aŭdvidaĵo %1 (%2) kun nevalida identigilo."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
@@ -22538,8 +22521,7 @@ msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + Trenu por ĝustigi valoron unu post alia."
 
 #: src/widgets/geometrywidget.cpp:32
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "Pozicio X"
@@ -22551,11 +22533,10 @@ msgid "Y"
 msgstr "Y"
 
 #: src/widgets/geometrywidget.cpp:54
-#, fuzzy, kde-format
-#| msgid "Size X"
+#, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
-msgstr "Grandeco X"
+msgstr "Grandeco W"
 
 #: src/widgets/geometrywidget.cpp:60
 #, kde-format
@@ -22563,9 +22544,7 @@ msgid "Lock aspect ratio"
 msgstr "Ŝlosi bildformaton"
 
 #: src/widgets/geometrywidget.cpp:69
-#, fuzzy, kde-format
-#| msgctxt "Frame height"
-#| msgid "H"
+#, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "H"
@@ -22639,20 +22618,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Volume (keyframable)"
-#~ msgstr "Laŭteco (keyframable)"
-
-#~ msgid "Adjust clip"
-#~ msgstr "Alĝustigi aŭdvidaĵon"
-
-#~ msgid "Param"
-#~ msgstr "Param"
-
-#~ msgctxt "x axis position"
-#~ msgid "X"
-#~ msgstr "X"
-
-#~ msgctxt "Frame width"
-#~ msgid "W"
-#~ msgstr "W"

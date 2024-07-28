@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 00:40+0000\n"
-"PO-Revision-Date: 2024-07-14 13:04+0200\n"
+"PO-Revision-Date: 2024-07-27 09:11+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -3323,10 +3323,9 @@ msgid "Change composition type"
 msgstr "Zmień rodzaj elementu składu"
 
 #: src/assets/assetpanel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "Enable Builtin Effects"
-msgstr "Wyłącz efekt pojemnika"
+msgstr "Wyłącz wbudowane efekty"
 
 #: src/assets/assetpanel.cpp:82
 #, kde-kuit-format
@@ -3336,6 +3335,9 @@ msgid ""
 "clips for convenience. These effects are disabled and will only be applied "
 "if you change a parameter."
 msgstr ""
+"Po włączeniu, doda to dla wygody podstawowe efekty (odbijanie, "
+"przekształcanie, objętość) do wszystkich wycinków. Efekty te zostaną "
+"wyłączone i zostaną nałożone tylko wtedy, gdy zmienisz ten parametr."
 
 #: src/assets/assetpanel.cpp:97
 #, kde-format
@@ -9607,23 +9609,19 @@ msgid "No name provided, effect not saved."
 msgstr "Nie wpisano żadnej nazwy, więc nie zapisano efektu."
 
 #: src/effects/effectstack/view/effectstackview.cpp:274
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal Flip"
-msgstr "Żaluzje w poziomie"
+msgstr "Odbij w poziomie"
 
 #: src/effects/effectstack/view/effectstackview.cpp:279
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical Flip"
-msgstr "Pionowo"
+msgstr "Odbij w pionie"
 
 #: src/effects/effectstack/view/effectstackview.cpp:286
-#, fuzzy, kde-format
-#| msgid "Flippo"
+#, kde-format
 msgid "Flip"
-msgstr "Flippo"
+msgstr "Odbij"
 
 #: src/effects/effectstack/view/effectstackview.cpp:665
 #, kde-format
@@ -10016,10 +10014,9 @@ msgstr "Znaczniki"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Kategoria znaczników"
+msgstr "Dodaj znaczniki po kategorii"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10723,10 +10720,9 @@ msgid "Add Clip"
 msgstr "Dodaj wycinek"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę po numerze kategorii"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11669,70 +11665,59 @@ msgid "Delete All Markers"
 msgstr "Usuń wszystkie znaczniki"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Szybko dodaj znacznik/prowadnicę"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Szybko dodaj znacznik/prowadnicę"
+msgstr "Dodaj znacznik/prowadnicę 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12242,10 +12227,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Nie można znaleźć wycinka do edycji znacznika"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Kategoria znaczników"
+msgstr "Kategoria znaczników nie istnieje"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
@@ -16515,11 +16499,9 @@ msgstr ""
 "pojemnika."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr ""
-"Projekt jest uszkodzony. Nie znaleziono wycinka %1 (%2) w pojemniku projektu."
+msgstr "Projekt jest uszkodzony. Wycinek %1 (%2) ma nie prawidłowe ID."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
@@ -22666,8 +22648,7 @@ msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + Przeciągnięcie dostosowuj wartość krok po kroku."
 
 #: src/widgets/geometrywidget.cpp:32
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "Położenie X"
@@ -22679,11 +22660,10 @@ msgid "Y"
 msgstr "Y"
 
 #: src/widgets/geometrywidget.cpp:54
-#, fuzzy, kde-format
-#| msgid "Size X"
+#, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
-msgstr "Rozmiar X"
+msgstr "Rozmiar SZER"
 
 #: src/widgets/geometrywidget.cpp:60
 #, kde-format
@@ -22691,8 +22671,7 @@ msgid "Lock aspect ratio"
 msgstr "Zablokuj współczynnik kształtu"
 
 #: src/widgets/geometrywidget.cpp:69
-#, fuzzy, kde-format
-#| msgid "H"
+#, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "WYS"

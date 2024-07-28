@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 00:40+0000\n"
-"PO-Revision-Date: 2024-06-29 15:57+0200\n"
+"PO-Revision-Date: 2024-07-27 08:46+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.1\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1631,7 +1631,7 @@ msgstr "Specchio"
 #: data/effects/mirror.xml:5
 #, kde-format
 msgid "Flip your image in any direction"
-msgstr "Riflette l'immagine in qualsiasi direzione"
+msgstr "Ribalta l'immagine in qualsiasi direzione"
 
 #: data/effects/mirror.xml:8
 #, kde-format
@@ -3354,10 +3354,9 @@ msgid "Change composition type"
 msgstr "Modifica tipo di composizione"
 
 #: src/assets/assetpanel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "Enable Builtin Effects"
-msgstr "Disabilita gli effetti nel contenitore"
+msgstr "Abilita gli effetti incorporati"
 
 #: src/assets/assetpanel.cpp:82
 #, kde-kuit-format
@@ -9667,23 +9666,19 @@ msgid "No name provided, effect not saved."
 msgstr "Non è stato fornito nessun nome, effetto non salvato."
 
 #: src/effects/effectstack/view/effectstackview.cpp:274
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal Flip"
-msgstr "Tende orizzontali"
+msgstr "Ribaltamento orizzontale"
 
 #: src/effects/effectstack/view/effectstackview.cpp:279
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical Flip"
-msgstr "Verticale"
+msgstr "Ribaltamento verticale"
 
 #: src/effects/effectstack/view/effectstackview.cpp:286
-#, fuzzy, kde-format
-#| msgid "Flippo"
+#, kde-format
 msgid "Flip"
-msgstr "Flippo"
+msgstr "Ribalta"
 
 #: src/effects/effectstack/view/effectstackview.cpp:665
 #, kde-format
@@ -10081,10 +10076,9 @@ msgstr "Marcatori"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Categoria dei marcatori"
+msgstr "Aggiungi marcatori per categoria"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10793,10 +10787,9 @@ msgid "Add Clip"
 msgstr "Aggiungi clip"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida per numero di categoria"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11742,70 +11735,59 @@ msgid "Delete All Markers"
 msgstr "Elimina tutti i marcatori"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Aggiungi velocemente un marcatore o una guida"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Aggiungi velocemente un marcatore o una guida"
+msgstr "Aggiungi marcatore/Guida 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12321,10 +12303,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Impossibile trovare una clip per modificare il marcatore"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Categoria dei marcatori"
+msgstr "La categoria di marcatori non esiste"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
@@ -16637,11 +16618,9 @@ msgstr ""
 "trovata e rimossa."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr ""
-"Progetto danneggiato. Clip %1 (%2) non trovata nel contenitore del progetto."
+msgstr "Progetto danneggiato. Clip %1 (%2) con un identificativo non valido."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
@@ -22805,8 +22784,7 @@ msgid "Shift + Drag to adjust value one by one."
 msgstr "Maiusc + trascina per regolare il valore a passi di uno."
 
 #: src/widgets/geometrywidget.cpp:32
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "Posizione X"
@@ -22818,11 +22796,10 @@ msgid "Y"
 msgstr "Y"
 
 #: src/widgets/geometrywidget.cpp:54
-#, fuzzy, kde-format
-#| msgid "Size X"
+#, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
-msgstr "Dimensione X"
+msgstr "Dimensione L"
 
 #: src/widgets/geometrywidget.cpp:60
 #, kde-format
@@ -22830,8 +22807,7 @@ msgid "Lock aspect ratio"
 msgstr "Blocca il rapporto d'aspetto"
 
 #: src/widgets/geometrywidget.cpp:69
-#, fuzzy, kde-format
-#| msgid "H"
+#, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "H"
