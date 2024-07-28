@@ -165,6 +165,12 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
             break;
         }
     }
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    dragYPos = event->pos().y();
+#else
+    dragYPos = event->position().toPoint().y();
+#endif
+
     Q_EMIT checkDragScrolling();
 
     if (dragRow == m_model->rowCount() && event->source() == this) {
@@ -180,6 +186,7 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
 void EffectStackView::dropEvent(QDropEvent *event)
 {
     qDebug() << ":::: DROP BEGIN EVENT....";
+    dragYPos = -1;
     if (dragRow < 0) {
         return;
     }

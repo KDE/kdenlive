@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 #include <memory>
@@ -93,6 +94,7 @@ private:
     KDualAction *m_timelineButton;
     QScrollArea *m_sc;
     KMessageWidget *m_infoMessage;
+    QTimer m_dragScrollTimer;
 
 private Q_SLOTS:
     void processSplitEffect(bool enable);
