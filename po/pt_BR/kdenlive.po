@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-27 00:40+0000\n"
+"POT-Creation-Date: 2024-07-29 00:39+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -3447,22 +3447,22 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Mostrar quadros-chave na linha do tempo"
 
-#: src/assets/assetpanel.cpp:276
+#: src/assets/assetpanel.cpp:279
 #, kde-format
 msgid "%1 effects"
 msgstr "Efeitos de %1"
 
-#: src/assets/assetpanel.cpp:281 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:284 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "Parâmetros de %1"
 
-#: src/assets/assetpanel.cpp:285
+#: src/assets/assetpanel.cpp:288
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Rastrear efeitos %1"
 
-#: src/assets/assetpanel.cpp:290
+#: src/assets/assetpanel.cpp:293
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "%1 efeitos"
@@ -5616,7 +5616,7 @@ msgstr "Mover legenda"
 
 #: src/bin/model/subtitlemodel.cpp:1177
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:578
-#: src/effects/effectstack/view/effectstackview.cpp:748
+#: src/effects/effectstack/view/effectstackview.cpp:755
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
 #, kde-format
@@ -6538,7 +6538,7 @@ msgstr "Exportar dados das guias"
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:657
-#: src/effects/effectstack/view/effectstackview.cpp:786
+#: src/effects/effectstack/view/effectstackview.cpp:793
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9692,65 +9692,65 @@ msgstr "Comentários:"
 msgid "No name provided, effect not saved."
 msgstr "Nenhum nome fornecido, efeito não foi salvo."
 
-#: src/effects/effectstack/view/effectstackview.cpp:274
+#: src/effects/effectstack/view/effectstackview.cpp:281
 #, fuzzy, kde-format
 #| msgid "Horizontal End"
 msgid "Horizontal Flip"
 msgstr "Ponta horizontal"
 
-#: src/effects/effectstack/view/effectstackview.cpp:279
+#: src/effects/effectstack/view/effectstackview.cpp:286
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical Flip"
 msgstr "Vertical"
 
-#: src/effects/effectstack/view/effectstackview.cpp:286
+#: src/effects/effectstack/view/effectstackview.cpp:293
 #, fuzzy, kde-format
 #| msgid "Flippo"
 msgid "Flip"
 msgstr "Inversão"
 
-#: src/effects/effectstack/view/effectstackview.cpp:665
+#: src/effects/effectstack/view/effectstackview.cpp:672
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "Ativar efeito"
 
-#: src/effects/effectstack/view/effectstackview.cpp:665
+#: src/effects/effectstack/view/effectstackview.cpp:672
 #, fuzzy, kde-format
 #| msgid "Disable Effect"
 msgid "Disable Effect Stack"
 msgstr "Desativar efeito"
 
-#: src/effects/effectstack/view/effectstackview.cpp:704
+#: src/effects/effectstack/view/effectstackview.cpp:711
 #, kde-format
 msgid "No effect selected."
 msgstr "Nenhum efeito selecionado."
 
-#: src/effects/effectstack/view/effectstackview.cpp:710
+#: src/effects/effectstack/view/effectstackview.cpp:717
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Salvar conjunto de efeitos atual"
 
-#: src/effects/effectstack/view/effectstackview.cpp:715
+#: src/effects/effectstack/view/effectstackview.cpp:722
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nome do conjunto de efeitos:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:716
+#: src/effects/effectstack/view/effectstackview.cpp:723
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Descrição:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:729
+#: src/effects/effectstack/view/effectstackview.cpp:736
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Nenhum nome fornecido, pilha de efeitos não foi salva."
 
-#: src/effects/effectstack/view/effectstackview.cpp:736
+#: src/effects/effectstack/view/effectstackview.cpp:743
 #, kde-format
 msgid ""
 "No description provided. \n"

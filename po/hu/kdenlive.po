@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-27 00:40+0000\n"
+"POT-Creation-Date: 2024-07-29 00:39+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -3489,25 +3489,25 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Kulcsképek megjelenítése az idővonalon"
 
-#: src/assets/assetpanel.cpp:276
+#: src/assets/assetpanel.cpp:279
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "%1 effects"
 msgstr "Effektus"
 
-#: src/assets/assetpanel.cpp:281 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:284 src/jobs/customjobtask.cpp:73
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "%1 parameters"
 msgstr "Paraméterek"
 
-#: src/assets/assetpanel.cpp:285
+#: src/assets/assetpanel.cpp:288
 #, fuzzy, kde-format
 #| msgid "Overlay effect"
 msgid "Track %1 effects"
 msgstr "Takaró effekt"
 
-#: src/assets/assetpanel.cpp:290
+#: src/assets/assetpanel.cpp:293
 #, fuzzy, kde-format
 #| msgid "Effects for %1"
 msgid "Bin %1 effects"
@@ -5838,7 +5838,7 @@ msgstr "Segédpont áthelyezése"
 
 #: src/bin/model/subtitlemodel.cpp:1177
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:578
-#: src/effects/effectstack/view/effectstackview.cpp:748
+#: src/effects/effectstack/view/effectstackview.cpp:755
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
 #, kde-format
@@ -6798,7 +6798,7 @@ msgstr "Jelölők betöltése"
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:657
-#: src/effects/effectstack/view/effectstackview.cpp:786
+#: src/effects/effectstack/view/effectstackview.cpp:793
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -10025,70 +10025,70 @@ msgstr "Megjegyzés"
 msgid "No name provided, effect not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:274
+#: src/effects/effectstack/view/effectstackview.cpp:281
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgid "Horizontal Flip"
 msgstr "Vízszintes"
 
-#: src/effects/effectstack/view/effectstackview.cpp:279
+#: src/effects/effectstack/view/effectstackview.cpp:286
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical Flip"
 msgstr "Függőleges"
 
-#: src/effects/effectstack/view/effectstackview.cpp:286
+#: src/effects/effectstack/view/effectstackview.cpp:293
 #, fuzzy, kde-format
 #| msgid "Flippo"
 msgid "Flip"
 msgstr "Flippo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:665
+#: src/effects/effectstack/view/effectstackview.cpp:672
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable Effect Stack"
 msgstr "Effekt engedélyezése"
 
-#: src/effects/effectstack/view/effectstackview.cpp:665
+#: src/effects/effectstack/view/effectstackview.cpp:672
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Effect Stack"
 msgstr "Effekt letiltása"
 
-#: src/effects/effectstack/view/effectstackview.cpp:704
+#: src/effects/effectstack/view/effectstackview.cpp:711
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No effect selected."
 msgstr "Nincs elérhető klip kiválasztva"
 
-#: src/effects/effectstack/view/effectstackview.cpp:710
+#: src/effects/effectstack/view/effectstackview.cpp:717
 #, fuzzy, kde-format
 #| msgid "Effect Stack"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Effektus verem"
 
-#: src/effects/effectstack/view/effectstackview.cpp:715
+#: src/effects/effectstack/view/effectstackview.cpp:722
 #, fuzzy, kde-format
 #| msgid "Name for saved effect: "
 msgid "Name for saved stack:"
 msgstr "Elmentett effektus neve:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:716
+#: src/effects/effectstack/view/effectstackview.cpp:723
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Leírás:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:729
+#: src/effects/effectstack/view/effectstackview.cpp:736
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:736
+#: src/effects/effectstack/view/effectstackview.cpp:743
 #, kde-format
 msgid ""
 "No description provided. \n"
