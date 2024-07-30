@@ -116,6 +116,9 @@ private Q_SLOTS:
     /** @brief Activate an effect in the view
      */
     void activateEffect(const QModelIndex &ix, bool active);
+    /** @brief Mark an effect as drop target (draw bottom highlight bar)
+     */
+    void setDropTargetEffect(const QModelIndex &ix, bool active);
 
     //    void switchBuiltStack(bool show);
 

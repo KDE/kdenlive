@@ -90,6 +90,7 @@ public Q_SLOTS:
     void slotResetEffect();
     void importKeyframes(const QString &keyframes);
     void slotActivateEffect(bool active);
+    void slotSetTargetEffect(bool active);
     void updateHeight();
     /** @brief Should we block wheel event (if parent is a view with scrollbar) */
     void blockWheelEvent(bool block);

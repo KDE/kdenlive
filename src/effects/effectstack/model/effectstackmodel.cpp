@@ -1109,6 +1109,34 @@ void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEff
     }
 }
 
+bool EffectStackModel::moveEffectWithUndo(int destRow, const std::shared_ptr<AbstractEffectItem> &item, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    int itemId = item->getId();
+    Q_ASSERT(m_allItems.count(itemId) > 0);
+    int oldRow = item->row();
+    Fun local_redo = moveItem_lambda(itemId, destRow);
+    bool res = local_redo();
+    if (res) {
+        Fun local_undo = moveItem_lambda(itemId, oldRow);
+        Fun update_redo = [this, row = destRow > oldRow ? destRow - 1 : destRow]() {
+            setActiveEffect(row);
+            Q_EMIT this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
+            return true;
+        };
+        Fun update_undo = [this, oldRow]() {
+            setActiveEffect(oldRow);
+            Q_EMIT this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
+            return true;
+        };
+        update_redo();
+        PUSH_LAMBDA(update_redo, local_redo);
+        PUSH_LAMBDA(update_undo, local_undo);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    }
+    return res;
+}
+
 void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     QWriteLocker locker(&m_lock);

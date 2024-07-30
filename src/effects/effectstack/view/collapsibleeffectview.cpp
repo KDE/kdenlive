@@ -413,6 +413,16 @@ bool CollapsibleEffectView::isEnabled() const
     return m_enabledButton->isActive();
 }
 
+void CollapsibleEffectView::slotSetTargetEffect(bool active)
+{
+    if (active) {
+        decoframe->setProperty("target", true);
+    } else {
+        decoframe->setProperty("target", {});
+    }
+    decoframe->setStyleSheet(decoframe->styleSheet());
+}
+
 void CollapsibleEffectView::slotActivateEffect(bool active)
 {
     decoframe->setProperty("active", active);
