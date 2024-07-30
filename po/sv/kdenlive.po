@@ -3393,7 +3393,7 @@ msgid ""
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
 "Sätter på eller stänger av den delade visningen i project- och/eller "
-"klippmonitorn: till vänster visas klippet med effekt, till höger visas "
+"klippskärmen: till vänster visas klippet med effekt, till höger visas "
 "klippet utan effekt."
 
 #: src/assets/assetpanel.cpp:142
