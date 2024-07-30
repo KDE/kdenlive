@@ -72,13 +72,6 @@ void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option
     QStyleOptionViewItem opt(option);
     initStyleOption(&opt, index);
     QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
-    if (index.row() == dragRow && !opt.rect.isNull()) {
-        QPen pen(QPalette().highlight().color());
-        pen.setWidth(4);
-        painter->setPen(pen);
-        painter->drawLine(opt.rect.topLeft(), opt.rect.topRight());
-    }
-
     style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
 }
 
@@ -140,12 +133,21 @@ void EffectStackView::dragEnterEvent(QDragEnterEvent *event)
 void EffectStackView::dragLeaveEvent(QDragLeaveEvent *event)
 {
     event->accept();
+    if (dragRow > -1 && dragRow < m_model->rowCount()) {
+        auto item = m_model->getEffectStackRow(dragRow);
+        if (item->childCount() > 0) {
+            // TODO: group
+        } else {
+            std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+            setDropTargetEffect(m_model->getIndexFromItem(eff), false);
+        }
+    }
     dragRow = -1;
-    repaint();
 }
 
 void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
 {
+    int prevTarget = dragRow;
     dragRow = m_model->rowCount();
     for (int i = 0; i < m_model->rowCount(); i++) {
         auto item = m_model->getEffectStackRow(i);
@@ -156,21 +158,29 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
         std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
         QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(eff));
         QWidget *w = m_effectsTree->indexWidget(ix);
+        QPoint mousePos;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        if (w && w->geometry().contains(event->pos())) {
+        mousePos = event->pos();
 #else
-        if (w && w->geometry().contains(event->position().toPoint())) {
+        mousePos = event->position().toPoint();
 #endif
-            if (event->source() == this) {
-                QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
-                int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
-                if (i == oldRow + 1) {
-                    dragRow = -1;
-                    break;
+        if (w && w->geometry().contains(mousePos)) {
+            dragRow = i;
+            if (i == m_model->rowCount() - 1) {
+                // Special case for last item in the stack, if we are lower than 2/3, drop after
+                if (mousePos.y() > w->geometry().y() + (2 * w->geometry().height()) / 3) {
+                    dragRow = m_model->rowCount();
                 }
             }
-            dragRow = i;
             break;
+        }
+    }
+    if (dragRow > -1 && event->source() == this) {
+        QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
+        int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
+        if (dragRow == oldRow || dragRow == oldRow + 1) {
+            // Don't drag on itself
+            dragRow = -1;
         }
     }
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -179,21 +189,32 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
     dragYPos = event->position().toPoint().y();
 #endif
 
-    Q_EMIT checkDragScrolling();
-
-    if (dragRow == m_model->rowCount() && event->source() == this) {
-        QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
-        int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
-        if (dragRow == oldRow + 1) {
-            dragRow = -1;
+    if (prevTarget != dragRow) {
+        if (prevTarget > -1 && prevTarget < m_model->rowCount()) {
+            auto item = m_model->getEffectStackRow(prevTarget);
+            if (item->childCount() > 0) {
+                // TODO: group
+            } else {
+                std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+                setDropTargetEffect(m_model->getIndexFromItem(eff), false);
+            }
+        }
+        if (dragRow > -1 && dragRow < m_model->rowCount()) {
+            auto item = m_model->getEffectStackRow(dragRow);
+            if (item->childCount() > 0) {
+                // TODO: group
+            } else {
+                std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+                setDropTargetEffect(m_model->getIndexFromItem(eff), true);
+            }
         }
     }
-    repaint();
+    update();
+    Q_EMIT checkDragScrolling();
 }
 
 void EffectStackView::dropEvent(QDropEvent *event)
 {
-    qDebug() << ":::: DROP BEGIN EVENT....";
     dragYPos = -1;
     if (dragRow < 0) {
         return;
@@ -202,17 +223,22 @@ void EffectStackView::dropEvent(QDropEvent *event)
     if (event->source() == this) {
         QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
         int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
-        qDebug() << "// MOVING EFFECT FROM : " << oldRow << " TO " << dragRow;
-        if (dragRow == oldRow || (dragRow == m_model->rowCount() && oldRow == dragRow - 1)) {
+        if (dragRow == oldRow || dragRow > m_model->rowCount()) {
             return;
         }
         QMetaObject::invokeMethod(m_model.get(), "moveEffectByRow", Qt::QueuedConnection, Q_ARG(int, dragRow), Q_ARG(int, oldRow));
     } else {
         bool added = false;
         if (dragRow < m_model->rowCount()) {
-            if (m_model->appendEffect(effectId) && m_model->rowCount() > 0) {
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            bool result = m_model->appendEffectWithUndo(effectId, undo, redo);
+            if (result) {
                 added = true;
-                m_model->moveEffect(dragRow, m_model->getEffectStackRow(m_model->rowCount() - 1));
+                m_model->moveEffectWithUndo(dragRow, m_model->getEffectStackRow(m_model->rowCount() - 1), undo, redo);
+            }
+            if (result) {
+                pCore->pushUndo(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
             }
         } else {
             if (m_model->appendEffect(effectId) && m_model->rowCount() > 0) {
@@ -224,9 +250,17 @@ void EffectStackView::dropEvent(QDropEvent *event)
             m_scrollTimer.start();
         }
     }
+    if (dragRow > -1 && dragRow < m_model->rowCount()) {
+        auto item = m_model->getEffectStackRow(dragRow);
+        if (item->childCount() > 0) {
+            // TODO: group
+        } else {
+            std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+            setDropTargetEffect(m_model->getIndexFromItem(eff), false);
+        }
+    }
     dragRow = -1;
     event->acceptProposedAction();
-    qDebug() << ":::: DROP END EVENT....";
 }
 
 void EffectStackView::paintEvent(QPaintEvent *event)
@@ -359,6 +393,16 @@ void EffectStackView::activateEffect(const QModelIndex &ix, bool active)
     auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(mapped));
     if (w) {
         w->slotActivateEffect(active);
+    }
+}
+
+void EffectStackView::setDropTargetEffect(const QModelIndex &ix, bool active)
+{
+    const QModelIndex mapped = m_filter->mapFromSource(ix);
+    m_effectsTree->setCurrentIndex(mapped);
+    auto *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(mapped));
+    if (w) {
+        w->slotSetTargetEffect(active);
     }
 }
 

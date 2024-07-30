@@ -68,6 +68,7 @@ public:
 
     /** @brief Move an effect in the stack */
     void moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item);
+    bool moveEffectWithUndo(int destRow, const std::shared_ptr<AbstractEffectItem> &item, Fun &undo, Fun &redo);
 
     /** @brief Set effect in row as current one */
     void setActiveEffect(int ix);

@@ -387,13 +387,13 @@ const QString AssetPanel::getStyleSheet()
     QString stylesheet;
 
     // effect background
-    stylesheet.append(QStringLiteral("QFrame#decoframe {border-top:1px solid "
+    stylesheet.append(QStringLiteral("QFrame#decoframe {border-top:2px solid "
+                                     "palette(shadow);background: transparent} QFrame#decoframe.builtin {border-top:0px solid "
                                      "palette(shadow);border-bottom:2px solid "
-                                     "palette(shadow);background: transparent} QFrame#decoframe.builtin {border-top:1px solid "
-                                     "palette(shadow);border-bottom:2px solid "
-                                     "#33FF0000 ;background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;} "
+                                     "#33FF0000 ;background: transparent} QFrame#decoframe[target=\"true\"] {border-top:2px solid %2;"
+                                     "background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;} "
                                      "QFrame#decoframe.builtin[active=\"true\"] {background: %1;}")
-                          .arg(hgh.name()));
+                          .arg(hgh.name(), hover_bg.name()));
 
     // effect in group background
     stylesheet.append(
