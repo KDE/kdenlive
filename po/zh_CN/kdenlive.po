@@ -9768,10 +9768,9 @@ msgstr "标记"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "标记类别"
+msgstr "添加标记 (按类别)"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10468,10 +10467,9 @@ msgid "Add Clip"
 msgstr "添加剪辑"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 (按类别编号)"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11378,70 +11376,59 @@ msgid "Delete All Markers"
 msgstr "删除所有标记"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 (快速)"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "快速添加标记/辅助线"
+msgstr "添加标记/辅助线 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -11945,10 +11932,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "无法找到要编辑标记的剪辑"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "标记类别"
+msgstr "标记类别不存在"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110

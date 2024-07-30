@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 02:33+0000\n"
-"PO-Revision-Date: 2024-07-25 05:59+0200\n"
+"PO-Revision-Date: 2024-07-29 05:19+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -9943,10 +9943,9 @@ msgstr "სანიშნები"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "სანიშნების კატეგორია"
+msgstr "სანიშნების დამატება კატეგორიით"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10648,10 +10647,9 @@ msgid "Add Clip"
 msgstr "კლიპის დამატება"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველის დამატება კატეგორიის ნომრით"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11583,70 +11581,59 @@ msgid "Delete All Markers"
 msgstr "ყველა მარკერის წაშლა"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 1-ის დამატება"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 2-ის დამატება"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 3-ის დამატება"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 4-ის დამატება"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 5-ის დამატება"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 6-ის დამატება"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 7-ის დამატება"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 8-ის დამატება"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 9-ის დამატება"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "მარკერის/მიმმართველის სწრაფი დამატება"
+msgstr "მარკერის/მიმმართველი 10-ის დამატება"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12155,10 +12142,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "მარკერის ჩასასწორებელი კლიპი ვერ ვიპოვე"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "სანიშნების კატეგორია"
+msgstr "სანიშნეს კატეგორია არ არსებობს"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
