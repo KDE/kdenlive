@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-29 00:39+0000\n"
+"POT-Creation-Date: 2024-07-31 00:40+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -5564,7 +5564,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:189
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:552
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:561
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, fuzzy, kde-format
@@ -5757,8 +5757,8 @@ msgid "Move subtitle"
 msgstr "Pomjeri vodič"
 
 #: src/bin/model/subtitlemodel.cpp:1177
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
-#: src/effects/effectstack/view/effectstackview.cpp:755
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:587
+#: src/effects/effectstack/view/effectstackview.cpp:799
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
 #, kde-format
@@ -6696,8 +6696,8 @@ msgstr "Učitaj markere"
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:657
-#: src/effects/effectstack/view/effectstackview.cpp:793
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:666
+#: src/effects/effectstack/view/effectstackview.cpp:837
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9668,12 +9668,13 @@ msgstr "Uredi efekat %1"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:494
 #: src/effects/effectstack/model/effectstackmodel.cpp:599
-#: src/effects/effectstack/model/effectstackmodel.cpp:1341
+#: src/effects/effectstack/model/effectstackmodel.cpp:1369
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:590
+#: src/effects/effectstack/view/effectstackview.cpp:241
 #: src/timeline2/model/timelinemodel.cpp:5029
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
@@ -9864,7 +9865,7 @@ msgstr "Sačuvaj efekat"
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:488
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:497
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9872,98 +9873,98 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:512
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:521
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable %1"
 msgstr "Onemogući efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:512
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:521
 #, fuzzy, kde-format
 #| msgid "Split audio"
 msgid "Enable %1"
 msgstr "Razdvoji zvuk"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:557
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Sačuvaj efekat"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:562
 #, fuzzy, kde-format
 #| msgid "Comment"
 msgid "Comments:"
 msgstr "Komentar"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:569
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:281
+#: src/effects/effectstack/view/effectstackview.cpp:315
 #, fuzzy, kde-format
 msgid "Horizontal Flip"
 msgstr "Centriraj horizontalno"
 
-#: src/effects/effectstack/view/effectstackview.cpp:286
+#: src/effects/effectstack/view/effectstackview.cpp:320
 #, fuzzy, kde-format
 msgid "Vertical Flip"
 msgstr "Bez poravnanja"
 
-#: src/effects/effectstack/view/effectstackview.cpp:293
+#: src/effects/effectstack/view/effectstackview.cpp:327
 #, kde-format
 msgid "Flip"
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:672
+#: src/effects/effectstack/view/effectstackview.cpp:716
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable Effect Stack"
 msgstr "Omogući efekt"
 
-#: src/effects/effectstack/view/effectstackview.cpp:672
+#: src/effects/effectstack/view/effectstackview.cpp:716
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Effect Stack"
 msgstr "Onemogući efekt"
 
-#: src/effects/effectstack/view/effectstackview.cpp:711
+#: src/effects/effectstack/view/effectstackview.cpp:755
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No effect selected."
 msgstr "Nema dostupnih  selektovanih isječaka"
 
-#: src/effects/effectstack/view/effectstackview.cpp:717
+#: src/effects/effectstack/view/effectstackview.cpp:761
 #, fuzzy, kde-format
 #| msgid "Effect Stack"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Stek Efekata"
 
-#: src/effects/effectstack/view/effectstackview.cpp:722
+#: src/effects/effectstack/view/effectstackview.cpp:766
 #, fuzzy, kde-format
 #| msgid "Name for saved effect: "
 msgid "Name for saved stack:"
 msgstr "Ime za sačuvani efekat "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:723
+#: src/effects/effectstack/view/effectstackview.cpp:767
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Opis:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:736
+#: src/effects/effectstack/view/effectstackview.cpp:780
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:743
+#: src/effects/effectstack/view/effectstackview.cpp:787
 #, kde-format
 msgid ""
 "No description provided. \n"
