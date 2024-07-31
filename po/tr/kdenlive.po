@@ -9947,10 +9947,9 @@ msgstr "İmleyiciler"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "İmleyiciler Kategorisi"
+msgstr "Kategoriye Göre İmleyiciler Ekle"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10651,10 +10650,9 @@ msgid "Add Clip"
 msgstr "Klip Ekle"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "Kategori Numarasına Göre İmleyici/Kılavuz Ekle"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11594,70 +11592,59 @@ msgid "Delete All Markers"
 msgstr "Tüm İmleyicileri Sil"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Tez İmleyici/Kılavuz Ekle"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 1 Ekle"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 2 Ekle"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 3 Ekle"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 4 Ekle"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 5 Ekle"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 6 Ekle"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 7 Ekle"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 8 Ekle"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 9 Ekle"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Tez İmleyici/Kılavuz Ekle"
+msgstr "İmleyici/Kılavuz 10 Ekle"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12166,10 +12153,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "İmleyici düzenlenecek klip bulunamadı"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "İmleyiciler Kategorisi"
+msgstr "İmleyici kategorisi yok"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
