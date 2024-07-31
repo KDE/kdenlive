@@ -207,6 +207,9 @@ void AssetParameterView::unsetModel()
     m_mainKeyframeWidget = nullptr;
 
     // clear layout
+    for (auto p : m_widgets) {
+        delete p;
+    }
     m_widgets.clear();
     while (m_lay->rowCount() > 0) {
         m_lay->takeRow(0);
