@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-31 00:40+0000\n"
+"POT-Creation-Date: 2024-08-01 00:40+0000\n"
 "PO-Revision-Date: 2024-07-28 07:51+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -3712,7 +3712,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Tar bort hela förinställningen sin för närvarande är vald."
 
-#: src/assets/view/assetparameterview.cpp:335
+#: src/assets/view/assetparameterview.cpp:338
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1445
 #, kde-format
@@ -3720,7 +3720,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ange förinställningens namn"
 
-#: src/assets/view/assetparameterview.cpp:335
+#: src/assets/view/assetparameterview.cpp:338
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1445
 #, kde-format

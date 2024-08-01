@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-31 00:40+0000\n"
+"POT-Creation-Date: 2024-08-01 00:40+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -3784,7 +3784,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Vymazať vybranú vyrovnávaciu pamäť"
 
-#: src/assets/view/assetparameterview.cpp:335
+#: src/assets/view/assetparameterview.cpp:338
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1445
 #, fuzzy, kde-format
@@ -3793,7 +3793,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Zadať názov predvoľby"
 
-#: src/assets/view/assetparameterview.cpp:335
+#: src/assets/view/assetparameterview.cpp:338
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1445
 #, fuzzy, kde-format

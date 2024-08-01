@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-07-31 00:40+0000\n"
+"POT-Creation-Date: 2024-08-01 00:40+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -3742,7 +3742,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Obriši odabrani snimak"
 
-#: src/assets/view/assetparameterview.cpp:335
+#: src/assets/view/assetparameterview.cpp:338
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1445
 #, fuzzy, kde-format
@@ -3751,7 +3751,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Unesi ime sekvence"
 
-#: src/assets/view/assetparameterview.cpp:335
+#: src/assets/view/assetparameterview.cpp:338
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1445
 #, kde-format
