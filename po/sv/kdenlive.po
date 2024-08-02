@@ -6663,7 +6663,7 @@ msgstr "Använd alltid aktiv projektkatalog"
 #: src/dialogs/kdenlivesettingsdialog.cpp:383
 #, kde-format
 msgid "Environment"
-msgstr "Miljö"
+msgstr "Omgivning"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:419
 #, kde-format
@@ -9846,7 +9846,8 @@ msgstr "Bilden är för liten för att ersättas."
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
-msgstr "FFmpeg hittades inte, ställ in sökvägen i Kdenlives miljöinställningar"
+msgstr ""
+"FFmpeg hittades inte, ställ in sökvägen i Kdenlives omgivningsinställningar"
 
 #: src/jobs/proxytask.cpp:399 src/jobs/proxytask.cpp:412
 #, kde-format
@@ -9872,7 +9873,8 @@ msgstr "Kan inte analysera den här klipptypen."
 #: src/jobs/scenesplittask.cpp:125
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment."
-msgstr "FFmpeg hittades inte, ställ in sökvägen i Kdenlives inställning Miljö."
+msgstr ""
+"FFmpeg hittades inte, ställ in sökvägen i Kdenlives omgivningsinställningar."
 
 #: src/jobs/scenesplittask.cpp:184 src/jobs/scenesplittask.cpp:204
 #: src/jobs/scenesplittask.cpp:213
@@ -25821,7 +25823,7 @@ msgstr "%1 t"
 #~ "settings Environment"
 #~ msgstr ""
 #~ "Misslyckades skapa ersättning. FFmpeg hittades inte, ställ in sökvägen i "
-#~ "Kdenlives miljöinställningar"
+#~ "Kdenlives omgivningsinställningar"
 
 #~ msgid "Align top left"
 #~ msgstr "Justera uppåt och åt vänster"
@@ -26613,7 +26615,7 @@ msgstr "%1 t"
 #~ "settings Environment"
 #~ msgstr ""
 #~ "Kan inte behandla jobb. FFmpeg hittades inte, ställ in sökvägen i "
-#~ "Kdenlives miljöinställningar"
+#~ "Kdenlives omgivningsinställningar"
 
 #~ msgid "Transcoding clip"
 #~ msgstr "Omkodar klipp"
