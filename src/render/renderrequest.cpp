@@ -259,8 +259,12 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
     if (m_audioFilePerTrack) {
         if (m_delayedRendering) {
             addErrorMessage(i18n("Script rendering and multi track audio export can not be used together. Script will be saved without multi track export."));
+            m_audioFilePerTrack = false;
         } else {
             prepareMultiAudioFiles(jobs, doc, playlistPath, outputPath, uuid);
+            // Disable audio for main video job when we want separate files for audio tracks
+            QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
+            consumer.setAttribute(QStringLiteral("an"), 1);
         }
     }
 
@@ -354,7 +358,7 @@ QString RenderRequest::generatePlaylistFile()
     if (!filename.endsWith(fileExtension)) {
         filename.append(fileExtension);
     }
-    if (projectFolder.exists(newFilename)) {
+    if (projectFolder.exists(filename)) {
         if (KMessageBox::questionTwoActions(nullptr, i18n("File %1 already exists.\nDo you want to overwrite it?", filename), {}, KStandardGuiItem::overwrite(),
                                             KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
             return {};
@@ -530,6 +534,19 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
             // Not an audio track, nothing to do
             continue;
         }
+        QDomNodeList originalTracks = originalTracktor.elementsByTagName(QStringLiteral("track"));
+        // Check that the track is not muted
+        bool muted = true;
+        for (int l = 0; l < originalTracks.size(); l++) {
+            if (originalTracks.at(l).toElement().attribute(QStringLiteral("hide")) != QLatin1String("both")) {
+                muted = false;
+                break;
+            }
+        }
+        if (muted) {
+            // Nothing to do for that track
+            continue;
+        }
 
         // setup filenames
         QString appendix = QString("_Audio_%1%2%3")
@@ -566,8 +583,8 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
                 continue;
             }
             QDomNodeList tracks = tractor.elementsByTagName(QStringLiteral("track"));
-            for (int l = 0; l < tracks.size(); l++) {
-                if (i != j) {
+            if (i != j) {
+                for (int l = 0; l < tracks.size(); l++) {
                     tracks.at(l).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
                 }
             }

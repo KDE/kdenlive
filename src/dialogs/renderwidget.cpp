@@ -646,24 +646,33 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
         m_view.infoMessage->setText(
             i18nc("@label:textbox",
                   "Rendering a project with variable framerate clips can lead to audio/video desync.\nWe recommend to transcode to an edit friendly format."));
-        if (m_view.infoMessage->actions().isEmpty()) {
-            QAction *b = new QAction(i18nc("@action:button", "Render Anyway"), this);
-            connect(b, &QAction::triggered, this, [this, delayedRendering]() { slotPrepareExport2(delayedRendering); });
-            m_view.infoMessage->addAction(b);
-            QAction *a = new QAction(i18nc("@action:button", "Transcode"), this);
-            connect(a, &QAction::triggered, this, [this]() {
-                QList<QAction *> acts = m_view.infoMessage->actions();
-                while (!acts.isEmpty()) {
-                    QAction *a = acts.takeFirst();
-                    m_view.infoMessage->removeAction(a);
-                    delete a;
-                }
-                m_view.infoMessage->hide();
-                updateRenderInfoMessage();
-                pCore->bin()->transcodeUsedClips();
-            });
-            m_view.infoMessage->addAction(a);
+        // Remove previous actions if any
+        QList<QAction *> acts = m_view.infoMessage->actions();
+        while (!acts.isEmpty()) {
+            QAction *a = acts.takeFirst();
+            m_view.infoMessage->removeAction(a);
+            delete a;
         }
+
+        QAction *b = new QAction(i18nc("@action:button", "Render Anyway"), this);
+        connect(b, &QAction::triggered, this, [this, delayedRendering]() {
+            m_view.infoMessage->animatedHide();
+            slotPrepareExport2(delayedRendering);
+        });
+        m_view.infoMessage->addAction(b);
+        QAction *a = new QAction(i18nc("@action:button", "Transcode"), this);
+        connect(a, &QAction::triggered, this, [this]() {
+            QList<QAction *> acts = m_view.infoMessage->actions();
+            while (!acts.isEmpty()) {
+                QAction *a = acts.takeFirst();
+                m_view.infoMessage->removeAction(a);
+                delete a;
+            }
+            m_view.infoMessage->hide();
+            updateRenderInfoMessage();
+            pCore->bin()->transcodeUsedClips();
+        });
+        m_view.infoMessage->addAction(a);
         m_view.infoMessage->animatedShow();
         return;
     }
@@ -727,7 +736,13 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
 
     // Create jobs
     if (delayedRendering) {
-        parseScriptFiles();
+        if (jobs.size() > 0) {
+            // Focus scripts page
+            RenderRequest::RenderJob j = jobs.front();
+            qDebug() << "//// GOT PLAYLIST PATH: " << j.playlistPath;
+            parseScriptFiles(QFileInfo(j.playlistPath).fileName());
+            m_view.tabWidget->setCurrentIndex(Tabs::ScriptsTab);
+        }
         return;
     }
 
@@ -1390,7 +1405,7 @@ void RenderWidget::slotCleanUpJobs()
     slotCheckJob();
 }
 
-void RenderWidget::parseScriptFiles()
+void RenderWidget::parseScriptFiles(const QString lastScript)
 {
     QStringList scriptsFilter;
     scriptsFilter << QStringLiteral("*.mlt");
@@ -1411,6 +1426,7 @@ void RenderWidget::parseScriptFiles()
             return;
         }
     }
+    QTreeWidgetItem *lastCreatedScript = nullptr;
     for (int i = 0; i < scriptFiles.size(); ++i) {
         QUrl scriptpath = QUrl::fromLocalFile(projectFolder.absoluteFilePath(scriptFiles.at(i)));
         QDomDocument doc;
@@ -1432,11 +1448,16 @@ void RenderWidget::parseScriptFiles()
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
         item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
         item->setData(1, Qt::UserRole + 1, scriptpath.toLocalFile());
+        if (scriptFiles.at(i) == lastScript) {
+            lastCreatedScript = item;
+        }
     }
-    QTreeWidgetItem *script = m_view.scripts_list->topLevelItem(0);
-    if (script) {
-        m_view.scripts_list->setCurrentItem(script);
-        script->setSelected(true);
+    if (lastCreatedScript == nullptr) {
+        lastCreatedScript = m_view.scripts_list->topLevelItem(0);
+    }
+    if (lastCreatedScript) {
+        m_view.scripts_list->setCurrentItem(lastCreatedScript);
+        lastCreatedScript->setSelected(true);
     }
 }
 
