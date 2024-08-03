@@ -185,7 +185,7 @@ private Q_SLOTS:
 
     void slotStartScript();
     void slotDeleteScript();
-    void parseScriptFiles();
+    void parseScriptFiles(const QString lastScript = QString());
     void slotCheckScript();
     void slotCheckJob();
     void slotCleanUpJobs();

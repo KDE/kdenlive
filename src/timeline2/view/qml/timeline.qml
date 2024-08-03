@@ -230,9 +230,9 @@ Rectangle {
 
     function continuousScrolling(x, y) {
         // This provides continuous scrolling at the left/right edges.
-        var maxScroll = trackHeaders.height - tracksArea.height + horZoomBar.height + ruler.height + subtitleTrack.height
+        var maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
-        y += ruler.height + subtitleTrack.height
+        y += ruler.height
         if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
             scrollTimer.horizontal = root.baseUnit
             scrollTimer.start()
@@ -1556,7 +1556,7 @@ Rectangle {
                         if (spacerGuides && finalSpacerFrame > -1) {
                             timeline.spacerMoveGuides(selectedGuides, finalSpacerFrame - lastPos)
                         }
-                        continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
+                        continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY - ruler.height)
                     } else if (spacerGuides) {
                         var frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale)
                         frame = Math.max(spacerMinPos, frame)
@@ -2374,11 +2374,11 @@ Rectangle {
                     vertical = 0
                     stop()
                 } else {
-                    if ((clipBeingMovedId == -1 && clipBeingDroppedId == -1 && !rubberSelect.visible)) {
+                    if ((clipBeingMovedId == -1 && clipBeingDroppedId == -1 && !rubberSelect.visible && spacerGroup == -1)) {
                         vertical = 0
                         stop()
                     } else {
-                        var maxScroll = trackHeaders.height - tracksArea.height + horZoomBar.height + ruler.height + subtitleTrack.height
+                        var maxScroll = trackHeaders.height + subtitleTrack.height - scrollView.height
                         if (scrollView.contentY > maxScroll) {
                             scrollView.contentY = Math.max(0, maxScroll)
                             vertical = 0
