@@ -1311,7 +1311,7 @@ msgid ""
 msgstr ""
 "Filtret tar en ögonblicksbild av bildrutan innan det ritar enkla former i "
 "alfakanalen. Använd det tillsammans med effekten Verkställ mask, som "
-"använder en övergång för att överlagra den aktuella bildrutans bild på "
+"använder en övertoning för att överlagra den aktuella bildrutans bild på "
 "ögonblicksbilden. Det typiska användarfallet är att lägga till effekter i "
 "följande sekvens: den här effekten, noll eller flera effekter, verkställ "
 "mask."
@@ -10034,7 +10034,7 @@ msgstr "Nuvarande klipp"
 #: src/kdenliveui.rc:160
 #, kde-format
 msgid "&Current track"
-msgstr "Nu&varande klipp"
+msgstr "A&ktuellt spår"
 
 #. i18n: ectx: Menu (guide_menu)
 #: src/kdenliveui.rc:165
@@ -25365,7 +25365,7 @@ msgstr "%1 t"
 #~ "Cross5,Square3x3,Bilevel,Diamond3x3,Square5x5,Temp3,Temp5,ArceBI,ML3D,"
 #~ "ML3dEX,VarSize"
 #~ msgstr ""
-#~ "Kors-5,Fyrkant-3x3,Dubbelnivå,Romb-3x3,Fyrkant-5x5,Temp3,Temp5,Båge-BI,"
+#~ "Kors-5,Fyrkant-3x3,Dubbelnivå,Romb-3x3,Fyrkant-5x5,Tid-3,Tid-5,ArceBI,"
 #~ "ML3D,ML3dEX,Var-storlek"
 
 #~ msgid "Nervous"
@@ -26358,7 +26358,7 @@ msgstr "%1 t"
 #~ msgstr "Dubbelklicka eller dra för att lägga till en borttoning"
 
 #~ msgid "Ctrl + click to use spacer on current track only"
-#~ msgstr "Ctrl+klick för att bara använda mellanrum i nuvarande spår"
+#~ msgstr "Ctrl+klick för att bara använda mellanrum i aktuellt spår"
 
 #~ msgid "Create new transitions as automatic transitions"
 #~ msgstr "Skapa nya övertoningar som automatiska övertoningar"

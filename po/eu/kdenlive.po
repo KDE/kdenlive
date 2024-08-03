@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-01 00:40+0000\n"
-"PO-Revision-Date: 2024-07-26 21:26+0200\n"
+"PO-Revision-Date: 2024-08-02 23:04+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -10024,7 +10024,7 @@ msgstr "Markatzaileak"
 #: src/kdenliveui.rc:78
 #, kde-format
 msgid "Add Markers by Category"
-msgstr "Gehitu markatzaileen kategoriaren arabera"
+msgstr "Gehitu markatzaileak kategoriaren arabera"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10727,7 +10727,7 @@ msgstr "Gehitu Klipa"
 #: src/mainwindow.cpp:163
 #, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Gehitu markatzailea/gidalerroa kategoria zenbakiaren arabera"
+msgstr "Gehitu markatzailea/gidalerroa kategoria-zenbakiaren arabera"
 
 #: src/mainwindow.cpp:165
 #, kde-format
