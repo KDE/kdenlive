@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 02:33+0000\n"
-"PO-Revision-Date: 2024-07-23 11:41+0200\n"
+"PO-Revision-Date: 2024-08-02 23:04+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -9998,10 +9998,9 @@ msgstr "Markatzaileak"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Markatzaileen kategoria"
+msgstr "Gehitu markatzaileak kategoriaren arabera"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10702,10 +10701,9 @@ msgid "Add Clip"
 msgstr "Gehitu Klipa"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa kategoria-zenbakiaren arabera"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11645,70 +11643,59 @@ msgid "Delete All Markers"
 msgstr "Ezabatu markatzaile guztiak"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa azkar"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Gehitu markatzailea/gidalerroa modu azkarrean"
+msgstr "Gehitu markatzailea/gidalerroa 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12217,10 +12204,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Ezin izan da klipa aurkitu markatzailea editatzeko"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Markatzaileen kategoria"
+msgstr "Markatzaile-kategoria ez da existitzen"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110

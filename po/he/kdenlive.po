@@ -12,13 +12,14 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-07-27 02:33+0000\n"
-"PO-Revision-Date: 2024-06-26 15:18+0300\n"
+"PO-Revision-Date: 2024-08-02 09:52+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 24.05.2\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 "X-Generator: Lokalize 24.05.0\n"
@@ -9870,10 +9871,9 @@ msgstr "סמנים"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "קטגוריית סמנים"
+msgstr "הוספת סמנים לפי קטגוריה"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10565,10 +10565,9 @@ msgid "Add Clip"
 msgstr "הוספת סרטון"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה לפי מספר קטגוריה"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11491,70 +11490,59 @@ msgid "Delete All Markers"
 msgstr "מחיקת כל הסמנים"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "הוספת סמן/קו מנחה במהירות"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "הוספת סמן/קו מנחה במהירות"
+msgstr "הוספת סמן/קו מנחה 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12059,10 +12047,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "לא ניתן לאתר את הסרטון לעריכת הסמן"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "קטגוריית סמנים"
+msgstr "קטגוריית הסמנים לא קיימת"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
@@ -16270,10 +16257,9 @@ msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "סרטון ציר זמן %1 (%2) ללא הפניית סל נמצא והוסר."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "המיזם נפגם. הסרטון %1 (%2) לא נמצא בסל המיזם."
+msgstr "המיזם נפגם. לסרטון %1 (%2) יש מזהה שגוי."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
