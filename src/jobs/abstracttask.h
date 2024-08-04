@@ -60,7 +60,7 @@ private:
     //QString cacheKey();
     JOBTYPE m_type;
     int m_priority;
-    void cancelJob(bool softDelete = false);
+    bool cancelJob(bool softDelete = false);
     bool isCanceled() const;
 
 Q_SIGNALS:

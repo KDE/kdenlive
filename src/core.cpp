@@ -98,6 +98,7 @@ bool Core::build(LinuxPackageType packageType, bool testMode)
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     qRegisterMetaType<ProfileParam *>("ProfileParam*");
+    qRegisterMetaType<ObjectId>("ObjectId");
     KeyframeModel::initKeyframeTypes();
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
