@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-01 00:40+0000\n"
+"POT-Creation-Date: 2024-08-04 00:39+0000\n"
 "PO-Revision-Date: 2024-07-26 05:33+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -5578,7 +5578,7 @@ msgstr "სუბტიტრის გადატანა"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:587
 #: src/effects/effectstack/view/effectstackview.cpp:799
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:362
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6485,8 +6485,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "მიმმართველის მონაცემების გატანა"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1663
-#: src/dialogs/renderwidget.cpp:1690 src/doc/kdenlivedoc.cpp:759
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1711 src/doc/kdenlivedoc.cpp:759
 #: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1310
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
@@ -6499,7 +6499,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:301
+#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:305
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5168
@@ -7124,7 +7124,7 @@ msgstr ""
 "შემდეგ პარამეტრებს გავლენა არ ექნება, რადგან მოხდება მათი თავზე გადაწერა "
 "მომხმარებლის ინტერფეისის შესაბამისი პარამეტრებით: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1493
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1514
 #, kde-format
 msgid "Waiting…"
 msgstr "მოლოდინი…"
@@ -7310,25 +7310,25 @@ msgstr ""
 "აუდიო/ვიდეოს დექსინრონიზაციამდე მიგვიყვანოს.\n"
 "ჩვენი რეკომენდაციაა გადაკოდირება ჩასწორებად ფორმატში გააკეთოთ."
 
-#: src/dialogs/renderwidget.cpp:650
+#: src/dialogs/renderwidget.cpp:657
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "მაინც რენდერი"
 
-#: src/dialogs/renderwidget.cpp:653
+#: src/dialogs/renderwidget.cpp:663
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "გადაყვანა"
 
-#: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:1467
+#: src/dialogs/renderwidget.cpp:685 src/dialogs/renderwidget.cpp:1488
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "გატანის ფაილი უკვე არსებობს. გნებავთ გადააწეროთ?"
 
-#: src/dialogs/renderwidget.cpp:684 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:693 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -7337,12 +7337,12 @@ msgstr ""
 "საქაღალდის %1 შექმნა შეუძლებელია.\n"
 "დარწმუნდით, რომ გაქვთ საჭირო უფლებები."
 
-#: src/dialogs/renderwidget.cpp:725
+#: src/dialogs/renderwidget.cpp:734
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "აღმოჩენილია შემდეგი შეცდომები რენდერის მცდელობისას"
 
-#: src/dialogs/renderwidget.cpp:758 src/dialogs/renderwidget.cpp:1480
+#: src/dialogs/renderwidget.cpp:773 src/dialogs/renderwidget.cpp:1501
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7351,131 +7351,131 @@ msgstr ""
 "უკვე არსებობს დავალება, რომელიც წერს ფაილს:<br /><b>%1</b><br />შეწყვიტეთ ეს "
 "დავალება, თუ გნებავთ, თავზე გადააწეროთ…"
 
-#: src/dialogs/renderwidget.cpp:759 src/dialogs/renderwidget.cpp:1481
+#: src/dialogs/renderwidget.cpp:774 src/dialogs/renderwidget.cpp:1502
 #, kde-format
 msgid "Already running"
 msgstr "უკვე გაშვებულია"
 
-#: src/dialogs/renderwidget.cpp:781
+#: src/dialogs/renderwidget.cpp:796
 #, kde-format
 msgid "Video without audio track"
 msgstr "ვიდეო აუდიოს გარეშე"
 
-#: src/dialogs/renderwidget.cpp:783
+#: src/dialogs/renderwidget.cpp:798
 #, kde-format
 msgid "Audio without video track"
 msgstr "აუდიო ვიდეოს გარეშე"
 
-#: src/dialogs/renderwidget.cpp:847 src/main.cpp:482
+#: src/dialogs/renderwidget.cpp:862 src/main.cpp:482
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "<i>%1</i>-ის რენდერი დაიწყო"
 
-#: src/dialogs/renderwidget.cpp:909 src/monitor/monitor.cpp:1270
+#: src/dialogs/renderwidget.cpp:924 src/monitor/monitor.cpp:1270
 #, kde-format
 msgid "untitled"
 msgstr "უსახელო"
 
-#: src/dialogs/renderwidget.cpp:947
+#: src/dialogs/renderwidget.cpp:962
 #, kde-format
 msgid "No preset selected"
 msgstr "პრესეტი არჩეული არაა"
 
-#: src/dialogs/renderwidget.cpp:949
+#: src/dialogs/renderwidget.cpp:964
 #, kde-format
 msgid "No matching preset"
 msgstr "ასეთი პრესეტი არ არსებობს"
 
-#: src/dialogs/renderwidget.cpp:961
+#: src/dialogs/renderwidget.cpp:976
 #, kde-format
 msgid "Invalid preset"
 msgstr "არასწორი პრესეტი"
 
-#: src/dialogs/renderwidget.cpp:1074
+#: src/dialogs/renderwidget.cpp:1089
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "აუდიოს და ვიდეოს გარეშე რენდერი არ მუშაობს. ჩართეთ ერთ-ერთი ან ორივე."
 
-#: src/dialogs/renderwidget.cpp:1236
+#: src/dialogs/renderwidget.cpp:1251
 #, kde-format
 msgid "Remaining time "
 msgstr "დარჩენილი დრო "
 
-#: src/dialogs/renderwidget.cpp:1238 src/dialogs/renderwidget.cpp:1285
+#: src/dialogs/renderwidget.cpp:1253 src/dialogs/renderwidget.cpp:1300
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 დღე "
 msgstr[1] "%1 დღე "
 
-#: src/dialogs/renderwidget.cpp:1242
+#: src/dialogs/renderwidget.cpp:1257
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (კადრი %1 @ %2 კადრი/წმ)"
 
-#: src/dialogs/renderwidget.cpp:1257
+#: src/dialogs/renderwidget.cpp:1272
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "დარჩენილია %1მბ-ზე ნაკლები მეხსიერება."
 
-#: src/dialogs/renderwidget.cpp:1287
+#: src/dialogs/renderwidget.cpp:1302
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "რენდერის დასრულების დრო %1"
 
-#: src/dialogs/renderwidget.cpp:1295
+#: src/dialogs/renderwidget.cpp:1310
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1-ის რენდერის დასრულების დროა %2"
 
-#: src/dialogs/renderwidget.cpp:1315
+#: src/dialogs/renderwidget.cpp:1330
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1-ის რენდერი ავარიულად დასრულდა</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1358 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1373 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "დავალების გაუქმება"
 
-#: src/dialogs/renderwidget.cpp:1361
+#: src/dialogs/renderwidget.cpp:1376
 #, kde-format
 msgid "Remove Job"
 msgstr "დავალების წაშლა"
 
-#: src/dialogs/renderwidget.cpp:1750
+#: src/dialogs/renderwidget.cpp:1771
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "კლიპების დამატება დროის ხაზზე რენდერამდე"
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1776
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "დარენდერებული ფაილის სიგრძე: %1"
 
-#: src/dialogs/renderwidget.cpp:1759
+#: src/dialogs/renderwidget.cpp:1780
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>პროექტში გამოიყენება 1 ნაკლული კლიპი.</b>"
 msgstr[1] "<b>პროექტში გამოიყენება %1 ნაკლული კლიპი.</b>"
 
-#: src/dialogs/renderwidget.cpp:1761
+#: src/dialogs/renderwidget.cpp:1782
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "ერთი ნაკლული კლიპი (გამოუყენებელი)"
 msgstr[1] "%1 ნაკლული კლიპი (გამოუყენებელი)"
 
-#: src/dialogs/renderwidget.cpp:1763
+#: src/dialogs/renderwidget.cpp:1784
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 ნაკლული კლიპი (<b>პროექტში გამოიყენება %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:1845
+#: src/dialogs/renderwidget.cpp:1866
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7484,12 +7484,12 @@ msgstr ""
 "კოდეკის სიჩქარის პარამეტრები:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1886
 #, kde-format
 msgid "Add to Current Project"
 msgstr "მიმდინარე პროექტში დამატება"
 
-#: src/dialogs/renderwidget.cpp:1868 src/library/librarywidget.cpp:256
+#: src/dialogs/renderwidget.cpp:1889 src/library/librarywidget.cpp:256
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "შემცველი საქაღალდის გახსნა"
@@ -15851,23 +15851,23 @@ msgstr ""
 "სკრიპტით რენდერს და მრავალბილიკანი აუდიოს გატანას ერთად ვერ გამოიყენებთ. "
 "სკრიპტი მრავალი ტრეკის გარეშე გატანის იქნება შენახული."
 
-#: src/render/renderrequest.cpp:334
+#: src/render/renderrequest.cpp:338
 #, kde-format
 msgid "export"
 msgstr "გატანა"
 
-#: src/render/renderrequest.cpp:349
+#: src/render/renderrequest.cpp:353
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "დაყოვნებული რენდერი"
 
-#: src/render/renderrequest.cpp:349
+#: src/render/renderrequest.cpp:353
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "აირჩიეთ სახელი ამ რენდერისთვის."
 
-#: src/render/renderrequest.cpp:447
+#: src/render/renderrequest.cpp:451
 #, kde-format
 msgid "begin"
 msgstr "begin"

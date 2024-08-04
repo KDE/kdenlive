@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-01 00:40+0000\n"
-"PO-Revision-Date: 2024-06-29 11:22+0100\n"
+"POT-Creation-Date: 2024-08-04 00:39+0000\n"
+"PO-Revision-Date: 2024-08-03 12:43+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.0\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3317,10 +3317,9 @@ msgid "Change composition type"
 msgstr "Change composition type"
 
 #: src/assets/assetpanel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "Enable Builtin Effects"
-msgstr "Disable Bin Effects"
+msgstr "Enable Builtin Effects"
 
 #: src/assets/assetpanel.cpp:82
 #, kde-kuit-format
@@ -3330,6 +3329,9 @@ msgid ""
 "clips for convenience. These effects are disabled and will only be applied "
 "if you change a parameter."
 msgstr ""
+"When enabled, this will add basic effects (Flip, Transform, Volume) to all "
+"clips for convenience. These effects are disabled and will only be applied "
+"if you change a parameter."
 
 #: src/assets/assetpanel.cpp:97
 #, kde-format
@@ -5575,7 +5577,7 @@ msgstr "Move subtitle"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:587
 #: src/effects/effectstack/view/effectstackview.cpp:799
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:362
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6482,8 +6484,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Export Guides Data"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1663
-#: src/dialogs/renderwidget.cpp:1690 src/doc/kdenlivedoc.cpp:759
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1711 src/doc/kdenlivedoc.cpp:759
 #: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1310
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
@@ -6496,7 +6498,7 @@ msgstr "Export Guides Data"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:301
+#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:305
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5168
@@ -7121,7 +7123,7 @@ msgstr ""
 "The following parameters will not have an effect, because they get "
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1493
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1514
 #, kde-format
 msgid "Waiting…"
 msgstr "Waiting…"
@@ -7306,25 +7308,25 @@ msgstr ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 
-#: src/dialogs/renderwidget.cpp:650
+#: src/dialogs/renderwidget.cpp:657
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Render Anyway"
 
-#: src/dialogs/renderwidget.cpp:653
+#: src/dialogs/renderwidget.cpp:663
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Transcode"
 
-#: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:1467
+#: src/dialogs/renderwidget.cpp:685 src/dialogs/renderwidget.cpp:1488
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Output file already exists. Do you want to overwrite it?"
 
-#: src/dialogs/renderwidget.cpp:684 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:693 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -7333,12 +7335,12 @@ msgstr ""
 "The directory %1, could not be created.\n"
 "Please make sure you have the required permissions."
 
-#: src/dialogs/renderwidget.cpp:725
+#: src/dialogs/renderwidget.cpp:734
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "The following errors occurred while trying to render"
 
-#: src/dialogs/renderwidget.cpp:758 src/dialogs/renderwidget.cpp:1480
+#: src/dialogs/renderwidget.cpp:773 src/dialogs/renderwidget.cpp:1501
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7347,47 +7349,47 @@ msgstr ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 
-#: src/dialogs/renderwidget.cpp:759 src/dialogs/renderwidget.cpp:1481
+#: src/dialogs/renderwidget.cpp:774 src/dialogs/renderwidget.cpp:1502
 #, kde-format
 msgid "Already running"
 msgstr "Already running"
 
-#: src/dialogs/renderwidget.cpp:781
+#: src/dialogs/renderwidget.cpp:796
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video without audio track"
 
-#: src/dialogs/renderwidget.cpp:783
+#: src/dialogs/renderwidget.cpp:798
 #, kde-format
 msgid "Audio without video track"
 msgstr "Audio without video track"
 
-#: src/dialogs/renderwidget.cpp:847 src/main.cpp:482
+#: src/dialogs/renderwidget.cpp:862 src/main.cpp:482
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "Rendering <i>%1</i> started"
 
-#: src/dialogs/renderwidget.cpp:909 src/monitor/monitor.cpp:1270
+#: src/dialogs/renderwidget.cpp:924 src/monitor/monitor.cpp:1270
 #, kde-format
 msgid "untitled"
 msgstr "untitled"
 
-#: src/dialogs/renderwidget.cpp:947
+#: src/dialogs/renderwidget.cpp:962
 #, kde-format
 msgid "No preset selected"
 msgstr "No preset selected"
 
-#: src/dialogs/renderwidget.cpp:949
+#: src/dialogs/renderwidget.cpp:964
 #, kde-format
 msgid "No matching preset"
 msgstr "No matching preset"
 
-#: src/dialogs/renderwidget.cpp:961
+#: src/dialogs/renderwidget.cpp:976
 #, kde-format
 msgid "Invalid preset"
 msgstr "Invalid preset"
 
-#: src/dialogs/renderwidget.cpp:1074
+#: src/dialogs/renderwidget.cpp:1089
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -7396,84 +7398,84 @@ msgstr ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 
-#: src/dialogs/renderwidget.cpp:1236
+#: src/dialogs/renderwidget.cpp:1251
 #, kde-format
 msgid "Remaining time "
 msgstr "Remaining time "
 
-#: src/dialogs/renderwidget.cpp:1238 src/dialogs/renderwidget.cpp:1285
+#: src/dialogs/renderwidget.cpp:1253 src/dialogs/renderwidget.cpp:1300
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 day "
 msgstr[1] "%1 days "
 
-#: src/dialogs/renderwidget.cpp:1242
+#: src/dialogs/renderwidget.cpp:1257
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (frame %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1257
+#: src/dialogs/renderwidget.cpp:1272
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Less than %1MB of available memory remaining."
 
-#: src/dialogs/renderwidget.cpp:1287
+#: src/dialogs/renderwidget.cpp:1302
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Rendering finished in %1"
 
-#: src/dialogs/renderwidget.cpp:1295
+#: src/dialogs/renderwidget.cpp:1310
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Rendering of %1 finished in %2"
 
-#: src/dialogs/renderwidget.cpp:1315
+#: src/dialogs/renderwidget.cpp:1330
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Rendering of %1 crashed</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1358 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1373 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Abort Job"
 
-#: src/dialogs/renderwidget.cpp:1361
+#: src/dialogs/renderwidget.cpp:1376
 #, kde-format
 msgid "Remove Job"
 msgstr "Remove Job"
 
-#: src/dialogs/renderwidget.cpp:1750
+#: src/dialogs/renderwidget.cpp:1771
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Add clips in timeline before rendering"
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1776
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Rendered File Length: %1"
 
-#: src/dialogs/renderwidget.cpp:1759
+#: src/dialogs/renderwidget.cpp:1780
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>One missing clip used in the project.</b>"
 msgstr[1] "<b>%1 missing clips used in the project.</b>"
 
-#: src/dialogs/renderwidget.cpp:1761
+#: src/dialogs/renderwidget.cpp:1782
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "One missing clip (unused)."
 msgstr[1] "%1 missing clips (unused)."
 
-#: src/dialogs/renderwidget.cpp:1763
+#: src/dialogs/renderwidget.cpp:1784
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 missing clips (<b>%2 used in the project</b>)."
 
-#: src/dialogs/renderwidget.cpp:1845
+#: src/dialogs/renderwidget.cpp:1866
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7482,12 +7484,12 @@ msgstr ""
 "Codec speed parameters:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1886
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Add to Current Project"
 
-#: src/dialogs/renderwidget.cpp:1868 src/library/librarywidget.cpp:256
+#: src/dialogs/renderwidget.cpp:1889 src/library/librarywidget.cpp:256
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Open Containing Folder"
@@ -9543,23 +9545,19 @@ msgid "No name provided, effect not saved."
 msgstr "No name provided, effect not saved."
 
 #: src/effects/effectstack/view/effectstackview.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal Flip"
-msgstr "Horizontal Blinds"
+msgstr "Horizontal Flip"
 
 #: src/effects/effectstack/view/effectstackview.cpp:320
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical Flip"
-msgstr "Vertical"
+msgstr "Vertical Flip"
 
 #: src/effects/effectstack/view/effectstackview.cpp:327
-#, fuzzy, kde-format
-#| msgid "Flippo"
+#, kde-format
 msgid "Flip"
-msgstr "Flippo"
+msgstr "Flip"
 
 #: src/effects/effectstack/view/effectstackview.cpp:716
 #, kde-format
@@ -9951,10 +9949,9 @@ msgstr "Markers"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Markers Category"
+msgstr "Add Markers by Category"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10649,10 +10646,9 @@ msgid "Add Clip"
 msgstr "Add Clip"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide by Category Number"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11584,70 +11580,59 @@ msgid "Delete All Markers"
 msgstr "Delete All Markers"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide Quickly"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Add Marker/Guide quickly"
+msgstr "Add Marker/Guide 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12156,10 +12141,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Cannot find clip to edit marker"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Markers Category"
+msgstr "Marker category does not exist"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
@@ -15820,23 +15804,23 @@ msgstr ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 
-#: src/render/renderrequest.cpp:334
+#: src/render/renderrequest.cpp:338
 #, kde-format
 msgid "export"
 msgstr "export"
 
-#: src/render/renderrequest.cpp:349
+#: src/render/renderrequest.cpp:353
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "Delayed Rendering"
 
-#: src/render/renderrequest.cpp:349
+#: src/render/renderrequest.cpp:353
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "Select a name for this rendering."
 
-#: src/render/renderrequest.cpp:447
+#: src/render/renderrequest.cpp:451
 #, kde-format
 msgid "begin"
 msgstr "begin"
@@ -16378,10 +16362,9 @@ msgid "%1 Timeline clip (%2) without bin reference found and removed."
 msgstr "%1 Timeline clip (%2) without bin reference found and removed."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "Project corrupted. Clip %1 (%2) not found in project bin."
+msgstr "Project corrupted. Clip %1 (%2) with invalid Id."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
@@ -22481,8 +22464,7 @@ msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + Drag to adjust value one by one."
 
 #: src/widgets/geometrywidget.cpp:32
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "Position X"
@@ -22494,11 +22476,10 @@ msgid "Y"
 msgstr "Y"
 
 #: src/widgets/geometrywidget.cpp:54
-#, fuzzy, kde-format
-#| msgid "Size X"
+#, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
-msgstr "Size X"
+msgstr "Size W"
 
 #: src/widgets/geometrywidget.cpp:60
 #, kde-format
@@ -22506,8 +22487,7 @@ msgid "Lock aspect ratio"
 msgstr "Lock aspect ratio"
 
 #: src/widgets/geometrywidget.cpp:69
-#, fuzzy, kde-format
-#| msgid "H"
+#, kde-format
 msgctxt "Image Height"
 msgid "H"
 msgstr "H"

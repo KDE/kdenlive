@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-01 00:40+0000\n"
+"POT-Creation-Date: 2024-08-04 00:39+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5609,7 +5609,7 @@ msgstr "자막 이동"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:587
 #: src/effects/effectstack/view/effectstackview.cpp:799
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:362
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6526,8 +6526,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "안내선 가져오기"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1663
-#: src/dialogs/renderwidget.cpp:1690 src/doc/kdenlivedoc.cpp:759
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1711 src/doc/kdenlivedoc.cpp:759
 #: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1310
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
@@ -6540,7 +6540,7 @@ msgstr "안내선 가져오기"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:301
+#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:305
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5168
@@ -7182,7 +7182,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1493
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1514
 #, kde-format
 msgid "Waiting…"
 msgstr "대기 중…"
@@ -7371,27 +7371,27 @@ msgid ""
 "We recommend to transcode to an edit friendly format."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:650
+#: src/dialogs/renderwidget.cpp:657
 #, fuzzy, kde-format
 #| msgid "Render time"
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "렌더 시간"
 
-#: src/dialogs/renderwidget.cpp:653
+#: src/dialogs/renderwidget.cpp:663
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "트랜스코드"
 
-#: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:1467
+#: src/dialogs/renderwidget.cpp:685 src/dialogs/renderwidget.cpp:1488
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "출력 파일이 이미 있습니다. 덮어쓰시겠습니까?"
 
-#: src/dialogs/renderwidget.cpp:684 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:693 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -7400,13 +7400,13 @@ msgstr ""
 "%1 디렉터리를 만들 수 없습니다.\n"
 "필요한 권한이 있는지 확인하십시오."
 
-#: src/dialogs/renderwidget.cpp:725
+#: src/dialogs/renderwidget.cpp:734
 #, fuzzy, kde-format
 #| msgid "An error occurred while deleting markers"
 msgid "The following errors occurred while trying to render"
 msgstr "마커 삭제 중 오류"
 
-#: src/dialogs/renderwidget.cpp:758 src/dialogs/renderwidget.cpp:1480
+#: src/dialogs/renderwidget.cpp:773 src/dialogs/renderwidget.cpp:1501
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7418,117 +7418,117 @@ msgstr ""
 "파일을 기록하고 있는 작업이 있습니다:<br /><b>%1</b><br />파일에 덮어쓰려면 "
 "작업을 중단하십시오..."
 
-#: src/dialogs/renderwidget.cpp:759 src/dialogs/renderwidget.cpp:1481
+#: src/dialogs/renderwidget.cpp:774 src/dialogs/renderwidget.cpp:1502
 #, kde-format
 msgid "Already running"
 msgstr "이미 실행 중"
 
-#: src/dialogs/renderwidget.cpp:781
+#: src/dialogs/renderwidget.cpp:796
 #, kde-format
 msgid "Video without audio track"
 msgstr "오디오 트랙이 없는 동영상"
 
-#: src/dialogs/renderwidget.cpp:783
+#: src/dialogs/renderwidget.cpp:798
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "오디오 트랙이 없는 동영상"
 
-#: src/dialogs/renderwidget.cpp:847 src/main.cpp:482
+#: src/dialogs/renderwidget.cpp:862 src/main.cpp:482
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "렌더링<i>%1</i>이(가) 시작됨"
 
-#: src/dialogs/renderwidget.cpp:909 src/monitor/monitor.cpp:1270
+#: src/dialogs/renderwidget.cpp:924 src/monitor/monitor.cpp:1270
 #, kde-format
 msgid "untitled"
 msgstr "제목 없음"
 
-#: src/dialogs/renderwidget.cpp:947
+#: src/dialogs/renderwidget.cpp:962
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No preset selected"
 msgstr "선택한 프로필 없음"
 
-#: src/dialogs/renderwidget.cpp:949
+#: src/dialogs/renderwidget.cpp:964
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "일치하는 프로필 없음"
 
-#: src/dialogs/renderwidget.cpp:961
+#: src/dialogs/renderwidget.cpp:976
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid preset"
 msgstr "프로필 잘못됨"
 
-#: src/dialogs/renderwidget.cpp:1074
+#: src/dialogs/renderwidget.cpp:1089
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1236
+#: src/dialogs/renderwidget.cpp:1251
 #, kde-format
 msgid "Remaining time "
 msgstr "남은 시간 "
 
-#: src/dialogs/renderwidget.cpp:1238 src/dialogs/renderwidget.cpp:1285
+#: src/dialogs/renderwidget.cpp:1253 src/dialogs/renderwidget.cpp:1300
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1일 "
 
-#: src/dialogs/renderwidget.cpp:1242
+#: src/dialogs/renderwidget.cpp:1257
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (프레임 %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1257
+#: src/dialogs/renderwidget.cpp:1272
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1287
+#: src/dialogs/renderwidget.cpp:1302
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "렌더링 완료: %1"
 
-#: src/dialogs/renderwidget.cpp:1295
+#: src/dialogs/renderwidget.cpp:1310
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 렌더링이 %2에 완료됨"
 
-#: src/dialogs/renderwidget.cpp:1315
+#: src/dialogs/renderwidget.cpp:1330
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1의 렌더링이 충돌했습니다</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1358 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1373 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "작업 중단"
 
-#: src/dialogs/renderwidget.cpp:1361
+#: src/dialogs/renderwidget.cpp:1376
 #, kde-format
 msgid "Remove Job"
 msgstr "작업 삭제"
 
-#: src/dialogs/renderwidget.cpp:1750
+#: src/dialogs/renderwidget.cpp:1771
 #, fuzzy, kde-format
 #| msgid "Select a clip to play"
 msgid "Add clips in timeline before rendering"
 msgstr "재생할 클립 선택"
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1776
 #, fuzzy, kde-format
 #| msgid "Render Button"
 msgid "Rendered File Length: %1"
 msgstr "렌더 단추"
 
-#: src/dialogs/renderwidget.cpp:1759
+#: src/dialogs/renderwidget.cpp:1780
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -7536,21 +7536,21 @@ msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "프로젝트에 누락된 클립이 %1개 있습니다."
 
-#: src/dialogs/renderwidget.cpp:1761
+#: src/dialogs/renderwidget.cpp:1782
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "누락된 클립 확인"
 
-#: src/dialogs/renderwidget.cpp:1763
+#: src/dialogs/renderwidget.cpp:1784
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "프로젝트에 누락된 클립이 %1개 있습니다."
 
-#: src/dialogs/renderwidget.cpp:1845
+#: src/dialogs/renderwidget.cpp:1866
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7559,13 +7559,13 @@ msgstr ""
 "코덱 속도 인자:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1886
 #, fuzzy, kde-format
 #| msgid "Add to current project"
 msgid "Add to Current Project"
 msgstr "현재 프로젝트에 추가"
 
-#: src/dialogs/renderwidget.cpp:1868 src/library/librarywidget.cpp:256
+#: src/dialogs/renderwidget.cpp:1889 src/library/librarywidget.cpp:256
 #, fuzzy, kde-format
 #| msgid "Destination folder"
 msgid "Open Containing Folder"
@@ -16193,24 +16193,24 @@ msgid ""
 "Script will be saved without multi track export."
 msgstr ""
 
-#: src/render/renderrequest.cpp:334
+#: src/render/renderrequest.cpp:338
 #, kde-format
 msgid "export"
 msgstr "내보내기"
 
-#: src/render/renderrequest.cpp:349
+#: src/render/renderrequest.cpp:353
 #, fuzzy, kde-format
 #| msgid "Delayed rendering"
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "지연된 렌더링"
 
-#: src/render/renderrequest.cpp:349
+#: src/render/renderrequest.cpp:353
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "이 렌더링의 이름을 지정하십시오."
 
-#: src/render/renderrequest.cpp:447
+#: src/render/renderrequest.cpp:451
 #, kde-format
 msgid "begin"
 msgstr ""

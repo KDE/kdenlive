@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-01 00:40+0000\n"
-"PO-Revision-Date: 2024-07-23 22:31+0900\n"
+"POT-Creation-Date: 2024-08-04 00:39+0000\n"
+"PO-Revision-Date: 2024-08-03 14:31+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -3258,10 +3258,9 @@ msgid "Change composition type"
 msgstr "變更合成方案類型"
 
 #: src/assets/assetpanel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "Enable Builtin Effects"
-msgstr "關閉素材庫效果"
+msgstr "啟用內部效果"
 
 #: src/assets/assetpanel.cpp:82
 #, kde-kuit-format
@@ -3271,6 +3270,8 @@ msgid ""
 "clips for convenience. These effects are disabled and will only be applied "
 "if you change a parameter."
 msgstr ""
+"啟用時，這會將基礎效果（翻轉、簡易變形、音量）加到所有素材上來方便調整。這些"
+"效果會先停用，只在您變更參數時才會套用。"
 
 #: src/assets/assetpanel.cpp:97
 #, kde-format
@@ -5470,7 +5471,7 @@ msgstr "移動字幕"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:587
 #: src/effects/effectstack/view/effectstackview.cpp:799
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
-#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:358
+#: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:362
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6364,8 +6365,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "匯出參照線資料"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1663
-#: src/dialogs/renderwidget.cpp:1690 src/doc/kdenlivedoc.cpp:759
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1684
+#: src/dialogs/renderwidget.cpp:1711 src/doc/kdenlivedoc.cpp:759
 #: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1310
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
@@ -6378,7 +6379,7 @@ msgstr "匯出參照線資料"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:301
+#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:305
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5168
@@ -6997,7 +6998,7 @@ msgid ""
 msgstr ""
 "以下參數不會有效果，因為它們被同用途的使用者介面選項覆寫了：<icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1493
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1514
 #, kde-format
 msgid "Waiting…"
 msgstr "請稍候…"
@@ -7179,25 +7180,25 @@ msgstr ""
 "算繪包含幀率可變的素材的專案可能會造成音訊與視訊分家。\n"
 "我們建議轉換編碼到對編輯友善的格式。"
 
-#: src/dialogs/renderwidget.cpp:650
+#: src/dialogs/renderwidget.cpp:657
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "還是要算繪"
 
-#: src/dialogs/renderwidget.cpp:653
+#: src/dialogs/renderwidget.cpp:663
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "轉換編碼"
 
-#: src/dialogs/renderwidget.cpp:676 src/dialogs/renderwidget.cpp:1467
+#: src/dialogs/renderwidget.cpp:685 src/dialogs/renderwidget.cpp:1488
 #: src/project/dialogs/archivewidget.cpp:895
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "匯出檔案已經存在。您是否要覆寫它?"
 
-#: src/dialogs/renderwidget.cpp:684 src/monitor/recmanager.cpp:191
+#: src/dialogs/renderwidget.cpp:693 src/monitor/recmanager.cpp:191
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -7206,12 +7207,12 @@ msgstr ""
 "目錄 %1 無法建立。\n"
 "請確認您的許可權。"
 
-#: src/dialogs/renderwidget.cpp:725
+#: src/dialogs/renderwidget.cpp:734
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "嘗試進行算繪時發生以下錯誤"
 
-#: src/dialogs/renderwidget.cpp:758 src/dialogs/renderwidget.cpp:1480
+#: src/dialogs/renderwidget.cpp:773 src/dialogs/renderwidget.cpp:1501
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -7220,128 +7221,128 @@ msgstr ""
 "目前有個正在寫入檔案的作業：<br/><b>%1</b><br/> 如果您想要覆寫它，請中止這項"
 "作業…"
 
-#: src/dialogs/renderwidget.cpp:759 src/dialogs/renderwidget.cpp:1481
+#: src/dialogs/renderwidget.cpp:774 src/dialogs/renderwidget.cpp:1502
 #, kde-format
 msgid "Already running"
 msgstr "正在執行"
 
-#: src/dialogs/renderwidget.cpp:781
+#: src/dialogs/renderwidget.cpp:796
 #, kde-format
 msgid "Video without audio track"
 msgstr "不含音軌的影片"
 
-#: src/dialogs/renderwidget.cpp:783
+#: src/dialogs/renderwidget.cpp:798
 #, kde-format
 msgid "Audio without video track"
 msgstr "不含視訊軌的音訊"
 
-#: src/dialogs/renderwidget.cpp:847 src/main.cpp:482
+#: src/dialogs/renderwidget.cpp:862 src/main.cpp:482
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "算繪 <i>%1</i> 已開始"
 
-#: src/dialogs/renderwidget.cpp:909 src/monitor/monitor.cpp:1270
+#: src/dialogs/renderwidget.cpp:924 src/monitor/monitor.cpp:1270
 #, kde-format
 msgid "untitled"
 msgstr "無字幕 / 標題"
 
-#: src/dialogs/renderwidget.cpp:947
+#: src/dialogs/renderwidget.cpp:962
 #, kde-format
 msgid "No preset selected"
 msgstr "未選取預設檔"
 
-#: src/dialogs/renderwidget.cpp:949
+#: src/dialogs/renderwidget.cpp:964
 #, kde-format
 msgid "No matching preset"
 msgstr "沒有相符的預設檔"
 
-#: src/dialogs/renderwidget.cpp:961
+#: src/dialogs/renderwidget.cpp:976
 #, kde-format
 msgid "Invalid preset"
 msgstr "無效的預設檔"
 
-#: src/dialogs/renderwidget.cpp:1074
+#: src/dialogs/renderwidget.cpp:1089
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "音訊與視訊皆未啟用時無法進行算繪。請至少啟用其中一個。"
 
-#: src/dialogs/renderwidget.cpp:1236
+#: src/dialogs/renderwidget.cpp:1251
 #, kde-format
 msgid "Remaining time "
 msgstr "剩餘時間 "
 
-#: src/dialogs/renderwidget.cpp:1238 src/dialogs/renderwidget.cpp:1285
+#: src/dialogs/renderwidget.cpp:1253 src/dialogs/renderwidget.cpp:1300
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 天 "
 
-#: src/dialogs/renderwidget.cpp:1242
+#: src/dialogs/renderwidget.cpp:1257
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr "（影格 %1 於 %2 fps）"
 
-#: src/dialogs/renderwidget.cpp:1257
+#: src/dialogs/renderwidget.cpp:1272
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "剩餘不到 %1MB 的可用記憶體。"
 
-#: src/dialogs/renderwidget.cpp:1287
+#: src/dialogs/renderwidget.cpp:1302
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "算繪已完成，耗時：%1"
 
-#: src/dialogs/renderwidget.cpp:1295
+#: src/dialogs/renderwidget.cpp:1310
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 的算繪已完成，耗時：%2"
 
-#: src/dialogs/renderwidget.cpp:1315
+#: src/dialogs/renderwidget.cpp:1330
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 的算繪已崩潰</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1358 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1373 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "中止工作"
 
-#: src/dialogs/renderwidget.cpp:1361
+#: src/dialogs/renderwidget.cpp:1376
 #, kde-format
 msgid "Remove Job"
 msgstr "移除工作"
 
-#: src/dialogs/renderwidget.cpp:1750
+#: src/dialogs/renderwidget.cpp:1771
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "請將素材加入時間軸後再進行算繪"
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1776
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "輸出檔案長度：%1"
 
-#: src/dialogs/renderwidget.cpp:1759
+#: src/dialogs/renderwidget.cpp:1780
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>專案中使用了 %1 個遺失的素材。</b>"
 
-#: src/dialogs/renderwidget.cpp:1761
+#: src/dialogs/renderwidget.cpp:1782
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "%1 個遺失素材（未使用）。"
 
-#: src/dialogs/renderwidget.cpp:1763
+#: src/dialogs/renderwidget.cpp:1784
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 個遺失的素材（<b>有 %2 已在專案中使用</b>）。"
 
-#: src/dialogs/renderwidget.cpp:1845
+#: src/dialogs/renderwidget.cpp:1866
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7350,12 +7351,12 @@ msgstr ""
 "編碼速度參數：\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1865
+#: src/dialogs/renderwidget.cpp:1886
 #, kde-format
 msgid "Add to Current Project"
 msgstr "加入目前專案"
 
-#: src/dialogs/renderwidget.cpp:1868 src/library/librarywidget.cpp:256
+#: src/dialogs/renderwidget.cpp:1889 src/library/librarywidget.cpp:256
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "開啟包含資料夾"
@@ -9366,23 +9367,19 @@ msgid "No name provided, effect not saved."
 msgstr "未提供名稱，因此未儲存效果。"
 
 #: src/effects/effectstack/view/effectstackview.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Horizontal Blinds"
+#, kde-format
 msgid "Horizontal Flip"
-msgstr "水平窗簾"
+msgstr "水平翻轉"
 
 #: src/effects/effectstack/view/effectstackview.cpp:320
-#, fuzzy, kde-format
-#| msgid "Vertical"
+#, kde-format
 msgid "Vertical Flip"
-msgstr "垂直"
+msgstr "垂直翻轉"
 
 #: src/effects/effectstack/view/effectstackview.cpp:327
-#, fuzzy, kde-format
-#| msgid "Flippo"
+#, kde-format
 msgid "Flip"
-msgstr "簡昜翻轉"
+msgstr "翻轉"
 
 #: src/effects/effectstack/view/effectstackview.cpp:716
 #, kde-format
@@ -9774,10 +9771,9 @@ msgstr "標記"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "標記分類"
+msgstr "依分類新增標記"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3964
@@ -10469,10 +10465,9 @@ msgid "Add Clip"
 msgstr "新增素材"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "快速新增標記/參照線"
+msgstr "依分類編號新增標記/參照線"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11376,70 +11371,59 @@ msgid "Delete All Markers"
 msgstr "刪除所有標記"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "快速新增標記/參照線"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "快速新增標記/參照線"
+msgstr "新增標記/參照線 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -11941,10 +11925,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "找不到要編輯記號的素材"
 
 #: src/mainwindow.cpp:2968
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "標記分類"
+msgstr "標記分類不存在"
 
 #: src/mainwindow.cpp:3153 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3110
@@ -15548,23 +15531,23 @@ msgid ""
 "Script will be saved without multi track export."
 msgstr "無法同時使用文稿輸出與多軌音訊匯出。將會儲存文稿而不進行多軌匯出。"
 
-#: src/render/renderrequest.cpp:334
+#: src/render/renderrequest.cpp:338
 #, kde-format
 msgid "export"
 msgstr "匯出"
 
-#: src/render/renderrequest.cpp:349
+#: src/render/renderrequest.cpp:353
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
 msgstr "延遲算繪"
 
-#: src/render/renderrequest.cpp:349
+#: src/render/renderrequest.cpp:353
 #, kde-format
 msgid "Select a name for this rendering."
 msgstr "選擇此算繪的名稱。"
 
-#: src/render/renderrequest.cpp:447
+#: src/render/renderrequest.cpp:451
 #, kde-format
 msgid "begin"
 msgstr "開始"
@@ -22150,8 +22133,7 @@ msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + 拖曳來調整各個數值。"
 
 #: src/widgets/geometrywidget.cpp:32
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "位置 X"
@@ -22163,11 +22145,10 @@ msgid "Y"
 msgstr "Y"
 
 #: src/widgets/geometrywidget.cpp:54
-#, fuzzy, kde-format
-#| msgid "Size X"
+#, kde-format
 msgctxt "Image Size (Width)"
 msgid "Size W"
-msgstr "大小 X"
+msgstr "大小寬"
 
 #: src/widgets/geometrywidget.cpp:60
 #, kde-format
@@ -22175,11 +22156,10 @@ msgid "Lock aspect ratio"
 msgstr "鎖定寬高比"
 
 #: src/widgets/geometrywidget.cpp:69
-#, fuzzy, kde-format
-#| msgid "H"
+#, kde-format
 msgctxt "Image Height"
 msgid "H"
-msgstr "H"
+msgstr "高度"
 
 #: src/widgets/geometrywidget.cpp:86
 #, kde-format
