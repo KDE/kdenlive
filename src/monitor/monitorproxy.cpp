@@ -626,12 +626,13 @@ void MonitorProxy::setJobsProgress(const ObjectId &owner, const QStringList &job
         // Not interested
         return;
     }
+
+    m_jobsProgress = jobProgress;
+    m_jobsUuids = jobUuids;
     if (m_runningJobs != jobNames) {
         m_runningJobs = jobNames;
         Q_EMIT runningJobsChanged();
     }
-    m_jobsProgress = jobProgress;
-    m_jobsUuids = jobUuids;
     Q_EMIT jobsProgressChanged();
 }
 
