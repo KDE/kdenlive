@@ -144,6 +144,9 @@ QString TranscodeSeek::params(int clipType, std::pair<int, int> fps_info) const
 {
     QString params = m_encodeParams.value(encodingprofiles->currentText());
     params = params.section(QLatin1Char(';'), 0, -2);
+    if (params.contains(QLatin1String(" -i "))) {
+        params = params.section(QLatin1String(" -i "), 1);
+    }
     QStringList splitParams = params.split(QLatin1Char(' '));
     switch (clipType) {
     case ClipType::Audio: {
@@ -194,8 +197,25 @@ QString TranscodeSeek::params(int clipType, std::pair<int, int> fps_info) const
     }
     if (clipType != ClipType::Audio && !m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
         // Enforce constant fps for clips with video
-        splitParams.insert(splitParams.count() - 1, QStringLiteral("-filter:v"));
-        splitParams.insert(splitParams.count() - 1, QStringLiteral("fps=fps=%1/%2").arg(fps_info.first).arg(fps_info.second));
+        int ix = splitParams.indexOf(QLatin1String("-vf"));
+        if (ix == -1) {
+            ix = splitParams.indexOf(QLatin1String("-filter:v"));
+        }
+        if (ix == -1) {
+            ix = splitParams.indexOf(QLatin1String("-f:v"));
+        }
+        if (ix == -1) {
+            splitParams.insert(splitParams.count() - 1, QStringLiteral("-filter:v"));
+            splitParams.insert(splitParams.count() - 1, QStringLiteral("fps=fps=%1/%2").arg(fps_info.first).arg(fps_info.second));
+        } else {
+            // We already have a video filter, simply append the fps params
+            ix++;
+            if (ix < splitParams.count()) {
+                QString filterParams = splitParams.at(ix);
+                filterParams.append(QStringLiteral(",fps=fps=%1/%2").arg(fps_info.first).arg(fps_info.second));
+                splitParams[ix] = filterParams;
+            }
+        }
     }
     params = splitParams.join(QLatin1Char(' '));
     return params;
@@ -203,5 +223,13 @@ QString TranscodeSeek::params(int clipType, std::pair<int, int> fps_info) const
 
 QString TranscodeSeek::preParams() const
 {
-    return QStringLiteral("-noautorotate");
+    QString params = m_encodeParams.value(encodingprofiles->currentText());
+    params = params.section(QLatin1Char(';'), 0, -2);
+    if (params.contains(QLatin1String(" -i "))) {
+        QString p = params.section(QLatin1String(" -i "), 0, 0);
+        p.append(QStringLiteral(" -noautorotate"));
+        return p.simplified();
+    } else {
+        return QStringLiteral("-noautorotate");
+    }
 }
