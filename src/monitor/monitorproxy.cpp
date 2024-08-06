@@ -636,6 +636,16 @@ void MonitorProxy::setJobsProgress(const ObjectId &owner, const QStringList &job
     Q_EMIT jobsProgressChanged();
 }
 
+void MonitorProxy::clearJobsProgress()
+{
+    if (!m_runningJobs.isEmpty()) {
+        m_jobsProgress.clear();
+        m_jobsUuids.clear();
+        m_runningJobs.clear();
+        Q_EMIT runningJobsChanged();
+    }
+}
+
 void MonitorProxy::terminateJob(const QString &uuid)
 {
     pCore->taskManager.discardJob(ObjectId(KdenliveObjectType::BinClip, m_clipId, QUuid()), QUuid(uuid));

@@ -143,6 +143,7 @@ public:
     /** @brief Temporarily set timeline cursor position (-1 to hide it)*/
     void setCursorPosition(int pos);
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
+    void clearJobsProgress();
 
 Q_SIGNALS:
     void positionChanged(int);

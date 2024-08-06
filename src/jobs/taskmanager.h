@@ -78,10 +78,6 @@ public Q_SLOTS:
     /** @brief Discard all running jobs. */
     void slotCancelJobs(bool leaveBlocked = false, const QVector<AbstractTask::JOBTYPE> exceptions = {});
 
-private Q_SLOTS:
-    /** @brief Update number of running jobs. */
-    void updateJobCount();
-
 private:
     QThreadPool m_taskPool;
     QThreadPool m_transcodePool;
