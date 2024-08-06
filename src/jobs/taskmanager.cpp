@@ -50,14 +50,12 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
         // We are already deleting all tasks
         return;
     }
-    m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     if (m_taskList.find(owner.itemId) == m_taskList.end()) {
-        m_tasksListLock.unlock();
         return;
     }
+    QWriteLocker lk(&m_tasksListLock);
     std::vector<AbstractTask *> taskList = m_taskList.at(owner.itemId);
-    m_tasksListLock.unlock();
     int ix = taskList.size() - 1;
     while (ix >= 0) {
         AbstractTask *t = taskList.at(ix);
@@ -108,12 +106,11 @@ void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
         // We are already deleting all tasks
         return;
     }
-    m_tasksListLock.lockForWrite();
     // See if there is already a task for this MLT service and resource.
     if (m_taskList.find(owner.itemId) == m_taskList.end()) {
-        m_tasksListLock.unlock();
         return;
     }
+    QWriteLocker lk(&m_tasksListLock);
     std::vector<AbstractTask *> taskList = m_taskList.at(owner.itemId);
     int ix = taskList.size() - 1;
     while (ix >= 0) {
@@ -189,17 +186,6 @@ TaskManagerStatus TaskManager::jobStatus(const ObjectId &owner) const
     return TaskManagerStatus::Pending;
 }
 
-void TaskManager::updateJobCount()
-{
-    QReadLocker lk(&m_tasksListLock);
-    int count = 0;
-    for (const auto &task : m_taskList) {
-        count += task.second.size();
-    }
-    // Set jobs count
-    Q_EMIT jobCount(count);
-}
-
 void TaskManager::taskDone(int cid, AbstractTask *task)
 {
     // This will be executed in the QRunnable job thread
@@ -213,9 +199,14 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
     if (m_taskList[cid].size() == 0) {
         m_taskList.erase(cid);
     }
+    int count = 0;
+    for (const auto &task : m_taskList) {
+        count += task.second.size();
+    }
     m_tasksListLock.unlock();
+    // Set jobs count
+    Q_EMIT jobCount(count);
     task->deleteLater();
-    QMetaObject::invokeMethod(this, "updateJobCount");
 }
 
 void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::JOBTYPE> exceptions)
@@ -267,11 +258,12 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
         m_taskList.clear();
         m_taskPool.clear();
     }
+    m_tasksListLock.unlock();
+    // Set jobs count
+    Q_EMIT jobCount(0);
     if (!leaveBlocked) {
         m_blockUpdates = false;
     }
-    m_tasksListLock.unlock();
-    updateJobCount();
 }
 
 void TaskManager::unBlock()
@@ -293,14 +285,19 @@ void TaskManager::startTask(int ownerId, AbstractTask *task)
     } else {
         m_taskList[ownerId].emplace_back(task);
     }
+    int count = 0;
+    for (const auto &task : m_taskList) {
+        count += task.second.size();
+    }
     m_tasksListLock.unlock();
+    // Set jobs count
+    Q_EMIT jobCount(count);
     if (task->m_type == AbstractTask::TRANSCODEJOB || task->m_type == AbstractTask::PROXYJOB) {
         // We only want a limited concurrent jobs for those as for example GPU usually only accept 2 concurrent encoding jobs
         m_transcodePool.start(task, task->m_priority);
     } else {
         m_taskPool.start(task, task->m_priority);
     }
-    updateJobCount();
 }
 
 int TaskManager::getJobProgressForClip(const ObjectId &owner)
@@ -322,7 +319,7 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner)
     }
     int total = 0;
     for (AbstractTask *t : taskList) {
-        if (t->m_type == AbstractTask::LOADJOB || t->m_progress == 100 || t->m_isCanceled) {
+        if (t->m_type == AbstractTask::LOADJOB || t->m_type == AbstractTask::THUMBJOB || t->m_progress == 100 || t->m_isCanceled) {
             // Don't show progress for load task or canceled tasks
             cnt--;
         } else if (owner.itemId == displayedClip) {
@@ -333,12 +330,12 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner)
         total += t->m_progress;
     }
     lk.unlock();
+    if (owner.itemId == displayedClip) {
+        Q_EMIT detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
+    }
     if (cnt == 0) {
         return 100;
     }
     total /= cnt;
-    if (owner.itemId == displayedClip) {
-        Q_EMIT detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
-    }
     return total;
 }

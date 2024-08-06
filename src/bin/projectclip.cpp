@@ -3092,7 +3092,13 @@ void ProjectClip::updateTimelineOnReload()
 
 void ProjectClip::updateJobProgress()
 {
-    m_jobsProgress = pCore->taskManager.getJobProgressForClip(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()));
+    uint progress = pCore->taskManager.getJobProgressForClip(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()));
+    if (progress != m_jobsProgress) {
+        m_jobsProgress = progress;
+        if (auto ptr = m_model.lock()) {
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(m_binId, AbstractProjectItem::JobProgress);
+        }
+    }
 }
 
 void ProjectClip::setInvalid()

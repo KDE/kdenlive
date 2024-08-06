@@ -1863,11 +1863,12 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
-    pCore->taskManager.displayedClip = m_controller ? m_controller->clipId().toInt() : -1;
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
+    m_glMonitor->getControllerProxy()->clearJobsProgress();
     if (controller) {
+        pCore->taskManager.displayedClip = m_controller->clipId().toInt();
         m_markerModel = m_controller->getMarkerModel();
         if (pCore->currentRemap(controller->clipId())) {
             connect(this, &Monitor::seekPosition, this, &Monitor::seekRemap, Qt::UniqueConnection);
@@ -1999,6 +2000,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         }
         // hasEffects =  controller->hasEffects();
     } else {
+        pCore->taskManager.displayedClip = -1;
         m_markerModel = nullptr;
         loadQmlScene(MonitorSceneDefault);
         m_glMonitor->setProducer(nullptr, isActive(), -1);

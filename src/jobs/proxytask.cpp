@@ -448,15 +448,21 @@ void ProxyTask::processLogInfo()
                     progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
                 }
             }
-            m_progress = 100 * progress / m_jobDuration;
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = 100 * progress / m_jobDuration;
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
             // Q_EMIT jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (buffer.contains(QLatin1String("percentage:"))) {
-            m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
             // Q_EMIT jobProgress(progress);
         }
     }
