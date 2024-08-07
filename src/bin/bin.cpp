@@ -5621,6 +5621,9 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
             while (i.hasNext()) {
                 i.next();
                 std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
+                if (!clip) {
+                    continue;
+                }
                 ObjectId oid(KdenliveObjectType::BinClip, i.key().toInt(), QUuid());
                 if (clip->clipType() == ClipType::Timeline) {
                     // Ensure we use the correct out point
@@ -5628,6 +5631,11 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
                                          m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), 0, clip->frameDuration(), replace, clip.get(),
                                          false, false);
                 } else {
+                    if (replace) {
+                        // Abort audio and proxy tasks as they will run after transcoding
+                        pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB, true);
+                        pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), AbstractTask::PROXYJOB, true);
+                    }
                     TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
                                          m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, replace, clip.get(), false, false);
                 }
@@ -5673,6 +5681,9 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
                 while (i.hasNext()) {
                     i.next();
                     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
+                    if (clip == nullptr) {
+                        continue;
+                    }
                     TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), i.value().first(), m_transcodingDialog->preParams(),
                                          m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, true, clip.get(), false,
                                          i.key() == firstId ? checkProfile : false);
@@ -5686,6 +5697,20 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
             QString firstId;
             if (!ids.isEmpty()) {
                 firstId = ids.firstKey();
+                QMapIterator<QString, QStringList> i(ids);
+                while (i.hasNext()) {
+                    i.next();
+                    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(i.key());
+                    if (clip == nullptr) {
+                        continue;
+                    }
+                    ClipType::ProducerType cType = clip->clipType();
+                    // Start audio / proxy jobs for the clip
+                    if (KdenliveSettings::audiothumbnails() && (cType == ClipType::AV || cType == ClipType::Audio || clip->hasAudio())) {
+                        AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), this, false);
+                    }
+                    clip->checkProxy(false);
+                }
             }
             m_transcodingDialog->deleteLater();
             m_transcodingDialog = nullptr;

@@ -361,6 +361,8 @@ public Q_SLOTS:
     void importJsonMarkers(const QString &json);
     /** @brief Refresh zones of insertion in timeline. */
     void checkClipBounds();
+    /** @brief Check if proxy clip should be build for this clip. */
+    void checkProxy(bool rebuildProxy = false);
 
 private:
     /** @brief Generate and store file hash if not available. */
