@@ -4,6 +4,7 @@
 */
 
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 import QtQuick.Window 2.15
 import Kdenlive.Controls 1.0
 import QtQuick 2.15
@@ -719,13 +720,14 @@ Item {
         width: parent.width - 20
         height: childrenRect.height
         visible: root.showClipJobs && controller.clipId > 0
-        Column {
+        ColumnLayout {
             Repeater {
                 model: controller.runningJobs
                 delegate: Rectangle {
                     id: jobContainer
                     property var uuid: controller.jobsUuids[model.index]
                     width: childrenRect.width + 4
+                    Layout.fillWidth: true
                     height: jobLabel.height + progressBar.height + 4
                     color: "#80333333"
                     radius: 5
