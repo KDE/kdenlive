@@ -40,6 +40,7 @@ Lossy x264 I frame only=-f mp4 -codec:v libx264 -g 1 -bf 0 -crf 15 -preset mediu
 Lossy x264 I frame only (VAAPI GPU)=-init_hw_device vaapi=vaapi0: -filter_hw_device vaapi0 -i -vf format=nv12,hwupload -f mp4 -c:v h264_vaapi -g 1 -bf 0 -crf 15 -preset medium -codec:a aac -ab 256k %1.mp4;av
 Lossy x264 I frame only (NVidia GPU)=-f mp4 -vsync 0 -codec:v h264_nvenc -vb 0 -rc cbr -g 2 -bf 0 -codec:a aac -ab 256k %1.mp4;av
 Lossy x264 I frame only (Video only)=-f mp4 -codec:v libx264 -g 1 -bf 0 -crf 15 -preset medium -an %1.mp4;video
+Lossy x264 I frame only (VAAPI GPU Video only)=-init_hw_device vaapi=vaapi0: -filter_hw_device vaapi0 -i -vf format=nv12,hwupload -f mp4 -c:v h264_vaapi -g 1 -bf 0 -crf 15 -preset medium -an %1.mp4;video
 Lossy x264 I frame only (NVidia GPU Video only)=-f mp4 -vsync 0 -codec:v h264_nvenc -vb 0 -rc cbr -g 2 -bf 0 -an %1.mp4;video
 Intermediate DNxHR HQ (Large files)=-f mov -codec:a pcm_f32le -codec:v dnxhd -profile:v dnxhr_hq -pix_fmt yuv422p %1.mov;av
 Lossless (Huge files)=-f matroska -codec:a pcm_f32le -codec:v utvideo -pix_fmt yuv422p %1.mkv;av
