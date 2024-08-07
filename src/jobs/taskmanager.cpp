@@ -51,10 +51,10 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
         return;
     }
     // See if there is already a task for this MLT service and resource.
+    QWriteLocker lk(&m_tasksListLock);
     if (m_taskList.find(owner.itemId) == m_taskList.end()) {
         return;
     }
-    QWriteLocker lk(&m_tasksListLock);
     std::vector<AbstractTask *> taskList = m_taskList.at(owner.itemId);
     int ix = taskList.size() - 1;
     while (ix >= 0) {
@@ -194,10 +194,11 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
         return;
     }
     m_tasksListLock.lockForWrite();
-    Q_ASSERT(m_taskList.find(cid) != m_taskList.end());
-    m_taskList[cid].erase(std::remove(m_taskList[cid].begin(), m_taskList[cid].end(), task), m_taskList[cid].end());
-    if (m_taskList[cid].size() == 0) {
-        m_taskList.erase(cid);
+    if (m_taskList.find(cid) != m_taskList.end()) {
+        m_taskList[cid].erase(std::remove(m_taskList[cid].begin(), m_taskList[cid].end(), task), m_taskList[cid].end());
+        if (m_taskList[cid].size() == 0) {
+            m_taskList.erase(cid);
+        }
     }
     int count = 0;
     for (const auto &task : m_taskList) {

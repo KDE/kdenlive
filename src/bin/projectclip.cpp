@@ -618,7 +618,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     if (producer->property_exists("_reloadName")) {
         m_name.clear();
     }
-    bool buildProxy = producer->property_exists("_replaceproxy") && !pCore->currentDoc()->loading;
+    bool rebuildProxy = producer->property_exists("_replaceproxy") && !pCore->currentDoc()->loading;
+    bool waitForTranscode = producer->property_exists("_wait_for_transcode");
     bool replacingProducer = m_masterProducer != nullptr;
     updateProducer(producer);
     producer.reset();
@@ -683,7 +684,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         // Generate video thumb
         ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
     }
-    if (KdenliveSettings::audiothumbnails() &&
+    if (!waitForTranscode && KdenliveSettings::audiothumbnails() &&
         (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
         AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), this, false);
     }
@@ -723,9 +724,17 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     }
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
+    if (!waitForTranscode) {
+        checkProxy(rebuildProxy);
+    }
+    return true;
+}
+
+void ProjectClip::checkProxy(bool rebuildProxy)
+{
     bool generateProxy = false;
     std::shared_ptr<ProjectClip> clipToProxy = nullptr;
-    if (buildProxy ||
+    if (rebuildProxy ||
         (!m_usesProxy && pCore->currentDoc()->useProxy() && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1)) {
         // automatic proxy generation enabled
         if (m_clipType == ClipType::Image && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() == 1) {
@@ -733,9 +742,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
                 getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
                 clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
-        } else if ((buildProxy || pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) &&
+        } else if ((rebuildProxy || pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) &&
                    (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
-            if (m_hasVideo && (buildProxy || getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize())) {
+            if (m_hasVideo && (rebuildProxy || getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize())) {
                 clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
         } else if (m_clipType == ClipType::Playlist && pCore->getCurrentFrameDisplaySize().width() >= KdenliveSettings::proxyminsize() &&
@@ -754,7 +763,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool, true), Q_ARG(QList<std::shared_ptr<ProjectClip>>, {clipToProxy}),
                                   Q_ARG(bool, false));
     }
-    return true;
 }
 
 // static

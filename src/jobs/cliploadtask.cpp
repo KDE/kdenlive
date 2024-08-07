@@ -710,6 +710,7 @@ void ClipLoadTask::run()
                     cType = ClipType::AV;
                 }
             }
+            producer->set("_wait_for_transcode", 1);
             QMetaObject::invokeMethod(pCore->bin(), "requestTranscoding", Qt::QueuedConnection, Q_ARG(QString, resource),
                                       Q_ARG(QString, QString::number(m_owner.itemId)), Q_ARG(int, cType), Q_ARG(bool, checkProfile),
                                       Q_ARG(QString, adjustedFpsString),
@@ -734,14 +735,9 @@ void ClipLoadTask::run()
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
         if (binClip) {
             const QByteArray xmlData = ClipController::producerXml(*producer.get(), true, false);
-            bool replaceProxy = false;
-            bool replaceName = false;
-            if (producer->property_exists("_replaceproxy")) {
-                replaceProxy = true;
-            }
-            if (producer->property_exists("_reloadName")) {
-                replaceName = true;
-            }
+            bool replaceProxy = producer->property_exists("_replaceproxy");
+            bool replaceName = producer->property_exists("_reloadName");
+            bool transcode = producer->property_exists("_wait_for_transcode");
             // Reset produccer to get rid of cached frame
             QReadLocker lock(&pCore->xmlMutex);
             producer.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", xmlData.constData()));
@@ -751,6 +747,9 @@ void ClipLoadTask::run()
             }
             if (replaceName) {
                 producer->set("_reloadName", 1);
+            }
+            if (transcode) {
+                producer->set("_wait_for_transcode", 1);
             }
             QMetaObject::invokeMethod(binClip.get(), "setProducer", Qt::QueuedConnection, Q_ARG(std::shared_ptr<Mlt::Producer>, std::move(producer)),
                                       Q_ARG(bool, true));
