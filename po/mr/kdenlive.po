@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-05 00:38+0000\n"
+"POT-Creation-Date: 2024-08-07 00:39+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -12615,7 +12615,7 @@ msgid "Audio streams"
 msgstr "बिटदर"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:723
-#: src/monitor/monitor.cpp:1905
+#: src/monitor/monitor.cpp:1906
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -13114,7 +13114,7 @@ msgstr "प्रतिमा"
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1890 src/monitor/monitor.cpp:2038
+#: src/monitor/monitor.cpp:1891 src/monitor/monitor.cpp:2040
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "%1 audio stream"
@@ -13122,36 +13122,36 @@ msgid_plural "%1 audio streams"
 msgstr[0] "बिटदर"
 msgstr[1] "बिटदर"
 
-#: src/monitor/monitor.cpp:2373
+#: src/monitor/monitor.cpp:2375
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2415 src/monitor/monitor.cpp:2472
+#: src/monitor/monitor.cpp:2417 src/monitor/monitor.cpp:2474
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2435
+#: src/monitor/monitor.cpp:2437
 #, fuzzy, kde-format
 msgid "Clip has no effects"
 msgstr "परिणाम :"
 
-#: src/monitor/monitor.cpp:2437
+#: src/monitor/monitor.cpp:2439
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2479
+#: src/monitor/monitor.cpp:2481
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2525
+#: src/monitor/monitor.cpp:2527
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
