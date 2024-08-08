@@ -262,9 +262,14 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
             m_audioFilePerTrack = false;
         } else {
             prepareMultiAudioFiles(jobs, doc, playlistPath, outputPath, uuid);
-            // Disable audio for main video job when we want separate files for audio tracks
             QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
+            // If we are exporting an audio format, stop here
+            if (consumer.hasAttribute(QLatin1String("vn")) || consumer.hasAttribute(QLatin1String("video_off"))) {
+                return;
+            }
+            // Disable audio for main video job when we want separate files for audio tracks
             consumer.setAttribute(QStringLiteral("an"), 1);
+            consumer.setAttribute(QStringLiteral("audio_off"), QStringLiteral("1"));
         }
     }
 
@@ -548,6 +553,14 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
             continue;
         }
 
+        // init doc copy
+        bool switchToWav = false;
+        QDomDocument docCopy = doc.cloneNode(true).toDocument();
+        QDomElement consumer = docCopy.elementsByTagName(QStringLiteral("consumer")).at(0).toElement();
+        if (!consumer.hasAttribute(QLatin1String("video_off"))) {
+            switchToWav = true;
+        }
+
         // setup filenames
         QString appendix = QString("_Audio_%1%2%3")
                                .arg(audioCount + 1)
@@ -556,12 +569,21 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
         RenderJob job;
         job.playlistPath = QStringUtils::appendToFilename(playlistFile, appendix);
         job.outputPath = QStringUtils::appendToFilename(targetFile, appendix);
+        if (switchToWav) {
+            QFileInfo render(job.outputPath);
+            QString fileName = render.completeBaseName();
+            fileName.append(QStringLiteral(".wav"));
+            job.outputPath = render.absoluteDir().absoluteFilePath(fileName);
+        }
         jobs.push_back(job);
 
-        // init doc copy
-        QDomDocument docCopy = doc.cloneNode(true).toDocument();
-        QDomElement consumer = docCopy.elementsByTagName(QStringLiteral("consumer")).at(0).toElement();
         consumer.setAttribute(QStringLiteral("target"), job.outputPath);
+        if (switchToWav) {
+            consumer.setAttribute(QStringLiteral("video_off"), QStringLiteral("1"));
+            consumer.setAttribute(QStringLiteral("vn"), QStringLiteral("1"));
+            consumer.setAttribute(QStringLiteral("acodec"), QStringLiteral("pcm_s16le"));
+            consumer.setAttribute(QStringLiteral("f"), QStringLiteral("wav"));
+        }
 
         QDomNodeList tracktors = docCopy.elementsByTagName(QStringLiteral("tractor"));
         Q_ASSERT(tracktors.size() == orginalTractors.size());
@@ -583,10 +605,8 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
                 continue;
             }
             QDomNodeList tracks = tractor.elementsByTagName(QStringLiteral("track"));
-            if (i != j) {
-                for (int l = 0; l < tracks.size(); l++) {
-                    tracks.at(l).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
-                }
+            for (int l = 0; l < tracks.size(); l++) {
+                tracks.at(l).toElement().setAttribute(QStringLiteral("hide"), QStringLiteral("both"));
             }
         }
         Xml::docContentToFile(docCopy, job.playlistPath);

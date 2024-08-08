@@ -1069,20 +1069,30 @@ void RenderWidget::refreshParams()
     }
 
     // disable audio if requested
-    if (!m_view.audio_box->isChecked()) {
-        m_params.insert(QStringLiteral("an"), QString::number(1));
-        m_params.insert(QStringLiteral("audio_off"), QString::number(1));
+    if (!m_params.contains(QStringLiteral("audio_off"))) {
+        m_view.audio_box->setEnabled(true);
+        if (!m_view.audio_box->isChecked()) {
+            m_params.insert(QStringLiteral("an"), QString::number(1));
+            m_params.insert(QStringLiteral("audio_off"), QString::number(1));
+        } else {
+            m_params.remove(QStringLiteral("an"));
+            m_params.remove(QStringLiteral("audio_off"));
+        }
     } else {
-        m_params.remove(QStringLiteral("an"));
-        m_params.remove(QStringLiteral("audio_off"));
+        m_view.audio_box->setEnabled(false);
     }
 
-    if (!m_view.video_box->isChecked()) {
-        m_params.insert(QStringLiteral("vn"), QString::number(1));
-        m_params.insert(QStringLiteral("video_off"), QString::number(1));
+    if (!m_params.contains(QStringLiteral("video_off"))) {
+        m_view.video_box->setEnabled(true);
+        if (!m_view.video_box->isChecked()) {
+            m_params.insert(QStringLiteral("vn"), QString::number(1));
+            m_params.insert(QStringLiteral("video_off"), QString::number(1));
+        } else {
+            m_params.remove(QStringLiteral("vn"));
+            m_params.remove(QStringLiteral("video_off"));
+        }
     } else {
-        m_params.remove(QStringLiteral("vn"));
-        m_params.remove(QStringLiteral("video_off"));
+        m_view.video_box->setEnabled(false);
     }
 
     if (!(m_view.video_box->isChecked() || m_view.audio_box->isChecked())) {
