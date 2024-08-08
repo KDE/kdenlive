@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-07 00:39+0000\n"
+"POT-Creation-Date: 2024-08-08 00:39+0000\n"
 "PO-Revision-Date: 2024-07-26 07:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -4707,7 +4707,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Substituïx en la línia de temps"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5781 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5806 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5091,7 +5091,7 @@ msgid "Edit Tags"
 msgstr "Editeu les etiquetes"
 
 #: src/bin/bin.cpp:4547 src/bin/projectclip.cpp:210
-#: src/bin/projectclip.cpp:2069 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
 #, kde-format
@@ -5228,29 +5228,29 @@ msgstr "No s'ha trobat cap clip per a afegir el marcador"
 msgid "Could not find master clip"
 msgstr "No s'ha pogut trobar el clip mestre"
 
-#: src/bin/bin.cpp:5803
+#: src/bin/bin.cpp:5828
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clips | "
 
-#: src/bin/bin.cpp:5805
+#: src/bin/bin.cpp:5830
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clips (%2 seleccionats) | "
 
-#: src/bin/bin.cpp:5872 src/bin/bin.cpp:5949
+#: src/bin/bin.cpp:5897 src/bin/bin.cpp:5974
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Afig un flux addicional per al clip"
 msgstr[1] "Afig fluxos addicionals per al clip"
 
-#: src/bin/bin.cpp:5893
+#: src/bin/bin.cpp:5918
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importa els clips seleccionats"
 
-#: src/bin/bin.cpp:5895
+#: src/bin/bin.cpp:5920
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5259,52 +5259,52 @@ msgstr ""
 "Fluxos addicionals per al clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5908 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5933 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Flux de vídeo %1"
 
-#: src/bin/bin.cpp:5923
+#: src/bin/bin.cpp:5948
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Flux d'àudio %1"
 
-#: src/bin/bin.cpp:5976
+#: src/bin/bin.cpp:6001
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Elimina els marcadors dels clips"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6148
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Vos recomanem que guardeu el projecte abans de l'operació de transcodificació"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6149
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Guarda el projecte"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6150
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificació sense guardar"
 
-#: src/bin/bin.cpp:6236 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6261 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Suprimix l'efecte %1"
 
-#: src/bin/bin.cpp:6301 src/mainwindow.cpp:405
+#: src/bin/bin.cpp:6326 src/mainwindow.cpp:405
 #, kde-format
 msgid "Project Bin"
 msgstr "Safata del projecte"
 
-#: src/bin/bin.cpp:6304 src/bin/bin.cpp:6307 src/mainwindow.cpp:4968
+#: src/bin/bin.cpp:6329 src/bin/bin.cpp:6332 src/mainwindow.cpp:4968
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Safata del projecte %1"
@@ -5672,7 +5672,7 @@ msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:655
+#: src/bin/projectclip.cpp:656
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5681,7 +5681,7 @@ msgstr ""
 "La dimensió de la imatge és inferior a 8 píxels.\n"
 "Açò no s'admet en este entorn de treball de vídeo."
 
-#: src/bin/projectclip.cpp:962
+#: src/bin/projectclip.cpp:970
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5690,29 +5690,29 @@ msgstr ""
 "No s'han pogut extraure les metadades des de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1213 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1221 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr "No vàlida"
 
-#: src/bin/projectclip.cpp:1438 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1446 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1481
 #, kde-format
 msgid "File already exists"
 msgstr "El fitxer ja existix"
 
-#: src/bin/projectclip.cpp:2680
+#: src/bin/projectclip.cpp:2688
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Ajusta els clips de la línia de temps"
 
-#: src/bin/projectclip.cpp:2927
+#: src/bin/projectclip.cpp:2935
 #, kde-format
 msgid "Add stream effect"
 msgstr "Afig un nou de flux"
 
-#: src/bin/projectclip.cpp:2952
+#: src/bin/projectclip.cpp:2960
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Elimina l'efecte de flux"
@@ -9799,7 +9799,7 @@ msgstr "No s'ha pogut determinar la duració del fitxer <b>%1</b>."
 msgid "File <b>%1</b> is not seekable."
 msgstr "No es pot buscar en el fitxer <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:716
+#: src/jobs/cliploadtask.cpp:717
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "El fitxer <b>%1</b> utilitza una velocitat variable dels fotogrames."
@@ -13573,7 +13573,7 @@ msgstr "Reduïx"
 msgid "Move Toolbar"
 msgstr "Barra d'eines de moviments"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:166
+#: src/monitor/view/kdenliveclipmonitor.qml:167
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13588,30 +13588,30 @@ msgstr ""
 "les <shortcut>fletxes del teclat</shortcut> per a buscar, utilitzeu la "
 "<shortcut>roda + Ctrl</shortcut> per a fer zoom"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:524
+#: src/monitor/view/kdenliveclipmonitor.qml:525
 #: src/monitor/view/kdenlivemonitor.qml:199
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:557
+#: src/monitor/view/kdenliveclipmonitor.qml:558
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punt d'entrada/eixida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:557
+#: src/monitor/view/kdenliveclipmonitor.qml:558
 #: src/monitor/view/kdenlivemonitor.qml:232
 #, kde-format
 msgid "In Point"
 msgstr "Punt d'entrada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:579
+#: src/monitor/view/kdenliveclipmonitor.qml:580
 #: src/monitor/view/kdenlivemonitor.qml:249
 #, kde-format
 msgid "Out Point"
 msgstr "Punt d'eixida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:745
+#: src/monitor/view/kdenliveclipmonitor.qml:747
 #, kde-format
 msgid "Terminate Job"
 msgstr "Finalitza el treball"

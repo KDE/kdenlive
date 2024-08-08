@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-07 00:39+0000\n"
+"POT-Creation-Date: 2024-08-08 00:39+0000\n"
 "PO-Revision-Date: 2024-07-27 08:46+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -4701,7 +4701,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Sostituisci nella linea temporale"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5781 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5806 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5086,7 +5086,7 @@ msgid "Edit Tags"
 msgstr "Modifica etichette"
 
 #: src/bin/bin.cpp:4547 src/bin/projectclip.cpp:210
-#: src/bin/projectclip.cpp:2069 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
 #, kde-format
@@ -5224,29 +5224,29 @@ msgstr "Impossibile trovare una clip per aggiungere il marcatore"
 msgid "Could not find master clip"
 msgstr "Impossibile trovare la clip principale"
 
-#: src/bin/bin.cpp:5803
+#: src/bin/bin.cpp:5828
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clips | "
 
-#: src/bin/bin.cpp:5805
+#: src/bin/bin.cpp:5830
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clip (%2 selezionate) | "
 
-#: src/bin/bin.cpp:5872 src/bin/bin.cpp:5949
+#: src/bin/bin.cpp:5897 src/bin/bin.cpp:5974
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Aggiungi un flusso addizionale per la clip"
 msgstr[1] "Aggiungi dei flussi addizionali per la clip"
 
-#: src/bin/bin.cpp:5893
+#: src/bin/bin.cpp:5918
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importa le clip selezionate"
 
-#: src/bin/bin.cpp:5895
+#: src/bin/bin.cpp:5920
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5255,22 +5255,22 @@ msgstr ""
 "Flussi addizionali per la clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5908 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5933 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Flusso video %1"
 
-#: src/bin/bin.cpp:5923
+#: src/bin/bin.cpp:5948
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Flusso audio %1"
 
-#: src/bin/bin.cpp:5976
+#: src/bin/bin.cpp:6001
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Rimuovi i marcatori della clip"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6148
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
@@ -5278,30 +5278,30 @@ msgstr ""
 "Ti raccomandiamo di salvare il progetto prima dell'operazione di "
 "transcodifica"
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6149
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Salva il progetto"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6150
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodifica senza salvare"
 
-#: src/bin/bin.cpp:6236 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6261 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Elimina effetto %1"
 
-#: src/bin/bin.cpp:6301 src/mainwindow.cpp:405
+#: src/bin/bin.cpp:6326 src/mainwindow.cpp:405
 #, kde-format
 msgid "Project Bin"
 msgstr "Contenitore del progetto"
 
-#: src/bin/bin.cpp:6304 src/bin/bin.cpp:6307 src/mainwindow.cpp:4968
+#: src/bin/bin.cpp:6329 src/bin/bin.cpp:6332 src/mainwindow.cpp:4968
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Contenitore del progetto %1"
@@ -5669,7 +5669,7 @@ msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:655
+#: src/bin/projectclip.cpp:656
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
@@ -5678,7 +5678,7 @@ msgstr ""
 "La dimensione dell'immagine è più piccola di 8 pixel.\n"
 "Non è correttamente supportata dalla nostra infrastruttura video."
 
-#: src/bin/projectclip.cpp:962
+#: src/bin/projectclip.cpp:970
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5687,29 +5687,29 @@ msgstr ""
 "Impossibile estrarre i metadati da %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1213 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1221 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr "Non valido"
 
-#: src/bin/projectclip.cpp:1438 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1446 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1481
 #, kde-format
 msgid "File already exists"
 msgstr "Il file esiste già"
 
-#: src/bin/projectclip.cpp:2680
+#: src/bin/projectclip.cpp:2688
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Regola le clip nella linea temporale"
 
-#: src/bin/projectclip.cpp:2927
+#: src/bin/projectclip.cpp:2935
 #, kde-format
 msgid "Add stream effect"
 msgstr "Aggiungi effetto del flusso"
 
-#: src/bin/projectclip.cpp:2952
+#: src/bin/projectclip.cpp:2960
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Rimuovi effetto del flusso"
@@ -9809,7 +9809,7 @@ msgstr "La durata del file <b>%1</b> non può essere determinata."
 msgid "File <b>%1</b> is not seekable."
 msgstr "Impossibile cercare nel file <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:716
+#: src/jobs/cliploadtask.cpp:717
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "Il file <b>%1</b> ha una frequenza dei fotogrammi variabile."
@@ -13590,7 +13590,7 @@ msgstr "Rimpicciolisci"
 msgid "Move Toolbar"
 msgstr "Sposta barra degli strumenti"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:166
+#: src/monitor/view/kdenliveclipmonitor.qml:167
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13605,30 +13605,30 @@ msgstr ""
 "<shortcut>frecce</shortcut> per saltare, <shortcut>Ctrl rotellina</shortcut> "
 "per ingrandire"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:524
+#: src/monitor/view/kdenliveclipmonitor.qml:525
 #: src/monitor/view/kdenlivemonitor.qml:199
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:557
+#: src/monitor/view/kdenliveclipmonitor.qml:558
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punto di attacco/di stacco"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:557
+#: src/monitor/view/kdenliveclipmonitor.qml:558
 #: src/monitor/view/kdenlivemonitor.qml:232
 #, kde-format
 msgid "In Point"
 msgstr "Inizio selezione"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:579
+#: src/monitor/view/kdenliveclipmonitor.qml:580
 #: src/monitor/view/kdenlivemonitor.qml:249
 #, kde-format
 msgid "Out Point"
 msgstr "Fine selezione"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:745
+#: src/monitor/view/kdenliveclipmonitor.qml:747
 #, kde-format
 msgid "Terminate Job"
 msgstr "Termina processo"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-07 00:39+0000\n"
+"POT-Creation-Date: 2024-08-08 00:39+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4800,7 +4800,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Προστίθενται κλιπ"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5781 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5806 src/bin/clipcreator.cpp:324
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -5216,7 +5216,7 @@ msgid "Edit Tags"
 msgstr "Τροποποίηση διάρκειας"
 
 #: src/bin/bin.cpp:4547 src/bin/projectclip.cpp:210
-#: src/bin/projectclip.cpp:2069 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
 #, fuzzy, kde-format
@@ -5366,84 +5366,84 @@ msgstr "Αδύνατη η εύρεση κλιπ για την προσθήκη �
 msgid "Could not find master clip"
 msgstr "Προστίθενται κλιπ"
 
-#: src/bin/bin.cpp:5803
+#: src/bin/bin.cpp:5828
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5805
+#: src/bin/bin.cpp:5830
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5872 src/bin/bin.cpp:5949
+#: src/bin/bin.cpp:5897 src/bin/bin.cpp:5974
 #, fuzzy, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Προσθήκη μετάβασης στο κλιπ"
 msgstr[1] "Προσθήκη μετάβασης στο κλιπ"
 
-#: src/bin/bin.cpp:5893
+#: src/bin/bin.cpp:5918
 #, fuzzy, kde-format
 msgid "Import selected clips"
 msgstr "Διαγραφή του επιλεγμένου κλιπ"
 
-#: src/bin/bin.cpp:5895
+#: src/bin/bin.cpp:5920
 #, fuzzy, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr "Προσθήκη μετάβασης στο κλιπ"
 
-#: src/bin/bin.cpp:5908 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5933 src/mltcontroller/clippropertiescontroller.cpp:647
 #, fuzzy, kde-format
 msgid "Video stream %1"
 msgstr "Κομμάτι βίντεο"
 
-#: src/bin/bin.cpp:5923
+#: src/bin/bin.cpp:5948
 #, fuzzy, kde-format
 msgid "Audio stream %1"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/bin/bin.cpp:5976
+#: src/bin/bin.cpp:6001
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Remove clip markers"
 msgstr "Διαγραφή δείκτη"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6148
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6124
+#: src/bin/bin.cpp:6149
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Αποθήκευση έργου DVD"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6150
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Μετατροπή"
 
-#: src/bin/bin.cpp:6236 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6261 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Διαγραφή εφέ"
 
-#: src/bin/bin.cpp:6301 src/mainwindow.cpp:405
+#: src/bin/bin.cpp:6326 src/mainwindow.cpp:405
 #, fuzzy, kde-format
 msgid "Project Bin"
 msgstr "Έργο"
 
-#: src/bin/bin.cpp:6304 src/bin/bin.cpp:6307 src/mainwindow.cpp:4968
+#: src/bin/bin.cpp:6329 src/bin/bin.cpp:6332 src/mainwindow.cpp:4968
 #, fuzzy, kde-format
 msgid "Project Bin %1"
 msgstr "Έργο"
@@ -5841,27 +5841,27 @@ msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/projectclip.cpp:655
+#: src/bin/projectclip.cpp:656
 #, kde-format
 msgid ""
 "Image dimension smaller than 8 pixels.\n"
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:962
+#: src/bin/projectclip.cpp:970
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1213 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1221 src/jobs/cliploadtask.cpp:264
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "Μη έγκυρο κλιπ"
 
-#: src/bin/projectclip.cpp:1438 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1446 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1481
 #, fuzzy, kde-format
@@ -5869,20 +5869,20 @@ msgstr "Μη έγκυρο κλιπ"
 msgid "File already exists"
 msgstr "Το προφίλ αυτό υπάρχει ήδη"
 
-#: src/bin/projectclip.cpp:2680
+#: src/bin/projectclip.cpp:2688
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Διαγραφή κλιπ χρόνου"
 
-#: src/bin/projectclip.cpp:2927
+#: src/bin/projectclip.cpp:2935
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "Επεξεργασία εφέ %1"
 
-#: src/bin/projectclip.cpp:2952
+#: src/bin/projectclip.cpp:2960
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -10086,7 +10086,7 @@ msgstr ""
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:716
+#: src/jobs/cliploadtask.cpp:717
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
@@ -14085,7 +14085,7 @@ msgstr "Σμίκρυνση"
 msgid "Move Toolbar"
 msgstr "Χρονοδιάγραμμα"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:166
+#: src/monitor/view/kdenliveclipmonitor.qml:167
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14095,31 +14095,31 @@ msgid ""
 "shortcut> to zoom"
 msgstr ""
 
-#: src/monitor/view/kdenliveclipmonitor.qml:524
+#: src/monitor/view/kdenliveclipmonitor.qml:525
 #: src/monitor/view/kdenlivemonitor.qml:199
 #, kde-format
 msgid "%1fps"
 msgstr ""
 
-#: src/monitor/view/kdenliveclipmonitor.qml:557
+#: src/monitor/view/kdenliveclipmonitor.qml:558
 #, fuzzy, kde-format
 #| msgid "Out Point"
 msgid "In/Out Point"
 msgstr "Σημείο εξόδου"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:557
+#: src/monitor/view/kdenliveclipmonitor.qml:558
 #: src/monitor/view/kdenlivemonitor.qml:232
 #, kde-format
 msgid "In Point"
 msgstr "Σημείο εισόδου"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:579
+#: src/monitor/view/kdenliveclipmonitor.qml:580
 #: src/monitor/view/kdenlivemonitor.qml:249
 #, kde-format
 msgid "Out Point"
 msgstr "Σημείο εξόδου"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:745
+#: src/monitor/view/kdenliveclipmonitor.qml:747
 #, fuzzy, kde-format
 #| msgid "Remove Job"
 msgid "Terminate Job"
