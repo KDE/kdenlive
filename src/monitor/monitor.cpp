@@ -466,7 +466,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZoneWithUndo, this, &Monitor::zoneUpdatedWithUndo);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::switchFocusClip, this,
-                [this]() { pCore->window()->getCurrentTimeline()->controller()->switchFocusClip(); });
+                []() { pCore->window()->getCurrentTimeline()->controller()->switchFocusClip(); });
     } else if (id == Kdenlive::ClipMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateClipZone);
     }

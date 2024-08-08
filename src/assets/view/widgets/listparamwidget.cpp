@@ -60,7 +60,7 @@ void ListParamWidget::setIconSize(const QSize &size)
     m_list->setIconSize(size);
 }
 
-void ListParamWidget::slotShowComment(bool show)
+void ListParamWidget::slotShowComment(bool /*show*/)
 {
     /*if (!m_labelComment->text().isEmpty()) {
         m_widgetComment->setVisible(show);

@@ -78,7 +78,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #if HAVE_STYLE_MANAGER
 #include <KStyleManager>
 #endif
-#include <kconfigwidgets_version.h>
 #include <kiconthemes_version.h>
 #include <knewstuff_version.h>
 #include <kwidgetsaddons_version.h>
@@ -4391,16 +4390,16 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     }
 }
 
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
 void MainWindow::slotChangeStyle(QAction *a)
 {
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
     QString style = a->data().toString();
     KdenliveSettings::setWidgetstyle(style);
     doChangeStyle();
     // Monitor refresh is necessary
     raiseMonitor(pCore->monitorManager()->isActive(Kdenlive::ClipMonitor));
-#endif
 }
+#endif
 
 void MainWindow::raiseMonitor(bool clipMonitor)
 {
@@ -4568,9 +4567,9 @@ void MainWindow::showMenuBar(bool show)
     menuBar()->setVisible(show);
 }
 
+#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
 void MainWindow::forceIconSet(bool force)
 {
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
     KdenliveSettings::setForce_breeze(force);
     if (force) {
         // Check current color theme
@@ -4582,8 +4581,8 @@ void MainWindow::forceIconSet(bool force)
         KMessageBox::Continue) {
         slotRestart();
     }
-#endif
 }
+#endif
 
 TimelineWidget *MainWindow::getCurrentTimeline() const
 {

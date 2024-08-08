@@ -20,13 +20,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUndoView>
 #include <QUuid>
 
-#include <kconfigwidgets_version.h>
-
 #include <KActionCategory>
 #include <KAutoSaveFile>
 #include <KColorSchemeManager>
 #include <KSelectAction>
 #include <KXmlGuiWindow>
+#include <kconfigwidgets_version.h>
+#include <kiconthemes_version.h>
 
 #include <mlt++/Mlt.h>
 #include <utility>
@@ -566,8 +566,12 @@ private Q_SLOTS:
     void triggerKey(QKeyEvent *ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);
+
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
     /** @brief Update widget style */
     void slotChangeStyle(QAction *a);
+#endif
+
     /** @brief Create temporary top track to preview an effect */
     void createSplitOverlay(std::shared_ptr<Mlt::Filter> filter);
     void removeSplitOverlay();
@@ -580,8 +584,10 @@ private Q_SLOTS:
     /** @brief Open Cached Data management dialog. */
     void slotManageCache();
     void showMenuBar(bool show);
+#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
     /** @brief Change forced icon theme setting (asks for app restart). */
     void forceIconSet(bool force);
+#endif
     /** @brief Toggle current project's compositing mode. */
     void slotUpdateCompositing(bool checked);
     /** @brief Set timeline toolbar icon size. */
