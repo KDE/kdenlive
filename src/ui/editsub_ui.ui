@@ -6,13 +6,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </author>
  <class>SubEdit_UI</class>
  <widget class="QWidget" name="SubEdit_UI">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>329</width>
-    <height>411</height>
-   </rect>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="0">
@@ -268,8 +266,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>284</width>
-               <height>348</height>
+               <width>323</width>
+               <height>388</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
@@ -477,12 +475,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>250</width>
-       <height>20</height>
-      </size>
      </property>
     </spacer>
    </item>
