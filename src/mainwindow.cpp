@@ -78,7 +78,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #if HAVE_STYLE_MANAGER
 #include <KStyleManager>
 #endif
-#include <kiconthemes_version.h>
 #include <knewstuff_version.h>
 #include <kwidgetsaddons_version.h>
 #include <kxmlgui_version.h>
