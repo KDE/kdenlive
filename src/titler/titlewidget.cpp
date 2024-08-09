@@ -484,9 +484,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     graphicsView->scene()->addItem(m_frameBackground);
 
     m_frameImage = new QGraphicsPixmapItem();
-    QTransform qtrans;
-    qtrans.scale(2.0, 2.0);
-    m_frameImage->setTransform(qtrans);
     m_frameImage->setZValue(-1200);
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
@@ -1011,15 +1008,15 @@ void TitleWidget::displayBackgroundFrame()
     if (!displayBg->isChecked()) {
         switch (KdenliveSettings::titlerbg()) {
         case 0: {
-            QPixmap pattern(20, 20);
+            QPixmap pattern(40, 40);
             pattern.fill(Qt::gray);
             QColor bgcolor(180, 180, 180);
             QPainter p(&pattern);
-            p.fillRect(QRect(0, 0, 10, 10), bgcolor);
-            p.fillRect(QRect(10, 10, 20, 20), bgcolor);
+            p.fillRect(QRect(0, 0, 20, 20), bgcolor);
+            p.fillRect(QRect(20, 20, 40, 40), bgcolor);
             p.end();
             QBrush br(pattern);
-            QPixmap bg(int(r.width() / 2), int(r.height() / 2));
+            QPixmap bg(int(r.width()), int(r.height()));
             QPainter p2(&bg);
             p2.fillRect(bg.rect(), br);
             p2.end();
@@ -1028,7 +1025,7 @@ void TitleWidget::displayBackgroundFrame()
         }
         default: {
             QColor col = KdenliveSettings::titlerbg() == 1 ? Qt::black : Qt::white;
-            QPixmap bg(int(r.width() / 2), int(r.height() / 2));
+            QPixmap bg(int(r.width()), int(r.height()));
             QPainter p2(&bg);
             p2.fillRect(bg.rect(), col);
             p2.end();
@@ -1044,7 +1041,7 @@ void TitleWidget::displayBackgroundFrame()
 void TitleWidget::slotGotBackground(const QImage &img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
-    m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(int(r.width() / 2), int(r.height() / 2))));
+    m_frameImage->setPixmap(QPixmap::fromImage(img));
     Q_EMIT requestBackgroundFrame(false);
     Q_EMIT updatePatternsBackgroundFrame();
 }
