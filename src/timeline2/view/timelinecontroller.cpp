@@ -2909,14 +2909,34 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
     if (tracks.isEmpty()) {
         pCore->displayMessage(i18n("Please activate a track for this operation by clicking on its label"), ErrorMessage);
     }
+    bool moveGuides = KdenliveSettings::lockedGuides() == false && (uint)tracks.count() == m_model->m_allTracks.size();
     if (m_zone.isNull()) {
         // Use current timeline position and clip zone length
         zone.setY(pCore->getMonitorPosition() + zone.y() - zone.x());
         zone.setX(pCore->getMonitorPosition());
+    } else {
+        zone = m_zone;
     }
-    TimelineFunctions::extractZone(m_model, tracks, m_zone == QPoint() ? zone : m_zone, liftOnly);
-    if (!liftOnly && !m_zone.isNull()) {
-        setPosition(m_zone.x());
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = TimelineFunctions::extractZoneWithUndo(m_model, tracks, zone, liftOnly, -1, {}, undo, redo);
+    if (res) {
+        if (moveGuides) {
+            QList<CommentedTime> guidesToDelete = m_model->getGuideModel()->getMarkersInRange(zone.x(), zone.y());
+            for (auto &g : guidesToDelete) {
+                m_model->getGuideModel()->removeMarker(g.time(), undo, redo);
+            }
+            QList<CommentedTime> guidesToMove = m_model->getGuideModel()->getMarkersInRange(zone.y(), -1);
+            if (!guidesToMove.isEmpty()) {
+                GenTime fromPos(zone.x(), pCore->getCurrentFps());
+                GenTime toPos(zone.y(), pCore->getCurrentFps());
+                m_model->getGuideModel()->moveMarkers(guidesToMove, toPos, fromPos, undo, redo);
+            }
+        }
+        pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
+        if (!liftOnly && !m_zone.isNull()) {
+            setPosition(m_zone.x());
+        }
     }
 }
 
