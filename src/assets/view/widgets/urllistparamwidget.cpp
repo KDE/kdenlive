@@ -153,7 +153,18 @@ void UrlListParamWidget::slotRefresh()
         }
     }
     // add all matching files in the location of the current item too
-    if (!currentValue.isEmpty()) {
+    bool builtIn = false;
+    if (m_isLumaList) {
+        QFileInfo info(currentValue);
+        // This is an MLT build luma
+        QRegularExpression re("^luma[0-2][0-9].pgm$");
+        if (re.match(info.fileName()).hasMatch() && !info.exists()) {
+            // This is a built in luma.
+            currentValue = info.fileName();
+            builtIn = true;
+        }
+    }
+    if (!currentValue.isEmpty() && !builtIn) {
         QDir dir = QFileInfo(currentValue).absoluteDir();
         if (dir.exists()) {
             QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
