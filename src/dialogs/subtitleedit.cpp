@@ -44,8 +44,8 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     : QWidget(parent)
     , m_model(nullptr)
 {
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);
