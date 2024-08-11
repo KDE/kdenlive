@@ -42,7 +42,7 @@ if len(required) == 0:
     print_help()
     sys.exit("Error: You need to provide at least one package name")
 
-installed = {pkg.metadata['Name'] for pkg in importlib.metadata.distributions()}
+installed = {pkg.name for pkg in importlib.metadata.distributions()}
 installed = {x.lower() for x in installed}
 missing = required - installed
 
