@@ -23,6 +23,16 @@ TranscodeSeek::TranscodeSeek(bool onUserRequest, bool forceReplace, QWidget *par
     if (onUserRequest) {
         label->setVisible(false);
     }
+    if (KdenliveSettings::transcodeFriendly().isEmpty()) {
+        // Use GPU accel by default if possible
+        if (KdenliveSettings::supportedHWCodecs().contains(QLatin1String("h264_nvenc"))) {
+            KdenliveSettings::setTranscodeFriendly(QStringLiteral("Lossy x264 I frame only (NVidia GPU)"));
+        } else if (KdenliveSettings::supportedHWCodecs().contains(QLatin1String("h264_vaapi"))) {
+            KdenliveSettings::setTranscodeFriendly(QStringLiteral("Lossy x264 I frame only (VAAPI GPU)"));
+        } else {
+            KdenliveSettings::setTranscodeFriendly(QStringLiteral("Lossy x264 I frame only"));
+        }
+    }
     setAttribute(Qt::WA_DeleteOnClose, false);
     setWindowTitle(i18nc("@title:window", "Transcode Clip"));
     KConfig conf(QStringLiteral("kdenlivetranscodingrc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);

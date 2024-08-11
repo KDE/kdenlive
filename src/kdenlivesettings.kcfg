@@ -252,7 +252,7 @@
 
     <entry name="transcodeFriendly" type="String">
       <label>Name of the default transcoding profile for edit friendly convert.</label>
-      <default>Lossy x264 I frame only</default>
+      <default></default>
     </entry>
 
     <entry name="transcodingReplace" type="Bool">
