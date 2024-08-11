@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-10 02:39+0000\n"
+"POT-Creation-Date: 2024-08-11 02:34+0000\n"
 "PO-Revision-Date: 2024-08-02 23:04+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -4150,12 +4150,12 @@ msgstr "<Hautatu hitz-gakoa>"
 msgid "None (Dissolve)"
 msgstr "Bat ere ez (disolbatu)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:226
+#: src/assets/view/widgets/urllistparamwidget.cpp:237
 #, kde-format
 msgid "Custom…"
 msgstr "Pertsonalizatua..."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:318
+#: src/assets/view/widgets/urllistparamwidget.cpp:329
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "%1 LUT fitxategi baliogabea"

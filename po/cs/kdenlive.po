@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-10 02:39+0000\n"
+"POT-Creation-Date: 2024-08-11 02:34+0000\n"
 "PO-Revision-Date: 2024-06-26 15:10+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -4009,12 +4009,12 @@ msgstr ""
 msgid "None (Dissolve)"
 msgstr "Žádné (Rozplynutí)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:226
+#: src/assets/view/widgets/urllistparamwidget.cpp:237
 #, kde-format
 msgid "Custom…"
 msgstr "Vlastní…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:318
+#: src/assets/view/widgets/urllistparamwidget.cpp:329
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr ""

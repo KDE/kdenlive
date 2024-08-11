@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-10 02:39+0000\n"
+"POT-Creation-Date: 2024-08-11 02:34+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -4289,14 +4289,14 @@ msgstr ""
 msgid "None (Dissolve)"
 msgstr ""
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:226
+#: src/assets/view/widgets/urllistparamwidget.cpp:237
 #, fuzzy, kde-format
 #| msgctxt "Group Name"
 #| msgid "Custom"
 msgid "Custom…"
 msgstr "Topasst"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:318
+#: src/assets/view/widgets/urllistparamwidget.cpp:329
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Invalid LUT file %1"

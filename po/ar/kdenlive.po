@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-10 02:39+0000\n"
+"POT-Creation-Date: 2024-08-11 02:34+0000\n"
 "PO-Revision-Date: 2024-07-28 13:11+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4103,12 +4103,12 @@ msgstr "<حدّد كلمة مفتاحيّة>"
 msgid "None (Dissolve)"
 msgstr "بدون (إذابة)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:226
+#: src/assets/view/widgets/urllistparamwidget.cpp:237
 #, kde-format
 msgid "Custom…"
 msgstr "مخصّص…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:318
+#: src/assets/view/widgets/urllistparamwidget.cpp:329
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "ملف LUT %1 غير صالحة"

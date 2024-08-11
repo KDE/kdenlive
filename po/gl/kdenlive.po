@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-10 02:39+0000\n"
-"PO-Revision-Date: 2024-07-26 23:16+0200\n"
+"POT-Creation-Date: 2024-08-11 02:34+0000\n"
+"PO-Revision-Date: 2024-08-10 14:08+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1769,7 +1769,7 @@ msgstr "Axustar o tamaño e a posición do fragmento"
 #: data/transitions/region.xml:24
 #, kde-format
 msgid "Distort"
-msgstr "Distorsionar"
+msgstr "Distorcer"
 
 #: data/effects/pan_zoom.xml:14
 #, kde-format
@@ -1830,10 +1830,10 @@ msgid ""
 "Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
 "Destination out"
 msgstr ""
-"Fusión alfa,XOR,Máis,Multiplicar,Pantalla,Capa,Escurecer,Aclarar,Esquivación "
-"de cor,Queimado de cor,Luz forte,Luz suave,Diferenza,Exclusión,OU de bits,E "
-"de bits,XOR de bits,NOR de bits,NAND de bits,!XOR de bits,Entrada de destino,"
-"Saída de destino"
+"Fusión alfa,ou exclusivo,Máis,Multiplicar,Pantalla,Capa,Escurecer,Aclarar,"
+"Elusión de cor,Queimado de cor,Luz forte,Luz suave,Diferenza,Exclusión,OU de "
+"bits,E de bits,XOR de bits,NOR de bits,NAND de bits,ou exclusivo oposto de "
+"bits,Entrada de destino,Saída de destino"
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:34
 #: data/transitions/qtblend.xml:15
@@ -1966,7 +1966,7 @@ msgstr ""
 #: data/effects/rotation.xml:4
 #, kde-format
 msgid "Rotate and Shear"
-msgstr "Rotar e tensionar"
+msgstr "Rotar e podar"
 
 #: data/effects/rotation.xml:5 data/effects/rotation_keyframable.xml:5
 #, kde-format
@@ -2009,22 +2009,22 @@ msgstr "Animar Rotar Z"
 #: data/effects/rotation.xml:26
 #, kde-format
 msgid "Shear X"
-msgstr "Tensionar X"
+msgstr "Podar X"
 
 #: data/effects/rotation.xml:29
 #, kde-format
 msgid "Shear Y"
-msgstr "Tensionar Y"
+msgstr "Podar Y"
 
 #: data/effects/rotation.xml:32
 #, kde-format
 msgid "Animate Shear X"
-msgstr "Animar Tensionar X"
+msgstr "Animar podar X"
 
 #: data/effects/rotation.xml:35
 #, kde-format
 msgid "Animate Shear Y"
-msgstr "Animar Tensionar Y"
+msgstr "Animar podar Y"
 
 #: data/effects/rotation.xml:38
 #, kde-format
@@ -3072,7 +3072,7 @@ msgstr "Enmascarar o fragmento"
 #: data/transitions/region.xml:14
 #, kde-format
 msgid "Over,And,Or,Xor"
-msgstr "Sobre,E,Ou,Xou"
+msgstr "Sobre,e,ou,ou exclusivo"
 
 #: data/transitions/region.xml:15
 #, kde-format
@@ -4147,12 +4147,12 @@ msgstr "<seleccione unha palabra clave>"
 msgid "None (Dissolve)"
 msgstr "Ningún (disolver)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:226
+#: src/assets/view/widgets/urllistparamwidget.cpp:237
 #, kde-format
 msgid "Custom…"
 msgstr "Personalizado…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:318
+#: src/assets/view/widgets/urllistparamwidget.cpp:329
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "Ficheiro LUT non válido %1"
@@ -6740,7 +6740,7 @@ msgstr "Transcodificación"
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
-"MLT ten que estar compilado cos módulos Motiv e Rtaudio para usar o "
+"MLT ten que estar compilado cos módulos Movit e Rtaudio para usar o "
 "procesamento da GPU."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:710
@@ -7907,7 +7907,7 @@ msgstr "Nepalí"
 #: src/dialogs/speechdialog.cpp:520
 #, kde-format
 msgid "Nigerian Fulfulde"
-msgstr "Fulo"
+msgstr "Fulo de Níxer"
 
 #: src/dialogs/speechdialog.cpp:521
 #, kde-format
@@ -7997,7 +7997,7 @@ msgstr "Somalí"
 #: src/dialogs/speechdialog.cpp:538
 #, kde-format
 msgid "Southern Pashto"
-msgstr "Paxto do sur"
+msgstr "Paxto meridional"
 
 #: src/dialogs/speechdialog.cpp:539 src/pythoninterfaces/speechtotext.cpp:170
 #, kde-format
@@ -8970,7 +8970,7 @@ msgstr ""
 "significa que terán distintos tamaños en distintos monitores. Quéreos "
 "converter a tamaño de pixel, facéndoos portátiles? É recomendábel que "
 "realice esa acción no computador no que se crearon por primeira vez, ou "
-"podería ter que reaxustar o seu tamaño."
+"podería ter que axustar o seu tamaño."
 
 #: src/doc/documentvalidator.cpp:726
 #, kde-format
@@ -12955,7 +12955,7 @@ msgstr "Exif"
 #: src/mltcontroller/clippropertiescontroller.cpp:1573
 #, kde-format
 msgid "Magic Lantern"
-msgstr "Lanterna máxina"
+msgstr "Lanterna máxica"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1614
 #, kde-format
@@ -16046,7 +16046,7 @@ msgstr "Tempo real (con perda de precisión)"
 #: src/scopes/audioscopes/spectrogram.cpp:45
 #, kde-format
 msgid "Reset maximum frequency to sampling rate"
-msgstr "Restaurar a frecuencia máxima da taxa de sampleado"
+msgstr "Restaurar a frecuencia máxima da taxa de mostras"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:55
 #: src/scopes/audioscopes/spectrogram.cpp:48
@@ -16362,7 +16362,7 @@ msgstr "Espazo de cores"
 #: src/scopes/scopemanager.cpp:293
 #, kde-format
 msgid "Vectorscope"
-msgstr "Vectoroscopio"
+msgstr "Vectorscopio"
 
 #: src/scopes/scopemanager.cpp:294
 #, kde-format
@@ -17901,8 +17901,8 @@ msgid ""
 msgstr ""
 "Algúns dos seus fragmentos de texto gardáronse co tamaño en puntos, o que "
 "significa que terán distintos tamaños en distintos monitores. Converteranse "
-"a tamaño de pixel, facéndoos portátiles, pero podería ter que reaxustar o "
-"seu tamaño."
+"a tamaño de pixel, facéndoos portátiles, pero podería ter que axustar o seu "
+"tamaño."
 
 #: src/titler/titledocument.cpp:460
 #, kde-format
@@ -17965,7 +17965,7 @@ msgstr "Normal"
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
-msgstr "Semi-negra"
+msgstr "Semigrosa"
 
 #: src/titler/titlewidget.cpp:270
 #, kde-format
@@ -18128,7 +18128,7 @@ msgstr "Engadir unha elipse"
 #: src/titler/titlewidget.cpp:909
 #, kde-format
 msgid "Add Image"
-msgstr "Engadir unha maxe"
+msgstr "Engadir unha imaxe"
 
 #: src/titler/titlewidget.cpp:412 src/titler/titlewidget.cpp:415
 #, kde-format
@@ -20885,6 +20885,7 @@ msgstr "Sum"
 msgid "Luma value."
 msgstr "Valor da luminancia."
 
+# well-spelled: Vm
 # R significa Red
 #. i18n: ectx: property (text), widget (QCheckBox, cbR)
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
@@ -20893,6 +20894,7 @@ msgstr "Valor da luminancia."
 msgid "R"
 msgstr "Vm"
 
+# well-spelled: Vm
 # G significa Green
 #. i18n: ectx: property (text), widget (QCheckBox, cbG)
 #: src/ui/histogram_ui.ui:68
