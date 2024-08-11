@@ -5707,7 +5707,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
                     ClipType::ProducerType cType = clip->clipType();
                     // Start audio / proxy jobs for the clip
                     if (KdenliveSettings::audiothumbnails() && (cType == ClipType::AV || cType == ClipType::Audio || clip->hasAudio())) {
-                        AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), this, false);
+                        AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), clip.get(), false);
                     }
                     clip->checkProxy(false);
                 }

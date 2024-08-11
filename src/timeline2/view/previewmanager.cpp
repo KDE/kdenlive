@@ -310,6 +310,7 @@ bool PreviewManager::loadParams()
         m_consumerParams << QStringLiteral("s=%1x%2").arg(int(resizeWidth * pCore->getCurrentDar())).arg(resizeWidth);
     }
     m_consumerParams << QStringLiteral("an=1");
+    m_consumerParams << QStringLiteral("audio_off=1");
     if (KdenliveSettings::gpu_accel()) {
         m_consumerParams << QStringLiteral("glsl.=1");
     }
