@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-10 00:40+0000\n"
+"POT-Creation-Date: 2024-08-11 00:39+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4079,12 +4079,12 @@ msgstr "<选择一个关键词>"
 msgid "None (Dissolve)"
 msgstr "无 (溶解)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:225
+#: src/assets/view/widgets/urllistparamwidget.cpp:236
 #, kde-format
 msgid "Custom…"
 msgstr "自定义…"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:317
+#: src/assets/view/widgets/urllistparamwidget.cpp:328
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "无效的 LUT 文件 %1"
@@ -5262,7 +5262,7 @@ msgstr[0] "添加剪辑"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:309
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:84
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:226
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:224
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
 #: src/ui/titlewidget_ui.ui:630
 #, kde-format
@@ -18090,7 +18090,7 @@ msgstr "右对齐"
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:47
-#: src/ui/editsub_ui.ui:219
+#: src/ui/editsub_ui.ui:217
 #, kde-format
 msgid "Position:"
 msgstr "位置："
@@ -18334,10 +18334,10 @@ msgstr "删除当前点。"
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
-#: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
-#: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
-#: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:492
+#: src/ui/editsub_ui.ui:21 src/ui/editsub_ui.ui:31 src/ui/editsub_ui.ui:41
+#: src/ui/editsub_ui.ui:52 src/ui/editsub_ui.ui:63 src/ui/editsub_ui.ui:74
+#: src/ui/editsub_ui.ui:149 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:200
+#: src/ui/editsub_ui.ui:231 src/ui/editsub_ui.ui:484
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
@@ -20182,80 +20182,80 @@ msgid "Enable manual editing"
 msgstr "启用手动编辑"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:184
+#: src/ui/editsub_ui.ui:182
 #, kde-format
 msgid "End:"
 msgstr "结尾："
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:291
+#: src/ui/editsub_ui.ui:289
 #, kde-format
 msgid "Opaque background"
 msgstr "不透明背景"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:298
+#: src/ui/editsub_ui.ui:296
 #, kde-format
 msgid "Custom Outline Color"
 msgstr "自定义轮廓颜色"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:315
+#: src/ui/editsub_ui.ui:313
 #, kde-format
 msgid "pt"
 msgstr "pt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:328
+#: src/ui/editsub_ui.ui:326
 #, kde-format
 msgid "Custom Font Size"
 msgstr "自定义字体大小"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:355 src/ui/editsub_ui.ui:379
+#: src/ui/editsub_ui.ui:353 src/ui/editsub_ui.ui:377
 #, kde-format
 msgid "px"
 msgstr "px"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:362
+#: src/ui/editsub_ui.ui:360
 #, kde-format
 msgid "Custom Position"
 msgstr "自定义位置"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:369
+#: src/ui/editsub_ui.ui:367
 #, kde-format
 msgid "Custom Font Color"
 msgstr "自定义字体颜色"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:389
+#: src/ui/editsub_ui.ui:387
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "自定义轮廓大小"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:396
+#: src/ui/editsub_ui.ui:394
 #, kde-format
 msgid "Custom Font"
 msgstr "自定义字体"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:434
+#: src/ui/editsub_ui.ui:432
 #, kde-format
 msgid "Custom Shadow"
 msgstr "自定义阴影"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsub_ui.ui:454
+#: src/ui/editsub_ui.ui:452
 #, kde-format
 msgid "Bold"
 msgstr "粗体 (Bold)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsub_ui.ui:461
+#: src/ui/editsub_ui.ui:459
 #, kde-format
 msgid "Italic"
 msgstr "斜体 (Italic)"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-10 00:40+0000\n"
+"POT-Creation-Date: 2024-08-11 00:39+0000\n"
 "PO-Revision-Date: 2024-07-18 22:44+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -4142,12 +4142,12 @@ msgstr "<PIlih sebuah Kata Kunci>"
 msgid "None (Dissolve)"
 msgstr "Nihil (Larut)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:225
+#: src/assets/view/widgets/urllistparamwidget.cpp:236
 #, kde-format
 msgid "Custom…"
 msgstr "Kustom..."
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:317
+#: src/assets/view/widgets/urllistparamwidget.cpp:328
 #, kde-format
 msgid "Invalid LUT file %1"
 msgstr "LUT file %1 tidak valid"
@@ -5341,7 +5341,7 @@ msgstr[1] "Tambahkan klip"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:309
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:84
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:226
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:224
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
 #: src/ui/titlewidget_ui.ui:630
 #, kde-format
@@ -18468,7 +18468,7 @@ msgstr "Sejajar kanan"
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:47
-#: src/ui/editsub_ui.ui:219
+#: src/ui/editsub_ui.ui:217
 #, kde-format
 msgid "Position:"
 msgstr "Posisi:"
@@ -18713,10 +18713,10 @@ msgstr "Hapus poin saat ini."
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
-#: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
-#: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
-#: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:492
+#: src/ui/editsub_ui.ui:21 src/ui/editsub_ui.ui:31 src/ui/editsub_ui.ui:41
+#: src/ui/editsub_ui.ui:52 src/ui/editsub_ui.ui:63 src/ui/editsub_ui.ui:74
+#: src/ui/editsub_ui.ui:149 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:200
+#: src/ui/editsub_ui.ui:231 src/ui/editsub_ui.ui:484
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
@@ -20609,74 +20609,74 @@ msgid "Enable manual editing"
 msgstr "Fungsikan pengeditan manual"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:184
+#: src/ui/editsub_ui.ui:182
 #, kde-format
 msgid "End:"
 msgstr "Ujung:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:291
+#: src/ui/editsub_ui.ui:289
 #, kde-format
 msgid "Opaque background"
 msgstr "Latar belakang kusam"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:298
+#: src/ui/editsub_ui.ui:296
 #, kde-format
 msgid "Custom Outline Color"
 msgstr "Warna Kerangka Kustom"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:315
+#: src/ui/editsub_ui.ui:313
 #, kde-format
 msgid "pt"
 msgstr "pt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:328
+#: src/ui/editsub_ui.ui:326
 #, kde-format
 msgid "Custom Font Size"
 msgstr "Ukuran Font Kustom"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:355 src/ui/editsub_ui.ui:379
+#: src/ui/editsub_ui.ui:353 src/ui/editsub_ui.ui:377
 #, kde-format
 msgid "px"
 msgstr "px"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:362
+#: src/ui/editsub_ui.ui:360
 #, kde-format
 msgid "Custom Position"
 msgstr "Posisi Kustom"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:369
+#: src/ui/editsub_ui.ui:367
 #, kde-format
 msgid "Custom Font Color"
 msgstr "Warna Font Kustom"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:389
+#: src/ui/editsub_ui.ui:387
 #, kde-format
 msgid "Custom Outline Size"
 msgstr "Ukuran Kerangka Kustom"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:396
+#: src/ui/editsub_ui.ui:394
 #, kde-format
 msgid "Custom Font"
 msgstr "Font Kustom"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:434
+#: src/ui/editsub_ui.ui:432
 #, kde-format
 msgid "Custom Shadow"
 msgstr "Bayangan Kustom"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsub_ui.ui:454
+#: src/ui/editsub_ui.ui:452
 #, fuzzy, kde-format
 #| msgctxt "Font style"
 #| msgid "Bold"
@@ -20684,7 +20684,7 @@ msgid "Bold"
 msgstr "Tebal"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsub_ui.ui:461
+#: src/ui/editsub_ui.ui:459
 #, fuzzy, kde-format
 #| msgid "Italian"
 msgid "Italic"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-10 00:40+0000\n"
+"POT-Creation-Date: 2024-08-11 00:39+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4269,12 +4269,12 @@ msgstr "<select a keyword>"
 msgid "None (Dissolve)"
 msgstr "Εφέ διάλυσης (Dissolve)"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:225
+#: src/assets/view/widgets/urllistparamwidget.cpp:236
 #, fuzzy, kde-format
 msgid "Custom…"
 msgstr "Προσαρμογή"
 
-#: src/assets/view/widgets/urllistparamwidget.cpp:317
+#: src/assets/view/widgets/urllistparamwidget.cpp:328
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid LUT file %1"
@@ -5560,7 +5560,7 @@ msgstr[1] "Προσθήκη κλιπ"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:309
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:84
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:226
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:224
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
 #: src/ui/titlewidget_ui.ui:630
 #, kde-format
@@ -19308,7 +19308,7 @@ msgstr "Στοίχιση δεξιά"
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:47
-#: src/ui/editsub_ui.ui:219
+#: src/ui/editsub_ui.ui:217
 #, fuzzy, kde-format
 #| msgid " Position:"
 msgid "Position:"
@@ -19566,10 +19566,10 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:23 src/ui/editsub_ui.ui:33 src/ui/editsub_ui.ui:43
-#: src/ui/editsub_ui.ui:54 src/ui/editsub_ui.ui:65 src/ui/editsub_ui.ui:76
-#: src/ui/editsub_ui.ui:151 src/ui/editsub_ui.ui:191 src/ui/editsub_ui.ui:202
-#: src/ui/editsub_ui.ui:233 src/ui/editsub_ui.ui:492
+#: src/ui/editsub_ui.ui:21 src/ui/editsub_ui.ui:31 src/ui/editsub_ui.ui:41
+#: src/ui/editsub_ui.ui:52 src/ui/editsub_ui.ui:63 src/ui/editsub_ui.ui:74
+#: src/ui/editsub_ui.ui:149 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:200
+#: src/ui/editsub_ui.ui:231 src/ui/editsub_ui.ui:484
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
@@ -21559,33 +21559,33 @@ msgid "Enable manual editing"
 msgstr "Διαχωρισμός κομματιού ήχου"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:184
+#: src/ui/editsub_ui.ui:182
 #, kde-format
 msgid "End:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:291
+#: src/ui/editsub_ui.ui:289
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Opaque background"
 msgstr "Φόντο εικόνας"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:298
+#: src/ui/editsub_ui.ui:296
 #, fuzzy, kde-format
 #| msgid "Outline Color"
 msgid "Custom Outline Color"
 msgstr "Χρώμα περιγράμματος"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:315
+#: src/ui/editsub_ui.ui:313
 #, kde-format
 msgid "pt"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:328
+#: src/ui/editsub_ui.ui:326
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Custom Font Size"
@@ -21593,48 +21593,48 @@ msgstr "Μέγεθος γραμματοσειράς"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:355 src/ui/editsub_ui.ui:379
+#: src/ui/editsub_ui.ui:353 src/ui/editsub_ui.ui:377
 #, fuzzy, kde-format
 #| msgid "x"
 msgid "px"
 msgstr "x"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:362
+#: src/ui/editsub_ui.ui:360
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Custom Position"
 msgstr "Σύνθεση"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:369
+#: src/ui/editsub_ui.ui:367
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Font Color"
 msgstr "Δημιουργία φακέλου"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:389
+#: src/ui/editsub_ui.ui:387
 #, fuzzy, kde-format
 msgid "Custom Outline Size"
 msgstr "Ποιότητα"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:396
+#: src/ui/editsub_ui.ui:394
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Font"
 msgstr "Δημιουργία φακέλου"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:434
+#: src/ui/editsub_ui.ui:432
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Custom Shadow"
 msgstr "Δημιουργία φακέλου"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsub_ui.ui:454
+#: src/ui/editsub_ui.ui:452
 #, fuzzy, kde-format
 #| msgctxt "Font style"
 #| msgid "Bold"
@@ -21642,7 +21642,7 @@ msgid "Bold"
 msgstr "Έντονο"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsub_ui.ui:461
+#: src/ui/editsub_ui.ui:459
 #, fuzzy, kde-format
 #| msgid "Antialias"
 msgid "Italic"
