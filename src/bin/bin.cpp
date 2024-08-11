@@ -5637,7 +5637,8 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
                         pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), AbstractTask::PROXYJOB, true);
                     }
                     TranscodeTask::start(oid, i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, replace, clip.get(), false, false);
+                                         m_transcodingDialog->params(clip, i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, replace, clip.get(), false,
+                                         false);
                 }
             }
             m_transcodingDialog->deleteLater();
@@ -5685,7 +5686,7 @@ void Bin::requestTranscoding(const QString &url, const QString &id, int type, bo
                         continue;
                     }
                     TranscodeTask::start(ObjectId(KdenliveObjectType::BinClip, i.key().toInt(), QUuid()), i.value().first(), m_transcodingDialog->preParams(),
-                                         m_transcodingDialog->params(i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, true, clip.get(), false,
+                                         m_transcodingDialog->params(clip, i.value().at(1).toInt(), clip->fpsInfo()), -1, -1, true, clip.get(), false,
                                          i.key() == firstId ? checkProfile : false);
                 }
             }
