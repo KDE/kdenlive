@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "transcodeseek.h"
+#include "bin/projectclip.h"
 #include "kdenlivesettings.h"
 
 #include <KLocalizedString>
@@ -148,6 +149,19 @@ QMap<QString, QStringList> TranscodeSeek::ids() const
         urls.insert(item->data(Qt::UserRole).toString(), {item->data(Qt::UserRole + 1).toString(), item->data(Qt::UserRole + 2).toString()});
     }
     return urls;
+}
+
+QString TranscodeSeek::params(std::shared_ptr<ProjectClip> clip, int clipType, std::pair<int, int> fps_info) const
+{
+    QString parameters = params(clipType, fps_info);
+    const QString pix_fmt = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
+    if (pix_fmt.contains(QLatin1String("p10"))) {
+        // 10 bit source, not supported on nvidia hw, enforce 8 bit
+        if (parameters.contains(QLatin1String(" h264_nvenc "))) {
+            parameters.replace(QStringLiteral(" h264_nvenc "), QStringLiteral(" h264_nvenc -pix_fmt yuv420p "));
+        }
+    }
+    return parameters;
 }
 
 QString TranscodeSeek::params(int clipType, std::pair<int, int> fps_info) const
