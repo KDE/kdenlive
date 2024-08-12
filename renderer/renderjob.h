@@ -72,6 +72,7 @@ private:
     QStringList m_args;
     /** @brief Used to write to the log file. */
     QTextStream m_logstream;
+    QString m_outputData;
 #ifdef NODBUS
     void fromServer();
 #else
