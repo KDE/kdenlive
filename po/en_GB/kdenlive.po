@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 02:34+0000\n"
+"POT-Creation-Date: 2024-08-12 02:27+0000\n"
 "PO-Revision-Date: 2024-08-03 13:42+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -4648,7 +4648,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Replace in timeline"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5806 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5807 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5080,7 +5080,7 @@ msgstr ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 
-#: src/bin/bin.cpp:4833 src/titler/titlewidget.cpp:2282
+#: src/bin/bin.cpp:4833 src/titler/titlewidget.cpp:2281
 #, kde-format
 msgid "Save Title"
 msgstr "Save Title"
@@ -5167,29 +5167,29 @@ msgstr "Cannot find clip to add marker"
 msgid "Could not find master clip"
 msgstr "Could not find master clip"
 
-#: src/bin/bin.cpp:5828
+#: src/bin/bin.cpp:5829
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clips | "
 
-#: src/bin/bin.cpp:5830
+#: src/bin/bin.cpp:5831
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clips (%2 selected) | "
 
-#: src/bin/bin.cpp:5897 src/bin/bin.cpp:5974
+#: src/bin/bin.cpp:5898 src/bin/bin.cpp:5975
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Add additional streams for clip"
 msgstr[1] "Add additional streams for clip"
 
-#: src/bin/bin.cpp:5918
+#: src/bin/bin.cpp:5919
 #, kde-format
 msgid "Import selected clips"
 msgstr "Import selected clips"
 
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:5921
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5198,51 +5198,51 @@ msgstr ""
 "Additional streams for clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5933 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5934 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video stream %1"
 
-#: src/bin/bin.cpp:5948
+#: src/bin/bin.cpp:5949
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Audio stream %1"
 
-#: src/bin/bin.cpp:6001
+#: src/bin/bin.cpp:6002
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Remove clip markers"
 
-#: src/bin/bin.cpp:6148
+#: src/bin/bin.cpp:6149
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "We recommend that you save the project before the transcode operation"
 
-#: src/bin/bin.cpp:6149
+#: src/bin/bin.cpp:6150
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Save Project"
 
-#: src/bin/bin.cpp:6150
+#: src/bin/bin.cpp:6151
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcode Without Saving"
 
-#: src/bin/bin.cpp:6261 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6262 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Delete effect %1"
 
-#: src/bin/bin.cpp:6326 src/mainwindow.cpp:405
+#: src/bin/bin.cpp:6327 src/mainwindow.cpp:405
 #, kde-format
 msgid "Project Bin"
 msgstr "Project Bin"
 
-#: src/bin/bin.cpp:6329 src/bin/bin.cpp:6332 src/mainwindow.cpp:4968
+#: src/bin/bin.cpp:6330 src/bin/bin.cpp:6333 src/mainwindow.cpp:4968
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Project Bin %1"
@@ -6494,7 +6494,7 @@ msgstr "Export Guides Data"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5188
-#: src/titler/titlewidget.cpp:2295
+#: src/titler/titlewidget.cpp:2294
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Cannot write to file %1"
@@ -6699,7 +6699,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:510 src/dialogs/timeremap.cpp:1670
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1006
-#: src/project/transcodeseek.cpp:40 src/project/transcodeseek.cpp:53
+#: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Transcode"
@@ -12020,7 +12020,7 @@ msgstr "Recreate"
 
 #: src/mainwindow.cpp:2284 src/onlineresources/resourcewidget.cpp:613
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2278
+#: src/titler/titlewidget.cpp:2277
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -13897,7 +13897,7 @@ msgctxt "Description"
 msgid "Stabilize clip"
 msgstr "Stabilise clip"
 
-#: src/project/cliptranscode.cpp:34 src/project/transcodeseek.cpp:27
+#: src/project/cliptranscode.cpp:34 src/project/transcodeseek.cpp:38
 #, kde-format
 msgctxt "@title:window"
 msgid "Transcode Clip"
@@ -15139,12 +15139,12 @@ msgstr "Select a clip to create sequence"
 msgid "Create Sequence Clip"
 msgstr "Create Sequence Clip"
 
-#: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
+#: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, kde-format
 msgid "Audio transcode"
 msgstr "Audio transcode"
 
-#: src/project/transcodeseek.cpp:38 src/project/transcodeseek.cpp:51
+#: src/project/transcodeseek.cpp:49 src/project/transcodeseek.cpp:62
 #, kde-format
 msgid "Video transcode"
 msgstr "Video transcode"
@@ -17069,7 +17069,7 @@ msgstr "Invalid timeline preview parameters"
 msgid "Something is wrong with cache folders"
 msgstr "Something is wrong with cache folders"
 
-#: src/timeline2/view/previewmanager.cpp:773
+#: src/timeline2/view/previewmanager.cpp:774
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr "Preview rendering failed, check your parameters. %1Show details...%2"
@@ -17682,7 +17682,7 @@ msgid "No available stream"
 msgstr "No available stream"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3335 src/titler/titlewidget.cpp:3338
+#: src/titler/titlewidget.cpp:3334 src/titler/titlewidget.cpp:3337
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradient %1"
@@ -17973,39 +17973,39 @@ msgstr "All Images"
 msgid "%1 Image"
 msgstr "%1 Image"
 
-#: src/titler/titlewidget.cpp:1733
+#: src/titler/titlewidget.cpp:1732
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1735 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1734 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1757
+#: src/titler/titlewidget.cpp:1756
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1759 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1758 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2229
+#: src/titler/titlewidget.cpp:2228
 #, kde-format
 msgid "Load Title"
 msgstr "Load Title"
 
-#: src/titler/titlewidget.cpp:2230
+#: src/titler/titlewidget.cpp:2229
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive title"
 
-#: src/titler/titlewidget.cpp:2276
+#: src/titler/titlewidget.cpp:2275
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -18014,57 +18014,57 @@ msgstr ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 
-#: src/titler/titlewidget.cpp:2277
+#: src/titler/titlewidget.cpp:2276
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Embed Images"
 
-#: src/titler/titlewidget.cpp:2332
+#: src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "This title has 1 missing element"
 msgstr[1] "This title has %1 missing elements"
 
-#: src/titler/titlewidget.cpp:2333 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2332 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Details"
 
-#: src/titler/titlewidget.cpp:2336
+#: src/titler/titlewidget.cpp:2335
 #, kde-format
 msgid "Delete missing elements"
 msgstr "Delete missing elements"
 
-#: src/titler/titlewidget.cpp:2396
+#: src/titler/titlewidget.cpp:2395
 #, kde-format
 msgid "Update Title"
 msgstr "Update Title"
 
-#: src/titler/titlewidget.cpp:2399
+#: src/titler/titlewidget.cpp:2398
 #, kde-format
 msgid "Add as new Title"
 msgstr "Add as new Title"
 
-#: src/titler/titlewidget.cpp:2453
+#: src/titler/titlewidget.cpp:2452
 #, kde-format
 msgid "The following files are missing:"
 msgstr "The following files are missing:"
 
-#: src/titler/titlewidget.cpp:2651
+#: src/titler/titlewidget.cpp:2650
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start Viewport"
 
-#: src/titler/titlewidget.cpp:2652
+#: src/titler/titlewidget.cpp:2651
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "End Viewport"
 
-#: src/titler/titlewidget.cpp:3368
+#: src/titler/titlewidget.cpp:3367
 #, kde-format
 msgid "Gradient"
 msgstr "Gradient"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 02:34+0000\n"
+"POT-Creation-Date: 2024-08-12 02:27+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -4726,7 +4726,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Põhiajatelg"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5806 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5807 src/bin/clipcreator.cpp:324
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -5190,7 +5190,7 @@ msgstr ""
 "Muudad välist tiitriklippi (%1). Kas salvestada muudatused tiitriklippi või "
 "salvestada muudatused ainult selle projekti tarbeks?"
 
-#: src/bin/bin.cpp:4833 src/titler/titlewidget.cpp:2282
+#: src/bin/bin.cpp:4833 src/titler/titlewidget.cpp:2281
 #, kde-format
 msgid "Save Title"
 msgstr "Tiitri salvestamine"
@@ -5280,17 +5280,17 @@ msgstr "Ei leitud klippi, millele marker lisada"
 msgid "Could not find master clip"
 msgstr "Ei saa klippi laiendada"
 
-#: src/bin/bin.cpp:5828
+#: src/bin/bin.cpp:5829
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5830
+#: src/bin/bin.cpp:5831
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5897 src/bin/bin.cpp:5974
+#: src/bin/bin.cpp:5898 src/bin/bin.cpp:5975
 #, fuzzy, kde-format
 #| msgid ""
 #| "Additional streams for clip\n"
@@ -5304,12 +5304,12 @@ msgstr[1] ""
 "Lisavood klipile\n"
 " %1"
 
-#: src/bin/bin.cpp:5918
+#: src/bin/bin.cpp:5919
 #, kde-format
 msgid "Import selected clips"
 msgstr "Valitud klippide import"
 
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:5921
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5318,54 +5318,54 @@ msgstr ""
 "Lisavood klipile\n"
 " %1"
 
-#: src/bin/bin.cpp:5933 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5934 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videovoog %1"
 
-#: src/bin/bin.cpp:5948
+#: src/bin/bin.cpp:5949
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Helivoog %1"
 
-#: src/bin/bin.cpp:6001
+#: src/bin/bin.cpp:6002
 #, fuzzy, kde-format
 #| msgid "Delete clip markers"
 msgid "Remove clip markers"
 msgstr "Klipi markerite kustutamine"
 
-#: src/bin/bin.cpp:6148
+#: src/bin/bin.cpp:6149
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6149
+#: src/bin/bin.cpp:6150
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "DVD projekti salvestamine"
 
-#: src/bin/bin.cpp:6150
+#: src/bin/bin.cpp:6151
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkodeerimine: %1"
 
-#: src/bin/bin.cpp:6261 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6262 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Kustuta efekt %1"
 
-#: src/bin/bin.cpp:6326 src/mainwindow.cpp:405
+#: src/bin/bin.cpp:6327 src/mainwindow.cpp:405
 #, kde-format
 msgid "Project Bin"
 msgstr "Projektipuu"
 
-#: src/bin/bin.cpp:6329 src/bin/bin.cpp:6332 src/mainwindow.cpp:4968
+#: src/bin/bin.cpp:6330 src/bin/bin.cpp:6333 src/mainwindow.cpp:4968
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -6679,7 +6679,7 @@ msgstr "Impordi abijooned"
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5188
-#: src/titler/titlewidget.cpp:2295
+#: src/titler/titlewidget.cpp:2294
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Faili %1 kirjutamine nurjus"
@@ -6893,7 +6893,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:510 src/dialogs/timeremap.cpp:1670
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1006
-#: src/project/transcodeseek.cpp:40 src/project/transcodeseek.cpp:53
+#: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Ümberkodeerimine"
@@ -12520,7 +12520,7 @@ msgstr "Rühma loomine"
 
 #: src/mainwindow.cpp:2284 src/onlineresources/resourcewidget.cpp:613
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2278
+#: src/titler/titlewidget.cpp:2277
 #, fuzzy, kde-format
 #| msgid "Outline width"
 msgctxt "@action:button"
@@ -14439,7 +14439,7 @@ msgctxt "Description"
 msgid "Stabilize clip"
 msgstr "Klipi stabiliseerimine"
 
-#: src/project/cliptranscode.cpp:34 src/project/transcodeseek.cpp:27
+#: src/project/cliptranscode.cpp:34 src/project/transcodeseek.cpp:38
 #, fuzzy, kde-format
 #| msgid "Transcode Clip"
 msgctxt "@title:window"
@@ -15709,13 +15709,13 @@ msgstr "Klipi valimine efekti võrdlemiseks"
 msgid "Create Sequence Clip"
 msgstr "Uue seeria loomine"
 
-#: src/project/transcodeseek.cpp:36 src/project/transcodeseek.cpp:49
+#: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
 msgid "Audio transcode"
 msgstr "Heliradu"
 
-#: src/project/transcodeseek.cpp:38 src/project/transcodeseek.cpp:51
+#: src/project/transcodeseek.cpp:49 src/project/transcodeseek.cpp:62
 #, fuzzy, kde-format
 #| msgid "Video tracks"
 msgid "Video transcode"
@@ -17734,7 +17734,7 @@ msgstr "Vigased ajatelje eelvaatluse parameetrid"
 msgid "Something is wrong with cache folders"
 msgstr "Puhvrikataloogidega on midagi valesti"
 
-#: src/timeline2/view/previewmanager.cpp:773
+#: src/timeline2/view/previewmanager.cpp:774
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
@@ -18382,7 +18382,7 @@ msgid "No available stream"
 msgstr "Ühtegi voogu pole saada"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3335 src/titler/titlewidget.cpp:3338
+#: src/titler/titlewidget.cpp:3334 src/titler/titlewidget.cpp:3337
 #, kde-format
 msgid "Gradient %1"
 msgstr "Astmik %1"
@@ -18678,40 +18678,40 @@ msgstr "Kõik pildid"
 msgid "%1 Image"
 msgstr "%1 pilt"
 
-#: src/titler/titlewidget.cpp:1733
+#: src/titler/titlewidget.cpp:1732
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1735 src/ui/titlewidget_ui.ui:260
+#: src/titler/titlewidget.cpp:1734 src/ui/titlewidget_ui.ui:260
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1757
+#: src/titler/titlewidget.cpp:1756
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1759 src/ui/titlewidget_ui.ui:290
+#: src/titler/titlewidget.cpp:1758 src/ui/titlewidget_ui.ui:290
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:2229
+#: src/titler/titlewidget.cpp:2228
 #, kde-format
 msgid "Load Title"
 msgstr "Tiitri laadimine"
 
-#: src/titler/titlewidget.cpp:2230
+#: src/titler/titlewidget.cpp:2229
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Kdenlive title"
 msgstr "Kdenlive"
 
-#: src/titler/titlewidget.cpp:2276
+#: src/titler/titlewidget.cpp:2275
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -18720,61 +18720,61 @@ msgstr ""
 "Kas põimida pildid tiitridokumenti?\n"
 "Seda läheb kõige rohkem vaja tiitrite jagamisel."
 
-#: src/titler/titlewidget.cpp:2277
+#: src/titler/titlewidget.cpp:2276
 #, fuzzy, kde-format
 #| msgid "Add Image"
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Lisa pilt"
 
-#: src/titler/titlewidget.cpp:2332
+#: src/titler/titlewidget.cpp:2331
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/titler/titlewidget.cpp:2333 src/titler/unicodedialog.cpp:28
+#: src/titler/titlewidget.cpp:2332 src/titler/unicodedialog.cpp:28
 #, kde-format
 msgid "Details"
 msgstr "Üksikasjad"
 
-#: src/titler/titlewidget.cpp:2336
+#: src/titler/titlewidget.cpp:2335
 #, kde-format
 msgid "Delete missing elements"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2396
+#: src/titler/titlewidget.cpp:2395
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update Title"
 msgstr "Uuenda profiili"
 
-#: src/titler/titlewidget.cpp:2399
+#: src/titler/titlewidget.cpp:2398
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add as new Title"
 msgstr "Lisa malltiiter"
 
-#: src/titler/titlewidget.cpp:2453
+#: src/titler/titlewidget.cpp:2452
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Järgmised failid puuduvad:"
 
-#: src/titler/titlewidget.cpp:2651
+#: src/titler/titlewidget.cpp:2650
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Käivita skript"
 
-#: src/titler/titlewidget.cpp:2652
+#: src/titler/titlewidget.cpp:2651
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:3368
+#: src/titler/titlewidget.cpp:3367
 #, kde-format
 msgid "Gradient"
 msgstr "Astmik"
