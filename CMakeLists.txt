@@ -88,7 +88,9 @@ include(ECMAddQch)
 include(ECMDeprecationSettings)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
 # MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
+if(NOT MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
+endif()
 
 if (QT_MAJOR_VERSION STREQUAL "6")
     set(USE_VERSIONLESS_TARGETS ON)

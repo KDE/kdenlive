@@ -53,7 +53,6 @@
 #include <QtMath>
 
 #include <memory>
-#include <unistd.h>
 
 TimelineController::TimelineController(QObject *parent)
     : QObject(parent)

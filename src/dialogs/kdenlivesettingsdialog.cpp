@@ -60,7 +60,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <cstdio>
 #include <cstdlib>
 #include <fcntl.h>
-#include <unistd.h>
 
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogaction.h"
