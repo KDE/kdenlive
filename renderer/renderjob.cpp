@@ -56,7 +56,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
 
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
-    m_args << "-progress" << scenelist;
+    m_args << "-progress2" << scenelist;
 
     // Create a log of every render process.
     if (!m_logfile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -135,14 +135,22 @@ void RenderJob::slotAbort()
 
 void RenderJob::receivedStderr()
 {
-    QString result = QString::fromLocal8Bit(m_renderProcess->readAllStandardError()).simplified();
+    QString result = QString::fromLocal8Bit(m_renderProcess->readAllStandardError());
+    if (!result.contains(QLatin1Char('\n'))) {
+        m_outputData.append(result);
+        return;
+    }
+    result.prepend(m_outputData);
+    m_outputData.clear();
+    result = result.simplified();
     if (!result.startsWith(QLatin1String("Current Frame"))) {
         m_errorMessage.append(result + QStringLiteral("<br>"));
         m_logstream << result;
     } else {
-        int progress = result.section(QLatin1Char(' '), -1).toInt();
+        bool ok;
+        int progress = result.section(QLatin1Char(' '), -1).toInt(&ok);
         int frame = result.section(QLatin1Char(','), 0, 0).section(QLatin1Char(' '), -1).toInt();
-        if (progress <= m_progress || progress <= 0 || progress > 100) {
+        if (!ok || progress <= m_progress || progress <= 0 || progress > 100) {
             return;
         }
         m_progress = progress;
