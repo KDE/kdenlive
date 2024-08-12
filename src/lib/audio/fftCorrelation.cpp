@@ -6,7 +6,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "fftCorrelation.h"
 #include <QElapsedTimer>
 extern "C" {
-#include "../external/kiss_fft/tools/kiss_fftr.h"
+#include "../external/kiss_fft/kiss_fftr.h"
 }
 
 #include "kdenlive_debug.h"

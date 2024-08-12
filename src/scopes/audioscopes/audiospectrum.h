@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "abstractaudioscopewidget.h"
 #include "lib/audio/fftTools.h"
-#include "lib/external/kiss_fft/tools/kiss_fftr.h"
+#include "lib/external/kiss_fft/kiss_fftr.h"
 #include "ui_audiospectrum_ui.h"
 
 // Enables debugging

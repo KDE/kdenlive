@@ -138,10 +138,6 @@ Files: doc/*
 Copyright: 2020 Kdenlive contributors
 License: CC-BY-SA-4.0
 
-Files:src/lib/external/kiss_fft/*
-Copyright: 2003-2004 Mark Borgerding <Mark@Borgerding.net>
-License: BSD-3-Clause
-
 Files:src/qml/qmldir src/kdenlivesettings.kcfgc
 Copyright: None
 License: CC0-1.0

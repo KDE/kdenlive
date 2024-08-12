@@ -183,7 +183,8 @@ target_link_libraries(kdenliveLib
     ${MLTPP_LIBRARIES}
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
-    kiss_fft)
+    kiss_fft
+    )
 
 if (KF_MAJOR LESS "6")
     target_link_libraries(kdenliveLib
