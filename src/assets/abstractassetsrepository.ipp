@@ -153,7 +153,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     if (metadata && metadata->is_valid()) {
         if (metadata->property_exists("title") && metadata->property_exists("identifier") && strlen(metadata->get("title")) > 0) {
             QString id = metadata->get("identifier");
-            res.name = i18nc("@item:inlistbox effect name", metadata->get("title"));
+            res.name = i18n(metadata->get("title"));
             res.name[0] = res.name[0].toUpper();
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
@@ -409,7 +409,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     // Update name if the xml provide one
     const QString name = Xml::getSubTagContent(currentAsset, QStringLiteral("name"));
     if (!name.isEmpty()) {
-        res.name = i18nc("@item:inlistbox effect name", name.toUtf8().constData());
+        res.name = i18n(name.toUtf8().constData());
     }
     // Update description if the xml provide one
     const QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
