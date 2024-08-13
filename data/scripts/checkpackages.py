@@ -74,7 +74,7 @@ elif '--upgrade' in sys.argv:
     for r in required:
         try:
             if r.endswith(".txt"):
-                subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', '-U', '-r', r])
+                subprocess.check_call([python, '-m', 'pip', 'install', '--force-reinstall', '-r', r])
             else:
                 subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', r])
         except:
