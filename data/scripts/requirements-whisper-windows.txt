@@ -1,0 +1,5 @@
+numpy==1.26.0
+openai-whisper
+srt
+srt_equalizer
+torch

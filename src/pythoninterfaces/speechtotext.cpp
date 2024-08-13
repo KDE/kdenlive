@@ -34,14 +34,19 @@ void SpeechToText::buildWhisperDeps(bool enableSeamless)
 {
     m_dependencies.clear();
     m_optionalDeps.clear();
-    addDependency(QStringLiteral("openai-whisper"), i18n("speech features"));
-    addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
-    addDependency(QStringLiteral("srt_equalizer"), i18n("adjust subtitles length"), true);
-    addDependency(QStringLiteral("torch"), i18n("machine learning framework"));
+#ifdef Q_OS_WIN
+    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/requirements-whisper-windows.txt"));
+#else
+    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/requirements-whisper.txt"));
+#endif
+    if (!scriptPath.isEmpty()) {
+        m_dependencies.insert(scriptPath, QString());
+    }
     if (enableSeamless) {
-        addDependency(QStringLiteral("sentencepiece"), i18n("SeamlessM4T translation"), true);
-        addDependency(QStringLiteral("protobuf"), i18n("SeamlessM4T translation"), true);
-        addDependency(QStringLiteral("transformers"), i18n("SeamlessM4T translation"), true);
+        scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/requirements-seamless.txt"));
+        if (!scriptPath.isEmpty()) {
+            m_dependencies.insert(scriptPath, QString());
+        }
     }
 }
 

@@ -374,21 +374,18 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
     for (auto &m : missingDeps) {
         outputMissing << m.simplified();
     }
+    QStringList deps = parseDependencies(m_dependencies.keys(), true);
     QStringList messages;
     if (!output.isEmpty()) {
         // We have missing dependencies
-        for (auto i : m_dependencies.keys()) {
+        for (auto i : deps) {
             if (outputMissing.contains(i)) {
                 if (m_optionalDeps.contains(i)) {
                     m_optionalMissing << i;
                     continue;
                 }
                 m_missing.append(i);
-                if (m_dependencies.value(i).isEmpty()) {
-                    messages.append(xi18n("The <application>%1</application> python module is required.", i));
-                } else {
-                    messages.append(xi18n("The <application>%1</application> python module is required for %2.", i, m_dependencies.value(i)));
-                }
+                messages.append(xi18n("The <application>%1</application> python module is required.", i));
             }
         }
     }
@@ -521,6 +518,43 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
     }
 }
 
+QStringList AbstractPythonInterface::parseDependencies(QStringList deps, bool split)
+{
+    // Extract requirements files
+    if (split == false) {
+        return deps;
+    }
+    QStringList packages;
+    QStringList reqFiles;
+    for (auto &d : deps) {
+        if (d.endsWith(QLatin1String(".txt"))) {
+            reqFiles << d;
+        } else {
+            packages << d;
+        }
+    }
+    for (auto &r : reqFiles) {
+        // This is a requirements.txt file, read content
+        QStringList stringList;
+        QFile textFile(r);
+        if (textFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream textStream(&textFile);
+            while (true) {
+                QString line = textStream.readLine();
+                if (line.isNull())
+                    break;
+                else if (!line.startsWith(QLatin1Char('#'))) {
+                    if (line.contains(QLatin1Char('='))) {
+                        line = line.section(QLatin1Char('='), 0, 0);
+                    }
+                    packages.append(line.simplified());
+                }
+            }
+        }
+    }
+    return packages;
+}
+
 QString AbstractPythonInterface::runPackageScript(const QString &mode, bool concurrent)
 {
     if (m_dependencies.keys().isEmpty()) {
@@ -531,15 +565,17 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode, bool conc
     if (!checkSetup()) {
         return {};
     }
+    QStringList deps = parseDependencies(m_dependencies.keys(), mode != QLatin1String("--install") && mode != QLatin1String("--upgrade"));
+
     if (concurrent) {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QtConcurrent::run(this, &AbstractPythonInterface::runScript, QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode, concurrent, true);
+        QtConcurrent::run(this, &AbstractPythonInterface::runScript, QStringLiteral("checkpackages.py"), deps, mode, concurrent, true);
 #else
-        (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode, concurrent, true);
+        (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, QStringLiteral("checkpackages.py"), deps, mode, concurrent, true);
 #endif
         return {};
     } else {
-        return runScript(QStringLiteral("checkpackages.py"), m_dependencies.keys(), mode, concurrent, true);
+        return runScript(QStringLiteral("checkpackages.py"), deps, mode, concurrent, true);
     }
 }
 
@@ -562,9 +598,11 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
         }
         return {};
     }
+
     if (concurrent && (firstarg == QLatin1String("--install") || firstarg == QLatin1String("--upgrade"))) {
         Q_EMIT scriptStarted();
     }
+    args = parseDependencies(args, firstarg != QLatin1String("--install") && firstarg != QLatin1String("--upgrade"));
     if (!firstarg.isEmpty()) {
         args.prepend(firstarg);
     }

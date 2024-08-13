@@ -81,6 +81,7 @@ private:
     bool setupVenv();
     void gotFolderSize(KJob *job);
     QString installPackage(const QStringList packageNames);
+    QStringList parseDependencies(QStringList deps, bool split);
 
 protected:
     QMap<QString, QString> m_dependencies;
