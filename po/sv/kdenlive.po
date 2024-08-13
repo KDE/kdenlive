@@ -4445,7 +4445,7 @@ msgstr ""
 #: src/bin/bin.cpp:1440
 #, kde-format
 msgid "Close Current Bin"
-msgstr "Välj aktuell korg"
+msgstr "Stäng aktuell korg"
 
 #: src/bin/bin.cpp:1452
 #, kde-format
@@ -11847,7 +11847,7 @@ msgstr "Infoga spår…"
 #: src/mainwindow.cpp:1968
 #, kde-format
 msgid "Fit all Tracks in View"
-msgstr "Anpassa alla spår i vyn"
+msgstr "Anpassa alla spår till visningen"
 
 #: src/mainwindow.cpp:1975 src/mainwindow.cpp:1977
 #: src/timeline2/view/timelinecontroller.cpp:4944
@@ -11993,7 +11993,7 @@ msgstr "Kopiera felsökningsinformation"
 #: src/mainwindow.cpp:2091
 #, kde-format
 msgid "Disable Timeline Effects"
-msgstr "Inaktivera tidslinjeeffekt"
+msgstr "Inaktivera tidslinjeeffekter"
 
 #: src/mainwindow.cpp:2097
 #, kde-format
