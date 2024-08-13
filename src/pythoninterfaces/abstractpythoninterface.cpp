@@ -283,9 +283,13 @@ bool AbstractPythonInterface::setupVenv()
     KdenliveSettings::setPythonPath(pyExec);
     const QString missingDeps = runScript(QStringLiteral("checkpackages.py"), {"virtualenv"}, QStringLiteral("--check"), false);
     if (!missingDeps.isEmpty()) {
+#ifdef Q_OS_WIN
+        runScript(QStringLiteral("checkpackages.py"), {"virtualenv"}, QStringLiteral("--install"), false);
+#else
         Q_EMIT setupError(i18n("Cannot find python virtualenv, please install it on your system. Defaulting to system python."));
         installInProgress = false;
         return false;
+#endif
     }
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     pluginDir.mkpath(QStringLiteral("."));
