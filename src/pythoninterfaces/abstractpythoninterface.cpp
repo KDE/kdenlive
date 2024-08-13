@@ -492,7 +492,7 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
     }
     QStringList raw = output.split(QStringLiteral("Version: "));
     QStringList versions;
-    for (int i = 0; i < raw.count(); i++) {
+    for (int i = 0; i < raw.count() - 1; i++) {
         QString name = raw.at(i);
         int pos = name.indexOf(QStringLiteral("Name:"));
         if (pos > -1) {
