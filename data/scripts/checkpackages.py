@@ -43,8 +43,13 @@ if len(required) == 0:
     sys.exit("Error: You need to provide at least one package name")
 
 installed = {pkg.name for pkg in importlib.metadata.distributions()}
-installed = {x.lower() for x in installed}
-missing = required - installed
+normalizedInstalled = set()
+for i in installed:
+    if i is None:
+        continue
+    normalizedInstalled.add(i.lower())
+
+missing = required - normalizedInstalled
 
 if '--check' in sys.argv:
     for m in missing:
@@ -56,7 +61,10 @@ elif '--install' in sys.argv and len(sys.argv) > 1:
         print("Installing missing packages: ", missing)
         for m in missing:
             try:
-                subprocess.check_call([python, '-m', 'pip', 'install', m])
+                if m.endswith(".txt"):
+                    subprocess.check_call([python, '-m', 'pip', 'install', '-r', m])
+                else:
+                    subprocess.check_call([python, '-m', 'pip', 'install', m])
             except:
                 print("failed installing ", m)
 elif '--upgrade' in sys.argv:
@@ -65,8 +73,10 @@ elif '--upgrade' in sys.argv:
     python = sys.executable
     for r in required:
         try:
-            subprocess.check_call(
-                [python, '-m', 'pip', 'install', '--upgrade', r])
+            if r.endswith(".txt"):
+                subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', '-U', '-r', r])
+            else:
+                subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', r])
         except:
             print("failed installing ", r)
 elif '--details' in sys.argv:

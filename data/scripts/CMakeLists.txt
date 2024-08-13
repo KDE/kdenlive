@@ -9,5 +9,8 @@ INSTALL(FILES
     whispertotext.py
     whispertosrt.py
     checkgpu.py
+    requirements-whisper.txt
+    requirements-whisper-windows.txt
+    requirements-seamless.txt
 
 DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/scripts)
