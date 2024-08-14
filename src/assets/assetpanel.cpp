@@ -503,6 +503,10 @@ void AssetPanel::scrollTo(QRect rect)
 
 void AssetPanel::checkDragScroll()
 {
+    QPoint mousePos = mapFromGlobal(QCursor::pos());
+    if (!geometry().contains(mousePos)) {
+        return;
+    }
     int yPos = m_sc->mapFromGlobal(QCursor::pos()).y();
     int currentPos = m_sc->verticalScrollBar()->value();
     if (currentPos > 0 && yPos < 15) {
