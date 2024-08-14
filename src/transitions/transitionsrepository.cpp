@@ -185,7 +185,7 @@ const QString TransitionsRepository::getCompositingTransition()
     if (KdenliveSettings::gpu_accel()) {
         return QStringLiteral("movit.overlay");
     }
-    if (KdenliveSettings::preferredcomposite() == i18n("auto")) {
+    if (KdenliveSettings::preferredcomposite().isEmpty() || KdenliveSettings::preferredcomposite() == i18n("auto")) {
         // If auto, default to qtblend
         QString qtblendTransiton = QStringLiteral("qtblend");
         if (exists(qtblendTransiton)) {
