@@ -88,6 +88,9 @@ Files: data/excluded_effects.txt data/excluded_transitions.txt data/included_eff
 Copyright: Jean-Baptiste Mardelle, Massimo Stella
 License: CC0-1.0
 
+Files: data/scripts/*.txt
+Copyright: 2024 Jean-Baptiste Mardelle
+License: CC0-1.0
 
 Files: data/man/kdenlive*
 Copyright: Mads Bondo Dydensborg
