@@ -509,20 +509,21 @@ void AssetPanel::scrollTo(QRect rect)
 
 void AssetPanel::checkDragScroll()
 {
-    if (m_effectStackWidget->dragYPos < 0) {
+    if (m_effectStackWidget->dragPos.isNull()) {
         return;
     }
-    int mousePos = m_effectStackWidget->mapTo(m_sc, QPoint(0, m_effectStackWidget->dragYPos)).y();
+    int dragYPos = m_effectStackWidget->dragPos.y();
+    int mousePos = m_effectStackWidget->mapTo(m_sc, m_effectStackWidget->dragPos).y();
     int viewPos = m_sc->verticalScrollBar()->value();
     if (viewPos > 0 && mousePos < 15) {
         m_sc->verticalScrollBar()->setValue(qMax(0, viewPos - m_sc->verticalScrollBar()->singleStep()));
         viewPos -= m_sc->verticalScrollBar()->value();
-        m_effectStackWidget->dragYPos -= viewPos;
+        m_effectStackWidget->dragPos.setY(dragYPos - viewPos);
         m_dragScrollTimer.start();
     } else if (m_sc->height() - mousePos < 15) {
         m_sc->verticalScrollBar()->setValue(viewPos + m_sc->verticalScrollBar()->singleStep());
         viewPos -= m_sc->verticalScrollBar()->value();
-        m_effectStackWidget->dragYPos -= viewPos;
+        m_effectStackWidget->dragPos.setY(dragYPos - viewPos);
         m_dragScrollTimer.start();
     }
 }

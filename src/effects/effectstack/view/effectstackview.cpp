@@ -111,6 +111,11 @@ EffectStackView::~EffectStackView()
 void EffectStackView::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        dragPos = event->pos();
+#else
+        dragPos = event->position().toPoint();
+#endif
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
         } else {
@@ -124,6 +129,7 @@ void EffectStackView::dragEnterEvent(QDragEnterEvent *event)
 
 void EffectStackView::dragLeaveEvent(QDragLeaveEvent *event)
 {
+    dragPos = QPoint();
     event->accept();
     if (dragRow > -1 && dragRow < m_model->rowCount()) {
         auto item = m_model->getEffectStackRow(dragRow);
@@ -176,9 +182,9 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
         }
     }
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    dragYPos = event->pos().y();
+    dragPos = event->pos();
 #else
-    dragYPos = event->position().toPoint().y();
+    dragPos = event->position().toPoint();
 #endif
 
     if (prevTarget != dragRow) {
@@ -207,7 +213,7 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
 
 void EffectStackView::dropEvent(QDropEvent *event)
 {
-    dragYPos = -1;
+    dragPos = QPoint();
     if (dragRow < 0) {
         return;
     }
