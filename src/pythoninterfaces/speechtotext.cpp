@@ -34,7 +34,7 @@ void SpeechToText::buildWhisperDeps(bool enableSeamless)
 {
     m_dependencies.clear();
     m_optionalDeps.clear();
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/requirements-whisper-windows.txt"));
 #else
     QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/requirements-whisper.txt"));
