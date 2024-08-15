@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-14 02:34+0000\n"
+"POT-Creation-Date: 2024-08-15 02:36+0000\n"
 "PO-Revision-Date: 2024-06-26 10:29+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -3440,22 +3440,22 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
 
-#: src/assets/assetpanel.cpp:266
+#: src/assets/assetpanel.cpp:269
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 effecten"
 
-#: src/assets/assetpanel.cpp:271 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parameters"
 
-#: src/assets/assetpanel.cpp:275
+#: src/assets/assetpanel.cpp:278
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 effecten volgen"
 
-#: src/assets/assetpanel.cpp:280
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Bin-%1 effecten"
@@ -5420,7 +5420,7 @@ msgstr "Bestand importeren bij dubbelklikken"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:189
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:522
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5598,8 +5598,8 @@ msgid "Move subtitle"
 msgstr "Ondertitel verplaatsen"
 
 #: src/bin/model/subtitlemodel.cpp:1177
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
-#: src/effects/effectstack/view/effectstackview.cpp:612
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
+#: src/effects/effectstack/view/effectstackview.cpp:668
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:367
 #, kde-format
@@ -6525,8 +6525,8 @@ msgstr "Hulplijngegevens exporteren"
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:627
-#: src/effects/effectstack/view/effectstackview.cpp:650
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:637
+#: src/effects/effectstack/view/effectstackview.cpp:706
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9387,12 +9387,13 @@ msgstr "Effect kopiëren"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:485
 #: src/effects/effectstack/model/effectstackmodel.cpp:570
-#: src/effects/effectstack/model/effectstackmodel.cpp:1279
+#: src/effects/effectstack/model/effectstackmodel.cpp:1307
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:561
+#: src/effects/effectstack/view/effectstackview.cpp:239
 #: src/timeline2/model/timelinemodel.cpp:5033
 #, kde-format
 msgid "Add effect %1"
@@ -9574,7 +9575,7 @@ msgstr "Effect opslaan"
 msgid "%1 instances of this effect in the group"
 msgstr "%1 exemplaren van dit effect in de groep"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:458
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:468
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9585,71 +9586,71 @@ msgstr ""
 "het te kopiëren. <b>Alt slepen</b> om het te kopiëren naar een enkel item in "
 "een groep."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:492
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 uitschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:492
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 inschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:528
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Effect opslaan"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:533
 #, kde-format
 msgid "Comments:"
 msgstr "Opmerkingen:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:549
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Geen naam gegeven, effect niet opgeslagen."
 
-#: src/effects/effectstack/view/effectstackview.cpp:529
+#: src/effects/effectstack/view/effectstackview.cpp:585
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Effectenstapel inschakelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:529
+#: src/effects/effectstack/view/effectstackview.cpp:585
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Effectstapel uitschakelen"
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:624
 #, kde-format
 msgid "No effect selected."
 msgstr "Geen effect geselecteerd."
 
-#: src/effects/effectstack/view/effectstackview.cpp:574
+#: src/effects/effectstack/view/effectstackview.cpp:630
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Huidige effectenstapel opslaan"
 
-#: src/effects/effectstack/view/effectstackview.cpp:579
+#: src/effects/effectstack/view/effectstackview.cpp:635
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Naam voor opgeslagen stapel:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:580
+#: src/effects/effectstack/view/effectstackview.cpp:636
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Beschrijving:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:593
+#: src/effects/effectstack/view/effectstackview.cpp:649
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Geen naam gegeven, effectstapel niet opgeslagen."
 
-#: src/effects/effectstack/view/effectstackview.cpp:600
+#: src/effects/effectstack/view/effectstackview.cpp:656
 #, kde-format
 msgid ""
 "No description provided. \n"

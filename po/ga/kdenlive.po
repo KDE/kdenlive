@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-14 02:34+0000\n"
+"POT-Creation-Date: 2024-08-15 02:36+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -3523,24 +3523,24 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:266
+#: src/assets/assetpanel.cpp:269
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "%1 effects"
 msgstr "Maisíochtaí"
 
-#: src/assets/assetpanel.cpp:271 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "%1 parameters"
 msgstr "Paraiméadair"
 
-#: src/assets/assetpanel.cpp:275
+#: src/assets/assetpanel.cpp:278
 #, kde-format
 msgid "Track %1 effects"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:280
+#: src/assets/assetpanel.cpp:283
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Bin %1 effects"
@@ -5637,7 +5637,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:189
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:522
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:532
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, fuzzy, kde-format
@@ -5828,8 +5828,8 @@ msgid "Move subtitle"
 msgstr "Teideal"
 
 #: src/bin/model/subtitlemodel.cpp:1177
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:548
-#: src/effects/effectstack/view/effectstackview.cpp:612
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
+#: src/effects/effectstack/view/effectstackview.cpp:668
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:367
 #, kde-format
@@ -6775,8 +6775,8 @@ msgstr "Luchtaigh marcóirí"
 #: src/effects/effectlist/model/effecttreemodel.cpp:293
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:627
-#: src/effects/effectstack/view/effectstackview.cpp:650
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:637
+#: src/effects/effectstack/view/effectstackview.cpp:706
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9685,12 +9685,13 @@ msgstr "Sábháil an Mhaisíocht"
 #: src/effects/effectstack/model/effectstackmodel.cpp:351
 #: src/effects/effectstack/model/effectstackmodel.cpp:485
 #: src/effects/effectstack/model/effectstackmodel.cpp:570
-#: src/effects/effectstack/model/effectstackmodel.cpp:1279
+#: src/effects/effectstack/model/effectstackmodel.cpp:1307
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:561
+#: src/effects/effectstack/view/effectstackview.cpp:239
 #: src/timeline2/model/timelinemodel.cpp:5033
 #, fuzzy, kde-format
 #| msgid "Add new effect"
@@ -9881,7 +9882,7 @@ msgstr "Sábháil an Mhaisíocht"
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:458
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:468
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9889,83 +9890,83 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:492
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable %1"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:482
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:492
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable %1"
 msgstr "Cumasaigh maisíocht"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:528
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:523
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:533
 #, fuzzy, kde-format
 #| msgid "Comment"
 msgid "Comments:"
 msgstr "Nóta"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:549
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:529
+#: src/effects/effectstack/view/effectstackview.cpp:585
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable Effect Stack"
 msgstr "Cumasaigh maisíocht"
 
-#: src/effects/effectstack/view/effectstackview.cpp:529
+#: src/effects/effectstack/view/effectstackview.cpp:585
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Effect Stack"
 msgstr "Díchumasaigh Maisíocht"
 
-#: src/effects/effectstack/view/effectstackview.cpp:568
+#: src/effects/effectstack/view/effectstackview.cpp:624
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No effect selected."
 msgstr "Amlíne"
 
-#: src/effects/effectstack/view/effectstackview.cpp:574
+#: src/effects/effectstack/view/effectstackview.cpp:630
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/effects/effectstack/view/effectstackview.cpp:579
+#: src/effects/effectstack/view/effectstackview.cpp:635
 #, kde-format
 msgid "Name for saved stack:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:580
+#: src/effects/effectstack/view/effectstackview.cpp:636
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Cur Síos:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:593
+#: src/effects/effectstack/view/effectstackview.cpp:649
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:600
+#: src/effects/effectstack/view/effectstackview.cpp:656
 #, kde-format
 msgid ""
 "No description provided. \n"
