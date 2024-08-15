@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-14 00:38+0000\n"
+"POT-Creation-Date: 2024-08-15 00:39+0000\n"
 "PO-Revision-Date: 2024-01-31 01:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -5585,7 +5585,7 @@ msgstr "Siirrä tekstitys"
 
 #: src/bin/model/subtitlemodel.cpp:1177
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:587
-#: src/effects/effectstack/view/effectstackview.cpp:799
+#: src/effects/effectstack/view/effectstackview.cpp:805
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:867
 #: src/project/dialogs/archivewidget.cpp:881 src/render/renderrequest.cpp:367
 #, kde-format
@@ -6522,7 +6522,7 @@ msgstr "Vie opastetiedot"
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectsrepository.cpp:422
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:666
-#: src/effects/effectstack/view/effectstackview.cpp:837
+#: src/effects/effectstack/view/effectstackview.cpp:843
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9379,7 +9379,7 @@ msgid "Effect %1 cannot be added twice."
 msgstr "Tehostetta %1 ei voi lisätä kahdesti."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:590
-#: src/effects/effectstack/view/effectstackview.cpp:241
+#: src/effects/effectstack/view/effectstackview.cpp:247
 #: src/timeline2/model/timelinemodel.cpp:5033
 #, kde-format
 msgid "Add effect %1"
@@ -9592,66 +9592,66 @@ msgstr "Huomautukset:"
 msgid "No name provided, effect not saved."
 msgstr "Nimeä ei ole annettu, tehostetta ei tallennettu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:315
+#: src/effects/effectstack/view/effectstackview.cpp:321
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Horizontal Blinds"
 msgid "Horizontal Flip"
 msgstr "Vaakakaihtimet"
 
-#: src/effects/effectstack/view/effectstackview.cpp:320
+#: src/effects/effectstack/view/effectstackview.cpp:326
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical Flip"
 msgstr "Pysty"
 
-#: src/effects/effectstack/view/effectstackview.cpp:327
+#: src/effects/effectstack/view/effectstackview.cpp:333
 #, fuzzy, kde-format
 #| msgid "Flippo"
 msgid "Flip"
 msgstr "Flippo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:716
+#: src/effects/effectstack/view/effectstackview.cpp:722
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "Ota tehoste käyttöön"
 
-#: src/effects/effectstack/view/effectstackview.cpp:716
+#: src/effects/effectstack/view/effectstackview.cpp:722
 #, fuzzy, kde-format
 #| msgid "Disable Effect"
 msgid "Disable Effect Stack"
 msgstr "Poista tehoste käytöstä"
 
-#: src/effects/effectstack/view/effectstackview.cpp:755
+#: src/effects/effectstack/view/effectstackview.cpp:761
 #, kde-format
 msgid "No effect selected."
 msgstr "Tehostetta ei ole valittu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:761
+#: src/effects/effectstack/view/effectstackview.cpp:767
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Tallenna tehostepino"
 
-#: src/effects/effectstack/view/effectstackview.cpp:766
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Pinon nimi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:767
+#: src/effects/effectstack/view/effectstackview.cpp:773
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Kuvaus:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:780
+#: src/effects/effectstack/view/effectstackview.cpp:786
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Nimeä ei annettu, tehostepinoa ei tallennettu."
 
-#: src/effects/effectstack/view/effectstackview.cpp:787
+#: src/effects/effectstack/view/effectstackview.cpp:793
 #, kde-format
 msgid ""
 "No description provided. \n"
