@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-15 00:39+0000\n"
-"PO-Revision-Date: 2024-07-28 07:51+0200\n"
+"PO-Revision-Date: 2024-08-15 15:09+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -6437,7 +6437,7 @@ msgid ""
 "reverting to Automatic."
 msgstr ""
 "Vald profil för förhandsgranskning av tidslinje är inte kompatibel med "
-"projektets bildfrekvens.\n"
+"projektets bildhastighet.\n"
 "Återgår till automatisk."
 
 #: src/dialogs/exportguidesdialog.cpp:38
@@ -9716,7 +9716,7 @@ msgstr "Filen <b>%1</b> går inte att söka i."
 #: src/jobs/cliploadtask.cpp:717
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
-msgstr "Filen <b>%1</b> har en variabel bildfrekvens."
+msgstr "Filen <b>%1</b> har en variabel bildhastighet."
 
 #: src/jobs/customjobtask.cpp:173
 #, kde-format
@@ -11441,7 +11441,7 @@ msgstr "Justera uppspelning till musposition"
 #: src/mainwindow.cpp:1707
 #, kde-format
 msgid "Grab Current Item"
-msgstr "Lagra nuvarande objekt"
+msgstr "Välj nuvarande objekt"
 
 #: src/mainwindow.cpp:1710
 #, kde-format
@@ -11569,7 +11569,7 @@ msgstr ""
 "Klicka för att starta återgivningen av alla förhandsgranskningszoner "
 "(rekommenderas för områden med komplexa och många effekter).<nl/>Klicka på "
 "neråtpilikonen för att få en lista med alternativ (till exempel: lägg till "
-"förhandsgranskningszon för återgivning, ta bort alla zoner)."
+"förhandsåtergivningszon, ta bort alla zoner)."
 
 #: src/mainwindow.cpp:1747
 #, kde-format
@@ -12588,7 +12588,7 @@ msgstr "Kopiera filplats till klippbordet"
 #: src/ui/profiledialog_ui.ui:115
 #, kde-format
 msgid "Frame rate:"
-msgstr "Bildfrekvens:"
+msgstr "Bildhastighet:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
@@ -12732,7 +12732,7 @@ msgstr "Fullständigt (JPEG)"
 #: src/mltcontroller/clippropertiescontroller.cpp:1005
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
-msgstr "Filen använder en variabel bildfrekvens, rekommenderas inte"
+msgstr "Filen använder en variabel bildhastighet, rekommenderas inte"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1036
 #, kde-format
@@ -14481,7 +14481,7 @@ msgstr "Bildstorlek: %1 x %2 (%3:%4)"
 #: src/project/dialogs/profilewidget.cpp:197
 #, kde-format
 msgid "Frame rate: %1 fps"
-msgstr "Bildfrekvens: %1 bilder/s"
+msgstr "Bildhastighet: %1 bilder/s"
 
 #: src/project/dialogs/profilewidget.cpp:199
 #, kde-format
@@ -15884,7 +15884,7 @@ msgstr "Standard (%1) är inte kompatibel med projektprofilen (%2)"
 #: src/renderpresets/renderpresetmodel.cpp:325
 #, kde-format
 msgid "Frame rate (%1) not compatible with project profile (%2)"
-msgstr "Bildfrekvens (%1) är inte kompatibel med projektprofilen (%2)"
+msgstr "Bildhastighet (%1) är inte kompatibel med projektprofilen (%2)"
 
 #: src/renderpresets/renderpresetmodel.cpp:339
 #: src/renderpresets/renderpresetmodel.cpp:358
@@ -16684,7 +16684,7 @@ msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
-"Källprojektet har en annan bildfrekvens (%1 bilder/s) jämfört med det "
+"Källprojektet har en annan bildhastighet (%1 bilder/s) jämfört med det "
 "nuvarande projektet.<br/>Klipp eller nyckelbilder kan vara orediga."
 
 #: src/timeline2/model/timelinefunctions.cpp:2170
@@ -20353,7 +20353,7 @@ msgstr "k"
 #: src/ui/editrenderpreset_ui.ui:592
 #, kde-format
 msgid "Frame Rate:"
-msgstr "Bildfrekvens:"
+msgstr "Bildhastighet:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/editrenderpreset_ui.ui:599
@@ -20797,7 +20797,7 @@ msgstr "Importera till tidslinjemarkörens position"
 #: src/ui/import_subtitle_ui.ui:118
 #, kde-format
 msgid "Transform framerate"
-msgstr "Omvandla bildfrekvens"
+msgstr "Omvandla bildhastighet"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/import_subtitle_ui.ui:241
@@ -23264,7 +23264,7 @@ msgstr "%1 t"
 #~ msgstr "Ljudindex"
 
 #~ msgid "Force frame rate"
-#~ msgstr "Tvinga bildfrekvens"
+#~ msgstr "Tvinga bildhastighet"
 
 #~ msgid "Force duration"
 #~ msgstr "Tvinga längd"
@@ -23347,7 +23347,7 @@ msgstr "%1 t"
 #~ msgstr "Fullskärmslagring"
 
 #~ msgid "Frame rate"
-#~ msgstr "Bildfrekvens"
+#~ msgstr "Bildhastighet"
 
 #~ msgid "Use KDE job tracking for render jobs"
 #~ msgstr "Använd KDE:s jobbuppföljning för återgivningsjobb"
