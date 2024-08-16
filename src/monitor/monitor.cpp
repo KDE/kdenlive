@@ -154,21 +154,40 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_glMonitor = new OpenGLVideoWidget(id, this);
 #endif
     //  The m_glMonitor quickWindow() can be destroyed on undock with some graphics interface (Windows/Mac), so reconnect on destroy
-    auto rebuildViewConnection = [this]() {
+    auto rebuildViewConnection = [this](bool restoreVars) {
         connect(m_glMonitor->quickWindow(), &QQuickWindow::sceneGraphInitialized, m_glMonitor, &VideoWidget::initialize, Qt::DirectConnection);
         connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRendering, m_glMonitor, &VideoWidget::beforeRendering, Qt::DirectConnection);
         connect(m_glMonitor->quickWindow(), &QQuickWindow::beforeRenderPassRecording, m_glMonitor, &VideoWidget::renderVideo, Qt::DirectConnection);
         m_glMonitor->setClearColor(KdenliveSettings::window_background());
         // Enforce geometry recalculation
         m_glMonitor->refreshZoom = true;
+        if (restoreVars) {
+            // Restore root object properties
+            if (m_id == Kdenlive::ClipMonitor) {
+                if (m_controller && m_controller->statusReady()) {
+                    m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1));
+                }
+                if (m_glMonitor->rootObject()) {
+                    updateQmlDisplay(KdenliveSettings::displayClipMonitorInfo());
+                    m_glMonitor->rootObject()->setProperty("permanentAudiothumb", KdenliveSettings::alwaysShowMonitorAudio());
+                }
+            } else if (pCore->window()) {
+                if (pCore->window()->getCurrentTimeline() && pCore->window()->getCurrentTimeline()->model()) {
+                    adjustRulerSize(pCore->window()->getCurrentTimeline()->model()->duration() - 1);
+                }
+                if (m_glMonitor->rootObject()) {
+                    updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
+                }
+            }
+        }
         m_glMonitor->reconnectWindow();
     };
 
     connect(m_glMonitor, &VideoWidget::reconnectWindow, [this, rebuildViewConnection]() {
-        connect(m_glMonitor->quickWindow(), &QQuickWindow::destroyed, [rebuildViewConnection]() { rebuildViewConnection(); });
+        connect(m_glMonitor->quickWindow(), &QQuickWindow::destroyed, [rebuildViewConnection]() { rebuildViewConnection(true); });
     });
 
-    rebuildViewConnection();
+    rebuildViewConnection(false);
 #else
     m_glMonitor = new VideoWidget(id, this);
 #endif

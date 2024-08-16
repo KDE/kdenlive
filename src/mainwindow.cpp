@@ -2164,11 +2164,12 @@ bool MainWindow::readOptions()
         dir.mkpath(QStringLiteral("."));
         KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
     }
-    QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
-    // Default unit for timeline.qml objects size
-    int baseUnit = qMax(28, qRound(QFontInfo(ft).pixelSize() * 1.8));
+
     if (KdenliveSettings::trackheight() == 0) {
-        int trackHeight = qMax(50, int(2.2 * baseUnit + 6));
+        QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
+        // Height of the icon row
+        int baseUnit = qMax(28, qCeil(QFontInfo(ft).pixelSize() * 1.8));
+        int trackHeight = baseUnit + qMax(22, qCeil(QFontInfo(ft).pixelSize() * 2.5) + 6);
         KdenliveSettings::setTrackheight(trackHeight);
     }
     bool firstRun = false;
