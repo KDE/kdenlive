@@ -148,7 +148,6 @@ void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
         }
         ix--;
     }
-    m_tasksListLock.unlock();
 }
 
 bool TaskManager::hasPendingJob(const ObjectId &owner, AbstractTask::JOBTYPE type) const
