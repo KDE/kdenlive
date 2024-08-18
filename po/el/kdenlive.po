@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:38+0000\n"
+"POT-Creation-Date: 2024-08-18 00:39+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -3800,7 +3800,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Διαγραφή του επιλεγμένου κλιπ"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, fuzzy, kde-format
@@ -3809,7 +3809,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Εισάγετε όνομα ακολουθίας"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -4016,7 +4016,7 @@ msgstr "Y"
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #: src/assets/view/widgets/keyframewidget.cpp:272
 #: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Width"
 msgstr "Πλάτος"
@@ -4025,7 +4025,7 @@ msgstr "Πλάτος"
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #: src/assets/view/widgets/keyframewidget.cpp:271
 #: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Height"
 msgstr "Ύψος"
@@ -4101,7 +4101,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:949
+#: src/assets/view/widgets/keyframewidget.cpp:945
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Paste keyframe"
@@ -4186,7 +4186,7 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:269
 #: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:593
+#: src/assets/view/widgets/keyframewidget.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -4194,7 +4194,7 @@ msgstr "Αδιαφάνεια"
 
 #: src/assets/view/widgets/keyframewidget.cpp:273
 #: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, fuzzy, kde-format
 #| msgid "Graph position"
 msgid "Y position"
@@ -4202,7 +4202,7 @@ msgstr "Θέση γραφήματος"
 
 #: src/assets/view/widgets/keyframewidget.cpp:274
 #: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, fuzzy, kde-format
 #| msgid "Graph position"
 msgid "X position"
@@ -4214,40 +4214,40 @@ msgstr "Θέση γραφήματος"
 msgid "Select parameters to copy"
 msgstr "Παράμετροι"
 
-#: src/assets/view/widgets/keyframewidget.cpp:854
+#: src/assets/view/widgets/keyframewidget.cpp:850
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframes copied"
 msgstr "Παρεμβολή"
 
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:906
-#: src/assets/view/widgets/keyframewidget.cpp:913
+#: src/assets/view/widgets/keyframewidget.cpp:861
+#: src/assets/view/widgets/keyframewidget.cpp:902
+#: src/assets/view/widgets/keyframewidget.cpp:909
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "No valid keyframe data in clipboard"
 msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
-#: src/assets/view/widgets/keyframewidget.cpp:957
+#: src/assets/view/widgets/keyframewidget.cpp:953
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
 
-#: src/assets/view/widgets/keyframewidget.cpp:962
-#: src/assets/view/widgets/keyframewidget.cpp:973
+#: src/assets/view/widgets/keyframewidget.cpp:958
+#: src/assets/view/widgets/keyframewidget.cpp:969
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Current values copied"
 msgstr "Παρεμβολή"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1038
+#: src/assets/view/widgets/keyframewidget.cpp:1034
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot remove the last keyframe"
 msgstr "Αδυναμία μετακίνησης του κλιπ στη θέση %1"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1050
+#: src/assets/view/widgets/keyframewidget.cpp:1046
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Remove keyframe"

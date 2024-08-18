@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:38+0000\n"
+"POT-Creation-Date: 2024-08-18 00:39+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -3771,7 +3771,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Удаляет текущую предустановку."
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3779,7 +3779,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ввод имени предустановки"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3972,7 +3972,7 @@ msgstr "Y"
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #: src/assets/view/widgets/keyframewidget.cpp:272
 #: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Width"
 msgstr "Ширина"
@@ -3981,7 +3981,7 @@ msgstr "Ширина"
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #: src/assets/view/widgets/keyframewidget.cpp:271
 #: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Height"
 msgstr "Высота"
@@ -4055,7 +4055,7 @@ msgstr ""
 "значения параметров, если ключевые кадры не выбраны."
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:949
+#: src/assets/view/widgets/keyframewidget.cpp:945
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Вставить ключевой кадр"
@@ -4138,7 +4138,7 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:269
 #: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:593
+#: src/assets/view/widgets/keyframewidget.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -4146,14 +4146,14 @@ msgstr "Непрозрачность"
 
 #: src/assets/view/widgets/keyframewidget.cpp:273
 #: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Y position"
 msgstr "Позиция по Y"
 
 #: src/assets/view/widgets/keyframewidget.cpp:274
 #: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "X position"
 msgstr "Позиция по X"
@@ -4163,35 +4163,35 @@ msgstr "Позиция по X"
 msgid "Select parameters to copy"
 msgstr "Выбор параметров для копирования"
 
-#: src/assets/view/widgets/keyframewidget.cpp:854
+#: src/assets/view/widgets/keyframewidget.cpp:850
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Ключевые кадры скопированы"
 
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:906
-#: src/assets/view/widgets/keyframewidget.cpp:913
+#: src/assets/view/widgets/keyframewidget.cpp:861
+#: src/assets/view/widgets/keyframewidget.cpp:902
+#: src/assets/view/widgets/keyframewidget.cpp:909
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "В буфере обмена отсутствуют допустимые ключевые кадры"
 
-#: src/assets/view/widgets/keyframewidget.cpp:957
+#: src/assets/view/widgets/keyframewidget.cpp:953
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Не удалось скопировать текущие значения параметров"
 
-#: src/assets/view/widgets/keyframewidget.cpp:962
-#: src/assets/view/widgets/keyframewidget.cpp:973
+#: src/assets/view/widgets/keyframewidget.cpp:958
+#: src/assets/view/widgets/keyframewidget.cpp:969
 #, kde-format
 msgid "Current values copied"
 msgstr "Текущие значения параметров скопированы"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1038
+#: src/assets/view/widgets/keyframewidget.cpp:1034
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Не удается удалить последний ключевой кадр"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1050
+#: src/assets/view/widgets/keyframewidget.cpp:1046
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"

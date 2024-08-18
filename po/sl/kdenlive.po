@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:38+0000\n"
+"POT-Creation-Date: 2024-08-18 00:39+0000\n"
 "PO-Revision-Date: 2024-07-26 11:41+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -3722,7 +3722,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Izbriše trenutno izbrano prednastavitev."
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3730,7 +3730,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Vnesite ime prednastavitve"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3919,7 +3919,7 @@ msgstr "Y"
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #: src/assets/view/widgets/keyframewidget.cpp:272
 #: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Width"
 msgstr "Širina"
@@ -3928,7 +3928,7 @@ msgstr "Širina"
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #: src/assets/view/widgets/keyframewidget.cpp:271
 #: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Height"
 msgstr "Višina"
@@ -4001,7 +4001,7 @@ msgstr ""
 "vrednosti parametrov, če ni izbrana nobena ključna sličica."
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:949
+#: src/assets/view/widgets/keyframewidget.cpp:945
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Prilepi ključno sličico"
@@ -4084,7 +4084,7 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:269
 #: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:593
+#: src/assets/view/widgets/keyframewidget.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -4092,14 +4092,14 @@ msgstr "Motnost"
 
 #: src/assets/view/widgets/keyframewidget.cpp:273
 #: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Y position"
 msgstr "Pozicija Y"
 
 #: src/assets/view/widgets/keyframewidget.cpp:274
 #: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "X position"
 msgstr "Pozicija X"
@@ -4109,35 +4109,35 @@ msgstr "Pozicija X"
 msgid "Select parameters to copy"
 msgstr "Izberite parametre za kopiranje"
 
-#: src/assets/view/widgets/keyframewidget.cpp:854
+#: src/assets/view/widgets/keyframewidget.cpp:850
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Ključne sličice kopirane"
 
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:906
-#: src/assets/view/widgets/keyframewidget.cpp:913
+#: src/assets/view/widgets/keyframewidget.cpp:861
+#: src/assets/view/widgets/keyframewidget.cpp:902
+#: src/assets/view/widgets/keyframewidget.cpp:909
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Ni veljavnih podatkov ključnih sličic na odložišču"
 
-#: src/assets/view/widgets/keyframewidget.cpp:957
+#: src/assets/view/widgets/keyframewidget.cpp:953
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Ni možno kopirati trenutnih vrednosti parametrov"
 
-#: src/assets/view/widgets/keyframewidget.cpp:962
-#: src/assets/view/widgets/keyframewidget.cpp:973
+#: src/assets/view/widgets/keyframewidget.cpp:958
+#: src/assets/view/widgets/keyframewidget.cpp:969
 #, kde-format
 msgid "Current values copied"
 msgstr "Trenutne vrednosti kopirane"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1038
+#: src/assets/view/widgets/keyframewidget.cpp:1034
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Zadnje ključne sličice ni možno odstraniti"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1050
+#: src/assets/view/widgets/keyframewidget.cpp:1046
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"

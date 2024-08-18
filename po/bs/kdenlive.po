@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:38+0000\n"
+"POT-Creation-Date: 2024-08-18 00:39+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -3742,7 +3742,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Obriši odabrani snimak"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, fuzzy, kde-format
@@ -3751,7 +3751,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Unesi ime sekvence"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3954,7 +3954,7 @@ msgstr "Y"
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #: src/assets/view/widgets/keyframewidget.cpp:272
 #: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Width"
 msgstr "Širina"
@@ -3963,7 +3963,7 @@ msgstr "Širina"
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #: src/assets/view/widgets/keyframewidget.cpp:271
 #: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Height"
 msgstr "Visina"
@@ -4040,7 +4040,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:949
+#: src/assets/view/widgets/keyframewidget.cpp:945
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Paste keyframe"
@@ -4126,7 +4126,7 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:269
 #: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:593
+#: src/assets/view/widgets/keyframewidget.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -4134,14 +4134,14 @@ msgstr "Neprozirnost"
 
 #: src/assets/view/widgets/keyframewidget.cpp:273
 #: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, fuzzy, kde-format
 msgid "Y position"
 msgstr " Pozicija:"
 
 #: src/assets/view/widgets/keyframewidget.cpp:274
 #: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, fuzzy, kde-format
 msgid "X position"
 msgstr " Pozicija:"
@@ -4152,40 +4152,40 @@ msgstr " Pozicija:"
 msgid "Select parameters to copy"
 msgstr "Parametri"
 
-#: src/assets/view/widgets/keyframewidget.cpp:854
+#: src/assets/view/widgets/keyframewidget.cpp:850
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Keyframes copied"
 msgstr "Interpolacija"
 
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:906
-#: src/assets/view/widgets/keyframewidget.cpp:913
+#: src/assets/view/widgets/keyframewidget.cpp:861
+#: src/assets/view/widgets/keyframewidget.cpp:902
+#: src/assets/view/widgets/keyframewidget.cpp:909
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "No valid keyframe data in clipboard"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/assets/view/widgets/keyframewidget.cpp:957
+#: src/assets/view/widgets/keyframewidget.cpp:953
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Ne mogu kreirati privremenu datoteku"
 
-#: src/assets/view/widgets/keyframewidget.cpp:962
-#: src/assets/view/widgets/keyframewidget.cpp:973
+#: src/assets/view/widgets/keyframewidget.cpp:958
+#: src/assets/view/widgets/keyframewidget.cpp:969
 #, fuzzy, kde-format
 #| msgid "Interpolation"
 msgid "Current values copied"
 msgstr "Interpolacija"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1038
+#: src/assets/view/widgets/keyframewidget.cpp:1034
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot remove the last keyframe"
 msgstr "Ne mogu pomjeriti isječak u poziciju %1"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1050
+#: src/assets/view/widgets/keyframewidget.cpp:1046
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Remove keyframe"

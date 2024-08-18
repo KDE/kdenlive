@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:38+0000\n"
+"POT-Creation-Date: 2024-08-18 00:39+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -3751,7 +3751,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Kustuta valitud puhver"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, fuzzy, kde-format
@@ -3760,7 +3760,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Kirjuta valmisseadistuse nimi"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, fuzzy, kde-format
@@ -3967,7 +3967,7 @@ msgstr "Y"
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #: src/assets/view/widgets/keyframewidget.cpp:272
 #: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Width"
 msgstr "Laius"
@@ -3976,7 +3976,7 @@ msgstr "Laius"
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #: src/assets/view/widgets/keyframewidget.cpp:271
 #: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Height"
 msgstr "Kõrgus"
@@ -4050,7 +4050,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:949
+#: src/assets/view/widgets/keyframewidget.cpp:945
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Paste keyframe"
@@ -4135,7 +4135,7 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:269
 #: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:593
+#: src/assets/view/widgets/keyframewidget.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -4143,14 +4143,14 @@ msgstr "Läbipaistmatus"
 
 #: src/assets/view/widgets/keyframewidget.cpp:273
 #: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Y position"
 msgstr "Y-asukoht"
 
 #: src/assets/view/widgets/keyframewidget.cpp:274
 #: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "X position"
 msgstr "X-asukoht"
@@ -4161,40 +4161,40 @@ msgstr "X-asukoht"
 msgid "Select parameters to copy"
 msgstr "Parameetrid"
 
-#: src/assets/view/widgets/keyframewidget.cpp:854
+#: src/assets/view/widgets/keyframewidget.cpp:850
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Keyframes copied"
 msgstr "Võtmekaadrite vahe"
 
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:906
-#: src/assets/view/widgets/keyframewidget.cpp:913
+#: src/assets/view/widgets/keyframewidget.cpp:861
+#: src/assets/view/widgets/keyframewidget.cpp:902
+#: src/assets/view/widgets/keyframewidget.cpp:909
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgid "No valid keyframe data in clipboard"
 msgstr "Lõikepuhvris teavet ei leidu"
 
-#: src/assets/view/widgets/keyframewidget.cpp:957
+#: src/assets/view/widgets/keyframewidget.cpp:953
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot copy current parameter values"
 msgstr "Ajutise faili loomine nurjus"
 
-#: src/assets/view/widgets/keyframewidget.cpp:962
-#: src/assets/view/widgets/keyframewidget.cpp:973
+#: src/assets/view/widgets/keyframewidget.cpp:958
+#: src/assets/view/widgets/keyframewidget.cpp:969
 #, fuzzy, kde-format
 #| msgid "Keyframes spacing"
 msgid "Current values copied"
 msgstr "Võtmekaadrite vahe"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1038
+#: src/assets/view/widgets/keyframewidget.cpp:1034
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to frame %1."
 msgid "Cannot remove the last keyframe"
 msgstr "Klippi ei saa liigutada kaadrisse %1."
 
-#: src/assets/view/widgets/keyframewidget.cpp:1050
+#: src/assets/view/widgets/keyframewidget.cpp:1046
 #, fuzzy, kde-format
 #| msgid "Remove keyframe"
 msgid "Remove keyframe"

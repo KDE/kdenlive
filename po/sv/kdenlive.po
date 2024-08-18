@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 00:38+0000\n"
+"POT-Creation-Date: 2024-08-18 00:39+0000\n"
 "PO-Revision-Date: 2024-08-15 15:09+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -3712,7 +3712,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Tar bort hela förinställningen sin för närvarande är vald."
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3720,7 +3720,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ange förinställningens namn"
 
-#: src/assets/view/assetparameterview.cpp:338
+#: src/assets/view/assetparameterview.cpp:347
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3909,7 +3909,7 @@ msgstr "Y"
 #: src/assets/view/widgets/keyframeimport.cpp:813
 #: src/assets/view/widgets/keyframewidget.cpp:272
 #: src/assets/view/widgets/keyframewidget.cpp:333
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Width"
 msgstr "Bredd"
@@ -3918,7 +3918,7 @@ msgstr "Bredd"
 #: src/assets/view/widgets/keyframeimport.cpp:821
 #: src/assets/view/widgets/keyframewidget.cpp:271
 #: src/assets/view/widgets/keyframewidget.cpp:327
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Height"
 msgstr "Höjd"
@@ -3991,7 +3991,7 @@ msgstr ""
 "parametervärden om inga nyckelbilder är markerade."
 
 #: src/assets/view/widgets/keyframewidget.cpp:115
-#: src/assets/view/widgets/keyframewidget.cpp:949
+#: src/assets/view/widgets/keyframewidget.cpp:945
 #, kde-format
 msgid "Paste keyframe"
 msgstr "Klistra in nyckelbild"
@@ -4074,7 +4074,7 @@ msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:269
 #: src/assets/view/widgets/keyframewidget.cpp:321
-#: src/assets/view/widgets/keyframewidget.cpp:593
+#: src/assets/view/widgets/keyframewidget.cpp:589
 #: src/widgets/geometrywidget.cpp:144
 #, kde-format
 msgid "Opacity"
@@ -4082,14 +4082,14 @@ msgstr "Ogenomskinlighet"
 
 #: src/assets/view/widgets/keyframewidget.cpp:273
 #: src/assets/view/widgets/keyframewidget.cpp:345
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "Y position"
 msgstr "Y-position"
 
 #: src/assets/view/widgets/keyframewidget.cpp:274
 #: src/assets/view/widgets/keyframewidget.cpp:339
-#: src/assets/view/widgets/keyframewidget.cpp:591
+#: src/assets/view/widgets/keyframewidget.cpp:587
 #, kde-format
 msgid "X position"
 msgstr "X-position"
@@ -4099,35 +4099,35 @@ msgstr "X-position"
 msgid "Select parameters to copy"
 msgstr "Välj parametrar att kopiera"
 
-#: src/assets/view/widgets/keyframewidget.cpp:854
+#: src/assets/view/widgets/keyframewidget.cpp:850
 #, kde-format
 msgid "Keyframes copied"
 msgstr "Nyckelbilder kopierade"
 
-#: src/assets/view/widgets/keyframewidget.cpp:865
-#: src/assets/view/widgets/keyframewidget.cpp:906
-#: src/assets/view/widgets/keyframewidget.cpp:913
+#: src/assets/view/widgets/keyframewidget.cpp:861
+#: src/assets/view/widgets/keyframewidget.cpp:902
+#: src/assets/view/widgets/keyframewidget.cpp:909
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Ingen giltig nyckelbildsdata på klippbordet"
 
-#: src/assets/view/widgets/keyframewidget.cpp:957
+#: src/assets/view/widgets/keyframewidget.cpp:953
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Kan inte kopiera nuvarande parametervärden"
 
-#: src/assets/view/widgets/keyframewidget.cpp:962
-#: src/assets/view/widgets/keyframewidget.cpp:973
+#: src/assets/view/widgets/keyframewidget.cpp:958
+#: src/assets/view/widgets/keyframewidget.cpp:969
 #, kde-format
 msgid "Current values copied"
 msgstr "Nuvarande värden kopierade"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1038
+#: src/assets/view/widgets/keyframewidget.cpp:1034
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Kan inte ta bort den sista nyckelbilden"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1050
+#: src/assets/view/widgets/keyframewidget.cpp:1046
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -21788,7 +21788,7 @@ msgstr " bildrutor"
 #: src/ui/scenecutdialog_ui.ui:77
 #, kde-format
 msgid "Change threshold"
-msgstr "Ändra tröskel"
+msgstr "Ändringströskel"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cut_scenes)
 #: src/ui/scenecutdialog_ui.ui:97
@@ -22204,7 +22204,7 @@ msgstr "Centrera."
 #: src/ui/titlewidget_ui.ui:857
 #, kde-format
 msgid "Line spacing:"
-msgstr "Radmellanrum:"
+msgstr "Radavstånd:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_color)
 #. i18n: ectx: property (text), widget (QRadioButton, gradient_rect)
