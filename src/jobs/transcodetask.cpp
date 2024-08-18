@@ -215,7 +215,6 @@ void TranscodeTask::run()
         }
         qDebug() << "/// FULL TRANSCODE PARAMS:\n" << parameters << "\n------";
         m_jobProcess.reset(new QProcess);
-        // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
         QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
