@@ -217,7 +217,7 @@ void TranscodeTask::run()
         m_jobProcess.reset(new QProcess);
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
+        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
@@ -281,7 +281,7 @@ void TranscodeTask::processLogInfo()
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
             if (buffer.contains(QLatin1String("Duration:"))) {
-                QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+                const QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
                 if (!data.isEmpty()) {
                     QStringList numbers = data.split(QLatin1Char(':'));
                     if (numbers.size() < 3) {
