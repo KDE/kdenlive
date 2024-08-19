@@ -90,7 +90,6 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
     }
     const QString currentParams = m_encodeParams.value(encodingprofiles->currentText());
     if (listWidget->count() == 1) {
-        QString currentParams = m_encodeParams.value(encodingprofiles->currentText());
         if (type == ClipType::Audio) {
             if (!currentParams.endsWith(QLatin1String(";audio"))) {
                 // Switch to audio only profile

@@ -35,6 +35,7 @@ public:
 
     /** Set the widget to display no model (this yield ownership on the smart-ptr)*/
     void unsetModel();
+    void disconnectKeyframeWidget();
 
     /** Returns the preferred widget height */
     int contentHeight() const;

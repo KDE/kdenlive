@@ -23,9 +23,9 @@ public:
     const QStringList getGPUInfo() override;
 
 public Q_SLOTS:
-    virtual void initialize() override;
-    virtual void renderVideo() override;
-    virtual void onFrameDisplayed(const SharedFrame &frame) override;
+    void initialize() override;
+    void renderVideo() override;
+    void onFrameDisplayed(const SharedFrame &frame) override;
 
 private:
     void createShader();

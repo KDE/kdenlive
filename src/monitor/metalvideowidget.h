@@ -17,11 +17,11 @@ public:
     virtual ~MetalVideoWidget();
 
 public Q_SLOTS:
-    virtual void initialize() override;
-    virtual void renderVideo() override;
+    void initialize() override;
+    void renderVideo() override;
 
 protected:
-    virtual void updateRulerHeight(int addedHeight) override;
+    void updateRulerHeight(int addedHeight) override;
 
 private:
     std::unique_ptr<MetalVideoRenderer> m_renderer;

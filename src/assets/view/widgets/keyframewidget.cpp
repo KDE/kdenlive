@@ -374,11 +374,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     addParameter(index);
 }
 
-KeyframeWidget::~KeyframeWidget()
-{
-    delete m_editorviewcontainer;
-    delete m_time;
-}
+KeyframeWidget::~KeyframeWidget() {}
 
 void KeyframeWidget::disconnectEffectStack()
 {
@@ -600,7 +596,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     }
 
     // Construct object
-    QWidget *labelWidget = nullptr;
+    QLabel *labelWidget = nullptr;
     QWidget *paramWidget = nullptr;
     if (type == ParamType::AnimatedRect) {
         m_neededScene = MonitorSceneType::MonitorSceneGeometry;

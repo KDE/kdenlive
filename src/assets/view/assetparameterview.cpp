@@ -89,7 +89,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             }
         } else {
             auto *w = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
-            connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
             connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
@@ -100,6 +99,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             });
             if (AssetParameterModel::isAnimated(type)) {
                 m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                connect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &AbstractParamWidget::slotInitMonitor);
                 connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
@@ -197,6 +197,17 @@ void AssetParameterView::commitMultipleChanges(const QList<QModelIndex> &indexes
     }
 }
 
+void AssetParameterView::disconnectKeyframeWidget()
+{
+    if (m_mainKeyframeWidget) {
+        disconnect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &AbstractParamWidget::slotInitMonitor);
+        disconnect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
+        disconnect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
+        disconnect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
+        disconnect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
+    }
+}
+
 void AssetParameterView::unsetModel()
 {
     QMutexLocker lock(&m_lock);
@@ -204,16 +215,14 @@ void AssetParameterView::unsetModel()
         // if a model is already there, we have to disconnect signals first
         disconnect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     }
+    delete m_mainKeyframeWidget;
     m_mainKeyframeWidget = nullptr;
-
-    // clear layout
-    for (auto p : m_widgets) {
-        delete p;
-    }
-    m_widgets.clear();
+    // Delete widgets
     while (m_lay->rowCount() > 0) {
-        m_lay->takeRow(0);
+        m_lay->removeRow(0);
     }
+    // clear layout
+    m_widgets.clear();
 
     // Release ownership of smart pointer
     m_model.reset();

@@ -62,12 +62,15 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
         connect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
     }
     connect(model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
-    connect(m_trackBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateTrack(int)));
+    connect(m_trackBox, &QComboBox::currentIndexChanged, this, &TransitionStackView::updateTrack, Qt::QueuedConnection);
     if (pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position())) {
         Q_EMIT initKeyframeView(true, true);
     } else {
         Q_EMIT initKeyframeView(false, false);
     }
+    QWidget *spacer = new QWidget(this);
+    spacer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    m_lay->addRow(spacer);
 
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
 }
@@ -75,6 +78,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
 void TransitionStackView::unsetModel()
 {
     if (m_model) {
+        AssetParameterView::disconnectKeyframeWidget();
         m_model->setActive(false);
         disconnect(m_model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
         auto kfr = m_model->getKeyframeModel();
@@ -82,7 +86,6 @@ void TransitionStackView::unsetModel()
             disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
         }
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(MonitorSceneDefault);
-        delete m_trackBox;
         m_trackBox = nullptr;
     }
     AssetParameterView::unsetModel();
