@@ -86,8 +86,8 @@ private Q_SLOTS:
     void updateDestinationRange();
 
 public Q_SLOTS:
-    virtual void accept() override;
-    virtual void reject() override;
+    void accept() override;
+    void reject() override;
     void updateView();
 
 Q_SIGNALS:
