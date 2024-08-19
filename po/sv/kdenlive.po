@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-18 00:39+0000\n"
+"POT-Creation-Date: 2024-08-19 00:39+0000\n"
 "PO-Revision-Date: 2024-08-15 15:09+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -9724,8 +9724,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "Programmet %1 hittades inte. Uppdatera jobbinställningarna."
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
-#: src/jobs/transcodetask.cpp:270
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:233
+#: src/jobs/transcodetask.cpp:269
 #, kde-format
 msgid "Failed to create file."
 msgstr "Misslyckades skapa fil."
@@ -18875,13 +18875,13 @@ msgstr "Lägg resultatklippet i en katalog"
 #: src/ui/clipjobmanager_ui.ui:326
 #, kde-format
 msgid "Placed at top level"
-msgstr "Placera på toppnivå"
+msgstr "Placerat på toppnivå"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, combo_folder)
 #: src/ui/clipjobmanager_ui.ui:331
 #, kde-format
 msgid "Placed in the original clip folder"
-msgstr "Placerad i den ursprungliga klippkatalogen"
+msgstr "Placerat i den ursprungliga klippkatalogen"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, folder_name)
 #: src/ui/clipjobmanager_ui.ui:342
@@ -22688,7 +22688,7 @@ msgstr "%1 t"
 
 #~ msgctxt "The first letter of Proxy, used as abbreviation"
 #~ msgid "P"
-#~ msgstr "P"
+#~ msgstr "E"
 
 #~ msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 #~ msgstr "Projektfilen är skadad (inga spår). Försök hitta en säkerhetskopia?"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-18 00:39+0000\n"
+"POT-Creation-Date: 2024-08-19 00:39+0000\n"
 "PO-Revision-Date: 2024-07-27 08:46+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -9820,8 +9820,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "Applicazione %1 non trovata, aggiorna le impostazioni del processo"
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
-#: src/jobs/transcodetask.cpp:270
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:233
+#: src/jobs/transcodetask.cpp:269
 #, kde-format
 msgid "Failed to create file."
 msgstr "Impossibile creare il file."

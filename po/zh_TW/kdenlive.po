@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-18 00:39+0000\n"
+"POT-Creation-Date: 2024-08-19 00:39+0000\n"
 "PO-Revision-Date: 2024-08-03 14:31+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -9519,8 +9519,8 @@ msgid "Application %1 not found, please update the job settings"
 msgstr "找不到應用程式 %1，請更新工作設定"
 
 #: src/jobs/customjobtask.cpp:315 src/jobs/customjobtask.cpp:335
-#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:234
-#: src/jobs/transcodetask.cpp:270
+#: src/jobs/cuttask.cpp:252 src/jobs/transcodetask.cpp:233
+#: src/jobs/transcodetask.cpp:269
 #, kde-format
 msgid "Failed to create file."
 msgstr "建立檔案失敗。"
