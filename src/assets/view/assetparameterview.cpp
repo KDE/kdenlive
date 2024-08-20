@@ -89,6 +89,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             }
         } else {
             auto *w = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
+            connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
             connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
@@ -99,7 +100,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             });
             if (AssetParameterModel::isAnimated(type)) {
                 m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
-                connect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &AbstractParamWidget::slotInitMonitor);
                 connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
