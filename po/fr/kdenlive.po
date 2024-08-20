@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:39+0000\n"
+"POT-Creation-Date: 2024-08-20 00:39+0000\n"
 "PO-Revision-Date: 2024-06-28 14:08+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -5039,12 +5039,12 @@ msgstr ""
 "imbriqués."
 
 #: src/bin/bin.cpp:3787 src/dialogs/speechdialog.cpp:49
-#: src/dialogs/textbasededit.cpp:718 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:739 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Afficher le log"
 
-#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:719
+#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:740
 #, kde-format
 msgid "Detailed log"
 msgstr "Journal détaillé"
@@ -5445,13 +5445,11 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Liste de lecture MLT (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:732
 #, kde-format
 msgid "Zoom In"
 msgstr "Zoom avant"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:154
-#: src/dialogs/textbasededit.cpp:734
 #, kde-format
 msgid "Zoom Out"
 msgstr "Zoom arrière"
@@ -5818,7 +5816,7 @@ msgid "Tag %1"
 msgstr "Étiquette %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
-#: src/dialogs/textbasededit.cpp:633
+#: src/dialogs/textbasededit.cpp:635
 #, kde-format
 msgid "Configure"
 msgstr "Configurer"
@@ -7631,7 +7629,7 @@ msgstr ""
 msgid "No audio track found"
 msgstr "Aucune piste audio trouvée"
 
-#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:696
+#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:708
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Veuillez installer des modèles de reconnaissance vocale"
@@ -7650,8 +7648,8 @@ msgstr ""
 "Veuillez configurer la reconnaissance vocale. Les dépendances manquantes "
 "sont : %1"
 
-#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:931
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:975
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Veuillez configurer la reconnaissance vocale."
@@ -7666,12 +7664,12 @@ msgstr "Démarrage de l'export audio"
 msgid "Audio export failed"
 msgstr "L'export audio a échoué"
 
-#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:996
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Démarrage de la reconnaissance vocale"
 
-#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1159
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Reconnaissance vocale interrompue."
@@ -8324,69 +8322,90 @@ msgid "Delete selection"
 msgstr "Supprimer la sélection"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1145 src/dialogs/textbasededit.cpp:1216
-#: src/dialogs/textbasededit.cpp:1240 src/dialogs/textbasededit.cpp:1297
+#: src/dialogs/textbasededit.cpp:1179 src/dialogs/textbasededit.cpp:1249
+#: src/dialogs/textbasededit.cpp:1273 src/dialogs/textbasededit.cpp:1330
 #, kde-format
 msgid "No speech"
 msgstr "Aucune parole"
 
+#: src/dialogs/textbasededit.cpp:619
+#, fuzzy, kde-format
+#| msgid "Speech model"
+msgid "Speech Model"
+msgstr "Modèle vocal"
+
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:619 src/ui/speechdialog_ui.ui:169
+#: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
 #, kde-format
 msgid "Translate to English"
 msgstr "Traduire vers l'Anglais"
 
-#: src/dialogs/textbasededit.cpp:622
+#: src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "Configurer la reconnaissance vocale"
 
-#: src/dialogs/textbasededit.cpp:653
+#: src/dialogs/textbasededit.cpp:658
 #, kde-format
 msgid "Create new sequence with edit"
 msgstr "Créer une nouvelle séquence modifiable"
 
-#: src/dialogs/textbasededit.cpp:654
+#: src/dialogs/textbasededit.cpp:659
 #, kde-format
 msgid "Insert selection in timeline"
 msgstr "Insérer la sélection dans la frise chronologique"
 
-#: src/dialogs/textbasededit.cpp:655
+#: src/dialogs/textbasededit.cpp:660
 #, kde-format
 msgid "Save edited text in a playlist file"
 msgstr "Enregistrer le texte modifié dans un fichier de liste de lecture"
 
-#: src/dialogs/textbasededit.cpp:662
-#, kde-format
-msgid "Create new sequence with text edit "
+#: src/dialogs/textbasededit.cpp:667
+#, fuzzy, kde-format
+#| msgid "Create new sequence with text edit "
+msgid "Create new sequence with text edit"
 msgstr "Créer une nouvelle séquence avec un éditeur de texte"
 
-#: src/dialogs/textbasededit.cpp:686
-#, kde-format
-msgid "Speech model"
-msgstr "Modèle vocal"
+#: src/dialogs/textbasededit.cpp:668
+#, fuzzy, kde-format
+#| msgid "Speech to text"
+msgid "Search in text"
+msgstr "Reconnaissance vocale"
 
-#: src/dialogs/textbasededit.cpp:687
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
 #, kde-format
-msgid "Speech language"
-msgstr "Langue vocale"
+msgid "Language"
+msgstr "Langue"
 
-#: src/dialogs/textbasededit.cpp:724
+#: src/dialogs/textbasededit.cpp:745
 #, kde-format
 msgid "Delete selected text"
 msgstr "Supprimer le texte sélectionné"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:749
 #, kde-format
 msgid "Add marker for current selection"
 msgstr "Ajouter un marqueur pour la sélection courante"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:753
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Increase Font Size"
+msgstr "Taille de police"
+
+#: src/dialogs/textbasededit.cpp:756
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Decrease Font Size"
+msgstr "Taille de police"
+
+#: src/dialogs/textbasededit.cpp:760
 #, kde-format
 msgid "Remove non speech zones"
 msgstr "Supprimer les zones non énonçables vocalement"
 
-#: src/dialogs/textbasededit.cpp:915
+#: src/dialogs/textbasededit.cpp:943
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -8395,81 +8414,81 @@ msgstr ""
 "Une autre tâche de reconnaissance est déjà en cours d'exécution. Elle sera "
 "annulée en faveur de la nouvelle tâche. Voulez-vous vraiment continuer ?"
 
-#: src/dialogs/textbasededit.cpp:951
+#: src/dialogs/textbasededit.cpp:983
 #, kde-format
 msgid "Please install a language model."
 msgstr "Veuillez installer un modèle de langue."
 
-#: src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:991
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Sélectionner une vidéo avec de l'audio dans le dossier du projet."
 
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/textbasededit.cpp:1037
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Sélectionner une vidéo avec de l'audio pour la reconnaissance vocale."
 
-#: src/dialogs/textbasededit.cpp:1014 src/dialogs/textbasededit.cpp:1049
-#: src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/textbasededit.cpp:1046 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Impossible de créer un fichier temporaire"
 
-#: src/dialogs/textbasededit.cpp:1019
+#: src/dialogs/textbasededit.cpp:1051
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Extraction de l'audio pour %1"
 
-#: src/dialogs/textbasededit.cpp:1027
+#: src/dialogs/textbasededit.cpp:1059
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Échec de l'extraction audio."
 
-#: src/dialogs/textbasededit.cpp:1033 src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1065 src/dialogs/textbasededit.cpp:1114
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Démarrage de la reconnaissance vocale sur %1."
 
-#: src/dialogs/textbasededit.cpp:1130
+#: src/dialogs/textbasededit.cpp:1163
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 "Erreur, veuillez vérifier la configuration de la reconnaissance vocale."
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "No speech detected."
 msgstr "Aucune parole détectée."
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1186
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Reconnaissance vocale terminée."
 
-#: src/dialogs/textbasededit.cpp:1390
+#: src/dialogs/textbasededit.cpp:1423
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Modifier le texte de la vidéo"
 
-#: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
+#: src/dialogs/textbasededit.cpp:1455 src/dialogs/textbasededit.cpp:1537
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Créer une vidéo de séquences"
 
-#: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
+#: src/dialogs/textbasededit.cpp:1462 src/dialogs/textbasededit.cpp:1498
 #, kde-format
 msgid "No text to export"
 msgstr "Aucune texte à exporter"
 
-#: src/dialogs/textbasededit.cpp:1449
+#: src/dialogs/textbasededit.cpp:1482
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Saisir le nouvel emplacement de la liste de lecture"
 
-#: src/dialogs/textbasededit.cpp:1599
+#: src/dialogs/textbasededit.cpp:1630
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Aucune frise chronologique trouvée dans la sélection."
@@ -18854,11 +18873,13 @@ msgstr "Supprimer le point courant."
 
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
-#. i18n: ectx: property (text), widget (QToolButton, subMenu)
+#. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
+#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_more)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_less)
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
 #. i18n: ectx: property (text), widget (QToolButton, button_search)
-#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
@@ -18951,6 +18972,7 @@ msgstr "Supprimer le point courant."
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -18990,9 +19012,10 @@ msgstr "Supprimer le point courant."
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
-#: src/ui/textbasededit_ui.ui:181 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:239 src/ui/textbasededit_ui.ui:260
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
 #: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
 #: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
 #: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
@@ -21042,7 +21065,7 @@ msgstr "Catégories de guides et de repères"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:250
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:266
 #, kde-format
 msgid "Search"
 msgstr "Rechercher"
@@ -22270,12 +22293,6 @@ msgstr "Zone du montage (piste sélectionnée)"
 msgid "Full project"
 msgstr "Projet complet"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:124
-#, kde-format
-msgid "Language"
-msgstr "Langue"
-
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
 #, kde-format
@@ -22319,17 +22336,18 @@ msgstr "Temps de rendu"
 msgid "File Size"
 msgstr "Taille du fichier"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:107
-#, kde-format
-msgid "Start recognition"
-msgstr "Démarrer la reconnaissance"
-
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:164
+#: src/ui/textbasededit_ui.ui:87
 #, kde-format
 msgid "Selected zone only"
 msgstr "Zone sélectionné uniquement"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_start)
+#: src/ui/textbasededit_ui.ui:107
+#, fuzzy, kde-format
+#| msgid "Transcode"
+msgid "Transcribe"
+msgstr "Convertir"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -22951,6 +22969,12 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Speech language"
+#~ msgstr "Langue vocale"
+
+#~ msgid "Start recognition"
+#~ msgstr "Démarrer la reconnaissance"
 
 #~ msgid "The <application>%1</application> python module is required for %2."
 #~ msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:39+0000\n"
+"POT-Creation-Date: 2024-08-20 00:39+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4982,12 +4982,12 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:3787 src/dialogs/speechdialog.cpp:49
-#: src/dialogs/textbasededit.cpp:718 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:739 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "로그 표시"
 
-#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:719
+#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:740
 #, kde-format
 msgid "Detailed log"
 msgstr "자세한 로그"
@@ -5394,14 +5394,12 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT 재생 목록 (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:732
 #, fuzzy, kde-format
 #| msgid "Zoom in"
 msgid "Zoom In"
 msgstr "확대"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:154
-#: src/dialogs/textbasededit.cpp:734
 #, fuzzy, kde-format
 #| msgid "Zoom out"
 msgid "Zoom Out"
@@ -5783,7 +5781,7 @@ msgid "Tag %1"
 msgstr "태그 %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
-#: src/dialogs/textbasededit.cpp:633
+#: src/dialogs/textbasededit.cpp:635
 #, kde-format
 msgid "Configure"
 msgstr "설정"
@@ -7605,7 +7603,7 @@ msgstr "재생할 클립 선택"
 msgid "No audio track found"
 msgstr "오디오 트랙 페이드 아웃"
 
-#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:696
+#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:708
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "음성 인식 모델을 설치하십시오"
@@ -7624,8 +7622,8 @@ msgstr "설정 확인 중..."
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "텍스트 음성 합성을 설정하십시오."
 
-#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:931
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:975
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "텍스트 음성 합성을 설정하십시오."
@@ -7640,12 +7638,12 @@ msgstr "오디오 내보내기 시작 중"
 msgid "Audio export failed"
 msgstr "오디오 내보내기 실패"
 
-#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:996
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "음성 인식 시작 중"
 
-#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1159
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "음성 인식이 중단되었습니다."
@@ -8308,160 +8306,178 @@ msgid "Delete selection"
 msgstr "선택 삭제"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1145 src/dialogs/textbasededit.cpp:1216
-#: src/dialogs/textbasededit.cpp:1240 src/dialogs/textbasededit.cpp:1297
+#: src/dialogs/textbasededit.cpp:1179 src/dialogs/textbasededit.cpp:1249
+#: src/dialogs/textbasededit.cpp:1273 src/dialogs/textbasededit.cpp:1330
 #, kde-format
 msgid "No speech"
 msgstr "음성 없음"
 
+#: src/dialogs/textbasededit.cpp:619
+#, fuzzy, kde-format
+#| msgid "VOSK Speech Models"
+msgid "Speech Model"
+msgstr "VOSK 음성 모델"
+
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:619 src/ui/speechdialog_ui.ui:169
+#: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
 #, kde-format
 msgid "Translate to English"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:622
+#: src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Configure Speech Recognition"
 msgstr "전환 선택"
 
-#: src/dialogs/textbasededit.cpp:653
+#: src/dialogs/textbasededit.cpp:658
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Create new sequence with edit"
 msgstr "이미지 시퀀스"
 
-#: src/dialogs/textbasededit.cpp:654
+#: src/dialogs/textbasededit.cpp:659
 #, fuzzy, kde-format
 #| msgid "Insert selected blocks in timeline"
 msgid "Insert selection in timeline"
 msgstr "선택한 블록을 타임라인에 삽입"
 
-#: src/dialogs/textbasededit.cpp:655
+#: src/dialogs/textbasededit.cpp:660
 #, fuzzy, kde-format
 #| msgid "Save edited text in a new playlist"
 msgid "Save edited text in a playlist file"
 msgstr "새 재생 목록에 편집된 텍스트 저장"
 
-#: src/dialogs/textbasededit.cpp:662
+#: src/dialogs/textbasededit.cpp:667
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
-msgid "Create new sequence with text edit "
+msgid "Create new sequence with text edit"
 msgstr "이미지 시퀀스"
 
-#: src/dialogs/textbasededit.cpp:686
+#: src/dialogs/textbasededit.cpp:668
 #, fuzzy, kde-format
-#| msgid "VOSK Speech Models"
-msgid "Speech model"
-msgstr "VOSK 음성 모델"
+#| msgid "Speech To Text"
+msgid "Search in text"
+msgstr "음성을 텍스트로"
 
-#: src/dialogs/textbasededit.cpp:687
-#, fuzzy, kde-format
-#| msgid "Speed Change"
-msgid "Speech language"
-msgstr "속도 변경"
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
+#, kde-format
+msgid "Language"
+msgstr "언어"
 
-#: src/dialogs/textbasededit.cpp:724
+#: src/dialogs/textbasededit.cpp:745
 #, kde-format
 msgid "Delete selected text"
 msgstr "선택한 텍스트 삭제"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:749
 #, fuzzy, kde-format
 #| msgid "Add bookmark for current selection"
 msgid "Add marker for current selection"
 msgstr "현재 선택 항목을 책갈피에 추가"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:753
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Increase Font Size"
+msgstr "글꼴 크기"
+
+#: src/dialogs/textbasededit.cpp:756
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Decrease Font Size"
+msgstr "글꼴 크기"
+
+#: src/dialogs/textbasededit.cpp:760
 #, fuzzy, kde-format
 #| msgid "Remove All Preview Zones"
 msgid "Remove non speech zones"
 msgstr "모든 미리 보기 영역 삭제"
 
-#: src/dialogs/textbasededit.cpp:915
+#: src/dialogs/textbasededit.cpp:943
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:951
+#: src/dialogs/textbasededit.cpp:983
 #, kde-format
 msgid "Please install a language model."
 msgstr "언어 모델을 설치하십시오."
 
-#: src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:991
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "프로젝트 보관함에서 오디오가 있는 클립을 선택하십시오."
 
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/textbasededit.cpp:1037
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "음성 인식을 위해 오디오가 있는 클립을 선택하십시오."
 
-#: src/dialogs/textbasededit.cpp:1014 src/dialogs/textbasededit.cpp:1049
-#: src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/textbasededit.cpp:1046 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "임시 파일을 만들 수 없습니다."
 
-#: src/dialogs/textbasededit.cpp:1019
+#: src/dialogs/textbasededit.cpp:1051
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "%1의 오디오를 추출하는 중입니다."
 
-#: src/dialogs/textbasededit.cpp:1027
+#: src/dialogs/textbasededit.cpp:1059
 #, kde-format
 msgid "Audio extract failed."
 msgstr "오디오 추출에 실패했습니다."
 
-#: src/dialogs/textbasededit.cpp:1033 src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1065 src/dialogs/textbasededit.cpp:1114
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "%1에 음성 인식을 시작하는 중입니다."
 
-#: src/dialogs/textbasededit.cpp:1130
+#: src/dialogs/textbasededit.cpp:1163
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "오류. 텍스트 음성 인식 설정을 확인하십시오."
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "No speech detected."
 msgstr "검색된 음성이 없습니다."
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1186
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "음성 인식이 완료되었습니다."
 
-#: src/dialogs/textbasededit.cpp:1390
+#: src/dialogs/textbasededit.cpp:1423
 #, fuzzy, kde-format
 #| msgid "Edit clip cut"
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "클립 잘라내기 편집"
 
-#: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
+#: src/dialogs/textbasededit.cpp:1455 src/dialogs/textbasededit.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "이미지 시퀀스"
 
-#: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
+#: src/dialogs/textbasededit.cpp:1462 src/dialogs/textbasededit.cpp:1498
 #, kde-format
 msgid "No text to export"
 msgstr "내보낼 텍스트 없음"
 
-#: src/dialogs/textbasededit.cpp:1449
+#: src/dialogs/textbasededit.cpp:1482
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "새 재생 목록 경로 입력"
 
-#: src/dialogs/textbasededit.cpp:1599
+#: src/dialogs/textbasededit.cpp:1630
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "선택 항목에 시간코드 없음"
@@ -18906,11 +18922,13 @@ msgstr "현재 지점 삭제"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
-#. i18n: ectx: property (text), widget (QToolButton, subMenu)
+#. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
+#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_more)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_less)
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
 #. i18n: ectx: property (text), widget (QToolButton, button_search)
-#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
@@ -19003,6 +19021,7 @@ msgstr "현재 지점 삭제"
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -19042,9 +19061,10 @@ msgstr "현재 지점 삭제"
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
-#: src/ui/textbasededit_ui.ui:181 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:239 src/ui/textbasededit_ui.ui:260
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
 #: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
 #: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
 #: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
@@ -21214,7 +21234,7 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:250
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:266
 #, kde-format
 msgid "Search"
 msgstr "검색"
@@ -22537,12 +22557,6 @@ msgstr "타임라인 영역(선택한 트랙)"
 msgid "Full project"
 msgstr "전체 프로젝트(&L)"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:124
-#, kde-format
-msgid "Language"
-msgstr "언어"
-
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
 #, fuzzy, kde-format
@@ -22590,17 +22604,18 @@ msgstr "렌더 시간"
 msgid "File Size"
 msgstr "파일 크기"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:107
-#, kde-format
-msgid "Start recognition"
-msgstr "인식 시작"
-
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:164
+#: src/ui/textbasededit_ui.ui:87
 #, kde-format
 msgid "Selected zone only"
 msgstr "선택한 영역만"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_start)
+#: src/ui/textbasededit_ui.ui:107
+#, fuzzy, kde-format
+#| msgid "Transcode"
+msgid "Transcribe"
+msgstr "트랜스코드"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -23256,6 +23271,14 @@ msgstr "%1분"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1시간"
+
+#, fuzzy
+#~| msgid "Speed Change"
+#~ msgid "Speech language"
+#~ msgstr "속도 변경"
+
+#~ msgid "Start recognition"
+#~ msgstr "인식 시작"
 
 #, fuzzy
 #~| msgid "Edit subtitle"
