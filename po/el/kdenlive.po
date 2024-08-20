@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:39+0000\n"
+"POT-Creation-Date: 2024-08-20 00:39+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -5141,12 +5141,12 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:3787 src/dialogs/speechdialog.cpp:49
-#: src/dialogs/textbasededit.cpp:718 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:739 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Προβολή καταγραφής"
 
-#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:719
+#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:740
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Detailed log"
@@ -5574,13 +5574,11 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:732
 #, kde-format
 msgid "Zoom In"
 msgstr "Μεγέθυνση"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:154
-#: src/dialogs/textbasededit.cpp:734
 #, kde-format
 msgid "Zoom Out"
 msgstr "Σμίκρυνση"
@@ -5974,7 +5972,7 @@ msgid "Tag %1"
 msgstr ""
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
-#: src/dialogs/textbasededit.cpp:633
+#: src/dialogs/textbasededit.cpp:635
 #, kde-format
 msgid "Configure"
 msgstr "Διαμόρφωση"
@@ -7822,7 +7820,7 @@ msgstr "Επιλέξτε ένα κλιπ πριν την αντιγραφή"
 msgid "No audio track found"
 msgstr "Δε βρέθηκε προηγούμενο καρέ"
 
-#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:696
+#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:708
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
@@ -7842,8 +7840,8 @@ msgstr "Έλεγχος συστήματος"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:931
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:975
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure speech to text."
@@ -7860,12 +7858,12 @@ msgstr "Sox ηχητικό εφέ κέρδος"
 msgid "Audio export failed"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:996
 #, kde-format
 msgid "Starting speech recognition"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1159
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition aborted."
@@ -8534,171 +8532,189 @@ msgid "Delete selection"
 msgstr "Διαγραφή του επιλεγμένου κλιπ"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1145 src/dialogs/textbasededit.cpp:1216
-#: src/dialogs/textbasededit.cpp:1240 src/dialogs/textbasededit.cpp:1297
+#: src/dialogs/textbasededit.cpp:1179 src/dialogs/textbasededit.cpp:1249
+#: src/dialogs/textbasededit.cpp:1273 src/dialogs/textbasededit.cpp:1330
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No speech"
 msgstr "Καμία αντιγραφή κλιπ"
 
+#: src/dialogs/textbasededit.cpp:619
+#, fuzzy, kde-format
+#| msgid "Show/Hide options"
+msgid "Speech Model"
+msgstr "Εμφάνιση/απόκρυψη επιλογών"
+
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:619 src/ui/speechdialog_ui.ui:169
+#: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
 #, fuzzy, kde-format
 #| msgid "Template text clip"
 msgid "Translate to English"
 msgstr "Πρότυπο κλιπ κειμένου"
 
-#: src/dialogs/textbasededit.cpp:622
+#: src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Configure Speech Recognition"
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/textbasededit.cpp:653
+#: src/dialogs/textbasededit.cpp:658
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create new sequence with edit"
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/dialogs/textbasededit.cpp:654
+#: src/dialogs/textbasededit.cpp:659
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "Insert selection in timeline"
 msgstr "Αδυναμία εισαγωγής του κλιπ στο χρονοδιάγραμμα"
 
-#: src/dialogs/textbasededit.cpp:655
+#: src/dialogs/textbasededit.cpp:660
 #, kde-format
 msgid "Save edited text in a playlist file"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:662
+#: src/dialogs/textbasededit.cpp:667
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
-msgid "Create new sequence with text edit "
+msgid "Create new sequence with text edit"
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/dialogs/textbasededit.cpp:686
+#: src/dialogs/textbasededit.cpp:668
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
-msgid "Speech model"
+msgid "Search in text"
 msgstr "Εμφάνιση/απόκρυψη επιλογών"
 
-#: src/dialogs/textbasededit.cpp:687
-#, fuzzy, kde-format
-#| msgid "Change"
-msgid "Speech language"
-msgstr "Τροποποίηση"
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
+#, kde-format
+msgid "Language"
+msgstr ""
 
-#: src/dialogs/textbasededit.cpp:724
+#: src/dialogs/textbasededit.cpp:745
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Delete selected text"
 msgstr "Διαγραφή του επιλεγμένου αντικειμένου"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:749
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add marker for current selection"
 msgstr "Προσθήκη στο έργο"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:753
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Increase Font Size"
+msgstr "Μέγεθος γραμματοσειράς"
+
+#: src/dialogs/textbasededit.cpp:756
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Decrease Font Size"
+msgstr "Μέγεθος γραμματοσειράς"
+
+#: src/dialogs/textbasededit.cpp:760
 #, fuzzy, kde-format
 #| msgid "Preview volume:"
 msgid "Remove non speech zones"
 msgstr "Προεπισκόπηση έντασης:"
 
-#: src/dialogs/textbasededit.cpp:915
+#: src/dialogs/textbasededit.cpp:943
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:951
+#: src/dialogs/textbasededit.cpp:983
 #, kde-format
 msgid "Please install a language model."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:991
 #, fuzzy, kde-format
 #| msgid "Clip in Project Tree"
 msgid "Select a clip with audio in Project Bin."
 msgstr "Κλιπ στο δέντρο έργου"
 
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/textbasededit.cpp:1037
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "Select a clip with audio for speech recognition."
 msgstr "Επιλέξτε ένα κλιπ πριν την αντιγραφή"
 
-#: src/dialogs/textbasededit.cpp:1014 src/dialogs/textbasededit.cpp:1049
-#: src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/textbasededit.cpp:1046 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1130
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Cannot create temporary file."
 msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
 
-#: src/dialogs/textbasededit.cpp:1019
+#: src/dialogs/textbasededit.cpp:1051
 #, fuzzy, kde-format
 #| msgid "Normalise audio for thumbnails"
 msgid "Extracting audio for %1."
 msgstr "Κανονικοποίηση ήχου για τις μικρογραφίες"
 
-#: src/dialogs/textbasededit.cpp:1027
+#: src/dialogs/textbasededit.cpp:1059
 #, fuzzy, kde-format
 msgid "Audio extract failed."
 msgstr "Ηχητικό κομμάτι"
 
-#: src/dialogs/textbasededit.cpp:1033 src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1065 src/dialogs/textbasededit.cpp:1114
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Starting speech recognition on %1."
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/textbasededit.cpp:1130
+#: src/dialogs/textbasededit.cpp:1163
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1165
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No speech detected."
 msgstr "Καμία αντιγραφή κλιπ"
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1186
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition finished."
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/textbasededit.cpp:1390
+#: src/dialogs/textbasededit.cpp:1423
 #, fuzzy, kde-format
 #| msgid "Edit clip cut"
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Επεξεργασία διαίρεσης κλιπ"
 
-#: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
+#: src/dialogs/textbasededit.cpp:1455 src/dialogs/textbasededit.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
+#: src/dialogs/textbasededit.cpp:1462 src/dialogs/textbasededit.cpp:1498
 #, fuzzy, kde-format
 #| msgid "Plain text export"
 msgid "No text to export"
 msgstr "Εξαγωγή απλού κειμένου"
 
-#: src/dialogs/textbasededit.cpp:1449
+#: src/dialogs/textbasededit.cpp:1482
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgid "Enter new playlist path"
 msgstr "Εισάγετε τη διαδρομή του προτύπου"
 
-#: src/dialogs/textbasededit.cpp:1599
+#: src/dialogs/textbasededit.cpp:1630
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No timecode found in selection"
@@ -19426,11 +19442,13 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
-#. i18n: ectx: property (text), widget (QToolButton, subMenu)
+#. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
+#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_more)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_less)
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
 #. i18n: ectx: property (text), widget (QToolButton, button_search)
-#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
@@ -19523,6 +19541,7 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -19562,9 +19581,10 @@ msgstr "Διαγραφή τρέχοντος κουμπιού"
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
-#: src/ui/textbasededit_ui.ui:181 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:239 src/ui/textbasededit_ui.ui:260
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
 #: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
 #: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
 #: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
@@ -21746,7 +21766,7 @@ msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:250
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:266
 #, kde-format
 msgid "Search"
 msgstr "Αναζήτηση"
@@ -23072,12 +23092,6 @@ msgstr "Διαγραφή του επιλεγμένου κλιπ"
 msgid "Full project"
 msgstr "&Πλήρες έργο"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:124
-#, kde-format
-msgid "Language"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
 #, fuzzy, kde-format
@@ -23127,19 +23141,19 @@ msgstr "Χρόνος αντήχησης"
 msgid "File Size"
 msgstr "Μέγεθος αρχείου"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Select Transition"
-msgid "Start recognition"
-msgstr "Επιλογή μετάβασης"
-
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:164
+#: src/ui/textbasededit_ui.ui:87
 #, fuzzy, kde-format
 #| msgid "Selected &zone"
 msgid "Selected zone only"
 msgstr "&Επιλεγμένη ζώνη"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_start)
+#: src/ui/textbasededit_ui.ui:107
+#, fuzzy, kde-format
+#| msgid "Transcode"
+msgid "Transcribe"
+msgstr "Μετατροπή"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -23808,6 +23822,16 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Change"
+#~ msgid "Speech language"
+#~ msgstr "Τροποποίηση"
+
+#, fuzzy
+#~| msgid "Select Transition"
+#~ msgid "Start recognition"
+#~ msgstr "Επιλογή μετάβασης"
 
 #, fuzzy
 #~| msgid "Add guide"

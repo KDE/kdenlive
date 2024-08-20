@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:39+0000\n"
+"POT-Creation-Date: 2024-08-20 00:39+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4883,12 +4883,12 @@ msgstr ""
 "夹可以嵌套。"
 
 #: src/bin/bin.cpp:3787 src/dialogs/speechdialog.cpp:49
-#: src/dialogs/textbasededit.cpp:718 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:739 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "显示日志"
 
-#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:719
+#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:740
 #, kde-format
 msgid "Detailed log"
 msgstr "详细日志"
@@ -5275,13 +5275,11 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT 播放列表 (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:732
 #, kde-format
 msgid "Zoom In"
 msgstr "放大"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:154
-#: src/dialogs/textbasededit.cpp:734
 #, kde-format
 msgid "Zoom Out"
 msgstr "缩小"
@@ -5646,7 +5644,7 @@ msgid "Tag %1"
 msgstr "标签 %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
-#: src/dialogs/textbasededit.cpp:633
+#: src/dialogs/textbasededit.cpp:635
 #, kde-format
 msgid "Configure"
 msgstr "配置"
@@ -7402,7 +7400,7 @@ msgstr "在时间轴中选择一段剪辑以进行分析"
 msgid "No audio track found"
 msgstr "未找到音轨"
 
-#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:696
+#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:708
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "请安装语音识别模型"
@@ -7419,8 +7417,8 @@ msgstr "正在检查安装情况…"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "请配置语音转文字功能，缺少依赖软件包：%1"
 
-#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:931
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:975
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "请配置语音转文字功能。"
@@ -7435,12 +7433,12 @@ msgstr "开始音频导出"
 msgid "Audio export failed"
 msgstr "音频导出失败"
 
-#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:996
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "开始语音识别"
 
-#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1159
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "语音识别已中止。"
@@ -8085,149 +8083,170 @@ msgid "Delete selection"
 msgstr "删除所选内容"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1145 src/dialogs/textbasededit.cpp:1216
-#: src/dialogs/textbasededit.cpp:1240 src/dialogs/textbasededit.cpp:1297
+#: src/dialogs/textbasededit.cpp:1179 src/dialogs/textbasededit.cpp:1249
+#: src/dialogs/textbasededit.cpp:1273 src/dialogs/textbasededit.cpp:1330
 #, kde-format
 msgid "No speech"
 msgstr "无语音"
 
+#: src/dialogs/textbasededit.cpp:619
+#, fuzzy, kde-format
+#| msgid "Speech model"
+msgid "Speech Model"
+msgstr "语音模型"
+
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:619 src/ui/speechdialog_ui.ui:169
+#: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
 #, kde-format
 msgid "Translate to English"
 msgstr "翻译为英语"
 
-#: src/dialogs/textbasededit.cpp:622
+#: src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "配置语音识别"
 
-#: src/dialogs/textbasededit.cpp:653
+#: src/dialogs/textbasededit.cpp:658
 #, kde-format
 msgid "Create new sequence with edit"
 msgstr "通过编辑创建新序列"
 
-#: src/dialogs/textbasededit.cpp:654
+#: src/dialogs/textbasededit.cpp:659
 #, kde-format
 msgid "Insert selection in timeline"
 msgstr "插入所选内容到时间轴"
 
-#: src/dialogs/textbasededit.cpp:655
+#: src/dialogs/textbasededit.cpp:660
 #, kde-format
 msgid "Save edited text in a playlist file"
 msgstr "保存播放列表中的已编辑文字"
 
-#: src/dialogs/textbasededit.cpp:662
-#, kde-format
-msgid "Create new sequence with text edit "
+#: src/dialogs/textbasededit.cpp:667
+#, fuzzy, kde-format
+#| msgid "Create new sequence with text edit "
+msgid "Create new sequence with text edit"
 msgstr "通过文字编辑创建新序列 "
 
-#: src/dialogs/textbasededit.cpp:686
-#, kde-format
-msgid "Speech model"
-msgstr "语音模型"
+#: src/dialogs/textbasededit.cpp:668
+#, fuzzy, kde-format
+#| msgid "Speech to text"
+msgid "Search in text"
+msgstr "语音转文字"
 
-#: src/dialogs/textbasededit.cpp:687
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
 #, kde-format
-msgid "Speech language"
-msgstr "语音语言"
+msgid "Language"
+msgstr "语言"
 
-#: src/dialogs/textbasededit.cpp:724
+#: src/dialogs/textbasededit.cpp:745
 #, kde-format
 msgid "Delete selected text"
 msgstr "删除所选文字"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:749
 #, kde-format
 msgid "Add marker for current selection"
 msgstr "添加标记到当前选择内容位置"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:753
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Increase Font Size"
+msgstr "字体大小"
+
+#: src/dialogs/textbasededit.cpp:756
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Decrease Font Size"
+msgstr "字体大小"
+
+#: src/dialogs/textbasededit.cpp:760
 #, kde-format
 msgid "Remove non speech zones"
 msgstr "移除非语音区段"
 
-#: src/dialogs/textbasededit.cpp:915
+#: src/dialogs/textbasededit.cpp:943
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr "另一个识别任务正在运行。程序将中止该任务并执行新的任务。你想要继续吗？"
 
-#: src/dialogs/textbasededit.cpp:951
+#: src/dialogs/textbasededit.cpp:983
 #, kde-format
 msgid "Please install a language model."
 msgstr "请安装语言模型。"
 
-#: src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:991
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "选择项目素材箱中的带音频剪辑。"
 
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/textbasededit.cpp:1037
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "选择一段带有音频的剪辑以进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:1014 src/dialogs/textbasededit.cpp:1049
-#: src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/textbasededit.cpp:1046 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "无法创建临时文件。"
 
-#: src/dialogs/textbasededit.cpp:1019
+#: src/dialogs/textbasededit.cpp:1051
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "正在为 %1 提取音频。"
 
-#: src/dialogs/textbasededit.cpp:1027
+#: src/dialogs/textbasededit.cpp:1059
 #, kde-format
 msgid "Audio extract failed."
 msgstr "音频提取失败。"
 
-#: src/dialogs/textbasededit.cpp:1033 src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1065 src/dialogs/textbasededit.cpp:1114
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "正在开始对 %1 进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:1130
+#: src/dialogs/textbasededit.cpp:1163
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "发生错误，请检查语音转文字功能配置。"
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "No speech detected."
 msgstr "未检测到语音。"
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1186
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "语音识别已完成。"
 
-#: src/dialogs/textbasededit.cpp:1390
+#: src/dialogs/textbasededit.cpp:1423
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "编辑剪辑文字"
 
-#: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
+#: src/dialogs/textbasededit.cpp:1455 src/dialogs/textbasededit.cpp:1537
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "创建序列剪辑"
 
-#: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
+#: src/dialogs/textbasededit.cpp:1462 src/dialogs/textbasededit.cpp:1498
 #, kde-format
 msgid "No text to export"
 msgstr "没有可供导出的文字"
 
-#: src/dialogs/textbasededit.cpp:1449
+#: src/dialogs/textbasededit.cpp:1482
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "输入新播放列表路径"
 
-#: src/dialogs/textbasededit.cpp:1599
+#: src/dialogs/textbasededit.cpp:1630
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "未找到所选内容中的时间码"
@@ -18196,11 +18215,13 @@ msgstr "删除当前点。"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
-#. i18n: ectx: property (text), widget (QToolButton, subMenu)
+#. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
+#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_more)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_less)
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
 #. i18n: ectx: property (text), widget (QToolButton, button_search)
-#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
@@ -18293,6 +18314,7 @@ msgstr "删除当前点。"
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -18332,9 +18354,10 @@ msgstr "删除当前点。"
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
-#: src/ui/textbasededit_ui.ui:181 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:239 src/ui/textbasededit_ui.ui:260
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
 #: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
 #: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
 #: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
@@ -20347,7 +20370,7 @@ msgstr "辅助线和标记类别"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:250
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:266
 #, kde-format
 msgid "Search"
 msgstr "搜索"
@@ -21567,12 +21590,6 @@ msgstr "时间轴区段 (所选轨道)"
 msgid "Full project"
 msgstr "完整项目"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:124
-#, kde-format
-msgid "Language"
-msgstr "语言"
-
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
 #, kde-format
@@ -21616,17 +21633,18 @@ msgstr "渲染时间"
 msgid "File Size"
 msgstr "文件体积"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:107
-#, kde-format
-msgid "Start recognition"
-msgstr "开始识别"
-
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:164
+#: src/ui/textbasededit_ui.ui:87
 #, kde-format
 msgid "Selected zone only"
 msgstr "仅所选区段"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_start)
+#: src/ui/textbasededit_ui.ui:107
+#, fuzzy, kde-format
+#| msgid "Transcode"
+msgid "Transcribe"
+msgstr "转码"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -22238,3 +22256,9 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
+
+#~ msgid "Speech language"
+#~ msgstr "语音语言"
+
+#~ msgid "Start recognition"
+#~ msgstr "开始识别"

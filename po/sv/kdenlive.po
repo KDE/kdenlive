@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:39+0000\n"
+"POT-Creation-Date: 2024-08-20 00:39+0000\n"
 "PO-Revision-Date: 2024-08-15 15:09+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -1251,7 +1251,7 @@ msgstr "Andra färg"
 #: data/effects/loudness.xml:4
 #, kde-format
 msgid "Normalize (2 pass)"
-msgstr "Normalisera (två pass)"
+msgstr "Normalisera (2 genomgångar)"
 
 #: data/effects/loudness.xml:5
 #, kde-format
@@ -2733,7 +2733,7 @@ msgstr "Generera"
 #: data/kdenliveeffectscategory.rc:30
 #, kde-format
 msgid "On Master"
-msgstr "På mastern"
+msgstr "På master"
 
 #: data/kdenliveeffectscategory.rc:34
 #, kde-format
@@ -4175,7 +4175,7 @@ msgstr ""
 #: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1007
 #, kde-format
 msgid "Master"
-msgstr "Huvudkälla"
+msgstr "Master"
 
 #: src/audiomixer/mixerwidget.cpp:118
 #, kde-kuit-format
@@ -4976,12 +4976,12 @@ msgstr ""
 "bättre organisation av källfiler. Kataloger kan nästlas."
 
 #: src/bin/bin.cpp:3787 src/dialogs/speechdialog.cpp:49
-#: src/dialogs/textbasededit.cpp:718 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:739 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Visa logg"
 
-#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:719
+#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:740
 #, kde-format
 msgid "Detailed log"
 msgstr "Detaljerad logg"
@@ -5177,7 +5177,7 @@ msgstr "Kan inte hitta klipp för att lägga till markör"
 #: src/bin/bin.cpp:5569
 #, kde-format
 msgid "Could not find master clip"
-msgstr "Kunde inte hitta huvudklipp"
+msgstr "Kunde inte hitta masterklipp"
 
 #: src/bin/bin.cpp:5829
 #, kde-format
@@ -5373,13 +5373,11 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT-spellista (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:732
 #, kde-format
 msgid "Zoom In"
 msgstr "Zooma in"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:154
-#: src/dialogs/textbasededit.cpp:734
 #, kde-format
 msgid "Zoom Out"
 msgstr "Zooma ut"
@@ -5745,7 +5743,7 @@ msgid "Tag %1"
 msgstr "Etikett %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
-#: src/dialogs/textbasededit.cpp:633
+#: src/dialogs/textbasededit.cpp:635
 #, kde-format
 msgid "Configure"
 msgstr "Anpassa"
@@ -7527,7 +7525,7 @@ msgstr "Välj ett klipp i tidslinjen för att utföra analys"
 msgid "No audio track found"
 msgstr "Inget ljudspår hittades"
 
-#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:696
+#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:708
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Installera taligenkänningsmodeller"
@@ -7544,8 +7542,8 @@ msgstr "Kontrollerar inställning…"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "Anpassa tal-till-text, saknade beroenden: %1"
 
-#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:931
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:975
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Anpassa tal-till-text."
@@ -7560,12 +7558,12 @@ msgstr "Startar ljudexport"
 msgid "Audio export failed"
 msgstr "Ljudexport misslyckades"
 
-#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:996
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Startar taligenkänning"
 
-#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1159
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Taligenkänning avbröts."
@@ -8218,69 +8216,90 @@ msgid "Delete selection"
 msgstr "Ta bort markering"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1145 src/dialogs/textbasededit.cpp:1216
-#: src/dialogs/textbasededit.cpp:1240 src/dialogs/textbasededit.cpp:1297
+#: src/dialogs/textbasededit.cpp:1179 src/dialogs/textbasededit.cpp:1249
+#: src/dialogs/textbasededit.cpp:1273 src/dialogs/textbasededit.cpp:1330
 #, kde-format
 msgid "No speech"
 msgstr "Inget tal"
 
+#: src/dialogs/textbasededit.cpp:619
+#, fuzzy, kde-format
+#| msgid "Speech model"
+msgid "Speech Model"
+msgstr "Talmodell"
+
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:619 src/ui/speechdialog_ui.ui:169
+#: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
 #, kde-format
 msgid "Translate to English"
 msgstr "Översätt till engelska"
 
-#: src/dialogs/textbasededit.cpp:622
+#: src/dialogs/textbasededit.cpp:624
 #, kde-format
 msgid "Configure Speech Recognition"
 msgstr "Anpassa taligenkänning"
 
-#: src/dialogs/textbasededit.cpp:653
+#: src/dialogs/textbasededit.cpp:658
 #, kde-format
 msgid "Create new sequence with edit"
 msgstr "Skapa ny sekvens med redigering"
 
-#: src/dialogs/textbasededit.cpp:654
+#: src/dialogs/textbasededit.cpp:659
 #, kde-format
 msgid "Insert selection in timeline"
 msgstr "Infoga markering i tidslinje"
 
-#: src/dialogs/textbasededit.cpp:655
+#: src/dialogs/textbasededit.cpp:660
 #, kde-format
 msgid "Save edited text in a playlist file"
 msgstr "Spara redigerad text i en spellistefil"
 
-#: src/dialogs/textbasededit.cpp:662
-#, kde-format
-msgid "Create new sequence with text edit "
+#: src/dialogs/textbasededit.cpp:667
+#, fuzzy, kde-format
+#| msgid "Create new sequence with text edit "
+msgid "Create new sequence with text edit"
 msgstr "Skapa ny sekvens med textredigering "
 
-#: src/dialogs/textbasededit.cpp:686
-#, kde-format
-msgid "Speech model"
-msgstr "Talmodell"
+#: src/dialogs/textbasededit.cpp:668
+#, fuzzy, kde-format
+#| msgid "Speech to text"
+msgid "Search in text"
+msgstr "Tal till text"
 
-#: src/dialogs/textbasededit.cpp:687
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
 #, kde-format
-msgid "Speech language"
-msgstr "Talets språk"
+msgid "Language"
+msgstr "Språk"
 
-#: src/dialogs/textbasededit.cpp:724
+#: src/dialogs/textbasededit.cpp:745
 #, kde-format
 msgid "Delete selected text"
 msgstr "Ta bort markerad text"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:749
 #, kde-format
 msgid "Add marker for current selection"
 msgstr "Lägg till markör för aktuell markering"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:753
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Increase Font Size"
+msgstr "Teckenstorlek"
+
+#: src/dialogs/textbasededit.cpp:756
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Decrease Font Size"
+msgstr "Teckenstorlek"
+
+#: src/dialogs/textbasededit.cpp:760
 #, kde-format
 msgid "Remove non speech zones"
 msgstr "Ta bort alla zoner utan tal"
 
-#: src/dialogs/textbasededit.cpp:915
+#: src/dialogs/textbasededit.cpp:943
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -8289,80 +8308,80 @@ msgstr ""
 "Ett annat igenkänningsjobb kör redan. Det kommer att avbrytas till förmån "
 "för det nya jobbet. Vill du fortsätta?"
 
-#: src/dialogs/textbasededit.cpp:951
+#: src/dialogs/textbasededit.cpp:983
 #, kde-format
 msgid "Please install a language model."
 msgstr "Installera en språkmodell."
 
-#: src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:991
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Välj ett klipp med ljud i projektkorgen."
 
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/textbasededit.cpp:1037
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Välj ett klipp med ljud för taligenkänning."
 
-#: src/dialogs/textbasededit.cpp:1014 src/dialogs/textbasededit.cpp:1049
-#: src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/textbasededit.cpp:1046 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Kan inte skapa tillfällig fil."
 
-#: src/dialogs/textbasededit.cpp:1019
+#: src/dialogs/textbasededit.cpp:1051
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Extraherar ljud för %1."
 
-#: src/dialogs/textbasededit.cpp:1027
+#: src/dialogs/textbasededit.cpp:1059
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Ljudextrahering misslyckades."
 
-#: src/dialogs/textbasededit.cpp:1033 src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1065 src/dialogs/textbasededit.cpp:1114
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Startar taligenkänning på %1."
 
-#: src/dialogs/textbasededit.cpp:1130
+#: src/dialogs/textbasededit.cpp:1163
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Fel, kontrollera inställningen av tal-till-text"
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "No speech detected."
 msgstr "Inget tal detekterat."
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1186
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Taligenkänning klar."
 
-#: src/dialogs/textbasededit.cpp:1390
+#: src/dialogs/textbasededit.cpp:1423
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Redigera klipptext"
 
-#: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
+#: src/dialogs/textbasededit.cpp:1455 src/dialogs/textbasededit.cpp:1537
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Skapa sekvensklipp"
 
-#: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
+#: src/dialogs/textbasededit.cpp:1462 src/dialogs/textbasededit.cpp:1498
 #, kde-format
 msgid "No text to export"
 msgstr "Ingen text att exportera"
 
-#: src/dialogs/textbasededit.cpp:1449
+#: src/dialogs/textbasededit.cpp:1482
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Ange ny sökväg för spellista"
 
-#: src/dialogs/textbasededit.cpp:1599
+#: src/dialogs/textbasededit.cpp:1630
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Ingen tidskod hittades i markeringen"
@@ -11556,7 +11575,7 @@ msgstr "Ta bort alla förhandsåtergivningszoner."
 #: src/mainwindow.cpp:1742
 #, kde-format
 msgid "Start Preview Render"
-msgstr "Starta återgivning av förhandsgranskning"
+msgstr "Starta förhandsåtergivning"
 
 #: src/mainwindow.cpp:1745
 #, kde-kuit-format
@@ -11574,7 +11593,7 @@ msgstr ""
 #: src/mainwindow.cpp:1747
 #, kde-format
 msgid "Stop Preview Render"
-msgstr "Stoppa återgivning av förhandsgranskning"
+msgstr "Stoppa förhandsåtergivning"
 
 #: src/mainwindow.cpp:1750
 #, kde-format
@@ -11853,7 +11872,7 @@ msgstr "Anpassa alla spår till visningen"
 #: src/timeline2/view/timelinecontroller.cpp:4943
 #, kde-format
 msgid "Master effects"
-msgstr "Huvudeffekter"
+msgstr "Mastereffekter"
 
 #: src/mainwindow.cpp:1985
 #, kde-format
@@ -16947,7 +16966,7 @@ msgstr "Kan inte ta bort sista spåret i tidslinje"
 #: src/timeline2/model/timelinemodel.cpp:4958
 #, kde-format
 msgid "Cannot add effect %1 to master track"
-msgstr "Kan inte lägga till effekt %1 i huvudspår"
+msgstr "Kan inte lägga till effekt %1 i masterspår"
 
 #: src/timeline2/model/timelinemodel.cpp:4965
 #, kde-format
@@ -16957,7 +16976,7 @@ msgstr "Kan inte lägga till effekt %1 i markerat spår"
 #: src/timeline2/model/timelinemodel.cpp:4986
 #, kde-format
 msgid "Cannot paste effect to master track"
-msgstr "Kan inte klistra in effekt i huvudspår"
+msgstr "Kan inte klistra in effekt i masterspår"
 
 #: src/timeline2/model/timelinemodel.cpp:4992
 #, kde-format
@@ -17294,7 +17313,7 @@ msgstr "<b>Dubbelklicka</b> för att redigera text"
 #: src/timeline2/view/qml/timeline.qml:1001
 #, kde-format
 msgid "Show master effects"
-msgstr "Visa huvudeffekter"
+msgstr "Visa mastereffekter"
 
 #: src/timeline2/view/qml/timeline.qml:1140
 #, kde-format
@@ -18545,11 +18564,13 @@ msgstr "Ta bort nuvarande punkt."
 
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
-#. i18n: ectx: property (text), widget (QToolButton, subMenu)
+#. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
+#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_more)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_less)
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
 #. i18n: ectx: property (text), widget (QToolButton, button_search)
-#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
@@ -18642,6 +18663,7 @@ msgstr "Ta bort nuvarande punkt."
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -18681,9 +18703,10 @@ msgstr "Ta bort nuvarande punkt."
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
-#: src/ui/textbasededit_ui.ui:181 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:239 src/ui/textbasededit_ui.ui:260
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
 #: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
 #: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
 #: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
@@ -20715,7 +20738,7 @@ msgstr "Flaggor och markörkategorier"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:250
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:266
 #, kde-format
 msgid "Search"
 msgstr "Sök"
@@ -21940,12 +21963,6 @@ msgstr "Tidslinjezon (markerat spår)"
 msgid "Full project"
 msgstr "Hela projektet"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:124
-#, kde-format
-msgid "Language"
-msgstr "Språk"
-
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
 #, kde-format
@@ -21989,17 +22006,18 @@ msgstr "Återgivningstid"
 msgid "File Size"
 msgstr "Filstorlek"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:107
-#, kde-format
-msgid "Start recognition"
-msgstr "Starta igenkänning"
-
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:164
+#: src/ui/textbasededit_ui.ui:87
 #, kde-format
 msgid "Selected zone only"
 msgstr "Bara markerad zon"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_start)
+#: src/ui/textbasededit_ui.ui:107
+#, fuzzy, kde-format
+#| msgid "Transcode"
+msgid "Transcribe"
+msgstr "Omkoda"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -22615,6 +22633,12 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 t"
 
+#~ msgid "Speech language"
+#~ msgstr "Talets språk"
+
+#~ msgid "Start recognition"
+#~ msgstr "Starta igenkänning"
+
 #~ msgid "The <application>%1</application> python module is required for %2."
 #~ msgstr "Python-modulen <application>%1</application> krävs för %2."
 
@@ -22928,7 +22952,7 @@ msgstr "%1 t"
 
 #~ msgctxt "Initial for Master"
 #~ msgid "M"
-#~ msgstr "H"
+#~ msgstr "M"
 
 #~ msgid "*.srt *.ass *.vtt *.sbv"
 #~ msgstr "*.srt *.ass *.vtt *.sbv"

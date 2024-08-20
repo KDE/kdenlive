@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-19 00:39+0000\n"
+"POT-Creation-Date: 2024-08-20 00:39+0000\n"
 "PO-Revision-Date: 2023-05-19 18:02+0200\n"
 "Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -5018,12 +5018,12 @@ msgstr ""
 "ineinander verschachtelt werden."
 
 #: src/bin/bin.cpp:3787 src/dialogs/speechdialog.cpp:49
-#: src/dialogs/textbasededit.cpp:718 src/monitor/recmanager.cpp:42
+#: src/dialogs/textbasededit.cpp:739 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Protokoll anzeigen"
 
-#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:719
+#: src/bin/bin.cpp:3790 src/dialogs/textbasededit.cpp:740
 #, kde-format
 msgid "Detailed log"
 msgstr "Ausführliches Protokoll"
@@ -5424,14 +5424,12 @@ msgid "MLT Playlist (*.mlt)"
 msgstr "MLT-Wiedergabeliste (*.mlt)"
 
 #: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
-#: src/dialogs/textbasededit.cpp:732
 #, fuzzy, kde-format
 #| msgid "Zoom In"
 msgid "Zoom In"
 msgstr "Vergrößern"
 
 #: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:154
-#: src/dialogs/textbasededit.cpp:734
 #, fuzzy, kde-format
 #| msgid "Zoom Out"
 msgid "Zoom Out"
@@ -5801,7 +5799,7 @@ msgid "Tag %1"
 msgstr "Etikett %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
-#: src/dialogs/textbasededit.cpp:633
+#: src/dialogs/textbasededit.cpp:635
 #, kde-format
 msgid "Configure"
 msgstr "Einrichten"
@@ -7626,7 +7624,7 @@ msgstr "Wählen Sie Clips in der Zeitleiste für die Bibliothek aus"
 msgid "No audio track found"
 msgstr "Kein vorheriges Bild gefunden"
 
-#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:696
+#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:708
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please install speech recognition models"
@@ -7646,8 +7644,8 @@ msgstr "System wird überprüft"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "Übergang auswählen"
 
-#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:931
-#: src/dialogs/textbasededit.cpp:945
+#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:975
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please configure speech to text."
@@ -7663,12 +7661,12 @@ msgstr "Audioexport wird gestartet"
 msgid "Audio export failed"
 msgstr "Audio-Export ist fehlgeschlagen"
 
-#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:964
+#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:996
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Spracherkennung wird gestartet"
 
-#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1127
+#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1159
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Spracherkennung wurde abgebrochen."
@@ -8330,168 +8328,186 @@ msgid "Delete selection"
 msgstr "Auswahl löschen"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1145 src/dialogs/textbasededit.cpp:1216
-#: src/dialogs/textbasededit.cpp:1240 src/dialogs/textbasededit.cpp:1297
+#: src/dialogs/textbasededit.cpp:1179 src/dialogs/textbasededit.cpp:1249
+#: src/dialogs/textbasededit.cpp:1273 src/dialogs/textbasededit.cpp:1330
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No speech"
 msgstr "Kein Profil ausgewählt"
 
+#: src/dialogs/textbasededit.cpp:619
+#, fuzzy, kde-format
+#| msgid "Speed options"
+msgid "Speech Model"
+msgstr "Geschwindigkeitseinstellungen"
+
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
-#: src/dialogs/textbasededit.cpp:619 src/ui/speechdialog_ui.ui:169
+#: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
 #, fuzzy, kde-format
 #| msgid "Template text clip"
 msgid "Translate to English"
 msgstr "Text-Clip-Vorlage"
 
-#: src/dialogs/textbasededit.cpp:622
+#: src/dialogs/textbasededit.cpp:624
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Configure Speech Recognition"
 msgstr "Übergang auswählen"
 
-#: src/dialogs/textbasededit.cpp:653
+#: src/dialogs/textbasededit.cpp:658
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Create New Sequence"
 msgid "Create new sequence with edit"
 msgstr "Neue Sequenz erstellen"
 
-#: src/dialogs/textbasededit.cpp:654
+#: src/dialogs/textbasededit.cpp:659
 #, fuzzy, kde-format
 #| msgid "Cannot delete last track in timeline"
 msgid "Insert selection in timeline"
 msgstr "Die letzte Spur der Zeitleiste kann nicht gelöscht werden"
 
-#: src/dialogs/textbasededit.cpp:655
+#: src/dialogs/textbasededit.cpp:660
 #, kde-format
 msgid "Save edited text in a playlist file"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:662
+#: src/dialogs/textbasededit.cpp:667
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Create New Sequence"
-msgid "Create new sequence with text edit "
+msgid "Create new sequence with text edit"
 msgstr "Neue Sequenz erstellen"
 
-#: src/dialogs/textbasededit.cpp:686
+#: src/dialogs/textbasededit.cpp:668
 #, fuzzy, kde-format
-#| msgid "Speed options"
-msgid "Speech model"
-msgstr "Geschwindigkeitseinstellungen"
+#| msgid "Speech to text"
+msgid "Search in text"
+msgstr "Sprache-zu-Text"
 
-#: src/dialogs/textbasededit.cpp:687
-#, fuzzy, kde-format
-#| msgid "Speed Change"
-msgid "Speech language"
-msgstr "Geschwindigkeit ändern"
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
+#, kde-format
+msgid "Language"
+msgstr "Sprache"
 
-#: src/dialogs/textbasededit.cpp:724
+#: src/dialogs/textbasededit.cpp:745
 #, kde-format
 msgid "Delete selected text"
 msgstr "Ausgewählten Text löschen"
 
-#: src/dialogs/textbasededit.cpp:728
+#: src/dialogs/textbasededit.cpp:749
 #, fuzzy, kde-format
 #| msgid "Add bookmark for current selection"
 msgid "Add marker for current selection"
 msgstr "Lesezeichen für aktuelle Auswahl hinzufügen"
 
-#: src/dialogs/textbasededit.cpp:736
+#: src/dialogs/textbasededit.cpp:753
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Increase Font Size"
+msgstr "Schriftgröße"
+
+#: src/dialogs/textbasededit.cpp:756
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Decrease Font Size"
+msgstr "Schriftgröße"
+
+#: src/dialogs/textbasededit.cpp:760
 #, fuzzy, kde-format
 #| msgid "Remove All Preview Zones"
 msgid "Remove non speech zones"
 msgstr "Alle Vorschaubereiche entfernen"
 
-#: src/dialogs/textbasededit.cpp:915
+#: src/dialogs/textbasededit.cpp:943
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:951
+#: src/dialogs/textbasededit.cpp:983
 #, kde-format
 msgid "Please install a language model."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:959
+#: src/dialogs/textbasededit.cpp:991
 #, fuzzy, kde-format
 #| msgid "Clip in Project Bin"
 msgid "Select a clip with audio in Project Bin."
 msgstr "Clip im Projektinhalt"
 
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/textbasededit.cpp:1037
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "Select a clip with audio for speech recognition."
 msgstr "Bitte wählen Sie vor dem Kopieren einen Clip"
 
-#: src/dialogs/textbasededit.cpp:1014 src/dialogs/textbasededit.cpp:1049
-#: src/dialogs/textbasededit.cpp:1098
+#: src/dialogs/textbasededit.cpp:1046 src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1130
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Temporäre Datei kann nicht erstellt werden."
 
-#: src/dialogs/textbasededit.cpp:1019
+#: src/dialogs/textbasededit.cpp:1051
 #, fuzzy, kde-format
 #| msgid "Extracting audio thumb from clip %1"
 msgid "Extracting audio for %1."
 msgstr "Audio-Vorschau wird aus dem Clip %1 extrahiert"
 
-#: src/dialogs/textbasededit.cpp:1027
+#: src/dialogs/textbasededit.cpp:1059
 #, fuzzy, kde-format
 #| msgid "Audio bitrate"
 msgid "Audio extract failed."
 msgstr "Audio-Bitrate"
 
-#: src/dialogs/textbasededit.cpp:1033 src/dialogs/textbasededit.cpp:1082
+#: src/dialogs/textbasededit.cpp:1065 src/dialogs/textbasededit.cpp:1114
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Spracherkennung für %1wird gestartet."
 
-#: src/dialogs/textbasededit.cpp:1130
+#: src/dialogs/textbasededit.cpp:1163
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr ""
 
-#: src/dialogs/textbasededit.cpp:1132
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "No speech detected."
 msgstr "Kein Sprache erkannt."
 
-#: src/dialogs/textbasededit.cpp:1153
+#: src/dialogs/textbasededit.cpp:1186
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Spracherkennung abgeschlossen."
 
-#: src/dialogs/textbasededit.cpp:1390
+#: src/dialogs/textbasededit.cpp:1423
 #, fuzzy, kde-format
 #| msgid "Edit clip cut"
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Clip-Schnitt bearbeiten"
 
-#: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
+#: src/dialogs/textbasededit.cpp:1455 src/dialogs/textbasededit.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Create Sequence Clip"
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Sequenz-Clip erstellen"
 
-#: src/dialogs/textbasededit.cpp:1429 src/dialogs/textbasededit.cpp:1465
+#: src/dialogs/textbasededit.cpp:1462 src/dialogs/textbasededit.cpp:1498
 #, kde-format
 msgid "No text to export"
 msgstr "Kein Text zum Export"
 
-#: src/dialogs/textbasededit.cpp:1449
+#: src/dialogs/textbasededit.cpp:1482
 #, fuzzy, kde-format
 #| msgid "Enter Template Path"
 msgid "Enter new playlist path"
 msgstr "Vorlagen-Pfad eingeben"
 
-#: src/dialogs/textbasededit.cpp:1599
+#: src/dialogs/textbasededit.cpp:1630
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Kein Zeitcode in Auswahl gefunden"
@@ -18781,11 +18797,13 @@ msgstr "Aktuellen Punkt löschen."
 
 #. i18n: ectx: property (text), widget (QToolButton, button_abort)
 #. i18n: ectx: property (text), widget (QToolButton, button_config)
-#. i18n: ectx: property (text), widget (QToolButton, subMenu)
+#. i18n: ectx: property (text), widget (QToolButton, button_remove_silence)
+#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, button_bookmark)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_more)
+#. i18n: ectx: property (text), widget (QToolButton, button_font_less)
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
 #. i18n: ectx: property (text), widget (QToolButton, button_search)
-#. i18n: ectx: property (text), widget (QToolButton, button_insert)
 #. i18n: ectx: property (text), widget (QToolButton, search_prev)
 #. i18n: ectx: property (text), widget (QToolButton, search_next)
 #. i18n: ectx: property (text), widget (QToolButton, italic)
@@ -18878,6 +18896,7 @@ msgstr "Aktuellen Punkt löschen."
 #. i18n: ectx: property (text), widget (QToolButton, buttonLock)
 #. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -18917,9 +18936,10 @@ msgstr "Aktuellen Punkt löschen."
 #: src/ui/resourcewidget_ui.ui:214 src/ui/resourcewidget_ui.ui:281
 #: src/ui/speechdialog_ui.ui:216 src/ui/textbasededit_ui.ui:42
 #: src/ui/textbasededit_ui.ui:71 src/ui/textbasededit_ui.ui:140
-#: src/ui/textbasededit_ui.ui:154 src/ui/textbasededit_ui.ui:171
-#: src/ui/textbasededit_ui.ui:181 src/ui/textbasededit_ui.ui:198
-#: src/ui/textbasededit_ui.ui:239 src/ui/textbasededit_ui.ui:260
+#: src/ui/textbasededit_ui.ui:163 src/ui/textbasededit_ui.ui:179
+#: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
+#: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
+#: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
 #: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
 #: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
 #: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
@@ -20986,7 +21006,7 @@ msgstr "Hilfslinien- und Markierungskategorie"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, filter_line)
-#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:250
+#: src/ui/guideslist_ui.ui:157 src/ui/textbasededit_ui.ui:266
 #, kde-format
 msgid "Search"
 msgstr "Suchen"
@@ -22254,12 +22274,6 @@ msgstr "Zeitleistenbereich (ausgewählte Spur)"
 msgid "Full project"
 msgstr "&Ganzes Projekt"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/speechdialog_ui.ui:124
-#, kde-format
-msgid "Language"
-msgstr "Sprache"
-
 #. i18n: ectx: property (text), widget (QCheckBox, check_maxchars)
 #: src/ui/speechdialog_ui.ui:143
 #, fuzzy, kde-format
@@ -22307,17 +22321,18 @@ msgstr "Render-Zeit"
 msgid "File Size"
 msgstr "Dateigröße"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_start)
-#: src/ui/textbasededit_ui.ui:107
-#, kde-format
-msgid "Start recognition"
-msgstr "Erkennung starten"
-
 #. i18n: ectx: property (text), widget (QCheckBox, speech_zone)
-#: src/ui/textbasededit_ui.ui:164
+#: src/ui/textbasededit_ui.ui:87
 #, kde-format
 msgid "Selected zone only"
 msgstr "Nur ausgewählter Bereich"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_start)
+#: src/ui/textbasededit_ui.ui:107
+#, fuzzy, kde-format
+#| msgid "Transcode"
+msgid "Transcribe"
+msgstr "Transkodieren"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -22939,6 +22954,14 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 h"
+
+#, fuzzy
+#~| msgid "Speed Change"
+#~ msgid "Speech language"
+#~ msgstr "Geschwindigkeit ändern"
+
+#~ msgid "Start recognition"
+#~ msgstr "Erkennung starten"
 
 #~ msgid "The <application>%1</application> python module is required for %2."
 #~ msgstr ""
