@@ -50,6 +50,10 @@ Rectangle {
     signal processingDrag(bool dragging)
     signal showSubtitleClipMenu()
 
+    readonly property font miniFont: ({
+        pixelSize: miniFontSize
+    })
+
     FontMetrics {
         id: fontMetrics
         font: miniFont
