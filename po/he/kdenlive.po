@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:39+0000\n"
-"PO-Revision-Date: 2024-07-26 09:06+0300\n"
+"POT-Creation-Date: 2024-08-21 00:47+0000\n"
+"PO-Revision-Date: 2024-08-20 08:50+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -4129,7 +4129,7 @@ msgstr ""
 "\n"
 "ימ׳:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1007
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1011
 #, kde-format
 msgid "Master"
 msgstr "ראשי"
@@ -8166,10 +8166,9 @@ msgid "No speech"
 msgstr "אין דיבור"
 
 #: src/dialogs/textbasededit.cpp:619
-#, fuzzy, kde-format
-#| msgid "Speech model"
+#, kde-format
 msgid "Speech Model"
-msgstr "דגם זיהוי קולי"
+msgstr "מודל הקראה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
@@ -8198,16 +8197,14 @@ msgid "Save edited text in a playlist file"
 msgstr "שמירת הטקסט שנערך בקובץ רשימת נגינה"
 
 #: src/dialogs/textbasededit.cpp:667
-#, fuzzy, kde-format
-#| msgid "Create new sequence with text edit "
+#, kde-format
 msgid "Create new sequence with text edit"
-msgstr "יצירת רצף חדש עם עריכת טקסט "
+msgstr "יצירת רצף חדש עם עריכת טקסט"
 
 #: src/dialogs/textbasededit.cpp:668
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Search in text"
-msgstr "הכתבה"
+msgstr "חיפוש בטקסט"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
@@ -8226,16 +8223,14 @@ msgid "Add marker for current selection"
 msgstr "הוספת סמן לבחירה הנוכחית"
 
 #: src/dialogs/textbasededit.cpp:753
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Increase Font Size"
-msgstr "גודל כתב"
+msgstr "הגדלת הכתב"
 
 #: src/dialogs/textbasededit.cpp:756
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Decrease Font Size"
-msgstr "גודל כתב"
+msgstr "הקטנת נכתב"
 
 #: src/dialogs/textbasededit.cpp:760
 #, kde-format
@@ -16880,14 +16875,14 @@ msgid "Change clip speed"
 msgstr "שינוי מהירות הסרטון"
 
 #: src/timeline2/model/timelinemodel.cpp:6760
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "נעילת רצועה"
 
 #: src/timeline2/model/timelinemodel.cpp:6765
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -17024,7 +17019,7 @@ msgid "Stop"
 msgstr "עצירה"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2141
+#: src/timeline2/view/qml/timeline.qml:2145
 #, kde-format
 msgid "Paused"
 msgstr "מושהה"
@@ -17168,51 +17163,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>לחיצה כפולה</b> לעריכת טקסט"
 
-#: src/timeline2/view/qml/timeline.qml:1001
+#: src/timeline2/view/qml/timeline.qml:1005
 #, kde-format
 msgid "Show master effects"
 msgstr "הצגת אפקטי הורה"
 
-#: src/timeline2/view/qml/timeline.qml:1140
+#: src/timeline2/view/qml/timeline.qml:1144
 #, kde-format
 msgid "Click to see details"
 msgstr "לחיצה להצגת פרטים"
 
-#: src/timeline2/view/qml/timeline.qml:1162
+#: src/timeline2/view/qml/timeline.qml:1166
 #, kde-format
 msgid "Speech recognition"
 msgstr "זיהוי דיבור"
 
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "הצגה"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "הסתרה"
 
-#: src/timeline2/view/qml/timeline.qml:1809
+#: src/timeline2/view/qml/timeline.qml:1813
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>לחיצה כפולה</b> להוספת כתובית"
 
-#: src/timeline2/view/qml/timeline.qml:1976
+#: src/timeline2/view/qml/timeline.qml:1980
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "היסט: %1, מקום: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2130
-#: src/timeline2/view/qml/timeline.qml:2139
+#: src/timeline2/view/qml/timeline.qml:2134
+#: src/timeline2/view/qml/timeline.qml:2143
 #, kde-format
 msgid "Recording"
 msgstr "הקלטה"
 
-#: src/timeline2/view/qml/timeline.qml:2233
+#: src/timeline2/view/qml/timeline.qml:2237
 #, kde-format
 msgid "Multicam In"
 msgstr "ריבוי מצלמות נכנס"
@@ -21845,10 +21840,9 @@ msgstr "הקטע הנבחר בלבד"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transcribe"
-msgstr "קידוד"
+msgstr "תמלול"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
