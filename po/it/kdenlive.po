@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:39+0000\n"
+"POT-Creation-Date: 2024-08-21 00:47+0000\n"
 "PO-Revision-Date: 2024-07-27 08:46+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -4207,7 +4207,7 @@ msgstr ""
 "D:"
 
 # Master effects
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1007
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1011
 #, kde-format
 msgid "Master"
 msgstr "Principale"
@@ -17227,14 +17227,14 @@ msgid "Change clip speed"
 msgstr "Cambia la velocità della clip"
 
 #: src/timeline2/model/timelinemodel.cpp:6760
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Blocca traccia"
 
 #: src/timeline2/model/timelinemodel.cpp:6765
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -17377,7 +17377,7 @@ msgid "Stop"
 msgstr "Interrompi"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2141
+#: src/timeline2/view/qml/timeline.qml:2145
 #, kde-format
 msgid "Paused"
 msgstr "In pausa"
@@ -17521,51 +17521,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Doppio clic</b> per modificare il testo"
 
-#: src/timeline2/view/qml/timeline.qml:1001
+#: src/timeline2/view/qml/timeline.qml:1005
 #, kde-format
 msgid "Show master effects"
 msgstr "Mostra gli effetti principali"
 
-#: src/timeline2/view/qml/timeline.qml:1140
+#: src/timeline2/view/qml/timeline.qml:1144
 #, kde-format
 msgid "Click to see details"
 msgstr "Fai clic per vedere i dettagli"
 
-#: src/timeline2/view/qml/timeline.qml:1162
+#: src/timeline2/view/qml/timeline.qml:1166
 #, kde-format
 msgid "Speech recognition"
 msgstr "Riconoscimento vocale"
 
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Mostra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Nascondi"
 
-#: src/timeline2/view/qml/timeline.qml:1809
+#: src/timeline2/view/qml/timeline.qml:1813
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Doppio clic</b> per aggiungere un sottotitolo"
 
-#: src/timeline2/view/qml/timeline.qml:1976
+#: src/timeline2/view/qml/timeline.qml:1980
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Scostamento: %1, posizione: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2130
-#: src/timeline2/view/qml/timeline.qml:2139
+#: src/timeline2/view/qml/timeline.qml:2134
+#: src/timeline2/view/qml/timeline.qml:2143
 #, kde-format
 msgid "Recording"
 msgstr "Registrazione"
 
-#: src/timeline2/view/qml/timeline.qml:2233
+#: src/timeline2/view/qml/timeline.qml:2237
 #, kde-format
 msgid "Multicam In"
 msgstr "Ingresso multi-camera"

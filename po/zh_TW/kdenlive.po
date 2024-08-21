@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:39+0000\n"
+"POT-Creation-Date: 2024-08-21 00:47+0000\n"
 "PO-Revision-Date: 2024-08-03 14:31+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4096,7 +4096,7 @@ msgstr ""
 "\n"
 "紅："
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1007
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1011
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -16673,14 +16673,14 @@ msgid "Change clip speed"
 msgstr "變更素材速度"
 
 #: src/timeline2/model/timelinemodel.cpp:6760
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "鎖定軌道"
 
 #: src/timeline2/model/timelinemodel.cpp:6765
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -16812,7 +16812,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2141
+#: src/timeline2/view/qml/timeline.qml:2145
 #, kde-format
 msgid "Paused"
 msgstr "已暫停"
@@ -16951,51 +16951,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>雙擊</b>來編輯文字"
 
-#: src/timeline2/view/qml/timeline.qml:1001
+#: src/timeline2/view/qml/timeline.qml:1005
 #, kde-format
 msgid "Show master effects"
 msgstr "顯示 master 效果"
 
-#: src/timeline2/view/qml/timeline.qml:1140
+#: src/timeline2/view/qml/timeline.qml:1144
 #, kde-format
 msgid "Click to see details"
 msgstr "點擊來檢視詳細資料"
 
-#: src/timeline2/view/qml/timeline.qml:1162
+#: src/timeline2/view/qml/timeline.qml:1166
 #, kde-format
 msgid "Speech recognition"
 msgstr "語音辨識"
 
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "顯示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/timeline2/view/qml/timeline.qml:1809
+#: src/timeline2/view/qml/timeline.qml:1813
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>雙擊</b>來新增字幕"
 
-#: src/timeline2/view/qml/timeline.qml:1976
+#: src/timeline2/view/qml/timeline.qml:1980
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/timeline.qml:2130
-#: src/timeline2/view/qml/timeline.qml:2139
+#: src/timeline2/view/qml/timeline.qml:2134
+#: src/timeline2/view/qml/timeline.qml:2143
 #, kde-format
 msgid "Recording"
 msgstr "錄製"
 
-#: src/timeline2/view/qml/timeline.qml:2233
+#: src/timeline2/view/qml/timeline.qml:2237
 #, kde-format
 msgid "Multicam In"
 msgstr "多相機 入"

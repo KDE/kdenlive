@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:39+0000\n"
-"PO-Revision-Date: 2024-07-26 15:23+0200\n"
+"POT-Creation-Date: 2024-08-21 00:47+0000\n"
+"PO-Revision-Date: 2024-08-20 15:09+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -4045,7 +4045,7 @@ msgstr ""
 "\n"
 "P:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1007
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1011
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -7985,8 +7985,7 @@ msgid "No speech"
 msgstr ""
 
 #: src/dialogs/textbasededit.cpp:619
-#, fuzzy, kde-format
-#| msgid "Speech model"
+#, kde-format
 msgid "Speech Model"
 msgstr "Model řeči"
 
@@ -8017,17 +8016,14 @@ msgid "Save edited text in a playlist file"
 msgstr ""
 
 #: src/dialogs/textbasededit.cpp:667
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Create New Sequence"
+#, kde-format
 msgid "Create new sequence with text edit"
-msgstr "Vytvořit novou sekvenci"
+msgstr ""
 
 #: src/dialogs/textbasededit.cpp:668
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Search in text"
-msgstr "Mluvené slovo na text"
+msgstr "Hledat v textu:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
@@ -8046,16 +8042,14 @@ msgid "Add marker for current selection"
 msgstr ""
 
 #: src/dialogs/textbasededit.cpp:753
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Increase Font Size"
-msgstr "Velikost písma"
+msgstr "Zvětšit velikost písma"
 
 #: src/dialogs/textbasededit.cpp:756
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Decrease Font Size"
-msgstr "Velikost písma"
+msgstr "Zmenšit velikost písma"
 
 #: src/dialogs/textbasededit.cpp:760
 #, kde-format
@@ -9878,17 +9872,17 @@ msgstr "Efekty"
 #: src/layoutmanagement.cpp:41
 #, kde-format
 msgid "Layouts"
-msgstr "Rozložení"
+msgstr "Rozvržení"
 
 #: src/layoutmanagement.cpp:42
 #, kde-format
 msgid "Load Layout"
-msgstr "Načíst rozložení"
+msgstr "Načíst rozvržení"
 
 #: src/layoutmanagement.cpp:53
 #, kde-format
 msgid "Save Layout…"
-msgstr "Uložit rozložení…"
+msgstr "Uložit rozvržení…"
 
 #: src/layoutmanagement.cpp:57
 #, kde-format
@@ -9914,12 +9908,12 @@ msgstr "Rozvržení %1: %2"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
-msgstr "Uložit rozložení"
+msgstr "Uložit rozvržení"
 
 #: src/layoutmanagement.cpp:285
 #, kde-format
 msgid "Layout name:"
-msgstr "Název rozložení:"
+msgstr "Název rozvržení:"
 
 #: src/layoutmanagement.cpp:303
 #, kde-format
@@ -9952,7 +9946,7 @@ msgstr "Importovat"
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Layout"
-msgstr "Načíst rozložení"
+msgstr "Načíst rozvržení"
 
 #: src/layoutmanagement.cpp:494
 #, kde-format
@@ -9973,7 +9967,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Layout"
-msgstr "Exportovat rozložení"
+msgstr "Exportovat rozvržení"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -16502,14 +16496,14 @@ msgid "Change clip speed"
 msgstr ""
 
 #: src/timeline2/model/timelinemodel.cpp:6760
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Uzamknout stopu"
 
 #: src/timeline2/model/timelinemodel.cpp:6765
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -16645,7 +16639,7 @@ msgid "Stop"
 msgstr "Zastavit"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2141
+#: src/timeline2/view/qml/timeline.qml:2145
 #, kde-format
 msgid "Paused"
 msgstr "Pozastaveno"
@@ -16781,51 +16775,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1001
+#: src/timeline2/view/qml/timeline.qml:1005
 #, kde-format
 msgid "Show master effects"
 msgstr "Zobrazit hlavní efekty"
 
-#: src/timeline2/view/qml/timeline.qml:1140
+#: src/timeline2/view/qml/timeline.qml:1144
 #, kde-format
 msgid "Click to see details"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1162
+#: src/timeline2/view/qml/timeline.qml:1166
 #, kde-format
 msgid "Speech recognition"
 msgstr "Rozpoznávání řeči"
 
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Zobrazit"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Skrýt"
 
-#: src/timeline2/view/qml/timeline.qml:1809
+#: src/timeline2/view/qml/timeline.qml:1813
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1976
+#: src/timeline2/view/qml/timeline.qml:1980
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Posun: %1, Pozice: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2130
-#: src/timeline2/view/qml/timeline.qml:2139
+#: src/timeline2/view/qml/timeline.qml:2134
+#: src/timeline2/view/qml/timeline.qml:2143
 #, kde-format
 msgid "Recording"
 msgstr "Nahrávání"
 
-#: src/timeline2/view/qml/timeline.qml:2233
+#: src/timeline2/view/qml/timeline.qml:2237
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -21428,10 +21422,9 @@ msgstr "Pouze vybrané pásmo"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transcribe"
-msgstr "Překódovat"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
@@ -22041,6 +22034,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Speech language"
-#~ msgstr "Jazyk řeči"

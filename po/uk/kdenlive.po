@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-20 00:39+0000\n"
-"PO-Revision-Date: 2024-07-26 08:46+0300\n"
+"POT-Creation-Date: 2024-08-21 00:47+0000\n"
+"PO-Revision-Date: 2024-08-20 09:38+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -4202,7 +4202,7 @@ msgstr ""
 "\n"
 "П:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1007
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1011
 #, kde-format
 msgid "Master"
 msgstr "Основний"
@@ -8302,10 +8302,9 @@ msgid "No speech"
 msgstr "Немає озвучення"
 
 #: src/dialogs/textbasededit.cpp:619
-#, fuzzy, kde-format
-#| msgid "Speech model"
+#, kde-format
 msgid "Speech Model"
-msgstr "Моделі мовлення"
+msgstr "Модель мовлення"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
@@ -8334,16 +8333,14 @@ msgid "Save edited text in a playlist file"
 msgstr "Зберегти редагований текст у файлі списку відтворення"
 
 #: src/dialogs/textbasededit.cpp:667
-#, fuzzy, kde-format
-#| msgid "Create new sequence with text edit "
+#, kde-format
 msgid "Create new sequence with text edit"
 msgstr "Створити послідовність за допомогою редагуванням тексту"
 
 #: src/dialogs/textbasededit.cpp:668
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Search in text"
-msgstr "Перетворення звуку на текст"
+msgstr "Шукати у тексті"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
@@ -8362,16 +8359,14 @@ msgid "Add marker for current selection"
 msgstr "Додати позначку до поточного позначення"
 
 #: src/dialogs/textbasededit.cpp:753
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Increase Font Size"
-msgstr "Розмір шрифту"
+msgstr "Збільшити розмір шрифту"
 
 #: src/dialogs/textbasededit.cpp:756
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Decrease Font Size"
-msgstr "Розмір шрифту"
+msgstr "Зменшити розмір шрифту"
 
 #: src/dialogs/textbasededit.cpp:760
 #, kde-format
@@ -17233,14 +17228,14 @@ msgid "Change clip speed"
 msgstr "Змінити швидкість кліпу"
 
 #: src/timeline2/model/timelinemodel.cpp:6760
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокувати доріжку"
 
 #: src/timeline2/model/timelinemodel.cpp:6765
-#: src/timeline2/view/qml/timeline.qml:1206
+#: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -17383,7 +17378,7 @@ msgid "Stop"
 msgstr "Зупинити"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2141
+#: src/timeline2/view/qml/timeline.qml:2145
 #, kde-format
 msgid "Paused"
 msgstr "Призупинено"
@@ -17528,51 +17523,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Подвійне клацання</b> — редагувати текст"
 
-#: src/timeline2/view/qml/timeline.qml:1001
+#: src/timeline2/view/qml/timeline.qml:1005
 #, kde-format
 msgid "Show master effects"
 msgstr "Показати основні ефекти"
 
-#: src/timeline2/view/qml/timeline.qml:1140
+#: src/timeline2/view/qml/timeline.qml:1144
 #, kde-format
 msgid "Click to see details"
 msgstr "Натисніть, щоб переглянути подробиці"
 
-#: src/timeline2/view/qml/timeline.qml:1162
+#: src/timeline2/view/qml/timeline.qml:1166
 #, kde-format
 msgid "Speech recognition"
 msgstr "Розпізнавання мовлення"
 
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Показати"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1182
+#: src/timeline2/view/qml/timeline.qml:1186
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Приховати"
 
-#: src/timeline2/view/qml/timeline.qml:1809
+#: src/timeline2/view/qml/timeline.qml:1813
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Подвійне клацання</b> — додати субтитри"
 
-#: src/timeline2/view/qml/timeline.qml:1976
+#: src/timeline2/view/qml/timeline.qml:1980
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Зсув: %1, позиція: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2130
-#: src/timeline2/view/qml/timeline.qml:2139
+#: src/timeline2/view/qml/timeline.qml:2134
+#: src/timeline2/view/qml/timeline.qml:2143
 #, kde-format
 msgid "Recording"
 msgstr "Записування"
 
-#: src/timeline2/view/qml/timeline.qml:2233
+#: src/timeline2/view/qml/timeline.qml:2237
 #, kde-format
 msgid "Multicam In"
 msgstr "Вхід мультикаму"
@@ -22260,10 +22255,9 @@ msgstr "Лише позначена ділянка"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transcribe"
-msgstr "Перекодування"
+msgstr "Транскрибувати"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
