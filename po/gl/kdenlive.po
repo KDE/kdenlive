@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-16 02:29+0000\n"
-"PO-Revision-Date: 2024-08-10 14:08+0200\n"
+"PO-Revision-Date: 2024-08-20 16:23+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -20871,7 +20871,7 @@ msgstr "Valor da luminancia."
 msgid "R"
 msgstr "Vm"
 
-# well-spelled: Vm
+# well-spelled: Vd
 # G significa Green
 #. i18n: ectx: property (text), widget (QCheckBox, cbG)
 #: src/ui/histogram_ui.ui:68
