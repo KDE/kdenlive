@@ -346,6 +346,8 @@ public:
     void updateHoverItem(const QUuid &uuid);
     /** @brief Returns true if the asset has {audio, video} */
     std::pair<bool, bool> assetHasAV(ObjectId id);
+    /** @brief Show an item's effect stack */
+    void showEffectStackFromId(ObjectId owner);
 
 private:
     explicit Core(LinuxPackageType packageType);

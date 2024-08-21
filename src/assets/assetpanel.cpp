@@ -85,9 +85,13 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchBuiltStack->setChecked(KdenliveSettings::enableBuiltInEffects());
     connect(m_switchBuiltStack, &QToolButton::toggled, this, [this](bool enable) {
         KdenliveSettings::setEnableBuiltInEffects(enable);
-        pCore->clearAssetPanel(-1);
         if (m_effectStackWidget) {
+            ObjectId owner = m_effectStackWidget->stackOwner();
+            pCore->clearAssetPanel(-1);
             m_effectStackWidget->unsetModel();
+            pCore->showEffectStackFromId(owner);
+        } else {
+            pCore->clearAssetPanel(-1);
         }
     });
     buttonToolbar->addWidget(m_switchBuiltStack);

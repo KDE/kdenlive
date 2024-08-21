@@ -4271,6 +4271,14 @@ void Bin::editTags(const QList<QString> &allClips, const QString &tag, bool add)
     }
 }
 
+void Bin::showItemEffectStack(ObjectId owner)
+{
+    Q_ASSERT(owner.type == KdenliveObjectType::BinClip);
+    const QString id = QString::number(owner.itemId);
+    std::shared_ptr<ProjectClip> item = m_itemModel->getClipByBinID(id);
+    editMasterEffect(item);
+}
+
 void Bin::editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip)
 {
     if (m_gainedFocus) {

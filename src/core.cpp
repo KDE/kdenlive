@@ -1717,3 +1717,29 @@ std::pair<bool, bool> Core::assetHasAV(ObjectId id)
         return {false, false};
     }
 }
+
+void Core::showEffectStackFromId(ObjectId owner)
+{
+    switch (owner.type) {
+    case KdenliveObjectType::BinClip:
+        activeBin()->showItemEffectStack(owner);
+        break;
+    case KdenliveObjectType::TimelineClip:
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->showAsset(owner.itemId);
+        }
+        break;
+    case KdenliveObjectType::TimelineTrack:
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->showTrackAsset(owner.itemId);
+        }
+        break;
+    case KdenliveObjectType::Master:
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->showMasterEffects();
+        }
+        break;
+    default:
+        break;
+    }
+}

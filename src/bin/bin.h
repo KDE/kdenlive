@@ -381,6 +381,8 @@ public:
     const QString binInfoToString() const;
     /** @brief Load info (root folder, view type) from a string */
     const QString loadInfo(const QStringList binInfo, const QStringList existingNames);
+    /** @brief Display a clip effect stack */
+    void showItemEffectStack(ObjectId owner);
 
 private Q_SLOTS:
     void slotAddClip();
