@@ -78,6 +78,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     Q_EMIT updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     int minHeight = 0;
+    int keyframeRow = -1;
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -100,12 +101,19 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             });
             if (AssetParameterModel::isAnimated(type)) {
                 m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                keyframeRow = i;
                 connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
                 connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
+                minHeight += w->minimumHeight();
             } else if (type != ParamType::Hidden) {
-                m_lay->addRow(w->createLabel(), w);
+                if (keyframeRow == -1) {
+                    m_lay->addRow(w->createLabel(), w);
+                } else {
+                    m_lay->insertRow(keyframeRow, w->createLabel(), w);
+                    keyframeRow++;
+                }
                 minHeight += w->minimumHeight();
             }
             m_widgets.push_back(w);
