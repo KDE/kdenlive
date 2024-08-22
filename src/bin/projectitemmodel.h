@@ -61,7 +61,7 @@ public:
     void buildPlaylist(const QUuid uuid);
 
     /** @brief Returns a clip from the hierarchy, given its id */
-    std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
+    std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId) const;
     /** @brief Returns audio levels for a clip from its id */
     const QVector <uint8_t>getAudioLevelsByBinID(const QString &binId, int stream);
     double getAudioMaxLevel(const QString &binId, int stream);
@@ -260,6 +260,9 @@ public:
     /** @brief Check that all sequences are correctly stored in the model */
     void checkSequenceIntegrity(const QString activeSequenceId);
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
+    /** @brief Get the unique and unmutable uuid for this project clip */
+    const QString getBinClipUuid(const QString &binId) const;
+    const QString getBinClipIdByUuid(const QString uuid);
 
 protected:
     bool closing;

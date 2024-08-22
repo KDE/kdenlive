@@ -4,6 +4,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "notesplugin.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/noteswidget.h"
 #include "doc/kdenlivedoc.h"
@@ -75,8 +76,9 @@ void NotesPlugin::slotInsertTimecode()
             pCore->displayMessage(i18n("Cannot add note, no clip selected in project bin"), ErrorMessage);
             return;
         }
-        QString clipName = pCore->bin()->getBinClipName(binId);
-        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(binId, QString::number(frames), clipName, position));
+        const QString clipName = pCore->bin()->getBinClipName(binId);
+        const QString uuid = pCore->projectItemModel()->getBinClipUuid(binId);
+        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(uuid, QString::number(frames), clipName, position));
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
@@ -102,6 +104,10 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
         pCore->displayMessage(i18n("Cannot perform assign"), ErrorMessage);
         return;
     }
+    QString uuid;
+    if (!binId.isEmpty()) {
+        uuid = pCore->projectItemModel()->getBinClipUuid(binId);
+    }
     for (const QString &a : anchors) {
         QPoint pt = points.at(ix);
         QString updatedLink = a;
@@ -110,13 +116,13 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
             // Link was previously attached to another clip
             updatedLink = a.section(QLatin1Char('#'), 1);
             position = updatedLink.toInt();
-            if (!binId.isEmpty()) {
-                updatedLink.prepend(QString("%1#").arg(binId));
+            if (!uuid.isEmpty()) {
+                updatedLink.prepend(QString("%1#").arg(uuid));
             }
         } else {
             position = a.toInt();
-            if (!binId.isEmpty()) {
-                updatedLink.prepend(QString("%1#").arg(binId));
+            if (!uuid.isEmpty()) {
+                updatedLink.prepend(QString("%1#").arg(uuid));
             }
         }
         QTextCursor cur(m_widget->textCursor());

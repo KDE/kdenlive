@@ -211,7 +211,7 @@ public Q_SLOTS:
     void slotSwitchTrackTarget();
 
     /** @brief Set the text for current project's notes */
-    void setDocumentNotes(const QString &notes);
+    void setDocumentNotes(QString &notes, QStringList deprecatedBinIds = {});
 
     /** @brief Project's duration changed, adjust monitor, etc. */
     void adjustProjectDuration(int duration);

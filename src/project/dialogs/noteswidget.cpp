@@ -64,7 +64,8 @@ void NotesWidget::createMarker(const QStringList &anchors)
     for (const QString &anchor : anchors) {
         if (anchor.contains(QLatin1Char('#'))) {
             // That's a Bin Clip reference.
-            const QString binId = anchor.section(QLatin1Char('#'), 0, 0);
+            const QString uuid = anchor.section(QLatin1Char('#'), 0, 0);
+            const QString binId = pCore->projectItemModel()->getBinClipIdByUuid(uuid);
             QList<int> timecodes;
             if (clipMarkers.contains(binId)) {
                 timecodes = clipMarkers.value(binId);
@@ -117,7 +118,13 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
     }
     if (anchor.contains(QLatin1Char('#'))) {
         // That's a Bin Clip reference.
-        pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
+        const QString uuid = anchor.section(QLatin1Char('#'), 0, 0);
+        const QString binId = pCore->projectItemModel()->getBinClipIdByUuid(uuid);
+        if (!binId.isEmpty()) {
+            pCore->selectBinClip(binId, true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
+        } else {
+            pCore->displayMessage(i18n("Cannot find project clip"), ErrorMessage);
+        }
     } else {
         Q_EMIT seekProject(anchor);
     }

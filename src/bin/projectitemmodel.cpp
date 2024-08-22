@@ -484,7 +484,7 @@ void ProjectItemModel::onItemUpdated(const QString &binId, int role)
     }
 }
 
-std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
+std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId) const
 {
     READ_LOCK();
     auto search = m_allClipItems.find(binId.toInt());
@@ -1234,7 +1234,26 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
 
             // Read notes
             QString notes = playlistProps.get("kdenlive:documentnotes");
-            pCore->projectManager()->setDocumentNotes(notes);
+            int version = playlistProps.get_int("kdenlive:documentnotesversion");
+            QStringList notesBinIds;
+            if (!notes.isEmpty() && version < 2) {
+                // Convert old format notes (Bin id > Control uuid)
+                QRegularExpression regexp("href=\"([^\"]+)");
+                QRegularExpressionMatchIterator i = regexp.globalMatch(notes);
+                while (i.hasNext()) {
+                    QRegularExpressionMatch match = i.next();
+                    if (match.hasMatch()) {
+                        qDebug() << match.captured(0);
+                        const QString captured = match.captured(0);
+                        if (!captured.isEmpty() && captured.contains(QLatin1Char('#'))) {
+                            const QString binId = captured.section(QLatin1Char('#'), 0, 0).section(QLatin1Char('"'), 1);
+                            if (!notesBinIds.contains(binId)) {
+                                notesBinIds << binId;
+                            }
+                        }
+                    }
+                }
+            }
 
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
@@ -1372,6 +1391,8 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                 qApp->processEvents();
                 binIdCorresp[uuid] = newId;
             }
+            // Now that bin clips are loaded, load notes (we need bin clips to upgrade notes from v1)
+            pCore->projectManager()->setDocumentNotes(notes, notesBinIds);
         }
     } else {
         qDebug() << "HHHHHHHHHHHH\nINVALID BIN PLAYLIST...";
@@ -1850,4 +1871,24 @@ std::shared_ptr<EffectStackModel> ProjectItemModel::getClipEffectStack(int itemI
     std::shared_ptr<ProjectClip> clip = getClipByBinID(QString::number(itemId));
     Q_ASSERT(clip != nullptr);
     return clip->getEffectStack();
+}
+
+const QString ProjectItemModel::getBinClipUuid(const QString &binId) const
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
+    if (clip) {
+        return clip->getControlUuid();
+    }
+    return QString();
+}
+
+const QString ProjectItemModel::getBinClipIdByUuid(const QString uuid)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = getRootFolder()->childClips();
+    for (const auto &clip : qAsConst(clips)) {
+        if (clip->getControlUuid() == uuid) {
+            return clip->clipId();
+        }
+    }
+    return QString();
 }
