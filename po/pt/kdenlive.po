@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-21 00:47+0000\n"
+"POT-Creation-Date: 2024-08-22 00:39+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -3454,17 +3454,17 @@ msgid ""
 "if you change a parameter."
 msgstr ""
 
-#: src/assets/assetpanel.cpp:97
+#: src/assets/assetpanel.cpp:101
 #, kde-format
 msgid "Apply effect change to all clips in the group"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:101
+#: src/assets/assetpanel.cpp:105
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:103
+#: src/assets/assetpanel.cpp:107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3473,17 +3473,17 @@ msgid ""
 "will delete it in all clips in the group."
 msgstr ""
 
-#: src/assets/assetpanel.cpp:111
+#: src/assets/assetpanel.cpp:115
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:121
+#: src/assets/assetpanel.cpp:125
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Gravar a Pilha de Efeitos…"
 
-#: src/assets/assetpanel.cpp:122
+#: src/assets/assetpanel.cpp:126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -3491,17 +3491,17 @@ msgstr ""
 "Grava a pilha de efeitos inteira como um ficheiro XML para ser usado noutros "
 "projectos."
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:134
 #, kde-format
 msgid "Normal view"
 msgstr "Vista normal"
 
-#: src/assets/assetpanel.cpp:130 src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
 #, kde-format
 msgid "Compare effect"
 msgstr "Comparar o efeito"
 
-#: src/assets/assetpanel.cpp:137
+#: src/assets/assetpanel.cpp:141
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3512,17 +3512,17 @@ msgstr ""
 "do lado esquerdo aparece o 'clip' com o efeito, enquanto o lado direito "
 "mostra o 'clip' sem o efeito."
 
-#: src/assets/assetpanel.cpp:142
+#: src/assets/assetpanel.cpp:146
 #, kde-format
 msgid "Effects disabled"
 msgstr "Efeitos desactivados"
 
-#: src/assets/assetpanel.cpp:142
+#: src/assets/assetpanel.cpp:146
 #, kde-format
 msgid "Effects enabled"
 msgstr "Efeitos activos"
 
-#: src/assets/assetpanel.cpp:145
+#: src/assets/assetpanel.cpp:149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3532,39 +3532,39 @@ msgstr ""
 "Activa ou desactiva a pilha de efeitos. É útil para ver a diferença entre a "
 "versão original e a editada ou para acelerar o processo."
 
-#: src/assets/assetpanel.cpp:152
+#: src/assets/assetpanel.cpp:156
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Mostrar as imagens-chave na linha temporal"
 
-#: src/assets/assetpanel.cpp:152
+#: src/assets/assetpanel.cpp:156
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Esconder as imagens-chave na linha temporal"
 
-#: src/assets/assetpanel.cpp:153
+#: src/assets/assetpanel.cpp:157
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 "Activa/desactiva a apresentação das imagens-chave no 'clip' da linha temporal"
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efeitos"
 
-#: src/assets/assetpanel.cpp:284 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parâmetros"
 
-#: src/assets/assetpanel.cpp:288
+#: src/assets/assetpanel.cpp:292
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Efeitos da faixa %1"
 
-#: src/assets/assetpanel.cpp:293
+#: src/assets/assetpanel.cpp:297
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Efeitos do grupo %1"
@@ -3835,7 +3835,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Apaga a predefinição seleccionada de momento."
 
-#: src/assets/view/assetparameterview.cpp:347
+#: src/assets/view/assetparameterview.cpp:355
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3843,7 +3843,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Indique o Nome da Predefinição"
 
-#: src/assets/view/assetparameterview.cpp:347
+#: src/assets/view/assetparameterview.cpp:355
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -4792,7 +4792,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "'Clip' na Linha Temporal"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5807 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5815 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5177,7 +5177,7 @@ msgstr "Seleccione um 'clip' para adicionar uma marca"
 msgid "Edit Tags"
 msgstr "Editar as Marcas"
 
-#: src/bin/bin.cpp:4547 src/bin/projectclip.cpp:210
+#: src/bin/bin.cpp:4555 src/bin/projectclip.cpp:210
 #: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
@@ -5185,29 +5185,29 @@ msgstr "Editar as Marcas"
 msgid "Unnamed"
 msgstr "Sem nome"
 
-#: src/bin/bin.cpp:4601
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Indique a localização da sua aplicação de edição de imagens"
 
-#: src/bin/bin.cpp:4613
+#: src/bin/bin.cpp:4621
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 "Defina por favor uma aplicação predefinida para abrir os ficheiros de imagens"
 
-#: src/bin/bin.cpp:4618
+#: src/bin/bin.cpp:4626
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Indique a localização da sua aplicação de edição de áudio"
 
-#: src/bin/bin.cpp:4630
+#: src/bin/bin.cpp:4638
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 "Defina por favor uma aplicação predefinida para abrir os ficheiros de áudio"
 
-#: src/bin/bin.cpp:4640 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4648 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5216,12 +5216,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Não é possível aceder ao ficheiro %1"
 
-#: src/bin/bin.cpp:4820 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4828 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr "(cópia)"
 
-#: src/bin/bin.cpp:4830
+#: src/bin/bin.cpp:4838
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5231,75 +5231,75 @@ msgstr ""
 "alterações no ficheiro do título ou gravar apenas as alterações neste "
 "projecto?"
 
-#: src/bin/bin.cpp:4833 src/titler/titlewidget.cpp:2281
+#: src/bin/bin.cpp:4841 src/titler/titlewidget.cpp:2281
 #, kde-format
 msgid "Save Title"
 msgstr "Gravar o Título"
 
-#: src/bin/bin.cpp:4833
+#: src/bin/bin.cpp:4841
 #, kde-format
 msgid "Save to title file"
 msgstr "Gravar no ficheiro do título"
 
-#: src/bin/bin.cpp:4834
+#: src/bin/bin.cpp:4842
 #, kde-format
 msgid "Save in project only"
 msgstr "Gravar apenas no projecto"
 
-#: src/bin/bin.cpp:4854 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4862 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "'Clip' do título"
 
-#: src/bin/bin.cpp:4904
+#: src/bin/bin.cpp:4912
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "O 'clip' é inválido; será removido do projecto."
 
-#: src/bin/bin.cpp:4908
+#: src/bin/bin.cpp:4916
 #, kde-format
 msgid "Invalid clip"
 msgstr "'Clip' inválido"
 
-#: src/bin/bin.cpp:5022
+#: src/bin/bin.cpp:5030
 #, kde-format
 msgid "Enable proxies"
 msgstr "Activar os indirectos"
 
-#: src/bin/bin.cpp:5022
+#: src/bin/bin.cpp:5030
 #, kde-format
 msgid "Disable proxies"
 msgstr "Desactivar os indirectos"
 
-#: src/bin/bin.cpp:5196
+#: src/bin/bin.cpp:5204
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Reconstruir os indirectos"
 
-#: src/bin/bin.cpp:5426
+#: src/bin/bin.cpp:5434
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Grupo do Projecto"
 
-#: src/bin/bin.cpp:5442
+#: src/bin/bin.cpp:5450
 #, kde-format
 msgid "Add Tracks"
 msgstr "Adicionar Faixas"
 
-#: src/bin/bin.cpp:5444
+#: src/bin/bin.cpp:5452
 #, kde-format
 msgid "Edit Streams"
 msgstr "Editar as Sequências"
 
-#: src/bin/bin.cpp:5459
+#: src/bin/bin.cpp:5467
 #, kde-format
 msgid "Don't ask again"
 msgstr "Não perguntar de novo"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5463
+#: src/bin/bin.cpp:5471
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5308,39 +5308,39 @@ msgstr ""
 "O seu projecto precisa de mais faixas de áudio para tratar de todas as "
 "sequências de áudio. Deseja adicionar %1 faixas de áudio ?"
 
-#: src/bin/bin.cpp:5475 src/mainwindow.cpp:2848
+#: src/bin/bin.cpp:5483 src/mainwindow.cpp:2848
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Não é possível encontrar o 'clip' para adicionar o marcador"
 
-#: src/bin/bin.cpp:5569
+#: src/bin/bin.cpp:5577
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Não foi possível encontrar o 'clip'-mestre"
 
-#: src/bin/bin.cpp:5829
+#: src/bin/bin.cpp:5837
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> 'clips' | "
 
-#: src/bin/bin.cpp:5831
+#: src/bin/bin.cpp:5839
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> 'clips' (%2 seleccionados) | "
 
-#: src/bin/bin.cpp:5898 src/bin/bin.cpp:5975
+#: src/bin/bin.cpp:5906 src/bin/bin.cpp:5983
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Adicionar uma sequência extra ao 'clip'"
 msgstr[1] "Adicionar as sequências extra ao 'clip'"
 
-#: src/bin/bin.cpp:5919
+#: src/bin/bin.cpp:5927
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importar os 'clips' seleccionados"
 
-#: src/bin/bin.cpp:5921
+#: src/bin/bin.cpp:5929
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5349,28 +5349,28 @@ msgstr ""
 "Sequências extra para o 'clip'\n"
 " %1"
 
-#: src/bin/bin.cpp:5934 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5942 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Sequência de vídeo %1"
 
-#: src/bin/bin.cpp:5949
+#: src/bin/bin.cpp:5957
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Sequência de áudio %1"
 
-#: src/bin/bin.cpp:6002
+#: src/bin/bin.cpp:6010
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Remover os marcadores dos 'clips'"
 
-#: src/bin/bin.cpp:6149
+#: src/bin/bin.cpp:6157
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6150
+#: src/bin/bin.cpp:6158
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Archive Project"
@@ -5378,25 +5378,25 @@ msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Arquivar o Projecto"
 
-#: src/bin/bin.cpp:6151
+#: src/bin/bin.cpp:6159
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Codificação"
 
-#: src/bin/bin.cpp:6262 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6270 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Apagar o efeito %1"
 
-#: src/bin/bin.cpp:6327 src/mainwindow.cpp:403
+#: src/bin/bin.cpp:6335 src/mainwindow.cpp:403
 #, kde-format
 msgid "Project Bin"
 msgstr "Grupo do Projecto"
 
-#: src/bin/bin.cpp:6330 src/bin/bin.cpp:6333 src/mainwindow.cpp:4967
+#: src/bin/bin.cpp:6338 src/bin/bin.cpp:6341 src/mainwindow.cpp:4967
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Grupo do Projecto %1"

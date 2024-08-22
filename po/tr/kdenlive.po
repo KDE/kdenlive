@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-21 00:47+0000\n"
+"POT-Creation-Date: 2024-08-22 00:39+0000\n"
 "PO-Revision-Date: 2024-08-20 09:28+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -3341,17 +3341,17 @@ msgstr ""
 "kolaylık olsun diye ekler. Bu temel efektler devre dışıdır ve yalnızca bir "
 "ayarı değiştirdiğinizde uygulanırlar."
 
-#: src/assets/assetpanel.cpp:97
+#: src/assets/assetpanel.cpp:101
 #, kde-format
 msgid "Apply effect change to all clips in the group"
 msgstr "Efekt Değişikliğini Gruptaki Tüm Kliplere Uygula"
 
-#: src/assets/assetpanel.cpp:101
+#: src/assets/assetpanel.cpp:105
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Efekt değişikliğini gruptaki tüm kliplere uygula…"
 
-#: src/assets/assetpanel.cpp:103
+#: src/assets/assetpanel.cpp:107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3363,17 +3363,17 @@ msgstr ""
 "tüm klipler parametrelerin de ayarlandığını görecektir. Bir efektin "
 "silinmesi, gruptaki tüm klipleri de silecektir."
 
-#: src/assets/assetpanel.cpp:111
+#: src/assets/assetpanel.cpp:115
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "Yalnızca aynı değere sahip efektlere uygula"
 
-#: src/assets/assetpanel.cpp:121
+#: src/assets/assetpanel.cpp:125
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Efekt Yığınını Kaydet…"
 
-#: src/assets/assetpanel.cpp:122
+#: src/assets/assetpanel.cpp:126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -3381,17 +3381,17 @@ msgstr ""
 "Diğer projelerde kullanılmak üzere tüm efekt yığınını bir XML dosyası olarak "
 "kaydeder."
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:134
 #, kde-format
 msgid "Normal view"
 msgstr "Normal görünüm"
 
-#: src/assets/assetpanel.cpp:130 src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
 #, kde-format
 msgid "Compare effect"
 msgstr "Efekti kıyasla"
 
-#: src/assets/assetpanel.cpp:137
+#: src/assets/assetpanel.cpp:141
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3401,17 +3401,17 @@ msgstr ""
 "Projede ve/veya klip monitöründe bölünmüş görünümü açar veya kapatır: Solda "
 "efektli klip, sağda efektsiz klip gösterilir."
 
-#: src/assets/assetpanel.cpp:142
+#: src/assets/assetpanel.cpp:146
 #, kde-format
 msgid "Effects disabled"
 msgstr "Efektler devre dışı"
 
-#: src/assets/assetpanel.cpp:142
+#: src/assets/assetpanel.cpp:146
 #, kde-format
 msgid "Effects enabled"
 msgstr "Efektler etkin"
 
-#: src/assets/assetpanel.cpp:145
+#: src/assets/assetpanel.cpp:149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3422,39 +3422,39 @@ msgstr ""
 "Özgün ve düzenlenmiş arasındaki ayrımı veya ovalamayı hızlandırmak için "
 "yararlıdır."
 
-#: src/assets/assetpanel.cpp:152
+#: src/assets/assetpanel.cpp:156
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Zaman akışında anahtar kareleri görüntüle"
 
-#: src/assets/assetpanel.cpp:152
+#: src/assets/assetpanel.cpp:156
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Zaman akışında anahtar kareleri göster"
 
-#: src/assets/assetpanel.cpp:153
+#: src/assets/assetpanel.cpp:157
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 "Zaman akışındaki klipte anahtar karelerin görüntülenmesini açar/kapatır"
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efektleri"
 
-#: src/assets/assetpanel.cpp:284 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 Parametreleri"
 
-#: src/assets/assetpanel.cpp:288
+#: src/assets/assetpanel.cpp:292
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 efekti izle"
 
-#: src/assets/assetpanel.cpp:293
+#: src/assets/assetpanel.cpp:297
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "%1 efekti kovaya at"
@@ -3720,7 +3720,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Geçerli seçili önayarı siler."
 
-#: src/assets/view/assetparameterview.cpp:347
+#: src/assets/view/assetparameterview.cpp:355
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3728,7 +3728,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Önayar Adı Gir"
 
-#: src/assets/view/assetparameterview.cpp:347
+#: src/assets/view/assetparameterview.cpp:355
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -4667,7 +4667,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Zaman akışında değiştir"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5807 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5815 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5048,7 +5048,7 @@ msgstr "Etiket eklemek için bir klip seçin"
 msgid "Edit Tags"
 msgstr "Etiketleri Düzenle"
 
-#: src/bin/bin.cpp:4547 src/bin/projectclip.cpp:210
+#: src/bin/bin.cpp:4555 src/bin/projectclip.cpp:210
 #: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
@@ -5056,27 +5056,27 @@ msgstr "Etiketleri Düzenle"
 msgid "Unnamed"
 msgstr "Adsız"
 
-#: src/bin/bin.cpp:4601
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Görsel düzenleme uygulaması yolunu girin"
 
-#: src/bin/bin.cpp:4613
+#: src/bin/bin.cpp:4621
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Görsel dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 
-#: src/bin/bin.cpp:4618
+#: src/bin/bin.cpp:4626
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Ses düzenleme uygulaması yolunu girin"
 
-#: src/bin/bin.cpp:4630
+#: src/bin/bin.cpp:4638
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Ses dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 
-#: src/bin/bin.cpp:4640 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4648 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5085,12 +5085,12 @@ msgstr "Ses dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 msgid "Cannot open file %1"
 msgstr "%1 dosyası açılamıyor"
 
-#: src/bin/bin.cpp:4820 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4828 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr "(kopya)"
 
-#: src/bin/bin.cpp:4830
+#: src/bin/bin.cpp:4838
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5099,75 +5099,75 @@ msgstr ""
 "Harici başlık klibini (%1) düzenliyorsunuz. Değişikliklerinizi başlık "
 "dosyasına mı yoksa yalnızca bu proje için mi kaydetmek istersiniz?"
 
-#: src/bin/bin.cpp:4833 src/titler/titlewidget.cpp:2281
+#: src/bin/bin.cpp:4841 src/titler/titlewidget.cpp:2281
 #, kde-format
 msgid "Save Title"
 msgstr "Başlığı Kaydet"
 
-#: src/bin/bin.cpp:4833
+#: src/bin/bin.cpp:4841
 #, kde-format
 msgid "Save to title file"
 msgstr "Başlık dosyasına kaydet"
 
-#: src/bin/bin.cpp:4834
+#: src/bin/bin.cpp:4842
 #, kde-format
 msgid "Save in project only"
 msgstr "Yalnızca proje içinde kaydet"
 
-#: src/bin/bin.cpp:4854 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4862 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Başlık klibi"
 
-#: src/bin/bin.cpp:4904
+#: src/bin/bin.cpp:4912
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klip geçersiz, projeden kaldırılacak."
 
-#: src/bin/bin.cpp:4908
+#: src/bin/bin.cpp:4916
 #, kde-format
 msgid "Invalid clip"
 msgstr "Geçersiz klip"
 
-#: src/bin/bin.cpp:5022
+#: src/bin/bin.cpp:5030
 #, kde-format
 msgid "Enable proxies"
 msgstr "Vekilleri etkinleştir"
 
-#: src/bin/bin.cpp:5022
+#: src/bin/bin.cpp:5030
 #, kde-format
 msgid "Disable proxies"
 msgstr "Vekilleri kapat"
 
-#: src/bin/bin.cpp:5196
+#: src/bin/bin.cpp:5204
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Vekilleri yeniden oluştur"
 
-#: src/bin/bin.cpp:5426
+#: src/bin/bin.cpp:5434
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:5442
+#: src/bin/bin.cpp:5450
 #, kde-format
 msgid "Add Tracks"
 msgstr "İzler Ekle"
 
-#: src/bin/bin.cpp:5444
+#: src/bin/bin.cpp:5452
 #, kde-format
 msgid "Edit Streams"
 msgstr "Akışları Düzenle"
 
-#: src/bin/bin.cpp:5459
+#: src/bin/bin.cpp:5467
 #, kde-format
 msgid "Don't ask again"
 msgstr "Bir daha sorma"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5463
+#: src/bin/bin.cpp:5471
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5176,39 +5176,39 @@ msgstr ""
 "Projenizin tüm akışları işlemesi için daha fazla ses izine gereksinimi var. "
 "%1 ses izi eklensin mi?"
 
-#: src/bin/bin.cpp:5475 src/mainwindow.cpp:2848
+#: src/bin/bin.cpp:5483 src/mainwindow.cpp:2848
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "İmleyici eklenecek klip bulunamadı"
 
-#: src/bin/bin.cpp:5569
+#: src/bin/bin.cpp:5577
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Ana klip bulunamadı"
 
-#: src/bin/bin.cpp:5829
+#: src/bin/bin.cpp:5837
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klip | "
 
-#: src/bin/bin.cpp:5831
+#: src/bin/bin.cpp:5839
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klip (%2 seçili) | "
 
-#: src/bin/bin.cpp:5898 src/bin/bin.cpp:5975
+#: src/bin/bin.cpp:5906 src/bin/bin.cpp:5983
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Klip için ek akış ekle"
 msgstr[1] "Klip için ek akışlar ekle"
 
-#: src/bin/bin.cpp:5919
+#: src/bin/bin.cpp:5927
 #, kde-format
 msgid "Import selected clips"
 msgstr "Seçili klipleri içe aktar"
 
-#: src/bin/bin.cpp:5921
+#: src/bin/bin.cpp:5929
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5217,51 +5217,51 @@ msgstr ""
 "Klip için ek akışlar\n"
 "%1"
 
-#: src/bin/bin.cpp:5934 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5942 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video akışı %1"
 
-#: src/bin/bin.cpp:5949
+#: src/bin/bin.cpp:5957
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Ses akışı %1"
 
-#: src/bin/bin.cpp:6002
+#: src/bin/bin.cpp:6010
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Klip imleyicilerini kaldır"
 
-#: src/bin/bin.cpp:6149
+#: src/bin/bin.cpp:6157
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Arakodlama işlemi öncesi projenizi kaydetmenizi öneririz"
 
-#: src/bin/bin.cpp:6150
+#: src/bin/bin.cpp:6158
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Projeyi Kaydet"
 
-#: src/bin/bin.cpp:6151
+#: src/bin/bin.cpp:6159
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Kaydetmeden Arakodla"
 
-#: src/bin/bin.cpp:6262 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6270 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 Efektini Sil"
 
-#: src/bin/bin.cpp:6327 src/mainwindow.cpp:403
+#: src/bin/bin.cpp:6335 src/mainwindow.cpp:403
 #, kde-format
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:6330 src/bin/bin.cpp:6333 src/mainwindow.cpp:4967
+#: src/bin/bin.cpp:6338 src/bin/bin.cpp:6341 src/mainwindow.cpp:4967
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"

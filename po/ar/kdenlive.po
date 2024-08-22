@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-21 00:47+0000\n"
+"POT-Creation-Date: 2024-08-22 00:39+0000\n"
 "PO-Revision-Date: 2024-07-28 13:11+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -3300,17 +3300,17 @@ msgstr ""
 "إلى جميع المقاطع لتسهيل الأمر. هذه التأثيرات معطلة ولن يتم تطبيقها إلا إذا "
 "قمت بتغيير معلمة."
 
-#: src/assets/assetpanel.cpp:97
+#: src/assets/assetpanel.cpp:101
 #, kde-format
 msgid "Apply effect change to all clips in the group"
 msgstr "طبّق تغيير التأثير على جميع المقاطع في المجموعة"
 
-#: src/assets/assetpanel.cpp:101
+#: src/assets/assetpanel.cpp:105
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "طبّق تغيير التأثير على جميع المقاطع في المجموعة…"
 
-#: src/assets/assetpanel.cpp:103
+#: src/assets/assetpanel.cpp:107
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3322,17 +3322,17 @@ msgstr ""
 "لها نفس التأثير ستشهد تعديل المعلمات أيضًا. سيؤدي حذف التأثير إلى حذفه في "
 "جميع المقاطع في المجموعة."
 
-#: src/assets/assetpanel.cpp:111
+#: src/assets/assetpanel.cpp:115
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "طبّق فقط على التأثيرات ذات القيمة نفسها"
 
-#: src/assets/assetpanel.cpp:121
+#: src/assets/assetpanel.cpp:125
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "احفظ كومة التّأثيرات…"
 
-#: src/assets/assetpanel.cpp:122
+#: src/assets/assetpanel.cpp:126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -3340,17 +3340,17 @@ msgstr ""
 "تحفظ كامل كومة التأثيرات كل ملف اكس ام ال حتى يمكن استخدامها في المشاريع "
 "الأخرى."
 
-#: src/assets/assetpanel.cpp:130
+#: src/assets/assetpanel.cpp:134
 #, kde-format
 msgid "Normal view"
 msgstr "منظور عاديّ"
 
-#: src/assets/assetpanel.cpp:130 src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
 #, kde-format
 msgid "Compare effect"
 msgstr "قارن التأثير"
 
-#: src/assets/assetpanel.cpp:137
+#: src/assets/assetpanel.cpp:141
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3360,17 +3360,17 @@ msgstr ""
 "تشغل أو تعطل المنظور المنفصل في شاشة المشروع و/أو المقطع: على اليمين يعرض "
 "المقطع بالتأثير، وعلى اليمين المقطع دون التأثير. "
 
-#: src/assets/assetpanel.cpp:142
+#: src/assets/assetpanel.cpp:146
 #, kde-format
 msgid "Effects disabled"
 msgstr "التّأثيرات معطلة"
 
-#: src/assets/assetpanel.cpp:142
+#: src/assets/assetpanel.cpp:146
 #, kde-format
 msgid "Effects enabled"
 msgstr "التّأثيرات ممكنة"
 
-#: src/assets/assetpanel.cpp:145
+#: src/assets/assetpanel.cpp:149
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3380,38 +3380,38 @@ msgstr ""
 "تفعل/تعطل كومة التأثيرات. مفيدة لرؤية الفرق بين الأصل والمحرر أو لتسريع "
 "التقنية"
 
-#: src/assets/assetpanel.cpp:152
+#: src/assets/assetpanel.cpp:156
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "اعرض الأطر الرئيسة في الخطّ الزمني"
 
-#: src/assets/assetpanel.cpp:152
+#: src/assets/assetpanel.cpp:156
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "أخفِ الأطر الرئيسة في الخطّ الزمني"
 
-#: src/assets/assetpanel.cpp:153
+#: src/assets/assetpanel.cpp:157
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "تعرض/تخفي  الأطر الرئيسة للمقطع في الخطّ الزمني"
 
-#: src/assets/assetpanel.cpp:279
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 تأثيرات"
 
-#: src/assets/assetpanel.cpp:284 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 معاملات"
 
-#: src/assets/assetpanel.cpp:288
+#: src/assets/assetpanel.cpp:292
 #, kde-format
 msgid "Track %1 effects"
 msgstr "تأثيرات مسار %1"
 
-#: src/assets/assetpanel.cpp:293
+#: src/assets/assetpanel.cpp:297
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "تأثيرات سلة %1"
@@ -3680,7 +3680,7 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "تحذف الإعداد المسبق المحدّدة الآن."
 
-#: src/assets/view/assetparameterview.cpp:347
+#: src/assets/view/assetparameterview.cpp:355
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -3688,7 +3688,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "أدخل اسم الإعداد المسبق"
 
-#: src/assets/view/assetparameterview.cpp:347
+#: src/assets/view/assetparameterview.cpp:355
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1444
 #, kde-format
@@ -4627,7 +4627,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "استبدل في الخطّ الزّمني"
 
-#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5807 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2127 src/bin/bin.cpp:5815 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5013,7 +5013,7 @@ msgstr "اختر مقطع لتسِمها"
 msgid "Edit Tags"
 msgstr "حرر الأوسمة"
 
-#: src/bin/bin.cpp:4547 src/bin/projectclip.cpp:210
+#: src/bin/bin.cpp:4555 src/bin/projectclip.cpp:210
 #: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
@@ -5021,27 +5021,27 @@ msgstr "حرر الأوسمة"
 msgid "Unnamed"
 msgstr "غير مسمى"
 
-#: src/bin/bin.cpp:4601
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "أدخل مسار تطبيق تحرير الصورة"
 
-#: src/bin/bin.cpp:4613
+#: src/bin/bin.cpp:4621
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "فضلًا اضبط تطبيقًا مبدئيا ليفتح ملفات الصور"
 
-#: src/bin/bin.cpp:4618
+#: src/bin/bin.cpp:4626
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "أدخل مسار تطبيق تحرير الصوت"
 
-#: src/bin/bin.cpp:4630
+#: src/bin/bin.cpp:4638
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "فضلًا اضبط تطبيقًا مبدئياً ليفتح ملفّات الصّوت"
 
-#: src/bin/bin.cpp:4640 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4648 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5050,12 +5050,12 @@ msgstr "فضلًا اضبط تطبيقًا مبدئياً ليفتح ملفّا�
 msgid "Cannot open file %1"
 msgstr "تعذّر فتح الملفّ %1"
 
-#: src/bin/bin.cpp:4820 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4828 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr " (نسخة)"
 
-#: src/bin/bin.cpp:4830
+#: src/bin/bin.cpp:4838
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5064,75 +5064,75 @@ msgstr ""
 "أنت تحرّر مقطع عنوان خارجيّة (%1). أتريد حفظ تغييراتك إلى ملفّ العنوان أو حفظها "
 "لهذا المشروع فقط؟"
 
-#: src/bin/bin.cpp:4833 src/titler/titlewidget.cpp:2281
+#: src/bin/bin.cpp:4841 src/titler/titlewidget.cpp:2281
 #, kde-format
 msgid "Save Title"
 msgstr "احفظ العنوان"
 
-#: src/bin/bin.cpp:4833
+#: src/bin/bin.cpp:4841
 #, kde-format
 msgid "Save to title file"
 msgstr "احفظ إلى ملفّ العنوان"
 
-#: src/bin/bin.cpp:4834
+#: src/bin/bin.cpp:4842
 #, kde-format
 msgid "Save in project only"
 msgstr "احفظ في المشروع فقط"
 
-#: src/bin/bin.cpp:4854 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4862 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "مقطع عنوان"
 
-#: src/bin/bin.cpp:4904
+#: src/bin/bin.cpp:4912
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "المقطع غير صالحة، ستُزال من المشروع."
 
-#: src/bin/bin.cpp:4908
+#: src/bin/bin.cpp:4916
 #, kde-format
 msgid "Invalid clip"
 msgstr "مقطع غير صالحة"
 
-#: src/bin/bin.cpp:5022
+#: src/bin/bin.cpp:5030
 #, kde-format
 msgid "Enable proxies"
 msgstr "تفعيل وسطاء"
 
-#: src/bin/bin.cpp:5022
+#: src/bin/bin.cpp:5030
 #, kde-format
 msgid "Disable proxies"
 msgstr "تعطيل وسطاء"
 
-#: src/bin/bin.cpp:5196
+#: src/bin/bin.cpp:5204
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "إعادة بناء وسطاء"
 
-#: src/bin/bin.cpp:5426
+#: src/bin/bin.cpp:5434
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:5442
+#: src/bin/bin.cpp:5450
 #, kde-format
 msgid "Add Tracks"
 msgstr "أضف مسارات"
 
-#: src/bin/bin.cpp:5444
+#: src/bin/bin.cpp:5452
 #, kde-format
 msgid "Edit Streams"
 msgstr "حرّر الدفق"
 
-#: src/bin/bin.cpp:5459
+#: src/bin/bin.cpp:5467
 #, kde-format
 msgid "Don't ask again"
 msgstr "لا تسألني ثانيةً"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5463
+#: src/bin/bin.cpp:5471
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5141,27 +5141,27 @@ msgstr ""
 "يحتاج مشروعك إلى مزيد من المسارات الصوتية للتعامل مع جميع التدفقات. إضافة %1 "
 "مسارات الصوت؟"
 
-#: src/bin/bin.cpp:5475 src/mainwindow.cpp:2848
+#: src/bin/bin.cpp:5483 src/mainwindow.cpp:2848
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "لم يعثر على مقطع ليضيف علامة لها"
 
-#: src/bin/bin.cpp:5569
+#: src/bin/bin.cpp:5577
 #, kde-format
 msgid "Could not find master clip"
 msgstr "لم يعثر على المقطع الرئيس"
 
-#: src/bin/bin.cpp:5829
+#: src/bin/bin.cpp:5837
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> مقطع | "
 
-#: src/bin/bin.cpp:5831
+#: src/bin/bin.cpp:5839
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> مقطع (%2 محددة) | "
 
-#: src/bin/bin.cpp:5898 src/bin/bin.cpp:5975
+#: src/bin/bin.cpp:5906 src/bin/bin.cpp:5983
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5172,12 +5172,12 @@ msgstr[3] "أضف تدفقات إضافياً إلى مقطع"
 msgstr[4] "أضف دفقاً إضافياً إلى مقطع"
 msgstr[5] "أضف دفقاً إضافياً إلى مقطع"
 
-#: src/bin/bin.cpp:5919
+#: src/bin/bin.cpp:5927
 #, kde-format
 msgid "Import selected clips"
 msgstr "استورد المقاطع المحدّدة"
 
-#: src/bin/bin.cpp:5921
+#: src/bin/bin.cpp:5929
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5186,51 +5186,51 @@ msgstr ""
 "تدفقات إضافية للمقطع\n"
 " %1"
 
-#: src/bin/bin.cpp:5934 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5942 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "دفق الفيديو %1"
 
-#: src/bin/bin.cpp:5949
+#: src/bin/bin.cpp:5957
 #, kde-format
 msgid "Audio stream %1"
 msgstr "دفق الصّوت %1"
 
-#: src/bin/bin.cpp:6002
+#: src/bin/bin.cpp:6010
 #, kde-format
 msgid "Remove clip markers"
 msgstr "أزل علامات المقطع"
 
-#: src/bin/bin.cpp:6149
+#: src/bin/bin.cpp:6157
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "نوصي بحفظ المشروع قبل عملية تحويل الترميز"
 
-#: src/bin/bin.cpp:6150
+#: src/bin/bin.cpp:6158
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "احفظ المشروع"
 
-#: src/bin/bin.cpp:6151
+#: src/bin/bin.cpp:6159
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "يبدل الترميز دون حفظ"
 
-#: src/bin/bin.cpp:6262 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6270 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "احذف التّأثير %1"
 
-#: src/bin/bin.cpp:6327 src/mainwindow.cpp:403
+#: src/bin/bin.cpp:6335 src/mainwindow.cpp:403
 #, kde-format
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:6330 src/bin/bin.cpp:6333 src/mainwindow.cpp:4967
+#: src/bin/bin.cpp:6338 src/bin/bin.cpp:6341 src/mainwindow.cpp:4967
 #, kde-format
 msgid "Project Bin %1"
 msgstr "سلّة المشروع %1"
