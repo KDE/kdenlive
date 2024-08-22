@@ -1237,9 +1237,17 @@ std::pair<QString, QString> ProjectManager::projectSceneList(const QString &outp
     return scene;
 }
 
-void ProjectManager::setDocumentNotes(const QString &notes)
+void ProjectManager::setDocumentNotes(QString &notes, QStringList deprecatedBinIds)
 {
-    if (m_notesPlugin) {
+    if (m_notesPlugin && !notes.isEmpty()) {
+        for (auto &b : deprecatedBinIds) {
+            const QString controlId = pCore->projectItemModel()->getBinClipUuid(b);
+            if (!controlId.isEmpty()) {
+                const QString pattern = QStringLiteral(" href=\"%1#").arg(b);
+                const QString replacement = QStringLiteral(" href=\"%1#").arg(controlId);
+                notes = notes.replace(pattern, replacement);
+            }
+        }
         m_notesPlugin->widget()->setHtml(notes);
     }
 }
@@ -1272,6 +1280,7 @@ void ProjectManager::prepareSave()
     pCore->projectItemModel()->saveDocumentProperties(pCore->currentDoc()->documentProperties(), m_project->metadata());
     pCore->bin()->saveFolderState();
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
+    pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotesversion"), QStringLiteral("2"));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.opensequences"), pCore->window()->openedSequences().join(QLatin1Char(';')));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.activetimeline"), m_activeTimelineModel->uuid().toString());
 }

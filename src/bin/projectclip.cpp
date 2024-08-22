@@ -3221,3 +3221,8 @@ std::pair<int, int> ProjectClip::fpsInfo() const
     }
     return pCore->getProjectFpsInfo();
 }
+
+const QString ProjectClip::getControlUuid() const
+{
+    return m_controlUuid.toString();
+}

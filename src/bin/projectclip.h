@@ -303,6 +303,8 @@ public:
     QPixmap pixmap(int position = 0, int width = 0, int height = 0);
     /** @brief Returns true if this clip has a variable framerate */
     bool hasVariableFps();
+    /** @brief Get the unique and unmutable uuid for this project clip */
+    const QString getControlUuid() const;
 
 protected:
     friend class ClipModel;
