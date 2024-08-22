@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-16 02:29+0000\n"
-"PO-Revision-Date: 2024-06-28 14:08+0200\n"
+"PO-Revision-Date: 2024-08-16 19:48+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -6405,7 +6405,7 @@ msgid ""
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
 "Vous utilisez plusieurs préréglages dans un profil. Veuillez vous assurer "
-"d’avoir le même nombre de points-virgules dans chaque paramètre. Ce profil "
+"d'avoir le même nombre de points-virgules dans chaque paramètre. Ce profil "
 "ne sera pas enregistré."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
@@ -6853,7 +6853,7 @@ msgstr "SDL"
 #: src/dialogs/kdenlivesettingsdialog.cpp:792
 #, kde-format
 msgid "RtAudio"
-msgstr "RtAudio"
+msgstr "RTAudio"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:816 src/mainwindow.cpp:360
 #, kde-format
@@ -7400,8 +7400,8 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
-"La réalisation d'un rendu d’un projet ayant des vidéos à fréquence variable "
-"d’images peut entraîner une désynchronisation audio / vidéo.  \n"
+"La réalisation d'un rendu d'un projet ayant des vidéos à fréquence variable "
+"d'images peut entraîner une désynchronisation audio / vidéo. \n"
 "Nous vous recommandons d'effectuer une conversion dans un format plus "
 "convivial."
 
@@ -8679,7 +8679,7 @@ msgid ""
 "output</li>"
 msgstr ""
 "<li>Modules MLT manquants : <b>sdl</b> ou <b>rtaudio</b><br/>nécessaires "
-"pour la sortie audio</li>"
+"pour la sortie audio</li>rtaudio"
 
 #: src/dialogs/wizard.cpp:348
 #, kde-format
@@ -8762,7 +8762,7 @@ msgid ""
 "<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
 "information</li>"
 msgstr ""
-"<li>Application manquante : <b>mediainfo</b><br/>optionnelle pour les "
+"<li>Application manquante : <b>MediaInfo</b><br/>optionnelle pour les "
 "informations techniques sur la vidéo.</li>"
 
 #: src/dialogs/wizard.cpp:652
@@ -10097,10 +10097,9 @@ msgstr "Repères"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Catégories de repères"
+msgstr "Ajouter des repères par catégorie"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3965
@@ -10818,10 +10817,9 @@ msgid "Add Clip"
 msgstr "Ajouter une vidéo"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide par catégorie / nombre"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11771,70 +11769,59 @@ msgid "Delete All Markers"
 msgstr "Supprimer tous les repères"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide rapidement"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Ajouter un repère/guide rapidement"
+msgstr "Ajouter un repère / guide 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -12347,10 +12334,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Impossible de trouver le clip pour modifier le repère"
 
 #: src/mainwindow.cpp:2969
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Catégories de repères"
+msgstr "La catégorie de repères n'existe pas."
 
 #: src/mainwindow.cpp:3154 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3130
@@ -15654,9 +15640,9 @@ msgid ""
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
-"Ceci supprimera l’environnement virtuel de Python de :<br/><b>%1</b><br/"
-">L’environnement sera recréé et les modules téléchargés à chaque fois que "
-"vous réactiverez l’environnement virtuel Python."
+"Ceci supprimera l'environnement virtuel de Python de :<br/><b>%1</b><br/"
+">L'environnement sera recréé et les modules téléchargés à chaque fois que "
+"vous réactiverez l'environnement virtuel de Python."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16638,10 +16624,10 @@ msgstr ""
 "d'emplacement et a été supprimée."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "Projet corrompu. Clip %1 (%2) introuvable dans les sources du projet."
+msgstr ""
+"Projet corrompu. Séquence vidéo %1 (%2) avec un identifiant non valable."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
@@ -17324,7 +17310,7 @@ msgstr "Vitesse du clip"
 #, kde-format
 msgid "MLT must be compiled with rubberband library to enable pitch correction"
 msgstr ""
-"MLT doit être compilé avec la librairie rubberband pour activer la "
+"MLT doit être compilé avec la bibliothèque « rubberband » pour activer la "
 "correction de la hauteur"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:47
@@ -17764,7 +17750,7 @@ msgstr "Entrée :%1, Sortie : %2 (%3 %4)"
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 "Le glisser ne peut être effectué que sur des séquences vidéo, audio ou "
-"d’animation."
+"d'animation."
 
 #: src/timeline2/view/timelinecontroller.cpp:2713
 #, kde-format
@@ -19607,7 +19593,7 @@ msgstr "FFplay :"
 #: src/ui/configenv_ui.ui:148
 #, kde-format
 msgid "FFprobe:"
-msgstr "FFprobe :"
+msgstr "FFProbe :"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configenv_ui.ui:158
@@ -20245,7 +20231,7 @@ msgstr "Murmurer"
 #: src/ui/configspeech_ui.ui:66
 #, kde-format
 msgid "VOSK Speech Models"
-msgstr "Modèles de reconnaissance vocale VOSK"
+msgstr "Modèles de reconnaissance vocale pour Vosk"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:73
