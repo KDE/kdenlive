@@ -3255,8 +3255,18 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
 
 void TimelineController::setEffectsEnabled(int clipId, bool enabled)
 {
-    std::shared_ptr<ClipModel> clip = m_model->getClipPtr(clipId);
-    clip->setTimelineEffectsEnabled(enabled);
+    Fun redo = [model = m_model, clipId, enabled]() {
+        std::shared_ptr<ClipModel> clip = model->getClipPtr(clipId);
+        clip->setTimelineEffectsEnabled(enabled);
+        return true;
+    };
+    Fun undo = [model = m_model, clipId, enabled]() {
+        std::shared_ptr<ClipModel> clip = model->getClipPtr(clipId);
+        clip->setTimelineEffectsEnabled(!enabled);
+        return true;
+    };
+    redo();
+    pCore->pushUndo(undo, redo, enabled ? i18n("Enable Effect Stack") : i18n("Disable Effect Stack"));
 }
 
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)

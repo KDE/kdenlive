@@ -588,10 +588,28 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
 
 void TimelineItemModel::setTrackStackEnabled(int tid, bool enable)
 {
-    std::shared_ptr<TrackModel> track = getTrackById(tid);
-    track->setEffectStackEnabled(enable);
-    QModelIndex ix = makeTrackIndexFromID(tid);
-    Q_EMIT dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+    Fun redo = [this, tid, enable]() {
+        std::shared_ptr<TrackModel> track = getTrackById(tid);
+        if (!track) {
+            return false;
+        }
+        track->setEffectStackEnabled(enable);
+        QModelIndex ix = makeTrackIndexFromID(tid);
+        Q_EMIT dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+        return true;
+    };
+    Fun undo = [this, tid, enable]() {
+        std::shared_ptr<TrackModel> track = getTrackById(tid);
+        if (!track) {
+            return false;
+        }
+        track->setEffectStackEnabled(!enable);
+        QModelIndex ix = makeTrackIndexFromID(tid);
+        Q_EMIT dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+        return true;
+    };
+    redo();
+    pCore->pushUndo(undo, redo, enable ? i18n("Enable Track Effect Stack") : i18n("Disable Track Effect Stack"));
 }
 
 void TimelineItemModel::importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service)
