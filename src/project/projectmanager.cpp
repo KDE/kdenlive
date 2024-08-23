@@ -901,6 +901,45 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         doc->setModified(!loadingFailed);
         stale->setParent(doc);
     }
+    if (isBackup) {
+        // Copy subtitle files if any
+        // Get timestamp
+        QFileInfo info(url.toLocalFile());
+        QString timeStamp = info.completeBaseName();
+        timeStamp = timeStamp.section(QLatin1Char('-'), -5);
+        //.toString(QStringLiteral("yyyy-MM-dd-hh-mm"));
+        QDir backupDir = info.absoluteDir();
+        if (backupDir.cd(timeStamp)) {
+            // Found backup folder
+            QStringList subtitles = backupDir.entryList(QDir::Files);
+            qDebug() << "===== YES; FOUND BACKUP FOLDER: " << backupDir.absolutePath() << ", FILES: " << subtitles.count();
+            // Get real project file name
+            QString projectFileName = info.completeBaseName().section(QLatin1Char('-'), 0, -7);
+            projectFileName.append(QStringLiteral(".%1").arg(info.suffix()));
+            const QString projectId = doc->getDocumentProperty(QStringLiteral("documentid"));
+            // Restore subtitle files to work files
+            for (auto &s : subtitles) {
+                if (!s.startsWith(projectFileName)) {
+                    continue;
+                }
+                QString destName = projectId;
+                if (QFileInfo(s).completeBaseName() == projectFileName) {
+                    destName.append(QStringLiteral("-%1.%2").arg(pCore->sessionId).arg(QFileInfo(s).suffix()));
+                } else {
+                    QString uuid = QFileInfo(s).completeBaseName();
+                    uuid.remove(0, projectFileName.length());
+                    destName.append(QStringLiteral("%1-%2.%3").arg(uuid).arg(pCore->sessionId).arg(QFileInfo(s).suffix()));
+                }
+                QFileInfo destFile(QDir::temp().absoluteFilePath(destName));
+                if (destFile.exists()) {
+                    QFile::remove(destFile.absoluteFilePath());
+                }
+                QFile::copy(backupDir.absoluteFilePath(s), destFile.absoluteFilePath());
+            }
+        } else {
+            qDebug() << "No Subtitles backup folder found...";
+        }
+    }
     pCore->bin()->setDocument(doc);
 
     // Set default target tracks to upper audio / lower video tracks

@@ -158,7 +158,6 @@ public:
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
     bool saveSceneList(const QString &path, const QString &scene, bool saveOverExistingFile = true);
-    void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
     void setZone(const QUuid &uuid, int start, int end);
     QPoint zone(const QUuid &uuid) const;
@@ -388,8 +387,6 @@ private:
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();
-    /** @brief Only keep some backup files, delete some */
-    void cleanupBackupFiles();
     /** @brief Load document properties from the xml file */
     void loadDocumentProperties();
     /** @brief update document properties to reflect a change in the current profile */
@@ -425,6 +422,8 @@ private Q_SLOTS:
     void slotMoveFinished(KJob *job);
     /** @brief Save the project guide categories in the document properties. */
     void saveGuideCategories();
+    /** @brief Only keep some backup files, delete some */
+    void cleanupBackupFiles();
 
 Q_SIGNALS:
     void resetProjectList();
@@ -434,8 +433,6 @@ Q_SIGNALS:
      * If the document has been modified, it's called with true as an argument. */
     void docModified(bool);
     void selectLastAddedClip(const QString &);
-    /** @brief When creating a backup file, also save a thumbnail of current timeline */
-    void saveTimelinePreview(const QString &path);
     /** @brief Trigger the autosave timer start */
     void startAutoSave();
     /** @brief Current doc created effects, reload list */

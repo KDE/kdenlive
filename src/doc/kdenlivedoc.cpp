@@ -51,6 +51,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QStandardPaths>
 #include <QUndoGroup>
 #include <QUndoStack>
+#include <QtConcurrent>
 #include <memory>
 #include <mlt++/Mlt.h>
 
@@ -767,14 +768,14 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool 
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
-    cleanupBackupFiles();
+    QtConcurrent::run(this, &KdenliveDoc::cleanupBackupFiles);
     QFileInfo info(path);
-    QString fileName = QUrl::fromLocalFile(path).fileName().section(QLatin1Char('.'), 0, -2);
+    QString fileName = info.completeBaseName();
+    const QString timeStamp = info.lastModified().toString(QStringLiteral("yyyy-MM-dd-hh-mm"));
     fileName.append(QLatin1Char('-') + m_documentProperties.value(QStringLiteral("documentid")));
-    fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
-    fileName.append(QStringLiteral(".kdenlive.png"));
+    fileName.append(QStringLiteral("-%1.kdenlive.jpg").arg(timeStamp));
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
-    Q_EMIT saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
+    Q_EMIT pCore->saveTimelinePreview(backupFolder.absoluteFilePath(fileName));
     return true;
 }
 
@@ -1159,15 +1160,6 @@ void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString
     Q_EMIT selectLastAddedClip(id);
 }
 
-void KdenliveDoc::cacheImage(const QString &fileId, const QImage &img) const
-{
-    bool ok;
-    QDir dir = getCacheDir(CacheThumbs, &ok);
-    if (ok) {
-        img.save(dir.absoluteFilePath(fileId + QStringLiteral(".png")));
-    }
-}
-
 void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
 {
     if (value.isEmpty()) {
@@ -1399,11 +1391,11 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
     }
     QFile file(path);
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
-    QString fileName = QUrl::fromLocalFile(path).fileName().section(QLatin1Char('.'), 0, -2);
+    QString fileName = QFileInfo(path).completeBaseName();
     QFileInfo info(file);
     fileName.append(QLatin1Char('-') + m_documentProperties.value(QStringLiteral("documentid")));
-    fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
-    fileName.append(QStringLiteral(".kdenlive"));
+    const QString timeStamp = info.lastModified().toString(QStringLiteral("yyyy-MM-dd-hh-mm"));
+    fileName.append(QStringLiteral("-%1.kdenlive").arg(timeStamp));
     QString backupFile = backupFolder.absoluteFilePath(fileName);
     if (file.exists()) {
         // delete previous backup if it was done less than 60 seconds ago
@@ -1411,14 +1403,24 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         if (!QFile::copy(path, backupFile)) {
             KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
-        // backup subitle file in case we have one
-        // TODO: this only backups one subtitle file, and the saved one, not the tmp worked on file
-        QString subpath(path + QStringLiteral(".srt"));
-        QString subbackupFile(backupFile + QStringLiteral(".srt"));
-        if (QFile(subpath).exists()) {
-            QFile::remove(subbackupFile);
-            if (!QFile::copy(subpath, subbackupFile)) {
-                KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", subbackupFile));
+        // backup subitle file in case we have
+        QStringList subFiles = getAllSubtitlesPath(true);
+        if (!subFiles.isEmpty()) {
+            // Create folder for subtitles backup
+            backupFolder.mkpath(timeStamp);
+            backupFolder.cd(timeStamp);
+            for (auto &s : subFiles) {
+                QFileInfo info(s);
+                if (info.exists()) {
+                    const QString targetPath = backupFolder.absoluteFilePath(info.fileName());
+                    if (QFileInfo::exists(targetPath)) {
+                        // Remove backup if it was created less than 60 seconds ago
+                        QFile::remove(targetPath);
+                    }
+                    if (!QFile::copy(s, targetPath)) {
+                        KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", targetPath));
+                    }
+                }
             }
         }
     }
@@ -1504,25 +1506,33 @@ void KdenliveDoc::cleanupBackupFiles()
         f = hourList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
+        QFile::remove(f + QStringLiteral(".jpg"));
         QFile::remove(f + QStringLiteral(".srt"));
+        QFile::remove(f + QStringLiteral(".ass"));
     }
     while (dayList.count() > 0) {
         f = dayList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
+        QFile::remove(f + QStringLiteral(".jpg"));
         QFile::remove(f + QStringLiteral(".srt"));
+        QFile::remove(f + QStringLiteral(".ass"));
     }
     while (weekList.count() > 0) {
         f = weekList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
+        QFile::remove(f + QStringLiteral(".jpg"));
         QFile::remove(f + QStringLiteral(".srt"));
+        QFile::remove(f + QStringLiteral(".ass"));
     }
     while (oldList.count() > 0) {
         f = oldList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
+        QFile::remove(f + QStringLiteral(".jpg"));
         QFile::remove(f + QStringLiteral(".srt"));
+        QFile::remove(f + QStringLiteral(".ass"));
     }
 }
 

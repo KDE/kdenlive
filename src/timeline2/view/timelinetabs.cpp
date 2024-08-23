@@ -23,6 +23,7 @@
 #include <KXMLGUIFactory>
 #include <QInputDialog>
 #include <QMenu>
+#include <QPainter>
 #include <QQmlContext>
 
 TimelineContainer::TimelineContainer(QWidget *parent)
@@ -54,6 +55,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
     connect(tabBar(), &QTabBar::tabBarDoubleClicked, this, &TimelineTabs::onTabBarDoubleClicked);
+    connect(pCore.get(), &Core::saveTimelinePreview, this, &TimelineTabs::saveTimelinePreview);
 }
 
 TimelineTabs::~TimelineTabs()
@@ -431,4 +433,16 @@ void TimelineTabs::onTabBarDoubleClicked(int index)
             }
         }
     }
+}
+
+void TimelineTabs::saveTimelinePreview(const QString &path)
+{
+    int imageWidth = 600;
+    int imageHeight = size().height() * imageWidth / size().width();
+    QPixmap bitmap(size());
+    QPainter painter(&bitmap);
+    render(&painter);
+    painter.end();
+    QPixmap scaled = bitmap.scaled(imageWidth, imageHeight);
+    scaled.save(path);
 }
