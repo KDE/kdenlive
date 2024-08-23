@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-22 00:39+0000\n"
+"POT-Creation-Date: 2024-08-23 00:39+0000\n"
 "PO-Revision-Date: 2024-08-20 02:40-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -4831,8 +4831,8 @@ msgstr "Lista de reproducción"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2470 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1540 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1549 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Secuencias"
@@ -5780,12 +5780,12 @@ msgstr "Cambiar nombre de carpeta"
 msgid "Clean Project"
 msgstr "Limpiar proyecto"
 
-#: src/bin/projectitemmodel.cpp:1243
+#: src/bin/projectitemmodel.cpp:1262
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Leyendo clips del proyecto…"
 
-#: src/bin/projectitemmodel.cpp:1351
+#: src/bin/projectitemmodel.cpp:1370
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Cargando clips del proyecto…"
@@ -6570,7 +6570,7 @@ msgstr "Exportar datos de guías"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:310
+#: src/project/projectmanager.cpp:1850 src/render/renderrequest.cpp:310
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5187
@@ -6637,7 +6637,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "En caso de duda, usar :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1728
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1737
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -9174,15 +9174,15 @@ msgstr ""
 "El archivo de proyecto fue actualizado al formato de la última versión de "
 "Kdenlive, pero no fue posible crear una copia de respaldo %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1412
-#: src/project/projectmanager.cpp:1448
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1421
+#: src/project/projectmanager.cpp:1457
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Error al mover la carpeta del proyecto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2338
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/projectmanager.cpp:1669
+#: src/project/projectmanager.cpp:1678
 #, kde-format
 msgid "Untitled"
 msgstr "Sin nombre"
@@ -14560,12 +14560,18 @@ msgstr[1] "Crear marcadores"
 msgid "Assign timestamps to current Bin Clip"
 msgstr "Asignar marcas de tiempo al clip actual de la bandeja"
 
-#: src/project/dialogs/noteswidget.cpp:185
+#: src/project/dialogs/noteswidget.cpp:126
+#, fuzzy, kde-format
+#| msgid "Cannot find profile from current clip"
+msgid "Cannot find project clip"
+msgstr "No se encuentra un perfil para el este clip"
+
+#: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Seleccionar algunos códigos de tiempo para reasignarlos"
 
-#: src/project/dialogs/noteswidget.cpp:196
+#: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Seleccionar algunos códigos de tiempo para crear marcadores"
@@ -15079,28 +15085,28 @@ msgstr "Habilitar/Deshabilitar todos los efectos"
 msgid "Split compare"
 msgstr "Comparar a pantalla dividida"
 
-#: src/project/notesplugin.cpp:37
+#: src/project/notesplugin.cpp:38
 #, kde-format
 msgid "Enter your project notes here …"
 msgstr "Introducir las notas del proyecto aquí …"
 
-#: src/project/notesplugin.cpp:38
+#: src/project/notesplugin.cpp:39
 #, kde-format
 msgid "Project Notes"
 msgstr "Notas del proyecto"
 
-#: src/project/notesplugin.cpp:50
+#: src/project/notesplugin.cpp:51
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
 "Reasignar los códigos de tiempo seleccionados al clip actual de la bandeja"
 
-#: src/project/notesplugin.cpp:53
+#: src/project/notesplugin.cpp:54
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Crear marcadores a partir de los códigos de tiempo seleccionados"
 
-#: src/project/notesplugin.cpp:55
+#: src/project/notesplugin.cpp:56
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15110,14 +15116,14 @@ msgstr ""
 "Crea marcadores en la línea de tiempo a partir de los códigos de tiempo "
 "seleccionados (no importa si también hubieran otros textos seleccionados)."
 
-#: src/project/notesplugin.cpp:75
+#: src/project/notesplugin.cpp:76
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "No es posible agregar una nota, no hay ningún clip seleccionado en la "
 "bandeja del proyecto"
 
-#: src/project/notesplugin.cpp:102
+#: src/project/notesplugin.cpp:104
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "No es posible realizar la asignación"
@@ -15147,7 +15153,7 @@ msgstr "Abrir archivo de respaldo…"
 msgid "Save changes to document?"
 msgstr "¿Guardar cambios al proyecto?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1668
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1677
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15292,25 +15298,25 @@ msgstr ""
 "El proyecto se encuentra corrupto, no es posible respaldarlo. Por favor "
 "cerrarlo y volver a abrirlo para recuperar el último respaldo"
 
-#: src/project/projectmanager.cpp:1390
+#: src/project/projectmanager.cpp:1399
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Error al mover la carpeta del proyecto, no es posible acceder a la carpeta "
 "de cachés"
 
-#: src/project/projectmanager.cpp:1426
+#: src/project/projectmanager.cpp:1435
 #, kde-format
 msgid "Moving project folder"
 msgstr "Moviendo la carpeta del proyecto"
 
-#: src/project/projectmanager.cpp:1517 src/project/projectmanager.cpp:1575
-#: src/project/projectmanager.cpp:1579
+#: src/project/projectmanager.cpp:1526 src/project/projectmanager.cpp:1584
+#: src/project/projectmanager.cpp:1588
 #, kde-format
 msgid "Sequence 1"
 msgstr "Secuencia 1"
 
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1537
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15318,13 +15324,13 @@ msgstr ""
 "Archivo de proyecto corrupto - no fue posible cargar las pistas. ¿Intentar "
 "encontrar un archivo de respaldo?"
 
-#: src/project/projectmanager.cpp:1674 src/project/projectmanager.cpp:1679
-#: src/project/projectmanager.cpp:1689 src/project/projectmanager.cpp:1703
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1688
+#: src/project/projectmanager.cpp:1698 src/project/projectmanager.cpp:1712
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Cambio del perfil del proyecto cancelado"
 
-#: src/project/projectmanager.cpp:1826
+#: src/project/projectmanager.cpp:1835
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15333,12 +15339,12 @@ msgstr ""
 "El archivo de salida %1 ya existe.\n"
 "¿Sobrescribirlo?"
 
-#: src/project/projectmanager.cpp:1851
+#: src/project/projectmanager.cpp:1860
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil del proyecto cambiado"
 
-#: src/project/projectmanager.cpp:1912
+#: src/project/projectmanager.cpp:1921
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15347,19 +15353,19 @@ msgstr ""
 "No es posible crear una línea de tiempo a partir de este clip:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:2003
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Importando un clip de secuencia; esto se encuentra actualmente en estado "
 "experimental"
 
-#: src/project/projectmanager.cpp:2183
+#: src/project/projectmanager.cpp:2192
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Seleccionar un clip para crear una secuencia"
 
-#: src/project/projectmanager.cpp:2221
+#: src/project/projectmanager.cpp:2230
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Crear clip de secuencia"
@@ -28237,9 +28243,6 @@ msgstr "%1h"
 
 #~ msgid "Failed to create proxy for %1. check parameters"
 #~ msgstr "Falla al crear reemplazo para %1. Verificar parámetros"
-
-#~ msgid "Cannot find profile from current clip"
-#~ msgstr "No se encuentra un perfil para el este clip"
 
 #~ msgid ""
 #~ "Your clip does not match current project's profile.\n"

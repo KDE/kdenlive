@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-22 00:39+0000\n"
+"POT-Creation-Date: 2024-08-23 00:39+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -4953,8 +4953,8 @@ msgstr "Lejátszólista klip"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2470 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1540 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1549 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -6001,13 +6001,13 @@ msgstr "Mappa átnevezése"
 msgid "Clean Project"
 msgstr "Projekt tisztítása"
 
-#: src/bin/projectitemmodel.cpp:1243
+#: src/bin/projectitemmodel.cpp:1262
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Reading project clips…"
 msgstr "Projekt betöltése"
 
-#: src/bin/projectitemmodel.cpp:1351
+#: src/bin/projectitemmodel.cpp:1370
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project clips…"
@@ -6803,7 +6803,7 @@ msgstr "Jelölők betöltése"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:310
+#: src/project/projectmanager.cpp:1850 src/render/renderrequest.cpp:310
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5187
@@ -6873,7 +6873,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1728
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1737
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -9529,8 +9529,8 @@ msgstr ""
 "A projektfájl a legújabb Kdenlive dokumentum verzióra lett frissítve, de nem "
 "volt lehetséges a(z) %1 biztonsági mentés létrehozása."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1412
-#: src/project/projectmanager.cpp:1448
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1421
+#: src/project/projectmanager.cpp:1457
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
@@ -9538,7 +9538,7 @@ msgstr "Projektmappa: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2338
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/projectmanager.cpp:1669
+#: src/project/projectmanager.cpp:1678
 #, kde-format
 msgid "Untitled"
 msgstr "Névtelen"
@@ -15236,12 +15236,18 @@ msgstr[1] "Jelző törlése"
 msgid "Assign timestamps to current Bin Clip"
 msgstr ""
 
-#: src/project/dialogs/noteswidget.cpp:185
+#: src/project/dialogs/noteswidget.cpp:126
+#, fuzzy, kde-format
+#| msgid "Cannot find profile from current clip"
+msgid "Cannot find project clip"
+msgstr "Nem található a profil az aktuális klipben"
+
+#: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr ""
 
-#: src/project/dialogs/noteswidget.cpp:196
+#: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr ""
@@ -15737,29 +15743,29 @@ msgstr "Összes effektus engedélyezése/tiltása"
 msgid "Split compare"
 msgstr "Megosztott nézet"
 
-#: src/project/notesplugin.cpp:37
+#: src/project/notesplugin.cpp:38
 #, fuzzy, kde-format
 #| msgid "Enter your project notes here ..."
 msgid "Enter your project notes here …"
 msgstr "Írja be ide a projekt megjegyzéseit …"
 
-#: src/project/notesplugin.cpp:38
+#: src/project/notesplugin.cpp:39
 #, kde-format
 msgid "Project Notes"
 msgstr "Projekt megjegyzések"
 
-#: src/project/notesplugin.cpp:50
+#: src/project/notesplugin.cpp:51
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr ""
 
-#: src/project/notesplugin.cpp:53
+#: src/project/notesplugin.cpp:54
 #, fuzzy, kde-format
 #| msgid "Remove snap markers from selected clips"
 msgid "Create markers from selected timecodes"
 msgstr "Jelölő eltávolítása a kijelölt klipekből"
 
-#: src/project/notesplugin.cpp:55
+#: src/project/notesplugin.cpp:56
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15767,13 +15773,13 @@ msgid ""
 "if other text is selected too)."
 msgstr ""
 
-#: src/project/notesplugin.cpp:75
+#: src/project/notesplugin.cpp:76
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "Cannot add note, no clip selected in project bin"
 msgstr "Nincs elérhető klip kiválasztva"
 
-#: src/project/notesplugin.cpp:102
+#: src/project/notesplugin.cpp:104
 #, fuzzy, kde-format
 #| msgid "Cannot update transition"
 msgid "Cannot perform assign"
@@ -15808,7 +15814,7 @@ msgstr "Biztonsági mentés fájl megnyitása"
 msgid "Save changes to document?"
 msgstr "Menti a dokumentum változásait?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1668
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1677
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15953,39 +15959,39 @@ msgid ""
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1390
+#: src/project/projectmanager.cpp:1399
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Projektmappa: %1"
 
-#: src/project/projectmanager.cpp:1426
+#: src/project/projectmanager.cpp:1435
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Projekt mappa használata"
 
-#: src/project/projectmanager.cpp:1517 src/project/projectmanager.cpp:1575
-#: src/project/projectmanager.cpp:1579
+#: src/project/projectmanager.cpp:1526 src/project/projectmanager.cpp:1584
+#: src/project/projectmanager.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Sorozatnév"
 
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1537
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1674 src/project/projectmanager.cpp:1679
-#: src/project/projectmanager.cpp:1689 src/project/projectmanager.cpp:1703
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1688
+#: src/project/projectmanager.cpp:1698 src/project/projectmanager.cpp:1712
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Projekt profil: %1"
 
-#: src/project/projectmanager.cpp:1826
+#: src/project/projectmanager.cpp:1835
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -15993,13 +15999,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: src/project/projectmanager.cpp:1851
+#: src/project/projectmanager.cpp:1860
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Projekt profil: %1"
 
-#: src/project/projectmanager.cpp:1912
+#: src/project/projectmanager.cpp:1921
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -16007,18 +16013,18 @@ msgid ""
 "%1"
 msgstr "%1 fogyasztó nem hozható létre."
 
-#: src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:2003
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2183
+#: src/project/projectmanager.cpp:2192
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 
-#: src/project/projectmanager.cpp:2221
+#: src/project/projectmanager.cpp:2230
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -29348,9 +29354,6 @@ msgstr "%1 ó"
 #~ msgid "Failed to create proxy for %1. check parameters"
 #~ msgstr ""
 #~ "Nem sikerült létrehozni proxyt ehhez: %1. Ellenőrizze a paramétereket"
-
-#~ msgid "Cannot find profile from current clip"
-#~ msgstr "Nem található a profil az aktuális klipben"
 
 #~ msgid ""
 #~ "Your clip does not match current project's profile.\n"

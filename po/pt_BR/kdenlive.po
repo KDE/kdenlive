@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-22 00:39+0000\n"
+"POT-Creation-Date: 2024-08-23 00:39+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -4813,8 +4813,8 @@ msgstr "Lista de reprodução"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2470 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1540 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1549 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Sequências"
@@ -5766,13 +5766,13 @@ msgstr "Renomear pasta"
 msgid "Clean Project"
 msgstr "Limpar Projeto"
 
-#: src/bin/projectitemmodel.cpp:1243
+#: src/bin/projectitemmodel.cpp:1262
 #, fuzzy, kde-format
 #| msgid "Loading project clips…"
 msgid "Reading project clips…"
 msgstr "Carregando clipes de projeto…"
 
-#: src/bin/projectitemmodel.cpp:1351
+#: src/bin/projectitemmodel.cpp:1370
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Carregando clipes de projeto…"
@@ -6543,7 +6543,7 @@ msgstr "Exportar dados das guias"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:310
+#: src/project/projectmanager.cpp:1850 src/render/renderrequest.cpp:310
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5187
@@ -6610,7 +6610,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Se não tiver certeza, tente:<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1728
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1737
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -9220,15 +9220,15 @@ msgstr ""
 "Seu arquivo de projeto foi atualizado para a última versão de arquivos do "
 "Kdenlive, não foi possível criar a cópia de segurança %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1412
-#: src/project/projectmanager.cpp:1448
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1421
+#: src/project/projectmanager.cpp:1457
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Erro ao mover a pasta do projeto: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2338
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/projectmanager.cpp:1669
+#: src/project/projectmanager.cpp:1678
 #, kde-format
 msgid "Untitled"
 msgstr "Sem título"
@@ -14779,12 +14779,18 @@ msgstr[1] "criar marcadores"
 msgid "Assign timestamps to current Bin Clip"
 msgstr "Atribuir timestamps para o clipe atual"
 
-#: src/project/dialogs/noteswidget.cpp:185
+#: src/project/dialogs/noteswidget.cpp:126
+#, fuzzy, kde-format
+#| msgid "Cannot insert clip."
+msgid "Cannot find project clip"
+msgstr "Não foi possível inserir clipe."
+
+#: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Selecione alguns códigos de tempo para reatribuir"
 
-#: src/project/dialogs/noteswidget.cpp:196
+#: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Selecione alguns códigos de tempo para criar marcadores"
@@ -15312,27 +15318,27 @@ msgstr "Habilitar/Desabilitar todos os efeitos"
 msgid "Split compare"
 msgstr "Comparar em tela dividida"
 
-#: src/project/notesplugin.cpp:37
+#: src/project/notesplugin.cpp:38
 #, kde-format
 msgid "Enter your project notes here …"
 msgstr "Coloque aqui as notas do projeto…"
 
-#: src/project/notesplugin.cpp:38
+#: src/project/notesplugin.cpp:39
 #, kde-format
 msgid "Project Notes"
 msgstr "Notas do projeto"
 
-#: src/project/notesplugin.cpp:50
+#: src/project/notesplugin.cpp:51
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr "Reatribuir códigos de tempo selecionados para o clipe atual"
 
-#: src/project/notesplugin.cpp:53
+#: src/project/notesplugin.cpp:54
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Crie marcadores de códigos de tempo a partir dos selecionados"
 
-#: src/project/notesplugin.cpp:55
+#: src/project/notesplugin.cpp:56
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15342,14 +15348,14 @@ msgstr ""
 "Cria marcadores na linha do tempo a partir dos timecodes selecionados (não "
 "importa se outro texto também estiver selecionado)."
 
-#: src/project/notesplugin.cpp:75
+#: src/project/notesplugin.cpp:76
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "Não é possível adicionar nota, nenhum clipe selecionado nos arquivos do "
 "projeto"
 
-#: src/project/notesplugin.cpp:102
+#: src/project/notesplugin.cpp:104
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Não é possível executar atribuição"
@@ -15382,7 +15388,7 @@ msgstr "Abrir arquivo de backup"
 msgid "Save changes to document?"
 msgstr "Salvar as alterações do documento?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1668
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1677
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15533,25 +15539,25 @@ msgstr ""
 "O projeto foi corrompido, não é possível fazer backup. Feche e reabra o "
 "arquivo do projeto para recuperar o último backup"
 
-#: src/project/projectmanager.cpp:1390
+#: src/project/projectmanager.cpp:1399
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Erro ao mover a pasta do projeto: %1"
 
-#: src/project/projectmanager.cpp:1426
+#: src/project/projectmanager.cpp:1435
 #, kde-format
 msgid "Moving project folder"
 msgstr "Movendo pasta do projeto"
 
-#: src/project/projectmanager.cpp:1517 src/project/projectmanager.cpp:1575
-#: src/project/projectmanager.cpp:1579
+#: src/project/projectmanager.cpp:1526 src/project/projectmanager.cpp:1584
+#: src/project/projectmanager.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Nome da sequência"
 
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
@@ -15560,13 +15566,13 @@ msgstr ""
 "O arquivo de projeto está corrompido (sem faixas). Tentar encontrar um "
 "arquivo de backup?"
 
-#: src/project/projectmanager.cpp:1674 src/project/projectmanager.cpp:1679
-#: src/project/projectmanager.cpp:1689 src/project/projectmanager.cpp:1703
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1688
+#: src/project/projectmanager.cpp:1698 src/project/projectmanager.cpp:1712
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Alteração do perfil do projeto abortada"
 
-#: src/project/projectmanager.cpp:1826
+#: src/project/projectmanager.cpp:1835
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15575,12 +15581,12 @@ msgstr ""
 "Arquivo de saída %1 já existe.\n"
 "Você deseja sobrescrevê-lo?"
 
-#: src/project/projectmanager.cpp:1851
+#: src/project/projectmanager.cpp:1860
 #, kde-format
 msgid "Project profile changed"
 msgstr "Perfil do projeto alterado"
 
-#: src/project/projectmanager.cpp:1912
+#: src/project/projectmanager.cpp:1921
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -15588,18 +15594,18 @@ msgid ""
 "%1"
 msgstr "Não foi possível criar o filtro %1"
 
-#: src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:2003
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Importando um clipe em sequência, atualmente em estado experimental"
 
-#: src/project/projectmanager.cpp:2183
+#: src/project/projectmanager.cpp:2192
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "Selecione um clipe para comparar o efeito"
 
-#: src/project/projectmanager.cpp:2221
+#: src/project/projectmanager.cpp:2230
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -27887,9 +27893,6 @@ msgstr "%1h"
 
 #~ msgid "Cut Group"
 #~ msgstr "Cortar Grupo"
-
-#~ msgid "Cannot insert clip."
-#~ msgstr "Não foi possível inserir clipe."
 
 #~ msgid "Cannot insert clip..."
 #~ msgstr "Não foi possível inserir clipe..."

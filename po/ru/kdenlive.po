@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-22 00:39+0000\n"
+"POT-Creation-Date: 2024-08-23 00:39+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -4848,8 +4848,8 @@ msgstr "Список воспроизведения"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2470 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1538
-#: src/project/projectmanager.cpp:1540 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1547
+#: src/project/projectmanager.cpp:1549 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Последовательности"
@@ -5810,13 +5810,13 @@ msgstr "Переименовать папку"
 msgid "Clean Project"
 msgstr "Очистить проект"
 
-#: src/bin/projectitemmodel.cpp:1243
+#: src/bin/projectitemmodel.cpp:1262
 #, fuzzy, kde-format
 #| msgid "Loading project clips…"
 msgid "Reading project clips…"
 msgstr "Загрузка клипов проекта..."
 
-#: src/bin/projectitemmodel.cpp:1351
+#: src/bin/projectitemmodel.cpp:1370
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Загрузка клипов проекта..."
@@ -6610,7 +6610,7 @@ msgstr "Экспортировать данные направляющих"
 #: src/project/dialogs/archivewidget.cpp:889
 #: src/project/dialogs/archivewidget.cpp:901
 #: src/project/dialogs/archivewidget.cpp:907
-#: src/project/projectmanager.cpp:1841 src/render/renderrequest.cpp:310
+#: src/project/projectmanager.cpp:1850 src/render/renderrequest.cpp:310
 #: src/renderpresets/renderpresetrepository.cpp:383
 #: src/renderpresets/renderpresetrepository.cpp:442
 #: src/timeline2/view/timelinecontroller.cpp:5187
@@ -6678,7 +6678,7 @@ msgstr ""
 "(UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1728
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1737
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
@@ -9262,15 +9262,15 @@ msgstr ""
 "Файл проекта Kdenlive обновлён до самой последней версии, однако создать "
 "резервную копию %1 не удалось."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1412
-#: src/project/projectmanager.cpp:1448
+#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1421
+#: src/project/projectmanager.cpp:1457
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
 
 #: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2338
 #: src/project/dialogs/archivewidget.cpp:240
-#: src/project/projectmanager.cpp:1669
+#: src/project/projectmanager.cpp:1678
 #, kde-format
 msgid "Untitled"
 msgstr "Безымянный"
@@ -14715,12 +14715,18 @@ msgstr[3] "Создать маркер"
 msgid "Assign timestamps to current Bin Clip"
 msgstr "Назначить значения тайм-кода текущему клипу в корзине"
 
-#: src/project/dialogs/noteswidget.cpp:185
+#: src/project/dialogs/noteswidget.cpp:126
+#, fuzzy, kde-format
+#| msgid "Cannot insert clip."
+msgid "Cannot find project clip"
+msgstr "Не удалось вставить клип."
+
+#: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Выделите значения тайм-кода для переназначения"
 
-#: src/project/dialogs/noteswidget.cpp:196
+#: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Выделите значения тайм-кода для создания маркеров"
@@ -15235,27 +15241,27 @@ msgstr "Включить/Отключить все эффекты"
 msgid "Split compare"
 msgstr "Разделить вид"
 
-#: src/project/notesplugin.cpp:37
+#: src/project/notesplugin.cpp:38
 #, kde-format
 msgid "Enter your project notes here …"
 msgstr "Вносите сюда заметки к проекту…"
 
-#: src/project/notesplugin.cpp:38
+#: src/project/notesplugin.cpp:39
 #, kde-format
 msgid "Project Notes"
 msgstr "Заметки к проекту"
 
-#: src/project/notesplugin.cpp:50
+#: src/project/notesplugin.cpp:51
 #, kde-format
 msgid "Reassign selected timecodes to current Bin clip"
 msgstr "Переназначить выделенные значения тайм-кода к текущему клипу в корзине"
 
-#: src/project/notesplugin.cpp:53
+#: src/project/notesplugin.cpp:54
 #, kde-format
 msgid "Create markers from selected timecodes"
 msgstr "Создать маркеры из выделенных значений тайм-кода"
 
-#: src/project/notesplugin.cpp:55
+#: src/project/notesplugin.cpp:56
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -15265,13 +15271,13 @@ msgstr ""
 "Создаёт маркеры на монтажном столе из выделенных значений тайм-кода "
 "(совместно с тайм-кодом может быть выделен другой текст)."
 
-#: src/project/notesplugin.cpp:75
+#: src/project/notesplugin.cpp:76
 #, kde-format
 msgid "Cannot add note, no clip selected in project bin"
 msgstr ""
 "Невозможно добавить заметку — в корзине проекта не выбрано ни одного клипа"
 
-#: src/project/notesplugin.cpp:102
+#: src/project/notesplugin.cpp:104
 #, kde-format
 msgid "Cannot perform assign"
 msgstr "Не удалось выполнить назначение"
@@ -15301,7 +15307,7 @@ msgstr "Открыть резервную копию…"
 msgid "Save changes to document?"
 msgstr "Сохранить изменения в документе?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1668
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1677
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15445,23 +15451,23 @@ msgstr ""
 "Проект повреждён, резервное копирование невозможно. Закройте и снова "
 "откройте файл проекта, чтобы восстановить данные из последней резервной копии"
 
-#: src/project/projectmanager.cpp:1390
+#: src/project/projectmanager.cpp:1399
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Ошибка при перемещении папки проекта, нет доступа к папке кэша"
 
-#: src/project/projectmanager.cpp:1426
+#: src/project/projectmanager.cpp:1435
 #, kde-format
 msgid "Moving project folder"
 msgstr "Перемещение папки проекта"
 
-#: src/project/projectmanager.cpp:1517 src/project/projectmanager.cpp:1575
-#: src/project/projectmanager.cpp:1579
+#: src/project/projectmanager.cpp:1526 src/project/projectmanager.cpp:1584
+#: src/project/projectmanager.cpp:1588
 #, kde-format
 msgid "Sequence 1"
 msgstr "Последовательность 1"
 
-#: src/project/projectmanager.cpp:1528
+#: src/project/projectmanager.cpp:1537
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15469,13 +15475,13 @@ msgstr ""
 "Файл проекта повреждён — не удалось загрузить дорожки. Выполнить поиск файла "
 "резервной копии?"
 
-#: src/project/projectmanager.cpp:1674 src/project/projectmanager.cpp:1679
-#: src/project/projectmanager.cpp:1689 src/project/projectmanager.cpp:1703
+#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1688
+#: src/project/projectmanager.cpp:1698 src/project/projectmanager.cpp:1712
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Изменение профиля проекта прервано"
 
-#: src/project/projectmanager.cpp:1826
+#: src/project/projectmanager.cpp:1835
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15484,12 +15490,12 @@ msgstr ""
 "Выходной файл %1 уже существует.\n"
 "Перезаписать его?"
 
-#: src/project/projectmanager.cpp:1851
+#: src/project/projectmanager.cpp:1860
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профиль проекта изменён"
 
-#: src/project/projectmanager.cpp:1912
+#: src/project/projectmanager.cpp:1921
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15498,19 +15504,19 @@ msgstr ""
 "Не удалось создать монтажный стол из этого клипа:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:1994
+#: src/project/projectmanager.cpp:2003
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Импорт клипа последовательности, в данный момент функция работает в "
 "экмпериментальном режиме"
 
-#: src/project/projectmanager.cpp:2183
+#: src/project/projectmanager.cpp:2192
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Выберите клип для создания последовательности"
 
-#: src/project/projectmanager.cpp:2221
+#: src/project/projectmanager.cpp:2230
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Создать клип последовательности"
@@ -27619,9 +27625,6 @@ msgstr "%1ч"
 
 #~ msgid "Cut Group"
 #~ msgstr "Разрезать группу"
-
-#~ msgid "Cannot insert clip."
-#~ msgstr "Не удалось вставить клип."
 
 #~ msgid "Cannot insert clip..."
 #~ msgstr "Не удалось вставить клип..."
