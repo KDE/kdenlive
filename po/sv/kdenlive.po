@@ -1829,7 +1829,7 @@ msgstr ""
 #: data/transitions/qtblend.xml:15
 #, kde-format
 msgid "Compositing"
-msgstr "Sammansättning"
+msgstr "Komposition"
 
 #: data/effects/qtblend.xml:23
 #, kde-format
@@ -2919,19 +2919,19 @@ msgstr "Transformera"
 #: data/transitions/affine.xml:5
 #, kde-format
 msgid "Perform an affine transform on for compositing."
-msgstr "Utför en affin avbildning för sammansättning."
+msgstr "Utför en affin avbildning för somposition."
 
 #: data/transitions/composite.xml:4
 #, kde-format
 msgctxt "Composite Transition Name"
 msgid "Composite"
-msgstr "Sammansättning"
+msgstr "Komposition"
 
 #: data/transitions/composite.xml:5
 #, kde-format
 msgid "A key-framable alpha-channel compositor for two frames."
 msgstr ""
-"En sammansättare av alfakanaler för två bildrutor med hantering av "
+"En komposition av alfakanaler för två bildrutor med hantering av "
 "nyckelbilder."
 
 #: data/transitions/composite.xml:12
@@ -2966,7 +2966,7 @@ msgstr "Justera vertikalt"
 #: data/transitions/composite.xml:29
 #, kde-format
 msgid "Composite Method"
-msgstr "Sammansättningsmetod"
+msgstr "Kompositionsmetod"
 
 #: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
@@ -3031,7 +3031,7 @@ msgstr "Ljudmix"
 #: data/transitions/qtblend.xml:4
 #, kde-format
 msgid "Composite and transform"
-msgstr "Sammansätt och transformera"
+msgstr "Komposition och transformera"
 
 #: data/transitions/qtblend.xml:5
 #, kde-format
@@ -3124,7 +3124,7 @@ msgstr "Övergång"
 #: data/transitions/wipe.xml:17
 #, kde-format
 msgid "Revert"
-msgstr "Återställ"
+msgstr "Omvänd"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CountDown_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, QTextClip_UI)
@@ -10976,7 +10976,7 @@ msgstr ""
 #: src/mainwindow.cpp:1252
 #, kde-format
 msgid "Enable Track Compositing"
-msgstr "Aktivera spårsammansättning"
+msgstr "Aktivera spårkomposition"
 
 #: src/mainwindow.cpp:1258
 #, kde-format
@@ -16726,7 +16726,7 @@ msgstr "Byt namn på spår"
 #: src/timeline2/model/timelineitemmodel.cpp:844
 #, kde-format
 msgid "Could not setup track compositing, check your install"
-msgstr "Kunde inte ställa in spårsammansättning, kontrollera installationen"
+msgstr "Kunde inte ställa in spårkomposition, kontrollera installationen"
 
 #: src/timeline2/model/timelineitemmodel.cpp:947
 #, kde-format
@@ -19654,7 +19654,7 @@ msgstr "Flikposition:"
 #: src/ui/configmisc_ui.ui:150
 #, kde-format
 msgid "Preferred track compositing composition:"
-msgstr "Komposition av föredragen spårsammansättning:"
+msgstr "Komposition av föredragen spårkomposition:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configmisc_ui.ui:160
@@ -23071,7 +23071,7 @@ msgstr "%1 t"
 #~ msgstr "Låst"
 
 #~ msgid "Composite"
-#~ msgstr "Sammansättning"
+#~ msgstr "Komposition"
 
 #~ msgid "Move Track upwards"
 #~ msgstr "Flytta spår uppåt"
@@ -23387,13 +23387,13 @@ msgstr "%1 t"
 #~ msgstr "&Färgtema"
 
 #~ msgid "Track compositing"
-#~ msgstr "Spårsammansättning"
+#~ msgstr "Spårkomposition"
 
 #~ msgid "High Quality"
 #~ msgstr "Hög kvalitet"
 
 #~ msgid "Rendering using low quality track compositing"
-#~ msgstr "Återgivning med spårsammansättning av låg kvalitet"
+#~ msgstr "Återgivning med spårkomposition av låg kvalitet"
 
 #~ msgid ""
 #~ "Cannot open the project file, error is:\n"
@@ -25272,7 +25272,7 @@ msgstr "%1 t"
 #~ "and paint the light mask over a completely different video."
 #~ msgstr ""
 #~ "Gör bakgrunden genomskinlig, vilket gör det möjligt att använda en "
-#~ "sammansättningseffekt och måla ljusmasken över en helt annan video."
+#~ "kompositionseffekt och måla ljusmasken över en helt annan video."
 
 #~ msgid "Nonlinear dimming"
 #~ msgstr "Ickelinjär dämpning"
