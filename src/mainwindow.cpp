@@ -2509,7 +2509,7 @@ void MainWindow::slotCleanProject()
         KMessageBox::Cancel) {
         return;
     }
-    pCore->bin()->cleanupUnused();
+    pCore->projectItemModel()->requestCleanupUnused();
 }
 
 void MainWindow::slotUpdateMousePosition(int pos, int duration)

@@ -334,8 +334,6 @@ public:
     /** @brief Update a sequence AV info (has audio/video) */
     void updateSequenceAVType(const QUuid &uuid, int tracksCount);
 
-    // TODO refac: remove this and call directly the function in ProjectItemModel
-    void cleanupUnused();
     void selectAll();
     /** @brief Save an mlt playlist from a bin id and a list of cuts
      * @param binId the id of the source clip for zones

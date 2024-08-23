@@ -814,6 +814,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         m_copyJob = nullptr;
         slotJobResult(false, i18n("There was an error while copying the files: %1", job->errorString()));
     }
+
     if (!compressed_archive->isChecked()) {
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
@@ -981,6 +982,10 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
 {
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
+    QStringList clipsToRemove;
+    if (timeline_archive->isChecked()) {
+        clipsToRemove = pCore->projectItemModel()->getUnusedClipIds();
+    }
 
     m_replacementList.clear();
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
@@ -1028,6 +1033,25 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
     QDomNodeList chains = mlt.elementsByTagName(QStringLiteral("chain"));
     for (int i = 0; i < chains.count(); ++i) {
         processElement(chains.item(i).toElement(), root);
+    }
+
+    if (!clipsToRemove.isEmpty()) {
+        // Find main playlist
+        QDomNodeList playlists = mlt.elementsByTagName(QStringLiteral("playlist"));
+        for (int i = 0; i < playlists.count(); ++i) {
+            QDomElement pl = playlists.item(i).toElement();
+            if (pl.attribute(QLatin1String("id")) == QLatin1String("main_bin")) {
+                // process clip entries
+                QDomNodeList entries = pl.elementsByTagName(QStringLiteral("entry"));
+                for (int j = entries.count() - 1; j >= 0; --j) {
+                    QDomElement en = entries.item(j).toElement();
+                    if (clipsToRemove.contains(en.attribute(QLatin1String("producer")))) {
+                        pl.removeChild(en);
+                    }
+                }
+                break;
+            }
+        }
     }
 
     // process mlt transitions (for luma files)
@@ -1369,10 +1393,11 @@ void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
         QTreeWidgetItem *parent = files_list->topLevelItem(idx);
         int childCount = parent->childCount();
         for (int cidx = 0; cidx < childCount; ++cidx) {
-            parent->child(cidx)->setHidden(true);
             if (onlyTimeline == Qt::Checked) {
                 if (parent->child(cidx)->data(0, IsInTimelineRole).toInt() > 0) {
                     parent->child(cidx)->setHidden(false);
+                } else {
+                    parent->child(cidx)->setHidden(true);
                 }
             } else {
                 parent->child(cidx)->setHidden(false);

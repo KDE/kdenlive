@@ -5252,11 +5252,6 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
     }
 }
 
-void Bin::cleanupUnused()
-{
-    m_itemModel->requestCleanupUnused();
-}
-
 size_t Bin::getClipDuration(int itemId) const
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
