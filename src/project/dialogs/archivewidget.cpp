@@ -241,7 +241,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     }
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
-    connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartArchiving);
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, [this]() { slotStartArchiving(true); });
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 
     slotCheckSpace();
@@ -628,11 +628,10 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     QList<QUrl> files;
     QDir destUrl;
     QString destPath;
-    QTreeWidgetItem *parentItem;
     bool isSlideshow = false;
     int items = 0;
     bool isLastCategory = false;
-
+    QTreeWidgetItem *parentItem = nullptr;
     // We parse all files going into one folder, then start the copy job
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         parentItem = files_list->topLevelItem(i);
