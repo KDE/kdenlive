@@ -116,7 +116,8 @@ public:
     QUrl url() const;
     KAutoSaveFile *m_autosave;
     /** @brief Whether the project folder should be in the same folder as the project file (var is only used for new projects)*/
-    bool m_sameProjectFolder;
+    bool m_sameProjectFolder{false};
+    bool m_restoreFromBackup{false};
     Timecode timecode() const;
     std::shared_ptr<DocUndoStack> commandStack();
 
@@ -273,8 +274,9 @@ public:
     /** @brief Returns a path for current document's subtitle file.
      *  uuid is appended to the path if this is not the primary timeline
      *  ix is the index of the subtitle, appended to the path if > 0
-     *  If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
-    const QString subTitlePath(const QUuid &uuid, int ix, bool final);
+     *  If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp
+     *  If restoreFromBackup is true, we will look for the previous session's work files */
+    const QString subTitlePath(const QUuid &uuid, int ix, bool final, bool restoreFromBackup = false);
     /** @brief Returns the list of all used subtitles paths. */
     QStringList getAllSubtitlesPath(bool final);
     /** @brief Creates a new project. */

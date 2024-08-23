@@ -65,27 +65,42 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const 
     eventSection = QStringLiteral("[Events]\n");
     styleName = QStringLiteral("Default");
     connect(this, &SubtitleModel::modelChanged, [this]() { jsontoSubtitle(toJson()); });
-    int id = pCore->currentDoc()->getSequenceProperty(timeline->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
-    const QString subPath = pCore->currentDoc()->subTitlePath(timeline->uuid(), id, true);
-    const QString workPath = pCore->currentDoc()->subTitlePath(timeline->uuid(), id, false);
-    registerSnap(snapModel);
-
-    // Load multiple subtitle data
-    QMap<std::pair<int, QString>, QString> multiSubs = pCore->currentDoc()->multiSubtitlePath(timeline->uuid());
-    m_subtitlesList = multiSubs;
-    if (m_subtitlesList.isEmpty()) {
-        m_subtitlesList.insert({0, i18n("Subtitles")}, subPath);
-    }
+    const QUuid timelineUuid = timeline->uuid();
+    int id = pCore->currentDoc()->getSequenceProperty(timelineUuid, QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+    const QString subPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, true);
+    const QString workPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, false);
     QFile subFile(subPath);
-    if (subFile.exists()) {
-        subFile.copy(workPath);
+    if (pCore->currentDoc()->m_restoreFromBackup) {
+        QString tmpWorkPath = pCore->currentDoc()->subTitlePath(timelineUuid, id, false, true);
+        QFile prevSub(tmpWorkPath);
+        if (prevSub.exists()) {
+            if (!subFile.exists()) {
+                prevSub.copy(subPath);
+            }
+            prevSub.copy(workPath);
+        }
+    } else {
+        if (subFile.exists()) {
+            subFile.copy(workPath);
+        }
     }
+
     if (!QFile::exists(workPath)) {
         QFile newSub(workPath);
         newSub.open(QIODevice::WriteOnly);
         newSub.close();
         qDebug() << "MISSING SUBTITLE FILE, create tmp: " << workPath;
     }
+
+    registerSnap(snapModel);
+
+    // Load multiple subtitle data
+    QMap<std::pair<int, QString>, QString> multiSubs = pCore->currentDoc()->multiSubtitlePath(timelineUuid);
+    m_subtitlesList = multiSubs;
+    if (m_subtitlesList.isEmpty()) {
+        m_subtitlesList.insert({0, i18n("Subtitles")}, subPath);
+    }
+
     parseSubtitle(workPath);
 }
 

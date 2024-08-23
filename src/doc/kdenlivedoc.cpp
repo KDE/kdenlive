@@ -950,7 +950,7 @@ QStringList KdenliveDoc::getAllSubtitlesPath(bool final)
             QMapIterator<std::pair<int, QString>, QString> k(allSubFiles);
             while (k.hasNext()) {
                 k.next();
-                result << subTitlePath(j.value()->uuid(), k.key().first, final);
+                result << subTitlePath(j.key(), k.key().first, final);
             }
         }
     }
@@ -1689,6 +1689,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties(bool saveHash)
 {
     m_documentProperties.insert(QStringLiteral("version"), QString::number(DOCUMENTVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));
+    m_documentProperties.insert(QStringLiteral("sessionid"), pCore->sessionId);
     if (!m_projectFolder.isEmpty()) {
         QDir folder(m_projectFolder);
         m_documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(m_documentProperties.value(QStringLiteral("documentid"))));
@@ -2393,7 +2394,7 @@ QString &KdenliveDoc::modifiedDecimalPoint()
     return m_modifiedDecimalPoint;
 }
 
-const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final)
+const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final, bool restoreFromBackup)
 {
     QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
     QString path = (m_url.isValid() && final) ? m_url.fileName() : documentId;
@@ -2406,6 +2407,10 @@ const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final)
     if (m_url.isValid() && final) {
         return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(path));
     } else {
+        if (restoreFromBackup) {
+            const QString previousSessionId = pCore->currentDoc()->getDocumentProperty(QStringLiteral("sessionid"));
+            return QDir::temp().absoluteFilePath(QString("%1-%2.srt").arg(path, previousSessionId));
+        }
         return QDir::temp().absoluteFilePath(QString("%1-%2.srt").arg(path, pCore->sessionId));
     }
 }

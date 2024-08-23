@@ -888,6 +888,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         doc->m_autosave = stale;
     } else {
         doc->m_autosave = stale;
+        doc->m_restoreFromBackup = true;
         stale->setParent(doc);
         // if loading from an autosave of unnamed file, or restore failed then keep unnamed
         bool loadingFailed = doc->url().isEmpty();
