@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 02:31+0000\n"
-"PO-Revision-Date: 2024-08-03 13:42+0100\n"
+"PO-Revision-Date: 2024-08-24 12:20+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -14357,10 +14357,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Assign timestamps to current Bin Clip"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot find profile from current clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Cannot find profile from current clip"
+msgstr "Cannot find project clip"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format

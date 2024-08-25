@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 02:31+0000\n"
-"PO-Revision-Date: 2024-07-27 09:11+0200\n"
+"PO-Revision-Date: 2024-08-24 12:13+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -14466,10 +14466,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Przypisz znaczniki czasu do bieżącego wycinka pojemnika"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot find profile from current clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Nie można znaleźć profilu z bieżącego wycinka"
+msgstr "Nie można znaleźć wycinka projektu"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
