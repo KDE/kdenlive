@@ -55,6 +55,7 @@ public:
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w) override;
+    bool sceneEvent(QEvent *event) override;
 
 private:
     Qt::Alignment m_alignment;

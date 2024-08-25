@@ -1193,7 +1193,6 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     tt->document()->setDocumentMargin(0);
 
     QTextCursor cur(tt->document());
-    cur.select(QTextCursor::Document);
     QTextBlockFormat format = cur.blockFormat();
     QTextCharFormat cformat = cur.charFormat();
     double outlineWidth = textOutline->value();
@@ -1214,6 +1213,7 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     }
     cur.setCharFormat(cformat);
     cur.setBlockFormat(format);
+    cur.select(QTextCursor::Document);
     tt->setTextCursor(cur);
     tt->setZValue(m_count++);
     setCurrentItem(tt);

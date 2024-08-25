@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "kdenlive_debug.h"
 #include <QApplication>
+#include <QClipboard>
 #include <QCursor>
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
@@ -22,6 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
+#include <qmath.h>
 #include <utility>
 
 static int TITLERVERSION = 0;
@@ -162,22 +164,37 @@ void MyTextItem::doUpdateGeometry()
         //
     } else {
         QFontMetrics metrics(font());
+        QTextOption options = document()->defaultTextOption();
+        qreal tabWidth = options.tabStopDistance();
         double lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
 
         // Calculate line width
         const QStringList lines = text.split(QLatin1Char('\n'));
         double linePos = metrics.ascent();
         QRectF bounding = boundingRect();
-        /*if (lines.count() > 0) {
-            lineSpacing = bounding.height() / lines.count();
-            if (lineSpacing != data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing()) {
-                linePos = 2 * lineSpacing - metrics.descent() - metrics.height();
-            }
-        }*/
-
         for (const QString &line : lines) {
             QPainterPath linePath;
-            linePath.addText(0, linePos, font(), line);
+            if (TITLERVERSION >= 400) {
+                // Added support for tabs
+                const QStringList tabLines = line.split(QLatin1Char('\t'));
+                qreal pos = 0;
+                qreal currentPos = 0;
+                for (const QString &tline : tabLines) {
+                    QPainterPath tabPath;
+                    if (!tline.isEmpty()) {
+                        tabPath.addText(pos, linePos, font(), tline);
+                        linePath.addPath(tabPath);
+                        currentPos = pos + tabPath.boundingRect().width();
+                    } else {
+                        // Several chained tabs
+                        currentPos = pos + tabWidth / 2;
+                    }
+                    int tabsCount = ceil(currentPos / tabWidth);
+                    pos = tabsCount * tabWidth;
+                }
+            } else {
+                linePath.addText(0, linePos, font(), line);
+            }
             linePos += lineSpacing;
             if (m_alignment == Qt::AlignHCenter) {
                 double offset = (bounding.width() - metrics.horizontalAdvance(line)) / 2;
@@ -194,6 +211,23 @@ void MyTextItem::doUpdateGeometry()
         updateShadow();
     }
     update();
+}
+
+bool MyTextItem::sceneEvent(QEvent *event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        auto *ke = static_cast<QKeyEvent *>(event);
+        if (ke->matches(QKeySequence::Paste)) {
+            QClipboard *clipboard = QGuiApplication::clipboard();
+            const QString clipContent = clipboard->text();
+            if (!clipContent.isEmpty()) {
+                textCursor().removeSelectedText();
+                textCursor().insertText(clipContent);
+            }
+            return true;
+        }
+    }
+    return QGraphicsTextItem::sceneEvent(event);
 }
 
 void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
@@ -881,6 +915,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
         if (e->button() == Qt::LeftButton) {
             clearTextSelection();
             MyTextItem *textItem = new MyTextItem(i18n("Text"), nullptr);
+            textItem->textCursor().select(QTextCursor::Document);
             yPos = ((int(e->scenePos().y()) - (m_fontSize / 2)) / m_gridSize) * m_gridSize;
             textItem->setPos(xPos, yPos);
             addItem(textItem);
