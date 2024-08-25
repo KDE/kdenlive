@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-23 10:59+0200\n"
+"PO-Revision-Date: 2024-08-24 11:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -16945,16 +16945,14 @@ msgid "Rename Track"
 msgstr "Reanomena la pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Activa la pila d'efectes"
+msgstr "Activa la pila d'efectes de pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Desactiva la pila d'efectes"
+msgstr "Desactiva la pila d'efectes de pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format

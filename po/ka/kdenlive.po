@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-23 06:26+0200\n"
+"PO-Revision-Date: 2024-08-24 05:21+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16763,16 +16763,14 @@ msgid "Rename Track"
 msgstr "ტრეკის სახელის გადარქმევა"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "ეფექტების სტეკის ჩართვა"
+msgstr "ტრეკის ეფექტების სტეკის ჩართვა"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "ეფექტების სტეკის გამორთვა"
+msgstr "ტრეკის ეფექტების სტეკის გამორთვა"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format

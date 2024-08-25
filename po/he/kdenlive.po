@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-23 07:00+0300\n"
+"PO-Revision-Date: 2024-08-24 13:17+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16626,16 +16626,14 @@ msgid "Rename Track"
 msgstr "שינוי שם רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "הפעלת ערימת אפקטים"
+msgstr "הפעלת ערימת אפקטים על רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "השבתת ערימת אפקט"
+msgstr "השבתת ערימת אפקטים על רצועה"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format

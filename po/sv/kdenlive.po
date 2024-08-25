@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-23 07:35+0200\n"
+"PO-Revision-Date: 2024-08-24 07:54+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -8430,7 +8430,7 @@ msgstr "Tidsombildning fungerar inte på klipp med B-bildrutor"
 #: src/dialogs/timeremap.cpp:2163
 #, kde-format
 msgid "Edit Timeremap keyframes"
-msgstr "Redigera nyckelbild för tidsombildning"
+msgstr "Redigera nyckelbilder för tidsombildning"
 
 #: src/dialogs/wizard.cpp:65
 #, kde-format
@@ -11032,7 +11032,7 @@ msgstr "Dela ljudspår (omvänt)"
 #: src/mainwindow.cpp:1268
 #, kde-format
 msgid "Mixed Audio tracks"
-msgstr "Blandat ljudspår"
+msgstr "Blandade ljudspår"
 
 #: src/mainwindow.cpp:1294
 #, kde-format
@@ -16770,16 +16770,14 @@ msgid "Rename Track"
 msgstr "Byt namn på spår"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Aktivera effektstapel"
+msgstr "Aktivera spåreffektstapel"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Inaktivera effektstapel"
+msgstr "Inaktivera spåreffektstapel"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format

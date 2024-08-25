@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-23 09:17+0300\n"
+"PO-Revision-Date: 2024-08-24 13:17+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -16977,16 +16977,14 @@ msgid "Rename Track"
 msgstr "Перейменувати доріжку"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Увімкнути стос ефектів"
+msgstr "Увімкнути стос ефектів доріжки"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Вимкнути стос ефектів"
+msgstr "Вимкнути стос ефектів доріжки"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format

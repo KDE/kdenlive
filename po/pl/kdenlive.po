@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-07-27 09:11+0200\n"
+"PO-Revision-Date: 2024-08-24 12:13+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -8254,8 +8254,7 @@ msgid "No speech"
 msgstr "Brak mowy"
 
 #: src/dialogs/textbasededit.cpp:619
-#, fuzzy, kde-format
-#| msgid "Speech model"
+#, kde-format
 msgid "Speech Model"
 msgstr "Modele mowy"
 
@@ -8286,16 +8285,14 @@ msgid "Save edited text in a playlist file"
 msgstr "Zapisz edytowany tekst w pliku listy odtwarzania"
 
 #: src/dialogs/textbasededit.cpp:667
-#, fuzzy, kde-format
-#| msgid "Create new sequence with text edit "
+#, kde-format
 msgid "Create new sequence with text edit"
 msgstr "Utwórz nowy ciąg z edycją tekstu"
 
 #: src/dialogs/textbasededit.cpp:668
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Search in text"
-msgstr "Mowa na tekst"
+msgstr "Poszukaj w tekście"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
@@ -8314,16 +8311,14 @@ msgid "Add marker for current selection"
 msgstr "Dodaj oznaczenie do bieżącego zaznaczenia"
 
 #: src/dialogs/textbasededit.cpp:753
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Increase Font Size"
-msgstr "Rozmiar czcionki"
+msgstr "Zwiększ rozmiar czcionki"
 
 #: src/dialogs/textbasededit.cpp:756
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Decrease Font Size"
-msgstr "Rozmiar czcionki"
+msgstr "Zmniejsz rozmiar czcionki"
 
 #: src/dialogs/textbasededit.cpp:760
 #, kde-format
@@ -14510,10 +14505,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Przypisz znaczniki czasu do bieżącego wycinka pojemnika"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot find profile from current clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Nie można znaleźć profilu z bieżącego wycinka"
+msgstr "Nie można znaleźć wycinka projektu"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
@@ -16865,16 +16859,14 @@ msgid "Rename Track"
 msgstr "Przemianuj ścieżkę"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Włącz stos efektów"
+msgstr "Włącz stos efektów ścieżki"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Wyłącz stos efektów"
+msgstr "Wyłącz stos efektów ścieżki"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -22143,10 +22135,9 @@ msgstr "Zaznaczony tylko zakres"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transcribe"
-msgstr "Transkodowanie"
+msgstr "Transkrypcja"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-03 12:43+0100\n"
+"PO-Revision-Date: 2024-08-24 11:54+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -8219,10 +8219,9 @@ msgid "No speech"
 msgstr "No speech"
 
 #: src/dialogs/textbasededit.cpp:619
-#, fuzzy, kde-format
-#| msgid "Speech model"
+#, kde-format
 msgid "Speech Model"
-msgstr "Speech model"
+msgstr "Speech Model"
 
 #. i18n: ectx: property (text), widget (QCheckBox, translate_box)
 #: src/dialogs/textbasededit.cpp:621 src/ui/speechdialog_ui.ui:169
@@ -8251,16 +8250,14 @@ msgid "Save edited text in a playlist file"
 msgstr "Save edited text in a playlist file"
 
 #: src/dialogs/textbasededit.cpp:667
-#, fuzzy, kde-format
-#| msgid "Create new sequence with text edit "
+#, kde-format
 msgid "Create new sequence with text edit"
-msgstr "Create new sequence with text edit "
+msgstr "Create new sequence with text edit"
 
 #: src/dialogs/textbasededit.cpp:668
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Search in text"
-msgstr "Speech to text"
+msgstr "Search in text"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
@@ -8279,16 +8276,14 @@ msgid "Add marker for current selection"
 msgstr "Add marker for current selection"
 
 #: src/dialogs/textbasededit.cpp:753
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Increase Font Size"
-msgstr "Font Size"
+msgstr "Increase Font Size"
 
 #: src/dialogs/textbasededit.cpp:756
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Decrease Font Size"
-msgstr "Font Size"
+msgstr "Decrease Font Size"
 
 #: src/dialogs/textbasededit.cpp:760
 #, kde-format
@@ -14401,10 +14396,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Assign timestamps to current Bin Clip"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot find profile from current clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Cannot find profile from current clip"
+msgstr "Cannot find project clip"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
@@ -16714,16 +16708,14 @@ msgid "Rename Track"
 msgstr "Rename Track"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Enable Effect Stack"
+msgstr "Enable Track Effect Stack"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Disable Effect Stack"
+msgstr "Disable Track Effect Stack"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -21959,10 +21951,9 @@ msgstr "Selected zone only"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transcribe"
-msgstr "Transcode"
+msgstr "Transcribe"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
