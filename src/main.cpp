@@ -174,7 +174,11 @@ int main(int argc, char *argv[])
     ExcHndlInit();
 #endif
     // Force QDomDocument to use a deterministic XML attribute order
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    QHashSeed::setDeterministicGlobalSeed();
+#else
     qSetGlobalQHashSeed(0);
+#endif
 
 #ifdef CRASH_AUTO_TEST
     Logger::init();
