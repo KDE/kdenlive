@@ -38,6 +38,7 @@
 #include <QSaveFile>
 #include <QSvgRenderer>
 #include <QTextCursor>
+#include <QTextDocument>
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
@@ -243,6 +244,11 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> &items, int width, 
                 content.setAttribute(QStringLiteral("line-spacing"), QString::number(t->data(TitleDocument::LineSpacing).toInt()));
             }
             {
+                // Set tab width for MLT
+                QTextOption options = t->document()->defaultTextOption();
+                qreal tabWidth = options.tabStopDistance();
+                content.setAttribute(QStringLiteral("tab-width"), QString::number(int(tabWidth)));
+                // Font outline
                 QTextCursor cursor(t->document());
                 cursor.select(QTextCursor::Document);
                 QColor fontcolor = cursor.charFormat().foreground().color();

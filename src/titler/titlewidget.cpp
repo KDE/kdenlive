@@ -97,7 +97,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
 {
     setupUi(this);
     if (TITLERVERSION == 0) {
-        if (KdenliveSettings::titlerVersion() < 300) {
+        if (KdenliveSettings::titlerVersion() < 400) {
             // Check version of the titler module
             QScopedPointer<Mlt::Properties> metadata(pCore->getMltRepository()->metadata(mlt_service_producer_type, "kdenlivetitle"));
             KdenliveSettings::setTitlerVersion(int(ceil(100 * metadata->get_double("version"))));
