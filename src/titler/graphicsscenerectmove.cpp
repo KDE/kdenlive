@@ -179,18 +179,22 @@ void MyTextItem::doUpdateGeometry()
                 const QStringList tabLines = line.split(QLatin1Char('\t'));
                 qreal pos = 0;
                 qreal currentPos = 0;
-                for (const QString &tline : tabLines) {
-                    QPainterPath tabPath;
-                    if (!tline.isEmpty()) {
-                        tabPath.addText(pos, linePos, font(), tline);
-                        linePath.addPath(tabPath);
-                        currentPos = pos + tabPath.boundingRect().width();
-                    } else {
-                        // Several chained tabs
-                        currentPos = pos + tabWidth / 2;
+                if (tabWidth > 0 && tabLines.size() > 1) {
+                    for (const QString &tline : tabLines) {
+                        QPainterPath tabPath;
+                        if (!tline.isEmpty()) {
+                            tabPath.addText(pos, linePos, font(), tline);
+                            linePath.addPath(tabPath);
+                            currentPos = pos + tabPath.boundingRect().width();
+                        } else {
+                            // Several chained tabs
+                            currentPos = pos + tabWidth / 2;
+                        }
+                        int tabsCount = ceil(currentPos / tabWidth);
+                        pos = tabsCount * tabWidth;
                     }
-                    int tabsCount = ceil(currentPos / tabWidth);
-                    pos = tabsCount * tabWidth;
+                } else {
+                    linePath.addText(0, linePos, font(), line);
                 }
             } else {
                 linePath.addText(0, linePos, font(), line);
