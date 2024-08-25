@@ -347,20 +347,12 @@ void AbstractPythonInterface::addScript(const QString &script)
 
 void AbstractPythonInterface::checkDependenciesConcurrently()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(this, &AbstractPythonInterface::checkDependencies, false, false);
-#else
     (void)QtConcurrent::run(&AbstractPythonInterface::checkDependencies, this, false, false);
-#endif
 }
 
 void AbstractPythonInterface::checkVersionsConcurrently()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(this, &AbstractPythonInterface::checkVersions, true);
-#else
     (void)QtConcurrent::run(&AbstractPythonInterface::checkVersions, this, true);
-#endif
 }
 
 void AbstractPythonInterface::checkDependencies(bool force, bool async)
@@ -453,11 +445,7 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
     if (!checkSetup()) {
         return;
     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(this, &AbstractPythonInterface::runScript, script, args, QString(), true, false);
-#else
     (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, false);
-#endif
 }
 
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
@@ -572,11 +560,7 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode, bool conc
     QStringList deps = parseDependencies(m_dependencies.keys(), mode != QLatin1String("--install") && mode != QLatin1String("--upgrade"));
 
     if (concurrent) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QtConcurrent::run(this, &AbstractPythonInterface::runScript, QStringLiteral("checkpackages.py"), deps, mode, concurrent, true);
-#else
         (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, QStringLiteral("checkpackages.py"), deps, mode, concurrent, true);
-#endif
         return {};
     } else {
         return runScript(QStringLiteral("checkpackages.py"), deps, mode, concurrent, true);

@@ -50,11 +50,7 @@ ProxyTest::ProxyTest(QWidget *parent)
         infoWidget->animatedShow();
         resultList->setCursor(Qt::BusyCursor);
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QtConcurrent::run(this, &ProxyTest::startTest);
-#else
         (void)QtConcurrent::run(&ProxyTest::startTest, this);
-#endif
     });
 }
 

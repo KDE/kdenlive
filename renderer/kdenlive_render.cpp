@@ -220,9 +220,6 @@ int main(int argc, char **argv)
                         playlist = tmp.fileName();
                         target = output;
                         QTextStream outStream(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                        outStream.setCodec("UTF-8");
-#endif
                         outStream << doc.toString();
                     }
                     file.close();

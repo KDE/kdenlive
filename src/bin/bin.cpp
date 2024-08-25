@@ -681,11 +681,7 @@ void MyListView::dropEvent(QDropEvent *event)
             if (rootIndex().data(AbstractProjectItem::DataId).toString() == rootId) {
                 isSameRoot = true;
             }
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
             if (isSameRoot && !indexAt(event->position().toPoint()).isValid()) {
-#else
-            if (isSameRoot && !indexAt(event->pos()).isValid()) {
-#endif
                 event->ignore();
                 return;
             }
@@ -694,11 +690,7 @@ void MyListView::dropEvent(QDropEvent *event)
     QListView::dropEvent(event);
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void MyListView::enterEvent(QEnterEvent *event)
-#else
-void MyListView::enterEvent(QEvent *event)
-#endif
 {
     QListView::enterEvent(event);
     pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
@@ -715,11 +707,7 @@ void MyListView::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            QAbstractItemDelegate *del = itemDelegate(ix);
-#else
             QAbstractItemDelegate *del = itemDelegateForIndex(ix);
-#endif
             m_dragType = static_cast<BinListItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
         } else {
@@ -782,11 +770,7 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
         if (KdenliveSettings::hoverPreview()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            QAbstractItemDelegate *del = itemDelegate(index);
-#else
             QAbstractItemDelegate *del = itemDelegateForIndex(index);
-#endif
             if (del) {
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
@@ -838,11 +822,7 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            QAbstractItemDelegate *del = itemDelegate(ix);
-#else
             QAbstractItemDelegate *del = itemDelegateForIndex(ix);
-#endif
             m_dragType = static_cast<BinItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
 
@@ -868,11 +848,7 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
     }
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void MyTreeView::enterEvent(QEnterEvent *event)
-#else
-void MyTreeView::enterEvent(QEvent *event)
-#endif
 {
     QTreeView::enterEvent(event);
     pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
@@ -900,11 +876,7 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
             if (KdenliveSettings::hoverPreview()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                QAbstractItemDelegate *del = itemDelegate(index);
-#else
                 QAbstractItemDelegate *del = itemDelegateForIndex(index);
-#endif
                 int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
                 if (frame >= 0) {
                     Q_EMIT displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
@@ -1341,11 +1313,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(hoverPreview, &QAction::triggered, [](bool checked) { KdenliveSettings::setHoverPreview(checked); });
 
     m_listTypeAction->setToolBarMode(KSelectAction::MenuMode);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_listTypeAction, &KSelectAction::actionTriggered, this, &Bin::slotInitView);
-#else
-    connect(m_listTypeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
-#endif
 
     // Settings menu
     auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
@@ -1870,9 +1838,6 @@ void Bin::slotReloadClip()
                                 KMessageBox::error(this, i18n("Unable to write to file %1", path));
                             } else {
                                 QTextStream out(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                                out.setCodec("UTF-8");
-#endif
                                 out << doc.toString();
                                 f.close();
                                 KMessageBox::information(
@@ -2544,9 +2509,6 @@ void Bin::createClip(const QDomElement &xml)
                     KMessageBox::error(this, i18n("Unable to write to file %1", path));
                 } else {
                     QTextStream out(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                    out.setCodec("UTF-8");
-#endif
                     out << doc.toString();
                     f.close();
                     KMessageBox::information(

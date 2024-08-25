@@ -103,11 +103,7 @@ void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
     QRect iconRect = m_pixmap->rect();
     iconRect.translate(m_pixmap->mapTo(this, QPoint(0, 0)));
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    if (iconRect.contains(event->pos()) && (m_currentMessage.type == MltError || m_progressCanBeAborted)) {
-#else
     if (iconRect.contains(event->position().toPoint()) && (m_currentMessage.type == MltError || m_progressCanBeAborted)) {
-#endif
         confirmErrorMessage();
     }
 }

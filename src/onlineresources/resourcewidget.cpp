@@ -301,11 +301,7 @@ void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int
     page_number->setEnabled(true);
     blockUI(false);
     lock.unlock();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(this, &ResourceWidget::slotLoadImages);
-#else
     (void)QtConcurrent::run(&ResourceWidget::slotLoadImages, this);
-#endif
 }
 
 void ResourceWidget::slotShowPixmap(const QString &url, const QPixmap &pixmap)

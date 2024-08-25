@@ -230,11 +230,7 @@ void TimelineWidget::loadMarkerModel()
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
     Q_EMIT focusProjectMonitor();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_clickPos = event->globalPos();
-#else
     m_clickPos = event->globalPosition().toPoint();
-#endif
     QQuickWidget::mousePressEvent(event);
 }
 

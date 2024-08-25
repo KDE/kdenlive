@@ -19,7 +19,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/guideslist.h"
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include "videowidget.h"
 #if defined(Q_OS_WIN)
 #include "d3dvideowidget.h"
@@ -29,9 +28,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #else
 // Linux
 #include "openglvideowidget.h"
-#endif
-#else // Qt6
-#include "glwidget.h"
 #endif
 
 #include "bin/model/markersortmodel.h"
@@ -61,6 +57,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
+#include <QApplication>
 #include <QCheckBox>
 #include <QDrag>
 #include <QFontDatabase>
@@ -142,7 +139,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #if defined(Q_OS_WIN)
     if (QSGRendererInterface::Direct3D11 == QQuickWindow::graphicsApi())
         m_glMonitor = new D3DVideoWidget(id, this);
@@ -188,9 +184,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     });
 
     rebuildViewConnection(false);
-#else
-    m_glMonitor = new VideoWidget(id, this);
-#endif
+
     connect(m_glMonitor, &VideoWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &VideoWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
@@ -441,11 +435,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     freeAction->setData(0);
     m_configMenuAction->addAction(m_forceSize);
     m_forceSize->setCurrentAction(freeAction);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_forceSize, &KSelectAction::actionTriggered, this, &Monitor::slotForceSize);
-#else
-    connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
-#endif
 
     if (m_id == Kdenlive::ClipMonitor) {
         m_background = new KSelectAction(QIcon::fromTheme(QStringLiteral("paper-color")), i18n("Background Color"), this);
@@ -463,11 +453,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         } else {
             m_background->setCurrentAction(blackAction);
         }
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         connect(m_background, &KSelectAction::actionTriggered, this, [this](QAction *a) {
-#else
-        connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a) {
-#endif
             KdenliveSettings::setMonitor_background(a->data().toString());
             buildBackgroundedProducer(position());
         });
@@ -950,11 +936,7 @@ void Monitor::mousePressEvent(QMouseEvent *event)
         }
     } else if (m_contextMenu) {
         slotActivateMonitor();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_contextMenu->popup(event->globalPos());
-#else
         m_contextMenu->popup(event->globalPosition().toPoint());
-#endif
         event->accept();
     }
     QWidget::mousePressEvent(event);
@@ -1124,7 +1106,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         lay->insertWidget(0, m_glWidget, 10);
         // With some Qt versions, focus was lost after switching back from fullscreen,
         // QApplication::setActiveWindow restores focus to the correct window
-        QApplication::setActiveWindow(this);
+        activateWindow(); // TODO is this still needed?
         if (m_id == Kdenlive::ProjectMonitor) {
             KdenliveSettings::setProject_monitor_fullscreen(QString());
         } else {
@@ -1318,11 +1300,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     QObject::connect(fileWidget.data(), &KFileWidget::accepted, dlg.data(), &QDialog::accept);
     QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg.data(), &QDialog::reject);
     dlg->setLayout(layout);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    fileWidget->setMimeFilter(QStringList() << QStringLiteral("image/png"));
-#else
     fileWidget->setFilters({KFileFilter::fromMimeType(QStringLiteral("image/png"))});
-#endif
     fileWidget->setMode(KFile::File | KFile::LocalOnly);
     fileWidget->setOperationMode(KFileWidget::Saving);
     QUrl relativeUrl;
@@ -1351,13 +1329,8 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     src.setAutoRemove(false);
                     m_controller->cloneProducerToFile(src.fileName());
                     const QStringList pathInfo = {src.fileName(), selectedFile, pCore->bin()->getCurrentFolder()};
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                    QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
-                                      addToProject, useSourceResolution);
-#else
                     (void)QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
                                             addToProject, useSourceResolution);
-#endif
                 } else {
                     // TODO: warn user, cannot open tmp file
                     qDebug() << "Could not create temporary file";
@@ -1433,13 +1406,8 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     } else {
                         pathInfo = QStringList({QString(), selectedFile, pCore->bin()->getCurrentFolder()});
                     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                    QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
-                                      addToProject, useSourceResolution);
-#else
                     (void)QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
                                             addToProject, useSourceResolution);
-#endif
                 }
             }
         }
@@ -2922,11 +2890,7 @@ void Monitor::purgeCache()
 
 void Monitor::updateBgColor()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_glMonitor->m_bgColor = KdenliveSettings::window_background();
-#else
     m_glMonitor->setClearColor(KdenliveSettings::window_background());
-#endif
 }
 
 MonitorProxy *Monitor::getControllerProxy()

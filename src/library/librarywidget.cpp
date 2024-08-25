@@ -41,11 +41,7 @@ LibraryTree::LibraryTree(QWidget *parent)
 }
 
 // virtual
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
-#else
 QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> &list) const
-#endif
 {
     QList<QUrl> urls;
     urls.reserve(list.count());
@@ -115,11 +111,7 @@ void LibraryTree::mousePressEvent(QMouseEvent *event)
 void LibraryTree::dropEvent(QDropEvent *event)
 {
     const QMimeData *qMimeData = event->mimeData();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QTreeWidgetItem *dropped = this->itemAt(event->pos());
-#else
     QTreeWidgetItem *dropped = this->itemAt(event->position().toPoint());
-#endif
     QString dest;
     if (dropped) {
         dest = dropped->data(0, Qt::UserRole).toString();

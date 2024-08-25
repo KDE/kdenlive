@@ -120,7 +120,7 @@ void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
         }
 
         const bool hasVisibleDockSibling = std::find_if(std::begin(docked), std::end(docked), [](QDockWidget *sub) {
-                                               return sub->toggleViewAction()->isChecked() && !sub->isTopLevel();
+                                               return sub->toggleViewAction()->isChecked() && !sub->isWindow();
                                            }) != std::end(docked);
 
         if (!hasVisibleDockSibling) {

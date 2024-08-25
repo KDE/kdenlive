@@ -267,11 +267,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
         if (ptr->m_selectedKeyframes.size() > 1) {
             // We have several selected keyframes, move them all
             double offset = 0.;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            if (newVal.isValid() && newVal.type() == QVariant::Double) {
-#else
             if (newVal.isValid() && newVal.typeId() == QMetaType::Double) {
-#endif
                 int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
                 double oldVal = data(index(row), NormalizedValueRole).toDouble();
                 offset = newVal.toDouble() - oldVal;

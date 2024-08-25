@@ -101,10 +101,8 @@ bool Core::build(LinuxPackageType packageType, bool testMode)
     qRegisterMetaType<ObjectId>("ObjectId");
     KeyframeModel::initKeyframeTypes();
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     // Increase memory limit allowed per image
     QImageReader::setAllocationLimit(1024);
-#endif
 
     if (!testMode) {
         // Check if we had a crash
@@ -152,16 +150,8 @@ void Core::initHeadless(const QUrl &url)
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_mainWindow = new MainWindow();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 
-    QStringList styles = QQuickStyle::availableStyles();
-    if (styles.contains(QLatin1String("org.kde.desktop"))) {
-        QQuickStyle::setStyle("org.kde.desktop");
-    } else if (styles.contains(QLatin1String("Fusion"))) {
-        QQuickStyle::setStyle("Fusion");
-    }
-    // ELSE Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
-#endif
+    // TODO Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
 

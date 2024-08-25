@@ -23,7 +23,6 @@ option(RELEASE_BUILD "Remove Git revision from program version" ON) # To be swit
 option(BUILD_TESTING "Build tests" ON)
 option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR library, needed for fuzzing)" OFF)
 option(BUILD_FUZZING "Build fuzzing target" OFF)
-option(USE_VERSIONLESS_TARGETS "Use versionless targets" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
@@ -44,34 +43,14 @@ set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 # Qt version
-set(QT_MIN_VERSION 5.15.2)
-set(KF_DEP_VERSION "5.115.0")
+set(QT_MIN_VERSION 6.5.0)
+set(KF_DEP_VERSION "6.0.0")
 
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-# Select the Qt version we want to use
-# Qt6 is the prefered one, Qt5 the fallback
 if (NOT DEFINED QT_MAJOR_VERSION)
-    if (NOT WIN32)
-      find_package(Qt6 COMPONENTS Core QUIET)
-      if (TARGET Qt6::Core)
-          set(QT_MAJOR_VERSION 6)
-      else()
-          find_package(Qt5 COMPONENTS Core QUIET)
-          if (TARGET Qt5::Core)
-            set(QT_MAJOR_VERSION 5)
-          endif()
-      endif()
-    endif()
-    if(NOT QT_MAJOR_VERSION)
-        option(BUILD_WITH_QT6 "Build against Qt 6" ON)
-        if (BUILD_WITH_QT6)
-            set(QT_MAJOR_VERSION 6)
-        else()
-            set(QT_MAJOR_VERSION 5)
-        endif()
-    endif()
+    set(QT_MAJOR_VERSION 6)
 endif()
 
 ## include ECM Modules
@@ -92,17 +71,9 @@ if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
 endif()
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(USE_VERSIONLESS_TARGETS ON)
-endif()
-
 # KDE Frameworks
 if (NOT DEFINED KF_MAJOR)
   set(KF_MAJOR ${QT_MAJOR_VERSION})
-endif()
-
-if (KF_MAJOR STREQUAL "6")
-  set(KF_DEP_VERSION "6.0.0")
 endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
@@ -132,13 +103,6 @@ find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}
     Crash
 )
 
-if (KF_MAJOR LESS "6")
-  find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}
-      REQUIRED COMPONENTS
-      Declarative
-  )
-endif()
-
 ecm_set_disabled_deprecation_versions(
     QT ${QT_MIN_VERSION}
     KF ${KF_DEP_VERSION}
@@ -155,10 +119,9 @@ find_package(Qt${QT_MAJOR_VERSION}
     QuickWidgets
     Multimedia
     NetworkAuth
+    SvgWidgets
 )
-if (QT_MAJOR_VERSION STREQUAL "6")
-    find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS SvgWidgets)
-endif()
+
 if(USE_DBUS)
     find_package(KF${KF_MAJOR} ${KF_DEP_VERSION} REQUIRED COMPONENTS DBusAddons)
     find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS DBus)

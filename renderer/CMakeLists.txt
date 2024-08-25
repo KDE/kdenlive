@@ -19,7 +19,10 @@ set(kdenlive_render_SRCS
 add_executable(kdenlive_render ${kdenlive_render_SRCS})
 ecm_mark_nongui_executable(kdenlive_render)
 
-target_link_libraries(kdenlive_render Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Widgets Qt${QT_MAJOR_VERSION}::Xml
+target_link_libraries(kdenlive_render
+    Qt${QT_MAJOR_VERSION}::Core
+    Qt${QT_MAJOR_VERSION}::Widgets
+    Qt${QT_MAJOR_VERSION}::Xml
     ${MLT_LIBRARIES}
     ${MLTPP_LIBRARIES})
 if(NOT USE_DBUS)

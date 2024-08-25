@@ -9,12 +9,7 @@
 #include "assets/assetlist/view/asseticonprovider.hpp"
 #include "mltconnection.h"
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <KNS3/Entry>
-#else
 #include <KNSCore/Entry>
-#endif
-
 #include <KNSWidgets/Action>
 #include <QAction>
 #include <QFontDatabase>
@@ -128,11 +123,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
         connect(downloadAction, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
             if (changedEntries.count() > 0) {
                 for (auto &ent : changedEntries) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                    if (ent.status() == KNS3::Entry::Status::Deleted) {
-#else
                     if (ent.status() == KNSCore::Entry::Status::Deleted) {
-#endif
                         reloadTemplates();
                     } else {
                         QStringList files = ent.installedFiles();

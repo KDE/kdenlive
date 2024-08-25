@@ -147,13 +147,8 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 
     auto dialogFilter = FileFilter::Builder().defaultCategories().toKFilter();
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_filterCombo->setFilter(dialogFilter);
-    m_op->setNameFilter(m_filterCombo->currentFilter());
-#else
     m_filterCombo->setFilters(dialogFilter, dialogFilter.first());
     m_op->setNameFilter(dialogFilter.first().toFilterString());
-#endif
 
     // Setup mime filter combo
     m_filterCombo->setEditable(true);
@@ -419,19 +414,6 @@ void MediaBrowser::setUrl(const QUrl url)
 void MediaBrowser::slotFilterChanged()
 {
     m_filterDelayTimer.stop();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QString filter = m_filterCombo->currentFilter();
-    m_op->clearFilter();
-    if (filter.contains(QLatin1Char('/'))) {
-        QStringList types = filter.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-        types.prepend(QStringLiteral("inode/directory"));
-        m_op->setMimeFilter(types);
-    } else if (filter.contains(QLatin1Char('*')) || filter.contains(QLatin1Char('?')) || filter.contains(QLatin1Char('['))) {
-        m_op->setNameFilter(filter);
-    } else {
-        m_op->setNameFilter(QLatin1Char('*') + filter.replace(QLatin1Char(' '), QLatin1Char('*')) + QLatin1Char('*'));
-    }
-#else
     KFileFilter filter = m_filterCombo->currentFilter();
     m_op->clearFilter();
     if (!filter.mimePatterns().isEmpty()) {
@@ -441,7 +423,6 @@ void MediaBrowser::slotFilterChanged()
     } else {
         m_op->setNameFilter(filter.toFilterString());
     }
-#endif
     m_op->updateDir();
 }
 

@@ -257,11 +257,7 @@ void UrlListParamWidget::slotRefresh()
         }
     }
     if (!thumbnailsToBuild.isEmpty() && !m_watcher.isRunning()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_thumbJob = QtConcurrent::run(this, &UrlListParamWidget::buildThumbnails, thumbnailsToBuild);
-#else
         m_thumbJob = QtConcurrent::run(&UrlListParamWidget::buildThumbnails, this, thumbnailsToBuild);
-#endif
         m_watcher.setFuture(m_thumbJob);
     }
 }

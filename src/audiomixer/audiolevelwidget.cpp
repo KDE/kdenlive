@@ -36,11 +36,7 @@ AudioLevelWidget::AudioLevelWidget(int width, int sliderHandle, QWidget *parent)
 
 AudioLevelWidget::~AudioLevelWidget() = default;
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void AudioLevelWidget::enterEvent(QEnterEvent *event)
-#else
-void AudioLevelWidget::enterEvent(QEvent *event)
-#endif
 {
     QWidget::enterEvent(event);
     m_displayToolTip = true;

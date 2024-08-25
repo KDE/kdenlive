@@ -295,8 +295,8 @@ void SlideshowClip::parseFolder()
             filter = filter.section(QLatin1Char('%'), 0, -2);
         } else {
             filter = filter.section(QLatin1Char('.'), 0, -2);
-            while (!filter.isEmpty() && filter.at(filter.count() - 1).isDigit()) {
-                filter.remove(filter.count() - 1, 1);
+            while (!filter.isEmpty() && filter.at(filter.size() - 1).isDigit()) {
+                filter.remove(filter.size() - 1, 1);
             }
         }
         qDebug() << " / /" << path_pattern << " / " << ext << " / " << filter;
@@ -428,11 +428,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
 
         // Find number of digits in sequence
         int precision = fullSize - filter.size();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        int firstFrame = firstFrameData.rightRef(precision).toInt();
-#else
         int firstFrame = QStringView(firstFrameData).right(precision).toInt();
-#endif
         // Check how many files we have
         QDir dir(folder);
         QString path;

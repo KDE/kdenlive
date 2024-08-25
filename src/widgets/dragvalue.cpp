@@ -57,11 +57,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 m_editing = false;
             }
             if (me->buttons() & Qt::LeftButton) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                m_clickPos = me->pos();
-#else
                 m_clickPos = me->position();
-#endif
                 m_cursorClickPos = lineEdit()->cursorPositionAt(m_clickPos.toPoint());
                 m_clickMouse = QCursor::pos();
                 if (!lineEdit()->hasFocus()) {
@@ -99,11 +95,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
         if (type == QEvent::MouseMove) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::LeftButton) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                QPointF movePos(me->pos());
-#else
                 QPointF movePos = me->position();
-#endif
                 if (!m_editing) {
                     if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
                         QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
@@ -199,11 +191,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 m_editing = false;
             }
             if (me->buttons() & Qt::LeftButton) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                m_clickPos = me->pos();
-#else
                 m_clickPos = me->position();
-#endif
                 m_clickMouse = QCursor::pos();
                 if (!lineEdit()->hasFocus()) {
                     event->accept();
@@ -240,11 +228,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
         if (type == QEvent::MouseMove) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::LeftButton) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                QPointF movePos(me->pos());
-#else
                 QPointF movePos = me->position();
-#endif
                 if (!m_editing) {
                     if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
                         QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
@@ -793,11 +777,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
         }
         if (m_dragMode) {
             if (KdenliveSettings::dragvalue_mode() > 0 || !m_showSlider) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                int diff = e->pos().x() - m_dragLastPosition.x();
-#else
                 int diff = e->position().x() - m_dragLastPosition.x();
-#endif
                 if (qApp->isRightToLeft()) {
                     diff = 0 - diff;
                 }

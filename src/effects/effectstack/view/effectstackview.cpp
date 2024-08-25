@@ -119,11 +119,7 @@ EffectStackView::~EffectStackView()
 void EffectStackView::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        dragPos = event->pos();
-#else
         dragPos = event->position().toPoint();
-#endif
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
         } else {
@@ -165,11 +161,7 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
         QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(eff));
         QWidget *w = m_effectsTree->indexWidget(ix);
         QPoint mousePos;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        mousePos = event->pos();
-#else
         mousePos = event->position().toPoint();
-#endif
         if (w && w->geometry().contains(mousePos)) {
             dragRow = i;
             if (i == m_model->rowCount() - 1) {
@@ -189,11 +181,7 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
             dragRow = -1;
         }
     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    dragPos = event->pos();
-#else
     dragPos = event->position().toPoint();
-#endif
 
     if (prevTarget != dragRow) {
         if (prevTarget > -1 && prevTarget < m_model->rowCount()) {
@@ -513,11 +501,7 @@ void EffectStackView::loadEffects()
             activeIndex = ix;
         }
         m_effectsTree->setIndexWidget(ix, view);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
-#else
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
-#endif
         del->setHeight(ix, view->height());
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
@@ -608,11 +592,7 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
     }
     QModelIndex ix = m_filter->mapFromSource(m_model->getIndexFromItem(effectModel));
     if (ix.isValid()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
-#else
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegateForIndex(ix));
-#endif
         if (del) {
             del->setHeight(ix, newHeight);
             m_timerHeight.start();
@@ -835,9 +815,6 @@ void EffectStackView::slotSaveStack()
         QFile file(dir.absoluteFilePath(effectfilename));
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
-    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-    #endif
             out << doc.toString();
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
@@ -891,11 +868,7 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
 {
     if (e->type() == QEvent::MouseButtonPress) {
         auto me = static_cast<QMouseEvent *>(e);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_dragStart = me->globalPos();
-#else
         m_dragStart = me->globalPosition().toPoint();
-#endif
         m_dragging = false;
         if (o) {
             auto coll = static_cast<CollapsibleEffectView *>(o);
@@ -908,11 +881,7 @@ bool EffectStackView::eventFilter(QObject *o, QEvent *e)
     }
     if (e->type() == QEvent::MouseMove) {
         auto me = static_cast<QMouseEvent *>(e);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        if (!m_dragging && (me->globalPos() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
-#else
         if (!m_dragging && (me->globalPosition().toPoint() - m_dragStart).manhattanLength() > QApplication::startDragDistance()) {
-#endif
             m_dragging = true;
             if (o) {
                 auto coll = static_cast<CollapsibleEffectView *>(o);

@@ -27,12 +27,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QRegularExpression>
-#include <utility>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QStringConverter>
-#else
-#include <QTextCodec>
-#endif
+#include <utility>
 
 SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const std::weak_ptr<SnapInterface> &snapModel, QObject *parent)
     : QAbstractListModel(parent)
@@ -203,21 +199,11 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
         qDebug() << "srt/vtt/sbv File";
         //parsing srt file
         QTextStream stream(&srtFile);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QTextCodec *inputEncoding = QTextCodec::codecForName(encoding);
-        if (inputEncoding) {
-            stream.setCodec(inputEncoding);
-        } else {
-            qWarning() << "No QTextCodec named" << encoding;
-            stream.setCodec("UTF-8");
-        }
-#else
         std::optional<QStringConverter::Encoding> inputEncoding = QStringConverter::encodingForName(encoding.data());
         if (inputEncoding) {
             stream.setEncoding(inputEncoding.value());
         }
         // else: UTF8 is the default
-#endif
         QString line;
         QStringList srtTime;
         static const QRegularExpression rx("([0-9]{1,2}):([0-9]{2})");
@@ -285,11 +271,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             return;
         }
         QTextStream stream(&assFile);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        stream.setCodec(QTextCodec::codecForName(encoding));
-#else
         stream.setEncoding(QStringConverter::encodingForName(encoding.data()).value());
-#endif
         QString line;
         qDebug() << " correct ass file  " << filePath;
         scriptInfoSection.clear();
@@ -1234,9 +1216,6 @@ int SubtitleModel::saveSubtitleData(const QString &data, const QString &outFile)
     auto list = json.array();
     if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        out.setCodec("UTF-8");
-#endif
         if (assFormat) {
             out << scriptInfoSection << '\n';
             out << styleSection << '\n';

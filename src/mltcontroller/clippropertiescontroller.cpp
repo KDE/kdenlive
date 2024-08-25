@@ -104,11 +104,7 @@ AnalysisTree::AnalysisTree(QWidget *parent)
 }
 
 // virtual
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> &list) const
-#else
-QMimeData *AnalysisTree::mimeData(const QList<QTreeWidgetItem *> list) const
-#endif
 {
     QString mimeData;
     for (QTreeWidgetItem *item : list) {
@@ -165,18 +161,10 @@ public:
         }
         if (decode) {
             KFileMetaData::PropertyInfo info(property);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            if (info.valueType() == QVariant::DateTime) {
-#else
             if (info.valueType() == QMetaType::Type::QDateTime) {
-#endif
                 QLocale locale;
                 new QTreeWidgetItem(m_tree, {info.displayName(), locale.toDateTime(value.toString(), QLocale::ShortFormat).toString()});
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            } else if (info.valueType() == QVariant::Int) {
-#else
-                } else if (info.valueType() == QMetaType::Type::Int) {
-#endif
+            } else if (info.valueType() == QMetaType::Type::Int) {
                 int val = value.toInt();
                 if (property == KFileMetaData::Property::BitRate) {
                     // Adjust unit for bitrate
@@ -185,11 +173,7 @@ public:
                 } else {
                     new QTreeWidgetItem(m_tree, QStringList{info.displayName(), QString::number(val)});
                 }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            } else if (info.valueType() == QVariant::Double) {
-#else
-                } else if (info.valueType() == QMetaType::Type::Double) {
-#endif
+            } else if (info.valueType() == QMetaType::Type::Double) {
                 new QTreeWidgetItem(m_tree, QStringList{info.displayName(), QString::number(value.toDouble())});
             } else {
                 new QTreeWidgetItem(m_tree, QStringList{info.displayName(), value.toString()});

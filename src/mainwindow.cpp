@@ -78,7 +78,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #if HAVE_STYLE_MANAGER
 #include <KStyleManager>
 #endif
-#include <knewstuff_version.h>
 #include <kwidgetsaddons_version.h>
 #include <kxmlgui_version.h>
 
@@ -93,11 +92,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <KNSWidgets/Dialog>
-#else
-#include <KNS3/QtQuickDialogWrapper>
-#endif
 #include <KNotifyConfigWidget>
 #include <KRecentDirs>
 #include <KShortcutsDialog>
@@ -678,11 +673,7 @@ void MainWindow::init(const QString &mltPath)
     loadClipActions();
     loadContainerActions();
 
-#if KXMLGUI_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     KEditToolBar::setGlobalDefaultToolBar(QStringLiteral("timelineToolBar"));
-#else
-    KEditToolBar::setGlobalDefaultToolBar("timelineToolBar");
-#endif
 
     // Timeline composition menu
     auto *compositionMenu = new QMenu(this);
@@ -1971,11 +1962,7 @@ void MainWindow::setupActions()
     connect(autoTrackHeight, &QAction::triggered, this, &MainWindow::slotAutoTrackHeight);
     timelineActions->addAction(QStringLiteral("fit_all_tracks"), autoTrackHeight);
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-composite")), i18n("Master effects"), this);
-#else
     QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Master effects"), this);
-#endif
     connect(masterEffectStack, &QAction::triggered, this, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         getCurrentTimeline()->controller()->showMasterEffects();

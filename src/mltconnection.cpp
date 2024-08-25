@@ -326,9 +326,5 @@ void MltConnection::refreshLumas()
     MainWindow::m_lumaFiles.insert(QStringLiteral("PAL"), sdLumas);
     MainWindow::m_lumaFiles.insert(QStringLiteral("NTSC"), ntscLumas);
     allImagefiles.removeDuplicates();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(pCore.get(), &Core::buildLumaThumbs, allImagefiles);
-#else
     (void)QtConcurrent::run(&Core::buildLumaThumbs, pCore.get(), allImagefiles);
-#endif
 }

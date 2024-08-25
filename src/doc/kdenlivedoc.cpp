@@ -1302,9 +1302,6 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
                     QFile file(path);
                     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
                         QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                        out.setCodec("UTF-8");
-#endif
                         out << doc.toString();
                     } else {
                         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
@@ -1329,11 +1326,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
      */
 
     const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/user-places.xbel");
-#if QT_VERSION_MAJOR < 6
-    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForExternalFile(file);
-#else
     std::unique_ptr<KBookmarkManager> bookmarkManager = std::make_unique<KBookmarkManager>(file);
-#endif
     if (!bookmarkManager) {
         return;
     }

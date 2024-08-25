@@ -46,7 +46,6 @@
 #include <QTabWidget>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <kwidgetsaddons_version.h>
 #include <utility>
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout)
@@ -131,11 +130,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         m_selectType->addAction(kfTypeHandles[it.key()]);
     }
     m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_selectType, &KSelectAction::actionTriggered, this, &KeyframeWidget::slotEditKeyframeType);
-#else
-    connect(m_selectType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &KeyframeWidget::slotEditKeyframeType);
-#endif
     m_selectType->setToolBarMode(KSelectAction::MenuMode);
     m_selectType->setToolTip(i18n("Keyframe interpolation"));
     m_selectType->setWhatsThis(xi18nc("@info:whatsthis", "Keyframe interpolation. This defines which interpolation will be used for the current keyframe."));
@@ -206,12 +201,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         kfType->setCurrentAction(linear2);
         break;
     }
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(kfType, &KSelectAction::actionTriggered, this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
-#else
-    connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this,
-            [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
-#endif
 
     // rotoscoping only supports linear keyframes
     if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
@@ -291,11 +281,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         auto *l = new QVBoxLayout;
         d.setLayout(l);
         l->addWidget(new QLabel(i18n("Select parameters to copy"), &d));
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QMapIterator<QPersistentModelIndex, QString> i(paramList);
-#else
         QMultiMapIterator<QPersistentModelIndex, QString> i(paramList);
-#endif
         while (i.hasNext()) {
             i.next();
             auto *cb = new QCheckBox(i.value(), this);
