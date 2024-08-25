@@ -505,7 +505,11 @@ RenderPresetDialog::RenderPresetDialog(QWidget *parent, RenderPresetModel *prese
         }
         slotUpdateParams();
     });
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(fixedGop, &QCheckBox::checkStateChanged, this, &RenderPresetDialog::slotUpdateParams);
+#else
     connect(fixedGop, &QCheckBox::stateChanged, this, &RenderPresetDialog::slotUpdateParams);
+#endif
     connect(bFramesSpinner, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderPresetDialog::slotUpdateParams);
     connect(additionalParams, &QPlainTextEdit::textChanged, this, &RenderPresetDialog::slotUpdateParams);
 

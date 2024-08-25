@@ -250,10 +250,17 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     });
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(preserveAspectRatio, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState) { slotValueChanged(ValueWidth); });
+#else
     connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&]() { slotValueChanged(ValueWidth); });
-
+#endif
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(displayBg, &QCheckBox::checkStateChanged, this, [&](Qt::CheckState state) {
+#else
     connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&](int state) {
+#endif
         KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
         displayBackgroundFrame();
     });
@@ -457,7 +464,11 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     graphicsView->scene()->addItem(m_frameBorder);
 
     // Guides
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(show_guides, &QCheckBox::checkStateChanged, this, &TitleWidget::showGuides);
+#else
     connect(show_guides, &QCheckBox::stateChanged, this, &TitleWidget::showGuides);
+#endif
     show_guides->setChecked(KdenliveSettings::titlerShowGuides());
     hguides->setValue(KdenliveSettings::titlerHGuides());
     vguides->setValue(KdenliveSettings::titlerVGuides());

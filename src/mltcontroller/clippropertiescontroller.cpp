@@ -305,7 +305,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         hlay->addWidget(timePos);
         fpBox->addLayout(hlay);
         connect(box, &QAbstractButton::toggled, timePos, &QWidget::setEnabled);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
         connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
 
@@ -315,7 +319,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             m_originalProperties.insert(QStringLiteral("disable_exif"), QString::number(autorotate));
             hlay = new QHBoxLayout;
             box = new QCheckBox(i18n("Disable autorotate"), this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+            connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
             connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
             box->setObjectName(QStringLiteral("disable_exif"));
             box->setChecked(autorotate == 1);
             hlay->addWidget(box);
@@ -365,7 +373,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         QCheckBox *box = new QCheckBox(i18n("Aspect ratio:"), this);
         box->setObjectName(QStringLiteral("force_ar"));
         fpBox->addWidget(box);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
         auto *spin1 = new QSpinBox(this);
         spin1->setMaximum(8000);
         spin1->setObjectName(QStringLiteral("force_aspect_num_value"));
@@ -437,7 +449,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             pbox->setCheckState(Qt::Unchecked);
         }
         pbox->setEnabled(pCore->projectManager()->current()->useProxy());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(pbox, &QCheckBox::checkStateChanged, this, [this, pbox](Qt::CheckState state) {
+#else
         connect(pbox, &QCheckBox::stateChanged, this, [this, pbox](int state) {
+#endif
             Q_EMIT requestProxy(state == Qt::PartiallyChecked);
             if (state == Qt::Checked) {
                 QSignalBlocker bk(pbox);
@@ -506,7 +522,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         auto *hlay = new QHBoxLayout;
         QCheckBox *box = new QCheckBox(i18n("Frame rate:"), this);
         box->setObjectName(QStringLiteral("force_fps"));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
         auto *spin = new QDoubleSpinBox(this);
         spin->setMaximum(1000);
         connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
@@ -529,7 +549,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         m_originalProperties.insert(QStringLiteral("force_progressive"), force_prog.isEmpty() ? QStringLiteral("-") : force_prog);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Scanning:"), this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
         box->setObjectName(QStringLiteral("force_progressive"));
         auto *combo = new QComboBox(this);
         combo->addItem(i18n("Interlaced"), 0);
@@ -551,7 +575,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         m_originalProperties.insert(QStringLiteral("force_tff"), force_tff.isEmpty() ? QStringLiteral("-") : force_tff);
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Field order:"), this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
         box->setObjectName(QStringLiteral("force_tff"));
         combo = new QComboBox(this);
         combo->addItem(i18n("Bottom First"), 0);
@@ -578,7 +606,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         int vix = m_sourceProperties->get_int("video_index");
         const QString query = QString("meta.media.%1.codec.rotate").arg(vix);
         int angle = m_sourceProperties->get_int(query.toUtf8().constData());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
 
         // Rotate
         int rotate = 0;
@@ -604,7 +636,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         }
         // Disable force rotate when autorotate is disabled
         combo->setEnabled(!box->isChecked());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, [combo](Qt::CheckState state) { combo->setEnabled(state != Qt::Unchecked); });
+#else
         connect(box, &QCheckBox::stateChanged, this, [combo](int state) { combo->setEnabled(state != Qt::Unchecked); });
+#endif
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         hlay->addWidget(box);
         hlay->addWidget(combo);
@@ -816,7 +852,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             auto *vbox = new QVBoxLayout;
             // Normalize
             m_normalize = new QCheckBox(i18n("Normalize"), this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+            connect(m_normalize, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
             connect(m_normalize, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
                     return;
@@ -834,7 +874,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
 
             // Swap channels
             m_swapChannels = new QCheckBox(i18n("Swap channels"), this);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+            connect(m_swapChannels, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
             connect(m_swapChannels, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
                     return;
@@ -932,7 +976,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Color space:"), this);
         box->setObjectName(QStringLiteral("force_colorspace"));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
         combo = new QComboBox(this);
         combo->setObjectName(QStringLiteral("force_colorspace_value"));
         combo->addItem(ProfileRepository::getColorspaceDescription(240), 240);
@@ -965,7 +1013,11 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         hlay = new QHBoxLayout;
         box = new QCheckBox(i18n("Color range:"), this);
         box->setObjectName(QStringLiteral("force_color_range"));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+        connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
+#else
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+#endif
         combo = new QComboBox(this);
         combo->setObjectName(QStringLiteral("force_color_range_value"));
         combo->addItem(i18n("Broadcast limited (MPEG)"), 1);

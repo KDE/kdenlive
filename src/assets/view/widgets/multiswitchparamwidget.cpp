@@ -47,7 +47,11 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
     connect(methodCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() { paramChanged(m_checkBox->checkState()); });
 
     // Q_EMIT the signal of the base class when appropriate
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_checkBox, &QCheckBox::checkStateChanged, this, &MultiSwitchParamWidget::paramChanged);
+#else
     connect(m_checkBox, &QCheckBox::stateChanged, this, &MultiSwitchParamWidget::paramChanged);
+#endif
 }
 
 void MultiSwitchParamWidget::paramChanged(int state)

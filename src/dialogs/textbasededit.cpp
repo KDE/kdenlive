@@ -740,7 +740,11 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(m_logAction, &QAction::triggered, this, [this]() { KMessageBox::error(this, m_errorString, i18n("Detailed log")); });
 
     speech_zone->setChecked(KdenliveSettings::speech_zone());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(speech_zone, &QCheckBox::checkStateChanged, [](Qt::CheckState state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });
+#else
     connect(speech_zone, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });
+#endif
     button_delete->setDefaultAction(m_visualEditor->deleteAction);
     button_delete->setToolTip(i18n("Delete selected text"));
     connect(m_visualEditor->deleteAction, &QAction::triggered, this, &TextBasedEdit::deleteItem);

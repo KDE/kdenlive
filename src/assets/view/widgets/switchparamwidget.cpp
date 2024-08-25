@@ -24,7 +24,11 @@ SwitchParamWidget::SwitchParamWidget(std::shared_ptr<AssetParameterModel> model,
     slotRefresh();
 
     // Q_EMIT the signal of the base class when appropriate
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(this->m_checkBox, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
     connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
         Q_EMIT valueChanged(m_index,
                             (state == Qt::Checked ? m_model->data(m_index, AssetParameterModel::MaxRole).toString()
                                                   : m_model->data(m_index, AssetParameterModel::MinRole).toString()),

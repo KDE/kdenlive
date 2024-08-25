@@ -50,8 +50,13 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     connect(archive_url, &KUrlRequester::textChanged, this, &ArchiveWidget::slotCheckSpace);
     connect(this, &ArchiveWidget::archivingFinished, this, &ArchiveWidget::slotArchivingBoolFinished);
     connect(this, &ArchiveWidget::archiveProgress, this, &ArchiveWidget::slotArchivingIntProgress);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(proxy_only, &QCheckBox::checkStateChanged, this, &ArchiveWidget::slotProxyOnly);
+    connect(timeline_archive, &QCheckBox::checkStateChanged, this, &ArchiveWidget::onlyTimelineItems);
+#else
     connect(proxy_only, &QCheckBox::stateChanged, this, &ArchiveWidget::slotProxyOnly);
     connect(timeline_archive, &QCheckBox::stateChanged, this, &ArchiveWidget::onlyTimelineItems);
+#endif
 
     // Prepare xml
     m_doc.setContent(xmlData);

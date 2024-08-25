@@ -451,7 +451,11 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     QWidget *p6 = new QWidget;
     m_configShuttle.setupUi(p6);
 #ifdef USE_JOGSHUTTLE
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::checkStateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
+#else
     connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
+#endif
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     connect(m_configShuttle.toolBtnReload, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadShuttleDevices);
 
@@ -515,7 +519,11 @@ void KdenliveSettingsDialog::initTranscodePage()
     connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_configTranscode.profile_audioonly, &QCheckBox::checkStateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+#else
     connect(m_configTranscode.profile_audioonly, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+#endif
 
     connect(m_configTranscode.button_update, &QAbstractButton::pressed, this, &KdenliveSettingsDialog::slotUpdateTranscodingProfile);
 
@@ -1841,7 +1849,11 @@ void KdenliveSettingsDialog::initSpeechPage()
     // Python setup
     m_configEnv.pythonSetupMessage->hide();
     connect(m_sttWhisper, &SpeechToText::gotPythonSize, m_configEnv.label_python_size, &QLabel::setText);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
     connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
         if (m_sttWhisper->installInProcess()) {
             return;
         }
@@ -1953,7 +1965,11 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_configSpeech.speech_info->setWordWrap(true);
     connect(m_configSpeech.check_config, &QPushButton::clicked, this, &KdenliveSettingsDialog::slotCheckSttConfig);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_configSpeech.custom_vosk_folder, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
     connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
         m_configSpeech.vosk_folder->setEnabled(state != Qt::Unchecked);
         if (state == Qt::Unchecked) {
             // Clear custom folder
