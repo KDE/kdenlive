@@ -930,7 +930,7 @@ void TimelineController::deleteMultipleTracks(int tid)
     if (d->exec() == QDialog::Accepted) {
         bool result = true;
         QList<int> allIds = d->toDeleteTrackIds();
-        for (int selectedTrackIx : qAsConst(allIds)) {
+        for (int selectedTrackIx : std::as_const(allIds)) {
             result = m_model->requestTrackDeletion(selectedTrackIx, undo, redo);
             if (!result) {
                 break;
@@ -1710,7 +1710,7 @@ int TimelineController::getFirstUnassignedStream() const
 {
     QList<int> keys = m_model->m_binAudioTargets.keys();
     QList<int> assigned = m_model->m_audioTarget.values();
-    for (int k : qAsConst(keys)) {
+    for (int k : std::as_const(keys)) {
         if (!assigned.contains(k)) {
             return k;
         }
@@ -3141,7 +3141,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     int vTrack = -1;
     if (clip->hasAudio() && !m_model->m_audioTarget.isEmpty()) {
         QList<int> audioTracks = m_model->m_audioTarget.keys();
-        for (int tid : qAsConst(audioTracks)) {
+        for (int tid : std::as_const(audioTracks)) {
             if (m_model->getTrackById_const(tid)->shouldReceiveTimelineOp()) {
                 aTrack = tid;
                 break;
@@ -4007,7 +4007,7 @@ QPoint TimelineController::selectionInOut() const
 void TimelineController::updateClipActions()
 {
     if (m_model->getCurrentSelection().empty()) {
-        for (QAction *act : qAsConst(clipActions)) {
+        for (QAction *act : std::as_const(clipActions)) {
             const QChar actionData = act->data().toChar();
             if (actionData == QLatin1Char('P')) {
                 // Position actions should stay enabled in clip monitor
@@ -4064,7 +4064,7 @@ void TimelineController::updateClipActions()
         state = clip->clipState();
         type = clip->clipType();
     }
-    for (QAction *act : qAsConst(clipActions)) {
+    for (QAction *act : std::as_const(clipActions)) {
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
         if (actionData == QLatin1Char('G')) {

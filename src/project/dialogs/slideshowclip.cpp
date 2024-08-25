@@ -147,7 +147,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     values.removeDuplicates();
 
     QStringList names;
-    for (const QString &value : qAsConst(values)) {
+    for (const QString &value : std::as_const(values)) {
         names.append(QUrl(value).fileName());
     }
     for (int i = 0; i < values.count(); i++) {
@@ -303,7 +303,7 @@ void SlideshowClip::parseFolder()
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         QStringList entries;
-        for (const QString &p : qAsConst(result)) {
+        for (const QString &p : std::as_const(result)) {
             if (rx.match(p).hasMatch()) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
@@ -317,7 +317,7 @@ void SlideshowClip::parseFolder()
         }
         result = entries;
     }
-    for (const QString &p : qAsConst(result)) {
+    for (const QString &p : std::as_const(result)) {
         auto *item = new QListWidgetItem(unknownicon, p);
         item->setData(Qt::UserRole, dir.filePath(p));
         m_view.icon_list->addItem(item);

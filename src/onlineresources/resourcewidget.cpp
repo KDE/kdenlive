@@ -262,7 +262,7 @@ void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int
     message_line->setMessageType(KMessageWidget::Information);
     message_line->show();
     int count = 0;
-    for (const ResourceItemInfo &item : qAsConst(list)) {
+    for (const ResourceItemInfo &item : std::as_const(list)) {
         message_line->setText(i18nc("@info:progress", "Parsing item %1 of %2…", count, list.count()));
         // if item has no name use "Created by Author", if item even has no author use "Unnamed"
         QListWidgetItem *listItem = new QListWidgetItem(

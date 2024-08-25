@@ -138,7 +138,7 @@ void LayoutManagement::initializeLayouts()
     }
 
     // Add default layouts to user config in they don't exist
-    for (const QString &lay : qAsConst(defaultLayouts)) {
+    for (const QString &lay : std::as_const(defaultLayouts)) {
         if (!entries.contains(lay)) {
             entries.insert(defaultLayouts.indexOf(lay), lay);
             layoutGroup.writeEntry(lay, defaultLayout.readEntry(lay));
@@ -149,7 +149,7 @@ void LayoutManagement::initializeLayouts()
         // Write updated order
         layoutOrder.deleteGroup();
         int j = 1;
-        for (const QString &entry : qAsConst(entries)) {
+        for (const QString &entry : std::as_const(entries)) {
             layoutOrder.writeEntry(QString::number(j), entry);
             j++;
         }
@@ -254,7 +254,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
         // Activate layout button
         QList<QAbstractButton *> buttons = m_containerGrp->buttons();
         bool buttonFound = false;
-        for (auto *button : qAsConst(buttons)) {
+        for (auto *button : std::as_const(buttons)) {
             if (button->property("layoutid").toString() == layoutId) {
                 QSignalBlocker bk(m_containerGrp);
                 button->setChecked(true);
@@ -326,7 +326,7 @@ void LayoutManagement::slotSaveLayout()
     // Activate layout button
     if (names.first != nullptr) {
         QList<QAbstractButton *> buttons = m_containerGrp->buttons();
-        for (auto *button : qAsConst(buttons)) {
+        for (auto *button : std::as_const(buttons)) {
             if (button->text() == names.first) {
                 QSignalBlocker bk(m_containerGrp);
                 button->setChecked(true);
@@ -425,7 +425,7 @@ void LayoutManagement::slotManageLayouts()
         }
 
         // Re-add missing default layouts
-        for (const QString &name : qAsConst(defaultLayoutNames)) {
+        for (const QString &name : std::as_const(defaultLayoutNames)) {
             if (!currentNames.contains(name) && m_translatedNames.contains(name)) {
                 // Insert default layout
                 QListWidgetItem *item = new QListWidgetItem(translatedName(name));
@@ -539,7 +539,7 @@ void LayoutManagement::slotManageLayouts()
     l2->addStretch();
 
     // Add layouts to list
-    for (const QString &name : qAsConst(names)) {
+    for (const QString &name : std::as_const(names)) {
         auto *item = new QListWidgetItem(translatedName(name), &list);
         item->setData(Qt::UserRole, name);
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);

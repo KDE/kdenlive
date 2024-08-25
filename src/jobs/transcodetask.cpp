@@ -126,7 +126,7 @@ void TranscodeTask::run()
         // Convert param style
         QStringList params = m_transcodeParams.split(QLatin1Char('-'), Qt::SkipEmptyParts);
         QStringList mltParameters;
-        for (const QString &s : qAsConst(params)) {
+        for (const QString &s : std::as_const(params)) {
             QString t = s.simplified();
             if (t.count(QLatin1Char(' ')) == 0) {
                 t.append(QLatin1String("=1"));
@@ -202,7 +202,7 @@ void TranscodeTask::run()
             parameters << QStringLiteral("-map") << QStringLiteral("0");
         }
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
-        for (const QString &s : qAsConst(params)) {
+        for (const QString &s : std::as_const(params)) {
             QString t = s.simplified();
             if (t.startsWith(QLatin1String("%1"))) {
                 parameters << t.replace(QLatin1String("%1"), destUrl);

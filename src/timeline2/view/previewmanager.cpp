@@ -184,7 +184,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     if (!dirtyChunks.isEmpty()) {
         std::sort(dirtyChunks.begin(), dirtyChunks.end(), chunkSort);
         QMutexLocker lock(&m_dirtyMutex);
-        for (const auto &i : qAsConst(dirtyChunks)) {
+        for (const auto &i : std::as_const(dirtyChunks)) {
             if (!m_dirtyChunks.contains(i)) {
                 m_dirtyChunks << i;
             }
@@ -433,7 +433,7 @@ void PreviewManager::clearPreviewRange(bool resetZones)
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
     QMutexLocker lock(&m_dirtyMutex);
-    for (const auto &ix : qAsConst(m_renderedChunks)) {
+    for (const auto &ix : std::as_const(m_renderedChunks)) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
         if (!m_dirtyChunks.contains(ix)) {
             m_dirtyChunks << ix;
@@ -495,7 +495,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         abortRendering();
         m_tractor->lock();
         bool hasPreview = m_previewTrack != nullptr;
-        for (int ix : qAsConst(toRemove)) {
+        for (int ix : std::as_const(toRemove)) {
             m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             if (!hasPreview) {
                 continue;
@@ -656,7 +656,7 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
     }
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     bool ok;
-    for (const QString &dir : qAsConst(dirs)) {
+    for (const QString &dir : std::as_const(dirs)) {
         if (dir.toInt(&ok) >= ix && ok) {
             QDir tmp = m_undoDir;
             if (tmp.cd(dir)) {

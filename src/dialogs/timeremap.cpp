@@ -1153,7 +1153,7 @@ void RemapView::updateBeforeSpeed(double speed)
                 it++;
             }
         }
-        for (int p : qAsConst(toDelete)) {
+        for (int p : std::as_const(toDelete)) {
             m_keyframes.remove(p);
         }
         QMapIterator<int, int> i(updatedKfrs);
@@ -1202,7 +1202,7 @@ void RemapView::updateAfterSpeed(double speed)
             m_keyframes.remove(it.key());
         }
         // Update all keyframes after that so that we don't alter the speeds
-        for (int p : qAsConst(toDelete)) {
+        for (int p : std::as_const(toDelete)) {
             m_keyframes.remove(p);
         }
         QMapIterator<int, int> i(updatedKfrs);

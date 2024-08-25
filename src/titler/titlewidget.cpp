@@ -78,7 +78,7 @@ void TitleWidget::refreshTemplateBoxContents()
 {
     templateBox->clear();
     templateBox->addItem(QString());
-    for (const TitleTemplate &t : qAsConst(titleTemplates)) {
+    for (const TitleTemplate &t : std::as_const(titleTemplates)) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
 }
@@ -730,7 +730,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
     // project templates
     QDir dir(projectPath);
     QStringList templateFiles = dir.entryList(filters, QDir::Files);
-    for (const QString &fname : qAsConst(templateFiles)) {
+    for (const QString &fname : std::as_const(templateFiles)) {
         TitleTemplate t;
         t.name = fname;
         t.file = dir.absoluteFilePath(fname);
@@ -742,10 +742,10 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
     QStringList currentTitleTemplates =
         QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
     currentTitleTemplates.removeDuplicates();
-    for (const QString &folderpath : qAsConst(currentTitleTemplates)) {
+    for (const QString &folderpath : std::as_const(currentTitleTemplates)) {
         QDir folder(folderpath);
         QStringList filesnames = folder.entryList(filters, QDir::Files);
-        for (const QString &fname : qAsConst(filesnames)) {
+        for (const QString &fname : std::as_const(filesnames)) {
             TitleTemplate t;
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);
@@ -770,7 +770,7 @@ void TitleWidget::templateIndexChanged(int index)
         // mbt 1607: Add property to distinguish between unchanged template titles and user titles.
         // Text of unchanged template titles should be selected when clicked.
         QList<QGraphicsItem *> list = graphicsView->scene()->items();
-        for (QGraphicsItem *qgItem : qAsConst(list)) {
+        for (QGraphicsItem *qgItem : std::as_const(list)) {
             if (qgItem->type() == TEXTITEM) {
                 auto *i = static_cast<MyTextItem *>(qgItem);
                 i->setProperty("isTemplate", "true");
@@ -869,7 +869,7 @@ void TitleWidget::slotImageTool()
     QList<QByteArray> supported = QImageReader::supportedImageFormats();
     QStringList mimeTypeFilters;
     QString allExtensions = i18n("All Images") + QStringLiteral(" (");
-    for (const QByteArray &mimeType : qAsConst(supported)) {
+    for (const QByteArray &mimeType : std::as_const(supported)) {
         mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + QStringLiteral("( *.") + QString(mimeType) + QLatin1Char(')'));
         allExtensions.append(QStringLiteral("*.") + mimeType + QLatin1Char(' '));
     }
@@ -1232,7 +1232,7 @@ void TitleWidget::selectionChanged()
     // text input would only work for the text item that grabbed
     // the keyboard last.
     l = graphicsView->scene()->items();
-    for (QGraphicsItem *item : qAsConst(l)) {
+    for (QGraphicsItem *item : std::as_const(l)) {
         if (item->type() == TEXTITEM && !item->isSelected()) {
             auto *i = static_cast<MyTextItem *>(item);
             i->clearFocus();
@@ -1272,7 +1272,7 @@ void TitleWidget::selectionChanged()
         */
         int firstType = l.at(0)->type();
         bool allEqual = true;
-        for (auto i : qAsConst(l)) {
+        for (auto i : std::as_const(l)) {
             if (i->type() != firstType) {
                 allEqual = false;
                 break;
@@ -1290,7 +1290,7 @@ void TitleWidget::selectionChanged()
             value_x->setEnabled(true);
             value_y->setEnabled(true);
             bool containsTextitem = false;
-            for (auto i : qAsConst(l)) {
+            for (auto i : std::as_const(l)) {
                 if (i->type() == TEXTITEM) {
                     containsTextitem = true;
                     break;
@@ -1928,7 +1928,7 @@ void TitleWidget::slotUpdateText()
 void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    for (auto i : qAsConst(l)) {
+    for (auto i : std::as_const(l)) {
         if (i->type() == RECTITEM && (settingUp == 0)) {
             auto *rec = static_cast<QGraphicsRectItem *>(i);
             QColor f = rectFColor->color();
@@ -2212,7 +2212,7 @@ void TitleWidget::loadTitle(QUrl url)
         items.removeAll(m_frameBorder);
         items.removeAll(m_frameBackground);
         items.removeAll(m_frameImage);
-        for (auto item : qAsConst(items)) {
+        for (auto item : std::as_const(items)) {
             if (item->zValue() > -1000) {
                 delete item;
             }
@@ -2842,7 +2842,7 @@ void TitleWidget::slotZIndexBottom()
 void TitleWidget::slotSelectAll()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->items();
-    for (auto i : qAsConst(l)) {
+    for (auto i : std::as_const(l)) {
         i->setSelected(true);
     }
 }
@@ -2852,14 +2852,14 @@ void TitleWidget::selectItems(int itemType)
     QList<QGraphicsItem *> l;
     if (!graphicsView->scene()->selectedItems().isEmpty()) {
         l = graphicsView->scene()->selectedItems();
-        for (auto i : qAsConst(l)) {
+        for (auto i : std::as_const(l)) {
             if (i->type() != itemType) {
                 i->setSelected(false);
             }
         }
     } else {
         l = graphicsView->scene()->items();
-        for (auto i : qAsConst(l)) {
+        for (auto i : std::as_const(l)) {
             if (i->type() == itemType) {
                 i->setSelected(true);
             }
@@ -2891,7 +2891,7 @@ void TitleWidget::slotSelectNone()
 {
     graphicsView->blockSignals(true);
     QList<QGraphicsItem *> l = graphicsView->scene()->items();
-    for (auto i : qAsConst(l)) {
+    for (auto i : std::as_const(l)) {
         i->setSelected(false);
     }
     graphicsView->blockSignals(false);
@@ -3405,7 +3405,7 @@ const QString TitleWidget::titleSuggest()
     QList<QGraphicsItem *> list = graphicsView->scene()->items();
     int y = m_frameHeight;
     QString title;
-    for (QGraphicsItem *qgItem : qAsConst(list)) {
+    for (QGraphicsItem *qgItem : std::as_const(list)) {
         if (qgItem->pos().y() < y && qgItem->type() == TEXTITEM) {
             auto *i = static_cast<MyTextItem *>(qgItem);
             QString currentTitle = i->toPlainText().simplified();
@@ -3420,7 +3420,7 @@ const QString TitleWidget::titleSuggest()
 
 void TitleWidget::showGuides(int state)
 {
-    for (QGraphicsLineItem *it : qAsConst(m_guides)) {
+    for (QGraphicsLineItem *it : std::as_const(m_guides)) {
         it->setVisible(state == Qt::Checked);
     }
     KdenliveSettings::setTitlerShowGuides(state == Qt::Checked);
@@ -3482,7 +3482,7 @@ void TitleWidget::guideColorChanged(const QColor &col)
 {
     KdenliveSettings::setTitleGuideColor(col);
     QColor guideCol(col);
-    for (QGraphicsLineItem *it : qAsConst(m_guides)) {
+    for (QGraphicsLineItem *it : std::as_const(m_guides)) {
         int alpha = it->pen().color().alpha();
         guideCol.setAlpha(alpha);
         QPen framePen(guideCol);
@@ -3512,14 +3512,14 @@ void TitleWidget::slotPatternDblClicked(const QModelIndex &idx)
     int width, height, duration, missing;
     TitleDocument::loadFromXml(doc, items, width, height, nullptr, nullptr, nullptr, &duration, missing);
 
-    for (QGraphicsItem *item : qAsConst(items)) {
+    for (QGraphicsItem *item : std::as_const(items)) {
         item->setZValue(m_count++);
         updateAxisButtons(item);
         prepareTools(item);
         m_scene->addNewItem(item);
     }
     m_scene->clearSelection();
-    for (QGraphicsItem *item : qAsConst(items)) {
+    for (QGraphicsItem *item : std::as_const(items)) {
         item->setSelected(true);
     }
 }
@@ -3537,7 +3537,7 @@ void TitleWidget::slotPatternBtnRemoveClicked()
     QModelIndexList items = patternsList->selectionModel()->selectedIndexes();
     std::sort(items.begin(), items.end());
     std::reverse(items.begin(), items.end());
-    for (auto idx : qAsConst(items)) {
+    for (auto idx : std::as_const(items)) {
         m_patternsModel->removeScene(idx);
     }
     btn_removeAll->setEnabled(m_patternsModel->rowCount(QModelIndex()) != 0);

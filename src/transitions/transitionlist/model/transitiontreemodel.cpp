@@ -35,7 +35,7 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
 
     // We parse transitions
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : qAsConst(allTransitions)) {
+    for (const auto &transition : std::as_const(allTransitions)) {
         std::shared_ptr<TreeItem> targetCategory = compoCategory;
         AssetListType::AssetType type = TransitionsRepository::get()->getType(transition.first);
         if (flat) {

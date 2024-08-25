@@ -408,7 +408,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
     QMetaObject::Connection stopConnect = QObject::connect(pCore.get(), &Core::stopProgressTask, &progressOwner, [&stopProcess]() { stopProcess = true; });
     int current = 0;
     int lastCount = -1;
-    for (const QUrl &file : qAsConst(cleanList)) {
+    for (const QUrl &file : std::as_const(cleanList)) {
         current++;
         if (stopProcess) {
             pCore->displayMessage(QString(), OperationCompletedMessage, 100);
@@ -464,13 +464,13 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             dir.setNameFilters(FileFilter::getExtensions());
             QStringList result = dir.entryList(QDir::Files);
             QList<QUrl> folderFiles;
-            for (const QString &path : qAsConst(result)) {
+            for (const QString &path : std::as_const(result)) {
                 QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(path));
                 folderFiles.append(url);
             }
             if (folderFiles.isEmpty()) {
                 QList<QUrl> sublist;
-                for (const QString &sub : qAsConst(subfolders)) {
+                for (const QString &sub : std::as_const(subfolders)) {
                     QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
                     if (!list.contains(url)) {
                         sublist << url;
@@ -516,7 +516,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 }
                 // Check subfolders
                 QList<QUrl> sublist;
-                for (const QString &sub : qAsConst(subfolders)) {
+                for (const QString &sub : std::as_const(subfolders)) {
                     QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
                     if (!list.contains(url)) {
                         sublist << url;

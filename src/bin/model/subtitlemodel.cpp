@@ -1221,7 +1221,7 @@ int SubtitleModel::saveSubtitleData(const QString &data, const QString &outFile)
             out << styleSection << '\n';
             out << eventSection;
         }
-        for (const auto &entry : qAsConst(list)) {
+        for (const auto &entry : std::as_const(list)) {
             if (!entry.isObject()) {
                 qDebug() << "Warning : Skipping invalid subtitle data";
                 continue;

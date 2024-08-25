@@ -252,7 +252,7 @@ void TimelineWidget::showClipMenu(int cid)
         isAudioTrack = model()->isAudioTrack(tid);
     }
     m_favCompositions->setEnabled(!isAudioTrack);
-    for (auto ac : qAsConst(effects)) {
+    for (auto ac : std::as_const(effects)) {
         const QString &id = ac->data().toString();
         if (EffectsRepository::get()->isAudioEffect(id) != isAudioTrack) {
             ac->setVisible(false);
@@ -280,7 +280,7 @@ void TimelineWidget::showHeaderMenu()
     QList<QAction *> menuActions = m_headerMenu->actions();
     QList<QAction *> audioActions;
     QStringList allowedActions = {QLatin1String("show_track_record"), QLatin1String("separate_channels"), QLatin1String("normalize_channels")};
-    for (QAction *ac : qAsConst(menuActions)) {
+    for (QAction *ac : std::as_const(menuActions)) {
         if (allowedActions.contains(ac->data().toString())) {
             audioActions << ac;
         }
@@ -289,20 +289,20 @@ void TimelineWidget::showHeaderMenu()
         // Video track
         int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
         QList<QAction *> actions = m_thumbsMenu->actions();
-        for (QAction *ac : qAsConst(actions)) {
+        for (QAction *ac : std::as_const(actions)) {
             if (ac->data().toInt() == currentThumbs) {
                 ac->setChecked(true);
                 break;
             }
         }
         m_thumbsMenu->menuAction()->setVisible(true);
-        for (auto ac : qAsConst(audioActions)) {
+        for (auto ac : std::as_const(audioActions)) {
             ac->setVisible(false);
         }
     } else {
         // Audio track
         m_thumbsMenu->menuAction()->setVisible(false);
-        for (auto ac : qAsConst(audioActions)) {
+        for (auto ac : std::as_const(audioActions)) {
             ac->setVisible(true);
             if (ac->data().toString() == QLatin1String("show_track_record")) {
                 ac->setChecked(m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);

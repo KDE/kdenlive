@@ -125,7 +125,7 @@ int main(int argc, char **argv)
             QScopedPointer<Mlt::Producer> playlst(prod.cut(frame.toInt(), frame.toInt() + chunkSize));
             QScopedPointer<Mlt::Consumer> cons(
                 new Mlt::Consumer(profile, QString("avformat:%1").arg(baseFolder.absoluteFilePath(fileName)).toUtf8().constData()));
-            for (const QString &param : qAsConst(consumerParams)) {
+            for (const QString &param : std::as_const(consumerParams)) {
                 if (param.contains(QLatin1Char('='))) {
                     cons->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toUtf8().constData());
                 }

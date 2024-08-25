@@ -52,7 +52,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         controleTime << GenTime(140, 25) << GenTime(265, 25) << GenTime(503, 25) << GenTime(628, 25) << GenTime(628, 25) << GenTime(875, 25);
         QStringList subtitlesText;
         QStringList control = {QStringLiteral("J'hésite à vérifier"), QStringLiteral("Ce test de sous-titres"), QStringLiteral("!! Quand même !!")};
-        for (const auto &s : qAsConst(allSubs)) {
+        for (const auto &s : std::as_const(allSubs)) {
             subtitlesText << s.subtitle();
             sTime << s.start();
             sTime << s.end();
@@ -79,7 +79,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
         QStringList subtitlesText;
         QStringList control = {QStringLiteral("J'hésite à vérifier"), QStringLiteral("Ce test de sous-titres"), QStringLiteral("!! Quand même !!")};
-        for (const auto &s : qAsConst(allSubs)) {
+        for (const auto &s : std::as_const(allSubs)) {
             subtitlesText << s.subtitle();
         }
         // Ensure that non-ASCII characters are read correctly
@@ -101,7 +101,7 @@ TEST_CASE("Read subtitle file", "[Subtitles]")
         QList<SubtitledTime> allSubs = subtitleModel->getAllSubtitles();
         QStringList subtitlesText;
         QStringList control = {QStringLiteral("Line with one comma, second part."), QStringLiteral("Line with two commas, second part, third part.")};
-        for (const auto &s : qAsConst(allSubs)) {
+        for (const auto &s : std::as_const(allSubs)) {
             subtitlesText << s.subtitle();
         }
         // Ensure that non-ASCII characters are read correctly

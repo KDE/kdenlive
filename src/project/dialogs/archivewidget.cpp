@@ -133,7 +133,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QMap<QString, QString> proxyUrls;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
     QStringList handledUrls;
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         ClipType::ProducerType t = clip->clipType();
         if (t == ClipType::Color || t == ClipType::Timeline) {
             continue;
@@ -454,7 +454,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     directory.append(QLatin1Char('/'));
                 }
                 qint64 totalSize = 0;
-                for (const QString &path : qAsConst(result)) {
+                for (const QString &path : std::as_const(result)) {
                     if (rx.match(path).hasMatch()) {
                         totalSize += QFileInfo(directory + path).size();
                         slideImages << directory + path;
@@ -540,7 +540,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
                 QStringList slideImages;
                 qint64 totalSize = 0;
-                for (const QString &path : qAsConst(result)) {
+                for (const QString &path : std::as_const(result)) {
                     if (rx.match(path).hasMatch()) {
                         totalSize += QFileInfo(dir.absoluteFilePath(path)).size();
                         slideImages << dir.absoluteFilePath(path);
@@ -1124,7 +1124,7 @@ void ArchiveWidget::createArchive()
 
     // Create folders
     if (success) {
-        for (const QString &path : qAsConst(m_foldersList)) {
+        for (const QString &path : std::as_const(m_foldersList)) {
             success = success && m_archive->writeDir(path, user, group);
         }
     }

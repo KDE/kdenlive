@@ -106,7 +106,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     }
     auto list = json.array();
     int ix = 0;
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
             continue;
@@ -912,7 +912,7 @@ void KeyframeImport::importSelectedData()
     // wether we are mapping to a fake rectangle
     bool fakeRect = !m_targetCombo->currentData().toModelIndex().isValid() && m_targetCombo->currentText() == i18n("Rectangle");
     bool useOpacity = m_dataCombo->currentData(OpacityRole).toBool();
-    for (const auto &ix : qAsConst(m_indexes)) {
+    for (const auto &ix : std::as_const(m_indexes)) {
         // update keyframes in other indexes
         KeyframeModel *km = kfrModel->getKeyModel(ix);
         qDebug() << "== " << ix << " = " << m_targetCombo->currentData().toModelIndex();

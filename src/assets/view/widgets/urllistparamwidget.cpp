@@ -143,7 +143,7 @@ void UrlListParamWidget::slotRefresh()
 
         // check for Kdenlive installed luts files
         QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-        for (const QString &folderpath : qAsConst(customLuts)) {
+        for (const QString &folderpath : std::as_const(customLuts)) {
             QDir dir(folderpath);
             QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
             while (it.hasNext()) {
@@ -167,7 +167,7 @@ void UrlListParamWidget::slotRefresh()
         QDir dir = QFileInfo(currentValue).absoluteDir();
         if (dir.exists()) {
             QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
-            for (const auto &filename : qAsConst(entrys)) {
+            for (const auto &filename : std::as_const(entrys)) {
                 values.append(dir.filePath(filename));
             }
             // make sure the current value is added. If it is a duplicate we remove it later
@@ -183,7 +183,7 @@ void UrlListParamWidget::slotRefresh()
     QMap<QString, QString> entryMap;
     int ix = 0;
     // Put all name/value combinations in a map
-    for (const QString &value : qAsConst(values)) {
+    for (const QString &value : std::as_const(values)) {
         if (m_isLutList) {
             if (value.toLower().endsWith(QLatin1String(".cube")) && !KdenliveSettings::validated_luts().contains(value)) {
                 // Open LUT file and check validity

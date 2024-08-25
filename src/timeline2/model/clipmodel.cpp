@@ -582,7 +582,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                     }
                 }
                 // Remove all requested keyframes
-                for (int d : qAsConst(toDelete)) {
+                for (int d : std::as_const(toDelete)) {
                     keyframes.remove(d);
                 }
                 // Add replacement keyframes

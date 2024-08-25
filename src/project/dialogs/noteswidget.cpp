@@ -231,7 +231,7 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
     bool enforceHtml = false;
     // Check for timecodes
     QStringList words = pastedText.split(QLatin1Char(' '));
-    for (const QString &w : qAsConst(words)) {
+    for (const QString &w : std::as_const(words)) {
         if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
             // This is probably a timecode
             int frames = pCore->timecode().getFrameCount(w);

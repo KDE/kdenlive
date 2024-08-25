@@ -776,7 +776,7 @@ void KeyframeModelList::moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo)
         std::sort(positions.begin(), positions.end());
     }
     for (const auto &param : m_parameters) {
-        for (auto frame : qAsConst(positions)) {
+        for (auto frame : std::as_const(positions)) {
             param.second->moveKeyframe(frame, frame + offset, QVariant(), undo, redo);
         }
     }
@@ -799,7 +799,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                     QVariant value = param.second->getInterpolatedValue(new_in);
                     param.second->updateKeyframe(old_in, value, undo, redo);
                 }
-                for (auto frame : qAsConst(positions)) {
+                for (auto frame : std::as_const(positions)) {
                     if (new_in > GenTime()) {
                         if (frame > new_in) {
                             param.second->moveKeyframe(frame, frame - new_in, QVariant(), undo, redo);
@@ -891,7 +891,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             for (const auto &param : m_parameters) {
                 QVariant value = param.second->getInterpolatedValue(new_out);
                 param.second->addKeyframe(new_out, type, value, true, undo, redo);
-                for (auto frame : qAsConst(positions)) {
+                for (auto frame : std::as_const(positions)) {
                     param.second->removeKeyframe(frame, undo, redo);
                 }
             }

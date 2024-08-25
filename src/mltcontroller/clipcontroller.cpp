@@ -960,7 +960,7 @@ void ClipController::clearBackupProperties()
             passProps << propName;
         }
     }
-    for (const QString &p : qAsConst(passProps)) {
+    for (const QString &p : std::as_const(passProps)) {
         m_properties->clear(p.toUtf8().constData());
     }
     m_properties->clear("kdenlive:original.backup");

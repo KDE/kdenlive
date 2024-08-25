@@ -17,7 +17,7 @@ static QString getACompo()
 
     QString aCompo;
     // Look for a compo
-    for (const auto &trans : qAsConst(transitions)) {
+    for (const auto &trans : std::as_const(transitions)) {
         if (TransitionsRepository::get()->isComposition(trans.first)) {
             aCompo = trans.first;
             break;

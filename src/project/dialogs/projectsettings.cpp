@@ -359,7 +359,7 @@ void ProjectSettings::slotDeleteUnused()
     QStringList toDelete;
     QStringList idsToDelete;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         if (!clip->isIncludedInTimeline()) {
             idsToDelete << clip->clipId();
             ClipType::ProducerType type = clip->clipType();
@@ -372,7 +372,7 @@ void ProjectSettings::slotDeleteUnused()
         }
     }
     // make sure our urls are not used in another clip
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         if (clip->isIncludedInTimeline()) {
             QUrl url(clip->getOriginalUrl());
             if (url.isValid() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
@@ -436,12 +436,12 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     subtitles->setExpanded(true);
     int count = 0;
     QStringList allFonts;
-    for (const QString &file : qAsConst(m_lumas)) {
+    for (const QString &file : std::as_const(m_lumas)) {
         count++;
         new QTreeWidgetItem(images, QStringList() << file);
     }
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         switch (clip->clipType()) {
         case ClipType::Color:
         case ClipType::Timeline:

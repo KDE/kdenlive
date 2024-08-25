@@ -212,7 +212,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         // we get the list of profiles
         QVector<QPair<QString, QString>> all_profiles = ProfileRepository::get()->getAllProfiles();
         QStringList all_descriptions;
-        for (const auto &profile : qAsConst(all_profiles)) {
+        for (const auto &profile : std::as_const(all_profiles)) {
             all_descriptions << profile.first;
         }
 
@@ -221,7 +221,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         QString item = QInputDialog::getItem(m_mainWindow, i18nc("@title:window", "Select Default Profile"), i18n("Profile:"), all_descriptions, 0, false, &ok);
         if (ok) {
             ok = false;
-            for (const auto &profile : qAsConst(all_profiles)) {
+            for (const auto &profile : std::as_const(all_profiles)) {
                 if (profile.first == item) {
                     m_profile = profile.second;
                     ok = true;

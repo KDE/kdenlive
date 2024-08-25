@@ -29,7 +29,7 @@ void DockTitleBarManager::slotInstallRightClick()
 {
     // install right click
     QList<QTabBar *> tabs = pCore->window()->findChildren<QTabBar *>();
-    for (QTabBar *tab : qAsConst(tabs)) {
+    for (QTabBar *tab : std::as_const(tabs)) {
         tab->setContextMenuPolicy(Qt::CustomContextMenu);
         tab->setAcceptDrops(true);
         tab->setChangeCurrentOnDrag(true);
@@ -44,7 +44,7 @@ void DockTitleBarManager::connectDocks(bool doConnect)
 {
     // connect
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
-    for (QDockWidget *dock : qAsConst(docks)) {
+    for (QDockWidget *dock : std::as_const(docks)) {
         if (doConnect) {
             connect(dock, &QDockWidget::dockLocationChanged, this, &DockTitleBarManager::slotUpdateDockLocation);
             connect(dock, &QDockWidget::topLevelChanged, this, &DockTitleBarManager::slotUpdateTitleBars);
@@ -76,7 +76,7 @@ void DockTitleBarManager::slotShowTitleBars(bool show)
 void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
 {
     QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
-    for (QTabBar *tab : qAsConst(tabbars)) {
+    for (QTabBar *tab : std::as_const(tabbars)) {
         tab->setAcceptDrops(true);
         tab->setChangeCurrentOnDrag(true);
         // Fix tabbar tooltip containing ampersand
@@ -90,7 +90,7 @@ void DockTitleBarManager::slotUpdateTitleBars(bool isTopLevel)
     }
 
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
-    for (QDockWidget *dock : qAsConst(docks)) {
+    for (QDockWidget *dock : std::as_const(docks)) {
         QWidget *bar = dock->titleBarWidget();
         auto handleRemoveBar = [&dock, &bar]() -> void {
             if (bar) {

@@ -227,7 +227,7 @@ void AssetParameterModel::prepareKeyframes(int in, int out)
 {
     if (m_keyframes) return;
     int ix = 0;
-    for (const auto &name : qAsConst(m_rows)) {
+    for (const auto &name : std::as_const(m_rows)) {
         if (isAnimated(m_params.at(name).type)) {
             addKeyframeParam(index(ix, 0), in, out);
         }
@@ -833,7 +833,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             // check for Kdenlive installed luts files
             QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
             QStringList results;
-            for (const QString &folderpath : qAsConst(customLuts)) {
+            for (const QString &folderpath : std::as_const(customLuts)) {
                 QDir dir(folderpath);
                 QDirIterator it(dir.absolutePath(), fileExt, QDir::Files, QDirIterator::Subdirectories);
                 while (it.hasNext()) {
@@ -1303,7 +1303,7 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
                         toDelete << i;
                     }
                 }
-                for (int i : qAsConst(toDelete)) {
+                for (int i : std::as_const(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {
@@ -1353,7 +1353,7 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
                         toDelete << i;
                     }
                 }
-                for (int i : qAsConst(toDelete)) {
+                for (int i : std::as_const(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {

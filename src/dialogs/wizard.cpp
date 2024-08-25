@@ -574,7 +574,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
     } else {
         QStringList extensions = mime.globPatterns();
         QString comment = mime.comment();
-        for (const QString &glob : qAsConst(missingGlobs)) {
+        for (const QString &glob : std::as_const(missingGlobs)) {
             if (!extensions.contains(glob)) {
                 extensions << glob;
             }
@@ -607,7 +607,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
             writer.writeEndElement(); // comment
         }
 
-        for (const QString &pattern : qAsConst(extensions)) {
+        for (const QString &pattern : std::as_const(extensions)) {
             writer.writeStartElement(nsUri, QStringLiteral("glob"));
             writer.writeAttribute(QStringLiteral("pattern"), pattern);
             writer.writeEndElement(); // glob

@@ -29,7 +29,7 @@ AudioInfo::AudioInfo(const std::shared_ptr<Mlt::Producer> &producer)
 
 AudioInfo::~AudioInfo()
 {
-    for (AudioStreamInfo *info : qAsConst(m_list)) {
+    for (AudioStreamInfo *info : std::as_const(m_list)) {
         delete info;
     }
 }

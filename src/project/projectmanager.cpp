@@ -111,7 +111,7 @@ void ProjectManager::slotLoadOnOpen()
     // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
     QTimer::singleShot(1000, this, []() {
         QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
-        for (QTabBar *tab : qAsConst(tabbars)) {
+        for (QTabBar *tab : std::as_const(tabbars)) {
             // Fix tabbar tooltip containing ampersand
             for (int i = 0; i < tab->count(); i++) {
                 tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
@@ -734,7 +734,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instance
     if (!staleFiles.isEmpty()) {
-        for (KAutoSaveFile *stale : qAsConst(staleFiles)) {
+        for (KAutoSaveFile *stale : std::as_const(staleFiles)) {
             if (stale->open(QIODevice::QIODevice::ReadWrite)) {
                 // Found orphaned autosave file
                 if (!sourceTime.isValid() || QFileInfo(stale->fileName()).lastModified() > sourceTime) {
@@ -753,7 +753,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
         }
     }
     // remove the stale files
-    for (KAutoSaveFile *stale : qAsConst(staleFiles)) {
+    for (KAutoSaveFile *stale : std::as_const(staleFiles)) {
         stale->open(QIODevice::ReadWrite);
         delete stale;
     }
@@ -1767,7 +1767,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
                 QJsonArray updatedList;
                 if (json.isArray()) {
                     auto list = json.array();
-                    for (const auto &entry : qAsConst(list)) {
+                    for (const auto &entry : std::as_const(list)) {
                         if (!entry.isObject()) {
                             qDebug() << "Warning : Skipping invalid marker data";
                             continue;

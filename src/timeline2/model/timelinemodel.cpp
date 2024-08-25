@@ -1912,7 +1912,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             // Find first possible audio target
             QList<int> audioTargetTracks = m_audioTarget.keys();
             trackId = -1;
-            for (int tid : qAsConst(audioTargetTracks)) {
+            for (int tid : std::as_const(audioTargetTracks)) {
                 if (tid > -1 && !getTrackById_const(tid)->isLocked() && allowedTracks.contains(tid)) {
                     trackId = tid;
                     break;
@@ -3324,7 +3324,7 @@ void TimelineModel::processGroupResize(QVariantList startPosList, QVariantList e
             changedItems << i.key();
         }
     }
-    for (int id : qAsConst(changedItems)) {
+    for (int id : std::as_const(changedItems)) {
         QPair<int, int> endItemPos = endData.value(id);
         int duration = endItemPos.second;
         result = result & requestItemResize(id, duration, right, true, undo, redo, false);
@@ -7435,7 +7435,7 @@ void TimelineModel::loadPreview(const QString &chunks, const QString &dirty, boo
     QVariantList dirtyChunks;
     QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
     QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
-    for (const QString &frame : qAsConst(chunksList)) {
+    for (const QString &frame : std::as_const(chunksList)) {
         if (frame.contains(QLatin1Char('-'))) {
             // Range, process
             int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
@@ -7447,7 +7447,7 @@ void TimelineModel::loadPreview(const QString &chunks, const QString &dirty, boo
             renderedChunks << frame.toInt();
         }
     }
-    for (const QString &frame : qAsConst(dirtyList)) {
+    for (const QString &frame : std::as_const(dirtyList)) {
         if (frame.contains(QLatin1Char('-'))) {
             // Range, process
             int start = frame.section(QLatin1Char('-'), 0, 0).toInt();

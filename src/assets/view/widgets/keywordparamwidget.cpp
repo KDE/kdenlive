@@ -19,7 +19,7 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
     QStringList kwrdNames = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
     comboboxwidget->addItems(kwrdNames);
     int i = 0;
-    for (const QString &keywordVal : qAsConst(kwrdValues)) {
+    for (const QString &keywordVal : std::as_const(kwrdValues)) {
         if (i >= comboboxwidget->count()) {
             break;
         }

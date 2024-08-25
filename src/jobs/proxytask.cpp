@@ -126,7 +126,7 @@ void ProxyTask::run()
         }
 
         bool skipNext = false;
-        for (const QString &s : qAsConst(params)) {
+        for (const QString &s : std::as_const(params)) {
             QString t = s.simplified();
             if (skipNext) {
                 skipNext = false;

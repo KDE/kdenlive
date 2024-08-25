@@ -317,7 +317,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 enabledStreams.insert(INT_MAX, i18n("Merged streams"));
                 // Disable all other streams
                 QSignalBlocker bk(m_audioChannels);
-                for (auto act : qAsConst(actions)) {
+                for (auto act : std::as_const(actions)) {
                     if (act->isChecked() && act != ac) {
                         act->setChecked(false);
                     }
@@ -326,7 +326,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                     }
                 }
             } else {
-                for (auto act : qAsConst(actions)) {
+                for (auto act : std::as_const(actions)) {
                     if (act->isChecked()) {
                         // Audio stream is selected
                         if (act->data().toInt() == INT_MAX) {
@@ -348,7 +348,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 props.insert(QStringLiteral("astream"), QString::number(streamsList.indexOf(enabledStreams.firstKey())));
                 QList<int> streams = enabledStreams.keys();
                 QStringList astreams;
-                for (const int st : qAsConst(streams)) {
+                for (const int st : std::as_const(streams)) {
                     astreams << QString::number(st);
                 }
                 props.insert(QStringLiteral("kdenlive:active_streams"), astreams.join(QLatin1Char(';')));
@@ -815,7 +815,7 @@ void Monitor::updateMarkers()
         }
         if (model) {
             QList<CommentedTime> markersList = model->getAllMarkers();
-            for (const CommentedTime &mkr : qAsConst(markersList)) {
+            for (const CommentedTime &mkr : std::as_const(markersList)) {
                 QString label = pCore->timecode().getTimecode(mkr.time()) + QLatin1Char(' ') + mkr.comment();
                 QAction *a = new QAction(label);
                 a->setData(mkr.time().frames(pCore->getCurrentFps()));
@@ -2032,7 +2032,7 @@ void Monitor::reloadActiveStream()
             m_glMonitor->getControllerProxy()->setAudioStream(QString());
         }
         prepareAudioThumb();
-        for (auto ac : qAsConst(acts)) {
+        for (auto ac : std::as_const(acts)) {
             int val = ac->data().toInt();
             if (streams.contains(val)) {
                 // Update stream name in case of renaming

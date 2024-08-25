@@ -72,7 +72,7 @@ std::unordered_map<QString, QVariant> ClipStabilize::filterParams() const
     QVector<QPair<QString, QVariant>> result = m_assetModel->getAllParameters();
     std::unordered_map<QString, QVariant> params;
 
-    for (const auto &it : qAsConst(result)) {
+    for (const auto &it : std::as_const(result)) {
         params[it.first] = it.second;
     }
     return params;

@@ -2029,7 +2029,7 @@ void KdenliveDoc::selectPreviewProfile()
             }
         }
         bool rateFound = false;
-        for (const QString &arg : qAsConst(data)) {
+        for (const QString &arg : std::as_const(data)) {
             if (arg.startsWith(QStringLiteral("r="))) {
                 rateFound = true;
                 double fps = arg.section(QLatin1Char('='), 1).toDouble();
@@ -2454,7 +2454,7 @@ QMap<std::pair<int, QString>, QString> KdenliveDoc::JSonToSubtitleList(const QSt
         return results;
     }
     auto list = json.array();
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid subtitle data";
             continue;

@@ -1821,7 +1821,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 for (int i = 0; i < xmlParams.count(); ++i) {
                     QDomElement currentParameter = xmlParams.item(i).toElement();
                     QString paramName = currentParameter.attribute(QStringLiteral("name"));
-                    for (const auto &p : qAsConst(params)) {
+                    for (const auto &p : std::as_const(params)) {
                         if (p.first == paramName) {
                             currentParameter.setAttribute(QStringLiteral("value"), p.second.toString());
                             break;
@@ -2316,7 +2316,7 @@ bool TrackModel::createMix(MixInfo info, std::pair<QString, QVector<QPair<QStrin
         for (int i = 0; i < xmlParams.count(); ++i) {
             QDomElement currentParameter = xmlParams.item(i).toElement();
             QString paramName = currentParameter.attribute(QStringLiteral("name"));
-            for (const auto &p : qAsConst(params.second)) {
+            for (const auto &p : std::as_const(params.second)) {
                 if (p.first == paramName) {
                     currentParameter.setAttribute(QStringLiteral("value"), p.second.toString());
                     break;
@@ -2518,7 +2518,7 @@ void TrackModel::syncronizeMixes(bool finalMove)
             Q_EMIT ptr->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
         }
     }
-    for (int i : qAsConst(toDelete)) {
+    for (int i : std::as_const(toDelete)) {
         m_sameCompositions.erase(i);
     }
 }
@@ -2595,7 +2595,7 @@ QDomElement TrackModel::mixXml(QDomDocument &document, int cid) const
     const QString assetId = m_sameCompositions.at(cid)->getAssetId();
     QVector<QPair<QString, QVariant>> params = m_sameCompositions.at(cid)->getAllParameters();
     container.setAttribute(QStringLiteral("asset"), assetId);
-    for (const auto &p : qAsConst(params)) {
+    for (const auto &p : std::as_const(params)) {
         QDomElement para = document.createElement(QStringLiteral("param"));
         para.setAttribute(QStringLiteral("name"), p.first);
         QDomText val = document.createTextNode(p.second.toString());
@@ -2788,7 +2788,7 @@ void TrackModel::switchMix(int cid, const QString &composition, Fun &undo, Fun &
             for (int i = 0; i < xmlParams.count(); ++i) {
                 QDomElement currentParameter = xmlParams.item(i).toElement();
                 QString paramName = currentParameter.attribute(QStringLiteral("name"));
-                for (const auto &p : qAsConst(allParams)) {
+                for (const auto &p : std::as_const(allParams)) {
                     if (p.first == paramName) {
                         currentParameter.setAttribute(QStringLiteral("value"), p.second.toString());
                         break;

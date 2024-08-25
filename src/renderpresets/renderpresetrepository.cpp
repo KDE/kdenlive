@@ -99,7 +99,7 @@ void RenderPresetRepository::refresh(bool fullRefresh)
         fileList.removeAll(QStringLiteral("customprofiles.xml"));
     }
     // Parse files downloaded with KNewStuff
-    for (const QString &filename : qAsConst(fileList)) {
+    for (const QString &filename : std::as_const(fileList)) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
 
@@ -239,7 +239,7 @@ void RenderPresetRepository::parseMltPresets()
     if (root.cd(QStringLiteral("../stills"))) {
         QString groupName = i18nc("Category Name", "Images sequence");
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
-        for (const QString &prof : qAsConst(profiles)) {
+        for (const QString &prof : std::as_const(profiles)) {
             std::unique_ptr<RenderPresetModel> model(
                 new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=stills/" + prof), false));
             m_groups.append(model->groupName());

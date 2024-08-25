@@ -277,11 +277,11 @@ void MltConnection::refreshLumas()
     QStringList verticalLumas;
     QStringList squareLumas;
     QStringList allImagefiles;
-    for (const QString &folder : qAsConst(customLumas)) {
+    for (const QString &folder : std::as_const(customLumas)) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
         QString format;
-        for (const QString &f : qAsConst(folders)) {
+        for (const QString &f : std::as_const(folders)) {
             QStringList imagefiles;
             QDir dir(topDir.absoluteFilePath(f));
             QStringList filesnames;
@@ -292,7 +292,7 @@ void MltConnection::refreshLumas()
             if (MainWindow::m_lumaFiles.contains(format)) {
                 imagefiles = MainWindow::m_lumaFiles.value(format);
             }
-            for (const QString &fname : qAsConst(filesnames)) {
+            for (const QString &fname : std::as_const(filesnames)) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
             if (f == QLatin1String("HD")) {

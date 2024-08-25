@@ -286,7 +286,7 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key)
     if (key.contains(".")) {
         QStringList subkeys = key.split(".");
 
-        for (const auto &subkey : qAsConst(subkeys)) {
+        for (const auto &subkey : std::as_const(subkeys)) {
             if (subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
                 key = subkey;
             } else {
@@ -305,7 +305,7 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key)
     if (parseKey.contains(".")) {
         QStringList subkeys = tmpKeys[key].toString().split(".");
 
-        for (const auto &subkey : qAsConst(subkeys)) {
+        for (const auto &subkey : std::as_const(subkeys)) {
             if (subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
                 parseKey = subkey;
             } else {
@@ -461,7 +461,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
 
         pageCount = objectGetValue(res.object(), "resultCount").toInt() / m_perPage;
 
-        for (const auto &item : qAsConst(items)) {
+        for (const auto &item : std::as_const(items)) {
             ResourceItemInfo onlineItem;
             onlineItem.author = objectGetString(item.toObject(), "author");
             onlineItem.authorUrl = objectGetString(item.toObject(), "authorUrl");

@@ -1064,7 +1064,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         m_resizeMode = NoResize;
         bool itemFound = false;
         QList<QGraphicsItem *> list = items(QRectF(p, QSizeF(4, 4)).toRect());
-        for (const QGraphicsItem *g : qAsConst(list)) {
+        for (const QGraphicsItem *g : std::as_const(list)) {
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
                 continue;
             }

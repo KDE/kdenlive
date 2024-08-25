@@ -31,7 +31,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     QStringList filterAddedParams = m_model->data(m_index, AssetParameterModel::FilterParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
     QStringList consumerParams = m_model->data(m_index, AssetParameterModel::FilterConsumerParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
     QString defaultValue;
-    for (const QVariant &jobElement : qAsConst(filterData)) {
+    for (const QVariant &jobElement : std::as_const(filterData)) {
         QStringList d = jobElement.toStringList();
         if (d.size() == 2) {
             if (d.at(0) == QLatin1String("conditionalinfo")) {
@@ -134,7 +134,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
             QStringList d = jobElement.toStringList();
             if (d.size() == 2) fData.insert({d.at(0), d.at(1)});
         }
-        for (const auto &param : qAsConst(filterLastParams)) {
+        for (const auto &param : std::as_const(filterLastParams)) {
             if (param.first != m_keyParam) {
                 if (!isTracker || param.first != QLatin1String("rect")) {
                     fParams.insert({param.first, param.second});

@@ -169,7 +169,7 @@ void ProxyTest::startTest()
                 parameters << QStringLiteral("-i") << src.fileName();
             }
             QStringList paramList = params.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-            for (const QString &s : qAsConst(paramList)) {
+            for (const QString &s : std::as_const(paramList)) {
                 QString t = s.simplified();
                 if (t != QLatin1String("-noautorotate")) {
                     parameters << t;

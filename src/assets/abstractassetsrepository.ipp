@@ -75,7 +75,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
         QDir current_dir(dir);
         QStringList filter {QStringLiteral("*.xml")};
         QStringList fileList = current_dir.entryList(filter, QDir::Files);
-        for (const auto &file : qAsConst(fileList)) {
+        for (const auto &file : std::as_const(fileList)) {
             QString path = current_dir.absoluteFilePath(file);
             parseCustomAssetFile(path, customAssets);
         }
@@ -123,7 +123,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     // Remove really invalid assets
     emptyMetaAssets << missingDependency;
     emptyMetaAssets.removeDuplicates();
-    for (const auto &invalid : qAsConst(emptyMetaAssets)) {
+    for (const auto &invalid : std::as_const(emptyMetaAssets)) {
         m_assets.erase(invalid);
     }
 }

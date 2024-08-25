@@ -297,7 +297,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         paramList.clear();
         QList<QCheckBox *> cbs = d.findChildren<QCheckBox *>();
         QMap<QPersistentModelIndex, QStringList> params;
-        for (auto c : qAsConst(cbs)) {
+        for (auto c : std::as_const(cbs)) {
             // qDebug()<<"=== FOUND CBS: "<<KLocalizedString::removeAcceleratorMarker(c->text());
             if (c->isChecked()) {
                 QPersistentModelIndex ix = c->property("index").toModelIndex();
@@ -849,7 +849,7 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
     }
     auto list = json.array();
     QMap<QString, QMap<int, QVariant>> storedValues;
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
             continue;
@@ -873,7 +873,7 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
                     }
                 } else if (value.isArray()) {
                     auto list = value.toArray();
-                    for (const auto &entry : qAsConst(list)) {
+                    for (const auto &entry : std::as_const(list)) {
                         if (!entry.isObject()) {
                             qDebug() << "Warning : Skipping invalid category data";
                             continue;

@@ -592,7 +592,7 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
         // Adjust param values
         QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
         QMap<QString, QString> values;
-        for (const auto &param : qAsConst(currentValues)) {
+        for (const auto &param : std::as_const(currentValues)) {
             values.insert(param.first, param.second.toString());
         }
         QDomNodeList params = effect.elementsByTagName("parameter");
@@ -675,7 +675,7 @@ QDomDocument CollapsibleEffectView::toXml() const
     QDomElement effect = doc.createElement(QStringLiteral("effect"));
     doc.appendChild(effect);
     effect.setAttribute(QStringLiteral("id"), effectId);
-    for (const auto &param : qAsConst(currentValues)) {
+    for (const auto &param : std::as_const(currentValues)) {
         QDomElement xmlParam = doc.createElement(QStringLiteral("property"));
         effect.appendChild(xmlParam);
         xmlParam.setAttribute(QStringLiteral("name"), param.first);

@@ -837,7 +837,7 @@ void RenderPresetDialog::slotUpdateParams()
     QString addionalParams = additionalParams->toPlainText().simplified();
 
     QStringList removed;
-    for (const auto &p : qAsConst(m_uiParams)) {
+    for (const auto &p : std::as_const(m_uiParams)) {
         QString store = addionalParams;
         if (store != addionalParams.remove(QRegularExpression(QStringLiteral("((^|\\s)%1=\\S*)").arg(p)))) {
             removed.append(p);

@@ -51,7 +51,7 @@ void RectHelper::refreshParams(int pos)
 {
     int x = 0, y = 0, w = 500, h = 500;
     QSize frameSize = pCore->getCurrentFrameSize();
-    for (const auto &ix : qAsConst(m_indexes)) {
+    for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::KeyframeParam) {
             continue;

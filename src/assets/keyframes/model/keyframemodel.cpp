@@ -428,7 +428,7 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
         times << m.first;
     }
     bool res = true;
-    for (const auto &t : qAsConst(times)) {
+    for (const auto &t : std::as_const(times)) {
         res &= moveKeyframe(t, t + diff, QVariant(), undo, redo);
     }
     if (res && logUndo) {
@@ -860,7 +860,7 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     update_redo_start();
     bool res = true;
     bool first = true;
-    for (const auto &p : qAsConst(all_pos)) {
+    for (const auto &p : std::as_const(all_pos)) {
         if (first) { // skip first point
             first = false;
             continue;

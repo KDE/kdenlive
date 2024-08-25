@@ -350,7 +350,7 @@ bool DocumentChecker::hasErrorInProject()
 
     // Check existence of luma files
     QStringList filesToCheck = getAssetsFilesByMltTag(m_doc, QStringLiteral("transition"), getLumaPairs());
-    for (const QString &lumafile : qAsConst(filesToCheck)) {
+    for (const QString &lumafile : std::as_const(filesToCheck)) {
         QString filePath = ensureAbsolutePath(lumafile);
 
         if (QFile::exists(filePath)) {
@@ -408,7 +408,7 @@ bool DocumentChecker::hasErrorInProject()
 
     // Check for missing transitions (eg. not installed)
     QStringList transtions = getAssetsServiceIds(m_doc, QStringLiteral("transition"));
-    for (const QString &id : qAsConst(transtions)) {
+    for (const QString &id : std::as_const(transtions)) {
         if (!TransitionsRepository::get()->exists(id) && !itemsContain(MissingType::Transition, id, MissingStatus::Remove)) {
             DocumentResource item;
             item.type = MissingType::Transition;
@@ -420,7 +420,7 @@ bool DocumentChecker::hasErrorInProject()
 
     // Check for missing filter assets
     QStringList assetsToCheck = getAssetsFilesByMltTag(m_doc, QStringLiteral("filter"), getAssetPairs());
-    for (const QString &filterfile : qAsConst(assetsToCheck)) {
+    for (const QString &filterfile : std::as_const(assetsToCheck)) {
         QString filePath = ensureAbsolutePath(filterfile);
 
         if (QFile::exists(filePath)) {
@@ -449,7 +449,7 @@ bool DocumentChecker::hasErrorInProject()
     // Check for missing effects (eg. not installed)
     QStringList filters = getAssetsServiceIds(m_doc, QStringLiteral("filter"));
     QStringList renamedEffectNames = renamedEffects.keys();
-    for (const QString &id : qAsConst(filters)) {
+    for (const QString &id : std::as_const(filters)) {
         if (!EffectsRepository::get()->exists(id) && !itemsContain(MissingType::Effect, id, MissingStatus::Remove)) {
             // m_missingFilters << id;
             if (renamedEffectNames.contains(id) && EffectsRepository::get()->exists(renamedEffects.value(id))) {

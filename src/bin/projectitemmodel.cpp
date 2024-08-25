@@ -668,7 +668,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
     }
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
     auto list = json.array();
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qWarning() << "Skipping invalid marker data";
             continue;
@@ -1672,7 +1672,7 @@ void ProjectItemModel::setExtraTimelineSaved(const QString &uuid)
 void ProjectItemModel::removeReferencedClips(const QUuid &uuid, bool onDeletion)
 {
     QList<std::shared_ptr<ProjectClip>> clipList = getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         if (clip->refCount() > 0) {
             clip->purgeReferences(uuid, onDeletion);
         }

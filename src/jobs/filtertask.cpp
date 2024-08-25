@@ -230,7 +230,7 @@ void FilterTask::run()
         dom.documentElement().insertAfter(consumerNode, profiles.at(profiles.length() - 1));
     }
     consumerNode.setAttribute("mlt_service", "xml");
-    for (const QString &param : qAsConst(m_consumerArgs)) {
+    for (const QString &param : std::as_const(m_consumerArgs)) {
         if (param.contains(QLatin1Char('='))) {
             consumerNode.setAttribute(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
         }

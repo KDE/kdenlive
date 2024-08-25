@@ -215,7 +215,7 @@ void MainWindow::init(const QString &mltPath)
         defaultStyle->setChecked(true);
     }
 
-    for (const QString &style : qAsConst(availableStyles)) {
+    for (const QString &style : std::as_const(availableStyles)) {
         auto *a = new QAction(style, stylesGroup);
         a->setCheckable(true);
         a->setData(style);
@@ -2121,7 +2121,7 @@ void MainWindow::setupActions()
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
     // m_transitions = new QAction*[transitions.count()];
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : qAsConst(allTransitions)) {
+    for (const auto &transition : std::as_const(allTransitions)) {
         auto *transAction = new QAction(transition.first, this);
         transAction->setData(transition.second);
         transAction->setIconVisibleInMenu(false);
@@ -2679,7 +2679,7 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
-    for (const QString &action_name : qAsConst(m_actionNames)) {
+    for (const QString &action_name : std::as_const(m_actionNames)) {
         const QString action_text = KLocalizedString::removeAcceleratorMarker(collection->action(action_name)->text());
         actions[action_text] = action_name;
     }
@@ -3857,7 +3857,7 @@ void MainWindow::loadDockActions()
     // TODO: move audiospectrum's creation to ScopeManager
     scopesNames << QStringLiteral("audiospectrum");
 
-    for (QAction *a : qAsConst(list)) {
+    for (QAction *a : std::as_const(list)) {
         if (a->objectName().startsWith(QStringLiteral("raise_"))) {
             continue;
         }
@@ -3878,12 +3878,12 @@ void MainWindow::loadDockActions()
     QList<QAction *> orderedList;
     QCollator order;
     std::sort(sortedList.begin(), sortedList.end(), order);
-    for (const QString &text : qAsConst(sortedList)) {
+    for (const QString &text : std::as_const(sortedList)) {
         orderedList << sorted.value(text);
     }
     QList<QAction *> orderedBinList;
     binsList.sort(Qt::CaseInsensitive);
-    for (const QString &text : qAsConst(binsList)) {
+    for (const QString &text : std::as_const(binsList)) {
         orderedBinList << bins.value(text);
     }
     if (m_binsListMenu) {
@@ -3891,7 +3891,7 @@ void MainWindow::loadDockActions()
     }
     QList<QAction *> orderedScopesList;
     scopesList.sort(Qt::CaseInsensitive);
-    for (const QString &text : qAsConst(scopesList)) {
+    for (const QString &text : std::as_const(scopesList)) {
         orderedScopesList << scopes.value(text);
     }
     m_scopesListMenu->addActions(orderedScopesList);
@@ -4061,7 +4061,7 @@ void MainWindow::updateDockMenu()
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (auto dock : qAsConst(docks)) {
+    for (auto dock : std::as_const(docks)) {
         QAction *dockInformations = dock->toggleViewAction();
         if (!dockInformations) {
             continue;
@@ -4368,7 +4368,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
         return;
     }
     QList<QAction *> actions = monitorOverlay->actions();
-    for (QAction *ac : qAsConst(actions)) {
+    for (QAction *ac : std::as_const(actions)) {
         int mid = ac->data().toInt();
         if (mid == 0x010 || mid == 0x040) {
             ac->setVisible(id == Kdenlive::ClipMonitor);
@@ -4413,7 +4413,7 @@ void MainWindow::doChangeStyle()
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 {
     QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (auto tab : qAsConst(tabbed)) {
+    for (auto tab : std::as_const(tabbed)) {
         if (tab->objectName() == otherWidget) {
             return true;
         }
@@ -5027,7 +5027,7 @@ void MainWindow::folderRenamed(const QString &binId, const QString &folderName)
 void MainWindow::tabifyBins()
 {
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (auto dock : qAsConst(docks)) {
+    for (auto dock : std::as_const(docks)) {
         if (dock->objectName().startsWith(QLatin1String("project_bin_"))) {
             tabifyDockWidget(m_projectBinDock, dock);
         }

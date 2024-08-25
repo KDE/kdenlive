@@ -354,7 +354,7 @@ QColor TitleDocument::getBackgroundColor() const
 QColor TitleDocument::getBackgroundColor(const QList<QGraphicsItem *> &items)
 {
     QColor color(0, 0, 0, 0);
-    for (auto item : qAsConst(items)) {
+    for (auto item : std::as_const(items)) {
         if (int(item->zValue()) == -1100) {
             color = static_cast<QGraphicsRectItem *>(item)->brush().color();
             return color;
@@ -393,7 +393,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, GraphicsSceneRectMove *s
         m_height = height;
     }
 
-    for (auto i : qAsConst(items)) {
+    for (auto i : std::as_const(items)) {
         m_scene->addItem(i);
     }
     return res;
@@ -695,7 +695,7 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QList<QGraphicsItem *> &
                 // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
                 if (scene) {
                     QList<QGraphicsItem *> sceneItems = scene->items();
-                    for (auto sceneItem : qAsConst(sceneItems)) {
+                    for (auto sceneItem : std::as_const(sceneItems)) {
                         if (int(sceneItem->zValue()) == -1100) {
                             static_cast<QGraphicsRectItem *>(sceneItem)->setBrush(QBrush(color));
                             break;
