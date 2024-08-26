@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-20 09:28+0300\n"
+"POT-Creation-Date: 2024-08-26 00:38+0000\n"
+"PO-Revision-Date: 2024-08-25 20:42+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -886,7 +886,7 @@ msgstr "Dikey Hizalama"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Metin"
@@ -14451,10 +14451,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Geçerli kova klibine zaman damgaları ata"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Klip oluşturulamıyor"
+msgstr "Proje klibi bulunamıyor"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
@@ -16772,16 +16771,14 @@ msgid "Rename Track"
 msgstr "İzi Yeniden Adlandır"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Efekt Yığınını Etkinleştir"
+msgstr "İz Efekti Yığınını Etkinleştir"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Efekt Yığınını Devre Dışı Bırak"
+msgstr "İz Efekti Yığınını Devre Dışı Bırak"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -17796,17 +17793,17 @@ msgstr "Kullanılabilir akış yok"
 msgid "Gradient %1"
 msgstr "%1 gradyan"
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Bu başlık klibi farklı kare boyutu ile oluşturulmuş."
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
 msgstr "Başlık Profili"
 
-#: src/titler/titledocument.cpp:457
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -17817,7 +17814,7 @@ msgstr ""
 "ölçüsüyle saklandı. Bunlar taşınabilirlik için piksel ölçüsüne çevrilecek; "
 "ancak boyutlarını ayarlamanız gerekebilir."
 
-#: src/titler/titledocument.cpp:460
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Metin Klipleri Güncellendi"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-20 16:23+0200\n"
+"POT-Creation-Date: 2024-08-26 00:38+0000\n"
+"PO-Revision-Date: 2024-08-25 15:45+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -890,7 +890,7 @@ msgstr "Aliñamento vertical"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Texto"
@@ -14520,10 +14520,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Asignar marcas de tempo ao fragmento actual da caixa"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot find profile from current clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Non se atopa o perfil deste fragmento"
+msgstr "Non é posíbel atopar o fragmento do proxecto"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
@@ -16888,16 +16887,14 @@ msgid "Rename Track"
 msgstr "Renomear a pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Activar a morea de efectos"
+msgstr "Activar o seguimento da morea de efectos"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Desactivar a morea de efectos"
+msgstr "Desactivar o seguimento da morea de efectos"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -17916,17 +17913,17 @@ msgstr "Non hai ningún fluxo dispoñíbel"
 msgid "Gradient %1"
 msgstr "Gradación %1"
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Este fragmento de título creouse cun tamaño de fotograma distinto."
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
 msgstr "Perfil de título"
 
-#: src/titler/titledocument.cpp:457
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -17938,7 +17935,7 @@ msgstr ""
 "a tamaño de pixel, facéndoos portátiles, pero podería ter que axustar o seu "
 "tamaño."
 
-#: src/titler/titledocument.cpp:460
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Fragmentos de texto actualizados"
