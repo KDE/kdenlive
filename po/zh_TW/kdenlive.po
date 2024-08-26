@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-24 02:31+0000\n"
-"PO-Revision-Date: 2024-08-03 14:31+0900\n"
+"PO-Revision-Date: 2024-08-25 02:40+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -14110,10 +14110,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "指派時間碼給目前的專案素材庫素材"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "無法建立素材"
+msgstr "找不到專案素材"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format

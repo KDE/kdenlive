@@ -4088,7 +4088,6 @@ msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:277
 #, fuzzy, kde-format
-#| msgid "Monitor"
 msgid "Monitor audio"
 msgstr "Skjerm"
 
@@ -9225,7 +9224,6 @@ msgstr ""
 
 #: src/filefilter.cpp:122
 #, fuzzy, kde-format
-#| msgid "Audio Wave"
 msgid "Audio Files"
 msgstr "Lydbølge"
 
@@ -11833,7 +11831,6 @@ msgstr ""
 
 #: src/mainwindow.cpp:3862
 #, fuzzy, kde-format
-#| msgid "All Projects"
 msgid "Project Bins"
 msgstr "Alle prosjekter"
 
@@ -14877,21 +14874,18 @@ msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:72
 #, fuzzy, kde-format
-#| msgid "Small (%1x%2)"
 msgctxt "Model file to download, small one"
 msgid "Small (460MB)"
 msgstr "Liten (%1x%2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:73
 #, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
 msgctxt "Model file to download, medium one"
 msgid "Medium (1.4GB)"
 msgstr "Medium (%1x%2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:74
 #, fuzzy, kde-format
-#| msgid "Large (%1x%2)"
 msgctxt "Model file to download, large one"
 msgid "Large (2.9GB)"
 msgstr "Stor (%1x%2)"
@@ -18428,7 +18422,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
 #, fuzzy, kde-format
-#| msgid "Monitor"
 msgid "Monitor grid"
 msgstr "Skjerm"
 
