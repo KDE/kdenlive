@@ -168,13 +168,13 @@ QModelIndex AssetFilter::firstVisibleItem(const QModelIndex &current)
     return current;
 }
 
-QModelIndex AssetFilter::getCategory(int catRow)
+QModelIndex AssetFilter::getCategory(int catRow) const
 {
     QModelIndex cat = index(catRow, 0, QModelIndex());
     return cat;
 }
 
-QVariantList AssetFilter::getCategories()
+QVariantList AssetFilter::getCategories() const
 {
     QVariantList list;
     for (int i = 0; i < sourceModel()->rowCount(); i++) {

@@ -8,6 +8,8 @@
 #include "assets/assetlist/model/assettreemodel.hpp"
 #include "effecttreemodel.hpp"
 
+#include <KLocalizedString>
+
 EffectFilter::EffectFilter(QObject *parent)
     : AssetFilter(parent)
 {
@@ -18,7 +20,23 @@ void EffectFilter::setFilterType(bool enabled, AssetListType::AssetType type)
 {
     m_type_enabled = enabled;
     m_type_value = type;
+    if (!m_deprecatedCategory.isValid()) {
+        getDeprecatedCategory();
+    }
     invalidateFilter();
+}
+
+bool EffectFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+    QString leftData = sourceModel()->data(left).toString();
+    QString rightData = sourceModel()->data(right).toString();
+
+    if (left == m_deprecatedCategory) {
+        return false;
+    } else if (right == m_deprecatedCategory) {
+        return true;
+    }
+    return QString::localeAwareCompare(leftData, rightData) < 0;
 }
 
 void EffectFilter::reloadFilterOnFavorite()
@@ -59,5 +77,18 @@ bool EffectFilter::applyAll(std::shared_ptr<TreeItem> item) const
         return filterType(item) && filterName(item);
     } else {
         return filterType(item);
+    }
+}
+
+void EffectFilter::getDeprecatedCategory()
+{
+    auto *model = static_cast<AbstractTreeModel *>(sourceModel());
+    for (int i = 0; i < sourceModel()->rowCount(); i++) {
+        QModelIndex row = sourceModel()->index(i, 0, QModelIndex());
+        std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
+        if (item->dataColumn(AssetTreeModel::NameCol).toString() == i18n("Deprecated")) {
+            m_deprecatedCategory = row;
+            break;
+        }
     }
 }
