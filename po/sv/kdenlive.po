@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:39+0000\n"
+"POT-Creation-Date: 2024-08-26 00:38+0000\n"
 "PO-Revision-Date: 2024-08-24 07:54+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -881,7 +881,7 @@ msgstr "Vertikal justering"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Text"
@@ -17787,17 +17787,17 @@ msgstr "Ingen tillgänglig ström"
 msgid "Gradient %1"
 msgstr "Toning %1"
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Titelklippet skapades med en annan bildrutestorlek."
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
 msgstr "Titelprofil"
 
-#: src/titler/titledocument.cpp:457
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -17809,7 +17809,7 @@ msgstr ""
 "bildpunktsstorlek, vilket gör dem flyttbara, men du kan behöva justera deras "
 "storlek."
 
-#: src/titler/titledocument.cpp:460
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Textklipp uppdaterade"
@@ -19242,19 +19242,19 @@ msgstr "Ljudminiatyrfärger:"
 #: src/ui/configcolors_ui.ui:38
 #, kde-format
 msgid "Monitor overlay color:"
-msgstr "Överlagrad färg på skärm:"
+msgstr "Skärmens överlagringsfärg:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_bg)
 #: src/ui/configcolors_ui.ui:48
 #, kde-format
 msgid "Monitor background color:"
-msgstr "Skärmarnas bakgrundsfärg:"
+msgstr "Skärmens bakgrundsfärg:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
 #, kde-format
 msgid "Monitor grid"
-msgstr "Bildskärmsrutnät"
+msgstr "Skärmens rutnät"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -19483,7 +19483,7 @@ msgstr "Sökväg till körbar fil för Glaxnimate"
 #: src/ui/configenv_ui.ui:480
 #, kde-format
 msgid "Animation editing:"
-msgstr "Redigering av animering:"
+msgstr "Animeringsredigering:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
 #: src/ui/configenv_ui.ui:501
@@ -19507,13 +19507,13 @@ msgstr "Mime-typer för klipp som stöds"
 #: src/ui/configjogshuttle_ui.ui:27
 #, kde-format
 msgid "Enable Jog Shuttle device"
-msgstr "Aktivera rullningskontroll"
+msgstr "Aktivera Jog Shuttle kontroll"
 
 #. i18n: ectx: property (text), widget (QLabel, shuttledisabled)
 #: src/ui/configjogshuttle_ui.ui:34
 #, kde-format
 msgid "Jog Shuttle device disabled."
-msgstr "Rullningskontroll inaktiverad."
+msgstr "Jog Shuttle kontroll inaktiverad."
 
 #. i18n: ectx: property (title), widget (QGroupBox, config_group)
 #: src/ui/configjogshuttle_ui.ui:57

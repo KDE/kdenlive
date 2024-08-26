@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:39+0000\n"
+"POT-Creation-Date: 2024-08-26 00:38+0000\n"
 "PO-Revision-Date: 2012-01-01 20:29+0100\n"
 "Last-Translator: Kjetil Kilhavn <kjetil@kilhavn.no>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -861,7 +861,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr ""
@@ -4093,7 +4093,6 @@ msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:277
 #, fuzzy, kde-format
-#| msgid "Monitor"
 msgid "Monitor audio"
 msgstr "Skjerm"
 
@@ -7988,7 +7987,6 @@ msgstr ""
 
 #: src/dialogs/textbasededit.cpp:753
 #, fuzzy, kde-format
-#| msgid "Icon Size"
 msgid "Increase Font Size"
 msgstr "Ikonstørrelse"
 
@@ -9200,13 +9198,11 @@ msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:321
 #, fuzzy, kde-format
-#| msgid "Horizontal multiplicator"
 msgid "Horizontal Flip"
 msgstr "Horisontal multiplikator"
 
 #: src/effects/effectstack/view/effectstackview.cpp:326
 #, fuzzy, kde-format
-#| msgid "Vertical multiplicator"
 msgid "Vertical Flip"
 msgstr "Vertikal multiplikator"
 
@@ -9264,7 +9260,6 @@ msgstr ""
 
 #: src/filefilter.cpp:122
 #, fuzzy, kde-format
-#| msgid "Audio Wave"
 msgid "Audio Files"
 msgstr "Lydbølge"
 
@@ -11872,7 +11867,6 @@ msgstr ""
 
 #: src/mainwindow.cpp:3860
 #, fuzzy, kde-format
-#| msgid "All Projects"
 msgid "Project Bins"
 msgstr "Alle prosjekter"
 
@@ -14916,21 +14910,18 @@ msgstr ""
 
 #: src/pythoninterfaces/speechtotext.cpp:72
 #, fuzzy, kde-format
-#| msgid "Small (%1x%2)"
 msgctxt "Model file to download, small one"
 msgid "Small (460MB)"
 msgstr "Liten (%1x%2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:73
 #, fuzzy, kde-format
-#| msgid "Medium (%1x%2)"
 msgctxt "Model file to download, medium one"
 msgid "Medium (1.4GB)"
 msgstr "Medium (%1x%2)"
 
 #: src/pythoninterfaces/speechtotext.cpp:74
 #, fuzzy, kde-format
-#| msgid "Large (%1x%2)"
 msgctxt "Model file to download, large one"
 msgid "Large (2.9GB)"
 msgstr "Stor (%1x%2)"
@@ -17067,17 +17058,17 @@ msgstr ""
 msgid "Gradient %1"
 msgstr ""
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr ""
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
 msgstr ""
 
-#: src/titler/titledocument.cpp:457
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -17085,7 +17076,7 @@ msgid ""
 "making them portable, but you could have to adjust their size."
 msgstr ""
 
-#: src/titler/titledocument.cpp:460
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr ""
@@ -18463,7 +18454,6 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
 #, fuzzy, kde-format
-#| msgid "Monitor"
 msgid "Monitor grid"
 msgstr "Skjerm"
 
@@ -21722,7 +21712,6 @@ msgstr ""
 
 #: src/widgets/geometrywidget.cpp:32
 #, fuzzy, kde-format
-#| msgid "Motion"
 msgctxt "x axis position"
 msgid "Position X"
 msgstr "Bevegelse"

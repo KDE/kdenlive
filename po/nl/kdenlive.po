@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-23 12:08+0200\n"
+"POT-Creation-Date: 2024-08-26 00:38+0000\n"
+"PO-Revision-Date: 2024-08-25 15:15+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -890,7 +890,7 @@ msgstr "Verticale uitlijning"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
@@ -16851,16 +16851,14 @@ msgid "Rename Track"
 msgstr "Track hernoemen"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Effectenstapel inschakelen"
+msgstr "Effectenstapel van track inschakelen"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Effectstapel uitschakelen"
+msgstr "Effectstapel van track uitschakelen"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -17876,17 +17874,17 @@ msgstr "Geen stream beschikbaar"
 msgid "Gradient %1"
 msgstr "Gradiënt %1"
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Deze titel clip is gemaakt met een ander frame formaat."
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
 msgstr "Titel profiel"
 
-#: src/titler/titledocument.cpp:457
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -17898,7 +17896,7 @@ msgstr ""
 "omgezet naar een grootte in pixels, zodat ze overdraagbaar zijn, maar "
 "misschien moet de grootte bijgesteld worden."
 
-#: src/titler/titledocument.cpp:460
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Tekst clips bijgewerkt"

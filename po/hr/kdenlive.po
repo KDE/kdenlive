@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:39+0000\n"
+"POT-Creation-Date: 2024-08-26 00:38+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -901,7 +901,7 @@ msgstr "Vertikalno raspršenje"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
@@ -18196,17 +18196,17 @@ msgstr "okviri"
 msgid "Gradient %1"
 msgstr ""
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr ""
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, fuzzy, kde-format
 msgid "Title Profile"
 msgstr "Uredi profil"
 
-#: src/titler/titledocument.cpp:457
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -18214,7 +18214,7 @@ msgid ""
 "making them portable, but you could have to adjust their size."
 msgstr ""
 
-#: src/titler/titledocument.cpp:460
+#: src/titler/titledocument.cpp:466
 #, fuzzy, kde-format
 msgid "Text Clips Updated"
 msgstr "Uredi brzinu isječka"
