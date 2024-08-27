@@ -14142,7 +14142,6 @@ msgstr "分配时间戳到当前项目素材箱剪辑"
 
 #: src/project/dialogs/noteswidget.cpp:126
 #, fuzzy, kde-format
-#| msgid "Cannot create clip"
 msgid "Cannot find project clip"
 msgstr "无法创建剪辑"
 
