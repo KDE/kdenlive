@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 00:38+0000\n"
+"POT-Creation-Date: 2024-08-27 00:39+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2829,6 +2829,7 @@ msgid "Calf  Plugins"
 msgstr "Calf  Plugins - Calf 插件"
 
 #: data/kdenliveeffectscategory.rc:138
+#: src/effects/effectlist/model/effectfilter.cpp:89
 #: src/effects/effectlist/model/effecttreemodel.cpp:97
 #, kde-format
 msgid "Deprecated"
@@ -14180,7 +14181,6 @@ msgstr "分配时间戳到当前项目素材箱剪辑"
 
 #: src/project/dialogs/noteswidget.cpp:126
 #, fuzzy, kde-format
-#| msgid "Cannot create clip"
 msgid "Cannot find project clip"
 msgstr "无法创建剪辑"
 
@@ -16459,13 +16459,11 @@ msgstr "重命名轨道"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
 #, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
 msgid "Enable Track Effect Stack"
 msgstr "启用效果堆栈"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
 #, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
 msgid "Disable Track Effect Stack"
 msgstr "禁用效果堆栈"
 

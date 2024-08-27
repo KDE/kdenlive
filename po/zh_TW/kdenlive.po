@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 00:39+0000\n"
-"PO-Revision-Date: 2024-08-03 14:31+0900\n"
+"POT-Creation-Date: 2024-08-27 00:39+0000\n"
+"PO-Revision-Date: 2024-08-25 02:42+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -868,7 +868,7 @@ msgstr "垂直對齊"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "文字"
@@ -2820,6 +2820,7 @@ msgid "Calf  Plugins"
 msgstr "Calf 插件"
 
 #: data/kdenliveeffectscategory.rc:138
+#: src/effects/effectlist/model/effectfilter.cpp:89
 #: src/effects/effectlist/model/effecttreemodel.cpp:97
 #, kde-format
 msgid "Deprecated"
@@ -8079,8 +8080,7 @@ msgid "No speech"
 msgstr "無語音"
 
 #: src/dialogs/textbasededit.cpp:619
-#, fuzzy, kde-format
-#| msgid "Speech model"
+#, kde-format
 msgid "Speech Model"
 msgstr "語音模型"
 
@@ -8111,16 +8111,14 @@ msgid "Save edited text in a playlist file"
 msgstr "將已編輯的文字儲存在一個播放清單檔案中"
 
 #: src/dialogs/textbasededit.cpp:667
-#, fuzzy, kde-format
-#| msgid "Create new sequence with text edit "
+#, kde-format
 msgid "Create new sequence with text edit"
-msgstr "建立有文字編輯的新序列 "
+msgstr "建立有文字編輯的新序列"
 
 #: src/dialogs/textbasededit.cpp:668
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Search in text"
-msgstr "語音轉文字"
+msgstr "在文字中搜尋"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
@@ -8139,16 +8137,14 @@ msgid "Add marker for current selection"
 msgstr "為目前的選取範圍新增標記"
 
 #: src/dialogs/textbasededit.cpp:753
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Increase Font Size"
-msgstr "字型大小"
+msgstr "提高字型大小"
 
 #: src/dialogs/textbasededit.cpp:756
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Decrease Font Size"
-msgstr "字型大小"
+msgstr "降低字型大小"
 
 #: src/dialogs/textbasededit.cpp:760
 #, kde-format
@@ -14153,10 +14149,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "指派時間碼給目前的專案素材庫素材"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "無法建立素材"
+msgstr "找不到專案素材"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
@@ -16431,16 +16426,14 @@ msgid "Rename Track"
 msgstr "重新命名軌道"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "啟用效果堆疊"
+msgstr "啟用軌道效果堆疊"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "停用效果堆疊"
+msgstr "停用軌道效果堆疊"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -17430,17 +17423,17 @@ msgstr "沒有可用的串流"
 msgid "Gradient %1"
 msgstr "漸層 %1"
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "這個標題素材是在不同大小的畫面中建立的。"
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
 msgstr "字幕 / 標題編碼方案"
 
-#: src/titler/titledocument.cpp:457
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -17451,7 +17444,7 @@ msgstr ""
 "將被轉換為像素大小，以確保不同顯示器上大小相同，但您可能還會需要再調整它們的"
 "大小。"
 
-#: src/titler/titledocument.cpp:460
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "文字素材已更新"
@@ -21629,10 +21622,9 @@ msgstr "僅已選區段"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transcribe"
-msgstr "轉換編碼"
+msgstr "抄錄"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:90
