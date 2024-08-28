@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-27 00:39+0000\n"
-"PO-Revision-Date: 2024-08-20 09:47+0200\n"
+"PO-Revision-Date: 2024-08-24 11:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.0\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -14579,10 +14579,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Assigna marques horàries als clips de la safata actuals"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "No s'ha pogut crear el clip"
+msgstr "No s'ha pogut trobar el clip del projecte"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
@@ -16951,16 +16950,14 @@ msgid "Rename Track"
 msgstr "Canvia el nom de la pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Activa la pila d'efectes"
+msgstr "Activa la pila d'efectes de pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Desactiva la pila d'efectes"
+msgstr "Desactiva la pila d'efectes de pista"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format

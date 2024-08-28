@@ -16250,16 +16250,14 @@ msgid "Rename Track"
 msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable track effects"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "Povolit efekty stopy"
+msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable track effects"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "Vypnout efekty stopy"
+msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
