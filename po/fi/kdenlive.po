@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 02:31+0000\n"
+"POT-Creation-Date: 2024-08-28 02:46+0000\n"
 "PO-Revision-Date: 2024-01-31 01:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -6863,7 +6863,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1794
 #: src/dialogs/kdenlivesettingsdialog.cpp:1809
-#: src/dialogs/kdenlivesettingsdialog.cpp:2126 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:2130 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, fuzzy, kde-format
 #| msgid "Custom models folder"
@@ -6903,13 +6903,13 @@ msgstr "Virtuaaliympäristön kansion poisto epäonnistui."
 msgid "Probing..."
 msgstr "Tutkitaan..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1938
-#: src/dialogs/kdenlivesettingsdialog.cpp:2123
+#: src/dialogs/kdenlivesettingsdialog.cpp:1942
+#: src/dialogs/kdenlivesettingsdialog.cpp:2127
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Lisää puhemalli."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1971
+#: src/dialogs/kdenlivesettingsdialog.cpp:1975
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6918,29 +6918,29 @@ msgstr ""
 "Lataa puhemoduulit osoitteesta: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2001
+#: src/dialogs/kdenlivesettingsdialog.cpp:2005
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Anna uuden sanakirjan URL-osoite"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2007
+#: src/dialogs/kdenlivesettingsdialog.cpp:2011
 #, kde-format
 msgid "Downloading model…"
 msgstr "Ladataan mallia..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2017
+#: src/dialogs/kdenlivesettingsdialog.cpp:2021
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Emme salli mukautettujen kansiomallien poistamista, tee se manuaalisesti."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2023
-#: src/dialogs/kdenlivesettingsdialog.cpp:2082
+#: src/dialogs/kdenlivesettingsdialog.cpp:2027
+#: src/dialogs/kdenlivesettingsdialog.cpp:2086
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ei voi käyttää sanakirjakansiota."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2032
+#: src/dialogs/kdenlivesettingsdialog.cpp:2036
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6949,22 +6949,22 @@ msgstr ""
 "Poista kansio:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2056
+#: src/dialogs/kdenlivesettingsdialog.cpp:2060
 #, kde-format
 msgid "Download error"
 msgstr "Latausvirhe"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2061
+#: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
 msgid "Download error %1"
 msgstr "Latausvirhe %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2089
+#: src/dialogs/kdenlivesettingsdialog.cpp:2093
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Puretaan arkistoa…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2096
+#: src/dialogs/kdenlivesettingsdialog.cpp:2100
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Uusi sanakirja asennettu."

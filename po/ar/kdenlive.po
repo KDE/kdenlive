@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-24 02:31+0000\n"
+"POT-Creation-Date: 2024-08-28 02:46+0000\n"
 "PO-Revision-Date: 2024-07-28 13:11+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -6819,7 +6819,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1794
 #: src/dialogs/kdenlivesettingsdialog.cpp:1809
-#: src/dialogs/kdenlivesettingsdialog.cpp:2126 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:2130 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
@@ -6858,13 +6858,13 @@ msgstr "فشل في إزالة مجلد البيئة الافتراضية."
 msgid "Probing..."
 msgstr "يفحص…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1938
-#: src/dialogs/kdenlivesettingsdialog.cpp:2123
+#: src/dialogs/kdenlivesettingsdialog.cpp:1942
+#: src/dialogs/kdenlivesettingsdialog.cpp:2127
 #, kde-format
 msgid "Please add a speech model."
 msgstr "فضلاً أضف نموذجاً للتحدث."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1971
+#: src/dialogs/kdenlivesettingsdialog.cpp:1975
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6873,28 +6873,28 @@ msgstr ""
 "نزل نماذج التعرف على الكلام من: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2001
+#: src/dialogs/kdenlivesettingsdialog.cpp:2005
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "أدخل رابط إلى معجم جديد"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2007
+#: src/dialogs/kdenlivesettingsdialog.cpp:2011
 #, kde-format
 msgid "Downloading model…"
 msgstr "ينزل نموذجاً…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2017
+#: src/dialogs/kdenlivesettingsdialog.cpp:2021
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "نحن لا نسمح بحذف مجلدات النماذج المخصصة، يرجى القيام بذلك يدويًا."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2023
-#: src/dialogs/kdenlivesettingsdialog.cpp:2082
+#: src/dialogs/kdenlivesettingsdialog.cpp:2027
+#: src/dialogs/kdenlivesettingsdialog.cpp:2086
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "لا يمكن الوصول إلى مجلد المعجم."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2032
+#: src/dialogs/kdenlivesettingsdialog.cpp:2036
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6903,22 +6903,22 @@ msgstr ""
 "احذف المجلد:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2056
+#: src/dialogs/kdenlivesettingsdialog.cpp:2060
 #, kde-format
 msgid "Download error"
 msgstr "خطأ في التنزيل"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2061
+#: src/dialogs/kdenlivesettingsdialog.cpp:2065
 #, kde-format
 msgid "Download error %1"
 msgstr "خطأ في التنزيل %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2089
+#: src/dialogs/kdenlivesettingsdialog.cpp:2093
 #, kde-format
 msgid "Extracting archive…"
 msgstr "يستخرج الأرشيف..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2096
+#: src/dialogs/kdenlivesettingsdialog.cpp:2100
 #, kde-format
 msgid "New dictionary installed."
 msgstr "ثبت معجم جديد."
