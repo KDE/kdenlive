@@ -296,7 +296,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     , m_id(id)
     , m_labelText(label)
 {
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setFocusPolicy(Qt::StrongFocus);
@@ -333,13 +333,11 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setKeyboardTracking(false);
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
         m_intEdit->setAlignment(Qt::AlignCenter);
-        m_intEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_intEdit->setRange((int)m_minimum, (int)m_maximum);
         m_intEdit->setValue((int)m_default);
         // Try to have all spin boxes of the same size
         int maxWidth = m_intEdit->charWidth();
         m_intEdit->setMinimumWidth(maxWidth * 9);
-        setFixedHeight(m_intEdit->sizeHint().height());
         minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);
@@ -362,7 +360,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit->setKeyboardTracking(false);
         m_doubleEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
         m_doubleEdit->setAlignment(Qt::AlignCenter);
-        m_doubleEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_doubleEdit->setRange(m_minimum, m_maximum);
         double factor = 100;
         if (m_maximum - m_minimum > 10000) {
@@ -384,20 +381,16 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         l->addStretch(10);
     }
     setLayout(l);
-    if (m_label) {
-        if (m_intEdit) {
-            m_label->setMaximumHeight(m_intEdit->sizeHint().height());
-        } else {
-            m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
-        }
+    int minimumHeight = 0;
+    if (m_intEdit) {
+        minimumHeight = m_intEdit->sizeHint().height();
     } else {
-        if (m_intEdit) {
-            setMinimumHeight(m_intEdit->sizeHint().height());
-        } else {
-            setMinimumHeight(m_doubleEdit->sizeHint().height());
-        }
+        minimumHeight = m_doubleEdit->sizeHint().height();
     }
-
+    if (m_label) {
+        m_label->setFixedHeight(minimumHeight);
+    }
+    setFixedHeight(minimumHeight);
     m_menu = new QMenu(this);
 
     m_scale = new KSelectAction(i18n("Scaling"), this);

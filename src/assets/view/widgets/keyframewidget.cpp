@@ -353,11 +353,11 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     QMargins mrg = m_layout->contentsMargins();
     m_editorviewcontainer->setFixedHeight(m_editorviewcontainer->currentWidget()->height());
-    m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
+    // m_baseHeight = m_editorviewcontainer->height() + m_toolbar->sizeHint().height();
     m_addedHeight = mrg.top() + mrg.bottom();
+    addParameter(index);
     setFixedHeight(m_baseHeight + m_addedHeight);
     Q_EMIT updateHeight();
-    addParameter(index);
 }
 
 KeyframeWidget::~KeyframeWidget() {}
