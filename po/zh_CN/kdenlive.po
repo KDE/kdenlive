@@ -14182,7 +14182,7 @@ msgstr "分配时间戳到当前项目素材箱剪辑"
 #: src/project/dialogs/noteswidget.cpp:126
 #, kde-format
 msgid "Cannot find project clip"
-msgstr ""
+msgstr "无法找到项目剪辑"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
@@ -16460,12 +16460,12 @@ msgstr "重命名轨道"
 #: src/timeline2/model/timelineitemmodel.cpp:612
 #, kde-format
 msgid "Enable Track Effect Stack"
-msgstr ""
+msgstr "启用轨道效果堆栈"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
 #, kde-format
 msgid "Disable Track Effect Stack"
-msgstr ""
+msgstr "禁用轨道效果堆栈"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
