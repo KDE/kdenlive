@@ -1116,7 +1116,7 @@ void MainWindow::saveNewToolbarConfig()
     loadClipActions();
     loadContainerActions();
     for (auto &bin : m_binWidgets) {
-        bin->setupMenu();
+        bin->setupGeneratorMenu();
     }
 
     // hack to be able to insert the hamburger menu at the first position
