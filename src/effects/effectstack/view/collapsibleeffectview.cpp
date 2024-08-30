@@ -9,6 +9,7 @@
 #include "assets/view/widgets/colorwheel.h"
 #include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
+#include "widgets/dragvalue.h"
 #include "filefilter.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
@@ -992,11 +993,14 @@ void CollapsibleEffectView::blockWheelEvent(bool block)
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    for (KeyframeWidget *cb : findChildren<KeyframeWidget *>()) {
-        for (KeyframeView *cb2 : cb->findChildren<KeyframeView *>()) {
-            cb2->installEventFilter(this);
-            cb2->setFocusPolicy(policy);
-        }
+    for (DragValue *cb : m_view->findChildren<DragValue *>()) {
+        cb->blockWheel(m_blockWheel);
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(policy);
+    }
+    for (KeyframeView *cb : findChildren<KeyframeView *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(policy);
     }
 }
 

@@ -372,11 +372,11 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     m_effectsTree->setUniformRowHeights(false);
     m_mutex.unlock();
     loadEffects();
-    m_scrollTimer.start();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
     connect(m_model.get(), &EffectStackModel::currentChanged, this, &EffectStackView::activateEffect, Qt::DirectConnection);
     connect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
+    m_scrollTimer.start();
     // m_builtStack->setModel(model, stackOwner());
 }
 

@@ -75,6 +75,9 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
             }
         }
         if (type == QEvent::Wheel) {
+            if (blockWheel && !hasFocus()) {
+                return false;
+            }
             auto *we = static_cast<QWheelEvent *>(event);
             int mini = singleStep();
             int factor = qMax(mini, (maximum() - minimum()) / 200);
@@ -208,6 +211,9 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
             }
         }
         if (type == QEvent::Wheel) {
+            if (blockWheel && !hasFocus()) {
+                return false;
+            }
             auto *we = static_cast<QWheelEvent *>(event);
             double mini = singleStep();
             double factor = qMax(mini, (maximum() - minimum()) / 200);
@@ -692,6 +698,15 @@ void DragValue::slotSetScaleMode(int mode)
 void DragValue::slotSetDirectUpdate(bool directUpdate)
 {
     KdenliveSettings::setDragvalue_directupdate(directUpdate);
+}
+
+void DragValue::blockWheel(bool block)
+{
+    if (m_intEdit) {
+        m_intEdit->blockWheel = block;
+    } else if (m_doubleEdit) {
+        m_doubleEdit->blockWheel = block;
+    }
 }
 
 void DragValue::setInTimelineProperty(bool intimeline)
