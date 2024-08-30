@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-28 02:46+0000\n"
-"PO-Revision-Date: 2024-07-27 09:06+0300\n"
+"PO-Revision-Date: 2024-08-29 19:12+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -14571,10 +14571,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Призначити часові позначки до поточного кліпу у контейнері"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Не вдалося створити кліп"
+msgstr "Не вдалося знайти кліп проєкту"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
