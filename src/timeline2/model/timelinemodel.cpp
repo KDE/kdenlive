@@ -13,6 +13,7 @@
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
+#include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
@@ -6109,13 +6110,23 @@ void TimelineModel::importMasterEffects(std::weak_ptr<Mlt::Service> service)
 QStringList TimelineModel::extractCompositionLumas() const
 {
     QStringList urls;
+    QStringList parsedLumas;
     for (const auto &compo : m_allCompositions) {
         QString luma = compo.second->getProperty(QStringLiteral("resource"));
         if (luma.isEmpty()) {
             luma = compo.second->getProperty(QStringLiteral("luma"));
         }
         if (!luma.isEmpty()) {
-            urls << QUrl::fromLocalFile(luma).toLocalFile();
+            if (parsedLumas.contains(luma)) {
+                continue;
+            }
+            parsedLumas << luma;
+            QFileInfo info(luma);
+            if (!info.exists() && DocumentChecker::isMltBuildInLuma(info.fileName())) {
+                // Built-in MLT luma, ignore
+                continue;
+            }
+            urls << info.absoluteFilePath();
         }
     }
     urls.removeDuplicates();
