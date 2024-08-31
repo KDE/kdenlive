@@ -54,15 +54,16 @@ public:
     static QString searchDirRecursively(const QDir &dir, const QString &matchHash, const QString &fullName);
 
     bool resolveProblemsWithGUI();
-    /* @brief Get a count of missing items in each category */
+    /** @brief Get a count of missing items in each category */
     QMap<DocumentChecker::MissingType, int> getCheckResults();
+    /** @brief Check if a luma seems to be an internally generated MLT luma file  */
+    static bool isMltBuildInLuma(const QString &lumaName);
 
     std::vector<DocumentResource> resourceItems() { return m_items; }
 
 protected:
     static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
     static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
-    static bool isMltBuildInLuma(const QString &lumaName);
 
 private:
     QUrl m_url;
