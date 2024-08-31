@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-30 00:39+0000\n"
+"POT-Creation-Date: 2024-08-31 00:38+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -3755,7 +3755,7 @@ msgid "Failed to load preset %1"
 msgstr "Zlyhalo vytvorenie súboru."
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Reset Effect"
 msgstr "Vynulovať efekt"
@@ -5585,7 +5585,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:557
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, fuzzy, kde-format
@@ -5773,7 +5773,7 @@ msgid "Move subtitle"
 msgstr "Presunúť titulky"
 
 #: src/bin/model/subtitlemodel.cpp:1159
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
 #: src/effects/effectstack/view/effectstackview.cpp:785
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:367
@@ -6717,7 +6717,7 @@ msgstr "Importovať vodítka"
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:660
 #: src/effects/effectstack/view/effectstackview.cpp:820
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9780,12 +9780,12 @@ msgstr "Pridať efekt %1"
 msgid "Move effect %1"
 msgstr "Presunúť efekt %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:50
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:51
 #, kde-format
 msgid "Move effect up"
 msgstr "Presunúť efekt hore"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:52
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9793,12 +9793,12 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-format
 msgid "Move effect down"
 msgstr "Presunúť efekt dole"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9806,120 +9806,120 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
 msgid "Delete effect"
 msgstr "Vymazať efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Zbaliť efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Expand Effect"
 msgstr "Rozbaliť efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:97
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Povoliť kľúčové snímky"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, fuzzy, kde-format
 #| msgid "Hide keyframes"
 msgid "Hide Keyframes"
 msgstr "Skryť kľúčové snímky"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, fuzzy, kde-format
 #| msgid "Move keyframes"
 msgid "Show Keyframes"
 msgstr "Presunúť kľúčové snímky"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:101
 #, fuzzy, kde-kuit-format
 #| msgid "Display keyframes in timeline"
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Ukázať kľúčové snímky v časovej osi"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Disable Effect"
 msgstr "Zakázať efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Enable Effect"
 msgstr "Povoliť efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:158
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:159
 #, kde-format
 msgid "Create Group"
 msgstr "Vytvoriť skupinu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:165
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
 #, fuzzy, kde-format
 #| msgid "In"
 msgid "In:"
 msgstr "Dnu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:171
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, fuzzy, kde-format
 #| msgid "Set zone end"
 msgid "Set zone in"
 msgstr "Nastaviť koniec zóny"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:177
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
 #, kde-format
 msgid "Out:"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
 #, fuzzy, kde-format
 #| msgid "Set Zone Out"
 msgid "Set zone out"
 msgstr "Nastaviť zónu von"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:206
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
 #, fuzzy, kde-format
 #| msgid "Move effect down"
 msgid "Use effect zone"
 msgstr "Presunúť efekt dole"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:208
 #, fuzzy, kde-kuit-format
 #| msgid "Display keyframes in timeline"
 msgctxt "@info:whatsthis"
@@ -9928,30 +9928,30 @@ msgstr "Ukázať kľúčové snímky v časovej osi"
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:267
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Prednastavenia"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Save effect"
 msgstr "Uložiť efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:493
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:494
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9959,30 +9959,30 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgid "Disable %1"
 msgstr "Zakázať %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgid "Enable %1"
 msgstr "Povoliť %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:554
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Uložiť efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:559
 #, fuzzy, kde-format
 #| msgid "Comments : "
 msgid "Comments:"
 msgstr "Komentáre : "
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:574
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
@@ -16764,7 +16764,7 @@ msgstr "Prípona súboru:"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:396
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Scaling"
 msgstr "Škálovanie"
@@ -23622,37 +23622,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:397
+#: src/widgets/dragvalue.cpp:403
 #, kde-format
 msgid "Normal scale"
 msgstr "Normálna mierka"
 
-#: src/widgets/dragvalue.cpp:398
+#: src/widgets/dragvalue.cpp:404
 #, kde-format
 msgid "Pixel scale"
 msgstr "Pixlová mierka"
 
-#: src/widgets/dragvalue.cpp:399
+#: src/widgets/dragvalue.cpp:405
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Nelineárna mierka"
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Direct update"
 msgstr "Priama aktualizácia"
 
-#: src/widgets/dragvalue.cpp:408
+#: src/widgets/dragvalue.cpp:414
 #, kde-format
 msgid "Reset value"
 msgstr "Vynulovať hodnotu"
 
-#: src/widgets/dragvalue.cpp:413
+#: src/widgets/dragvalue.cpp:419
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Ukázať %1 v časovej osi"
 
-#: src/widgets/dragvalue.cpp:733
+#: src/widgets/dragvalue.cpp:748
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""

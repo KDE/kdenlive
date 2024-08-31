@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-30 00:39+0000\n"
+"POT-Creation-Date: 2024-08-31 00:38+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -3775,7 +3775,7 @@ msgid "Failed to load preset %1"
 msgstr "Nem sikerült létrehozni a fájlt."
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Reset Effect"
 msgstr "Effekt visszaállítása"
@@ -5641,7 +5641,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:557
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, fuzzy, kde-format
@@ -5836,7 +5836,7 @@ msgid "Move subtitle"
 msgstr "Segédpont áthelyezése"
 
 #: src/bin/model/subtitlemodel.cpp:1159
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
 #: src/effects/effectstack/view/effectstackview.cpp:785
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:367
@@ -6796,7 +6796,7 @@ msgstr "Jelölők betöltése"
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:660
 #: src/effects/effectstack/view/effectstackview.cpp:820
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9826,12 +9826,12 @@ msgstr "%1 effektus hozzáadása"
 msgid "Move effect %1"
 msgstr "Effektus mozgatása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:50
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:51
 #, kde-format
 msgid "Move effect up"
 msgstr "Effekt felfelé mozgatása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:52
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9839,12 +9839,12 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-format
 msgid "Move effect down"
 msgstr "Effekt lefelé mozgatása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9852,127 +9852,127 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
 msgid "Delete effect"
 msgstr "Effektus törlése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, fuzzy, kde-format
 #| msgid "Color Effect"
 msgid "Collapse Effect"
 msgstr "Szín effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, fuzzy, kde-format
 #| msgid "Add Effect"
 msgid "Expand Effect"
 msgstr "Effektus hozzáadása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:97
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, fuzzy, kde-format
 #| msgid "Add keyframes"
 msgid "Enable Keyframes"
 msgstr "Kulcsképkockák hozzáadása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide Keyframes"
 msgstr "Képkocka elrejtése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show Keyframes"
 msgstr "Kulcskép törlése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:101
 #, fuzzy, kde-kuit-format
 #| msgid "Show keyframes in timeline"
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Kulcsképek megjelenítése az idővonalon"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
 msgid "Disable Effect"
 msgstr "Effekt letiltása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
 msgid "Enable Effect"
 msgstr "Effekt engedélyezése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:158
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:159
 #, kde-format
 msgid "Create Group"
 msgstr "Csoport létrehozása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:165
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
 #, fuzzy, kde-format
 #| msgid "In"
 msgid "In:"
 msgstr "Bemenet"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:171
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, fuzzy, kde-format
 #| msgid "Set zone end"
 msgid "Set zone in"
 msgstr "Zóna végének megadása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:177
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
 #, kde-format
 msgid "Out:"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
 #, fuzzy, kde-format
 #| msgid "Set Zone Out"
 msgid "Set zone out"
 msgstr "Zónavég beállítása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:206
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
 #, fuzzy, kde-format
 #| msgid "Move effect down"
 msgid "Use effect zone"
 msgstr "Effekt lefelé mozgatása"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:208
 #, fuzzy, kde-kuit-format
 #| msgid "Show keyframes in timeline"
 msgctxt "@info:whatsthis"
@@ -9981,31 +9981,31 @@ msgstr "Kulcsképek megjelenítése az idővonalon"
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:267
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Presets"
 msgstr "Visszaállítás"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Save effect"
 msgstr "Effektus mentése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:493
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:494
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10013,32 +10013,32 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, fuzzy, kde-format
 #| msgid "Capture audio"
 msgid "Disable %1"
 msgstr "Hang rögzítése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, fuzzy, kde-format
 #| msgid "Capture audio"
 msgid "Enable %1"
 msgstr "Hang rögzítése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:554
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Effektus mentése"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:559
 #, fuzzy, kde-format
 #| msgid "Comment"
 msgid "Comments:"
 msgstr "Megjegyzés"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:574
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
@@ -16956,7 +16956,7 @@ msgstr "Fájlkiterjesztés:"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:396
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Scaling"
 msgstr "Méretezés"
@@ -23879,37 +23879,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr ""
 
-#: src/widgets/dragvalue.cpp:397
+#: src/widgets/dragvalue.cpp:403
 #, kde-format
 msgid "Normal scale"
 msgstr "Normál arány"
 
-#: src/widgets/dragvalue.cpp:398
+#: src/widgets/dragvalue.cpp:404
 #, kde-format
 msgid "Pixel scale"
 msgstr "Pixel arány"
 
-#: src/widgets/dragvalue.cpp:399
+#: src/widgets/dragvalue.cpp:405
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Nemlineáris arány"
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Direct update"
 msgstr "Közvetlen frissítés"
 
-#: src/widgets/dragvalue.cpp:408
+#: src/widgets/dragvalue.cpp:414
 #, kde-format
 msgid "Reset value"
 msgstr "Érték alaphelyzetbe állítása"
 
-#: src/widgets/dragvalue.cpp:413
+#: src/widgets/dragvalue.cpp:419
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "%1 megjelenítése az idővonalon"
 
-#: src/widgets/dragvalue.cpp:733
+#: src/widgets/dragvalue.cpp:748
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr ""

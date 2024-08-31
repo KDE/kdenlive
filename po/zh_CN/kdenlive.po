@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-30 00:39+0000\n"
+"POT-Creation-Date: 2024-08-31 00:38+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -3626,7 +3626,7 @@ msgid "Failed to load preset %1"
 msgstr "加载预设 %1 失败"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Reset Effect"
 msgstr "重置效果"
@@ -5298,7 +5298,7 @@ msgstr "双击时导入文件"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:557
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5476,7 +5476,7 @@ msgid "Move subtitle"
 msgstr "移动字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1159
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
 #: src/effects/effectstack/view/effectstackview.cpp:785
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:367
@@ -6381,7 +6381,7 @@ msgstr "导出辅助线数据…"
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:660
 #: src/effects/effectstack/view/effectstackview.cpp:820
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9199,12 +9199,12 @@ msgstr "添加效果 %1"
 msgid "Move effect %1"
 msgstr "移动效果 %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:50
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:51
 #, kde-format
 msgid "Move effect up"
 msgstr "上移效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:52
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9214,12 +9214,12 @@ msgstr ""
 "移动效果到原本位于它上方的效果的上方。效果将按从上到下的顺序处理，因此排列顺"
 "序很重要。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-format
 msgid "Move effect down"
 msgstr "下移效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9229,113 +9229,113 @@ msgstr ""
 "移动效果到原本位于它下方的效果的下方。效果将按从上到下的顺序处理，因此排列顺"
 "序很重要。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
 msgid "Delete effect"
 msgstr "删除效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "删除在特效堆栈中的该效果。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Collapse Effect"
 msgstr "折叠效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Expand Effect"
 msgstr "展开效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:97
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "启用关键帧"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "隐藏关键帧"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
 msgid "Show Keyframes"
 msgstr "显示关键帧"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:101
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "显示关键帧标尺。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Disable Effect"
 msgstr "禁用效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Enable Effect"
 msgstr "启用效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr "禁用该效果。可以用于比较启用前后的效果。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "启用该效果。可以用于比较启用前后的效果。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:158
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:159
 #, kde-format
 msgid "Create Group"
 msgstr "创建组合"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:165
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
 #, kde-format
 msgid "In:"
 msgstr "入点："
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:171
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, kde-format
 msgid "Set zone in"
 msgstr "设置区段入点"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "设置当前帧/播放头位置为区段起始。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:177
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
 #, kde-format
 msgid "Out:"
 msgstr "出点："
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
 #, kde-format
 msgid "Set zone out"
 msgstr "设置区段出点"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "设置当前帧/播放头位置为区段结尾。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:206
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
 #, kde-format
 msgid "Use effect zone"
 msgstr "使用效果区段"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:208
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -9343,29 +9343,29 @@ msgstr "显示/隐藏效果区段。"
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:267
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "预设"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr "打开一个高级选项列表以管理该效果的预设。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
 #, kde-format
 msgid "Save effect"
 msgstr "保存效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "此效果在此分组中有 %1 个实例"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:493
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:494
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9375,28 +9375,28 @@ msgstr ""
 "<b>拖动</b>效果到另一个时间轴剪辑、轨道或者项目剪辑以复制它到目标位置。"
 "<b>Alt + 拖动</b>以将它复制到一个分组中的单独项目。"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgid "Disable %1"
 msgstr "禁用 %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgid "Enable %1"
 msgstr "启用 %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:554
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "保存效果"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:559
 #, kde-format
 msgid "Comments:"
 msgstr "备注："
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:574
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "未提供名称，效果未保存。"
@@ -15840,7 +15840,7 @@ msgstr "文件扩展名"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:396
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Scaling"
 msgstr "缩放"
@@ -22134,37 +22134,37 @@ msgstr "拾取屏幕上的颜色。点击并拖动可以拾取一个区域中的
 msgid "Rotate by 90 ° steps"
 msgstr "旋转 (每步 90°)"
 
-#: src/widgets/dragvalue.cpp:397
+#: src/widgets/dragvalue.cpp:403
 #, kde-format
 msgid "Normal scale"
 msgstr "正常缩放"
 
-#: src/widgets/dragvalue.cpp:398
+#: src/widgets/dragvalue.cpp:404
 #, kde-format
 msgid "Pixel scale"
 msgstr "像素缩放"
 
-#: src/widgets/dragvalue.cpp:399
+#: src/widgets/dragvalue.cpp:405
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "非线性缩放"
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Direct update"
 msgstr "直接更新"
 
-#: src/widgets/dragvalue.cpp:408
+#: src/widgets/dragvalue.cpp:414
 #, kde-format
 msgid "Reset value"
 msgstr "重置数值"
 
-#: src/widgets/dragvalue.cpp:413
+#: src/widgets/dragvalue.cpp:419
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "显示 %1 到时间轴"
 
-#: src/widgets/dragvalue.cpp:733
+#: src/widgets/dragvalue.cpp:748
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + 拖动以逐级调整值。"
