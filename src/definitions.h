@@ -93,7 +93,7 @@ struct ObjectId
 enum class MixAlignment { AlignNone, AlignLeft, AlignRight, AlignCenter };
 
 enum OperationType {
-    None = 0,
+    NoOperation = 0,
     WaitingForConfirm,
     MoveOperation,
     ResizeStart,

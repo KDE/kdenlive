@@ -11,6 +11,7 @@ set(kdenlive_SRCS
   widgets/markercategorychooser.cpp
   widgets/markercategorybutton.cpp
   widgets/positionwidget.cpp
+  widgets/precisionspinbox.cpp
   widgets/progressbutton.cpp
   widgets/timecodedisplay.cpp
   PARENT_SCOPE
@@ -49,6 +50,12 @@ if (BUILD_DESIGNERPLUGIN)
         GROUP "Kdenlive Widgets"
     )
 
+    ecm_qtdesignerplugin_widget(PrecisionSpinBox
+        INCLUDE_FILE widgets/precisionspinbox.h
+        TOOLTIP "A double spinbox allowing an arbitrary nubmer of decimals (Kdenlive)"
+        GROUP "Kdenlive Widgets"
+    )
+
     ecm_add_qtdesignerplugin(kdenlivewidgets
         NAME KdenliveWidgets
         WIDGETS
@@ -57,6 +64,7 @@ if (BUILD_DESIGNERPLUGIN)
             ChooseColorWidget
             MarkerCategoryChooser
             MarkerCategoryButton
+            PrecisionSpinBox
         LINK_LIBRARIES
             kdenliveLib
         INSTALL_DESTINATION "${KDE_INSTALL_QTPLUGINDIR}/designer"

@@ -171,7 +171,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     QSize profileSize = pCore->getCurrentFrameSize();
     m_frameWidth = qRound(profileSize.height() * pCore->getCurrentDar());
     m_frameHeight = profileSize.height();
-    showToolbars(TITLE_SELECT);
+    showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
 
     splitter->setStretchFactor(0, 20);
 
@@ -806,16 +806,16 @@ void TitleWidget::keyPressEvent(QKeyEvent *e)
 
 void TitleWidget::slotTextTool()
 {
-    m_scene->setTool(TITLE_TEXT);
-    showToolbars(TITLE_TEXT);
-    checkButton(TITLE_TEXT);
+    m_scene->setTool(GraphicsSceneRectMove::TITLE_TEXT);
+    showToolbars(GraphicsSceneRectMove::TITLE_TEXT);
+    checkButton(GraphicsSceneRectMove::TITLE_TEXT);
 }
 
 void TitleWidget::slotRectTool()
 {
-    m_scene->setTool(TITLE_RECTANGLE);
-    showToolbars(TITLE_RECTANGLE);
-    checkButton(TITLE_RECTANGLE);
+    m_scene->setTool(GraphicsSceneRectMove::TITLE_RECTANGLE);
+    showToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
+    checkButton(GraphicsSceneRectMove::TITLE_RECTANGLE);
 
     // Disable dragging mode, would make dragging a rect impossible otherwise ;)
     graphicsView->setDragMode(QGraphicsView::NoDrag);
@@ -823,9 +823,9 @@ void TitleWidget::slotRectTool()
 
 void TitleWidget::slotEllipseTool()
 {
-    m_scene->setTool(TITLE_ELLIPSE);
-    showToolbars(TITLE_ELLIPSE);
-    checkButton(TITLE_ELLIPSE);
+    m_scene->setTool(GraphicsSceneRectMove::TITLE_ELLIPSE);
+    showToolbars(GraphicsSceneRectMove::TITLE_ELLIPSE);
+    checkButton(GraphicsSceneRectMove::TITLE_ELLIPSE);
 
     // Disable dragging mode, would make dragging a ellipse impossible otherwise ;)
     graphicsView->setDragMode(QGraphicsView::NoDrag);
@@ -833,36 +833,36 @@ void TitleWidget::slotEllipseTool()
 
 void TitleWidget::slotSelectTool()
 {
-    m_scene->setTool(TITLE_SELECT);
+    m_scene->setTool(GraphicsSceneRectMove::TITLE_SELECT);
 
     // Enable rubberband selecting mode.
     graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
 
     // Find out which toolbars need to be shown, depending on selected item
-    TITLETOOL t = TITLE_SELECT;
+    GraphicsSceneRectMove::TITLETOOL t = GraphicsSceneRectMove::TITLE_SELECT;
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (!l.isEmpty()) {
         switch (l.at(0)->type()) {
         case TEXTITEM:
-            t = TITLE_TEXT;
+            t = GraphicsSceneRectMove::TITLE_TEXT;
             break;
         case RECTITEM:
-            t = TITLE_RECTANGLE;
+            t = GraphicsSceneRectMove::TITLE_RECTANGLE;
             break;
         case ELLIPSEITEM:
-            t = TITLE_ELLIPSE;
+            t = GraphicsSceneRectMove::TITLE_ELLIPSE;
             break;
         case IMAGEITEM:
-            t = TITLE_IMAGE;
+            t = GraphicsSceneRectMove::TITLE_IMAGE;
             break;
         }
     }
     btn_add->setEnabled(!l.isEmpty());
 
     enableToolbars(t);
-    if (t == TITLE_RECTANGLE && (l.at(0) == m_endViewport || l.at(0) == m_startViewport)) {
+    if (t == GraphicsSceneRectMove::TITLE_RECTANGLE && (l.at(0) == m_endViewport || l.at(0) == m_startViewport)) {
         // graphicsView->centerOn(l.at(0));
-        t = TITLE_SELECT;
+        t = GraphicsSceneRectMove::TITLE_SELECT;
     }
     showToolbars(t);
 
@@ -872,7 +872,7 @@ void TitleWidget::slotSelectTool()
         updateRotZoom(l.at(0));
     }
 
-    checkButton(TITLE_SELECT);
+    checkButton(GraphicsSceneRectMove::TITLE_SELECT);
 }
 
 void TitleWidget::slotImageTool()
@@ -918,41 +918,42 @@ void TitleWidget::slotImageTool()
             prepareTools(image);
         }
     }
-    m_scene->setTool(TITLE_SELECT);
-    showToolbars(TITLE_SELECT);
-    checkButton(TITLE_SELECT);
+    m_scene->setTool(GraphicsSceneRectMove::TITLE_SELECT);
+    showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
+    checkButton(GraphicsSceneRectMove::TITLE_SELECT);
 }
 
-void TitleWidget::showToolbars(TITLETOOL toolType)
+void TitleWidget::showToolbars(GraphicsSceneRectMove::TITLETOOL toolType)
 {
-    toolbar_stack->setEnabled(toolType != TITLE_SELECT);
+    toolbar_stack->setEnabled(toolType != GraphicsSceneRectMove::TITLE_SELECT);
     switch (toolType) {
-    case TITLE_IMAGE:
+    case GraphicsSceneRectMove::TITLE_IMAGE:
         toolbar_stack->setCurrentIndex(2);
         break;
-    case TITLE_ELLIPSE:
-    case TITLE_RECTANGLE:
+    case GraphicsSceneRectMove::TITLE_ELLIPSE:
+    case GraphicsSceneRectMove::TITLE_RECTANGLE:
         toolbar_stack->setCurrentIndex(1);
         break;
-    case TITLE_TEXT:
+    case GraphicsSceneRectMove::TITLE_TEXT:
     default:
         toolbar_stack->setCurrentIndex(0);
         break;
     }
 }
 
-void TitleWidget::enableToolbars(TITLETOOL toolType)
+void TitleWidget::enableToolbars(GraphicsSceneRectMove::TITLETOOL toolType)
 {
-    // TITLETOOL is defined in effectstack/graphicsscenerectmove.h
+    // GraphicsSceneRectMove::TITLETOOL is defined in effectstack/graphicsscenerectmove.h
     bool enable = false;
-    if (toolType == TITLE_RECTANGLE || toolType == TITLE_ELLIPSE || toolType == TITLE_IMAGE) {
+    if (toolType == GraphicsSceneRectMove::TITLE_RECTANGLE || toolType == GraphicsSceneRectMove::TITLE_ELLIPSE ||
+        toolType == GraphicsSceneRectMove::TITLE_IMAGE) {
         enable = true;
     }
     value_w->setEnabled(enable);
     value_h->setEnabled(enable);
 }
 
-void TitleWidget::checkButton(TITLETOOL toolType)
+void TitleWidget::checkButton(GraphicsSceneRectMove::TITLETOOL toolType)
 {
     bool bSelect = false;
     bool bText = false;
@@ -961,19 +962,19 @@ void TitleWidget::checkButton(TITLETOOL toolType)
     bool bImage = false;
 
     switch (toolType) {
-    case TITLE_SELECT:
+    case GraphicsSceneRectMove::TITLE_SELECT:
         bSelect = true;
         break;
-    case TITLE_TEXT:
+    case GraphicsSceneRectMove::TITLE_TEXT:
         bText = true;
         break;
-    case TITLE_RECTANGLE:
+    case GraphicsSceneRectMove::TITLE_RECTANGLE:
         bRect = true;
         break;
-    case TITLE_ELLIPSE:
+    case GraphicsSceneRectMove::TITLE_ELLIPSE:
         bEllipse = true;
         break;
-    case TITLE_IMAGE:
+    case GraphicsSceneRectMove::TITLE_IMAGE:
         bImage = true;
         break;
     default:
@@ -1230,7 +1231,7 @@ void TitleWidget::zIndexChanged(int v)
 
 void TitleWidget::selectionChanged()
 {
-    if (m_scene->tool() != TITLE_SELECT) {
+    if (m_scene->tool() != GraphicsSceneRectMove::TITLE_SELECT) {
         return;
     }
 
@@ -2946,8 +2947,8 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         origin_y_top->setChecked(false);
         updateTextOriginX();
         updateTextOriginY();
-        enableToolbars(TITLE_SELECT);
-        showToolbars(TITLE_SELECT);
+        enableToolbars(GraphicsSceneRectMove::TITLE_SELECT);
+        showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
 
         itemzoom->setEnabled(false);
         itemrotatex->setEnabled(false);
@@ -2979,7 +2980,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         line_spacing->setEnabled(referenceItem->type() == TEXTITEM);
 
         if (referenceItem->type() == TEXTITEM) {
-            showToolbars(TITLE_TEXT);
+            showToolbars(GraphicsSceneRectMove::TITLE_TEXT);
             auto *i = static_cast<MyTextItem *>(referenceItem);
             if (!i->document()->isEmpty()) {
                 // We have an existing text item selected
@@ -3150,14 +3151,14 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             updateAxisButtons(i);
             updateCoordinates(i);
             updateDimension(i);
-            enableToolbars(TITLE_TEXT);
+            enableToolbars(GraphicsSceneRectMove::TITLE_TEXT);
 
         } else if ((referenceItem)->type() == RECTITEM) {
-            showToolbars(TITLE_RECTANGLE);
+            showToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
             settingUp = 1;
             auto *rec = static_cast<QGraphicsRectItem *>(referenceItem);
             if (rec == m_startViewport || rec == m_endViewport) {
-                enableToolbars(TITLE_SELECT);
+                enableToolbars(GraphicsSceneRectMove::TITLE_SELECT);
             } else {
                 QColor fcol = rec->pen().color();
                 QColor bcol = rec->brush().color();
@@ -3183,7 +3184,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 } else {
                     rectLineWidth->setValue(rec->pen().width());
                 }
-                enableToolbars(TITLE_RECTANGLE);
+                enableToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
             }
 
             updateAxisButtons(referenceItem);
@@ -3191,7 +3192,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             updateDimension(rec);
 
         } else if ((referenceItem)->type() == ELLIPSEITEM) {
-            showToolbars(TITLE_RECTANGLE);
+            showToolbars(GraphicsSceneRectMove::TITLE_RECTANGLE);
             settingUp = 1;
             auto *ellipse = static_cast<QGraphicsEllipseItem *>(referenceItem);
             QColor fcol = ellipse->pen().color();
@@ -3218,25 +3219,25 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             } else {
                 rectLineWidth->setValue(ellipse->pen().width());
             }
-            enableToolbars(TITLE_ELLIPSE);
+            enableToolbars(GraphicsSceneRectMove::TITLE_ELLIPSE);
 
             updateAxisButtons(referenceItem);
             updateCoordinates(ellipse);
             updateDimension(ellipse);
 
         } else if (referenceItem->type() == IMAGEITEM) {
-            showToolbars(TITLE_IMAGE);
+            showToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
 
             updateCoordinates(referenceItem);
             updateDimension(referenceItem);
-            enableToolbars(TITLE_IMAGE);
+            enableToolbars(GraphicsSceneRectMove::TITLE_IMAGE);
             QSignalBlocker bk(preserveAspectRatio);
             Transform t = m_transformations.value(referenceItem);
             preserveAspectRatio->setChecked(qFuzzyCompare(t.scalex, t.scaley));
 
         } else {
-            showToolbars(TITLE_SELECT);
-            enableToolbars(TITLE_SELECT);
+            showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
+            enableToolbars(GraphicsSceneRectMove::TITLE_SELECT);
             frame_properties->setEnabled(false);
         }
         zValue->setValue(int(referenceItem->zValue()));

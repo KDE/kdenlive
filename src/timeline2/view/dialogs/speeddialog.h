@@ -7,6 +7,7 @@
 
 #include "definitions.h"
 #include <QDialog>
+#include <QDoubleValidator>
 
 namespace Ui {
 class ClipSpeed_UI;

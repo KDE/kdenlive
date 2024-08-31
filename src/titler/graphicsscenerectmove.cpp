@@ -670,12 +670,12 @@ void GraphicsSceneRectMove::setSelectedItem(QGraphicsItem *item)
     update();
 }
 
-TITLETOOL GraphicsSceneRectMove::tool() const
+GraphicsSceneRectMove::TITLETOOL GraphicsSceneRectMove::tool() const
 {
     return m_tool;
 }
 
-void GraphicsSceneRectMove::setTool(TITLETOOL tool)
+void GraphicsSceneRectMove::setTool(GraphicsSceneRectMove::TITLETOOL tool)
 {
     m_tool = tool;
     switch (m_tool) {

@@ -12,9 +12,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QGraphicsSvgItem>
 #include <QGraphicsTextItem>
 
-enum resizeModes { NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down };
-enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3, TITLE_ELLIPSE = 4 };
-
 class MyQGraphicsEffect : public QGraphicsEffect
 {
 public:
@@ -127,6 +124,8 @@ class GraphicsSceneRectMove : public QGraphicsScene
     Q_OBJECT
 public:
     explicit GraphicsSceneRectMove(int titlerVersion, QObject *parent = nullptr);
+    enum resizeModes { NoResize = 0, TopLeft, BottomLeft, TopRight, BottomRight, Left, Right, Up, Down };
+    enum TITLETOOL { TITLE_SELECT = 0, TITLE_RECTANGLE = 1, TITLE_TEXT = 2, TITLE_IMAGE = 3, TITLE_ELLIPSE = 4 };
     void setSelectedItem(QGraphicsItem *item);
     void setScale(double s);
     void setZoom(double s);
