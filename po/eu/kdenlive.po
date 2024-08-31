@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-28 02:46+0000\n"
-"PO-Revision-Date: 2024-08-02 23:04+0200\n"
+"PO-Revision-Date: 2024-08-30 13:09+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -14468,10 +14468,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Esleitu denbora-zigilua Ontziko uneko klipari"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Ezin da klipa sortu"
+msgstr "Ezin du proiektuaren klipa aurkitu"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
