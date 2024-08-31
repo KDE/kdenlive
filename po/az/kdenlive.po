@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-30 00:39+0000\n"
+"POT-Creation-Date: 2024-08-31 00:38+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -3704,7 +3704,7 @@ msgid "Failed to load preset %1"
 msgstr "Fayl yaradıla bilmədi."
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:129
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
 #, kde-format
 msgid "Reset Effect"
 msgstr "Effektləri sıfırlamaq"
@@ -5433,7 +5433,7 @@ msgstr "İki dəfə vurmaqla faylı idxal edin"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:557
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5611,7 +5611,7 @@ msgid "Move subtitle"
 msgstr "Altyazını köçürün"
 
 #: src/bin/model/subtitlemodel.cpp:1159
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
 #: src/effects/effectstack/view/effectstackview.cpp:785
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:367
@@ -6558,7 +6558,7 @@ msgstr "Bələdçilər verilənlərini ixrac edin"
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:659
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:660
 #: src/effects/effectstack/view/effectstackview.cpp:820
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9478,12 +9478,12 @@ msgstr "%1 effektini əlavə edin"
 msgid "Move effect %1"
 msgstr "%1 effektini köçürün"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:50
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:51
 #, kde-format
 msgid "Move effect up"
 msgstr "Effekti yuxarıya köçürün"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:52
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9493,12 +9493,12 @@ msgstr ""
 "Effekti həmin üstündəkinin üzərinə köçürür. Effektlər yuxarıdan aşağıya "
 "ardıcıllıqla işlənir, belə ki, ardıcıllıq vacibdir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-format
 msgid "Move effect down"
 msgstr "Effekti aşağıya köçürün"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9508,66 +9508,66 @@ msgstr ""
 "Effekti birbaşa altındakı sahəyə köçürür. Effektlər yuxarıdan aşağıya sıra "
 "ilə işlənir və buna görə də sıra vacibdir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-format
 msgid "Delete effect"
 msgstr "Effekti silin"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Bu effekti effekt qrupundan sil."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Effekti yığın"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
 #, kde-format
 msgid "Expand Effect"
 msgstr "Effekti açın"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:97
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Əsas kadrları aktiv edin"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Başlıca kadrları gizlətmək"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:99
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Əsas kadrları göstərmək"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:101
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Əsas kadrlar xətkeşinin görünməsini aktiv edir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Disable Effect"
 msgstr "Əsas kadrları söndürün"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Enable Effect"
 msgstr "Effekti aktiv edin"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 "Effekti söndürür. Əvvəlki və son ayarları müqayisə ütmək üçün faydalıdır."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
@@ -9575,49 +9575,49 @@ msgstr ""
 "Effekti aktiv edir. Əvvəlki və sonrakı ayarları müqayisə etmək üçün "
 "faydalıdır."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:158
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:159
 #, kde-format
 msgid "Create Group"
 msgstr "Qrup yaradın"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:165
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
 #, kde-format
 msgid "In:"
 msgstr "Daxilində:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:171
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, kde-format
 msgid "Set zone in"
 msgstr "Bölgə yaradılma yeri"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "Cari kadr və oynatma mövqeyini zonanın başlanğıcı kimi təyin edir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:177
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
 #, kde-format
 msgid "Out:"
 msgstr "Çıxardın:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
 #, kde-format
 msgid "Set zone out"
 msgstr "Bölgəni bayıra təyin edin"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Cari kadr və oynatma mövqeyini zonanın sonu kimi təyin edir."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:206
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
 #, kde-format
 msgid "Use effect zone"
 msgstr "Effekt bölgəsini istifadə edin"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:208
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -9625,30 +9625,30 @@ msgstr "Effekt zonasının görünməsini açır, bağlayır."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:267
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Əvvəlcədən qurulmuşlar"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:269
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 "Effekt ön ayarlarını idarə etmək üçün əlavə parametrlər siyahısını açır."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
 #, kde-format
 msgid "Save effect"
 msgstr "Effekti saxlayın"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:327
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:493
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:494
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9656,28 +9656,28 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 söndürün"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:517
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 aktivləşdirin"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:553
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:554
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Effekti saxlayın"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:559
 #, kde-format
 msgid "Comments:"
 msgstr "Şərhlər:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:574
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Ad göstərilməyib, effekt"
@@ -16321,7 +16321,7 @@ msgstr "Fayl uzantısı"
 
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:396
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:402
 #, kde-format
 msgid "Scaling"
 msgstr "Miqyaslama"
@@ -22743,37 +22743,37 @@ msgstr ""
 msgid "Rotate by 90 ° steps"
 msgstr "90 ° addımla döndərin"
 
-#: src/widgets/dragvalue.cpp:397
+#: src/widgets/dragvalue.cpp:403
 #, kde-format
 msgid "Normal scale"
 msgstr "Adi miqyas"
 
-#: src/widgets/dragvalue.cpp:398
+#: src/widgets/dragvalue.cpp:404
 #, kde-format
 msgid "Pixel scale"
 msgstr "Piksel miqyası"
 
-#: src/widgets/dragvalue.cpp:399
+#: src/widgets/dragvalue.cpp:405
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "Xətti olmayan miqyas"
 
-#: src/widgets/dragvalue.cpp:403
+#: src/widgets/dragvalue.cpp:409
 #, kde-format
 msgid "Direct update"
 msgstr "Birbaşa yenilənmə"
 
-#: src/widgets/dragvalue.cpp:408
+#: src/widgets/dragvalue.cpp:414
 #, kde-format
 msgid "Reset value"
 msgstr "Dəyəri sıfırlayın"
 
-#: src/widgets/dragvalue.cpp:413
+#: src/widgets/dragvalue.cpp:419
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "Zaman qrafikində %1 göstərilsin"
 
-#: src/widgets/dragvalue.cpp:733
+#: src/widgets/dragvalue.cpp:748
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift ilə sürüşdürərək dəyərləri bir bir tənzimləyin"
