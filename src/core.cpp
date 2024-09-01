@@ -1316,14 +1316,6 @@ void Core::setAudioMonitoring(bool enable)
     m_capture->switchMonitorState(enable);
 }
 
-QString Core::getProjectFolderName()
-{
-    if (currentDoc()) {
-        return currentDoc()->projectDataFolder(QStringLiteral()) + QDir::separator();
-    }
-    return QString();
-}
-
 QString Core::getProjectCaptureFolderName()
 {
     if (currentDoc()) {

@@ -249,8 +249,6 @@ public:
     /** @brief True if we are currently displaying the record countdown */
     bool captureShowsCountDown() const;
     MediaCapture *getAudioDevice();
-    /** @brief Returns Project Folder name for capture output location */
-    QString getProjectFolderName();
     /** @brief Returns configured folder for audio capture storage */
     QString getProjectCaptureFolderName();
     /** @brief Returns a timeline clip's bin id */

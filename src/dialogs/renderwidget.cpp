@@ -426,7 +426,7 @@ void RenderWidget::updateDocumentPath()
         return;
     }
     const QString fileName = m_view.out_file->url().fileName();
-    m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(pCore->currentDoc()->projectDataFolder()).absoluteFilePath(fileName)));
+    m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(pCore->currentDoc()->projectRenderFolder()).absoluteFilePath(fileName)));
     parseScriptFiles();
 }
 
@@ -905,7 +905,7 @@ void RenderWidget::refreshView()
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
     if (!url.isValid()) {
-        url = QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator());
+        url = QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator());
     }
     QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
 
@@ -1422,7 +1422,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
     m_view.scripts_list->clear();
 
     // List the project scripts
-    QDir projectFolder(pCore->currentDoc()->projectDataFolder());
+    QDir projectFolder(pCore->currentDoc()->projectRenderFolder());
     if (!projectFolder.exists(QStringLiteral("kdenlive-renderqueue"))) {
         return;
     }
@@ -1619,7 +1619,8 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     if (url.isEmpty()) {
         if (RenderPresetRepository::get()->presetExists(m_currentProfile)) {
             std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
-            url = filenameWithExtension(QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator()), profile->extension()).toLocalFile();
+            url =
+                filenameWithExtension(QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator()), profile->extension()).toLocalFile();
         }
     } else if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());
@@ -1913,7 +1914,7 @@ void RenderWidget::resetRenderPath(const QString &path)
         extension = m_view.out_file->url().toLocalFile().section(QLatin1Char('.'), -1);
     }
     QFileInfo updatedPath(path);
-    QString fileName = QDir(pCore->currentDoc()->projectDataFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
+    QString fileName = QDir(pCore->currentDoc()->projectRenderFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
     QString url = filenameWithExtension(QUrl::fromLocalFile(fileName), extension).toLocalFile();
     if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());
