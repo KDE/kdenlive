@@ -1642,8 +1642,12 @@ TimeRemap::TimeRemap(QWidget *parent)
         }
         button_add->setEnabled(!atKeyframe || !last);
     });
-    connect(speedBefore, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) { m_view->updateBeforeSpeed(speed); });
-    connect(speedAfter, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&](double speed) { m_view->updateAfterSpeed(speed); });
+    speedBefore->setRange(-100000, 100000, 6);
+    speedBefore->setSuffix(QLatin1Char('%'));
+    speedAfter->setRange(-100000, 100000, 6);
+    speedAfter->setSuffix(QLatin1Char('%'));
+    connect(speedBefore, &PrecisionSpinBox::valueChanged, this, [&](double speed) { m_view->updateBeforeSpeed(speed); });
+    connect(speedAfter, &PrecisionSpinBox::valueChanged, this, [&](double speed) { m_view->updateAfterSpeed(speed); });
     connect(button_del, &QToolButton::clicked, this, [this]() {
         if (m_cid > -1) {
             std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
