@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-28 02:46+0000\n"
+"POT-Creation-Date: 2024-09-01 02:30+0000\n"
 "PO-Revision-Date: 2024-05-24 21:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -879,7 +879,7 @@ msgstr "Vertikālais novietojums"
 
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:883 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Teksts"
@@ -2871,6 +2871,7 @@ msgid "Calf  Plugins"
 msgstr "„Calf“ spraudņi"
 
 #: data/kdenliveeffectscategory.rc:138
+#: src/effects/effectlist/model/effectfilter.cpp:89
 #: src/effects/effectlist/model/effecttreemodel.cpp:97
 #, kde-format
 msgid "Deprecated"
@@ -4811,7 +4812,7 @@ msgid "Create bin folder"
 msgstr "Izveidot lādes mapi"
 
 #: src/bin/bin.cpp:2709 src/bin/bin.cpp:2722 src/bin/bin.cpp:3704
-#: src/timeline2/model/timelinemodel.cpp:2160
+#: src/timeline2/model/timelinemodel.cpp:2161
 #, kde-format
 msgid "Delete Clip"
 msgstr "Dzēst klipu"
@@ -5560,13 +5561,13 @@ msgid "Cut clip"
 msgstr "Izgriezt klipu"
 
 #: src/bin/model/subtitlemodel.cpp:825 src/bin/model/subtitlemodel.cpp:1588
-#: src/timeline2/model/timelinemodel.cpp:3923
+#: src/timeline2/model/timelinemodel.cpp:3924
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Mainīt subtitra izmēru"
 
 #: src/bin/model/subtitlemodel.cpp:1021
-#: src/timeline2/model/timelinemodel.cpp:1358
+#: src/timeline2/model/timelinemodel.cpp:1359
 #, kde-format
 msgid "Move subtitle"
 msgstr "Pārvietot subtitru"
@@ -9355,7 +9356,7 @@ msgstr "Efektu „%1“ nevar pievienot vēlreiz."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:561
 #: src/effects/effectstack/view/effectstackview.cpp:239
-#: src/timeline2/model/timelinemodel.cpp:5033
+#: src/timeline2/model/timelinemodel.cpp:5034
 #, kde-format
 msgid "Add effect %1"
 msgstr "Pievienot efektu „%1“"
@@ -11960,7 +11961,7 @@ msgstr "Importēt subtitru datni..."
 msgid "Export Subtitle File…"
 msgstr "Eksportēt subtitru datni..."
 
-#: src/mainwindow.cpp:2054 src/timeline2/model/timelinemodel.cpp:2164
+#: src/mainwindow.cpp:2054 src/timeline2/model/timelinemodel.cpp:2165
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Dzēst subtitru"
@@ -16752,7 +16753,7 @@ msgid "Delete clips on track"
 msgstr "Dzēst klipus celiņā"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4614
+#: src/timeline2/model/timelinemodel.cpp:4615
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16798,140 +16799,140 @@ msgstr "Aizstātie klipi: %1, pārāk gari klipi: %2"
 msgid "Replace clip"
 msgstr "Aizstāt klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:988
-#: src/timeline2/model/timelinemodel.cpp:1205
+#: src/timeline2/model/timelinemodel.cpp:989
+#: src/timeline2/model/timelinemodel.cpp:1206
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "Atlasiet klipi, lai pielietotu sajaukšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:1203
+#: src/timeline2/model/timelinemodel.cpp:1204
 #, kde-format
 msgid "start"
 msgstr "sākt"
 
-#: src/timeline2/model/timelinemodel.cpp:1203
+#: src/timeline2/model/timelinemodel.cpp:1204
 #, kde-format
 msgid "end"
 msgstr "beigt"
 
-#: src/timeline2/model/timelinemodel.cpp:1203
+#: src/timeline2/model/timelinemodel.cpp:1204
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "Klipā „%1“ nepietiek kadru, lai pielietotu sajaukšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:1209
+#: src/timeline2/model/timelinemodel.cpp:1210
 #, kde-format
 msgid "Create mix"
 msgstr "Izveidot sajaukšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:1284
-#: src/timeline2/model/timelinemodel.cpp:1319
+#: src/timeline2/model/timelinemodel.cpp:1285
+#: src/timeline2/model/timelinemodel.cpp:1320
 #, kde-format
 msgid "Move clip"
 msgstr "Pārvietot klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:1837
-#: src/timeline2/model/timelinemodel.cpp:1927
-#: src/timeline2/model/timelinemodel.cpp:1950
-#: src/timeline2/model/timelinemodel.cpp:1973
+#: src/timeline2/model/timelinemodel.cpp:1838
+#: src/timeline2/model/timelinemodel.cpp:1928
+#: src/timeline2/model/timelinemodel.cpp:1951
+#: src/timeline2/model/timelinemodel.cpp:1974
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Ievietošanas darbībai nav pieejams celiņš"
 
-#: src/timeline2/model/timelinemodel.cpp:1842
+#: src/timeline2/model/timelinemodel.cpp:1843
 #, kde-format
 msgid "Insert Clip"
 msgstr "Ievietot klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:1895
+#: src/timeline2/model/timelinemodel.cpp:1896
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Nevarat ievietot sekvenci, kas satur pati sevi"
 
-#: src/timeline2/model/timelinemodel.cpp:1943
-#: src/timeline2/model/timelinemodel.cpp:1965
+#: src/timeline2/model/timelinemodel.cpp:1944
+#: src/timeline2/model/timelinemodel.cpp:1966
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Nepietiek audio celiņu visām straumēm (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2049
+#: src/timeline2/model/timelinemodel.cpp:2050
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Nepietiek celiņu sadalīšanas darbībai"
 
-#: src/timeline2/model/timelinemodel.cpp:2086
+#: src/timeline2/model/timelinemodel.cpp:2087
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Audio sadalīšana neizdevās: nav piemērota celiņa"
 
-#: src/timeline2/model/timelinemodel.cpp:2094
+#: src/timeline2/model/timelinemodel.cpp:2095
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Audio sadalīšana neizdevās: nav iespējams izveidot audio klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:2157
+#: src/timeline2/model/timelinemodel.cpp:2158
 #, kde-format
 msgid "Remove group"
 msgstr "Noņemt grupu"
 
-#: src/timeline2/model/timelinemodel.cpp:2162
+#: src/timeline2/model/timelinemodel.cpp:2163
 #, kde-format
 msgid "Delete Composition"
 msgstr "Dzēst kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:2369
-#: src/timeline2/model/timelinemodel.cpp:2646
+#: src/timeline2/model/timelinemodel.cpp:2370
+#: src/timeline2/model/timelinemodel.cpp:2647
 #: src/timeline2/view/timelinecontroller.cpp:4335
 #, kde-format
 msgid "Move group"
 msgstr "Pārvietot grupu"
 
-#: src/timeline2/model/timelinemodel.cpp:3338
+#: src/timeline2/model/timelinemodel.cpp:3339
 #, kde-format
 msgid "Resize group"
 msgstr "Mainīt grupas izmēru"
 
-#: src/timeline2/model/timelinemodel.cpp:3462
+#: src/timeline2/model/timelinemodel.cpp:3463
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Mainīt klipa ātrumu"
 
-#: src/timeline2/model/timelinemodel.cpp:3621
+#: src/timeline2/model/timelinemodel.cpp:3622
 #, kde-format
 msgid "Remove mix"
 msgstr "Noņemt sajaukšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:3623
+#: src/timeline2/model/timelinemodel.cpp:3624
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Sajaukšanas noņemšana neizdevās"
 
-#: src/timeline2/model/timelinemodel.cpp:3919
+#: src/timeline2/model/timelinemodel.cpp:3920
 #, kde-format
 msgid "Resize clip"
 msgstr "Mainīt klipa izmēru"
 
-#: src/timeline2/model/timelinemodel.cpp:3921
+#: src/timeline2/model/timelinemodel.cpp:3922
 #, kde-format
 msgid "Resize composition"
 msgstr "Mainīt klip kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:4240
+#: src/timeline2/model/timelinemodel.cpp:4241
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Mainīt klipa izmēru ķēdē"
 
-#: src/timeline2/model/timelinemodel.cpp:4242
+#: src/timeline2/model/timelinemodel.cpp:4243
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Mainīt kompozīcijas izmēru ķēdē"
 
-#: src/timeline2/model/timelinemodel.cpp:4244
+#: src/timeline2/model/timelinemodel.cpp:4245
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Mainīt subtitru izmēru ķēdē"
 
-#: src/timeline2/model/timelinemodel.cpp:4387
+#: src/timeline2/model/timelinemodel.cpp:4388
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16940,136 +16941,136 @@ msgstr[0] "Slidināt klipu"
 msgstr[1] "Slidināt klipus"
 msgstr[2] "Slidināt klipus"
 
-#: src/timeline2/model/timelinemodel.cpp:4422
+#: src/timeline2/model/timelinemodel.cpp:4423
 #, kde-format
 msgid "Slip clip"
 msgstr "Slidināt klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:4457
+#: src/timeline2/model/timelinemodel.cpp:4458
 #, kde-format
 msgid "Group clips"
 msgstr "Grupēt klipus"
 
-#: src/timeline2/model/timelinemodel.cpp:4542
-#: src/timeline2/model/timelinemodel.cpp:4558
+#: src/timeline2/model/timelinemodel.cpp:4543
+#: src/timeline2/model/timelinemodel.cpp:4559
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Atgrupēt klipus"
 
-#: src/timeline2/model/timelinemodel.cpp:4723
+#: src/timeline2/model/timelinemodel.cpp:4724
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "Dzēst celiņu"
 
-#: src/timeline2/model/timelinemodel.cpp:4733
+#: src/timeline2/model/timelinemodel.cpp:4734
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Nevar dzēst pēdējo celiņu laika joslā"
 
-#: src/timeline2/model/timelinemodel.cpp:4958
+#: src/timeline2/model/timelinemodel.cpp:4959
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Nevar pievienot efektu „%1“ pamata celiņam"
 
-#: src/timeline2/model/timelinemodel.cpp:4965
+#: src/timeline2/model/timelinemodel.cpp:4966
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Nevar pievienot efektu „%1“ atlasītajam celiņam"
 
-#: src/timeline2/model/timelinemodel.cpp:4986
+#: src/timeline2/model/timelinemodel.cpp:4987
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Nevar ielīmēt efektu pamata celiņam"
 
-#: src/timeline2/model/timelinemodel.cpp:4992
+#: src/timeline2/model/timelinemodel.cpp:4993
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Nevar ielīmēt efektu atlasītajam celiņam"
 
-#: src/timeline2/model/timelinemodel.cpp:5036
+#: src/timeline2/model/timelinemodel.cpp:5037
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Nevar pievienot efektu „%1“ atlasītajam klipam"
 
-#: src/timeline2/model/timelinemodel.cpp:5060
+#: src/timeline2/model/timelinemodel.cpp:5061
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Regulēt izgaišanu"
 
-#: src/timeline2/model/timelinemodel.cpp:5372
+#: src/timeline2/model/timelinemodel.cpp:5373
 #, kde-format
 msgid "Insert Composition"
 msgstr "Ievietot kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:5587
+#: src/timeline2/model/timelinemodel.cpp:5588
 #, kde-format
 msgid "Move composition"
 msgstr "Pārvietot kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:6245
+#: src/timeline2/model/timelinemodel.cpp:6256
 #, kde-format
 msgid "Enable time remap"
 msgstr "Ieslēgt laika pārkartēšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:6319
+#: src/timeline2/model/timelinemodel.cpp:6330
 #, kde-format
 msgid "Change speed failed"
 msgstr "Ātruma mainīšana neizdevās"
 
-#: src/timeline2/model/timelinemodel.cpp:6329
+#: src/timeline2/model/timelinemodel.cpp:6340
 #, kde-format
 msgid "Change clip speed"
 msgstr "Mainīt klipa ātrumu"
 
-#: src/timeline2/model/timelinemodel.cpp:6760
+#: src/timeline2/model/timelinemodel.cpp:6771
 #: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Slēgt celiņu"
 
-#: src/timeline2/model/timelinemodel.cpp:6765
+#: src/timeline2/model/timelinemodel.cpp:6776
 #: src/timeline2/view/qml/timeline.qml:1210
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Atslēgt celiņu"
 
-#: src/timeline2/model/timelinemodel.cpp:6799
-#: src/timeline2/model/timelinemodel.cpp:6861
+#: src/timeline2/model/timelinemodel.cpp:6810
+#: src/timeline2/model/timelinemodel.cpp:6872
 #, kde-format
 msgid "Change composition"
 msgstr "Mainīt kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:6813
+#: src/timeline2/model/timelinemodel.cpp:6824
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Nevar darboties ar grupētu kompozīciju. Atgrupējiet, lai turpinātu"
 
-#: src/timeline2/model/timelinemodel.cpp:7008
-#: src/timeline2/model/timelinemodel.cpp:7045
-#: src/timeline2/model/timelinemodel.cpp:7078
-#: src/timeline2/model/timelinemodel.cpp:7159
+#: src/timeline2/model/timelinemodel.cpp:7019
+#: src/timeline2/model/timelinemodel.cpp:7056
+#: src/timeline2/model/timelinemodel.cpp:7089
+#: src/timeline2/model/timelinemodel.cpp:7170
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Nevar mainīt sajaukšanas izmēru uz mazāk par vienu kadru"
 
-#: src/timeline2/model/timelinemodel.cpp:7019
-#: src/timeline2/model/timelinemodel.cpp:7053
-#: src/timeline2/model/timelinemodel.cpp:7097
-#: src/timeline2/model/timelinemodel.cpp:7183
+#: src/timeline2/model/timelinemodel.cpp:7030
+#: src/timeline2/model/timelinemodel.cpp:7064
+#: src/timeline2/model/timelinemodel.cpp:7108
+#: src/timeline2/model/timelinemodel.cpp:7194
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Nevar mainīt sajaukšanas izmēru"
 
-#: src/timeline2/model/timelinemodel.cpp:7197
+#: src/timeline2/model/timelinemodel.cpp:7208
 #, kde-format
 msgid "Resize mix"
 msgstr "Mainīt sajaukšanas izmēru"
 
-#: src/timeline2/model/timelinemodel.cpp:7317
+#: src/timeline2/model/timelinemodel.cpp:7328
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Kļūda, palaižot laika joslas priekšskatījumu"
@@ -17780,17 +17781,17 @@ msgstr "Straume nav pieejama"
 msgid "Gradient %1"
 msgstr "Gradients %1"
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
 msgstr "Šis titru klips ir izveidots ar atšķirību rāmja izmēru."
 
-#: src/titler/titledocument.cpp:384
+#: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
 msgstr "Titru profils"
 
-#: src/titler/titledocument.cpp:457
+#: src/titler/titledocument.cpp:463
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -17802,7 +17803,7 @@ msgstr ""
 "pikseļu izmērā, lai būtu pārvietojami starp ierīcēm, tomēr jums var būt "
 "nepieciešamība koriģēt to izmēru."
 
-#: src/titler/titledocument.cpp:460
+#: src/titler/titledocument.cpp:466
 #, kde-format
 msgid "Text Clips Updated"
 msgstr "Teksta klipi ir atjaunināti"
