@@ -786,12 +786,31 @@ QString KdenliveDoc::projectTempFolder() const
     return m_projectFolder;
 }
 
-QString KdenliveDoc::projectDataFolder(const QString &newPath) const
+QString KdenliveDoc::projectRenderFolder(const QString &newPath) const
 {
-    if (KdenliveSettings::videotodefaultfolder() == 2 && !KdenliveSettings::videofolder().isEmpty()) {
+    // If the project is being saved to a new location, return the new path
+    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
+        // If the project is being moved, and we use the location of the project file, return the new path
+        return newPath;
+    }
+    // If we always render to a custom folder, return it
+    if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::videofolder().isEmpty()) {
         return KdenliveSettings::videofolder();
     }
-    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder)) {
+    // If we save to project folder, return it
+    if (m_url.isValid() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
+        // Always render to project folder
+        return QFileInfo(m_url.toLocalFile()).absolutePath();
+    }
+    return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+}
+
+QString KdenliveDoc::projectDataFolder(const QString &newPath) const
+{
+    if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::videofolder().isEmpty()) {
+        return KdenliveSettings::videofolder();
+    }
+    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
         // If the project is being moved, and we use the location of the project file, return the new path
         return newPath;
     }
@@ -802,7 +821,7 @@ QString KdenliveDoc::projectDataFolder(const QString &newPath) const
         }
         return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
     }
-    if (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder) {
+    if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder) {
         // Always render to project folder
         if (KdenliveSettings::customprojectfolder() && !m_sameProjectFolder) {
             return KdenliveSettings::defaultprojectfolder();
@@ -814,10 +833,11 @@ QString KdenliveDoc::projectDataFolder(const QString &newPath) const
 
 QString KdenliveDoc::projectCaptureFolder() const
 {
-    if (KdenliveSettings::capturetoprojectfolder() == 2 && !KdenliveSettings::capturefolder().isEmpty()) {
+    if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::capturefolder().isEmpty()) {
         return KdenliveSettings::capturefolder();
     }
-    if (KdenliveSettings::capturetoprojectfolder() == 1 || m_sameProjectFolder || KdenliveSettings::capturetoprojectfolder() == 3) {
+    if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder ||
+        KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectSubFolder) {
         QString projectFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
 
         if (m_projectFolder.isEmpty()) {
@@ -831,7 +851,7 @@ QString KdenliveDoc::projectCaptureFolder() const
             projectFolder = QFileInfo(m_url.toLocalFile()).absolutePath();
         }
 
-        if (KdenliveSettings::capturetoprojectfolder() == 3 && !KdenliveSettings::captureprojectsubfolder().isEmpty()) {
+        if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectSubFolder && !KdenliveSettings::captureprojectsubfolder().isEmpty()) {
             // Wherever the project file is, we want a subfolder
             projectFolder += QDir::separator() + KdenliveSettings::captureprojectsubfolder();
         }

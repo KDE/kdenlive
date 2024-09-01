@@ -360,13 +360,15 @@ void KdenliveSettingsDialog::initEnviromentPage()
     // Script rendering files folder
     m_configEnv.videofolderurl->setMode(KFile::Directory);
     m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
-    m_configEnv.videofolderurl->setEnabled(KdenliveSettings::videotodefaultfolder() == 2);
+    m_configEnv.videofolderurl->setEnabled(KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToCustomFolder);
     m_configEnv.videofolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-    m_configEnv.kcfg_videotodefaultfolder->setItemText(0, i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
+    m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToVideoFolder,
+                                                       i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
     if (KdenliveSettings::customprojectfolder()) {
-        m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
+                                                           i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
     } else {
-        m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use active project folder"));
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
     }
     connect(m_configEnv.kcfg_videotodefaultfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotEnableVideoFolder);
 
@@ -701,7 +703,7 @@ void KdenliveSettingsDialog::slotEnableLibraryFolder()
 
 void KdenliveSettingsDialog::slotEnableVideoFolder(int ix)
 {
-    m_configEnv.videofolderurl->setEnabled(ix == 2);
+    m_configEnv.videofolderurl->setEnabled(ix == KdenliveDoc::SaveToCustomFolder);
 }
 
 void KdenliveSettingsDialog::initDevices()
@@ -1072,17 +1074,19 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configProject.projecturl->url().toLocalFile() != KdenliveSettings::defaultprojectfolder()) {
         KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
         if (!KdenliveSettings::sameprojectfolder()) {
-            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
+                                                               i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
         }
     }
 
     if (m_configProject.kcfg_customprojectfolder->isChecked() != KdenliveSettings::customprojectfolder()) {
         if (KdenliveSettings::customprojectfolder()) {
-            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use active project folder"));
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
         } else {
-            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
+                                                               i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
         }
     }

@@ -4281,15 +4281,8 @@ void MainWindow::slotArchiveProject()
 
 void MainWindow::slotDownloadResources()
 {
-    QString currentFolder;
-    if (pCore->currentDoc()) {
-        currentFolder = pCore->currentDoc()->projectDataFolder();
-    } else {
-        currentFolder = KdenliveSettings::defaultprojectfolder();
-    }
     m_onlineResourcesDock->show();
     m_onlineResourcesDock->raise();
-    ;
 }
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)

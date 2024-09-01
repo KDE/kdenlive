@@ -345,7 +345,7 @@ QString RenderRequest::generatePlaylistFile()
         filename = filename.section(QLatin1Char('.'), 0, -2);
     }
 
-    QDir projectFolder(pCore->currentDoc()->projectDataFolder());
+    QDir projectFolder(pCore->currentDoc()->projectRenderFolder());
     projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
     projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
     int ix = 1;
