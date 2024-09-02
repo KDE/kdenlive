@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-01 02:30+0000\n"
-"PO-Revision-Date: 2024-07-27 08:46+0200\n"
+"PO-Revision-Date: 2024-09-01 15:18+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3044,7 +3044,7 @@ msgstr ""
 #: data/transitions/wipe.xml:8
 #, kde-format
 msgid "Wipe Method"
-msgstr "Metodi per la tendina"
+msgstr "Metodo per la tendina"
 
 #: data/transitions/matte.xml:4
 #, kde-format
@@ -3111,7 +3111,7 @@ msgstr "Forza deinterlacciamento"
 #, kde-format
 msgctxt "Slide Transition Name"
 msgid "Slide"
-msgstr "Slittamento"
+msgstr "Scivola"
 
 #: data/transitions/slide.xml:5
 #, kde-format
@@ -14562,10 +14562,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Assegna data e ora alle clip del contenitore corrente"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot find profile from current clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Impossibile trovare il profilo dalla clip corrente"
+msgstr "Impossibile trovare la clip del progetto"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format

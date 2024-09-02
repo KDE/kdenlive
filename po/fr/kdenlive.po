@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-01 02:30+0000\n"
-"PO-Revision-Date: 2024-08-16 19:48+0200\n"
+"PO-Revision-Date: 2024-08-25 11:51+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -14618,10 +14618,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Assigner des marqueurs de temps à la source du projet courant"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot find profile from current clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Impossible de trouver le profil depuis le clip courant"
+msgstr "Impossible de trouver une séquence du projet"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
