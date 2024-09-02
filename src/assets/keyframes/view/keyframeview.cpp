@@ -231,8 +231,14 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             m_keyframeZonePress = true;
             auto keyframe = m_model->getClosestKeyframe(position, &ok);
             if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
+                // Select and seek to keyframe
                 int currentIx = m_model->getIndexForPos(keyframe.first);
                 m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps());
+                if (m_currentKeyframeOriginal > -1) {
+                    if (KdenliveSettings::keyframeseek()) {
+                        Q_EMIT seekToPos(m_currentKeyframeOriginal - offset);
+                    }
+                }
                 if (event->modifiers() & Qt::ControlModifier) {
                     if (m_model->selectedKeyframes().contains(currentIx)) {
                         m_model->removeFromSelected(currentIx);
@@ -249,12 +255,6 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                     m_model->setActiveKeyframe(currentIx);
                 } else {
                     m_model->setActiveKeyframe(currentIx);
-                }
-                // Select and seek to keyframe
-                if (m_currentKeyframeOriginal > -1) {
-                    if (KdenliveSettings::keyframeseek()) {
-                        Q_EMIT seekToPos(m_currentKeyframeOriginal - offset);
-                    }
                 }
                 return;
             }

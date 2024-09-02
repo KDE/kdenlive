@@ -145,7 +145,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar->setIconSize(QSize(size, size));
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
+    connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::DirectConnection);
     connect(pCore.get(), &Core::disconnectEffectStack, this, &KeyframeWidget::disconnectEffectStack);
 
     m_time = new TimecodeDisplay(this);
