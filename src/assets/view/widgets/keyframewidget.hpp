@@ -84,7 +84,11 @@ private Q_SLOTS:
     void slotCopyValueAtCursorPos();
     void slotImportKeyframes();
     void slotRemoveNextKeyframes();
-    void slotSeekToKeyframe(int ix);
+    /** @brief Seek to keyframe.
+     *  @param ix the index of the keyframe we want to reach
+     *  @param offset if different than 0, the parameter ix  is ignored and we seek to next or previous keyframe
+     */
+    void slotSeekToKeyframe(int ix, int offset);
     void slotSeekToPos(int pos);
     void slotToggleView();
     void monitorSeek(int pos);

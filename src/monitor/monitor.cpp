@@ -491,8 +491,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     }
     m_glMonitor->getControllerProxy()->setTimeCode(m_timePos);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::triggerAction, pCore.get(), &Core::triggerAction);
-    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekNextKeyframe, this, &Monitor::seekToNextKeyframe);
-    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekPreviousKeyframe, this, &Monitor::seekToPreviousKeyframe);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addRemoveKeyframe, this, &Monitor::addRemoveKeyframe);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekToKeyframe, this, &Monitor::slotSeekToKeyFrame);
 
@@ -2203,12 +2201,10 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, co
     loadQmlScene(sceneType, sceneData);
 }
 
-void Monitor::slotSeekToKeyFrame()
+void Monitor::slotSeekToKeyFrame(int ix, int offset)
 {
     if (m_qmlManager->sceneType() == MonitorSceneGeometry) {
-        // Adjust splitter pos
-        int kfr = m_glMonitor->rootObject()->property("requestedKeyFrame").toInt();
-        Q_EMIT seekToKeyframe(kfr);
+        Q_EMIT seekToKeyframe(ix, offset);
     }
 }
 
