@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-01 00:38+0000\n"
+"POT-Creation-Date: 2024-09-02 00:38+0000\n"
 "PO-Revision-Date: 2024-08-24 11:05+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -3753,7 +3753,7 @@ msgstr "Suprimeix els valors predefinits seleccionats actualment."
 
 #: src/assets/view/assetparameterview.cpp:355
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1452
+#: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -3761,7 +3761,7 @@ msgstr "Introducció del nom dels valors predefinits"
 
 #: src/assets/view/assetparameterview.cpp:355
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1452
+#: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Introduïu el nom d'aquests valors predefinits:"
@@ -5304,7 +5304,7 @@ msgstr "Suprimeix l'efecte %1"
 msgid "Project Bin"
 msgstr "Safata del projecte"
 
-#: src/bin/bin.cpp:6295 src/bin/bin.cpp:6298 src/mainwindow.cpp:4954
+#: src/bin/bin.cpp:6295 src/bin/bin.cpp:6298 src/mainwindow.cpp:4947
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Safata del projecte %1"
@@ -6205,7 +6205,7 @@ msgstr "Clip de text"
 msgid "Create Text clip"
 msgstr "Crea un clip de text"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1158
+#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1178
 #, kde-format
 msgid "Template title clip"
 msgstr "Plantilla de clip de títol"
@@ -6475,7 +6475,7 @@ msgstr "Automàtic (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:710
+#: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
 #: src/transitions/view/transitionstackview.cpp:38
 #, kde-format
@@ -6546,9 +6546,9 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exportació de les dades de guies"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1703
-#: src/dialogs/renderwidget.cpp:1727 src/doc/kdenlivedoc.cpp:759
-#: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1307
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1704
+#: src/dialogs/renderwidget.cpp:1728 src/doc/kdenlivedoc.cpp:759
+#: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1327
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
@@ -6680,7 +6680,7 @@ msgid "Misc"
 msgstr "Miscel·lània"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:243
-#: src/dialogs/kdenlivesettingsdialog.cpp:820
+#: src/dialogs/kdenlivesettingsdialog.cpp:822
 #: src/doc/documentvalidator.cpp:2246
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
@@ -6698,65 +6698,65 @@ msgid "Project Defaults"
 msgstr "Valors predeterminats del projecte"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:341
-#: src/dialogs/kdenlivesettingsdialog.cpp:365
+#: src/dialogs/kdenlivesettingsdialog.cpp:366
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Usa la carpeta predeterminada: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:343
-#: src/dialogs/kdenlivesettingsdialog.cpp:367
-#: src/dialogs/kdenlivesettingsdialog.cpp:1075
-#: src/dialogs/kdenlivesettingsdialog.cpp:1076
-#: src/dialogs/kdenlivesettingsdialog.cpp:1085
-#: src/dialogs/kdenlivesettingsdialog.cpp:1086
+#: src/dialogs/kdenlivesettingsdialog.cpp:369
+#: src/dialogs/kdenlivesettingsdialog.cpp:1078
+#: src/dialogs/kdenlivesettingsdialog.cpp:1079
+#: src/dialogs/kdenlivesettingsdialog.cpp:1089
+#: src/dialogs/kdenlivesettingsdialog.cpp:1090
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Usa sempre la carpeta del projecte: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:345
-#: src/dialogs/kdenlivesettingsdialog.cpp:369
-#: src/dialogs/kdenlivesettingsdialog.cpp:1082
-#: src/dialogs/kdenlivesettingsdialog.cpp:1083
+#: src/dialogs/kdenlivesettingsdialog.cpp:371
+#: src/dialogs/kdenlivesettingsdialog.cpp:1085
+#: src/dialogs/kdenlivesettingsdialog.cpp:1086
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Usa sempre la carpeta activa del projecte"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:382
+#: src/dialogs/kdenlivesettingsdialog.cpp:384
 #, kde-format
 msgid "Environment"
 msgstr "Entorn"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:418
+#: src/dialogs/kdenlivesettingsdialog.cpp:420
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "La captura encara no està disponible en el Mac OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:428
+#: src/dialogs/kdenlivesettingsdialog.cpp:430
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 canal)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:429
+#: src/dialogs/kdenlivesettingsdialog.cpp:431
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Estèreo (2 canals)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:436
+#: src/dialogs/kdenlivesettingsdialog.cpp:438
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:437
+#: src/dialogs/kdenlivesettingsdialog.cpp:439
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:490
+#: src/dialogs/kdenlivesettingsdialog.cpp:492
 #, kde-format
 msgid "JogShuttle"
 msgstr "Jog Shuttle"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:493
+#: src/dialogs/kdenlivesettingsdialog.cpp:495
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -6768,117 +6768,117 @@ msgstr ""
 "html#windows\">nostra documentació</a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:513 src/dialogs/timeremap.cpp:1583
+#: src/dialogs/kdenlivesettingsdialog.cpp:515 src/dialogs/timeremap.cpp:1583
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1042
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Transcodifica"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:547
+#: src/dialogs/kdenlivesettingsdialog.cpp:549
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "El processament de la GPU necessita que el MLT estigui compilat amb els "
 "mòduls Movit i Rtaudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:717
+#: src/dialogs/kdenlivesettingsdialog.cpp:719
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:718
-#: src/dialogs/kdenlivesettingsdialog.cpp:771
+#: src/dialogs/kdenlivesettingsdialog.cpp:720
+#: src/dialogs/kdenlivesettingsdialog.cpp:773
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:719
+#: src/dialogs/kdenlivesettingsdialog.cpp:721
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:720
+#: src/dialogs/kdenlivesettingsdialog.cpp:722
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:722
+#: src/dialogs/kdenlivesettingsdialog.cpp:724
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Dimoni Esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:723
+#: src/dialogs/kdenlivesettingsdialog.cpp:725
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Dimoni ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:735
-#: src/dialogs/kdenlivesettingsdialog.cpp:736 src/dialogs/renderwidget.cpp:217
+#: src/dialogs/kdenlivesettingsdialog.cpp:737
+#: src/dialogs/kdenlivesettingsdialog.cpp:738 src/dialogs/renderwidget.cpp:217
 #: src/mainwindow.cpp:210 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Per omissió"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:787
+#: src/dialogs/kdenlivesettingsdialog.cpp:789
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:799
+#: src/dialogs/kdenlivesettingsdialog.cpp:801
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:823 src/mainwindow.cpp:353
+#: src/dialogs/kdenlivesettingsdialog.cpp:825 src/mainwindow.cpp:353
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:907
+#: src/dialogs/kdenlivesettingsdialog.cpp:909
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Introduïu el camí a l'aplicació d'edició d'àudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:915
+#: src/dialogs/kdenlivesettingsdialog.cpp:917
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Introduïu el camí a l'aplicació d'edició d'imatges"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:923 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:925 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Introduïu el camí a l'aplicació Glaxnimate"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1006
-#: src/dialogs/kdenlivesettingsdialog.cpp:1024
+#: src/dialogs/kdenlivesettingsdialog.cpp:1008
+#: src/dialogs/kdenlivesettingsdialog.cpp:1026
 #: src/project/dialogs/projectsettings.cpp:538
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Seleccioneu un perfil de vídeo"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1307
+#: src/dialogs/kdenlivesettingsdialog.cpp:1311
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Cal reiniciar el Kdenlive per a canviar aquesta opció"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1455
+#: src/dialogs/kdenlivesettingsdialog.cpp:1459
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Ja existeix un perfil amb aquest nom"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1589
+#: src/dialogs/kdenlivesettingsdialog.cpp:1593
 #, kde-format
 msgid "Current settings"
 msgstr "Paràmetres actuals"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1627
-#: src/dialogs/kdenlivesettingsdialog.cpp:1663
-#: src/dialogs/kdenlivesettingsdialog.cpp:1680
+#: src/dialogs/kdenlivesettingsdialog.cpp:1631
+#: src/dialogs/kdenlivesettingsdialog.cpp:1667
+#: src/dialogs/kdenlivesettingsdialog.cpp:1684
 #: src/mltcontroller/clippropertiescontroller.cpp:560
 #: src/mltcontroller/clippropertiescontroller.cpp:1422
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -6887,8 +6887,8 @@ msgstr "Paràmetres actuals"
 msgid "Progressive"
 msgstr "Progressiu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1770
-#: src/dialogs/kdenlivesettingsdialog.cpp:1794
+#: src/dialogs/kdenlivesettingsdialog.cpp:1774
+#: src/dialogs/kdenlivesettingsdialog.cpp:1798
 #, kde-format
 msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
@@ -6898,7 +6898,7 @@ msgstr ""
 "d'això, el processament es produirà fora de línia. El processament de CPU és "
 "molt lent."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1791
+#: src/dialogs/kdenlivesettingsdialog.cpp:1795
 #, kde-format
 msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
@@ -6909,54 +6909,54 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1801
-#: src/dialogs/kdenlivesettingsdialog.cpp:1816
-#: src/dialogs/kdenlivesettingsdialog.cpp:2141 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:1805
+#: src/dialogs/kdenlivesettingsdialog.cpp:1820
+#: src/dialogs/kdenlivesettingsdialog.cpp:2145 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
 msgstr "Carpeta de models"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1862
+#: src/dialogs/kdenlivesettingsdialog.cpp:1866
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Estableix un entorn virtual…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1864
+#: src/dialogs/kdenlivesettingsdialog.cpp:1868
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Deshabilita l'entorn virtual"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1881
+#: src/dialogs/kdenlivesettingsdialog.cpp:1885
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "S'elimina la carpeta de l'entorn virtual."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1886
+#: src/dialogs/kdenlivesettingsdialog.cpp:1890
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "No s'ha trobat el «venv» del Python"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1889
+#: src/dialogs/kdenlivesettingsdialog.cpp:1893
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "Ha fallat en eliminar la carpeta de l'entorn virtual."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1894
+#: src/dialogs/kdenlivesettingsdialog.cpp:1898
 #, kde-format
 msgid "Probing..."
 msgstr "S'està explorant..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1949
-#: src/dialogs/kdenlivesettingsdialog.cpp:2138
+#: src/dialogs/kdenlivesettingsdialog.cpp:1953
+#: src/dialogs/kdenlivesettingsdialog.cpp:2142
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Si us plau, afegiu un model de veu."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1986
+#: src/dialogs/kdenlivesettingsdialog.cpp:1990
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6965,30 +6965,30 @@ msgstr ""
 "Baixa els models de veu des de: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2016
+#: src/dialogs/kdenlivesettingsdialog.cpp:2020
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Introduïu un URL per al diccionari nou"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2022
+#: src/dialogs/kdenlivesettingsdialog.cpp:2026
 #, kde-format
 msgid "Downloading model…"
 msgstr "S'està baixant el model…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2032
+#: src/dialogs/kdenlivesettingsdialog.cpp:2036
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "No permetem eliminar els models de carpetes personalitzades, feu-ho "
 "manualment."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2038
-#: src/dialogs/kdenlivesettingsdialog.cpp:2097
+#: src/dialogs/kdenlivesettingsdialog.cpp:2042
+#: src/dialogs/kdenlivesettingsdialog.cpp:2101
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "No s'ha pogut accedir a la carpeta del diccionari."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2047
+#: src/dialogs/kdenlivesettingsdialog.cpp:2051
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6997,22 +6997,22 @@ msgstr ""
 "Suprimeix la carpeta:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2071
+#: src/dialogs/kdenlivesettingsdialog.cpp:2075
 #, kde-format
 msgid "Download error"
 msgstr "Error de baixada"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2076
+#: src/dialogs/kdenlivesettingsdialog.cpp:2080
 #, kde-format
 msgid "Download error %1"
 msgstr "Error de baixada %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2104
+#: src/dialogs/kdenlivesettingsdialog.cpp:2108
 #, kde-format
 msgid "Extracting archive…"
 msgstr "S'està extraient l'arxiu…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2111
+#: src/dialogs/kdenlivesettingsdialog.cpp:2115
 #, kde-format
 msgid "New dictionary installed."
 msgstr "S'ha instal·lat un diccionari nou."
@@ -7515,36 +7515,36 @@ msgstr "Interromp el treball"
 msgid "Remove Job"
 msgstr "Elimina el treball"
 
-#: src/dialogs/renderwidget.cpp:1787
+#: src/dialogs/renderwidget.cpp:1788
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Afegeix clips a la línia de temps abans de renderitzar"
 
-#: src/dialogs/renderwidget.cpp:1792
+#: src/dialogs/renderwidget.cpp:1793
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Durada del fitxer renderitzat: %1"
 
-#: src/dialogs/renderwidget.cpp:1796
+#: src/dialogs/renderwidget.cpp:1797
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Manca un clip utilitzat en el projecte.</b>"
 msgstr[1] "<b>Manquen %1 clips utilitzats en el projecte.</b>"
 
-#: src/dialogs/renderwidget.cpp:1798
+#: src/dialogs/renderwidget.cpp:1799
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Manca un clip (sense ús)."
 msgstr[1] "Manquen %1 clips (sense ús)."
 
-#: src/dialogs/renderwidget.cpp:1800
+#: src/dialogs/renderwidget.cpp:1801
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Manquen %1 clips (<b>%2 utilitzats en el projecte</b>)."
 
-#: src/dialogs/renderwidget.cpp:1882
+#: src/dialogs/renderwidget.cpp:1883
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -7553,12 +7553,12 @@ msgstr ""
 "Paràmetres de velocitat del còdec:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1902
+#: src/dialogs/renderwidget.cpp:1903
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Afegeix al projecte actual"
 
-#: src/dialogs/renderwidget.cpp:1905 src/library/librarywidget.cpp:248
+#: src/dialogs/renderwidget.cpp:1906 src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Obre la carpeta contenidora"
@@ -8499,12 +8499,12 @@ msgid "Deletes the keyframe at the current position of the playhead."
 msgstr ""
 "Suprimeix el fotograma clau a la posició actual del capçal de reproducció."
 
-#: src/dialogs/timeremap.cpp:1738
+#: src/dialogs/timeremap.cpp:1742
 #, kde-format
 msgid "Time remap does not work on clip with B frames."
 msgstr "La reassignació de temps no funciona en els clips amb fotogrames B."
 
-#: src/dialogs/timeremap.cpp:2076
+#: src/dialogs/timeremap.cpp:2080
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Edita la reassignació de temps dels fotogrames clau"
@@ -9169,36 +9169,36 @@ msgstr ""
 "El fitxer del projecte s'ha actualitzat a la darrera versió de document del "
 "Kdenlive, però no ha estat possible crear la còpia de seguretat %1."
 
-#: src/doc/kdenlivedoc.cpp:893 src/project/projectmanager.cpp:1421
+#: src/doc/kdenlivedoc.cpp:913 src/project/projectmanager.cpp:1421
 #: src/project/projectmanager.cpp:1457
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Error en moure la carpeta del projecte: %1"
 
-#: src/doc/kdenlivedoc.cpp:1083 src/doc/kdenlivedoc.cpp:2331
+#: src/doc/kdenlivedoc.cpp:1103 src/doc/kdenlivedoc.cpp:2351
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1678
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
 
-#: src/doc/kdenlivedoc.cpp:1144
+#: src/doc/kdenlivedoc.cpp:1164
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Introducció del camí de les plantilles"
 
-#: src/doc/kdenlivedoc.cpp:1314
+#: src/doc/kdenlivedoc.cpp:1334
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Els efectes següents s'han importat des del projecte:"
 
-#: src/doc/kdenlivedoc.cpp:1347 src/doc/kdenlivedoc.cpp:1361
+#: src/doc/kdenlivedoc.cpp:1367 src/doc/kdenlivedoc.cpp:1381
 #, kde-format
 msgid "Project Folder"
 msgstr "Carpeta del projecte"
 
-#: src/doc/kdenlivedoc.cpp:1405 src/doc/kdenlivedoc.cpp:1414
+#: src/doc/kdenlivedoc.cpp:1425 src/doc/kdenlivedoc.cpp:1434
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -9207,26 +9207,26 @@ msgstr ""
 "No s'ha pogut crear la còpia de seguretat:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1559
+#: src/doc/kdenlivedoc.cpp:1579
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Afegeix un clip intermediari"
 msgstr[1] "Afegeix un clip"
 
-#: src/doc/kdenlivedoc.cpp:1561
+#: src/doc/kdenlivedoc.cpp:1581
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Elimina el clip intermediari"
 msgstr[1] "Elimina els clips intermediaris"
 
-#: src/doc/kdenlivedoc.cpp:1605 src/doc/kdenlivedoc.cpp:1663
+#: src/doc/kdenlivedoc.cpp:1625 src/doc/kdenlivedoc.cpp:1683
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "El tipus del clip no admet intermediaris"
 
-#: src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1821
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -9236,12 +9236,12 @@ msgstr ""
 "El projecte utilitza una velocitat de fotograma no estàndard (%1), això "
 "donarà com a resultat clips i desplaçaments de fotogrames erronis."
 
-#: src/doc/kdenlivedoc.cpp:1896
+#: src/doc/kdenlivedoc.cpp:1916
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "Avís: fps no estàndard, s'ajusta a l'enter més proper. "
 
-#: src/doc/kdenlivedoc.cpp:1914
+#: src/doc/kdenlivedoc.cpp:1934
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -9251,43 +9251,43 @@ msgstr ""
 "és %3.\n"
 "Voleu canviar el perfil predeterminat per als projectes futurs?"
 
-#: src/doc/kdenlivedoc.cpp:1916
+#: src/doc/kdenlivedoc.cpp:1936
 #, kde-format
 msgid "Change default project profile"
 msgstr "Canvia el perfil predeterminat del projecte"
 
-#: src/doc/kdenlivedoc.cpp:1916
+#: src/doc/kdenlivedoc.cpp:1936
 #, kde-format
 msgid "Change default to %1"
 msgstr "Canvia el predeterminat a %1"
 
-#: src/doc/kdenlivedoc.cpp:1917
+#: src/doc/kdenlivedoc.cpp:1937
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Mantén el predeterminat actual %1"
 
-#: src/doc/kdenlivedoc.cpp:1917
+#: src/doc/kdenlivedoc.cpp:1937
 #, kde-format
 msgid "Ask me later"
 msgstr "Pregunta-ho més tard"
 
-#: src/doc/kdenlivedoc.cpp:1937
+#: src/doc/kdenlivedoc.cpp:1957
 #, kde-format
 msgid "Switch"
 msgstr "Canvia"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1939 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1959 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: src/doc/kdenlivedoc.cpp:1941
+#: src/doc/kdenlivedoc.cpp:1961
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Canvio al perfil %2 del clip (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:1946
+#: src/doc/kdenlivedoc.cpp:1966
 #, kde-format
 msgid ""
 "\n"
@@ -9296,7 +9296,7 @@ msgstr ""
 "\n"
 "FPS del perfil ajustat a partir de l'original %1"
 
-#: src/doc/kdenlivedoc.cpp:1950
+#: src/doc/kdenlivedoc.cpp:1970
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -9305,13 +9305,13 @@ msgstr ""
 "No s'ha trobat cap perfil per al clip %1.\n"
 "El creo i canvio al perfil nou (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2370 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2390 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Vermell"
 
-#: src/doc/kdenlivedoc.cpp:2371 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2391 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9319,24 +9319,24 @@ msgstr "Vermell"
 msgid "Green"
 msgstr "Verd"
 
-#: src/doc/kdenlivedoc.cpp:2372 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2392 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Blau"
 
-#: src/doc/kdenlivedoc.cpp:2373 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2393 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Groc"
 
-#: src/doc/kdenlivedoc.cpp:2374
+#: src/doc/kdenlivedoc.cpp:2394
 #, kde-format
 msgid "Cyan"
 msgstr "Cian"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2679 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2699 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10025,7 +10025,7 @@ msgstr "Percentatge"
 #. i18n: ectx: property (text), widget (QCheckBox, pitchCompensate)
 #. i18n: ectx: property (text), widget (QCheckBox, pitch_compensate)
 #: src/jobs/speedtask.cpp:79 src/ui/clipspeed_ui.ui:27
-#: src/ui/timeremap_ui.ui:345
+#: src/ui/timeremap_ui.ui:297
 #, kde-format
 msgid "Pitch compensation"
 msgstr "Compensació del to"
@@ -12512,38 +12512,38 @@ msgstr "No s'ha pogut desar el fitxer del projecte per a l'arxivat."
 msgid "Archiving project"
 msgstr "Arxivar el projecte"
 
-#: src/mainwindow.cpp:4436
+#: src/mainwindow.cpp:4429
 #, kde-format
 msgid "Icon Size"
 msgstr "Mida de les icones"
 
-#: src/mainwindow.cpp:4440
+#: src/mainwindow.cpp:4433
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Predeterminada"
 
-#: src/mainwindow.cpp:4461 src/mainwindow.cpp:4489
+#: src/mainwindow.cpp:4454 src/mainwindow.cpp:4482
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Petita (%1x%2)"
 
-#: src/mainwindow.cpp:4463 src/mainwindow.cpp:4491
+#: src/mainwindow.cpp:4456 src/mainwindow.cpp:4484
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Mitjana (%1x%2)"
 
-#: src/mainwindow.cpp:4465 src/mainwindow.cpp:4493
+#: src/mainwindow.cpp:4458 src/mainwindow.cpp:4486
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Gran (%1x%2)"
 
-#: src/mainwindow.cpp:4467 src/mainwindow.cpp:4495
+#: src/mainwindow.cpp:4460 src/mainwindow.cpp:4488
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Enorme (%1x%2)"
 
-#: src/mainwindow.cpp:4551
+#: src/mainwindow.cpp:4544
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -12552,12 +12552,12 @@ msgstr ""
 "Això ocultarà la barra de menús completament. La podeu tornar a mostrar "
 "prement Ctrl+M."
 
-#: src/mainwindow.cpp:4551
+#: src/mainwindow.cpp:4544
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Oculta la barra de menús"
 
-#: src/mainwindow.cpp:4567
+#: src/mainwindow.cpp:4560
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -12565,22 +12565,22 @@ msgstr ""
 "Cal reiniciar el Kdenlive per a aplicar el canvi del tema d'icones. El "
 "reinicio ara?"
 
-#: src/mainwindow.cpp:4823 src/timeline2/view/timelinecontroller.cpp:5180
+#: src/mainwindow.cpp:4816 src/timeline2/view/timelinecontroller.cpp:5180
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "No s'ha trobat cap subtítol en el projecte actual"
 
-#: src/mainwindow.cpp:5110
+#: src/mainwindow.cpp:5103
 #, kde-format
 msgid "Go to download page"
 msgstr "Ves a la pàgina de baixades"
 
-#: src/mainwindow.cpp:5113
+#: src/mainwindow.cpp:5106
 #, kde-format
 msgid "Never check again"
 msgstr "No ho tornis a comprovar mai més"
 
-#: src/mainwindow.cpp:5116
+#: src/mainwindow.cpp:5109
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -12589,7 +12589,7 @@ msgstr ""
 "Aquesta versió del Kdenlive té més d'un any d'antiguitat, us animem "
 "completament que l'actualitzeu"
 
-#: src/mainwindow.cpp:5119
+#: src/mainwindow.cpp:5112
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -12597,7 +12597,7 @@ msgstr ""
 "Aquesta versió del Kdenlive té més de 6 mesos d'antiguitat, us animem que "
 "l'actualitzeu"
 
-#: src/mainwindow.cpp:5162
+#: src/mainwindow.cpp:5155
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Comprovació de la mida de les dades a la memòria cau"
@@ -18907,9 +18907,9 @@ msgstr "Suprimeix el punt actual."
 #: src/ui/textbasededit_ui.ui:189 src/ui/textbasededit_ui.ui:199
 #: src/ui/textbasededit_ui.ui:216 src/ui/textbasededit_ui.ui:226
 #: src/ui/textbasededit_ui.ui:255 src/ui/textbasededit_ui.ui:276
-#: src/ui/timeremap_ui.ui:97 src/ui/timeremap_ui.ui:151
-#: src/ui/timeremap_ui.ui:182 src/ui/timeremap_ui.ui:192
-#: src/ui/timeremap_ui.ui:202 src/ui/timeremap_ui.ui:379
+#: src/ui/timeremap_ui.ui:84 src/ui/timeremap_ui.ui:137
+#: src/ui/timeremap_ui.ui:167 src/ui/timeremap_ui.ui:177
+#: src/ui/timeremap_ui.ui:187 src/ui/timeremap_ui.ui:331
 #: src/ui/titlewidget_ui.ui:830 src/ui/titlewidget_ui.ui:840
 #: src/ui/titlewidget_ui.ui:1045 src/ui/titlewidget_ui.ui:1100
 #: src/ui/titlewidget_ui.ui:1150 src/ui/titlewidget_ui.ui:1173
@@ -22230,49 +22230,49 @@ msgid "Transcribe"
 msgstr "Transcriu"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/timeremap_ui.ui:90
+#: src/ui/timeremap_ui.ui:77
 #, kde-format
 msgid "Source clip"
 msgstr "Clip d'origen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/timeremap_ui.ui:144
+#: src/ui/timeremap_ui.ui:130
 #, kde-format
 msgid "Output"
 msgstr "Sortida"
 
 #. i18n: ectx: property (text), widget (QLabel, label_sourceTC)
-#: src/ui/timeremap_ui.ui:253
+#: src/ui/timeremap_ui.ui:238
 #, kde-format
 msgid "Source time"
 msgstr "Temps d'origen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_outputTC)
-#: src/ui/timeremap_ui.ui:267
+#: src/ui/timeremap_ui.ui:252
 #, kde-format
 msgid "Output time"
 msgstr "Temps de sortida"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: src/ui/timeremap_ui.ui:281
+#: src/ui/timeremap_ui.ui:266
 #, kde-format
 msgid "Speed before"
 msgstr "Velocitat abans"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/timeremap_ui.ui:305
+#: src/ui/timeremap_ui.ui:280
 #, kde-format
 msgid "After"
 msgstr "Després"
 
 #. i18n: ectx: property (text), widget (QCheckBox, frame_blending)
-#: src/ui/timeremap_ui.ui:358
+#: src/ui/timeremap_ui.ui:310
 #, kde-format
 msgid "Frame blending"
 msgstr "Barreja en els fotogrames"
 
 #. i18n: ectx: property (text), widget (QCheckBox, move_next)
-#: src/ui/timeremap_ui.ui:369
+#: src/ui/timeremap_ui.ui:321
 #, kde-format
 msgid "Preserve speed of next keyframes"
 msgstr "Conserva la velocitat dels fotogrames clau següents"
