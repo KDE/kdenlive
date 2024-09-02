@@ -750,19 +750,6 @@ void KeyframeWidget::connectMonitor(bool active)
         }
     }
     m_monitorActive = active;
-
-    /*for (const auto &w : m_parameters) {
-        if (w.second) {
-            auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
-            if (type == ParamType::AnimatedRect) {
-                (static_cast<GeometryWidget *>(w.second))->connectMonitor(active);
-                if (active) {
-                    m_keyframeview->initKeyframePos();
-                }
-                break;
-            }
-        }
-    }*/
     if (m_geom) {
         m_geom->connectMonitor(active, m_keyframes->singleKeyframe());
         if (active) {
@@ -1036,19 +1023,20 @@ void KeyframeWidget::slotGoToPrev()
 {
     Q_EMIT activateEffect();
     bool ok;
-    int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     int position = getPosition();
-    if (position == 0) {
+    if (position == 0 || m_time->getValue() == 0) {
+        // No keyframe before
         return;
     }
+
     int offset = pCore->getItemIn(m_keyframes->getOwnerId());
     auto prev = m_keyframes->getPrevKeyframe(GenTime(position, pCore->getCurrentFps()), &ok);
 
     if (ok) {
         slotSeekToPos(qMax(0, int(prev.first.frames(pCore->getCurrentFps())) - offset));
     } else {
-        // no keyframe after current position
-        slotSeekToPos(duration - 1);
+        // Seek to start
+        slotSeekToPos(0);
     }
 }
 void KeyframeWidget::slotGoToNext()
@@ -1056,29 +1044,39 @@ void KeyframeWidget::slotGoToNext()
     Q_EMIT activateEffect();
     bool ok;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
-    int position = getPosition();
-    if (position == duration - 1) {
+    if (m_time->getValue() == duration - 1) {
+        // Already at end
         return;
     }
 
+    int position = getPosition();
     int offset = pCore->getItemIn(m_keyframes->getOwnerId());
     auto next = m_keyframes->getNextKeyframe(GenTime(position, pCore->getCurrentFps()), &ok);
 
     if (ok) {
         slotSeekToPos(qMin(int(next.first.frames(pCore->getCurrentFps())) - offset, duration - 1));
     } else {
-        // no keyframe after current position
+        // Seek to end
         slotSeekToPos(duration - 1);
     }
 }
+
 void KeyframeWidget::slotRemoveNextKeyframes()
 {
     int pos = m_time->getValue() + m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     m_keyframes->removeNextKeyframes(GenTime(pos, pCore->getCurrentFps()));
 }
 
-void KeyframeWidget::slotSeekToKeyframe(int ix)
+void KeyframeWidget::slotSeekToKeyframe(int ix, int offset)
 {
+    if (offset > 0) {
+        slotGoToNext();
+        return;
+    }
+    if (offset < 0) {
+        slotGoToPrev();
+        return;
+    }
     int pos = m_keyframes->getPosAtIndex(ix).frames(pCore->getCurrentFps()) - m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     slotSetPosition(pos, true);
 }

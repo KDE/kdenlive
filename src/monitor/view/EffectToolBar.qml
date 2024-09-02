@@ -85,13 +85,13 @@ MouseArea {
                 objectName: "nextKeyframe"
                 iconName: "keyframe-next"
                 toolTipText: i18n("Go to Next Keyframe")
-                onClicked: controller.seekNextKeyframe()
+                onClicked: controller.seekToKeyframe(-1, 1);
             }
             MonitorToolButton {
                 objectName: "prevKeyframe"
                 iconName: "keyframe-previous"
                 toolTipText: i18n("Go to Previous Keyframe")
-                onClicked: controller.seekPreviousKeyframe()
+                onClicked: controller.seekToKeyframe(-1, -1);
             }
             MonitorToolButton {
                 objectName: "addKeyframe"
