@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-02 00:38+0000\n"
+"POT-Creation-Date: 2024-09-03 00:38+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -3800,7 +3800,7 @@ msgstr ""
 msgid "B: "
 msgstr ""
 
-#: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
+#: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:443
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Move Keyframe"
@@ -4060,7 +4060,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:114
-#: src/assets/view/widgets/keyframewidget.cpp:931
+#: src/assets/view/widgets/keyframewidget.cpp:918
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Paste keyframe"
@@ -4170,37 +4170,37 @@ msgstr "Prijelaz"
 msgid "Select parameters to copy"
 msgstr "Parametri"
 
-#: src/assets/view/widgets/keyframewidget.cpp:836
+#: src/assets/view/widgets/keyframewidget.cpp:823
 #, fuzzy, kde-format
 msgid "Keyframes copied"
 msgstr "Interlaced"
 
-#: src/assets/view/widgets/keyframewidget.cpp:847
-#: src/assets/view/widgets/keyframewidget.cpp:888
-#: src/assets/view/widgets/keyframewidget.cpp:895
+#: src/assets/view/widgets/keyframewidget.cpp:834
+#: src/assets/view/widgets/keyframewidget.cpp:875
+#: src/assets/view/widgets/keyframewidget.cpp:882
 #, fuzzy, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr "Ne mogu naći isječak za izrezati"
 
-#: src/assets/view/widgets/keyframewidget.cpp:939
+#: src/assets/view/widgets/keyframewidget.cpp:926
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot copy current parameter values"
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/assets/view/widgets/keyframewidget.cpp:944
-#: src/assets/view/widgets/keyframewidget.cpp:955
+#: src/assets/view/widgets/keyframewidget.cpp:931
+#: src/assets/view/widgets/keyframewidget.cpp:942
 #, fuzzy, kde-format
 msgid "Current values copied"
 msgstr "Interlaced"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1020
+#: src/assets/view/widgets/keyframewidget.cpp:1007
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot remove the last keyframe"
 msgstr "Ne mogu pouklonjeni isječak na poziciju %1"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1032
+#: src/assets/view/widgets/keyframewidget.cpp:1019
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Remove keyframe"
@@ -7548,7 +7548,7 @@ msgstr "Fade in audio traka"
 msgid "Rendering <i>%1</i> started"
 msgstr "Stvaranje <i>%1</i> započelo"
 
-#: src/dialogs/renderwidget.cpp:933 src/monitor/monitor.cpp:1271
+#: src/dialogs/renderwidget.cpp:933 src/monitor/monitor.cpp:1269
 #, fuzzy, kde-format
 msgid "untitled"
 msgstr "Bez naziva"
@@ -13007,7 +13007,7 @@ msgid "Audio streams"
 msgstr "Audio traka"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:743
-#: src/monitor/monitor.cpp:1893
+#: src/monitor/monitor.cpp:1891
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -13416,90 +13416,90 @@ msgstr ""
 msgid "Pink"
 msgstr ""
 
-#: src/monitor/monitor.cpp:511
+#: src/monitor/monitor.cpp:509
 #, kde-format
 msgid "-5"
 msgstr ""
 
-#: src/monitor/monitor.cpp:517
+#: src/monitor/monitor.cpp:515
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "-1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:523
+#: src/monitor/monitor.cpp:521
 #, fuzzy, kde-format
 #| msgid "1"
 msgid "+1"
 msgstr "1"
 
-#: src/monitor/monitor.cpp:529
+#: src/monitor/monitor.cpp:527
 #, kde-format
 msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:672
+#: src/monitor/monitor.cpp:670
 #, fuzzy, kde-format
 #| msgid "Extract frame"
 msgid "Extract Zone"
 msgstr "Izvuci okvir"
 
-#: src/monitor/monitor.cpp:685
+#: src/monitor/monitor.cpp:683
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Postavi trenutnu sliku kao sličicu (thumbnail)"
 
-#: src/monitor/monitor.cpp:692
+#: src/monitor/monitor.cpp:690
 #, fuzzy, kde-format
 #| msgid "Show audio thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "Prikaži audio kratke prikaze"
 
-#: src/monitor/monitor.cpp:709
+#: src/monitor/monitor.cpp:707
 #, fuzzy, kde-format
 #| msgid "Sox echo audio effect"
 msgid "Show Audio Levels"
 msgstr "Sox echo audio efekt"
 
-#: src/monitor/monitor.cpp:716
+#: src/monitor/monitor.cpp:714
 #, fuzzy, kde-format
 #| msgid "Record Monitor"
 msgid "Show Source Timecode"
 msgstr "Monitor snimanja"
 
-#: src/monitor/monitor.cpp:753
+#: src/monitor/monitor.cpp:751
 #, fuzzy, kde-format
 #| msgid "You must select one transition for this action"
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Morate odabrati jedan prijelaz za ovu akciju"
 
-#: src/monitor/monitor.cpp:894 src/monitor/monitor.cpp:925
+#: src/monitor/monitor.cpp:892 src/monitor/monitor.cpp:923
 #: src/timeline2/view/timelinecontroller.cpp:1796
 #, fuzzy, kde-format
 msgid "Set Zone"
 msgstr "Postavi kraj zone"
 
-#: src/monitor/monitor.cpp:1283
+#: src/monitor/monitor.cpp:1281
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Spremi DVD projekt"
 
-#: src/monitor/monitor.cpp:1283
+#: src/monitor/monitor.cpp:1281
 #, fuzzy, kde-format
 #| msgid "Load Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Učitaj sliku"
 
-#: src/monitor/monitor.cpp:1290
+#: src/monitor/monitor.cpp:1288
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1878 src/monitor/monitor.cpp:2027
+#: src/monitor/monitor.cpp:1876 src/monitor/monitor.cpp:2025
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "%1 audio stream"
@@ -13508,38 +13508,38 @@ msgstr[0] "Audio traka"
 msgstr[1] "Audio traka"
 msgstr[2] "Audio traka"
 
-#: src/monitor/monitor.cpp:2362
+#: src/monitor/monitor.cpp:2358
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2404 src/monitor/monitor.cpp:2461
+#: src/monitor/monitor.cpp:2400 src/monitor/monitor.cpp:2457
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2424
+#: src/monitor/monitor.cpp:2420
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "Isječak nema oznaka"
 
-#: src/monitor/monitor.cpp:2426
+#: src/monitor/monitor.cpp:2422
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Odaberite isječak ako želite dodati efekt"
 
-#: src/monitor/monitor.cpp:2468
+#: src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2514
+#: src/monitor/monitor.cpp:2510
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -13909,7 +13909,7 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:421
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:420
 #, kde-format
 msgid ""
 "Click to add points,\n"

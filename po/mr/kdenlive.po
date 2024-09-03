@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-02 00:38+0000\n"
+"POT-Creation-Date: 2024-09-03 00:38+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -3755,7 +3755,7 @@ msgstr ""
 msgid "B: "
 msgstr ""
 
-#: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:439
+#: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:443
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Move Keyframe"
@@ -4011,7 +4011,7 @@ msgid ""
 msgstr ""
 
 #: src/assets/view/widgets/keyframewidget.cpp:114
-#: src/assets/view/widgets/keyframewidget.cpp:931
+#: src/assets/view/widgets/keyframewidget.cpp:918
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Paste keyframe"
@@ -4119,37 +4119,37 @@ msgstr "स्थिती"
 msgid "Select parameters to copy"
 msgstr "निवड साधन (&S)"
 
-#: src/assets/view/widgets/keyframewidget.cpp:836
+#: src/assets/view/widgets/keyframewidget.cpp:823
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Keyframes copied"
 msgstr "संचयीका बनवा"
 
-#: src/assets/view/widgets/keyframewidget.cpp:847
-#: src/assets/view/widgets/keyframewidget.cpp:888
-#: src/assets/view/widgets/keyframewidget.cpp:895
+#: src/assets/view/widgets/keyframewidget.cpp:834
+#: src/assets/view/widgets/keyframewidget.cpp:875
+#: src/assets/view/widgets/keyframewidget.cpp:882
 #, kde-format
 msgid "No valid keyframe data in clipboard"
 msgstr ""
 
-#: src/assets/view/widgets/keyframewidget.cpp:939
+#: src/assets/view/widgets/keyframewidget.cpp:926
 #, fuzzy, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/assets/view/widgets/keyframewidget.cpp:944
-#: src/assets/view/widgets/keyframewidget.cpp:955
+#: src/assets/view/widgets/keyframewidget.cpp:931
+#: src/assets/view/widgets/keyframewidget.cpp:942
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Current values copied"
 msgstr "संचयीका बनवा"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1020
+#: src/assets/view/widgets/keyframewidget.cpp:1007
 #, fuzzy, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "फाईल उघडतेवेळी त्रुटी"
 
-#: src/assets/view/widgets/keyframewidget.cpp:1032
+#: src/assets/view/widgets/keyframewidget.cpp:1019
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove keyframe"
@@ -7367,7 +7367,7 @@ msgstr "बिटदर"
 msgid "Rendering <i>%1</i> started"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:933 src/monitor/monitor.cpp:1271
+#: src/dialogs/renderwidget.cpp:933 src/monitor/monitor.cpp:1269
 #, kde-format
 msgid "untitled"
 msgstr "शिर्षकहीन"
@@ -12632,7 +12632,7 @@ msgid "Audio streams"
 msgstr "बिटदर"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:743
-#: src/monitor/monitor.cpp:1893
+#: src/monitor/monitor.cpp:1891
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -13035,85 +13035,85 @@ msgstr "पांढरा"
 msgid "Pink"
 msgstr ""
 
-#: src/monitor/monitor.cpp:511
+#: src/monitor/monitor.cpp:509
 #, kde-format
 msgid "-5"
 msgstr ""
 
-#: src/monitor/monitor.cpp:517
+#: src/monitor/monitor.cpp:515
 #, kde-format
 msgid "-1"
 msgstr ""
 
-#: src/monitor/monitor.cpp:523
+#: src/monitor/monitor.cpp:521
 #, kde-format
 msgid "+1"
 msgstr ""
 
-#: src/monitor/monitor.cpp:529
+#: src/monitor/monitor.cpp:527
 #, kde-format
 msgid "+5"
 msgstr ""
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:672
+#: src/monitor/monitor.cpp:670
 #, kde-format
 msgid "Extract Zone"
 msgstr ""
 
-#: src/monitor/monitor.cpp:685
+#: src/monitor/monitor.cpp:683
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr ""
 
-#: src/monitor/monitor.cpp:692
+#: src/monitor/monitor.cpp:690
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Always show audio thumbnails"
 msgstr "लघुप्रतिमा दाखवा"
 
-#: src/monitor/monitor.cpp:709
+#: src/monitor/monitor.cpp:707
 #, fuzzy, kde-format
 msgid "Show Audio Levels"
 msgstr "परिणाम :"
 
-#: src/monitor/monitor.cpp:716
+#: src/monitor/monitor.cpp:714
 #, kde-format
 msgid "Show Source Timecode"
 msgstr ""
 
-#: src/monitor/monitor.cpp:753
+#: src/monitor/monitor.cpp:751
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr ""
 
-#: src/monitor/monitor.cpp:894 src/monitor/monitor.cpp:925
+#: src/monitor/monitor.cpp:892 src/monitor/monitor.cpp:923
 #: src/timeline2/view/timelinecontroller.cpp:1796
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Set Zone"
 msgstr "प्रतिमा"
 
-#: src/monitor/monitor.cpp:1283
+#: src/monitor/monitor.cpp:1281
 #, fuzzy, kde-format
 #| msgid "Image"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "प्रतिमा"
 
-#: src/monitor/monitor.cpp:1283
+#: src/monitor/monitor.cpp:1281
 #, fuzzy, kde-format
 #| msgid "Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "प्रतिमा"
 
-#: src/monitor/monitor.cpp:1290
+#: src/monitor/monitor.cpp:1288
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1878 src/monitor/monitor.cpp:2027
+#: src/monitor/monitor.cpp:1876 src/monitor/monitor.cpp:2025
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "%1 audio stream"
@@ -13121,36 +13121,36 @@ msgid_plural "%1 audio streams"
 msgstr[0] "बिटदर"
 msgstr[1] "बिटदर"
 
-#: src/monitor/monitor.cpp:2362
+#: src/monitor/monitor.cpp:2358
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2404 src/monitor/monitor.cpp:2461
+#: src/monitor/monitor.cpp:2400 src/monitor/monitor.cpp:2457
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2424
+#: src/monitor/monitor.cpp:2420
 #, fuzzy, kde-format
 msgid "Clip has no effects"
 msgstr "परिणाम :"
 
-#: src/monitor/monitor.cpp:2426
+#: src/monitor/monitor.cpp:2422
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2468
+#: src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2514
+#: src/monitor/monitor.cpp:2510
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -13514,7 +13514,7 @@ msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift drag handle</shortcut> for center-based resize"
 msgstr ""
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:421
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:420
 #, kde-format
 msgid ""
 "Click to add points,\n"
