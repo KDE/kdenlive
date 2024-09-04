@@ -13,7 +13,10 @@ Splash::Splash()
     : QSplashScreen()
     , m_progress(0)
 {
+    qreal scalingFactor = devicePixelRatioF();
     m_pixmap = QPixmap(":/pics/splash-background.png");
+    m_pixmap = m_pixmap.scaled(m_pixmap.width() * scalingFactor, m_pixmap.height() * scalingFactor, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    m_pixmap.setDevicePixelRatio(scalingFactor);
 
     // Set style for progressbar...
     m_pbStyle.initFrom(this);
@@ -29,6 +32,8 @@ Splash::Splash()
     QPainter *paint = new QPainter(&m_pixmap);
     paint->setPen(Qt::white);
     QPixmap kde(":/pics/kde-logo.png");
+    kde = kde.scaled(kde.width() * scalingFactor, kde.height() * scalingFactor, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    kde.setDevicePixelRatio(scalingFactor);
     const int logoSize = 32;
     QPoint pos(12, 12);
     paint->drawPixmap(pos.x(), pos.y(), logoSize, logoSize, kde);

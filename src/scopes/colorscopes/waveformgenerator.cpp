@@ -22,7 +22,7 @@ WaveformGenerator::WaveformGenerator() = default;
 
 WaveformGenerator::~WaveformGenerator() = default;
 
-QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis, ITURec rec,
+QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const qreal scalingFactor, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis, ITURec rec,
                                             uint accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
@@ -30,21 +30,23 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
     // QTime time;
     // time.start();
 
-    QImage wave(waveformSize, QImage::Format_ARGB32);
+    QSize scaledWaveformSize = waveformSize * scalingFactor;
+    QImage wave(scaledWaveformSize, QImage::Format_ARGB32);
+    wave.setDevicePixelRatio(scalingFactor);
 
-    if (waveformSize.width() <= 0 || waveformSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
+    if (scaledWaveformSize.width() <= 0 || scaledWaveformSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
     }
 
     // Fill with transparent color
     wave.fill(qRgba(0, 0, 0, 0));
 
-    const uint ww = uint(waveformSize.width());
-    const uint wh = uint(waveformSize.height());
+    const uint ww = uint(scaledWaveformSize.width());
+    const uint wh = uint(scaledWaveformSize.height());
     const uint iw = uint(image.width());
     const auto totalPixels = image.width() * image.height();
 
-    std::vector<std::vector<uint>> waveValues(size_t(waveformSize.width()), std::vector<uint>(size_t(waveformSize.height()), 0));
+    std::vector<std::vector<uint>> waveValues(size_t(scaledWaveformSize.width()), std::vector<uint>(size_t(scaledWaveformSize.height()), 0));
 
     // Number of input pixels that will fall on one scope pixel.
     // Must be a float because the acceleration factor can be high, leading to <1 expected px per px.
@@ -79,10 +81,10 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
 
     switch (paintMode) {
     case PaintMode_Green:
-        for (int i = 0; i < waveformSize.width(); ++i) {
-            for (int j = 0; j < waveformSize.height(); ++j) {
+        for (int i = 0; i < scaledWaveformSize.width(); ++i) {
+            for (int j = 0; j < scaledWaveformSize.height(); ++j) {
                 // Logarithmic scale. Needs fine tuning by hand, but looks great.
-                wave.setPixel(i, waveformSize.height() - j - 1,
+                wave.setPixel(i, scaledWaveformSize.height() - j - 1,
                               qRgba(CHOP255(52 * logf(0.1f * gain * float(waveValues[size_t(i)][size_t(j)]))),
                                     CHOP255(52 * logf(gain * float(waveValues[size_t(i)][size_t(j)]))),
                                     CHOP255(52 * logf(.25f * gain * float(waveValues[size_t(i)][size_t(j)]))),
@@ -91,16 +93,16 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         }
         break;
     case PaintMode_Yellow:
-        for (int i = 0; i < waveformSize.width(); ++i) {
-            for (int j = 0; j < waveformSize.height(); ++j) {
-                wave.setPixel(i, waveformSize.height() - j - 1, qRgba(255, 242, 0, CHOP255(gain * float(waveValues[size_t(i)][size_t(j)]))));
+        for (int i = 0; i < scaledWaveformSize.width(); ++i) {
+            for (int j = 0; j < scaledWaveformSize.height(); ++j) {
+                wave.setPixel(i, scaledWaveformSize.height() - j - 1, qRgba(255, 242, 0, CHOP255(gain * float(waveValues[size_t(i)][size_t(j)]))));
             }
         }
         break;
     default:
-        for (int i = 0; i < waveformSize.width(); ++i) {
-            for (int j = 0; j < waveformSize.height(); ++j) {
-                wave.setPixel(i, waveformSize.height() - j - 1, qRgba(255, 255, 255, CHOP255(2.f * gain * float(waveValues[size_t(i)][size_t(j)]))));
+        for (int i = 0; i < scaledWaveformSize.width(); ++i) {
+            for (int j = 0; j < scaledWaveformSize.height(); ++j) {
+                wave.setPixel(i, scaledWaveformSize.height() - j - 1, qRgba(255, 255, 255, CHOP255(2.f * gain * float(waveValues[size_t(i)][size_t(j)]))));
             }
         }
         break;
