@@ -33,7 +33,7 @@ public:
      * @param accelFactor
      * @return
      */
-    QImage calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, const ITURec rec, bool unscaled,
+    QImage calculateHistogram(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const int &components, const ITURec rec, bool unscaled,
                               bool logScale,
                               uint accelFactor = 1) const;
 

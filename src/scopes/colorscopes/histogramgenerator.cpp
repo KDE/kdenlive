@@ -16,7 +16,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 HistogramGenerator::HistogramGenerator() = default;
 
-QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, ITURec rec, bool unscaled, bool logScale,
+QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const int &components, ITURec rec, bool unscaled, bool logScale,
                                               uint accelFactor) const
 {
     if (paradeSize.height() <= 0 || paradeSize.width() <= 0 || image.width() <= 0 || image.height() <= 0) {
@@ -95,7 +95,8 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     }
     const int dist = 40;
 
-    QImage histogram(paradeSize, QImage::Format_ARGB32);
+    QImage histogram(paradeSize * scalingFactor, QImage::Format_ARGB32);
+    histogram.setDevicePixelRatio(scalingFactor);
     QPainter davinci;
     bool ok = davinci.begin(&histogram);
     if (!ok) {

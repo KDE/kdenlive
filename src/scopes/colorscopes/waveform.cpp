@@ -114,7 +114,9 @@ bool Waveform::isBackgroundDependingOnInput() const
 
 QImage Waveform::renderHUD(uint)
 {
-    QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
+    qreal scalingFactor = devicePixelRatioF();
+    QImage hud(m_scopeRect.size() * scalingFactor, QImage::Format_ARGB32);
+    hud.setDevicePixelRatio(scalingFactor);
     hud.fill(qRgba(0, 0, 0, 0));
 
     QPainter davinci;
@@ -185,7 +187,8 @@ QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
 
     const int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
     ITURec rec = m_aRec601->isChecked() ? ITURec::Rec_601 : ITURec::Rec_709;
-    QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom), qimage,
+    qreal scalingFactor = devicePixelRatioF();
+    QImage wave = m_waveformGenerator->calculateWaveform((scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom)), scalingFactor, qimage,
                                                          WaveformGenerator::PaintMode(paintmode), true, rec, accelFactor);
 
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), 1);
