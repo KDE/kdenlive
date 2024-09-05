@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-03 00:38+0000\n"
+"POT-Creation-Date: 2024-09-05 00:39+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -4221,14 +4221,14 @@ msgstr "Podešen"
 msgid "Invalid LUT file %1"
 msgstr "Neispravan snimak"
 
-#: src/audiomixer/audiolevelwidget.cpp:268
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, fuzzy, kde-format
 #| msgid ":"
 msgctxt "L as in Left"
 msgid "L:"
 msgstr ":"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -8347,7 +8347,7 @@ msgstr ""
 msgid "Zulu"
 msgstr ""
 
-#: src/dialogs/splash.cpp:35
+#: src/dialogs/splash.cpp:40
 #, kde-format
 msgid "Made by KDE"
 msgstr ""
@@ -13548,7 +13548,7 @@ msgstr "Otvori analizu podataka"
 msgid "Audio volume"
 msgstr "Jačina zvuka"
 
-#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:254
+#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
 #, fuzzy, kde-format
 #| msgid "%1 \\%"
 msgid "%1%"
@@ -13988,12 +13988,12 @@ msgstr ""
 msgid "Capture crashed, please check your parameters"
 msgstr "Hvatanje nije uspjelo, molimo vas da provjerite parametre"
 
-#: src/monitor/scopes/audiographspectrum.cpp:282
+#: src/monitor/scopes/audiographspectrum.cpp:284
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr ""
 
-#: src/monitor/scopes/audiographspectrum.cpp:289
+#: src/monitor/scopes/audiographspectrum.cpp:291
 #, fuzzy, kde-format
 #| msgid "AudioSpectrum"
 msgid "Enable Audio Spectrum"
@@ -16778,7 +16778,7 @@ msgid "HSV Saturation"
 msgstr "HSV zasićenje"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:257
+#: src/scopes/colorscopes/vectorscope.cpp:259
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -16862,12 +16862,12 @@ msgstr "Rec. 709"
 msgid "Luma mode"
 msgstr "Luma način"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:204
+#: src/scopes/colorscopes/histogramgenerator.cpp:205
 #, kde-format
 msgid "min"
 msgstr "min"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:207
+#: src/scopes/colorscopes/histogramgenerator.cpp:208
 #, kde-format
 msgid "max"
 msgstr "maks"
@@ -16888,16 +16888,16 @@ msgstr "Crtanje osa"
 msgid "Gradient reference line"
 msgstr "Gradijent referentne linije"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:164
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:170
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:176
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:165
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:171
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:177
 #, kde-format
 msgid "min: "
 msgstr "min: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:184
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:190
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:196
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:191
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:197
 #, kde-format
 msgid "max: "
 msgstr "max: "

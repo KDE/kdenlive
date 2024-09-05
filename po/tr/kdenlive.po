@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-03 00:38+0000\n"
+"POT-Creation-Date: 2024-09-05 00:39+0000\n"
 "PO-Revision-Date: 2024-08-25 20:42+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4165,13 +4165,13 @@ msgstr "Özel…"
 msgid "Invalid LUT file %1"
 msgstr "Geçersiz LUT dosyası %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:268
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "L:"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -8074,7 +8074,7 @@ msgstr "Yorubaca"
 msgid "Zulu"
 msgstr "Zuluca"
 
-#: src/dialogs/splash.cpp:35
+#: src/dialogs/splash.cpp:40
 #, kde-format
 msgid "Made by KDE"
 msgstr "Bir KDE ürünü"
@@ -12952,7 +12952,7 @@ msgstr "Çözümleme Verisini Aç"
 msgid "Audio volume"
 msgstr "Ses düzeyi"
 
-#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:254
+#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
 #, kde-format
 msgid "%1%"
 msgstr "%​%1"
@@ -13384,12 +13384,12 @@ msgstr ""
 msgid "Capture crashed, please check your parameters"
 msgstr "Yakalama başarısız oldu, kullandığınız parametreleri denetleyin"
 
-#: src/monitor/scopes/audiographspectrum.cpp:282
+#: src/monitor/scopes/audiographspectrum.cpp:284
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr "Ses tayfını etkinleştirmek için MLT libfftw3 ile derlenmesi zorunludur"
 
-#: src/monitor/scopes/audiographspectrum.cpp:289
+#: src/monitor/scopes/audiographspectrum.cpp:291
 #, kde-format
 msgid "Enable Audio Spectrum"
 msgstr "Ses Tayfını Etkinleştir"
@@ -16119,7 +16119,7 @@ msgid "HSV Saturation"
 msgstr "HSV Doygunluğu"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:257
+#: src/scopes/colorscopes/vectorscope.cpp:259
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -16201,12 +16201,12 @@ msgstr "Rec. 709"
 msgid "Luma mode"
 msgstr "Luma kipi"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:204
+#: src/scopes/colorscopes/histogramgenerator.cpp:205
 #, kde-format
 msgid "min"
 msgstr "dak"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:207
+#: src/scopes/colorscopes/histogramgenerator.cpp:208
 #, kde-format
 msgid "max"
 msgstr "aza"
@@ -16227,16 +16227,16 @@ msgstr "Eksen Çiz"
 msgid "Gradient reference line"
 msgstr "Gradyan Başvuru Çizgisi"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:164
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:170
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:176
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:165
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:171
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:177
 #, kde-format
 msgid "min: "
 msgstr "asg: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:184
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:190
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:196
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:191
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:197
 #, kde-format
 msgid "max: "
 msgstr "aza: "

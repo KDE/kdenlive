@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-03 00:38+0000\n"
+"POT-Creation-Date: 2024-09-05 00:39+0000\n"
 "PO-Revision-Date: 2024-08-24 13:17+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -4114,13 +4114,13 @@ msgstr "התאמה אישית…"
 msgid "Invalid LUT file %1"
 msgstr "קובץ LUT‏ %1 שגוי"
 
-#: src/audiomixer/audiolevelwidget.cpp:268
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "ש:"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -8020,7 +8020,7 @@ msgstr "יורובה"
 msgid "Zulu"
 msgstr "זולו"
 
-#: src/dialogs/splash.cpp:35
+#: src/dialogs/splash.cpp:40
 #, kde-format
 msgid "Made by KDE"
 msgstr "נוצר על ידי KDE"
@@ -12837,7 +12837,7 @@ msgstr "פתיחת נתוני אבחון"
 msgid "Audio volume"
 msgstr "עוצמת השמע"
 
-#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:254
+#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -13261,12 +13261,12 @@ msgstr ""
 msgid "Capture crashed, please check your parameters"
 msgstr "הלכידה התרסקה, נא לבדוק את המשתנים שלך"
 
-#: src/monitor/scopes/audiographspectrum.cpp:282
+#: src/monitor/scopes/audiographspectrum.cpp:284
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr "יש להדר את MLT עם libfftw3 כדי לאפשר מנעד שמע"
 
-#: src/monitor/scopes/audiographspectrum.cpp:289
+#: src/monitor/scopes/audiographspectrum.cpp:291
 #, kde-format
 msgid "Enable Audio Spectrum"
 msgstr "הפעלת מנעד שמע"
@@ -15984,7 +15984,7 @@ msgid "HSV Saturation"
 msgstr "רוויה ב־HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:257
+#: src/scopes/colorscopes/vectorscope.cpp:259
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -16066,12 +16066,12 @@ msgstr "Rec. 709"
 msgid "Luma mode"
 msgstr "מצב לומה"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:204
+#: src/scopes/colorscopes/histogramgenerator.cpp:205
 #, kde-format
 msgid "min"
 msgstr "מזערי"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:207
+#: src/scopes/colorscopes/histogramgenerator.cpp:208
 #, kde-format
 msgid "max"
 msgstr "מרבי"
@@ -16092,16 +16092,16 @@ msgstr "ציור צירים"
 msgid "Gradient reference line"
 msgstr "קו סימוכין למדרג"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:164
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:170
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:176
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:165
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:171
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:177
 #, kde-format
 msgid "min: "
 msgstr "מזערי: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:184
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:190
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:196
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:191
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:197
 #, kde-format
 msgid "max: "
 msgstr "מרבי: "

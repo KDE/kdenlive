@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-03 00:38+0000\n"
+"POT-Creation-Date: 2024-09-05 00:39+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -4223,13 +4223,13 @@ msgstr "Пользовательский…"
 msgid "Invalid LUT file %1"
 msgstr "Недопустимый файл LUT %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:268
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "Л:"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -8212,7 +8212,7 @@ msgstr "Йоруба"
 msgid "Zulu"
 msgstr ""
 
-#: src/dialogs/splash.cpp:35
+#: src/dialogs/splash.cpp:40
 #, kde-format
 msgid "Made by KDE"
 msgstr "Разработано сообществом KDE"
@@ -13202,7 +13202,7 @@ msgstr "Открытие данных анализа"
 msgid "Audio volume"
 msgstr "Громкость звука"
 
-#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:254
+#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
 #, kde-format
 msgid "%1%"
 msgstr "%1 %"
@@ -13634,14 +13634,14 @@ msgstr ""
 msgid "Capture crashed, please check your parameters"
 msgstr "Захват не удался, проверьте параметры"
 
-#: src/monitor/scopes/audiographspectrum.cpp:282
+#: src/monitor/scopes/audiographspectrum.cpp:284
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr ""
 "Для включения спектра звуковых частот MLT должен быть скомпилирован с  "
 "библиотекойlibfftw3"
 
-#: src/monitor/scopes/audiographspectrum.cpp:289
+#: src/monitor/scopes/audiographspectrum.cpp:291
 #, kde-format
 msgid "Enable Audio Spectrum"
 msgstr "Включить спектр звуковых частот"
@@ -16409,7 +16409,7 @@ msgid "HSV Saturation"
 msgstr "Насыщенность в HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:257
+#: src/scopes/colorscopes/vectorscope.cpp:259
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -16491,12 +16491,12 @@ msgstr "Рек. 709"
 msgid "Luma mode"
 msgstr "Яркостный режим"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:204
+#: src/scopes/colorscopes/histogramgenerator.cpp:205
 #, kde-format
 msgid "min"
 msgstr "мин"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:207
+#: src/scopes/colorscopes/histogramgenerator.cpp:208
 #, kde-format
 msgid "max"
 msgstr "макс"
@@ -16517,16 +16517,16 @@ msgstr "Показывать ось"
 msgid "Gradient reference line"
 msgstr "Линия привязки градиента"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:164
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:170
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:176
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:165
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:171
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:177
 #, kde-format
 msgid "min: "
 msgstr "мин: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:184
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:190
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:196
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:191
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:197
 #, kde-format
 msgid "max: "
 msgstr "макс: "

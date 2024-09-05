@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-03 00:38+0000\n"
-"PO-Revision-Date: 2024-08-24 11:05+0200\n"
+"POT-Creation-Date: 2024-09-05 00:39+0000\n"
+"PO-Revision-Date: 2024-09-04 17:33+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4197,13 +4197,13 @@ msgstr "Personalitzat…"
 msgid "Invalid LUT file %1"
 msgstr "Fitxer LUT no vàlid %1"
 
-#: src/audiomixer/audiolevelwidget.cpp:268
+#: src/audiomixer/audiolevelwidget.cpp:270
 #, kde-format
 msgctxt "L as in Left"
 msgid "L:"
 msgstr "E:"
 
-#: src/audiomixer/audiolevelwidget.cpp:269
+#: src/audiomixer/audiolevelwidget.cpp:271
 #, kde-format
 msgctxt "R as in Right"
 msgid ""
@@ -5898,7 +5898,7 @@ msgstr "S'està carregant el projecte…"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
-msgstr "Quadrat de 2 barres"
+msgstr "Barres de quadrat 2"
 
 #: src/core.cpp:374
 #, kde-format
@@ -6030,13 +6030,13 @@ msgstr "Porta de graner vertical"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
-msgstr "Porta doble de quadra diagonal SO-NE"
+msgstr "Porta doble de graner diagonal SO-NE"
 
 #: src/core.cpp:397
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
-msgstr "Porta doble de quadra diagonal NO-SE"
+msgstr "Porta doble de graner diagonal NO-SE"
 
 #: src/core.cpp:398
 #, kde-format
@@ -6090,25 +6090,25 @@ msgstr "Serp de matriu paral·lela i vertical"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
-msgstr "Xiquets V amunt"
+msgstr "V de graner amunt"
 
 #: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
-msgstr "Cercle Iris"
+msgstr "Iris de cercle"
 
 #: src/core.cpp:408
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
-msgstr "Doble Iris"
+msgstr "Iris doble"
 
 #: src/core.cpp:409
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
-msgstr "Quadro Iris"
+msgstr "Iris de quadro"
 
 #: src/core.cpp:410
 #, kde-format
@@ -6120,7 +6120,7 @@ msgstr "Quadro inferior dret"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
-msgstr "Quadro inferior esquerra"
+msgstr "Quadro inferior esquerre"
 
 #: src/core.cpp:412
 #, kde-format
@@ -8139,7 +8139,7 @@ msgstr "Ioruba"
 msgid "Zulu"
 msgstr "Zulu"
 
-#: src/dialogs/splash.cpp:35
+#: src/dialogs/splash.cpp:40
 #, kde-format
 msgid "Made by KDE"
 msgstr "Creat per la comunitat KDE"
@@ -13069,7 +13069,7 @@ msgstr "Obri una anàlisi de dades"
 msgid "Audio volume"
 msgstr "Volum d'àudio"
 
-#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:254
+#: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
 #, kde-format
 msgid "%1%"
 msgstr "%1%"
@@ -13501,14 +13501,14 @@ msgstr ""
 msgid "Capture crashed, please check your parameters"
 msgstr "Captura trencada. Verifiqueu els paràmetres"
 
-#: src/monitor/scopes/audiographspectrum.cpp:282
+#: src/monitor/scopes/audiographspectrum.cpp:284
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr ""
 "Cal que MLT estiga compilat amb la «libfftw3» per a activar l'espectre "
 "d'àudio"
 
-#: src/monitor/scopes/audiographspectrum.cpp:289
+#: src/monitor/scopes/audiographspectrum.cpp:291
 #, kde-format
 msgid "Enable Audio Spectrum"
 msgstr "Activa l'espectre d'àudio"
@@ -16281,7 +16281,7 @@ msgid "HSV Saturation"
 msgstr "Saturació HSV"
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:108
-#: src/scopes/colorscopes/vectorscope.cpp:257
+#: src/scopes/colorscopes/vectorscope.cpp:259
 #, kde-format
 msgid "%1°"
 msgstr "%1°"
@@ -16363,12 +16363,12 @@ msgstr "Rec. 709"
 msgid "Luma mode"
 msgstr "Mode de luma"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:204
+#: src/scopes/colorscopes/histogramgenerator.cpp:205
 #, kde-format
 msgid "min"
 msgstr "mín"
 
-#: src/scopes/colorscopes/histogramgenerator.cpp:207
+#: src/scopes/colorscopes/histogramgenerator.cpp:208
 #, kde-format
 msgid "max"
 msgstr "màx"
@@ -16389,16 +16389,16 @@ msgstr "Dibuixa l'eix"
 msgid "Gradient reference line"
 msgstr "Línia de referència del degradat"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:164
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:170
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:176
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:165
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:171
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:177
 #, kde-format
 msgid "min: "
 msgstr "mín.: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:184
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:190
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:196
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:191
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:197
 #, kde-format
 msgid "max: "
 msgstr "màx.: "
