@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-01 02:30+0000\n"
-"PO-Revision-Date: 2024-08-24 11:00+0200\n"
+"PO-Revision-Date: 2024-09-04 17:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3024,7 +3024,7 @@ msgstr "Mapa de la luma"
 #: data/transitions/dissolve.xml:19 data/transitions/luma.xml:17
 #, kde-format
 msgid "Make padding transparent"
-msgstr "Fa transparent el farciment"
+msgstr "Fes transparent el farciment"
 
 #: data/transitions/luma.xml:4
 #, kde-format
@@ -5891,7 +5891,7 @@ msgstr "S'està carregant el projecte…"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
-msgstr "Quadrat de 2 barres"
+msgstr "Barres de quadrat 2"
 
 #: src/core.cpp:384
 #, kde-format
@@ -6023,13 +6023,13 @@ msgstr "Porta de graner vertical"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
-msgstr "Porta doble de quadra diagonal SO-NE"
+msgstr "Porta doble de graner diagonal SO-NE"
 
 #: src/core.cpp:407
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
-msgstr "Porta doble de quadra diagonal NO-SE"
+msgstr "Porta doble de graner diagonal NO-SE"
 
 #: src/core.cpp:408
 #, kde-format
@@ -6083,25 +6083,25 @@ msgstr "Serp de matriu paral·lela i vertical"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
-msgstr "Nens V amunt"
+msgstr "V de graner amunt"
 
 #: src/core.cpp:417
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
-msgstr "Cercle Iris"
+msgstr "Iris de cercle"
 
 #: src/core.cpp:418
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
-msgstr "Doble Iris"
+msgstr "Iris doble"
 
 #: src/core.cpp:419
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
-msgstr "Quadre Iris"
+msgstr "Iris de quadre"
 
 #: src/core.cpp:420
 #, kde-format
@@ -6113,7 +6113,7 @@ msgstr "Quadre inferior dret"
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
-msgstr "Quadre inferior esquerra"
+msgstr "Quadre inferior esquerre"
 
 #: src/core.cpp:422
 #, kde-format
