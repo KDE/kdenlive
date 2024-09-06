@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-01 02:30+0000\n"
-"PO-Revision-Date: 2024-07-28 13:11+0400\n"
+"PO-Revision-Date: 2024-09-05 09:35+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -14370,10 +14370,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "أسند طوابع وقت لمقطع السلة الحالي"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot insert clip."
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "تعذّر إدراج القصاصة."
+msgstr "تعذّر العثور على مقطع المشروع"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
