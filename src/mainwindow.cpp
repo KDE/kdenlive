@@ -2941,7 +2941,6 @@ void MainWindow::slotAddMarkerWithCategory()
         return;
     }
 
-
     auto *caller = qobject_cast<QAction *>(QObject::sender());
     if (!caller) {
         return;
@@ -4777,7 +4776,7 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
 void MainWindow::slotAddSubtitle(const QString &text)
 {
     showSubtitleTrack();
-    getCurrentTimeline()->model()->getSubtitleModel()->addSubtitle(-1, text);
+    getCurrentTimeline()->model()->getSubtitleModel()->addSubtitle(-1, 0, text);
 }
 
 void MainWindow::slotDisableSubtitle()

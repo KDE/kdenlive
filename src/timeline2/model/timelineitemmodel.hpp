@@ -130,4 +130,5 @@ Q_SIGNALS:
     void showTrackEffectStack(int tid);
     void subtitleModelInitialized();
     void subtitlesListChanged();
+    void maxSubLayerChanged();
 };

@@ -1850,8 +1850,8 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     }
     file.close();
     // Copy subtitle file if any
-    if (QFile::exists(currentFile + QStringLiteral(".srt"))) {
-        QFile(currentFile + QStringLiteral(".srt")).copy(convertedFile + QStringLiteral(".srt"));
+    if (QFile::exists(currentFile + QStringLiteral(".ass"))) {
+        QFile(currentFile + QStringLiteral(".ass")).copy(convertedFile + QStringLiteral(".ass"));
     }
     openFile(QUrl::fromLocalFile(convertedFile));
     pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);

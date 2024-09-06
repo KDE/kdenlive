@@ -14,6 +14,7 @@ set(kdenlive_SRCS
   widgets/precisionspinbox.cpp
   widgets/progressbutton.cpp
   widgets/timecodedisplay.cpp
+  widgets/subtitletextedit.cpp
   PARENT_SCOPE
 )
 
