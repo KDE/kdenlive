@@ -279,7 +279,7 @@ public:
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
     /** @brief Add guides in the project. */
-    void addGuides(const QList<int> &guides);
+    void addGuides(const QMap<QUuid, QList<int>> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Transcode a video file. */
