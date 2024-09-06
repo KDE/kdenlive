@@ -116,7 +116,8 @@ public:
     QUrl url() const;
     KAutoSaveFile *m_autosave;
     /** @brief Whether the project folder should be in the same folder as the project file (var is only used for new projects)*/
-    bool m_sameProjectFolder;
+    bool m_sameProjectFolder{false};
+    bool m_restoreFromBackup{false};
     Timecode timecode() const;
     std::shared_ptr<DocUndoStack> commandStack();
 
@@ -162,7 +163,6 @@ public:
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
     bool saveSceneList(const QString &path, const QString &scene, bool saveOverExistingFile = true);
-    void cacheImage(const QString &fileId, const QImage &img) const;
     void setProjectFolder(const QUrl &url);
     void setZone(const QUuid &uuid, int start, int end);
     QPoint zone(const QUuid &uuid) const;
@@ -279,8 +279,9 @@ public:
     /** @brief Returns a path for current document's subtitle file.
      *  uuid is appended to the path if this is not the primary timeline
      *  ix is the index of the subtitle, appended to the path if > 0
-     *  If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
-    const QString subTitlePath(const QUuid &uuid, int ix, bool final);
+     *  If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp
+     *  If restoreFromBackup is true, we will look for the previous session's work files */
+    const QString subTitlePath(const QUuid &uuid, int ix, bool final, bool restoreFromBackup = false);
     /** @brief Returns the list of all used subtitles paths. */
     QStringList getAllSubtitlesPath(bool final);
     /** @brief Creates a new project. */
@@ -395,8 +396,6 @@ private:
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();
-    /** @brief Only keep some backup files, delete some */
-    void cleanupBackupFiles();
     /** @brief Load document properties from the xml file */
     void loadDocumentProperties();
     /** @brief update document properties to reflect a change in the current profile */
@@ -432,6 +431,8 @@ private Q_SLOTS:
     void slotMoveFinished(KJob *job);
     /** @brief Save the project guide categories in the document properties. */
     void saveGuideCategories();
+    /** @brief Only keep some backup files, delete some */
+    void cleanupBackupFiles();
 
 Q_SIGNALS:
     void resetProjectList();
@@ -441,8 +442,6 @@ Q_SIGNALS:
      * If the document has been modified, it's called with true as an argument. */
     void docModified(bool);
     void selectLastAddedClip(const QString &);
-    /** @brief When creating a backup file, also save a thumbnail of current timeline */
-    void saveTimelinePreview(const QString &path);
     /** @brief Trigger the autosave timer start */
     void startAutoSave();
     /** @brief Current doc created effects, reload list */

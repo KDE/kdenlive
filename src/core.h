@@ -69,6 +69,7 @@ class /*KDENLIVECORE_EXPORT*/ Core : public QObject
 
 public:
     friend class KdenliveDoc;
+    friend class ProjectManager;
     Core(const Core &) = delete;
     Core &operator=(const Core &) = delete;
     Core(Core &&) = delete;
@@ -491,4 +492,6 @@ Q_SIGNALS:
     void requestShowBinEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     /** @brief Save guide categories in document properties */
     void saveGuideCategories();
+    /** @brief When creating a backup file, also save a thumbnail of current timeline */
+    void saveTimelinePreview(const QString &path);
 };
