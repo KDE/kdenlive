@@ -923,7 +923,6 @@ Rectangle {
     DropArea { //Drop area for urls (direct drop from file manager)
         /** @brief local helper function to handle the insertion of multiple dragged items */
         property int fakeFrame: -1
-        property int fakeTrack: -1
         property var droppedUrls: []
         enabled: !clipDropArea.containsDrag && !compoArea.containsDrag
         width: root.width - headerWidth
@@ -934,6 +933,9 @@ Rectangle {
         onEntered: drag => {
             drag.accepted = true
             droppedUrls.length = 0
+            if (dragProxy.draggedItem > -1) {
+                endDrag()
+            }
             for(var i in drag.urls){
                 var url = drag.urls[i]
                 droppedUrls.push(Qt.resolvedUrl(url))
@@ -955,35 +957,15 @@ Rectangle {
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                    if (clipBeingDroppedId == -1) {
-                        if (controller.normalEdit() == false) {
-                            // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
-                            //clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
-                            //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
-                            fakeTrack = timeline.activeTrack
-                        }
-                    }
                 }
             }
         }
         onDropped: drag => {
             var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
             var track = timeline.activeTrack
-            //var binIds = clipBeingDroppedData.split(";")
-            //if (binIds.length == 1) {
-                if (controller.normalEdit()) {
-                    timeline.urlDropped(droppedUrls, frame, track)
-                } else {
-                    //timeline.insertClipZone(clipBeingDroppedData, track, frame)
-                }
-            /*} else {
-                if (controller.normalEdit()) {
-                    timeline.insertClips(track, frame, binIds, true, true)
-                } else {
-                    // TODO
-                    console.log('multiple clips insert/overwrite not supported yet')
-                }
-            }*/
+            if (controller.normalEdit()) {
+                timeline.urlDropped(droppedUrls, frame, track)
+            }
             clearDropData()
         }
     }
@@ -1389,6 +1371,9 @@ Rectangle {
                 }
                 if (selectLikeTool && shiftPress && mouse.y > ruler.height) {
                         // rubber selection
+                        if (dragProxy.draggedItem > -1) {
+                            endDrag()
+                        }
                         rubberSelect.x = mouse.x + scrollView.contentX
                         rubberSelect.y = mouse.y - ruler.height + scrollView.contentY
                         rubberSelect.clickX = rubberSelect.x
