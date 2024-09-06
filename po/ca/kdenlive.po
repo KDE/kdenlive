@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-05 00:39+0000\n"
-"PO-Revision-Date: 2024-09-04 17:33+0200\n"
+"PO-Revision-Date: 2024-09-05 17:02+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18345,13 +18345,13 @@ msgstr "Falten els següents fitxers:"
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
-msgstr "Inici de l'àrea visible"
+msgstr "Inici de l'àrea de visualització"
 
 #: src/titler/titlewidget.cpp:2629
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
-msgstr "Final de l'àrea visible"
+msgstr "Final de l'àrea de visualització"
 
 #: src/titler/titlewidget.cpp:3345
 #, kde-format
@@ -22548,13 +22548,13 @@ msgstr "Animació"
 #: src/ui/titlewidget_ui.ui:1477
 #, kde-format
 msgid "Edit start viewport"
-msgstr "Edita l'inici de l'àrea visible"
+msgstr "Edita l'inici de l'àrea de visualització"
 
 #. i18n: ectx: property (text), widget (QToolButton, anim_end)
 #: src/ui/titlewidget_ui.ui:1487
 #, kde-format
 msgid "Edit end viewport"
-msgstr "Edita el final de l'àrea visible"
+msgstr "Edita el final de l'àrea de visualització"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
 #: src/ui/titlewidget_ui.ui:1512

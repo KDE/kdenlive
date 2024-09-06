@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-05 00:39+0000\n"
-"PO-Revision-Date: 2024-07-28 13:11+0400\n"
+"PO-Revision-Date: 2024-09-05 09:35+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -8202,8 +8202,7 @@ msgid "No speech"
 msgstr "بدون كلام"
 
 #: src/dialogs/textbasededit.cpp:619
-#, fuzzy, kde-format
-#| msgid "Speech model"
+#, kde-format
 msgid "Speech Model"
 msgstr "نماذج الكلام"
 
@@ -8234,16 +8233,14 @@ msgid "Save edited text in a playlist file"
 msgstr "احفظ النص المحرر في ملف قائمة تشغيل"
 
 #: src/dialogs/textbasededit.cpp:667
-#, fuzzy, kde-format
-#| msgid "Create new sequence with text edit "
+#, kde-format
 msgid "Create new sequence with text edit"
-msgstr "أنشئ تسلسلًا جديدًا بتحرير نص "
+msgstr "أنشئ تسلسلًا جديدًا بتحرير نص"
 
 #: src/dialogs/textbasededit.cpp:668
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Search in text"
-msgstr "كلام إلى نص"
+msgstr "ابحث في النص"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
@@ -8262,16 +8259,14 @@ msgid "Add marker for current selection"
 msgstr "أضف علامة للتحديد الحالي"
 
 #: src/dialogs/textbasededit.cpp:757
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Increase Font Size"
-msgstr "حجم الخطّ"
+msgstr "زد حجم الخط"
 
 #: src/dialogs/textbasededit.cpp:760
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Decrease Font Size"
-msgstr "حجم الخطّ"
+msgstr "انقص حجم الخط"
 
 #: src/dialogs/textbasededit.cpp:764
 #, kde-format
@@ -14413,10 +14408,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "أسند طوابع وقت لمقطع السلة الحالي"
 
 #: src/project/dialogs/noteswidget.cpp:126
-#, fuzzy, kde-format
-#| msgid "Cannot insert clip."
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "تعذّر إدراج القصاصة."
+msgstr "تعذّر العثور على مقطع المشروع"
 
 #: src/project/dialogs/noteswidget.cpp:192
 #, kde-format
@@ -16717,16 +16711,14 @@ msgid "Rename Track"
 msgstr "تغيير اسم المسار"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Enable Effect Stack"
+#, kde-format
 msgid "Enable Track Effect Stack"
-msgstr "فعّل كومة التّأثيرات"
+msgstr "فعّل كومة تأثير التتبع"
 
 #: src/timeline2/model/timelineitemmodel.cpp:612
-#, fuzzy, kde-format
-#| msgid "Disable Effect Stack"
+#, kde-format
 msgid "Disable Track Effect Stack"
-msgstr "عطّل كومة التّأثيرات"
+msgstr "عطّل كومة تأثير التتبع"
 
 #: src/timeline2/model/timelineitemmodel.cpp:862
 #, kde-format
@@ -21960,10 +21952,9 @@ msgstr "المنطقة المحدّدة فقط"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
-#, fuzzy, kde-format
-#| msgid "Transcode"
+#, kde-format
 msgid "Transcribe"
-msgstr "تبديل الترميز"
+msgstr "أملي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:77
