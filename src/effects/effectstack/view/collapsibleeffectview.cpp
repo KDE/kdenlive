@@ -4,9 +4,11 @@
 */
 
 #include "collapsibleeffectview.hpp"
+#include "assets/assetlist/view/assetlistwidget.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/view/assetparameterview.hpp"
 #include "assets/view/widgets/colorwheel.h"
+
 #include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
 #include "effects/effectsrepository.hpp"
@@ -17,6 +19,7 @@
 #include "widgets/dragvalue.h"
 
 #include "kdenlive_debug.h"
+#include <QDesktopServices>
 #include <QDialog>
 #include <QFileDialog>
 #include <QFontDatabase>
@@ -75,6 +78,14 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     collapseButton->setDefaultAction(m_collapse);
     m_collapse->setActive(m_model->isCollapsed());
     connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
+    infoButton->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
+    infoButton->setToolTip(i18n("Open effect documentation in browser"));
+    connect(infoButton, &QToolButton::clicked, this, [this]() {
+        const QString id = m_model->getAssetId();
+        AssetListType::AssetType type = EffectsRepository::get()->getType(id);
+        const QString link = AssetListWidget::buildLink(id, type);
+        QDesktopServices::openUrl(QUrl(link));
+    });
 
     if (effectModel->rowCount() == 0) {
         // Effect has no parameter
@@ -267,10 +278,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     presetButton->setToolTip(i18n("Presets"));
     presetButton->setWhatsThis(xi18nc("@info:whatsthis", "Opens a list of advanced options to manage presets for the effect."));
 
-    connect(saveEffectButton, &QAbstractButton::clicked, this, [this]() { slotSaveEffect(); });
-    saveEffectButton->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
-    saveEffectButton->setToolTip(i18n("Save effect"));
-
+    connect(m_view, &AssetParameterView::saveEffect, this, [this]() { slotSaveEffect(); });
     connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectUp);
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
@@ -715,6 +723,8 @@ void CollapsibleEffectView::slotSwitch(bool collapse)
     zoneFrame->setFixedHeight(collapse || !m_inOutButton->isChecked() ? 0 : frame->height());
     setFixedHeight(widgetFrame->height() + frame->minimumHeight() + zoneFrame->height() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
     m_model->setCollapsed(collapse);
+    keyframesButton->setVisible(!collapse);
+    inOutButton->setVisible(!collapse);
     Q_EMIT switchHeight(m_model, height());
 }
 

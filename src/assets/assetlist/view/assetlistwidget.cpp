@@ -413,7 +413,7 @@ void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIn
     }
 }
 
-const QString AssetListWidget::buildLink(const QString id, AssetListType::AssetType type) const
+const QString AssetListWidget::buildLink(const QString id, AssetListType::AssetType type)
 {
     QString prefix;
     if (type == AssetListType::AssetType::Audio) {

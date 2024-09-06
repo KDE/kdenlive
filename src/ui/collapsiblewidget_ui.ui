@@ -36,10 +36,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <bool>true</bool>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+      <enum>QFrame::Shadow::Plain</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <property name="leftMargin">
@@ -60,20 +60,20 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <item row="1" column="0">
        <widget class="QFrame" name="zoneFrame">
         <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <enum>QFrame::Shape::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
        <widget class="QFrame" name="widgetFrame">
         <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <enum>QFrame::Shape::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
+         <enum>QFrame::Shadow::Plain</enum>
         </property>
        </widget>
       </item>
@@ -86,10 +86,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </sizepolicy>
         </property>
         <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <enum>QFrame::Shape::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
+         <enum>QFrame::Shadow::Plain</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
@@ -116,14 +116,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <bool>true</bool>
            </property>
            <property name="arrowType">
-            <enum>Qt::NoArrow</enum>
+            <enum>Qt::ArrowType::NoArrow</enum>
            </property>
           </widget>
          </item>
          <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -172,7 +172,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             <string>...</string>
            </property>
            <property name="popupMode">
-            <enum>QToolButton::InstantPopup</enum>
+            <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
            </property>
            <property name="autoRaise">
             <bool>true</bool>
@@ -180,12 +180,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="saveEffectButton">
+          <widget class="QToolButton" name="infoButton">
            <property name="text">
             <string>...</string>
            </property>
            <property name="popupMode">
-            <enum>QToolButton::InstantPopup</enum>
+            <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
            </property>
            <property name="autoRaise">
             <bool>true</bool>

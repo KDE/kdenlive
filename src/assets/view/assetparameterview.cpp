@@ -74,6 +74,8 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 ac->setChecked(true);
             }
         }
+        m_presetMenu->addSeparator();
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save effect"), this, &AssetParameterView::saveEffect);
     });
     Q_EMIT updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
