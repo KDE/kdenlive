@@ -60,7 +60,7 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
 void NotesWidget::createMarker(const QStringList &anchors)
 {
     QMap<QString, QList<int>> clipMarkers;
-    QList<int> guides;
+    QMap<QUuid, QList<int>> guides;
     for (const QString &anchor : anchors) {
         if (anchor.contains(QLatin1Char('#'))) {
             // That's a Bin Clip reference.
@@ -76,11 +76,22 @@ void NotesWidget::createMarker(const QStringList &anchors)
             clipMarkers.insert(binId, timecodes);
         } else {
             // That is a guide
-            if (anchor.contains(QLatin1Char('?'))) {
-                guides << anchor.section(QLatin1Char('?'), 0, 0).toInt();
-            } else {
-                guides << anchor.toInt();
+            QUuid uuid;
+            QString anchorLink = anchor;
+            if (anchorLink.contains(QLatin1Char('!'))) {
+                // Linked to a timeline sequence
+                uuid = QUuid(anchorLink.section(QLatin1Char('!'), 0, 0));
+                anchorLink = anchorLink.section(QLatin1Char('!'), 1);
             }
+            if (anchorLink.contains(QLatin1Char('?'))) {
+                anchorLink = anchorLink.section(QLatin1Char('?'), 0, 0);
+            }
+            QList<int> guidesToAdd;
+            if (guides.contains(uuid)) {
+                guidesToAdd = guides.value(uuid);
+            }
+            guidesToAdd << anchorLink.toInt();
+            guides.insert(uuid, guidesToAdd);
         }
     }
     QMapIterator<QString, QList<int>> i(clipMarkers);

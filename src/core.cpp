@@ -1406,14 +1406,23 @@ int Core::audioChannels()
     return 2;
 }
 
-void Core::addGuides(const QList<int> &guides)
+void Core::addGuides(const QMap<QUuid, QList<int>> &guides)
 {
-    QMap<GenTime, QString> markers;
-    for (int pos : guides) {
-        GenTime p(pos, pCore->getCurrentFps());
-        markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+    QMapIterator<QUuid, QList<int>> i(guides);
+    while (i.hasNext()) {
+        i.next();
+        QMap<GenTime, QString> markers;
+        for (int pos : i.value()) {
+            GenTime p(pos, pCore->getCurrentFps());
+            markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+        }
+        auto timeline = m_mainWindow->getTimeline(i.key());
+        if (timeline == nullptr) {
+            // Timeline not found, default to active one
+            timeline = m_mainWindow->getCurrentTimeline();
+        }
+        timeline->controller()->getModel()->getGuideModel()->addMarkers(markers);
     }
-    m_mainWindow->getCurrentTimeline()->controller()->getModel()->getGuideModel()->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)
