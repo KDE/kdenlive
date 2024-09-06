@@ -381,8 +381,10 @@ Rectangle {
         }
 
         onExited: {
-            if (pressed) {
+            if (!dragProxyArea.pressed) {
                 root.endDrag()
+            }
+            if (pressed) {
                 if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {
                     timeline.showToolTip()
                 }
