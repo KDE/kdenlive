@@ -1010,7 +1010,7 @@ void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender
                     finalName.append(QStringLiteral("-%1").arg(i.key().first));
                 }
                 QFileInfo info(finalName);
-                QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
+                QString subPath = info.dir().absoluteFilePath(QString("%1.ass").arg(info.fileName()));
                 j.value()->getSubtitleModel()->copySubtitle(subPath, i.key().first, checkOverwrite, true);
             }
         }
@@ -1426,8 +1426,8 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         }
         // backup subitle file in case we have one
         // TODO: this only backups one subtitle file, and the saved one, not the tmp worked on file
-        QString subpath(path + QStringLiteral(".srt"));
-        QString subbackupFile(backupFile + QStringLiteral(".srt"));
+        QString subpath(path + QStringLiteral(".ass"));
+        QString subbackupFile(backupFile + QStringLiteral(".ass"));
         if (QFile(subpath).exists()) {
             QFile::remove(subbackupFile);
             if (!QFile::copy(subpath, subbackupFile)) {
@@ -1517,25 +1517,25 @@ void KdenliveDoc::cleanupBackupFiles()
         f = hourList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
-        QFile::remove(f + QStringLiteral(".srt"));
+        QFile::remove(f + QStringLiteral(".ass"));
     }
     while (dayList.count() > 0) {
         f = dayList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
-        QFile::remove(f + QStringLiteral(".srt"));
+        QFile::remove(f + QStringLiteral(".ass"));
     }
     while (weekList.count() > 0) {
         f = weekList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
-        QFile::remove(f + QStringLiteral(".srt"));
+        QFile::remove(f + QStringLiteral(".ass"));
     }
     while (oldList.count() > 0) {
         f = oldList.takeFirst();
         QFile::remove(f);
         QFile::remove(f + QStringLiteral(".png"));
-        QFile::remove(f + QStringLiteral(".srt"));
+        QFile::remove(f + QStringLiteral(".ass"));
     }
 }
 
@@ -2417,9 +2417,9 @@ const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final)
         path.append(QStringLiteral("-%1").arg(ix));
     }
     if (m_url.isValid() && final) {
-        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(path));
+        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.ass").arg(path));
     } else {
-        return QDir::temp().absoluteFilePath(QString("%1-%2.srt").arg(path, pCore->sessionId));
+        return QDir::temp().absoluteFilePath(QString("%1-%2.ass").arg(path, pCore->sessionId));
     }
 }
 
@@ -2491,6 +2491,34 @@ QMap<std::pair<int, QString>, QString> KdenliveDoc::JSonToSubtitleList(const QSt
             subUrl.prepend(m_documentRoot);
         }
         results.insert({subId, subName}, subUrl);
+    }
+    return results;
+}
+
+std::map<QString, SubtitleStyle> KdenliveDoc::globalSubtitleStyles(const QUuid &uuid)
+{
+    const QString data = getSequenceProperty(uuid, QStringLiteral("globalSubtitleStyles"));
+    std::map<QString, SubtitleStyle> results;
+    auto json = QJsonDocument::fromJson(data.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return results;
+    }
+    auto list = json.array();
+    for (const auto &entry : qAsConst(list)) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid subtitle style data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("style"))) {
+            qDebug() << "Warning : Skipping invalid subtitle style data (does not have a name or style)";
+            continue;
+        }
+        QString styleString = entryObj[QLatin1String("style")].toString();
+        const QString styleName = styleString.section(":", 1).trimmed().split(",").at(0);
+        const SubtitleStyle style(styleString);
+        results[styleName] = style;
     }
     return results;
 }

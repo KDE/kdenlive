@@ -9,12 +9,12 @@
 #include "assets/view/widgets/colorwheel.h"
 #include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
-#include "widgets/dragvalue.h"
-#include "filefilter.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
+#include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "widgets/dragvalue.h"
 
 #include "kdenlive_debug.h"
 #include <QDialog>
@@ -137,7 +137,6 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
             }
             // Update asset names
             Q_EMIT effectNamesUpdated();
-
         });
         enabledButton->setEnabled(m_model->isAssetEnabled());
         // frame->hide();

@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>
+SPDX-FileCopyrightText: none
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+ </author>
+ <class>SubtitleStyleEdit_UI</class>
+ <widget class="QDialog" name="SubtitleStyleEdit_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1054</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1074</width>
+    <height>480</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Subtitle Style Editor</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="14" column="7">
+    <widget class="QLineEdit" name="editPreview">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="0" colspan="6">
+    <widget class="QPushButton" name="buttonPreview">
+     <property name="text">
+      <string>Show Preview &gt;&gt;&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="labelName">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="labelFont">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Font</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2">
+    <widget class="QPushButton" name="buttonPrimaryColor">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="labelColor">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Color</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="checkBold">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Bold</string>
+     </property>
+     <property name="autoRepeatDelay">
+      <number>308</number>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="3">
+    <widget class="QLabel" name="labelSecondaryColor">
+     <property name="text">
+      <string>Secondary</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="6">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Policy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="labelMargin">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Margin</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="labelMisc">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Misc</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="2">
+    <widget class="QDoubleSpinBox" name="spinAngle">
+     <property name="minimum">
+      <double>-360.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>360.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QLabel" name="labelMarginV">
+     <property name="text">
+      <string>Veritical</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="3">
+    <widget class="QLabel" name="labelMarginR">
+     <property name="text">
+      <string>Right</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="4" colspan="2">
+    <widget class="QPushButton" name="buttonBackColor">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="3">
+    <widget class="QLabel" name="labelAlignment">
+     <property name="font">
+      <font>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Alignment</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="3">
+    <widget class="QCheckBox" name="checkUnderline">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Underline</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="3">
+    <widget class="QLabel" name="labelShadow">
+     <property name="text">
+      <string>Shadow</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="4" colspan="2">
+    <widget class="QComboBox" name="comboAlignment"/>
+   </item>
+   <item row="8" column="2">
+    <widget class="QSpinBox" name="spinMarginL">
+     <property name="minimum">
+      <number>-100000</number>
+     </property>
+     <property name="maximum">
+      <number>100000</number>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="4" colspan="2">
+    <widget class="QDoubleSpinBox" name="spinScaleY">
+     <property name="maximum">
+      <double>1000000.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="QPushButton" name="buttonOutlineColor">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLabel" name="labelPrimaryColor">
+     <property name="text">
+      <string>Text</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1">
+    <widget class="QLabel" name="labelBoarderStyle">
+     <property name="text">
+      <string>BorderStyle</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="4" colspan="2">
+    <widget class="QPushButton" name="buttonSecondaryColor">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="4" colspan="2">
+    <widget class="QSpinBox" name="spinShadow">
+     <property name="maximum">
+      <number>100000</number>
+     </property>
+    </widget>
+   </item>
+   <item row="22" column="0" colspan="6">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="5">
+    <widget class="QDoubleSpinBox" name="spinFontSize">
+     <property name="maximum">
+      <double>10000.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="7" rowspan="9">
+    <widget class="QLabel" name="preview">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>640</width>
+       <height>360</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>640</width>
+       <height>360</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::Box</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="4" colspan="2">
+    <widget class="QSpinBox" name="spinMarginR">
+     <property name="minimum">
+      <number>-100000</number>
+     </property>
+     <property name="maximum">
+      <number>100000</number>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLabel" name="labelOutlineColor">
+     <property name="text">
+      <string>Outline</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="5">
+    <widget class="QLineEdit" name="editName"/>
+   </item>
+   <item row="10" column="2">
+    <widget class="QDoubleSpinBox" name="spinScaleX">
+     <property name="maximum">
+      <double>1000000.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QLabel" name="labelScaleX">
+     <property name="text">
+      <string>ScaleX</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="3">
+    <widget class="QLabel" name="labelScaleY">
+     <property name="text">
+      <string>ScaleY</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1" colspan="3">
+    <widget class="QLabel" name="labelFontName">
+     <property name="frameShape">
+      <enum>QFrame::Shape::Box</enum>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="3">
+    <widget class="QLabel" name="labelBackColor">
+     <property name="text">
+      <string>Shadow</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QLabel" name="labelMarginL">
+     <property name="text">
+      <string>Left</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="2">
+    <widget class="QSpinBox" name="spinMarginV">
+     <property name="minimum">
+      <number>-100000</number>
+     </property>
+     <property name="maximum">
+      <number>100000</number>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="7">
+    <widget class="QLabel" name="labelPreview">
+     <property name="font">
+      <font>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Preview</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="4" colspan="2">
+    <widget class="QCheckBox" name="checkStrikeOut">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>StrikeOut</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QLabel" name="labelAngle">
+     <property name="text">
+      <string>Angle</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="4">
+    <widget class="QToolButton" name="buttonSelectFont">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset theme="font"/>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1">
+    <widget class="QLabel" name="labelOutline">
+     <property name="layoutDirection">
+      <enum>Qt::LayoutDirection::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>Outline</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="2">
+    <widget class="QSpinBox" name="spinOutline">
+     <property name="maximum">
+      <number>100000</number>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="QCheckBox" name="checkItalic">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LayoutDirection::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>Italic</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="4" colspan="2">
+    <widget class="QDoubleSpinBox" name="spinSpacing">
+     <property name="minimum">
+      <double>0.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>1000000.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="2">
+    <widget class="QComboBox" name="comboBorderStyle"/>
+   </item>
+   <item row="11" column="3">
+    <widget class="QLabel" name="labelSpacing">
+     <property name="text">
+      <string>Spacing</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>SubtitleStyleEdit_UI</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>SubtitleStyleEdit_UI</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

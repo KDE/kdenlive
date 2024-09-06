@@ -101,7 +101,7 @@ Rectangle {
         if (subtitleTrack.height > root.collapsedHeight) {
             subtitleTrack.height = root.collapsedHeight
         } else {
-            subtitleTrack.height = 5 * root.baseUnit
+            subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
         }
     }
 
@@ -520,10 +520,15 @@ Rectangle {
     property bool subtitlesWarning: timeline.subtitlesWarning
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
+    property int maxSubLayer: timeline.maxSubLayer
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property bool scrollVertically: timeline.scrollVertically
     property int spacerMinPos: 0
     property int spacerMaxPos: -1
+
+    onMaxSubLayerChanged: {
+        subtitleTrack.height = showSubtitles? root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
+    }
 
     onAutoTrackHeightChanged: {
         trackHeightTimer.stop()
@@ -537,7 +542,7 @@ Rectangle {
     }
 
     onShowSubtitlesChanged: {
-        subtitleTrack.height = showSubtitles? root.baseUnit * 5 : 0
+        subtitleTrack.height = showSubtitles? root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
         if (root.autoTrackHeight) {
             timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
         }
@@ -1060,6 +1065,8 @@ Rectangle {
                     id: subtitleTrackHeader
                     width: trackHeaders.width
                     height: subtitleTrack.height
+                    border.color: frameColor
+                    border.width: 1
                     property bool collapsed: subtitleTrack.height == root.collapsedHeight
                     visible: height > 0
                     color: (controller && controller.isSubtitleTrack(timeline.activeTrack)) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
@@ -1090,7 +1097,7 @@ Rectangle {
                             if (subtitleTrack.height > root.collapsedHeight) {
                                 subtitleTrack.height = root.collapsedHeight
                             } else {
-                                subtitleTrack.height = 5 * root.baseUnit
+                                subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
                             }
                         }
                     }
@@ -1103,6 +1110,8 @@ Rectangle {
                         }
                         anchors.right: parent.right
                         anchors.top: expandSubButton.bottom
+                        anchors.left: subButtonsRow.left
+                        visible: (subtitleTrack.visible && subtitleTrack.height != root.collapsedHeight)
                         flat: true
                         onActivated: index => {
                             timeline.subtitlesMenuActivatedAsync(index)
@@ -1218,6 +1227,33 @@ Rectangle {
                                 ParallelAnimation {
                                     ScaleAnimator {target: lockButton; from: 1.6; to: 1; duration: 120}
                                     PropertyAnimation {target: bgRect;property: "color"; from: "darkred"; to: "transparent"; duration: 120}
+                                }
+                            }
+                        }
+                    }
+                    Column {
+                        id: subtitleLayerIndicator
+                        width: root.trackTagWidth
+                        height: parent.height
+                        anchors.left: expandSubButton.right
+                        anchors.top: warningButton.bottom
+                        anchors.bottom: parent.bottom
+
+                        Repeater {
+                            model: maxSubLayer + 1
+                            id: subLayerRepeater
+                            delegate: Rectangle {
+                                height: parent.height / subLayerRepeater.count
+                                width: parent.width
+                                color: activePalette.base
+                                visible: (subtitleTrack.visible && subtitleTrack.height != root.collapsedHeight)
+                                border.color: root.frameColor
+                                Text {
+                                    id: name
+                                    font: miniFont
+                                    text: "S" + index
+                                    color: activePalette.text
+                                    anchors.centerIn: parent
                                 }
                             }
                         }
@@ -1455,6 +1491,7 @@ Rectangle {
                             timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
                         } else {
                             timeline.activeTrack = -2
+                            timeline.activeSubLayer = (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1))
                         }
                         root.clickFrame = Math.floor((mouse.x + scrollView.contentX) / root.timeScale)
                         root.showTimelineMenu()
@@ -1476,8 +1513,9 @@ Rectangle {
             onDoubleClicked: mouse => {
                 if (mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height) {
                     if (root.showSubtitles && mouse.y < (ruler.height + subtitleTrack.height)) {
-                        subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale)
+                        subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale, (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1)))
                         timeline.activeTrack = -2
+                        timeline.activeSubLayer = (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1))
                     } else {
                         timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
                     }
@@ -1745,12 +1783,18 @@ Rectangle {
                     // These make the striped background for the tracks.
                     // It is important that these are not part of the track visual hierarchy;
                     // otherwise, the clips will be obscured by the Track's background.
-                    Rectangle {
-                        width: scrollView.width
-                        border.width: 1
-                        border.color: root.frameColor
-                        height: subtitleTrack.height
-                        color: (controller && controller.isSubtitleTrack(timeline.activeTrack)) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                    Column {
+                        topPadding: -scrollView.contentY
+                        Repeater {
+                            model: maxSubLayer + 1
+                            Rectangle {
+                                width: scrollView.width
+                                border.width: 1
+                                border.color: root.frameColor
+                                height: subtitleTrack.height / (maxSubLayer + 1)
+                                color: (controller && controller.isSubtitleTrack(timeline.activeTrack) && (timeline.activeSubLayer == index)) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                            }
+                        }
                     }
                     Column {
                         y: subtitleTrack.height
@@ -2346,6 +2390,7 @@ Rectangle {
             endFrame: model.endframe
             subtitle: model.subtitle
             isGrabbed: model.grabbed
+            subLayer: model.layer
         }
     }
 

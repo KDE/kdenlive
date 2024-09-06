@@ -22,11 +22,17 @@ Item {
     property string subtitle
     property bool selected
     property bool isGrabbed: false
-    height: subtitleTrack.height
-    
+    property int subLayer
+    height: subtitleTrack.height / (root.maxSubLayer + 1)
+    y: height * subLayer
+
     function editText()
     {
         subtitleBase.textEditBegin = true
+    }
+
+    onSubLayerChanged: {
+        y = height * subLayer
     }
 
     onFakeStartFrameChanged: {
@@ -84,8 +90,10 @@ Item {
             enabled: true
             property int newStart: -1
             property int diff: -1
+            property int oldLayer
             property int oldStartFrame
             property int snappedFrame
+            property int snappedLayer
             // Used for continuous scrolling
             property int incrementalOffset
             property double delta: -1
@@ -94,7 +102,7 @@ Item {
             visible: root.activeTool === ProjectTool.SelectTool
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
-            drag.axis: Drag.XAxis
+            drag.axis: Drag.XAxis | Drag.YAxis
             drag.smoothed: false
             drag.minimumX: 0
             onEntered: {
@@ -109,7 +117,9 @@ Item {
                 root.autoScrolling = false
                 oldStartX = scrollView.contentX + mapToItem(scrollView, mouseX, 0).x
                 oldStartFrame = subtitleRoot.startFrame
+                oldLayer = subtitleRoot.subLayer
                 snappedFrame = oldStartFrame
+                snappedLayer = oldLayer
                 x = subtitleBase.x
                 startMove = mouse.button & Qt.LeftButton
                 if (startMove) {
@@ -127,18 +137,32 @@ Item {
                     timeline.showAsset(subtitleRoot.subId)
                 }
                 timeline.activeTrack = -2
+                timeline.activeSubLayer = subtitleRoot.subLayer
             }
             function checkOffset(offset) {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
                     incrementalOffset += offset
                     newStart = Math.max(0, oldStartFrame + (scrollView.contentX + mapToItem(scrollView,mouseX, 0).x + incrementalOffset - oldStartX)/ root.timeScale)
-                    snappedFrame = controller.suggestSubtitleMove(subtitleRoot.subId, newStart, root.consumerPosition, root.snapping)
-                    root.continuousScrolling(scrollView.contentX + mapToItem(scrollView, mouseX, 0).x + incrementalOffset, 0)
+                    snappedFrame = controller.suggestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, newStart, root.consumerPosition, root.snapping)
+                    root.continuousScrolling(scrollView.contentX + mapToItem(scrollView, mouseX, 0).x + incrementalOffset, root.timeScale)
                 }
             }
             onPositionChanged: {
                 incrementalOffset = 0
                 checkOffset(0)
+
+                var layerOffset = mouse.y / subtitleRoot.height
+                if (layerOffset >= 1 || layerOffset <= 0) {
+                    var newLayer = subtitleRoot.subLayer + layerOffset
+                    if(newLayer > root.maxSubLayer){
+                        newLayer = root.maxSubLayer
+                    }
+                    if(newLayer < 0){
+                        newLayer = 0
+                    }
+                    snappedLayer = Math.floor(newLayer)
+                    controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, false)
+                }
             }
             onReleased: mouse => {
                 root.autoScrolling = timeline.autoScroll
@@ -152,12 +176,14 @@ Item {
                     startMove = false
                     if (subtitleBase.x < 0)
                         subtitleBase.x = 0
-                    if (oldStartFrame != snappedFrame) {
-                        console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame after shifting ",oldStartFrame/timeline.scaleFactor + delta)
-                        controller.requestSubtitleMove(subtitleRoot.subId, oldStartFrame, false, false);
-                        controller.requestSubtitleMove(subtitleRoot.subId, snappedFrame, true, true, true);
-                        x = snappedFrame * root.timeScale
+                    // if mouse out of the bottom of the SubtitleTrack, snappedLayer++
+                    if (mouse.y > subtitleRoot.height) {
+                        snappedLayer++
                     }
+                    console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame after shifting ",oldStartFrame/timeline.scaleFactor + delta)
+                    controller.requestSubtitleMove(subtitleRoot.subId, oldLayer, oldStartFrame, false, false)
+                    controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, true, true)
+                    x = snappedFrame * root.timeScale
                 }
                 console.log('RELEASED DONE\n\n_______________')
             }
@@ -175,13 +201,13 @@ Item {
             }
             Keys.onLeftPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.startFrame - offset, true, true)) {
+                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame - offset, true, true)) {
                     timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
             Keys.onRightPressed: event => {
                 var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
-                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.startFrame + offset, true, true)) {
+                if (controller.requestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, subtitleRoot.startFrame + offset, true, true)) {
                     timeline.showToolTip(i18n("Position: %1", timeline.simplifiedTC(subtitleRoot.startFrame)));
                 }
             }
@@ -199,7 +225,7 @@ Item {
     Item {
         id: subtitleBase
         property bool textEditBegin: false
-        height: subtitleTrack.height
+        height: subtitleRoot.height
         width: duration * root.timeScale // to make width change wrt timeline scale factor
         x: startFrame * root.timeScale;
         clip: true

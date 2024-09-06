@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "documentvalidator.h"
 
 #include "bin/binplaylist.hpp"
+#include "config-kdenlive.h"
 #include "core.h"
 #include "definitions.h"
 #include "effects/effectsrepository.hpp"
@@ -157,6 +158,10 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
     // Upgrade the document to the latest version
     if (!upgrade(version, currentVersion)) {
         return QPair<bool, QString>(false, QString());
+    }
+
+    if (version <= 1.1) {
+        convertSubtitles();
     }
 
     if (version < 0.97) {
@@ -1908,6 +1913,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }
+
     // Doc 1.1: Kdenlive 21.12.0
     /*if (version < 1.1) {
         // OpenCV tracker: Fix for older syntax where filter had in/out defined
@@ -1944,6 +1950,273 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
     m_modified = true;
     return true;
+}
+
+void DocumentValidator::convertSubtitles()
+{
+    const QSize frameSize = pCore->getCurrentFrameDisplaySize();
+
+    // Subtitles: use .ass format store subtitles instead of .srt
+    QDomNodeList tractors = m_doc.firstChildElement("mlt").elementsByTagName("tractor");
+    QDomElement tractor;
+    QString oldSubData;
+    QStringList processedSubtitleFiles;
+    for (int i = 0; i < tractors.size(); i++) {
+        oldSubData = Xml::getXmlProperty(tractors.at(i).toElement(), QStringLiteral("kdenlive:sequenceproperties.subtitlesList"));
+        if (oldSubData.isEmpty() || processedSubtitleFiles.contains(oldSubData)) {
+            continue;
+        }
+        processedSubtitleFiles << oldSubData;
+        tractor = tractors.at(i).toElement();
+
+        // Extract av.force_style style and convert
+        SubtitleStyle oldStyle;
+        oldStyle.setFontSize(frameSize.height() / 18);
+        oldStyle.setMarginV(frameSize.height() / 27);
+        QDomNodeList effects = tractor.elementsByTagName(QStringLiteral("filter"));
+        for (int i = 0; i < effects.count(); i++) {
+            QDomElement effect = effects.at(i).toElement();
+            if (effect.isNull()) {
+                continue;
+            }
+            QString service = Xml::getXmlProperty(effect, QStringLiteral("mlt_service"));
+            if (service == QLatin1String("avfilter.subtitles")) {
+                QString style = Xml::getXmlProperty(effect, QStringLiteral("av.force_style"));
+                if (!style.isEmpty()) {
+                    // convert to new style format
+                    QStringList styleList = style.split(QLatin1Char(','));
+                    for (const auto &style : styleList) {
+                        if (style.contains("Fontname")) {
+                            oldStyle.setFontName(style.section(QLatin1Char('='), 1));
+                        } else if (style.contains("Fontsize")) {
+                            double fontSize = style.section(QLatin1Char('='), 1).toDouble();
+                            double scale = (double)frameSize.height() / 288;
+                            fontSize *= scale;
+                            oldStyle.setFontSize(fontSize);
+                        } else if (style.contains("PrimaryColour")) {
+                            QString colorStr = style.section(QLatin1Char('='), 1).toUpper();
+                            QColor color;
+                            color.setAlpha(255 - colorStr.mid(2, 2).toInt(nullptr, 16));
+                            color.setBlue(colorStr.mid(4, 2).toInt(nullptr, 16));
+                            color.setGreen(colorStr.mid(6, 2).toInt(nullptr, 16));
+                            color.setRed(colorStr.mid(8, 2).toInt(nullptr, 16));
+                            oldStyle.setPrimaryColour(color);
+                        } else if (style.contains("SecondaryColour")) {
+                            QString colorStr = style.section(QLatin1Char('='), 1).toUpper();
+                            QColor color;
+                            color.setAlpha(255 - colorStr.mid(2, 2).toInt(nullptr, 16));
+                            color.setBlue(colorStr.mid(4, 2).toInt(nullptr, 16));
+                            color.setGreen(colorStr.mid(6, 2).toInt(nullptr, 16));
+                            color.setRed(colorStr.mid(8, 2).toInt(nullptr, 16));
+                            oldStyle.setSecondaryColour(color);
+                        } else if (style.contains("OutlineColour")) {
+                            QString colorStr = style.section(QLatin1Char('='), 1).toUpper();
+                            QColor color;
+                            color.setAlpha(255 - colorStr.mid(2, 2).toInt(nullptr, 16));
+                            color.setBlue(colorStr.mid(4, 2).toInt(nullptr, 16));
+                            color.setGreen(colorStr.mid(6, 2).toInt(nullptr, 16));
+                            color.setRed(colorStr.mid(8, 2).toInt(nullptr, 16));
+                            oldStyle.setOutlineColour(color);
+                        } else if (style.contains("BackColour")) {
+                            QString colorStr = style.section(QLatin1Char('='), 1).toUpper();
+                            QColor color;
+                            color.setAlpha(255 - colorStr.mid(2, 2).toInt(nullptr, 16));
+                            color.setBlue(colorStr.mid(4, 2).toInt(nullptr, 16));
+                            color.setGreen(colorStr.mid(6, 2).toInt(nullptr, 16));
+                            color.setRed(colorStr.mid(8, 2).toInt(nullptr, 16));
+                            oldStyle.setBackColour(color);
+                        } else if (style.contains("Bold")) {
+                            oldStyle.setBold(style.section(QLatin1Char('='), 1).toInt());
+                        } else if (style.contains("Italic")) {
+                            oldStyle.setItalic(style.section(QLatin1Char('='), 1).toInt());
+                        } else if (style.contains("Underline")) {
+                            oldStyle.setUnderline(style.section(QLatin1Char('='), 1).toInt());
+                        } else if (style.contains("StrikeOut")) {
+                            oldStyle.setStrikeOut(style.section(QLatin1Char('='), 1).toInt());
+                        } else if (style.contains("BorderStyle")) {
+                            oldStyle.setBorderStyle(style.section(QLatin1Char('='), 1).toInt());
+                        } else if (style.contains("Outline")) {
+                            double outline = style.section(QLatin1Char('='), 1).toDouble();
+                            double scale = (double)frameSize.height() / 288;
+                            outline *= scale;
+                            oldStyle.setOutline(qRound(outline));
+                        } else if (style.contains("Shadow")) {
+                            double shadow = style.section(QLatin1Char('='), 1).toDouble();
+                            double scale = (double)frameSize.height() / 288;
+                            shadow *= scale;
+                            oldStyle.setShadow(shadow);
+                        } else if (style.contains("Alignment")) {
+                            // old project uses V4 style, convert to V4+ style
+                            int alignment = style.section(QLatin1Char('='), 1).toInt();
+                            switch (alignment) {
+                            case 1:
+                            case 2:
+                            case 3:
+                                break;
+                            case 5:
+                                alignment = 7;
+                                break;
+                            case 6:
+                                alignment = 8;
+                                break;
+                            case 7:
+                                alignment = 9;
+                                break;
+                            case 9:
+                                alignment = 4;
+                                break;
+                            case 10:
+                                alignment = 5;
+                                break;
+                            case 11:
+                                alignment = 6;
+                                break;
+                            default:
+                                // invalid alignment, use default setting
+                                alignment = 2;
+                                break;
+                            }
+                            oldStyle.setAlignment(alignment);
+                        }
+                    }
+                    // clear force_style
+                    Xml::setXmlProperty(effect, QStringLiteral("av.force_style"), QString());
+                } else {
+                    // No style defined, set outline width matching with SRT defaults
+                    oldStyle.setOutline(3);
+                }
+            }
+        }
+
+        auto json = QJsonDocument::fromJson(oldSubData.toUtf8());
+        if (json.isArray()) {
+            QJsonArray subtitlesList(json.array());
+            QJsonArray newSubtitlesList;
+
+            for (int i = 0; i < subtitlesList.size(); i++) {
+                QJsonObject sub = subtitlesList.at(i).toObject();
+                QString path = sub[QLatin1String("file")].toString();
+                sub.insert("file", path.replace(path.lastIndexOf(".srt"), 4, ".ass"));
+                newSubtitlesList.push_back(sub);
+            }
+            QJsonDocument newJson(newSubtitlesList);
+            QString newSubData = QString::fromUtf8(newJson.toJson());
+
+            Xml::setXmlProperty(tractor, QStringLiteral("kdenlive:sequenceproperties.subtitlesList"), newSubData);
+            const QString timelineUuid = Xml::getXmlProperty(tractor, QStringLiteral("kdenlive:uuid"));
+            const QString documentUuid = Xml::getXmlProperty(tractor, QStringLiteral("kdenlive:sequenceproperties.documentuuid"));
+            // convert to a new .ass file, keep the original .srt file.
+            QString fileName = m_url.fileName();
+            QString path;
+            QFile oldSubFile;
+            QFile newSubFile;
+            for (int i = 0; i < subtitlesList.size(); i++) {
+                if (timelineUuid == documentUuid) {
+                    // Main timeline, subtitle file is named just with project file name with an index
+                    path = (i > 0) ? (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1-%2.srt").arg(fileName).arg(i)))
+                                   : (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(fileName)));
+                } else {
+                    // Secondary timeline, the timeline uuid is appended to the subtitle filename
+                    path = (i > 0) ? (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1%2-%3.srt").arg(fileName).arg(timelineUuid).arg(i)))
+                                   : (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1%2.srt").arg(fileName).arg(timelineUuid)));
+                }
+
+                QString newFileContent =
+                    QString("[Script Info]\n; Script generated by Kdenlive %1\nScriptType: v4.00+\nPlayResX: %2\nPlayResY: %3\nLayoutResX: "
+                            "%4\nLayoutResY: %5\nWrapStyle: 0\n"
+                            "ScaledBorderAndShadow: yes\nYCbCr Matrix: None\n\n"
+                            "[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, "
+                            "Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, "
+                            "MarginR, MarginV, Encoding\n"
+                            "%6\n\n"
+                            "[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n")
+                        .arg(KDENLIVE_VERSION)
+                        .arg(frameSize.width())
+                        .arg(frameSize.height())
+                        .arg(frameSize.width())
+                        .arg(frameSize.height())
+                        .arg(oldStyle.toString("Default"));
+
+                oldSubFile.setFileName(path);
+                if (oldSubFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                    QTextStream stream(&oldSubFile);
+                    QString line;
+                    QStringList srtTime;
+                    GenTime endPos;
+                    GenTime startPos;
+                    QLatin1Char separator = QLatin1Char(' ');
+                    QString start, end;
+                    QString comment;
+                    SubtitleEvent event;
+                    int turn = 0, endIndex = 2, r = 0, defaultTurn = 0;
+                    static const QRegularExpression rx("([0-9]{1,2}):([0-9]{2})");
+                    while (stream.readLineInto(&line)) {
+                        line = line.trimmed();
+                        if (!line.isEmpty()) {
+                            if (!turn) {
+                                // index=atoi(line.toStdString().c_str());
+                                turn++;
+                                continue;
+                            }
+                            // Check if position has already been read
+                            if (endPos == startPos && (line.contains(QLatin1String("-->")) || line.contains(rx))) {
+                                srtTime = line.split(separator);
+                                if (srtTime.count() > endIndex) {
+                                    start = srtTime.at(0);
+                                    startPos = SubtitleEvent::stringtoTime(start, pCore->getCurrentFps());
+                                    end = srtTime.at(endIndex);
+                                    endPos = SubtitleEvent::stringtoTime(end, pCore->getCurrentFps());
+                                } else {
+                                    continue;
+                                }
+                            } else {
+                                r++;
+                                if (!comment.isEmpty()) comment += " ";
+                                if (r == 1)
+                                    comment += line;
+                                else
+                                    comment = comment + "\n" + line;
+                            }
+                            turn++;
+                        } else {
+                            if (endPos > startPos) {
+                                event = SubtitleEvent(true, endPos, "Default", "", 0, 0, 0, "", comment);
+                                newFileContent += event.toString(0, startPos) + "\n";
+                            } else {
+                                qDebug() << "===== INVALID SUBTITLE FOUND: " << start << "-" << end << ", " << comment;
+                            }
+                            // reinitialize
+                            comment.clear();
+                            startPos = endPos;
+                            r = 0;
+                            turn = defaultTurn;
+                        }
+                    }
+                    // Ensure last subtitle is read
+                    if (endPos > startPos && !comment.isEmpty()) {
+                        event = SubtitleEvent(true, endPos, "Default", "", 0, 0, 0, "", comment);
+                        newFileContent += event.toString(0, startPos) + "\n";
+                    }
+                    oldSubFile.close();
+
+                    newSubFile.setFileName(path.replace(path.lastIndexOf(".srt"), 4, ".ass"));
+                    if (newSubFile.exists()) {
+                        if (KMessageBox::questionTwoActions(
+                                QApplication::activeWindow(),
+                                i18n("The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?", newSubFile.fileName()), {},
+                                KGuiItem(i18n("Overwrite")), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
+                            continue;
+                        }
+                    }
+                    if (newSubFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                        QTextStream stream(&newSubFile);
+                        stream << newFileContent;
+                    }
+                }
+            }
+        }
+        m_modified = true;
+    }
 }
 
 auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString

@@ -194,6 +194,7 @@ public:
     QMap<std::pair<int, QString>, QString> multiSubtitlePath(const QUuid &uuid);
     void duplicateSequenceProperty(const QUuid &destUuid, const QUuid &srcUuid, const QString &subsData);
     QMap<std::pair<int, QString>, QString> JSonToSubtitleList(const QString &data);
+    std::map<QString, SubtitleStyle> globalSubtitleStyles(const QUuid &uuid);
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap<QString, QString> getRenderProperties() const;

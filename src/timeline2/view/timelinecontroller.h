@@ -48,7 +48,9 @@ class TimelineController : public QObject
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
     Q_PROPERTY(bool scrollVertically READ scrollVertically NOTIFY scrollVerticallyChanged)
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
+    Q_PROPERTY(int activeSubLayer READ activeSubLayer WRITE setActiveSubLayer NOTIFY activeSubLayerChanged)
     Q_PROPERTY(QVariantList subtitlesList READ subtitlesList NOTIFY subtitlesListChanged)
+    Q_PROPERTY(int maxSubLayer READ getMaxSubLayer WRITE setMaxSubLayer NOTIFY maxSubLayerChanged)
     Q_PROPERTY(QVariantList audioTarget READ audioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
 
@@ -196,6 +198,8 @@ public:
     Q_INVOKABLE void showTimelineToolInfo(bool show) const;
     /** @brief The model list for this timeline's subtitles */
     Q_INVOKABLE QVariantList subtitlesList() const;
+    int getMaxSubLayer() const;
+    void setMaxSubLayer(int value);
     /** @brief Returns true if the avfilter.subtiles filter is not found */
     bool subtitlesWarning() const;
     Q_INVOKABLE void subtitlesWarningDetails();
@@ -416,7 +420,7 @@ public:
 
     /** @brief Cuts the clip on current track at timeline position
      */
-    Q_INVOKABLE void cutClipUnderCursor(int position = -1, int track = -1);
+    Q_INVOKABLE void cutClipUnderCursor(int position = -1, int track = -1, int subLayer = -1);
     /** @brief Cuts all clips at timeline position
      */
     Q_INVOKABLE void cutAllClipsUnderCursor(int position = -1);
@@ -697,6 +701,10 @@ public:
     void getSequenceProperties(QMap<QString, QString> &seqProps);
     /** @brief Trigger refresh of subtitles combo menu. */
     void refreshSubtitlesComboIndex();
+    /** @brief Return the active subtitle layer */
+    int activeSubLayer() const;
+    /** @brief Set the active subtitle layer */
+    void setActiveSubLayer(int layer);
 
 public Q_SLOTS:
     void updateClipActions();
@@ -734,6 +742,8 @@ public Q_SLOTS:
     void subtitlesMenuActivated(int ix);
     /** @brief Select a clip in the next track that has the same effect as current clip. */
     void switchFocusClip();
+    /** @brief Open the Subtitle Manager */
+    void showSubtitleManager(int page = 0);
 
 private Q_SLOTS:
     void updateVideoTarget();
@@ -813,6 +823,7 @@ Q_SIGNALS:
     void autoScrollChanged();
     void lastVideoTargetChanged();
     void activeTrackChanged();
+    void activeSubLayerChanged();
     void trimmingMainClipChanged();
     void colorsChanged();
     void showThumbnailsChanged();
@@ -826,6 +837,7 @@ Q_SIGNALS:
     void seeked(int position);
     void zoneChanged();
     void subtitlesListChanged();
+    void maxSubLayerChanged();
     void zoneMoved(const QPoint &zone);
     /** @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);

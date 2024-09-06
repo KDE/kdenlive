@@ -433,14 +433,15 @@ int TimelineModel::getClipByStartPosition(int trackId, int position) const
     return getTrackById_const(trackId)->getClipByStartPosition(position);
 }
 
-int TimelineModel::getClipByPosition(int trackId, int position, int playlist) const
+int TimelineModel::getClipByPosition(int trackId, int position, int playlistOrLayer) const
 {
     READ_LOCK();
     if (isSubtitleTrack(trackId)) {
-        return getSubtitleByPosition(position);
+        Q_ASSERT(playlistOrLayer > -1);
+        return getSubtitleByPosition(playlistOrLayer, position);
     }
     Q_ASSERT(isTrack(trackId));
-    return getTrackById_const(trackId)->getClipByPosition(position, playlist);
+    return getTrackById_const(trackId)->getClipByPosition(position, playlistOrLayer);
 }
 
 int TimelineModel::getCompositionByPosition(int trackId, int position) const
@@ -450,16 +451,16 @@ int TimelineModel::getCompositionByPosition(int trackId, int position) const
     return getTrackById_const(trackId)->getCompositionByPosition(position);
 }
 
-int TimelineModel::getSubtitleByStartPosition(int position) const
+int TimelineModel::getSubtitleByStartPosition(int layer, int position) const
 {
     READ_LOCK();
-    return m_subtitleModel->getSubtitleIdByPosition(position);
+    return m_subtitleModel->getSubtitleIdByPosition(layer, position);
 }
 
-int TimelineModel::getSubtitleByPosition(int position) const
+int TimelineModel::getSubtitleByPosition(int layer, int position) const
 {
     READ_LOCK();
-    return m_subtitleModel->getSubtitleIdAtPosition(position);
+    return m_subtitleModel->getSubtitleIdAtPosition(layer, position);
 }
 
 int TimelineModel::getTrackPosition(int trackId) const
@@ -1328,21 +1329,22 @@ std::shared_ptr<SubtitleModel> TimelineModel::getSubtitleModel()
     return m_subtitleModel;
 }
 
-int TimelineModel::cutSubtitle(int position, Fun &undo, Fun &redo)
+int TimelineModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
 {
     if (m_subtitleModel) {
-        return m_subtitleModel->cutSubtitle(position, undo, redo);
+        return m_subtitleModel->cutSubtitle(layer, position, undo, redo);
     }
     return -1;
 }
 
-bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool finalMove, bool fakeMove)
+bool TimelineModel::requestSubtitleMove(int clipId, int layer, int position, bool updateView, bool logUndo, bool finalMove, bool fakeMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_subtitleModel->hasSubtitle(clipId));
+    int oldLayer = m_subtitleModel->getLayerForId(clipId);
     GenTime oldPos = m_subtitleModel->getSubtitlePosition(clipId);
     GenTime newPos(position, pCore->getCurrentFps());
-    if (oldPos == newPos) {
+    if (oldPos == newPos && oldLayer == layer) {
         return true;
     }
     if (m_groups->isInGroup(clipId)) {
@@ -1354,23 +1356,24 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestSubtitleMove(clipId, position, updateView, logUndo, logUndo, finalMove, undo, redo);
+    bool res = requestSubtitleMove(clipId, layer, position, updateView, logUndo, logUndo, finalMove, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move subtitle"));
     }
     return res;
 }
 
-bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo)
+bool TimelineModel::requestSubtitleMove(int clipId, int layer, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    int oldLayer = m_subtitleModel->getLayerForId(clipId);
     GenTime oldPos = m_subtitleModel->getSubtitlePosition(clipId);
     GenTime newPos(position, pCore->getCurrentFps());
-    Fun local_redo = [this, clipId, newPos, reloadSubFile = last && finalMove, updateView]() {
-        return m_subtitleModel->moveSubtitle(clipId, newPos, reloadSubFile, updateView);
+    Fun local_redo = [this, clipId, layer, newPos, reloadSubFile = last && finalMove, updateView]() {
+        return m_subtitleModel->moveSubtitle(clipId, layer, newPos, reloadSubFile, updateView);
     };
-    Fun local_undo = [this, oldPos, clipId, reloadSubFile = first && finalMove, updateView]() {
-        return m_subtitleModel->moveSubtitle(clipId, oldPos, reloadSubFile, updateView);
+    Fun local_undo = [this, oldPos, oldLayer, clipId, reloadSubFile = first && finalMove, updateView]() {
+        return m_subtitleModel->moveSubtitle(clipId, oldLayer, oldPos, reloadSubFile, updateView);
     };
     bool res = local_redo();
     if (res) {
@@ -1418,7 +1421,8 @@ QVariantList TimelineModel::suggestItemMove(int itemId, int trackId, int positio
         return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance, fakeMove);
     }
     if (isSubTitle(itemId)) {
-        return {suggestSubtitleMove(itemId, position, cursorPosition, snapDistance, fakeMove), -1};
+        int layer = getSubtitleLayer(itemId);
+        return {suggestSubtitleMove(itemId, layer, position, cursorPosition, snapDistance, fakeMove), -1};
     }
     return QVariantList();
 }
@@ -1431,7 +1435,7 @@ int TimelineModel::adjustFrame(int frame, int trackId)
     return frame;
 }
 
-int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance, bool fakeMove)
+int TimelineModel::suggestSubtitleMove(int subId, int newLayer, int position, int cursorPosition, int snapDistance, bool fakeMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isSubTitle(subId));
@@ -1465,7 +1469,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
         }
     }
     // m_subtitleModel->moveSubtitle(GenTime(currentPos, pCore->getCurrentFps()), GenTime(position, pCore->getCurrentFps()));
-    if (requestSubtitleMove(subId, newPos, true, false, false, fakeMove)) {
+    if (requestSubtitleMove(subId, newLayer, newPos, true, false, false, fakeMove)) {
         return newPos;
     }
     return currentPos;
@@ -2272,12 +2276,10 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool l
 bool TimelineModel::requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last)
 {
     GenTime startTime = m_subtitleModel->getSubtitlePosition(clipId);
-    SubtitledTime sub = m_subtitleModel->getSubtitle(startTime);
+    int layer = m_subtitleModel->getLayerForId(clipId);
+    SubtitleEvent sub = m_subtitleModel->getSubtitle(layer, startTime);
     Fun operation = [this, clipId, last]() { return m_subtitleModel->removeSubtitle(clipId, false, last); };
-    GenTime start = sub.start();
-    GenTime end = sub.end();
-    QString text = sub.subtitle();
-    Fun reverse = [this, clipId, start, end, text, first]() { return m_subtitleModel->addSubtitle(clipId, start, end, text, false, first); };
+    Fun reverse = [this, clipId, layer, startTime, sub, first]() { return m_subtitleModel->addSubtitle(clipId, {layer, startTime}, sub, false, first); };
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -2337,7 +2339,7 @@ std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, i
     if (isSubtitleTrack(trackId) || trackId == -1) {
         // Subtitles
         if (m_subtitleModel) {
-            std::unordered_set<int> subs = m_subtitleModel->getItemsInRange(start, end);
+            std::unordered_set<int> subs = m_subtitleModel->getItemsInRange(-1, start, end);
             allClips.insert(subs.begin(), subs.end());
         }
     }
@@ -2669,7 +2671,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     std::vector<std::pair<int, int>> sorted_clips;
     QVector<int> sorted_clips_ids;
     std::vector<std::pair<int, std::pair<int, int>>> sorted_compositions;
-    std::vector<std::pair<int, GenTime>> sorted_subtitles;
+    std::vector<std::pair<int, std::pair<int, GenTime>>> sorted_subtitles;
     int lowerTrack = -1;
     int upperTrack = -1;
     QVector<int> tracksWithMix;
@@ -2729,7 +2731,8 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             sorted_compositions.push_back({affectedItemId, {m_allCompositions[affectedItemId]->getPosition(), getTrackMltIndex(current_track_id)}});
         } else if (isSubTitle(affectedItemId)) {
             all_subs.emplace(affectedItemId);
-            sorted_subtitles.emplace_back(affectedItemId, m_subtitleModel->getSubtitlePosition(affectedItemId));
+            sorted_subtitles.push_back(
+                {affectedItemId, {m_subtitleModel->getLayerForId(affectedItemId), m_subtitleModel->getSubtitlePosition(affectedItemId)}});
         }
     }
 
@@ -2744,9 +2747,10 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     });
 
     // Sort subtitles
-    std::sort(sorted_subtitles.begin(), sorted_subtitles.end(), [delta_pos](const std::pair<int, GenTime> &clipId1, const std::pair<int, GenTime> &clipId2) {
-        return delta_pos > 0 ? clipId2.second < clipId1.second : clipId1.second < clipId2.second;
-    });
+    std::sort(sorted_subtitles.begin(), sorted_subtitles.end(),
+              [delta_pos](const std::pair<int, std::pair<int, GenTime>> &clipId1, const std::pair<int, std::pair<int, GenTime>> &clipId2) {
+                  return delta_pos > 0 ? clipId2.second.second < clipId1.second.second : clipId1.second.second < clipId2.second.second;
+              });
 
     // Sort compositions. We need to delete in the move direction from top to bottom
     std::sort(sorted_compositions.begin(), sorted_compositions.end(),
@@ -2766,8 +2770,8 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         return true;
     };
     // Check that we don't move subtitles before 0
-    if (!sorted_subtitles.empty() && sorted_subtitles.front().second.frames(pCore->getCurrentFps()) + delta_pos < 0) {
-        delta_pos = -sorted_subtitles.front().second.frames(pCore->getCurrentFps());
+    if (!sorted_subtitles.empty() && sorted_subtitles.front().second.second.frames(pCore->getCurrentFps()) + delta_pos < 0) {
+        delta_pos = -sorted_subtitles.front().second.second.frames(pCore->getCurrentFps());
         if (delta_pos == 0) {
             return false;
         }
@@ -3125,12 +3129,12 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     }
     // Move subtitles
     if (!sorted_subtitles.empty()) {
-        std::vector<std::pair<int, GenTime>>::iterator ptr;
+        std::vector<std::pair<int, std::pair<int, GenTime>>>::iterator ptr;
         auto last = std::prev(sorted_subtitles.end());
 
         for (ptr = sorted_subtitles.begin(); ptr < sorted_subtitles.end(); ptr++) {
-            ok = requestSubtitleMove((*ptr).first, (*ptr).second.frames(pCore->getCurrentFps()) + delta_pos, updateSubtitles, ptr == sorted_subtitles.begin(),
-                                     ptr == last, finalMove, local_undo, local_redo);
+            ok = requestSubtitleMove((*ptr).first, (*ptr).second.first, (*ptr).second.second.frames(pCore->getCurrentFps()) + delta_pos, updateSubtitles,
+                                     ptr == sorted_subtitles.begin(), ptr == last, finalMove, local_undo, local_redo);
             if (!ok) {
                 bool undone = local_undo();
                 Q_ASSERT(undone);
@@ -5441,6 +5445,12 @@ int TimelineModel::getSubtitlePosition(int subId) const
 {
     Q_ASSERT(m_subtitleModel->hasSubtitle(subId));
     return m_subtitleModel->getPosition(subId).frames(pCore->getCurrentFps());
+}
+
+int TimelineModel::getSubtitleLayer(int subId) const
+{
+    Q_ASSERT(m_subtitleModel->hasSubtitle(subId));
+    return m_subtitleModel->getLayerForId(subId);
 }
 
 int TimelineModel::getCompositionPosition(int compoId) const

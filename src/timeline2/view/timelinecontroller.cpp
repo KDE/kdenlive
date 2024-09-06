@@ -147,6 +147,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     }
     connect(m_model.get(), &TimelineItemModel::subtitleModelInitialized, this, &TimelineController::loadSubtitleIndex);
     connect(m_model.get(), &TimelineItemModel::subtitlesListChanged, this, &TimelineController::subtitlesListChanged);
+    connect(m_model.get(), &TimelineItemModel::maxSubLayerChanged, this, &TimelineController::maxSubLayerChanged);
 }
 
 void TimelineController::loadSubtitleIndex()
@@ -165,6 +166,8 @@ void TimelineController::loadSubtitleIndex()
         counter++;
     }
     Q_EMIT activeSubtitlePositionChanged();
+    connect(subtitleModel.get(), &SubtitleModel::activeSubLayerChanged, this, &TimelineController::activeSubLayerChanged);
+    connect(subtitleModel.get(), &SubtitleModel::showSubtitleManager, this, &TimelineController::showSubtitleManager);
 }
 
 void TimelineController::restoreTargetTracks()
@@ -358,13 +361,12 @@ bool TimelineController::selectCurrentItem(KdenliveObjectType type, bool select,
     if (m_activeTrack == -1 || (m_model->isSubtitleTrack(m_activeTrack) && type != KdenliveObjectType::TimelineClip)) {
         // Cannot select item
     } else if (type == KdenliveObjectType::TimelineClip) {
-        currentClip = m_model->isSubtitleTrack(m_activeTrack) ? m_model->getSubtitleByPosition(pCore->getMonitorPosition())
-                                                              : m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition());
+        currentClip = m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition(), activeSubLayer());
     } else if (type == KdenliveObjectType::TimelineComposition) {
         currentClip = m_model->getCompositionByPosition(m_activeTrack, pCore->getMonitorPosition());
     } else if (type == KdenliveObjectType::TimelineMix) {
         if (m_activeTrack >= 0) {
-            currentClip = m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition());
+            currentClip = m_model->getClipByPosition(m_activeTrack, pCore->getMonitorPosition(), activeSubLayer());
         }
         if (currentClip > -1) {
             if (m_model->hasClipEndMix(currentClip)) {
@@ -1162,12 +1164,12 @@ void TimelineController::setInPoint(bool ripple)
     }
     if (!selectionFound) {
         if (m_activeTrack >= 0) {
-            int cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
+            int cid = m_model->getClipByPosition(m_activeTrack, cursorPos, activeSubLayer());
             if (cid < 0) {
                 // Check first item after timeline position
                 int maximumSpace = m_model->getTrackById_const(m_activeTrack)->getBlankEnd(cursorPos);
                 if (maximumSpace < INT_MAX) {
-                    cid = m_model->getClipByPosition(m_activeTrack, maximumSpace + 1);
+                    cid = m_model->getClipByPosition(m_activeTrack, maximumSpace + 1, activeSubLayer());
                 }
             }
             if (cid >= 0) {
@@ -1183,9 +1185,9 @@ void TimelineController::setInPoint(bool ripple)
             auto subtitleModel = m_model->getSubtitleModel();
             if (subtitleModel) {
                 int sid = -1;
-                std::unordered_set<int> sids = subtitleModel->getItemsInRange(cursorPos, cursorPos);
+                std::unordered_set<int> sids = subtitleModel->getItemsInRange(-1, cursorPos, cursorPos);
                 if (sids.empty()) {
-                    sids = subtitleModel->getItemsInRange(cursorPos, -1);
+                    sids = subtitleModel->getItemsInRange(-1, cursorPos, -1);
                     for (int s : sids) {
                         if (sid == -1 || subtitleModel->getStartPosForId(s) < subtitleModel->getStartPosForId(sid)) {
                             sid = s;
@@ -1241,14 +1243,14 @@ void TimelineController::setOutPoint(bool ripple)
     }
     if (!selectionFound) {
         if (m_activeTrack >= 0) {
-            int cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
+            int cid = m_model->getClipByPosition(m_activeTrack, cursorPos, activeSubLayer());
             if (cid < 0 || cursorPos == m_model->getItemPosition(cid)) {
                 // If no clip found at cursor pos or we are at the first frame of a clip, try to find previous clip
                 // Check first item before timeline position
                 // If we are at a clip start, check space before this clip
                 int offset = cid >= 0 ? 1 : 0;
                 int previousPos = m_model->getTrackById_const(m_activeTrack)->getBlankStart(cursorPos - offset);
-                cid = m_model->getClipByPosition(m_activeTrack, qMax(0, previousPos - 1));
+                cid = m_model->getClipByPosition(m_activeTrack, qMax(0, previousPos - 1), activeSubLayer());
             }
             if (cid >= 0) {
                 int start = m_model->getItemPosition(cid);
@@ -1263,9 +1265,9 @@ void TimelineController::setOutPoint(bool ripple)
             auto subtitleModel = m_model->getSubtitleModel();
             if (subtitleModel) {
                 int sid = -1;
-                std::unordered_set<int> sids = subtitleModel->getItemsInRange(cursorPos, cursorPos);
+                std::unordered_set<int> sids = subtitleModel->getItemsInRange(-1, cursorPos, cursorPos);
                 if (sids.empty()) {
-                    sids = subtitleModel->getItemsInRange(0, cursorPos);
+                    sids = subtitleModel->getItemsInRange(-1, 0, cursorPos);
                     for (int s : sids) {
                         if (sid == -1 || subtitleModel->getSubtitleEnd(s) > subtitleModel->getSubtitleEnd(sid)) {
                             sid = s;
@@ -1844,7 +1846,7 @@ void TimelineController::selectItems(const QVariantList &tracks, int startFrame,
         itemsToSelect.insert(currentClips.begin(), currentClips.end());
     }
     if (selectSubTitles && m_model->hasSubtitleModel()) {
-        auto currentSubs = m_model->getSubtitleModel()->getItemsInRange(startFrame, endFrame);
+        auto currentSubs = m_model->getSubtitleModel()->getItemsInRange(-1, startFrame, endFrame);
         itemsToSelect.insert(currentSubs.begin(), currentSubs.end());
     }
     m_model->requestSetSelection(itemsToSelect);
@@ -1858,7 +1860,7 @@ void TimelineController::requestClipCut(int clipId, int position)
     TimelineFunctions::requestClipCut(m_model, clipId, position);
 }
 
-void TimelineController::cutClipUnderCursor(int position, int track)
+void TimelineController::cutClipUnderCursor(int position, int track, int subLayer)
 {
     if (position == -1) {
         position = pCore->getMonitorPosition();
@@ -1881,8 +1883,11 @@ void TimelineController::cutClipUnderCursor(int position, int track)
         if (track == -1) {
             track = m_activeTrack;
         }
+        if (subLayer == -1) {
+            subLayer = activeSubLayer();
+        }
         if (track != -1) {
-            int cid = m_model->getClipByPosition(track, position);
+            int cid = m_model->getClipByPosition(track, position, subLayer);
             if (cid >= 0 && TimelineFunctions::requestClipCut(m_model, cid, position)) {
                 foundClip = true;
             }
@@ -1958,12 +1963,12 @@ void TimelineController::seekCurrentClip(bool seekToEnd)
         cid = *selection.begin();
     } else {
         int cursorPos = pCore->getMonitorPosition();
-        cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
+        cid = m_model->getClipByPosition(m_activeTrack, cursorPos, activeSubLayer());
         if (cid < 0) {
             /* If the cursor is at the clip end it is one frame after the clip,
              * make it possible to jump to the clip start in that situation too
              */
-            cid = m_model->getClipByPosition(m_activeTrack, cursorPos - 1);
+            cid = m_model->getClipByPosition(m_activeTrack, cursorPos - 1, activeSubLayer());
         }
     }
     if (cid > -1) {
@@ -2679,6 +2684,9 @@ void TimelineController::getSequenceProperties(QMap<QString, QString> &seqProps)
     if (m_model->hasSubtitleModel()) {
         const QString subtitlesData = m_model->getSubtitleModel()->subtitlesFilesToJson();
         seqProps.insert(QStringLiteral("subtitlesList"), subtitlesData);
+
+        const QString globalSubtitleStyles = m_model->getSubtitleModel()->globalStylesToJson();
+        seqProps.insert(QStringLiteral("globalSubtitleStyles"), globalSubtitleStyles);
     }
 }
 
@@ -4224,6 +4232,10 @@ int TimelineController::getItemMovingTrack(int itemId) const
 bool TimelineController::endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
 {
     int trackId = getItemMovingTrack(clipId);
+    int subLayer = -1;
+    if (m_model->isSubTitle(clipId)) {
+        subLayer = m_model->getSubtitleLayer(clipId);
+    }
     if (m_model->getItemPosition(clipId) == position && m_model->getItemTrackId(clipId) == trackId) {
         // Ensure clip height binds again with parent track height
         if (m_model->m_groups->isInGroup(clipId)) {
@@ -4298,7 +4310,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
             if (currentTrack > -1) {
                 res = res && TimelineFunctions::removeSpace(m_model, {startPos, startPos + duration}, undo, redo, {currentTrack}, false);
             }
-            int startClipId = m_model->getClipByPosition(trackId, position);
+            int startClipId = m_model->getClipByPosition(trackId, position, subLayer);
             if (startClipId > -1) {
                 // There is a clip at insert pos
                 if (m_model->getClipPosition(startClipId) != position) {
@@ -4457,13 +4469,17 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         QVector<int> processedTracks;
         for (int item : sorted_clips) {
             int target_track = new_track_ids[item];
+            int target_subLayer = -1;
+            if (m_model->isSubTitle(item)) {
+                target_subLayer = m_model->getSubtitleLayer(item);
+            }
             if (processedTracks.contains(target_track)) {
                 // already processed
                 continue;
             }
             processedTracks << target_track;
             int target_position = min;
-            int startClipId = m_model->getClipByPosition(target_track, target_position);
+            int startClipId = m_model->getClipByPosition(target_track, target_position, target_subLayer);
             if (startClipId > -1) {
                 // There is a clip, cut
                 res = res && TimelineFunctions::requestClipCut(m_model, startClipId, target_position, undo, redo);
@@ -4958,11 +4974,15 @@ bool TimelineController::refreshIfVisible(int cid)
     auto it = m_model->m_allTracks.cbegin();
     while (it != m_model->m_allTracks.cend()) {
         int target_track = (*it)->getId();
+        int target_subLayer = -1;
+        if (m_model->isSubTitle(cid)) {
+            target_subLayer = m_model->getSubtitleLayer(cid);
+        }
         if (m_model->getTrackById_const(target_track)->isAudioTrack() || m_model->getTrackById_const(target_track)->isHidden()) {
             ++it;
             continue;
         }
-        int child = m_model->getClipByPosition(target_track, pCore->getMonitorPosition());
+        int child = m_model->getClipByPosition(target_track, pCore->getMonitorPosition(), target_subLayer);
         if (child > 0) {
             if (m_model->m_allClips[child]->binId().toInt() == cid) {
                 return true;
@@ -5180,21 +5200,52 @@ void TimelineController::exportSubtitle()
         pCore->displayMessage(i18n("No subtitles in current project"), ErrorMessage);
         return;
     }
-    QString url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), pCore->currentDoc()->url().toLocalFile(),
-                                               i18n("Subtitle File (*.srt)"));
-    if (url.isEmpty()) {
-        return;
+    QString selectedFilter;
+    QString url;
+
+    while (true) {
+        url = QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), url.isEmpty() ? pCore->currentDoc()->url().toLocalFile() : url,
+                                           i18n("Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"), &selectedFilter);
+        if (url.isEmpty()) {
+            return;
+        }
+        if (!url.endsWith(QStringLiteral(".ass")) && !url.endsWith(QStringLiteral(".srt"))) {
+            if (selectedFilter.contains(QStringLiteral(".ass"))) {
+                url.append(QStringLiteral(".ass"));
+            } else {
+                url.append(QStringLiteral(".srt"));
+            }
+        }
+        if (url.endsWith(".srt")) {
+            if (m_model->getSubtitleModel()->getMaxLayer() > 0) {
+                if (KMessageBox::warningContinueCancel(qApp->activeWindow(),
+                                                       i18n("The current subtitle track contains multiple layers, meaning that "
+                                                            "if subtitles on different layers share the same start position, "
+                                                            "only the subtitle from the lowest layer will be retained. This may "
+                                                            "result in the loss of some subtitles in the exported file. "
+                                                            "Do you wish to continue?"),
+                                                       i18n("Warning")) == KMessageBox::Cancel) {
+                    continue;
+                }
+            }
+        }
+        break;
     }
-    if (!url.endsWith(QStringLiteral(".srt"))) {
-        url.append(QStringLiteral(".srt"));
-    }
+
     QFile srcFile(url);
     if (srcFile.exists()) {
         srcFile.remove();
     }
-    QFile src(currentSub);
-    if (!src.copy(srcFile.fileName())) {
-        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", srcFile.fileName()));
+    if (url.endsWith(".ass")) {
+        QFile src(currentSub);
+        if (!src.copy(srcFile.fileName())) {
+            KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", srcFile.fileName()));
+        }
+    } else {
+        int line = m_model->getSubtitleModel()->saveSubtitleData(m_model->getSubtitleModel()->toJson(), url);
+        if (line <= 0) {
+            KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", srcFile.fileName()));
+        }
     }
 }
 
@@ -5430,9 +5481,20 @@ QVariantList TimelineController::subtitlesList() const
     return result;
 }
 
+int TimelineController::getMaxSubLayer() const
+{
+    if (m_model->hasSubtitleModel()) return m_model->getSubtitleModel()->getMaxLayer();
+    return 0;
+}
+
+void TimelineController::setMaxSubLayer(int value)
+{
+    if (m_model->hasSubtitleModel()) m_model->getSubtitleModel()->setMaxLayer(value);
+}
+
 void TimelineController::subtitlesMenuActivatedAsync(int ix)
 {
-    // This method needs a timer otherwise the qml combobox crashes because we try to chenge its index while it is processing an activated event
+    // This method needs a timer otherwise the qml combobox crashes because we try to change its index while it is processing an activated event
     QTimer::singleShot(100, this, [&, ix]() { subtitlesMenuActivated(ix); });
 }
 
@@ -5443,6 +5505,22 @@ void TimelineController::refreshSubtitlesComboIndex()
     Q_EMIT activeSubtitlePositionChanged();
     m_activeSubPosition = ix;
     Q_EMIT activeSubtitlePositionChanged();
+}
+
+int TimelineController::activeSubLayer() const
+{
+    if (!m_model->hasSubtitleModel()) {
+        return -1;
+    }
+    return m_model->getSubtitleModel()->activeSubLayer();
+}
+
+void TimelineController::setActiveSubLayer(int layer)
+{
+    if (m_model->hasSubtitleModel()) {
+        m_model->getSubtitleModel()->setActiveSubLayer(layer);
+        Q_EMIT activeSubLayerChanged();
+    }
 }
 
 void TimelineController::subtitlesMenuActivated(int ix)
@@ -5470,7 +5548,9 @@ void TimelineController::subtitlesMenuActivated(int ix)
                     // Match, switch to another subtitle
                     int index = i.key().first;
                     m_activeSubPosition = counter;
-                    subtitleModel->activateSubtitle(index);
+                    int currentIx =
+                        pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+                    if (index != currentIx) subtitleModel->activateSubtitle(index);
                     break;
                 }
                 counter++;
@@ -5498,8 +5578,7 @@ void TimelineController::subtitlesMenuActivated(int ix)
     }
 
     // Show manage dialog
-    ManageSubtitles *d = new ManageSubtitles(subtitleModel, this, currentIx, qApp->activeWindow());
-    d->exec();
+    showSubtitleManager();
 }
 
 const QString TimelineController::getActionShortcut(const QString actionName)
@@ -5553,4 +5632,12 @@ void TimelineController::switchFocusClip()
             }
         }
     }
+}
+
+void TimelineController::showSubtitleManager(int page)
+{
+    int currentIx = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
+    ManageSubtitles *d = new ManageSubtitles(m_model->getSubtitleModel(), this, currentIx, qApp->activeWindow());
+    d->tabWidget->setCurrentIndex(page);
+    d->exec();
 }
