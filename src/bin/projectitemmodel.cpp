@@ -1901,7 +1901,7 @@ const QString ProjectItemModel::getBinClipUuid(const QString &binId) const
 const QString ProjectItemModel::getBinClipIdByUuid(const QString uuid)
 {
     QList<std::shared_ptr<ProjectClip>> clips = getRootFolder()->childClips();
-    for (const auto &clip : qAsConst(clips)) {
+    for (const auto &clip : std::as_const(clips)) {
         if (clip->getControlUuid() == uuid) {
             return clip->clipId();
         }

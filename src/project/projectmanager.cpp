@@ -1417,7 +1417,7 @@ QString ProjectManager::getDefaultProjectFormat()
     ntscCountries << QLocale::Canada << QLocale::Chile << QLocale::CostaRica << QLocale::Cuba << QLocale::DominicanRepublic << QLocale::Ecuador;
     ntscCountries << QLocale::Japan << QLocale::Mexico << QLocale::Nicaragua << QLocale::Panama << QLocale::Peru << QLocale::Philippines;
     ntscCountries << QLocale::PuertoRico << QLocale::SouthKorea << QLocale::Taiwan << QLocale::UnitedStates;
-    bool ntscProject = ntscCountries.contains(zone.country());
+    bool ntscProject = ntscCountries.contains(zone.territory());
     if (!ntscProject) {
         return QStringLiteral("atsc_1080p_25");
     }

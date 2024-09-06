@@ -16,7 +16,11 @@ bool Xml::docContentFromFile(QDomDocument &doc, const QString &fileName, bool na
         qWarning() << "Failed to open file" << file.fileName() << "for reading";
         return false;
     }
-    if (!doc.setContent(&file, namespaceProcessing)) {
+    QDomDocument::ParseOption options = QDomDocument::ParseOption::Default;
+    if (namespaceProcessing) {
+        options = QDomDocument::ParseOption::UseNamespaceProcessing;
+    }
+    if (!doc.setContent(&file, options)) {
         qWarning() << "Failed to parse file" << file.fileName() << "to QDomDocument";
         file.close();
         return false;

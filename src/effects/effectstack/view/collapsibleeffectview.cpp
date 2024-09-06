@@ -888,7 +888,7 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
     // event->acceptProposedAction();
     QDomDocument doc;
-    doc.setContent(effects, true);
+    doc.setContent(effects);
     QDomElement e = doc.documentElement();
     int ix = e.attribute(QStringLiteral("kdenlive_ix")).toInt();
     int currentEffectIx = effectIndex();

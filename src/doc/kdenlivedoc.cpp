@@ -180,17 +180,19 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
         result.setModified(true);
     }
-    bool success = domDoc.setContent(&file, false, &domErrorMessage, &line, &col);
+    QDomDocument::ParseResult parseResult = domDoc.setContent(&file);
+    //, false, &domErrorMessage, &line, &col);
 
-    if (!success) {
+    if (!parseResult) {
         if (recoverCorruption) {
             // Try to recover broken file produced by Kdenlive 0.9.4
             int correction = 0;
             QString playlist = QString::fromUtf8(file.readAll());
-            while (!success && correction < 2) {
+            while (!parseResult && correction < 2) {
                 int errorPos = 0;
+                int line = parseResult.errorLine;
                 line--;
-                col = col - 2;
+                int col = parseResult.errorColumn - 2;
                 for (int k = 0; k < line && errorPos < playlist.length(); ++k) {
                     errorPos = playlist.indexOf(QLatin1Char('\n'), errorPos);
                     errorPos++;
@@ -200,12 +202,10 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
                     break;
                 }
                 playlist.remove(errorPos, 1);
-                line = 0;
-                col = 0;
-                success = domDoc.setContent(playlist, false, &domErrorMessage, &line, &col);
+                parseResult = domDoc.setContent(playlist);
                 correction++;
             }
-            if (!success) {
+            if (!parseResult) {
                 result.setError(i18n("Could not recover corrupted file."));
                 return result;
             } else {
@@ -213,8 +213,8 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
                 result.setModified(true);
             }
         } else {
-            result.setError(i18n("Cannot open file %1:\n%2 (line %3, col %4)",
-                url.toLocalFile(), domErrorMessage, line, col));
+            result.setError(
+                i18n("Cannot open file %1:\n%2 (line %3, col %4)", url.toLocalFile(), domErrorMessage, parseResult.errorLine, parseResult.errorColumn));
             return result;
         }
     }
@@ -223,7 +223,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
 
     qCDebug(KDENLIVE_LOG) << "// validating project file";
     DocumentValidator validator(domDoc, url);
-    success = validator.isProject();
+    bool success = validator.isProject();
     if (!success) {
         // It is not a project file
         result.setError(i18n("File %1 is not a Kdenlive project file", url.toLocalFile()));
@@ -636,7 +636,7 @@ QPair<int, int> KdenliveDoc::targetTracks(const QUuid &uuid) const
 QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
 {
     QDomDocument sceneList;
-    sceneList.setContent(scene, true);
+    sceneList.setContent(scene);
     QDomElement mlt = sceneList.firstChildElement(QStringLiteral("mlt"));
     if (mlt.isNull() || !mlt.hasChildNodes()) {
         // scenelist is corrupted
@@ -2520,7 +2520,7 @@ std::map<QString, SubtitleStyle> KdenliveDoc::globalSubtitleStyles(const QUuid &
         return results;
     }
     auto list = json.array();
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid subtitle style data";
             continue;

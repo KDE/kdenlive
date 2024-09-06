@@ -395,7 +395,7 @@ void ClipLoadTask::run()
         if (producer) {
             QFile f(resource);
             QDomDocument doc;
-            doc.setContent(&f, false);
+            doc.setContent(&f);
             f.close();
             if (resource.endsWith(QLatin1String(".kdenlive"))) {
                 QDomElement pl = doc.documentElement().firstChildElement(QStringLiteral("playlist"));
