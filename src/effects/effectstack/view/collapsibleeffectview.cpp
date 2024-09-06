@@ -9,11 +9,12 @@
 #include "assets/view/widgets/colorwheel.h"
 #include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
-#include "filefilter.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
+#include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "widgets/dragvalue.h"
 
 #include "kdenlive_debug.h"
 #include <QDialog>
@@ -136,7 +137,6 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
             }
             // Update asset names
             Q_EMIT effectNamesUpdated();
-
         });
         enabledButton->setEnabled(m_model->isAssetEnabled());
         // frame->hide();
@@ -485,11 +485,7 @@ void CollapsibleEffectView::leaveEvent(QEvent *event)
     pCore->setWidgetKeyBinding(QString());
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-void CollapsibleEffectView::enterEvent(QEvent *event)
-#else
 void CollapsibleEffectView::enterEvent(QEnterEvent *event)
-#endif
 {
     QWidget::enterEvent(event);
     pCore->setWidgetKeyBinding(
@@ -596,7 +592,7 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
         // Adjust param values
         QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
         QMap<QString, QString> values;
-        for (const auto &param : qAsConst(currentValues)) {
+        for (const auto &param : std::as_const(currentValues)) {
             values.insert(param.first, param.second.toString());
         }
         QDomNodeList params = effect.elementsByTagName("parameter");
@@ -657,9 +653,6 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-#endif
             out << doc.toString();
             file.close();
         } else {
@@ -682,7 +675,7 @@ QDomDocument CollapsibleEffectView::toXml() const
     QDomElement effect = doc.createElement(QStringLiteral("effect"));
     doc.appendChild(effect);
     effect.setAttribute(QStringLiteral("id"), effectId);
-    for (const auto &param : qAsConst(currentValues)) {
+    for (const auto &param : std::as_const(currentValues)) {
         QDomElement xmlParam = doc.createElement(QStringLiteral("property"));
         effect.appendChild(xmlParam);
         xmlParam.setAttribute(QStringLiteral("name"), param.first);
@@ -999,11 +992,14 @@ void CollapsibleEffectView::blockWheelEvent(bool block)
         cb->installEventFilter(this);
         cb->setFocusPolicy(policy);
     }
-    for (KeyframeWidget *cb : findChildren<KeyframeWidget *>()) {
-        for (KeyframeView *cb2 : cb->findChildren<KeyframeView *>()) {
-            cb2->installEventFilter(this);
-            cb2->setFocusPolicy(policy);
-        }
+    for (DragValue *cb : m_view->findChildren<DragValue *>()) {
+        cb->blockWheel(m_blockWheel);
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(policy);
+    }
+    for (KeyframeView *cb : findChildren<KeyframeView *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(policy);
     }
 }
 

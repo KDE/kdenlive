@@ -14,10 +14,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "klocalizedstring.h"
 #include <KCharsets>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QTextCodec>
-#endif
-
 ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
     : QDialog(parent)
 {
@@ -52,21 +48,11 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
         }
         QByteArray codec = KCharsets::charsets()->encodingForName(codecs_list->currentText()).toUtf8();
         QTextStream stream(&srtFile);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QTextCodec *inputEncoding = QTextCodec::codecForName(codec);
-        if (inputEncoding) {
-            stream.setCodec(inputEncoding);
-        } else {
-            qWarning() << "No QTextCodec named" << codec;
-            stream.setCodec("UTF-8");
-        }
-#else
         std::optional<QStringConverter::Encoding> inputEncoding = QStringConverter::encodingForName(codec.data());
         if (inputEncoding) {
             stream.setEncoding(inputEncoding.value());
         }
         // else: UTF8 is the default
-#endif
         text_preview->clear();
         int maxLines = 30;
         QStringList textData;

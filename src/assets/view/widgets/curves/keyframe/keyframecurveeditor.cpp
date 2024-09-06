@@ -91,6 +91,10 @@ void KeyframeCurveEditor::paintEvent(QPaintEvent *event)
     QPainter p(this);
     paintBackground(&p);
     int offset = pCore->getItemIn(m_model->getOwnerId());
+    if (m_duration == 0) {
+        // Nothing to draw, for example empty track
+        return;
+    }
 
     /*
      * Points + Handles
@@ -410,7 +414,7 @@ void KeyframeCurveEditor::mouseDoubleClickEvent(QMouseEvent *event)
             int pos = x * (offset + m_duration);
             if (!m_model->hasKeyframe(pos)) {
                 GenTime position(pos, pCore->getCurrentFps());
-                m_model->addKeyframe(position, KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
+                m_model->addKeyframe(position, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()));
                 m_currentPointIndex = m_model->getIndexForPos(position);
                 y = qBound(0., y, 1.);
                 updateKeyframeData(valueFromCanvasPos(y));
@@ -454,6 +458,9 @@ int KeyframeCurveEditor::nearestPointInRange(const QPointF &p, int wWidth, int w
 
     auto nearest = m_curve.closestPoint(p);
     int nearestIndex = nearest.first;
+    if (nearestIndex < 0) {
+        return -1;
+    }
     BPoint::PointType pointType;
     BPoint point = m_curve.getPoint(nearestIndex);
     if (isHandleDisabled(point)) {
@@ -462,7 +469,7 @@ int KeyframeCurveEditor::nearestPointInRange(const QPointF &p, int wWidth, int w
         pointType = nearest.second;
     }
 
-    if (nearestIndex >= 0 && (nearestIndex == m_currentPointIndex || pointType == BPoint::PointType::P)) {
+    if (nearestIndex == m_currentPointIndex || pointType == BPoint::PointType::P) {
         // a point was found and it is not a hidden handle
         double dx = (p.x() - point[int(pointType)].x()) * wWidth;
         double dy = (p.y() - point[int(pointType)].y()) * wHeight;

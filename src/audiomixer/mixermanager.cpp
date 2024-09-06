@@ -129,7 +129,7 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
     connect(mixer.get(), &MixerWidget::toggleSolo, this, [&](int trid, bool solo) {
         if (!solo) {
             // unmute
-            for (int id : qAsConst(m_soloMuted)) {
+            for (int id : std::as_const(m_soloMuted)) {
                 if (m_mixers.count(id) > 0) {
                     m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
                 }
@@ -138,7 +138,7 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
         } else {
             if (!m_soloMuted.isEmpty()) {
                 // Another track was solo, discard first
-                for (int id : qAsConst(m_soloMuted)) {
+                for (int id : std::as_const(m_soloMuted)) {
                     if (m_mixers.count(id) > 0) {
                         m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
                     }

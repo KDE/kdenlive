@@ -768,7 +768,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool 
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
-    QtConcurrent::run(this, &KdenliveDoc::cleanupBackupFiles);
+    QtConcurrent::run(&KdenliveDoc::cleanupBackupFiles, this);
     QFileInfo info(path);
     QString fileName = info.completeBaseName();
     const QString timeStamp = info.lastModified().toString(QStringLiteral("yyyy-MM-dd-hh-mm"));
@@ -787,12 +787,31 @@ QString KdenliveDoc::projectTempFolder() const
     return m_projectFolder;
 }
 
-QString KdenliveDoc::projectDataFolder(const QString &newPath) const
+QString KdenliveDoc::projectRenderFolder(const QString &newPath) const
 {
-    if (KdenliveSettings::videotodefaultfolder() == 2 && !KdenliveSettings::videofolder().isEmpty()) {
+    // If the project is being saved to a new location, return the new path
+    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
+        // If the project is being moved, and we use the location of the project file, return the new path
+        return newPath;
+    }
+    // If we always render to a custom folder, return it
+    if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::videofolder().isEmpty()) {
         return KdenliveSettings::videofolder();
     }
-    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder)) {
+    // If we save to project folder, return it
+    if (m_url.isValid() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
+        // Always render to project folder
+        return QFileInfo(m_url.toLocalFile()).absolutePath();
+    }
+    return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+}
+
+QString KdenliveDoc::projectDataFolder(const QString &newPath) const
+{
+    if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::videofolder().isEmpty()) {
+        return KdenliveSettings::videofolder();
+    }
+    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
         // If the project is being moved, and we use the location of the project file, return the new path
         return newPath;
     }
@@ -803,7 +822,7 @@ QString KdenliveDoc::projectDataFolder(const QString &newPath) const
         }
         return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
     }
-    if (KdenliveSettings::videotodefaultfolder() == 1 || m_sameProjectFolder) {
+    if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder) {
         // Always render to project folder
         if (KdenliveSettings::customprojectfolder() && !m_sameProjectFolder) {
             return KdenliveSettings::defaultprojectfolder();
@@ -815,10 +834,11 @@ QString KdenliveDoc::projectDataFolder(const QString &newPath) const
 
 QString KdenliveDoc::projectCaptureFolder() const
 {
-    if (KdenliveSettings::capturetoprojectfolder() == 2 && !KdenliveSettings::capturefolder().isEmpty()) {
+    if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::capturefolder().isEmpty()) {
         return KdenliveSettings::capturefolder();
     }
-    if (KdenliveSettings::capturetoprojectfolder() == 1 || m_sameProjectFolder || KdenliveSettings::capturetoprojectfolder() == 3) {
+    if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder ||
+        KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectSubFolder) {
         QString projectFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
 
         if (m_projectFolder.isEmpty()) {
@@ -832,7 +852,7 @@ QString KdenliveDoc::projectCaptureFolder() const
             projectFolder = QFileInfo(m_url.toLocalFile()).absolutePath();
         }
 
-        if (KdenliveSettings::capturetoprojectfolder() == 3 && !KdenliveSettings::captureprojectsubfolder().isEmpty()) {
+        if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectSubFolder && !KdenliveSettings::captureprojectsubfolder().isEmpty()) {
             // Wherever the project file is, we want a subfolder
             projectFolder += QDir::separator() + KdenliveSettings::captureprojectsubfolder();
         }
@@ -991,7 +1011,7 @@ void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender
                     finalName.append(QStringLiteral("-%1").arg(i.key().first));
                 }
                 QFileInfo info(finalName);
-                QString subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
+                QString subPath = info.dir().absoluteFilePath(QString("%1.ass").arg(info.fileName()));
                 j.value()->getSubtitleModel()->copySubtitle(subPath, i.key().first, checkOverwrite, true);
             }
         }
@@ -1294,9 +1314,6 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
                     QFile file(path);
                     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
                         QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                        out.setCodec("UTF-8");
-#endif
                         out << doc.toString();
                     } else {
                         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
@@ -1321,11 +1338,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
      */
 
     const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/user-places.xbel");
-#if QT_VERSION_MAJOR < 6
-    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForExternalFile(file);
-#else
     std::unique_ptr<KBookmarkManager> bookmarkManager = std::make_unique<KBookmarkManager>(file);
-#endif
     if (!bookmarkManager) {
         return;
     }
@@ -1403,7 +1416,7 @@ void KdenliveDoc::backupLastSavedVersion(const QString &path)
         if (!QFile::copy(path, backupFile)) {
             KMessageBox::information(QApplication::activeWindow(), i18n("Cannot create backup copy:\n%1", backupFile));
         }
-        // backup subitle file in case we have
+        // backup subitle file in case we have on
         QStringList subFiles = getAllSubtitlesPath(true);
         if (!subFiles.isEmpty()) {
             // Create folder for subtitles backup
@@ -2047,7 +2060,7 @@ void KdenliveDoc::selectPreviewProfile()
             }
         }
         bool rateFound = false;
-        for (const QString &arg : qAsConst(data)) {
+        for (const QString &arg : std::as_const(data)) {
             if (arg.startsWith(QStringLiteral("r="))) {
                 rateFound = true;
                 double fps = arg.section(QLatin1Char('='), 1).toDouble();
@@ -2415,13 +2428,13 @@ const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final, b
         path.append(QStringLiteral("-%1").arg(ix));
     }
     if (m_url.isValid() && final) {
-        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(path));
+        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.ass").arg(path));
     } else {
         if (restoreFromBackup) {
             const QString previousSessionId = pCore->currentDoc()->getDocumentProperty(QStringLiteral("sessionid"));
-            return QDir::temp().absoluteFilePath(QString("%1-%2.srt").arg(path, previousSessionId));
+            return QDir::temp().absoluteFilePath(QString("%1-%2.ass").arg(path, previousSessionId));
         }
-        return QDir::temp().absoluteFilePath(QString("%1-%2.srt").arg(path, pCore->sessionId));
+        return QDir::temp().absoluteFilePath(QString("%1-%2.ass").arg(path, pCore->sessionId));
     }
 }
 
@@ -2476,7 +2489,7 @@ QMap<std::pair<int, QString>, QString> KdenliveDoc::JSonToSubtitleList(const QSt
         return results;
     }
     auto list = json.array();
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid subtitle data";
             continue;
@@ -2493,6 +2506,34 @@ QMap<std::pair<int, QString>, QString> KdenliveDoc::JSonToSubtitleList(const QSt
             subUrl.prepend(m_documentRoot);
         }
         results.insert({subId, subName}, subUrl);
+    }
+    return results;
+}
+
+std::map<QString, SubtitleStyle> KdenliveDoc::globalSubtitleStyles(const QUuid &uuid)
+{
+    const QString data = getSequenceProperty(uuid, QStringLiteral("globalSubtitleStyles"));
+    std::map<QString, SubtitleStyle> results;
+    auto json = QJsonDocument::fromJson(data.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return results;
+    }
+    auto list = json.array();
+    for (const auto &entry : qAsConst(list)) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid subtitle style data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("style"))) {
+            qDebug() << "Warning : Skipping invalid subtitle style data (does not have a name or style)";
+            continue;
+        }
+        QString styleString = entryObj[QLatin1String("style")].toString();
+        const QString styleName = styleString.section(":", 1).trimmed().split(",").at(0);
+        const SubtitleStyle style(styleString);
+        results[styleName] = style;
     }
     return results;
 }

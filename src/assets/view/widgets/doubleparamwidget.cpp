@@ -32,7 +32,7 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
                                       m_model->data(m_index, AssetParameterModel::OddRole).toBool(),
                                       m_model->data(m_index, AssetParameterModel::CompactRole).toBool(), this);
     m_lay->addWidget(m_doubleWidget);
-    setMinimumHeight(m_doubleWidget->height());
+    setFixedHeight(m_doubleWidget->minimumHeight());
 
     // Connect signal
     connect(m_doubleWidget, &DoubleWidget::valueChanged, this,

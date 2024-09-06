@@ -668,7 +668,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
     }
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
     auto list = json.array();
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qWarning() << "Skipping invalid marker data";
             continue;
@@ -1012,6 +1012,19 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
     return res;
 }
 
+const QStringList ProjectItemModel::getUnusedClipIds() const
+{
+    QStringList unusedIds;
+    // Iterate to find clips that are not in timeline
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline() && c->clipType() != ClipType::Timeline) {
+            unusedIds << std::static_pointer_cast<ProjectClip>(c)->getProducerProperty(QStringLiteral("id"));
+        }
+    }
+    return unusedIds;
+}
+
 bool ProjectItemModel::requestCleanupUnused()
 {
     QWriteLocker locker(&m_lock);
@@ -1024,6 +1037,9 @@ bool ProjectItemModel::requestCleanupUnused()
         if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline() && c->clipType() != ClipType::Timeline) {
             to_delete.push_back(c);
         }
+    }
+    if (to_delete.size() == 0) {
+        return false;
     }
     // it is important to execute deletion in a separate loop, because otherwise
     // the iterators of m_allItems get messed up
@@ -1656,7 +1672,7 @@ void ProjectItemModel::setExtraTimelineSaved(const QString &uuid)
 void ProjectItemModel::removeReferencedClips(const QUuid &uuid, bool onDeletion)
 {
     QList<std::shared_ptr<ProjectClip>> clipList = getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         if (clip->refCount() > 0) {
             clip->purgeReferences(uuid, onDeletion);
         }

@@ -110,7 +110,7 @@ void ListDependencyParamWidget::checkDependencies(const QString &val)
             if (fileData.first == QLatin1String("/opencvmodels")) {
                 m_model->setParameter(QStringLiteral("modelsfolder"), dir.absolutePath(), false);
             }
-            for (const QString &file : qAsConst(fileData.second)) {
+            for (const QString &file : std::as_const(fileData.second)) {
                 if (!dir.exists(file)) {
                     m_infoMessage->setText(m_dependencyInfos.value(val));
                     m_infoMessage->animatedShow();

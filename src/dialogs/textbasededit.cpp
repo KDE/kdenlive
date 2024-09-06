@@ -740,7 +740,11 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(m_logAction, &QAction::triggered, this, [this]() { KMessageBox::error(this, m_errorString, i18n("Detailed log")); });
 
     speech_zone->setChecked(KdenliveSettings::speech_zone());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(speech_zone, &QCheckBox::checkStateChanged, [](Qt::CheckState state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });
+#else
     connect(speech_zone, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });
+#endif
     button_delete->setDefaultAction(m_visualEditor->deleteAction);
     button_delete->setToolTip(i18n("Delete selected text"));
     connect(m_visualEditor->deleteAction, &QAction::triggered, this, &TextBasedEdit::deleteItem);
@@ -1468,7 +1472,7 @@ void TextBasedEdit::previewPlaylist(bool createNew)
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("kdenlive:baseid"), m_binId);
     QStringList playZones;
-    for (const auto &p : qAsConst(zones)) {
+    for (const auto &p : std::as_const(zones)) {
         playZones << QString("%1:%2").arg(p.x()).arg(p.y());
     }
     properties.insert(QStringLiteral("kdenlive:cutzones"), playZones.join(QLatin1Char(';')));
@@ -1529,7 +1533,7 @@ void TextBasedEdit::createSequence()
         // Aborting
         return;
     }
-    for (const auto &p : qAsConst(zones)) {
+    for (const auto &p : std::as_const(zones)) {
         if (p.y() > p.x()) {
             pCore->window()->getCurrentTimeline()->controller()->insertZone(m_binId, p, false, undo, redo);
         }
@@ -1590,7 +1594,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
                 clipNameLabel->setText(refClip->clipName());
             }
             QStringList zones = clip->getProducerProperty("kdenlive:cutzones").split(QLatin1Char(';'));
-            for (const QString &z : qAsConst(zones)) {
+            for (const QString &z : std::as_const(zones)) {
                 cutZones << QPoint(z.section(QLatin1Char(':'), 0, 0).toInt(), z.section(QLatin1Char(':'), 1, 1).toInt());
             }
         } else {

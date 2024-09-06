@@ -78,7 +78,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #if HAVE_STYLE_MANAGER
 #include <KStyleManager>
 #endif
-#include <knewstuff_version.h>
 #include <kwidgetsaddons_version.h>
 #include <kxmlgui_version.h>
 
@@ -93,11 +92,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KIconTheme>
 #include <KLocalizedString>
 #include <KMessageBox>
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <KNSWidgets/Dialog>
-#else
-#include <KNS3/QtQuickDialogWrapper>
-#endif
 #include <KNotifyConfigWidget>
 #include <KRecentDirs>
 #include <KShortcutsDialog>
@@ -220,7 +215,7 @@ void MainWindow::init(const QString &mltPath)
         defaultStyle->setChecked(true);
     }
 
-    for (const QString &style : qAsConst(availableStyles)) {
+    for (const QString &style : std::as_const(availableStyles)) {
         auto *a = new QAction(style, stylesGroup);
         a->setCheckable(true);
         a->setData(style);
@@ -678,11 +673,7 @@ void MainWindow::init(const QString &mltPath)
     loadClipActions();
     loadContainerActions();
 
-#if KXMLGUI_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     KEditToolBar::setGlobalDefaultToolBar(QStringLiteral("timelineToolBar"));
-#else
-    KEditToolBar::setGlobalDefaultToolBar("timelineToolBar");
-#endif
 
     // Timeline composition menu
     auto *compositionMenu = new QMenu(this);
@@ -1114,7 +1105,7 @@ void MainWindow::saveNewToolbarConfig()
     loadClipActions();
     loadContainerActions();
     for (auto &bin : m_binWidgets) {
-        bin->setupMenu();
+        bin->setupGeneratorMenu();
     }
 
     // hack to be able to insert the hamburger menu at the first position
@@ -1971,11 +1962,7 @@ void MainWindow::setupActions()
     connect(autoTrackHeight, &QAction::triggered, this, &MainWindow::slotAutoTrackHeight);
     timelineActions->addAction(QStringLiteral("fit_all_tracks"), autoTrackHeight);
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-composite")), i18n("Master effects"), this);
-#else
     QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-on")), i18n("Master effects"), this);
-#endif
     connect(masterEffectStack, &QAction::triggered, this, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         getCurrentTimeline()->controller()->showMasterEffects();
@@ -2134,7 +2121,7 @@ void MainWindow::setupActions()
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
     // m_transitions = new QAction*[transitions.count()];
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : qAsConst(allTransitions)) {
+    for (const auto &transition : std::as_const(allTransitions)) {
         auto *transAction = new QAction(transition.first, this);
         transAction->setData(transition.second);
         transAction->setIconVisibleInMenu(false);
@@ -2509,7 +2496,7 @@ void MainWindow::slotCleanProject()
         KMessageBox::Cancel) {
         return;
     }
-    pCore->bin()->cleanupUnused();
+    pCore->projectItemModel()->requestCleanupUnused();
 }
 
 void MainWindow::slotUpdateMousePosition(int pos, int duration)
@@ -2692,7 +2679,7 @@ void MainWindow::slotShowPreferencePage(Kdenlive::ConfigPage page, int option)
     // Get the mappable actions in localized form
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
-    for (const QString &action_name : qAsConst(m_actionNames)) {
+    for (const QString &action_name : std::as_const(m_actionNames)) {
         const QString action_text = KLocalizedString::removeAcceleratorMarker(collection->action(action_name)->text());
         actions[action_text] = action_name;
     }
@@ -2953,7 +2940,6 @@ void MainWindow::slotAddMarkerWithCategory()
     if (!getCurrentTimeline() || !pCore->currentDoc()) {
         return;
     }
-
 
     auto *caller = qobject_cast<QAction *>(QObject::sender());
     if (!caller) {
@@ -3870,7 +3856,7 @@ void MainWindow::loadDockActions()
     // TODO: move audiospectrum's creation to ScopeManager
     scopesNames << QStringLiteral("audiospectrum");
 
-    for (QAction *a : qAsConst(list)) {
+    for (QAction *a : std::as_const(list)) {
         if (a->objectName().startsWith(QStringLiteral("raise_"))) {
             continue;
         }
@@ -3891,12 +3877,12 @@ void MainWindow::loadDockActions()
     QList<QAction *> orderedList;
     QCollator order;
     std::sort(sortedList.begin(), sortedList.end(), order);
-    for (const QString &text : qAsConst(sortedList)) {
+    for (const QString &text : std::as_const(sortedList)) {
         orderedList << sorted.value(text);
     }
     QList<QAction *> orderedBinList;
     binsList.sort(Qt::CaseInsensitive);
-    for (const QString &text : qAsConst(binsList)) {
+    for (const QString &text : std::as_const(binsList)) {
         orderedBinList << bins.value(text);
     }
     if (m_binsListMenu) {
@@ -3904,7 +3890,7 @@ void MainWindow::loadDockActions()
     }
     QList<QAction *> orderedScopesList;
     scopesList.sort(Qt::CaseInsensitive);
-    for (const QString &text : qAsConst(scopesList)) {
+    for (const QString &text : std::as_const(scopesList)) {
         orderedScopesList << scopes.value(text);
     }
     m_scopesListMenu->addActions(orderedScopesList);
@@ -4074,7 +4060,7 @@ void MainWindow::updateDockMenu()
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (auto dock : qAsConst(docks)) {
+    for (auto dock : std::as_const(docks)) {
         QAction *dockInformations = dock->toggleViewAction();
         if (!dockInformations) {
             continue;
@@ -4294,15 +4280,8 @@ void MainWindow::slotArchiveProject()
 
 void MainWindow::slotDownloadResources()
 {
-    QString currentFolder;
-    if (pCore->currentDoc()) {
-        currentFolder = pCore->currentDoc()->projectDataFolder();
-    } else {
-        currentFolder = KdenliveSettings::defaultprojectfolder();
-    }
     m_onlineResourcesDock->show();
     m_onlineResourcesDock->raise();
-    ;
 }
 
 void MainWindow::slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes)
@@ -4381,7 +4360,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
         return;
     }
     QList<QAction *> actions = monitorOverlay->actions();
-    for (QAction *ac : qAsConst(actions)) {
+    for (QAction *ac : std::as_const(actions)) {
         int mid = ac->data().toInt();
         if (mid == 0x010 || mid == 0x040) {
             ac->setVisible(id == Kdenlive::ClipMonitor);
@@ -4426,7 +4405,7 @@ void MainWindow::doChangeStyle()
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 {
     QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (auto tab : qAsConst(tabbed)) {
+    for (auto tab : std::as_const(tabbed)) {
         if (tab->objectName() == otherWidget) {
             return true;
         }
@@ -4797,7 +4776,7 @@ void MainWindow::slotEditSubtitle(const QMap<QString, QString> &subProperties)
 void MainWindow::slotAddSubtitle(const QString &text)
 {
     showSubtitleTrack();
-    getCurrentTimeline()->model()->getSubtitleModel()->addSubtitle(-1, text);
+    getCurrentTimeline()->model()->getSubtitleModel()->addSubtitle(-1, 0, text);
 }
 
 void MainWindow::slotDisableSubtitle()
@@ -5040,7 +5019,7 @@ void MainWindow::folderRenamed(const QString &binId, const QString &folderName)
 void MainWindow::tabifyBins()
 {
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (auto dock : qAsConst(docks)) {
+    for (auto dock : std::as_const(docks)) {
         if (dock->objectName().startsWith(QLatin1String("project_bin_"))) {
             tabifyDockWidget(m_projectBinDock, dock);
         }

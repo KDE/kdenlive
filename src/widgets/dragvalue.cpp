@@ -57,11 +57,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 m_editing = false;
             }
             if (me->buttons() & Qt::LeftButton) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                m_clickPos = me->pos();
-#else
                 m_clickPos = me->position();
-#endif
                 m_cursorClickPos = lineEdit()->cursorPositionAt(m_clickPos.toPoint());
                 m_clickMouse = QCursor::pos();
                 if (!lineEdit()->hasFocus()) {
@@ -79,6 +75,9 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
             }
         }
         if (type == QEvent::Wheel) {
+            if (blockWheel && !hasFocus()) {
+                return false;
+            }
             auto *we = static_cast<QWheelEvent *>(event);
             int mini = singleStep();
             int factor = qMax(mini, (maximum() - minimum()) / 200);
@@ -99,11 +98,7 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
         if (type == QEvent::MouseMove) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::LeftButton) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                QPointF movePos(me->pos());
-#else
                 QPointF movePos = me->position();
-#endif
                 if (!m_editing) {
                     if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
                         QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
@@ -199,11 +194,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
                 m_editing = false;
             }
             if (me->buttons() & Qt::LeftButton) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                m_clickPos = me->pos();
-#else
                 m_clickPos = me->position();
-#endif
                 m_clickMouse = QCursor::pos();
                 if (!lineEdit()->hasFocus()) {
                     event->accept();
@@ -220,6 +211,9 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
             }
         }
         if (type == QEvent::Wheel) {
+            if (blockWheel && !hasFocus()) {
+                return false;
+            }
             auto *we = static_cast<QWheelEvent *>(event);
             double mini = singleStep();
             double factor = qMax(mini, (maximum() - minimum()) / 200);
@@ -240,11 +234,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
         if (type == QEvent::MouseMove) {
             auto *me = static_cast<QMouseEvent *>(event);
             if (me->buttons() & Qt::LeftButton) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                QPointF movePos(me->pos());
-#else
                 QPointF movePos = me->position();
-#endif
                 if (!m_editing) {
                     if (!m_dragging && (movePos - m_clickPos).manhattanLength() >= QApplication::startDragDistance()) {
                         QGuiApplication::setOverrideCursor(QCursor(Qt::BlankCursor));
@@ -312,7 +302,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     , m_id(id)
     , m_labelText(label)
 {
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setFocusPolicy(Qt::StrongFocus);
@@ -349,13 +339,11 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setKeyboardTracking(false);
         m_intEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
         m_intEdit->setAlignment(Qt::AlignCenter);
-        m_intEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_intEdit->setRange((int)m_minimum, (int)m_maximum);
         m_intEdit->setValue((int)m_default);
         // Try to have all spin boxes of the same size
         int maxWidth = m_intEdit->charWidth();
         m_intEdit->setMinimumWidth(maxWidth * 9);
-        setFixedHeight(m_intEdit->sizeHint().height());
         minWidth += m_intEdit->sizeHint().width();
         if (oddOnly) {
             m_intEdit->setSingleStep(2);
@@ -378,7 +366,6 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_doubleEdit->setKeyboardTracking(false);
         m_doubleEdit->setButtonSymbols(QAbstractSpinBox::NoButtons);
         m_doubleEdit->setAlignment(Qt::AlignCenter);
-        m_doubleEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_doubleEdit->setRange(m_minimum, m_maximum);
         double factor = 100;
         if (m_maximum - m_minimum > 10000) {
@@ -400,20 +387,16 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         l->addStretch(10);
     }
     setLayout(l);
-    if (m_label) {
-        if (m_intEdit) {
-            m_label->setMaximumHeight(m_intEdit->sizeHint().height());
-        } else {
-            m_label->setMaximumHeight(m_doubleEdit->sizeHint().height());
-        }
+    int minimumHeight = 0;
+    if (m_intEdit) {
+        minimumHeight = m_intEdit->sizeHint().height();
     } else {
-        if (m_intEdit) {
-            setMinimumHeight(m_intEdit->sizeHint().height());
-        } else {
-            setMinimumHeight(m_doubleEdit->sizeHint().height());
-        }
+        minimumHeight = m_doubleEdit->sizeHint().height();
     }
-
+    if (m_label) {
+        m_label->setFixedHeight(minimumHeight);
+    }
+    setFixedHeight(minimumHeight);
     m_menu = new QMenu(this);
 
     m_scale = new KSelectAction(i18n("Scaling"), this);
@@ -717,6 +700,15 @@ void DragValue::slotSetDirectUpdate(bool directUpdate)
     KdenliveSettings::setDragvalue_directupdate(directUpdate);
 }
 
+void DragValue::blockWheel(bool block)
+{
+    if (m_intEdit) {
+        m_intEdit->blockWheel = block;
+    } else if (m_doubleEdit) {
+        m_doubleEdit->blockWheel = block;
+    }
+}
+
 void DragValue::setInTimelineProperty(bool intimeline)
 {
     if (m_label->property("inTimeline").toBool() == intimeline) {
@@ -793,11 +785,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
         }
         if (m_dragMode) {
             if (KdenliveSettings::dragvalue_mode() > 0 || !m_showSlider) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                int diff = e->pos().x() - m_dragLastPosition.x();
-#else
                 int diff = e->position().x() - m_dragLastPosition.x();
-#endif
                 if (qApp->isRightToLeft()) {
                     diff = 0 - diff;
                 }

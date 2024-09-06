@@ -257,8 +257,13 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.rescale, &QAbstractButton::toggled, this, &RenderWidget::refreshParams);
     connect(m_view.rescale_width, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleWidth);
     connect(m_view.rescale_height, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &RenderWidget::slotUpdateRescaleHeight);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_view.render_at_preview_res, &QCheckBox::checkStateChanged, this, &RenderWidget::refreshParams);
+    connect(m_view.render_full_color, &QCheckBox::checkStateChanged, this, &RenderWidget::refreshParams);
+#else
     connect(m_view.render_at_preview_res, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
     connect(m_view.render_full_color, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
+#endif
     m_view.processing_threads->setMaximum(QThread::idealThreadCount());
     m_view.processing_threads->setValue(KdenliveSettings::processingthreads());
     connect(m_view.processing_threads, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &KdenliveSettings::setProcessingthreads);
@@ -288,9 +293,13 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         }
         refreshParams();
     });
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_view.export_meta, &QCheckBox::checkStateChanged, this, &RenderWidget::refreshParams);
+    connect(m_view.checkTwoPass, &QCheckBox::checkStateChanged, this, &RenderWidget::refreshParams);
+#else
     connect(m_view.export_meta, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
     connect(m_view.checkTwoPass, &QCheckBox::stateChanged, this, &RenderWidget::refreshParams);
-
+#endif
     connect(m_view.buttonRender, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(); });
     connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(true); });
     updateMetadataToolTip();
@@ -426,7 +435,7 @@ void RenderWidget::updateDocumentPath()
         return;
     }
     const QString fileName = m_view.out_file->url().fileName();
-    m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(pCore->currentDoc()->projectDataFolder()).absoluteFilePath(fileName)));
+    m_view.out_file->setUrl(QUrl::fromLocalFile(QDir(pCore->currentDoc()->projectRenderFolder()).absoluteFilePath(fileName)));
     parseScriptFiles();
 }
 
@@ -503,7 +512,7 @@ void RenderWidget::reloadGuides()
         }
         if (!markers.isEmpty()) {
             m_view.guide_start->addItem(i18n("Beginning"), 0);
-            for (const auto &marker : qAsConst(markers)) {
+            for (const auto &marker : std::as_const(markers)) {
                 GenTime pos = marker.time();
                 const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
                 m_view.guide_start->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
@@ -905,7 +914,7 @@ void RenderWidget::refreshView()
 QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
 {
     if (!url.isValid()) {
-        url = QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator());
+        url = QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator());
     }
     QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
 
@@ -1422,7 +1431,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
     m_view.scripts_list->clear();
 
     // List the project scripts
-    QDir projectFolder(pCore->currentDoc()->projectDataFolder());
+    QDir projectFolder(pCore->currentDoc()->projectRenderFolder());
     if (!projectFolder.exists(QStringLiteral("kdenlive-renderqueue"))) {
         return;
     }
@@ -1619,7 +1628,8 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     if (url.isEmpty()) {
         if (RenderPresetRepository::get()->presetExists(m_currentProfile)) {
             std::unique_ptr<RenderPresetModel> &profile = RenderPresetRepository::get()->getPreset(m_currentProfile);
-            url = filenameWithExtension(QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator()), profile->extension()).toLocalFile();
+            url =
+                filenameWithExtension(QUrl::fromLocalFile(pCore->currentDoc()->projectRenderFolder() + QDir::separator()), profile->extension()).toLocalFile();
         }
     } else if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());
@@ -1696,9 +1706,6 @@ bool RenderWidget::startWaitingRenderJobs()
     }
 
     QTextStream outStream(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    outStream.setCodec("UTF-8");
-#endif
 #ifndef Q_OS_WIN
     outStream << "#!/bin/sh\n\n";
 #endif
@@ -1913,7 +1920,7 @@ void RenderWidget::resetRenderPath(const QString &path)
         extension = m_view.out_file->url().toLocalFile().section(QLatin1Char('.'), -1);
     }
     QFileInfo updatedPath(path);
-    QString fileName = QDir(pCore->currentDoc()->projectDataFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
+    QString fileName = QDir(pCore->currentDoc()->projectRenderFolder(updatedPath.absolutePath())).absoluteFilePath(updatedPath.fileName());
     QString url = filenameWithExtension(QUrl::fromLocalFile(fileName), extension).toLocalFile();
     if (QFileInfo(url).isRelative()) {
         url.prepend(pCore->currentDoc()->documentRoot());

@@ -40,10 +40,6 @@ EffectButtonsParamWidget::EffectButtonsParamWidget(std::shared_ptr<AssetParamete
 
     // set check state
     slotRefresh();
-    // connect(methodCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() { paramChanged(m_checkBox->checkState()); });
-
-    // Q_EMIT the signal of the base class when appropriate
-    // connect(m_checkBox, &QCheckBox::stateChanged, this, &EffectButtonsParamWidget::paramChanged);
 }
 
 void EffectButtonsParamWidget::buttonClicked(bool checked)

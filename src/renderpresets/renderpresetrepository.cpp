@@ -99,7 +99,7 @@ void RenderPresetRepository::refresh(bool fullRefresh)
         fileList.removeAll(QStringLiteral("customprofiles.xml"));
     }
     // Parse files downloaded with KNewStuff
-    for (const QString &filename : qAsConst(fileList)) {
+    for (const QString &filename : std::as_const(fileList)) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
 
@@ -157,9 +157,6 @@ void RenderPresetRepository::parseFile(const QString &exportFile, bool editable)
                 return;
             }
             QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-#endif
             out << newdoc.toString();
             file.close();
             // now that we fixed the file, run this function again
@@ -242,7 +239,7 @@ void RenderPresetRepository::parseMltPresets()
     if (root.cd(QStringLiteral("../stills"))) {
         QString groupName = i18nc("Category Name", "Images sequence");
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
-        for (const QString &prof : qAsConst(profiles)) {
+        for (const QString &prof : std::as_const(profiles)) {
             std::unique_ptr<RenderPresetModel> model(
                 new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=stills/" + prof), false));
             m_groups.append(model->groupName());
@@ -375,9 +372,6 @@ const QString RenderPresetRepository::savePreset(RenderPresetModel *preset, bool
         return {};
     }
     QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    out.setCodec("UTF-8");
-#endif
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", file.fileName()));
@@ -434,9 +428,6 @@ bool RenderPresetRepository::deletePreset(const QString &name, bool dontRefresh)
         return false;
     }
     QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    out.setCodec("UTF-8");
-#endif
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", exportFile));

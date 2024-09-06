@@ -276,7 +276,7 @@ Item {
                 if (mouse.modifiers & Qt.AltModifier) {
                     controller.switchFocusClip()
                 } else if (root.requestedKeyFrame >= 0 && !isMoving) {
-                    controller.seekToKeyframe();
+                    controller.seekToKeyframe(root.requestedKeyFrame, 0);
                 }
             }
             isMoving = false

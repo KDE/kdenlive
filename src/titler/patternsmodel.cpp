@@ -67,7 +67,7 @@ QPixmap PatternsModel::paintScene(const QString &pattern)
         bkg_frame->setPixmap(bkg->pixmap());
         scene.addItem(bkg_frame);
     }
-    for (QGraphicsItem *item : qAsConst(items)) {
+    for (QGraphicsItem *item : std::as_const(items)) {
         scene.addItem(item);
     }
 
@@ -117,7 +117,7 @@ QByteArray PatternsModel::serialize()
     QByteArray encodedData;
     QDataStream stream(&encodedData, QIODevice::WriteOnly);
 
-    for (const auto &p : qAsConst(patterns)) {
+    for (const auto &p : std::as_const(patterns)) {
         stream << p;
     }
     modified_counter = 0;

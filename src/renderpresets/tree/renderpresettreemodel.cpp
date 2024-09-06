@@ -36,7 +36,7 @@ std::shared_ptr<RenderPresetTreeModel> RenderPresetTreeModel::construct(QObject 
 
     std::vector<std::shared_ptr<TreeItem>> cats{};
 
-    for (const auto &preset : qAsConst(presets)) {
+    for (const auto &preset : std::as_const(presets)) {
         bool foundMatch = false;
         // we get a pointer to the presetemodel
         std::unique_ptr<RenderPresetModel> &ptr = RenderPresetRepository::get()->getPreset(preset);

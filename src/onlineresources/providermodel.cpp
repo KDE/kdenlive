@@ -106,11 +106,7 @@ void ProviderModel::initOAuth2()
         authGroup.writeEntry(QStringLiteral("refresh_token"), refreshToken);
     });
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QVariantMap *parameters) {
-#else
     m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant> *parameters) {
-#endif
         if (stage == QAbstractOAuth::Stage::RequestingAuthorization) {
             if (m_oauth2.scope().isEmpty()) {
                 parameters->remove("scope");
@@ -290,7 +286,7 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key)
     if (key.contains(".")) {
         QStringList subkeys = key.split(".");
 
-        for (const auto &subkey : qAsConst(subkeys)) {
+        for (const auto &subkey : std::as_const(subkeys)) {
             if (subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
                 key = subkey;
             } else {
@@ -309,7 +305,7 @@ QJsonValue ProviderModel::objectGetValue(QJsonObject item, QString key)
     if (parseKey.contains(".")) {
         QStringList subkeys = tmpKeys[key].toString().split(".");
 
-        for (const auto &subkey : qAsConst(subkeys)) {
+        for (const auto &subkey : std::as_const(subkeys)) {
             if (subkeys.indexOf(subkey) == subkeys.indexOf(subkeys.last())) {
                 parseKey = subkey;
             } else {
@@ -465,7 +461,7 @@ std::pair<QList<ResourceItemInfo>, const int> ProviderModel::parseSearchResponse
 
         pageCount = objectGetValue(res.object(), "resultCount").toInt() / m_perPage;
 
-        for (const auto &item : qAsConst(items)) {
+        for (const auto &item : std::as_const(items)) {
             ResourceItemInfo onlineItem;
             onlineItem.author = objectGetString(item.toObject(), "author");
             onlineItem.authorUrl = objectGetString(item.toObject(), "authorUrl");

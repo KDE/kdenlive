@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle
+    SPDX-FileCopyrightText: 2020 Jean-Baptiste Mardelle <jb@kdenlive.org>
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
@@ -7,6 +7,7 @@
 #include "core.h"
 #include "effects/effectsrepository.hpp"
 #include "ui_clipspeed_ui.h"
+#include "widgets/precisionspinbox.h"
 #include "widgets/timecodedisplay.h"
 
 #include <KMessageWidget>
@@ -23,9 +24,6 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
 {
     ui->setupUi(this);
     setWindowTitle(i18n("Clip Speed"));
-    ui->speedSpin->setDecimals(2);
-    ui->speedSpin->setMinimum(minSpeed);
-    ui->speedSpin->setMaximum(maxSpeed);
     ui->speedSlider->setMinimum(0);
     ui->speedSlider->setMaximum(100);
     ui->speedSlider->setTickInterval(10);
@@ -34,7 +32,6 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     if (reversed) {
         ui->checkBox->setChecked(true);
     }
-    ui->speedSpin->setValue(speed);
     ui->speedSlider->setValue(int(qLn(speed) * 12));
     ui->pitchCompensate->setChecked(pitch_compensate);
     if (!EffectsRepository::get()->exists(QStringLiteral("rbpitch"))) {
@@ -49,8 +46,11 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     } else {
         ui->infoMessage->hide();
     }
-    ui->speedSpin->setFocus();
-    ui->speedSpin->selectAll();
+    ui->precisionSpin->setSuffix(QLatin1Char('%'));
+    ui->precisionSpin->setRange(minSpeed, maxSpeed, 6);
+    ui->precisionSpin->setValue(speed);
+    ui->precisionSpin->setFocus();
+    ui->precisionSpin->selectAll();
     if (m_duration > 0) {
         ui->durationLayout->addWidget(new QLabel(i18n("Duration"), this));
         m_durationDisplay = new TimecodeDisplay(this);
@@ -67,13 +67,13 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
             double updatedSpeed = speed * m_duration / value;
             QSignalBlocker bk(ui->speedSlider);
             ui->speedSlider->setValue(int(qLn(updatedSpeed) * 12));
-            QSignalBlocker bk2(ui->speedSpin);
-            ui->speedSpin->setValue(updatedSpeed);
+            QSignalBlocker bk2(ui->precisionSpin);
+            ui->precisionSpin->setValue(updatedSpeed);
             checkSpeed(updatedSpeed);
         });
     }
 
-    connect(ui->speedSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&, speed](double value) {
+    connect(ui->precisionSpin, &PrecisionSpinBox::valueChanged, this, [&, speed](double value) {
         QSignalBlocker bk(ui->speedSlider);
         ui->speedSlider->setValue(int(qLn(value) * 12));
         if (m_durationDisplay) {
@@ -86,22 +86,22 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
     });
     connect(ui->speedSlider, &QSlider::valueChanged, this, [this, speed](int value) {
         double res = qExp(value / 12.);
-        QSignalBlocker bk(ui->speedSpin);
+        QSignalBlocker bk(ui->precisionSpin);
         checkSpeed(res);
-        ui->speedSpin->setValue(res);
+        ui->precisionSpin->setValue(res);
         if (m_durationDisplay) {
             QSignalBlocker bk2(m_durationDisplay);
             m_durationDisplay->setValue(qRound(m_duration * std::fabs(speed / res)));
         }
-        ui->buttonBox->button((QDialogButtonBox::Ok))->setEnabled(!qFuzzyIsNull(ui->speedSpin->value()));
+        ui->buttonBox->button((QDialogButtonBox::Ok))->setEnabled(!qFuzzyIsNull(res));
     });
 }
 
 void SpeedDialog::checkSpeed(double res)
 {
-    if (res < ui->speedSpin->minimum() || res > ui->speedSpin->maximum()) {
-        ui->infoMessage->setText(res < ui->speedSpin->minimum() ? i18n("Minimum speed is %1", ui->speedSpin->minimum())
-                                                                : i18n("Maximum speed is %1", ui->speedSpin->maximum()));
+    if (res < ui->precisionSpin->min() || res > ui->precisionSpin->max()) {
+        ui->infoMessage->setText(res < ui->precisionSpin->min() ? i18n("Minimum speed is %1", ui->precisionSpin->min())
+                                                                : i18n("Maximum speed is %1", ui->precisionSpin->max()));
         ui->infoMessage->setCloseButtonVisible(true);
         ui->infoMessage->setMessageType(KMessageWidget::Warning);
         ui->infoMessage->animatedShow();
@@ -115,7 +115,7 @@ SpeedDialog::~SpeedDialog()
 
 double SpeedDialog::getValue() const
 {
-    double val = ui->speedSpin->value();
+    double val = ui->precisionSpin->value();
     if (ui->checkBox->checkState() == Qt::Checked) {
         val *= -1;
     }

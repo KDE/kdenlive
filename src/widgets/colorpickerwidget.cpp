@@ -206,11 +206,7 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent *event)
     }
 
     if (m_filterActive) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_clickPoint = event->globalPos();
-#else
         m_clickPoint = event->globalPosition().toPoint();
-#endif
         m_grabRect = QRect(m_clickPoint, QSize(1, 1));
         m_grabRectFrame->setGeometry(m_grabRect);
         m_grabRectFrame->show();
@@ -221,13 +217,8 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_filterActive) {
         closeEventFilter();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_grabRect.setWidth(event->globalX() - m_grabRect.x());
-        m_grabRect.setHeight(event->globalY() - m_grabRect.y());
-#else
         m_grabRect.setWidth(event->globalPosition().x() - m_grabRect.x());
         m_grabRect.setHeight(event->globalPosition().y() - m_grabRect.y());
-#endif
         m_grabRect = m_grabRect.normalized();
         m_clickPoint = QPoint();
 
@@ -249,13 +240,8 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent *event)
     m_mouseColor = grabColor(QCursor::pos(), true);
     update();
     if (m_filterActive && !m_clickPoint.isNull()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_grabRect.setWidth(event->globalX() - m_grabRect.x());
-        m_grabRect.setHeight(event->globalY() - m_grabRect.y());
-#else
         m_grabRect.setWidth(event->globalPosition().x() - m_grabRect.x());
         m_grabRect.setHeight(event->globalPosition().y() - m_grabRect.y());
-#endif
         m_grabRectFrame->setGeometry(m_grabRect.normalized());
     }
 }

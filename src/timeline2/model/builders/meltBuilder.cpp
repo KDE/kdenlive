@@ -328,7 +328,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     timeline->buildTrackCompositing();
 
     // load locked state as last step
-    for (int tid : qAsConst(lockedTracksIndexes)) {
+    for (int tid : std::as_const(lockedTracksIndexes)) {
         timeline->setTrackLockedState(tid, true);
     }
 
@@ -596,7 +596,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     timeline->buildTrackCompositing();
 
     // load locked state as last step
-    for (int tid : qAsConst(lockedTracksIndexes)) {
+    for (int tid : std::as_const(lockedTracksIndexes)) {
         timeline->lockTrack(tid, true);
     }
 
@@ -688,7 +688,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         }
     }
     // Load same track mixes
-    for (auto compo : qAsConst(compositions)) {
+    for (auto compo : std::as_const(compositions)) {
         if (!timeline->plantMix(tid, compo)) {
             // There is an error with a mix, we have overlapping clips
             int in = compo->get_in();

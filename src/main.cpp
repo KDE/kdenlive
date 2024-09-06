@@ -154,9 +154,6 @@ static void resetConfig()
                     if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
                         // overwrite local xml config
                         QTextStream out(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                        out.setCodec("UTF-8");
-#endif
                         out << doc2.toString();
                         f.close();
                     }
@@ -170,57 +167,6 @@ static void resetConfig()
     }
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-static void initIconRCC(LinuxPackageType packageType)
-{
-#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
-    const QStringList themes{"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
-    for (const QString &theme : themes) {
-        const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
-        if (!themePath.isEmpty()) {
-            const QString iconSubdir = theme.left(theme.lastIndexOf('/'));
-            if (QResource::registerResource(themePath, iconSubdir)) {
-                if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
-                    qDebug() << "Loaded icon theme:" << theme;
-                } else {
-                    qWarning() << "No index.theme found in" << theme;
-                    QResource::unregisterResource(themePath, iconSubdir);
-                }
-            } else {
-                qWarning() << "Invalid rcc file" << theme;
-            }
-        }
-    }
-#else
-    // AppImage
-    if (packageType == LinuxPackageType::AppImage) {
-        QMap<QString, QString> themeMap;
-        themeMap.insert("breeze", "/../icons/breeze/breeze-icons.rcc");
-        themeMap.insert("breeze-dark", "/../icons/breeze-dark/breeze-icons-dark.rcc");
-
-        QMapIterator<QString, QString> i(themeMap);
-        while (i.hasNext()) {
-            i.next();
-            QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, i.value());
-            if (!themePath.isEmpty()) {
-                const QString iconSubdir = "/icons/" + i.key();
-                if (QResource::registerResource(themePath, iconSubdir)) {
-                    if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
-                        qDebug() << "Loaded icon theme:" << i.key();
-                    } else {
-                        qWarning() << "No index.theme found for" << i.key();
-                        QResource::unregisterResource(themePath, iconSubdir);
-                    }
-                } else {
-                    qWarning() << "Invalid rcc file" << i.key();
-                }
-            }
-        }
-    }
-#endif
-}
-#endif
-
 int main(int argc, char *argv[])
 {
     int result = EXIT_SUCCESS;
@@ -228,18 +174,16 @@ int main(int argc, char *argv[])
     ExcHndlInit();
 #endif
     // Force QDomDocument to use a deterministic XML attribute order
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    QHashSeed::setDeterministicGlobalSeed();
+#else
     qSetGlobalQHashSeed(0);
+#endif
 
 #ifdef CRASH_AUTO_TEST
     Logger::init();
 #endif
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #if defined(Q_OS_WIN)
     QQuickWindow::setGraphicsApi(QSGRendererInterface::Direct3D11);
 #elif defined(Q_OS_MACOS)
@@ -248,12 +192,9 @@ int main(int argc, char *argv[])
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
     QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL, true);
 #endif
-#endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     // Block MLT Qt5 module to prevent crashes
     qputenv("MLT_REPOSITORY_DENY", "libmltqt:libmltglaxnimate");
-#endif
 
 #if defined(Q_OS_WIN)
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
@@ -495,24 +436,6 @@ int main(int argc, char *argv[])
         return exitCode;
     }
 
-#if defined(Q_OS_WIN)
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
-    KConfigGroup grp1(configWin, "misc");
-    if (grp1.exists()) {
-        int glMode = grp1.readEntry("opengl_backend", 0);
-        if (glMode > 0) {
-            QCoreApplication::setAttribute((Qt::ApplicationAttribute)glMode, true);
-        }
-    } else {
-        // Default to OpenGLES (QtAngle) on first start
-        QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
-        grp1.writeEntry("opengl_backend", int(Qt::AA_UseOpenGLES));
-    }
-    configWin->sync();
-#endif
-#endif
-
     qApp->processEvents(QEventLoop::AllEvents);
     Splash splash;
     qApp->processEvents(QEventLoop::AllEvents);
@@ -523,10 +446,6 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WIN
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
     qputenv("PATH", path.toUtf8().constData());
-#endif
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    initIconRCC(packageType);
 #endif
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
@@ -578,6 +497,11 @@ int main(int argc, char *argv[])
                                      "com.enums",                // import statement
                                      1, 0,                       // major and minor version of the import
                                      "ProjectTool",              // name in QML
+                                     "Error: only enums");
+    qmlRegisterUncreatableMetaObject(KeyframeType::staticMetaObject, // static meta object
+                                     "com.enums",                    // import statement
+                                     1, 0,                           // major and minor version of the import
+                                     "KeyframeType",                 // name in QML
                                      "Error: only enums");
     if (parser.value(mltLogLevelOption) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);

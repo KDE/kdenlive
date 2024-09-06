@@ -21,7 +21,7 @@
 #include <utility>
 
 // std::unordered_map and QHash could not be used here
-static QMap<KeyframeType, QString> KeyframeTypeName;
+static QMap<KeyframeType::KeyframeEnum, QString> KeyframeTypeName;
 
 KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in, int out,
                              QObject *parent)
@@ -43,7 +43,6 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
 // static
 void KeyframeModel::initKeyframeTypes()
 {
-#ifdef USE_MLT_NEW_KEYFRAMES
     KeyframeTypeName = {
         {KeyframeType::Linear, i18n("Linear")},
         {KeyframeType::Discrete, i18n("Discrete")},
@@ -60,13 +59,10 @@ void KeyframeModel::initKeyframeTypes()
         {KeyframeType::ElasticOut, i18n("Elastic Out")},
         {KeyframeType::Curve, i18n("Smooth (deprecated)")},
     };
-#else
-    KeyframeTypeName = {{KeyframeType::Linear, i18n("Linear")}, {KeyframeType::Discrete, i18n("Discrete")}, {KeyframeType::Curve, i18n("Smooth")}};
-#endif
 }
 
 // static
-const QMap<KeyframeType, QString> KeyframeModel::getKeyframeTypes()
+const QMap<KeyframeType::KeyframeEnum, QString> KeyframeModel::getKeyframeTypes()
 {
     // std::unordered_map and QHash could not be used here
     return KeyframeTypeName;
@@ -93,7 +89,7 @@ void KeyframeModel::setup()
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
-bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, bool notify, Fun &undo, Fun &redo)
+bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo)
 {
     qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()) << value << notify;
     QWriteLocker locker(&m_lock);
@@ -101,12 +97,12 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, 
     Fun local_redo = []() { return true; };
     if (m_keyframeList.count(pos) > 0) {
         qDebug() << "already there";
-        if (std::pair<KeyframeType, QVariant>({type, value}) == m_keyframeList.at(pos)) {
+        if (std::pair<KeyframeType::KeyframeEnum, QVariant>({type, value}) == m_keyframeList.at(pos)) {
             qDebug() << "nothing to do";
             return true; // nothing to do
         }
         // In this case we simply change the type and value
-        KeyframeType oldType = m_keyframeList[pos].first;
+        KeyframeType::KeyframeEnum oldType = m_keyframeList[pos].first;
         QVariant oldValue = m_keyframeList[pos].second;
         local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify);
         local_redo = updateKeyframe_lambda(pos, type, value, notify);
@@ -136,7 +132,7 @@ bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
     return false;
 }
 
-bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
+bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -159,7 +155,7 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
     } else if (m_keyframeList.count(pos) == 0) {
         return true;
     }
-    KeyframeType oldType = m_keyframeList[pos].first;
+    KeyframeType::KeyframeEnum oldType = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
     Fun select_undo = []() { return true; };
     Fun select_redo = []() { return true; };
@@ -208,7 +204,7 @@ bool KeyframeModel::duplicateKeyframe(GenTime srcPos, GenTime dstPos, Fun &undo,
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(srcPos) > 0);
-    KeyframeType oldType = m_keyframeList[srcPos].first;
+    KeyframeType::KeyframeEnum oldType = m_keyframeList[srcPos].first;
     QVariant oldValue = m_keyframeList[srcPos].second;
     Fun local_redo = addKeyframe_lambda(dstPos, oldType, oldValue, true);
     Fun local_undo = deleteKeyframe_lambda(dstPos, true);
@@ -267,11 +263,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
         if (ptr->m_selectedKeyframes.size() > 1) {
             // We have several selected keyframes, move them all
             double offset = 0.;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            if (newVal.isValid() && newVal.type() == QVariant::Double) {
-#else
             if (newVal.isValid() && newVal.typeId() == QMetaType::Double) {
-#endif
                 int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
                 double oldVal = data(index(row), NormalizedValueRole).toDouble();
                 offset = newVal.toDouble() - oldVal;
@@ -375,7 +367,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         qDebug() << "==== MOVE REJECTED!!";
         return false;
     }
-    KeyframeType oldType = m_keyframeList[oldPos].first;
+    KeyframeType::KeyframeEnum oldType = m_keyframeList[oldPos].first;
     QVariant oldValue = m_keyframeList[oldPos].second;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -432,7 +424,7 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
         times << m.first;
     }
     bool res = true;
-    for (const auto &t : qAsConst(times)) {
+    for (const auto &t : std::as_const(times)) {
         res &= moveKeyframe(t, t + diff, QVariant(), undo, redo);
     }
     if (res && logUndo) {
@@ -466,7 +458,7 @@ bool KeyframeModel::directUpdateKeyframe(GenTime pos, QVariant value, bool notif
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
-    KeyframeType type = m_keyframeList[pos].first;
+    KeyframeType::KeyframeEnum type = m_keyframeList[pos].first;
     auto operation = updateKeyframe_lambda(pos, type, std::move(value), notify);
     return operation();
 }
@@ -475,7 +467,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
-    KeyframeType type = m_keyframeList[pos].first;
+    KeyframeType::KeyframeEnum type = m_keyframeList[pos].first;
     QVariant oldValue = m_keyframeList[pos].second;
     // Check if keyframe is different
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
@@ -533,14 +525,13 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
     return res;
 }
 
-KeyframeType convertFromMltType(mlt_keyframe_type type)
+KeyframeType::KeyframeEnum convertFromMltType(mlt_keyframe_type type)
 {
     switch (type) {
     case mlt_keyframe_linear:
         return KeyframeType::Linear;
     case mlt_keyframe_discrete:
         return KeyframeType::Discrete;
-#ifdef USE_MLT_NEW_KEYFRAMES
     case mlt_keyframe_smooth_natural:
         return KeyframeType::CurveSmooth;
     case mlt_keyframe_bounce_in:
@@ -563,7 +554,6 @@ KeyframeType convertFromMltType(mlt_keyframe_type type)
         return KeyframeType::ElasticIn;
     case mlt_keyframe_elastic_out:
         return KeyframeType::ElasticOut;
-#endif
     case mlt_keyframe_smooth:
         return KeyframeType::Curve;
     default:
@@ -575,8 +565,8 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
-    KeyframeType oldType = m_keyframeList[pos].first;
-    KeyframeType newType = convertFromMltType(mlt_keyframe_type(type));
+    KeyframeType::KeyframeEnum oldType = m_keyframeList[pos].first;
+    KeyframeType::KeyframeEnum newType = convertFromMltType(mlt_keyframe_type(type));
     QVariant value = m_keyframeList[pos].second;
     // Check if keyframe is different
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
@@ -591,7 +581,7 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     return res;
 }
 
-Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, const QVariant &value, bool notify)
+Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify)
 {
     QWriteLocker locker(&m_lock);
     return [this, pos, type, value, notify]() {
@@ -605,7 +595,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, const Q
     };
 }
 
-Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, const QVariant &value, bool notify)
+Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify)
 {
     QWriteLocker locker(&m_lock);
     return [this, notify, pos, type, value]() {
@@ -727,7 +717,7 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
     case Qt::UserRole:
         return it->first.frames(pCore->getCurrentFps());
     case TypeRole:
-        return QVariant::fromValue<KeyframeType>(it->second.first);
+        return QVariant::fromValue<KeyframeType::KeyframeEnum>(it->second.first);
     case SelectedRole:
         if (auto ptr = m_model.lock()) {
             return ptr->m_selectedKeyframes.contains(index.row());
@@ -864,7 +854,7 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     update_redo_start();
     bool res = true;
     bool first = true;
-    for (const auto &p : qAsConst(all_pos)) {
+    for (const auto &p : std::as_const(all_pos)) {
         if (first) { // skip first point
             first = false;
             continue;
@@ -895,7 +885,7 @@ bool KeyframeModel::removeAllKeyframes()
     return res;
 }
 
-mlt_keyframe_type convertToMltType(KeyframeType type)
+mlt_keyframe_type convertToMltType(KeyframeType::KeyframeEnum type)
 {
     return static_cast<mlt_keyframe_type>(static_cast<int>(type));
 }
@@ -1498,7 +1488,8 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
     return qstrdup(anim.serialize_cut(0, duration));
 }
 
-const QString KeyframeModel::getIconByKeyframeType(KeyframeType type){
+const QString KeyframeModel::getIconByKeyframeType(KeyframeType::KeyframeEnum type)
+{
     switch (type) {
     case KeyframeType::Linear:
         return QStringLiteral("linear");
@@ -1506,10 +1497,8 @@ const QString KeyframeModel::getIconByKeyframeType(KeyframeType type){
         return QStringLiteral("discrete");
     case KeyframeType::Curve:
         return QStringLiteral("smooth");
-#ifdef USE_MLT_NEW_KEYFRAMES
     case KeyframeType::CurveSmooth:
         return QStringLiteral("smooth");
-#endif
     default:
         return QStringLiteral("favorite");
     }

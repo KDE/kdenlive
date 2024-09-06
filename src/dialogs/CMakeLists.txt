@@ -18,6 +18,7 @@ set(kdenlive_SRCS
   dialogs/renderpresetdialog.cpp
   dialogs/speechdialog.cpp
   dialogs/subtitleedit.cpp
+  dialogs/subtitlestyleedit.cpp
   dialogs/textbasededit.cpp
   dialogs/timeremap.cpp
   dialogs/titletemplatedialog.cpp

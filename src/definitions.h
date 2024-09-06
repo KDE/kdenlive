@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/gentime.h"
 
 #include "kdenlive_debug.h"
-
+#include "mlt++/Mlt.h"
 #include <QDomElement>
 #include <QHash>
 #include <QPersistentModelIndex>
@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QUuid>
 #include <cassert>
 #include <memory>
+#include <qcolor.h>
 
 const int MAXCLIPDURATION = 15000;
 
@@ -93,7 +94,7 @@ struct ObjectId
 enum class MixAlignment { AlignNone, AlignLeft, AlignRight, AlignCenter };
 
 enum OperationType {
-    None = 0,
+    NoOperation = 0,
     WaitingForConfirm,
     MoveOperation,
     ResizeStart,
@@ -187,6 +188,27 @@ Q_ENUM_NS(ProducerType)
 enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipType };
 
 enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
+
+namespace KeyframeType {
+Q_NAMESPACE
+enum KeyframeEnum {
+    Linear = mlt_keyframe_linear,
+    Discrete = mlt_keyframe_discrete,
+    Curve = mlt_keyframe_smooth,
+    CurveSmooth = mlt_keyframe_smooth_natural,
+    BounceIn = mlt_keyframe_bounce_in,
+    BounceOut = mlt_keyframe_bounce_out,
+    CubicIn = mlt_keyframe_cubic_in,
+    CubicOut = mlt_keyframe_cubic_out,
+    ExponentialIn = mlt_keyframe_exponential_in,
+    ExponentialOut = mlt_keyframe_exponential_out,
+    CircularIn = mlt_keyframe_circular_in,
+    CircularOut = mlt_keyframe_circular_out,
+    ElasticIn = mlt_keyframe_elastic_in,
+    ElasticOut = mlt_keyframe_elastic_out
+};
+Q_ENUM_NS(KeyframeEnum)
+} // namespace KeyframeType
 
 namespace ToolType {
 Q_NAMESPACE
@@ -348,32 +370,186 @@ private:
     int m_type{0};
 };
 
-class SubtitledTime
+class SubtitleEvent
 {
 public:
-    SubtitledTime();
-    SubtitledTime(const GenTime &start, QString sub, const GenTime &end);
-    
-    QString subtitle() const;
-    GenTime start() const;
-    GenTime end() const;
-    
-    void setSubtitle(const QString &sub);
-    void setEndTime(const GenTime &end);
-    
-    /* Implementation of > operator; Works identically as with basic types. */
-    bool operator>(const SubtitledTime &op) const;
-    /* Implementation of < operator; Works identically as with basic types. */
-    bool operator<(const SubtitledTime &op) const;
-    /* Implementation of == operator; Works identically as with basic types. */
-    bool operator==(const SubtitledTime &op) const;
-    /* Implementation of != operator; Works identically as with basic types. */
-    bool operator!=(const SubtitledTime &op) const;
-    
+    SubtitleEvent() {};
+    // Create a subtitle event from a string, and pass the layer & start time through the pointer if needed
+    SubtitleEvent(const QString &eventString, const double fps, const double factor = 1., std::pair<int, GenTime> *start = nullptr);
+    SubtitleEvent(bool isDialogue, const GenTime &end, const QString &styleName, const QString &name, int marginL, int marginR, int marginV,
+                  const QString &effect, const QString &text)
+        : m_isDialogue(isDialogue)
+        , m_endTime(end)
+        , m_styleName(styleName)
+        , m_name(name)
+        , m_marginL(marginL)
+        , m_marginR(marginR)
+        , m_marginV(marginV)
+        , m_effect(effect)
+        , m_text(text)
+    {
+    }
+
+    bool isDialogue() const { return m_isDialogue; }
+    const GenTime endTime() const { return m_endTime; }
+    const QString styleName() const { return m_styleName; }
+    const QString name() const { return m_name; }
+    int marginL() const { return m_marginL; }
+    int marginR() const { return m_marginR; }
+    int marginV() const { return m_marginV; }
+    const QString effect() const { return m_effect; }
+    const QString text() const { return m_text; }
+
+    void setIsDialogue(bool isDialogue) { m_isDialogue = isDialogue; }
+    void setEndTime(const GenTime &time) { m_endTime = time; }
+    void setStyleName(const QString &style) { m_styleName = style; }
+    void setName(const QString &name) { m_name = name; }
+    void setMarginL(int margin) { m_marginL = margin; }
+    void setMarginR(int margin) { m_marginR = margin; }
+    void setMarginV(int margin) { m_marginV = margin; }
+    void setEffect(const QString &effect)
+    {
+        m_effect = effect;
+        m_effect.remove('\n');
+    }
+    void setText(const QString &text)
+    {
+        m_text = text;
+        m_text.replace("\n", "\\N");
+    }
+
+    // convert ASS format time string to GenTime
+    static GenTime stringtoTime(const QString &str, const double fps, const double factor = 1.);
+
+    /* convert GenTime to string
+     *
+     * 0 - ASS Format
+     *
+     * 1 - SRT Format
+     */
+    static QString timeToString(const GenTime &time, const int format);
+
+    QString toString(int layer, GenTime start) const;
+
+    bool operator==(const SubtitleEvent &op) const;
+    bool operator!=(const SubtitleEvent &op) const;
+
 private:
-    GenTime m_starttime;
-    QString m_subtitle;
-    GenTime m_endtime;
+    bool m_isDialogue = false;
+    GenTime m_endTime = GenTime();
+    QString m_styleName;
+    QString m_name;
+    int m_marginL;
+    int m_marginR;
+    int m_marginV;
+    QString m_effect;
+    QString m_text;
+};
+
+class SubtitleStyle
+{
+public:
+    SubtitleStyle() {};
+    SubtitleStyle(QString styleString);
+    SubtitleStyle(QString fontName, double fontSize, QColor primaryColour, QColor secondaryColour, QColor outlineColour, QColor backColour, bool bold,
+                  bool italic, bool underline, bool strikeOut, double scaleX, double scaleY, double spacing, double angle, int borderStyle, double outline,
+                  double shadow, int alignment, int marginL, int marginR, int marginV, int encoding)
+        : m_fontName(fontName)
+        , m_fontSize(fontSize)
+        , m_primaryColour(primaryColour)
+        , m_secondaryColour(secondaryColour)
+        , m_outlineColour(outlineColour)
+        , m_backColour(backColour)
+        , m_bold(bold)
+        , m_italic(italic)
+        , m_underline(underline)
+        , m_strikeOut(strikeOut)
+        , m_scaleX(scaleX)
+        , m_scaleY(scaleY)
+        , m_spacing(spacing)
+        , m_angle(angle)
+        , m_borderStyle(borderStyle)
+        , m_outline(outline)
+        , m_shadow(shadow)
+        , m_alignment(alignment)
+        , m_marginL(marginL)
+        , m_marginR(marginR)
+        , m_marginV(marginV)
+        , m_encoding(encoding)
+    {
+    }
+
+    QString toString(QString name) const;
+
+    QString fontName() const { return m_fontName; }
+    double fontSize() const { return m_fontSize; }
+    QColor primaryColour() const { return m_primaryColour; }
+    QColor secondaryColour() const { return m_secondaryColour; }
+    QColor outlineColour() const { return m_outlineColour; }
+    QColor backColour() const { return m_backColour; }
+    bool bold() const { return m_bold; }
+    bool italic() const { return m_italic; }
+    bool underline() const { return m_underline; }
+    bool strikeOut() const { return m_strikeOut; }
+    double scaleX() const { return m_scaleX; }
+    double scaleY() const { return m_scaleY; }
+    double spacing() const { return m_spacing; }
+    double angle() const { return m_angle; }
+    int borderStyle() const { return m_borderStyle; }
+    double outline() const { return m_outline; }
+    double shadow() const { return m_shadow; }
+    int alignment() const { return m_alignment; }
+    int marginL() const { return m_marginL; }
+    int marginR() const { return m_marginR; }
+    int marginV() const { return m_marginV; }
+    int encoding() const { return m_encoding; }
+
+    void setFontName(QString fontName) { m_fontName = fontName; }
+    void setFontSize(double fontSize) { m_fontSize = fontSize; }
+    void setPrimaryColour(QColor primaryColour) { m_primaryColour = primaryColour; }
+    void setSecondaryColour(QColor secondaryColour) { m_secondaryColour = secondaryColour; }
+    void setOutlineColour(QColor outlineColour) { m_outlineColour = outlineColour; }
+    void setBackColour(QColor backColour) { m_backColour = backColour; }
+    void setBold(bool bold) { m_bold = bold; }
+    void setItalic(bool italic) { m_italic = italic; }
+    void setUnderline(bool underline) { m_underline = underline; }
+    void setStrikeOut(bool strikeOut) { m_strikeOut = strikeOut; }
+    void setScaleX(double scaleX) { m_scaleX = scaleX; }
+    void setScaleY(double scaleY) { m_scaleY = scaleY; }
+    void setSpacing(double spacing) { m_spacing = spacing; }
+    void setAngle(double angle) { m_angle = angle; }
+    void setBorderStyle(int borderStyle) { m_borderStyle = borderStyle; }
+    void setOutline(double outline) { m_outline = outline; }
+    void setShadow(double shadow) { m_shadow = shadow; }
+    void setAlignment(int alignment) { m_alignment = alignment; }
+    void setMarginL(int marginL) { m_marginL = marginL; }
+    void setMarginR(int marginR) { m_marginR = marginR; }
+    void setMarginV(int marginV) { m_marginV = marginV; }
+    void setEncoding(int encoding) { m_encoding = encoding; }
+
+private:
+    QString m_fontName = "Arial";
+    double m_fontSize = 60;
+    QColor m_primaryColour = QColor(255, 255, 255, 255);
+    QColor m_secondaryColour = QColor(255, 0, 0, 255);
+    QColor m_outlineColour = QColor(0, 0, 0, 255);
+    QColor m_backColour = QColor(0, 0, 0, 255);
+    bool m_bold = false;
+    bool m_italic = false;
+    bool m_underline = false;
+    bool m_strikeOut = false;
+    double m_scaleX = 100;
+    double m_scaleY = 100;
+    double m_spacing = 0;
+    double m_angle = 0;
+    int m_borderStyle = 1;
+    double m_outline = 1;
+    double m_shadow = 0;
+    int m_alignment = 2;
+    int m_marginL = 40;
+    int m_marginR = 40;
+    int m_marginV = 40;
+    int m_encoding = 1;
 };
 
 QDebug operator<<(QDebug qd, const ItemInfo &info);

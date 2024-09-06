@@ -192,16 +192,16 @@ private:
     void updateTextOriginY();
 
     /** @brief Enables the toolbars suiting to toolType. */
-    void enableToolbars(TITLETOOL toolType);
+    void enableToolbars(GraphicsSceneRectMove::TITLETOOL toolType);
 
     /** @brief Shows the toolbars suiting to toolType. */
-    void showToolbars(TITLETOOL toolType);
+    void showToolbars(GraphicsSceneRectMove::TITLETOOL toolType);
 
     /** @brief Set up the tools suiting referenceItem */
     void prepareTools(QGraphicsItem *referenceItem);
 
     /** @brief Checks a tool button. */
-    void checkButton(TITLETOOL toolType);
+    void checkButton(GraphicsSceneRectMove::TITLETOOL toolType);
 
     void adjustFrameSize();
 

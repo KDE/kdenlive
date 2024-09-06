@@ -48,13 +48,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC"))); // Check if effect has a special locale → probably OK
         if (QLocale::c().decimalPoint() != effectLocale.decimalPoint()) {
             needsLocaleConversion = true;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            separator = QString(QLocale::c().decimalPoint());
-            oldSeparator = QString(effectLocale.decimalPoint());
-#else
             separator = QLocale::c().decimalPoint();
             oldSeparator = effectLocale.decimalPoint();
-#endif
         }
     }
 
@@ -232,7 +227,7 @@ void AssetParameterModel::prepareKeyframes(int in, int out)
 {
     if (m_keyframes) return;
     int ix = 0;
-    for (const auto &name : qAsConst(m_rows)) {
+    for (const auto &name : std::as_const(m_rows)) {
         if (isAnimated(m_params.at(name).type)) {
             addKeyframeParam(index(ix, 0), in, out);
         }
@@ -838,7 +833,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             // check for Kdenlive installed luts files
             QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
             QStringList results;
-            for (const QString &folderpath : qAsConst(customLuts)) {
+            for (const QString &folderpath : std::as_const(customLuts)) {
                 QDir dir(folderpath);
                 QDirIterator it(dir.absolutePath(), fileExt, QDir::Files, QDirIterator::Subdirectories);
                 while (it.hasNext()) {
@@ -1048,13 +1043,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
             currentParam.insert(QLatin1String("value"),
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                                fixed.second.type() == QVariant::Double
-#else
-                                fixed.second.typeId() == QMetaType::Double
-#endif
-                                    ? QJsonValue(fixed.second.toDouble())
-                                    : QJsonValue(fixed.second.toString()));
+                                fixed.second.typeId() == QMetaType::Double ? QJsonValue(fixed.second.toDouble()) : QJsonValue(fixed.second.toString()));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -1100,14 +1089,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("DisplayName"), QJsonValue(param.second.name));
-        if (
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            param.second.value.type() == QVariant::Double
-
-#else
-            param.second.value.typeId() == QMetaType::Double
-#endif
-        ) {
+        if (param.second.value.typeId() == QMetaType::Double) {
             currentParam.insert(QLatin1String("value"), QJsonValue(param.second.value.toDouble()));
         } else {
             QString resultValue = param.second.value.toString();
@@ -1212,14 +1194,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
             auto value = m_keyframes->getInterpolatedValue(pos, ix);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
             currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-
-                                                            value.type() == QVariant::Double
-#else
-                                                            value.typeId() == QMetaType::Double
-#endif
-                                                                ? QString::number(value.toDouble())
-                                                                : value.toString())));
+                                                            value.typeId() == QMetaType::Double ? QString::number(value.toDouble()) : value.toString())));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -1271,15 +1246,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
             obj.insert(QStringLiteral("0"), value.toJsonArray());
             currentParam.insert(QLatin1String("value"), QJsonValue(obj));
         } else {
-            stringValue = QStringLiteral("0=%1").arg(
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                value.type() == QVariant::Double
-
-#else
-                value.typeId() == QMetaType::Double
-#endif
-                    ? QString::number(value.toDouble())
-                    : value.toString());
+            stringValue = QStringLiteral("0=%1").arg(value.typeId() == QMetaType::Double ? QString::number(value.toDouble()) : value.toString());
             currentParam.insert(QLatin1String("value"), QJsonValue(stringValue));
         }
 
@@ -1336,7 +1303,7 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
                         toDelete << i;
                     }
                 }
-                for (int i : qAsConst(toDelete)) {
+                for (int i : std::as_const(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {
@@ -1386,7 +1353,7 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
                         toDelete << i;
                     }
                 }
-                for (int i : qAsConst(toDelete)) {
+                for (int i : std::as_const(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {

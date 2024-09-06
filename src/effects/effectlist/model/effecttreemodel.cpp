@@ -53,7 +53,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             }
             QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), Qt::SkipEmptyParts);
             auto groupItem = self->rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
-            for (const QString &effect : qAsConst(list)) {
+            for (const QString &effect : std::as_const(list)) {
                 effectCategory[effect] = groupItem;
             }
         }
@@ -73,7 +73,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
     // We parse effects
     auto allEffects = EffectsRepository::get()->getNames();
     QString favCategory = QStringLiteral("kdenlive:favorites");
-    for (const auto &effect : qAsConst(allEffects)) {
+    for (const auto &effect : std::as_const(allEffects)) {
         auto targetCategory = miscCategory;
         AssetListType::AssetType type = EffectsRepository::get()->getType(effect.first);
         if (effectCategory.contains(effect.first)) {
@@ -183,7 +183,7 @@ void EffectTreeModel::reloadTemplates()
         QDir current_dir(dir);
         QStringList filter{QStringLiteral("*.xml")};
         QStringList fileList = current_dir.entryList(filter, QDir::Files);
-        for (const auto &file : qAsConst(fileList)) {
+        for (const auto &file : std::as_const(fileList)) {
             QString path = current_dir.absoluteFilePath(file);
             reloadEffect(path);
         }
@@ -285,9 +285,6 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-#endif
             out << doc.toString();
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
@@ -301,9 +298,6 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
         QFile file(dir.absoluteFilePath(currentName + QStringLiteral(".xml")));
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-#endif
             out << doc.toString();
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));

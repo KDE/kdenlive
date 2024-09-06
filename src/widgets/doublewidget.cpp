@@ -40,7 +40,7 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     if (compact) {
         layout->addStretch(10);
     }
-    setMinimumHeight(m_dragVal->height());
+    setFixedHeight(m_dragVal->minimumHeight());
 
     if (!comment.isEmpty()) {
         setToolTip(comment);

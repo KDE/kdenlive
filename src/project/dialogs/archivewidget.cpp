@@ -50,8 +50,13 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     connect(archive_url, &KUrlRequester::textChanged, this, &ArchiveWidget::slotCheckSpace);
     connect(this, &ArchiveWidget::archivingFinished, this, &ArchiveWidget::slotArchivingBoolFinished);
     connect(this, &ArchiveWidget::archiveProgress, this, &ArchiveWidget::slotArchivingIntProgress);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(proxy_only, &QCheckBox::checkStateChanged, this, &ArchiveWidget::slotProxyOnly);
+    connect(timeline_archive, &QCheckBox::checkStateChanged, this, &ArchiveWidget::onlyTimelineItems);
+#else
     connect(proxy_only, &QCheckBox::stateChanged, this, &ArchiveWidget::slotProxyOnly);
     connect(timeline_archive, &QCheckBox::stateChanged, this, &ArchiveWidget::onlyTimelineItems);
+#endif
 
     // Prepare xml
     m_doc.setContent(xmlData);
@@ -133,7 +138,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     QMap<QString, QString> proxyUrls;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
     QStringList handledUrls;
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         ClipType::ProducerType t = clip->clipType();
         if (t == ClipType::Color || t == ClipType::Timeline) {
             continue;
@@ -241,7 +246,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
     }
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
-    connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartArchiving);
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, [this]() { slotStartArchiving(true); });
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 
     slotCheckSpace();
@@ -301,11 +306,7 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartExtracting);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     adjustSize();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::openArchiveForExtraction);
-#else
     m_archiveThread = QtConcurrent::run(&ArchiveWidget::openArchiveForExtraction, this);
-#endif
 }
 
 ArchiveWidget::~ArchiveWidget()
@@ -458,7 +459,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     directory.append(QLatin1Char('/'));
                 }
                 qint64 totalSize = 0;
-                for (const QString &path : qAsConst(result)) {
+                for (const QString &path : std::as_const(result)) {
                     if (rx.match(path).hasMatch()) {
                         totalSize += QFileInfo(directory + path).size();
                         slideImages << directory + path;
@@ -544,7 +545,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
                 QStringList slideImages;
                 qint64 totalSize = 0;
-                for (const QString &path : qAsConst(result)) {
+                for (const QString &path : std::as_const(result)) {
                     if (rx.match(path).hasMatch()) {
                         totalSize += QFileInfo(dir.absoluteFilePath(path)).size();
                         slideImages << dir.absoluteFilePath(path);
@@ -628,11 +629,10 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     QList<QUrl> files;
     QDir destUrl;
     QString destPath;
-    QTreeWidgetItem *parentItem;
     bool isSlideshow = false;
     int items = 0;
     bool isLastCategory = false;
-
+    QTreeWidgetItem *parentItem = nullptr;
     // We parse all files going into one folder, then start the copy job
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         parentItem = files_list->topLevelItem(i);
@@ -815,6 +815,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
         m_copyJob = nullptr;
         slotJobResult(false, i18n("There was an error while copying the files: %1", job->errorString()));
     }
+
     if (!compressed_archive->isChecked()) {
         for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
             files_list->topLevelItem(i)->setDisabled(false);
@@ -868,11 +869,7 @@ bool ArchiveWidget::processProjectFile()
                                             KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
             return false;
         }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
-#else
         m_archiveThread = QtConcurrent::run(&ArchiveWidget::createArchive, this);
-#endif
         return true;
     }
 
@@ -982,6 +979,10 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
 {
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
+    QStringList clipsToRemove;
+    if (timeline_archive->isChecked()) {
+        clipsToRemove = pCore->projectItemModel()->getUnusedClipIds();
+    }
 
     m_replacementList.clear();
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
@@ -1029,6 +1030,25 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
     QDomNodeList chains = mlt.elementsByTagName(QStringLiteral("chain"));
     for (int i = 0; i < chains.count(); ++i) {
         processElement(chains.item(i).toElement(), root);
+    }
+
+    if (!clipsToRemove.isEmpty()) {
+        // Find main playlist
+        QDomNodeList playlists = mlt.elementsByTagName(QStringLiteral("playlist"));
+        for (int i = 0; i < playlists.count(); ++i) {
+            QDomElement pl = playlists.item(i).toElement();
+            if (pl.attribute(QLatin1String("id")) == QLatin1String("main_bin")) {
+                // process clip entries
+                QDomNodeList entries = pl.elementsByTagName(QStringLiteral("entry"));
+                for (int j = entries.count() - 1; j >= 0; --j) {
+                    QDomElement en = entries.item(j).toElement();
+                    if (clipsToRemove.contains(en.attribute(QLatin1String("producer")))) {
+                        pl.removeChild(en);
+                    }
+                }
+                break;
+            }
+        }
     }
 
     // process mlt transitions (for luma files)
@@ -1109,7 +1129,7 @@ void ArchiveWidget::createArchive()
 
     // Create folders
     if (success) {
-        for (const QString &path : qAsConst(m_foldersList)) {
+        for (const QString &path : std::as_const(m_foldersList)) {
             success = success && m_archive->writeDir(path, user, group);
         }
     }
@@ -1192,11 +1212,7 @@ void ArchiveWidget::slotStartExtracting()
     slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting…"));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::doExtracting);
-#else
     m_archiveThread = QtConcurrent::run(&ArchiveWidget::doExtracting, this);
-#endif
     m_progressTimer->start();
 }
 
@@ -1370,10 +1386,11 @@ void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
         QTreeWidgetItem *parent = files_list->topLevelItem(idx);
         int childCount = parent->childCount();
         for (int cidx = 0; cidx < childCount; ++cidx) {
-            parent->child(cidx)->setHidden(true);
             if (onlyTimeline == Qt::Checked) {
                 if (parent->child(cidx)->data(0, IsInTimelineRole).toInt() > 0) {
                     parent->child(cidx)->setHidden(false);
+                } else {
+                    parent->child(cidx)->setHidden(true);
                 }
             } else {
                 parent->child(cidx)->setHidden(false);

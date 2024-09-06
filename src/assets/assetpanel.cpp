@@ -54,7 +54,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchCompoButton = new QComboBox(this);
     m_switchCompoButton->setFrame(false);
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : qAsConst(allTransitions)) {
+    for (const auto &transition : std::as_const(allTransitions)) {
         if (transition.first != QLatin1String("mix")) {
             m_switchCompoButton->addItem(transition.second, transition.first);
         }

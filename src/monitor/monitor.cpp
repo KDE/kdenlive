@@ -19,7 +19,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "project/dialogs/guideslist.h"
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include "videowidget.h"
 #if defined(Q_OS_WIN)
 #include "d3dvideowidget.h"
@@ -29,9 +28,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #else
 // Linux
 #include "openglvideowidget.h"
-#endif
-#else // Qt6
-#include "glwidget.h"
 #endif
 
 #include "bin/model/markersortmodel.h"
@@ -61,6 +57,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
+#include <QApplication>
 #include <QCheckBox>
 #include <QDrag>
 #include <QFontDatabase>
@@ -142,7 +139,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
     // Create QML OpenGL widget
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #if defined(Q_OS_WIN)
     if (QSGRendererInterface::Direct3D11 == QQuickWindow::graphicsApi())
         m_glMonitor = new D3DVideoWidget(id, this);
@@ -188,9 +184,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     });
 
     rebuildViewConnection(false);
-#else
-    m_glMonitor = new VideoWidget(id, this);
-#endif
+
     connect(m_glMonitor, &VideoWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &VideoWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
@@ -323,7 +317,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 enabledStreams.insert(INT_MAX, i18n("Merged streams"));
                 // Disable all other streams
                 QSignalBlocker bk(m_audioChannels);
-                for (auto act : qAsConst(actions)) {
+                for (auto act : std::as_const(actions)) {
                     if (act->isChecked() && act != ac) {
                         act->setChecked(false);
                     }
@@ -332,7 +326,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                     }
                 }
             } else {
-                for (auto act : qAsConst(actions)) {
+                for (auto act : std::as_const(actions)) {
                     if (act->isChecked()) {
                         // Audio stream is selected
                         if (act->data().toInt() == INT_MAX) {
@@ -354,7 +348,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 props.insert(QStringLiteral("astream"), QString::number(streamsList.indexOf(enabledStreams.firstKey())));
                 QList<int> streams = enabledStreams.keys();
                 QStringList astreams;
-                for (const int st : qAsConst(streams)) {
+                for (const int st : std::as_const(streams)) {
                     astreams << QString::number(st);
                 }
                 props.insert(QStringLiteral("kdenlive:active_streams"), astreams.join(QLatin1Char(';')));
@@ -441,11 +435,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     freeAction->setData(0);
     m_configMenuAction->addAction(m_forceSize);
     m_forceSize->setCurrentAction(freeAction);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_forceSize, &KSelectAction::actionTriggered, this, &Monitor::slotForceSize);
-#else
-    connect(m_forceSize, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Monitor::slotForceSize);
-#endif
 
     if (m_id == Kdenlive::ClipMonitor) {
         m_background = new KSelectAction(QIcon::fromTheme(QStringLiteral("paper-color")), i18n("Background Color"), this);
@@ -463,11 +453,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         } else {
             m_background->setCurrentAction(blackAction);
         }
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         connect(m_background, &KSelectAction::actionTriggered, this, [this](QAction *a) {
-#else
-        connect(m_background, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, [this](QAction *a) {
-#endif
             KdenliveSettings::setMonitor_background(a->data().toString());
             buildBackgroundedProducer(position());
         });
@@ -491,8 +477,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     }
     m_glMonitor->getControllerProxy()->setTimeCode(m_timePos);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::triggerAction, pCore.get(), &Core::triggerAction);
-    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekNextKeyframe, this, &Monitor::seekToNextKeyframe);
-    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekPreviousKeyframe, this, &Monitor::seekToPreviousKeyframe);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addRemoveKeyframe, this, &Monitor::addRemoveKeyframe);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekToKeyframe, this, &Monitor::slotSeekToKeyFrame);
 
@@ -829,7 +813,7 @@ void Monitor::updateMarkers()
         }
         if (model) {
             QList<CommentedTime> markersList = model->getAllMarkers();
-            for (const CommentedTime &mkr : qAsConst(markersList)) {
+            for (const CommentedTime &mkr : std::as_const(markersList)) {
                 QString label = pCore->timecode().getTimecode(mkr.time()) + QLatin1Char(' ') + mkr.comment();
                 QAction *a = new QAction(label);
                 a->setData(mkr.time().frames(pCore->getCurrentFps()));
@@ -950,11 +934,7 @@ void Monitor::mousePressEvent(QMouseEvent *event)
         }
     } else if (m_contextMenu) {
         slotActivateMonitor();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_contextMenu->popup(event->globalPos());
-#else
         m_contextMenu->popup(event->globalPosition().toPoint());
-#endif
         event->accept();
     }
     QWidget::mousePressEvent(event);
@@ -1124,7 +1104,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         lay->insertWidget(0, m_glWidget, 10);
         // With some Qt versions, focus was lost after switching back from fullscreen,
         // QApplication::setActiveWindow restores focus to the correct window
-        QApplication::setActiveWindow(this);
+        activateWindow(); // TODO is this still needed?
         if (m_id == Kdenlive::ProjectMonitor) {
             KdenliveSettings::setProject_monitor_fullscreen(QString());
         } else {
@@ -1318,11 +1298,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     QObject::connect(fileWidget.data(), &KFileWidget::accepted, dlg.data(), &QDialog::accept);
     QObject::connect(fileWidget->cancelButton(), &QPushButton::clicked, dlg.data(), &QDialog::reject);
     dlg->setLayout(layout);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    fileWidget->setMimeFilter(QStringList() << QStringLiteral("image/png"));
-#else
     fileWidget->setFilters({KFileFilter::fromMimeType(QStringLiteral("image/png"))});
-#endif
     fileWidget->setMode(KFile::File | KFile::LocalOnly);
     fileWidget->setOperationMode(KFileWidget::Saving);
     QUrl relativeUrl;
@@ -1351,13 +1327,8 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     src.setAutoRemove(false);
                     m_controller->cloneProducerToFile(src.fileName());
                     const QStringList pathInfo = {src.fileName(), selectedFile, pCore->bin()->getCurrentFolder()};
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                    QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
-                                      addToProject, useSourceResolution);
-#else
                     (void)QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
                                             addToProject, useSourceResolution);
-#endif
                 } else {
                     // TODO: warn user, cannot open tmp file
                     qDebug() << "Could not create temporary file";
@@ -1433,13 +1404,8 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     } else {
                         pathInfo = QStringList({QString(), selectedFile, pCore->bin()->getCurrentFolder()});
                     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                    QtConcurrent::run(m_glMonitor->getControllerProxy(), &MonitorProxy::extractFrameToFile, m_glMonitor->getCurrentPos(), pathInfo,
-                                      addToProject, useSourceResolution);
-#else
                     (void)QtConcurrent::run(&MonitorProxy::extractFrameToFile, m_glMonitor->getControllerProxy(), m_glMonitor->getCurrentPos(), pathInfo,
                                             addToProject, useSourceResolution);
-#endif
                 }
             }
         }
@@ -2064,7 +2030,7 @@ void Monitor::reloadActiveStream()
             m_glMonitor->getControllerProxy()->setAudioStream(QString());
         }
         prepareAudioThumb();
-        for (auto ac : qAsConst(acts)) {
+        for (auto ac : std::as_const(acts)) {
             int val = ac->data().toInt();
             if (streams.contains(val)) {
                 // Update stream name in case of renaming
@@ -2203,12 +2169,10 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, co
     loadQmlScene(sceneType, sceneData);
 }
 
-void Monitor::slotSeekToKeyFrame()
+void Monitor::slotSeekToKeyFrame(int ix, int offset)
 {
     if (m_qmlManager->sceneType() == MonitorSceneGeometry) {
-        // Adjust splitter pos
-        int kfr = m_glMonitor->rootObject()->property("requestedKeyFrame").toInt();
-        Q_EMIT seekToKeyframe(kfr);
+        Q_EMIT seekToKeyframe(ix, offset);
     }
 }
 
@@ -2922,11 +2886,7 @@ void Monitor::purgeCache()
 
 void Monitor::updateBgColor()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_glMonitor->m_bgColor = KdenliveSettings::window_background();
-#else
     m_glMonitor->setClearColor(KdenliveSettings::window_background());
-#endif
 }
 
 MonitorProxy *Monitor::getControllerProxy()

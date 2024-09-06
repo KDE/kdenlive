@@ -149,6 +149,11 @@ public:
      * @param newPath If the project file is being moved, this is the new location.
     */
     QString projectDataFolder(const QString &newPath = QString()) const;
+    /** @brief Returns the folder used to render videos
+     *
+     * @param newPath If the project file is being moved, this is the new location.
+     */
+    QString projectRenderFolder(const QString &newPath = QString()) const;
     /** @brief Returns the folder used to store captures (audio record tracks, etc) */
     QString projectCaptureFolder() const;
     void setZoom(const QUuid &uuid, int horizontal, int vertical = -1);
@@ -189,6 +194,7 @@ public:
     QMap<std::pair<int, QString>, QString> multiSubtitlePath(const QUuid &uuid);
     void duplicateSequenceProperty(const QUuid &destUuid, const QUuid &srcUuid, const QString &subsData);
     QMap<std::pair<int, QString>, QString> JSonToSubtitleList(const QString &data);
+    std::map<QString, SubtitleStyle> globalSubtitleStyles(const QUuid &uuid);
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap<QString, QString> getRenderProperties() const;
@@ -331,6 +337,7 @@ public:
     bool isBusy() const;
     /** @brief Returns a valid {fps_num, fps_den} based on a fps */
     static std::pair<int, int> getFpsFraction(double fps, bool *adjusted);
+    enum RENDERLOCATION { SaveToVideoFolder = 0, SaveToProjectFolder, SaveToCustomFolder, SaveToProjectSubFolder };
 
 protected:
     static int next_id; /// next valid id to assign
@@ -368,7 +375,9 @@ private:
 
     QUrl m_url;
 
-    /** @brief The project folder, used to store project files (titles, effects...). */
+    /** @brief The project folder, used to store project files (titles, effects...).
+     *         If empty, all files will be saved in a common default location
+     */
     QString m_projectFolder;
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;

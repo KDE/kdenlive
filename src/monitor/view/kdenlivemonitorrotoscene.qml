@@ -71,7 +71,6 @@ Item {
     property string resizeKeyBindInfo: xi18nc("@info:whatsthis", "<shortcut>Shift drag handle</shortcut> for center-based resize")
     onCenterPointsTypesChanged: checkDefined()
     signal effectPolygonChanged(var points, var centers)
-    signal seekToKeyframe()
     focus: true
     Keys.onPressed: (event)=> {
         if (event.key == Qt.Key_Return) {

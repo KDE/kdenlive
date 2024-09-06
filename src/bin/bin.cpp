@@ -285,7 +285,7 @@ public:
                     QRectF tagRect = m_thumbRect.adjusted(2, 2, 0, 2);
                     tagRect.setWidth(r1.height() / 3.5);
                     tagRect.setHeight(tagRect.width());
-                    for (const QString &color : qAsConst(t)) {
+                    for (const QString &color : std::as_const(t)) {
                         painter->setBrush(QColor(color));
                         painter->drawRoundedRect(tagRect, tagRect.height() / 2, tagRect.height() / 2);
                         tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
@@ -525,7 +525,7 @@ public:
                 tagRect.setWidth(m_thumbRect.height() / 5);
                 tagRect.setHeight(tagRect.width());
                 painter->save();
-                for (const QString &color : qAsConst(t)) {
+                for (const QString &color : std::as_const(t)) {
                     painter->setBrush(QColor(color));
                     painter->drawRoundedRect(tagRect, tagRect.height() / 2, tagRect.height() / 2);
                     tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
@@ -681,11 +681,7 @@ void MyListView::dropEvent(QDropEvent *event)
             if (rootIndex().data(AbstractProjectItem::DataId).toString() == rootId) {
                 isSameRoot = true;
             }
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0)
             if (isSameRoot && !indexAt(event->position().toPoint()).isValid()) {
-#else
-            if (isSameRoot && !indexAt(event->pos()).isValid()) {
-#endif
                 event->ignore();
                 return;
             }
@@ -694,11 +690,7 @@ void MyListView::dropEvent(QDropEvent *event)
     QListView::dropEvent(event);
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void MyListView::enterEvent(QEnterEvent *event)
-#else
-void MyListView::enterEvent(QEvent *event)
-#endif
 {
     QListView::enterEvent(event);
     pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
@@ -715,11 +707,7 @@ void MyListView::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            QAbstractItemDelegate *del = itemDelegate(ix);
-#else
             QAbstractItemDelegate *del = itemDelegateForIndex(ix);
-#endif
             m_dragType = static_cast<BinListItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
         } else {
@@ -782,11 +770,7 @@ void MyListView::mouseMoveEvent(QMouseEvent *event)
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
         if (KdenliveSettings::hoverPreview()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            QAbstractItemDelegate *del = itemDelegate(index);
-#else
             QAbstractItemDelegate *del = itemDelegateForIndex(index);
-#endif
             if (del) {
                 auto delegate = static_cast<BinListItemDelegate *>(del);
                 QRect vRect = visualRect(index);
@@ -838,11 +822,7 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton) {
         QModelIndex ix = indexAt(event->pos());
         if (ix.isValid()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            QAbstractItemDelegate *del = itemDelegate(ix);
-#else
             QAbstractItemDelegate *del = itemDelegateForIndex(ix);
-#endif
             m_dragType = static_cast<BinItemDelegate *>(del)->dragType;
             m_startPos = event->pos();
 
@@ -868,11 +848,7 @@ void MyTreeView::focusInEvent(QFocusEvent *event)
     }
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 void MyTreeView::enterEvent(QEnterEvent *event)
-#else
-void MyTreeView::enterEvent(QEvent *event)
-#endif
 {
     QTreeView::enterEvent(event);
     pCore->setWidgetKeyBinding(i18n("<b>Double click</b> to add a file to the project"));
@@ -900,11 +876,7 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
             if (KdenliveSettings::hoverPreview()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                QAbstractItemDelegate *del = itemDelegate(index);
-#else
                 QAbstractItemDelegate *del = itemDelegateForIndex(index);
-#endif
                 int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
                 if (frame >= 0) {
                     Q_EMIT displayBinFrame(index, frame, event->modifiers() & Qt::ShiftModifier);
@@ -1341,11 +1313,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(hoverPreview, &QAction::triggered, [](bool checked) { KdenliveSettings::setHoverPreview(checked); });
 
     m_listTypeAction->setToolBarMode(KSelectAction::MenuMode);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(m_listTypeAction, &KSelectAction::actionTriggered, this, &Bin::slotInitView);
-#else
-    connect(m_listTypeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
-#endif
 
     // Settings menu
     auto *settingsAction = new KActionMenu(QIcon::fromTheme(QStringLiteral("application-menu")), i18n("Options"), this);
@@ -1421,7 +1389,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
             QSignalBlocker bk(m_filterMenu);
             QList<QAction *> list = m_filterMenu->actions();
             list << m_filterTypeGroup.actions();
-            for (QAction *ac : qAsConst(list)) {
+            for (QAction *ac : std::as_const(list)) {
                 ac->setChecked(false);
             }
             m_proxyModel->slotClearSearchFilters();
@@ -1870,9 +1838,6 @@ void Bin::slotReloadClip()
                                 KMessageBox::error(this, i18n("Unable to write to file %1", path));
                             } else {
                                 QTextStream out(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                                out.setCodec("UTF-8");
-#endif
                                 out << doc.toString();
                                 f.close();
                                 KMessageBox::information(
@@ -2192,7 +2157,7 @@ void Bin::slotDuplicateClip()
     }
     int ix = 0;
     QString lastId;
-    for (const auto &item : qAsConst(items)) {
+    for (const auto &item : std::as_const(items)) {
         ix++;
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             std::function<void(const QString &)> callBack = [sourceId = item->clipId(), selectItem = (ix == items.count()), this](const QString &binId) {
@@ -2492,7 +2457,7 @@ void Bin::slotApplyFilters()
     QList<int> typeFilters;
     ProjectSortProxyModel::UsageFilter usageFilter = ProjectSortProxyModel::UsageFilter(m_filterUsageGroup.checkedAction()->data().toInt());
     QStringList tagFilters;
-    for (QAction *ac : qAsConst(list)) {
+    for (QAction *ac : std::as_const(list)) {
         if (ac->isChecked()) {
             QString actionData = ac->data().toString();
             if (actionData.startsWith(QLatin1Char('#'))) {
@@ -2506,7 +2471,7 @@ void Bin::slotApplyFilters()
     }
     // Type actions
     list = m_filterTypeGroup.actions();
-    for (QAction *ac : qAsConst(list)) {
+    for (QAction *ac : std::as_const(list)) {
         if (ac->isChecked()) {
             typeFilters << ac->data().toInt();
         }
@@ -2544,9 +2509,6 @@ void Bin::createClip(const QDomElement &xml)
                     KMessageBox::error(this, i18n("Unable to write to file %1", path));
                 } else {
                     QTextStream out(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                    out.setCodec("UTF-8");
-#endif
                     out << doc.toString();
                     f.close();
                     KMessageBox::information(
@@ -3028,7 +2990,7 @@ void Bin::slotInitView(QAction *action)
             QSignalBlocker bk2(m_sortGroup);
             m_sortDescend->setChecked(order == Qt::DescendingOrder);
             QList<QAction *> actions = m_sortGroup->actions();
-            for (auto ac : qAsConst(actions)) {
+            for (auto ac : std::as_const(actions)) {
                 if (ac->data().toInt() == ix) {
                     ac->setChecked(true);
                     break;
@@ -3942,7 +3904,7 @@ void Bin::slotItemDropped(const QStringList ids, const QModelIndex parent)
     }
 
     if (!folderIds.isEmpty()) {
-        for (QString id : qAsConst(folderIds)) {
+        for (QString id : std::as_const(folderIds)) {
             id.remove(0, 1);
             std::shared_ptr<ProjectFolder> currentItem = m_itemModel->getFolderByBinId(id);
             if (!currentItem || currentItem == parentItem) {
@@ -4236,7 +4198,7 @@ const QList<QString> Bin::getAllClipsWithTag(const QString &tag)
 {
     QList<QString> list;
     QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
-    for (const auto &clip : qAsConst(allClipIds)) {
+    for (const auto &clip : std::as_const(allClipIds)) {
         if (clip->tags().contains(tag)) {
             list << clip->clipId();
         }
@@ -5053,7 +5015,7 @@ void Bin::refreshProxySettings()
         m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);
     } else if (m_doc->autoGenerateProxy(-1) || m_doc->autoGenerateImageProxy(-1)) {
         QList<std::shared_ptr<ProjectClip>> toProxy;
-        for (const std::shared_ptr<ProjectClip> &clp : qAsConst(clipList)) {
+        for (const std::shared_ptr<ProjectClip> &clp : std::as_const(clipList)) {
             ClipType::ProducerType t = clp->clipType();
             if (t == ClipType::Playlist && m_doc->autoGenerateProxy(pCore->getCurrentFrameDisplaySize().width())) {
                 toProxy << clp;
@@ -5084,7 +5046,7 @@ QStringList Bin::getProxyHashList()
 {
     QStringList list;
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clp : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clp : std::as_const(clipList)) {
         if (clp->clipType() == ClipType::AV || clp->clipType() == ClipType::Video || clp->clipType() == ClipType::Playlist) {
             list << clp->hash();
         }
@@ -5115,7 +5077,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         // Check if the clip is included in timeline to update it afterwards
         clipList.first()->updateTimelineOnReload();
     }
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         ClipType::ProducerType type = clip->clipType();
         if (type == ClipType::Timeline) {
             continue;
@@ -5154,7 +5116,7 @@ void Bin::checkAudioThumbs()
         return;
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const auto &clip : qAsConst(clipList)) {
+    for (const auto &clip : std::as_const(clipList)) {
         ClipType::ProducerType type = clip->clipType();
         if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
             AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, clip->clipId().toInt(), QUuid()), clip.get(), false);
@@ -5170,7 +5132,7 @@ void Bin::slotMessageActionTriggered()
 void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         // Don't count sequence clips here
         if (clip->clipType() == ClipType::Timeline) {
             continue;
@@ -5189,7 +5151,7 @@ void Bin::rebuildProxies()
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     QList<std::shared_ptr<ProjectClip>> toProxy;
-    for (const std::shared_ptr<ProjectClip> &clp : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clp : std::as_const(clipList)) {
         if (clp->hasProxy()) {
             toProxy << clp;
             // Abort all pending jobs
@@ -5250,11 +5212,6 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
     case AbstractProjectItem::FolderItem:
         openProducer(nullptr);
     }
-}
-
-void Bin::cleanupUnused()
-{
-    m_itemModel->requestCleanupUnused();
 }
 
 size_t Bin::getClipDuration(int itemId) const
@@ -5393,7 +5350,7 @@ void Bin::invalidateClip(const QString &binId)
         while (i.hasNext()) {
             i.next();
             QList<int> values = i.value();
-            for (int j : qAsConst(values)) {
+            for (int j : std::as_const(values)) {
                 pCore->invalidateItem(ObjectId(KdenliveObjectType::TimelineClip, j, i.key()));
             }
         }
@@ -5504,7 +5461,7 @@ void Bin::checkMissingProxies()
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     QList<std::shared_ptr<ProjectClip>> toProxy;
-    for (const auto &clip : qAsConst(clipList)) {
+    for (const auto &clip : std::as_const(clipList)) {
         if (clip->getProducerIntProperty(QStringLiteral("_replaceproxy")) > 0) {
             clip->resetProducerProperty(QStringLiteral("_replaceproxy"));
             toProxy << clip;
@@ -5525,7 +5482,7 @@ void Bin::saveFolderState()
     auto *view = static_cast<QTreeView *>(m_itemView);
     QList<std::shared_ptr<ProjectFolder>> folders = m_itemModel->getFolders();
     QStringList expandedFolders;
-    for (const auto &folder : qAsConst(folders)) {
+    for (const auto &folder : std::as_const(folders)) {
         QModelIndex ix = m_itemModel->getIndexFromItem(folder);
         if (view->isExpanded(m_proxyModel->mapFromSource(ix))) {
             // Save expanded state
@@ -5562,7 +5519,7 @@ QList<int> Bin::getUsedClipIds()
 {
     QList<int> timelineClipIds;
     QList<std::shared_ptr<ProjectClip>> allClipIds = m_itemModel->getRootFolder()->childClips();
-    for (const auto &clip : qAsConst(allClipIds)) {
+    for (const auto &clip : std::as_const(allClipIds)) {
         if (clip->isIncludedInTimeline()) {
             timelineClipIds.push_back(clip->binId().toInt());
         }
@@ -5988,7 +5945,7 @@ int Bin::getAllClipMarkers(int category) const
 {
     int markersCount = 0;
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         markersCount += clip->getMarkerModel()->getAllMarkers(category).count();
     }
     return markersCount;
@@ -6000,7 +5957,7 @@ void Bin::removeMarkerCategories(QList<int> toRemove, const QMap<int, int> remap
     Fun redo = []() { return true; };
     bool found = false;
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         bool res = clip->removeMarkerCategories(toRemove, remapCategories, undo, redo);
         if (!found && res) {
             found = true;
@@ -6015,7 +5972,7 @@ QStringList Bin::sequenceReferencedClips(const QUuid &uuid) const
 {
     QStringList results;
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         if (clip->refCount() > 0) {
             const QString referenced = clip->isReferenced(uuid);
             if (!referenced.isEmpty()) {

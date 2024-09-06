@@ -101,10 +101,8 @@ bool Core::build(LinuxPackageType packageType, bool testMode)
     qRegisterMetaType<ObjectId>("ObjectId");
     KeyframeModel::initKeyframeTypes();
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     // Increase memory limit allowed per image
     QImageReader::setAllocationLimit(1024);
-#endif
 
     if (!testMode) {
         // Check if we had a crash
@@ -152,16 +150,8 @@ void Core::initHeadless(const QUrl &url)
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_mainWindow = new MainWindow();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 
-    QStringList styles = QQuickStyle::availableStyles();
-    if (styles.contains(QLatin1String("org.kde.desktop"))) {
-        QQuickStyle::setStyle("org.kde.desktop");
-    } else if (styles.contains(QLatin1String("Fusion"))) {
-        QQuickStyle::setStyle("Fusion");
-    }
-    // ELSE Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
-#endif
+    // TODO Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
 
@@ -222,7 +212,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         // we get the list of profiles
         QVector<QPair<QString, QString>> all_profiles = ProfileRepository::get()->getAllProfiles();
         QStringList all_descriptions;
-        for (const auto &profile : qAsConst(all_profiles)) {
+        for (const auto &profile : std::as_const(all_profiles)) {
             all_descriptions << profile.first;
         }
 
@@ -231,7 +221,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         QString item = QInputDialog::getItem(m_mainWindow, i18nc("@title:window", "Select Default Profile"), i18n("Profile:"), all_descriptions, 0, false, &ok);
         if (ok) {
             ok = false;
-            for (const auto &profile : qAsConst(all_profiles)) {
+            for (const auto &profile : std::as_const(all_profiles)) {
                 if (profile.first == item) {
                     m_profile = profile.second;
                     ok = true;
@@ -1316,14 +1306,6 @@ void Core::setAudioMonitoring(bool enable)
     m_capture->switchMonitorState(enable);
 }
 
-QString Core::getProjectFolderName()
-{
-    if (currentDoc()) {
-        return currentDoc()->projectDataFolder(QStringLiteral()) + QDir::separator();
-    }
-    return QString();
-}
-
 QString Core::getProjectCaptureFolderName()
 {
     if (currentDoc()) {
@@ -1424,14 +1406,23 @@ int Core::audioChannels()
     return 2;
 }
 
-void Core::addGuides(const QList<int> &guides)
+void Core::addGuides(const QMap<QUuid, QList<int>> &guides)
 {
-    QMap<GenTime, QString> markers;
-    for (int pos : guides) {
-        GenTime p(pos, pCore->getCurrentFps());
-        markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+    QMapIterator<QUuid, QList<int>> i(guides);
+    while (i.hasNext()) {
+        i.next();
+        QMap<GenTime, QString> markers;
+        for (int pos : i.value()) {
+            GenTime p(pos, pCore->getCurrentFps());
+            markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+        }
+        auto timeline = m_mainWindow->getTimeline(i.key());
+        if (timeline == nullptr) {
+            // Timeline not found, default to active one
+            timeline = m_mainWindow->getCurrentTimeline();
+        }
+        timeline->controller()->getModel()->getGuideModel()->addMarkers(markers);
     }
-    m_mainWindow->getCurrentTimeline()->controller()->getModel()->getGuideModel()->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)

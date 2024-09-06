@@ -87,7 +87,9 @@ QRect RGBParade::scopeRect()
 
 QImage RGBParade::renderHUD(uint)
 {
-    QImage hud(m_scopeRect.size(), QImage::Format_ARGB32);
+    qreal scalingFactor = devicePixelRatioF();
+    QImage hud(m_scopeRect.size() * scalingFactor, QImage::Format_ARGB32);
+    hud.setDevicePixelRatio(scalingFactor);
     hud.fill(qRgba(0, 0, 0, 0));
 
     QPainter davinci;
@@ -138,7 +140,7 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
     timer.start();
 
     int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
-    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, RGBParadeGenerator::PaintMode(paintmode), m_aAxis->isChecked(),
+    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), devicePixelRatioF(), qimage, RGBParadeGenerator::PaintMode(paintmode), m_aAxis->isChecked(),
                                                              m_aGradRef->isChecked(), accelerationFactor);
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
     return parade;

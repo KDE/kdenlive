@@ -345,7 +345,7 @@ QString RenderRequest::generatePlaylistFile()
         filename = filename.section(QLatin1Char('.'), 0, -2);
     }
 
-    QDir projectFolder(pCore->currentDoc()->projectDataFolder());
+    QDir projectFolder(pCore->currentDoc()->projectRenderFolder());
     projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
     projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
     int ix = 1;
@@ -539,6 +539,7 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
             // Not an audio track, nothing to do
             continue;
         }
+        audioCount++;
         QDomNodeList originalTracks = originalTracktor.elementsByTagName(QStringLiteral("track"));
         // Check that the track is not muted
         bool muted = true;
@@ -562,8 +563,8 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
         }
 
         // setup filenames
-        QString appendix = QString("_Audio_%1%2%3")
-                               .arg(audioCount + 1)
+        QString appendix = QString("_A%1%2%3")
+                               .arg(audioCount)
                                .arg(trackName.isEmpty() ? QString() : QStringLiteral("-"))
                                .arg(trackName.replace(QStringLiteral(" "), QStringLiteral("_")));
         RenderJob job;
@@ -610,7 +611,6 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
             }
         }
         Xml::docContentToFile(docCopy, job.playlistPath);
-        audioCount++;
     }
 }
 

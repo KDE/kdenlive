@@ -126,7 +126,7 @@ QStringList MarkerListModel::guideCategoriesToStringList(const QString &categori
         return categories;
     }
     auto list = json.array();
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid category data";
             continue;
@@ -717,7 +717,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         return false;
     }
     auto list = json.array();
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
             continue;

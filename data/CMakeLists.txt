@@ -41,11 +41,7 @@ install(FILES
 
   DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX})
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-  install(FILES kdenlive.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
-else()
-  install(FILES kdenlive-kf5.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR} RENAME "kdenlive.notifyrc")
-endif()
+install(FILES kdenlive.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})
 
 install(FILES profiles.xml DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/export)
 install(FILES org.kde.kdenlive.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})

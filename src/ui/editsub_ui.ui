@@ -6,6 +6,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </author>
  <class>SubEdit_UI</class>
  <widget class="QWidget" name="SubEdit_UI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>509</width>
+    <height>433</height>
+   </rect>
+  </property>
   <property name="sizePolicy">
    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
@@ -13,84 +21,26 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    </sizepolicy>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QToolButton" name="buttonPrev">
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="arrowType">
-        <enum>Qt::LeftArrow</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonNext">
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="arrowType">
-        <enum>Qt::RightArrow</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonAdd">
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="icon">
-        <iconset theme="list-add">
-         <normaloff>.</normaloff>.</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonCut">
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="icon">
-        <iconset theme="edit-cut">
-         <normaloff>.</normaloff>.</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonApply">
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="icon">
-        <iconset theme="dialog-ok-apply">
-         <normaloff>.</normaloff>.</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QToolButton" name="buttonStyle">
-       <property name="text">
-        <string>...</string>
-       </property>
-       <property name="icon">
-        <iconset theme="format-text-color">
-         <normaloff>.</normaloff>.</iconset>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item row="0" column="0" colspan="3">
+   <item row="0" column="0" colspan="4">
     <widget class="QFrame" name="frame_position">
      <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Shadow::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
@@ -124,49 +74,144 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item row="3" column="2" colspan="2">
-           <widget class="TimecodeDisplay" name="tc_end" native="true"/>
+          <item row="0" column="6">
+           <widget class="QSpinBox" name="subLayer">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::FocusPolicy::ClickFocus</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+            </property>
+            <property name="inputMethodHints">
+             <set>Qt::InputMethodHint::ImhDigitsOnly</set>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+            <property name="prefix">
+             <string>S</string>
+            </property>
+            <property name="maximum">
+             <number>20</number>
+            </property>
+           </widget>
           </item>
-          <item row="4" column="2" colspan="2">
-           <widget class="TimecodeDisplay" name="tc_duration" native="true"/>
+          <item row="9" column="2" colspan="2">
+           <widget class="TimecodeDisplay" name="tc_position" native="true"/>
           </item>
-          <item row="0" column="0" colspan="6">
-           <widget class="KTextEdit" name="subText">
+          <item row="0" column="0" colspan="3">
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0,0,0,0">
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QToolButton" name="buttonBold">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset theme="format-text-bold"/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonItalic">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset theme="format-text-italic"/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonUnderline">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset theme="format-text-underline"/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonStrikeout">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset theme="format-text-strikethrough"/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonFont">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset theme="font"/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonResetStyle">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset theme="edit-paste-style"/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="buttonMoreTags">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset theme="view-more-symbolic"/>
+              </property>
+              <property name="popupMode">
+               <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0" colspan="7">
+           <widget class="SubtitleTextEdit" name="subText">
+            <property name="inputMethodHints">
+             <set>Qt::InputMethodHint::ImhNone</set>
+            </property>
             <property name="tabChangesFocus">
              <bool>true</bool>
             </property>
             <property name="acceptRichText">
              <bool>false</bool>
             </property>
-            <property name="checkSpellingEnabled">
-             <bool>true</bool>
-            </property>
            </widget>
           </item>
-          <item row="4" column="1">
-           <widget class="QToolButton" name="buttonLock">
+          <item row="8" column="0">
+           <widget class="QLabel" name="label_style">
             <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="lock">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="autoRaise">
-             <bool>true</bool>
+             <string>Style:</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="2" colspan="2">
-           <widget class="TimecodeDisplay" name="tc_position" native="true"/>
-          </item>
-          <item row="3" column="4" colspan="2">
+          <item row="10" column="4" colspan="2">
            <spacer name="horizontalSpacer_2">
             <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -176,36 +221,50 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </property>
            </spacer>
           </item>
-          <item row="3" column="0">
+          <item row="8" column="1">
+           <widget class="QToolButton" name="buttonEditStyle">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="edit-entry"/>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="2">
+           <widget class="QComboBox" name="comboStyle">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
+            </property>
+            <property name="frame">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="10" column="0">
            <widget class="QLabel" name="label_end">
             <property name="text">
              <string>End:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QToolButton" name="buttonOut">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="zone-out">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
+          <item row="9" column="1">
            <widget class="QToolButton" name="buttonIn">
             <property name="text">
              <string>...</string>
             </property>
             <property name="icon">
-             <iconset theme="zone-in">
-              <normaloff>.</normaloff>.</iconset>
+             <iconset theme="zone-in"/>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
+          <item row="9" column="0">
            <widget class="QLabel" name="label_position">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
@@ -218,33 +277,86 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
+          <item row="3" column="0" colspan="7">
+           <widget class="KTextEdit" name="simpleSubText"/>
+          </item>
+          <item row="4" column="6" alignment="Qt::AlignmentFlag::AlignRight">
+           <widget class="QToolButton" name="subMenu">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="application-menu"/>
+            </property>
+            <property name="popupMode">
+             <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0" colspan="6">
+           <widget class="QLabel" name="char_count">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="1">
+           <widget class="QToolButton" name="buttonLock">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="lock"/>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="2" colspan="2">
+           <widget class="TimecodeDisplay" name="tc_duration" native="true"/>
+          </item>
+          <item row="10" column="1">
+           <widget class="QToolButton" name="buttonOut">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="zone-out"/>
+            </property>
+           </widget>
+          </item>
+          <item row="11" column="0">
            <widget class="QLabel" name="label_duration">
             <property name="text">
              <string>Duration:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="5">
-           <widget class="QToolButton" name="subMenu">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="application-menu">
-              <normaloff>.</normaloff>.</iconset>
-            </property>
-            <property name="popupMode">
-             <enum>QToolButton::InstantPopup</enum>
-            </property>
-           </widget>
+          <item row="10" column="2" colspan="2">
+           <widget class="TimecodeDisplay" name="tc_end" native="true"/>
           </item>
-          <item row="1" column="0" colspan="5">
-           <widget class="QLabel" name="char_count">
-            <property name="text">
-             <string/>
+          <item row="8" column="4">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Orientation::Horizontal</enum>
             </property>
-           </widget>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -253,10 +365,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <property name="verticalSpacing">
            <number>0</number>
           </property>
-          <item row="5" column="0" colspan="2">
+          <item row="0" column="1">
            <widget class="QScrollArea" name="scrollArea">
             <property name="frameShape">
-             <enum>QFrame::NoFrame</enum>
+             <enum>QFrame::Shape::NoFrame</enum>
             </property>
             <property name="widgetResizable">
              <bool>true</bool>
@@ -266,8 +378,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>323</width>
-               <height>388</height>
+               <width>231</width>
+               <height>314</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
@@ -283,160 +395,148 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <property name="horizontalSpacing">
                <number>0</number>
               </property>
-              <item row="12" column="0" colspan="2">
-               <widget class="QCheckBox" name="checkOpaque">
-                <property name="text">
-                 <string>Opaque background</string>
-                </property>
-               </widget>
-              </item>
-              <item row="8" column="0">
-               <widget class="QCheckBox" name="checkOutlineColor">
-                <property name="text">
-                 <string>Custom Outline Color</string>
-                </property>
-               </widget>
-              </item>
-              <item row="11" column="1">
-               <widget class="QComboBox" name="alignment">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="1">
-               <widget class="QSpinBox" name="fontSize">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="suffix">
-                 <string>pt</string>
+              <item row="12" column="3">
+               <widget class="QSpinBox" name="scrollSpeed">
+                <property name="minimum">
+                 <number>1</number>
                 </property>
                 <property name="maximum">
-                 <number>500</number>
+                 <number>100</number>
                 </property>
                 <property name="value">
-                 <number>30</number>
+                 <number>10</number>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
-               <widget class="QCheckBox" name="checkFontSize">
+              <item row="16" column="3">
+               <widget class="QSpinBox" name="scrollLower">
+                <property name="minimum">
+                 <number>-99999</number>
+                </property>
+                <property name="maximum">
+                 <number>99999</number>
+                </property>
+                <property name="value">
+                 <number>1080</number>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QLabel" name="labelMarginL">
                 <property name="text">
-                 <string>Custom Font Size</string>
+                 <string>Left</string>
                 </property>
                </widget>
               </item>
-              <item row="8" column="1">
-               <widget class="KColorButton" name="outlineColor">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="defaultColor">
-                 <color>
-                  <red>0</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </property>
-                <property name="alphaChannelEnabled">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="1">
-               <widget class="QSpinBox" name="shadowSize">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="suffix">
-                 <string>px</string>
-                </property>
-               </widget>
-              </item>
-              <item row="11" column="0">
-               <widget class="QCheckBox" name="checkPosition">
+              <item row="18" column="0">
+               <widget class="QLabel" name="labelEffects">
                 <property name="text">
-                 <string>Custom Position</string>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="0">
-               <widget class="QCheckBox" name="checkFontColor">
-                <property name="text">
-                 <string>Custom Font Color</string>
+                 <string>Effects</string>
                 </property>
                </widget>
               </item>
               <item row="9" column="1">
-               <widget class="QSpinBox" name="outlineSize">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="suffix">
-                 <string>px</string>
-                </property>
-                <property name="value">
-                 <number>4</number>
-                </property>
-               </widget>
-              </item>
-              <item row="9" column="0">
-               <widget class="QCheckBox" name="checkOutlineSize">
+               <widget class="QLabel" name="labelMarginV">
                 <property name="text">
-                 <string>Custom Outline Size</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0" colspan="2">
-               <widget class="QCheckBox" name="checkFont">
-                <property name="text">
-                 <string>Custom Font</string>
-                </property>
-               </widget>
-              </item>
-              <item row="7" column="1">
-               <widget class="KColorButton" name="fontColor">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="color">
-                 <color>
-                  <red>255</red>
-                  <green>255</green>
-                  <blue>255</blue>
-                 </color>
-                </property>
-                <property name="defaultColor">
-                 <color>
-                  <red>255</red>
-                  <green>255</green>
-                  <blue>255</blue>
-                 </color>
-                </property>
-                <property name="alphaChannelEnabled">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0" colspan="2">
-               <widget class="QFontComboBox" name="fontFamily">
-                <property name="enabled">
-                 <bool>false</bool>
+                 <string>Vertical</string>
                 </property>
                </widget>
               </item>
               <item row="10" column="0">
-               <widget class="QCheckBox" name="checkShadowSize">
+               <widget class="QCheckBox" name="checkScroll">
+                <property name="layoutDirection">
+                 <enum>Qt::LayoutDirection::LeftToRight</enum>
+                </property>
                 <property name="text">
-                 <string>Custom Shadow</string>
+                 <string>Scroll</string>
                 </property>
                </widget>
               </item>
-              <item row="13" column="0">
+              <item row="8" column="1">
+               <widget class="QLabel" name="labelMarginR">
+                <property name="text">
+                 <string>Right</string>
+                </property>
+               </widget>
+              </item>
+              <item row="14" column="1">
+               <widget class="QLabel" name="labelScrollUpper">
+                <property name="text">
+                 <string>Upper Bound</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="labelMargin">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Margin&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1" colspan="3">
+               <widget class="QLineEdit" name="editName"/>
+              </item>
+              <item row="6" column="3">
+               <widget class="QSpinBox" name="marginL">
+                <property name="minimum">
+                 <number>-999999999</number>
+                </property>
+                <property name="maximum">
+                 <number>999999999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="labelName">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="3">
+               <widget class="QSpinBox" name="marginV">
+                <property name="minimum">
+                 <number>-999999999</number>
+                </property>
+                <property name="maximum">
+                 <number>999999999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="3">
+               <widget class="QSpinBox" name="marginR">
+                <property name="minimum">
+                 <number>-999999999</number>
+                </property>
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="14" column="3">
+               <widget class="QSpinBox" name="scrollUpper">
+                <property name="minimum">
+                 <number>-99999</number>
+                </property>
+                <property name="maximum">
+                 <number>99999</number>
+                </property>
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="19" column="0" colspan="6">
+               <widget class="KTextEdit" name="editEffects">
+                <property name="inputMethodHints">
+                 <set>Qt::InputMethodHint::ImhNone</set>
+                </property>
+               </widget>
+              </item>
+              <item row="20" column="0">
                <spacer name="verticalSpacer">
                 <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+                 <enum>Qt::Orientation::Vertical</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
@@ -446,17 +546,47 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </spacer>
               </item>
-              <item row="4" column="0">
-               <widget class="QCheckBox" name="checkBold">
+              <item row="10" column="1">
+               <widget class="QLabel" name="labelScrollDirection">
                 <property name="text">
-                 <string>Bold</string>
+                 <string>Direction</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
-               <widget class="QCheckBox" name="checkItalic">
+              <item row="10" column="3">
+               <widget class="QComboBox" name="scrollDirection"/>
+              </item>
+              <item row="6" column="2">
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="12" column="1">
+               <widget class="QLabel" name="labelScrollSpeed">
                 <property name="text">
-                 <string>Italic</string>
+                 <string>Speed</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="checkComment">
+                <property name="text">
+                 <string>Comment</string>
+                </property>
+               </widget>
+              </item>
+              <item row="16" column="1">
+               <widget class="QLabel" name="lavelScrollLower">
+                <property name="text">
+                 <string>Lower Bound</string>
                 </property>
                </widget>
               </item>
@@ -471,21 +601,80 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </layout>
     </widget>
    </item>
-   <item row="1" column="1">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </spacer>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QToolButton" name="buttonPrev">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::ArrowType::LeftArrow</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonNext">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="arrowType">
+        <enum>Qt::ArrowType::RightArrow</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonAdd">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="list-add"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonCut">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="edit-cut"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonApply">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="dialog-ok-apply"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonMoreOption">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="settings-configure"/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="1" column="2">
+   <item row="1" column="3">
     <widget class="QToolButton" name="buttonDelete">
      <property name="text">
       <string>...</string>
      </property>
      <property name="icon">
-      <iconset theme="edit-delete">
-       <normaloff>.</normaloff>.</iconset>
+      <iconset theme="edit-delete"/>
      </property>
     </widget>
    </item>
@@ -493,134 +682,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </widget>
  <customwidgets>
   <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QWidget</extends>
+   <header>widgets/timecodedisplay.h</header>
+  </customwidget>
+  <customwidget>
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>
    <header>ktextedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>TimecodeDisplay</class>
-   <extends>QWidget</extends>
-   <header>widgets/timecodedisplay.h</header>
+   <class>SubtitleTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>widgets/subtitletextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>checkFont</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>fontFamily</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>22</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>161</x>
-     <y>55</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkFontSize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>fontSize</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>93</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>248</x>
-     <y>93</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkFontColor</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>fontColor</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>130</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>248</x>
-     <y>131</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkOutlineColor</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>outlineColor</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>167</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>248</x>
-     <y>168</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkOutlineSize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>outlineSize</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>205</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>248</x>
-     <y>205</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkPosition</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>alignment</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>243</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>248</x>
-     <y>243</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkShadowSize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>shadowSize</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>207</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>229</x>
-     <y>207</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

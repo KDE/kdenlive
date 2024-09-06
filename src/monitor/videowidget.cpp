@@ -414,11 +414,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
             m_dragStart = event->pos();
         }
     } else if ((event->button() & Qt::RightButton) != 0u) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        Q_EMIT showContextMenu(event->globalPos());
-#else
         Q_EMIT showContextMenu(event->globalPosition().toPoint());
-#endif
     } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);

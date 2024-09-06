@@ -103,11 +103,7 @@ void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
     QWidget::mousePressEvent(event);
     QRect iconRect = m_pixmap->rect();
     iconRect.translate(m_pixmap->mapTo(this, QPoint(0, 0)));
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    if (iconRect.contains(event->pos()) && (m_currentMessage.type == MltError || m_progressCanBeAborted)) {
-#else
     if (iconRect.contains(event->position().toPoint()) && (m_currentMessage.type == MltError || m_progressCanBeAborted)) {
-#endif
         confirmErrorMessage();
     }
 }
@@ -178,7 +174,7 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             if (item.type == ProcessingJobMessage) {
                 // This is a job progress info, discard previous ones
                 QList<StatusBarMessageItem> cleanList;
-                for (const StatusBarMessageItem &msg : qAsConst(m_messageQueue)) {
+                for (const StatusBarMessageItem &msg : std::as_const(m_messageQueue)) {
                     if (msg.type != ProcessingJobMessage) {
                         cleanList << msg;
                     }

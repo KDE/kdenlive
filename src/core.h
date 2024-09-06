@@ -250,8 +250,6 @@ public:
     /** @brief True if we are currently displaying the record countdown */
     bool captureShowsCountDown() const;
     MediaCapture *getAudioDevice();
-    /** @brief Returns Project Folder name for capture output location */
-    QString getProjectFolderName();
     /** @brief Returns configured folder for audio capture storage */
     QString getProjectCaptureFolderName();
     /** @brief Returns a timeline clip's bin id */
@@ -282,7 +280,7 @@ public:
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
     /** @brief Add guides in the project. */
-    void addGuides(const QList<int> &guides);
+    void addGuides(const QMap<QUuid, QList<int>> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Transcode a video file. */

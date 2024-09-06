@@ -101,19 +101,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     QMapIterator<QString, QVariant> i(m_tempProps);
     while (i.hasNext()) {
         i.next();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        switch (i.value().type()) {
-        case QVariant::Int:
-            setProducerProperty(i.key(), i.value().toInt());
-            break;
-        case QVariant::Double:
-            setProducerProperty(i.key(), i.value().toDouble());
-            break;
-        default:
-            setProducerProperty(i.key(), i.value().toString());
-            break;
-        }
-#else
         switch (i.value().typeId()) {
         case QMetaType::Int:
             setProducerProperty(i.key(), i.value().toInt());
@@ -125,7 +112,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
             setProducerProperty(i.key(), i.value().toString());
             break;
         }
-#endif
     }
     m_tempProps.clear();
     int id = m_controllerBinId.toInt();
@@ -974,7 +960,7 @@ void ClipController::clearBackupProperties()
             passProps << propName;
         }
     }
-    for (const QString &p : qAsConst(passProps)) {
+    for (const QString &p : std::as_const(passProps)) {
         m_properties->clear(p.toUtf8().constData());
     }
     m_properties->clear("kdenlive:original.backup");

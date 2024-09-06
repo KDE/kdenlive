@@ -21,18 +21,15 @@ TEST_CASE("Colorscope RGB/BGR handling")
     QImage bgrInputImage = inputImage.convertToFormat(QImage::Format_BGR30);
 
     QSize scopeSize{256, 256};
+    qreal scalingFactor = 1.0;
 
     SECTION("Vectorscope handles both RGB and BGR")
     {
         VectorscopeGenerator vectorscope{};
-        QImage rgbScope = vectorscope.calculateVectorscope(scopeSize, inputImage, 1,
-            VectorscopeGenerator::PaintMode::PaintMode_Green2,
-            VectorscopeGenerator::ColorSpace::ColorSpace_YUV,
-            false, 7);
-        QImage bgrScope = vectorscope.calculateVectorscope(scopeSize, bgrInputImage, 1,
-            VectorscopeGenerator::PaintMode::PaintMode_Green2,
-            VectorscopeGenerator::ColorSpace::ColorSpace_YUV,
-            false, 7);
+        QImage rgbScope = vectorscope.calculateVectorscope(scopeSize, scalingFactor, inputImage, 1, VectorscopeGenerator::PaintMode::PaintMode_Green2,
+                                                           VectorscopeGenerator::ColorSpace::ColorSpace_YUV, false, 7);
+        QImage bgrScope = vectorscope.calculateVectorscope(scopeSize, scalingFactor, bgrInputImage, 1, VectorscopeGenerator::PaintMode::PaintMode_Green2,
+                                                           VectorscopeGenerator::ColorSpace::ColorSpace_YUV, false, 7);
 
         // both of these should be equivalent, since the vectorscope should
         // handle different pixel formats
@@ -42,12 +39,10 @@ TEST_CASE("Colorscope RGB/BGR handling")
     SECTION("Waveform handles both RGB and BGR")
     {
         WaveformGenerator waveform{};
-        QImage rgbScope = waveform.calculateWaveform(scopeSize, inputImage,
-            WaveformGenerator::PaintMode::PaintMode_Yellow,
-            false, ITURec::Rec_709, 3);
-        QImage bgrScope = waveform.calculateWaveform(scopeSize, bgrInputImage,
-            WaveformGenerator::PaintMode::PaintMode_Yellow,
-            false, ITURec::Rec_709, 3);
+        QImage rgbScope =
+            waveform.calculateWaveform(scopeSize, scalingFactor, inputImage, WaveformGenerator::PaintMode::PaintMode_Yellow, false, ITURec::Rec_709, 3);
+        QImage bgrScope =
+            waveform.calculateWaveform(scopeSize, scalingFactor, bgrInputImage, WaveformGenerator::PaintMode::PaintMode_Yellow, false, ITURec::Rec_709, 3);
 
         CHECK(rgbScope == bgrScope);
     }
@@ -55,12 +50,8 @@ TEST_CASE("Colorscope RGB/BGR handling")
     SECTION("RGB Parade handles both RGB and BGR")
     {
         RGBParadeGenerator rgb{};
-        QImage rgbScope = rgb.calculateRGBParade(scopeSize, inputImage,
-            RGBParadeGenerator::PaintMode::PaintMode_RGB,
-            false, false, 3);
-        QImage bgrScope = rgb.calculateRGBParade(scopeSize, bgrInputImage,
-            RGBParadeGenerator::PaintMode::PaintMode_RGB,
-            false, false, 3);
+        QImage rgbScope = rgb.calculateRGBParade(scopeSize, scalingFactor, inputImage, RGBParadeGenerator::PaintMode::PaintMode_RGB, false, false, 3);
+        QImage bgrScope = rgb.calculateRGBParade(scopeSize, scalingFactor, bgrInputImage, RGBParadeGenerator::PaintMode::PaintMode_RGB, false, false, 3);
 
         CHECK(rgbScope == bgrScope);
     }
@@ -72,10 +63,8 @@ TEST_CASE("Colorscope RGB/BGR handling")
             HistogramGenerator::Components::ComponentB;
 
         HistogramGenerator hist{};
-        QImage rgbScope = hist.calculateHistogram(scopeSize, inputImage,
-            ALL_COMPONENTS, ITURec::Rec_709, false, false, 3);
-        QImage bgrScope = hist.calculateHistogram(scopeSize, bgrInputImage,
-            ALL_COMPONENTS, ITURec::Rec_709, false, false, 3);
+        QImage rgbScope = hist.calculateHistogram(scopeSize, scalingFactor, inputImage, ALL_COMPONENTS, ITURec::Rec_709, false, false, 3);
+        QImage bgrScope = hist.calculateHistogram(scopeSize, scalingFactor, bgrInputImage, ALL_COMPONENTS, ITURec::Rec_709, false, false, 3);
 
         CHECK(rgbScope == bgrScope);
     }

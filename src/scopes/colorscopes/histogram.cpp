@@ -139,7 +139,8 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 
     ITURec rec = m_aRec601->isChecked() ? ITURec::Rec_601 : ITURec::Rec_709;
 
-    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags, rec, m_aUnscaled->isChecked(),
+    qreal scalingFactor = devicePixelRatioF();
+    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), scalingFactor, qimage, componentFlags, rec, m_aUnscaled->isChecked(),
                                                                 m_ui->rbLogarithmic->isChecked(), accelFactor);
 
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelFactor);

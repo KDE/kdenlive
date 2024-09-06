@@ -227,6 +227,7 @@ public:
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     int getSubtitlePosition(int subId) const;
+    int getSubtitleLayer(int subId) const;
     int getCompositionPlaytime(int compoId) const;
     int getCompositionEnd(int compoId) const;
     std::pair<int, int> getMixInOut(int cid) const;
@@ -412,13 +413,14 @@ public:
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true,
                                      bool invalidateTimeline = false, bool revertMove = false);
-    Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool finalMove = false, bool fakeMove = false);
-    bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo);
+    Q_INVOKABLE bool requestSubtitleMove(int clipId, int layer, int position, bool updateView = true, bool logUndo = true, bool finalMove = false,
+                                         bool fakeMove = false);
+    bool requestSubtitleMove(int clipId, int layer, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo);
     /** @brief return the previous blank frame on a track */
     Q_INVOKABLE int getPreviousBlank(int trackId, int pos);
     /** @brief return the next blank frame on a track */
     Q_INVOKABLE int getNextBlank(int trackId, int pos);
-    int cutSubtitle(int position, Fun &undo, Fun &redo);
+    int cutSubtitle(int layer, int position, Fun &undo, Fun &redo);
     bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView,
                         bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
@@ -458,7 +460,7 @@ public:
     Q_INVOKABLE QVariantList suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
     Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true,
                                              bool fakeMove = false);
-    Q_INVOKABLE int suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance, bool fakeMove = false);
+    Q_INVOKABLE int suggestSubtitleMove(int subId, int newLayer, int position, int cursorPosition, int snapDistance, bool fakeMove = false);
     Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
     /** @brief returns the frame pos adjusted to edit mode
      */
@@ -786,7 +788,7 @@ public:
 
     /** @brief Get a timeline clip id by its position or -1 if not found
      */
-    int getClipByPosition(int trackId, int position, int playlist = -1) const;
+    int getClipByPosition(int trackId, int position, int playlistOrLayer = -1) const;
     int getClipByStartPosition(int trackId, int position) const;
 
     /** @brief Get a timeline composition id by its starting position or -1 if not found
@@ -794,8 +796,8 @@ public:
     int getCompositionByPosition(int trackId, int position) const;
     /** @brief Get a timeline subtitle id by its starting position or -1 if not found
      */
-    int getSubtitleByStartPosition(int position) const;
-    int getSubtitleByPosition(int position) const;
+    int getSubtitleByStartPosition(int layer, int position) const;
+    int getSubtitleByPosition(int layer, int position) const;
 
     /** @brief Returns a list of all items that are intersect with a given range.
      * @param trackId is the id of the track for concerned items. Setting trackId to -1 returns items on all tracks

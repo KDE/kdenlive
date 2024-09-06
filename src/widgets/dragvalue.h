@@ -22,6 +22,7 @@ class MySpinBox : public QSpinBox
     Q_OBJECT
 public:
     explicit MySpinBox(QWidget *parent = nullptr);
+    bool blockWheel{false};
     int charWidth() const;
 
 protected:
@@ -46,6 +47,7 @@ class MyDoubleSpinBox : public QDoubleSpinBox
     Q_OBJECT
 public:
     explicit MyDoubleSpinBox(QWidget *parent = nullptr);
+    bool blockWheel{false};
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -147,6 +149,8 @@ public:
     bool hasEditFocus() const;
     /** @brief Returns the parameter's label widget */
     QLabel *createLabel();
+    /** @brief Whether the mouse wheel should change the value when we don't have focus */
+    void blockWheel(bool block);
 
 public Q_SLOTS:
     /** @brief Sets the value (forced to be in the valid range) and emits valueChanged. */

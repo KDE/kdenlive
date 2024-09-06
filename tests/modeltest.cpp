@@ -1908,7 +1908,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     QString aCompo;
     // Look for a compo
     QVector<QPair<QString, QString>> transitions = TransitionsRepository::get()->getNames();
-    for (const auto &trans : qAsConst(transitions)) {
+    for (const auto &trans : std::as_const(transitions)) {
         if (TransitionsRepository::get()->isComposition(trans.first)) {
             aCompo = trans.first;
             break;

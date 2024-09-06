@@ -746,7 +746,8 @@ QJsonObject GroupsModel::toJson(int gid) const
                                 QJsonValue(QLatin1String(ptr->isClip(gid) ? "clip" : ptr->isComposition(gid) ? "composition" : "subtitle")));
             int track = ptr->isSubTitle(gid) ? -2 : ptr->getTrackPosition(ptr->getItemTrackId(gid));
             int pos = ptr->getItemPosition(gid);
-            currentGroup.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track).arg(pos)));
+            int subLayer = ptr->isSubTitle(gid) ? ptr->getSubtitleLayer(gid) : -1;
+            currentGroup.insert(QLatin1String("data"), QJsonValue(QString("%1:%2:%3").arg(track).arg(pos).arg(subLayer)));
         } else {
             qDebug() << "Impossible to create group because the timeline is not available anymore";
             Q_ASSERT(false);
@@ -802,13 +803,14 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
             int trackPos = data.section(":", 0, 0).toInt();
             int trackId = trackPos > -1 ? ptr->getTrackIndexFromPosition(trackPos) : -1;
             int pos = data.section(":", 1, 1).toInt();
+            int subLayer = trackId == -2 ? data.section(":", 2, 2).toInt() : -1;
             int id = -1;
             if (leaf == QLatin1String("clip")) {
                 id = ptr->getClipByStartPosition(trackId, pos);
             } else if (leaf == QLatin1String("composition")) {
                 id = ptr->getCompositionByPosition(trackId, pos);
             } else if (leaf == QLatin1String("subtitle")) {
-                id = ptr->getSubtitleByStartPosition(pos);
+                id = ptr->getSubtitleByStartPosition(subLayer, pos);
             } else {
                 qDebug() << " * * *UNKNOWN ITEM: " << leaf;
             }
@@ -873,7 +875,7 @@ void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &chil
 {
     auto value = childObject.value(QLatin1String("children"));
     auto children = value.toArray();
-    for (const auto &c : qAsConst(children)) {
+    for (const auto &c : std::as_const(children)) {
         if (!c.isObject()) {
             continue;
         }
@@ -885,8 +887,9 @@ void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &chil
                 int trackId = cur_data.section(":", 0, 0).toInt();
                 int pos = cur_data.section(":", 1, 1).toInt() * ratio;
                 int trackPos = trackId == -2 ? -2 : ptr->getTrackPosition(trackMap.value(trackId));
+                int subLayer = trackId == -2 ? cur_data.section(":", 2, 2).toInt() : -1;
                 pos += offset;
-                child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackPos).arg(pos)));
+                child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2:%3").arg(trackPos).arg(pos).arg(subLayer)));
                 updatedNodes.append(QJsonValue(child));
             }
         } else if (type != GroupType::Leaf) {
@@ -912,7 +915,7 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
     auto list = json.array();
     QJsonArray newGroups;
     bool ok = true;
-    for (const auto &elem : qAsConst(list)) {
+    for (const auto &elem : std::as_const(list)) {
         if (!elem.isObject()) {
             qDebug() << "Error : Expected json object while parsing groups";
             local_undo();

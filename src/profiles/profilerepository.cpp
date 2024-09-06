@@ -55,15 +55,15 @@ void ProfileRepository::refresh()
 
     // list Custom Profiles
     QStringList customProfilesDir = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("profiles/"), QStandardPaths::LocateDirectory);
-    for (const auto &dir : qAsConst(customProfilesDir)) {
+    for (const auto &dir : std::as_const(customProfilesDir)) {
         QStringList files = QDir(dir).entryList(QDir::Files);
-        for (const auto &file : qAsConst(files)) {
+        for (const auto &file : std::as_const(files)) {
             profilesFiles << QDir(dir).absoluteFilePath(file);
         }
     }
 
     // Iterate through files
-    for (const auto &file : qAsConst(profilesFiles)) {
+    for (const auto &file : std::as_const(profilesFiles)) {
         std::unique_ptr<ProfileModel> profile(new ProfileModel(file));
         if (check_profile(profile, file)) {
             m_profiles.insert(std::make_pair(file, std::move(profile)));

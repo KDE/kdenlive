@@ -34,11 +34,7 @@ void EffectBasket::slotReloadBasket()
     sortItems();
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> list) const
-#else
 QMimeData *EffectBasket::mimeData(const QList<QListWidgetItem *> &list) const
-#endif
 {
     if (list.isEmpty()) {
         return new QMimeData;

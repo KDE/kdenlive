@@ -87,9 +87,6 @@ void ProxyTask::run()
             if (playlist->open()) {
                 source = playlist->fileName();
                 QTextStream out(playlist);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                out.setCodec("UTF-8");
-#endif
                 out << doc.toString();
                 playlist->close();
             }
@@ -129,7 +126,7 @@ void ProxyTask::run()
         }
 
         bool skipNext = false;
-        for (const QString &s : qAsConst(params)) {
+        for (const QString &s : std::as_const(params)) {
             QString t = s.simplified();
             if (skipNext) {
                 skipNext = false;

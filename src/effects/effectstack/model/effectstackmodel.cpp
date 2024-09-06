@@ -287,7 +287,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
             }
         }
         QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
-        for (const auto &param : qAsConst(params)) {
+        for (const auto &param : std::as_const(params)) {
             Xml::setXmlProperty(sub, param.first, param.second.toString());
         }
         container.appendChild(sub);
@@ -320,7 +320,7 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
         }
     }
     QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
-    for (const auto &param : qAsConst(params)) {
+    for (const auto &param : std::as_const(params)) {
         Xml::setXmlProperty(sub, param.first, param.second.toString());
     }
     container.appendChild(sub);
@@ -1548,7 +1548,7 @@ bool EffectStackModel::checkConsistency()
                 return false;
             }
             QVector<QPair<QString, QVariant>> params = allFilters[i]->getAllParameters();
-            for (const auto &val : qAsConst(params)) {
+            for (const auto &val : std::as_const(params)) {
                 // Check parameters values
                 if (val.second.toString() != QString(mltFilter->get(val.first.toUtf8().constData()))) {
                     qDebug() << "ERROR: filter " << i << "PARAMETER MISMATCH: " << val.first << " = " << val.second
