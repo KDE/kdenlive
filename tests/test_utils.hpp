@@ -126,7 +126,7 @@ public:
     static int downLinks(std::shared_ptr<TimelineItemModel> timeline, int gid);
     static int downLinksSize(std::shared_ptr<TimelineItemModel> timeline);
     static std::shared_ptr<ClipModel> getClipPtr(std::shared_ptr<TimelineItemModel> timeline, int clipId);
-    static bool addKeyframe(std::shared_ptr<KeyframeModel> model, GenTime pos, KeyframeType type, QVariant value);
+    static bool addKeyframe(std::shared_ptr<KeyframeModel> model, GenTime pos, KeyframeType::KeyframeEnum type, QVariant value);
     static bool removeKeyframe(std::shared_ptr<KeyframeModel> model, GenTime pos);
     static bool removeAllKeyframes(std::shared_ptr<KeyframeModel> model);
     static void forceClipAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId);

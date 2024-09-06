@@ -120,7 +120,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), this);
-    QMap<KeyframeType, QAction *> kfTypeHandles;
+    QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles;
     for (auto it = KeyframeModel::getKeyframeTypes().cbegin(); it != KeyframeModel::getKeyframeTypes().cend();
          it++) { // Order is fixed due to the nature of <map>
         QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), this);
@@ -404,7 +404,7 @@ void KeyframeWidget::slotRefreshParams()
 {
     qDebug() << "===============0\nKFRWIDGET REFRESH!!!!!!!!!!!!!!!!";
     int pos = getPosition();
-    KeyframeType keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
+    KeyframeType::KeyframeEnum keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     int i = 0;
     while (auto ac = m_selectType->action(i)) {
         if (ac->data().toInt() == int(keyType)) {
@@ -998,7 +998,7 @@ bool KeyframeWidget::slotAddKeyframe(int pos)
     if (pos < 0) {
         pos = getPosition();
     }
-    return m_keyframes->addKeyframe(GenTime(pos, pCore->getCurrentFps()), KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
+    return m_keyframes->addKeyframe(GenTime(pos, pCore->getCurrentFps()), KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()));
 }
 void KeyframeWidget::slotRemoveKeyframe(const QVector<int> &positions)
 {

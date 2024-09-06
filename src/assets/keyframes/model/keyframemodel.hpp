@@ -23,33 +23,8 @@ class AssetParameterModel;
 class DocUndoStack;
 class EffectItemModel;
 
-#define mltMinVersion QT_VERSION_CHECK(7, 20, 0)
-#define currentVersion QT_VERSION_CHECK(LIBMLT_VERSION_MAJOR, LIBMLT_VERSION_MINOR, 0)
-
-#if currentVersion > mltMinVersion
-#define USE_MLT_NEW_KEYFRAMES
-enum class KeyframeType {
-    Linear = mlt_keyframe_linear,
-    Discrete = mlt_keyframe_discrete,
-    Curve = mlt_keyframe_smooth,
-    CurveSmooth = mlt_keyframe_smooth_natural,
-    BounceIn = mlt_keyframe_bounce_in,
-    BounceOut = mlt_keyframe_bounce_out,
-    CubicIn = mlt_keyframe_cubic_in,
-    CubicOut = mlt_keyframe_cubic_out,
-    ExponentialIn = mlt_keyframe_exponential_in,
-    ExponentialOut = mlt_keyframe_exponential_out,
-    CircularIn = mlt_keyframe_circular_in,
-    CircularOut = mlt_keyframe_circular_out,
-    ElasticIn = mlt_keyframe_elastic_in,
-    ElasticOut = mlt_keyframe_elastic_out
-};
-#else
-enum class KeyframeType { Linear = mlt_keyframe_linear, Discrete = mlt_keyframe_discrete, Curve = mlt_keyframe_smooth };
-#endif
-
-Q_DECLARE_METATYPE(KeyframeType)
-using Keyframe = std::pair<GenTime, KeyframeType>;
+Q_DECLARE_METATYPE(KeyframeType::KeyframeEnum)
+using Keyframe = std::pair<GenTime, KeyframeType::KeyframeEnum>;
 
 /** @class KeyframeModel
     @brief This class is the model for a list of keyframes.
@@ -83,12 +58,12 @@ protected:
        @param pos defines the position of the keyframe, relative to the clip
        @param type is the type of the keyframe.
      */
-    bool addKeyframe(GenTime pos, KeyframeType type, QVariant value);
+    bool addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value);
     bool addKeyframe(int frame, double normalizedValue);
     /** @brief Same function but accumulates undo/redo
        @param notify: if true, send a signal to model
      */
-    bool addKeyframe(GenTime pos, KeyframeType type, QVariant value, bool notify, Fun &undo, Fun &redo);
+    bool addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo);
 
     /** @brief Removes the keyframe at the given position. */
     bool removeKeyframe(int frame);
@@ -191,19 +166,19 @@ public:
     static std::shared_ptr<Mlt::Properties> getAnimation(std::shared_ptr<AssetParameterModel> model, const QString &animData, int duration = 0);
     static const QString getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset, int duration,
                                                       ParamType paramType, bool useOpacity = true);
-    static const QString getIconByKeyframeType(KeyframeType type);
+    static const QString getIconByKeyframeType(KeyframeType::KeyframeEnum type);
     static void initKeyframeTypes();
-    static const QMap<KeyframeType, QString> getKeyframeTypes();
+    static const QMap<KeyframeType::KeyframeEnum, QString> getKeyframeTypes();
     /** @brief Used for testing */
     int keyframesCount() const;
     QList<QVariant> testSerializeKeyframes() const;
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
-    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, const QVariant &value, bool notify);
+    Fun updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify);
 
     /** @brief Helper function that generate a lambda to add given keyframe */
-    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, const QVariant &value, bool notify);
+    Fun addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify);
 
     /** @brief Helper function that generate a lambda to remove given keyframe */
     Fun deleteKeyframe_lambda(GenTime pos, bool notify);
@@ -240,7 +215,7 @@ private:
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
 
-    std::map<GenTime, std::pair<KeyframeType, QVariant>> m_keyframeList;
+    std::map<GenTime, std::pair<KeyframeType::KeyframeEnum, QVariant>> m_keyframeList;
     bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
 
 Q_SIGNALS:

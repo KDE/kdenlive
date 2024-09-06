@@ -521,7 +521,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         }
 
         // add new keyframe
-        m_model->addKeyframe(position, KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
+        m_model->addKeyframe(position, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()));
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }

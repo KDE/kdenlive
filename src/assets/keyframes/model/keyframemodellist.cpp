@@ -121,7 +121,7 @@ bool KeyframeModelList::applyOperation(const std::function<bool(std::shared_ptr<
     return res;
 }
 
-bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType type)
+bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
@@ -205,7 +205,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
         } else {
             value = param->getInterpolatedValue(pos);
         }
-        return param->addKeyframe(pos, KeyframeType(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
+        return param->addKeyframe(pos, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
     };
     const QString opText = update ? i18n("Change keyframe type") : i18n("Add keyframe");
     Fun undo = []() { return true; };
@@ -239,7 +239,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
                 } else {
                     value = param->getInterpolatedValue(posWithOffset);
                 }
-                return param->addKeyframe(posWithOffset, KeyframeType(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
+                return param->addKeyframe(posWithOffset, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()), value, true, undo, redo);
             };
             res = res && km->applyOperation(op2, undo, redo);
         }
@@ -564,7 +564,7 @@ bool KeyframeModelList::updateKeyframeType(GenTime pos, int type, const QPersist
     return res;
 }
 
-KeyframeType KeyframeModelList::keyframeType(GenTime pos) const
+KeyframeType::KeyframeEnum KeyframeModelList::keyframeType(GenTime pos) const
 {
     QWriteLocker locker(&m_lock);
     if (singleKeyframe()) {
@@ -679,7 +679,7 @@ void KeyframeModelList::setParametersFromTask(const paramVector &params)
         const QModelIndex ix = ptr->getParamIndexFromName(params.first().first);
         if (ix.isValid()) {
             QList<GenTime> kfrs = m_parameters.at(ix)->getKeyframePos();
-            auto type = KeyframeType(KdenliveSettings::defaultkeyframeinterp());
+            auto type = KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp());
             for (const auto &p : m_parameters) {
                 const QString paramName = ptr->data(p.first, AssetParameterModel::NameRole).toString();
                 if (!updatedNames.contains(paramName)) {
@@ -818,7 +818,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             GenTime old_in(oldIn, pCore->getCurrentFps());
             GenTime new_in(in, pCore->getCurrentFps());
             Keyframe kf = getKeyframe(old_in, &ok);
-            KeyframeType type = kf.second;
+            KeyframeType::KeyframeEnum type = kf.second;
             getKeyframe(new_in, &ok2);
             if (!ok2) {
                 // Add new in point
@@ -855,7 +855,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
         GenTime old_out(oldOut, pCore->getCurrentFps());
         GenTime new_out(out, pCore->getCurrentFps());
         Keyframe kf = getKeyframe(old_out, &ok);
-        KeyframeType type = kf.second;
+        KeyframeType::KeyframeEnum type = kf.second;
         getKeyframe(new_out, &ok2);
         // Check keyframes after last position
         bool ok3;
@@ -915,7 +915,7 @@ void KeyframeModelList::checkConsistency()
         }
     }
     Fun local_update = []() { return true; };
-    auto type = KeyframeType(KdenliveSettings::defaultkeyframeinterp());
+    auto type = KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp());
     for (const auto &param : m_parameters) {
         QList<GenTime> list = param.second->getKeyframePos();
         for (auto &time : fullList) {

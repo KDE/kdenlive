@@ -414,7 +414,7 @@ void KeyframeCurveEditor::mouseDoubleClickEvent(QMouseEvent *event)
             int pos = x * (offset + m_duration);
             if (!m_model->hasKeyframe(pos)) {
                 GenTime position(pos, pCore->getCurrentFps());
-                m_model->addKeyframe(position, KeyframeType(KdenliveSettings::defaultkeyframeinterp()));
+                m_model->addKeyframe(position, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()));
                 m_currentPointIndex = m_model->getIndexForPos(position);
                 y = qBound(0., y, 1.);
                 updateKeyframeData(valueFromCanvasPos(y));

@@ -9,7 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "utils/gentime.h"
 
 #include "kdenlive_debug.h"
-
+#include "mlt++/Mlt.h"
 #include <QDomElement>
 #include <QHash>
 #include <QPersistentModelIndex>
@@ -187,6 +187,27 @@ Q_ENUM_NS(ProducerType)
 enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipType };
 
 enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
+
+namespace KeyframeType {
+Q_NAMESPACE
+enum KeyframeEnum {
+    Linear = mlt_keyframe_linear,
+    Discrete = mlt_keyframe_discrete,
+    Curve = mlt_keyframe_smooth,
+    CurveSmooth = mlt_keyframe_smooth_natural,
+    BounceIn = mlt_keyframe_bounce_in,
+    BounceOut = mlt_keyframe_bounce_out,
+    CubicIn = mlt_keyframe_cubic_in,
+    CubicOut = mlt_keyframe_cubic_out,
+    ExponentialIn = mlt_keyframe_exponential_in,
+    ExponentialOut = mlt_keyframe_exponential_out,
+    CircularIn = mlt_keyframe_circular_in,
+    CircularOut = mlt_keyframe_circular_out,
+    ElasticIn = mlt_keyframe_elastic_in,
+    ElasticOut = mlt_keyframe_elastic_out
+};
+Q_ENUM_NS(KeyframeEnum)
+} // namespace KeyframeType
 
 namespace ToolType {
 Q_NAMESPACE
