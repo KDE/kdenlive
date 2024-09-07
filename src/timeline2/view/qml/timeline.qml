@@ -237,7 +237,7 @@ Rectangle {
         var maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
         y += ruler.height
-        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
+        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3 && x < scrollView.contentX + scrollView.width) {
             scrollTimer.horizontal = root.baseUnit
             scrollTimer.start()
         } else if (x < 50) {
