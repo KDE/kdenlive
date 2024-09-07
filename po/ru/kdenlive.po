@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-05 00:39+0000\n"
+"POT-Creation-Date: 2024-09-07 00:38+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -150,8 +150,11 @@ msgid "The thickness of the bar or segments."
 msgstr "Толщина столбцов или сегментов."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
-#: data/effects/audiowaveform.xml:16 src/ui/gradientedit_ui.ui:100
+#: data/effects/audiowaveform.xml:16 src/ui/editsubstyle_ui.ui:461
+#: src/ui/gradientedit_ui.ui:100 src/ui/managesubtitles_ui.ui:434
 #, kde-format
 msgid "Angle"
 msgstr "Угол"
@@ -699,27 +702,35 @@ msgid "Trim the edges of a clip"
 msgstr "Кадрирование клипа"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:8 src/ui/configmisc_ui.ui:120
+#: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:541
+#: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configmisc_ui.ui:120
 #, kde-format
 msgid "Top"
 msgstr "Сверху"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
+#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26 data/effects/dance.xml:35
-#: src/ui/configmisc_ui.ui:130
+#: src/dialogs/managesubtitles.cpp:529 src/dialogs/subtitlestyleedit.cpp:106
+#: src/ui/configmisc_ui.ui:130 src/ui/editsub_ui.ui:427
+#: src/ui/editsubstyle_ui.ui:413
 #, kde-format
 msgid "Left"
 msgstr "Слева"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:14 src/ui/configmisc_ui.ui:125
+#: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:523
+#: src/dialogs/subtitlestyleedit.cpp:110 src/ui/configmisc_ui.ui:125
 #, kde-format
 msgid "Bottom"
 msgstr "Снизу"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
+#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/ui/configmisc_ui.ui:135
+#: src/dialogs/managesubtitles.cpp:535 src/dialogs/subtitlestyleedit.cpp:108
+#: src/ui/configmisc_ui.ui:135 src/ui/editsub_ui.ui:458
+#: src/ui/editsubstyle_ui.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Справа"
@@ -910,9 +921,12 @@ msgstr "По верхнему краю,По центру,По нижнему к�
 msgid "Vertical Alignment"
 msgstr "Выравнивание по вертикали"
 
+#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
+#. i18n: ectx: property (text), widget (QLabel, labelPrimaryColor)
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:921 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/editsubstyle_ui.ui:255
+#: src/ui/managesubtitles_ui.ui:216 src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Текст"
@@ -2151,9 +2165,11 @@ msgid "Create an alpha channel (transparency) based on another resource"
 msgstr "Создание альфа-канала (прозрачности) на основе другого ресурса"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
+#. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
 #: src/timeline2/view/qml/Track.qml:50 src/ui/clipspeed_ui.ui:36
+#: src/ui/editsub_ui.ui:575
 #, kde-format
 msgid "Speed"
 msgstr "Скорость"
@@ -2261,7 +2277,9 @@ msgid "HH:MM:SS,HH:MM:SS.S,MM:SS,MM:SS.SS,MM:SS.SSS,SS,SS.S,SS.SS,SS.SSS"
 msgstr "ЧЧ:ММ:СС,ЧЧ:ММ:СС.С,ММ:СС,ММ:СС.СС,ММ:СС.ССС,СС,СС.С,СС.СС,СС.ССС"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: data/effects/timer.xml:50 src/ui/wipeval_ui.ui:27
+#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
+#: data/effects/timer.xml:50 src/ui/managesubtitles_ui.ui:201
+#: src/ui/wipeval_ui.ui:27
 #, kde-format
 msgid "Start"
 msgstr "Начало"
@@ -2309,7 +2327,9 @@ msgstr ""
 "а не до 00:00:00.000.\n"
 "При прямом направлении отсчёт таймера начинается со значения «смещения».]]>"
 
+#. i18n: ectx: property (text), widget (QLabel, labelScrollDirection)
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
+#: src/ui/editsub_ui.ui:552
 #, kde-format
 msgid "Direction"
 msgstr "Направление"
@@ -2664,7 +2684,8 @@ msgstr "Амплитуда волны"
 msgid "Horizontal"
 msgstr "По горизонтали"
 
-#: data/effects/wave.xml:23
+#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
+#: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
 #, kde-format
 msgid "Vertical"
 msgstr "По вертикали"
@@ -3207,7 +3228,7 @@ msgstr "Изменить направление"
 #: src/ui/cliptranscode_ui.ui:18 src/ui/colorclip_ui.ui:18
 #: src/ui/customcamcorderproxy_ui.ui:18 src/ui/customjobinterface_ui.ui:18
 #: src/ui/gradientedit_ui.ui:18 src/ui/import_subtitle_ui.ui:18
-#: src/ui/manageencodingprofile_ui.ui:18 src/ui/managesubtitles_ui.ui:18
+#: src/ui/manageencodingprofile_ui.ui:18 src/ui/managesubtitles_ui.ui:24
 #: src/ui/newtimeline_ui.ui:18 src/ui/qtextclip_ui.ui:18
 #: src/ui/speechdialog_ui.ui:18 src/ui/testproxy_ui.ui:18
 #: src/ui/transcodeseekable_ui.ui:18
@@ -3229,7 +3250,8 @@ msgid "Duration (seconds)"
 msgstr "Длительность (в секундах)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
-#: plugins/sampleplugin/countdown_ui.ui:50
+#. i18n: ectx: property (text), widget (QLabel, labelFont)
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:61
 #, kde-format
 msgid "Font"
 msgstr "Шрифт"
@@ -3506,84 +3528,81 @@ msgid "Bin %1 effects"
 msgstr "Эффекты корзины %1"
 
 #. i18n: ectx: property (text), widget (QRadioButton, rbLinear)
-#: src/assets/keyframes/model/keyframemodel.cpp:48
-#: src/assets/keyframes/model/keyframemodel.cpp:64 src/ui/histogram_ui.ui:112
+#: src/assets/keyframes/model/keyframemodel.cpp:47 src/ui/histogram_ui.ui:112
 #, kde-format
 msgid "Linear"
 msgstr "Линейная"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:49
-#: src/assets/keyframes/model/keyframemodel.cpp:64
+#: src/assets/keyframes/model/keyframemodel.cpp:48
 #, kde-format
 msgid "Discrete"
 msgstr "Дискретная"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:50
-#: src/assets/keyframes/model/keyframemodel.cpp:64
+#: src/assets/keyframes/model/keyframemodel.cpp:49
 #, kde-format
 msgid "Smooth"
 msgstr "Плавная"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:51
+#: src/assets/keyframes/model/keyframemodel.cpp:50
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Bounce In"
 msgstr "Установить начало участка"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:52
+#: src/assets/keyframes/model/keyframemodel.cpp:51
 #, fuzzy, kde-format
 #| msgid "Set Zone Out"
 msgid "Bounce Out"
 msgstr "Установить конец участка"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:53
+#: src/assets/keyframes/model/keyframemodel.cpp:52
 #, kde-format
 msgid "Cubic In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:54
+#: src/assets/keyframes/model/keyframemodel.cpp:53
 #, kde-format
 msgid "Cubic Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:55
+#: src/assets/keyframes/model/keyframemodel.cpp:54
 #, kde-format
 msgid "Exponential In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:56
+#: src/assets/keyframes/model/keyframemodel.cpp:55
 #, kde-format
 msgid "Exponential Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:57
+#: src/assets/keyframes/model/keyframemodel.cpp:56
 #, kde-format
 msgid "Circular In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:58
+#: src/assets/keyframes/model/keyframemodel.cpp:57
 #, kde-format
 msgid "Circular Out"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:59
+#: src/assets/keyframes/model/keyframemodel.cpp:58
 #, kde-format
 msgid "Elastic In"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:60
+#: src/assets/keyframes/model/keyframemodel.cpp:59
 #, fuzzy, kde-format
 #| msgid "Gain Out"
 msgid "Elastic Out"
 msgstr "Усиление на выходе"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:61
+#: src/assets/keyframes/model/keyframemodel.cpp:60
 #, fuzzy, kde-format
 #| msgid " - deprecated"
 msgid "Smooth (deprecated)"
 msgstr " — устарел"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:147
+#: src/assets/keyframes/model/keyframemodel.cpp:143
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:210
 #: src/assets/view/widgets/keyframewidget.cpp:89 src/dialogs/timeremap.cpp:1615
@@ -3592,27 +3611,27 @@ msgstr " — устарел"
 msgid "Add keyframe"
 msgstr "Добавить ключевой кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:147
+#: src/assets/keyframes/model/keyframemodel.cpp:143
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:210
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Изменить тип ключевого кадра"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:240
+#: src/assets/keyframes/model/keyframemodel.cpp:236
 #: src/assets/keyframes/model/keyframemodellist.cpp:262
 #: src/assets/view/widgets/keyframewidget.cpp:91 src/dialogs/timeremap.cpp:1636
 #, kde-format
 msgid "Delete keyframe"
 msgstr "Удалить ключевой кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:435
+#: src/assets/keyframes/model/keyframemodel.cpp:431
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Переместить ключевые кадры"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:456
+#: src/assets/keyframes/model/keyframemodel.cpp:452
 #: src/assets/keyframes/model/keyframemodellist.cpp:378
 #: src/assets/keyframes/model/keyframemodellist.cpp:464
 #: src/assets/keyframes/view/keyframeview.cpp:199
@@ -3621,29 +3640,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Переместить ключевой кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:527
+#: src/assets/keyframes/model/keyframemodel.cpp:523
 #: src/assets/keyframes/model/keyframemodellist.cpp:562
 #, kde-format
 msgid "Update keyframe"
 msgstr "Обновить ключевой кадр"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:889
+#: src/assets/keyframes/model/keyframemodel.cpp:883
 #: src/assets/keyframes/model/keyframemodellist.cpp:322
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Удалить все ключевые кадры"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1084
+#: src/assets/keyframes/model/keyframemodel.cpp:1078
 #, kde-format
 msgid "effect"
 msgstr "эффект"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1093
+#: src/assets/keyframes/model/keyframemodel.cpp:1087
 #, kde-format
 msgid "Reset %1"
 msgstr "Сбросить %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1356
+#: src/assets/keyframes/model/keyframemodel.cpp:1350
 #, kde-format
 msgid "Reset effect"
 msgstr "Сбросить эффект"
@@ -3745,7 +3764,7 @@ msgid "Failed to load preset %1"
 msgstr "Не удалось создать файл."
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:130
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
 #, kde-format
 msgid "Reset Effect"
 msgstr "Сбросить эффект"
@@ -3772,7 +3791,12 @@ msgctxt "@info:whatsthis"
 msgid "Deletes the currently selected preset."
 msgstr "Удаляет текущую предустановку."
 
-#: src/assets/view/assetparameterview.cpp:355
+#: src/assets/view/assetparameterview.cpp:78
+#, kde-format
+msgid "Save effect"
+msgstr "Сохранить эффект"
+
+#: src/assets/view/assetparameterview.cpp:357
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -3780,7 +3804,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ввод имени предустановки"
 
-#: src/assets/view/assetparameterview.cpp:355
+#: src/assets/view/assetparameterview.cpp:357
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -3859,7 +3883,8 @@ msgstr "Центр слева"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/subtitleedit.cpp:146 src/transitions/view/mixstackview.cpp:47
+#: src/dialogs/managesubtitles.cpp:532 src/dialogs/subtitlestyleedit.cpp:107
+#: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
 msgstr "Центр"
@@ -4239,7 +4264,7 @@ msgstr ""
 "\n"
 "П:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1011
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Master"
 msgstr "Мастер"
@@ -4426,9 +4451,12 @@ msgstr "По убыванию"
 msgid "Sort By"
 msgstr "Сортировка"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
+#. i18n: ectx: property (text), widget (QTreeWidget, fileList)
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/bin/bin.cpp:1254 src/bin/projectitemmodel.cpp:315
-#: src/ui/managesubtitles_ui.ui:103
+#: src/ui/editsubstyle_ui.ui:49 src/ui/managesubtitles_ui.ui:66
+#: src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Имя"
@@ -4593,7 +4621,7 @@ msgstr "Отсутствует исходный клип"
 msgid "Unable to write to file %1"
 msgstr "Не удалось осуществить запись в файл «%1»"
 
-#: src/bin/bin.cpp:1845 src/bin/bin.cpp:2515 src/doc/kdenlivedoc.cpp:742
+#: src/bin/bin.cpp:1845 src/bin/bin.cpp:2515 src/doc/kdenlivedoc.cpp:743
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4624,7 +4652,7 @@ msgstr ""
 "Заменяющий клип будет содержать на %1 кадров меньше."
 
 #: src/bin/bin.cpp:1895 src/bin/bin.cpp:2108
-#: src/bin/model/subtitlemodel.cpp:381
+#: src/bin/model/subtitlemodel.cpp:434
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Выбран недопустимый файл «%1»."
@@ -4849,8 +4877,8 @@ msgstr "Список воспроизведения"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2435 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1547
-#: src/project/projectmanager.cpp:1549 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1587
+#: src/project/projectmanager.cpp:1589 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Последовательности"
@@ -4865,8 +4893,10 @@ msgstr "Титры"
 msgid "Title Template"
 msgstr "Шаблоны титров"
 
+#. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/bin/bin.cpp:2447 src/layoutmanagement.cpp:36
 #: src/mltcontroller/clippropertiescontroller.cpp:351
+#: src/ui/editsubstyle_ui.ui:80
 #, kde-format
 msgid "Color"
 msgstr "Цвет"
@@ -4883,7 +4913,7 @@ msgid "Create bin folder"
 msgstr "Создать папку корзины"
 
 #: src/bin/bin.cpp:2671 src/bin/bin.cpp:2684 src/bin/bin.cpp:3666
-#: src/timeline2/model/timelinemodel.cpp:2161
+#: src/timeline2/model/timelinemodel.cpp:2165
 #, kde-format
 msgid "Delete Clip"
 msgstr "Удалить клип"
@@ -5078,8 +5108,8 @@ msgstr[3] "Переместить клип"
 msgid "No valid clip to insert"
 msgstr "Отсутствуют допустимые для вставки клипы"
 
-#: src/bin/bin.cpp:3934 src/timeline2/view/timelinecontroller.cpp:1533
-#: src/timeline2/view/timelinecontroller.cpp:3415
+#: src/bin/bin.cpp:3934 src/timeline2/view/timelinecontroller.cpp:1535
+#: src/timeline2/view/timelinecontroller.cpp:3423
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Для применения эффекта выберите клип"
@@ -5142,7 +5172,7 @@ msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
 "звуковых файлов"
 
-#: src/bin/bin.cpp:4610 src/core.cpp:320 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4610 src/core.cpp:320 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -5331,7 +5361,7 @@ msgstr "Удалить эффект %1"
 msgid "Project Bin"
 msgstr "Корзина проекта"
 
-#: src/bin/bin.cpp:6295 src/bin/bin.cpp:6298 src/mainwindow.cpp:4947
+#: src/bin/bin.cpp:6295 src/bin/bin.cpp:6298 src/mainwindow.cpp:4946
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Корзина проекта %1"
@@ -5398,8 +5428,11 @@ msgid ""
 "duplicate them?"
 msgstr "Следующие клипы уже добавлены в проект. Дублировать их?"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_duplicate)
-#: src/bin/clipcreator.cpp:396 src/ui/managesubtitles_ui.ui:35
+#. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
+#. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
+#. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
+#: src/bin/clipcreator.cpp:396 src/ui/managesubtitles_ui.ui:146
+#: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, kde-format
 msgid "Duplicate"
 msgstr "Дублировать"
@@ -5443,7 +5476,7 @@ msgstr[3] "Добавить клип"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:293
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:84
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:224
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:341
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
 #: src/ui/titlewidget_ui.ui:630
 #, kde-format
@@ -5455,12 +5488,12 @@ msgstr "Длительность:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "Список воспроизведения MLT (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:152
+#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:387
 #, kde-format
 msgid "Zoom In"
 msgstr "Увеличить масштаб"
 
-#: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:154
+#: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:389
 #, kde-format
 msgid "Zoom Out"
 msgstr "Уменьшить масштаб"
@@ -5478,7 +5511,7 @@ msgstr "Импортировать файл по двойному щелчку"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:558
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:565
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5584,7 +5617,7 @@ msgstr "Удалить все маркеры"
 
 #: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:908
 #: src/bin/model/markerlistmodel.cpp:933
-#: src/timeline2/view/timelinecontroller.cpp:1498
+#: src/timeline2/view/timelinecontroller.cpp:1500
 #, kde-format
 msgid "No guide found at current position"
 msgstr "В текущей позиции нет направляющей"
@@ -5620,44 +5653,48 @@ msgid "Add markers"
 msgstr "Добавить маркеры"
 
 #. i18n: ectx: Menu (subtitles)
-#: src/bin/model/subtitlemodel.cpp:73 src/core.cpp:699 src/kdenliveui.rc:30
+#: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:699 src/kdenliveui.rc:30
 #: src/mainwindow.cpp:304 src/project/dialogs/archivewidget.cpp:103
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/bin/model/subtitlemodel.cpp:104
-#, kde-format
-msgid "Edit subtitle style"
+#: src/bin/model/subtitlemodel.cpp:110
+#, fuzzy, kde-format
+#| msgid "Edit subtitle style"
+msgid "Edit global subtitle style"
 msgstr "Изменить стиль субтитров"
 
-#: src/bin/model/subtitlemodel.cpp:391 src/bin/model/subtitlemodel.cpp:611
-#: src/bin/model/subtitlemodel.cpp:1548
+#: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
+#: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
+#: src/bin/model/subtitlemodel.cpp:2257 src/bin/model/subtitlemodel.cpp:2290
+#: src/bin/model/subtitlemodel.cpp:2323 src/bin/model/subtitlemodel.cpp:2356
+#: src/bin/model/subtitlemodel.cpp:2389
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Редактировать субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:645 src/bin/model/subtitlemodel.cpp:1635
-#: src/timeline2/model/timelinefunctions.cpp:227
+#: src/bin/model/subtitlemodel.cpp:694 src/bin/model/subtitlemodel.cpp:1702
+#: src/timeline2/model/timelinefunctions.cpp:228
 #, kde-format
 msgid "Cut clip"
 msgstr "Разрезать клип"
 
-#: src/bin/model/subtitlemodel.cpp:807 src/bin/model/subtitlemodel.cpp:1567
-#: src/timeline2/model/timelinemodel.cpp:3924
+#: src/bin/model/subtitlemodel.cpp:856 src/bin/model/subtitlemodel.cpp:1633
+#: src/timeline2/model/timelinemodel.cpp:3928
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Изменить размер субтитра"
 
-#: src/bin/model/subtitlemodel.cpp:1003
-#: src/timeline2/model/timelinemodel.cpp:1359
+#: src/bin/model/subtitlemodel.cpp:1054
+#: src/timeline2/model/timelinemodel.cpp:1361
 #, kde-format
 msgid "Move subtitle"
 msgstr "Переместить субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:1159
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
+#: src/bin/model/subtitlemodel.cpp:1228
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:591
 #: src/effects/effectstack/view/effectstackview.cpp:785
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:367
@@ -5669,34 +5706,52 @@ msgstr ""
 "Файл «%1» уже существует.\n"
 "Перезаписать его?"
 
-#: src/bin/model/subtitlemodel.cpp:1579
+#: src/bin/model/subtitlemodel.cpp:1645 src/titler/titlewidget.cpp:393
+#: src/titler/titlewidget.cpp:396
 #, kde-format
-msgid "Add text"
+msgid "Add Text"
 msgstr "Введите текст"
 
-#: src/bin/model/subtitlemodel.cpp:1599 src/dialogs/subtitleedit.cpp:112
+#: src/bin/model/subtitlemodel.cpp:1670 src/dialogs/subtitleedit.cpp:274
 #, kde-format
 msgid "Add subtitle"
 msgstr "Добавить субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:1654 src/dialogs/subtitleedit.cpp:122
+#: src/bin/model/subtitlemodel.cpp:1722 src/dialogs/subtitleedit.cpp:284
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Удалить субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:1707 src/bin/model/subtitlemodel.cpp:1710
+#: src/bin/model/subtitlemodel.cpp:1794
+#, fuzzy, kde-format
+#| msgid "Delete subtitle"
+msgid "Delete subtitle layer"
+msgstr "Удалить субтитр"
+
+#: src/bin/model/subtitlemodel.cpp:1821
+#, fuzzy, kde-format
+#| msgid "Create title template"
+msgid "Create subtitle layer"
+msgstr "Создать шаблон титров"
+
+#: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "Субтитры"
 
+#: src/bin/model/subtitlemodel.cpp:2226
+#, kde-format
+msgid "Assign a new style to a subtitle."
+msgstr ""
+
 #: src/bin/projectclip.cpp:268
 #, kde-format
 msgid "Timeline sequence"
 msgstr "Последовательность монтажного стола"
 
-#: src/bin/projectclip.cpp:577 src/timeline2/view/qml/Clip.qml:1154
+#: src/bin/projectclip.cpp:577 src/timeline2/view/qml/Clip.qml:1156
 #, fuzzy, kde-format
 #| msgctxt "The first letter of Proxy, used as abbreviation"
 #| msgid "P"
@@ -5729,7 +5784,7 @@ msgstr "Недопустимый"
 
 #: src/bin/projectclip.cpp:1446 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
-#: src/timeline2/model/timelinefunctions.cpp:1481
+#: src/timeline2/model/timelinefunctions.cpp:1491
 #, kde-format
 msgid "File already exists"
 msgstr "Файл уже существует"
@@ -5822,7 +5877,7 @@ msgstr "Загрузка клипов проекта..."
 msgid "Loading project clips…"
 msgstr "Загрузка клипов проекта..."
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2134
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2407
 #, kde-format
 msgid "Zone %1"
 msgstr "Участок %1"
@@ -6243,7 +6298,7 @@ msgstr "Текстовый клип"
 msgid "Create Text clip"
 msgstr "Создать текстовый клип"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1178
+#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1179
 #, kde-format
 msgid "Template title clip"
 msgstr "Шаблон клипа титров"
@@ -6598,12 +6653,12 @@ msgid "Export Guides Data"
 msgstr "Экспортировать данные направляющих"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1704
-#: src/dialogs/renderwidget.cpp:1728 src/doc/kdenlivedoc.cpp:759
-#: src/doc/kdenlivedoc.cpp:767 src/doc/kdenlivedoc.cpp:1327
+#: src/dialogs/renderwidget.cpp:1728 src/doc/kdenlivedoc.cpp:760
+#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:660
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:667
 #: src/effects/effectstack/view/effectstackview.cpp:820
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -6611,10 +6666,11 @@ msgstr "Экспортировать данные направляющих"
 #: src/project/dialogs/archivewidget.cpp:886
 #: src/project/dialogs/archivewidget.cpp:898
 #: src/project/dialogs/archivewidget.cpp:904
-#: src/project/projectmanager.cpp:1847 src/render/renderrequest.cpp:310
+#: src/project/projectmanager.cpp:1887 src/render/renderrequest.cpp:310
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
-#: src/timeline2/view/timelinecontroller.cpp:5197
+#: src/timeline2/view/timelinecontroller.cpp:5242
+#: src/timeline2/view/timelinecontroller.cpp:5247
 #: src/titler/titlewidget.cpp:2276
 #, kde-format
 msgid "Cannot write to file %1"
@@ -6679,7 +6735,7 @@ msgstr ""
 "(UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1737
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1777
 #: src/renderpresets/renderpresetrepository.cpp:310
 #, kde-format
 msgid "Cannot read file %1"
@@ -6700,7 +6756,7 @@ msgstr "Распознана кодировка «%1»"
 msgid "Import Subtitle"
 msgstr "Импорт субтитров"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:112 src/mainwindow.cpp:4055
+#: src/dialogs/kdenlivesettingsdialog.cpp:112 src/mainwindow.cpp:4054
 #, kde-format
 msgid "Timeline"
 msgstr "Монтажный стол"
@@ -6725,15 +6781,17 @@ msgstr "Воспроизведение"
 msgid "Capture"
 msgstr "Захват"
 
+#. i18n: ectx: property (text), widget (QLabel, labelMisc)
 #: src/dialogs/kdenlivesettingsdialog.cpp:219
 #: src/effects/effectlist/model/effecttreemodel.cpp:61
+#: src/ui/editsubstyle_ui.ui:146
 #, kde-format
 msgid "Misc"
 msgstr "Разное"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:243
 #: src/dialogs/kdenlivesettingsdialog.cpp:822
-#: src/doc/documentvalidator.cpp:2246
+#: src/doc/documentvalidator.cpp:2519
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
@@ -6866,8 +6924,10 @@ msgstr "Служба ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
 #: src/dialogs/kdenlivesettingsdialog.cpp:737
-#: src/dialogs/kdenlivesettingsdialog.cpp:738 src/dialogs/renderwidget.cpp:217
-#: src/mainwindow.cpp:210 src/ui/configproject_ui.ui:48
+#: src/dialogs/kdenlivesettingsdialog.cpp:738
+#: src/dialogs/managesubtitles.cpp:550 src/dialogs/renderwidget.cpp:217
+#: src/dialogs/subtitlestyleedit.cpp:97 src/mainwindow.cpp:210
+#: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "По умолчанию"
@@ -7063,32 +7123,177 @@ msgstr "Извлечение архива…"
 msgid "New dictionary installed."
 msgstr "Установлен новый словарь."
 
-#: src/dialogs/managesubtitles.cpp:28
+#: src/dialogs/managesubtitles.cpp:52
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@title:window"
 msgid "Manage Subtitles"
 msgstr "Субтитры"
 
-#: src/dialogs/managesubtitles.cpp:44
+#: src/dialogs/managesubtitles.cpp:73
+#, kde-format
+msgid "Layer"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:104
+#, fuzzy, kde-format
+#| msgid "Move Toolbar"
+msgid "Move Layer"
+msgstr "Переместить панель инструментов"
+
+#: src/dialogs/managesubtitles.cpp:104
+#, kde-format
+msgid "Select the subtitle file to move the layer to:"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:106
+#, fuzzy, kde-format
+#| msgid "Copy channel:"
+msgid "Copy Layer"
+msgstr "Скопировать канал:"
+
+#: src/dialogs/managesubtitles.cpp:106
+#, kde-format
+msgid "Select the subtitle file to copy the layer to:"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
+#, fuzzy, kde-format
+#| msgid "Move Toolbar"
+msgid "Move To..."
+msgstr "Переместить панель инструментов"
+
+#: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
+#, kde-format
+msgid "Copy To..."
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
+#, kde-format
+msgid "Global"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:192
+#, fuzzy, kde-format
+#| msgid "Move item"
+msgid "Move Style"
+msgstr "Переместить элемент"
+
+#: src/dialogs/managesubtitles.cpp:192
+#, kde-format
+msgid "Select the subtitle file to move the style to:"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:194
+#, fuzzy, kde-format
+#| msgid "Font Style"
+msgid "Copy Style"
+msgstr "Стиль шрифта"
+
+#: src/dialogs/managesubtitles.cpp:194
+#, kde-format
+msgid "Select the subtitle file to copy the style to:"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:401
 #, fuzzy, kde-format
 #| msgid "Import Subtitle"
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Импорт субтитров"
 
-#: src/dialogs/managesubtitles.cpp:45
+#: src/dialogs/managesubtitles.cpp:402
 #, fuzzy, kde-format
 #| msgid "Import Subtitle"
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
 msgstr "Импорт субтитров"
 
-#: src/dialogs/managesubtitles.cpp:109
+#: src/dialogs/managesubtitles.cpp:461
+#, kde-format
+msgid "Layer "
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:461
+#, kde-format
+msgid "with "
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
+#, kde-format
+msgid " event"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:467
+#, kde-format
+msgid " events"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
+#, kde-format
+msgid "Bottom Left"
+msgstr "Внизу слева"
+
+#: src/dialogs/managesubtitles.cpp:526 src/dialogs/subtitlestyleedit.cpp:111
+#, kde-format
+msgid "Bottom Right"
+msgstr "Внизу справа"
+
+#: src/dialogs/managesubtitles.cpp:538 src/dialogs/subtitlestyleedit.cpp:103
+#, kde-format
+msgid "Top Left"
+msgstr "Вверху слева"
+
+#: src/dialogs/managesubtitles.cpp:544 src/dialogs/subtitlestyleedit.cpp:105
+#, kde-format
+msgid "Top Right"
+msgstr "Вверху справа"
+
+#: src/dialogs/managesubtitles.cpp:553
+#, fuzzy, kde-format
+#| msgid "Border "
+msgid "Box as Border"
+msgstr "Рамка "
+
+#: src/dialogs/managesubtitles.cpp:556 src/dialogs/subtitlestyleedit.cpp:99
+#, fuzzy, kde-format
+#| msgid "Shadow"
+msgid "Box as Shadow"
+msgstr "Тень"
+
+#: src/dialogs/managesubtitles.cpp:706
 #, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
-"subtitle file: %2 "
+"subtitle file: %2"
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:728
+#, fuzzy, kde-format
+#| msgid ""
+#| "This will delete the file:\n"
+#| "%1"
+msgid "This will delete all events in layer <b>%1</b>."
+msgstr ""
+"Будет удалён файл :\n"
+"«%1»"
+
+#: src/dialogs/managesubtitles.cpp:746
+#, fuzzy, kde-format
+#| msgid "Cannot create filter."
+msgid "Cannot delete default style."
+msgstr "Не удалось создать фильтр."
+
+#: src/dialogs/managesubtitles.cpp:750
+#, kde-format
+msgid "This will delete the style <b>%1</b> and all its properties."
+msgstr ""
+
+#: src/dialogs/managesubtitles.cpp:755
+#, kde-format
+msgid ""
+"This will delete the style <b>%1</b> and all its properties.\n"
+"Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
 
 #: src/dialogs/profilesdialog.cpp:110
@@ -7321,7 +7526,9 @@ msgstr "Бикубическая (лучше)"
 msgid "BWDIF (best)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:236 src/project/dialogs/slideshowclip.cpp:65
+#: src/dialogs/renderwidget.cpp:236 src/dialogs/subtitleedit.cpp:1492
+#: src/dialogs/subtitleedit.cpp:1509 src/dialogs/subtitleedit.cpp:1523
+#: src/dialogs/subtitleedit.cpp:1563 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
@@ -7400,7 +7607,9 @@ msgid "Beginning"
 msgstr "Начало"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/dialogs/renderwidget.cpp:521 src/ui/wipeval_ui.ui:172
+#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
+#: src/dialogs/renderwidget.cpp:521 src/ui/managesubtitles_ui.ui:206
+#: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
 msgstr "Конец"
@@ -8217,12 +8426,23 @@ msgstr ""
 msgid "Made by KDE"
 msgstr "Разработано сообществом KDE"
 
-#: src/dialogs/subtitleedit.cpp:108
+#: src/dialogs/subtitleedit.cpp:242
+#, kde-format
+msgid "Edit subtitle style"
+msgstr "Изменить стиль субтитров"
+
+#: src/dialogs/subtitleedit.cpp:243
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a dialog to edit the current subtitle."
+msgstr ""
+
+#: src/dialogs/subtitleedit.cpp:270
 #, kde-format
 msgid "Go to next subtitle"
 msgstr "К следующему субтитру"
 
-#: src/dialogs/subtitleedit.cpp:109
+#: src/dialogs/subtitleedit.cpp:271
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8232,12 +8452,12 @@ msgstr ""
 "Перемещает указатель воспроизведения на монтажном столе к началу субтитра "
 "справа."
 
-#: src/dialogs/subtitleedit.cpp:110
+#: src/dialogs/subtitleedit.cpp:272
 #, kde-format
 msgid "Go to previous subtitle"
 msgstr "К предыдущему субтитру"
 
-#: src/dialogs/subtitleedit.cpp:111
+#: src/dialogs/subtitleedit.cpp:273
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8247,7 +8467,7 @@ msgstr ""
 "Перемещает указатель воспроизведения на монтажном столе к началу субтитра "
 "слева."
 
-#: src/dialogs/subtitleedit.cpp:113
+#: src/dialogs/subtitleedit.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8259,12 +8479,12 @@ msgstr ""
 "<interface>Настройка->Настроить Kdenlive…->Разное</interface>) в текущей "
 "позиции/кадре указателя воспроизведения."
 
-#: src/dialogs/subtitleedit.cpp:115
+#: src/dialogs/subtitleedit.cpp:277
 #, kde-format
 msgid "Split subtitle at cursor position"
 msgstr "Разделить субтитр в позиции курсора"
 
-#: src/dialogs/subtitleedit.cpp:117
+#: src/dialogs/subtitleedit.cpp:279
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8274,83 +8494,262 @@ msgstr ""
 "Разрезает текст субтитра в позиции курсора и создаёт новый субтитр справа "
 "(действие напоминает разрезку клипа)."
 
-#: src/dialogs/subtitleedit.cpp:118
+#: src/dialogs/subtitleedit.cpp:280
 #, kde-format
 msgid "Update subtitle text"
 msgstr "Обновить текст субтитра"
 
-#: src/dialogs/subtitleedit.cpp:119
+#: src/dialogs/subtitleedit.cpp:281
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr "Обновляет отображение субтитра на монтажном столе."
 
-#: src/dialogs/subtitleedit.cpp:120
-#, kde-format
-msgid "Show style options"
+#: src/dialogs/subtitleedit.cpp:282
+#, fuzzy, kde-format
+#| msgid "Show style options"
+msgid "Show more options"
 msgstr "Показать параметры стиля"
 
-#: src/dialogs/subtitleedit.cpp:121
+#: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
-msgid ""
-"Toggles a list to adjust font, size, color, outline style, shadow, position "
-"and background."
+msgid "Toggles a list to adjust more subtitle settings."
 msgstr ""
-"Переключает отображение списка параметров для настройки шрифта, размера, "
-"цвета, стиля контура, тени, расположения и фона."
 
-#: src/dialogs/subtitleedit.cpp:123
+#: src/dialogs/subtitleedit.cpp:285
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr "Удаляет выделенный субтитр (не работает с несколькими субтитрами)."
 
-#: src/dialogs/subtitleedit.cpp:142
-#, kde-format
-msgid "Bottom Center"
-msgstr "Внизу по центру"
+#: src/dialogs/subtitleedit.cpp:288
+#, fuzzy, kde-format
+#| msgid "Toggle Track Disabled"
+msgid "Toggle bold"
+msgstr "Включить или отключить отключение дорожки"
 
-#: src/dialogs/subtitleedit.cpp:143
-#, kde-format
-msgid "Bottom Left"
-msgstr "Внизу слева"
+#: src/dialogs/subtitleedit.cpp:289
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Toggles the bold text style for either the selected text or the text "
+"following the cursor position."
+msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:144
-#, kde-format
-msgid "Bottom Right"
-msgstr "Внизу справа"
+#: src/dialogs/subtitleedit.cpp:292
+#, fuzzy, kde-format
+#| msgid "Toggle selection"
+msgid "Toggle italic"
+msgstr "Переключить выбранное"
 
-#: src/dialogs/subtitleedit.cpp:145
-#, kde-format
-msgid "Center Left"
-msgstr "По центру слева"
+#: src/dialogs/subtitleedit.cpp:294
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Toggles the italic text style for either the selected text or the text "
+"following the cursor position."
+msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:147
-#, kde-format
-msgid "Center Right"
-msgstr "По центру справа"
+#: src/dialogs/subtitleedit.cpp:297
+#, fuzzy, kde-format
+#| msgid "Toggle selection"
+msgid "Toggle underline"
+msgstr "Переключить выбранное"
 
-#: src/dialogs/subtitleedit.cpp:148
-#, kde-format
-msgid "Top Left"
+#: src/dialogs/subtitleedit.cpp:299
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Toggles the underline text style for either the selected text or the text "
+"following the cursor position."
+msgstr ""
+
+#: src/dialogs/subtitleedit.cpp:302
+#, fuzzy, kde-format
+#| msgid "Toggle selection"
+msgid "Toggle strikeout"
+msgstr "Переключить выбранное"
+
+#: src/dialogs/subtitleedit.cpp:304
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Toggles the strikeout text style for either the selected text or the text "
+"following the cursor position."
+msgstr ""
+
+#: src/dialogs/subtitleedit.cpp:309
+#, fuzzy, kde-format
+#| msgid "Set Zone"
+msgid "Set font"
+msgstr "Установка участка"
+
+#: src/dialogs/subtitleedit.cpp:312
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Open a font dialog to select a font and set its properties for either the "
+"selected text or the text following the cursor position."
+msgstr ""
+
+#: src/dialogs/subtitleedit.cpp:315
+#, fuzzy, kde-format
+#| msgid "Reset value"
+msgid "Reset style"
+msgstr "Восстановить значение по умолчанию"
+
+#: src/dialogs/subtitleedit.cpp:316
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Resets the style of either the selected text or the text following the "
+"cursor position."
+msgstr ""
+
+#: src/dialogs/subtitleedit.cpp:318
+#, fuzzy, kde-format
+#| msgid "Start Position"
+msgid "Set Position"
+msgstr "Начальная позиция"
+
+#: src/dialogs/subtitleedit.cpp:322
+#, fuzzy, kde-format
+#| msgid "More options"
+msgid "More tags"
+msgstr "Дополнительно"
+
+#: src/dialogs/subtitleedit.cpp:323
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Opens a menu to show more tags"
+msgstr ""
+
+#: src/dialogs/subtitleedit.cpp:382
+#, fuzzy, kde-format
+#| msgid "Top Left"
+msgid "Right To Left"
 msgstr "Вверху слева"
 
-#: src/dialogs/subtitleedit.cpp:149
-#, kde-format
-msgid "Top Center"
-msgstr "Вверху по центру"
+#: src/dialogs/subtitleedit.cpp:383
+#, fuzzy, kde-format
+#| msgid "Left,Right"
+msgid "Left To Right"
+msgstr "Левый,Правый"
 
-#: src/dialogs/subtitleedit.cpp:150
-#, kde-format
-msgid "Top Right"
-msgstr "Вверху справа"
+#: src/dialogs/subtitleedit.cpp:384
+#, fuzzy, kde-format
+#| msgid "Crop bottom"
+msgid "Top To Bottom"
+msgstr "Кадрирование снизу"
 
-#: src/dialogs/subtitleedit.cpp:489
+#: src/dialogs/subtitleedit.cpp:385
+#, fuzzy, kde-format
+#| msgid "Bottom"
+msgid "Bottom To Top"
+msgstr "Снизу"
+
+#: src/dialogs/subtitleedit.cpp:391
+#, kde-format
+msgid "Clear All Tags"
+msgstr ""
+
+#: src/dialogs/subtitleedit.cpp:402
+#, fuzzy, kde-format
+#| msgid "Speech Editor"
+msgid "Simple Editor"
+msgstr "Редактор речи"
+
+#: src/dialogs/subtitleedit.cpp:574
+#, fuzzy, kde-format
+#| msgid "Subtitles"
+msgid "Manage Styles.."
+msgstr "Субтитры"
+
+#: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
 msgid "Character: %1, total: <b>%2</b>"
 msgstr "Символ: %1, всего: <b>%2</b>"
+
+#: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
+#, fuzzy, kde-format
+#| msgid "Position X"
+msgid "Set Position X"
+msgstr "Позиция по X"
+
+#. i18n: ectx: property (text), widget (QLabel, label_rotateX)
+#: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
+#: src/ui/titlewidget_ui.ui:553
+#, kde-format
+msgid "X:"
+msgstr "X:"
+
+#: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
+#, fuzzy, kde-format
+#| msgid "Position Y"
+msgid "Set Position Y"
+msgstr "Позиция по Y"
+
+#. i18n: ectx: property (text), widget (QLabel, label_rotateY)
+#: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
+#: src/ui/titlewidget_ui.ui:576
+#, kde-format
+msgid "Y:"
+msgstr "Y:"
+
+#: src/dialogs/subtitlestyleedit.cpp:45
+#, fuzzy, kde-format
+#| msgid "Selection"
+msgid "Select font"
+msgstr "Выбрать"
+
+#: src/dialogs/subtitlestyleedit.cpp:46
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Open a font dialog to select a font and set its properties."
+msgstr ""
+
+#: src/dialogs/subtitlestyleedit.cpp:98
+#, fuzzy, kde-format
+#| msgid "Outline"
+msgid "Box as Outline"
+msgstr "Обводка"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
+#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
+#, fuzzy, kde-format
+msgid "Show Preview >>>"
+msgstr "Предпросмотр субтитров"
+
+#: src/dialogs/subtitlestyleedit.cpp:133
+#, fuzzy, kde-format
+msgid "<<< Hide Preview"
+msgstr "Предпросмотр субтитров"
+
+#: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
+#: src/dialogs/subtitlestyleedit.cpp:171
+#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#, kde-format
+msgid "Error"
+msgstr "Ошибка"
+
+#: src/dialogs/subtitlestyleedit.cpp:161
+#, fuzzy, kde-format
+#| msgid "File already exists"
+msgid "Style name already exists."
+msgstr "Файл уже существует"
+
+#: src/dialogs/subtitlestyleedit.cpp:166
+#, fuzzy, kde-format
+#| msgid "The preset name can't be empty"
+msgid "Style name cannot be empty."
+msgstr "Имя предустановки не может быть пустым"
+
+#: src/dialogs/subtitlestyleedit.cpp:171
+#, kde-format
+msgid "Style name cannot contain ','."
+msgstr ""
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9057,13 +9456,13 @@ msgstr "Файл проекта ссылается на потерянные к�
 msgid "Missing proxies can be recreated on opening."
 msgstr "Отсутствующие прокси могут быть восстановлены при открытии."
 
-#: src/doc/documentvalidator.cpp:46
+#: src/doc/documentvalidator.cpp:47
 #, fuzzy, kde-format
 #| msgid "Loading project…"
 msgid "Validating project…"
 msgstr "Загрузка проекта…"
 
-#: src/doc/documentvalidator.cpp:88
+#: src/doc/documentvalidator.cpp:89
 #, kde-format
 msgid ""
 "The document was created in \"%1\" locale, which is not installed on your "
@@ -9074,7 +9473,7 @@ msgstr ""
 "системе. Установите языковой пакет. Пока пакет не будет установлен, "
 "существует возможность, что Kdenlive не сможет правильно открыть документ."
 
-#: src/doc/documentvalidator.cpp:126
+#: src/doc/documentvalidator.cpp:127
 #, kde-format
 msgid ""
 "Version of the project file cannot be read.\n"
@@ -9083,18 +9482,18 @@ msgstr ""
 "Не удалось прочитать версию файла проекта.\n"
 "Тем не менее, выполняется попытка открыть файл."
 
-#: src/doc/documentvalidator.cpp:127
+#: src/doc/documentvalidator.cpp:128
 #, kde-format
 msgid "Incorrect project file"
 msgstr "Некорректный файл проекта"
 
-#: src/doc/documentvalidator.cpp:183
+#: src/doc/documentvalidator.cpp:188
 #, fuzzy, kde-format
 #| msgid "Loading project…"
 msgid "Upgrading project version…"
 msgstr "Загрузка проекта…"
 
-#: src/doc/documentvalidator.cpp:189
+#: src/doc/documentvalidator.cpp:194
 #, kde-format
 msgid ""
 "This project type is unsupported (version %1) and cannot be loaded.\n"
@@ -9103,18 +9502,18 @@ msgstr ""
 "Этот тип проекта не поддерживается (версия %1) и не может быть загружен.\n"
 "Рекомендуется обновить версию Kdenlive."
 
-#: src/doc/documentvalidator.cpp:190 src/doc/documentvalidator.cpp:199
+#: src/doc/documentvalidator.cpp:195 src/doc/documentvalidator.cpp:204
 #, kde-format
 msgid "Unable to open project"
 msgstr "Не удаётся открыть проект"
 
-#: src/doc/documentvalidator.cpp:198
+#: src/doc/documentvalidator.cpp:203
 #, kde-format
 msgid "This project type is unsupported (version %1) and cannot be loaded."
 msgstr ""
 "Этот тип проекта не поддерживается (версия %1) и не может быть загружен."
 
-#: src/doc/documentvalidator.cpp:723
+#: src/doc/documentvalidator.cpp:728
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -9129,27 +9528,39 @@ msgstr ""
 "клипов, в противном случае может возникнуть необходимость в корректировке их "
 "размера."
 
-#: src/doc/documentvalidator.cpp:726
+#: src/doc/documentvalidator.cpp:731
 #, kde-format
 msgid "Update Text Clips"
 msgstr "Обновить текстовые клипы"
 
-#: src/doc/documentvalidator.cpp:726 src/doc/documentvalidator.cpp:2237
+#: src/doc/documentvalidator.cpp:731 src/doc/documentvalidator.cpp:2510
 #, kde-format
 msgid "Convert"
 msgstr "Преобразовать"
 
-#: src/doc/documentvalidator.cpp:1296
+#: src/doc/documentvalidator.cpp:1301
 #, kde-format
 msgid "Cannot recover this project file"
 msgstr "Не удалось восстановить файл проекта"
 
-#: src/doc/documentvalidator.cpp:1615
+#: src/doc/documentvalidator.cpp:1620
 #, kde-format
 msgid "extra audio"
 msgstr "дополнительный звук"
 
-#: src/doc/documentvalidator.cpp:2235
+#: src/doc/documentvalidator.cpp:2206
+#, fuzzy, kde-format
+#| msgid "Output file already exists. Do you want to overwrite it?"
+msgid ""
+"The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
+msgstr "Выходной файл уже существует. Перезаписать?"
+
+#: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3581
+#, kde-format
+msgid "Overwrite"
+msgstr "Заменить"
+
+#: src/doc/documentvalidator.cpp:2508
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -9162,35 +9573,35 @@ msgstr ""
 "Преобразовать проект в версию, не требующую использования GPU?\n"
 "Это может привести к потере данных."
 
-#: src/doc/documentvalidator.cpp:2237
+#: src/doc/documentvalidator.cpp:2510
 #, kde-format
 msgid "GPU Effects"
 msgstr "Эффекты GPU"
 
-#: src/doc/documentvalidator.cpp:2330
+#: src/doc/documentvalidator.cpp:2603
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Следующие фильтры/переходы были преобразованы в версии, которые не требуют "
 "использования GPU:"
 
-#: src/doc/documentvalidator.cpp:2333
+#: src/doc/documentvalidator.cpp:2606
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Следующие фильтры/переходы были удалены из проекта:"
 
-#: src/doc/kdenlivedoc.cpp:160
+#: src/doc/kdenlivedoc.cpp:161
 #, kde-format
 msgid "Invalid file path"
 msgstr "Некорректный путь к файлу"
 
-#: src/doc/kdenlivedoc.cpp:208 src/project/projectmanager.cpp:817
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:817
 #: src/project/projectmanager.cpp:859
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Не удалось восстановить повреждённый файл."
 
-#: src/doc/kdenlivedoc.cpp:215
+#: src/doc/kdenlivedoc.cpp:216
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -9199,17 +9610,17 @@ msgstr ""
 "Не удалось открыть файл %1:\n"
 "%2 (строка %3, столбец %4)"
 
-#: src/doc/kdenlivedoc.cpp:228
+#: src/doc/kdenlivedoc.cpp:229
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "Файл «%1» не является файлом проекта Kdenlive"
 
-#: src/doc/kdenlivedoc.cpp:235
+#: src/doc/kdenlivedoc.cpp:236
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "Файл «%1» не является корректным файлом проекта Kdenlive."
 
-#: src/doc/kdenlivedoc.cpp:248
+#: src/doc/kdenlivedoc.cpp:249
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -9218,7 +9629,7 @@ msgstr ""
 "Ускорение с помощью графического процессора отключено в параметрах настройки "
 "Kdenlive, но оно необходимо для фильтров Movit данного проекта."
 
-#: src/doc/kdenlivedoc.cpp:291
+#: src/doc/kdenlivedoc.cpp:292
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -9229,23 +9640,23 @@ msgstr ""
 "Убедитесь в наличии необходимых разрешений.\n"
 "По умолчанию будут использованы системные папки"
 
-#: src/doc/kdenlivedoc.cpp:294
+#: src/doc/kdenlivedoc.cpp:295
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Недопустимая папка проекта. Будут использованы системные папки по умолчанию"
 
-#: src/doc/kdenlivedoc.cpp:577 src/doc/kdenlivedoc.cpp:587
+#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:588
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Не удалось создать файл автосохранения «%1»"
 
-#: src/doc/kdenlivedoc.cpp:582 src/doc/kdenlivedoc.cpp:720
+#: src/doc/kdenlivedoc.cpp:583 src/doc/kdenlivedoc.cpp:721
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Не удалось произвести запись в файл «%1», список сцен повреждён."
 
-#: src/doc/kdenlivedoc.cpp:738
+#: src/doc/kdenlivedoc.cpp:739
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -9254,7 +9665,7 @@ msgstr ""
 "Файл проекта Kdenlive обновлён до самой последней версии.\n"
 "Во избежание потери данных создана резервная копия с именем «%1»."
 
-#: src/doc/kdenlivedoc.cpp:752
+#: src/doc/kdenlivedoc.cpp:753
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -9263,36 +9674,36 @@ msgstr ""
 "Файл проекта Kdenlive обновлён до самой последней версии, однако создать "
 "резервную копию %1 не удалось."
 
-#: src/doc/kdenlivedoc.cpp:913 src/project/projectmanager.cpp:1421
-#: src/project/projectmanager.cpp:1457
+#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1461
+#: src/project/projectmanager.cpp:1497
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Ошибка при перемещении папки проекта: %1"
 
-#: src/doc/kdenlivedoc.cpp:1103 src/doc/kdenlivedoc.cpp:2351
+#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2362
 #: src/project/dialogs/archivewidget.cpp:245
-#: src/project/projectmanager.cpp:1678
+#: src/project/projectmanager.cpp:1718
 #, kde-format
 msgid "Untitled"
 msgstr "Безымянный"
 
-#: src/doc/kdenlivedoc.cpp:1164
+#: src/doc/kdenlivedoc.cpp:1165
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Путь к шаблону"
 
-#: src/doc/kdenlivedoc.cpp:1334
+#: src/doc/kdenlivedoc.cpp:1326
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "Из проекта были импортированы следующие эффекты:"
 
-#: src/doc/kdenlivedoc.cpp:1367 src/doc/kdenlivedoc.cpp:1381
+#: src/doc/kdenlivedoc.cpp:1359 src/doc/kdenlivedoc.cpp:1373
 #, kde-format
 msgid "Project Folder"
 msgstr "Папка проекта"
 
-#: src/doc/kdenlivedoc.cpp:1425 src/doc/kdenlivedoc.cpp:1434
+#: src/doc/kdenlivedoc.cpp:1417 src/doc/kdenlivedoc.cpp:1434
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -9301,7 +9712,7 @@ msgstr ""
 "Не удалось создать резервную копию:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1579
+#: src/doc/kdenlivedoc.cpp:1589
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -9310,7 +9721,7 @@ msgstr[1] "Добавить прокси-клипы"
 msgstr[2] "Добавить прокси-клипы"
 msgstr[3] "Добавить прокси-клип"
 
-#: src/doc/kdenlivedoc.cpp:1581
+#: src/doc/kdenlivedoc.cpp:1591
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -9319,12 +9730,12 @@ msgstr[1] "Удалить прокси-клипы"
 msgstr[2] "Удалить прокси-клипы"
 msgstr[3] "Удалить прокси-клип"
 
-#: src/doc/kdenlivedoc.cpp:1625 src/doc/kdenlivedoc.cpp:1683
+#: src/doc/kdenlivedoc.cpp:1635 src/doc/kdenlivedoc.cpp:1693
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Клип данного типа не поддерживает прокси"
 
-#: src/doc/kdenlivedoc.cpp:1821
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -9332,12 +9743,12 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1916
+#: src/doc/kdenlivedoc.cpp:1927
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1934
+#: src/doc/kdenlivedoc.cpp:1945
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -9347,43 +9758,43 @@ msgstr ""
 "%3.\n"
 "Изменить профиль по умолчанию для будущих проектов?"
 
-#: src/doc/kdenlivedoc.cpp:1936
+#: src/doc/kdenlivedoc.cpp:1947
 #, kde-format
 msgid "Change default project profile"
 msgstr "Изменить профиль проекта по умолчанию"
 
-#: src/doc/kdenlivedoc.cpp:1936
+#: src/doc/kdenlivedoc.cpp:1947
 #, kde-format
 msgid "Change default to %1"
 msgstr "Изменить профиль по умолчанию на %1"
 
-#: src/doc/kdenlivedoc.cpp:1937
+#: src/doc/kdenlivedoc.cpp:1948
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Оставить текущий профиль по умолчанию %1"
 
-#: src/doc/kdenlivedoc.cpp:1937
+#: src/doc/kdenlivedoc.cpp:1948
 #, kde-format
 msgid "Ask me later"
 msgstr "Напомнить позже"
 
-#: src/doc/kdenlivedoc.cpp:1957
+#: src/doc/kdenlivedoc.cpp:1968
 #, kde-format
 msgid "Switch"
 msgstr "Переключить"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1959 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1970 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Отменить"
 
-#: src/doc/kdenlivedoc.cpp:1961
+#: src/doc/kdenlivedoc.cpp:1972
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Переключить на профиль %2 клипа (%1)?"
 
-#: src/doc/kdenlivedoc.cpp:1966
+#: src/doc/kdenlivedoc.cpp:1977
 #, kde-format
 msgid ""
 "\n"
@@ -9392,7 +9803,7 @@ msgstr ""
 "\n"
 "Для профиля используется кадровая частота оригинала %1"
 
-#: src/doc/kdenlivedoc.cpp:1970
+#: src/doc/kdenlivedoc.cpp:1981
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -9401,13 +9812,13 @@ msgstr ""
 "Профиль для клипа %1 не найден.\n"
 "Создать и использовать новый профиль (%2×%3, %4 кадров/с)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2390 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Красный"
 
-#: src/doc/kdenlivedoc.cpp:2391 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9415,24 +9826,24 @@ msgstr "Красный"
 msgid "Green"
 msgstr "Зелёный"
 
-#: src/doc/kdenlivedoc.cpp:2392 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2403 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Синий"
 
-#: src/doc/kdenlivedoc.cpp:2393 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2404 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Жёлтый"
 
-#: src/doc/kdenlivedoc.cpp:2394
+#: src/doc/kdenlivedoc.cpp:2405
 #, kde-format
 msgid "Cyan"
 msgstr "Бирюзовый"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2699 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2742 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -9463,11 +9874,6 @@ msgstr "Шаблоны"
 #, kde-format
 msgid " - deprecated"
 msgstr " — устарел"
-
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
-#, kde-format
-msgid "Error"
-msgstr "Ошибка"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
@@ -9542,7 +9948,7 @@ msgstr "Эффект %1 нельзя добавить дважды."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:590
 #: src/effects/effectstack/view/effectstackview.cpp:235
-#: src/timeline2/model/timelinemodel.cpp:5034
+#: src/timeline2/model/timelinemodel.cpp:5038
 #, kde-format
 msgid "Add effect %1"
 msgstr "Добавить эффект %1"
@@ -9552,12 +9958,12 @@ msgstr "Добавить эффект %1"
 msgid "Move effect %1"
 msgstr "Переместить эффект %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:51
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
 #, kde-format
 msgid "Move effect up"
 msgstr "Переместить эффект вверх"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9568,12 +9974,12 @@ msgstr ""
 "обрабатываются последовательно от верхнего к нижнему, поэтому "
 "последовательность расположения имеет значение."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
 #, kde-format
 msgid "Move effect down"
 msgstr "Переместить эффект вниз"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9584,59 +9990,65 @@ msgstr ""
 "последовательно от верхнего к нижнему, поэтому последовательность "
 "расположения имеет значение."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-format
 msgid "Delete effect"
 msgstr "Удалить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Удаляет эффект из стека эффектов."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Свернуть Эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:73
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
 #, kde-format
 msgid "Expand Effect"
 msgstr "Развернуть эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:98
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:82
+#, fuzzy, kde-format
+#| msgid "Kdenlive document to open."
+msgid "Open effect documentation in browser"
+msgstr "Открываемый документ Kdenlive."
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Включить ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Скрыть ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:100
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Показать ключевые кадры"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:101
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Показать ключевые кадры на монтажном столе"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
 #, kde-format
 msgid "Disable Effect"
 msgstr "Выключить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
 #, kde-format
 msgid "Enable Effect"
 msgstr "Включить эффект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
@@ -9644,7 +10056,7 @@ msgstr ""
 "Отключает эффект. Позволяет сравнить результаты до и после применения "
 "настроек."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:123
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
@@ -9652,22 +10064,22 @@ msgstr ""
 "Включает эффект. Позволяет сравнить результаты до и после применения "
 "настроек."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:159
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Create Group"
 msgstr "Создать группу"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-format
 msgid "In:"
 msgstr "Вход:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
 #, kde-format
 msgid "Set zone in"
 msgstr "Установить точку входа участка"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
@@ -9675,17 +10087,17 @@ msgstr ""
 "Устанавливает текущую позицию кадра/указателя воспроизведения в качестве "
 "точки входа."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:178
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
 #, kde-format
 msgid "Out:"
 msgstr "Выход: "
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:184
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
 #, kde-format
 msgid "Set zone out"
 msgstr "Установить точку выхода участка"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:185
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
@@ -9693,12 +10105,12 @@ msgstr ""
 "Устанавливает текущую позицию кадра/указателя воспроизведения в качестве "
 "точки выхода."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:207
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:217
 #, kde-format
 msgid "Use effect zone"
 msgstr "Использовать участок эффекта"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:208
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:218
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -9706,13 +10118,13 @@ msgstr "Переключает отображение зоны эффекта."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:268
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:278
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Предустановки"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:269
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -9720,17 +10132,12 @@ msgstr ""
 "Открывает список дополнительных параметров для настройки предустановок "
 "эффекта."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:273
-#, kde-format
-msgid "Save effect"
-msgstr "Сохранить эффект"
-
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:328
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:335
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:494
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:501
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -9738,28 +10145,28 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:525
 #, kde-format
 msgid "Disable %1"
 msgstr "Отключить %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:525
 #, kde-format
 msgid "Enable %1"
 msgstr "Включить %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:554
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:561
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Сохранение эффекта"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:559
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:566
 #, kde-format
 msgid "Comments:"
 msgstr "Комментарии:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:582
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Имя не указано, эффект не был сохранён."
@@ -9784,14 +10191,14 @@ msgid "Flip"
 msgstr "Флиппо"
 
 #: src/effects/effectstack/view/effectstackview.cpp:702
-#: src/timeline2/view/timelinecontroller.cpp:3269
+#: src/timeline2/view/timelinecontroller.cpp:3277
 #, fuzzy, kde-format
 #| msgid "Enable Effect"
 msgid "Enable Effect Stack"
 msgstr "Включить эффект"
 
 #: src/effects/effectstack/view/effectstackview.cpp:702
-#: src/timeline2/view/timelinecontroller.cpp:3269
+#: src/timeline2/view/timelinecontroller.cpp:3277
 #, fuzzy, kde-format
 #| msgid "Disable Effect"
 msgid "Disable Effect Stack"
@@ -10195,13 +10602,13 @@ msgid "Add Markers by Category"
 msgstr "Категория маркеров"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3950
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3949
 #, kde-format
 msgid "Extract Audio"
 msgstr "Извлечь звук"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3924
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3923
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Действия с клипом"
@@ -10344,7 +10751,9 @@ msgstr "Журналирование"
 msgid "Editing"
 msgstr "Правка"
 
+#. i18n: ectx: property (text), widget (QLabel, labelEffects)
 #: src/layoutmanagement.cpp:35 src/mainwindow.cpp:494 src/mainwindow.cpp:578
+#: src/ui/editsub_ui.ui:434
 #, kde-format
 msgid "Effects"
 msgstr "Эффекты"
@@ -10924,7 +11333,8 @@ msgstr "Навигация и проигрывание"
 msgid "Bin Tags"
 msgstr "Метки корзины"
 
-#: src/mainwindow.cpp:180
+#. i18n: ectx: property (text), widget (QTreeWidget, eventList)
+#: src/mainwindow.cpp:180 src/ui/managesubtitles_ui.ui:211
 #, kde-format
 msgid "Style"
 msgstr "Стиль"
@@ -11185,7 +11595,7 @@ msgstr "Запустить сейчас"
 msgid "Delete them"
 msgstr "Удалить"
 
-#: src/mainwindow.cpp:1150 src/timeline2/view/timelinecontroller.cpp:2144
+#: src/mainwindow.cpp:1150 src/timeline2/view/timelinecontroller.cpp:2149
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Выберите клип для сравнения эффектов"
@@ -11455,7 +11865,7 @@ msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 "Включена экспериментальная обработка графическим процессором — не для работы"
 
-#: src/mainwindow.cpp:1454 src/mainwindow.cpp:3568
+#: src/mainwindow.cpp:1454 src/mainwindow.cpp:3567
 #, kde-format
 msgid "Multicam"
 msgstr "Многокамерный монтаж"
@@ -11949,7 +12359,7 @@ msgstr "Удалить маркер"
 msgid "Edit Marker…"
 msgstr "Изменить маркер…"
 
-#: src/mainwindow.cpp:1818 src/timeline2/model/timelinefunctions.cpp:1198
+#: src/mainwindow.cpp:1818 src/timeline2/model/timelinefunctions.cpp:1208
 #, kde-format
 msgid "Restore Audio"
 msgstr "Восстановить звук"
@@ -12107,7 +12517,7 @@ msgstr "Добавить дорожку…"
 msgid "Fit all Tracks in View"
 msgstr "Вместить все дорожки в область просмотра"
 
-#: src/mainwindow.cpp:1965 src/timeline2/view/timelinecontroller.cpp:4953
+#: src/mainwindow.cpp:1965 src/timeline2/view/timelinecontroller.cpp:4969
 #, kde-format
 msgid "Master effects"
 msgstr "Мастер-эффекты"
@@ -12224,7 +12634,7 @@ msgstr "Импортировать файл с субтитрами…"
 msgid "Export Subtitle File…"
 msgstr "Экспортировать файл с субтитрами…"
 
-#: src/mainwindow.cpp:2039 src/timeline2/model/timelinemodel.cpp:2165
+#: src/mainwindow.cpp:2039 src/timeline2/model/timelinemodel.cpp:2169
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Удалить субтитр(ы)"
@@ -12429,57 +12839,57 @@ msgstr "Не удалось найти маркеры в этом положен
 msgid "An error occurred while deleting markers"
 msgstr "Во время удаления маркеров произошла ошибка"
 
-#: src/mainwindow.cpp:2902 src/timeline2/view/timelinecontroller.cpp:1310
-#: src/timeline2/view/timelinecontroller.cpp:1318
-#: src/timeline2/view/timelinecontroller.cpp:1339
-#: src/timeline2/view/timelinecontroller.cpp:1379
-#: src/timeline2/view/timelinecontroller.cpp:1405
+#: src/mainwindow.cpp:2902 src/timeline2/view/timelinecontroller.cpp:1312
+#: src/timeline2/view/timelinecontroller.cpp:1320
+#: src/timeline2/view/timelinecontroller.cpp:1341
+#: src/timeline2/view/timelinecontroller.cpp:1381
+#: src/timeline2/view/timelinecontroller.cpp:1407
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "Не найден клип для изменения маркера"
 
-#: src/mainwindow.cpp:2954
+#: src/mainwindow.cpp:2953
 #, fuzzy, kde-format
 #| msgid "Markers Category"
 msgid "Marker category does not exist"
 msgstr "Категория маркеров"
 
-#: src/mainwindow.cpp:3139 src/timeline2/model/timelinefunctions.cpp:776
-#: src/timeline2/view/timelinecontroller.cpp:3129
+#: src/mainwindow.cpp:3138 src/timeline2/model/timelinefunctions.cpp:784
+#: src/timeline2/view/timelinecontroller.cpp:3137
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Перезаписать участок"
 
-#: src/mainwindow.cpp:3141 src/mainwindow.cpp:3160
-#: src/timeline2/model/timelinefunctions.cpp:778
-#: src/timeline2/view/timelinecontroller.cpp:3131
+#: src/mainwindow.cpp:3140 src/mainwindow.cpp:3159
+#: src/timeline2/model/timelinefunctions.cpp:786
+#: src/timeline2/view/timelinecontroller.cpp:3139
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Не удалось вставить участок"
 
-#: src/mainwindow.cpp:3151
+#: src/mainwindow.cpp:3150
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "В корзине проекта не выбрано ни одного клипа"
 
-#: src/mainwindow.cpp:3158 src/timeline2/model/timelinefunctions.cpp:776
-#: src/timeline2/view/timelinecontroller.cpp:3129
+#: src/mainwindow.cpp:3157 src/timeline2/model/timelinefunctions.cpp:784
+#: src/timeline2/view/timelinecontroller.cpp:3137
 #, kde-format
 msgid "Insert zone"
 msgstr "Вставить участок"
 
-#: src/mainwindow.cpp:3325
+#: src/mainwindow.cpp:3324
 #, fuzzy, kde-format
 #| msgid "Cannot add effect to clip"
 msgid "Cannot add effect to active item"
 msgstr "Не удалось добавить эффект к клипу"
 
-#: src/mainwindow.cpp:3387
+#: src/mainwindow.cpp:3386
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Уровень масштабирования: %1/%2"
 
-#: src/mainwindow.cpp:3536
+#: src/mainwindow.cpp:3535
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12492,7 +12902,7 @@ msgstr ""
 "<shortcut>Meta + перемещение</shortcut>: перемещение сгруппированного клипа "
 "на другую дорожку, <shortcut>Ctrl + перемещение</shortcut>: сдвиг"
 
-#: src/mainwindow.cpp:3540
+#: src/mainwindow.cpp:3539
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12506,24 +12916,24 @@ msgstr ""
 "<shortcut>Meta + Alt + перемещение</shortcut>: перемещение сгруппированного "
 "клипа на другую дорожку, <shortcut>Ctrl + перемещение</shortcut>: сдвиг"
 
-#: src/mainwindow.cpp:3543
+#: src/mainwindow.cpp:3542
 #, kde-format
 msgid "Select"
 msgstr "Инструмент выбора"
 
-#: src/mainwindow.cpp:3545
+#: src/mainwindow.cpp:3544
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut>: предпросмотр разрезаемого кадра"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3546 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3545 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Резак"
 
-#: src/mainwindow.cpp:3550
+#: src/mainwindow.cpp:3549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12534,12 +12944,12 @@ msgstr ""
 "<shortcut>Shift</shortcut>: сдвиг направляющих вместе с клипами. Обе "
 "комбинации можно использовать одновременно."
 
-#: src/mainwindow.cpp:3551
+#: src/mainwindow.cpp:3550
 #, kde-format
 msgid "Spacer"
 msgstr "Вставка пробелов"
 
-#: src/mainwindow.cpp:3553
+#: src/mainwindow.cpp:3552
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12549,13 +12959,13 @@ msgstr ""
 "<shortcut>Щелчок</shortcut> по элементу: прокрутка со скольжением, "
 "<shortcut> Shift + щелчок</shortcut>: множественное выделение"
 
-#: src/mainwindow.cpp:3554
+#: src/mainwindow.cpp:3553
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Редактирование со скольжением"
 
-#: src/mainwindow.cpp:3559
+#: src/mainwindow.cpp:3558
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -12574,13 +12984,13 @@ msgstr ""
 "<shortcut>Meta + перемещение</shortcut>: перемещение сгруппированного клипа "
 "на другую дорожку, <shortcut>Ctrl + перемещение</shortcut>: сдвиг"
 
-#: src/mainwindow.cpp:3561
+#: src/mainwindow.cpp:3560
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Редактирование со сдвигом"
 
-#: src/mainwindow.cpp:3567
+#: src/mainwindow.cpp:3566
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12590,117 +13000,112 @@ msgstr ""
 "<shortcut>Щелчок</shortcut> по отображению дорожки на мониторе проекта: "
 "удаление всех дорожек за исключением активной"
 
-#: src/mainwindow.cpp:3579
+#: src/mainwindow.cpp:3578
 #, kde-format
 msgid "Insert"
 msgstr "Добавить"
 
-#: src/mainwindow.cpp:3582
-#, kde-format
-msgid "Overwrite"
-msgstr "Заменить"
-
-#: src/mainwindow.cpp:3840 src/mainwindow.cpp:3842
+#: src/mainwindow.cpp:3839 src/mainwindow.cpp:3841
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:3847
+#: src/mainwindow.cpp:3846
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bins"
 msgstr "Корзина проекта"
 
-#: src/mainwindow.cpp:3943
+#: src/mainwindow.cpp:3942
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Настроить действия с клипами…"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3948
 #, kde-format
 msgid "Transcoders"
 msgstr "Транскодеры"
 
-#: src/mainwindow.cpp:4009
+#: src/mainwindow.cpp:4008
 #, kde-format
 msgid "-merged"
 msgstr "-объединено"
 
-#: src/mainwindow.cpp:4012
+#: src/mainwindow.cpp:4011
 #, kde-format
 msgid "-stream-%1"
 msgstr "-поток-%1"
 
-#: src/mainwindow.cpp:4054
+#: src/mainwindow.cpp:4053
 #, kde-format
 msgid "Interface"
 msgstr "Интерфейс"
 
-#: src/mainwindow.cpp:4076
+#: src/mainwindow.cpp:4075
 #, kde-format
 msgid "Raise %1"
 msgstr "Поднять %1"
 
-#: src/mainwindow.cpp:4143
+#: src/mainwindow.cpp:4142
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Файлы для перекодирования"
 
-#: src/mainwindow.cpp:4272
+#: src/mainwindow.cpp:4271
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Файл проекта не удалось сохранить для архивирования."
 
-#: src/mainwindow.cpp:4278
+#: src/mainwindow.cpp:4277
 #, kde-format
 msgid "Archiving project"
 msgstr "Архивирование проекта"
 
-#: src/mainwindow.cpp:4429
+#: src/mainwindow.cpp:4428
 #, kde-format
 msgid "Icon Size"
 msgstr "Размер значков"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4432
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "По умолчанию"
 
-#: src/mainwindow.cpp:4454 src/mainwindow.cpp:4482
+#: src/mainwindow.cpp:4453 src/mainwindow.cpp:4481
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Маленькие (%1×%2)"
 
-#: src/mainwindow.cpp:4456 src/mainwindow.cpp:4484
+#: src/mainwindow.cpp:4455 src/mainwindow.cpp:4483
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Средние (%1×%2)"
 
-#: src/mainwindow.cpp:4458 src/mainwindow.cpp:4486
+#: src/mainwindow.cpp:4457 src/mainwindow.cpp:4485
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Большие (%1×%2)"
 
-#: src/mainwindow.cpp:4460 src/mainwindow.cpp:4488
+#: src/mainwindow.cpp:4459 src/mainwindow.cpp:4487
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Огромные (%1×%2)"
 
-#: src/mainwindow.cpp:4544
+#: src/mainwindow.cpp:4543
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "Строка меню будет скрыта. Чтобы её вернуть, нажмите Ctrl+M."
 
-#: src/mainwindow.cpp:4544
+#: src/mainwindow.cpp:4543
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Скрыть строку меню"
 
-#: src/mainwindow.cpp:4560
+#: src/mainwindow.cpp:4559
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
@@ -12708,35 +13113,35 @@ msgstr ""
 "Для применения новой темы значков необходимо перезапустить Kdenlive. "
 "Перезапустить сейчас?"
 
-#: src/mainwindow.cpp:4816 src/timeline2/view/timelinecontroller.cpp:5180
+#: src/mainwindow.cpp:4815 src/timeline2/view/timelinecontroller.cpp:5200
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "В текущем проекте субтитры не найдены"
 
-#: src/mainwindow.cpp:5103
+#: src/mainwindow.cpp:5102
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5106
+#: src/mainwindow.cpp:5105
 #, fuzzy, kde-format
 msgid "Never check again"
 msgstr "Проверьте ещё раз"
 
-#: src/mainwindow.cpp:5109
+#: src/mainwindow.cpp:5108
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5112
+#: src/mainwindow.cpp:5111
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5155
+#: src/mainwindow.cpp:5154
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Проверка размера данных кэша"
@@ -13304,7 +13709,7 @@ msgstr "Произвольный размер"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:442 src/scopes/colorscopes/vectorscope.cpp:50
-#: src/timeline2/view/timelinecontroller.cpp:259 src/ui/titlewidget_ui.ui:125
+#: src/timeline2/view/timelinecontroller.cpp:262 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "Чёрный"
@@ -13373,7 +13778,7 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "Разрешение экрана не позволяет выполнить это действие"
 
 #: src/monitor/monitor.cpp:892 src/monitor/monitor.cpp:923
-#: src/timeline2/view/timelinecontroller.cpp:1796
+#: src/timeline2/view/timelinecontroller.cpp:1798
 #, kde-format
 msgid "Set Zone"
 msgstr "Установка участка"
@@ -13585,7 +13990,9 @@ msgid "Go to Zone End"
 msgstr "В конец участка"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
-#: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
+#. i18n: ectx: property (text), widget (QLabel, labelPreview)
+#: src/monitor/recmanager.cpp:34 src/ui/editsubstyle_ui.ui:438
+#: src/ui/resourcewidget_ui.ui:251
 #, kde-format
 msgid "Preview"
 msgstr "Предпросмотр"
@@ -14717,18 +15124,18 @@ msgstr[3] "Создать маркер"
 msgid "Assign timestamps to current Bin Clip"
 msgstr "Назначить значения тайм-кода текущему клипу в корзине"
 
-#: src/project/dialogs/noteswidget.cpp:126
+#: src/project/dialogs/noteswidget.cpp:137
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip."
 msgid "Cannot find project clip"
 msgstr "Не удалось вставить клип."
 
-#: src/project/dialogs/noteswidget.cpp:192
+#: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
 msgid "Select some timecodes to reassign"
 msgstr "Выделите значения тайм-кода для переназначения"
 
-#: src/project/dialogs/noteswidget.cpp:203
+#: src/project/dialogs/noteswidget.cpp:214
 #, kde-format
 msgid "Select some timecodes to create markers"
 msgstr "Выделите значения тайм-кода для создания маркеров"
@@ -15309,7 +15716,7 @@ msgstr "Открыть резервную копию…"
 msgid "Save changes to document?"
 msgstr "Сохранить изменения в документе?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1677
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1717
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15382,12 +15789,12 @@ msgstr ""
 "%1\n"
 "Открыть резервную копию файла?"
 
-#: src/project/projectmanager.cpp:847 src/project/projectmanager.cpp:1041
+#: src/project/projectmanager.cpp:847 src/project/projectmanager.cpp:1081
 #, kde-format
 msgid "Error opening file"
 msgstr "Ошибка при открытии файла"
 
-#: src/project/projectmanager.cpp:847 src/project/projectmanager.cpp:1042
+#: src/project/projectmanager.cpp:847 src/project/projectmanager.cpp:1082
 #, kde-format
 msgid "Open Backup"
 msgstr "Открыть резервную копию"
@@ -15411,26 +15818,26 @@ msgstr ""
 "Проект был изменён при открытии, резервная копия будет создана при следующем "
 "сохранении"
 
-#: src/project/projectmanager.cpp:911
+#: src/project/projectmanager.cpp:951
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Loading timeline…"
 msgstr "Загрузка модели…"
 
-#: src/project/projectmanager.cpp:929
+#: src/project/projectmanager.cpp:969
 #, fuzzy, kde-format
 #| msgid "Timeline sequence"
 msgid "Building sequences…"
 msgstr "Последовательность монтажного стола"
 
-#: src/project/projectmanager.cpp:1068
+#: src/project/projectmanager.cpp:1108
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
 msgstr "Не удалось открыть файл проекта %1"
 
-#: src/project/projectmanager.cpp:1108
+#: src/project/projectmanager.cpp:1148
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -15439,12 +15846,12 @@ msgstr ""
 "Все изменения, внесённые после последнего сохранения проекта, будут "
 "потеряны. Продолжить?"
 
-#: src/project/projectmanager.cpp:1109
+#: src/project/projectmanager.cpp:1149
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Вернуться к последней сохранённой версии"
 
-#: src/project/projectmanager.cpp:1195
+#: src/project/projectmanager.cpp:1235
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -15453,23 +15860,23 @@ msgstr ""
 "Проект повреждён, резервное копирование невозможно. Закройте и снова "
 "откройте файл проекта, чтобы восстановить данные из последней резервной копии"
 
-#: src/project/projectmanager.cpp:1399
+#: src/project/projectmanager.cpp:1439
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Ошибка при перемещении папки проекта, нет доступа к папке кэша"
 
-#: src/project/projectmanager.cpp:1435
+#: src/project/projectmanager.cpp:1475
 #, kde-format
 msgid "Moving project folder"
 msgstr "Перемещение папки проекта"
 
-#: src/project/projectmanager.cpp:1526 src/project/projectmanager.cpp:1584
-#: src/project/projectmanager.cpp:1588
+#: src/project/projectmanager.cpp:1566 src/project/projectmanager.cpp:1624
+#: src/project/projectmanager.cpp:1628
 #, kde-format
 msgid "Sequence 1"
 msgstr "Последовательность 1"
 
-#: src/project/projectmanager.cpp:1537
+#: src/project/projectmanager.cpp:1577
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15477,13 +15884,13 @@ msgstr ""
 "Файл проекта повреждён — не удалось загрузить дорожки. Выполнить поиск файла "
 "резервной копии?"
 
-#: src/project/projectmanager.cpp:1683 src/project/projectmanager.cpp:1688
-#: src/project/projectmanager.cpp:1698 src/project/projectmanager.cpp:1712
+#: src/project/projectmanager.cpp:1723 src/project/projectmanager.cpp:1728
+#: src/project/projectmanager.cpp:1738 src/project/projectmanager.cpp:1752
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Изменение профиля проекта прервано"
 
-#: src/project/projectmanager.cpp:1835
+#: src/project/projectmanager.cpp:1875
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15492,12 +15899,12 @@ msgstr ""
 "Выходной файл %1 уже существует.\n"
 "Перезаписать его?"
 
-#: src/project/projectmanager.cpp:1857
+#: src/project/projectmanager.cpp:1897
 #, kde-format
 msgid "Project profile changed"
 msgstr "Профиль проекта изменён"
 
-#: src/project/projectmanager.cpp:1918
+#: src/project/projectmanager.cpp:1958
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15506,19 +15913,19 @@ msgstr ""
 "Не удалось создать монтажный стол из этого клипа:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2000
+#: src/project/projectmanager.cpp:2040
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Импорт клипа последовательности, в данный момент функция работает в "
 "экмпериментальном режиме"
 
-#: src/project/projectmanager.cpp:2189
+#: src/project/projectmanager.cpp:2229
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Выберите клип для создания последовательности"
 
-#: src/project/projectmanager.cpp:2227
+#: src/project/projectmanager.cpp:2267
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Создать клип последовательности"
@@ -16805,189 +17212,189 @@ msgstr "Обнаружен клип %1 (%2) с некорректным подс
 msgid "Insert Clips"
 msgstr "Вставить клипы"
 
-#: src/timeline2/model/timelinefunctions.cpp:281
+#: src/timeline2/model/timelinefunctions.cpp:284
 #, fuzzy, kde-format
 #| msgid "When cutting subtitles:"
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
 msgstr "При разрезании субтитров:"
 
-#: src/timeline2/model/timelinefunctions.cpp:351
-#: src/timeline2/model/timelinefunctions.cpp:370
+#: src/timeline2/model/timelinefunctions.cpp:355
+#: src/timeline2/model/timelinefunctions.cpp:375
 #, kde-format
 msgid "Failed to cut clip"
 msgstr "Не удалось разрезать клип"
 
-#: src/timeline2/model/timelinefunctions.cpp:361
+#: src/timeline2/model/timelinefunctions.cpp:366
 #, kde-format
 msgid "All tracks are locked"
 msgstr "Все дорожки заблокированы"
 
-#: src/timeline2/model/timelinefunctions.cpp:381
+#: src/timeline2/model/timelinefunctions.cpp:386
 #, kde-format
 msgid "No clips to cut"
 msgstr "Нет клипов для резки"
 
-#: src/timeline2/model/timelinefunctions.cpp:383
+#: src/timeline2/model/timelinefunctions.cpp:388
 #, kde-format
 msgid "Cut all clips"
 msgstr "Разрезать все клипы"
 
-#: src/timeline2/model/timelinefunctions.cpp:670
-#: src/timeline2/view/timelinecontroller.cpp:1469
+#: src/timeline2/model/timelinefunctions.cpp:678
+#: src/timeline2/view/timelinecontroller.cpp:1471
 #, kde-format
 msgid "Insert space"
 msgstr "Вставить пробел"
 
-#: src/timeline2/model/timelinefunctions.cpp:672
-#: src/timeline2/view/timelinecontroller.cpp:1471
+#: src/timeline2/model/timelinefunctions.cpp:680
+#: src/timeline2/view/timelinecontroller.cpp:1473
 #, kde-format
 msgid "Remove space"
 msgstr "Удалить пробел"
 
-#: src/timeline2/model/timelinefunctions.cpp:741
-#: src/timeline2/view/timelinecontroller.cpp:2935
+#: src/timeline2/model/timelinefunctions.cpp:749
+#: src/timeline2/view/timelinecontroller.cpp:2943
 #, kde-format
 msgid "Lift zone"
 msgstr "Поднять участок"
 
-#: src/timeline2/model/timelinefunctions.cpp:741
-#: src/timeline2/view/timelinecontroller.cpp:708
-#: src/timeline2/view/timelinecontroller.cpp:2935
+#: src/timeline2/model/timelinefunctions.cpp:749
+#: src/timeline2/view/timelinecontroller.cpp:710
+#: src/timeline2/view/timelinecontroller.cpp:2943
 #, kde-format
 msgid "Extract zone"
 msgstr "Извлечь участок"
 
-#: src/timeline2/model/timelinefunctions.cpp:811
+#: src/timeline2/model/timelinefunctions.cpp:820
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Активируйте дорожку, щёлкнув по соответствующему значку дорожки"
 
-#: src/timeline2/model/timelinefunctions.cpp:934
-#: src/timeline2/view/timelinecontroller.cpp:1208
-#: src/timeline2/view/timelinecontroller.cpp:1288
-#: src/timeline2/view/timelinecontroller.cpp:1298
-#: src/timeline2/view/timelinecontroller.cpp:1327
-#: src/timeline2/view/timelinecontroller.cpp:1367
-#: src/timeline2/view/timelinecontroller.cpp:1393
-#: src/timeline2/view/timelinecontroller.cpp:1418
-#: src/timeline2/view/timelinecontroller.cpp:2307
-#: src/timeline2/view/timelinecontroller.cpp:2953
-#: src/timeline2/view/timelinecontroller.cpp:3018
-#: src/timeline2/view/timelinecontroller.cpp:3232
-#: src/timeline2/view/timelinecontroller.cpp:3277
-#: src/timeline2/view/timelinecontroller.cpp:3326
-#: src/timeline2/view/timelinecontroller.cpp:3355
-#: src/timeline2/view/timelinecontroller.cpp:3660
-#: src/timeline2/view/timelinecontroller.cpp:3675
-#: src/timeline2/view/timelinecontroller.cpp:3700
-#: src/timeline2/view/timelinecontroller.cpp:3715
-#: src/timeline2/view/timelinecontroller.cpp:3780
-#: src/timeline2/view/timelinecontroller.cpp:3946
-#: src/timeline2/view/timelinecontroller.cpp:3970
+#: src/timeline2/model/timelinefunctions.cpp:944
+#: src/timeline2/view/timelinecontroller.cpp:1210
+#: src/timeline2/view/timelinecontroller.cpp:1290
+#: src/timeline2/view/timelinecontroller.cpp:1300
+#: src/timeline2/view/timelinecontroller.cpp:1329
+#: src/timeline2/view/timelinecontroller.cpp:1369
+#: src/timeline2/view/timelinecontroller.cpp:1395
+#: src/timeline2/view/timelinecontroller.cpp:1420
+#: src/timeline2/view/timelinecontroller.cpp:2312
+#: src/timeline2/view/timelinecontroller.cpp:2961
+#: src/timeline2/view/timelinecontroller.cpp:3026
+#: src/timeline2/view/timelinecontroller.cpp:3240
+#: src/timeline2/view/timelinecontroller.cpp:3285
+#: src/timeline2/view/timelinecontroller.cpp:3334
+#: src/timeline2/view/timelinecontroller.cpp:3363
+#: src/timeline2/view/timelinecontroller.cpp:3668
+#: src/timeline2/view/timelinecontroller.cpp:3683
+#: src/timeline2/view/timelinecontroller.cpp:3708
+#: src/timeline2/view/timelinecontroller.cpp:3723
+#: src/timeline2/view/timelinecontroller.cpp:3788
+#: src/timeline2/view/timelinecontroller.cpp:3954
+#: src/timeline2/view/timelinecontroller.cpp:3978
 #, kde-format
 msgid "No clip selected"
 msgstr "Клип не выбран"
 
-#: src/timeline2/model/timelinefunctions.cpp:999
+#: src/timeline2/model/timelinefunctions.cpp:1009
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "Нельзя переместить выбранную группу"
 
-#: src/timeline2/model/timelinefunctions.cpp:1100
-#: src/timeline2/model/timelinefunctions.cpp:1104
-#: src/timeline2/model/timelinefunctions.cpp:1111
-#: src/timeline2/view/timelinecontroller.cpp:4111
+#: src/timeline2/model/timelinefunctions.cpp:1110
+#: src/timeline2/model/timelinefunctions.cpp:1114
+#: src/timeline2/model/timelinefunctions.cpp:1121
+#: src/timeline2/view/timelinecontroller.cpp:4119
 #, kde-format
 msgid "Enable clip"
 msgstr "Включить клип"
 
-#: src/timeline2/model/timelinefunctions.cpp:1100
-#: src/timeline2/model/timelinefunctions.cpp:1104
-#: src/timeline2/model/timelinefunctions.cpp:1111
-#: src/timeline2/view/timelinecontroller.cpp:4111
+#: src/timeline2/model/timelinefunctions.cpp:1110
+#: src/timeline2/model/timelinefunctions.cpp:1114
+#: src/timeline2/model/timelinefunctions.cpp:1121
+#: src/timeline2/view/timelinecontroller.cpp:4119
 #, kde-format
 msgid "Disable clip"
 msgstr "Выключить клип"
 
-#: src/timeline2/model/timelinefunctions.cpp:1153
+#: src/timeline2/model/timelinefunctions.cpp:1163
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Один или несколько клипов не содержат звука или уже являются звуковыми"
 
-#: src/timeline2/model/timelinefunctions.cpp:1170
+#: src/timeline2/model/timelinefunctions.cpp:1180
 #, kde-format
 msgid "No available audio track for restore operation"
 msgstr "Нет доступной звуковой дорожки для восстановления"
 
-#: src/timeline2/model/timelinefunctions.cpp:1178
-#: src/timeline2/model/timelinefunctions.cpp:1191
+#: src/timeline2/model/timelinefunctions.cpp:1188
+#: src/timeline2/model/timelinefunctions.cpp:1201
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Не удалось восстановить звук"
 
-#: src/timeline2/model/timelinefunctions.cpp:1230
+#: src/timeline2/model/timelinefunctions.cpp:1240
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "Нет доступной видеодорожки для восстановления"
 
-#: src/timeline2/model/timelinefunctions.cpp:1238
-#: src/timeline2/model/timelinefunctions.cpp:1251
+#: src/timeline2/model/timelinefunctions.cpp:1248
+#: src/timeline2/model/timelinefunctions.cpp:1261
 #, kde-format
 msgid "Video restore failed"
 msgstr "Не удалось восстановить видео"
 
-#: src/timeline2/model/timelinefunctions.cpp:1257
+#: src/timeline2/model/timelinefunctions.cpp:1267
 #, kde-format
 msgid "Restore Video"
 msgstr "Восстановить видео"
 
-#: src/timeline2/model/timelinefunctions.cpp:1304
+#: src/timeline2/model/timelinefunctions.cpp:1314
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Изменить композитную дорожку"
 
-#: src/timeline2/model/timelinefunctions.cpp:1319
+#: src/timeline2/model/timelinefunctions.cpp:1329
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr ""
 "Нельзя включить многодорожечный просмотр при использовании одной дорожки"
 
-#: src/timeline2/model/timelinefunctions.cpp:1473
+#: src/timeline2/model/timelinefunctions.cpp:1483
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Добавить клип в библиотеку"
 
-#: src/timeline2/model/timelinefunctions.cpp:1473
+#: src/timeline2/model/timelinefunctions.cpp:1483
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Укажите имя клипа для библиотеки"
 
-#: src/timeline2/model/timelinefunctions.cpp:1862
+#: src/timeline2/model/timelinefunctions.cpp:1872
 #, kde-format
 msgid "Paste clips"
 msgstr "Вставить клипы"
 
-#: src/timeline2/model/timelinefunctions.cpp:1876
-#: src/timeline2/model/timelinefunctions.cpp:2050
-#: src/timeline2/model/timelinefunctions.cpp:2073
-#: src/timeline2/model/timelinefunctions.cpp:2112
-#: src/timeline2/model/timelinefunctions.cpp:2390
+#: src/timeline2/model/timelinefunctions.cpp:1886
+#: src/timeline2/model/timelinefunctions.cpp:2060
+#: src/timeline2/model/timelinefunctions.cpp:2083
+#: src/timeline2/model/timelinefunctions.cpp:2122
+#: src/timeline2/model/timelinefunctions.cpp:2400
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Не хватает дорожек для вставки из буфера обмена"
 
-#: src/timeline2/model/timelinefunctions.cpp:1945
+#: src/timeline2/model/timelinefunctions.cpp:1955
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Выполняется другая операция вставки"
 
-#: src/timeline2/model/timelinefunctions.cpp:1957
+#: src/timeline2/model/timelinefunctions.cpp:1967
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Нет допустимых данных в буфере обмена"
 
-#: src/timeline2/model/timelinefunctions.cpp:1996
+#: src/timeline2/model/timelinefunctions.cpp:2006
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -16995,15 +17402,15 @@ msgstr ""
 "Не хватает дорожек для вставки из буфера обмена (требуется звуковых дорожек "
 "— %1, видеодорожек — %2)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2130
-#: src/timeline2/model/timelinefunctions.cpp:2148
-#: src/timeline2/model/timelinefunctions.cpp:2179
-#: src/timeline2/model/timelinefunctions.cpp:2184
+#: src/timeline2/model/timelinefunctions.cpp:2140
+#: src/timeline2/model/timelinefunctions.cpp:2158
+#: src/timeline2/model/timelinefunctions.cpp:2189
+#: src/timeline2/model/timelinefunctions.cpp:2194
 #, kde-format
 msgid "Pasted clips"
 msgstr "Вставленные клипы"
 
-#: src/timeline2/model/timelinefunctions.cpp:2168
+#: src/timeline2/model/timelinefunctions.cpp:2178
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -17013,51 +17420,51 @@ msgstr ""
 "кадровтекущего проекта.<br/>Могут возникнуть нестыковки клипов или ключевых "
 "кадров."
 
-#: src/timeline2/model/timelinefunctions.cpp:2170
+#: src/timeline2/model/timelinefunctions.cpp:2180
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Предупреждение о вставке"
 
-#: src/timeline2/model/timelinefunctions.cpp:2170
+#: src/timeline2/model/timelinefunctions.cpp:2180
 #, kde-format
 msgid "Paste"
 msgstr "Вставка"
 
-#: src/timeline2/model/timelinefunctions.cpp:2252
-#: src/timeline2/model/timelinefunctions.cpp:2260
-#: src/timeline2/model/timelinefunctions.cpp:2328
+#: src/timeline2/model/timelinefunctions.cpp:2262
+#: src/timeline2/model/timelinefunctions.cpp:2270
+#: src/timeline2/model/timelinefunctions.cpp:2338
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Не удалось добавить клип из корзины"
 
-#: src/timeline2/model/timelinefunctions.cpp:2382
+#: src/timeline2/model/timelinefunctions.cpp:2392
 #, kde-format
 msgid "All clips were not successfully copied"
 msgstr "Успешно скопированы не все клипы"
 
-#: src/timeline2/model/timelinefunctions.cpp:2432
-#: src/timeline2/model/timelinefunctions.cpp:2611
+#: src/timeline2/model/timelinefunctions.cpp:2442
+#: src/timeline2/model/timelinefunctions.cpp:2623
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Не удалось вставить элементы на монтажный стол"
 
-#: src/timeline2/model/timelinefunctions.cpp:2631
+#: src/timeline2/model/timelinefunctions.cpp:2643
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Вставить клипы монтажного стола"
 
-#: src/timeline2/model/timelinefunctions.cpp:2849
+#: src/timeline2/model/timelinefunctions.cpp:2861
 #, kde-format
 msgid "Remove space on track"
 msgstr "Удалить пробел на дорожке"
 
-#: src/timeline2/model/timelinefunctions.cpp:2876
+#: src/timeline2/model/timelinefunctions.cpp:2888
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Удалить клипы на дорожке"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4615
+#: src/timeline2/model/timelinemodel.cpp:4619
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -17117,140 +17524,140 @@ msgstr ""
 msgid "Replace clip"
 msgstr "Заменить клип…"
 
-#: src/timeline2/model/timelinemodel.cpp:989
-#: src/timeline2/model/timelinemodel.cpp:1206
+#: src/timeline2/model/timelinemodel.cpp:990
+#: src/timeline2/model/timelinemodel.cpp:1207
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "Выберите клип для соединения"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1205
 #, kde-format
 msgid "start"
 msgstr "начало"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1205
 #, kde-format
 msgid "end"
 msgstr "конец"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1205
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "Недостаточно кадров в %1 клипа для соединения"
 
-#: src/timeline2/model/timelinemodel.cpp:1210
+#: src/timeline2/model/timelinemodel.cpp:1211
 #, kde-format
 msgid "Create mix"
 msgstr "Создать соединение"
 
-#: src/timeline2/model/timelinemodel.cpp:1285
-#: src/timeline2/model/timelinemodel.cpp:1320
+#: src/timeline2/model/timelinemodel.cpp:1286
+#: src/timeline2/model/timelinemodel.cpp:1321
 #, kde-format
 msgid "Move clip"
 msgstr "Переместить клип"
 
-#: src/timeline2/model/timelinemodel.cpp:1838
-#: src/timeline2/model/timelinemodel.cpp:1928
-#: src/timeline2/model/timelinemodel.cpp:1951
-#: src/timeline2/model/timelinemodel.cpp:1974
+#: src/timeline2/model/timelinemodel.cpp:1842
+#: src/timeline2/model/timelinemodel.cpp:1932
+#: src/timeline2/model/timelinemodel.cpp:1955
+#: src/timeline2/model/timelinemodel.cpp:1978
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Нет доступной дорожки для операции вставки"
 
-#: src/timeline2/model/timelinemodel.cpp:1843
+#: src/timeline2/model/timelinemodel.cpp:1847
 #, kde-format
 msgid "Insert Clip"
 msgstr "Вставить клип"
 
-#: src/timeline2/model/timelinemodel.cpp:1896
+#: src/timeline2/model/timelinemodel.cpp:1900
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Нельзя вставить последовательность в саму себя."
 
-#: src/timeline2/model/timelinemodel.cpp:1944
-#: src/timeline2/model/timelinemodel.cpp:1966
+#: src/timeline2/model/timelinemodel.cpp:1948
+#: src/timeline2/model/timelinemodel.cpp:1970
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Недостаточно звуковых дорожек для всех потоков (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2050
+#: src/timeline2/model/timelinemodel.cpp:2054
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Нет доступной дорожки для отделения"
 
-#: src/timeline2/model/timelinemodel.cpp:2087
+#: src/timeline2/model/timelinemodel.cpp:2091
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Ошибка отделения звука: нет подходящей дорожки"
 
-#: src/timeline2/model/timelinemodel.cpp:2095
+#: src/timeline2/model/timelinemodel.cpp:2099
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Ошибка отделения звука: не удалось создать звуковой клип"
 
-#: src/timeline2/model/timelinemodel.cpp:2158
+#: src/timeline2/model/timelinemodel.cpp:2162
 #, kde-format
 msgid "Remove group"
 msgstr "Удалить группу"
 
-#: src/timeline2/model/timelinemodel.cpp:2163
+#: src/timeline2/model/timelinemodel.cpp:2167
 #, kde-format
 msgid "Delete Composition"
 msgstr "Удалить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:2370
-#: src/timeline2/model/timelinemodel.cpp:2647
-#: src/timeline2/view/timelinecontroller.cpp:4344
+#: src/timeline2/model/timelinemodel.cpp:2372
+#: src/timeline2/model/timelinemodel.cpp:2649
+#: src/timeline2/view/timelinecontroller.cpp:4356
 #, kde-format
 msgid "Move group"
 msgstr "Переместить группу"
 
-#: src/timeline2/model/timelinemodel.cpp:3339
+#: src/timeline2/model/timelinemodel.cpp:3343
 #, kde-format
 msgid "Resize group"
 msgstr "Изменить размер группы"
 
-#: src/timeline2/model/timelinemodel.cpp:3463
+#: src/timeline2/model/timelinemodel.cpp:3467
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Изменить скорость клипа"
 
-#: src/timeline2/model/timelinemodel.cpp:3622
+#: src/timeline2/model/timelinemodel.cpp:3626
 #, kde-format
 msgid "Remove mix"
 msgstr "Удалить соединение"
 
-#: src/timeline2/model/timelinemodel.cpp:3624
+#: src/timeline2/model/timelinemodel.cpp:3628
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Не удалось удалить соединение"
 
-#: src/timeline2/model/timelinemodel.cpp:3920
+#: src/timeline2/model/timelinemodel.cpp:3924
 #, kde-format
 msgid "Resize clip"
 msgstr "Изменить размер клипа"
 
-#: src/timeline2/model/timelinemodel.cpp:3922
+#: src/timeline2/model/timelinemodel.cpp:3926
 #, kde-format
 msgid "Resize composition"
 msgstr "Изменить размер композиции"
 
-#: src/timeline2/model/timelinemodel.cpp:4241
+#: src/timeline2/model/timelinemodel.cpp:4245
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Изменить размер клипа со сдвигом"
 
-#: src/timeline2/model/timelinemodel.cpp:4243
+#: src/timeline2/model/timelinemodel.cpp:4247
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Изменить размер композиции со сдвигом"
 
-#: src/timeline2/model/timelinemodel.cpp:4245
+#: src/timeline2/model/timelinemodel.cpp:4249
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Изменить размер субтитров со сдвигом"
 
-#: src/timeline2/model/timelinemodel.cpp:4388
+#: src/timeline2/model/timelinemodel.cpp:4392
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -17260,136 +17667,136 @@ msgstr[1] "Прокрутить клипы"
 msgstr[2] "Прокрутить клипы"
 msgstr[3] "Прокрутить клип"
 
-#: src/timeline2/model/timelinemodel.cpp:4423
+#: src/timeline2/model/timelinemodel.cpp:4427
 #, kde-format
 msgid "Slip clip"
 msgstr "Прокрутить клип"
 
-#: src/timeline2/model/timelinemodel.cpp:4458
+#: src/timeline2/model/timelinemodel.cpp:4462
 #, kde-format
 msgid "Group clips"
 msgstr "Сгруппировать клипы"
 
-#: src/timeline2/model/timelinemodel.cpp:4543
-#: src/timeline2/model/timelinemodel.cpp:4559
+#: src/timeline2/model/timelinemodel.cpp:4547
+#: src/timeline2/model/timelinemodel.cpp:4563
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Разгруппировать клипы"
 
-#: src/timeline2/model/timelinemodel.cpp:4724
-#: src/timeline2/view/timelinecontroller.cpp:943
+#: src/timeline2/model/timelinemodel.cpp:4728
+#: src/timeline2/view/timelinecontroller.cpp:945
 #, kde-format
 msgid "Delete Track"
 msgstr "Удалить дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:4734
+#: src/timeline2/model/timelinemodel.cpp:4738
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Не удалось удалить последнюю дорожку монтажного стола"
 
-#: src/timeline2/model/timelinemodel.cpp:4959
+#: src/timeline2/model/timelinemodel.cpp:4963
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Не удалось добавить эффект %1 на основную дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:4966
+#: src/timeline2/model/timelinemodel.cpp:4970
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Не удалось добавить эффект %1 на выбранную дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:4987
+#: src/timeline2/model/timelinemodel.cpp:4991
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Не удалось вставить эффект на основную дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:4993
+#: src/timeline2/model/timelinemodel.cpp:4997
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Не удалось вставить эффект на выбранную дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:5037
-#: src/timeline2/view/timelinecontroller.cpp:1521
+#: src/timeline2/model/timelinemodel.cpp:5041
+#: src/timeline2/view/timelinecontroller.cpp:1523
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Не удалось добавить эффект %1 к выбранному клипу"
 
-#: src/timeline2/model/timelinemodel.cpp:5061
+#: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Настроить исчезание"
 
-#: src/timeline2/model/timelinemodel.cpp:5373
+#: src/timeline2/model/timelinemodel.cpp:5377
 #, kde-format
 msgid "Insert Composition"
 msgstr "Добавить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:5588
+#: src/timeline2/model/timelinemodel.cpp:5598
 #, kde-format
 msgid "Move composition"
 msgstr "Переместить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:6256
+#: src/timeline2/model/timelinemodel.cpp:6266
 #, kde-format
 msgid "Enable time remap"
 msgstr "Включить переназначение времени"
 
-#: src/timeline2/model/timelinemodel.cpp:6330
+#: src/timeline2/model/timelinemodel.cpp:6340
 #, kde-format
 msgid "Change speed failed"
 msgstr "Не удалось изменить скорость"
 
-#: src/timeline2/model/timelinemodel.cpp:6340
+#: src/timeline2/model/timelinemodel.cpp:6350
 #, kde-format
 msgid "Change clip speed"
 msgstr "Изменить скорость клипа"
 
-#: src/timeline2/model/timelinemodel.cpp:6771
-#: src/timeline2/view/qml/timeline.qml:1210
+#: src/timeline2/model/timelinemodel.cpp:6781
+#: src/timeline2/view/qml/timeline.qml:1201
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокировать дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:6776
-#: src/timeline2/view/qml/timeline.qml:1210
+#: src/timeline2/model/timelinemodel.cpp:6786
+#: src/timeline2/view/qml/timeline.qml:1201
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Разблокировать дорожку"
 
-#: src/timeline2/model/timelinemodel.cpp:6810
-#: src/timeline2/model/timelinemodel.cpp:6872
+#: src/timeline2/model/timelinemodel.cpp:6820
+#: src/timeline2/model/timelinemodel.cpp:6882
 #, kde-format
 msgid "Change composition"
 msgstr "Изменить композицию"
 
-#: src/timeline2/model/timelinemodel.cpp:6824
+#: src/timeline2/model/timelinemodel.cpp:6834
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Разгруппируете композицию для дальнейшей работы с ней"
 
-#: src/timeline2/model/timelinemodel.cpp:7019
-#: src/timeline2/model/timelinemodel.cpp:7056
-#: src/timeline2/model/timelinemodel.cpp:7089
-#: src/timeline2/model/timelinemodel.cpp:7170
+#: src/timeline2/model/timelinemodel.cpp:7029
+#: src/timeline2/model/timelinemodel.cpp:7066
+#: src/timeline2/model/timelinemodel.cpp:7099
+#: src/timeline2/model/timelinemodel.cpp:7180
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Невозможно изменить размер соединения меньше, чем на 1 кадр"
 
-#: src/timeline2/model/timelinemodel.cpp:7030
-#: src/timeline2/model/timelinemodel.cpp:7064
-#: src/timeline2/model/timelinemodel.cpp:7108
-#: src/timeline2/model/timelinemodel.cpp:7194
+#: src/timeline2/model/timelinemodel.cpp:7040
+#: src/timeline2/model/timelinemodel.cpp:7074
+#: src/timeline2/model/timelinemodel.cpp:7118
+#: src/timeline2/model/timelinemodel.cpp:7204
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Не удалось изменить размер соединения"
 
-#: src/timeline2/model/timelinemodel.cpp:7208
+#: src/timeline2/model/timelinemodel.cpp:7218
 #, kde-format
 msgid "Resize mix"
 msgstr "Изменить размер соединения"
 
-#: src/timeline2/model/timelinemodel.cpp:7328
+#: src/timeline2/model/timelinemodel.cpp:7338
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Ошибка инициализации предпросмотра монтажного стола"
@@ -17493,7 +17900,7 @@ msgid "Stop"
 msgstr "Остановить"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2145
+#: src/timeline2/view/qml/timeline.qml:2174
 #, kde-format
 msgid "Paused"
 msgstr "Приостановлено"
@@ -17503,44 +17910,44 @@ msgstr "Приостановлено"
 msgid "Mic level"
 msgstr "Уровень микрофона"
 
-#: src/timeline2/view/qml/Clip.qml:231 src/timeline2/view/qml/Clip.qml:922
+#: src/timeline2/view/qml/Clip.qml:231 src/timeline2/view/qml/Clip.qml:924
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Позиция: %4, Длительность: %5"
 
 #: src/timeline2/view/qml/Clip.qml:343 src/timeline2/view/qml/Clip.qml:357
-#: src/timeline2/view/qml/SubTitle.qml:179
-#: src/timeline2/view/qml/SubTitle.qml:185
+#: src/timeline2/view/qml/SubTitle.qml:205
+#: src/timeline2/view/qml/SubTitle.qml:211
 #, kde-format
 msgid "Position: %1"
 msgstr "Позиция: %1"
 
-#: src/timeline2/view/qml/Clip.qml:507
+#: src/timeline2/view/qml/Clip.qml:509
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Продолжительность соединения: %1, обрезано на: %2"
 
-#: src/timeline2/view/qml/Clip.qml:570
+#: src/timeline2/view/qml/Clip.qml:572
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, длительность соединения: %2"
 
-#: src/timeline2/view/qml/Clip.qml:572
+#: src/timeline2/view/qml/Clip.qml:574
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, длительность соединения: %2"
 
-#: src/timeline2/view/qml/Clip.qml:575 src/timeline2/view/qml/Clip.qml:590
+#: src/timeline2/view/qml/Clip.qml:577 src/timeline2/view/qml/Clip.qml:592
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Длительность соединения: %1"
 
-#: src/timeline2/view/qml/Clip.qml:781
+#: src/timeline2/view/qml/Clip.qml:783
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Вход: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/Clip.qml:784 src/timeline2/view/qml/Clip.qml:912
+#: src/timeline2/view/qml/Clip.qml:786 src/timeline2/view/qml/Clip.qml:914
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -17549,55 +17956,55 @@ msgstr ""
 "<b>Ctrl + перемещение</b>: изменение скорости, <b> Двойной щелчок</b>: "
 "соединение с соседним клипом"
 
-#: src/timeline2/view/qml/Clip.qml:786
+#: src/timeline2/view/qml/Clip.qml:788
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Перемещение</b>: изменение длительности соединения"
 
-#: src/timeline2/view/qml/Clip.qml:909
+#: src/timeline2/view/qml/Clip.qml:911
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Выход: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/Clip.qml:1060
+#: src/timeline2/view/qml/Clip.qml:1062
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Смещение: - %1"
 
-#: src/timeline2/view/qml/Clip.qml:1060
+#: src/timeline2/view/qml/Clip.qml:1062
 #, kde-format
 msgid "Offset: %1"
 msgstr "Смещение: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1061
+#: src/timeline2/view/qml/Clip.qml:1063
 #, fuzzy, kde-format
 #| msgid "<b>Click</b> to add composition"
 msgid " <b>Click</b> to align clips"
 msgstr "<b>Щелчок</b>: вставка композиции"
 
-#: src/timeline2/view/qml/Clip.qml:1306 src/timeline2/view/qml/Clip.qml:1343
+#: src/timeline2/view/qml/Clip.qml:1308 src/timeline2/view/qml/Clip.qml:1345
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Щелчок</b>: вставка композиции"
 
-#: src/timeline2/view/qml/Clip.qml:1420 src/timeline2/view/qml/Clip.qml:1427
+#: src/timeline2/view/qml/Clip.qml:1422 src/timeline2/view/qml/Clip.qml:1429
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Исчезание: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1431 src/timeline2/view/qml/Clip.qml:1538
+#: src/timeline2/view/qml/Clip.qml:1433 src/timeline2/view/qml/Clip.qml:1540
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Перемещение</b>: настройка исчезания, <b>Щелчок</b>: установка "
 "продолжительности исчезания по умолчанию"
 
-#: src/timeline2/view/qml/Clip.qml:1527 src/timeline2/view/qml/Clip.qml:1534
+#: src/timeline2/view/qml/Clip.qml:1529 src/timeline2/view/qml/Clip.qml:1536
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Появление: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1622
+#: src/timeline2/view/qml/Clip.qml:1624
 #, kde-format
 msgid "Slip Clip"
 msgstr "Прокрутить клип"
@@ -17609,8 +18016,8 @@ msgstr "%1, Позиция: %2, Длительность: %3"
 
 #: src/timeline2/view/qml/Composition.qml:337
 #: src/timeline2/view/qml/Composition.qml:399
-#: src/timeline2/view/qml/SubTitle.qml:313
-#: src/timeline2/view/qml/SubTitle.qml:414
+#: src/timeline2/view/qml/SubTitle.qml:339
+#: src/timeline2/view/qml/SubTitle.qml:440
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Перемещение</b>: изменение размера"
@@ -17633,56 +18040,56 @@ msgstr ""
 "<b>Shift + перемещение</b>: изменение значения ключевых кадров, <b>Ctrl + "
 "щелчок</b>: выбор нескольких ключевых кадров."
 
-#: src/timeline2/view/qml/SubTitle.qml:102
+#: src/timeline2/view/qml/SubTitle.qml:110
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Двойной щелчок</b>: редактирование текста"
 
-#: src/timeline2/view/qml/timeline.qml:1005
+#: src/timeline2/view/qml/timeline.qml:992
 #, kde-format
 msgid "Show master effects"
 msgstr "Показать мастер-эффекты"
 
-#: src/timeline2/view/qml/timeline.qml:1144
+#: src/timeline2/view/qml/timeline.qml:1135
 #, kde-format
 msgid "Click to see details"
 msgstr "Щёлкните для получения дополнительной информации"
 
-#: src/timeline2/view/qml/timeline.qml:1166
+#: src/timeline2/view/qml/timeline.qml:1157
 #, kde-format
 msgid "Speech recognition"
 msgstr "Распознать речь"
 
-#: src/timeline2/view/qml/timeline.qml:1186
+#: src/timeline2/view/qml/timeline.qml:1177
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Показать"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1186
+#: src/timeline2/view/qml/timeline.qml:1177
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Скрыть"
 
-#: src/timeline2/view/qml/timeline.qml:1813
+#: src/timeline2/view/qml/timeline.qml:1842
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Двойной щелчок</b>: добавление субтитра"
 
-#: src/timeline2/view/qml/timeline.qml:1980
+#: src/timeline2/view/qml/timeline.qml:2009
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Смещение: %1, Позиция: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2134
-#: src/timeline2/view/qml/timeline.qml:2143
+#: src/timeline2/view/qml/timeline.qml:2163
+#: src/timeline2/view/qml/timeline.qml:2172
 #, kde-format
 msgid "Recording"
 msgstr "Запись"
 
-#: src/timeline2/view/qml/timeline.qml:2237
+#: src/timeline2/view/qml/timeline.qml:2266
 #, kde-format
 msgid "Multicam In"
 msgstr "Вход многокамерного монтажа"
@@ -17761,223 +18168,223 @@ msgstr "Выключить звук"
 msgid "Edit track name"
 msgstr "Изменить имя дорожки"
 
-#: src/timeline2/view/timelinecontroller.cpp:256
+#: src/timeline2/view/timelinecontroller.cpp:259
 #, kde-format
 msgid "unknown"
 msgstr "неизвестно"
 
-#: src/timeline2/view/timelinecontroller.cpp:338
+#: src/timeline2/view/timelinecontroller.cpp:341
 #, kde-format
 msgid "Hide Track"
 msgstr "Скрыть дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:338
+#: src/timeline2/view/timelinecontroller.cpp:341
 #, kde-format
 msgid "Enable Track"
 msgstr "Включить дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:402
+#: src/timeline2/view/timelinecontroller.cpp:404
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr "Нет элемента под курсором монтажного стола на активной дорожке"
 
-#: src/timeline2/view/timelinecontroller.cpp:592
+#: src/timeline2/view/timelinecontroller.cpp:594
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr "Не удалось добавить композицию в данную позицию"
 
-#: src/timeline2/view/timelinecontroller.cpp:654
-#: src/timeline2/view/timelinecontroller.cpp:1089
-#: src/timeline2/view/timelinecontroller.cpp:1106
-#: src/timeline2/view/timelinecontroller.cpp:1137
-#: src/timeline2/view/timelinecontroller.cpp:1217
+#: src/timeline2/view/timelinecontroller.cpp:656
+#: src/timeline2/view/timelinecontroller.cpp:1091
+#: src/timeline2/view/timelinecontroller.cpp:1108
+#: src/timeline2/view/timelinecontroller.cpp:1139
+#: src/timeline2/view/timelinecontroller.cpp:1219
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr ""
 "Не удалось выполнить операцию при перемещении элемента указателем мыши на "
 "монтажном столе"
 
-#: src/timeline2/view/timelinecontroller.cpp:920
-#: src/timeline2/view/timelinecontroller.cpp:5110
+#: src/timeline2/view/timelinecontroller.cpp:922
+#: src/timeline2/view/timelinecontroller.cpp:5130
 #, kde-format
 msgid "Could not insert track"
 msgstr "Не удалось добавить дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:943
+#: src/timeline2/view/timelinecontroller.cpp:945
 #, kde-format
 msgid "Delete Tracks"
 msgstr "Удалить дорожки"
 
-#: src/timeline2/view/timelinecontroller.cpp:956
+#: src/timeline2/view/timelinecontroller.cpp:958
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr "Для показа инструментов управления записью выберите звуковую дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:1094
+#: src/timeline2/view/timelinecontroller.cpp:1096
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "Для группировки выберите не менее двух элементов"
 
-#: src/timeline2/view/timelinecontroller.cpp:1506
+#: src/timeline2/view/timelinecontroller.cpp:1508
 #, kde-format
 msgid "guide"
 msgstr "направляющая"
 
-#: src/timeline2/view/timelinecontroller.cpp:1673
+#: src/timeline2/view/timelinecontroller.cpp:1675
 #, kde-format
 msgid "No active track"
 msgstr "Нет активной дорожки"
 
-#: src/timeline2/view/timelinecontroller.cpp:1757
+#: src/timeline2/view/timelinecontroller.cpp:1759
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "На монтажном столе ничего не выбрано"
 
-#: src/timeline2/view/timelinecontroller.cpp:1892
+#: src/timeline2/view/timelinecontroller.cpp:1897
 #, kde-format
 msgid "No clip to cut"
 msgstr "Нет клипа для резки"
 
-#: src/timeline2/view/timelinecontroller.cpp:2226
+#: src/timeline2/view/timelinecontroller.cpp:2231
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "Вход:%1, Выход:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2314
+#: src/timeline2/view/timelinecontroller.cpp:2319
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2712
+#: src/timeline2/view/timelinecontroller.cpp:2720
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "Нет клипов для вставки пробела"
 
-#: src/timeline2/view/timelinecontroller.cpp:2729
+#: src/timeline2/view/timelinecontroller.cpp:2737
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "Нельзя удалить пробел в данной позиции"
 
-#: src/timeline2/view/timelinecontroller.cpp:2743
+#: src/timeline2/view/timelinecontroller.cpp:2751
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "Не удалось удалить все пробелы"
 
-#: src/timeline2/view/timelinecontroller.cpp:2757
+#: src/timeline2/view/timelinecontroller.cpp:2765
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "Не удалось удалить все клипы"
 
-#: src/timeline2/view/timelinecontroller.cpp:2792
-#: src/timeline2/view/timelinecontroller.cpp:2797
-#: src/timeline2/view/timelinecontroller.cpp:2819
-#: src/timeline2/view/timelinecontroller.cpp:3786
-#: src/timeline2/view/timelinecontroller.cpp:3804
+#: src/timeline2/view/timelinecontroller.cpp:2800
+#: src/timeline2/view/timelinecontroller.cpp:2805
+#: src/timeline2/view/timelinecontroller.cpp:2827
+#: src/timeline2/view/timelinecontroller.cpp:3794
+#: src/timeline2/view/timelinecontroller.cpp:3812
 #, kde-format
 msgid "No item to edit"
 msgstr "Нет элемента для редактирования"
 
-#: src/timeline2/view/timelinecontroller.cpp:2909
-#: src/timeline2/view/timelinecontroller.cpp:5344
+#: src/timeline2/view/timelinecontroller.cpp:2917
+#: src/timeline2/view/timelinecontroller.cpp:5395
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Активируйте дорожку для этой операции, щёлкнув по значку дорожки"
 
-#: src/timeline2/view/timelinecontroller.cpp:3174
+#: src/timeline2/view/timelinecontroller.cpp:3182
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "Выберите целевую дорожку, щёлкнув по целевому участку дорожки"
 
-#: src/timeline2/view/timelinecontroller.cpp:3244
+#: src/timeline2/view/timelinecontroller.cpp:3252
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Выберите избранную композицию"
 
-#: src/timeline2/view/timelinecontroller.cpp:3305
+#: src/timeline2/view/timelinecontroller.cpp:3313
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "Не удалось найти клип для разделения видео и звука"
 
-#: src/timeline2/view/timelinecontroller.cpp:3339
-#: src/timeline2/view/timelinecontroller.cpp:3402
+#: src/timeline2/view/timelinecontroller.cpp:3347
+#: src/timeline2/view/timelinecontroller.cpp:3410
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Не удалось переместить клип на кадр %1."
 
-#: src/timeline2/view/timelinecontroller.cpp:3360
+#: src/timeline2/view/timelinecontroller.cpp:3368
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Перед выравниванием создайте звуковую привязку"
 
-#: src/timeline2/view/timelinecontroller.cpp:3524
+#: src/timeline2/view/timelinecontroller.cpp:3532
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "Все потоки уже связаны. Сначала снимите отметку с другой цели звуковых данных"
 
-#: src/timeline2/view/timelinecontroller.cpp:3683
+#: src/timeline2/view/timelinecontroller.cpp:3691
 #, kde-format
 msgid "Delete effects"
 msgstr "Удалить эффекты"
 
-#: src/timeline2/view/timelinecontroller.cpp:3721
-#: src/timeline2/view/timelinecontroller.cpp:3727
-#: src/timeline2/view/timelinecontroller.cpp:3733
+#: src/timeline2/view/timelinecontroller.cpp:3729
+#: src/timeline2/view/timelinecontroller.cpp:3735
+#: src/timeline2/view/timelinecontroller.cpp:3741
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Нет информации в буфере обмена"
 
-#: src/timeline2/view/timelinecontroller.cpp:3758
+#: src/timeline2/view/timelinecontroller.cpp:3766
 #, kde-format
 msgid "Paste effects"
 msgstr "Вставить эффекты"
 
-#: src/timeline2/view/timelinecontroller.cpp:3760
+#: src/timeline2/view/timelinecontroller.cpp:3768
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Не удалось применить эффект к выбранному клипу"
 
-#: src/timeline2/view/timelinecontroller.cpp:3903
+#: src/timeline2/view/timelinecontroller.cpp:3911
 #, kde-format
 msgid "Edit item"
 msgstr "Изменить элемент"
 
-#: src/timeline2/view/timelinecontroller.cpp:3931
+#: src/timeline2/view/timelinecontroller.cpp:3939
 #, kde-format
 msgid "Open sequence"
 msgstr "Создать последовательность"
 
-#: src/timeline2/view/timelinecontroller.cpp:3953
+#: src/timeline2/view/timelinecontroller.cpp:3961
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Элемент не является клипом титров"
 
-#: src/timeline2/view/timelinecontroller.cpp:4052
+#: src/timeline2/view/timelinecontroller.cpp:4060
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "Выбрано элементов: %1 (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4106
+#: src/timeline2/view/timelinecontroller.cpp:4114
 #, kde-format
 msgid "Restore video"
 msgstr "Восстановить видео"
 
-#: src/timeline2/view/timelinecontroller.cpp:4106
+#: src/timeline2/view/timelinecontroller.cpp:4114
 #, kde-format
 msgid "Restore audio"
 msgstr "Восстановить звук"
 
-#: src/timeline2/view/timelinecontroller.cpp:4323
+#: src/timeline2/view/timelinecontroller.cpp:4335
 #, kde-format
 msgid "Move item"
 msgstr "Переместить элемент"
 
-#: src/timeline2/view/timelinecontroller.cpp:4810
+#: src/timeline2/view/timelinecontroller.cpp:4826
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Нельзя выполнить захват на заблокированной дорожке"
 
-#: src/timeline2/view/timelinecontroller.cpp:4821
+#: src/timeline2/view/timelinecontroller.cpp:4837
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -17986,22 +18393,22 @@ msgstr ""
 "Нельзя сохранить захваченное сюда: возможна перезапись клипов. Удалите клипы "
 "за текущей позицией или выберите другую дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:4912
+#: src/timeline2/view/timelinecontroller.cpp:4928
 #, kde-format
 msgid "Record audio"
 msgstr "Записать звук"
 
-#: src/timeline2/view/timelinecontroller.cpp:5050
+#: src/timeline2/view/timelinecontroller.cpp:5070
 #, kde-format
 msgid "Expand clip"
 msgstr "Развернуть клип"
 
-#: src/timeline2/view/timelinecontroller.cpp:5053
+#: src/timeline2/view/timelinecontroller.cpp:5073
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Не удалось развернуть клип"
 
-#: src/timeline2/view/timelinecontroller.cpp:5108
+#: src/timeline2/view/timelinecontroller.cpp:5128
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
@@ -18010,17 +18417,32 @@ msgstr[1] "Добавить дорожки"
 msgstr[2] "Добавить дорожки"
 msgstr[3] "Добавить дорожку"
 
-#: src/timeline2/view/timelinecontroller.cpp:5183
+#: src/timeline2/view/timelinecontroller.cpp:5207
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Экспорт файла с субтитрами"
 
-#: src/timeline2/view/timelinecontroller.cpp:5184
+#: src/timeline2/view/timelinecontroller.cpp:5208
 #, kde-format
-msgid "Subtitle File (*.srt)"
-msgstr "Файл с субтитрами (*.srt)"
+msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
+msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5214
+#: src/timeline2/view/timelinecontroller.cpp:5222
+#, kde-format
+msgid ""
+"The current subtitle track contains multiple layers, meaning that if "
+"subtitles on different layers share the same start position, only the "
+"subtitle from the lowest layer will be retained. This may result in the loss "
+"of some subtitles in the exported file. Do you wish to continue?"
+msgstr ""
+
+#: src/timeline2/view/timelinecontroller.cpp:5227
+#, fuzzy, kde-format
+#| msgid "Pasting Warning"
+msgid "Warning"
+msgstr "Предупреждение о вставке"
+
+#: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -18029,47 +18451,47 @@ msgstr ""
 "Не удалось найти требующийся фильтр avfilter.subtitles. Возможны проблемы в "
 "работе функции субтитров."
 
-#: src/timeline2/view/timelinecontroller.cpp:5231
+#: src/timeline2/view/timelinecontroller.cpp:5282
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Показать дорожку субтитров"
 
-#: src/timeline2/view/timelinecontroller.cpp:5231
+#: src/timeline2/view/timelinecontroller.cpp:5282
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Скрыть дорожку субтитров"
 
-#: src/timeline2/view/timelinecontroller.cpp:5254
+#: src/timeline2/view/timelinecontroller.cpp:5305
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Разблокировать дорожку субтитров"
 
-#: src/timeline2/view/timelinecontroller.cpp:5254
+#: src/timeline2/view/timelinecontroller.cpp:5305
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Заблокировать дорожку субтитров"
 
-#: src/timeline2/view/timelinecontroller.cpp:5418
-#: src/timeline2/view/timelinecontroller.cpp:5427
+#: src/timeline2/view/timelinecontroller.cpp:5469
+#: src/timeline2/view/timelinecontroller.cpp:5478
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Субтитры"
 
-#: src/timeline2/view/timelinecontroller.cpp:5429
+#: src/timeline2/view/timelinecontroller.cpp:5480
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "Субтитры"
 
-#: src/timeline2/view/timelinetabs.cpp:49
+#: src/timeline2/view/timelinetabs.cpp:50
 #, kde-format
 msgid "Add Timeline Sequence"
 msgstr "Добавить последовательность монтажного стола"
 
-#: src/timeline2/view/timelinetabs.cpp:51
+#: src/timeline2/view/timelinetabs.cpp:52
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -18079,12 +18501,12 @@ msgstr ""
 "монтажный стол для внесения изменений. Каждый монтажный стол соответствует "
 "клипу последовательности в корзине проекта"
 
-#: src/timeline2/view/timelinetabs.cpp:234
+#: src/timeline2/view/timelinetabs.cpp:236
 #, kde-format
 msgid "Close %1"
 msgstr "Закрыть %1"
 
-#: src/timeline2/view/timelinetabs.cpp:423
+#: src/timeline2/view/timelinetabs.cpp:425
 #, fuzzy, kde-format
 msgid "Rename Sequence"
 msgstr "Серия изображений"
@@ -18334,11 +18756,6 @@ msgid ""
 msgstr ""
 "При использовании этого инструмента щелчок по ресурсу на монтажном столе "
 "приводит к выделению этого ресурса (например, клипа, композиции)."
-
-#: src/titler/titlewidget.cpp:393 src/titler/titlewidget.cpp:396
-#, kde-format
-msgid "Add Text"
-msgstr "Введите текст"
 
 #: src/titler/titlewidget.cpp:399 src/titler/titlewidget.cpp:402
 #, kde-format
@@ -18768,7 +19185,7 @@ msgstr "Выровнять по правому краю"
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:47
-#: src/ui/editsub_ui.ui:217
+#: src/ui/editsub_ui.ui:276
 #, kde-format
 msgid "Position:"
 msgstr "Позиция:"
@@ -18937,7 +19354,7 @@ msgstr "Удалить выбранную точку"
 #. i18n: ectx: property (text), widget (QToolButton, delete_metadata)
 #. i18n: ectx: property (text), widget (QToolButton, remove_gradient)
 #. i18n: ectx: property (text), widget (QToolButton, add_gradient)
-#. i18n: ectx: property (text), widget (QToolButton, button_menu)
+#. i18n: ectx: property (text), widget (QToolButton, buttonMenuFile)
 #. i18n: ectx: property (text), widget (QToolButton, info_button)
 #. i18n: ectx: property (text), widget (QToolButton, infoButton)
 #. i18n: ectx: property (text), widget (QToolButton, buttonReset)
@@ -18953,7 +19370,6 @@ msgstr "Удалить выбранную точку"
 #. i18n: ectx: property (text), widget (QToolButton, inOutButton)
 #. i18n: ectx: property (text), widget (QToolButton, enabledButton)
 #. i18n: ectx: property (text), widget (QToolButton, presetButton)
-#. i18n: ectx: property (text), widget (QToolButton, saveEffectButton)
 #. i18n: ectx: property (text), widget (QToolButton, buttonUp)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDown)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDel)
@@ -18989,16 +19405,22 @@ msgstr "Удалить выбранную точку"
 #. i18n: ectx: property (text), widget (QToolButton, delPreview)
 #. i18n: ectx: property (text), widget (QToolButton, help_cached)
 #. i18n: ectx: property (text), widget (QToolButton, linkResoultion)
+#. i18n: ectx: property (text), widget (QToolButton, buttonBold)
+#. i18n: ectx: property (text), widget (QToolButton, buttonUnderline)
+#. i18n: ectx: property (text), widget (QToolButton, buttonStrikeout)
+#. i18n: ectx: property (text), widget (QToolButton, buttonFont)
+#. i18n: ectx: property (text), widget (QToolButton, buttonResetStyle)
+#. i18n: ectx: property (text), widget (QToolButton, buttonEditStyle)
+#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, subMenu)
+#. i18n: ectx: property (text), widget (QToolButton, buttonLock)
+#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonPrev)
 #. i18n: ectx: property (text), widget (QToolButton, buttonNext)
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
 #. i18n: ectx: property (text), widget (QToolButton, buttonCut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonApply)
-#. i18n: ectx: property (text), widget (QToolButton, buttonStyle)
-#. i18n: ectx: property (text), widget (QToolButton, buttonLock)
-#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
-#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
-#. i18n: ectx: property (text), widget (QToolButton, subMenu)
+#. i18n: ectx: property (text), widget (QToolButton, buttonMoreOption)
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
 #. i18n: ectx: property (text), widget (QToolButton, button_more)
 #: src/ui/bezierspline_ui.ui:69 src/ui/bezierspline_ui.ui:94
@@ -19016,10 +19438,12 @@ msgstr "Удалить выбранную точку"
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:21 src/ui/editsub_ui.ui:31 src/ui/editsub_ui.ui:41
-#: src/ui/editsub_ui.ui:52 src/ui/editsub_ui.ui:63 src/ui/editsub_ui.ui:74
-#: src/ui/editsub_ui.ui:149 src/ui/editsub_ui.ui:189 src/ui/editsub_ui.ui:200
-#: src/ui/editsub_ui.ui:231 src/ui/editsub_ui.ui:484
+#: src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:129 src/ui/editsub_ui.ui:139
+#: src/ui/editsub_ui.ui:149 src/ui/editsub_ui.ui:159 src/ui/editsub_ui.ui:169
+#: src/ui/editsub_ui.ui:227 src/ui/editsub_ui.ui:260 src/ui/editsub_ui.ui:292
+#: src/ui/editsub_ui.ui:315 src/ui/editsub_ui.ui:331 src/ui/editsub_ui.ui:609
+#: src/ui/editsub_ui.ui:619 src/ui/editsub_ui.ui:629 src/ui/editsub_ui.ui:639
+#: src/ui/editsub_ui.ui:649 src/ui/editsub_ui.ui:659 src/ui/editsub_ui.ui:674
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
@@ -19030,7 +19454,7 @@ msgstr "Удалить выбранную точку"
 #: src/ui/managecache_ui.ui:131 src/ui/managecache_ui.ui:277
 #: src/ui/managecache_ui.ui:328 src/ui/manageencodingprofile_ui.ui:48
 #: src/ui/manageencodingprofile_ui.ui:59 src/ui/manageencodingprofile_ui.ui:70
-#: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:70
+#: src/ui/manageencodingprofile_ui.ui:84 src/ui/managesubtitles_ui.ui:79
 #: src/ui/projectsettings_ui.ui:421 src/ui/projectsettings_ui.ui:501
 #: src/ui/projectsettings_ui.ui:508 src/ui/projectsettings_ui.ui:518
 #: src/ui/projectsettings_ui.ui:589 src/ui/projectsettings_ui.ui:596
@@ -19445,8 +19869,9 @@ msgstr "Соотношение сторон экрана:"
 msgid "4/3"
 msgstr "4/3"
 
+#. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
 #. i18n: ectx: property (text), widget (QPushButton, config_v4l)
-#: src/ui/configcapture_ui.ui:185
+#: src/ui/configcapture_ui.ui:185 src/ui/managesubtitles_ui.ui:323
 #, kde-format
 msgid "Edit"
 msgstr "Изменить"
@@ -20903,87 +21328,182 @@ msgstr ""
 msgid "Enable manual editing"
 msgstr "Разрешить внесение изменений вручную"
 
+#. i18n: ectx: property (text), widget (QToolButton, button_save)
+#. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
+#: src/ui/editsub_ui.ui:101 src/ui/profiledialog_ui.ui:380
+#, kde-format
+msgid "S"
+msgstr "S"
+
+#. i18n: ectx: property (text), widget (QLabel, label_style)
+#: src/ui/editsub_ui.ui:207
+#, fuzzy, kde-format
+#| msgid "Style"
+msgid "Style:"
+msgstr "Стиль"
+
 #. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:182
+#: src/ui/editsub_ui.ui:253
 #, kde-format
 msgid "End:"
 msgstr "Конец:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkOpaque)
-#: src/ui/editsub_ui.ui:289
-#, kde-format
-msgid "Opaque background"
-msgstr "Непрозрачный фон"
+#. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
+#: src/ui/editsub_ui.ui:451
+#, fuzzy, kde-format
+#| msgid "roll"
+msgid "Scroll"
+msgstr "крен"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineColor)
-#: src/ui/editsub_ui.ui:296
-#, kde-format
-msgid "Custom Outline Color"
-msgstr "Другой цвет контура"
+#. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
+#: src/ui/editsub_ui.ui:465
+#, fuzzy, kde-format
+#| msgid "Updates per second"
+msgid "Upper Bound"
+msgstr "Обновлений в секунду"
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, fontSize)
-#: src/ui/editsub_ui.ui:313
+#. i18n: ectx: property (text), widget (QLabel, labelMargin)
+#: src/ui/editsub_ui.ui:472
 #, kde-format
-msgid "pt"
-msgstr "пт"
+msgid "<html><head/><body><p>Margin</p></body></html>"
+msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontSize)
-#: src/ui/editsub_ui.ui:326
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsub_ui.ui:492
 #, kde-format
-msgid "Custom Font Size"
-msgstr "Другой размер шрифта"
+msgid "<html><head/><body><p>Name</p></body></html>"
+msgstr ""
 
-#. i18n: ectx: property (suffix), widget (QSpinBox, shadowSize)
-#. i18n: ectx: property (suffix), widget (QSpinBox, outlineSize)
-#: src/ui/editsub_ui.ui:353 src/ui/editsub_ui.ui:377
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
+#. i18n: ectx: property (text), widget (QCheckBox, checkComment)
+#: src/ui/editsub_ui.ui:582 src/ui/markerdialog_ui.ui:66
+#: src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
-msgid "px"
-msgstr "пикс."
+msgid "Comment"
+msgstr "Комментарий"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkPosition)
-#: src/ui/editsub_ui.ui:360
-#, kde-format
-msgid "Custom Position"
-msgstr "Другое расположение"
+#. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
+#: src/ui/editsub_ui.ui:589
+#, fuzzy, kde-format
+#| msgid "Power Blue"
+msgid "Lower Bound"
+msgstr "Мощность синего канала"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkFontColor)
-#: src/ui/editsub_ui.ui:367
-#, kde-format
-msgid "Custom Font Color"
-msgstr "Другой цвет шрифта"
+#. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
+#: src/ui/editsubstyle_ui.ui:24
+#, fuzzy, kde-format
+#| msgid "Subtitle file:"
+msgid "Subtitle Style Editor"
+msgstr "Файл с субтитрами:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkOutlineSize)
-#: src/ui/editsub_ui.ui:387
-#, kde-format
-msgid "Custom Outline Size"
-msgstr "Другой размер контура"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkFont)
-#: src/ui/editsub_ui.ui:394
-#, kde-format
-msgid "Custom Font"
-msgstr "Другой шрифт"
-
-#. i18n: ectx: property (text), widget (QCheckBox, checkShadowSize)
-#: src/ui/editsub_ui.ui:432
-#, kde-format
-msgid "Custom Shadow"
-msgstr "Другая тень"
-
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsub_ui.ui:452
+#: src/ui/editsubstyle_ui.ui:93 src/ui/managesubtitles_ui.ui:364
 #, fuzzy, kde-format
 #| msgctxt "Font style"
 #| msgid "Bold"
 msgid "Bold"
 msgstr "Жирный"
 
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:103
+#, fuzzy, kde-format
+#| msgid " second"
+#| msgid_plural " seconds"
+msgid "Secondary"
+msgstr " секунда"
+
+#. i18n: ectx: property (text), widget (QLabel, labelMargin)
+#: src/ui/editsubstyle_ui.ui:134
+#, kde-format
+msgid "Margin"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
+#: src/ui/editsubstyle_ui.ui:163
+#, fuzzy, kde-format
+#| msgid "Vertical"
+msgid "Veritical"
+msgstr "По вертикали"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
+#: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
+#, fuzzy, kde-format
+#| msgid "Alignment Yaw"
+msgid "Alignment"
+msgstr "Коррекция рыскания"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
+#: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
+#, kde-format
+msgid "Underline"
+msgstr "Подчёркивание"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelShadow)
+#. i18n: ectx: property (text), widget (QLabel, labelBackColor)
+#: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
+#: src/ui/managesubtitles_ui.ui:409
+#, kde-format
+msgid "Shadow"
+msgstr "Тень"
+
+#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
+#: src/ui/editsubstyle_ui.ui:265
+#, fuzzy, kde-format
+#| msgid "Border "
+msgid "BorderStyle"
+msgstr "Рамка "
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
+#. i18n: ectx: property (text), widget (QLabel, labelOutline)
+#: src/ui/editsubstyle_ui.ui:350 src/ui/editsubstyle_ui.ui:484
+#: src/ui/managesubtitles_ui.ui:404
+#, kde-format
+msgid "Outline"
+msgstr "Обводка"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
+#: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
+#, fuzzy, kde-format
+#| msgid "Scale X"
+msgid "ScaleX"
+msgstr "Масштабирование по X"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelScaleY)
+#: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
+#, fuzzy, kde-format
+#| msgid "Scale Y"
+msgid "ScaleY"
+msgstr "Масштабирование по Y"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
+#: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
+#, kde-format
+msgid "StrikeOut"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsub_ui.ui:459
+#: src/ui/editsubstyle_ui.ui:510 src/ui/managesubtitles_ui.ui:369
 #, fuzzy, kde-format
 #| msgid "Italian"
 msgid "Italic"
 msgstr "Итальянский"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
+#, fuzzy, kde-format
+#| msgid "Space"
+msgid "Spacing"
+msgstr "Пробел"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -21163,7 +21683,8 @@ msgid "Subtitle file:"
 msgstr "Файл с субтитрами:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/import_subtitle_ui.ui:68
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/import_subtitle_ui.ui:68 src/ui/managesubtitles_ui.ui:459
 #, kde-format
 msgid "Encoding"
 msgstr "Кодировка"
@@ -21412,30 +21933,146 @@ msgstr " мес."
 msgid "Editing profiles for:"
 msgstr "Настройка профиля под:"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_new)
-#: src/ui/managesubtitles_ui.ui:24
+#. i18n: ectx: attribute (title), widget (QWidget, tabFile)
+#: src/ui/managesubtitles_ui.ui:53
 #, fuzzy, kde-format
-#| msgid "Create"
-msgid "Create New"
-msgstr "Создать"
+#| msgid "File"
+msgid "Files"
+msgstr "Файл"
 
-#. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/managesubtitles_ui.ui:46
-#, fuzzy, kde-format
-msgid "Delete"
-msgstr "Удалить %1"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
-#: src/ui/managesubtitles_ui.ui:108
+#. i18n: ectx: property (text), widget (QTreeWidget, fileList)
+#: src/ui/managesubtitles_ui.ui:71
 #, kde-format
 msgid "Path"
 msgstr "Путь"
 
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
-#: src/ui/markerdialog_ui.ui:66 src/ui/multiplemarkerdialog_ui.ui:34
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
+#: src/ui/managesubtitles_ui.ui:101
+#, fuzzy, kde-format
+#| msgid "Text File"
+msgid "New File"
+msgstr "Текстовый файл"
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
+#. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
+#. i18n: ectx: property (text), widget (QPushButton, buttonDeleteStyle)
+#: src/ui/managesubtitles_ui.ui:130 src/ui/managesubtitles_ui.ui:246
+#: src/ui/managesubtitles_ui.ui:505
+#, fuzzy, kde-format
+msgid "Delete"
+msgstr "Удалить %1"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tabLayer)
+#: src/ui/managesubtitles_ui.ui:157
 #, kde-format
-msgid "Comment"
-msgstr "Комментарий"
+msgid "Layers and Content"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
+#: src/ui/managesubtitles_ui.ui:262
+#, fuzzy, kde-format
+#| msgid "New tag"
+msgid "New Layer"
+msgstr "Новая метка"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
+#: src/ui/managesubtitles_ui.ui:286
+#, fuzzy, kde-format
+#| msgid "Style"
+msgid "Styles"
+msgstr "Стиль"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:354
+#, fuzzy, kde-format
+#| msgid "Font"
+msgid "FontName"
+msgstr "Шрифт"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:359
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "FontSize"
+msgstr "Размер шрифта"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:384
+#, fuzzy, kde-format
+#| msgid "Gray color"
+msgid "PrimaryColor"
+msgstr "Серый цвет"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:389
+#, fuzzy, kde-format
+msgid "SecondaryColor"
+msgstr "Первый цвет"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:394
+#, fuzzy, kde-format
+#| msgid "Outline Color"
+msgid "OutlineColor"
+msgstr "Цвет контура"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:399
+#, fuzzy, kde-format
+#| msgid "Black color"
+msgid "BackColor"
+msgstr "Чёрный цвет"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:439
+#, fuzzy, kde-format
+#| msgid "Style"
+msgid "BoardStyle"
+msgstr "Стиль"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:444
+#, kde-format
+msgid "MarginL"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:449
+#, kde-format
+msgid "MarginR"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:454
+#, kde-format
+msgid "MarginV"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
+#: src/ui/managesubtitles_ui.ui:473
+#, fuzzy, kde-format
+#| msgid "Style"
+msgid "New Style"
+msgstr "Стиль"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
+#: src/ui/managesubtitles_ui.ui:529
+#, kde-format
+msgid "Info"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, infoList)
+#: src/ui/managesubtitles_ui.ui:539
+#, kde-format
+msgid "Key"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, infoList)
+#: src/ui/managesubtitles_ui.ui:544
+#, fuzzy, kde-format
+#| msgid "Value:"
+msgid "Value"
+msgstr "Значение:"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
@@ -21577,12 +22214,6 @@ msgstr ""
 #, kde-format
 msgid "Save profile"
 msgstr "Сохранить профиль"
-
-#. i18n: ectx: property (text), widget (QToolButton, button_save)
-#: src/ui/profiledialog_ui.ui:380
-#, kde-format
-msgid "S"
-msgstr "S"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_default)
 #: src/ui/profiledialog_ui.ui:417
@@ -22544,18 +23175,6 @@ msgstr "A"
 msgid "Rotate"
 msgstr "Вращение"
 
-#. i18n: ectx: property (text), widget (QLabel, label_rotateX)
-#: src/ui/titlewidget_ui.ui:553
-#, kde-format
-msgid "X:"
-msgstr "X:"
-
-#. i18n: ectx: property (text), widget (QLabel, label_rotateY)
-#: src/ui/titlewidget_ui.ui:576
-#, kde-format
-msgid "Y:"
-msgstr "Y:"
-
 #. i18n: ectx: property (text), widget (QLabel, label_rotateZ)
 #: src/ui/titlewidget_ui.ui:602
 #, kde-format
@@ -23005,6 +23624,67 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1ч"
 
+#~ msgid "Add text"
+#~ msgstr "Введите текст"
+
+#~ msgctxt "@info:whatsthis"
+#~ msgid ""
+#~ "Toggles a list to adjust font, size, color, outline style, shadow, "
+#~ "position and background."
+#~ msgstr ""
+#~ "Переключает отображение списка параметров для настройки шрифта, размера, "
+#~ "цвета, стиля контура, тени, расположения и фона."
+
+#~ msgid "Bottom Center"
+#~ msgstr "Внизу по центру"
+
+#~ msgid "Center Left"
+#~ msgstr "По центру слева"
+
+#~ msgid "Center Right"
+#~ msgstr "По центру справа"
+
+#~ msgid "Top Center"
+#~ msgstr "Вверху по центру"
+
+#~ msgid "Subtitle File (*.srt)"
+#~ msgstr "Файл с субтитрами (*.srt)"
+
+#~ msgid "Opaque background"
+#~ msgstr "Непрозрачный фон"
+
+#~ msgid "Custom Outline Color"
+#~ msgstr "Другой цвет контура"
+
+#~ msgid "pt"
+#~ msgstr "пт"
+
+#~ msgid "Custom Font Size"
+#~ msgstr "Другой размер шрифта"
+
+#~ msgid "px"
+#~ msgstr "пикс."
+
+#~ msgid "Custom Position"
+#~ msgstr "Другое расположение"
+
+#~ msgid "Custom Font Color"
+#~ msgstr "Другой цвет шрифта"
+
+#~ msgid "Custom Outline Size"
+#~ msgstr "Другой размер контура"
+
+#~ msgid "Custom Font"
+#~ msgstr "Другой шрифт"
+
+#~ msgid "Custom Shadow"
+#~ msgstr "Другая тень"
+
+#, fuzzy
+#~| msgid "Create"
+#~ msgid "Create New"
+#~ msgstr "Создать"
+
 #~ msgid "Speech language"
 #~ msgstr "Язык распознавания речи"
 
@@ -23323,9 +24003,6 @@ msgstr "%1ч"
 #~ msgid "Delete current file"
 #~ msgstr "Удалить текущий файл"
 
-#~ msgid "Toggle selection"
-#~ msgstr "Переключить выбранное"
-
 #~ msgctxt "Initial for Master"
 #~ msgid "M"
 #~ msgstr "M"
@@ -23336,10 +24013,6 @@ msgstr "%1ч"
 #, fuzzy
 #~ msgid "Open %1"
 #~ msgstr "Открыть"
-
-#, fuzzy
-#~ msgid "Show File Preview"
-#~ msgstr "Предпросмотр субтитров"
 
 #~ msgid "NVIDIA hardware encoders found and enabled."
 #~ msgstr "Найдены и включены аппаратные кодировщики NVIDIA."
@@ -23512,9 +24185,6 @@ msgstr "%1ч"
 
 #~ msgid "Edit Keyframe"
 #~ msgstr "Изменить ключевой кадр"
-
-#~ msgid "Value:"
-#~ msgstr "Значение:"
 
 #~ msgid "Reset the parameters to their default values."
 #~ msgstr "Сброс параметров к значениям по умолчанию"
@@ -23787,9 +24457,6 @@ msgstr "%1ч"
 
 #~ msgid "Total proxy data:"
 #~ msgstr "Всего данных прокси:"
-
-#~ msgid "Outline"
-#~ msgstr "Обводка"
 
 #~ msgid "#99:99:99:99"
 #~ msgstr "#99:99:99:99"
@@ -24687,9 +25354,6 @@ msgstr "%1ч"
 #~ msgid "pitch"
 #~ msgstr "тангаж"
 
-#~ msgid "roll"
-#~ msgstr "крен"
-
 #~ msgid "fov"
 #~ msgstr "поле зрения"
 
@@ -24707,9 +25371,6 @@ msgstr "%1ч"
 #~ "Преобразует видеокадр с двумя полусферическими изображениями в единый "
 #~ "эквидистантный кадр. Модуль предполагает, что обе полусферы находятся в "
 #~ "кадре"
-
-#~ msgid "Alignment Yaw"
-#~ msgstr "Коррекция рыскания"
 
 #~ msgid "Alignment Pitch"
 #~ msgstr "Коррекция тангажа"
@@ -24893,10 +25554,6 @@ msgstr "%1ч"
 #, fuzzy
 #~ msgid "Linear,Radial"
 #~ msgstr "Линейная"
-
-#, fuzzy
-#~ msgid "Start Color"
-#~ msgstr "Первый цвет"
 
 #, fuzzy
 #~ msgid "Start Opacity"
@@ -25914,15 +26571,6 @@ msgstr "%1ч"
 #~ msgid "Crop right"
 #~ msgstr "Кадрирование справа"
 
-#~ msgid "Crop bottom"
-#~ msgstr "Кадрирование снизу"
-
-#~ msgid "Scale X"
-#~ msgstr "Масштабирование по X"
-
-#~ msgid "Scale Y"
-#~ msgstr "Масштабирование по Y"
-
 #~ msgid "Tilt X"
 #~ msgstr "Смещение по X"
 
@@ -26074,9 +26722,6 @@ msgstr "%1ч"
 #~ msgid "Power Green"
 #~ msgstr "Мощность зелёного канала"
 
-#~ msgid "Power Blue"
-#~ msgstr "Мощность синего канала"
-
 #~ msgid "Power Alpha"
 #~ msgstr "Мощность альфа-канала"
 
@@ -26108,12 +26753,6 @@ msgstr "%1ч"
 
 #~ msgid "Balances colors along with 3 points"
 #~ msgstr "Балансировка цвета по трём точкам"
-
-#~ msgid "Black color"
-#~ msgstr "Чёрный цвет"
-
-#~ msgid "Gray color"
-#~ msgstr "Серый цвет"
 
 #~ msgid "White color"
 #~ msgstr "Белый цвет"
@@ -26435,9 +27074,6 @@ msgstr "%1ч"
 #~ msgid "Loading clip %1"
 #~ msgstr "Загрузка клипа %1"
 
-#~ msgid "Cannot create filter."
-#~ msgstr "Не удалось создать фильтр."
-
 #~ msgid "Stabilize clips"
 #~ msgstr "Стабилизировать клипы"
 
@@ -26474,12 +27110,6 @@ msgstr "%1ч"
 
 #~ msgid "Back to menu"
 #~ msgstr "Вернуться к меню"
-
-#~ msgid "Shadow"
-#~ msgstr "Тень"
-
-#~ msgid "Underline"
-#~ msgstr "Подчёркивание"
 
 #~ msgid "Temporary data folder"
 #~ msgstr "Папка для временных файлов"
@@ -27515,13 +28145,6 @@ msgstr "%1ч"
 
 #~ msgid "Configure Stop Motion"
 #~ msgstr "Настройка покадровой анимации"
-
-#~ msgid " second"
-#~ msgid_plural " seconds"
-#~ msgstr[0] " секунда"
-#~ msgstr[1] " секунды"
-#~ msgstr[2] " секунд"
-#~ msgstr[3] "секунда"
 
 #~ msgid "Stopped"
 #~ msgstr "Остановлен"
