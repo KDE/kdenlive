@@ -189,7 +189,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
 
     setAcceptDrops(true);
     m_effectsTree = new QTreeView(this);
-    m_effectsTree->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    m_effectsTree->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_effectsTree->setHeaderHidden(true);
     m_effectsTree->setAlternatingRowColors(true);
     m_effectsTree->setRootIsDecorated(true);
