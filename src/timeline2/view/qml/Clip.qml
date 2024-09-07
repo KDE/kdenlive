@@ -382,7 +382,7 @@ Rectangle {
 
         onExited: {
             if (!dragProxyArea.pressed) {
-                root.endDrag()
+                root.endDragIfFocused(clipRoot.clipId)
             }
             if (pressed) {
                 if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {

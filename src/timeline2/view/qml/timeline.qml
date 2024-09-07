@@ -353,6 +353,12 @@ Rectangle {
         dragProxy.verticalOffset = isComposition ? itemObject.displayHeight : 0
     }
 
+    function endDragIfFocused(itemId) {
+        if (dragProxy.draggedItem == itemId) {
+            endDrag()
+        }
+    }
+
     function endDrag() {
         dragProxy.draggedItem = -1
         dragProxy.x = 0

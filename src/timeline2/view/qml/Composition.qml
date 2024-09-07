@@ -264,13 +264,12 @@ Item {
                 root.autoScrolling = timeline.autoScroll
             }
             onEntered: {
-                var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
-                initDrag(compositionRoot, itemPos, compositionRoot.clipId, compositionRoot.modelStart, compositionRoot.trackId, true)
+                updateDrag()
                 var s = i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(timeline.simplifiedTC(compositionRoot.modelStart)).arg(timeline.simplifiedTC(compositionRoot.clipDuration)))
                 timeline.showToolTip(s)
             }
             onExited: {
-                endDrag()
+                root.endDragIfFocused(compositionRoot.clipId)
                 if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse) {
                     timeline.showToolTip()
                 }

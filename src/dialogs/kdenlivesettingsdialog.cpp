@@ -1935,9 +1935,13 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
     });
     connect(m_sttWhisper, &SpeechToText::scriptGpuCheckFinished, [this]() {
-        int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
-        if (ix > -1) {
-            m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+        if (!KdenliveSettings::whisperDevice().isEmpty()) {
+            int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
+            if (ix > -1) {
+                m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+            }
+        } else if (m_configSpeech.combo_wr_device->count() > 0) {
+            m_configSpeech.combo_wr_device->setCurrentIndex(0);
         }
     });
     connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() { m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {}); });
