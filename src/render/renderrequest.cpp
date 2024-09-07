@@ -462,6 +462,8 @@ std::vector<RenderRequest::RenderSection> RenderRequest::getGuideSections()
                     section.name = markers.at(i).comment();
                     section.in = markers.at(i).time().frames(fps);
                 }
+                section.name.replace(QLatin1Char(':'), QLatin1Char('_'));
+                section.name.replace(QLatin1Char('?'), QLatin1Char('_'));
                 section.name.replace(QLatin1Char('/'), QLatin1Char('_'));
                 section.name.replace(QLatin1Char('\\'), QLatin1Char('_'));
                 section.name = QStringUtils::getUniqueName(names, section.name);
