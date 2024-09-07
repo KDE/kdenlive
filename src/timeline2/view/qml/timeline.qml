@@ -1377,9 +1377,6 @@ Rectangle {
                 }
                 if (selectLikeTool && shiftPress && mouse.y > ruler.height) {
                         // rubber selection
-                        if (dragProxy.draggedItem > -1) {
-                            endDrag()
-                        }
                         rubberSelect.x = mouse.x + scrollView.contentX
                         rubberSelect.y = mouse.y - ruler.height + scrollView.contentY
                         rubberSelect.clickX = rubberSelect.x

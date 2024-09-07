@@ -540,6 +540,8 @@ protected:
 
     /** @brief Switch item selection status */
     void setSelected(int itemId, bool sel);
+    /** @brief Check if selection is 2 clips from the same bin clip and check offset */
+    void checkAndUpdateOffset(std::unordered_set<int> pairIds);
 
 public:
     /** @brief Deletes the given clip or composition from the timeline.
