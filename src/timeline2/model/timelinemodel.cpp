@@ -6658,41 +6658,26 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
     if (roots.size() == 0) {
         m_currentSelection.clear();
     } else if (roots.size() == 1) {
-        m_currentSelection = {*(roots.begin())};
+        int sid = *(roots.begin());
+        m_currentSelection = {sid};
         setSelected(*m_currentSelection.begin(), true);
+        if (isGroup(sid)) {
+            // Check if this is a group of same
+            std::unordered_set<int> childIds = m_groups->getLeaves(sid);
+            checkAndUpdateOffset(childIds);
+        }
     } else {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         if (ids.size() == 2) {
             // Check if we selected 2 clips from the same master
-            QList<int> pairIds;
+            std::unordered_set<int> pairIds;
             for (auto &id : roots) {
                 if (isClip(id)) {
-                    pairIds << id;
+                    pairIds.insert(id);
                 }
             }
-            if (pairIds.size() == 2 && getClipBinId(pairIds.at(0)) == getClipBinId(pairIds.at(1))) {
-                // Check if they have same bin id
-                ClipType::ProducerType type = m_allClips[pairIds.at(0)]->clipType();
-                if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {
-                    // Both clips have same bin ID, display offset
-                    int pos1 = getClipPosition(pairIds.at(0));
-                    int pos2 = getClipPosition(pairIds.at(1));
-                    if (pos2 > pos1) {
-                        int offset = pos2 - getClipIn(pairIds.at(1)) - (pos1 - getClipIn(pairIds.at(0)));
-                        if (offset != 0) {
-                            m_allClips[pairIds.at(1)]->setOffset(offset);
-                            m_allClips[pairIds.at(0)]->setOffset(-offset);
-                        }
-                    } else {
-                        int offset = pos1 - getClipIn(pairIds.at(0)) - (pos2 - getClipIn(pairIds.at(1)));
-                        if (offset != 0) {
-                            m_allClips[pairIds.at(0)]->setOffset(offset);
-                            m_allClips[pairIds.at(1)]->setOffset(-offset);
-                        }
-                    }
-                }
-            }
+            checkAndUpdateOffset(pairIds);
         }
         int groupId = m_groups->groupItems(ids, undo, redo, GroupType::Selection);
         if (groupId > -1) {
@@ -6708,6 +6693,39 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
     }
     Q_EMIT selectionChanged();
     return result;
+}
+
+void TimelineModel::checkAndUpdateOffset(std::unordered_set<int> pairIds)
+{
+    if (pairIds.size() != 2) {
+        return;
+    }
+    std::unordered_set<int>::iterator it = pairIds.begin();
+    int ix1 = *it;
+    std::advance(it, 1);
+    int ix2 = *it;
+    if (getClipBinId(ix1) == getClipBinId(ix2)) {
+        // Check if they have same bin id
+        ClipType::ProducerType type = m_allClips[ix1]->clipType();
+        if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {
+            // Both clips have same bin ID, display offset
+            int pos1 = getClipPosition(ix1);
+            int pos2 = getClipPosition(ix2);
+            if (pos2 > pos1) {
+                int offset = pos2 - getClipIn(ix2) - (pos1 - getClipIn(ix1));
+                if (offset != 0) {
+                    m_allClips[ix2]->setOffset(offset);
+                    m_allClips[ix1]->setOffset(-offset);
+                }
+            } else {
+                int offset = pos1 - getClipIn(ix1) - (pos2 - getClipIn(ix2));
+                if (offset != 0) {
+                    m_allClips[ix1]->setOffset(offset);
+                    m_allClips[ix2]->setOffset(-offset);
+                }
+            }
+        }
+    }
 }
 
 void TimelineModel::setSelected(int itemId, bool sel)
