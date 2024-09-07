@@ -160,7 +160,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="9" column="1">
     <widget class="QLabel" name="labelMarginV">
      <property name="text">
-      <string>Veritical</string>
+      <string>Vertical</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
