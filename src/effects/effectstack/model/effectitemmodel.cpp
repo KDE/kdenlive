@@ -152,7 +152,8 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int
                 return;
             }
             effect->setParameters(getAllParameters(), false);
-            if (filter().get_int("disable") == 1) {
+            // ensure duplicated assets gets disabled if the original is
+            if (m_asset->get_int("disable") == 1) {
                 effect->filter().set("disable", 1);
             }
             int childId = ptr->get_int("_childid");

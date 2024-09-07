@@ -120,7 +120,7 @@ Rectangle
                 onRealValueChanged: {
                     kf1MouseArea.movingVal = kfrModel.realValue(model.normalizedValue)
                 }
-                width: Math.max(1, timeScale)
+                width: Math.max(1, timeScale / 2)
                 color: kfMouseArea.containsMouse ? 'darkred' : 'transparent'
                 MouseArea {
                     id: kfMouseArea
