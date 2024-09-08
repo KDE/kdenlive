@@ -120,16 +120,12 @@ AssetPanel::AssetPanel(QWidget *parent)
 
     applyEffectGroupsButton->setMenu(effectGroupMenu);
     applyEffectGroupsButton->setDefaultAction(m_applyEffectGroups);
-    m_saveEffectStack = new QToolButton(this);
-    m_saveEffectStack->setIcon(QIcon::fromTheme(QStringLiteral("document-save-all")));
+    m_saveEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("document-save-all")), QString(), this);
     m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
     m_saveEffectStack->setWhatsThis(xi18nc("@info:whatsthis", "Saves the entire effect stack as an XML file for use in other projects."));
-
-    // Would be better to have something like `setVisible(false)` here, but this apparently removes the button.
-    // See https://stackoverflow.com/a/17645563/5172513
-    m_saveEffectStack->setEnabled(false);
-    connect(m_saveEffectStack, &QToolButton::released, this, &AssetPanel::slotSaveStack);
-    buttonToolbar->addWidget(m_saveEffectStack);
+    connect(m_saveEffectStack, &QAction::triggered, this, &AssetPanel::slotSaveStack);
+    buttonToolbar->addAction(m_saveEffectStack);
+    m_saveEffectStack->setVisible(false);
 
     m_splitButton = new KDualAction(i18n("Normal view"), i18n("Compare effect"), this);
     m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
@@ -260,7 +256,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
         // Item is not ready
         m_splitButton->setVisible(false);
         m_enableStackButton->setVisible(false);
-        m_saveEffectStack->setEnabled(false);
+        m_saveEffectStack->setVisible(false);
         clear();
         return;
     }
@@ -305,7 +301,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_titleAction->setVisible(true);
     m_applyEffectGroups->setVisible(true);
     m_splitButton->setVisible(showSplit);
-    m_saveEffectStack->setEnabled(true);
+    m_saveEffectStack->setVisible(true);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
@@ -361,7 +357,7 @@ void AssetPanel::clear()
     m_mixWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
-    m_saveEffectStack->setEnabled(false);
+    m_saveEffectStack->setVisible(false);
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->unsetModel();
