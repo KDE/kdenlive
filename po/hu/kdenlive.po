@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 00:38+0000\n"
+"POT-Creation-Date: 2024-09-08 00:39+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -2645,6 +2645,7 @@ msgstr "Vízszintes"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: src/ui/editsubstyle_ui.ui:163
 #, kde-format
 msgid "Vertical"
 msgstr "Függőleges"
@@ -4334,7 +4335,7 @@ msgid ""
 "R:"
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:998
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -7230,7 +7231,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1805
 #: src/dialogs/kdenlivesettingsdialog.cpp:1820
-#: src/dialogs/kdenlivesettingsdialog.cpp:2145 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:2149 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, fuzzy, kde-format
 #| msgid "Use project folder"
@@ -7273,44 +7274,44 @@ msgstr ""
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1953
-#: src/dialogs/kdenlivesettingsdialog.cpp:2142
+#: src/dialogs/kdenlivesettingsdialog.cpp:1957
+#: src/dialogs/kdenlivesettingsdialog.cpp:2146
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "Átmenet kiválasztása"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:1994
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2020
+#: src/dialogs/kdenlivesettingsdialog.cpp:2024
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2026
+#: src/dialogs/kdenlivesettingsdialog.cpp:2030
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Új átmenetek letöltése…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2036
+#: src/dialogs/kdenlivesettingsdialog.cpp:2040
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
-#: src/dialogs/kdenlivesettingsdialog.cpp:2101
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2105
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2051
+#: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -7318,25 +7319,25 @@ msgid ""
 "%1"
 msgstr "Mappa törlése"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2075
+#: src/dialogs/kdenlivesettingsdialog.cpp:2079
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Új átmenetek letöltése…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2080
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Új átmenetek letöltése…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2108
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Kibontás…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2115
+#: src/dialogs/kdenlivesettingsdialog.cpp:2119
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -10184,19 +10185,19 @@ msgstr "Videó effektus hozzáadása"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide keyframes"
 msgstr "Képkocka elrejtése"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show keyframes"
 msgstr "Kulcskép törlése"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:331
+#: src/effects/effectstack/model/effectitemmodel.cpp:332
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update zone for %1"
@@ -18320,57 +18321,57 @@ msgstr "Hibás"
 msgid "Change clip speed"
 msgstr "Klip sebesség módosítása"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6799
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Sáv zárolása"
 
-#: src/timeline2/model/timelinemodel.cpp:6786
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Sáv feloldása"
 
-#: src/timeline2/model/timelinemodel.cpp:6820
-#: src/timeline2/model/timelinemodel.cpp:6882
+#: src/timeline2/model/timelinemodel.cpp:6838
+#: src/timeline2/model/timelinemodel.cpp:6900
 #, fuzzy, kde-format
 #| msgid "Change Track"
 msgid "Change composition"
 msgstr "Sáv változtatása"
 
-#: src/timeline2/model/timelinemodel.cpp:6834
+#: src/timeline2/model/timelinemodel.cpp:6852
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 
-#: src/timeline2/model/timelinemodel.cpp:7029
-#: src/timeline2/model/timelinemodel.cpp:7066
-#: src/timeline2/model/timelinemodel.cpp:7099
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7047
+#: src/timeline2/model/timelinemodel.cpp:7084
+#: src/timeline2/model/timelinemodel.cpp:7117
+#: src/timeline2/model/timelinemodel.cpp:7198
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Nem lehet áthelyezni a klipet a(z) %1 pozícióba"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7074
-#: src/timeline2/model/timelinemodel.cpp:7118
-#: src/timeline2/model/timelinemodel.cpp:7204
+#: src/timeline2/model/timelinemodel.cpp:7058
+#: src/timeline2/model/timelinemodel.cpp:7092
+#: src/timeline2/model/timelinemodel.cpp:7136
+#: src/timeline2/model/timelinemodel.cpp:7222
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Az átmenet nem méretezhető át"
 
-#: src/timeline2/model/timelinemodel.cpp:7218
+#: src/timeline2/model/timelinemodel.cpp:7236
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "Klip átméretezése"
 
-#: src/timeline2/model/timelinemodel.cpp:7338
+#: src/timeline2/model/timelinemodel.cpp:7356
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Error initializing timeline preview"
@@ -18475,7 +18476,7 @@ msgid "Stop"
 msgstr "Lejátszás leállítása"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2174
+#: src/timeline2/view/qml/timeline.qml:2177
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -18595,14 +18596,14 @@ msgstr "Fokozatos megjelenítés"
 msgid "Slip Clip"
 msgstr "Klip kijelölése"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "%1, Position: %2, Duration: %3"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:339
 #: src/timeline2/view/qml/SubTitle.qml:440
 #, kde-format
@@ -18628,25 +18629,25 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:992
+#: src/timeline2/view/qml/timeline.qml:998
 #, fuzzy, kde-format
 #| msgid "Show Effects"
 msgid "Show master effects"
 msgstr "Effektusok megjelenítése"
 
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1141
 #, fuzzy, kde-format
 #| msgid "Copy file to project folder"
 msgid "Click to see details"
 msgstr "Fájl másolása a projektmappába"
 
-#: src/timeline2/view/qml/timeline.qml:1157
+#: src/timeline2/view/qml/timeline.qml:1163
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Átmenet kiválasztása"
 
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, fuzzy, kde-format
 #| msgid "Show log"
@@ -18654,32 +18655,32 @@ msgid "Show"
 msgstr "Napló megjelenítése"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1842
+#: src/timeline2/view/qml/timeline.qml:1845
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Kattintson az átmenet hozzáadásához."
 
-#: src/timeline2/view/qml/timeline.qml:2009
+#: src/timeline2/view/qml/timeline.qml:2012
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Pozíció: %1"
 
-#: src/timeline2/view/qml/timeline.qml:2163
-#: src/timeline2/view/qml/timeline.qml:2172
+#: src/timeline2/view/qml/timeline.qml:2166
+#: src/timeline2/view/qml/timeline.qml:2175
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Felvétel"
 
-#: src/timeline2/view/qml/timeline.qml:2266
+#: src/timeline2/view/qml/timeline.qml:2269
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -22270,13 +22271,6 @@ msgstr "2 másodperc"
 msgid "Margin"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Vertical"
-msgid "Veritical"
-msgstr "Függőleges"
-
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
@@ -24620,6 +24614,11 @@ msgstr "%1 p"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 ó"
+
+#, fuzzy
+#~| msgid "Vertical"
+#~ msgid "Veritical"
+#~ msgstr "Függőleges"
 
 #, fuzzy
 #~| msgid "Add Text"

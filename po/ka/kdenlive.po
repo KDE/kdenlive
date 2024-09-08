@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 00:38+0000\n"
-"PO-Revision-Date: 2024-08-24 05:21+0200\n"
+"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"PO-Revision-Date: 2024-09-07 05:49+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2639,6 +2639,7 @@ msgstr "ჰორიზონტალური"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: src/ui/editsubstyle_ui.ui:163
 #, kde-format
 msgid "Vertical"
 msgstr "ვერტიკალური"
@@ -3201,7 +3202,7 @@ msgstr "ხანგრძლივობა (წამი)"
 #: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:61
 #, kde-format
 msgid "Font"
-msgstr "შრიფტი"
+msgstr "ფონტი"
 
 #: plugins/sampleplugin/sampleplugin.cpp:20
 #, kde-format
@@ -4199,7 +4200,7 @@ msgstr ""
 "\n"
 "მარჯვ:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:998
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Master"
 msgstr "მთავარი"
@@ -5578,10 +5579,9 @@ msgid "Subtitles"
 msgstr "სუბტიტრები"
 
 #: src/bin/model/subtitlemodel.cpp:110
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "Edit global subtitle style"
-msgstr "სუბტიტრის სტილის ჩასწორება"
+msgstr "გლობალური სუბტიტრის სტილის ჩასწორება"
 
 #: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
 #: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
@@ -5640,16 +5640,14 @@ msgid "Delete subtitle"
 msgstr "სუბტიტრების წაშლა"
 
 #: src/bin/model/subtitlemodel.cpp:1794
-#, fuzzy, kde-format
-#| msgid "Delete subtitle"
+#, kde-format
 msgid "Delete subtitle layer"
-msgstr "სუბტიტრების წაშლა"
+msgstr "სუბტიტრების ფენის წაშლა"
 
 #: src/bin/model/subtitlemodel.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Create title template"
+#, kde-format
 msgid "Create subtitle layer"
-msgstr "ტიტრის ნიმუშის შექმნა"
+msgstr "სუბტიტრების ფენის შექმნა"
 
 #: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
 #, kde-format
@@ -5660,7 +5658,7 @@ msgstr "სუბტიტრი %1"
 #: src/bin/model/subtitlemodel.cpp:2226
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr ""
+msgstr "ახალი სტილის მინიჭება სუბტიტრისთვის."
 
 #: src/bin/projectclip.cpp:268
 #, kde-format
@@ -6905,7 +6903,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1805
 #: src/dialogs/kdenlivesettingsdialog.cpp:1820
-#: src/dialogs/kdenlivesettingsdialog.cpp:2145 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:2149 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
@@ -6944,13 +6942,13 @@ msgstr "ვირტუალური გარემოს საქაღა�
 msgid "Probing..."
 msgstr "ზონდირება..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1953
-#: src/dialogs/kdenlivesettingsdialog.cpp:2142
+#: src/dialogs/kdenlivesettingsdialog.cpp:1957
+#: src/dialogs/kdenlivesettingsdialog.cpp:2146
 #, kde-format
 msgid "Please add a speech model."
 msgstr "დაამატეთ საუბრის მოდელი."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:1994
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6959,30 +6957,30 @@ msgstr ""
 "გადმოწერეთ მეტყველების მოდელები: <a href=\"https://alphacephei.com/vosk/"
 "models\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2020
+#: src/dialogs/kdenlivesettingsdialog.cpp:2024
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "შეიყვანეთ ბმული ახალი ლექსიკონისთვის"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2026
+#: src/dialogs/kdenlivesettingsdialog.cpp:2030
 #, kde-format
 msgid "Downloading model…"
 msgstr "მოდელის გადმოწერა…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2036
+#: src/dialogs/kdenlivesettingsdialog.cpp:2040
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "მომხმარებლის საქაღალდის მოდელების წაშლის მხარდაჭერა არ არსებობს. ეს ხელით "
 "უნდა ქნათ."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
-#: src/dialogs/kdenlivesettingsdialog.cpp:2101
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2105
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "ლექსიკონის საქაღალდესთან წვდომა შეუძლებელია."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2051
+#: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6991,22 +6989,22 @@ msgstr ""
 "საქაღალდის წაშლა:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2075
+#: src/dialogs/kdenlivesettingsdialog.cpp:2079
 #, kde-format
 msgid "Download error"
 msgstr "გადმოწერის შეცდომა"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2080
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, kde-format
 msgid "Download error %1"
 msgstr "გადმოწერის შეცდომა %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2108
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112
 #, kde-format
 msgid "Extracting archive…"
 msgstr "არქივის გაშლა…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2115
+#: src/dialogs/kdenlivesettingsdialog.cpp:2119
 #, kde-format
 msgid "New dictionary installed."
 msgstr "ახალი ლექსიკონი დაყენებულია."
@@ -7020,67 +7018,62 @@ msgstr "სუბტიტრების მართვა"
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "შრე"
 
 #: src/dialogs/managesubtitles.cpp:104
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move Layer"
-msgstr "ინსტრუმენტების პანელის გადატანა"
+msgstr "ფენის გადაადგილება"
 
 #: src/dialogs/managesubtitles.cpp:104
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "აირჩიეთ სუბტიტრის ფაილი, რომელშიც ფენის გადატანა მოხდება:"
 
 #: src/dialogs/managesubtitles.cpp:106
-#, fuzzy, kde-format
-#| msgid "Copy channel:"
+#, kde-format
 msgid "Copy Layer"
-msgstr "არხის კოპირება:"
+msgstr "არხის კოპირება"
 
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "აირჩიეთ სუბტიტრის ფაილი, რომელშიც ფენის კოპირება მოხდება:"
 
 #: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move To..."
-msgstr "ინსტრუმენტების პანელის გადატანა"
+msgstr "გადატანა…"
 
 #: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "კოპირება…"
 
 #: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "გლობალური"
 
 #: src/dialogs/managesubtitles.cpp:192
-#, fuzzy, kde-format
-#| msgid "Move item"
+#, kde-format
 msgid "Move Style"
-msgstr "გადაადგილება"
+msgstr "სტილის გადაადგილება"
 
 #: src/dialogs/managesubtitles.cpp:192
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "აირჩიეთ სუბტიტრის ფაილი, რომელშიც სტილის გადატანა მოხდება:"
 
 #: src/dialogs/managesubtitles.cpp:194
-#, fuzzy, kde-format
-#| msgid "Font Style"
+#, kde-format
 msgid "Copy Style"
-msgstr "ფონტის სტილი"
+msgstr "სტილის კოპირება"
 
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "აირჩიეთ სუბტიტრის ფაილი, რომელშიც სტილის კოპირება მოხდება:"
 
 #: src/dialogs/managesubtitles.cpp:401
 #, kde-format
@@ -7097,22 +7090,22 @@ msgstr "სუბტიტრის გატანა"
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "ფენა "
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "ერთად "
 
 #: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr " მოვლენა"
 
 #: src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr " მოვლენა"
 
 #: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
 #, kde-format
@@ -7135,49 +7128,38 @@ msgid "Top Right"
 msgstr "ზედა მარჯვენა"
 
 #: src/dialogs/managesubtitles.cpp:553
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Box as Border"
-msgstr "საზღვარი "
+msgstr "ჩარჩო საზღვრად"
 
 #: src/dialogs/managesubtitles.cpp:556 src/dialogs/subtitlestyleedit.cpp:99
-#, fuzzy, kde-format
-#| msgid "Custom Shadow"
+#, kde-format
 msgid "Box as Shadow"
-msgstr "მომხმარებლის ჩრდილი"
+msgstr "ჩარჩო ჩრდილად"
 
 #: src/dialogs/managesubtitles.cpp:706
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
-#| "subtitle file: %2 "
+#, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr ""
 "ეს წაშლის ყველა სუბტიტრის ჩანაწერს <b>%1</b>-დან,<br/>და სუბტიტრის ფაილსაც: "
-"%2 "
+"%2"
 
 #: src/dialogs/managesubtitles.cpp:728
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the file:\n"
-#| "%1"
+#, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
-msgstr ""
-"ეს წაშლის ფაილს:\n"
-"%1"
+msgstr "ეს წაშლის ყველა მოვლენას ფენაში <b>%1</b>."
 
 #: src/dialogs/managesubtitles.cpp:746
-#, fuzzy, kde-format
-#| msgid "Cannot delete last track in timeline"
+#, kde-format
 msgid "Cannot delete default style."
-msgstr "დროის ხაზიდან უკანასკნელი ტრეკის წაშლა შეუძლებელია"
+msgstr "ნაგულისხმევი სტილის წაშლა შეუძლებელია."
 
 #: src/dialogs/managesubtitles.cpp:750
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr ""
+msgstr "ეს წაშლის სტილს <b>%1</b> და ყველა მის თვისებას."
 
 #: src/dialogs/managesubtitles.cpp:755
 #, kde-format
@@ -7185,6 +7167,9 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
+"ეს წაშლის სტილს <b>%1</b> და ყველა მის თვისებას.\n"
+"სუბტიტრები, რომლებიც ამ სტილს იყენებენ, გადაერთვება სტილზე <b>ნაგულისხმევი</"
+"b>."
 
 #: src/dialogs/profilesdialog.cpp:110
 #, kde-format
@@ -8292,7 +8277,7 @@ msgstr "სუბტიტრის სტილის ჩასწორებ�
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "გახსნის დალოგს მიმდინარე სუბტიტრის ჩასასწორებლად."
 
 #: src/dialogs/subtitleedit.cpp:270
 #, kde-format
@@ -8363,16 +8348,15 @@ msgid "Updates the subtitle display in the timeline."
 msgstr "სუბტიტრის ჩვენების განახლება დროის ხაზზე."
 
 #: src/dialogs/subtitleedit.cpp:282
-#, fuzzy, kde-format
-#| msgid "Show style options"
+#, kde-format
 msgid "Show more options"
-msgstr "სტილის პარამეტრების ჩვენება"
+msgstr "მეტი პარამეტრის ჩვენება"
 
 #: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
-msgstr ""
+msgstr "გადართავს სიას მეტი სუბტიტრის პარამეტრის მოსარგებად."
 
 #: src/dialogs/subtitleedit.cpp:285
 #, kde-kuit-format
@@ -8382,10 +8366,9 @@ msgid ""
 msgstr "წაშლის ამჟამად მონიშნულ სუბტიტრს (არ მუშაობს ერთზე მეტ სუბტიტრზე)."
 
 #: src/dialogs/subtitleedit.cpp:288
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle bold"
-msgstr "ტრეკის გათიშულობის გადართვა"
+msgstr "სქელობის გადართვა"
 
 #: src/dialogs/subtitleedit.cpp:289
 #, kde-kuit-format
@@ -8394,12 +8377,13 @@ msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"გადართავს სქელი ტექსტის სტილს ან მონიშნული ტექსტისთვის, ან ტექსტისთვის "
+"კურსორის პოზიციაზე."
 
 #: src/dialogs/subtitleedit.cpp:292
-#, fuzzy, kde-format
-#| msgid "Toggle track effects"
+#, kde-format
 msgid "Toggle italic"
-msgstr "ტრეკის ეფექტების გადართვა"
+msgstr "კურსივის გადართვა"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -8408,12 +8392,13 @@ msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"გადართავს კურსივის ტექსტის სტილს ან მონიშნული ტექსტისთვის, ან ტექსტისთვის "
+"კურსორის პოზიციაზე."
 
 #: src/dialogs/subtitleedit.cpp:297
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgid "Toggle underline"
-msgstr "რენდერის ხაზი"
+msgstr "ხაზგასმის გადართვა"
 
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-kuit-format
@@ -8422,12 +8407,13 @@ msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"გადართავს ხაზგასმის ტექსტის სტილს ან მონიშნული ტექსტისთვის, ან ტექსტისთვის "
+"კურსორის პოზიციაზე."
 
 #: src/dialogs/subtitleedit.cpp:302
-#, fuzzy, kde-format
-#| msgid "Toggle track effects"
+#, kde-format
 msgid "Toggle strikeout"
-msgstr "ტრეკის ეფექტების გადართვა"
+msgstr "გაზგადასმულობის გადართვა"
 
 #: src/dialogs/subtitleedit.cpp:304
 #, kde-kuit-format
@@ -8436,12 +8422,13 @@ msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"გადართავს ხაზგადასმის ტექსტის სტილს ან მონიშნული ტექსტისთვის, ან ტექსტისთვის "
+"კურსორის პოზიციაზე."
 
 #: src/dialogs/subtitleedit.cpp:309
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set font"
-msgstr "ზონის დაყენება"
+msgstr "ფონტის დაყენება"
 
 #: src/dialogs/subtitleedit.cpp:312
 #, kde-kuit-format
@@ -8450,12 +8437,13 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
+"გახსნის ფონტის დიალოგს, რომ აირჩიოთ ფონტი და დააყენოთ მისი თვისებები ან "
+"მონიშნული ტექსტისთვის, ან ტექსტისთვის, რომელიც კურსორთანაა."
 
 #: src/dialogs/subtitleedit.cpp:315
-#, fuzzy, kde-format
-#| msgid "Reset value"
+#, kde-format
 msgid "Reset style"
-msgstr "მნიშვნელობის ჩამოყრა"
+msgstr "სტილის ჩამოყრა"
 
 #: src/dialogs/subtitleedit.cpp:316
 #, kde-kuit-format
@@ -8464,65 +8452,59 @@ msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
 msgstr ""
+"ჩამოყრის ტექსტის სტილს ან მონიშნული ტექსტისთვის, ან ტექსტისთვის კურსორის "
+"პოზიციაზე."
 
 #: src/dialogs/subtitleedit.cpp:318
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Set Position"
-msgstr "დაწყების პოზიცია"
+msgstr "პოზიციის დაყენება"
 
 #: src/dialogs/subtitleedit.cpp:322
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "More tags"
-msgstr "მეტი პარამეტრი"
+msgstr "მეტი ჭდე"
 
 #: src/dialogs/subtitleedit.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
-msgstr ""
+msgstr "გახსნის მენიუს მეტი ჭდის საჩვენებლად"
 
 #: src/dialogs/subtitleedit.cpp:382
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Right To Left"
-msgstr "ზედა მარცხენა"
+msgstr "მარჯვნიდან მარცხნივ"
 
 #: src/dialogs/subtitleedit.cpp:383
-#, fuzzy, kde-format
-#| msgid "Left,Right"
+#, kde-format
 msgid "Left To Right"
-msgstr "მარცხენა, მარჯვენა"
+msgstr "მარცხნიდან მარჯვნივ"
 
 #: src/dialogs/subtitleedit.cpp:384
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Top To Bottom"
-msgstr "ქვედა"
+msgstr "ზემოდან ქვემოთ"
 
 #: src/dialogs/subtitleedit.cpp:385
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Bottom To Top"
-msgstr "ქვედა"
+msgstr "ქვემოდან ზემოთ"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Tags"
-msgstr ""
+msgstr "ყველა ჭდის გასუფთავება"
 
 #: src/dialogs/subtitleedit.cpp:402
-#, fuzzy, kde-format
-#| msgid "Speech Editor"
+#, kde-format
 msgid "Simple Editor"
-msgstr "საუბრის რედაქტორი"
+msgstr "მარტივი რედაქტორი"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Styles.."
-msgstr "სუბტიტრების მართვა"
+msgstr "სუბტიტრების მართვა.."
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -8530,10 +8512,9 @@ msgid "Character: %1, total: <b>%2</b>"
 msgstr "სიმბოლო: %1, ჯამში: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgid "Set Position X"
-msgstr "მდებარეობის X"
+msgstr "მდებარეობის X დაყენება"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
@@ -8543,10 +8524,9 @@ msgid "X:"
 msgstr "X:"
 
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
-#, fuzzy, kde-format
-#| msgid "Position Y"
+#, kde-format
 msgid "Set Position Y"
-msgstr "მდებარეობის Y"
+msgstr "მდებარეობის Y დაყენება"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
@@ -8556,35 +8536,32 @@ msgid "Y:"
 msgstr "Y:"
 
 #: src/dialogs/subtitlestyleedit.cpp:45
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "Select font"
-msgstr "მონიშნული"
+msgstr "აირჩიეთ ფონტი"
 
 #: src/dialogs/subtitlestyleedit.cpp:46
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
+"გახსნის ფონტის დიალოგს ფონტის ასარჩევად და მისი თვისებების დასაყენებლად."
 
 #: src/dialogs/subtitlestyleedit.cpp:98
-#, fuzzy, kde-format
-#| msgid "Outline:"
+#, kde-format
 msgid "Box as Outline"
-msgstr "კონტური:"
+msgstr "ჩარჩო კონტურად"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Show File Preview"
+#, kde-format
 msgid "Show Preview >>>"
-msgstr "ფაილის მინიატურის ჩვენება"
+msgstr "მინიატურის ჩვენება >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:133
-#, fuzzy, kde-format
-#| msgid "Show File Preview"
+#, kde-format
 msgid "<<< Hide Preview"
-msgstr "ფაილის მინიატურის ჩვენება"
+msgstr "<<< მინიატურის დამალვა"
 
 #: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
 #: src/dialogs/subtitlestyleedit.cpp:171
@@ -8594,21 +8571,19 @@ msgid "Error"
 msgstr "შეცდომა"
 
 #: src/dialogs/subtitlestyleedit.cpp:161
-#, fuzzy, kde-format
-#| msgid "File already exists"
+#, kde-format
 msgid "Style name already exists."
-msgstr "ფაილი უკვე არსებობს"
+msgstr "სტილი ამ სახელით უკვე არსებობს."
 
 #: src/dialogs/subtitlestyleedit.cpp:166
-#, fuzzy, kde-format
-#| msgid "The preset name can't be empty"
+#, kde-format
 msgid "Style name cannot be empty."
-msgstr "პრესტის სახელი ცარიელი ვერ იქნება"
+msgstr "სტილის სახელი ცარიელი ვერ იქნება."
 
 #: src/dialogs/subtitlestyleedit.cpp:171
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "სტილის სახელი არ შეიძლება, ','-ს შეიცავდეს."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9374,11 +9349,10 @@ msgid "extra audio"
 msgstr "დამატებითი აუდიო"
 
 #: src/doc/documentvalidator.cpp:2206
-#, fuzzy, kde-format
-#| msgid "Output file already exists. Do you want to overwrite it?"
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "გატანის ფაილი უკვე არსებობს. გნებავთ გადააწეროთ?"
+msgstr "სუბტიტრის ფაილი: <br/>%1<br/> უკვე არსებობს. გნებავთ გადააწეროთ?"
 
 #: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3581
 #, kde-format
@@ -9740,17 +9714,17 @@ msgstr "მომხმარებლის ეფექტის გატა�
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "ზოგიერთ თქვენი რჩეული ეფექტი არასწორია და წაიშალა: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Hide keyframes"
 msgstr "კადრების დამალვა"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Show keyframes"
 msgstr "კადრების ჩვენება"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:331
+#: src/effects/effectstack/model/effectitemmodel.cpp:332
 #, kde-format
 msgid "Update zone for %1"
 msgstr "%1-სთვის ზონის განახლება"
@@ -9834,11 +9808,9 @@ msgid "Expand Effect"
 msgstr "ეფექტის ამოკეცვა"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open effect documentation in browser"
-msgstr "ონლაინ-დოკუმენტაცია"
+msgstr "ეფექტის დოკუმენტაციის გახსნა ბრაუზერში"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-format
@@ -17437,54 +17409,54 @@ msgstr "სიჩქარის შეცვლა ჩავარდა"
 msgid "Change clip speed"
 msgstr "კლიპის სიჩქარის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6799
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "ბილიკის ჩაკეტვა"
 
-#: src/timeline2/model/timelinemodel.cpp:6786
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "ბილიკის გახსნა"
 
-#: src/timeline2/model/timelinemodel.cpp:6820
-#: src/timeline2/model/timelinemodel.cpp:6882
+#: src/timeline2/model/timelinemodel.cpp:6838
+#: src/timeline2/model/timelinemodel.cpp:6900
 #, kde-format
 msgid "Change composition"
 msgstr "კომპოზიციის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:6834
+#: src/timeline2/model/timelinemodel.cpp:6852
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "ოპერაციის გადატარება დაჯგუფებულ კომპოზიციაზე შეუძლებელია. ჯერ განაჯგუფეთ"
 
-#: src/timeline2/model/timelinemodel.cpp:7029
-#: src/timeline2/model/timelinemodel.cpp:7066
-#: src/timeline2/model/timelinemodel.cpp:7099
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7047
+#: src/timeline2/model/timelinemodel.cpp:7084
+#: src/timeline2/model/timelinemodel.cpp:7117
+#: src/timeline2/model/timelinemodel.cpp:7198
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "შერევის ზომის შეცვლა 1 კადრზე ნაკლებისთვის შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7074
-#: src/timeline2/model/timelinemodel.cpp:7118
-#: src/timeline2/model/timelinemodel.cpp:7204
+#: src/timeline2/model/timelinemodel.cpp:7058
+#: src/timeline2/model/timelinemodel.cpp:7092
+#: src/timeline2/model/timelinemodel.cpp:7136
+#: src/timeline2/model/timelinemodel.cpp:7222
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "შერევის ზომის შეცვლა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:7218
+#: src/timeline2/model/timelinemodel.cpp:7236
 #, kde-format
 msgid "Resize mix"
 msgstr "შერევის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:7338
+#: src/timeline2/model/timelinemodel.cpp:7356
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "დროის ხაზის მინიატურის ინიციალიზაციის შეცდომა"
@@ -17585,7 +17557,7 @@ msgid "Stop"
 msgstr "შეჩერება"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2174
+#: src/timeline2/view/qml/timeline.qml:2177
 #, kde-format
 msgid "Paused"
 msgstr "შეჩერებულია"
@@ -17693,13 +17665,13 @@ msgstr "გამოჩენა: %1"
 msgid "Slip Clip"
 msgstr "კლიპის გადახვევა"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, მდებარეობა: %2, ხანგრძლივობა: %3"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:339
 #: src/timeline2/view/qml/SubTitle.qml:440
 #, kde-format
@@ -17729,51 +17701,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>ორმაგი წკაპი</b> ტექსტის ჩასასწორებლად"
 
-#: src/timeline2/view/qml/timeline.qml:992
+#: src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Show master effects"
 msgstr "ძირითადი ეფექტების ჩვენება"
 
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1141
 #, kde-format
 msgid "Click to see details"
 msgstr "დეტალების სანახავად დააწკაპუნეთ"
 
-#: src/timeline2/view/qml/timeline.qml:1157
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "საუბრის ამოცნობა"
 
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "ჩვენება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "დამალვა"
 
-#: src/timeline2/view/qml/timeline.qml:1842
+#: src/timeline2/view/qml/timeline.qml:1845
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ორმაგი წკაპი</b> სუბტიტრის დასამატებლად"
 
-#: src/timeline2/view/qml/timeline.qml:2009
+#: src/timeline2/view/qml/timeline.qml:2012
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "წანაცვლება: %1, მდებარეობა: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2163
-#: src/timeline2/view/qml/timeline.qml:2172
+#: src/timeline2/view/qml/timeline.qml:2166
+#: src/timeline2/view/qml/timeline.qml:2175
 #, kde-format
 msgid "Recording"
 msgstr "ჩაწერა"
 
-#: src/timeline2/view/qml/timeline.qml:2266
+#: src/timeline2/view/qml/timeline.qml:2269
 #, kde-format
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"
@@ -18107,6 +18079,7 @@ msgstr "სუბტიტრის ფაილის გატანა"
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
+"Sub Station Alpha v4.00+-ის დაილი (*.ass);;SubRip-ის სუბტიტრის ფაილი (*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5222
 #, kde-format
@@ -18116,12 +18089,15 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
+"მიმდინარე სუბტიტრების ფენა ერთზე მეტ ფენას შეიცავს, რაც ნიშნავს, რომ თუ "
+"სუბტიტრებს სხვადასხვა ფენებზე ერთი და იგივე საწყისი პოზიცია გააჩნიათ, "
+"მხოლოდ, ყველაზე დაბლა მყოფი ფენა შენარჩუნდება. ამან, შეიძლება, სუბტიტრების "
+"კარგვა გამოიწვიოს გატანილ ფაილში. გააგრძელებთ?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5227
-#, fuzzy, kde-format
-#| msgid "Pasting Warning"
+#, kde-format
 msgid "Warning"
-msgstr "ჩასმის გაფრთხილება"
+msgstr "გაფთხილება"
 
 #: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
@@ -21002,10 +20978,9 @@ msgstr "შ"
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:207
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Style:"
-msgstr "სტილი"
+msgstr "სტილი:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
 #: src/ui/editsub_ui.ui:253
@@ -21015,29 +20990,27 @@ msgstr "დასასრული:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: src/ui/editsub_ui.ui:451
-#, fuzzy, kde-format
-#| msgid "Scrolling:"
+#, kde-format
 msgid "Scroll"
-msgstr "აწევ-ჩამოწევა:"
+msgstr "ჩამოქაჩვა"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Upper Bound"
-msgstr "განახლება/წმ"
+msgstr "ზედა ზღვარი"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsub_ui.ui:472
 #, kde-format
 msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>მინდორი</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsub_ui.ui:492
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>სახელი</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
@@ -21049,17 +21022,15 @@ msgstr "შენიშვნა"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:589
-#, fuzzy, kde-format
-#| msgid "Lower object"
+#, kde-format
 msgid "Lower Bound"
-msgstr "ობიექტის დაწევა"
+msgstr "ქვედა ზღვარი"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Style Editor"
-msgstr "სუბტიტრის ფაილის:"
+msgstr "სუბტიტრის სტილის რედაქტორი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
@@ -21072,86 +21043,72 @@ msgstr "სქელი"
 #: src/ui/editsubstyle_ui.ui:103
 #, kde-format
 msgid "Secondary"
-msgstr ""
+msgstr "მეორადი"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsubstyle_ui.ui:134
 #, kde-format
 msgid "Margin"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Vertical"
-msgid "Veritical"
-msgstr "ვერტიკალური"
+msgstr "ზღვარი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align left"
+#, kde-format
 msgid "Alignment"
-msgstr "მარცხნვ სწორება"
+msgstr "სწორება"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgid "Underline"
-msgstr "რენდერის ხაზი"
+msgstr "ხაზგასმა"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelShadow)
 #. i18n: ectx: property (text), widget (QLabel, labelBackColor)
 #: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
 #: src/ui/managesubtitles_ui.ui:409
-#, fuzzy, kde-format
-#| msgid "Custom Shadow"
+#, kde-format
 msgid "Shadow"
-msgstr "მომხმარებლის ჩრდილი"
+msgstr "ჩრდილი"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #: src/ui/editsubstyle_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "BorderStyle"
-msgstr "საზღვარი "
+msgstr "საზღვრისსტილი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
 #. i18n: ectx: property (text), widget (QLabel, labelOutline)
 #: src/ui/editsubstyle_ui.ui:350 src/ui/editsubstyle_ui.ui:484
 #: src/ui/managesubtitles_ui.ui:404
-#, fuzzy, kde-format
-#| msgid "Outline:"
+#, kde-format
 msgid "Outline"
-msgstr "კონტური:"
+msgstr "კონტური"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "ScaleX"
-msgstr "მასშტაბირება"
+msgstr "მასშტაბიX"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "ScaleY"
-msgstr "მასშტაბირება"
+msgstr "მასშტაბიY"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
 #: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "ხაზგასმა"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
@@ -21163,8 +21120,7 @@ msgstr "კურსივი"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
-#, fuzzy, kde-format
-#| msgid "Space"
+#, kde-format
 msgid "Spacing"
 msgstr "გამოტოვება"
 
@@ -21598,8 +21554,7 @@ msgstr "პროფილების ჩასწორება ვისთ�
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Files"
 msgstr "ფაილი"
 
@@ -21611,10 +21566,9 @@ msgstr "ბილიკი"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Text File"
+#, kde-format
 msgid "New File"
-msgstr "ტექსტური ფაილი"
+msgstr "ახალი ფაილი"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
@@ -21629,114 +21583,103 @@ msgstr "წაშლა"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "ფენები და შემცველობა"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
-#| msgid "New tag"
+#, kde-format
 msgid "New Layer"
-msgstr "ახალი ჭდე"
+msgstr "ახალი ფენა"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Styles"
-msgstr "სტილი"
+msgstr "სტილები"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
-#, fuzzy, kde-format
-#| msgid "Font"
+#, kde-format
 msgid "FontName"
-msgstr "შრიფტი"
+msgstr "ფონტისსახელი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "FontSize"
 msgstr "ფონტის ზომა"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "PrimaryColor"
-msgstr "საწყისი ფერი"
+msgstr "ძირითადი ფერი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
-#, fuzzy, kde-format
-#| msgid "2nd Color"
+#, kde-format
 msgid "SecondaryColor"
 msgstr "მეორე ფერი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "OutlineColor"
 msgstr "კიდის ფერი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "BackColor"
 msgstr "ფონის ფერი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "BoardStyle"
-msgstr "სტილი"
+msgstr "დაფისსტილი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
 #, kde-format
 msgid "MarginL"
-msgstr ""
+msgstr "მინდორიმარცხნ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
 #, kde-format
 msgid "MarginR"
-msgstr ""
+msgstr "მინდორიმარჯვნ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
 #, kde-format
 msgid "MarginV"
-msgstr ""
+msgstr "მინდორივერტ"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "New Style"
-msgstr "სტილი"
+msgstr "ახალი სტილი"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "ინფორმაცია"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539
 #, kde-format
 msgid "Key"
-msgstr ""
+msgstr "ღილაკი"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "Value:"
+#, kde-format
 msgid "Value"
-msgstr "მნიშვნელობა:"
+msgstr "მნიშვნელობა"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
@@ -23274,6 +23217,9 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid "Veritical"
+#~ msgstr "ვერტიკალური"
 
 #~ msgid "Add text"
 #~ msgstr "ტექსტის დამატება"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 00:38+0000\n"
+"POT-Creation-Date: 2024-09-08 00:39+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -2651,6 +2651,7 @@ msgstr "Horizontal"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: src/ui/editsubstyle_ui.ui:163
 #, kde-format
 msgid "Vertical"
 msgstr "Vertical"
@@ -4224,7 +4225,7 @@ msgstr ""
 "\n"
 "D:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:998
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Master"
 msgstr "Mestre"
@@ -6949,7 +6950,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1805
 #: src/dialogs/kdenlivesettingsdialog.cpp:1820
-#: src/dialogs/kdenlivesettingsdialog.cpp:2145 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:2149 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, fuzzy, kde-format
 #| msgid "Custom models folder"
@@ -6993,13 +6994,13 @@ msgstr ""
 msgid "Probing..."
 msgstr "Sondando..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1953
-#: src/dialogs/kdenlivesettingsdialog.cpp:2142
+#: src/dialogs/kdenlivesettingsdialog.cpp:1957
+#: src/dialogs/kdenlivesettingsdialog.cpp:2146
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Adicione um modelo de fala."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:1994
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7008,30 +7009,30 @@ msgstr ""
 "Baixe modelos de fala de: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2020
+#: src/dialogs/kdenlivesettingsdialog.cpp:2024
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Insira o url para o novo dicionário"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2026
+#: src/dialogs/kdenlivesettingsdialog.cpp:2030
 #, kde-format
 msgid "Downloading model…"
 msgstr "Baixando modelo…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2036
+#: src/dialogs/kdenlivesettingsdialog.cpp:2040
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Não permitimos a exclusão de modelos de pasta personalizados, por favor, "
 "faça-o manualmente."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
-#: src/dialogs/kdenlivesettingsdialog.cpp:2101
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2105
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Não é possível acessar a pasta do dicionário."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2051
+#: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7040,22 +7041,22 @@ msgstr ""
 "Excluir pasta:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2075
+#: src/dialogs/kdenlivesettingsdialog.cpp:2079
 #, kde-format
 msgid "Download error"
 msgstr "Erro ao baixar"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2080
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, kde-format
 msgid "Download error %1"
 msgstr "Erro ao baixar %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2108
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Extraindo arquivo…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2115
+#: src/dialogs/kdenlivesettingsdialog.cpp:2119
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Novo dicionário instalado."
@@ -9870,17 +9871,17 @@ msgstr "Exportar efeito personalizado"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Alguns dos seus efeitos favoritos são inválidos e foram removidos: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Ocultar quadros-chave"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Show keyframes"
 msgstr "Mostrar quadros-chave"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:331
+#: src/effects/effectstack/model/effectitemmodel.cpp:332
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Atualizar zona para %1"
@@ -17919,55 +17920,55 @@ msgstr "Falha na mudança de velocidade"
 msgid "Change clip speed"
 msgstr "Mudar a velocidade do clipe"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6799
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Travar trilha"
 
-#: src/timeline2/model/timelinemodel.cpp:6786
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Destravar trilhas"
 
-#: src/timeline2/model/timelinemodel.cpp:6820
-#: src/timeline2/model/timelinemodel.cpp:6882
+#: src/timeline2/model/timelinemodel.cpp:6838
+#: src/timeline2/model/timelinemodel.cpp:6900
 #, kde-format
 msgid "Change composition"
 msgstr "Alterar composição"
 
-#: src/timeline2/model/timelinemodel.cpp:6834
+#: src/timeline2/model/timelinemodel.cpp:6852
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Não há como operar em composição agrupada, por favor desagrupe"
 
-#: src/timeline2/model/timelinemodel.cpp:7029
-#: src/timeline2/model/timelinemodel.cpp:7066
-#: src/timeline2/model/timelinemodel.cpp:7099
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7047
+#: src/timeline2/model/timelinemodel.cpp:7084
+#: src/timeline2/model/timelinemodel.cpp:7117
+#: src/timeline2/model/timelinemodel.cpp:7198
 #, fuzzy, kde-format
 #| msgid "Cannot remove the last keyframe"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Não é possível remover o último quadro-chave"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7074
-#: src/timeline2/model/timelinemodel.cpp:7118
-#: src/timeline2/model/timelinemodel.cpp:7204
+#: src/timeline2/model/timelinemodel.cpp:7058
+#: src/timeline2/model/timelinemodel.cpp:7092
+#: src/timeline2/model/timelinemodel.cpp:7136
+#: src/timeline2/model/timelinemodel.cpp:7222
 #, fuzzy, kde-format
 #| msgid "Cannot resize transition"
 msgid "Cannot resize mix"
 msgstr "Não foi possível redimensionar a transição"
 
-#: src/timeline2/model/timelinemodel.cpp:7218
+#: src/timeline2/model/timelinemodel.cpp:7236
 #, kde-format
 msgid "Resize mix"
 msgstr "Redimensionar mistura"
 
-#: src/timeline2/model/timelinemodel.cpp:7338
+#: src/timeline2/model/timelinemodel.cpp:7356
 #, fuzzy, kde-format
 #| msgid "Disable Timeline Preview"
 msgid "Error initializing timeline preview"
@@ -18071,7 +18072,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2174
+#: src/timeline2/view/qml/timeline.qml:2177
 #, kde-format
 msgid "Paused"
 msgstr "Pausado"
@@ -18185,13 +18186,13 @@ msgstr "Aparecer: %1"
 msgid "Slip Clip"
 msgstr "Selecionar clipe"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Posição: %2, Duração: %3"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:339
 #: src/timeline2/view/qml/SubTitle.qml:440
 #, kde-format
@@ -18221,53 +18222,53 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Clique duplo</b> para editar texto"
 
-#: src/timeline2/view/qml/timeline.qml:992
+#: src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Show master effects"
 msgstr "Mostrar efeitos principais"
 
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1141
 #, fuzzy, kde-format
 #| msgid "Click to open cache folder"
 msgid "Click to see details"
 msgstr "Clique para abrir a pasta de cache"
 
-#: src/timeline2/view/qml/timeline.qml:1157
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "Reconhecimento de fala"
 
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Mostrar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Ocultar"
 
-#: src/timeline2/view/qml/timeline.qml:1842
+#: src/timeline2/view/qml/timeline.qml:1845
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Clique duplo</b> ou arraste para adicionar aparecer"
 
-#: src/timeline2/view/qml/timeline.qml:2009
+#: src/timeline2/view/qml/timeline.qml:2012
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Desvio: %1, Posição: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2163
-#: src/timeline2/view/qml/timeline.qml:2172
+#: src/timeline2/view/qml/timeline.qml:2166
+#: src/timeline2/view/qml/timeline.qml:2175
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Gravar"
 
-#: src/timeline2/view/qml/timeline.qml:2266
+#: src/timeline2/view/qml/timeline.qml:2269
 #, fuzzy, kde-format
 msgid "Multicam In"
 msgstr "Entrada multicâmera"
@@ -21634,13 +21635,6 @@ msgstr " segundo"
 msgid "Margin"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Vertical"
-msgid "Veritical"
-msgstr "Vertical"
-
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
@@ -23873,6 +23867,11 @@ msgstr "%1min"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#, fuzzy
+#~| msgid "Vertical"
+#~ msgid "Veritical"
+#~ msgstr "Vertical"
 
 #~ msgid "Add text"
 #~ msgstr "Adicionar texto"

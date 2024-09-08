@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 00:38+0000\n"
-"PO-Revision-Date: 2024-09-05 09:35+0400\n"
+"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"PO-Revision-Date: 2024-09-07 22:00+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -2603,6 +2603,7 @@ msgstr "أفقي"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: src/ui/editsubstyle_ui.ui:163
 #, kde-format
 msgid "Vertical"
 msgstr "عمودي"
@@ -4168,7 +4169,7 @@ msgstr ""
 "\n"
 "يمين:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:998
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Master"
 msgstr "الرئيس"
@@ -5557,10 +5558,9 @@ msgid "Subtitles"
 msgstr "الترجمة"
 
 #: src/bin/model/subtitlemodel.cpp:110
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "Edit global subtitle style"
-msgstr "حرر نمط الترجمة"
+msgstr "حرر طراز الترجمة العام"
 
 #: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
 #: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
@@ -5619,16 +5619,14 @@ msgid "Delete subtitle"
 msgstr "احذف الترجمة"
 
 #: src/bin/model/subtitlemodel.cpp:1794
-#, fuzzy, kde-format
-#| msgid "Delete subtitle"
+#, kde-format
 msgid "Delete subtitle layer"
-msgstr "احذف الترجمة"
+msgstr "احذف طبقة الترجمة"
 
 #: src/bin/model/subtitlemodel.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Create title template"
+#, kde-format
 msgid "Create subtitle layer"
-msgstr "أنشئ قالب العنوان"
+msgstr "أنشئ طبقة الترجمة"
 
 #: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
 #, kde-format
@@ -5639,7 +5637,7 @@ msgstr "الترجمة %1"
 #: src/bin/model/subtitlemodel.cpp:2226
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr ""
+msgstr "أسند طراز جديد للترجمة."
 
 #: src/bin/projectclip.cpp:268
 #, kde-format
@@ -6886,7 +6884,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1805
 #: src/dialogs/kdenlivesettingsdialog.cpp:1820
-#: src/dialogs/kdenlivesettingsdialog.cpp:2145 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:2149 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
@@ -6925,13 +6923,13 @@ msgstr "فشل في إزالة مجلد البيئة الافتراضية."
 msgid "Probing..."
 msgstr "يفحص…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1953
-#: src/dialogs/kdenlivesettingsdialog.cpp:2142
+#: src/dialogs/kdenlivesettingsdialog.cpp:1957
+#: src/dialogs/kdenlivesettingsdialog.cpp:2146
 #, kde-format
 msgid "Please add a speech model."
 msgstr "فضلاً أضف نموذجاً للتحدث."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:1994
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6940,28 +6938,28 @@ msgstr ""
 "نزل نماذج التعرف على الكلام من: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2020
+#: src/dialogs/kdenlivesettingsdialog.cpp:2024
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "أدخل رابط إلى معجم جديد"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2026
+#: src/dialogs/kdenlivesettingsdialog.cpp:2030
 #, kde-format
 msgid "Downloading model…"
 msgstr "ينزل نموذجاً…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2036
+#: src/dialogs/kdenlivesettingsdialog.cpp:2040
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "نحن لا نسمح بحذف مجلدات النماذج المخصصة، يرجى القيام بذلك يدويًا."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
-#: src/dialogs/kdenlivesettingsdialog.cpp:2101
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2105
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "لا يمكن الوصول إلى مجلد المعجم."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2051
+#: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -6970,22 +6968,22 @@ msgstr ""
 "احذف المجلد:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2075
+#: src/dialogs/kdenlivesettingsdialog.cpp:2079
 #, kde-format
 msgid "Download error"
 msgstr "خطأ في التنزيل"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2080
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, kde-format
 msgid "Download error %1"
 msgstr "خطأ في التنزيل %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2108
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112
 #, kde-format
 msgid "Extracting archive…"
 msgstr "يستخرج الأرشيف..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2115
+#: src/dialogs/kdenlivesettingsdialog.cpp:2119
 #, kde-format
 msgid "New dictionary installed."
 msgstr "ثبت معجم جديد."
@@ -6999,67 +6997,62 @@ msgstr "أدر الترجمة"
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "الطبقة"
 
 #: src/dialogs/managesubtitles.cpp:104
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move Layer"
-msgstr "حرك شريط الأدوات"
+msgstr "حرك الطبقة"
 
 #: src/dialogs/managesubtitles.cpp:104
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "حدد ملف الترجمة لنقل الطبقة إليه:"
 
 #: src/dialogs/managesubtitles.cpp:106
-#, fuzzy, kde-format
-#| msgid "Copy channel:"
+#, kde-format
 msgid "Copy Layer"
-msgstr "نسخ القناة:"
+msgstr "انسخ الطبقة"
 
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "حدد ملف الترجمة لنسخ الطبقة إليه:"
 
 #: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move To..."
-msgstr "حرك شريط الأدوات"
+msgstr "انقل إلى..."
 
 #: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "انسخ إلى..."
 
 #: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "عام"
 
 #: src/dialogs/managesubtitles.cpp:192
-#, fuzzy, kde-format
-#| msgid "Move item"
+#, kde-format
 msgid "Move Style"
-msgstr "انقل العنصر"
+msgstr "انقل الطراز"
 
 #: src/dialogs/managesubtitles.cpp:192
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "حدد ملف الترجمة لنقل الطراز إليه:"
 
 #: src/dialogs/managesubtitles.cpp:194
-#, fuzzy, kde-format
-#| msgid "Font Style"
+#, kde-format
 msgid "Copy Style"
-msgstr "نمط الخط"
+msgstr "انسخ الطراز"
 
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "حدد ملف الترجمة لنسخ الطراز إليه:"
 
 #: src/dialogs/managesubtitles.cpp:401
 #, kde-format
@@ -7076,22 +7069,22 @@ msgstr "صدّر  الترجمة"
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "الطبقة"
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "بِ‍ "
 
 #: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr "الحدث"
 
 #: src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr "الأحداث"
 
 #: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
 #, kde-format
@@ -7114,22 +7107,17 @@ msgid "Top Right"
 msgstr "أعلى اليمين"
 
 #: src/dialogs/managesubtitles.cpp:553
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Box as Border"
-msgstr "الحدّ "
+msgstr "الصندوق كحدود"
 
 #: src/dialogs/managesubtitles.cpp:556 src/dialogs/subtitlestyleedit.cpp:99
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Box as Shadow"
-msgstr "الظّلّ"
+msgstr "الصندوق كظل"
 
 #: src/dialogs/managesubtitles.cpp:706
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
-#| "subtitle file: %2 "
+#, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
@@ -7138,25 +7126,19 @@ msgstr ""
 "الترجمة: %2"
 
 #: src/dialogs/managesubtitles.cpp:728
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the file:\n"
-#| "%1"
+#, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
-msgstr ""
-"سيحذف هذا الملفّ:\n"
-"%1"
+msgstr "سيؤدي هذا إلى حذف جميع الأحداث في الطبقة <b>%1</b>."
 
 #: src/dialogs/managesubtitles.cpp:746
-#, fuzzy, kde-format
-#| msgid "Cannot create folder %1"
+#, kde-format
 msgid "Cannot delete default style."
-msgstr "تعذّر إنشاء المجلّد %1"
+msgstr "لا يمكن حذف الطراز المبدئي"
 
 #: src/dialogs/managesubtitles.cpp:750
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr ""
+msgstr "سيؤدي هذا إلى حذف الطراز <b>%1</b> وجميع خصائصه."
 
 #: src/dialogs/managesubtitles.cpp:755
 #, kde-format
@@ -7164,6 +7146,8 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
+"سيؤدي هذا إلى حذف الطراز <b>%1</b> وجميع خصائصه.\n"
+"سيعاد تعيين الترجمات التي تستخدم هذا الطراز إلى الطراز <b>المبدئي</b>."
 
 #: src/dialogs/profilesdialog.cpp:110
 #, kde-format
@@ -8281,7 +8265,7 @@ msgstr "حرر نمط الترجمة"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "يفتح حواري لتحرير الترجمة الحالية"
 
 #: src/dialogs/subtitleedit.cpp:270
 #, kde-format
@@ -8347,16 +8331,15 @@ msgid "Updates the subtitle display in the timeline."
 msgstr "تحدث عرض الترجمة في الخط الزمني."
 
 #: src/dialogs/subtitleedit.cpp:282
-#, fuzzy, kde-format
-#| msgid "Show style options"
+#, kde-format
 msgid "Show more options"
-msgstr "اعرض خيارات النمط"
+msgstr "أظهر المزيد من الخيارات"
 
 #: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
-msgstr ""
+msgstr "تُبدل قائمة لتعديل المزيد من إعدادات الترجمة."
 
 #: src/dialogs/subtitleedit.cpp:285
 #, kde-kuit-format
@@ -8366,10 +8349,9 @@ msgid ""
 msgstr "تحذف الترجمات المحددة الحالية (لا يعمل مع الترجمات المتعددة)."
 
 #: src/dialogs/subtitleedit.cpp:288
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle bold"
-msgstr "تبديل المسار مقفل"
+msgstr "بدل التثخين"
 
 #: src/dialogs/subtitleedit.cpp:289
 #, kde-kuit-format
@@ -8377,13 +8359,12 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
-msgstr ""
+msgstr "يقوم بتبديل طراز التثخين للنص المحدد أو النص الذي يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:292
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle italic"
-msgstr "اقلب التّحديد"
+msgstr "بدل الميلان"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -8391,13 +8372,12 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
-msgstr ""
+msgstr "يقوم بتبديل طراز الميلان للنص المحدد أو النص الذي يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:297
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle underline"
-msgstr "اقلب التّحديد"
+msgstr "بدل التسطير"
 
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-kuit-format
@@ -8405,13 +8385,12 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
-msgstr ""
+msgstr "يقوم بتبديل طراز التسطير للنص المحدد أو النص الذي يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:302
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle strikeout"
-msgstr "اقلب التّحديد"
+msgstr "بدل الشطب"
 
 #: src/dialogs/subtitleedit.cpp:304
 #, kde-kuit-format
@@ -8419,13 +8398,12 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
-msgstr ""
+msgstr "يقوم بتبديل طراز الشطب للنص المحدد أو النص الذي يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:309
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set font"
-msgstr "عين المنطقة"
+msgstr "عين خط"
 
 #: src/dialogs/subtitleedit.cpp:312
 #, kde-kuit-format
@@ -8434,12 +8412,13 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
+"يفتح مربع حوار للخطوط لتحديد الخط وتعيين خصائصه إما للنص المحدد أو للنص الذي "
+"يلي موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:315
-#, fuzzy, kde-format
-#| msgid "Reset value"
+#, kde-format
 msgid "Reset style"
-msgstr "صفّر القيمة"
+msgstr "صفّر الطرز"
 
 #: src/dialogs/subtitleedit.cpp:316
 #, kde-kuit-format
@@ -8447,66 +8426,58 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
-msgstr ""
+msgstr "تُصفر طراز النص المحدد أو النص الذي يتبع موضع المؤشر."
 
 #: src/dialogs/subtitleedit.cpp:318
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Set Position"
-msgstr "موقع البداية"
+msgstr "عين الموضع"
 
 #: src/dialogs/subtitleedit.cpp:322
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "More tags"
-msgstr "خيارات أخرى"
+msgstr "وسوم أخرى"
 
 #: src/dialogs/subtitleedit.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
-msgstr ""
+msgstr "تفتح قائمة لعرض المزيد من الوسوم"
 
 #: src/dialogs/subtitleedit.cpp:382
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Right To Left"
-msgstr "أعلى اليسار"
+msgstr "من اليمين إلى اليسار"
 
 #: src/dialogs/subtitleedit.cpp:383
-#, fuzzy, kde-format
-#| msgid "Left,Right"
+#, kde-format
 msgid "Left To Right"
-msgstr "يسار,يمين"
+msgstr "من اليسار إلى اليمين"
 
 #: src/dialogs/subtitleedit.cpp:384
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Top To Bottom"
-msgstr "الأسفل"
+msgstr "من أعلى إلى أسفل"
 
 #: src/dialogs/subtitleedit.cpp:385
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Bottom To Top"
-msgstr "الأسفل"
+msgstr "من أسفل إلى أعلى"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Tags"
-msgstr ""
+msgstr "امسح كل الوسوم"
 
 #: src/dialogs/subtitleedit.cpp:402
-#, fuzzy, kde-format
-#| msgid "Speech Editor"
+#, kde-format
 msgid "Simple Editor"
-msgstr "محرر الكلام"
+msgstr "محرّر بسيط"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Styles.."
-msgstr "أدر الترجمة"
+msgstr "أدر الطُرُز.."
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -8514,10 +8485,9 @@ msgid "Character: %1, total: <b>%2</b>"
 msgstr "المحرف: %1، المجموع: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgid "Set Position X"
-msgstr "الموضع س"
+msgstr "عين الموضع س"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
@@ -8527,10 +8497,9 @@ msgid "X:"
 msgstr "س:"
 
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
-#, fuzzy, kde-format
-#| msgid "Position Y"
+#, kde-format
 msgid "Set Position Y"
-msgstr "الموضع ص"
+msgstr "عين الموضع ص"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
@@ -8540,35 +8509,31 @@ msgid "Y:"
 msgstr "ص:"
 
 #: src/dialogs/subtitlestyleedit.cpp:45
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "Select font"
-msgstr "التّحديد"
+msgstr "اختر خط"
 
 #: src/dialogs/subtitlestyleedit.cpp:46
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
-msgstr ""
+msgstr "تفتح حواري الخطوط لتحديد الخط وتعيين خصائصه."
 
 #: src/dialogs/subtitlestyleedit.cpp:98
-#, fuzzy, kde-format
-#| msgid "Outline"
+#, kde-format
 msgid "Box as Outline"
-msgstr "محيط"
+msgstr "صندوق كمحيط"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Show Preview >>>"
-msgstr "معاينة الترجمة"
+msgstr "اعرض معاينة >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:133
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "<<< Hide Preview"
-msgstr "معاينة الترجمة"
+msgstr "<<< أخف المعاينة"
 
 #: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
 #: src/dialogs/subtitlestyleedit.cpp:171
@@ -8578,21 +8543,19 @@ msgid "Error"
 msgstr "خطأ"
 
 #: src/dialogs/subtitlestyleedit.cpp:161
-#, fuzzy, kde-format
-#| msgid "File already exists"
+#, kde-format
 msgid "Style name already exists."
-msgstr "الملفّ موجود بالفعل"
+msgstr "اسم الطراز موجود بالفعل."
 
 #: src/dialogs/subtitlestyleedit.cpp:166
-#, fuzzy, kde-format
-#| msgid "The preset name can't be empty"
+#, kde-format
 msgid "Style name cannot be empty."
-msgstr "لا يمكن أن يكون اسم الإعداد المسبق فارغاً"
+msgstr "لا يمكن أن يكون اسم الطراز فارغ."
 
 #: src/dialogs/subtitlestyleedit.cpp:171
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "لا يمكن أن يحوي اسم الطراز على ','."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9362,11 +9325,10 @@ msgid "extra audio"
 msgstr "صوت إضافي"
 
 #: src/doc/documentvalidator.cpp:2206
-#, fuzzy, kde-format
-#| msgid "Output file already exists. Do you want to overwrite it?"
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "الملفّ الخرج موجود بالفعل. أتريد الكتابة فوقه؟"
+msgstr "ملف الترجمة:<br/>%1<br/>موجود بالفعل. هل تريد الكتابة فوقه؟"
 
 #: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3581
 #, kde-format
@@ -9731,17 +9693,17 @@ msgstr "احذف التّأثير"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "بعض تأثيراتك المفضلة غير صالحة وأزيلت: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Hide keyframes"
 msgstr "أخفِ الأطر الرئيسة"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Show keyframes"
 msgstr "أظهر الأطر الرئيسة"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:331
+#: src/effects/effectstack/model/effectitemmodel.cpp:332
 #, kde-format
 msgid "Update zone for %1"
 msgstr "حدّث منطقة لـ%1"
@@ -9825,11 +9787,9 @@ msgid "Expand Effect"
 msgstr "وسع التأثير"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open effect documentation in browser"
-msgstr "توثيق عبر الإنترنت"
+msgstr "فتح وثائق التأثير في المتصفح"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-format
@@ -17394,53 +17354,53 @@ msgstr "فشل في تغيير السرعة"
 msgid "Change clip speed"
 msgstr "غيّر سرعة مقطع"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6799
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "اقفل المسار"
 
-#: src/timeline2/model/timelinemodel.cpp:6786
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "فكّ قفل المسار"
 
-#: src/timeline2/model/timelinemodel.cpp:6820
-#: src/timeline2/model/timelinemodel.cpp:6882
+#: src/timeline2/model/timelinemodel.cpp:6838
+#: src/timeline2/model/timelinemodel.cpp:6900
 #, kde-format
 msgid "Change composition"
 msgstr "غيّر التركيب"
 
-#: src/timeline2/model/timelinemodel.cpp:6834
+#: src/timeline2/model/timelinemodel.cpp:6852
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "لا يمكن العمل على تركيب المجموع، فضلاً أزل التجميع"
 
-#: src/timeline2/model/timelinemodel.cpp:7029
-#: src/timeline2/model/timelinemodel.cpp:7066
-#: src/timeline2/model/timelinemodel.cpp:7099
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7047
+#: src/timeline2/model/timelinemodel.cpp:7084
+#: src/timeline2/model/timelinemodel.cpp:7117
+#: src/timeline2/model/timelinemodel.cpp:7198
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "تعذّر تغير حجم المزيج إلى أقل من إطار واحد"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7074
-#: src/timeline2/model/timelinemodel.cpp:7118
-#: src/timeline2/model/timelinemodel.cpp:7204
+#: src/timeline2/model/timelinemodel.cpp:7058
+#: src/timeline2/model/timelinemodel.cpp:7092
+#: src/timeline2/model/timelinemodel.cpp:7136
+#: src/timeline2/model/timelinemodel.cpp:7222
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "تعذّر تغيير حجم المزج"
 
-#: src/timeline2/model/timelinemodel.cpp:7218
+#: src/timeline2/model/timelinemodel.cpp:7236
 #, kde-format
 msgid "Resize mix"
 msgstr "غيّر حجم مزج"
 
-#: src/timeline2/model/timelinemodel.cpp:7338
+#: src/timeline2/model/timelinemodel.cpp:7356
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "خطأ في بدء معاينة الخط الزمني"
@@ -17541,7 +17501,7 @@ msgid "Stop"
 msgstr "أوقف"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2174
+#: src/timeline2/view/qml/timeline.qml:2177
 #, kde-format
 msgid "Paused"
 msgstr "مُلبثة"
@@ -17648,13 +17608,13 @@ msgstr "تلاشٍ للداخل: %1"
 msgid "Slip Clip"
 msgstr "أزلق مقطع"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1، الموضع: %2, المدة: %3"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:339
 #: src/timeline2/view/qml/SubTitle.qml:440
 #, kde-format
@@ -17684,51 +17644,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "انقر <b>نقرًا مزدوجًا</b> لتحرير النص"
 
-#: src/timeline2/view/qml/timeline.qml:992
+#: src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Show master effects"
 msgstr "أظهر التّأثيرات الرئيسة"
 
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1141
 #, kde-format
 msgid "Click to see details"
 msgstr "انقر لرؤية التفاصيل"
 
-#: src/timeline2/view/qml/timeline.qml:1157
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "تعرف على الكلام"
 
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "أظهر"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "أخفِ"
 
-#: src/timeline2/view/qml/timeline.qml:1842
+#: src/timeline2/view/qml/timeline.qml:1845
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>انقر مزدوجًا</b> لإضافة ترجمة"
 
-#: src/timeline2/view/qml/timeline.qml:2009
+#: src/timeline2/view/qml/timeline.qml:2012
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "الإزاحة: %1, الموضع: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2163
-#: src/timeline2/view/qml/timeline.qml:2172
+#: src/timeline2/view/qml/timeline.qml:2166
+#: src/timeline2/view/qml/timeline.qml:2175
 #, kde-format
 msgid "Recording"
 msgstr "يسجّل"
 
-#: src/timeline2/view/qml/timeline.qml:2266
+#: src/timeline2/view/qml/timeline.qml:2269
 #, kde-format
 msgid "Multicam In"
 msgstr "عدة كاميرات في"
@@ -18061,7 +18021,7 @@ msgstr "صدّر ملفّ ترجمة"
 #: src/timeline2/view/timelinecontroller.cpp:5208
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
-msgstr ""
+msgstr "ملف Sub Station Alpha v4.00+ (*.ass);;ملف SubRip للترجمة (*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5222
 #, kde-format
@@ -18071,12 +18031,15 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
+"يحتوي مسار الترجمة الحالي على طبقات متعددة، مما يعني أنه إذا كانت الترجمات "
+"الموجودة على طبقات مختلفة تشترك في نفس موضع البداية، فسيحتفظ بالترجمة من "
+"الطبقة الأدنى فقط. وقد يؤدي هذا إلى فقدان بعض الترجمات الموجودة في الملف "
+"المُصدَّر. هل ترغب في المتابعة؟"
 
 #: src/timeline2/view/timelinecontroller.cpp:5227
-#, fuzzy, kde-format
-#| msgid "Pasting Warning"
+#, kde-format
 msgid "Warning"
-msgstr "تحذير اللصق"
+msgstr "تحذير"
 
 #: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
@@ -20928,10 +20891,9 @@ msgstr "ح"
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:207
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Style:"
-msgstr "النّمط"
+msgstr "الطراز:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
 #: src/ui/editsub_ui.ui:253
@@ -20941,28 +20903,27 @@ msgstr "النّهاية:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: src/ui/editsub_ui.ui:451
-#, fuzzy, kde-format
+#, kde-format
 msgid "Scroll"
-msgstr "ل&ف"
+msgstr "لفّ"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Upper Bound"
-msgstr "تحديث في كل ثانية"
+msgstr "الحد الأعلى"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsub_ui.ui:472
 #, kde-format
 msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>الهامش</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsub_ui.ui:492
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>الاسم</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
@@ -20974,17 +20935,15 @@ msgstr "التعليق"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:589
-#, fuzzy, kde-format
-#| msgid "Lower object"
+#, kde-format
 msgid "Lower Bound"
-msgstr "انزل كائن"
+msgstr "الحد الأدنى"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Style Editor"
-msgstr "ملفّ ترجمة:"
+msgstr "محرر طرز الترجمة"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
@@ -20995,39 +20954,29 @@ msgstr "ثخين"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:103
-#, fuzzy, kde-format
-#| msgid " second"
-#| msgid_plural " seconds"
+#, kde-format
 msgid "Secondary"
-msgstr " (لا ثوان)"
+msgstr "ثانوي"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsubstyle_ui.ui:134
 #, kde-format
 msgid "Margin"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Vertical"
-msgid "Veritical"
-msgstr "عمودي"
+msgstr "الهامش"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align item to top"
+#, kde-format
 msgid "Alignment"
-msgstr "حاذِ العنصر إلى الأعلى"
+msgstr "محاذاة"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
-msgstr "التّسطير"
+msgstr "تسطير"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelShadow)
@@ -21036,14 +20985,13 @@ msgstr "التّسطير"
 #: src/ui/managesubtitles_ui.ui:409
 #, kde-format
 msgid "Shadow"
-msgstr "الظّلّ"
+msgstr "ظل"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #: src/ui/editsubstyle_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "BorderStyle"
-msgstr "الحدّ "
+msgstr "طراز‌الحد"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
@@ -21052,28 +21000,28 @@ msgstr "الحدّ "
 #: src/ui/managesubtitles_ui.ui:404
 #, kde-format
 msgid "Outline"
-msgstr "محيط"
+msgstr "المحيط"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
-#, fuzzy, kde-format
+#, kde-format
 msgid "ScaleX"
-msgstr "المقياس (س)"
+msgstr "حجّم‌س"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
-#, fuzzy, kde-format
+#, kde-format
 msgid "ScaleY"
-msgstr "المقياس (ص)"
+msgstr "حجّم‌ص"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
 #: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "مشطوب"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
@@ -21085,10 +21033,9 @@ msgstr "مائل"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
-#, fuzzy, kde-format
-#| msgid "Space"
+#, kde-format
 msgid "Spacing"
-msgstr "فضاء"
+msgstr "التباعد"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -21520,10 +21467,9 @@ msgstr "تشكيلات التحرير لـ:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Files"
-msgstr "ملفّ"
+msgstr "الملفات"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #: src/ui/managesubtitles_ui.ui:71
@@ -21533,10 +21479,9 @@ msgstr "المسار"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Text File"
+#, kde-format
 msgid "New File"
-msgstr "ملف نصي"
+msgstr "ملفّ جديد"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
@@ -21551,114 +21496,103 @@ msgstr "احذف"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "الطبقات والمحتوى"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
-#| msgid "New tag"
+#, kde-format
 msgid "New Layer"
-msgstr "وسم جديد"
+msgstr "طبقة جديدة"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Styles"
-msgstr "النّمط"
+msgstr "الطُرُز"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
-#, fuzzy, kde-format
-#| msgid "Font"
+#, kde-format
 msgid "FontName"
-msgstr "الخطّ"
+msgstr "اسم‌الخطّ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "FontSize"
-msgstr "حجم الخطّ"
+msgstr "حجم‌الخطّ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "PrimaryColor"
-msgstr "اللون الأصليّ"
+msgstr "اللون‌الأصليّ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
-#, fuzzy, kde-format
-#| msgid "Colour"
+#, kde-format
 msgid "SecondaryColor"
-msgstr "الألوان"
+msgstr "اللون‌الثاني"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "OutlineColor"
-msgstr "لون المحيط"
+msgstr "لون‌المحيط"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "BackColor"
-msgstr "لون الخلفيّة"
+msgstr "لون‌الخلفيّة"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "BoardStyle"
-msgstr "النّمط"
+msgstr "طرازاللوحة"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
 #, kde-format
 msgid "MarginL"
-msgstr ""
+msgstr "هامش‌يسار"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
 #, kde-format
 msgid "MarginR"
-msgstr ""
+msgstr "هامش‌يمين"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
 #, kde-format
 msgid "MarginV"
-msgstr ""
+msgstr "هامش‌راسي"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "New Style"
-msgstr "النّمط"
+msgstr "طراز جديد"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "معلومات"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539
 #, kde-format
 msgid "Key"
-msgstr ""
+msgstr "المفتاح"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "Value:"
+#, kde-format
 msgid "Value"
-msgstr "القيمة:"
+msgstr "القيمة"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
@@ -23193,6 +23127,9 @@ msgstr "%1د"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1س"
+
+#~ msgid "Veritical"
+#~ msgstr "عمودي"
 
 #~ msgid "Add text"
 #~ msgstr "أضف نصًّا"

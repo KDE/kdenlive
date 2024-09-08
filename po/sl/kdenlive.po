@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 00:38+0000\n"
-"PO-Revision-Date: 2024-08-30 07:46+0200\n"
+"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"PO-Revision-Date: 2024-09-07 19:23+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2643,6 +2643,7 @@ msgstr "Vodoravno"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: src/ui/editsubstyle_ui.ui:163
 #, kde-format
 msgid "Vertical"
 msgstr "Navpično"
@@ -4210,7 +4211,7 @@ msgstr ""
 "\n"
 "D:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:998
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Master"
 msgstr "Glavni"
@@ -5602,10 +5603,9 @@ msgid "Subtitles"
 msgstr "Podnaslavljanje"
 
 #: src/bin/model/subtitlemodel.cpp:110
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "Edit global subtitle style"
-msgstr "Uredi slog podnaslovov"
+msgstr "Uredi splošni slog podnaslovov"
 
 #: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
 #: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
@@ -5664,16 +5664,14 @@ msgid "Delete subtitle"
 msgstr "Izbriši podnaslov"
 
 #: src/bin/model/subtitlemodel.cpp:1794
-#, fuzzy, kde-format
-#| msgid "Delete subtitle"
+#, kde-format
 msgid "Delete subtitle layer"
-msgstr "Izbriši podnaslov"
+msgstr "Izbriši plast podnaslovov"
 
 #: src/bin/model/subtitlemodel.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Create title template"
+#, kde-format
 msgid "Create subtitle layer"
-msgstr "Ustvari predlogo napisa"
+msgstr "Ustvari plast podnaslovov"
 
 #: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
 #, kde-format
@@ -5684,7 +5682,7 @@ msgstr "Podnaslov %1"
 #: src/bin/model/subtitlemodel.cpp:2226
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr ""
+msgstr "Dodelite novi slog podnaslovu."
 
 #: src/bin/projectclip.cpp:268
 #, kde-format
@@ -6935,7 +6933,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1805
 #: src/dialogs/kdenlivesettingsdialog.cpp:1820
-#: src/dialogs/kdenlivesettingsdialog.cpp:2145 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:2149 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
@@ -6974,13 +6972,13 @@ msgstr "Odstranitev mape virtualnega okolja je spodletela."
 msgid "Probing..."
 msgstr "Sondiranje …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1953
-#: src/dialogs/kdenlivesettingsdialog.cpp:2142
+#: src/dialogs/kdenlivesettingsdialog.cpp:1957
+#: src/dialogs/kdenlivesettingsdialog.cpp:2146
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Prosimo, dodajte model govora."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:1994
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6989,28 +6987,28 @@ msgstr ""
 "Prenos modelov govora iz: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2020
+#: src/dialogs/kdenlivesettingsdialog.cpp:2024
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Vnesite spletni naslov novega slovarja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2026
+#: src/dialogs/kdenlivesettingsdialog.cpp:2030
 #, kde-format
 msgid "Downloading model…"
 msgstr "Prenašanje modela …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2036
+#: src/dialogs/kdenlivesettingsdialog.cpp:2040
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Ne dovoljujemo brisanja map modelov po meri, izvedite to ročno."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
-#: src/dialogs/kdenlivesettingsdialog.cpp:2101
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2105
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ni možno dostopati do mape slovarja."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2051
+#: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7019,22 +7017,22 @@ msgstr ""
 "Izbriši mapo:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2075
+#: src/dialogs/kdenlivesettingsdialog.cpp:2079
 #, kde-format
 msgid "Download error"
 msgstr "Napaka pri prenosu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2080
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, kde-format
 msgid "Download error %1"
 msgstr "Napaka pri prenosu %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2108
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Razširjanje arhiva …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2115
+#: src/dialogs/kdenlivesettingsdialog.cpp:2119
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nov slovar nameščen."
@@ -7048,67 +7046,62 @@ msgstr "Upravljaj podnaslove"
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "Plast"
 
 #: src/dialogs/managesubtitles.cpp:104
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move Layer"
-msgstr "Premakni orodno letvico"
+msgstr "Premakni plast"
 
 #: src/dialogs/managesubtitles.cpp:104
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "Izberite datoteko s podnaslovi, v katero želite premakniti plast:"
 
 #: src/dialogs/managesubtitles.cpp:106
-#, fuzzy, kde-format
-#| msgid "Copy channel:"
+#, kde-format
 msgid "Copy Layer"
-msgstr "Kopiraj kanal:"
+msgstr "Kopiraj plast"
 
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "Izberite datoteko s podnaslovi, v katero želite kopirati plast:"
 
 #: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move To..."
-msgstr "Premakni orodno letvico"
+msgstr "Premakni v ..."
 
 #: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "Kopiraj v ..."
 
 #: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "Splošno"
 
 #: src/dialogs/managesubtitles.cpp:192
-#, fuzzy, kde-format
-#| msgid "Move item"
+#, kde-format
 msgid "Move Style"
-msgstr "Premakni predmet"
+msgstr "Premakni slog"
 
 #: src/dialogs/managesubtitles.cpp:192
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "Izberite datoteko s podnaslovi, v katero želite premakniti slog:"
 
 #: src/dialogs/managesubtitles.cpp:194
-#, fuzzy, kde-format
-#| msgid "Font Style"
+#, kde-format
 msgid "Copy Style"
-msgstr "Slog pisave"
+msgstr "Kopiraj slog"
 
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "Izberite datoteko s podnaslovi, v katero želite kopirati slog:"
 
 #: src/dialogs/managesubtitles.cpp:401
 #, kde-format
@@ -7125,22 +7118,22 @@ msgstr "Izvozi podnaslov"
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "Plast "
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "s/z"
 
 #: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr " dogodek"
 
 #: src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr "dogodki"
 
 #: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
 #, kde-format
@@ -7163,49 +7156,38 @@ msgid "Top Right"
 msgstr "Desno zgoraj"
 
 #: src/dialogs/managesubtitles.cpp:553
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Box as Border"
-msgstr "Obroba "
+msgstr "Pravokotnik kot obroba"
 
 #: src/dialogs/managesubtitles.cpp:556 src/dialogs/subtitlestyleedit.cpp:99
-#, fuzzy, kde-format
-#| msgid "Custom Shadow"
+#, kde-format
 msgid "Box as Shadow"
-msgstr "Senca po meri"
+msgstr "Pravokotnik kot senca"
 
 #: src/dialogs/managesubtitles.cpp:706
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
-#| "subtitle file: %2 "
+#, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr ""
-"To bo izbrisalo vse vnose podnaslovov v <b>%1</b>,<br/>in tudi datoteko s "
-"podnaslovi: %2 "
+"S tem boste izbrisali vse vnose podnapisov v <b>%1</b>,<br/>in tudi datoteko "
+"s podnapisi: %2 "
 
 #: src/dialogs/managesubtitles.cpp:728
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the file:\n"
-#| "%1"
+#, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
-msgstr ""
-"To bo izbrisalo datoteko:\n"
-"%1"
+msgstr "S tem boste izbrisali vse dogodke na plasti <b>%1</b>."
 
 #: src/dialogs/managesubtitles.cpp:746
-#, fuzzy, kde-format
-#| msgid "Cannot delete last track in timeline"
+#, kde-format
 msgid "Cannot delete default style."
-msgstr "Zadnje steze na časovnici ni možno izbrisati"
+msgstr "Privzetega sloga ni mogoče izbrisati."
 
 #: src/dialogs/managesubtitles.cpp:750
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr ""
+msgstr "S tem boste izbrisali slog <b>%1</b> in vse njegove lastnosti."
 
 #: src/dialogs/managesubtitles.cpp:755
 #, kde-format
@@ -7213,6 +7195,9 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
+"S tem boste izbrisali slog <b>%1</b> in vse njegove lastnosti.\n"
+"Podnaslovi, ki uporabljajo ta slog, bodo ponastavljeni na slog <b>Privzeto</"
+"b>."
 
 #: src/dialogs/profilesdialog.cpp:110
 #, kde-format
@@ -8327,7 +8312,7 @@ msgstr "Uredi slog podnaslovov"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "Odpre pogovorno okno za urejanje trenutnega podnaslova."
 
 #: src/dialogs/subtitleedit.cpp:270
 #, kde-format
@@ -8394,16 +8379,15 @@ msgid "Updates the subtitle display in the timeline."
 msgstr "Posodobi prikaz podnaslova v časovnici."
 
 #: src/dialogs/subtitleedit.cpp:282
-#, fuzzy, kde-format
-#| msgid "Show style options"
+#, kde-format
 msgid "Show more options"
-msgstr "Pokaži možnosti sloga"
+msgstr "Pokaži več možnosti"
 
 #: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
-msgstr ""
+msgstr "Preklopi seznam za prilagoditev več nastavitev podnaslovov."
 
 #: src/dialogs/subtitleedit.cpp:285
 #, kde-kuit-format
@@ -8413,10 +8397,9 @@ msgid ""
 msgstr "Izbriše trenutno izbrani podnaslov (ne deluje na več podnaslovih)."
 
 #: src/dialogs/subtitleedit.cpp:288
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle bold"
-msgstr "Preklop steze onemogočen"
+msgstr "Preklopi krepko"
 
 #: src/dialogs/subtitleedit.cpp:289
 #, kde-kuit-format
@@ -8425,12 +8408,13 @@ msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Preklopi slog krepkega besedila za izbrano besedilo ali besedilo, ki sledi "
+"položaju kazalke."
 
 #: src/dialogs/subtitleedit.cpp:292
-#, fuzzy, kde-format
-#| msgid "Toggle track effects"
+#, kde-format
 msgid "Toggle italic"
-msgstr "Preklopi učinke steze"
+msgstr "Preklopi ležeče"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -8439,12 +8423,13 @@ msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Preklopi ležeči slog besedila za izbrano besedilo ali besedilo, ki sledi "
+"položaju kazalke."
 
 #: src/dialogs/subtitleedit.cpp:297
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgid "Toggle underline"
-msgstr "Izriši črto"
+msgstr "Preklopi podčrtovanje"
 
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-kuit-format
@@ -8453,12 +8438,13 @@ msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Preklopi slog podčrtanega besedila za izbrano besedilo ali besedilo, ki "
+"sledi položaju kazalke."
 
 #: src/dialogs/subtitleedit.cpp:302
-#, fuzzy, kde-format
-#| msgid "Toggle track effects"
+#, kde-format
 msgid "Toggle strikeout"
-msgstr "Preklopi učinke steze"
+msgstr "Preklopi prečrtanje"
 
 #: src/dialogs/subtitleedit.cpp:304
 #, kde-kuit-format
@@ -8467,12 +8453,13 @@ msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Preklopi slog prečrtanega besedila za izbrano besedilo ali besedilo, ki "
+"sledi položaju kazalke."
 
 #: src/dialogs/subtitleedit.cpp:309
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set font"
-msgstr "Nastavi območje"
+msgstr "Nastavite pisavo"
 
 #: src/dialogs/subtitleedit.cpp:312
 #, kde-kuit-format
@@ -8481,12 +8468,13 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
+"Odpre pogovorno okno s pisavo, da izberete pisavo in nastavite njene "
+"lastnosti za izbrano besedilo ali besedilo za položajem kazalke."
 
 #: src/dialogs/subtitleedit.cpp:315
-#, fuzzy, kde-format
-#| msgid "Reset value"
+#, kde-format
 msgid "Reset style"
-msgstr "Ponastavi vrednost"
+msgstr "Ponastavi slog"
 
 #: src/dialogs/subtitleedit.cpp:316
 #, kde-kuit-format
@@ -8495,65 +8483,58 @@ msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
 msgstr ""
+"Ponastavi slog izbranega besedila ali besedila, ki sledi položaju kazalke."
 
 #: src/dialogs/subtitleedit.cpp:318
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Set Position"
-msgstr "Začni položaj"
+msgstr "Nastavite položaj"
 
 #: src/dialogs/subtitleedit.cpp:322
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "More tags"
-msgstr "Več možnosti"
+msgstr "Več značk"
 
 #: src/dialogs/subtitleedit.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
-msgstr ""
+msgstr "Odpre meni za prikaz več značk"
 
 #: src/dialogs/subtitleedit.cpp:382
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Right To Left"
-msgstr "Levo zgoraj"
+msgstr "Z desne proti levi"
 
 #: src/dialogs/subtitleedit.cpp:383
-#, fuzzy, kde-format
-#| msgid "Left,Right"
+#, kde-format
 msgid "Left To Right"
-msgstr "Levi, desni"
+msgstr "Z leve proti densni"
 
 #: src/dialogs/subtitleedit.cpp:384
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Top To Bottom"
-msgstr "Spodaj"
+msgstr "Od zgoraj navzdol"
 
 #: src/dialogs/subtitleedit.cpp:385
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Bottom To Top"
-msgstr "Spodaj"
+msgstr "Od spodaj navzgor"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Tags"
-msgstr ""
+msgstr "Počisti vse značke"
 
 #: src/dialogs/subtitleedit.cpp:402
-#, fuzzy, kde-format
-#| msgid "Speech Editor"
+#, kde-format
 msgid "Simple Editor"
-msgstr "Urejevalnik govora"
+msgstr "Ennostaven urejevalnik"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Styles.."
-msgstr "Upravljaj podnaslove"
+msgstr "Upravljaj sloge .."
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -8561,10 +8542,9 @@ msgid "Character: %1, total: <b>%2</b>"
 msgstr "Znak: %1, skupaj: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgid "Set Position X"
-msgstr "Položaj X"
+msgstr "Določite položaj X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
@@ -8574,10 +8554,9 @@ msgid "X:"
 msgstr "X:"
 
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
-#, fuzzy, kde-format
-#| msgid "Position Y"
+#, kde-format
 msgid "Set Position Y"
-msgstr "Položaj Y"
+msgstr "Določite položaj Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
@@ -8587,35 +8566,33 @@ msgid "Y:"
 msgstr "Y:"
 
 #: src/dialogs/subtitlestyleedit.cpp:45
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "Select font"
-msgstr "Izbor"
+msgstr "Izberite pisavo"
 
 #: src/dialogs/subtitlestyleedit.cpp:46
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
+"Odprite pogovorno okno pisave, da izberete pisavo in nastavite njene "
+"lastnosti."
 
 #: src/dialogs/subtitlestyleedit.cpp:98
-#, fuzzy, kde-format
-#| msgid "Outline:"
+#, kde-format
 msgid "Box as Outline"
-msgstr "Oris:"
+msgstr "Pravokotnik kot oris"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Stop Preview Render"
+#, kde-format
 msgid "Show Preview >>>"
-msgstr "Zaustavi izris predogleda"
+msgstr "Pokaži predogled >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:133
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "<<< Hide Preview"
-msgstr "Predogled časovnice"
+msgstr "<<< Skrij predogled"
 
 #: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
 #: src/dialogs/subtitlestyleedit.cpp:171
@@ -8625,21 +8602,19 @@ msgid "Error"
 msgstr "Napaka"
 
 #: src/dialogs/subtitlestyleedit.cpp:161
-#, fuzzy, kde-format
-#| msgid "File already exists"
+#, kde-format
 msgid "Style name already exists."
-msgstr "Datoteka že obstaja"
+msgstr "Ime sloga že obstaja."
 
 #: src/dialogs/subtitlestyleedit.cpp:166
-#, fuzzy, kde-format
-#| msgid "The preset name can't be empty"
+#, kde-format
 msgid "Style name cannot be empty."
-msgstr "Ime prednastavitve ne sme biti prazno"
+msgstr "Ime sloga ne sme biti prazno."
 
 #: src/dialogs/subtitlestyleedit.cpp:171
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "Ime sloga ne sme vsebovati znaka »,«."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9418,11 +9393,10 @@ msgid "extra audio"
 msgstr "dodatni zvok"
 
 #: src/doc/documentvalidator.cpp:2206
-#, fuzzy, kde-format
-#| msgid "Output file already exists. Do you want to overwrite it?"
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "Izhodna datoteka že obstaja. Ali jo želite prepisati?"
+msgstr "Datoteka s podnaslovi<br/>%1<br/>že obstaja. Ali jo želite prepisati?"
 
 #: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3581
 #, kde-format
@@ -9790,17 +9764,17 @@ msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 "Nekateri vaši najljubši učinki so neveljavni in so bili odstranjeni: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Skrij ključne sličice"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Show keyframes"
 msgstr "Pokaži ključne sličice"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:331
+#: src/effects/effectstack/model/effectitemmodel.cpp:332
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Posodobi območje za %1"
@@ -9884,11 +9858,9 @@ msgid "Expand Effect"
 msgstr "Razširi učinek"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open effect documentation in browser"
-msgstr "Spletna dokumentacija"
+msgstr "Odpri dokumentacijo o učinku v brskalniku"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-format
@@ -17525,53 +17497,53 @@ msgstr "Sprememba hitrosti ni uspela"
 msgid "Change clip speed"
 msgstr "Spremeni hitrost posnetka"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6799
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Zakleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:6786
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Odkleni stezo"
 
-#: src/timeline2/model/timelinemodel.cpp:6820
-#: src/timeline2/model/timelinemodel.cpp:6882
+#: src/timeline2/model/timelinemodel.cpp:6838
+#: src/timeline2/model/timelinemodel.cpp:6900
 #, kde-format
 msgid "Change composition"
 msgstr "Spremeni sestavo"
 
-#: src/timeline2/model/timelinemodel.cpp:6834
+#: src/timeline2/model/timelinemodel.cpp:6852
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Ni možno delovati na skupinski sestavi, najprej jo razdružite"
 
-#: src/timeline2/model/timelinemodel.cpp:7029
-#: src/timeline2/model/timelinemodel.cpp:7066
-#: src/timeline2/model/timelinemodel.cpp:7099
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7047
+#: src/timeline2/model/timelinemodel.cpp:7084
+#: src/timeline2/model/timelinemodel.cpp:7117
+#: src/timeline2/model/timelinemodel.cpp:7198
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka za manj kot 1 sličico"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7074
-#: src/timeline2/model/timelinemodel.cpp:7118
-#: src/timeline2/model/timelinemodel.cpp:7204
+#: src/timeline2/model/timelinemodel.cpp:7058
+#: src/timeline2/model/timelinemodel.cpp:7092
+#: src/timeline2/model/timelinemodel.cpp:7136
+#: src/timeline2/model/timelinemodel.cpp:7222
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Ni možno spremeniti dolžine mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7218
+#: src/timeline2/model/timelinemodel.cpp:7236
 #, kde-format
 msgid "Resize mix"
 msgstr "Spremeni dolžino mešanega zvoka"
 
-#: src/timeline2/model/timelinemodel.cpp:7338
+#: src/timeline2/model/timelinemodel.cpp:7356
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Napaka pri inicializiranju predogleda časovnice"
@@ -17674,7 +17646,7 @@ msgid "Stop"
 msgstr "Ustavi"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2174
+#: src/timeline2/view/qml/timeline.qml:2177
 #, kde-format
 msgid "Paused"
 msgstr "Prekinjeno"
@@ -17782,13 +17754,13 @@ msgstr "Dvig jakosti: %1"
 msgid "Slip Clip"
 msgstr "Podrsaj posnetek"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Pozicija: %2, Trajanje: %3"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:339
 #: src/timeline2/view/qml/SubTitle.qml:440
 #, kde-format
@@ -17818,51 +17790,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Dvoklik</b> za urejanje besedila"
 
-#: src/timeline2/view/qml/timeline.qml:992
+#: src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Show master effects"
 msgstr "Pokaži glavne učinke"
 
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1141
 #, kde-format
 msgid "Click to see details"
 msgstr "Kliknite za ogled podrobnosti"
 
-#: src/timeline2/view/qml/timeline.qml:1157
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "Razpoznavanje govora"
 
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Pokaži"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/timeline2/view/qml/timeline.qml:1842
+#: src/timeline2/view/qml/timeline.qml:1845
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Dvokliknite</b> za dodajanje podnaslova"
 
-#: src/timeline2/view/qml/timeline.qml:2009
+#: src/timeline2/view/qml/timeline.qml:2012
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Odmik:%1, Položaj: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2163
-#: src/timeline2/view/qml/timeline.qml:2172
+#: src/timeline2/view/qml/timeline.qml:2166
+#: src/timeline2/view/qml/timeline.qml:2175
 #, kde-format
 msgid "Recording"
 msgstr "Snemanje"
 
-#: src/timeline2/view/qml/timeline.qml:2266
+#: src/timeline2/view/qml/timeline.qml:2269
 #, kde-format
 msgid "Multicam In"
 msgstr "Vstopna/sinhrona točka posnetkov več kamer"
@@ -18200,6 +18172,8 @@ msgstr "Izvozi datoteko s podnaslovi"
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
+"Datoteka Sub Station Alpha v4.00+ (*.ass);;Datoteka s podnaslovi SubRip (*."
+"srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5222
 #, kde-format
@@ -18209,12 +18183,15 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
+"Trenutna steza podnaslovov vsebuje več plasti, kar pomeni, da če imajo "
+"podnaslovi na različnih plasteh isti začetni položaj, se ohranijo samo "
+"podnaslovi iz najnižje plasti. To lahko povzroči izgubo nekaterih "
+"podnaslovov v izvoženi datoteki. Ali želite nadaljevati?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5227
-#, fuzzy, kde-format
-#| msgid "Pasting Warning"
+#, kde-format
 msgid "Warning"
-msgstr "Opozorilo ob lepljenju"
+msgstr "Opozorilo"
 
 #: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
@@ -21084,10 +21061,9 @@ msgstr "S"
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:207
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Style:"
-msgstr "Slog"
+msgstr "Slog:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
 #: src/ui/editsub_ui.ui:253
@@ -21097,29 +21073,27 @@ msgstr "Konec:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: src/ui/editsub_ui.ui:451
-#, fuzzy, kde-format
-#| msgid "Scrolling:"
+#, kde-format
 msgid "Scroll"
-msgstr "Drsenje:"
+msgstr "Drsenje"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Upper Bound"
-msgstr "Posodobitev na sekundo"
+msgstr "Zgornja meja"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsub_ui.ui:472
 #, kde-format
 msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Rob</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsub_ui.ui:492
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Ime</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
@@ -21131,17 +21105,15 @@ msgstr "Komentar"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:589
-#, fuzzy, kde-format
-#| msgid "Lower object"
+#, kde-format
 msgid "Lower Bound"
-msgstr "Spusti predmet"
+msgstr "Spodnja meja"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Style Editor"
-msgstr "Datoteka s podnaslovi:"
+msgstr "Urejevalnik slogov podnaslovov"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
@@ -21154,86 +21126,72 @@ msgstr "Krepko"
 #: src/ui/editsubstyle_ui.ui:103
 #, kde-format
 msgid "Secondary"
-msgstr ""
+msgstr "Drugotna"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsubstyle_ui.ui:134
 #, kde-format
 msgid "Margin"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Vertical"
-msgid "Veritical"
-msgstr "Navpično"
+msgstr "Rob"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align left"
+#, kde-format
 msgid "Alignment"
-msgstr "Poravnaj levo"
+msgstr "Poravnava"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgid "Underline"
-msgstr "Izriši črto"
+msgstr "Podčrtano"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelShadow)
 #. i18n: ectx: property (text), widget (QLabel, labelBackColor)
 #: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
 #: src/ui/managesubtitles_ui.ui:409
-#, fuzzy, kde-format
-#| msgid "Custom Shadow"
+#, kde-format
 msgid "Shadow"
-msgstr "Senca po meri"
+msgstr "Senca"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #: src/ui/editsubstyle_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "BorderStyle"
-msgstr "Obroba "
+msgstr "Slog obrobe"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
 #. i18n: ectx: property (text), widget (QLabel, labelOutline)
 #: src/ui/editsubstyle_ui.ui:350 src/ui/editsubstyle_ui.ui:484
 #: src/ui/managesubtitles_ui.ui:404
-#, fuzzy, kde-format
-#| msgid "Outline:"
+#, kde-format
 msgid "Outline"
-msgstr "Oris:"
+msgstr "Oris"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "ScaleX"
-msgstr "Umeri"
+msgstr "Merilo X"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "ScaleY"
-msgstr "Umeri"
+msgstr "Merilo Y"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
 #: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "Prečrtano"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
@@ -21245,10 +21203,9 @@ msgstr "Ležeče"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
-#, fuzzy, kde-format
-#| msgid "Space"
+#, kde-format
 msgid "Spacing"
-msgstr "Praznina"
+msgstr "Razmik"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -21680,10 +21637,9 @@ msgstr "Urejanje profilov za:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Files"
-msgstr "Datoteka"
+msgstr "Datoteke"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #: src/ui/managesubtitles_ui.ui:71
@@ -21693,10 +21649,9 @@ msgstr "Pot"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Text File"
+#, kde-format
 msgid "New File"
-msgstr "Besedilna datoteka"
+msgstr "Nova datoteka"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
@@ -21711,114 +21666,103 @@ msgstr "Izbriši"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "Plasti in vsebina"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
-#| msgid "New tag"
+#, kde-format
 msgid "New Layer"
-msgstr "Nova značka"
+msgstr "Nova plast"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Styles"
-msgstr "Slog"
+msgstr "Slogi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
-#, fuzzy, kde-format
-#| msgid "Font"
+#, kde-format
 msgid "FontName"
-msgstr "Pisava"
+msgstr "Ime pisave"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "FontSize"
 msgstr "Velikost pisave"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "PrimaryColor"
-msgstr "Izvorna barva"
+msgstr "Primarna barva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
-#, fuzzy, kde-format
-#| msgid "2nd Color"
+#, kde-format
 msgid "SecondaryColor"
-msgstr "Druga barva"
+msgstr "Sekundarna barva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "OutlineColor"
 msgstr "Barva orisa"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "BackColor"
 msgstr "Barva ozadja"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "BoardStyle"
-msgstr "Slog"
+msgstr "Slog plošče"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
 #, kde-format
 msgid "MarginL"
-msgstr ""
+msgstr "Rob L"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
 #, kde-format
 msgid "MarginR"
-msgstr ""
+msgstr "Rob D"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
 #, kde-format
 msgid "MarginV"
-msgstr ""
+msgstr "Rob V"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "New Style"
-msgstr "Slog"
+msgstr "Nov slog"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "Podrobnosti"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539
 #, kde-format
 msgid "Key"
-msgstr ""
+msgstr "Ključ"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "HSV Value"
+#, kde-format
 msgid "Value"
-msgstr "Vrednost HSV"
+msgstr "Vrednost"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
@@ -23354,58 +23298,5 @@ msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
 
-#~ msgid "Add text"
-#~ msgstr "Dodaj besedilo"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "Toggles a list to adjust font, size, color, outline style, shadow, "
-#~ "position and background."
-#~ msgstr ""
-#~ "Preklopi seznam za prilagoditev pisave, velikosti, barve, sloga orisa, "
-#~ "sence, položaja in ozadja."
-
-#~ msgid "Bottom Center"
-#~ msgstr "Na sredini spodaj"
-
-#~ msgid "Center Left"
-#~ msgstr "Levo na sredini"
-
-#~ msgid "Center Right"
-#~ msgstr "Desno na sredini"
-
-#~ msgid "Top Center"
-#~ msgstr "Na sredini zgoraj"
-
-#~ msgid "Subtitle File (*.srt)"
-#~ msgstr "Datoteka s podnaslovi (*.srt)"
-
-#~ msgid "Opaque background"
-#~ msgstr "Neprosojno ozadje"
-
-#~ msgid "Custom Outline Color"
-#~ msgstr "Barva orisa po meri"
-
-#~ msgid "pt"
-#~ msgstr "tč"
-
-#~ msgid "Custom Font Size"
-#~ msgstr "Velikost pisave po meri"
-
-#~ msgid "px"
-#~ msgstr "tč"
-
-#~ msgid "Custom Position"
-#~ msgstr "Položaj po meri"
-
-#~ msgid "Custom Font Color"
-#~ msgstr "Barva pisave po meri"
-
-#~ msgid "Custom Outline Size"
-#~ msgstr "Velikost orisa po meri"
-
-#~ msgid "Custom Font"
-#~ msgstr "Pisava po meri"
-
-#~ msgid "Create New"
-#~ msgstr "Ustvari novo"
+#~ msgid "Veritical"
+#~ msgstr "Navpično"

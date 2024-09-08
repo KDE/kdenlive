@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 00:38+0000\n"
-"PO-Revision-Date: 2024-08-30 13:11+0200\n"
+"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"PO-Revision-Date: 2024-09-07 09:56+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -2648,6 +2648,7 @@ msgstr "Horizontala"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: src/ui/editsubstyle_ui.ui:163
 #, kde-format
 msgid "Vertical"
 msgstr "Bertikala"
@@ -4215,7 +4216,7 @@ msgstr ""
 "\n"
 "R:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:998
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1004
 #, kde-format
 msgid "Master"
 msgstr "Maisua"
@@ -5601,10 +5602,9 @@ msgid "Subtitles"
 msgstr "Azpidatziak"
 
 #: src/bin/model/subtitlemodel.cpp:110
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "Edit global subtitle style"
-msgstr "Editatu azpidatziaren estiloa"
+msgstr "Editatu azpidatziaren estilo globala"
 
 #: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
 #: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
@@ -5663,16 +5663,14 @@ msgid "Delete subtitle"
 msgstr "Ezabatu azpidatzia"
 
 #: src/bin/model/subtitlemodel.cpp:1794
-#, fuzzy, kde-format
-#| msgid "Delete subtitle"
+#, kde-format
 msgid "Delete subtitle layer"
-msgstr "Ezabatu azpidatzia"
+msgstr "Ezabatu azpidatzi-geruza"
 
 #: src/bin/model/subtitlemodel.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Create title template"
+#, kde-format
 msgid "Create subtitle layer"
-msgstr "Sortu izenburu txantiloia"
+msgstr "Sortu azpidatzi-geruza"
 
 #: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
 #, kde-format
@@ -5683,7 +5681,7 @@ msgstr "%1 azpidatzia"
 #: src/bin/model/subtitlemodel.cpp:2226
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr ""
+msgstr "Esleitu estilo berri bat azpidatziari."
 
 #: src/bin/projectclip.cpp:268
 #, kde-format
@@ -6939,7 +6937,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1805
 #: src/dialogs/kdenlivesettingsdialog.cpp:1820
-#: src/dialogs/kdenlivesettingsdialog.cpp:2145 src/ui/configspeech_ui.ui:134
+#: src/dialogs/kdenlivesettingsdialog.cpp:2149 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
 #, kde-format
 msgid "Models folder"
@@ -6978,13 +6976,13 @@ msgstr "Ingurune birtualeko karpeta kentzea huts egin du."
 msgid "Probing..."
 msgstr "Probatzen..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1953
-#: src/dialogs/kdenlivesettingsdialog.cpp:2142
+#: src/dialogs/kdenlivesettingsdialog.cpp:1957
+#: src/dialogs/kdenlivesettingsdialog.cpp:2146
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Mesedez, instalatu hizketa-eredu bat."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:1994
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -6993,30 +6991,30 @@ msgstr ""
 "Jaitsi hizketa ereduak hemendik: <a href=\"https://alphacephei.com/vosk/"
 "models\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2020
+#: src/dialogs/kdenlivesettingsdialog.cpp:2024
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Sartu url-a hiztegi berriarentzat"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2026
+#: src/dialogs/kdenlivesettingsdialog.cpp:2030
 #, kde-format
 msgid "Downloading model…"
 msgstr "Eredua jaisten…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2036
+#: src/dialogs/kdenlivesettingsdialog.cpp:2040
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Ez dugu baimentzen norberak finkatutako karpeta ereduen ezabatzea, mesedez "
 "egin eskuz."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2042
-#: src/dialogs/kdenlivesettingsdialog.cpp:2101
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2105
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ezin da hiztegi-karpeta atzitu."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2051
+#: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7025,22 +7023,22 @@ msgstr ""
 "Ezabatu karpeta:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2075
+#: src/dialogs/kdenlivesettingsdialog.cpp:2079
 #, kde-format
 msgid "Download error"
 msgstr "Jaitsieraren errorea"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2080
+#: src/dialogs/kdenlivesettingsdialog.cpp:2084
 #, kde-format
 msgid "Download error %1"
 msgstr "Jaitsieraren %1 errorea"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2108
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Fitxategia erauzten…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2115
+#: src/dialogs/kdenlivesettingsdialog.cpp:2119
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Hiztegi berria instalatu da."
@@ -7054,67 +7052,62 @@ msgstr "Kudeatu azpidatziak"
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "Geruza"
 
 #: src/dialogs/managesubtitles.cpp:104
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move Layer"
-msgstr "Tresna-barra mugitu"
+msgstr "Mugitu Geruza"
 
 #: src/dialogs/managesubtitles.cpp:104
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "Hautatu, geruza, zein azpidatzi-fitxategira mugitu behar den:"
 
 #: src/dialogs/managesubtitles.cpp:106
-#, fuzzy, kde-format
-#| msgid "Copy channel:"
+#, kde-format
 msgid "Copy Layer"
-msgstr "Kopiatu kanala:"
+msgstr "Kopiatu Geruza"
 
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "Hautatu, geruza, zein azpidatzi-fitxategira kopiatu behar den:"
 
 #: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move To..."
-msgstr "Tresna-barra mugitu"
+msgstr "Mugitu hona..."
 
 #: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "Kopiatu hemen..."
 
 #: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "Globala"
 
 #: src/dialogs/managesubtitles.cpp:192
-#, fuzzy, kde-format
-#| msgid "Move item"
+#, kde-format
 msgid "Move Style"
-msgstr "Mugitu elementua"
+msgstr "Mugitu Estiloa"
 
 #: src/dialogs/managesubtitles.cpp:192
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "Hautatu, estiloa, zein azpidatzi-fitxategira mugitu behar den:"
 
 #: src/dialogs/managesubtitles.cpp:194
-#, fuzzy, kde-format
-#| msgid "Font Style"
+#, kde-format
 msgid "Copy Style"
-msgstr "Letra-tipo estiloa"
+msgstr "Kopiatu Estiloa"
 
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "Hautatu, estiloa, zein azpidatzi-fitxategira kopiatu behar den:"
 
 #: src/dialogs/managesubtitles.cpp:401
 #, kde-format
@@ -7131,22 +7124,22 @@ msgstr "Esportatu azpidatzia"
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "Geruza "
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "honekin, "
 
 #: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr " gertaera"
 
 #: src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr " gertaerak"
 
 #: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
 #, kde-format
@@ -7169,49 +7162,38 @@ msgid "Top Right"
 msgstr "Goian Eskuinean"
 
 #: src/dialogs/managesubtitles.cpp:553
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Box as Border"
-msgstr "Ertza "
+msgstr "Kutxa Ertz gisa"
 
 #: src/dialogs/managesubtitles.cpp:556 src/dialogs/subtitlestyleedit.cpp:99
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Box as Shadow"
-msgstr "Itzala"
+msgstr "Kutxa Itzal gisa"
 
 #: src/dialogs/managesubtitles.cpp:706
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
-#| "subtitle file: %2 "
+#, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr ""
-"Horrek <b>%1</b>(e)ko azpidatzi-sarrera denak ezabatuko ditu,<br/> azpidatzi-"
-"fitxategiarekin batera: %2"
+"Honek <b>%1</b>(e)ko azpidatzi-sarrera denak ezabatuko ditu,<br/>baita "
+"azpidatzi-fitxategia ere: %2"
 
 #: src/dialogs/managesubtitles.cpp:728
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the file:\n"
-#| "%1"
+#, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
-msgstr ""
-"Honek honako fitxategia ezabatuko du: \n"
-"%1"
+msgstr "Honek <b>%1</b> geruzako gertaera denak ezabatuko ditu."
 
 #: src/dialogs/managesubtitles.cpp:746
-#, fuzzy, kde-format
-#| msgid "Cannot create filter."
+#, kde-format
 msgid "Cannot delete default style."
-msgstr "Ezin da iragazkia sortu."
+msgstr "Ezin da ezabatu estilo lehenetsia."
 
 #: src/dialogs/managesubtitles.cpp:750
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr ""
+msgstr "Honek <b>%1</b> estiloa eta bere propietate denak ezabatuko ditu."
 
 #: src/dialogs/managesubtitles.cpp:755
 #, kde-format
@@ -7219,6 +7201,9 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
+"Honek <b>%1</b> estiloa eta bere propietate denak ezabatuko ditu.\n"
+"Estilo hau erabiltzen duten estiloak <b>Lehenetsia</b> estiloarekin "
+"berrezarriko dira."
 
 #: src/dialogs/profilesdialog.cpp:110
 #, kde-format
@@ -8331,7 +8316,7 @@ msgstr "Editatu azpidatziaren estiloa"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "Uneko azpidatzia editatzeko elkarrizketa-koadro bat irekitzen du."
 
 #: src/dialogs/subtitleedit.cpp:270
 #, kde-format
@@ -8402,16 +8387,15 @@ msgid "Updates the subtitle display in the timeline."
 msgstr "Denbora-lerroan azpidatziak erakustea eguneratzen du."
 
 #: src/dialogs/subtitleedit.cpp:282
-#, fuzzy, kde-format
-#| msgid "Show style options"
+#, kde-format
 msgid "Show more options"
-msgstr "Erakutsi estilo-aukerak"
+msgstr "Erakutsi aukera gehiago"
 
 #: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
-msgstr ""
+msgstr "Azpidatzi-ezarpen gehiago doitzeko zerrenda bat txandakatzen du."
 
 #: src/dialogs/subtitleedit.cpp:285
 #, kde-kuit-format
@@ -8422,10 +8406,9 @@ msgstr ""
 "Unean hautatutako azpidatzia ezabatzen du (ez dabil azpidatzi anizkoitzekin)."
 
 #: src/dialogs/subtitleedit.cpp:288
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle bold"
-msgstr "Txandakatu ezgaitutako pista"
+msgstr "Txandakatu lodia"
 
 #: src/dialogs/subtitleedit.cpp:289
 #, kde-kuit-format
@@ -8434,12 +8417,13 @@ msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Hautatutako testuaren edo kurtsorearen kokalekuari jarraitzen dion testuaren "
+"lodia testu-estiloa txandakatzen du."
 
 #: src/dialogs/subtitleedit.cpp:292
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle italic"
-msgstr "Txandakatu hautapena"
+msgstr "Txandakatu etzana"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -8448,12 +8432,13 @@ msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Hautatutako testuaren edo kurtsorearen kokalekuari jarraitzen dion testuaren "
+"etzana testu-estiloa txandakatzen du."
 
 #: src/dialogs/subtitleedit.cpp:297
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle underline"
-msgstr "Txandakatu hautapena"
+msgstr "Txandakatu azpimarra"
 
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-kuit-format
@@ -8462,12 +8447,13 @@ msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Hautatutako testuaren edo kurtsorearen kokalekuari jarraitzen dion testuaren "
+"azpimarra testu-estiloa txandakatzen du."
 
 #: src/dialogs/subtitleedit.cpp:302
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle strikeout"
-msgstr "Txandakatu hautapena"
+msgstr "Txandakatu marratua"
 
 #: src/dialogs/subtitleedit.cpp:304
 #, kde-kuit-format
@@ -8476,12 +8462,13 @@ msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Hautatutako testuaren edo kurtsorearen kokalekuari jarraitzen dion testuaren "
+"marratua testu-estiloa txandakatzen du."
 
 #: src/dialogs/subtitleedit.cpp:309
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set font"
-msgstr "Ezarri eskualdea"
+msgstr "Ezarri letra-tipoa"
 
 #: src/dialogs/subtitleedit.cpp:312
 #, kde-kuit-format
@@ -8490,12 +8477,14 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
+"Ireki, hautatutako testuaren edo kurtsorearen kokalekuari jarraitzen dion "
+"testuaren letra-tipoa hautatzeko eta bere propietateak ezartzeko letra-"
+"tipoaren elkarrizketa-koadro bat."
 
 #: src/dialogs/subtitleedit.cpp:315
-#, fuzzy, kde-format
-#| msgid "Reset value"
+#, kde-format
 msgid "Reset style"
-msgstr "Berrezarri balioa"
+msgstr "Berrezarri estiloa"
 
 #: src/dialogs/subtitleedit.cpp:316
 #, kde-kuit-format
@@ -8504,65 +8493,59 @@ msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
 msgstr ""
+"Hautatutako testuaren edo kurtsorearen kokalekuari jarraitzen dion testuaren "
+"estiloa berrezartzen du."
 
 #: src/dialogs/subtitleedit.cpp:318
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Set Position"
-msgstr "Hasierako posizioa"
+msgstr "Ezarri Kokapena"
 
 #: src/dialogs/subtitleedit.cpp:322
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "More tags"
-msgstr "Aukera gehiago"
+msgstr "Etiketa gehiago"
 
 #: src/dialogs/subtitleedit.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
-msgstr ""
+msgstr "Etiketa gehiago erakusteko menu bat irekitzen du"
 
 #: src/dialogs/subtitleedit.cpp:382
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Right To Left"
-msgstr "Goian Ezkerrean"
+msgstr "Eskuinetik ezkerrera"
 
 #: src/dialogs/subtitleedit.cpp:383
-#, fuzzy, kde-format
-#| msgid "Left,Right"
+#, kde-format
 msgid "Left To Right"
-msgstr "Ezker, Eskuin"
+msgstr "Ezkerretik eskuinera"
 
 #: src/dialogs/subtitleedit.cpp:384
-#, fuzzy, kde-format
-#| msgid "Crop bottom"
+#, kde-format
 msgid "Top To Bottom"
-msgstr "Moztu behetik"
+msgstr "Goitik behera"
 
 #: src/dialogs/subtitleedit.cpp:385
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Bottom To Top"
-msgstr "Behean"
+msgstr "Behetik gora"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Tags"
-msgstr ""
+msgstr "Hustu etiketa guztiak"
 
 #: src/dialogs/subtitleedit.cpp:402
-#, fuzzy, kde-format
-#| msgid "Speech Editor"
+#, kde-format
 msgid "Simple Editor"
-msgstr "Hizketaren Ezagutzaren Editorea"
+msgstr "Editore erraza"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Styles.."
-msgstr "Kudeatu azpidatziak"
+msgstr "Kudeatu Estiloak..."
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -8570,10 +8553,9 @@ msgid "Character: %1, total: <b>%2</b>"
 msgstr "Karakterea: %1, guztira: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgid "Set Position X"
-msgstr "X posizioa"
+msgstr "Ezarri X kokapena"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
@@ -8583,10 +8565,9 @@ msgid "X:"
 msgstr "X:"
 
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
-#, fuzzy, kde-format
-#| msgid "Position Y"
+#, kde-format
 msgid "Set Position Y"
-msgstr "Y posizioa"
+msgstr "Ezarri Y kokapena"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
@@ -8596,35 +8577,33 @@ msgid "Y:"
 msgstr "Y:"
 
 #: src/dialogs/subtitlestyleedit.cpp:45
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "Select font"
-msgstr "Hautapena"
+msgstr "Hautatu letra-tipoa"
 
 #: src/dialogs/subtitlestyleedit.cpp:46
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
+"Ireki letra-tipoa hautatzeko eta bere propietateak ezartzeko elkarrizketa-"
+"koadro bat."
 
 #: src/dialogs/subtitlestyleedit.cpp:98
-#, fuzzy, kde-format
-#| msgid "Outline"
+#, kde-format
 msgid "Box as Outline"
-msgstr "Ingerada"
+msgstr "Kutxa Ingerada gisa"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Show Preview >>>"
-msgstr "Azpidatziak aurreikustea"
+msgstr "Erakutsi aurreikuspegia >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:133
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "<<< Hide Preview"
-msgstr "Azpidatziak aurreikustea"
+msgstr "<<< Ezkutatu aurreikuspegia"
 
 #: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
 #: src/dialogs/subtitlestyleedit.cpp:171
@@ -8634,21 +8613,19 @@ msgid "Error"
 msgstr "Errorea"
 
 #: src/dialogs/subtitlestyleedit.cpp:161
-#, fuzzy, kde-format
-#| msgid "File already exists"
+#, kde-format
 msgid "Style name already exists."
-msgstr "Fitxategia badago lehendik ere"
+msgstr "Estilo-izena lehendik dago."
 
 #: src/dialogs/subtitlestyleedit.cpp:166
-#, fuzzy, kde-format
-#| msgid "The preset name can't be empty"
+#, kde-format
 msgid "Style name cannot be empty."
-msgstr "Aurrezarpenaren izenak ezin du hutsik egon"
+msgstr "Estilo-izena ezin da hutsik egon."
 
 #: src/dialogs/subtitlestyleedit.cpp:171
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "Estilo-izenak ezin du ',' izan."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9424,11 +9401,10 @@ msgid "extra audio"
 msgstr "audio gehigarria"
 
 #: src/doc/documentvalidator.cpp:2206
-#, fuzzy, kde-format
-#| msgid "Output file already exists. Do you want to overwrite it?"
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "Irteerako fitxategia dagoeneko existitzen da. Gainidatzi nahi duzu?"
+msgstr "Azpidatzi-fitxategia:<br/>%1<br/>lehendik dago. Gainidatzi nahi duzu?"
 
 #: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3581
 #, kde-format
@@ -9789,17 +9765,17 @@ msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 "Zure efektu gogokoenetako batzuk baliogabeak dira eta ezabatuak izan dira: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Ezkutatu gako-fotogramak"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:255
+#: src/effects/effectstack/model/effectitemmodel.cpp:256
 #, kde-format
 msgid "Show keyframes"
 msgstr "Erakutsi gako-fotogramak"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:331
+#: src/effects/effectstack/model/effectitemmodel.cpp:332
 #, kde-format
 msgid "Update zone for %1"
 msgstr "%1entzako zonaldea eguneratu"
@@ -9883,11 +9859,9 @@ msgid "Expand Effect"
 msgstr "Zabaldu efektu"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open effect documentation in browser"
-msgstr "Lerroko dokumentazioa"
+msgstr "Ireki efektuen dokumentazioa arakatzailean"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-format
@@ -17517,54 +17491,54 @@ msgstr "Abiadura aldatzeak huts egin du"
 msgid "Change clip speed"
 msgstr "Aldatu kliparen abidadura"
 
-#: src/timeline2/model/timelinemodel.cpp:6781
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6799
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Giltzatu pista"
 
-#: src/timeline2/model/timelinemodel.cpp:6786
-#: src/timeline2/view/qml/timeline.qml:1201
+#: src/timeline2/model/timelinemodel.cpp:6804
+#: src/timeline2/view/qml/timeline.qml:1207
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Giltzapetik askatu pista"
 
-#: src/timeline2/model/timelinemodel.cpp:6820
-#: src/timeline2/model/timelinemodel.cpp:6882
+#: src/timeline2/model/timelinemodel.cpp:6838
+#: src/timeline2/model/timelinemodel.cpp:6900
 #, kde-format
 msgid "Change composition"
 msgstr "Aldatu konposizioa"
 
-#: src/timeline2/model/timelinemodel.cpp:6834
+#: src/timeline2/model/timelinemodel.cpp:6852
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Ezin a taldekatutako konposizioan lan egin, taldekatzetik atera mesedez"
 
-#: src/timeline2/model/timelinemodel.cpp:7029
-#: src/timeline2/model/timelinemodel.cpp:7066
-#: src/timeline2/model/timelinemodel.cpp:7099
-#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7047
+#: src/timeline2/model/timelinemodel.cpp:7084
+#: src/timeline2/model/timelinemodel.cpp:7117
+#: src/timeline2/model/timelinemodel.cpp:7198
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Ezin da nahasketa fotograma 1 baino gutxiagora tamaina aldatu"
 
-#: src/timeline2/model/timelinemodel.cpp:7040
-#: src/timeline2/model/timelinemodel.cpp:7074
-#: src/timeline2/model/timelinemodel.cpp:7118
-#: src/timeline2/model/timelinemodel.cpp:7204
+#: src/timeline2/model/timelinemodel.cpp:7058
+#: src/timeline2/model/timelinemodel.cpp:7092
+#: src/timeline2/model/timelinemodel.cpp:7136
+#: src/timeline2/model/timelinemodel.cpp:7222
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Ezin da nahasketaren tamaina aldatu"
 
-#: src/timeline2/model/timelinemodel.cpp:7218
+#: src/timeline2/model/timelinemodel.cpp:7236
 #, kde-format
 msgid "Resize mix"
 msgstr "Tamaina aldatu nahasketari"
 
-#: src/timeline2/model/timelinemodel.cpp:7338
+#: src/timeline2/model/timelinemodel.cpp:7356
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Errorea denbora-lerroaren aurreikuspena hasieratzean"
@@ -17665,7 +17639,7 @@ msgid "Stop"
 msgstr "Gelditu"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2174
+#: src/timeline2/view/qml/timeline.qml:2177
 #, kde-format
 msgid "Paused"
 msgstr "Pausatuta"
@@ -17773,13 +17747,13 @@ msgstr "Sarrera itzaltzea: %1"
 msgid "Slip Clip"
 msgstr "Higitu klipa"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Posizioa: %2, Iraupena: %3"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:339
 #: src/timeline2/view/qml/SubTitle.qml:440
 #, kde-format
@@ -17809,51 +17783,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Klik bikoitza</b> testua editatzeko"
 
-#: src/timeline2/view/qml/timeline.qml:992
+#: src/timeline2/view/qml/timeline.qml:998
 #, kde-format
 msgid "Show master effects"
 msgstr "Bistaratu Maisuaren efektuak"
 
-#: src/timeline2/view/qml/timeline.qml:1135
+#: src/timeline2/view/qml/timeline.qml:1141
 #, kde-format
 msgid "Click to see details"
 msgstr "Klik egin xehetasunak ikusteko"
 
-#: src/timeline2/view/qml/timeline.qml:1157
+#: src/timeline2/view/qml/timeline.qml:1163
 #, kde-format
 msgid "Speech recognition"
 msgstr "Hizketaren ezagutza"
 
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Erakutsi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1177
+#: src/timeline2/view/qml/timeline.qml:1183
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Ezkutatu"
 
-#: src/timeline2/view/qml/timeline.qml:1842
+#: src/timeline2/view/qml/timeline.qml:1845
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Klik bikoitza</b> azpidatzia gehitzeko"
 
-#: src/timeline2/view/qml/timeline.qml:2009
+#: src/timeline2/view/qml/timeline.qml:2012
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Sarrera:%1, Posizioa: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2163
-#: src/timeline2/view/qml/timeline.qml:2172
+#: src/timeline2/view/qml/timeline.qml:2166
+#: src/timeline2/view/qml/timeline.qml:2175
 #, kde-format
 msgid "Recording"
 msgstr "Grabazio"
 
-#: src/timeline2/view/qml/timeline.qml:2266
+#: src/timeline2/view/qml/timeline.qml:2269
 #, kde-format
 msgid "Multicam In"
 msgstr "Kamer-anitz Sarrera"
@@ -18192,6 +18166,8 @@ msgstr "Esportatu azpidatzi fitxategia"
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
+"«Sub Station Alpha» v4.00+ fitxategia (*.ass);;«SubRip» azpidatzi-fitxategia "
+"(*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5222
 #, kde-format
@@ -18201,12 +18177,15 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
+"azpidatzien uneko pistak geruza anizkoitzak ditu, horrek esan nahi du, "
+"geruza ezberdinetako azpidatziek hasierako kokaleku bera badute, beheko "
+"geruzako azpidatziak bakarrik atxikiko direla. Horrek esportatutako "
+"fitxategietan azpidatzi batzuk galtzea ekar lezake. Jarraitu nahi duzu?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5227
-#, fuzzy, kde-format
-#| msgid "Pasting Warning"
+#, kde-format
 msgid "Warning"
-msgstr "Itsaste Abisua"
+msgstr "Abisua"
 
 #: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
@@ -21086,10 +21065,9 @@ msgstr "S"
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:207
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Style:"
-msgstr "Estiloa"
+msgstr "Estiloa:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
 #: src/ui/editsub_ui.ui:253
@@ -21099,29 +21077,27 @@ msgstr "Amaiera:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: src/ui/editsub_ui.ui:451
-#, fuzzy, kde-format
-#| msgid "roll"
+#, kde-format
 msgid "Scroll"
-msgstr "roll"
+msgstr "Kiribildu"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Upper Bound"
-msgstr "Eguneraketak segundoko"
+msgstr "Goiko muga"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsub_ui.ui:472
 #, kde-format
 msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Marjina</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsub_ui.ui:492
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Izena</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
@@ -21133,17 +21109,15 @@ msgstr "Iruzkina"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:589
-#, fuzzy, kde-format
-#| msgid "Power Blue"
+#, kde-format
 msgid "Lower Bound"
-msgstr "Urdinaren indarra"
+msgstr "Beheko muga"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Style Editor"
-msgstr "Azpidatzien fitxategia:"
+msgstr "Azpidatzi-estilo editorea"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
@@ -21154,30 +21128,22 @@ msgstr "Lodia"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:103
-#, fuzzy, kde-format
+#, kde-format
 msgid "Secondary"
-msgstr " segundo"
+msgstr "Bigarren mailakoa"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsubstyle_ui.ui:134
 #, kde-format
 msgid "Margin"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:163
-#, fuzzy, kde-format
-#| msgid "Vertical"
-msgid "Veritical"
-msgstr "Bertikala"
+msgstr "Marjina"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Alignment Yaw"
+#, kde-format
 msgid "Alignment"
-msgstr "Lerrokatze keinada"
+msgstr "Lerrokatzea"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
@@ -21200,7 +21166,7 @@ msgstr "Itzala"
 #, fuzzy, kde-format
 #| msgid "Border "
 msgid "BorderStyle"
-msgstr "Ertza "
+msgstr "ErtzEstiloa"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
@@ -21217,7 +21183,7 @@ msgstr "Ingerada"
 #, fuzzy, kde-format
 #| msgid "Scale X"
 msgid "ScaleX"
-msgstr "Eskalatu X"
+msgstr "EskalaX"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
@@ -21225,14 +21191,14 @@ msgstr "Eskalatu X"
 #, fuzzy, kde-format
 #| msgid "Scale Y"
 msgid "ScaleY"
-msgstr "Eskalatu Y"
+msgstr "EskalaY"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
 #: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "Marratua"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
@@ -21247,7 +21213,7 @@ msgstr "Etzana"
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacing"
-msgstr "Zuriunea"
+msgstr "Lerroartea"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -21680,10 +21646,9 @@ msgstr "Honetarako profilak editatzen:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Files"
-msgstr "Fitxategia"
+msgstr "Fitxategiak"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #: src/ui/managesubtitles_ui.ui:71
@@ -21693,10 +21658,9 @@ msgstr "Bide-izena"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Text File"
+#, kde-format
 msgid "New File"
-msgstr "Testu-fitxategia"
+msgstr "Fitxategi berria"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
@@ -21711,63 +21675,61 @@ msgstr "Ezabatu"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "Geruzak eta edukia"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
-#| msgid "New tag"
+#, kde-format
 msgid "New Layer"
-msgstr "Etiketa berria"
+msgstr "Geruza berria"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Styles"
-msgstr "Estiloa"
+msgstr "Estiloak"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
 #, fuzzy, kde-format
 #| msgid "Font"
 msgid "FontName"
-msgstr "Letra-tipoa"
+msgstr "LetraTipoa"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "FontSize"
-msgstr "Letra-tamaina"
+msgstr "LetraNeurria"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
 #, fuzzy, kde-format
 #| msgid "Gray color"
 msgid "PrimaryColor"
-msgstr "Kolore grisa"
+msgstr "LehenMailakoKolorea"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
 #, fuzzy, kde-format
 #| msgid "1st Color"
 msgid "SecondaryColor"
-msgstr "1. kolorea"
+msgstr "BigarrenMailakoKolorea"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
 #, fuzzy, kde-format
 #| msgid "Outline Color"
 msgid "OutlineColor"
-msgstr "Inguruko kolorea"
+msgstr "IngeradaKolorea"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
 #, fuzzy, kde-format
 #| msgid "Black color"
 msgid "BackColor"
-msgstr "Kolore beltza"
+msgstr "HodoKolorea"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
@@ -21778,45 +21740,43 @@ msgstr "Estiloa"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
-#, kde-format
+#, fuzzy, kde-format
 msgid "MarginL"
-msgstr ""
+msgstr "MarjinaEzk"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
-#, kde-format
+#, fuzzy, kde-format
 msgid "MarginR"
-msgstr ""
+msgstr "MarjinaEsk"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
-#, kde-format
+#, fuzzy, kde-format
 msgid "MarginV"
-msgstr ""
+msgstr "MarjinB"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "New Style"
-msgstr "Estiloa"
+msgstr "Estilo berria"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "Informazioa"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539
-#, kde-format
+#, fuzzy, kde-format
 msgid "Key"
-msgstr ""
+msgstr "Gakoa?"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "Value"
+#, kde-format
 msgid "Value"
 msgstr "Balioa"
 
@@ -23357,6 +23317,10 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~| msgid "Vertical"
+#~ msgid "Veritical"
+#~ msgstr "Bertikala"
 
 #~ msgid "Add text"
 #~ msgstr "Gehitu testua"
