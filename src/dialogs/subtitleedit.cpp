@@ -571,7 +571,7 @@ void SubtitleEdit::setActiveSubtitle(int id)
                 comboStyle->setCurrentIndex(comboStyle->count() - 1);
             }
         }
-        comboStyle->addItem(i18n("Manage Styles.."), -1);
+        comboStyle->addItem(i18n("Manage Styles…"), -1);
         checkComment->setChecked(!m_model->getIsDialogue(id));
         editName->setText(m_model->getName(id));
         marginL->setValue(m_model->getMarginL(id));
