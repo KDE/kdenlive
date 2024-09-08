@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 02:28+0000\n"
+"POT-Creation-Date: 2024-09-08 02:32+0000\n"
 "PO-Revision-Date: 2024-08-25 02:40+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4085,7 +4085,7 @@ msgstr ""
 "\n"
 "紅："
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:993
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:999
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -9120,17 +9120,17 @@ msgstr "匯出自訂效果"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "您加入最愛的一些效果是無效的而已被移除：%1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:237
+#: src/effects/effectstack/model/effectitemmodel.cpp:241
 #, kde-format
 msgid "Hide keyframes"
 msgstr "隱藏關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:237
+#: src/effects/effectstack/model/effectitemmodel.cpp:241
 #, kde-format
 msgid "Show keyframes"
 msgstr "顯示關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:313
+#: src/effects/effectstack/model/effectitemmodel.cpp:317
 #, kde-format
 msgid "Update zone for %1"
 msgstr "為 %1 更新區段"
@@ -16637,53 +16637,53 @@ msgstr "變更速度失敗"
 msgid "Change clip speed"
 msgstr "變更素材速度"
 
-#: src/timeline2/model/timelinemodel.cpp:6771
-#: src/timeline2/view/qml/timeline.qml:1192
+#: src/timeline2/model/timelinemodel.cpp:6789
+#: src/timeline2/view/qml/timeline.qml:1198
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "鎖定軌道"
 
-#: src/timeline2/model/timelinemodel.cpp:6776
-#: src/timeline2/view/qml/timeline.qml:1192
+#: src/timeline2/model/timelinemodel.cpp:6794
+#: src/timeline2/view/qml/timeline.qml:1198
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "解鎖軌道"
 
-#: src/timeline2/model/timelinemodel.cpp:6810
-#: src/timeline2/model/timelinemodel.cpp:6872
+#: src/timeline2/model/timelinemodel.cpp:6828
+#: src/timeline2/model/timelinemodel.cpp:6890
 #, kde-format
 msgid "Change composition"
 msgstr "變更合成方案"
 
-#: src/timeline2/model/timelinemodel.cpp:6824
+#: src/timeline2/model/timelinemodel.cpp:6842
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "無法操作已群組化的合成方案，請先解除群組化"
 
-#: src/timeline2/model/timelinemodel.cpp:7019
-#: src/timeline2/model/timelinemodel.cpp:7056
-#: src/timeline2/model/timelinemodel.cpp:7089
-#: src/timeline2/model/timelinemodel.cpp:7170
+#: src/timeline2/model/timelinemodel.cpp:7037
+#: src/timeline2/model/timelinemodel.cpp:7074
+#: src/timeline2/model/timelinemodel.cpp:7107
+#: src/timeline2/model/timelinemodel.cpp:7188
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "無法將混合大小調整到小於一個影格"
 
-#: src/timeline2/model/timelinemodel.cpp:7030
-#: src/timeline2/model/timelinemodel.cpp:7064
-#: src/timeline2/model/timelinemodel.cpp:7108
-#: src/timeline2/model/timelinemodel.cpp:7194
+#: src/timeline2/model/timelinemodel.cpp:7048
+#: src/timeline2/model/timelinemodel.cpp:7082
+#: src/timeline2/model/timelinemodel.cpp:7126
+#: src/timeline2/model/timelinemodel.cpp:7212
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "無法調整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:7208
+#: src/timeline2/model/timelinemodel.cpp:7226
 #, kde-format
 msgid "Resize mix"
 msgstr "調整混合大小"
 
-#: src/timeline2/model/timelinemodel.cpp:7328
+#: src/timeline2/model/timelinemodel.cpp:7346
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "初始化時間軸預覽時發生錯誤"
@@ -16777,7 +16777,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2111
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Paused"
 msgstr "已暫停"
@@ -16881,13 +16881,13 @@ msgstr "淡入：%1"
 msgid "Slip Clip"
 msgstr "滑動素材"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1，位置：%2，時長：%3"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:313
 #: src/timeline2/view/qml/SubTitle.qml:414
 #, kde-format
@@ -16916,51 +16916,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>雙擊</b>來編輯文字"
 
-#: src/timeline2/view/qml/timeline.qml:987
+#: src/timeline2/view/qml/timeline.qml:993
 #, kde-format
 msgid "Show master effects"
 msgstr "顯示 master 效果"
 
-#: src/timeline2/view/qml/timeline.qml:1126
+#: src/timeline2/view/qml/timeline.qml:1132
 #, kde-format
 msgid "Click to see details"
 msgstr "點擊來檢視詳細資料"
 
-#: src/timeline2/view/qml/timeline.qml:1148
+#: src/timeline2/view/qml/timeline.qml:1154
 #, kde-format
 msgid "Speech recognition"
 msgstr "語音辨識"
 
-#: src/timeline2/view/qml/timeline.qml:1168
+#: src/timeline2/view/qml/timeline.qml:1174
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "顯示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1168
+#: src/timeline2/view/qml/timeline.qml:1174
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "隱藏"
 
-#: src/timeline2/view/qml/timeline.qml:1784
+#: src/timeline2/view/qml/timeline.qml:1787
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>雙擊</b>來新增字幕"
 
-#: src/timeline2/view/qml/timeline.qml:1946
+#: src/timeline2/view/qml/timeline.qml:1949
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "偏移：%1，位置：%2"
 
-#: src/timeline2/view/qml/timeline.qml:2100
-#: src/timeline2/view/qml/timeline.qml:2109
+#: src/timeline2/view/qml/timeline.qml:2103
+#: src/timeline2/view/qml/timeline.qml:2112
 #, kde-format
 msgid "Recording"
 msgstr "錄製"
 
-#: src/timeline2/view/qml/timeline.qml:2203
+#: src/timeline2/view/qml/timeline.qml:2206
 #, kde-format
 msgid "Multicam In"
 msgstr "多相機 入"

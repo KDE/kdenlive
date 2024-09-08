@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 02:28+0000\n"
+"POT-Creation-Date: 2024-09-08 02:32+0000\n"
 "PO-Revision-Date: 2024-07-29 05:19+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -4161,7 +4161,7 @@ msgstr ""
 "\n"
 "მარჯვ:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:993
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:999
 #, kde-format
 msgid "Master"
 msgstr "მთავარი"
@@ -9307,17 +9307,17 @@ msgstr "მომხმარებლის ეფექტის გატა�
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "ზოგიერთ თქვენი რჩეული ეფექტი არასწორია და წაიშალა: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:237
+#: src/effects/effectstack/model/effectitemmodel.cpp:241
 #, kde-format
 msgid "Hide keyframes"
 msgstr "კადრების დამალვა"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:237
+#: src/effects/effectstack/model/effectitemmodel.cpp:241
 #, kde-format
 msgid "Show keyframes"
 msgstr "კადრების ჩვენება"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:313
+#: src/effects/effectstack/model/effectitemmodel.cpp:317
 #, kde-format
 msgid "Update zone for %1"
 msgstr "%1-სთვის ზონის განახლება"
@@ -16977,54 +16977,54 @@ msgstr "სიჩქარის შეცვლა ჩავარდა"
 msgid "Change clip speed"
 msgstr "კლიპის სიჩქარის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:6771
-#: src/timeline2/view/qml/timeline.qml:1192
+#: src/timeline2/model/timelinemodel.cpp:6789
+#: src/timeline2/view/qml/timeline.qml:1198
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "ბილიკის ჩაკეტვა"
 
-#: src/timeline2/model/timelinemodel.cpp:6776
-#: src/timeline2/view/qml/timeline.qml:1192
+#: src/timeline2/model/timelinemodel.cpp:6794
+#: src/timeline2/view/qml/timeline.qml:1198
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "ბილიკის გახსნა"
 
-#: src/timeline2/model/timelinemodel.cpp:6810
-#: src/timeline2/model/timelinemodel.cpp:6872
+#: src/timeline2/model/timelinemodel.cpp:6828
+#: src/timeline2/model/timelinemodel.cpp:6890
 #, kde-format
 msgid "Change composition"
 msgstr "კომპოზიციის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:6824
+#: src/timeline2/model/timelinemodel.cpp:6842
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "ოპერაციის გადატარება დაჯგუფებულ კომპოზიციაზე შეუძლებელია. ჯერ განაჯგუფეთ"
 
-#: src/timeline2/model/timelinemodel.cpp:7019
-#: src/timeline2/model/timelinemodel.cpp:7056
-#: src/timeline2/model/timelinemodel.cpp:7089
-#: src/timeline2/model/timelinemodel.cpp:7170
+#: src/timeline2/model/timelinemodel.cpp:7037
+#: src/timeline2/model/timelinemodel.cpp:7074
+#: src/timeline2/model/timelinemodel.cpp:7107
+#: src/timeline2/model/timelinemodel.cpp:7188
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "შერევის ზომის შეცვლა 1 კადრზე ნაკლებისთვის შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:7030
-#: src/timeline2/model/timelinemodel.cpp:7064
-#: src/timeline2/model/timelinemodel.cpp:7108
-#: src/timeline2/model/timelinemodel.cpp:7194
+#: src/timeline2/model/timelinemodel.cpp:7048
+#: src/timeline2/model/timelinemodel.cpp:7082
+#: src/timeline2/model/timelinemodel.cpp:7126
+#: src/timeline2/model/timelinemodel.cpp:7212
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "შერევის ზომის შეცვლა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:7208
+#: src/timeline2/model/timelinemodel.cpp:7226
 #, kde-format
 msgid "Resize mix"
 msgstr "შერევის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:7328
+#: src/timeline2/model/timelinemodel.cpp:7346
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "დროის ხაზის მინიატურის ინიციალიზაციის შეცდომა"
@@ -17125,7 +17125,7 @@ msgid "Stop"
 msgstr "შეჩერება"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2111
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Paused"
 msgstr "შეჩერებულია"
@@ -17233,13 +17233,13 @@ msgstr "გამოჩენა: %1"
 msgid "Slip Clip"
 msgstr "კლიპის გადახვევა"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, მდებარეობა: %2, ხანგრძლივობა: %3"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:313
 #: src/timeline2/view/qml/SubTitle.qml:414
 #, kde-format
@@ -17269,51 +17269,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>ორმაგი წკაპი</b> ტექსტის ჩასასწორებლად"
 
-#: src/timeline2/view/qml/timeline.qml:987
+#: src/timeline2/view/qml/timeline.qml:993
 #, kde-format
 msgid "Show master effects"
 msgstr "ძირითადი ეფექტების ჩვენება"
 
-#: src/timeline2/view/qml/timeline.qml:1126
+#: src/timeline2/view/qml/timeline.qml:1132
 #, kde-format
 msgid "Click to see details"
 msgstr "დეტალების სანახავად დააწკაპუნეთ"
 
-#: src/timeline2/view/qml/timeline.qml:1148
+#: src/timeline2/view/qml/timeline.qml:1154
 #, kde-format
 msgid "Speech recognition"
 msgstr "საუბრის ამოცნობა"
 
-#: src/timeline2/view/qml/timeline.qml:1168
+#: src/timeline2/view/qml/timeline.qml:1174
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "ჩვენება"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1168
+#: src/timeline2/view/qml/timeline.qml:1174
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "დამალვა"
 
-#: src/timeline2/view/qml/timeline.qml:1784
+#: src/timeline2/view/qml/timeline.qml:1787
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ორმაგი წკაპი</b> სუბტიტრის დასამატებლად"
 
-#: src/timeline2/view/qml/timeline.qml:1946
+#: src/timeline2/view/qml/timeline.qml:1949
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "წანაცვლება: %1, მდებარეობა: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2100
-#: src/timeline2/view/qml/timeline.qml:2109
+#: src/timeline2/view/qml/timeline.qml:2103
+#: src/timeline2/view/qml/timeline.qml:2112
 #, kde-format
 msgid "Recording"
 msgstr "ჩაწერა"
 
-#: src/timeline2/view/qml/timeline.qml:2203
+#: src/timeline2/view/qml/timeline.qml:2206
 #, kde-format
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"

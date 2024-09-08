@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-07 02:28+0000\n"
+"POT-Creation-Date: 2024-09-08 02:32+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -4189,7 +4189,7 @@ msgstr ""
 "\n"
 "右:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:993
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:999
 #, kde-format
 msgid "Master"
 msgstr "マスター"
@@ -9539,19 +9539,19 @@ msgstr "効果の削除"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "効果の一部が無効であったため削除されました: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:237
+#: src/effects/effectstack/model/effectitemmodel.cpp:241
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide keyframes"
 msgstr "フレームの隠蔽"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:237
+#: src/effects/effectstack/model/effectitemmodel.cpp:241
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show keyframes"
 msgstr "キーフレームの削除"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:313
+#: src/effects/effectstack/model/effectitemmodel.cpp:317
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update zone for %1"
@@ -17490,57 +17490,57 @@ msgstr "キャプチャ済みファイル"
 msgid "Change clip speed"
 msgstr "クリップタイプの変更"
 
-#: src/timeline2/model/timelinemodel.cpp:6771
-#: src/timeline2/view/qml/timeline.qml:1192
+#: src/timeline2/model/timelinemodel.cpp:6789
+#: src/timeline2/view/qml/timeline.qml:1198
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "トラックの施錠"
 
-#: src/timeline2/model/timelinemodel.cpp:6776
-#: src/timeline2/view/qml/timeline.qml:1192
+#: src/timeline2/model/timelinemodel.cpp:6794
+#: src/timeline2/view/qml/timeline.qml:1198
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "トラックの解錠"
 
-#: src/timeline2/model/timelinemodel.cpp:6810
-#: src/timeline2/model/timelinemodel.cpp:6872
+#: src/timeline2/model/timelinemodel.cpp:6828
+#: src/timeline2/model/timelinemodel.cpp:6890
 #, fuzzy, kde-format
 #| msgid "Center position (X)"
 msgid "Change composition"
 msgstr "中央位置 (X)"
 
-#: src/timeline2/model/timelinemodel.cpp:6824
+#: src/timeline2/model/timelinemodel.cpp:6842
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "遷移をグループで行うことはできません、グループ解除してください"
 
-#: src/timeline2/model/timelinemodel.cpp:7019
-#: src/timeline2/model/timelinemodel.cpp:7056
-#: src/timeline2/model/timelinemodel.cpp:7089
-#: src/timeline2/model/timelinemodel.cpp:7170
+#: src/timeline2/model/timelinemodel.cpp:7037
+#: src/timeline2/model/timelinemodel.cpp:7074
+#: src/timeline2/model/timelinemodel.cpp:7107
+#: src/timeline2/model/timelinemodel.cpp:7188
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "クリップを位置 %1 に移動できません"
 
-#: src/timeline2/model/timelinemodel.cpp:7030
-#: src/timeline2/model/timelinemodel.cpp:7064
-#: src/timeline2/model/timelinemodel.cpp:7108
-#: src/timeline2/model/timelinemodel.cpp:7194
+#: src/timeline2/model/timelinemodel.cpp:7048
+#: src/timeline2/model/timelinemodel.cpp:7082
+#: src/timeline2/model/timelinemodel.cpp:7126
+#: src/timeline2/model/timelinemodel.cpp:7212
 #, fuzzy, kde-format
 #| msgid "Cannot create clip"
 msgid "Cannot resize mix"
 msgstr "クリップを作成できません"
 
-#: src/timeline2/model/timelinemodel.cpp:7208
+#: src/timeline2/model/timelinemodel.cpp:7226
 #, fuzzy, kde-format
 #| msgid "Resize clip"
 msgid "Resize mix"
 msgstr "クリップのサイズ変更"
 
-#: src/timeline2/model/timelinemodel.cpp:7328
+#: src/timeline2/model/timelinemodel.cpp:7346
 #, fuzzy, kde-format
 #| msgid "Image preview"
 msgid "Error initializing timeline preview"
@@ -17643,7 +17643,7 @@ msgid "Stop"
 msgstr "停止"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2111
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Paused"
 msgstr "一時停止"
@@ -17758,13 +17758,13 @@ msgstr "フェードイン: %1"
 msgid "Slip Clip"
 msgstr "クリップの選択(S)"
 
-#: src/timeline2/view/qml/Composition.qml:269
+#: src/timeline2/view/qml/Composition.qml:268
 #, kde-format
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, 位置: %2, 長さ: %3"
 
-#: src/timeline2/view/qml/Composition.qml:337
-#: src/timeline2/view/qml/Composition.qml:399
+#: src/timeline2/view/qml/Composition.qml:336
+#: src/timeline2/view/qml/Composition.qml:398
 #: src/timeline2/view/qml/SubTitle.qml:313
 #: src/timeline2/view/qml/SubTitle.qml:414
 #, kde-format
@@ -17790,55 +17790,55 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>ダブルクリック</b>でテキストを編集"
 
-#: src/timeline2/view/qml/timeline.qml:987
+#: src/timeline2/view/qml/timeline.qml:993
 #, fuzzy, kde-format
 #| msgid "Sox band audio effect"
 msgid "Show master effects"
 msgstr "Sox Band オーディオ効果"
 
-#: src/timeline2/view/qml/timeline.qml:1126
+#: src/timeline2/view/qml/timeline.qml:1132
 #, kde-format
 msgid "Click to see details"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1148
+#: src/timeline2/view/qml/timeline.qml:1154
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "遷移効果の選択(E)"
 
-#: src/timeline2/view/qml/timeline.qml:1168
+#: src/timeline2/view/qml/timeline.qml:1174
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "表示"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1168
+#: src/timeline2/view/qml/timeline.qml:1174
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "隠す"
 
-#: src/timeline2/view/qml/timeline.qml:1784
+#: src/timeline2/view/qml/timeline.qml:1787
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>ダブルクリック</b>で字幕を追加"
 
-#: src/timeline2/view/qml/timeline.qml:1946
+#: src/timeline2/view/qml/timeline.qml:1949
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Offset: %1, Position: %2"
 msgstr "位置"
 
-#: src/timeline2/view/qml/timeline.qml:2100
-#: src/timeline2/view/qml/timeline.qml:2109
+#: src/timeline2/view/qml/timeline.qml:2103
+#: src/timeline2/view/qml/timeline.qml:2112
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "録画"
 
-#: src/timeline2/view/qml/timeline.qml:2203
+#: src/timeline2/view/qml/timeline.qml:2206
 #, kde-format
 msgid "Multicam In"
 msgstr ""
