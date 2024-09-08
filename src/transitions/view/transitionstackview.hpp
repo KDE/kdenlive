@@ -20,6 +20,7 @@ public:
     void unsetModel();
     ObjectId stackOwner() const;
     void refreshTracks();
+    void openCompositionHelp();
 
 private Q_SLOTS:
     void updateTrack(int newTrack);

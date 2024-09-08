@@ -75,15 +75,14 @@ AssetPanel::AssetPanel(QWidget *parent)
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     buttonToolbar->addWidget(empty);
 
-    m_switchBuiltStack = new QToolButton(this);
-    m_switchBuiltStack->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
+    m_switchBuiltStack = new QAction(QIcon::fromTheme(QStringLiteral("adjustlevels")), QString(), this);
     m_switchBuiltStack->setToolTip(i18n("Enable Builtin Effects"));
     m_switchBuiltStack->setWhatsThis(xi18nc(
         "@info:whatsthis", "When enabled, this will add basic effects (Flip, Transform, Volume) to all clips for convenience. These effects are disabled "
                            "and will only be applied if you change a parameter."));
     m_switchBuiltStack->setCheckable(true);
     m_switchBuiltStack->setChecked(KdenliveSettings::enableBuiltInEffects());
-    connect(m_switchBuiltStack, &QToolButton::toggled, this, [this](bool enable) {
+    connect(m_switchBuiltStack, &QAction::triggered, this, [this](bool enable) {
         KdenliveSettings::setEnableBuiltInEffects(enable);
         if (m_effectStackWidget) {
             ObjectId owner = m_effectStackWidget->stackOwner();
@@ -94,32 +93,28 @@ AssetPanel::AssetPanel(QWidget *parent)
             pCore->clearAssetPanel(-1);
         }
     });
-    buttonToolbar->addWidget(m_switchBuiltStack);
+    buttonToolbar->addAction(m_switchBuiltStack);
+    m_switchBuiltStack->setVisible(false);
 
-    QToolButton *applyEffectGroupsButton = new QToolButton(this);
-    applyEffectGroupsButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_applyEffectGroups = new QAction(i18n("Apply effect change to all clips in the group"), this);
-    m_applyEffectGroups->setCheckable(true);
-    m_applyEffectGroups->setChecked(KdenliveSettings::applyEffectParamsToGroup());
+    m_applyEffectGroups = new QMenu(this);
     m_applyEffectGroups->setIcon(QIcon::fromTheme(QStringLiteral("link")));
-    m_applyEffectGroups->setToolTip(i18n("Apply effect change to all clips in the group…"));
-    m_applyEffectGroups->setWhatsThis(
-        xi18nc("@info:whatsthis", "When enabled and the clip is in a group, all clips in this group that have the same effect will see the parameters adjusted "
-                                  "as well. Deleting an effect will delete it in all clips in the group."));
-    buttonToolbar->addWidget(applyEffectGroupsButton);
-    connect(m_applyEffectGroups, &QAction::toggled, this, [this](bool enabled) {
-        KdenliveSettings::setApplyEffectParamsToGroup(enabled);
-        Q_EMIT m_effectStackWidget->updateEffectsGroupesInstances();
-    });
-    QMenu *effectGroupMenu = new QMenu(this);
     QAction *applyToSameOnly = new QAction(i18n("Apply only to effects with same value"), this);
     applyToSameOnly->setCheckable(true);
     applyToSameOnly->setChecked(KdenliveSettings::applyEffectParamsToGroupWithSameValue());
     connect(applyToSameOnly, &QAction::toggled, this, [](bool enabled) { KdenliveSettings::setApplyEffectParamsToGroupWithSameValue(enabled); });
-    effectGroupMenu->addAction(applyToSameOnly);
-
-    applyEffectGroupsButton->setMenu(effectGroupMenu);
-    applyEffectGroupsButton->setDefaultAction(m_applyEffectGroups);
+    m_applyEffectGroups->addAction(applyToSameOnly);
+    m_applyEffectGroups->menuAction()->setCheckable(true);
+    m_applyEffectGroups->menuAction()->setToolTip(i18n("Apply effect change to all clips in the group…"));
+    m_applyEffectGroups->menuAction()->setWhatsThis(
+        xi18nc("@info:whatsthis", "When enabled and the clip is in a group, all clips in this group that have the same effect will see the parameters adjusted "
+                                  "as well. Deleting an effect will delete it in all clips in the group."));
+    buttonToolbar->addAction(m_applyEffectGroups->menuAction());
+    m_applyEffectGroups->menuAction()->setChecked(KdenliveSettings::applyEffectParamsToGroup());
+    connect(m_applyEffectGroups->menuAction(), &QAction::triggered, this, [this]() {
+        KdenliveSettings::setApplyEffectParamsToGroup(m_applyEffectGroups->menuAction()->isChecked());
+        Q_EMIT m_effectStackWidget->updateEffectsGroupesInstances();
+    });
+    m_applyEffectGroups->menuAction()->setVisible(false);
     m_saveEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("document-save-all")), QString(), this);
     m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
     m_saveEffectStack->setWhatsThis(xi18nc("@info:whatsthis", "Saves the entire effect stack as an XML file for use in other projects."));
@@ -148,7 +143,11 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_enableStackButton, &KDualAction::activeChangedByUser, this, &AssetPanel::enableStack);
     m_enableStackButton->setVisible(false);
     buttonToolbar->addAction(m_enableStackButton);
-
+    m_compositionHelpLink = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);
+    m_compositionHelpLink->setToolTip(i18n("Open composition documentation in browser"));
+    buttonToolbar->addAction(m_compositionHelpLink);
+    connect(m_compositionHelpLink, &QAction::triggered, this, [this]() { m_transitionWidget->openCompositionHelp(); });
+    m_compositionHelpLink->setVisible(false);
     m_timelineButton = new KDualAction(i18n("Display keyframes in timeline"), i18n("Hide keyframes in timeline"), this);
     m_timelineButton->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of keyframes in the clip on the timeline"));
     m_timelineButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
@@ -210,9 +209,10 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_switchAction->setVisible(true);
     m_titleAction->setVisible(false);
-    m_applyEffectGroups->setVisible(false);
+    m_applyEffectGroups->menuAction()->setVisible(false);
     m_assetTitle->clear();
     m_transitionWidget->setVisible(true);
+    m_compositionHelpLink->setVisible(true);
     m_timelineButton->setVisible(true);
     m_enableStackButton->setVisible(false);
     QSize s = pCore->getCompositionSizeOnTrack(id);
@@ -243,8 +243,9 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
     m_titleAction->setVisible(false);
     m_assetTitle->clear();
     m_mixWidget->setVisible(true);
+    m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(false);
-    m_applyEffectGroups->setVisible(false);
+    m_applyEffectGroups->menuAction()->setVisible(false);
     m_enableStackButton->setVisible(false);
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_mixWidget->setModel(transitionModel, QSize(), true);
@@ -257,6 +258,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
         m_splitButton->setVisible(false);
         m_enableStackButton->setVisible(false);
         m_saveEffectStack->setVisible(false);
+        m_switchBuiltStack->setVisible(false);
         clear();
         return;
     }
@@ -299,9 +301,10 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     }
     m_assetTitle->setText(title);
     m_titleAction->setVisible(true);
-    m_applyEffectGroups->setVisible(true);
+    m_applyEffectGroups->menuAction()->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_saveEffectStack->setVisible(true);
+    m_switchBuiltStack->setVisible(true);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
@@ -313,10 +316,9 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
             m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
         });
     }
+    m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(enableKeyframes);
     m_timelineButton->setActive(showKeyframes);
-    // Disable built stack until properly implemented
-    // m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, frameSize);
 }
@@ -358,6 +360,8 @@ void AssetPanel::clear()
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
     m_saveEffectStack->setVisible(false);
+    m_switchBuiltStack->setVisible(false);
+    m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->unsetModel();

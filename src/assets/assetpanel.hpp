@@ -83,8 +83,9 @@ protected:
     EffectStackView *m_effectStackWidget;
 
 private:
-    QToolButton *m_switchBuiltStack;
-    QAction *m_applyEffectGroups;
+    QAction *m_switchBuiltStack;
+    QAction *m_compositionHelpLink;
+    QMenu *m_applyEffectGroups;
     QAction *m_saveEffectStack;
     QComboBox *m_switchCompoButton;
     QAction *m_titleAction;

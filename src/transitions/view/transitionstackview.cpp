@@ -4,14 +4,17 @@
 */
 
 #include "transitionstackview.hpp"
+#include "assets/assetlist/view/assetlistwidget.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
+#include "transitions/transitionsrepository.hpp"
 
 #include <KLocalizedString>
 #include <QComboBox>
 #include <QDebug>
+#include <QDesktopServices>
 #include <QFormLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -114,5 +117,15 @@ void TransitionStackView::checkCompoTrack()
     if (m_trackBox->currentData().toInt() != aTrack.first) {
         const QSignalBlocker blocker(m_trackBox);
         m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
+    }
+}
+
+void TransitionStackView::openCompositionHelp()
+{
+    if (m_model) {
+        const QString id = m_model->getAssetId();
+        AssetListType::AssetType type = TransitionsRepository::get()->getType(id);
+        const QString link = AssetListWidget::buildLink(id, type);
+        QDesktopServices::openUrl(QUrl(link));
     }
 }
