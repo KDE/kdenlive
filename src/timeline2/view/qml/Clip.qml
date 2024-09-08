@@ -80,7 +80,7 @@ Rectangle {
     property int mouseXPos: mouseArea.mouseX
     width : Math.round(clipDuration * timeScale)
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
-    enabled: !clipDropArea.containsDrag
+    enabled: !clipDropArea.containsDrag && !compoArea.containsDrag
 
     signal trimmingIn(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedIn(var clip, bool shiftTrim, bool controlTrim)

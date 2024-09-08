@@ -57,7 +57,7 @@ Item {
     property int trackOffset: 5
     y: trackOffset
     height: 5
-    enabled: !compoArea.containsDrag
+    enabled: !compoArea.containsDrag && !clipDropArea.containsDrag
 
 
     signal trimmingIn(var clip, real newDuration)

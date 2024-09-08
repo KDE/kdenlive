@@ -27,7 +27,7 @@ Rectangle {
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
     Timer {
@@ -636,6 +636,8 @@ Rectangle {
         x: headerWidth
         property bool isAudioDrag
         property int sameCutPos: -1
+        property int fakeFrame: -1
+        property int fakeTrack: -1
         keys: 'kdenlive/composition'
         function moveDrop(offset, voffset)
         {
@@ -647,13 +649,13 @@ Rectangle {
                         // Don't allow moving composition to an audio track
                         track = controller.getCompositionTrackId(clipBeingDroppedId)
                     }
-                    var moveData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
-                    var currentFrame = moveData[0]
-                    var currentTrack = moveData[1]
+                    var frameData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
+                    fakeTrack = frameData[1]
+                    timeline.activeTrack = fakeTrack
                     sameCutPos = timeline.isOnCut(clipBeingDroppedId)
                     if (sameCutPos > -1) {
-                        var sourceTrack = Logic.getTrackById(currentTrack)
-                        if (drag.y < sourceTrack.y + sourceTrack.height / 2 || isAudioDrag) {
+                        var sourceTrack = Logic.getTrackById(fakeTrack)
+                        if ((drag.y > sourceTrack.y + sourceTrack.height / 2) || isAudioDrag) {
                             sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
                             sameTrackIndicator.y = sourceTrack.y
                             sameTrackIndicator.height = sourceTrack.height
