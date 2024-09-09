@@ -2167,14 +2167,13 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-
     bool res = true;
     if (singleSelectOperation) {
         // Ungroup all items first
         auto selection = m_currentSelection;
         for (auto s : selection) {
             if (m_groups->isInGroup(s)) {
-                extractSelectionFromGroup({s}, undo, redo);
+                extractSelectionFromGroup({s}, undo, redo, true);
             }
         }
         // loop deletion
@@ -2191,7 +2190,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     return res;
 }
 
-std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo)
+std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo, bool onDeletion)
 {
     int gid = m_groups->getDirectAncestor(*selection.begin());
     std::pair<int, int> grpPair = {gid, -1};
@@ -2207,20 +2206,48 @@ std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<
             if (siblings.size() > 0) {
                 grpPair.second = *siblings.begin();
             }
-            if (grandParent > -1) {
-                // The group is inside another one, move remaining items in that top level group
-                for (int id : siblings) {
-                    m_groups->setInGroupOf(id, gid, undo, redo);
+            if (onDeletion) {
+                // Item will be deleted, remove the group
+                if (grandParent > -1) {
+                    // The group is inside another one, move remaining items in that top level group
+                    for (int id : siblings) {
+                        m_groups->setInGroupOf(id, gid, undo, redo);
+                    }
+                    // Remove group
+                    m_groups->removeFromGroup(gid, undo, redo);
                 }
-                // Remove group
-                m_groups->removeFromGroup(gid, undo, redo);
+                // Remove all remaining items from group
+                siblings = m_groups->getLeaves(gid);
+                for (int id : siblings) {
+                    m_groups->removeFromGroup(id, undo, redo);
+                }
+                // Remove the top group
+                Fun local_redo = [this, cid = grpPair.second]() {
+                    // Clear selection
+                    int gid = m_groups->getDirectAncestor(cid);
+                    bool isSelected = m_currentSelection.count(gid) || m_currentSelection.count(cid);
+                    if (isSelected) {
+                        // Clear group selection to not leave an invalid selection
+                        requestClearSelection(true);
+                    }
+                    return true;
+                };
+                Fun local_undo = [this, cid = grpPair.second]() {
+                    // Clear selection
+                    int gid = m_groups->getDirectAncestor(cid);
+                    bool isSelected = m_currentSelection.count(cid) || m_currentSelection.count(gid);
+                    if (isSelected) {
+                        // Clear group selection to not leave an invalid selection
+                        requestClearSelection(true);
+                    }
+                    return true;
+                };
+                local_redo();
+                PUSH_FRONT_LAMBDA(local_redo, redo);
+                PUSH_LAMBDA(local_undo, undo);
             }
-            // Remove all remaining items from group
-            siblings = m_groups->getLeaves(gid);
-            for (int id : siblings) {
-                m_groups->removeFromGroup(id, undo, redo);
-            }
-        } else {
+        }
+        if (!onDeletion) {
             for (int id : selection) {
                 // Ungroup item before deletion
                 m_groups->removeFromGroup(id, undo, redo);
