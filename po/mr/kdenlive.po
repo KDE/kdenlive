@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"POT-Creation-Date: 2024-09-09 00:38+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -3340,13 +3340,13 @@ msgstr "उघडण्याचा दस्तऐवज"
 msgid "Change composition type"
 msgstr "स्थिती"
 
-#: src/assets/assetpanel.cpp:80
+#: src/assets/assetpanel.cpp:79
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable Builtin Effects"
 msgstr "परिणाम नाही"
 
-#: src/assets/assetpanel.cpp:82
+#: src/assets/assetpanel.cpp:81
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3357,15 +3357,15 @@ msgstr ""
 
 #: src/assets/assetpanel.cpp:101
 #, kde-format
-msgid "Apply effect change to all clips in the group"
+msgid "Apply only to effects with same value"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:105
+#: src/assets/assetpanel.cpp:107
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:107
+#: src/assets/assetpanel.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3374,34 +3374,29 @@ msgid ""
 "will delete it in all clips in the group."
 msgstr ""
 
-#: src/assets/assetpanel.cpp:115
-#, kde-format
-msgid "Apply only to effects with same value"
-msgstr ""
-
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:119
 #, fuzzy, kde-format
 msgid "Save Effect Stack…"
 msgstr "परिणाम :"
 
-#: src/assets/assetpanel.cpp:126
+#: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
 
-#: src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:125
 #, fuzzy, kde-format
 #| msgid "Normal"
 msgid "Normal view"
 msgstr "सामान्य"
 
-#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
+#: src/assets/assetpanel.cpp:125 src/assets/assetpanel.cpp:129
 #, fuzzy, kde-format
 msgid "Compare effect"
 msgstr "परिणाम :"
 
-#: src/assets/assetpanel.cpp:141
+#: src/assets/assetpanel.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3409,17 +3404,17 @@ msgid ""
 "left the clip with effect is shown, on the right the clip without effect."
 msgstr ""
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects disabled"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects enabled"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:149
+#: src/assets/assetpanel.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3427,39 +3422,45 @@ msgid ""
 "difference between original and edited or to speed up scrubbing."
 msgstr ""
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:147
+#, fuzzy, kde-format
+#| msgid "Document to open"
+msgid "Open composition documentation in browser"
+msgstr "उघडण्याचा दस्तऐवज"
+
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:151
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Hide keyframes in timeline"
 msgstr "संचयीका बनवा"
 
-#: src/assets/assetpanel.cpp:157
+#: src/assets/assetpanel.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:283
+#: src/assets/assetpanel.cpp:281
 #, fuzzy, kde-format
 msgid "%1 effects"
 msgstr "परिणाम :"
 
-#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
 #, fuzzy, kde-format
 msgid "%1 parameters"
 msgstr "निवड साधन (&S)"
 
-#: src/assets/assetpanel.cpp:292
+#: src/assets/assetpanel.cpp:290
 #, kde-format
 msgid "Track %1 effects"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:297
+#: src/assets/assetpanel.cpp:295
 #, fuzzy, kde-format
 msgid "Bin %1 effects"
 msgstr "परिणाम :"
@@ -6488,7 +6489,7 @@ msgstr "स्वयंचलित"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:38
+#: src/transitions/view/transitionstackview.cpp:41
 #, kde-format
 msgid "Automatic"
 msgstr "स्वयंचलित"
@@ -8501,7 +8502,7 @@ msgstr "निवड साधन (&S)"
 #: src/dialogs/subtitleedit.cpp:574
 #, fuzzy, kde-format
 #| msgid "untitled"
-msgid "Manage Styles.."
+msgid "Manage Styles…"
 msgstr "शिर्षकहीन"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
@@ -18667,13 +18668,13 @@ msgid "Position:"
 msgstr "स्थिती"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:47
+#: src/transitions/view/transitionstackview.cpp:50
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "पार्श्वभूमी"
 
-#: src/transitions/view/transitionstackview.cpp:59
+#: src/transitions/view/transitionstackview.cpp:62
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Composition track:"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-08 00:39+0000\n"
-"PO-Revision-Date: 2024-08-25 20:42+0300\n"
+"POT-Creation-Date: 2024-09-09 00:38+0000\n"
+"PO-Revision-Date: 2024-09-08 23:05+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3348,12 +3348,12 @@ msgstr "Çevrimiçi belgelendirme"
 msgid "Change composition type"
 msgstr "Bileşikleştirme türünü değiştir"
 
-#: src/assets/assetpanel.cpp:80
+#: src/assets/assetpanel.cpp:79
 #, kde-format
 msgid "Enable Builtin Effects"
 msgstr "Yerleşik Efektleri Devre Dışı Bırak"
 
-#: src/assets/assetpanel.cpp:82
+#: src/assets/assetpanel.cpp:81
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3367,15 +3367,15 @@ msgstr ""
 
 #: src/assets/assetpanel.cpp:101
 #, kde-format
-msgid "Apply effect change to all clips in the group"
-msgstr "Efekt Değişikliğini Gruptaki Tüm Kliplere Uygula"
+msgid "Apply only to effects with same value"
+msgstr "Yalnızca aynı değere sahip efektlere uygula"
 
-#: src/assets/assetpanel.cpp:105
+#: src/assets/assetpanel.cpp:107
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Efekt değişikliğini gruptaki tüm kliplere uygula…"
 
-#: src/assets/assetpanel.cpp:107
+#: src/assets/assetpanel.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3387,17 +3387,12 @@ msgstr ""
 "tüm klipler parametrelerin de ayarlandığını görecektir. Bir efektin "
 "silinmesi, gruptaki tüm klipleri de silecektir."
 
-#: src/assets/assetpanel.cpp:115
-#, kde-format
-msgid "Apply only to effects with same value"
-msgstr "Yalnızca aynı değere sahip efektlere uygula"
-
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:119
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Efekt Yığınını Kaydet…"
 
-#: src/assets/assetpanel.cpp:126
+#: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -3405,17 +3400,17 @@ msgstr ""
 "Diğer projelerde kullanılmak üzere tüm efekt yığınını bir XML dosyası olarak "
 "kaydeder."
 
-#: src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:125
 #, kde-format
 msgid "Normal view"
 msgstr "Normal görünüm"
 
-#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
+#: src/assets/assetpanel.cpp:125 src/assets/assetpanel.cpp:129
 #, kde-format
 msgid "Compare effect"
 msgstr "Efekti kıyasla"
 
-#: src/assets/assetpanel.cpp:141
+#: src/assets/assetpanel.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3425,17 +3420,17 @@ msgstr ""
 "Projede ve/veya klip monitöründe bölünmüş görünümü açar veya kapatır: Solda "
 "efektli klip, sağda efektsiz klip gösterilir."
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects disabled"
 msgstr "Efektler devre dışı"
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects enabled"
 msgstr "Efektler etkin"
 
-#: src/assets/assetpanel.cpp:149
+#: src/assets/assetpanel.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3446,39 +3441,45 @@ msgstr ""
 "Özgün ve düzenlenmiş arasındaki ayrımı veya ovalamayı hızlandırmak için "
 "yararlıdır."
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:147
+#, fuzzy, kde-format
+#| msgid "Open effect documentation in browser"
+msgid "Open composition documentation in browser"
+msgstr "Efektler belgelendirmesini tarayıcıda aç"
+
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Zaman akışında anahtar kareleri görüntüle"
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Zaman akışında anahtar kareleri göster"
 
-#: src/assets/assetpanel.cpp:157
+#: src/assets/assetpanel.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 "Zaman akışındaki klipte anahtar karelerin görüntülenmesini açar/kapatır"
 
-#: src/assets/assetpanel.cpp:283
+#: src/assets/assetpanel.cpp:281
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efektleri"
 
-#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 Parametreleri"
 
-#: src/assets/assetpanel.cpp:292
+#: src/assets/assetpanel.cpp:290
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 efekti izle"
 
-#: src/assets/assetpanel.cpp:297
+#: src/assets/assetpanel.cpp:295
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "%1 efekti kovaya at"
@@ -4468,7 +4469,7 @@ msgstr "Geçerli Klasörü Yeni Kovada Aç"
 #: src/bin/bin.cpp:1351
 #, kde-format
 msgid "Tags Panel"
-msgstr "Etiketler Paneli"
+msgstr "Künyeler Paneli"
 
 #: src/bin/bin.cpp:1373
 #, kde-kuit-format
@@ -4742,7 +4743,7 @@ msgstr "Süzgeçleri Temizle"
 #: src/bin/bin.cpp:2363
 #, kde-format
 msgid "No Tags"
-msgstr "Etiket Yok"
+msgstr "Künye Yok"
 
 #: src/bin/bin.cpp:2382
 #, kde-format
@@ -5073,12 +5074,12 @@ msgstr "Efekti Yapıştır"
 #: src/bin/bin.cpp:4048 src/bin/bin.cpp:4055
 #, kde-format
 msgid "Select a clip to add a tag"
-msgstr "Etiket eklemek için bir klip seçin"
+msgstr "Künye eklemek için bir klip seçin"
 
 #: src/bin/bin.cpp:4194
 #, kde-format
 msgid "Edit Tags"
-msgstr "Etiketleri Düzenle"
+msgstr "Künyeleri Düzenle"
 
 #: src/bin/bin.cpp:4517 src/bin/projectclip.cpp:210
 #: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
@@ -5588,10 +5589,9 @@ msgid "Subtitles"
 msgstr "Altyazılar"
 
 #: src/bin/model/subtitlemodel.cpp:110
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "Edit global subtitle style"
-msgstr "Altyazı biçemini düzenle"
+msgstr "Global altyazı biçemini düzenle"
 
 #: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
 #: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
@@ -5650,16 +5650,14 @@ msgid "Delete subtitle"
 msgstr "Altyazı sil"
 
 #: src/bin/model/subtitlemodel.cpp:1794
-#, fuzzy, kde-format
-#| msgid "Delete subtitle"
+#, kde-format
 msgid "Delete subtitle layer"
-msgstr "Altyazı sil"
+msgstr "Altyazı katmanını sil"
 
 #: src/bin/model/subtitlemodel.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Create title template"
+#, kde-format
 msgid "Create subtitle layer"
-msgstr "Başlık şablonu oluştur"
+msgstr "Altyazı katmanı oluştur"
 
 #: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
 #, kde-format
@@ -5670,7 +5668,7 @@ msgstr "Altyazı %1"
 #: src/bin/model/subtitlemodel.cpp:2226
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr ""
+msgstr "Bir altyazıya yeni bir biçem atayın."
 
 #: src/bin/projectclip.cpp:268
 #, kde-format
@@ -5738,12 +5736,12 @@ msgstr[1] "%1 klip"
 #: src/bin/projectitemmodel.cpp:327
 #, kde-format
 msgid "Tag"
-msgstr "Etiket"
+msgstr "Künye"
 
 #: src/bin/projectitemmodel.cpp:333
 #, kde-format
 msgid "Id"
-msgstr "Id"
+msgstr "Kimlik"
 
 #: src/bin/projectitemmodel.cpp:339
 #, kde-format
@@ -5806,7 +5804,7 @@ msgstr "Bölge %1"
 #: src/bin/tagwidget.cpp:52
 #, kde-format
 msgid "Tag %1"
-msgstr "%1 etiketi"
+msgstr "Künye %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
 #: src/dialogs/textbasededit.cpp:635
@@ -5817,27 +5815,27 @@ msgstr "Yapılandır"
 #: src/bin/tagwidget.cpp:165
 #, kde-format
 msgid "Configure Project Tags"
-msgstr "Proje Etiketlerini Yapılandır"
+msgstr "Proje Künyelerini Yapılandır"
 
 #: src/bin/tagwidget.cpp:198
 #, kde-format
 msgid "Edit Tag"
-msgstr "Etiketi Düzenle"
+msgstr "Künyeyi Düzenle"
 
 #: src/bin/tagwidget.cpp:213 src/bin/tagwidget.cpp:286
 #, kde-format
 msgid "This color is already used in another tag"
-msgstr "Bu renk başka bir etikette halihazırda kullanılıyor"
+msgstr "Bu renk başka bir künyede halihazırda kullanılıyor"
 
 #: src/bin/tagwidget.cpp:274
 #, kde-format
 msgid "Add Tag"
-msgstr "Etiket Ekle"
+msgstr "Künye Ekle"
 
 #: src/bin/tagwidget.cpp:282
 #, kde-format
 msgid "New tag"
-msgstr "Yeni etiket"
+msgstr "Yeni künye"
 
 #: src/capture/mediacapture.cpp:288
 #, kde-format
@@ -6481,7 +6479,7 @@ msgstr "Kendiliğinden (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:38
+#: src/transitions/view/transitionstackview.cpp:41
 #, kde-format
 msgid "Automatic"
 msgstr "Kendiliğinden"
@@ -7029,67 +7027,62 @@ msgstr "Altyazıları Yönet"
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "Katman"
 
 #: src/dialogs/managesubtitles.cpp:104
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move Layer"
-msgstr "Araç Çubuğunu Taşı"
+msgstr "Katmanı Taşı"
 
 #: src/dialogs/managesubtitles.cpp:104
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "Katmanın taşınacağı altyazı dosyasını seç:"
 
 #: src/dialogs/managesubtitles.cpp:106
-#, fuzzy, kde-format
-#| msgid "Copy channel:"
+#, kde-format
 msgid "Copy Layer"
-msgstr "Kanalı kopyala:"
+msgstr "Katmanı Kopyala"
 
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "Katmanın kopyalanacağı altyazı dosyasını seç:"
 
 #: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move To..."
-msgstr "Araç Çubuğunu Taşı"
+msgstr "Şuraya Taşı…"
 
 #: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "Şuraya Kopyala…"
 
 #: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #: src/dialogs/managesubtitles.cpp:192
-#, fuzzy, kde-format
-#| msgid "Move item"
+#, kde-format
 msgid "Move Style"
-msgstr "Ögeyi taşı"
+msgstr "Biçemi Taşı"
 
 #: src/dialogs/managesubtitles.cpp:192
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "Biçemin taşınacağı altyazı dosyasını seç:"
 
 #: src/dialogs/managesubtitles.cpp:194
-#, fuzzy, kde-format
-#| msgid "Font Style"
+#, kde-format
 msgid "Copy Style"
-msgstr "Yazıtipi Biçemi"
+msgstr "Biçemi Kopyala"
 
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "Biçemin kopyalanacağı altyazı dosyasını seç:"
 
 #: src/dialogs/managesubtitles.cpp:401
 #, kde-format
@@ -7106,22 +7099,22 @@ msgstr "Altyazıyı Dışa Aktar"
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "Katman "
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "ile "
 
 #: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr " olay"
 
 #: src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr " olay"
 
 #: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
 #, kde-format
@@ -7144,49 +7137,38 @@ msgid "Top Right"
 msgstr "Sağ Üst"
 
 #: src/dialogs/managesubtitles.cpp:553
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Box as Border"
-msgstr "Kenarlık "
+msgstr "Kenarlık Olarak Kutu"
 
 #: src/dialogs/managesubtitles.cpp:556 src/dialogs/subtitlestyleedit.cpp:99
-#, fuzzy, kde-format
-#| msgid "Custom Shadow"
+#, kde-format
 msgid "Box as Shadow"
-msgstr "Özel Gölge"
+msgstr "Gölge Olarak Kutu"
 
 #: src/dialogs/managesubtitles.cpp:706
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
-#| "subtitle file: %2 "
+#, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr ""
-"Bu, <b>%1</b> içindeki tüm altyazı girdilerini<br/> ve altyazı dosyasını "
+"Bu, <b>%1</b> içindeki tüm altyazı girdilerini<br/>ve altyazı dosyasını "
 "silecektir: %2"
 
 #: src/dialogs/managesubtitles.cpp:728
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the file:\n"
-#| "%1"
+#, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
-msgstr ""
-"Bu işlem dosyayı silecektir:\n"
-"%1"
+msgstr "Bu, <b>%1</b> katmanındaki tüm olayları silecektir."
 
 #: src/dialogs/managesubtitles.cpp:746
-#, fuzzy, kde-format
-#| msgid "Cannot delete last track in timeline"
+#, kde-format
 msgid "Cannot delete default style."
-msgstr "Zaman akışındaki son iz silinemiyor"
+msgstr "Öntanımlı biçem silinemiyor."
 
 #: src/dialogs/managesubtitles.cpp:750
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr ""
+msgstr "Bu, <b>%1</b> biçemini ve onun tüm özelliklerini silecektir."
 
 #: src/dialogs/managesubtitles.cpp:755
 #, kde-format
@@ -7194,6 +7176,8 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
+"Bu, <b>%1</b> biçemini ve onun tüm özelliklerini silecektir.\n"
+"Bu biçemi kullanan tüm altyazılar <b>Öntanımlı</b> biçemine sıfırlanır."
 
 #: src/dialogs/profilesdialog.cpp:110
 #, kde-format
@@ -8301,7 +8285,7 @@ msgstr "Altyazı biçemini düzenle"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "Geçerli altyazıyı düzenlemek için bir iletişim kutusu açın."
 
 #: src/dialogs/subtitleedit.cpp:270
 #, kde-format
@@ -8370,16 +8354,15 @@ msgid "Updates the subtitle display in the timeline."
 msgstr "Zaman akışındaki altyazı görünümünü günceller."
 
 #: src/dialogs/subtitleedit.cpp:282
-#, fuzzy, kde-format
-#| msgid "Show style options"
+#, kde-format
 msgid "Show more options"
-msgstr "Biçem seçeneklerini göster"
+msgstr "Daha fazla seçenek göster"
 
 #: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
-msgstr ""
+msgstr "Daha fazla altyazı ayarını düzenlemek için bir listeyi açar/kapatır."
 
 #: src/dialogs/subtitleedit.cpp:285
 #, kde-kuit-format
@@ -8389,10 +8372,9 @@ msgid ""
 msgstr "Şu anda seçili olan altyazıyı siler (birden çok altyazıda çalışmaz)."
 
 #: src/dialogs/subtitleedit.cpp:288
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle bold"
-msgstr "İz Devre Dışı Aç/Kapat"
+msgstr "Kalın metni aç/kapat"
 
 #: src/dialogs/subtitleedit.cpp:289
 #, kde-kuit-format
@@ -8401,12 +8383,13 @@ msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Seçili metin veya imleç konumunu izleyen metin için kalın metin biçemini "
+"açar/kapatır."
 
 #: src/dialogs/subtitleedit.cpp:292
-#, fuzzy, kde-format
-#| msgid "Toggle track effects"
+#, kde-format
 msgid "Toggle italic"
-msgstr "İz efektlerini aç/kapat"
+msgstr "Yatık metni aç/kapat"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -8415,12 +8398,13 @@ msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Seçili metin veya imleç konumunu izleyen metin için yatık metin biçemini "
+"açar/kapatır."
 
 #: src/dialogs/subtitleedit.cpp:297
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgid "Toggle underline"
-msgstr "Sunum çizgisi"
+msgstr "Altı çizili metni aç/kapat"
 
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-kuit-format
@@ -8429,12 +8413,13 @@ msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Seçili metin veya imleç konumunu izleyen metin için altı çizili metin "
+"biçemini açar/kapatır."
 
 #: src/dialogs/subtitleedit.cpp:302
-#, fuzzy, kde-format
-#| msgid "Toggle track effects"
+#, kde-format
 msgid "Toggle strikeout"
-msgstr "İz efektlerini aç/kapat"
+msgstr "Üzeri çizili metni aç/kapat"
 
 #: src/dialogs/subtitleedit.cpp:304
 #, kde-kuit-format
@@ -8443,12 +8428,13 @@ msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Seçili metin veya imleç konumunu izleyen metin için üzeri çizili metin "
+"biçemini açar/kapatır."
 
 #: src/dialogs/subtitleedit.cpp:309
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set font"
-msgstr "Bölge Ayarla"
+msgstr "Yazıtipini ayarla"
 
 #: src/dialogs/subtitleedit.cpp:312
 #, kde-kuit-format
@@ -8457,12 +8443,13 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
+"Seçili metin veya imleç konumunu izleyen metin için bir yazıtipi seçmek "
+"üzere yazıtipi iletişim kutusunu açar/kapatır."
 
 #: src/dialogs/subtitleedit.cpp:315
-#, fuzzy, kde-format
-#| msgid "Reset value"
+#, kde-format
 msgid "Reset style"
-msgstr "Değeri sıfırla"
+msgstr "Biçemi sıfırla"
 
 #: src/dialogs/subtitleedit.cpp:316
 #, kde-kuit-format
@@ -8470,66 +8457,59 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
-msgstr ""
+msgstr "Seçili metin veya imleç konumunu izleyen metin için biçemi sıfırlar."
 
 #: src/dialogs/subtitleedit.cpp:318
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Set Position"
-msgstr "Başlangıç Konumu"
+msgstr "Konumu Ayarla"
 
 #: src/dialogs/subtitleedit.cpp:322
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "More tags"
-msgstr "Daha fazla seçenek"
+msgstr "Daha fazla künye"
 
 #: src/dialogs/subtitleedit.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
-msgstr ""
+msgstr "Daha fazla künye göstermek için bir menü açar"
 
 #: src/dialogs/subtitleedit.cpp:382
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Right To Left"
-msgstr "Sol Üst"
+msgstr "Soldan Sağa"
 
 #: src/dialogs/subtitleedit.cpp:383
-#, fuzzy, kde-format
-#| msgid "Left,Right"
+#, kde-format
 msgid "Left To Right"
-msgstr "Sol,Sağ"
+msgstr "Sağdan Sola"
 
 #: src/dialogs/subtitleedit.cpp:384
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Top To Bottom"
-msgstr "Alt"
+msgstr "Yukarıdan Aşağıya"
 
 #: src/dialogs/subtitleedit.cpp:385
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Bottom To Top"
-msgstr "Alt"
+msgstr "Aşağıdan Yukarıya"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Tags"
-msgstr ""
+msgstr "Tüm Künyeleri Temizle"
 
 #: src/dialogs/subtitleedit.cpp:402
-#, fuzzy, kde-format
-#| msgid "Speech Editor"
+#, kde-format
 msgid "Simple Editor"
-msgstr "Konuşma Düzenleyicisi"
+msgstr "Basit Düzenleyici"
 
 #: src/dialogs/subtitleedit.cpp:574
 #, fuzzy, kde-format
-#| msgid "Manage Subtitles"
-msgid "Manage Styles.."
-msgstr "Altyazıları Yönet"
+#| msgid "Manage Styles.."
+msgid "Manage Styles…"
+msgstr "Biçemleri Yönet…"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -8537,10 +8517,9 @@ msgid "Character: %1, total: <b>%2</b>"
 msgstr "Karakter: %1, toplam: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgid "Set Position X"
-msgstr "X Konumu"
+msgstr "X Konumunu Ayarla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
@@ -8550,10 +8529,9 @@ msgid "X:"
 msgstr "X:"
 
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
-#, fuzzy, kde-format
-#| msgid "Position Y"
+#, kde-format
 msgid "Set Position Y"
-msgstr "Y konumu"
+msgstr "Y Konumunu Ayarla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
@@ -8563,35 +8541,33 @@ msgid "Y:"
 msgstr "Y:"
 
 #: src/dialogs/subtitlestyleedit.cpp:45
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "Select font"
-msgstr "Seçim"
+msgstr "Yazıtipi seç"
 
 #: src/dialogs/subtitlestyleedit.cpp:46
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
+"Bir yazıtipi seçmek ve özelliklerini ayarlamak için bir yazıtipi iletişim "
+"kutusu açar."
 
 #: src/dialogs/subtitlestyleedit.cpp:98
-#, fuzzy, kde-format
-#| msgid "Outline:"
+#, kde-format
 msgid "Box as Outline"
-msgstr "Dış hat:"
+msgstr "Dış Hat Olarak Kutu"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Stop Preview Render"
+#, kde-format
 msgid "Show Preview >>>"
-msgstr "Önizleme Sunumunu Durdur"
+msgstr "Önizlemeyi Göster >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:133
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "<<< Hide Preview"
-msgstr "Zaman Akışı Önizlemesi"
+msgstr "<<< Önizlemeyi Gizle"
 
 #: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
 #: src/dialogs/subtitlestyleedit.cpp:171
@@ -8601,21 +8577,19 @@ msgid "Error"
 msgstr "Hata"
 
 #: src/dialogs/subtitlestyleedit.cpp:161
-#, fuzzy, kde-format
-#| msgid "File already exists"
+#, kde-format
 msgid "Style name already exists."
-msgstr "Dosya halihazırda var"
+msgstr "Biçem adı halihazırda var."
 
 #: src/dialogs/subtitlestyleedit.cpp:166
-#, fuzzy, kde-format
-#| msgid "The preset name can't be empty"
+#, kde-format
 msgid "Style name cannot be empty."
-msgstr "Önayar adı boş olamaz"
+msgstr "Biçem adı boş olamaz."
 
 #: src/dialogs/subtitlestyleedit.cpp:171
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "Biçem adı “,” içeremez."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9377,11 +9351,11 @@ msgid "extra audio"
 msgstr "ek ses"
 
 #: src/doc/documentvalidator.cpp:2206
-#, fuzzy, kde-format
-#| msgid "Output file already exists. Do you want to overwrite it?"
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "Çıktı dosyası halihazırda var. Üzerine yazmak istiyor musunuz?"
+msgstr ""
+"Altyazı dosyası:<br/>%1<br/>halihazırda var. Üzerine yazmak istiyor musunuz?"
 
 #: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3581
 #, kde-format
@@ -9832,11 +9806,9 @@ msgid "Expand Effect"
 msgstr "Efekti Genişlet"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open effect documentation in browser"
-msgstr "Çevrimiçi belgelendirme"
+msgstr "Efektler belgelendirmesini tarayıcıda aç"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:109
 #, kde-format
@@ -10340,7 +10312,7 @@ msgstr "Hedef Dosya"
 #: src/jobs/speedtask.cpp:72
 #, kde-format
 msgid "Percentage"
-msgstr "Yüzdesi"
+msgstr "Yüzde"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pitchCompensate)
 #. i18n: ectx: property (text), widget (QCheckBox, pitch_compensate)
@@ -11119,7 +11091,7 @@ msgstr "Dolaşım ve Oynatım"
 #: src/mainwindow.cpp:160
 #, kde-format
 msgid "Bin Tags"
-msgstr "Kova Etiketleri"
+msgstr "Kova Künyeleri"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: src/mainwindow.cpp:180 src/ui/managesubtitles_ui.ui:211
@@ -11612,15 +11584,15 @@ msgstr ""
 #: src/mainwindow.cpp:1411
 #, kde-format
 msgid "Show Color Tags in Timeline"
-msgstr "Zaman Akışında Renk Etiketlerini Göster"
+msgstr "Zaman Akışında Renk Künyelerini Göster"
 
 #: src/mainwindow.cpp:1412
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr ""
-"Zaman akışındaki klip etiketlerinin görüntülenmesini açar/kapatır (öntanımlı "
-"olarak açıktır)."
+"Zaman akışındaki klip künyelerinin görüntülenmesini açar/kapatır (öntanımlı "
+"olarak açık)."
 
 #: src/mainwindow.cpp:1418
 #, kde-format
@@ -18118,6 +18090,7 @@ msgstr "Altyazı dosyasını dışa aktar"
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
+"Sub Station Alpha v4.00+ dosyası (*.ass);;SubRip altyazı dosyası (*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5222
 #, kde-format
@@ -18127,12 +18100,16 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
+"Geçerli altyazı parçası birden fazla katman içeriyor, bu demek oluyor ki "
+"farklı katmanlardaki altyazılar aynı başlangıç konumunu paylaşıyorsa "
+"yalnızca en alt katmandaki altyazı korunacaktır. Bu, dışa aktarılan "
+"dosyadaki bazı altyazıların kaybolmasına neden olabilir. Sürdürmek istiyor "
+"musunuz?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5227
-#, fuzzy, kde-format
-#| msgid "Pasting Warning"
+#, kde-format
 msgid "Warning"
-msgstr "Yapıştırma Uyarısı"
+msgstr "Uyarı"
 
 #: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
@@ -18755,8 +18732,8 @@ msgid ""
 "wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 msgstr ""
 "<p>Bir n tiresi (bir n genişliğinde çizgi).</p><p>Kullanım örnekleri: "
-"İngilizce’de değer erimleri (1878&#x2013;1903), ilişki/bağlantılar için "
-"(Zürih&#x2013;Dublin). Almanca’da düşünceleri göstermek için de (boşluklar "
+"İngilizcede değer erimleri (1878&#x2013;1903), ilişki/bağlantılar için "
+"(Zürih&#x2013;Dublin). Almancada düşünceleri göstermek için de (boşluklar "
 "ile!) kullanılır: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; "
 "ein regnerischer Tag.</p> <p>Bkz. <a href=\"https://en.wikipedia.org/wiki/"
 "Dash\">Vikipedi:Uzun Çizgi</a></p>"
@@ -18882,13 +18859,13 @@ msgid "Position:"
 msgstr "Konum:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:47
+#: src/transitions/view/transitionstackview.cpp:50
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Arka Plan"
 
-#: src/transitions/view/transitionstackview.cpp:59
+#: src/transitions/view/transitionstackview.cpp:62
 #, kde-format
 msgid "Composition track:"
 msgstr "Bileşikleştirme izi:"
@@ -21009,10 +20986,9 @@ msgstr "S"
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:207
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Style:"
-msgstr "Biçem"
+msgstr "Biçem:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
 #: src/ui/editsub_ui.ui:253
@@ -21022,29 +20998,27 @@ msgstr "Bitiş:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: src/ui/editsub_ui.ui:451
-#, fuzzy, kde-format
-#| msgid "Scrolling:"
+#, kde-format
 msgid "Scroll"
-msgstr "Sarma:"
+msgstr "Sar"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Upper Bound"
-msgstr "Saniyedeki güncelleme"
+msgstr "Yukarı sınır"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsub_ui.ui:472
 #, kde-format
 msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Kenar boşluğu</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsub_ui.ui:492
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Ad</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
@@ -21056,17 +21030,15 @@ msgstr "Açıklama"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:589
-#, fuzzy, kde-format
-#| msgid "Lower object"
+#, kde-format
 msgid "Lower Bound"
-msgstr "Nesneyi aşağıya al"
+msgstr "Aşağı sınır"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Style Editor"
-msgstr "Altyazı dosyası:"
+msgstr "Altyazı Biçemi Düzenleyicisi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
@@ -21079,79 +21051,72 @@ msgstr "Kalın"
 #: src/ui/editsubstyle_ui.ui:103
 #, kde-format
 msgid "Secondary"
-msgstr ""
+msgstr "İkincil"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsubstyle_ui.ui:134
 #, kde-format
 msgid "Margin"
-msgstr ""
+msgstr "Kenar boşluğu"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align left"
+#, kde-format
 msgid "Alignment"
-msgstr "Sola hizala"
+msgstr "Hizalama"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
-#, fuzzy, kde-format
-#| msgid "Render line"
+#, kde-format
 msgid "Underline"
-msgstr "Sunum çizgisi"
+msgstr "Altı çizili"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelShadow)
 #. i18n: ectx: property (text), widget (QLabel, labelBackColor)
 #: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
 #: src/ui/managesubtitles_ui.ui:409
-#, fuzzy, kde-format
-#| msgid "Custom Shadow"
+#, kde-format
 msgid "Shadow"
-msgstr "Özel Gölge"
+msgstr "Gölge"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #: src/ui/editsubstyle_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "BorderStyle"
-msgstr "Kenarlık "
+msgstr "Kenarlık biçemi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
 #. i18n: ectx: property (text), widget (QLabel, labelOutline)
 #: src/ui/editsubstyle_ui.ui:350 src/ui/editsubstyle_ui.ui:484
 #: src/ui/managesubtitles_ui.ui:404
-#, fuzzy, kde-format
-#| msgid "Outline:"
+#, kde-format
 msgid "Outline"
-msgstr "Dış hat:"
+msgstr "Dış hat"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "ScaleX"
-msgstr "Ölçek"
+msgstr "X ölçeği"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "ScaleY"
-msgstr "Ölçek"
+msgstr "Y ölçeği"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
 #: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "Üzeri çizili"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
@@ -21163,10 +21128,9 @@ msgstr "Yatık"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
-#, fuzzy, kde-format
-#| msgid "Space"
+#, kde-format
 msgid "Spacing"
-msgstr "Boşluk"
+msgstr "Boşluklandırma"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -21598,10 +21562,9 @@ msgstr "Düzenlenen profiller:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Files"
-msgstr "Dosya"
+msgstr "Dosyalar"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #: src/ui/managesubtitles_ui.ui:71
@@ -21611,10 +21574,9 @@ msgstr "Yol"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Text File"
+#, kde-format
 msgid "New File"
-msgstr "Metin Dosyası"
+msgstr "Yeni Dosya"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
@@ -21629,114 +21591,103 @@ msgstr "Sil"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "Katmanlar ve İçerik"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
-#| msgid "New tag"
+#, kde-format
 msgid "New Layer"
-msgstr "Yeni etiket"
+msgstr "Yeni Katman"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Styles"
-msgstr "Biçem"
+msgstr "Biçemler"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
-#, fuzzy, kde-format
-#| msgid "Font"
+#, kde-format
 msgid "FontName"
-msgstr "Yazıtipi"
+msgstr "Yazıtipi Adı"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "FontSize"
 msgstr "Yazıtipi Boyutu"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "PrimaryColor"
-msgstr "Asıl Renk"
+msgstr "Ana Renk"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
-#, fuzzy, kde-format
-#| msgid "2nd Color"
+#, kde-format
 msgid "SecondaryColor"
-msgstr "İkinci Renk"
+msgstr "İkincil Renk"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "OutlineColor"
 msgstr "Dış Hat Rengi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "BackColor"
 msgstr "Arka Plan Rengi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "BoardStyle"
-msgstr "Biçem"
+msgstr "Tahta Biçemi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
 #, kde-format
 msgid "MarginL"
-msgstr ""
+msgstr "Sol Kenar Boşluğu"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
 #, kde-format
 msgid "MarginR"
-msgstr ""
+msgstr "Sağ Kenar Boşluğu"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
 #, kde-format
 msgid "MarginV"
-msgstr ""
+msgstr "V Kenar Boşluğu"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "New Style"
-msgstr "Biçem"
+msgstr "Yeni Biçem"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "Bilgi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539
 #, kde-format
 msgid "Key"
-msgstr ""
+msgstr "Anahtar"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "HSV Value"
+#, kde-format
 msgid "Value"
-msgstr "HSV Değeri"
+msgstr "Değer"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
@@ -21766,7 +21717,7 @@ msgstr "Görsel önizlemesi"
 #: src/ui/missingclips_ui.ui:18
 #, kde-format
 msgid " Clip Problems"
-msgstr " Klip Sorunları"
+msgstr "Klip Sorunları"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:92
@@ -23276,6 +23227,9 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid "Apply effect change to all clips in the group"
+#~ msgstr "Efekt Değişikliğini Gruptaki Tüm Kliplere Uygula"
 
 #, fuzzy
 #~| msgid "Vertical"

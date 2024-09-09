@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"POT-Creation-Date: 2024-09-09 00:38+0000\n"
 "PO-Revision-Date: 2024-08-25 02:42+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -3281,12 +3281,12 @@ msgstr "線上說明文件"
 msgid "Change composition type"
 msgstr "變更合成方案類型"
 
-#: src/assets/assetpanel.cpp:80
+#: src/assets/assetpanel.cpp:79
 #, kde-format
 msgid "Enable Builtin Effects"
 msgstr "啟用內部效果"
 
-#: src/assets/assetpanel.cpp:82
+#: src/assets/assetpanel.cpp:81
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3299,15 +3299,15 @@ msgstr ""
 
 #: src/assets/assetpanel.cpp:101
 #, kde-format
-msgid "Apply effect change to all clips in the group"
-msgstr "將效果變更套用至群組中的所有素材"
+msgid "Apply only to effects with same value"
+msgstr "只套用到數值相同的效果"
 
-#: src/assets/assetpanel.cpp:105
+#: src/assets/assetpanel.cpp:107
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "將效果變更套用至群組中的所有素材…"
 
-#: src/assets/assetpanel.cpp:107
+#: src/assets/assetpanel.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3318,33 +3318,28 @@ msgstr ""
 "啟用時若素材在群組內，該群組內所有包含同一個效果的素材的參數也會同時被調整。"
 "刪除效果時會從群組內每個素材刪除它。"
 
-#: src/assets/assetpanel.cpp:115
-#, kde-format
-msgid "Apply only to effects with same value"
-msgstr "只套用到數值相同的效果"
-
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:119
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "儲存效果堆疊…"
 
-#: src/assets/assetpanel.cpp:126
+#: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr "將整個效果堆疊儲存成 XML 檔案，以便其他專案使用。"
 
-#: src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:125
 #, kde-format
 msgid "Normal view"
 msgstr "一般檢視"
 
-#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
+#: src/assets/assetpanel.cpp:125 src/assets/assetpanel.cpp:129
 #, kde-format
 msgid "Compare effect"
 msgstr "比對效果"
 
-#: src/assets/assetpanel.cpp:141
+#: src/assets/assetpanel.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3354,17 +3349,17 @@ msgstr ""
 "切換專案或是素材預覽視窗的分割檢視：左邊是有套用效果的素材，右邊則是套用效果"
 "前的素材。"
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects disabled"
 msgstr "效果已停用"
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects enabled"
 msgstr "效果已啟用"
 
-#: src/assets/assetpanel.cpp:149
+#: src/assets/assetpanel.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3374,38 +3369,45 @@ msgstr ""
 "切換效果堆疊要啟用還是停用。適合用來比對原本的與編輯後的差異，或是用來加快前"
 "後瀏覽。"
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:147
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Online documentation"
+msgid "Open composition documentation in browser"
+msgstr "線上說明文件"
+
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "在時間軸中顯示關鍵幀"
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "在時間軸中隱藏關鍵幀"
 
-#: src/assets/assetpanel.cpp:157
+#: src/assets/assetpanel.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "切換時間軸中是否顯示素材的關鍵幀"
 
-#: src/assets/assetpanel.cpp:283
+#: src/assets/assetpanel.cpp:281
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 的效果"
 
-#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 個參數"
 
-#: src/assets/assetpanel.cpp:292
+#: src/assets/assetpanel.cpp:290
 #, kde-format
 msgid "Track %1 effects"
 msgstr "軌道 %1 的效果"
 
-#: src/assets/assetpanel.cpp:297
+#: src/assets/assetpanel.cpp:295
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "素材庫 %1 的效果"
@@ -6353,7 +6355,7 @@ msgstr "自動 (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:38
+#: src/transitions/view/transitionstackview.cpp:41
 #, kde-format
 msgid "Automatic"
 msgstr "自動"
@@ -8384,7 +8386,7 @@ msgstr "語音編輯器"
 #: src/dialogs/subtitleedit.cpp:574
 #, fuzzy, kde-format
 #| msgid "Manage Subtitles"
-msgid "Manage Styles.."
+msgid "Manage Styles…"
 msgstr "管理字幕"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
@@ -18497,13 +18499,13 @@ msgid "Position:"
 msgstr "位置："
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:47
+#: src/transitions/view/transitionstackview.cpp:50
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "背景"
 
-#: src/transitions/view/transitionstackview.cpp:59
+#: src/transitions/view/transitionstackview.cpp:62
 #, kde-format
 msgid "Composition track:"
 msgstr "合成方案軌道："
@@ -22854,6 +22856,9 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小時"
+
+#~ msgid "Apply effect change to all clips in the group"
+#~ msgstr "將效果變更套用至群組中的所有素材"
 
 #, fuzzy
 #~| msgid "Vertical"

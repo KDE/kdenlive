@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"POT-Creation-Date: 2024-09-09 00:38+0000\n"
 "PO-Revision-Date: 2024-08-25 11:51+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -3386,12 +3386,12 @@ msgstr "Document en ligne"
 msgid "Change composition type"
 msgstr "Changer le type de composition"
 
-#: src/assets/assetpanel.cpp:80
+#: src/assets/assetpanel.cpp:79
 #, kde-format
 msgid "Enable Builtin Effects"
 msgstr "Activer les effets intégrés"
 
-#: src/assets/assetpanel.cpp:82
+#: src/assets/assetpanel.cpp:81
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3406,15 +3406,15 @@ msgstr ""
 
 #: src/assets/assetpanel.cpp:101
 #, kde-format
-msgid "Apply effect change to all clips in the group"
-msgstr "Appliquer la modification d'effet à toutes les séquences du groupe"
+msgid "Apply only to effects with same value"
+msgstr "S'applique uniquement aux effets de même valeur"
 
-#: src/assets/assetpanel.cpp:105
+#: src/assets/assetpanel.cpp:107
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Appliquer la modification d'effet à toutes les séquences du groupe..."
 
-#: src/assets/assetpanel.cpp:107
+#: src/assets/assetpanel.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3427,17 +3427,12 @@ msgstr ""
 "les paramètres ajustés. La suppression d'un effet le supprimera dans toutes "
 "les séquence du groupe."
 
-#: src/assets/assetpanel.cpp:115
-#, kde-format
-msgid "Apply only to effects with same value"
-msgstr "S'applique uniquement aux effets de même valeur"
-
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:119
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Enregistrer la pile d'effets..."
 
-#: src/assets/assetpanel.cpp:126
+#: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -3445,17 +3440,17 @@ msgstr ""
 "Enregistre la totalité de la pile d'effets comme un fichier « XML » pouvant "
 "être utilisé dans d'autres projets."
 
-#: src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:125
 #, kde-format
 msgid "Normal view"
 msgstr "Vue normale"
 
-#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
+#: src/assets/assetpanel.cpp:125 src/assets/assetpanel.cpp:129
 #, kde-format
 msgid "Compare effect"
 msgstr "Comparer l'effet"
 
-#: src/assets/assetpanel.cpp:141
+#: src/assets/assetpanel.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3465,17 +3460,17 @@ msgstr ""
 "Active ou désactive la vue fractionnée dans l'écran du projet et/ou de la "
 "vidéo : à gauche, la vidéo s'affiche avec l'effet et à droite, sans effet."
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects disabled"
 msgstr "Effets désactivés"
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects enabled"
 msgstr "Effets activés"
 
-#: src/assets/assetpanel.cpp:149
+#: src/assets/assetpanel.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3485,17 +3480,24 @@ msgstr ""
 "Active ou désactive la pile d'effets. Utile pour voir la différence entre la "
 "vidéo originale et celle modifiée ou pour accélérer le nettoyage."
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:147
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Online documentation"
+msgid "Open composition documentation in browser"
+msgstr "Document en ligne"
+
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Afficher les images-clés dans le montage"
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Masquer les images clés dans la frise chronologique"
 
-#: src/assets/assetpanel.cpp:157
+#: src/assets/assetpanel.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
@@ -3503,22 +3505,22 @@ msgstr ""
 "Affiche / masque l'affichage des trames clé dans la vidéo sur la frise "
 "chronologique."
 
-#: src/assets/assetpanel.cpp:283
+#: src/assets/assetpanel.cpp:281
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 effets"
 
-#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 paramètres"
 
-#: src/assets/assetpanel.cpp:292
+#: src/assets/assetpanel.cpp:290
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Effets de a piste %1"
 
-#: src/assets/assetpanel.cpp:297
+#: src/assets/assetpanel.cpp:295
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Effets pour la source %1"
@@ -6564,7 +6566,7 @@ msgstr "Automatique (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:38
+#: src/transitions/view/transitionstackview.cpp:41
 #, kde-format
 msgid "Automatic"
 msgstr "Automatique"
@@ -8636,7 +8638,7 @@ msgstr "Éditeur vocal"
 #: src/dialogs/subtitleedit.cpp:574
 #, fuzzy, kde-format
 #| msgid "Manage Subtitles"
-msgid "Manage Styles.."
+msgid "Manage Styles…"
 msgstr "Gérer les sous-titres"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
@@ -19168,13 +19170,13 @@ msgid "Position:"
 msgstr "Position :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:47
+#: src/transitions/view/transitionstackview.cpp:50
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Arrière-plan"
 
-#: src/transitions/view/transitionstackview.cpp:59
+#: src/transitions/view/transitionstackview.cpp:62
 #, kde-format
 msgid "Composition track:"
 msgstr "Piste de composition :"
@@ -21402,8 +21404,7 @@ msgstr "Lacet pour alignement"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
-#, fuzzy, kde-format
-#| msgid "Underline"
+#, kde-format
 msgid "Underline"
 msgstr "Souligner"
 
@@ -21412,8 +21413,7 @@ msgstr "Souligner"
 #. i18n: ectx: property (text), widget (QLabel, labelBackColor)
 #: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
 #: src/ui/managesubtitles_ui.ui:409
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Shadow"
 msgstr "Ombre"
 
@@ -21429,8 +21429,7 @@ msgstr "Bordure"
 #. i18n: ectx: property (text), widget (QLabel, labelOutline)
 #: src/ui/editsubstyle_ui.ui:350 src/ui/editsubstyle_ui.ui:484
 #: src/ui/managesubtitles_ui.ui:404
-#, fuzzy, kde-format
-#| msgid "Outline"
+#, kde-format
 msgid "Outline"
 msgstr "Contour"
 
@@ -22037,10 +22036,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "Value:"
+#, kde-format
 msgid "Value"
-msgstr "Valeur :"
+msgstr "Valeur"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
@@ -23584,6 +23582,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Apply effect change to all clips in the group"
+#~ msgstr "Appliquer la modification d'effet à toutes les séquences du groupe"
 
 #, fuzzy
 #~| msgid "Vertical"

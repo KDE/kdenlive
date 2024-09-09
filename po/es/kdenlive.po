@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"POT-Creation-Date: 2024-09-09 00:38+0000\n"
 "PO-Revision-Date: 2024-08-29 20:57-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -3381,12 +3381,12 @@ msgstr "Documentación en línea"
 msgid "Change composition type"
 msgstr "Cambiar tipo de composición"
 
-#: src/assets/assetpanel.cpp:80
+#: src/assets/assetpanel.cpp:79
 #, kde-format
 msgid "Enable Builtin Effects"
 msgstr "Habilitar efectos incorporados"
 
-#: src/assets/assetpanel.cpp:82
+#: src/assets/assetpanel.cpp:81
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3401,15 +3401,15 @@ msgstr ""
 
 #: src/assets/assetpanel.cpp:101
 #, kde-format
-msgid "Apply effect change to all clips in the group"
-msgstr "Aplicar cambio en efecto a todos los clips del grupo"
+msgid "Apply only to effects with same value"
+msgstr "Aplicar sólo a efectos con el mismo valor"
 
-#: src/assets/assetpanel.cpp:105
+#: src/assets/assetpanel.cpp:107
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Aplicar cambio en efecto a todos los clips del grupo…"
 
-#: src/assets/assetpanel.cpp:107
+#: src/assets/assetpanel.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3421,17 +3421,12 @@ msgstr ""
 "del grupo que tengan el mismo efecto también verán ajustados sus parámetros. "
 "Borrar un efecto lo borrará en todos los clips del grupo."
 
-#: src/assets/assetpanel.cpp:115
-#, kde-format
-msgid "Apply only to effects with same value"
-msgstr "Aplicar sólo a efectos con el mismo valor"
-
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:119
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Guardar pila de efectos…"
 
-#: src/assets/assetpanel.cpp:126
+#: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -3439,17 +3434,17 @@ msgstr ""
 "Guarda la pila completa de efectos como un archivo XML, para ser usada en "
 "otros proyectos."
 
-#: src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:125
 #, kde-format
 msgid "Normal view"
 msgstr "Vista normal"
 
-#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
+#: src/assets/assetpanel.cpp:125 src/assets/assetpanel.cpp:129
 #, kde-format
 msgid "Compare effect"
 msgstr "Comparar efecto"
 
-#: src/assets/assetpanel.cpp:141
+#: src/assets/assetpanel.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3460,17 +3455,17 @@ msgstr ""
 "del lado izquierdo se mostrará el clip con el efecto, mientras que del "
 "derecho se mostrará el clip sin el efecto."
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects disabled"
 msgstr "Efectos deshabilitados"
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects enabled"
 msgstr "Efectos habilitados"
 
-#: src/assets/assetpanel.cpp:149
+#: src/assets/assetpanel.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3481,38 +3476,45 @@ msgstr ""
 "diferencia entre el estado original y editado, como para acelerar la "
 "visualización al recorrer un clip."
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:147
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Online documentation"
+msgid "Open composition documentation in browser"
+msgstr "Documentación en línea"
+
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Mostrar claves en línea de tiempo"
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Ocultar claves en línea de tiempo"
 
-#: src/assets/assetpanel.cpp:157
+#: src/assets/assetpanel.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Mostrar claves del clip en la línea de tiempo"
 
-#: src/assets/assetpanel.cpp:283
+#: src/assets/assetpanel.cpp:281
 #, kde-format
 msgid "%1 effects"
 msgstr "Efectos de %1"
 
-#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "Parámetros de %1"
 
-#: src/assets/assetpanel.cpp:292
+#: src/assets/assetpanel.cpp:290
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Efectos de pista %1"
 
-#: src/assets/assetpanel.cpp:297
+#: src/assets/assetpanel.cpp:295
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Efectos en bandeja de %1"
@@ -6544,7 +6546,7 @@ msgstr "Automático (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:38
+#: src/transitions/view/transitionstackview.cpp:41
 #, kde-format
 msgid "Automatic"
 msgstr "Automático"
@@ -8608,7 +8610,7 @@ msgstr "Editor de voz"
 #: src/dialogs/subtitleedit.cpp:574
 #, fuzzy, kde-format
 #| msgid "Manage Subtitles"
-msgid "Manage Styles.."
+msgid "Manage Styles…"
 msgstr "Administrar subtítulos"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
@@ -19047,13 +19049,13 @@ msgid "Position:"
 msgstr "Posición:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:47
+#: src/transitions/view/transitionstackview.cpp:50
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Fondo"
 
-#: src/transitions/view/transitionstackview.cpp:59
+#: src/transitions/view/transitionstackview.cpp:62
 #, kde-format
 msgid "Composition track:"
 msgstr "Componer con pista:"
@@ -23444,6 +23446,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Apply effect change to all clips in the group"
+#~ msgstr "Aplicar cambio en efecto a todos los clips del grupo"
 
 #, fuzzy
 #~| msgid "Vertical"
