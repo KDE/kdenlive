@@ -558,6 +558,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     } else if (!KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
         slotSwitchFullScreen();
     }
+    refreshMonitorTimer.setSingleShot(true);
+    refreshMonitorTimer.setInterval(250);
+    connect(&refreshMonitorTimer, &QTimer::timeout, this, &Monitor::updateTimelineProducer);
 }
 
 Monitor::~Monitor()
@@ -2768,7 +2771,6 @@ void Monitor::requestSeekIfVisible(int pos)
 
 void Monitor::updateTimelineProducer()
 {
-
     int position = pCore->currentDoc()->getSequenceProperty(pCore->currentTimelineId(), QStringLiteral("position"), QString::number(0)).toInt();
     QMetaObject::invokeMethod(this, "setProducer", Q_ARG(std::shared_ptr<Mlt::Producer>, pCore->window()->getCurrentTimeline()->model()->producer()),
                               Q_ARG(int, position));

@@ -3663,12 +3663,30 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     }
 }
 
-void MainWindow::raiseBin()
+void MainWindow::raiseBin(bool unconditionnaly)
 {
     Bin *bin = activeBin();
     if (bin) {
+        if (!unconditionnaly) {
+            QDockWidget *dock = qobject_cast<QDockWidget *>(bin->parentWidget());
+            if (dock) {
+                if (isDockTabbedWith(dock, m_clipMonitorDock)) {
+                    return;
+                }
+            }
+        }
+        bin->focusBinView();
         bin->parentWidget()->setVisible(true);
         bin->parentWidget()->raise();
+    }
+}
+
+void MainWindow::focusTimeline()
+{
+    auto tl = getCurrentTimeline();
+    if (tl) {
+        tl->setFocus();
+        Q_EMIT tl->controller()->selectionChanged();
     }
 }
 
@@ -4201,9 +4219,12 @@ void MainWindow::slotSwitchMonitors()
 {
     pCore->monitorManager()->slotSwitchMonitors(!m_clipMonitor->isActive());
     if (m_projectMonitor->isActive()) {
-        getCurrentTimeline()->setFocus();
+        focusTimeline();
     } else {
-        pCore->activeBin()->focusBinView();
+        Bin *bin = activeBin();
+        if (bin) {
+            bin->focusBinView();
+        }
     }
 }
 
@@ -4407,6 +4428,17 @@ bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
     QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
     for (auto tab : std::as_const(tabbed)) {
         if (tab->objectName() == otherWidget) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool MainWindow::isDockTabbedWith(QDockWidget *widget, QDockWidget *otherWidget)
+{
+    QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
+    for (auto tab : std::as_const(tabbed)) {
+        if (tab == otherWidget) {
             return true;
         }
     }

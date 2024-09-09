@@ -4549,9 +4549,11 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QStri
     */
 }
 
-void Bin::focusBinView() const
+void Bin::focusBinView()
 {
     m_itemView->setFocus();
+    std::shared_ptr<ProjectClip> currentItem = getFirstSelectedClip();
+    editMasterEffect(currentItem);
 }
 
 void Bin::slotOpenClipExtern()

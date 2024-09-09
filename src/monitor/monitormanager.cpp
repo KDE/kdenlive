@@ -190,6 +190,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!m_clipMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
                     m_clipMonitor->parentWidget()->raise();
+                    pCore->window()->activeBin()->focusBinView();
                 }
             } else {
                 m_clipMonitor->fixFocus();
@@ -211,6 +212,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
                     m_projectMonitor->parentWidget()->raise();
+                    pCore->window()->focusTimeline();
                 }
             } else {
                 m_projectMonitor->fixFocus();

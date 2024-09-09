@@ -180,7 +180,7 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
             pCore->bin()->sequenceActivated();
         }
         // Wait a few milliseconds to allow for the qml view to display
-        QTimer::singleShot(200, pCore->monitorManager()->projectMonitor(), &Monitor::updateTimelineProducer);
+        pCore->monitorManager()->projectMonitor()->refreshMonitorTimer.start();
     } else {
         connectTimeline(m_activeTimeline);
     }

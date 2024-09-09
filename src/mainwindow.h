@@ -128,6 +128,7 @@ public:
     QList<QAction *> getExtraActions(const QString &name);
     /** @brief Returns true if docked widget is tabbed with another widget from its object name */
     bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
+    bool isDockTabbedWith(QDockWidget *widget, QDockWidget *otherWidget);
 
     /** @brief Returns true if mixer widget is tabbed */
     bool isMixedTabbed() const;
@@ -150,8 +151,11 @@ public:
     /** @brief Raise (show) the clip or project monitor */
     void raiseMonitor(bool clipMonitor);
 
-    /** @brief Raise (show) the project bin*/
-    void raiseBin();
+    /** @brief Raise (show) the project bin
+     * @param unconditionnaly if false, we won't raise the bin if docked with the project monitor */
+    void raiseBin(bool unconditionnaly = true);
+    /** @brief Give focus to the active timeline widget */
+    void focusTimeline();
     /** @brief Add a bin widget*/
     void addBin(Bin *bin, const QString &binName = QString(), bool updateCount = true);
     /** @brief Clean current document references from all bins*/
