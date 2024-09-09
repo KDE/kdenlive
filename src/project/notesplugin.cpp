@@ -120,7 +120,13 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
                 updatedLink.prepend(QString("%1#").arg(uuid));
             }
         } else {
-            position = a.toInt();
+            if (a.contains(QLatin1Char('!'))) {
+                updatedLink = a.section(QLatin1Char('!'), 1);
+            }
+            if (a.contains(QLatin1Char('?'))) {
+                updatedLink = updatedLink.section(QLatin1Char('?'), 0, 0);
+            }
+            position = updatedLink.toInt();
             if (!uuid.isEmpty()) {
                 updatedLink.prepend(QString("%1#").arg(uuid));
             }
