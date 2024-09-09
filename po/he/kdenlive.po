@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-08 00:39+0000\n"
+"POT-Creation-Date: 2024-09-09 00:38+0000\n"
 "PO-Revision-Date: 2024-09-07 14:30+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -3303,12 +3303,12 @@ msgstr "תיעוד מקוון"
 msgid "Change composition type"
 msgstr "החלפת סוג הרכבה"
 
-#: src/assets/assetpanel.cpp:80
+#: src/assets/assetpanel.cpp:79
 #, kde-format
 msgid "Enable Builtin Effects"
 msgstr "הפעלת אפקטים מובנים"
 
-#: src/assets/assetpanel.cpp:82
+#: src/assets/assetpanel.cpp:81
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3322,15 +3322,15 @@ msgstr ""
 
 #: src/assets/assetpanel.cpp:101
 #, kde-format
-msgid "Apply effect change to all clips in the group"
-msgstr "החלת השינוי באפקט על כל הסרטונים בקבוצה"
+msgid "Apply only to effects with same value"
+msgstr "החלה על אפקטים עם אותו הערך בלבד"
 
-#: src/assets/assetpanel.cpp:105
+#: src/assets/assetpanel.cpp:107
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "החלת השינוי באפקט על כל הסרטונים בקבוצה…"
 
-#: src/assets/assetpanel.cpp:107
+#: src/assets/assetpanel.cpp:109
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3341,33 +3341,28 @@ msgstr ""
 "כשהאפשרות פעילה והסרטון בקבוצה, כל הסרטונים בקבוצה עם אותו האפקט יזכו לשינוי "
 "במשתנים באותו האופן. מחיקת אפקט תמחק אותו מכל הסרטונים בקבוצה."
 
-#: src/assets/assetpanel.cpp:115
-#, kde-format
-msgid "Apply only to effects with same value"
-msgstr "החלה על אפקטים עם אותו הערך בלבד"
-
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:119
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "שמירת ערימת אפקטים…"
 
-#: src/assets/assetpanel.cpp:126
+#: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr "שומר את כל ערימת האפקטים כקובץ XML לשימוש במיזמים אחרים."
 
-#: src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:125
 #, kde-format
 msgid "Normal view"
 msgstr "תצוגה רגילה"
 
-#: src/assets/assetpanel.cpp:134 src/assets/assetpanel.cpp:138
+#: src/assets/assetpanel.cpp:125 src/assets/assetpanel.cpp:129
 #, kde-format
 msgid "Compare effect"
 msgstr "השוואת אפקט"
 
-#: src/assets/assetpanel.cpp:141
+#: src/assets/assetpanel.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3377,17 +3372,17 @@ msgstr ""
 "מפעיל או מכבה את התצוגה המפוצלת במיזם ו/או בצג הסרטונים: מימין מופיע הסרטון "
 "עם האפקט, משמאל הסרטון בלי האפקט."
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects disabled"
 msgstr "אפקטים מושבתים"
 
-#: src/assets/assetpanel.cpp:146
+#: src/assets/assetpanel.cpp:137
 #, kde-format
 msgid "Effects enabled"
 msgstr "אפקטים פעילים"
 
-#: src/assets/assetpanel.cpp:149
+#: src/assets/assetpanel.cpp:140
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3397,38 +3392,44 @@ msgstr ""
 "השבתת או הפעלת האפקטים המוגדרים. שימושי להדגשת ההבדלים בין המקור והעריכה או "
 "להאצת סקראבינג (שפשוף)."
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:147
+#, fuzzy, kde-format
+#| msgid "Open effect documentation in browser"
+msgid "Open composition documentation in browser"
+msgstr "פתיחת תיעוד האפקט בדפדפן"
+
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "הצגת תמוניות מפתח בציר הזמן"
 
-#: src/assets/assetpanel.cpp:156
+#: src/assets/assetpanel.cpp:151
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "הסרת תמוניות מפתח בציר הזמן"
 
-#: src/assets/assetpanel.cpp:157
+#: src/assets/assetpanel.cpp:152
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "מחליף את תצוגת תמוניות המפתח בסרטון בציר הזמן"
 
-#: src/assets/assetpanel.cpp:283
+#: src/assets/assetpanel.cpp:281
 #, kde-format
 msgid "%1 effects"
 msgstr "אפקטים של %1"
 
-#: src/assets/assetpanel.cpp:288 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "משתנים של %1"
 
-#: src/assets/assetpanel.cpp:292
+#: src/assets/assetpanel.cpp:290
 #, kde-format
 msgid "Track %1 effects"
 msgstr "אפקטים לרצועת %1"
 
-#: src/assets/assetpanel.cpp:297
+#: src/assets/assetpanel.cpp:295
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "אפקטים לסל %1"
@@ -6420,7 +6421,7 @@ msgstr "אוטומטי (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:38
+#: src/transitions/view/transitionstackview.cpp:41
 #, kde-format
 msgid "Automatic"
 msgstr "אוטומטי"
@@ -8446,8 +8447,9 @@ msgid "Simple Editor"
 msgstr "עורך פשוט"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, kde-format
-msgid "Manage Styles.."
+#, fuzzy, kde-format
+#| msgid "Manage Styles.."
+msgid "Manage Styles…"
 msgstr "ניהול סגנונות…"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
@@ -18689,13 +18691,13 @@ msgid "Position:"
 msgstr "מקום:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:47
+#: src/transitions/view/transitionstackview.cpp:50
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "רקע"
 
-#: src/transitions/view/transitionstackview.cpp:59
+#: src/transitions/view/transitionstackview.cpp:62
 #, kde-format
 msgid "Composition track:"
 msgstr "רצועת הרכבה:"
@@ -23035,6 +23037,9 @@ msgstr "%1 דק׳"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 שע׳"
+
+#~ msgid "Apply effect change to all clips in the group"
+#~ msgstr "החלת השינוי באפקט על כל הסרטונים בקבוצה"
 
 #~| msgid "Vertical"
 #~ msgid "Veritical"
