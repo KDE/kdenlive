@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-08 02:32+0000\n"
-"PO-Revision-Date: 2024-09-07 08:16+0200\n"
+"POT-Creation-Date: 2024-09-09 02:30+0000\n"
+"PO-Revision-Date: 2024-09-08 09:54+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -2316,7 +2316,7 @@ msgstr "Aztarnariaren algoritmoa"
 #: data/effects/tracker.xml:17
 #, kde-format
 msgid "Keyframes spacing"
-msgstr "Fotograma-gakoen arteko tartea"
+msgstr "Gako-fotograma arteko tartea"
 
 #: data/effects/tracker.xml:18
 #, kde-format
@@ -3659,7 +3659,7 @@ msgstr "Eguneratu gako-fotogramaren balioa"
 #: src/assets/keyframes/view/keyframeview.cpp:852
 #, kde-format
 msgid "Keyframe value copied"
-msgstr "Fotograma-gakoaren balioa kopiatu da"
+msgstr "Gako-fotogramen balioa kopiatu da"
 
 #: src/assets/model/assetcommand.cpp:23 src/assets/model/assetcommand.cpp:25
 #: src/assets/model/assetcommand.cpp:106 src/assets/model/assetcommand.cpp:108
@@ -3671,7 +3671,7 @@ msgstr "Editatu %1"
 #: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
 #, kde-format
 msgid "Edit %1 keyframe"
-msgstr "Editatu %1 fotograma-gakoa"
+msgstr "Editatu %1 gako-fotograma"
 
 #: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
 #, kde-format
@@ -3965,13 +3965,13 @@ msgstr "Aldatu kurba-editore ikuspegira"
 #: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Go to previous keyframe"
-msgstr "Joan aurreko fotogramara"
+msgstr "Joan aurreko gako-fotogramara"
 
 #: src/assets/view/widgets/keyframewidget.cpp:101
 #: src/dialogs/timeremap.cpp:1705 src/mainwindow.cpp:1945
 #, kde-format
 msgid "Go to next keyframe"
-msgstr "Joan hurrengo fotogramara"
+msgstr "Joan hurrengo gako-fotogramara"
 
 #: src/assets/view/widgets/keyframewidget.cpp:106
 #: src/dialogs/timeremap.cpp:1713 src/dialogs/timeremap.cpp:1715
@@ -4038,22 +4038,22 @@ msgstr ""
 #: src/assets/view/widgets/keyframewidget.cpp:162
 #, kde-format
 msgid "Seek to Keyframe on Select"
-msgstr "Jauzi Gako-fotogramara Hautapenean"
+msgstr "Hautatzean Jauzi gako-fotogramara"
 
 #: src/assets/view/widgets/keyframewidget.cpp:167
 #, kde-format
 msgid "Copy All Keyframes to Clipboard"
-msgstr "Kopiatu Gako-fotograma guztiak Arbelera"
+msgstr "Kopiatu gako-fotograma guztiak arbelean"
 
 #: src/assets/view/widgets/keyframewidget.cpp:169
 #, kde-format
 msgid "Import Keyframes from Clipboard…"
-msgstr "Inportatu Gako-fotogramak Arbeletik…"
+msgstr "Inportatu gako-fotogramak arbeletik…"
 
 #: src/assets/view/widgets/keyframewidget.cpp:177
 #, kde-format
 msgid "Remove all Keyframes After Cursor"
-msgstr "Kendu Kurtsorearen Ondorengo Gako-fotograma guztiak"
+msgstr "Kendu kurtsorearen ondorengo gako-fotograma guztiak"
 
 #: src/assets/view/widgets/keyframewidget.cpp:181
 #, kde-format
@@ -4114,7 +4114,7 @@ msgstr "Gako-fotogramak kopiatu dira"
 #: src/assets/view/widgets/keyframewidget.cpp:894
 #, kde-format
 msgid "No valid keyframe data in clipboard"
-msgstr "Arbelean ez dago gako-fotograma datu baliozkorik"
+msgstr "Arbelean ez dago gako-fotogramen datu baliodunik"
 
 #: src/assets/view/widgets/keyframewidget.cpp:938
 #, kde-format
@@ -4137,7 +4137,7 @@ msgstr "Ezin da azken gako-fotograma ezabatu"
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
 msgstr[0] "Ezabatu gako-fotograma"
-msgstr[1] "Ezabatu fotograma-gakoa"
+msgstr[1] "Ezabatu gako-fotograma"
 
 #: src/assets/view/widgets/keywordparamwidget.cpp:32
 #, kde-format
@@ -4177,7 +4177,7 @@ msgstr ""
 "\n"
 "R:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:999
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1001
 #, kde-format
 msgid "Master"
 msgstr "Maisua"
@@ -8398,14 +8398,12 @@ msgstr "Ez da denbora-koderik aurkitu hautapenean"
 #: src/dialogs/timeremap.cpp:546 src/dialogs/timeremap.cpp:761
 #, kde-format
 msgid "Cannot move last source keyframe past clip end"
-msgstr "Ezin da azken iturri gako-fotograma kliparen amaieraren atzetik"
+msgstr "Ezin da azken iturburu gako-fotograma klip amaieratik aurrera mugitu"
 
 #: src/dialogs/timeremap.cpp:555 src/dialogs/timeremap.cpp:765
 #, kde-format
 msgid "Cannot move first source keyframe before clip start"
-msgstr ""
-"Ezin da lehenengo iturri gako-fotograma kliparen hasiera baino lehen dagoen "
-"puntura mugitu"
+msgstr "Ezin da lehen iturburu gako-fotograma klip hasieratik atzera mugitu"
 
 #: src/dialogs/timeremap.cpp:1703 src/dialogs/timeremap.cpp:1728
 #, kde-kuit-format
@@ -8452,7 +8450,7 @@ msgstr "Denbora birmapatzeak ez dabiltza B fotogramak dituzten klipekin."
 #: src/dialogs/timeremap.cpp:2163
 #, kde-format
 msgid "Edit Timeremap keyframes"
-msgstr "Editatu Timeremap fotograma-gakoa"
+msgstr "Editatu denbora birmapatzeko gako-fotogramak"
 
 #: src/dialogs/wizard.cpp:65
 #, kde-format
@@ -9457,12 +9455,12 @@ msgstr "Gaitu gako-fotogramak"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, kde-format
 msgid "Hide Keyframes"
-msgstr "Ezkutatu Gako-fotogramak"
+msgstr "Ezkutatu gako-fotogramak"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:98
 #, kde-format
 msgid "Show Keyframes"
-msgstr "Erakutsi Gako-fotogramak"
+msgstr "Erakutsi gako-fotogramak"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:99
 #, kde-kuit-format
@@ -13447,12 +13445,12 @@ msgstr "Aldatu gainjartzea"
 #: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
-msgstr "Joan hurrengo fotogramara"
+msgstr "Joan hurrengo gako-fotogramara"
 
 #: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
-msgstr "Joan aurreko fotograma-gakora"
+msgstr "Joan aurreko gako-fotogramara"
 
 #: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
@@ -13544,10 +13542,10 @@ msgid ""
 "center-based rescale, <shortcut>Hover right</shortcut> for toolbar, "
 "<shortcut>Click</shortcut> on a center to seek to its keyframe"
 msgstr ""
-"<shortcut>Klik bikoitza</shortcut> fotograma-gakoa gehitzeko, "
-"<shortcut>Maius arrastatu</shortcut> eskalatze proportzionala egiteko, "
-"<shortcut>Eskuinean gainetik igaro</shortcut>  Tresna-barra ikusteko, "
-"<shortcut>Klik</shortcut>  zentro batean bere fotograma-gakora mugitzeko"
+"<shortcut>Klik bikoitza</shortcut> gako-fotograma gehitzeko, <shortcut>Maius "
+"arrastatu</shortcut> eskalatze proportzionala egiteko, <shortcut>Eskuinean "
+"gainetik igaro</shortcut>  Tresna-barra ikusteko, <shortcut>Klik</shortcut>  "
+"zentro batean bere gako-fotogramara mugitzeko"
 
 #: src/monitor/view/kdenlivemonitorrotoscene.qml:69
 #, kde-kuit-format
@@ -13571,7 +13569,7 @@ msgstr ""
 "<shortcut>Klik bikoitza</shortcut>  zentroan tamaina aldatzeko, "
 "<shortcut>Klik bikoitza</shortcut>  segmentuaren lerroan puntu berria "
 "gehitzeko, <shortcut>Klik bikoitza</shortcut> puntuan ezabatzeko, "
-"<shortcut>Klik bikoitza</shortcut>  atzeko-planoan fotograma-gako berria "
+"<shortcut>Klik bikoitza</shortcut>  atzeko-planoan gako-fotograma berria "
 "sortzeko, <shortcut>Eskuinean gainetik igaro</shortcut>  tresna-barra "
 "erakusteko"
 
@@ -16740,8 +16738,8 @@ msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
-"Iturri-proiektuak uneko proiektuaren fotograma-emari ezberdina du (%1 fps) . "
-"<br/>Klipak edo gako-fotogramak apurtu daitezke."
+"Iturburu-proiektuak uneko proiektuaren fotograma-emari ezberdina du (%1 "
+"fps) .<br/>Baliteke klipak edo gako-fotogramak nahaspilatzea."
 
 #: src/timeline2/model/timelinefunctions.cpp:2170
 #, kde-format
@@ -17057,14 +17055,14 @@ msgid "Change clip speed"
 msgstr "Aldatu kliparen abidadura"
 
 #: src/timeline2/model/timelinemodel.cpp:6789
-#: src/timeline2/view/qml/timeline.qml:1198
+#: src/timeline2/view/qml/timeline.qml:1200
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Giltzatu pista"
 
 #: src/timeline2/model/timelinemodel.cpp:6794
-#: src/timeline2/view/qml/timeline.qml:1198
+#: src/timeline2/view/qml/timeline.qml:1200
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -17204,7 +17202,7 @@ msgid "Stop"
 msgstr "Gelditu"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "Pausatuta"
@@ -17341,58 +17339,58 @@ msgid ""
 "for multiple keyframe selection."
 msgstr ""
 "<b>Maius arrastatu</b> hautatutako gako-fotogramen balioa aldatzeko, <b>Ctrl "
-"klik</b>  gako-fotograma anitzak hautatzeko."
+"klik</b>  gako-fotograma bat baino gehiago hautatzeko."
 
 #: src/timeline2/view/qml/SubTitle.qml:102
 #, kde-format
 msgid "<b>Double click</b> to edit text"
 msgstr "<b>Klik bikoitza</b> testua editatzeko"
 
-#: src/timeline2/view/qml/timeline.qml:993
+#: src/timeline2/view/qml/timeline.qml:995
 #, kde-format
 msgid "Show master effects"
 msgstr "Bistaratu Maisuaren efektuak"
 
-#: src/timeline2/view/qml/timeline.qml:1132
+#: src/timeline2/view/qml/timeline.qml:1134
 #, kde-format
 msgid "Click to see details"
 msgstr "Klik egin xehetasunak ikusteko"
 
-#: src/timeline2/view/qml/timeline.qml:1154
+#: src/timeline2/view/qml/timeline.qml:1156
 #, kde-format
 msgid "Speech recognition"
 msgstr "Hizketaren ezagutza"
 
-#: src/timeline2/view/qml/timeline.qml:1174
+#: src/timeline2/view/qml/timeline.qml:1176
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Erakutsi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1174
+#: src/timeline2/view/qml/timeline.qml:1176
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Ezkutatu"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Klik bikoitza</b> azpidatzia gehitzeko"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Sarrera:%1, Posizioa: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Recording"
 msgstr "Grabazio"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr "Kamer-anitz Sarrera"
@@ -22132,7 +22130,7 @@ msgstr "Fotogramaren nahasketa"
 #: src/ui/timeremap_ui.ui:369
 #, kde-format
 msgid "Preserve speed of next keyframes"
-msgstr "Mantendu hurrengo fotogramen abiadura"
+msgstr "Mantendu hurrengo gako-fotogramen abiadura"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, TitleWidget_UI)
 #: src/ui/titlewidget_ui.ui:18
@@ -22363,7 +22361,7 @@ msgstr "Hazia:"
 #: src/ui/titlewidget_ui.ui:1114
 #, kde-format
 msgid "Letter spacing:"
-msgstr "Letren arteko tartea:"
+msgstr "Letra-tartea:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_textAlign)
 #: src/ui/titlewidget_ui.ui:1140

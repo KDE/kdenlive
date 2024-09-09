@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-08 02:32+0000\n"
-"PO-Revision-Date: 2024-08-25 20:42+0300\n"
+"POT-Creation-Date: 2024-09-09 02:30+0000\n"
+"PO-Revision-Date: 2024-09-08 23:05+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -4168,7 +4168,7 @@ msgstr ""
 "\n"
 "R:"
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:999
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1001
 #, kde-format
 msgid "Master"
 msgstr "Ana"
@@ -4431,7 +4431,7 @@ msgstr "Geçerli Klasörü Yeni Kovada Aç"
 #: src/bin/bin.cpp:1383
 #, kde-format
 msgid "Tags Panel"
-msgstr "Etiketler Paneli"
+msgstr "Künyeler Paneli"
 
 #: src/bin/bin.cpp:1405
 #, kde-kuit-format
@@ -4705,7 +4705,7 @@ msgstr "Süzgeçleri Temizle"
 #: src/bin/bin.cpp:2398
 #, kde-format
 msgid "No Tags"
-msgstr "Etiket Yok"
+msgstr "Künye Yok"
 
 #: src/bin/bin.cpp:2417
 #, kde-format
@@ -5034,12 +5034,12 @@ msgstr "Efekti Yapıştır"
 #: src/bin/bin.cpp:4086 src/bin/bin.cpp:4093
 #, kde-format
 msgid "Select a clip to add a tag"
-msgstr "Etiket eklemek için bir klip seçin"
+msgstr "Künye eklemek için bir klip seçin"
 
 #: src/bin/bin.cpp:4232
 #, kde-format
 msgid "Edit Tags"
-msgstr "Etiketleri Düzenle"
+msgstr "Künyeleri Düzenle"
 
 #: src/bin/bin.cpp:4547 src/bin/projectclip.cpp:210
 #: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
@@ -5676,12 +5676,12 @@ msgstr[1] "%1 klip"
 #: src/bin/projectitemmodel.cpp:327
 #, kde-format
 msgid "Tag"
-msgstr "Etiket"
+msgstr "Künye"
 
 #: src/bin/projectitemmodel.cpp:333
 #, kde-format
 msgid "Id"
-msgstr "Id"
+msgstr "Kimlik"
 
 #: src/bin/projectitemmodel.cpp:339
 #, kde-format
@@ -5744,7 +5744,7 @@ msgstr "Bölge %1"
 #: src/bin/tagwidget.cpp:52
 #, kde-format
 msgid "Tag %1"
-msgstr "%1 etiketi"
+msgstr "Künye %1"
 
 #: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
 #: src/dialogs/textbasededit.cpp:633
@@ -5755,27 +5755,27 @@ msgstr "Yapılandır"
 #: src/bin/tagwidget.cpp:165
 #, kde-format
 msgid "Configure Project Tags"
-msgstr "Proje Etiketlerini Yapılandır"
+msgstr "Proje Künyelerini Yapılandır"
 
 #: src/bin/tagwidget.cpp:198
 #, kde-format
 msgid "Edit Tag"
-msgstr "Etiketi Düzenle"
+msgstr "Künyeyi Düzenle"
 
 #: src/bin/tagwidget.cpp:213 src/bin/tagwidget.cpp:286
 #, kde-format
 msgid "This color is already used in another tag"
-msgstr "Bu renk başka bir etikette halihazırda kullanılıyor"
+msgstr "Bu renk başka bir künyede halihazırda kullanılıyor"
 
 #: src/bin/tagwidget.cpp:274
 #, kde-format
 msgid "Add Tag"
-msgstr "Etiket Ekle"
+msgstr "Künye Ekle"
 
 #: src/bin/tagwidget.cpp:282
 #, kde-format
 msgid "New tag"
-msgstr "Yeni etiket"
+msgstr "Yeni künye"
 
 #: src/capture/mediacapture.cpp:473
 #, kde-format
@@ -9887,7 +9887,7 @@ msgstr "Hedef Dosya"
 #: src/jobs/speedtask.cpp:72
 #, kde-format
 msgid "Percentage"
-msgstr "Yüzdesi"
+msgstr "Yüzde"
 
 #. i18n: ectx: property (text), widget (QCheckBox, pitchCompensate)
 #. i18n: ectx: property (text), widget (QCheckBox, pitch_compensate)
@@ -10664,7 +10664,7 @@ msgstr "Dolaşım ve Oynatım"
 #: src/mainwindow.cpp:167
 #, kde-format
 msgid "Bin Tags"
-msgstr "Kova Etiketleri"
+msgstr "Kova Künyeleri"
 
 #: src/mainwindow.cpp:187
 #, kde-format
@@ -11156,15 +11156,15 @@ msgstr ""
 #: src/mainwindow.cpp:1422
 #, kde-format
 msgid "Show Color Tags in Timeline"
-msgstr "Zaman Akışında Renk Etiketlerini Göster"
+msgstr "Zaman Akışında Renk Künyelerini Göster"
 
 #: src/mainwindow.cpp:1423
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr ""
-"Zaman akışındaki klip etiketlerinin görüntülenmesini açar/kapatır (öntanımlı "
-"olarak açıktır)."
+"Zaman akışındaki klip künyelerinin görüntülenmesini açar/kapatır (öntanımlı "
+"olarak açık)."
 
 #: src/mainwindow.cpp:1429
 #, kde-format
@@ -16985,14 +16985,14 @@ msgid "Change clip speed"
 msgstr "Klip hızını değiştir"
 
 #: src/timeline2/model/timelinemodel.cpp:6789
-#: src/timeline2/view/qml/timeline.qml:1198
+#: src/timeline2/view/qml/timeline.qml:1200
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "İzi kilitle"
 
 #: src/timeline2/model/timelinemodel.cpp:6794
-#: src/timeline2/view/qml/timeline.qml:1198
+#: src/timeline2/view/qml/timeline.qml:1200
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -17132,7 +17132,7 @@ msgid "Stop"
 msgstr "Durdur"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2116
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
@@ -17276,51 +17276,51 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr "Metni düzenlemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/timeline.qml:993
+#: src/timeline2/view/qml/timeline.qml:995
 #, kde-format
 msgid "Show master effects"
 msgstr "Ana efektleri göster"
 
-#: src/timeline2/view/qml/timeline.qml:1132
+#: src/timeline2/view/qml/timeline.qml:1134
 #, kde-format
 msgid "Click to see details"
 msgstr "Ayrıntıları görmek için tıklayın"
 
-#: src/timeline2/view/qml/timeline.qml:1154
+#: src/timeline2/view/qml/timeline.qml:1156
 #, kde-format
 msgid "Speech recognition"
 msgstr "Konuşma tanıma"
 
-#: src/timeline2/view/qml/timeline.qml:1174
+#: src/timeline2/view/qml/timeline.qml:1176
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Show"
 msgstr "Göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1174
+#: src/timeline2/view/qml/timeline.qml:1176
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/timeline2/view/qml/timeline.qml:1787
+#: src/timeline2/view/qml/timeline.qml:1789
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 
-#: src/timeline2/view/qml/timeline.qml:1949
+#: src/timeline2/view/qml/timeline.qml:1951
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2103
-#: src/timeline2/view/qml/timeline.qml:2112
+#: src/timeline2/view/qml/timeline.qml:2105
+#: src/timeline2/view/qml/timeline.qml:2114
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/timeline.qml:2206
+#: src/timeline2/view/qml/timeline.qml:2208
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"
@@ -18285,8 +18285,8 @@ msgid ""
 "wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>"
 msgstr ""
 "<p>Bir n tiresi (bir n genişliğinde çizgi).</p><p>Kullanım örnekleri: "
-"İngilizce’de değer erimleri (1878&#x2013;1903), ilişki/bağlantılar için "
-"(Zürih&#x2013;Dublin). Almanca’da düşünceleri göstermek için de (boşluklar "
+"İngilizcede değer erimleri (1878&#x2013;1903), ilişki/bağlantılar için "
+"(Zürih&#x2013;Dublin). Almancada düşünceleri göstermek için de (boşluklar "
 "ile!) kullanılır: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; "
 "ein regnerischer Tag.</p> <p>Bkz. <a href=\"https://en.wikipedia.org/wiki/"
 "Dash\">Vikipedi:Uzun Çizgi</a></p>"
@@ -21088,7 +21088,7 @@ msgstr "Görsel önizlemesi"
 #: src/ui/missingclips_ui.ui:18
 #, kde-format
 msgid " Clip Problems"
-msgstr " Klip Sorunları"
+msgstr "Klip Sorunları"
 
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/missingclips_ui.ui:92
