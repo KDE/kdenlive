@@ -27,7 +27,7 @@ public:
     /** @brief Set a property on the root item */
     void setProperty(const QString &name, const QVariant &value);
     /** @brief Load a monitor scene */
-    void setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration);
+    bool setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration);
 
 private:
     QQuickWidget *m_view;
