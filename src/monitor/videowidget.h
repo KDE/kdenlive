@@ -100,7 +100,7 @@ public:
     void setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model = nullptr);
     MonitorProxy *getControllerProxy();
     bool playZone(bool startFromIn = true, bool loop = false);
-    bool loopClip(QPoint inOut);
+    bool loopClip(std::pair<int, int> inOut);
     void startConsumer();
     void stop();
     int rulerHeight() const;
@@ -245,9 +245,15 @@ private:
     void disableGPUAccel();
     /** @brief Restart consumer, keeping preview scaling settings */
     bool restartConsumer();
-
-    /* OpenGL context management. Interfaces to MLT according to the configured render pipeline.
+    /** @brief Play between in and out
+     *  @param in the in point for loop
+     *  @param out the out point for loop
+     *  @param startFromIn if true, we will seek to in before starting to play
+     *  @param loop if true, we loop the zone until user pauses it
+     *  @param loop if true, we seek to zone start when reaching end
      */
+    bool playZone(int in, int out, bool startFromIn, bool loop, bool zoneMode);
+
 private Q_SLOTS:
     void resizeVideo(int width, int height);
     int reconfigure();

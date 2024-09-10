@@ -1824,7 +1824,7 @@ void Monitor::slotLoopZone()
     }
 }
 
-void Monitor::slotLoopClip(QPoint inOut)
+void Monitor::slotLoopClip(std::pair<int, int> inOut)
 {
     if (!slotActivateMonitor()) {
         return;
