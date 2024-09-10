@@ -2513,8 +2513,11 @@ void Monitor::loadQmlScene(MonitorSceneType type, const QVariant &sceneData)
         pCore->displayMessage(i18n("Enable edit mode in monitor to edit effect"), InformationMessage, 500);
         type = MonitorSceneDefault;
     }
-    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()),
-                           m_timePos->maximum());
+    if (!m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), double(m_glMonitor->zoom()),
+                                m_timePos->maximum())) {
+        // Scene change was not accepted
+        return;
+    }
     if (m_glMonitor->zoom() != 1.) {
         m_glMonitor->setZoom(m_glMonitor->zoom(), true);
     }
