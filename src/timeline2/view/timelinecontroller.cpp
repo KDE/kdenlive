@@ -3983,7 +3983,7 @@ void TimelineController::editAnimationClip(int id)
     GlaxnimateLauncher::instance().openClip(id);
 }
 
-QPoint TimelineController::selectionInOut() const
+std::pair<int, int> TimelineController::selectionInOut() const
 {
     std::unordered_set<int> ids = m_model->getCurrentSelection();
     std::unordered_set<int> items_list;
@@ -4009,7 +4009,7 @@ QPoint TimelineController::selectionInOut() const
             }
         }
     }
-    return QPoint(in, out);
+    return {in, out};
 }
 
 void TimelineController::updateClipActions()

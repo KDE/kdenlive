@@ -328,7 +328,7 @@ void MainWindow::init(const QString &mltPath)
     connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_projectMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
     connect(m_loopClip, &QAction::triggered, this, [&]() {
-        QPoint inOut = getCurrentTimeline()->controller()->selectionInOut();
+        std::pair<int, int> inOut = getCurrentTimeline()->controller()->selectionInOut();
         m_projectMonitor->slotLoopClip(inOut);
     });
     installEventFilter(this);

@@ -309,7 +309,7 @@ public Q_SLOTS:
     void slotPlayZone(bool startFromIn = true);
     void slotLoopZone();
     /** @brief Loops the selected item (clip or transition). */
-    void slotLoopClip(QPoint inOut);
+    void slotLoopClip(std::pair<int, int> inOut);
     void slotForward(double speed = 0, bool allowNormalPlay = false) override;
     void slotRewind(double speed = 0) override;
     void slotRewindOneFrame(int diff = 1);
