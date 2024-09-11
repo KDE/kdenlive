@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-10 02:28+0000\n"
-"PO-Revision-Date: 2024-08-25 11:51+0200\n"
+"PO-Revision-Date: 2024-09-09 10:32+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -1185,22 +1185,22 @@ msgstr "Inverser les couleurs"
 #: data/effects/lift_gamma_gain.xml:4
 #, kde-format
 msgid "Lift/gamma/gain"
-msgstr "Réhausser/gamma/gain"
+msgstr "Remonter / gamma / gain"
 
 #: data/effects/lift_gamma_gain.xml:7
 #, kde-format
 msgid "Lift: Red"
-msgstr "Réhausser : rouge"
+msgstr "Remonter : rouge"
 
 #: data/effects/lift_gamma_gain.xml:10
 #, kde-format
 msgid "Lift: Green"
-msgstr "Réhausser : vert"
+msgstr "Remonter : vert"
 
 #: data/effects/lift_gamma_gain.xml:13
 #, kde-format
 msgid "Lift: Blue"
-msgstr "Réhausser : bleu"
+msgstr "Remonter : bleu"
 
 #: data/effects/lift_gamma_gain.xml:16
 #, kde-format
@@ -1306,7 +1306,7 @@ msgstr ""
 #: src/effects/effectstack/view/qml/LiftGammaGain.qml:46
 #, kde-format
 msgid "Lift"
-msgstr "Réhausser"
+msgstr "Remonter"
 
 #: data/effects/mask_apply.xml:4
 #, kde-format
@@ -7391,7 +7391,7 @@ msgstr "Ajouter une vidéo à la frise chronologique avant le rendu"
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
-"Impossible de trouver le programme Melt pour le rendu (une élément de MLT)"
+"Impossible de trouver le programme « melt » pour le rendu (Partie de MLT)"
 
 #: src/dialogs/renderwidget.cpp:648
 #, kde-format
@@ -8763,7 +8763,7 @@ msgid ""
 "<li>Missing app: <b>mediainfo</b><br/>optional for technical clip "
 "information</li>"
 msgstr ""
-"<li>Application manquante : <b>MediaInfo</b><br/>optionnelle pour les "
+"<li>Application manquante : <b>mediainfo</b><br/>optionnelle pour les "
 "informations techniques sur la vidéo.</li>"
 
 #: src/dialogs/wizard.cpp:652
@@ -10601,7 +10601,7 @@ msgstr ""
 #: src/main.cpp:331
 #, kde-format
 msgid "Julius Künzel"
-msgstr "seexpr_scripts"
+msgstr "Julius Künzel"
 
 #: src/main.cpp:331
 #, kde-format
@@ -11653,7 +11653,7 @@ msgstr ""
 #: src/mainwindow.cpp:1730
 #, kde-format
 msgid "Lift Timeline Zone"
-msgstr "Réhausser la zone du montage"
+msgstr "Remonter dans la zone de montage"
 
 #: src/mainwindow.cpp:1732
 #, kde-kuit-format
@@ -15788,13 +15788,13 @@ msgstr "Petit (460 Mb)"
 #, kde-format
 msgctxt "Model file to download, medium one"
 msgid "Medium (1.4GB)"
-msgstr "Moyen (1.4 Gb)"
+msgstr "Moyen (1.4 Go)"
 
 #: src/pythoninterfaces/speechtotext.cpp:74
 #, kde-format
 msgctxt "Model file to download, large one"
 msgid "Large (2.9GB)"
-msgstr "Grand (2.9 Gb)"
+msgstr "Grand (2.9 Go)"
 
 #: src/pythoninterfaces/speechtotext.cpp:75
 #, kde-format
@@ -15818,7 +15818,7 @@ msgstr "Petit - Uniquement en anglais (244 Mb)"
 #, kde-format
 msgctxt "Model file to download, medium one"
 msgid "Medium - English only (1.5GB)"
-msgstr "Moyen - Uniquement en anglais (1.5 Gb)"
+msgstr "Moyen - Uniquement en anglais (1.5 Go)"
 
 #: src/pythoninterfaces/speechtotext.cpp:85
 #, kde-format
@@ -18340,7 +18340,7 @@ msgstr "Charger le titre"
 #: src/titler/titlewidget.cpp:2229
 #, kde-format
 msgid "Kdenlive title"
-msgstr "Title sous Kdenlive"
+msgstr "Titre sous Kdenlive"
 
 #: src/titler/titlewidget.cpp:2275
 #, kde-format
@@ -19027,7 +19027,7 @@ msgstr ""
 #: src/ui/urllistparamwidget_ui.ui:42 src/ui/urlval_ui.ui:44
 #, kde-format
 msgid "TextLabel"
-msgstr "TitreTexte"
+msgstr "Étiquette-Texte"
 
 #. i18n: ectx: property (text), widget (QLabel, end_label)
 #: src/ui/clipdurationdialog_ui.ui:34
