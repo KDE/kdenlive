@@ -20228,7 +20228,7 @@ msgstr ""
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
-msgstr ""
+msgstr "Understreket"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelShadow)
@@ -22370,7 +22370,3 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Veritical"
-#~ msgstr "Vertikal multiplikator"
