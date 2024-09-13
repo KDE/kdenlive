@@ -1734,3 +1734,15 @@ void Core::showEffectStackFromId(ObjectId owner)
         break;
     }
 }
+
+void Core::openDocumentationLink(const QUrl &link)
+{
+    if (KMessageBox::questionTwoActions(
+            QApplication::activeWindow(),
+            i18n("This will open a browser to display Kdenlive's online documentation at the following url:\n %1", link.toDisplayString()), {},
+            KGuiItem(i18n("Open Browser")), KStandardGuiItem::cancel(), QStringLiteral("allow_browser_help")) == KMessageBox::SecondaryAction) {
+        // Stop
+        return;
+    }
+    QDesktopServices::openUrl(link);
+}

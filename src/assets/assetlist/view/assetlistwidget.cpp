@@ -196,7 +196,8 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     QTextBrowser *textEdit = new QTextBrowser(this);
     textEdit->setReadOnly(true);
     textEdit->setAcceptRichText(true);
-    textEdit->setOpenExternalLinks(true);
+    textEdit->setOpenLinks(false);
+    connect(textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
     m_infoDocument = new QTextDocument(this);
     textEdit->setDocument(m_infoDocument);
     viewSplitter->addWidget(textEdit);

@@ -19,7 +19,6 @@
 #include "widgets/dragvalue.h"
 
 #include "kdenlive_debug.h"
-#include <QDesktopServices>
 #include <QDialog>
 #include <QFileDialog>
 #include <QFontDatabase>
@@ -83,8 +82,8 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(infoButton, &QToolButton::clicked, this, [this]() {
         const QString id = m_model->getAssetId();
         AssetListType::AssetType type = EffectsRepository::get()->getType(id);
-        const QString link = AssetListWidget::buildLink(id, type);
-        QDesktopServices::openUrl(QUrl(link));
+        const QUrl link(AssetListWidget::buildLink(id, type));
+        pCore->openDocumentationLink(link);
     });
 
     if (effectModel->rowCount() == 0) {
@@ -116,43 +115,25 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(m_keyframesButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotHideKeyframes);
     connect(m_model.get(), &AssetParameterModel::hideKeyframesChange, this, &CollapsibleEffectView::enableHideKeyframes);
 
-    if (!m_model->isBuiltIn()) {
-        // Enable button
-        m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
-        m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Disables the effect. Useful to compare before and after settings."));
-        m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Enables the effect. Useful to compare before and after settings."));
-        m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
-        m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
-        enabledButton->setDefaultAction(m_enabledButton);
-        connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
-        if (!effectModel->isAssetEnabled()) {
-            title->setEnabled(false);
-            if (KdenliveSettings::disable_effect_parameters()) {
-                widgetFrame->setEnabled(false);
-            }
-            m_enabledButton->setActive(true);
-        } else {
-            m_enabledButton->setActive(false);
+    // Enable button
+    m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
+    m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Disables the effect. Useful to compare before and after settings."));
+    m_enabledButton->setWhatsThis(xi18nc("@info:whatsthis", "Enables the effect. Useful to compare before and after settings."));
+    m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
+    m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
+    enabledButton->setDefaultAction(m_enabledButton);
+    connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
+    if (!effectModel->isAssetEnabled()) {
+        title->setEnabled(false);
+        if (KdenliveSettings::disable_effect_parameters()) {
+            widgetFrame->setEnabled(false);
         }
-        connect(m_enabledButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotDisable);
+        m_enabledButton->setActive(true);
     } else {
-        // Add reset button
-        enabledButton->setIcon(QIcon::fromTheme(QStringLiteral("edit-reset")));
-        enabledButton->setToolTip(i18n("Reset Effect"));
-        connect(enabledButton, &QToolButton::clicked, this, &CollapsibleEffectView::slotResetEffect);
-        connect(m_model.get(), &AssetParameterModel::enabledChange, this, [this](bool enable) {
-            enabledButton->setEnabled(enable);
-            if (m_model->isAssetEnabled() != enable) {
-                m_model->setAssetEnabled(enable, false);
-                pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-            }
-            // Update asset names
-            Q_EMIT effectNamesUpdated();
-        });
-        enabledButton->setEnabled(m_model->isAssetEnabled());
-        // frame->hide();
-        decoframe->setProperty("class", "builtin");
+        m_enabledButton->setActive(false);
     }
+    connect(m_enabledButton, &KDualAction::activeChangedByUser, this, &CollapsibleEffectView::slotDisable);
+
     frame->setMinimumHeight(collapseButton->sizeHint().height());
     connect(m_model.get(), &AssetParameterModel::showEffectZone, this, [=](ObjectId id, QPair<int, int> inOut, bool checked) {
         m_inOutButton->setChecked(checked);
@@ -273,10 +254,29 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         m_keyframesButton->setActive(true);
     }
     // Presets
-    presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
-    presetButton->setMenu(m_view->presetMenu());
-    presetButton->setToolTip(i18n("Presets"));
-    presetButton->setWhatsThis(xi18nc("@info:whatsthis", "Opens a list of advanced options to manage presets for the effect."));
+    if (!m_model->isBuiltIn()) {
+        presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
+        presetButton->setMenu(m_view->presetMenu());
+        presetButton->setToolTip(i18n("Presets"));
+        presetButton->setWhatsThis(xi18nc("@info:whatsthis", "Opens a list of advanced options to manage presets for the effect."));
+    } else {
+        // Add reset button
+        presetButton->setIcon(QIcon::fromTheme(QStringLiteral("edit-reset")));
+        presetButton->setToolTip(i18n("Reset Effect"));
+        connect(presetButton, &QToolButton::clicked, this, &CollapsibleEffectView::slotResetEffect);
+        connect(m_model.get(), &AssetParameterModel::enabledChange, this, [this](bool enable) {
+            presetButton->setEnabled(enable);
+            if (m_model->isAssetEnabled() != enable) {
+                m_model->setAssetEnabled(enable, false);
+                pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
+            }
+            // Update asset names
+            Q_EMIT effectNamesUpdated();
+        });
+        presetButton->setEnabled(m_model->isAssetEnabled());
+        // frame->hide();
+        decoframe->setProperty("class", "builtin");
+    }
 
     connect(m_view, &AssetParameterView::saveEffect, this, [this]() { slotSaveEffect(); });
     connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectUp);

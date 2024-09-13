@@ -429,6 +429,8 @@ public Q_SLOTS:
     void startRecording(bool showCountdown = false);
     /** @brief Show or hide track head audio rec controls. */
     void monitorAudio(int tid, bool monitor);
+    /** @brief Open a documentation link, showing a warning box first */
+    void openDocumentationLink(const QUrl &link);
 
 Q_SIGNALS:
     void coreIsReady();

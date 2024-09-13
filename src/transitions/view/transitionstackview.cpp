@@ -14,7 +14,6 @@
 #include <KLocalizedString>
 #include <QComboBox>
 #include <QDebug>
-#include <QDesktopServices>
 #include <QFormLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -125,7 +124,7 @@ void TransitionStackView::openCompositionHelp()
     if (m_model) {
         const QString id = m_model->getAssetId();
         AssetListType::AssetType type = TransitionsRepository::get()->getType(id);
-        const QString link = AssetListWidget::buildLink(id, type);
-        QDesktopServices::openUrl(QUrl(link));
+        const QUrl link(AssetListWidget::buildLink(id, type));
+        pCore->openDocumentationLink(link);
     }
 }

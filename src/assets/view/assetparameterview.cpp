@@ -124,7 +124,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     if (m_mainKeyframeWidget) {
         // Add keyframe widget to the bottom to have a clear seperation
         // between animated an non-animated params
-        // m_lay->addWidget(m_mainKeyframeWidget);
         minHeight += m_mainKeyframeWidget->minimumHeight();
     }
     setMinimumHeight(minHeight);
