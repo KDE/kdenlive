@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 00:38+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2012-01-01 20:29+0100\n"
 "Last-Translator: Kjetil Kilhavn <kjetil@kilhavn.no>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -13262,12 +13262,12 @@ msgstr ""
 msgid "Select a zone to play"
 msgstr ""
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1087
 #, kde-format
 msgid "Select a clip to play"
 msgstr ""
 
-#: src/monitor/videowidget.cpp:1208
+#: src/monitor/videowidget.cpp:1192
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -20228,7 +20228,7 @@ msgstr ""
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
-msgstr ""
+msgstr "Understreket"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelShadow)
@@ -22370,7 +22370,3 @@ msgstr ""
 msgctxt "h as hours"
 msgid "%1h"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Veritical"
-#~ msgstr "Vertikal multiplikator"

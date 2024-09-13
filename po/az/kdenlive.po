@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 00:38+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -13953,12 +13953,12 @@ msgstr "Səs tezliyi spektirini aktiv edin"
 msgid "Select a zone to play"
 msgstr "Oynatma zonasını seçin"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1087
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Oynatmaq üçün klipi seçin"
 
-#: src/monitor/videowidget.cpp:1208
+#: src/monitor/videowidget.cpp:1192
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

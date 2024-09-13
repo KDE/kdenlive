@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 00:38+0000\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
 "PO-Revision-Date: 2020-11-07 13:17+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -14386,13 +14386,13 @@ msgstr "Povoliť Audio Spectrum"
 msgid "Select a zone to play"
 msgstr "Nástroj pre výber"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1087
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Nástroj pre výber"
 
-#: src/monitor/videowidget.cpp:1208
+#: src/monitor/videowidget.cpp:1192
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"

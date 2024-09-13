@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 00:38+0000\n"
-"PO-Revision-Date: 2024-09-01 15:18+0200\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
+"PO-Revision-Date: 2024-09-09 17:05+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -5716,7 +5716,7 @@ msgstr "Sottotitolo %1"
 #: src/bin/model/subtitlemodel.cpp:2226
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr ""
+msgstr "Assegna un nuovo stile a un sottotitolo."
 
 #: src/bin/projectclip.cpp:268
 #, kde-format
@@ -7090,13 +7090,12 @@ msgstr "Gestisci sottotitoli"
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "Livello"
 
 #: src/dialogs/managesubtitles.cpp:104
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move Layer"
-msgstr "Sposta barra degli strumenti"
+msgstr "Sposta livello"
 
 #: src/dialogs/managesubtitles.cpp:104
 #, kde-format
@@ -7104,10 +7103,9 @@ msgid "Select the subtitle file to move the layer to:"
 msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:106
-#, fuzzy, kde-format
-#| msgid "Copy channel:"
+#, kde-format
 msgid "Copy Layer"
-msgstr "Copia canale:"
+msgstr "Copia livello"
 
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
@@ -7115,20 +7113,19 @@ msgid "Select the subtitle file to copy the layer to:"
 msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
-#, fuzzy, kde-format
-#| msgid "Move Toolbar"
+#, kde-format
 msgid "Move To..."
-msgstr "Sposta barra degli strumenti"
+msgstr "Sposta in..."
 
 #: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "Copia in..."
 
 #: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "Globale"
 
 #: src/dialogs/managesubtitles.cpp:192
 #, fuzzy, kde-format
@@ -7142,10 +7139,9 @@ msgid "Select the subtitle file to move the style to:"
 msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:194
-#, fuzzy, kde-format
-#| msgid "Font Style"
+#, kde-format
 msgid "Copy Style"
-msgstr "Stile del carattere"
+msgstr "Copia stile"
 
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
@@ -7167,22 +7163,22 @@ msgstr "Esporta sottotitoli"
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "Livello"
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "con "
 
 #: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr " evento"
 
 #: src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr " eventi"
 
 #: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
 #, kde-format
@@ -7217,32 +7213,23 @@ msgid "Box as Shadow"
 msgstr "Ombra"
 
 #: src/dialogs/managesubtitles.cpp:706
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
-#| "subtitle file: %2 "
+#, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr ""
 "Questo eliminerà tutte le voci dei sottotitoli <b>%1</b>,<br/>così come nel "
-"file dei sottotitoli: %2 "
+"file dei sottotitoli: %2"
 
 #: src/dialogs/managesubtitles.cpp:728
-#, fuzzy, kde-format
-#| msgid ""
-#| "This will delete the file:\n"
-#| "%1"
+#, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
-msgstr ""
-"Questa azione eliminerà il file:\n"
-"%1"
+msgstr "Questa azione eliminerà tutti gli eventi nel livello <b>%1</b>."
 
 #: src/dialogs/managesubtitles.cpp:746
-#, fuzzy, kde-format
-#| msgid "Cannot create filter."
+#, kde-format
 msgid "Cannot delete default style."
-msgstr "Impossibile creare il filtro."
+msgstr "Impossibile eliminare lo stile predefinito."
 
 #: src/dialogs/managesubtitles.cpp:750
 #, kde-format
@@ -8444,10 +8431,9 @@ msgid "Updates the subtitle display in the timeline."
 msgstr "Aggiorna la vista dei sottotitoli nella linea temporale."
 
 #: src/dialogs/subtitleedit.cpp:282
-#, fuzzy, kde-format
-#| msgid "Show style options"
+#, kde-format
 msgid "Show more options"
-msgstr "Mostra le opzioni di stile"
+msgstr "Mostra altre opzioni"
 
 #: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
@@ -8465,10 +8451,9 @@ msgstr ""
 "sottotitoli)."
 
 #: src/dialogs/subtitleedit.cpp:288
-#, fuzzy, kde-format
-#| msgid "Toggle Track Disabled"
+#, kde-format
 msgid "Toggle bold"
-msgstr "Abilita/disabilita la traccia disabilitata"
+msgstr "Attiva/disattiva grassetto"
 
 #: src/dialogs/subtitleedit.cpp:289
 #, kde-kuit-format
@@ -8479,10 +8464,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:292
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle italic"
-msgstr "Inverti la selezione"
+msgstr "Attiva/disattiva corsivo"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -8493,10 +8477,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:297
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle underline"
-msgstr "Inverti la selezione"
+msgstr "Attiva/disattiva sottolineato"
 
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-kuit-format
@@ -8521,10 +8504,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:309
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set font"
-msgstr "Imposta zona"
+msgstr "Imposta carattere"
 
 #: src/dialogs/subtitleedit.cpp:312
 #, kde-kuit-format
@@ -8535,10 +8517,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:315
-#, fuzzy, kde-format
-#| msgid "Reset value"
+#, kde-format
 msgid "Reset style"
-msgstr "Ripristina valore"
+msgstr "Reimposta stile"
 
 #: src/dialogs/subtitleedit.cpp:316
 #, kde-kuit-format
@@ -8549,10 +8530,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:318
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Set Position"
-msgstr "Posizione iniziale"
+msgstr "Imposta la posizione"
 
 #: src/dialogs/subtitleedit.cpp:322
 #, fuzzy, kde-format
@@ -8567,28 +8547,24 @@ msgid "Opens a menu to show more tags"
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:382
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Right To Left"
-msgstr "In alto a sinistra"
+msgstr "Da destra a sinistra"
 
 #: src/dialogs/subtitleedit.cpp:383
-#, fuzzy, kde-format
-#| msgid "Left,Right"
+#, kde-format
 msgid "Left To Right"
-msgstr "Sinistra,Destra"
+msgstr "Da sinistra a destra"
 
 #: src/dialogs/subtitleedit.cpp:384
-#, fuzzy, kde-format
-#| msgid "Crop bottom"
+#, kde-format
 msgid "Top To Bottom"
-msgstr "Ritaglia in basso"
+msgstr "Dall'alto in basso"
 
 #: src/dialogs/subtitleedit.cpp:385
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Bottom To Top"
-msgstr "Sotto"
+msgstr "Dal basso in alto"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
@@ -8602,10 +8578,9 @@ msgid "Simple Editor"
 msgstr "Editor vocale"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Subtitles"
+#, kde-format
 msgid "Manage Styles…"
-msgstr "Gestisci sottotitoli"
+msgstr "Gestisci stili..."
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -8613,10 +8588,9 @@ msgid "Character: %1, total: <b>%2</b>"
 msgstr "Carattere: %1, totale: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgid "Set Position X"
-msgstr "Posizione X"
+msgstr "Imposta posizione X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
@@ -8626,10 +8600,9 @@ msgid "X:"
 msgstr "X:"
 
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
-#, fuzzy, kde-format
-#| msgid "Position Y"
+#, kde-format
 msgid "Set Position Y"
-msgstr "Posizione Y"
+msgstr "Imposta posizione Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
@@ -8639,10 +8612,9 @@ msgid "Y:"
 msgstr "Y:"
 
 #: src/dialogs/subtitlestyleedit.cpp:45
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "Select font"
-msgstr "Selezione"
+msgstr "Seleziona carattere"
 
 #: src/dialogs/subtitlestyleedit.cpp:46
 #, kde-kuit-format
@@ -8658,16 +8630,14 @@ msgstr "Contorno testo"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "Show Preview >>>"
-msgstr "Anteprima dei sottotitoli"
+msgstr "Mostra anteprima >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:133
-#, fuzzy, kde-format
-#| msgid "Subtitle Preview"
+#, kde-format
 msgid "<<< Hide Preview"
-msgstr "Anteprima dei sottotitoli"
+msgstr "<<< Nascondi anteprima"
 
 #: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
 #: src/dialogs/subtitlestyleedit.cpp:171
@@ -8677,16 +8647,14 @@ msgid "Error"
 msgstr "Errore"
 
 #: src/dialogs/subtitlestyleedit.cpp:161
-#, fuzzy, kde-format
-#| msgid "File already exists"
+#, kde-format
 msgid "Style name already exists."
-msgstr "Il file esiste già"
+msgstr "Il nome dello stile esiste già."
 
 #: src/dialogs/subtitlestyleedit.cpp:166
-#, fuzzy, kde-format
-#| msgid "The preset name can't be empty"
+#, kde-format
 msgid "Style name cannot be empty."
-msgstr "Il nome della preimpostazione non può essere vuoto"
+msgstr "Il nome dello stile non può essere vuoto."
 
 #: src/dialogs/subtitlestyleedit.cpp:171
 #, kde-format
@@ -9476,11 +9444,10 @@ msgid "extra audio"
 msgstr "audio aggiuntivo"
 
 #: src/doc/documentvalidator.cpp:2206
-#, fuzzy, kde-format
-#| msgid "Output file already exists. Do you want to overwrite it?"
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "Il file in esportazione esiste già. Vuoi sovrascriverlo?"
+msgstr "Il file dei sottotitoli:<br/>%1<br/>esiste già. Vuoi sovrascriverlo?"
 
 #: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3581
 #, kde-format
@@ -13954,12 +13921,12 @@ msgstr "Abilita Spettro audio"
 msgid "Select a zone to play"
 msgstr "Seleziona una zona da riprodurre"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1087
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Seleziona una clip da riprodurre"
 
-#: src/monitor/videowidget.cpp:1208
+#: src/monitor/videowidget.cpp:1192
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -18355,10 +18322,9 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:5227
-#, fuzzy, kde-format
-#| msgid "Pasting Warning"
+#, kde-format
 msgid "Warning"
-msgstr "Avviso di incollaggio"
+msgstr "Avviso"
 
 #: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
@@ -21245,10 +21211,9 @@ msgstr "S"
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:207
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Style:"
-msgstr "Stile"
+msgstr "Stile:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
 #: src/ui/editsub_ui.ui:253
@@ -21258,10 +21223,9 @@ msgstr "Fine:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: src/ui/editsub_ui.ui:451
-#, fuzzy, kde-format
-#| msgid "roll"
+#, kde-format
 msgid "Scroll"
-msgstr "rollio"
+msgstr "Scorrimento"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:465
@@ -21274,13 +21238,13 @@ msgstr "Aggiornamenti al secondo"
 #: src/ui/editsub_ui.ui:472
 #, kde-format
 msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Margine</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsub_ui.ui:492
 #, kde-format
 msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
+msgstr "<html><head/><body><p>Nome</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
 #. i18n: ectx: property (text), widget (QCheckBox, checkComment)
@@ -21323,15 +21287,14 @@ msgstr " secondo"
 #: src/ui/editsubstyle_ui.ui:134
 #, kde-format
 msgid "Margin"
-msgstr ""
+msgstr "Margine"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Alignment Yaw"
+#, kde-format
 msgid "Alignment"
-msgstr "Allineamento dell'imbardata"
+msgstr "Allineamento"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
@@ -21398,10 +21361,9 @@ msgstr "Corsivo"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
-#, fuzzy, kde-format
-#| msgid "Space"
+#, kde-format
 msgid "Spacing"
-msgstr "Spazio"
+msgstr "Spaziatura"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -21835,8 +21797,7 @@ msgstr "Modifica i profili per:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Files"
 msgstr "File"
 
@@ -21848,10 +21809,9 @@ msgstr "Percorso"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Text File"
+#, kde-format
 msgid "New File"
-msgstr "File di testo"
+msgstr "Nuovo file"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
@@ -21870,17 +21830,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
-#| msgid "New tag"
+#, kde-format
 msgid "New Layer"
-msgstr "Nuova etichetta"
+msgstr "Nuovo livello"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Styles"
-msgstr "Stile"
+msgstr "Stili"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
@@ -21951,16 +21909,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "New Style"
-msgstr "Stile"
+msgstr "Nuovo stile"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "Informazioni"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539
@@ -21970,10 +21927,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "Value:"
+#, kde-format
 msgid "Value"
-msgstr "Valore:"
+msgstr "Valore"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98

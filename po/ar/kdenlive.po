@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 00:38+0000\n"
-"PO-Revision-Date: 2024-09-07 22:00+0400\n"
+"POT-Creation-Date: 2024-09-11 00:38+0000\n"
+"PO-Revision-Date: 2024-09-11 21:08+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -3400,10 +3400,9 @@ msgstr ""
 "التقنية"
 
 #: src/assets/assetpanel.cpp:147
-#, fuzzy, kde-format
-#| msgid "Open effect documentation in browser"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "فتح وثائق التأثير في المتصفح"
+msgstr "فتح وثائق التركيب في المتصفح"
 
 #: src/assets/assetpanel.cpp:151
 #, kde-format
@@ -8476,10 +8475,9 @@ msgid "Simple Editor"
 msgstr "محرّر بسيط"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Styles.."
+#, kde-format
 msgid "Manage Styles…"
-msgstr "أدر الطُرُز.."
+msgstr "أدر الطُرُز…"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -13723,12 +13721,12 @@ msgstr "فعّل طيف الصّوت"
 msgid "Select a zone to play"
 msgstr "حدد منطقة لتشغيلها"
 
-#: src/monitor/videowidget.cpp:1127
+#: src/monitor/videowidget.cpp:1087
 #, kde-format
 msgid "Select a clip to play"
 msgstr "حدد مقطع لتشغيله"
 
-#: src/monitor/videowidget.cpp:1208
+#: src/monitor/videowidget.cpp:1192
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
