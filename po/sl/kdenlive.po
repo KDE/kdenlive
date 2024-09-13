@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-11 00:38+0000\n"
-"PO-Revision-Date: 2024-09-07 19:23+0200\n"
+"PO-Revision-Date: 2024-09-11 22:42+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -3444,10 +3444,9 @@ msgstr ""
 "časovnici."
 
 #: src/assets/assetpanel.cpp:147
-#, fuzzy, kde-format
-#| msgid "Open effect documentation in browser"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Odpri dokumentacijo o učinku v brskalniku"
+msgstr "Odpri dokumentacijo o sestavi v brskalniku"
 
 #: src/assets/assetpanel.cpp:151
 #, kde-format
@@ -8533,10 +8532,9 @@ msgid "Simple Editor"
 msgstr "Ennostaven urejevalnik"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Styles.."
+#, kde-format
 msgid "Manage Styles…"
-msgstr "Upravljaj sloge .."
+msgstr "Upravljaj sloge …"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -23299,9 +23297,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Apply effect change to all clips in the group"
-#~ msgstr "Uveljavi spremembe učinka za vse posnetke v skupini"
-
-#~ msgid "Veritical"
-#~ msgstr "Navpično"
