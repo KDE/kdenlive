@@ -104,7 +104,7 @@ public:
     void setRulerInfo(int duration, const std::shared_ptr<MarkerSortModel> &model = nullptr);
     MonitorProxy *getControllerProxy();
     bool playZone(bool startFromIn = true, bool loop = false);
-    bool loopClip(QPoint inOut);
+    bool loopClip(std::pair<int, int> inOut);
     void startConsumer();
     void stop();
     int rulerHeight() const;

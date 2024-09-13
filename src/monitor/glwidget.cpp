@@ -1693,17 +1693,17 @@ bool VideoWidget::restartConsumer()
     return result != -1;
 }
 
-bool VideoWidget::loopClip(QPoint inOut)
+bool VideoWidget::loopClip(std::pair<int, int> inOut)
 {
-    if (!m_producer || inOut.y() <= inOut.x()) {
+    if (!m_producer || inOut.second <= inOut.first) {
         pCore->displayMessage(i18n("Select a clip to play"), ErrorMessage, 500);
         return false;
     }
-    m_loopIn = inOut.x();
+    m_loopIn = inOut.first;
     double current_speed = m_producer->get_speed();
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
-    m_loopOut = inOut.y();
+    m_loopOut = inOut.second;
     if (qFuzzyIsNull(current_speed)) {
         m_producer->seek(m_loopIn);
         m_consumer->start();
