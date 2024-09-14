@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-10 02:28+0000\n"
+"POT-Creation-Date: 2024-09-14 02:38+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -13513,13 +13513,13 @@ msgstr "Otvori analizu podataka"
 msgid "Select a zone to play"
 msgstr "Alat za biranje"
 
-#: src/monitor/glwidget.cpp:1699 src/monitor/videowidget.cpp:1131
+#: src/monitor/glwidget.cpp:1699 src/monitor/videowidget.cpp:1091
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to play"
 msgstr "Alat za biranje"
 
-#: src/monitor/glwidget.cpp:1781 src/monitor/videowidget.cpp:1212
+#: src/monitor/glwidget.cpp:1781 src/monitor/videowidget.cpp:1196
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
