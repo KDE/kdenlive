@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 02:38+0000\n"
-"PO-Revision-Date: 2024-07-29 05:19+0200\n"
+"PO-Revision-Date: 2024-09-14 05:39+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -14397,10 +14397,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "დროის შამპების მინიჭება მიმდინარე კალათის კლიპისთვის"
 
 #: src/project/dialogs/noteswidget.cpp:137
-#, fuzzy, kde-format
-#| msgid "Cannot create clip"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "კლიპის შექმნის შეცდომა"
+msgstr "პროექტის კლიპი ვერ ვიპოვე"
 
 #: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
