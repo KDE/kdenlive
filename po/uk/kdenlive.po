@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-09 09:11+0300\n"
+"PO-Revision-Date: 2024-09-14 19:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6208,12 +6208,14 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"Буде відкрито браузер для показу документації до Kdenlive в інтернеті за "
+"такою адресою:\n"
+" %1"
 
 #: src/core.cpp:1743
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#, kde-format
 msgid "Open Browser"
-msgstr "Навігатор мультимедіа"
+msgstr "Відкрити браузер"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format

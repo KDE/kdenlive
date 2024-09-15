@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-11 22:42+0200\n"
+"PO-Revision-Date: 2024-09-14 21:24+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1840,10 +1840,10 @@ msgid ""
 "Bitwise xor,Bitwise nor,Bitwise nand,Bitwise not xor,Destination in,"
 "Destination out"
 msgstr ""
-"Spajanje alfe,XAli,Seštej,Pomnoži,Prikaz,Prekrivanje,Potemni,Posvetli,Color "
-"dodge,Color burn,Ostra svetloba,Mehka svetloba,Odštej,Izključitev,Bitnost OR,"
-"Bitnost AND,Bitnost XOR,Bitnost NOR,Bitnost NAND,Bitnost ni XOR,V cilj,Iz "
-"cilja"
+"Spajanje alfe,XAli,Seštej,Pomnoži,Prikaz,Prekrivanje,Potemni,Posvetli,Barvni "
+"izmik,Barvno preosvetlevanje,Ostra svetloba,Mehka svetloba,Odštej,"
+"Izključitev,Bitni OR,Bitni AND,Bitni XOR,Bitni NOR,Bitni NAND,Bitni ni XOR,V "
+"cilj,Iz cilja"
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:28
 #: data/transitions/qtblend.xml:15
@@ -2375,13 +2375,13 @@ msgstr "Vrsta zabrisanosti"
 #: data/effects/typewriter.xml:4
 #, kde-format
 msgid "TypeWriter (for title clips)"
-msgstr "Pisalni stroj (za posnetke napisov)"
+msgstr "Pisalni stroj (za posnetke naslovov)"
 
 #: data/effects/typewriter.xml:5
 #, kde-format
 msgid "Typewriter effect v0.3.3 To be applied on title clips only."
 msgstr ""
-"Učinek pisalnega stroja v0.3.3, ki se uporablja samo za posnetke napisov."
+"Učinek pisalnega stroja v0.3.3, ki se uporablja samo za posnetke naslovov."
 
 #: data/effects/typewriter.xml:8
 #, kde-format
@@ -4840,12 +4840,12 @@ msgstr "Zaporedja"
 #: src/bin/bin.cpp:2439 src/project/dialogs/projectsettings.cpp:216
 #, kde-format
 msgid "Title"
-msgstr "Napis"
+msgstr "Naslov"
 
 #: src/bin/bin.cpp:2443
 #, kde-format
 msgid "Title Template"
-msgstr "Predloga napisa"
+msgstr "Predloga naslova"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/bin/bin.cpp:2447 src/layoutmanagement.cpp:36
@@ -4938,12 +4938,12 @@ msgstr "Dodaj zaporedje slik …"
 #: src/bin/bin.cpp:3597
 #, kde-format
 msgid "Add Title Clip…"
-msgstr "Dodaj posnetek napisa …"
+msgstr "Dodaj posnetek naslova …"
 
 #: src/bin/bin.cpp:3599
 #, kde-format
 msgid "Add Template Title…"
-msgstr "Dodaj predlogo napisa …"
+msgstr "Dodaj predlogo naslova …"
 
 #: src/bin/bin.cpp:3601
 #, kde-format
@@ -5141,18 +5141,18 @@ msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
-"Urejate zunanji posnetek napisa (%1). Ali želite shraniti spremembe v "
-"datoteko napisa ali shraniti spremembe le za ta projekt?"
+"Urejate zunanji posnetek naslova (%1). Ali želite shraniti spremembe v "
+"datoteko naslova ali shraniti spremembe le za ta projekt?"
 
 #: src/bin/bin.cpp:4805 src/titler/titlewidget.cpp:2263
 #, kde-format
 msgid "Save Title"
-msgstr "Shrani napis"
+msgstr "Shrani naslov"
 
 #: src/bin/bin.cpp:4805
 #, kde-format
 msgid "Save to title file"
-msgstr "Shrani v datoteko napisa"
+msgstr "Shrani v datoteko naslova"
 
 #: src/bin/bin.cpp:4806
 #, kde-format
@@ -5162,7 +5162,7 @@ msgstr "Shrani le v projekt"
 #: src/bin/bin.cpp:4826 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
-msgstr "Posnetek napisa"
+msgstr "Posnetek naslova"
 
 #: src/bin/bin.cpp:4876
 #, kde-format
@@ -5334,7 +5334,7 @@ msgstr "Uredi posnetek"
 #: src/bin/clipcreator.cpp:70
 #, kde-format
 msgid "Create title clip"
-msgstr "Ustvari posnetek napisa"
+msgstr "Ustvari posnetek naslova"
 
 #: src/bin/clipcreator.cpp:83
 #, kde-format
@@ -5364,7 +5364,7 @@ msgstr "Ustvari predstavitveni posnetek"
 #: src/bin/clipcreator.cpp:371
 #, kde-format
 msgid "Create title template"
-msgstr "Ustvari predlogo napisa"
+msgstr "Ustvari predlogo naslova"
 
 #: src/bin/clipcreator.cpp:395
 #, kde-format
@@ -6177,12 +6177,14 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"S tem boste odprli brskalnik za prikaz spletne dokumentacije Kdenlive na "
+"naslednjem URL-ju:\n"
+" %1"
 
 #: src/core.cpp:1743
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#, kde-format
 msgid "Open Browser"
-msgstr "Predstavnostni predvajalnik"
+msgstr "Odpri brskalnik"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
@@ -6249,7 +6251,7 @@ msgstr "Ustvari besedilni posnetek"
 #: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1179
 #, kde-format
 msgid "Template title clip"
-msgstr "Predloga posnetka napisa"
+msgstr "Predloga posnetka naslova"
 
 #: src/dialogs/clipjobmanager.cpp:25
 #, kde-format
@@ -7185,8 +7187,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr ""
-"S tem boste izbrisali vse vnose podnapisov v <b>%1</b>,<br/>in tudi datoteko "
-"s podnapisi: %2 "
+"S tem boste izbrisali vse vnose podnaslovov v <b>%1</b>,<br/>in tudi "
+"datoteko s podnaslovi: %2 "
 
 #: src/dialogs/managesubtitles.cpp:728
 #, kde-format
@@ -9022,7 +9024,7 @@ msgid ""
 "images and titles</li>"
 msgstr ""
 "<li>Manjka modul MLT: <b>qimage</b> ali <b>pixbuf</b>,<br/>potreben za slike "
-"in napise</li>"
+"in naslove</li>"
 
 #: src/dialogs/wizard.cpp:376
 #, kde-format
@@ -9031,7 +9033,7 @@ msgid ""
 "li>"
 msgstr ""
 "<li>Manjka modul MLT: <b>kdenlivetitle</b>,<br/>potreben za izdelavo "
-"napisov</li>"
+"naslovov</li>"
 
 #: src/dialogs/wizard.cpp:382
 #, kde-format
@@ -9230,7 +9232,7 @@ msgstr "Posnetek seznama predvajanja"
 #: src/doc/documentchecker.cpp:1771 src/doc/documentchecker.cpp:1787
 #, kde-format
 msgid "Title Image"
-msgstr "Slika napisa"
+msgstr "Slika naslova"
 
 #: src/doc/documentchecker.cpp:1783
 #, kde-format
@@ -9240,7 +9242,7 @@ msgstr "Posnetek"
 #: src/doc/documentchecker.cpp:1785
 #, kde-format
 msgid "Title Font"
-msgstr "Pisava napisa"
+msgstr "Pisava naslova"
 
 #: src/doc/documentchecker.cpp:1789
 #, kde-format
@@ -9713,7 +9715,7 @@ msgstr "Kategorija"
 #: src/docktitlebarmanager.cpp:20
 #, kde-format
 msgid "Show Title Bars"
-msgstr "Pokaži nazivne vrstice"
+msgstr "Pokaži naslovne vrstice"
 
 #: src/effects/effectlist/model/effecttreemodel.cpp:47
 #, kde-format
@@ -18117,7 +18119,7 @@ msgstr "Odpri zaporedje"
 #: src/timeline2/view/timelinecontroller.cpp:3961
 #, kde-format
 msgid "Item is not a title clip"
-msgstr "Predmet ni posnetek napisa"
+msgstr "Predmet ni posnetek naslova"
 
 #: src/timeline2/view/timelinecontroller.cpp:4060
 #, kde-format
@@ -18297,12 +18299,12 @@ msgstr "Preliv %1"
 #: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "This title clip was created with a different frame size."
-msgstr "Ta posnetek napisa je bil ustvarjen z drugačnimi merami sličice."
+msgstr "Ta posnetek naslova je bil ustvarjen z drugačnimi merami sličice."
 
 #: src/titler/titledocument.cpp:390
 #, kde-format
 msgid "Title Profile"
-msgstr "Profil napisov"
+msgstr "Profil naslovov"
 
 #: src/titler/titledocument.cpp:463
 #, kde-format
@@ -18543,7 +18545,7 @@ msgstr "Odpri dokument"
 #: src/titler/titlewidget.cpp:431 src/titler/titlewidget.cpp:433
 #, kde-format
 msgid "Download New Title Templates..."
-msgstr "Prejmi nove predloge napisov …"
+msgstr "Prejmi nove predloge naslovov …"
 
 #: src/titler/titlewidget.cpp:555
 #, kde-format
@@ -18553,7 +18555,7 @@ msgstr "Shrani in dodaj v projekt"
 #: src/titler/titlewidget.cpp:556
 #, kde-format
 msgid "Create Title"
-msgstr "Ustvari napis"
+msgstr "Ustvari naslov"
 
 #: src/titler/titlewidget.cpp:774
 #, kde-format
@@ -18561,7 +18563,7 @@ msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr ""
-"Ali resnično želite naložiti novo predlogo? Spremembe v tem napisu bodo "
+"Ali resnično želite naložiti novo predlogo? Spremembe v tem naslovu bodo "
 "izgubljene!"
 
 #: src/titler/titlewidget.cpp:882
@@ -18599,7 +18601,7 @@ msgstr "+Y"
 #: src/titler/titlewidget.cpp:2210
 #, kde-format
 msgid "Load Title"
-msgstr "Naloži napis"
+msgstr "Naloži naslov"
 
 #: src/titler/titlewidget.cpp:2211
 #, kde-format
@@ -18612,8 +18614,8 @@ msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
 "This is most needed for sharing Titles."
 msgstr ""
-"Ali želite vstaviti slike v ta dokument napisov?\n"
-"To je zahtevano za souporabo napisov."
+"Ali želite vstaviti slike v ta dokument naslovov?\n"
+"To je zahtevano za souporabo naslovov."
 
 #: src/titler/titlewidget.cpp:2258
 #, kde-format
@@ -18625,10 +18627,10 @@ msgstr "Vdelaj slike"
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
-msgstr[0] "Temu napisu manjka %1 predmetov"
-msgstr[1] "Temu napisu manjka %1 predmet"
-msgstr[2] "Temu napisu manjkata %1 predmeta"
-msgstr[3] "Temu napisu manjkajo %1 predmeti"
+msgstr[0] "Temu naslovu manjka %1 predmetov"
+msgstr[1] "Temu naslovu manjka %1 predmet"
+msgstr[2] "Temu naslovu manjkata %1 predmeta"
+msgstr[3] "Temu naslovu manjkajo %1 predmeti"
 
 #: src/titler/titlewidget.cpp:2314 src/titler/unicodedialog.cpp:28
 #, kde-format
@@ -18643,12 +18645,12 @@ msgstr "Izbriši manjkajoče elemente"
 #: src/titler/titlewidget.cpp:2377
 #, kde-format
 msgid "Update Title"
-msgstr "Posodobi napis"
+msgstr "Posodobi naslov"
 
 #: src/titler/titlewidget.cpp:2380
 #, kde-format
 msgid "Add as new Title"
-msgstr "Dodaj kot nov napis"
+msgstr "Dodaj kot nov naslov"
 
 #: src/titler/titlewidget.cpp:2434
 #, kde-format
@@ -19922,7 +19924,7 @@ msgstr "Mapa knjižnice:"
 #: src/ui/configenv_ui.ui:280
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr "Mapa za upodabljanje, napise, skripte:"
+msgstr "Mapa za upodabljanje, naslove, skripte:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: src/ui/configenv_ui.ui:336
@@ -20221,7 +20223,7 @@ msgstr "Barvni posnetki:"
 #: src/ui/configmisc_ui.ui:173
 #, kde-format
 msgid "Title clips:"
-msgstr "Posnetki napisov:"
+msgstr "Posnetki naslovov:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/configmisc_ui.ui:180
@@ -22763,7 +22765,7 @@ msgstr "Ohrani hitrost naslednjih ključnih sličic"
 #: src/ui/titlewidget_ui.ui:18
 #, kde-format
 msgid "Title Clip"
-msgstr "Posnetek napisa"
+msgstr "Posnetek naslova"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonFitZoom)
 #. i18n: ectx: property (text), widget (QToolButton, buttonRealSize)

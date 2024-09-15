@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-07 11:00+0200\n"
+"PO-Revision-Date: 2024-09-14 17:10+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -3447,10 +3447,9 @@ msgstr ""
 "editado ou para acelerar a busca dun punto concreto."
 
 #: src/assets/assetpanel.cpp:147
-#, fuzzy, kde-format
-#| msgid "Open effect documentation in browser"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Abrir a documentación do efecto no navegador"
+msgstr "Abrir a documentación da composición no navegador"
 
 #: src/assets/assetpanel.cpp:151
 #, kde-format
@@ -6176,12 +6175,14 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"Isto abrirá un navegador para amosar a documentación en Internet de Kdenlive "
+"no seguinte URL:\n"
+" %1"
 
 #: src/core.cpp:1743
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#, kde-format
 msgid "Open Browser"
-msgstr "Navegador multimedia"
+msgstr "Abrir o navegador"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
@@ -8553,8 +8554,7 @@ msgid "Simple Editor"
 msgstr "Editor simple"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Styles.."
+#, kde-format
 msgid "Manage Styles…"
 msgstr "Xestionar os estilos…"
 
