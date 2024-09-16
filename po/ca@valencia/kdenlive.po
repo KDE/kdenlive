@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 02:38+0000\n"
-"PO-Revision-Date: 2024-09-05 17:00+0200\n"
+"PO-Revision-Date: 2024-09-08 12:25+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -22270,7 +22270,7 @@ msgstr "Mostra el fons"
 #: src/ui/titlewidget_ui.ui:120
 #, kde-format
 msgid "Checkered"
-msgstr "Escacada"
+msgstr "Escacat"
 
 #. i18n: ectx: property (text), widget (QToolButton, createButton)
 #: src/ui/titlewidget_ui.ui:178

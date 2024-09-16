@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 02:38+0000\n"
-"PO-Revision-Date: 2024-09-01 15:18+0200\n"
+"PO-Revision-Date: 2024-09-14 16:29+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -3111,7 +3111,7 @@ msgstr "Forza deinterlacciamento"
 #, kde-format
 msgctxt "Slide Transition Name"
 msgid "Slide"
-msgstr "Scivola"
+msgstr "Diapositiva"
 
 #: data/transitions/slide.xml:5
 #, kde-format
@@ -22604,25 +22604,25 @@ msgstr "Mantieni il rapporto d'aspetto"
 #: src/ui/titlewidget_ui.ui:1564
 #, kde-format
 msgid "Patterns"
-msgstr "Modelli"
+msgstr "Motivi"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_add)
 #: src/ui/titlewidget_ui.ui:1591
 #, kde-format
 msgid "Add pattern."
-msgstr "Aggiungi modello."
+msgstr "Aggiungi motivo."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
 #: src/ui/titlewidget_ui.ui:1608
 #, kde-format
 msgid "Delete pattern."
-msgstr "Elimina modello."
+msgstr "Elimina motivo."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
 #: src/ui/titlewidget_ui.ui:1622
 #, kde-format
 msgid "Delete all patterns."
-msgstr "Elimina tutti i modelli."
+msgstr "Elimina tutti i motivi."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemleft)
 #: src/ui/titlewidget_ui.ui:1689
