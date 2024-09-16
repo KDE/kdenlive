@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-09 17:05+0200\n"
+"PO-Revision-Date: 2024-09-14 16:29+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -3133,7 +3133,7 @@ msgstr "Forza deinterlacciamento"
 #, kde-format
 msgctxt "Slide Transition Name"
 msgid "Slide"
-msgstr "Scivola"
+msgstr "Diapositiva"
 
 #: data/transitions/slide.xml:5
 #, kde-format
@@ -3470,11 +3470,9 @@ msgstr ""
 "tra la versione originale e quella modificata, o per velocizzare la pulizia."
 
 #: src/assets/assetpanel.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Documentazione in linea"
+msgstr "Apri la documentazione della composizione nel browser"
 
 #: src/assets/assetpanel.cpp:151
 #, kde-format
@@ -5634,10 +5632,9 @@ msgid "Subtitles"
 msgstr "Sottotitoli"
 
 #: src/bin/model/subtitlemodel.cpp:110
-#, fuzzy, kde-format
-#| msgid "Edit subtitle style"
+#, kde-format
 msgid "Edit global subtitle style"
-msgstr "Modifica lo stile dei sottotitoli"
+msgstr "Modifica lo stile globale dei sottotitoli"
 
 #: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
 #: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
@@ -5696,16 +5693,14 @@ msgid "Delete subtitle"
 msgstr "Elimina sottotitolo"
 
 #: src/bin/model/subtitlemodel.cpp:1794
-#, fuzzy, kde-format
-#| msgid "Delete subtitle"
+#, kde-format
 msgid "Delete subtitle layer"
-msgstr "Elimina sottotitolo"
+msgstr "Elimina livello sottotitoli"
 
 #: src/bin/model/subtitlemodel.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Create title template"
+#, kde-format
 msgid "Create subtitle layer"
-msgstr "Crea modello di titolo"
+msgstr "Crea livello sottotitoli"
 
 #: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
 #, kde-format
@@ -7114,7 +7109,7 @@ msgstr "Sposta livello"
 #: src/dialogs/managesubtitles.cpp:104
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr ""
+msgstr "Seleziona il file dei sottotitoli per spostare il livello in:"
 
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
@@ -7124,7 +7119,7 @@ msgstr "Copia livello"
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr ""
+msgstr "Seleziona il file dei sottotitoli per copiare il livello in:"
 
 #: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
 #, kde-format
@@ -7142,15 +7137,14 @@ msgid "Global"
 msgstr "Globale"
 
 #: src/dialogs/managesubtitles.cpp:192
-#, fuzzy, kde-format
-#| msgid "Move item"
+#, kde-format
 msgid "Move Style"
-msgstr "Sposta elemento"
+msgstr "Sposta stile"
 
 #: src/dialogs/managesubtitles.cpp:192
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr ""
+msgstr "Seleziona il file dei sottotitoli per spostare lo stile in:"
 
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
@@ -7160,7 +7154,7 @@ msgstr "Copia stile"
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr ""
+msgstr "Seleziona il file dei sottotitoli per copiare lo stile in:"
 
 #: src/dialogs/managesubtitles.cpp:401
 #, kde-format
@@ -7248,7 +7242,7 @@ msgstr "Impossibile eliminare lo stile predefinito."
 #: src/dialogs/managesubtitles.cpp:750
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
-msgstr ""
+msgstr "Questa azione eliminerà lo stile <b>%1</b> e tutte le sue proprietà."
 
 #: src/dialogs/managesubtitles.cpp:755
 #, kde-format
@@ -7256,6 +7250,8 @@ msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
+"Questa azione eliminerà lo stile <b>%1</b> e tutte le sue proprietà.</b>.\n"
+"I sottotitoli che usano questo stile verranno riportati a <b>Predefinito</b>."
 
 #: src/dialogs/profilesdialog.cpp:110
 #, kde-format
@@ -8374,7 +8370,7 @@ msgstr "Modifica lo stile dei sottotitoli"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr ""
+msgstr "Apre una finestra per modificare il sottotitolo corrente."
 
 #: src/dialogs/subtitleedit.cpp:270
 #, kde-format
@@ -8454,6 +8450,7 @@ msgstr "Mostra altre opzioni"
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
 msgstr ""
+"Attiva o disattiva un elenco per regolare altre impostazioni del sottotitolo."
 
 #: src/dialogs/subtitleedit.cpp:285
 #, kde-kuit-format
@@ -8476,6 +8473,8 @@ msgid ""
 "Toggles the bold text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Attiva o disattiva lo stile testo in grassetto per il testo selezionato o "
+"per quello dopo la posizione del cursore."
 
 #: src/dialogs/subtitleedit.cpp:292
 #, kde-format
@@ -8489,6 +8488,8 @@ msgid ""
 "Toggles the italic text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Attiva o disattiva lo stile testo in corsivo per il testo selezionato o per "
+"quello dopo la posizione del cursore."
 
 #: src/dialogs/subtitleedit.cpp:297
 #, kde-format
@@ -8502,12 +8503,13 @@ msgid ""
 "Toggles the underline text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Attiva o disattiva lo stile testo sottolineato per il testo selezionato o "
+"per quello dopo la posizione del cursore."
 
 #: src/dialogs/subtitleedit.cpp:302
-#, fuzzy, kde-format
-#| msgid "Toggle selection"
+#, kde-format
 msgid "Toggle strikeout"
-msgstr "Inverti la selezione"
+msgstr "Attiva/disattiva barrato"
 
 #: src/dialogs/subtitleedit.cpp:304
 #, kde-kuit-format
@@ -8516,6 +8518,8 @@ msgid ""
 "Toggles the strikeout text style for either the selected text or the text "
 "following the cursor position."
 msgstr ""
+"Attiva o disattiva lo stile testo barrato per il testo selezionato o per "
+"quello dopo la posizione del cursore."
 
 #: src/dialogs/subtitleedit.cpp:309
 #, kde-format
@@ -8529,6 +8533,9 @@ msgid ""
 "Open a font dialog to select a font and set its properties for either the "
 "selected text or the text following the cursor position."
 msgstr ""
+"Apri una finestra per i caratteri per selezionarne uno, e per impostare le "
+"proprietà per il testo selezionato o per quello dopo la posizione del "
+"cursore."
 
 #: src/dialogs/subtitleedit.cpp:315
 #, kde-format
@@ -8542,6 +8549,8 @@ msgid ""
 "Resets the style of either the selected text or the text following the "
 "cursor position."
 msgstr ""
+"Azzera lo stile per il testo selezionato o per quello dopo la posizione del "
+"cursore."
 
 #: src/dialogs/subtitleedit.cpp:318
 #, kde-format
@@ -8549,16 +8558,15 @@ msgid "Set Position"
 msgstr "Imposta la posizione"
 
 #: src/dialogs/subtitleedit.cpp:322
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "More tags"
-msgstr "Altre opzioni"
+msgstr "Altre etichette..."
 
 #: src/dialogs/subtitleedit.cpp:323
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
-msgstr ""
+msgstr "Apre un menu che mostra altre etichette"
 
 #: src/dialogs/subtitleedit.cpp:382
 #, kde-format
@@ -8583,7 +8591,7 @@ msgstr "Dal basso in alto"
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Tags"
-msgstr ""
+msgstr "Cancella tutte le etichette"
 
 #: src/dialogs/subtitleedit.cpp:402
 #, fuzzy, kde-format
@@ -8635,6 +8643,8 @@ msgstr "Seleziona carattere"
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
+"Apri una finestra per i caratteri per selezionarne uno e per impostarne le "
+"proprietà."
 
 #: src/dialogs/subtitlestyleedit.cpp:98
 #, fuzzy, kde-format
@@ -8673,7 +8683,7 @@ msgstr "Il nome dello stile non può essere vuoto."
 #: src/dialogs/subtitlestyleedit.cpp:171
 #, kde-format
 msgid "Style name cannot contain ','."
-msgstr ""
+msgstr "Il nome dello stile non può contenere «,»."
 
 #: src/dialogs/textbasededit.cpp:54
 #, kde-format
@@ -9920,11 +9930,9 @@ msgid "Expand Effect"
 msgstr "Espandi effetto"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:81
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open effect documentation in browser"
-msgstr "Documentazione in linea"
+msgstr "Apri la documentazione dell'effetto nel browser"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-format
@@ -21277,10 +21285,9 @@ msgstr "Potenza blu"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Style Editor"
-msgstr "File di sottotitoli:"
+msgstr "Editor dello stile dei sottotitoli"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
@@ -21291,11 +21298,9 @@ msgstr "Grassetto"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:103
-#, fuzzy, kde-format
-#| msgid " second"
-#| msgid_plural " seconds"
+#, kde-format
 msgid "Secondary"
-msgstr " secondo"
+msgstr "Secondario"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsubstyle_ui.ui:134
@@ -21328,10 +21333,9 @@ msgstr "Ombra"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #: src/ui/editsubstyle_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "BorderStyle"
-msgstr "Bordo "
+msgstr "StileBordo"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
@@ -21345,25 +21349,23 @@ msgstr "Contorno testo"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
-#, fuzzy, kde-format
-#| msgid "Scale X"
+#, kde-format
 msgid "ScaleX"
-msgstr "Scala X"
+msgstr "ScalaX"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Scale Y"
+#, kde-format
 msgid "ScaleY"
-msgstr "Scala Y"
+msgstr "ScalaY"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
 #: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "Barrato"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
@@ -21840,7 +21842,7 @@ msgstr "Elimina"
 #: src/ui/managesubtitles_ui.ui:157
 #, kde-format
 msgid "Layers and Content"
-msgstr ""
+msgstr "Livelli e contenuto"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
@@ -21856,38 +21858,33 @@ msgstr "Stili"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
-#, fuzzy, kde-format
-#| msgid "Font"
+#, kde-format
 msgid "FontName"
-msgstr "Carattere"
+msgstr "NomeCarattere"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "FontSize"
-msgstr "Dimensione del carattere"
+msgstr "DimensioneCarattere"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Gray color"
+#, kde-format
 msgid "PrimaryColor"
-msgstr "Colore grigio"
+msgstr "ColorePrimario"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
-#, fuzzy, kde-format
-#| msgid "1st Color"
+#, kde-format
 msgid "SecondaryColor"
-msgstr "Primo colore"
+msgstr "ColoreSecondario"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "OutlineColor"
-msgstr "Colore contorno"
+msgstr "ColoreContorno"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
@@ -21898,28 +21895,27 @@ msgstr "Colore nero"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "BoardStyle"
-msgstr "Stile"
+msgstr "StileBordo"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
 #, kde-format
 msgid "MarginL"
-msgstr ""
+msgstr "MargineS"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:449
 #, kde-format
 msgid "MarginR"
-msgstr ""
+msgstr "MargineD"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:454
 #, kde-format
 msgid "MarginV"
-msgstr ""
+msgstr "MargineV"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
@@ -23229,25 +23225,25 @@ msgstr "Mantieni il rapporto d'aspetto"
 #: src/ui/titlewidget_ui.ui:1564
 #, kde-format
 msgid "Patterns"
-msgstr "Modelli"
+msgstr "Motivi"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_add)
 #: src/ui/titlewidget_ui.ui:1591
 #, kde-format
 msgid "Add pattern."
-msgstr "Aggiungi modello."
+msgstr "Aggiungi motivo."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_remove)
 #: src/ui/titlewidget_ui.ui:1608
 #, kde-format
 msgid "Delete pattern."
-msgstr "Elimina modello."
+msgstr "Elimina motivo."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, btn_removeAll)
 #: src/ui/titlewidget_ui.ui:1622
 #, kde-format
 msgid "Delete all patterns."
-msgstr "Elimina tutti i modelli."
+msgstr "Elimina tutti i motivi."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, itemleft)
 #: src/ui/titlewidget_ui.ui:1689

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-07 11:59+0100\n"
+"PO-Revision-Date: 2024-09-15 10:40+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -3432,10 +3432,9 @@ msgstr ""
 "difference between original and edited or to speed up scrubbing."
 
 #: src/assets/assetpanel.cpp:147
-#, fuzzy, kde-format
-#| msgid "Open effect documentation in browser"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Open effect documentation in browser"
+msgstr "Open composition documentation in browser"
 
 #: src/assets/assetpanel.cpp:151
 #, kde-format
@@ -6151,12 +6150,14 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"This will open a browser to display Kdenlive's online documentation at the "
+"following URL:\n"
+" %1"
 
 #: src/core.cpp:1743
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#, kde-format
 msgid "Open Browser"
-msgstr "Media Browser"
+msgstr "Open Browser"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
@@ -8517,10 +8518,9 @@ msgid "Simple Editor"
 msgstr "Simple Editor"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Styles.."
+#, kde-format
 msgid "Manage Styles…"
-msgstr "Manage Styles.."
+msgstr "Manage Styles…"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-07 12:49+0200\n"
+"PO-Revision-Date: 2024-09-14 13:12+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -3472,10 +3472,9 @@ msgstr ""
 "la diferència entre l'original i l'editada o per a accelerar el rastreig."
 
 #: src/assets/assetpanel.cpp:147
-#, fuzzy, kde-format
-#| msgid "Open effect documentation in browser"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Obri la documentació de l'efecte al navegador"
+msgstr "Obri la documentació de la composició al navegador"
 
 #: src/assets/assetpanel.cpp:151
 #, kde-format
@@ -6205,12 +6204,14 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"Obrirà un navegador per a mostrar la documentació en línia de Kdenlive a "
+"l'URL següent:\n"
+" %1"
 
 #: src/core.cpp:1743
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#, kde-format
 msgid "Open Browser"
-msgstr "Navegador multimèdia"
+msgstr "Obri en un navegador"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
@@ -8593,10 +8594,9 @@ msgid "Simple Editor"
 msgstr "Editor senzill"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage Styles.."
+#, kde-format
 msgid "Manage Styles…"
-msgstr "Gestioneu estils"
+msgstr "Gestioneu estils…"
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -22903,7 +22903,7 @@ msgstr "Mostra el fons"
 #: src/ui/titlewidget_ui.ui:120
 #, kde-format
 msgid "Checkered"
-msgstr "Escacada"
+msgstr "Escacat"
 
 #. i18n: ectx: property (text), widget (QToolButton, createButton)
 #: src/ui/titlewidget_ui.ui:178
@@ -23434,9 +23434,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Apply effect change to all clips in the group"
-#~ msgstr "Aplica el canvi de l'efecte a tots els clips del grup"
-
-#~ msgid "Veritical"
-#~ msgstr "Vertical"
