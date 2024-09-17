@@ -1,6 +1,6 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
-# Vít Pelčák <vit@pelcak.org>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
+# SPDX-FileCopyrightText: 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2024 Vít Pelčák <vit@pelcak.org>
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 # SPDX-FileCopyrightText: 2021, 2022, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 02:38+0000\n"
-"PO-Revision-Date: 2024-06-26 15:10+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"PO-Revision-Date: 2024-09-03 08:50+0200\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 24.05.1\n"
+"X-Generator: Lokalize 24.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3548,7 +3548,7 @@ msgstr "Aktualizovat %1"
 #: src/assets/model/assetparametermodel.cpp:1368
 #, kde-format
 msgid "Cannot open preset file %1"
-msgstr "Nelze otevřít soubor předvoleb %1"
+msgstr "Nelze otevřít soubor přednastavení %1"
 
 #: src/assets/model/assetparametermodel.cpp:1445
 #, kde-format
@@ -6417,7 +6417,7 @@ msgstr "auto"
 #: src/dialogs/kdenlivesettingsdialog.cpp:277
 #, kde-format
 msgid "Select the Default Profile (preset)"
-msgstr "Vybere výchozí profil (předvolbu)"
+msgstr "Vybere výchozí profil (přednastavení)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:298
 #, kde-format
@@ -9235,7 +9235,7 @@ msgstr ""
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
-msgstr "Předvolby"
+msgstr "Přednastavení"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:234
 #, kde-kuit-format
@@ -9677,10 +9677,9 @@ msgstr "Záložky"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Kategorie značek"
+msgstr "Přidat značky podle kategorie"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3965
@@ -9840,17 +9839,17 @@ msgstr "Efekty"
 #: src/layoutmanagement.cpp:41
 #, kde-format
 msgid "Layouts"
-msgstr "Rozložení"
+msgstr "Rozvržení"
 
 #: src/layoutmanagement.cpp:42
 #, kde-format
 msgid "Load Layout"
-msgstr "Načíst rozložení"
+msgstr "Načíst rozvržení"
 
 #: src/layoutmanagement.cpp:53
 #, kde-format
 msgid "Save Layout…"
-msgstr "Uložit rozložení…"
+msgstr "Uložit rozvržení…"
 
 #: src/layoutmanagement.cpp:57
 #, kde-format
@@ -9876,12 +9875,12 @@ msgstr "Rozvržení %1: %2"
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Layout"
-msgstr "Uložit rozložení"
+msgstr "Uložit rozvržení"
 
 #: src/layoutmanagement.cpp:285
 #, kde-format
 msgid "Layout name:"
-msgstr "Název rozložení:"
+msgstr "Název rozvržení:"
 
 #: src/layoutmanagement.cpp:303
 #, kde-format
@@ -9914,7 +9913,7 @@ msgstr "Importovat"
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Layout"
-msgstr "Načíst rozložení"
+msgstr "Načíst rozvržení"
 
 #: src/layoutmanagement.cpp:494
 #, kde-format
@@ -9935,7 +9934,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Layout"
-msgstr "Exportovat rozložení"
+msgstr "Exportovat rozvržení"
 
 #: src/lib/audio/audioCorrelation.cpp:37 src/lib/audio/audioEnvelope.cpp:136
 #, kde-format
@@ -10367,10 +10366,9 @@ msgid "Add Clip"
 msgstr "Přidat klip"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku podle čísla kategorie"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -11269,70 +11267,59 @@ msgid "Delete All Markers"
 msgstr "Smazat všechny značky"
 
 #: src/mainwindow.cpp:1769
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Přidat značku/zarážku rychle"
 
 #: src/mainwindow.cpp:1773
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 1"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 1"
 
 #: src/mainwindow.cpp:1777
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 2"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 2"
 
 #: src/mainwindow.cpp:1781
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 3"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 3"
 
 #: src/mainwindow.cpp:1785
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 4"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 4"
 
 #: src/mainwindow.cpp:1789
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 5"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 5"
 
 #: src/mainwindow.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 6"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 6"
 
 #: src/mainwindow.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 7"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 7"
 
 #: src/mainwindow.cpp:1801
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 8"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 8"
 
 #: src/mainwindow.cpp:1805
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 9"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 9"
 
 #: src/mainwindow.cpp:1809
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide 10"
-msgstr "Přidat značku/zarážku rychle"
+msgstr "Přidat značku/zarážku 10"
 
 #: src/mainwindow.cpp:1814
 #, kde-format
@@ -11828,10 +11815,9 @@ msgid "Cannot find clip to edit marker"
 msgstr ""
 
 #: src/mainwindow.cpp:2969
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Kategorie značek"
+msgstr "Kategorie značek neexistuje"
 
 #: src/mainwindow.cpp:3154 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3130
@@ -14012,10 +13998,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr ""
 
 #: src/project/dialogs/noteswidget.cpp:137
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Nelze otevřít projektový soubor %1"
+msgstr "Nelze najít klip projektu"
 
 #: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
@@ -14114,7 +14099,7 @@ msgstr "Pořadí půlsnímků: %1"
 #: src/project/dialogs/projectsettings.cpp:70
 #, kde-format
 msgid "Select the profile (preset) of the project"
-msgstr "Vyberte profil (předvolbu) projektu"
+msgstr "Vyberte profil (přednastavení) projektu"
 
 #: src/project/dialogs/projectsettings.cpp:73
 #, kde-format
@@ -22035,9 +22020,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "The <application>%1</application> python module is required for %2."
-#~ msgstr "Pro %2 je vyžadován modul Pythonu <application>%1</application>."
-
-#~ msgid "machine learning framework"
-#~ msgstr "Framework pro strojové učení"
