@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-09 09:37+0200\n"
+"PO-Revision-Date: 2024-09-16 12:17+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -6183,12 +6183,14 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"Dit zal een browser openen om de online documentatie van Kdenlive te tonen "
+"op de volgende url:\n"
+" %1"
 
 #: src/core.cpp:1743
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#, kde-format
 msgid "Open Browser"
-msgstr "Mediabrowser"
+msgstr "Browser openen"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format

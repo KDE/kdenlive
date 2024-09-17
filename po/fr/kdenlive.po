@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-10 08:42+0200\n"
+"PO-Revision-Date: 2024-09-15 10:24+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -6228,12 +6228,14 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"Cela ouvrira un navigateur pour afficher la documentation en ligne de "
+"Kdenlive à l'URL suivante :\n"
+"%1"
 
 #: src/core.cpp:1743
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#, kde-format
 msgid "Open Browser"
-msgstr "Navigateur de média"
+msgstr "Ouvrir un navigateur"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
