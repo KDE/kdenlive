@@ -23,13 +23,13 @@
 #include "doc/docundostack.hpp"
 #include <QUndoGroup>
 
-QStringList RenderRequest::argsByJob(const RenderJob &job)
+QStringList RenderRequest::argsByJob(const RenderJob &job, bool synchronous)
 {
-    QStringList args = {QStringLiteral("delivery"), KdenliveSettings::meltpath(), job.playlistPath, QStringLiteral("--pid"),
-                        QString::number(QCoreApplication::applicationPid())};
+    QStringList args = {KdenliveSettings::meltpath(), job.playlistPath, QStringLiteral("--pid"), QString::number(QCoreApplication::applicationPid())};
     if (!job.subtitlePath.isEmpty()) {
         args << QStringLiteral("--subtitle") << job.subtitlePath;
     }
+    args.prepend(synchronous ? QStringLiteral("synchronous-delivery") : QStringLiteral("delivery"));
     return args;
 }
 

@@ -31,13 +31,12 @@ int main(int argc, char **argv)
     parser.addHelpOption();
     parser.addVersionOption();
 
-    parser.addPositionalArgument("mode", "Render mode. Either \"delivery\" or \"preview-chunks\".");
+    parser.addPositionalArgument("mode", "Render mode: \"delivery\", \"preview-chunks\" or \"synchronous-delivery\".");
     parser.parse(QCoreApplication::arguments());
     QStringList args = parser.positionalArguments();
     const QString mode = args.isEmpty() ? QString() : args.first();
 
     if (mode == "preview-chunks") {
-
         parser.clearPositionalArguments();
         parser.addPositionalArgument("preview-chunks", "Mode: Render splited in to multiple files for timeline preview.");
         parser.addPositionalArgument("source", "Source file (usually MLT XML).");
@@ -147,7 +146,7 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    if (mode == "delivery") {
+    if (mode.contains(QLatin1String("delivery"))) {
         parser.clearPositionalArguments();
         parser.addPositionalArgument("delivery", "Mode: Render to a final output file.");
         parser.addPositionalArgument("renderer", "Path to MLT melt renderer.");
@@ -231,6 +230,18 @@ int main(int argc, char **argv)
         }
         int pid = parser.value(pidOption).toInt();
         QString subtitleFile = parser.value(subtitleOption);
+
+        // Synchronous delivery
+        if (mode == QLatin1String("synchronous-delivery")) {
+            QProcess renderProcess;
+            QProcessEnvironment env = renderProcess.processEnvironment();
+            env.insert("MLT_NO_VDPAU", "1");
+            env.insert("DISPLAY", "1");
+            renderProcess.setProcessEnvironment(env);
+            QStringList args = {"-progress2", playlist};
+            renderProcess.execute(render, args);
+            return 0;
+        }
 
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {

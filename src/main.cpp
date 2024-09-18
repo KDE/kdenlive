@@ -327,6 +327,8 @@ int main(int argc, char *argv[])
     QCommandLineOption exitOption(QStringLiteral("render-async"),
                                   i18n("Exit after (detached) render process started, without this flag it exists only after it finished."));
     parser.addOption(exitOption);
+    QCommandLineOption syncOption(QStringLiteral("render-sync"), i18n("Exit only after the rendering is completed."));
+    parser.addOption(syncOption);
 
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Kdenlive document to open."));
     parser.addPositionalArgument(QStringLiteral("rendering"), i18n("Output file for rendered video."));
@@ -406,7 +408,7 @@ int main(int argc, char *argv[])
         int exitCode = EXIT_SUCCESS;
 
         for (const auto &job : renderjobs) {
-            const QStringList argsJob = RenderRequest::argsByJob(job);
+            const QStringList argsJob = RenderRequest::argsByJob(job, parser.isSet(syncOption));
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
             if (!parser.isSet(exitOption)) {

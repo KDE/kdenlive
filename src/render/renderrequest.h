@@ -44,7 +44,7 @@ public:
 
     QStringList errorMessages();
 
-    static QStringList argsByJob(const RenderJob &job);
+    static QStringList argsByJob(const RenderJob &job, bool synchronous = false);
 
     /** @brief Some methods used for tests */
     int guideSectionsCount();
