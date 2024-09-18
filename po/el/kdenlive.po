@@ -388,10 +388,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:50
-#, fuzzy, kde-format
-#| msgid "In Point"
+#, kde-format
 msgid "Points"
-msgstr "Σημείο εισόδου"
+msgstr "Σημεία"
 
 #: data/effects/audiospectrum.xml:51
 #, kde-format
@@ -401,10 +400,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/audiospectrum.xml:54 data/effects/dance.xml:8
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Low Frequency"
-msgstr "Συχνότητα"
+msgstr "Χαμηλή συχνότητα"
 
 #: data/effects/audiospectrum.xml:55
 #, kde-format
@@ -486,10 +484,9 @@ msgid "Channel to draw"
 msgstr "Κανάλι"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
-#, fuzzy, kde-format
-#| msgid "Box Blur"
+#, kde-format
 msgid "BoxBlur"
-msgstr "Πλαίσιο θολώματος"
+msgstr "ΠλαίσιοΘολώματος"
 
 #: data/effects/box_blur.xml:6 data/effects/box_blur.xml:20
 #: data/effects/boxblur.xml:5
@@ -671,10 +668,9 @@ msgid "FROM"
 msgstr ""
 
 #: data/effects/copychannelstostereo.xml:13
-#, fuzzy, kde-format
-#| msgid "T"
+#, kde-format
 msgid "TO"
-msgstr "T"
+msgstr "TO"
 
 #: data/effects/crop.xml:4
 #, kde-format
@@ -1086,10 +1082,9 @@ msgid "Gamma"
 msgstr "Γάμμα"
 
 #: data/effects/gpstext.xml:4
-#, fuzzy, kde-format
-#| msgid "Text"
+#, kde-format
 msgid "GPS Text"
-msgstr "Κείμενο"
+msgstr "Κείμενο GPS"
 
 #: data/effects/gpstext.xml:5
 #, kde-format
@@ -1268,16 +1263,14 @@ msgid "Threshold"
 msgstr "Κατώφλι"
 
 #: data/effects/lightshow.xml:20
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgid "1st Color"
-msgstr "Χρώμα"
+msgstr "1ο χρώμα"
 
 #: data/effects/lightshow.xml:23
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgid "2nd Color"
-msgstr "Χρώμα"
+msgstr "2ο χρώμα"
 
 #: data/effects/loudness.xml:4
 #, fuzzy, kde-format
@@ -1483,10 +1476,9 @@ msgid "Blue / Intensity Delta"
 msgstr ""
 
 #: data/effects/mask_start_frei0r_select0r.xml:38
-#, fuzzy, kde-format
-#| msgid "Softness"
+#, kde-format
 msgid "Soften"
-msgstr "Απαλότητα"
+msgstr "Εξομάλυνση"
 
 #: data/effects/mask_start_rotoscoping.xml:4
 #, kde-format
@@ -1587,10 +1579,9 @@ msgid "Use the inverse of the alpha or luma value."
 msgstr ""
 
 #: data/effects/mask_start_shape.xml:26 data/effects/shape.xml:23
-#, fuzzy, kde-format
-#| msgid "Luma"
+#, kde-format
 msgid "Use Luma"
-msgstr "Luma"
+msgstr "Χρήση Luma"
 
 #: data/effects/mask_start_shape.xml:27 data/effects/shape.xml:24
 #, fuzzy, kde-format
@@ -1599,10 +1590,9 @@ msgid "Use the image luma instead of the alpha channel."
 msgstr "Σχεδίαση απλών σχημάτων εντός ενός καναλιού άλφα"
 
 #: data/effects/mask_start_shape.xml:30 data/effects/shape.xml:27
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Use Threshold"
-msgstr "Κατώφλι"
+msgstr "Κατωφλιού"
 
 #: data/effects/mask_start_shape.xml:31 data/effects/shape.xml:28
 #, kde-format
@@ -1822,10 +1812,9 @@ msgstr "Μετακίνηση και εστίαση"
 #: data/effects/qtblend.xml:12 data/effects/qtblend.xml:40
 #: data/transitions/qtblend.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:405
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Rotation"
-msgstr "Κίνηση"
+msgstr "Περιστροφή"
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:27
 #: data/transitions/qtblend.xml:14
@@ -1839,8 +1828,7 @@ msgstr ""
 
 #: data/effects/qtblend.xml:16 data/effects/qtblend.xml:28
 #: data/transitions/qtblend.xml:15
-#, fuzzy, kde-format
-#| msgid "Composite"
+#, kde-format
 msgid "Compositing"
 msgstr "Σύνθεση"
 
@@ -1911,10 +1899,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/rboctaveshift.xml:12 data/effects/rbpitchscale.xml:12
-#, fuzzy, kde-format
-#| msgid "Stretch X"
+#, kde-format
 msgid "Stretch"
-msgstr "Επιμήκυνση X"
+msgstr "Επιμήκυνση"
 
 #: data/effects/rboctaveshift.xml:13 data/effects/rbpitchscale.xml:13
 #, kde-format
@@ -1940,10 +1927,9 @@ msgid "Rubberband Pitch Scale"
 msgstr "Αυξομείωση pitch"
 
 #: data/effects/rbpitchscale.xml:8
-#, fuzzy, kde-format
-#| msgid "Pitch Scaler"
+#, kde-format
 msgid "Pitch Scale"
-msgstr "Αυξομείωση pitch"
+msgstr "Αυξομειωτής pitch"
 
 #: data/effects/rbpitchscale.xml:9
 #, kde-format
@@ -2203,10 +2189,9 @@ msgid "Overlay a timer onto the video"
 msgstr ""
 
 #: data/effects/timer.xml:14
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "Font Style"
-msgstr "Μέγεθος γραμματοσειράς"
+msgstr "Στυλ γραμματοσειράς"
 
 #: data/effects/timer.xml:46
 #, fuzzy, kde-format
@@ -6615,8 +6600,7 @@ msgid "Timeline Preview"
 msgstr "Προεπισκόπηση εικόνας"
 
 #: src/dialogs/encodingprofilesdialog.cpp:54
-#, fuzzy, kde-format
-#| msgid "Video4Linux capture"
+#, kde-format
 msgid "Video4Linux Capture"
 msgstr "Σύλληψη Video4Linux"
 
@@ -7025,8 +7009,7 @@ msgid "Esound Daemon"
 msgstr "Δαίμονας Esound"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:725
-#, fuzzy, kde-format
-#| msgid "ARTS daemon"
+#, kde-format
 msgid "ARTS Daemon"
 msgstr "Δαίμονας ARTS"
 
@@ -11063,8 +11046,7 @@ msgid "kHz "
 msgstr ""
 
 #: src/lib/audio/audioStreamInfo.cpp:61
-#, fuzzy, kde-format
-#| msgid "Hz"
+#, kde-format
 msgid "Hz "
 msgstr "Hz"
 
@@ -12432,8 +12414,7 @@ msgid "Deselect Clip"
 msgstr "Αποεπιλογή κλιπ"
 
 #: src/mainwindow.cpp:1747
-#, fuzzy, kde-format
-#| msgid "Add Clip To Selection"
+#, kde-format
 msgid "Add Clip to Selection"
 msgstr "Προσθήκη κλιπ στην επιλογή"
 
@@ -12448,8 +12429,7 @@ msgid "Deselect Transition"
 msgstr "Αποεπιλογή μετάβασης"
 
 #: src/mainwindow.cpp:1753
-#, fuzzy, kde-format
-#| msgid "Add Transition To Selection"
+#, kde-format
 msgid "Add Transition to Selection"
 msgstr "Προσθήκη μετάβασης στην επιλογή"
 
@@ -12459,8 +12439,7 @@ msgid "Delete All Markers"
 msgstr "Διαγραφή όλων των δεικτών"
 
 #: src/mainwindow.cpp:1758
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "Προσθήκη δείκτη/οδηγού γρήγορα"
 
@@ -13857,10 +13836,9 @@ msgid "Audio volume"
 msgstr "Ένταση ήχου"
 
 #: src/monitor/monitor.cpp:92 src/scopes/colorscopes/vectorscope.cpp:256
-#, fuzzy, kde-format
-#| msgid "%1 \\%"
+#, kde-format
 msgid "%1%"
-msgstr "%1 \\%"
+msgstr "%1%"
 
 #: src/monitor/monitor.cpp:228
 #, kde-format
@@ -13980,16 +13958,14 @@ msgid "-5"
 msgstr ""
 
 #: src/monitor/monitor.cpp:515
-#, fuzzy, kde-format
-#| msgid "1"
+#, kde-format
 msgid "-1"
-msgstr "1"
+msgstr "-1"
 
 #: src/monitor/monitor.cpp:521
-#, fuzzy, kde-format
-#| msgid "1"
+#, kde-format
 msgid "+1"
-msgstr "1"
+msgstr "+1"
 
 #: src/monitor/monitor.cpp:527
 #, kde-format
@@ -14823,10 +14799,9 @@ msgid "fps"
 msgstr ""
 
 #: src/profiles/profileinfo.cpp:105
-#, fuzzy, kde-format
-#| msgid "Interlaced"
+#, kde-format
 msgid " interlaced"
-msgstr "Πεπλεγμένo"
+msgstr " πεπλεγμένo"
 
 #: src/profiles/profilemodel.cpp:168
 #, kde-format
@@ -14922,10 +14897,9 @@ msgid "Transcoding finished."
 msgstr "Η μετατροπή ολοκληρώθηκε."
 
 #: src/project/cliptranscode.cpp:309
-#, fuzzy, kde-format
-#| msgid "Transcoding failed!"
+#, kde-format
 msgid "Transcoding failed"
-msgstr "Η μετατροπή απέτυχε!"
+msgstr "Η μετατροπή απέτυχε"
 
 #: src/project/dialogs/archivewidget.cpp:48
 #, kde-format
@@ -15124,14 +15098,9 @@ msgid "There was an error while copying the files: %1"
 msgstr "Παρουσιάστηκε ένα σφάλμα κατά την αντιγραφή των αρχείων: %1"
 
 #: src/project/dialogs/archivewidget.cpp:1127
-#, fuzzy, kde-format
-#| msgid ""
-#| "Cannot open archive file:\n"
-#| " %1"
+#, kde-format
 msgid "Cannot open archive file %1"
-msgstr ""
-"Αδυναμία ανοίγματος αρχειοθετημένου αρχείου:\n"
-" %1"
+msgstr "Αδυναμία ανοίγματος αρχειοθετημένου αρχείου %1"
 
 #: src/project/dialogs/archivewidget.cpp:1144
 #, fuzzy, kde-format
@@ -15611,12 +15580,7 @@ msgid "Confirm profile change"
 msgstr "Επιβεβαίωση αλλαγής προφίλ"
 
 #: src/project/dialogs/projectsettings.cpp:557
-#, fuzzy, kde-format
-#| msgid ""
-#| "Changing the profile of your project cannot be undone.\n"
-#| "It is recommended to save your project before attempting this operation "
-#| "that might cause some corruption in transitions.\n"
-#| " Are you sure you want to proceed?"
+#, kde-format
 msgid ""
 "Changing the profile of your project cannot be undone.\n"
 "It is recommended to save your project before attempting this operation that "
@@ -15626,7 +15590,7 @@ msgstr ""
 "Αλλαγή του προφίλ του έργου σας δεν μπορεί να αναιρεθεί.\n"
 "Συνίσταται να σώσετε το έργο πριν επιχειρήσετε αυτήν την ενέργεια που "
 "πιθανόν να προκαλέσει την αλλοίωση κάποιων μεταβάσεων.\n"
-" Είστε σίγουρος ότι επιθυμείτε να συνεχίσετε;"
+"Είστε σίγουρος ότι επιθυμείτε να συνεχίσετε;"
 
 #: src/project/dialogs/projectsettings.cpp:786
 #: src/project/dialogs/projectsettings.cpp:801
@@ -18122,13 +18086,12 @@ msgid "Select tracks to be deleted :"
 msgstr "Επιλογή κλιπ προς διαγραφή"
 
 #: src/timeline2/view/dialogs/trackdialog.cpp:48
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgctxt "Spinbox suffix"
 msgid " track"
 msgid_plural " tracks"
-msgstr[0] "Κομμάτι"
-msgstr[1] "Κομμάτι"
+msgstr[0] " κομμάτι"
+msgstr[1] " κομμάτια"
 
 #: src/timeline2/view/previewmanager.cpp:84
 #, fuzzy, kde-format
@@ -18724,12 +18687,11 @@ msgid "Could not expand clip"
 msgstr "Προστίθενται κλιπ"
 
 #: src/timeline2/view/timelinecontroller.cpp:5128
-#, fuzzy, kde-format
-#| msgid "Insert Track"
+#, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Εισαγωγή κομματιού"
-msgstr[1] "Εισαγωγή κομματιού"
+msgstr[1] "Εισαγωγή κομματιών"
 
 #: src/timeline2/view/timelinecontroller.cpp:5207
 #, fuzzy, kde-format
@@ -19578,10 +19540,9 @@ msgstr "Στοίχιση δεξιά"
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:47
 #: src/ui/editsub_ui.ui:276
-#, fuzzy, kde-format
-#| msgid " Position:"
+#, kde-format
 msgid "Position:"
-msgstr " Θέση:"
+msgstr "Θέση:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
@@ -19618,10 +19579,9 @@ msgstr "Ανίχνευση ποντικιού"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, tracks_count)
 #: src/ui/addtrack_ui.ui:62
-#, fuzzy, kde-format
-#| msgid "Track"
+#, kde-format
 msgid " track"
-msgstr "Κομμάτι"
+msgstr " κομμάτι"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/addtrack_ui.ui:75
@@ -20475,8 +20435,7 @@ msgstr "Άμεση ανανέωση"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122
-#, fuzzy, kde-format
-#| msgid "MLT environment"
+#, kde-format
 msgid "MLT Environment"
 msgstr "Περιβάλλον MLT"
 
@@ -21023,10 +20982,9 @@ msgstr "Δημιουργία για βίντεο μεγαλύτερα από"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
 #: src/ui/configproxy_ui.ui:70 src/ui/configproxy_ui.ui:90
 #: src/ui/configproxy_ui.ui:137 src/ui/configproxy_ui.ui:166
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid " pixels"
-msgstr "εικονοστοιχεία"
+msgstr " εικονοστοιχεία"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:83
@@ -21596,8 +21554,7 @@ msgstr ""
 #. i18n: ectx: property (suffix), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (suffix), widget (QSpinBox, bFramesSpinner)
 #: src/ui/editrenderpreset_ui.ui:554 src/ui/editrenderpreset_ui.ui:697
-#, fuzzy, kde-format
-#| msgid " frames"
+#, kde-format
 msgid " frame(s)"
 msgstr " καρέ"
 
@@ -22662,10 +22619,9 @@ msgstr "Προφίλ"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_create)
 #: src/ui/profiledialog_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Create new profile"
+#, kde-format
 msgid "Create  new profile"
-msgstr "Δημιουργία ενός νέου προφίλ"
+msgstr "Δημιουργία νέου προφίλ"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_create)
 #: src/ui/profiledialog_ui.ui:27
