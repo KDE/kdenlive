@@ -188,7 +188,7 @@ int main(int argc, char **argv)
             qWarning() << "Failed to open file" << f.fileName() << "for reading";
             return 1;
         }
-        if (!doc.setContent(&f, false)) {
+        if (!doc.setContent(&f)) {
             qWarning() << "Failed to parse file" << f.fileName() << "to QDomDocument";
             f.close();
             return 1;

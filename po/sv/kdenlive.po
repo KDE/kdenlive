@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 00:38+0000\n"
-"PO-Revision-Date: 2024-09-09 18:29+0200\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
+"PO-Revision-Date: 2024-09-14 07:33+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -3236,7 +3236,7 @@ msgid "Generator Failed"
 msgstr "Generator misslyckades"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:55
-#: src/assets/assetlist/view/assetlistwidget.cpp:383
+#: src/assets/assetlist/view/assetlistwidget.cpp:384
 #, kde-format
 msgid "Add to favorites"
 msgstr "Lägg till i favoriter"
@@ -3326,13 +3326,13 @@ msgstr "Visa eller dölj beskrivning av kompositionerna"
 msgid "Search…"
 msgstr "Sök…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:383
+#: src/assets/assetlist/view/assetlistwidget.cpp:384
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Ta bort från favoriter"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:405
-#: src/assets/assetlist/view/assetlistwidget.cpp:407
+#: src/assets/assetlist/view/assetlistwidget.cpp:406
+#: src/assets/assetlist/view/assetlistwidget.cpp:408
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -3706,7 +3706,7 @@ msgid "Failed to load preset %1"
 msgstr "Misslyckades läsa in förinställning %1"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:265
 #, kde-format
 msgid "Reset Effect"
 msgstr "Återställ effekt"
@@ -3738,7 +3738,7 @@ msgstr "Tar bort hela förinställningen sin för närvarande är vald."
 msgid "Save effect"
 msgstr "Spara effekt"
 
-#: src/assets/view/assetparameterview.cpp:357
+#: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -3746,7 +3746,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Ange förinställningens namn"
 
-#: src/assets/view/assetparameterview.cpp:357
+#: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -6144,6 +6144,22 @@ msgstr "Projektprofilen är ogiltig, återgivning kan misslyckas."
 msgid "Loading clips"
 msgstr "Läser in klipp"
 
+#: src/core.cpp:1742
+#, kde-format
+msgid ""
+"This will open a browser to display Kdenlive's online documentation at the "
+"following url:\n"
+" %1"
+msgstr ""
+"Det öppnar en webbläsare för att visa Kdenlives dokumentation på nätet med "
+"följande webbadress:\n"
+"%1"
+
+#: src/core.cpp:1743
+#, kde-format
+msgid "Open Browser"
+msgstr "Öppna webbläsare"
+
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
 msgid "Color Clip Dialog"
@@ -6469,7 +6485,7 @@ msgstr "Automatisk (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:41
+#: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Automatisk"
@@ -9404,7 +9420,7 @@ msgstr "Ogiltig filsökväg"
 msgid "Could not recover corrupted file."
 msgstr "Kan inte återställa skadad fil."
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -9760,12 +9776,12 @@ msgstr "Lägg till effekt %1"
 msgid "Move effect %1"
 msgstr "Flytta effekt %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
 msgid "Move effect up"
 msgstr "Flytta upp effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9775,12 +9791,12 @@ msgstr ""
 "Flyttar effekten ovanför den precis ovan. Effekter hanteras i följd uppifrån "
 "och ner, så sekvensen är viktig."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-format
 msgid "Move effect down"
 msgstr "Flytta ner effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9790,64 +9806,64 @@ msgstr ""
 "Flyttar effekten nedanför den precis under. Effekter hanteras i följd "
 "uppifrån och ner, så sekvensen är viktig."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-format
 msgid "Delete effect"
 msgstr "Ta bort effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Tar bort effekten från effektstapeln."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Dra ihop effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
 #, kde-format
 msgid "Expand Effect"
 msgstr "Expandera effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:82
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:81
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Öppna effektdokumentation i webbläsare"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Aktivera nyckelbilder"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Dölj nyckelbilder"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Visa nyckelbilder"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Sätter på visning av nyckelbildslinjal."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-format
 msgid "Disable Effect"
 msgstr "Inaktivera effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-format
 msgid "Enable Effect"
 msgstr "Aktivera effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:122
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
@@ -9855,7 +9871,7 @@ msgstr ""
 "Inaktiverar effekten. Användbart för att jämföra inställningarna före och "
 "efter."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:123
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
@@ -9863,51 +9879,51 @@ msgstr ""
 "Aktiverar effekten. Användbart för att jämföra inställningarna före och "
 "efter."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:150
 #, kde-format
 msgid "Create Group"
 msgstr "Skapa grupp"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:157
 #, kde-format
 msgid "In:"
 msgstr "In:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
 #, kde-format
 msgid "Set zone in"
 msgstr "Ange zon in"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 "Ställer in nuvarande bildruta/uppspelningsposition till början av zonen."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Out:"
 msgstr "Ut:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
 #, kde-format
 msgid "Set zone out"
 msgstr "Ange zon ut"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 "Ställer in nuvarande bildruta/uppspelningsposition till slutet av zonen."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:217
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-format
 msgid "Use effect zone"
 msgstr "Använd effektzon"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:218
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -9915,13 +9931,13 @@ msgstr "Visar eller döljer effektzonen."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:278
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:260
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Förinställningar"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:261
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -18849,13 +18865,13 @@ msgid "Position:"
 msgstr "Position:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:50
+#: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Bakgrund"
 
-#: src/transitions/view/transitionstackview.cpp:62
+#: src/transitions/view/transitionstackview.cpp:61
 #, kde-format
 msgid "Composition track:"
 msgstr "Kompositionsspår:"

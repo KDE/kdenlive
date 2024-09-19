@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 00:38+0000\n"
-"PO-Revision-Date: 2024-09-09 09:11+0300\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
+"PO-Revision-Date: 2024-09-14 19:47+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3262,7 +3262,7 @@ msgid "Generator Failed"
 msgstr "Помилка під час створення"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:55
-#: src/assets/assetlist/view/assetlistwidget.cpp:383
+#: src/assets/assetlist/view/assetlistwidget.cpp:384
 #, kde-format
 msgid "Add to favorites"
 msgstr "Додати до улюблених"
@@ -3352,13 +3352,13 @@ msgstr "Показати або сховати опис композицій"
 msgid "Search…"
 msgstr "Шукати…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:383
+#: src/assets/assetlist/view/assetlistwidget.cpp:384
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Вилучити з улюбленого"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:405
-#: src/assets/assetlist/view/assetlistwidget.cpp:407
+#: src/assets/assetlist/view/assetlistwidget.cpp:406
+#: src/assets/assetlist/view/assetlistwidget.cpp:408
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -3734,7 +3734,7 @@ msgid "Failed to load preset %1"
 msgstr "Не вдалося завантажити набір налаштувань %1"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:265
 #, kde-format
 msgid "Reset Effect"
 msgstr "Відновити параметри ефекту"
@@ -3766,7 +3766,7 @@ msgstr "Вилучає поточний позначений набір нала
 msgid "Save effect"
 msgstr "Зберегти ефект"
 
-#: src/assets/view/assetparameterview.cpp:357
+#: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -3774,7 +3774,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Введіть назву шаблона"
 
-#: src/assets/view/assetparameterview.cpp:357
+#: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -6201,6 +6201,22 @@ msgstr ""
 msgid "Loading clips"
 msgstr "Завантаження кліпів"
 
+#: src/core.cpp:1742
+#, kde-format
+msgid ""
+"This will open a browser to display Kdenlive's online documentation at the "
+"following url:\n"
+" %1"
+msgstr ""
+"Буде відкрито браузер для показу документації до Kdenlive в інтернеті за "
+"такою адресою:\n"
+" %1"
+
+#: src/core.cpp:1743
+#, kde-format
+msgid "Open Browser"
+msgstr "Відкрити браузер"
+
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
 msgid "Color Clip Dialog"
@@ -6534,7 +6550,7 @@ msgstr "Автоматично (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:41
+#: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Автоматично"
@@ -9511,7 +9527,7 @@ msgstr "Некоректний шлях до файла"
 msgid "Could not recover corrupted file."
 msgstr "Не вдалося відновити пошкоджений файл."
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -9871,12 +9887,12 @@ msgstr "Додавання ефекту %1"
 msgid "Move effect %1"
 msgstr "Пересування ефекту %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
 msgid "Move effect up"
 msgstr "Пересунути ефект вгору"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9886,12 +9902,12 @@ msgstr ""
 "Пересуває ефект вище за ефект одразу над ним. Ефекти буде оброблено "
 "послідовно з верхнього до нижнього, отже послідовність ефектів є важливою."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-format
 msgid "Move effect down"
 msgstr "Пересунути ефект вниз"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9901,118 +9917,118 @@ msgstr ""
 "Пересуває ефект нижче за ефект одразу під ним. Ефекти буде оброблено "
 "послідовно з верхнього до нижнього, отже послідовність ефектів є важливою."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-format
 msgid "Delete effect"
 msgstr "Вилучити ефект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr "Вилучає ефект зі стосу ефектів."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
 #, kde-format
 msgid "Collapse Effect"
 msgstr "Згорнути ефект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
 #, kde-format
 msgid "Expand Effect"
 msgstr "Розгорнути ефект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:82
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:81
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "Відкрити документацію до ефекту у браузері"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "Увімкнути ключові кадри"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "Приховати ключові кадри"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Show Keyframes"
 msgstr "Показати ключові кадри"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "Вмикає показ лінійки ключових кадрів."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-format
 msgid "Disable Effect"
 msgstr "Вимкнути ефект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-format
 msgid "Enable Effect"
 msgstr "Увімкнути ефект"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:122
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr "Вимикає ефект. Корисно для порівняння параметрів до і після зміни."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:123
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "Вмикає ефект. Корисно для порівняння параметрів до і після зміни."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:150
 #, kde-format
 msgid "Create Group"
 msgstr "Створити групу"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:157
 #, kde-format
 msgid "In:"
 msgstr "Вхід:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
 #, kde-format
 msgid "Set zone in"
 msgstr "Встановити позначку входу ділянки"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "Встановлює поточну позицію кадру або відтворення як початок зони."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Out:"
 msgstr "Вихід:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
 #, kde-format
 msgid "Set zone out"
 msgstr "Встановити позначку виходу ділянки"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Встановлює поточну позицію кадру або відтворення як кінець зони."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:217
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-format
 msgid "Use effect zone"
 msgstr "Використати ділянку ефекту"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:218
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -10020,13 +10036,13 @@ msgstr "Вмикає або вимикає показ зони ефектів."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:278
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:260
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Шаблони"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:261
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -19084,13 +19100,13 @@ msgid "Position:"
 msgstr "Позиція:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:50
+#: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Тло"
 
-#: src/transitions/view/transitionstackview.cpp:62
+#: src/transitions/view/transitionstackview.cpp:61
 #, kde-format
 msgid "Composition track:"
 msgstr "Доріжка композиції:"

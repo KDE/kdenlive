@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 00:38+0000\n"
-"PO-Revision-Date: 2024-08-23 15:36+0200\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
+"PO-Revision-Date: 2024-09-18 09:45+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3127,7 +3127,7 @@ msgid "Generator Failed"
 msgstr "Generátor selhal"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:55
-#: src/assets/assetlist/view/assetlistwidget.cpp:383
+#: src/assets/assetlist/view/assetlistwidget.cpp:384
 #, kde-format
 msgid "Add to favorites"
 msgstr "Přidat do oblíbených"
@@ -3217,13 +3217,13 @@ msgstr ""
 msgid "Search…"
 msgstr "Hledat…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:383
+#: src/assets/assetlist/view/assetlistwidget.cpp:384
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Odstranit z oblíbených"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:405
-#: src/assets/assetlist/view/assetlistwidget.cpp:407
+#: src/assets/assetlist/view/assetlistwidget.cpp:406
+#: src/assets/assetlist/view/assetlistwidget.cpp:408
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -3315,11 +3315,9 @@ msgid ""
 msgstr ""
 
 #: src/assets/assetpanel.cpp:147
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Online dokumentace"
+msgstr ""
 
 #: src/assets/assetpanel.cpp:151
 #, kde-format
@@ -3579,7 +3577,7 @@ msgstr "Aktualizovat %1"
 #: src/assets/model/assetparametermodel.cpp:1370
 #, kde-format
 msgid "Cannot open preset file %1"
-msgstr "Nelze otevřít soubor předvoleb %1"
+msgstr "Nelze otevřít soubor přednastavení %1"
 
 #: src/assets/model/assetparametermodel.cpp:1447
 #, kde-format
@@ -3588,7 +3586,7 @@ msgid "Failed to load preset %1"
 msgstr ""
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:265
 #, kde-format
 msgid "Reset Effect"
 msgstr "Restartovat efekt"
@@ -3620,7 +3618,7 @@ msgstr "Smaže aktuálně vybrané přednastavení."
 msgid "Save effect"
 msgstr "Uložit efekt"
 
-#: src/assets/view/assetparameterview.cpp:357
+#: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -3628,7 +3626,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Zadejte název šablony"
 
-#: src/assets/view/assetparameterview.cpp:357
+#: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -5473,16 +5471,14 @@ msgid "Delete subtitle"
 msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:1794
-#, fuzzy, kde-format
-#| msgid "Delete selected cache"
+#, kde-format
 msgid "Delete subtitle layer"
-msgstr "Smazat vybranou mezipaměť"
+msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:1821
-#, fuzzy, kde-format
-#| msgid "Create sequence"
+#, kde-format
 msgid "Create subtitle layer"
-msgstr "Vytvářejte sekvence"
+msgstr ""
 
 #: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
 #, kde-format
@@ -5970,6 +5966,19 @@ msgstr ""
 msgid "Loading clips"
 msgstr "Načítání klipů"
 
+#: src/core.cpp:1742
+#, kde-format
+msgid ""
+"This will open a browser to display Kdenlive's online documentation at the "
+"following url:\n"
+" %1"
+msgstr ""
+
+#: src/core.cpp:1743
+#, kde-format
+msgid "Open Browser"
+msgstr "Otevřít prohlížeč"
+
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
 msgid "Color Clip Dialog"
@@ -6273,7 +6282,7 @@ msgstr "Automaticky (%1)"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:41
+#: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Automaticky"
@@ -6480,7 +6489,7 @@ msgstr "auto"
 #: src/dialogs/kdenlivesettingsdialog.cpp:276
 #, kde-format
 msgid "Select the Default Profile (preset)"
-msgstr "Vybere výchozí profil (předvolbu)"
+msgstr "Vybere výchozí profil (přednastavení)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:297
 #, kde-format
@@ -6804,13 +6813,12 @@ msgstr ""
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
 msgid "Layer"
-msgstr ""
+msgstr "Vrstva"
 
 #: src/dialogs/managesubtitles.cpp:104
-#, fuzzy, kde-format
-#| msgid "Move item"
+#, kde-format
 msgid "Move Layer"
-msgstr "Přesunout položku"
+msgstr "Přesunout vrstvu"
 
 #: src/dialogs/managesubtitles.cpp:104
 #, kde-format
@@ -6820,7 +6828,7 @@ msgstr ""
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
 msgid "Copy Layer"
-msgstr ""
+msgstr "Kopírovat vrstvu"
 
 #: src/dialogs/managesubtitles.cpp:106
 #, kde-format
@@ -6828,26 +6836,24 @@ msgid "Select the subtitle file to copy the layer to:"
 msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:136 src/dialogs/managesubtitles.cpp:225
-#, fuzzy, kde-format
-#| msgid "Move group"
+#, kde-format
 msgid "Move To..."
-msgstr "Přesunout skupinu"
+msgstr "Přesunout na..."
 
 #: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "Kopírovat do..."
 
 #: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
 #, kde-format
 msgid "Global"
-msgstr ""
+msgstr "Globální"
 
 #: src/dialogs/managesubtitles.cpp:192
-#, fuzzy, kde-format
-#| msgid "Move item"
+#, kde-format
 msgid "Move Style"
-msgstr "Přesunout položku"
+msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:192
 #, kde-format
@@ -6855,10 +6861,9 @@ msgid "Select the subtitle file to move the style to:"
 msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:194
-#, fuzzy, kde-format
-#| msgid "Font Style"
+#, kde-format
 msgid "Copy Style"
-msgstr "Styl písma"
+msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:194
 #, kde-format
@@ -6880,22 +6885,22 @@ msgstr ""
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "Vrstva "
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "s "
 
 #: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr " událost"
 
 #: src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr " události"
 
 #: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
 #, kde-format
@@ -6918,16 +6923,14 @@ msgid "Top Right"
 msgstr "Vpravo nahoře"
 
 #: src/dialogs/managesubtitles.cpp:553
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Box as Border"
-msgstr "Okraj "
+msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:556 src/dialogs/subtitlestyleedit.cpp:99
-#, fuzzy, kde-format
-#| msgid "Custom Shadow"
+#, kde-format
 msgid "Box as Shadow"
-msgstr "Vlastní stín"
+msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:706
 #, kde-format
@@ -6937,10 +6940,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:728
-#, fuzzy, kde-format
-#| msgid "This will delete all folder content"
+#, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
-msgstr "Tím se odstraní veškerý obsah složky"
+msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:746
 #, kde-format
@@ -8125,10 +8127,9 @@ msgid "Updates the subtitle display in the timeline."
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:282
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "Show more options"
-msgstr "Více možností"
+msgstr "Zobrazit více možností"
 
 #: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
@@ -8146,7 +8147,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:288
 #, kde-format
 msgid "Toggle bold"
-msgstr ""
+msgstr "Přepnout tučné"
 
 #: src/dialogs/subtitleedit.cpp:289
 #, kde-kuit-format
@@ -8157,10 +8158,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:292
-#, fuzzy, kde-format
-#| msgid "Toggle track effects"
+#, kde-format
 msgid "Toggle italic"
-msgstr "Přepnout efekty stopy"
+msgstr "Přepnout kurzívu"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -8173,7 +8173,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:297
 #, kde-format
 msgid "Toggle underline"
-msgstr ""
+msgstr "Přepnout podtržení"
 
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-kuit-format
@@ -8184,10 +8184,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:302
-#, fuzzy, kde-format
-#| msgid "Toggle track effects"
+#, kde-format
 msgid "Toggle strikeout"
-msgstr "Přepnout efekty stopy"
+msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:304
 #, kde-kuit-format
@@ -8198,10 +8197,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:309
-#, fuzzy, kde-format
-#| msgid "Set zone out"
+#, kde-format
 msgid "Set font"
-msgstr "Nastavit konec výběru"
+msgstr "Nastavit písmo"
 
 #: src/dialogs/subtitleedit.cpp:312
 #, kde-kuit-format
@@ -8212,10 +8210,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:315
-#, fuzzy, kde-format
-#| msgid "Reset value"
+#, kde-format
 msgid "Reset style"
-msgstr "Vrátit na výchozí hodnotu"
+msgstr "Resetovat styl"
 
 #: src/dialogs/subtitleedit.cpp:316
 #, kde-kuit-format
@@ -8226,16 +8223,14 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:318
-#, fuzzy, kde-format
-#| msgid "Start Position"
+#, kde-format
 msgid "Set Position"
-msgstr "Počáteční pozice"
+msgstr "Nastavit pozici"
 
 #: src/dialogs/subtitleedit.cpp:322
-#, fuzzy, kde-format
-#| msgid "More options"
+#, kde-format
 msgid "More tags"
-msgstr "Více možností"
+msgstr "Více značek"
 
 #: src/dialogs/subtitleedit.cpp:323
 #, kde-kuit-format
@@ -8244,28 +8239,24 @@ msgid "Opens a menu to show more tags"
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:382
-#, fuzzy, kde-format
-#| msgid "Top Left"
+#, kde-format
 msgid "Right To Left"
-msgstr "Vlevo nahoře"
+msgstr "Zprava doleva"
 
 #: src/dialogs/subtitleedit.cpp:383
-#, fuzzy, kde-format
-#| msgid "Left,Right"
+#, kde-format
 msgid "Left To Right"
-msgstr "Vlevo,Vpravo"
+msgstr "Zleva doprava"
 
 #: src/dialogs/subtitleedit.cpp:384
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Top To Bottom"
-msgstr "Dole"
+msgstr "Shora dolů"
 
 #: src/dialogs/subtitleedit.cpp:385
-#, fuzzy, kde-format
-#| msgid "Bottom"
+#, kde-format
 msgid "Bottom To Top"
-msgstr "Dole"
+msgstr "Zdola nahoru"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
@@ -8273,16 +8264,14 @@ msgid "Clear All Tags"
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:402
-#, fuzzy, kde-format
-#| msgid "Speech Editor"
+#, kde-format
 msgid "Simple Editor"
-msgstr "Editor řeči"
+msgstr "Jednoduchý editor"
 
 #: src/dialogs/subtitleedit.cpp:574
-#, fuzzy, kde-format
-#| msgid "Manage proxy profiles"
+#, kde-format
 msgid "Manage Styles…"
-msgstr "Spravovat profily zástupných klipů"
+msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
 #, kde-format
@@ -8290,10 +8279,9 @@ msgid "Character: %1, total: <b>%2</b>"
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
-#, fuzzy, kde-format
-#| msgid "Position X"
+#, kde-format
 msgid "Set Position X"
-msgstr "Pozice X"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
 #: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
@@ -8303,10 +8291,9 @@ msgid "X:"
 msgstr "X:"
 
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
-#, fuzzy, kde-format
-#| msgid "Position Y"
+#, kde-format
 msgid "Set Position Y"
-msgstr "Pozice Y"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
 #: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
@@ -8316,10 +8303,9 @@ msgid "Y:"
 msgstr "Y:"
 
 #: src/dialogs/subtitlestyleedit.cpp:45
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "Select font"
-msgstr "Výběr"
+msgstr "Vybrat písmo"
 
 #: src/dialogs/subtitlestyleedit.cpp:46
 #, kde-kuit-format
@@ -8328,23 +8314,20 @@ msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
 
 #: src/dialogs/subtitlestyleedit.cpp:98
-#, fuzzy, kde-format
-#| msgid "Outline:"
+#, kde-format
 msgid "Box as Outline"
-msgstr "Obrys:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
-#, fuzzy, kde-format
-#| msgid "Stop Preview Render"
+#, kde-format
 msgid "Show Preview >>>"
-msgstr "Zastavit náhled renderování"
+msgstr "Zobrazit náhled >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:133
-#, fuzzy, kde-format
-#| msgid "Timeline Preview"
+#, kde-format
 msgid "<<< Hide Preview"
-msgstr "Náhled časové osy"
+msgstr "<<< Skrýt náhled"
 
 #: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
 #: src/dialogs/subtitlestyleedit.cpp:171
@@ -8354,10 +8337,9 @@ msgid "Error"
 msgstr "Chyba"
 
 #: src/dialogs/subtitlestyleedit.cpp:161
-#, fuzzy, kde-format
-#| msgid "File already exists"
+#, kde-format
 msgid "Style name already exists."
-msgstr "Soubor již existuje"
+msgstr ""
 
 #: src/dialogs/subtitlestyleedit.cpp:166
 #, kde-format
@@ -9121,11 +9103,10 @@ msgid "extra audio"
 msgstr ""
 
 #: src/doc/documentvalidator.cpp:2206
-#, fuzzy, kde-format
-#| msgid "Output file already exists. Do you want to overwrite it?"
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "Výstupní soubor již existuje. Přejete si jej přepsat?"
+msgstr ""
 
 #: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3581
 #, kde-format
@@ -9167,7 +9148,7 @@ msgstr ""
 msgid "Could not recover corrupted file."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -9513,12 +9494,12 @@ msgstr "Přidat efekt %1"
 msgid "Move effect %1"
 msgstr "Přesunout efekt %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
 msgid "Move effect up"
 msgstr "Přesunout klip výše"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9526,12 +9507,12 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-format
 msgid "Move effect down"
 msgstr "Přesunout klip níže"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -9539,120 +9520,118 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-format
 msgid "Delete effect"
 msgstr "Smazat efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
 #, kde-format
 msgid "Collapse Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
 #, kde-format
 msgid "Expand Effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:82
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Online documentation"
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:81
+#, kde-format
 msgid "Open effect documentation in browser"
-msgstr "Online dokumentace"
+msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-format
 msgid "Enable Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Hide Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, kde-format
 msgid "Show Keyframes"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-format
 msgid "Disable Effect"
 msgstr "Vypnout efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, kde-format
 msgid "Enable Effect"
 msgstr "Povolit efekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:122
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:123
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:150
 #, kde-format
 msgid "Create Group"
 msgstr "Vytvořit skupinu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:157
 #, kde-format
 msgid "In:"
 msgstr "V:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
 #, kde-format
 msgid "Set zone in"
 msgstr "Nastavit začátek výběru"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Out:"
 msgstr "Ven:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
 #, kde-format
 msgid "Set zone out"
 msgstr "Nastavit konec výběru"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:217
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, kde-format
 msgid "Use effect zone"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:218
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -9660,13 +9639,13 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:278
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:260
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
-msgstr "Předvolby"
+msgstr "Přednastavení"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:261
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -14539,7 +14518,7 @@ msgstr "Pořadí půlsnímků: %1"
 #: src/project/dialogs/projectsettings.cpp:70
 #, kde-format
 msgid "Select the profile (preset) of the project"
-msgstr "Vyberte profil (předvolbu) projektu"
+msgstr "Vyberte profil (přednastavení) projektu"
 
 #: src/project/dialogs/projectsettings.cpp:73
 #, kde-format
@@ -17579,10 +17558,9 @@ msgid ""
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:5227
-#, fuzzy, kde-format
-#| msgid "Scanning:"
+#, kde-format
 msgid "Warning"
-msgstr "Skenování:"
+msgstr "Varování"
 
 #: src/timeline2/view/timelinecontroller.cpp:5265
 #, kde-format
@@ -18302,13 +18280,13 @@ msgid "Position:"
 msgstr "Pozice:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:50
+#: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Pozadí"
 
-#: src/transitions/view/transitionstackview.cpp:62
+#: src/transitions/view/transitionstackview.cpp:61
 #, kde-format
 msgid "Composition track:"
 msgstr ""
@@ -20412,10 +20390,9 @@ msgstr "S"
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
 #: src/ui/editsub_ui.ui:207
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Style:"
-msgstr "Styl"
+msgstr "Styl:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end)
 #: src/ui/editsub_ui.ui:253
@@ -20425,17 +20402,15 @@ msgstr "Konec:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
 #: src/ui/editsub_ui.ui:451
-#, fuzzy, kde-format
-#| msgid "Scrolling:"
+#, kde-format
 msgid "Scroll"
-msgstr "Rolování:"
+msgstr "Rolovat"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Upper Bound"
-msgstr "Aktualizací za sekundu"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsub_ui.ui:472
@@ -20459,17 +20434,15 @@ msgstr "Komentář"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:589
-#, fuzzy, kde-format
-#| msgid "Lower object"
+#, kde-format
 msgid "Lower Bound"
-msgstr "Odsunout dál"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
+#, kde-format
 msgid "Subtitle Style Editor"
-msgstr "Soubor titulků:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
@@ -20482,79 +20455,72 @@ msgstr "Tučné"
 #: src/ui/editsubstyle_ui.ui:103
 #, kde-format
 msgid "Secondary"
-msgstr ""
+msgstr "Sekundární"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsubstyle_ui.ui:134
 #, kde-format
 msgid "Margin"
-msgstr ""
+msgstr "Okraj"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
 #: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align left"
+#, kde-format
 msgid "Alignment"
-msgstr "Zarovnat vlevo"
+msgstr "Zarovnání"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
-#, fuzzy, kde-format
-#| msgid "Under"
+#, kde-format
 msgid "Underline"
-msgstr "Pod"
+msgstr "Podtržené"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelShadow)
 #. i18n: ectx: property (text), widget (QLabel, labelBackColor)
 #: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
 #: src/ui/managesubtitles_ui.ui:409
-#, fuzzy, kde-format
-#| msgid "Custom Shadow"
+#, kde-format
 msgid "Shadow"
-msgstr "Vlastní stín"
+msgstr "Stín"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #: src/ui/editsubstyle_ui.ui:265
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "BorderStyle"
-msgstr "Okraj "
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
 #. i18n: ectx: property (text), widget (QLabel, labelOutline)
 #: src/ui/editsubstyle_ui.ui:350 src/ui/editsubstyle_ui.ui:484
 #: src/ui/managesubtitles_ui.ui:404
-#, fuzzy, kde-format
-#| msgid "Outline:"
+#, kde-format
 msgid "Outline"
-msgstr "Obrys:"
+msgstr "Obrys"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "ScaleX"
-msgstr "Měřítko"
+msgstr "MěřítkoX"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Scale"
+#, kde-format
 msgid "ScaleY"
-msgstr "Měřítko"
+msgstr "MěřítkoY"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
 #: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
-msgstr ""
+msgstr "Přeškrtnuté"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
@@ -20566,10 +20532,9 @@ msgstr "Kurzíva"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
-#, fuzzy, kde-format
-#| msgid "Space"
+#, kde-format
 msgid "Spacing"
-msgstr "Mezera"
+msgstr "Rozestupy"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -20998,10 +20963,9 @@ msgstr "Úprava profilů pro:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabFile)
 #: src/ui/managesubtitles_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "Files"
-msgstr "Soubor"
+msgstr "Soubory"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #: src/ui/managesubtitles_ui.ui:71
@@ -21011,10 +20975,9 @@ msgstr "Cesta"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewFile)
 #: src/ui/managesubtitles_ui.ui:101
-#, fuzzy, kde-format
-#| msgid "Text File"
+#, kde-format
 msgid "New File"
-msgstr "Textový soubor"
+msgstr "Nový soubor"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteLayer)
@@ -21033,66 +20996,57 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewLayer)
 #: src/ui/managesubtitles_ui.ui:262
-#, fuzzy, kde-format
-#| msgid "New tag"
+#, kde-format
 msgid "New Layer"
-msgstr "Nová značka"
+msgstr "Nová vrstva"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabStyle)
 #: src/ui/managesubtitles_ui.ui:286
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "Styles"
-msgstr "Styl"
+msgstr "Styly"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
-#, fuzzy, kde-format
-#| msgid "Font"
+#, kde-format
 msgid "FontName"
-msgstr "Písmo"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:359
-#, fuzzy, kde-format
-#| msgid "Font Size"
+#, kde-format
 msgid "FontSize"
-msgstr "Velikost písma"
+msgstr "VelikostPísma"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Original Color"
+#, kde-format
 msgid "PrimaryColor"
-msgstr "Původní barva"
+msgstr "PrimárníBarva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389
-#, fuzzy, kde-format
-#| msgid "2nd Color"
+#, kde-format
 msgid "SecondaryColor"
-msgstr "2. barva"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Outline Color"
+#, kde-format
 msgid "OutlineColor"
-msgstr "Barva ohraničení"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "BackColor"
-msgstr "Barva pozadí"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "BoardStyle"
-msgstr "Styl"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:444
@@ -21114,29 +21068,27 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonNewStyle)
 #: src/ui/managesubtitles_ui.ui:473
-#, fuzzy, kde-format
-#| msgid "Style"
+#, kde-format
 msgid "New Style"
-msgstr "Styl"
+msgstr "Nový styl"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabInfo)
 #: src/ui/managesubtitles_ui.ui:529
 #, kde-format
 msgid "Info"
-msgstr ""
+msgstr "Informace"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:539
 #, kde-format
 msgid "Key"
-msgstr ""
+msgstr "Klíč"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, infoList)
 #: src/ui/managesubtitles_ui.ui:544
-#, fuzzy, kde-format
-#| msgid "HSV Value"
+#, kde-format
 msgid "Value"
-msgstr "HSV hodnota"
+msgstr "Hodnota"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, multimarker_box)
 #: src/ui/markerdialog_ui.ui:98
@@ -22662,38 +22614,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#, fuzzy
-#~| msgid "Vertical"
-#~ msgid "Veritical"
-#~ msgstr "Svisle"
-
-#~ msgid "Add text"
-#~ msgstr "Přidat text"
-
-#~ msgid "Bottom Center"
-#~ msgstr "Dole uprostřed"
-
-#~ msgid "Top Center"
-#~ msgstr "Nahoře uprostřed"
-
-#~ msgid "pt"
-#~ msgstr "pt"
-
-#~ msgid "Custom Font Size"
-#~ msgstr "Vlastní velikost písma"
-
-#~ msgid "px"
-#~ msgstr "px"
-
-#~ msgid "Custom Position"
-#~ msgstr "Vybrat pozice"
-
-#~ msgid "Custom Font Color"
-#~ msgstr "Vlastní barva písma"
-
-#~ msgid "Custom Font"
-#~ msgstr "Vlastní písmo"
-
-#~ msgid "Create New"
-#~ msgstr "Vytvořit nový"

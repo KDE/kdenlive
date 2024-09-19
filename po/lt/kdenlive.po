@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-11 00:38+0000\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -3304,7 +3304,7 @@ msgid "Generator Failed"
 msgstr ""
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:55
-#: src/assets/assetlist/view/assetlistwidget.cpp:383
+#: src/assets/assetlist/view/assetlistwidget.cpp:384
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Add to favorites"
@@ -3410,14 +3410,14 @@ msgstr "Aprašymas"
 msgid "Search…"
 msgstr "Ieškoti"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:383
+#: src/assets/assetlist/view/assetlistwidget.cpp:384
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove from favorites"
 msgstr "Pašalinti failą"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:405
-#: src/assets/assetlist/view/assetlistwidget.cpp:407
+#: src/assets/assetlist/view/assetlistwidget.cpp:406
+#: src/assets/assetlist/view/assetlistwidget.cpp:408
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgctxt "@info:tooltip"
@@ -3822,7 +3822,7 @@ msgid "Failed to load preset %1"
 msgstr "Nepavyko sukurti failo."
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:141
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:265
 #, kde-format
 msgid "Reset Effect"
 msgstr ""
@@ -3859,7 +3859,7 @@ msgstr "Pašalinti pažymėtus elementus"
 msgid "Save effect"
 msgstr "efektas"
 
-#: src/assets/view/assetparameterview.cpp:357
+#: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -3867,7 +3867,7 @@ msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr ""
 
-#: src/assets/view/assetparameterview.cpp:357
+#: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
 #, kde-format
@@ -6397,6 +6397,20 @@ msgstr ""
 msgid "Loading clips"
 msgstr ""
 
+#: src/core.cpp:1742
+#, kde-format
+msgid ""
+"This will open a browser to display Kdenlive's online documentation at the "
+"following url:\n"
+" %1"
+msgstr ""
+
+#: src/core.cpp:1743
+#, fuzzy, kde-format
+#| msgid "Media players"
+msgid "Open Browser"
+msgstr "Media grotuvai"
+
 #: src/dialogs/clipcreationdialog.cpp:59
 #, fuzzy, kde-format
 #| msgid "Color 2"
@@ -6730,7 +6744,7 @@ msgstr "Automatinis"
 #: src/dialogs/encodingprofilesdialog.cpp:350
 #: src/dialogs/kdenlivesettingsdialog.cpp:712
 #: src/project/dialogs/projectsettings.cpp:906
-#: src/transitions/view/transitionstackview.cpp:41
+#: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
 msgid "Automatic"
 msgstr "Automatinis"
@@ -9733,7 +9747,7 @@ msgstr "Išsaugoti profilį"
 msgid "Could not recover corrupted file."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid ""
@@ -10086,12 +10100,12 @@ msgstr "Pridėti naują video failą"
 msgid "Move effect %1"
 msgstr "Pašalinti failą"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:54
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:53
 #, kde-format
 msgid "Move effect up"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:56
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:55
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10099,12 +10113,12 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:58
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:57
 #, kde-format
 msgid "Move effect down"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:60
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:59
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -10112,130 +10126,130 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
 #, kde-format
 msgid "Delete effect"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:63
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the effect from the effect stack."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Collapse Effect"
 msgstr "Be efektų"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:76
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Expand Effect"
 msgstr "Be efektų"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:82
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:81
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Open effect documentation in browser"
 msgstr "Atvertinas dokumentas"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:109
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Enable Keyframes"
 msgstr "Išsaugoti profilį"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Hide Keyframes"
 msgstr "Išsaugoti profilį"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Show Keyframes"
 msgstr "Pašalinti failą"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:112
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable Effect"
 msgstr "Be efektų"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable Effect"
 msgstr "Be efektų"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:122
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:123
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:150
 #, kde-format
 msgid "Create Group"
 msgstr "Sukurti grupę"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:157
 #, fuzzy, kde-format
 #| msgid "In"
 msgid "In:"
 msgstr "Į"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:182
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
 #, fuzzy, kde-format
 #| msgid "Save to"
 msgid "Set zone in"
 msgstr "Išsaugoti į"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:183
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:188
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
 #, kde-format
 msgid "Out:"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:194
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
 #, fuzzy, kde-format
 #| msgid "Zoom Out"
 msgid "Set zone out"
 msgstr "Atitolinti"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:195
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:217
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Use effect zone"
 msgstr "efektas"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:218
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -10243,14 +10257,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:278
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:260
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Presets"
 msgstr "Atstatyti"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:261
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -19418,13 +19432,13 @@ msgid "Position:"
 msgstr " Pozicija:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
-#: src/transitions/view/transitionstackview.cpp:50
+#: src/transitions/view/transitionstackview.cpp:49
 #: src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Fonas"
 
-#: src/transitions/view/transitionstackview.cpp:62
+#: src/transitions/view/transitionstackview.cpp:61
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Composition track:"

@@ -129,7 +129,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         cursor.insertText(event->commitString());
         QTimer::singleShot(10, this, [&]() { syncSimpleText(); });
     });
-    connect(filter, &SimpleEditorEventFilter::shortCut, this, [this](QKeyEvent *event) {
+    connect(filter, &SimpleEditorEventFilter::shortCut, this, [this](QKeyEvent * /*event*/) {
         // TODO: The shortcut hasn't been implemented yet
         QTimer::singleShot(10, this, [&]() { syncSimpleText(); });
     });
@@ -157,7 +157,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             QList<int> usedIndex;
             while (true) {
                 bool moved = false;
-                for (int i = 0; i < m_offsets.size(); i++) {
+                for (uint i = 0; i < m_offsets.size(); i++) {
                     if (m_offsets[i].first < newPosition && !usedIndex.contains(i)) {
                         newPosition -= m_offsets[i].second.second;
                         newPosition += m_offsets[i].second.first;
@@ -350,7 +350,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         }
     });
 
-    connect(scrollDirection, &QComboBox::currentIndexChanged, this, [this](int index) {
+    connect(scrollDirection, &QComboBox::currentIndexChanged, this, [this](int /*index*/) {
         QSignalBlocker bk(editEffects);
         updateEffects();
     });
