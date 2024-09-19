@@ -45,6 +45,7 @@ class SubtitleEdit;
 class SubtitleModel;
 class TextBasedEdit;
 class GuidesList;
+class KeyframeModelList;
 class TimeRemap;
 
 namespace Mlt {
@@ -324,6 +325,8 @@ public:
                                    const QVariant &value, int ix, QUndoCommand *command);
     void groupAssetMultiKeyframeCommand(const ObjectId &id, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                         const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
+    /** @brief Return all similar keyframe models from the selection */
+    QList<std::shared_ptr<KeyframeModelList>> getGroupKeyframeModels(const ObjectId &id, const QString &assetId);
     /** @brief Remove all effect instances in a group */
     void removeGroupEffect(const ObjectId &id, const QString &assetId, int originalId);
     /** @brief Disable/enable all instance of an effect in a group */
