@@ -138,9 +138,13 @@ bool KeyframeModelList::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type
         ObjectId id = getOwnerId();
         double fps = pCore->getCurrentFps();
         GenTime offset = pos - GenTime(pCore->getItemIn(id), fps);
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
+            if (posWithOffset > GenTime(pCore->getItemDuration(km->getOwnerId()), fps)) {
+                // Keyframe is outside object, don't process
+                continue;
+            }
             auto op2 = [posWithOffset, type](std::shared_ptr<KeyframeModel> param, bool, Fun &undo, Fun &redo) {
                 QVariant value = param->getInterpolatedValue(posWithOffset);
                 return param->addKeyframe(posWithOffset, type, value, true, undo, redo);
@@ -215,7 +219,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
         ObjectId id = getOwnerId();
         double fps = pCore->getCurrentFps();
         GenTime offset = pos - GenTime(pCore->getItemIn(id), fps);
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
             auto op2 = [km, posWithOffset, val, pType](std::shared_ptr<KeyframeModel> param, bool, Fun &undo, Fun &redo) {
@@ -267,9 +271,13 @@ bool KeyframeModelList::removeKeyframe(GenTime pos)
         ObjectId id = getOwnerId();
         double fps = pCore->getCurrentFps();
         GenTime offset = pos - GenTime(pCore->getItemIn(id), fps);
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
+            if (posWithOffset > GenTime(pCore->getItemDuration(km->getOwnerId()), fps)) {
+                // Keyframe is outside object, don't process
+                continue;
+            }
             auto op2 = [posWithOffset](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
                 return param->removeKeyframe(posWithOffset, undo, redo, true, true, allowedToFail);
             };
@@ -294,9 +302,13 @@ bool KeyframeModelList::removeKeyframeWithUndo(GenTime pos, Fun &undo, Fun &redo
         ObjectId id = getOwnerId();
         double fps = pCore->getCurrentFps();
         GenTime offset = pos - GenTime(pCore->getItemIn(id), fps);
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
+            if (posWithOffset > GenTime(pCore->getItemDuration(km->getOwnerId()), fps)) {
+                // Keyframe is outside object, don't process
+                continue;
+            }
             for (const auto &param : km->getAllParameters()) {
                 result = result && param.second->removeKeyframe(posWithOffset, undo, redo);
             }
@@ -325,7 +337,7 @@ bool KeyframeModelList::removeAllKeyframes()
     bool result = applyOperation(op, undo, redo);
     if (result && KdenliveSettings::applyEffectParamsToGroup()) {
         ObjectId id = getOwnerId();
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             result = result && km->applyOperation(op, undo, redo);
         }
@@ -351,7 +363,7 @@ bool KeyframeModelList::removeNextKeyframes(GenTime pos)
         ObjectId id = getOwnerId();
         double fps = pCore->getCurrentFps();
         GenTime offset = pos - GenTime(pCore->getItemIn(id), fps);
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
             auto op2 = [posWithOffset](std::shared_ptr<KeyframeModel> param, bool, Fun &undo, Fun &redo) {
@@ -384,10 +396,15 @@ bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, 
         double fps = pCore->getCurrentFps();
         GenTime offset = pos - GenTime(pCore->getItemIn(id), fps);
         GenTime oldOffset = oldPos - GenTime(pCore->getItemIn(id), fps);
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime oldPosWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + oldOffset;
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
+            GenTime maxPos(pCore->getItemDuration(km->getOwnerId()), fps);
+            if (oldPosWithOffset > maxPos || posWithOffset > maxPos) {
+                // Keyframe is outside object, don't process
+                continue;
+            }
             auto op2 = [oldPosWithOffset, posWithOffset, updateView](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
                 return param->moveKeyframe(oldPosWithOffset, posWithOffset, QVariant(), undo, redo, updateView, allowedToFail);
             };
@@ -416,10 +433,15 @@ bool KeyframeModelList::moveKeyframeWithUndo(GenTime oldPos, GenTime pos, Fun &u
         double fps = pCore->getCurrentFps();
         GenTime offset = pos - GenTime(pCore->getItemIn(id), fps);
         GenTime oldOffset = oldPos - GenTime(pCore->getItemIn(id), fps);
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime oldPosWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + oldOffset;
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
+            GenTime maxPos(pCore->getItemDuration(km->getOwnerId()), fps);
+            if (oldPosWithOffset > maxPos || posWithOffset > maxPos) {
+                // Keyframe is outside object, don't process
+                continue;
+            }
             for (const auto &param : km->getAllParameters()) {
                 result = result && param.second->moveKeyframe(oldPosWithOffset, posWithOffset, QVariant(), undo, redo);
             }
@@ -470,10 +492,15 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
         double fps = pCore->getCurrentFps();
         GenTime offset = pos - GenTime(pCore->getItemIn(id), fps);
         GenTime oldOffset = oldPos - GenTime(pCore->getItemIn(id), fps);
-        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->currentDoc()->getTimeline(id.uuid)->getGroupKeyframeModels(id.itemId, getAssetId());
+        QList<std::shared_ptr<KeyframeModelList>> groupedKfrModels = pCore->getGroupKeyframeModels(id, getAssetId());
         for (auto km : groupedKfrModels) {
             GenTime oldPosWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + oldOffset;
             GenTime posWithOffset = GenTime(pCore->getItemIn(km->getOwnerId()), fps) + offset;
+            GenTime maxPos(pCore->getItemDuration(km->getOwnerId()), fps);
+            if (oldPosWithOffset > maxPos || posWithOffset > maxPos) {
+                // Keyframe is outside object, don't process
+                continue;
+            }
             auto op2 = [km, oldPosWithOffset, posWithOffset, normalizedVal, isRectParam](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo,
                                                                                          Fun &redo) {
                 QVariant value;

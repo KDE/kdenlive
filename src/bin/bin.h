@@ -37,6 +37,7 @@ class InvalidDialog;
 class TranscodeSeek;
 class KdenliveDoc;
 class KSelectAction;
+class KeyframeModelList;
 class TagWidget;
 class Monitor;
 class ProjectClip;
@@ -371,6 +372,8 @@ public:
     void applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                                  const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
     int clipAssetGroupInstances(int cid, const QString &assetId);
+    /** @brief Return all similar keyframe models from the selection */
+    QList<std::shared_ptr<KeyframeModelList>> getGroupKeyframeModels(int bid, const QString &assetId);
     void removeEffectFromGroup(int bid, const QString &assetId, int eid);
     void disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo);
     /** @brief The root id of the folder that this bin displays */

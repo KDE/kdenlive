@@ -20,6 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/abstracteffectitem.hpp"
+#include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "filefilter.h"
 #include "glaxnimatelauncher.h"
@@ -6172,6 +6173,44 @@ void Bin::applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, co
             c->getEffectStack()->applyAssetKeyframeCommand(assetRow, index, pos, previousValue, value, ix, command);
         }
     }
+}
+
+QList<std::shared_ptr<KeyframeModelList>> Bin::getGroupKeyframeModels(int bid, const QString &assetId)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    if (clips.size() < 2) {
+        return {};
+    }
+    std::shared_ptr<ProjectClip> masterClip = nullptr;
+    for (auto &c : clips) {
+        if (c->binId() == QString::number(bid)) {
+            masterClip = c;
+            break;
+        }
+    }
+    if (masterClip == nullptr) {
+        // Clips is not inside selection, don't perform action on selection
+        return {};
+    }
+    // Action was already performed on main clip
+    clips.removeAll(masterClip);
+    QList<std::shared_ptr<KeyframeModelList>> models;
+    for (auto &c : clips) {
+        int assetRow = c->getEffectStack()->effectRow(assetId);
+        if (assetRow > -1) {
+            auto item = c->getEffectStack()->getEffectStackRow(assetRow);
+            if (!item || item->childCount() > 0) {
+                // group, error
+                continue;
+            }
+            std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+            auto mdl = eff->getKeyframeModel();
+            if (mdl) {
+                models << mdl;
+            }
+        }
+    }
+    return models;
 }
 
 int Bin::clipAssetGroupInstances(int cid, const QString &assetId)

@@ -1542,6 +1542,28 @@ int Core::getAssetGroupedInstance(const ObjectId &id, const QString &assetId)
     }
 }
 
+QList<std::shared_ptr<KeyframeModelList>> Core::getGroupKeyframeModels(const ObjectId &id, const QString &assetId)
+{
+    if (KdenliveSettings::applyEffectParamsToGroup()) {
+        switch (id.type) {
+        case KdenliveObjectType::TimelineClip:
+            if (auto tl = currentDoc()->getTimeline(id.uuid)) {
+                return tl->getGroupKeyframeModels(id.itemId, assetId);
+            }
+            break;
+        case KdenliveObjectType::BinClip:
+            if (bin() != nullptr) {
+                return bin()->getGroupKeyframeModels(id.itemId, assetId);
+            }
+            break;
+        default:
+            // Nothing to do
+            break;
+        }
+    }
+    return {};
+}
+
 void Core::groupAssetCommand(const ObjectId &id, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
                              QUndoCommand *command)
 {
