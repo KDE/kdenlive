@@ -57,7 +57,9 @@ public:
     void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false,
                        const QString &originalDecimalPoint = QString(), const QUuid &uuid = QUuid());
     bool removeFade(bool fromStart);
-
+    /** @brief Insert the necessary builtin effects in the effect stack
+     */
+    void plugBuiltinEffects();
     /** @brief This function change the global (timeline-wise) enabled state of the effects
      */
     void setEffectStackEnabled(bool enabled);
@@ -174,6 +176,8 @@ public Q_SLOTS:
     void removeEffectWithUndo(const std::shared_ptr<EffectItemModel> &effect, QString &effectName, Fun &undo, Fun &redo);
     /** @brief Move an effect in the stack */
     void moveEffectByRow(int destRow, int srcRow);
+    /** @brief Set the size for the bin effect item */
+    void setBuildInSize(const QSize size);
 
 protected:
     /** @brief Register the existence of a new element

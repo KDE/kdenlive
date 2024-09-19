@@ -69,6 +69,10 @@
       <label>Check if document profile is same as first imported clip.</label>
       <default>true</default>
     </entry>
+    <entry name="keep_original_frame_size" type="Bool">
+      <label>On clip import, add a Transform effect to keep the clip's original frame size.</label>
+      <default>false</default>
+    </entry>
     <entry name="exportframe_usingsourceres" type="Bool">
       <label>Export image using source resolution.</label>
       <default>true</default>

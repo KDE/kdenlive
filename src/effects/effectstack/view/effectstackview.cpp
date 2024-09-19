@@ -418,32 +418,12 @@ void EffectStackView::changeEnabledState()
 void EffectStackView::loadEffects()
 {
     // QMutexLocker lock(&m_mutex);
+    m_model->plugBuiltinEffects();
     int max = m_model->rowCount();
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects COUNT: " << max;
-    if (max == 0) {
-        // blank stack
-        ObjectId item = m_model->getOwnerId();
-        if (KdenliveSettings::enableBuiltInEffects()) {
-            auto avStack = pCore->assetHasAV(item);
-            if (avStack.first) {
-                // Initialize built-in effects
-                m_model->appendAudioBuildInEffects();
-                max = m_model->rowCount();
-            }
-            if (avStack.second) {
-                // Initialize built-in effects
-                m_model->appendVideoBuildInEffects();
-                max = m_model->rowCount();
-            }
-        }
-        if (max == 0) {
-            pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
-                ->slotShowEffectScene(MonitorSceneDefault);
-            updateTreeHeight();
-            return;
-        }
+    int active = 0;
+    if (max > 1) {
+        active = qBound(0, m_model->getActiveEffect(), max - 1);
     }
-    int active = qBound(0, m_model->getActiveEffect(), max - 1);
     bool hasLift = false;
     QModelIndex activeIndex;
     connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight, Qt::UniqueConnection);
@@ -496,7 +476,7 @@ void EffectStackView::loadEffects()
         if (!ix.isValid()) {
             continue;
         }
-        if (active == i) {
+        if (active == i && (m_model->getActiveEffect() > -1 || !effectModel->isBuiltIn())) {
             effectModel->setActive(true);
             activeIndex = ix;
         }

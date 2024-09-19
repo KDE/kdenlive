@@ -741,6 +741,9 @@ ClipType::ProducerType ClipController::clipType() const
 
 const QSize ClipController::getFrameSize() const
 {
+    if (m_clipType == ClipType::Color) {
+        return pCore->getCurrentFrameSize();
+    }
     QReadLocker lock(&m_producerLock);
     if (m_masterProducer == nullptr) {
         return QSize();

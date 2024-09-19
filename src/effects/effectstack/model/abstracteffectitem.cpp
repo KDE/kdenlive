@@ -60,7 +60,6 @@ bool AbstractEffectItem::isAssetEnabled() const
         // Root item, always return true
         return true;
     }
-    qDebug() << "=== EFFECT ITEM M_ENABLED: " << m_enabled << " / " << m_effectStackEnabled;
     return m_enabled && m_effectStackEnabled && parentEnabled;
 }
 

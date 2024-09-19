@@ -55,6 +55,8 @@ public:
     bool isHiddenBuiltIn() const;
     QPair<int, int> getInOut() const;
     void setInOut(const QString &effectName, QPair<int, int> bounds, bool enabled, bool withUndo);
+    /** @brief This is a built-in asset */
+    void setBuiltIn();
 
 protected:
     EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,

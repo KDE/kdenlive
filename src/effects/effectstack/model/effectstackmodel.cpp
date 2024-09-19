@@ -36,6 +36,21 @@ std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt:
     return self;
 }
 
+void EffectStackModel::plugBuiltinEffects()
+{
+    if (KdenliveSettings::enableBuiltInEffects()) {
+        auto avStack = pCore->assetHasAV(m_ownerId);
+        if (avStack.first) {
+            // Initialize built-in effects
+            appendAudioBuildInEffects();
+        }
+        if (avStack.second) {
+            // Initialize built-in effects
+            appendVideoBuildInEffects();
+        }
+    }
+}
+
 void EffectStackModel::resetService(std::weak_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
@@ -512,7 +527,7 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
             // Ignore disabled builtin effects
             return false;
         }
-        effect->filter().set("kdenlive:builtin", builtin);
+        effect->setBuiltIn();
         if (sourceEffect->filter().property_exists("kdenlive:hiddenbuiltin")) {
             effect->filter().set("kdenlive:hiddenbuiltin", sourceEffect->filter().get_int("kdenlive:hiddenbuiltin"));
         }
@@ -624,6 +639,9 @@ bool EffectStackModel::doAppendEffect(const QString &effectId, bool makeCurrent,
     while (i.hasNext()) {
         i.next();
         effect->filter().set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+    }
+    if (params.keys().contains(QLatin1String("kdenlive:builtin"))) {
+        effect->setBuiltIn();
     }
     Fun local_undo = removeItem_lambda(effect->getId());
     // TODO the parent should probably not always be the root
@@ -1189,7 +1207,8 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                 int ct = ms->filter_count();
                 QVector<int> ixToMove;
                 for (int i = 0; i < ct; i++) {
-                    if (ms->filter(i)->get_int("internal_added") > 0) {
+                    std::shared_ptr<Mlt::Filter> ft(ms->filter(i));
+                    if (ft->get_int("internal_added") > 0) {
                         ixToMove << i;
                     }
                 }
@@ -1203,17 +1222,21 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
             int target = -1;
             if (effectItem->isBuiltIn()) {
                 // Ensure builtin effects are always applied before the user effects
+                int max = rootItem->childCount();
                 auto ms = m_masterService.lock();
-                int ct = ms->filter_count() - 1;
-                if (ct > 0) {
-                    const QString firstId = ms->filter(0)->get("mlt_service");
-                    target = 0;
+                int currentEffectPos = ms->filter_count() - 1;
+                int firstEffectPos = ms->filter_count() - max - 1;
+                if (max > 1) {
+                    // Find first kdenlive effect
+                    std::shared_ptr<Mlt::Filter> ft(ms->filter(firstEffectPos));
+                    const QString firstId = ft->get("mlt_service");
+                    target = firstEffectPos;
                     // Flip effect should always come before others
                     if (firstId.contains(QLatin1String("flip"))) {
-                        target = 1;
+                        target++;
                     }
-                    if (ct != target) {
-                        ms->move_filter(ct, target);
+                    if (currentEffectPos != target) {
+                        ms->move_filter(currentEffectPos, target);
                     }
                 }
             }
@@ -1328,10 +1351,11 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
     bool effectEnabled = false;
+    bool disabledStack = true;
+    int imported = 0;
+    int builtin = 0;
     if (auto ptr = service.lock()) {
         int max = ptr->filter_count();
-        int imported = 0;
-        int builtin = 0;
         for (int i = 0; i < max; i++) {
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
             if (filter->get_int("internal_added") > 0 && m_ownerId.type != KdenliveObjectType::TimelineTrack) {
@@ -1357,6 +1381,9 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             effectEnabled = filter->get_int("disable") == 0;
+            if (disabledStack && filter->get_int("kdenlive:bin-disabled") == 0) {
+                disabledStack = false;
+            }
             if (!effectEnabled && filter->get_int("kdenlive::builtin") == 1) {
                 if (!KdenliveSettings::enableBuiltInEffects()) {
                     // don't consider disabled builtin effects
@@ -1426,7 +1453,11 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             effectEnabled = true;
         }
     }
-    m_effectStackEnabled = effectEnabled;
+    if (disabledStack && (imported + builtin > 0)) {
+        m_effectStackEnabled = false;
+    } else {
+        m_effectStackEnabled = true;
+    }
     if (!m_effectStackEnabled) {
         // Mark all effects as disabled by stack
         for (int i = 0; i < rootItem->childCount(); ++i) {
@@ -1470,9 +1501,12 @@ int EffectStackModel::getActiveEffect() const
 {
     QWriteLocker locker(&m_lock);
     if (auto ptr = m_masterService.lock()) {
-        return ptr->get_int("kdenlive:activeeffect");
+        if (ptr->property_exists("kdenlive:activeeffect")) {
+            return ptr->get_int("kdenlive:activeeffect");
+        }
+        return -1;
     }
-    return 0;
+    return -1;
 }
 
 void EffectStackModel::slotCreateGroup(const std::shared_ptr<EffectItemModel> &childEffect)
@@ -1689,7 +1723,7 @@ const QString EffectStackModel::effectNames() const
     QStringList effects;
     for (int i = 0; i < rootItem->childCount(); ++i) {
         const auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-        if (!effect->isAssetEnabled() && effect->filter().get_int("kdenlive:builtin") == 1) {
+        if (!effect->isAssetEnabled() && effect->isBuiltIn()) {
             continue;
         }
         effects.append(EffectsRepository::get()->getName(effect->getAssetId()));
@@ -1701,7 +1735,7 @@ bool EffectStackModel::hasEffects() const
 {
     for (int i = 0; i < rootItem->childCount(); ++i) {
         const auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-        if (!effect->isAssetEnabled() && effect->filter().get_int("kdenlive:builtin") == 1) {
+        if (!effect->isAssetEnabled() && effect->isBuiltIn()) {
             continue;
         }
         return true;
@@ -1954,6 +1988,17 @@ void EffectStackModel::applyAssetMultiKeyframeCommand(int row, const QList<QMode
 
 void EffectStackModel::appendAudioBuildInEffects()
 {
+    // Check if an effect has not been added yet
+    if (rootItem->childCount() > 0) {
+        for (int i = 0; i < rootItem->childCount(); i++) {
+            std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+            if (effect->isBuiltIn() && effect->getAssetId() == QLatin1String("volume")) {
+                // Already added, abort
+                return;
+            }
+        }
+    }
+    QWriteLocker lock(&m_lock);
     auto effect = EffectItemModel::construct(QStringLiteral("volume"), shared_from_this(), false);
     effect->filter().set("disable", 1);
     effect->filter().set("kdenlive:kfrhidden", 1);
@@ -1969,16 +2014,46 @@ void EffectStackModel::appendAudioBuildInEffects()
 void EffectStackModel::appendVideoBuildInEffects()
 {
     if (m_ownerId.type == KdenliveObjectType::TimelineClip || m_ownerId.type == KdenliveObjectType::BinClip) {
-        auto effect = EffectItemModel::construct(QStringLiteral("qtblend"), shared_from_this(), false);
+        if (rootItem->childCount() > 0) {
+            for (int i = 0; i < rootItem->childCount(); i++) {
+                std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                if (effect->isBuiltIn() && effect->getAssetId() == QLatin1String("qtblend")) {
+                    // Already added, abort
+                    return;
+                }
+            }
+        }
+        qDebug() << "=======APPENDING VIDEO EFFECTS!!!!";
+        QWriteLocker locker(&m_lock);
+        std::shared_ptr<EffectItemModel> effect = EffectItemModel::construct(QStringLiteral("qtblend"), shared_from_this(), false);
+        effect->prepareKeyframes();
         effect->filter().set("disable", 1);
         effect->filter().set("kdenlive:kfrhidden", 1);
         effect->filter().set("kdenlive:collapsed", 1);
         effect->setBuiltIn();
-        effect->prepareKeyframes();
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
         connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
-        Fun local_undo = addItem_lambda(effect, rootItem->getId());
-        local_undo();
+        Fun local_redo = addItem_lambda(effect, rootItem->getId());
+        local_redo();
+    }
+}
+
+void EffectStackModel::setBuildInSize(const QSize size)
+{
+    qDebug() << "/// ADJUSTING EFFECT SIZE TO: " << size;
+    plugBuiltinEffects();
+    if (rootItem->childCount() == 0) {
+        // No built-in effects, abort
+        return;
+    }
+    for (int i = 0; i < rootItem->childCount(); i++) {
+        std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effect->isBuiltIn() && effect->getAssetId() == QLatin1String("qtblend")) {
+            effect->setAssetEnabled(true, true);
+            effect->setParameter(QStringLiteral("disable"), QStringLiteral("0"));
+            effect->setParameter(QStringLiteral("rect"), QStringLiteral("0=0 0 %1 %2 1").arg(size.width()).arg(size.height()), true);
+            break;
+        }
     }
 }

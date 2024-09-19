@@ -464,7 +464,7 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
     decoframe->setProperty("active", active);
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (active) {
-        qDebug() << "=============\nSHOWING MONITOR SCENE: " << needsMonitorEffectScene();
+        qDebug() << "=============\nSHOWING MONITOR SCENE: " << needsMonitorEffectScene() << ", ACTIVE: " << active;
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
         if (m_view->keyframesAllowed() && m_view->hasMultipleKeyframes()) {
             active = pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position());
@@ -961,9 +961,9 @@ void CollapsibleEffectView::prepareImportClipKeyframes()
 
 void CollapsibleEffectView::enableView(bool enabled)
 {
-    m_enabledButton->setActive(enabled);
-    title->setEnabled(!enabled);
-    if (enabled) {
+    m_enabledButton->setActive(!enabled);
+    title->setEnabled(enabled);
+    if (!enabled) {
         if (KdenliveSettings::disable_effect_parameters()) {
             widgetFrame->setEnabled(false);
         }

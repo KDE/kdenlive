@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>742</width>
-    <height>735</height>
+    <width>903</width>
+    <height>736</height>
    </rect>
   </property>
   <layout class="QFormLayout" name="formLayout">
@@ -39,7 +39,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="2" column="0" colspan="2">
     <widget class="Line" name="line">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
@@ -57,63 +57,63 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
+   <item row="5" column="1">
     <widget class="QCheckBox" name="kcfg_automultistreams">
      <property name="text">
       <string>Automatically import all streams in multi stream clips</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="6" column="1">
     <widget class="QCheckBox" name="kcfg_autoimagesequence">
      <property name="text">
       <string>Automatically import image sequences</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="7" column="1">
     <widget class="QCheckBox" name="kcfg_use_exiftool">
      <property name="text">
       <string>Get clip metadata with exiftool</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
+   <item row="8" column="1">
     <widget class="QCheckBox" name="kcfg_use_magicLantern">
      <property name="text">
       <string>Get clip metadata created by Magic Lantern</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="9" column="1">
     <widget class="QCheckBox" name="kcfg_ignoresubdirstructure">
      <property name="text">
       <string>Ignore subfolder structure on import (import all files into toplevel folder)</string>
      </property>
     </widget>
    </item>
-   <item row="9" column="0" colspan="2">
+   <item row="10" column="0" colspan="2">
     <widget class="Line" name="line_2">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="10" column="1">
+   <item row="11" column="1">
     <widget class="QCheckBox" name="kcfg_disable_effect_parameters">
      <property name="text">
       <string>Disable parameters when the effect is disabled</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="0">
+   <item row="12" column="0">
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Tab position:</string>
      </property>
     </widget>
    </item>
-   <item row="11" column="1">
+   <item row="12" column="1">
     <widget class="QComboBox" name="kcfg_tabposition">
      <item>
       <property name="text">
@@ -137,24 +137,24 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </item>
     </widget>
    </item>
-   <item row="12" column="0" colspan="2">
+   <item row="13" column="0" colspan="2">
     <widget class="Line" name="line_3">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="16" column="0">
+   <item row="17" column="0">
     <widget class="QLabel" name="label_10">
      <property name="text">
       <string>Preferred track compositing composition:</string>
      </property>
     </widget>
    </item>
-   <item row="16" column="1">
+   <item row="17" column="1">
     <widget class="QComboBox" name="preferredcomposite"/>
    </item>
-   <item row="17" column="0" colspan="2">
+   <item row="18" column="0" colspan="2">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Default Durations</string>
@@ -243,10 +243,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </layout>
     </widget>
    </item>
-   <item row="22" column="0">
+   <item row="23" column="0">
     <spacer>
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Orientation::Vertical</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -256,11 +256,27 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
+   <item row="4" column="1">
+    <widget class="QCheckBox" name="kcfg_keep_original_frame_size">
+     <property name="text">
+      <string>Keep clip original frame size on import</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>kcfg_openlastproject</tabstop>
+  <tabstop>kcfg_crashrecovery</tabstop>
   <tabstop>kcfg_checkfirstprojectclip</tabstop>
+  <tabstop>kcfg_keep_original_frame_size</tabstop>
+  <tabstop>kcfg_automultistreams</tabstop>
+  <tabstop>kcfg_autoimagesequence</tabstop>
+  <tabstop>kcfg_use_exiftool</tabstop>
+  <tabstop>kcfg_use_magicLantern</tabstop>
+  <tabstop>kcfg_ignoresubdirstructure</tabstop>
   <tabstop>kcfg_disable_effect_parameters</tabstop>
+  <tabstop>kcfg_tabposition</tabstop>
   <tabstop>preferredcomposite</tabstop>
   <tabstop>kcfg_color_duration</tabstop>
   <tabstop>kcfg_title_duration</tabstop>

@@ -147,7 +147,7 @@ public:
 
     /** @brief Set the parameter with given name to the given value
      */
-    Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, const QModelIndex &paramIndex = QModelIndex());
+    Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, QModelIndex paramIndex = QModelIndex());
     void setParameter(const QString &name, int value, bool update = true);
 
     /** @brief Return all the parameters as pairs (parameter name, parameter value) */
@@ -200,8 +200,6 @@ public:
     Mlt::Properties *getAsset();
     /** @brief Returns a frame time as click time (00:00:00.000) */
     const QString framesToTime(int t) const;
-    /** @brief This is a built-in asset */
-    void setBuiltIn();
     /** @brief Given an animation keyframe string, find out the keyframe type */
     static const QChar getKeyframeType(const QString keyframeString);
 

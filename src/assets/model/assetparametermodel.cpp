@@ -274,7 +274,7 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
             } else {
                 m_asset->clear("disable");
             }
-            Q_EMIT enabledChange(!shouldDisable);
+            // Q_EMIT enabledChange(!shouldDisable);
         }
     }
     if (m_fixedParams.count(name) == 0) {
@@ -447,9 +447,12 @@ const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
     return mod;
 }
 
-void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
+void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, QModelIndex paramIndex)
 {
     qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
+    if (!paramIndex.isValid()) {
+        paramIndex = index(m_rows.indexOf(name), 0);
+    }
     internalSetParameter(name, paramValue, paramIndex);
     QStringList paramName = {name};
     if (m_builtIn) {
@@ -462,7 +465,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
                 m_asset->clear("disable");
             }
             paramName << QStringLiteral("disable");
-            Q_EMIT enabledChange(!shouldDisable);
+            // Q_EMIT enabledChange(!shouldDisable);
         }
     }
     bool updateChildRequired = true;
@@ -483,9 +486,6 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         qDebug() << "// SENDING DATA CHANGE....";
         if (paramIndex.isValid()) {
             Q_EMIT dataChanged(paramIndex, paramIndex);
-        } else {
-            QModelIndex ix = index(m_rows.indexOf(name), 0);
-            Q_EMIT dataChanged(ix, ix);
         }
         Q_EMIT modelChanged();
     }
@@ -1564,12 +1564,6 @@ const QVariant AssetParameterModel::getParamFromName(const QString &paramName)
 const QModelIndex AssetParameterModel::getParamIndexFromName(const QString &paramName)
 {
     return index(m_rows.indexOf(paramName), 0);
-}
-
-void AssetParameterModel::setBuiltIn()
-{
-    m_builtIn = true;
-    m_asset->set("kdenlive:builtin", 1);
 }
 
 bool AssetParameterModel::isDefault() const

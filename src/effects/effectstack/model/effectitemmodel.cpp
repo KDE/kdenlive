@@ -215,9 +215,20 @@ bool EffectItemModel::isValid() const
     return m_asset && m_asset->is_valid();
 }
 
+void EffectItemModel::setBuiltIn()
+{
+    m_builtIn = true;
+    filter().set("kdenlive:builtin", 1);
+}
+
 void EffectItemModel::updateEnable(bool updateTimeline)
 {
-    filter().set("disable", isAssetEnabled() ? 0 : 1);
+    bool enabled = isAssetEnabled();
+    if (enabled) {
+        filter().clear("disable");
+    } else {
+        filter().set("disable", 1);
+    }
     if (updateTimeline && !isAudio()) {
         pCore->refreshProjectItem(m_ownerId);
         pCore->invalidateItem(m_ownerId);
@@ -225,7 +236,7 @@ void EffectItemModel::updateEnable(bool updateTimeline)
     const QModelIndex start = AssetParameterModel::index(0, 0);
     const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
     Q_EMIT dataChanged(start, end, QVector<int>());
-    Q_EMIT enabledChange(!isAssetEnabled());
+    Q_EMIT enabledChange(enabled);
     // Update timeline child producers
     Q_EMIT AssetParameterModel::updateChildren({QStringLiteral("disable")});
 }
@@ -349,7 +360,7 @@ void EffectItemModel::setEffectStackEnabled(bool enabled)
 
 bool EffectItemModel::isBuiltIn() const
 {
-    return KdenliveSettings::enableBuiltInEffects() && m_asset->get_int("kdenlive:builtin") == 1;
+    return KdenliveSettings::enableBuiltInEffects() && m_builtIn;
 }
 
 bool EffectItemModel::isHiddenBuiltIn() const
