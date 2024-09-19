@@ -214,71 +214,69 @@ void RenderJob::updateProgress(int speed)
 void RenderJob::start()
 {
     m_startTime = QDateTime::currentDateTime();
+    if (m_pid > -1) {
 #ifndef NODBUS
-    QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if ((interface != nullptr)) {
-        if (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
-            qWarning() << "No org.kde.JobViewServer registered, trying to start kuiserver";
-            if (QProcess::startDetached(QStringLiteral("kuiserver"), QStringList())) {
-                // Give it a couple of seconds to start
-                QElapsedTimer t;
-                t.start();
-                while (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer")) && t.elapsed() < 3000) {
-                    SleepThread::msleep(100); // Sleep 100 ms
+        QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
+        if ((interface != nullptr)) {
+            if (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
+                qWarning() << "No org.kde.JobViewServer registered, trying to start kuiserver";
+                if (QProcess::startDetached(QStringLiteral("kuiserver"), QStringList())) {
+                    // Give it a couple of seconds to start
+                    QElapsedTimer t;
+                    t.start();
+                    while (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer")) && t.elapsed() < 3000) {
+                        SleepThread::msleep(100); // Sleep 100 ms
+                    }
+                } else {
+                    qWarning() << "Failed to start kuiserver";
                 }
-            } else {
-                qWarning() << "Failed to start kuiserver";
+            }
+
+            if (interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
+                QDBusInterface kuiserver(QStringLiteral("org.kde.JobViewServer"), QStringLiteral("/JobViewServer"), QStringLiteral("org.kde.JobViewServer"));
+                QDBusReply<QDBusObjectPath> objectPath =
+                    kuiserver.asyncCall(QStringLiteral("requestView"), QLatin1String("kdenlive"), QLatin1String("kdenlive"), 0x0001);
+                QString reply = QDBusObjectPath(objectPath).path();
+
+                // Use of the KDE JobViewServer is an ugly hack, it is not reliable
+                QString dbusView = QStringLiteral("org.kde.JobViewV2");
+                m_jobUiserver = new QDBusInterface(QStringLiteral("org.kde.JobViewServer"), reply, dbusView);
+                if (m_jobUiserver->isValid()) {
+                    if (!m_args.contains(QStringLiteral("pass=2"))) {
+                        m_jobUiserver->call(QStringLiteral("setPercent"), 0);
+                    }
+
+                    m_jobUiserver->call(QStringLiteral("setInfoMessage"), tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
+                    m_jobUiserver->call(QStringLiteral("setTotalAmount"), m_frameout);
+                    QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.JobViewServer"), reply, dbusView, QStringLiteral("cancelRequested"), this,
+                                                          SLOT(slotAbort()));
+                }
             }
         }
 
-        if (interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
-            QDBusInterface kuiserver(QStringLiteral("org.kde.JobViewServer"), QStringLiteral("/JobViewServer"), QStringLiteral("org.kde.JobViewServer"));
-            QDBusReply<QDBusObjectPath> objectPath =
-                kuiserver.asyncCall(QStringLiteral("requestView"), QLatin1String("kdenlive"), QLatin1String("kdenlive"), 0x0001);
-            QString reply = QDBusObjectPath(objectPath).path();
-
-            // Use of the KDE JobViewServer is an ugly hack, it is not reliable
-            QString dbusView = QStringLiteral("org.kde.JobViewV2");
-            m_jobUiserver = new QDBusInterface(QStringLiteral("org.kde.JobViewServer"), reply, dbusView);
-            if (m_jobUiserver->isValid()) {
-                if (!m_args.contains(QStringLiteral("pass=2"))) {
-                    m_jobUiserver->call(QStringLiteral("setPercent"), 0);
-                }
-
-                m_jobUiserver->call(QStringLiteral("setInfoMessage"), tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
-                m_jobUiserver->call(QStringLiteral("setTotalAmount"), m_frameout);
-                QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.JobViewServer"), reply, dbusView, QStringLiteral("cancelRequested"), this,
-                                                      SLOT(slotAbort()));
-            }
-        }
-    }
-    if (m_pid > -1) {
         initKdenliveDbusInterface();
-    }
 #else
-    connect(m_kdenlivesocket, &QLocalSocket::connected, this, [this]() {
-        m_kdenlivesocket->write(QJsonDocument({{"url", m_dest}}).toJson());
-        m_kdenlivesocket->flush();
-        QJsonObject method, args;
-        args["url"] = m_dest;
-        args["progress"] = 0;
-        args["frame"] = 0;
-        method["setRenderingProgress"] = args;
-        m_kdenlivesocket->write(QJsonDocument(method).toJson());
-        m_kdenlivesocket->flush();
-    });
-    connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, [this]() {
-        QByteArray msg = m_kdenlivesocket->readAll();
-        if (msg == "abort") {
-            slotAbort();
-        }
-    });
-    if (m_pid > -1) {
+        connect(m_kdenlivesocket, &QLocalSocket::connected, this, [this]() {
+            m_kdenlivesocket->write(QJsonDocument({{"url", m_dest}}).toJson());
+            m_kdenlivesocket->flush();
+            QJsonObject method, args;
+            args["url"] = m_dest;
+            args["progress"] = 0;
+            args["frame"] = 0;
+            method["setRenderingProgress"] = args;
+            m_kdenlivesocket->write(QJsonDocument(method).toJson());
+            m_kdenlivesocket->flush();
+        });
+        connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, [this]() {
+            QByteArray msg = m_kdenlivesocket->readAll();
+            if (msg == "abort") {
+                slotAbort();
+            }
+        });
         QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
         m_kdenlivesocket->connectToServer(servername);
-    }
 #endif
-
+    }
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
     m_renderProcess->start(m_prog, m_args);
