@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-14 00:40+0000\n"
-"PO-Revision-Date: 2024-09-03 08:50+0200\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
+"PO-Revision-Date: 2024-09-18 09:45+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5977,7 +5977,7 @@ msgstr ""
 #: src/core.cpp:1743
 #, kde-format
 msgid "Open Browser"
-msgstr ""
+msgstr "Otevřít prohlížeč"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
@@ -6843,7 +6843,7 @@ msgstr "Přesunout na..."
 #: src/dialogs/managesubtitles.cpp:139 src/dialogs/managesubtitles.cpp:228
 #, kde-format
 msgid "Copy To..."
-msgstr ""
+msgstr "Kopírovat do..."
 
 #: src/dialogs/managesubtitles.cpp:182 src/dialogs/managesubtitles.cpp:606
 #, kde-format
@@ -6885,22 +6885,22 @@ msgstr ""
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "Layer "
-msgstr ""
+msgstr "Vrstva "
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
 msgid "with "
-msgstr ""
+msgstr "s "
 
 #: src/dialogs/managesubtitles.cpp:461 src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " event"
-msgstr ""
+msgstr " událost"
 
 #: src/dialogs/managesubtitles.cpp:467
 #, kde-format
 msgid " events"
-msgstr ""
+msgstr " události"
 
 #: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:109
 #, kde-format
@@ -8129,7 +8129,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:282
 #, kde-format
 msgid "Show more options"
-msgstr ""
+msgstr "Zobrazit více možností"
 
 #: src/dialogs/subtitleedit.cpp:283
 #, kde-kuit-format
@@ -8147,7 +8147,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:288
 #, kde-format
 msgid "Toggle bold"
-msgstr ""
+msgstr "Přepnout tučné"
 
 #: src/dialogs/subtitleedit.cpp:289
 #, kde-kuit-format
@@ -8160,7 +8160,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:292
 #, kde-format
 msgid "Toggle italic"
-msgstr ""
+msgstr "Přepnout kurzívu"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -8173,7 +8173,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:297
 #, kde-format
 msgid "Toggle underline"
-msgstr ""
+msgstr "Přepnout podtržení"
 
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-kuit-format
@@ -8212,7 +8212,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:315
 #, kde-format
 msgid "Reset style"
-msgstr ""
+msgstr "Resetovat styl"
 
 #: src/dialogs/subtitleedit.cpp:316
 #, kde-kuit-format
@@ -8225,12 +8225,12 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:318
 #, kde-format
 msgid "Set Position"
-msgstr ""
+msgstr "Nastavit pozici"
 
 #: src/dialogs/subtitleedit.cpp:322
 #, kde-format
 msgid "More tags"
-msgstr ""
+msgstr "Více značek"
 
 #: src/dialogs/subtitleedit.cpp:323
 #, kde-kuit-format
@@ -8241,22 +8241,22 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:382
 #, kde-format
 msgid "Right To Left"
-msgstr ""
+msgstr "Zprava doleva"
 
 #: src/dialogs/subtitleedit.cpp:383
 #, kde-format
 msgid "Left To Right"
-msgstr ""
+msgstr "Zleva doprava"
 
 #: src/dialogs/subtitleedit.cpp:384
 #, kde-format
 msgid "Top To Bottom"
-msgstr ""
+msgstr "Shora dolů"
 
 #: src/dialogs/subtitleedit.cpp:385
 #, kde-format
 msgid "Bottom To Top"
-msgstr ""
+msgstr "Zdola nahoru"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
@@ -8266,7 +8266,7 @@ msgstr ""
 #: src/dialogs/subtitleedit.cpp:402
 #, kde-format
 msgid "Simple Editor"
-msgstr ""
+msgstr "Jednoduchý editor"
 
 #: src/dialogs/subtitleedit.cpp:574
 #, kde-format
@@ -8305,7 +8305,7 @@ msgstr "Y:"
 #: src/dialogs/subtitlestyleedit.cpp:45
 #, kde-format
 msgid "Select font"
-msgstr ""
+msgstr "Vybrat písmo"
 
 #: src/dialogs/subtitlestyleedit.cpp:46
 #, kde-kuit-format
@@ -8322,12 +8322,12 @@ msgstr ""
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
 #, kde-format
 msgid "Show Preview >>>"
-msgstr ""
+msgstr "Zobrazit náhled >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:133
 #, kde-format
 msgid "<<< Hide Preview"
-msgstr ""
+msgstr "<<< Skrýt náhled"
 
 #: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
 #: src/dialogs/subtitlestyleedit.cpp:171
@@ -9148,7 +9148,7 @@ msgstr ""
 msgid "Could not recover corrupted file."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -20506,14 +20506,14 @@ msgstr "Obrys"
 #: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
 #, kde-format
 msgid "ScaleX"
-msgstr ""
+msgstr "MěřítkoX"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
 #, kde-format
 msgid "ScaleY"
-msgstr ""
+msgstr "MěřítkoY"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
@@ -21016,13 +21016,13 @@ msgstr ""
 #: src/ui/managesubtitles_ui.ui:359
 #, kde-format
 msgid "FontSize"
-msgstr ""
+msgstr "VelikostPísma"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:384
 #, kde-format
 msgid "PrimaryColor"
-msgstr ""
+msgstr "PrimárníBarva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:389

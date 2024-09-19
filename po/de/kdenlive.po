@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-14 00:40+0000\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
 "PO-Revision-Date: 2023-05-19 18:02+0200\n"
 "Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -9611,7 +9611,7 @@ msgstr "Ungültiges Profil"
 msgid "Could not recover corrupted file."
 msgstr "Konnte Videoausgabedatei %1 nicht öffnen"
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid ""

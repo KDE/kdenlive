@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-14 00:40+0000\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -9737,7 +9737,7 @@ msgstr "Neispravan snimak"
 msgid "Could not recover corrupted file."
 msgstr "Ne mogu obnoviti datoteku projekta"
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid ""

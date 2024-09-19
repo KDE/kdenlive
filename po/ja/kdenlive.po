@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-14 00:40+0000\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -9652,7 +9652,7 @@ msgstr "無効なプロファイル"
 msgid "Could not recover corrupted file."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"

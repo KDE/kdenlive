@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-14 00:40+0000\n"
+"POT-Creation-Date: 2024-09-19 00:39+0000\n"
 "PO-Revision-Date: 2024-01-31 01:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -9484,7 +9484,7 @@ msgstr "Virheellinen tiedoston sijainti"
 msgid "Could not recover corrupted file."
 msgstr "Vioittunutta tiedostoa ei voitu palauttaa."
 
-#: src/doc/kdenlivedoc.cpp:216
+#: src/doc/kdenlivedoc.cpp:217
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
