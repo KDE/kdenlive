@@ -180,7 +180,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     };
 
     connect(m_glMonitor, &VideoWidget::reconnectWindow, [this, rebuildViewConnection]() {
-        connect(m_glMonitor->quickWindow(), &QQuickWindow::destroyed, [rebuildViewConnection]() { rebuildViewConnection(true); });
+        connect(m_glMonitor->quickWindow(), &QQuickWindow::destroyed, [rebuildViewConnection]() {
+            if (!pCore->closing) {
+                rebuildViewConnection(true);
+            }
+        });
     });
 
     rebuildViewConnection(false);
