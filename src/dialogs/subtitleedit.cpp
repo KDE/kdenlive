@@ -384,11 +384,11 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     scrollDirection->addItem(i18n("Top To Bottom"));
     scrollDirection->addItem(i18n("Bottom To Top"));
 
-    QAction *zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
+    QAction *zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("format-font-size-more")), i18n("Increase Editor Font Size"), this);
     connect(zoomIn, &QAction::triggered, this, &SubtitleEdit::slotZoomIn);
-    QAction *zoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out"), this);
+    QAction *zoomOut = new QAction(QIcon::fromTheme(QStringLiteral("format-font-size-less")), i18n("Decrease Editor Font Size"), this);
     connect(zoomOut, &QAction::triggered, this, &SubtitleEdit::slotZoomOut);
-    QAction *clearAllTags = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear All Tags"), this);
+    QAction *clearAllTags = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear All Custom Formatting"), this);
     connect(clearAllTags, &QAction::triggered, this, [this]() {
         QTextCursor cursor = subText->textCursor();
         QString text = subText->toPlainText();
@@ -398,6 +398,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         if (m_isSimpleEdit) {
             syncSimpleText();
         }
+        applyFontSize();
     });
     QAction *checkSimpleEditor = new QAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Simple Editor"), this);
     checkSimpleEditor->setCheckable(true);
@@ -410,11 +411,14 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
             m_isSimpleEdit = true;
             syncSimpleText();
             updateCharInfo();
+            applyFontSize();
         } else {
             simpleSubText->hide();
             subText->show();
+            simpleSubText->clear();
             m_isSimpleEdit = false;
             updateCharInfo();
+            applyFontSize();
         }
     });
     QMenu *textMenu = new QMenu(this);
@@ -428,33 +432,50 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
 
 void SubtitleEdit::slotZoomIn()
 {
-    QTextCursor cursor = subText->textCursor();
-    subText->selectAll();
-    qreal fontSize = QFontInfo(subText->currentFont()).pointSizeF() * 1.2;
+    qreal fontSize;
+    if (m_isSimpleEdit) {
+        fontSize = QFontInfo(simpleSubText->currentFont()).pointSizeF() * 1.2;
+    } else {
+        fontSize = QFontInfo(subText->currentFont()).pointSizeF() * 1.2;
+    }
     KdenliveSettings::setSubtitleEditFontSize(fontSize);
-    subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
-    subText->setTextCursor(cursor);
+    applyFontSize();
 }
 
 void SubtitleEdit::slotZoomOut()
 {
-    QTextCursor cursor = subText->textCursor();
-    subText->selectAll();
-    qreal fontSize = QFontInfo(subText->currentFont()).pointSizeF() / 1.2;
+    qreal fontSize;
+    if (m_isSimpleEdit) {
+        fontSize = QFontInfo(simpleSubText->currentFont()).pointSizeF() / 1.2;
+    } else {
+        fontSize = QFontInfo(subText->currentFont()).pointSizeF() / 1.2;
+    }
     fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
     KdenliveSettings::setSubtitleEditFontSize(fontSize);
-    subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
-    subText->setTextCursor(cursor);
+    applyFontSize();
 }
 
 void SubtitleEdit::applyFontSize()
 {
     // check if the font size is different from the current font size to avoid redundant undo/redo history
-    if (KdenliveSettings::subtitleEditFontSize() > 0 && subText->fontPointSize() != KdenliveSettings::subtitleEditFontSize()) {
-        QTextCursor cursor = subText->textCursor();
-        subText->selectAll();
-        subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
-        subText->setTextCursor(cursor);
+    qreal fontSize;
+    if (m_isSimpleEdit) {
+        fontSize = simpleSubText->fontPointSize();
+    } else {
+        fontSize = subText->fontPointSize();
+    }
+    if (KdenliveSettings::subtitleEditFontSize() > 0 && fontSize != KdenliveSettings::subtitleEditFontSize()) {
+        if (m_isSimpleEdit) {
+            QTextCursor cursor = simpleSubText->textCursor();
+            simpleSubText->selectAll();
+            simpleSubText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+            simpleSubText->setTextCursor(cursor);
+        } else {
+            QTextCursor cursor = subText->textCursor();
+            subText->selectAll();
+            subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+            subText->setTextCursor(cursor);
+        }
     }
 }
 
@@ -722,9 +743,34 @@ void SubtitleEdit::goToNext()
 void SubtitleEdit::updateCharInfo()
 {
     if (m_isSimpleEdit) {
-        char_count->setText(i18n("Character: %1, total: <b>%2</b>", simpleSubText->textCursor().position(), simpleSubText->document()->characterCount()));
+        QString plain = simpleSubText->document()->toPlainText();
+        char_count->setText(i18n("Cursor: %1, total: <b>%2</b>", simpleSubText->textCursor().position(), plain.size()));
     } else {
-        char_count->setText(i18n("Character: %1, total: <b>%2</b>", subText->textCursor().position(), subText->document()->characterCount()));
+        QString plain = subText->document()->toPlainText();
+        // Strip tags for char count
+        if (plain.contains(QLatin1String("{\\"))) {
+            QString stripped = plain;
+            stripped.remove(tagBlockRegex);
+            QString cursor = plain;
+            // Check if we are inside a tag
+            int cpos = subText->textCursor().position();
+            if (cpos < plain.length()) {
+                cursor.truncate(cpos);
+                int lastTag = cursor.indexOf(QLatin1Char('{'));
+                if (lastTag > -1 && lastTag < plain.size() - 1 && plain.at(lastTag + 1) == QLatin1Char('\\')) {
+                    QString remaining = cursor;
+                    remaining.remove(0, lastTag);
+                    if (!remaining.contains(QLatin1Char('}'))) {
+                        // we are inside a tag
+                        cursor.truncate(lastTag);
+                    }
+                }
+            }
+            cursor.remove(tagBlockRegex);
+            char_count->setText(i18n("Cursor: %1, total: <b>%2</b>", cursor.size(), stripped.size()));
+        } else {
+            char_count->setText(i18n("Cursor: %1, total: <b>%2</b>", subText->textCursor().position(), plain.size()));
+        }
     }
 }
 

@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1054</width>
+    <width>1074</width>
     <height>480</height>
    </rect>
   </property>
@@ -471,7 +471,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <string/>
      </property>
      <property name="icon">
-      <iconset theme="font"/>
+      <iconset theme="font-enable"/>
      </property>
     </widget>
    </item>

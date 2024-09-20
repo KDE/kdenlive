@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>509</width>
-    <height>433</height>
+    <height>468</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -106,7 +106,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            </widget>
           </item>
           <item row="9" column="2" colspan="2">
-           <widget class="TimecodeDisplay" name="tc_position" native="true"/>
+           <widget class="TimecodeDisplay" name="tc_position"/>
           </item>
           <item row="0" column="0" colspan="3">
            <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0,0,0,0">
@@ -159,7 +159,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                <string>...</string>
               </property>
               <property name="icon">
-               <iconset theme="font"/>
+               <iconset theme="font-enable"/>
               </property>
              </widget>
             </item>
@@ -323,7 +323,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            </widget>
           </item>
           <item row="11" column="2" colspan="2">
-           <widget class="TimecodeDisplay" name="tc_duration" native="true"/>
+           <widget class="TimecodeDisplay" name="tc_duration"/>
           </item>
           <item row="10" column="1">
            <widget class="QToolButton" name="buttonOut">
@@ -343,7 +343,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            </widget>
           </item>
           <item row="10" column="2" colspan="2">
-           <widget class="TimecodeDisplay" name="tc_end" native="true"/>
+           <widget class="TimecodeDisplay" name="tc_end"/>
           </item>
           <item row="8" column="4">
            <spacer name="horizontalSpacer_3">
@@ -378,8 +378,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>231</width>
-               <height>314</height>
+               <width>336</width>
+               <height>489</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_5">
@@ -683,7 +683,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  <customwidgets>
   <customwidget>
    <class>TimecodeDisplay</class>
-   <extends>QWidget</extends>
+   <extends>QAbstractSpinBox</extends>
    <header>widgets/timecodedisplay.h</header>
   </customwidget>
   <customwidget>
