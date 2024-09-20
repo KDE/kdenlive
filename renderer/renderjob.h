@@ -36,7 +36,7 @@ private Q_SLOTS:
     void receivedStderr();
     void slotAbort();
     void slotAbort(const QString &url);
-    void slotCheckProcess(QProcess::ProcessState state);
+    void slotCheckProcess(int /*exitCode*/, QProcess::ExitStatus exitStatus);
     void slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exitStatus);
     void receivedSubtitleProgress();
 

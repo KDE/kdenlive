@@ -52,7 +52,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
 {
     m_renderProcess = new QProcess(&m_looper);
     m_renderProcess->setReadChannel(QProcess::StandardError);
-    connect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
+    connect(m_renderProcess, &QProcess::finished, this, &RenderJob::slotCheckProcess);
 
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
@@ -320,11 +320,9 @@ void RenderJob::initKdenliveDbusInterface()
 }
 #endif
 
-void RenderJob::slotCheckProcess(QProcess::ProcessState state)
+void RenderJob::slotCheckProcess(int /*exitCode*/, QProcess::ExitStatus exitStatus)
 {
-    if (state == QProcess::NotRunning) {
-        slotIsOver(m_renderProcess->exitStatus());
-    }
+    slotIsOver(exitStatus);
 }
 
 void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
@@ -371,7 +369,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
                         "-y", "-v", "quiet", "-stats", "-i", m_dest, "-i", m_subtitleFile, "-c", "copy", "-f", "matroska", m_temporaryRenderFile};
                     qDebug() << "::: JOB ARGS: " << args;
                     m_progress = 0;
-                    disconnect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
+                    disconnect(m_renderProcess, &QProcess::finished, this, &RenderJob::slotCheckProcess);
                     disconnect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
                     m_subsProcess = new QProcess(&m_looper);
                     m_subsProcess->setProcessChannelMode(QProcess::MergedChannels);
