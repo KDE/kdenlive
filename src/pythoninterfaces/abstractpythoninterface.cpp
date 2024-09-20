@@ -281,16 +281,6 @@ bool AbstractPythonInterface::setupVenv()
     // Use system python to check for venv
     installInProgress = true;
     KdenliveSettings::setPythonPath(pyExec);
-    const QString missingDeps = runScript(QStringLiteral("checkpackages.py"), {"virtualenv"}, QStringLiteral("--check"), false);
-    if (!missingDeps.isEmpty()) {
-#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-        runScript(QStringLiteral("checkpackages.py"), {"virtualenv"}, QStringLiteral("--install"), false);
-#else
-        Q_EMIT setupError(i18n("Cannot find python virtualenv, please install it on your system. Defaulting to system python."));
-        installInProgress = false;
-        return false;
-#endif
-    }
     QDir pluginDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
     pluginDir.mkpath(QStringLiteral("."));
 
@@ -301,22 +291,33 @@ bool AbstractPythonInterface::setupVenv()
     envProcess.start(pyExec, args);
     envProcess.waitForStarted();
     envProcess.waitForFinished(-1);
+    QString pythonPath;
     if (envProcess.exitStatus() == QProcess::NormalExit) {
 #ifdef Q_OS_WIN
-        const QString pythonPath = QStringLiteral("venv/Scripts/");
-        QStringList pythonPaths = {pluginDir.absoluteFilePath(pluginDir.absoluteFilePath(pythonPath))};
+        pythonPath = QStringLiteral("venv/Scripts/");
+        QStringList pythonPaths = {pluginDir.absoluteFilePath(pythonPath)};
         KdenliveSettings::setPythonPath(QStandardPaths::findExecutable(QStringLiteral("python"), pythonPaths));
         KdenliveSettings::setPipPath(QStandardPaths::findExecutable(QStringLiteral("pip"), pythonPaths));
 #else
-        const QString pythonPath = QStringLiteral("venv/bin/");
-        QStringList pythonPaths = {pluginDir.absoluteFilePath(pluginDir.absoluteFilePath(pythonPath))};
+        pythonPath = QStringLiteral("venv/bin/");
+        QStringList pythonPaths = {pluginDir.absoluteFilePath(pythonPath)};
         KdenliveSettings::setPythonPath(QStandardPaths::findExecutable(QStringLiteral("python3"), pythonPaths));
         KdenliveSettings::setPipPath(QStandardPaths::findExecutable(QStringLiteral("pip3"), pythonPaths));
 #endif
-        if (!KdenliveSettings::pipPath().isEmpty()) {
+        if (!KdenliveSettings::pipPath().isEmpty() && QFile::exists(KdenliveSettings::pipPath())) {
             installPackage({QStringLiteral("importlib")});
             installInProgress = false;
             return true;
+        }
+        // ERROR READ JOB OUTPUT
+        Q_EMIT setupError(i18n("Cannot create the python virtual environment:\n%1", envProcess.readAllStandardOutput()));
+    } else {
+        Q_EMIT setupError(i18n("Cannot create the python virtual environment:\n%1", envProcess.readAllStandardError()));
+    }
+    // Install failed, remove venv
+    if (pluginDir.cd(QStringLiteral("venv"))) {
+        if (pluginDir.dirName() == QLatin1String("venv")) {
+            pluginDir.removeRecursively();
         }
     }
     installInProgress = false;
