@@ -1226,7 +1226,7 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                 auto ms = m_masterService.lock();
                 int currentEffectPos = ms->filter_count() - 1;
                 int firstEffectPos = ms->filter_count() - max - 1;
-                if (max > 1) {
+                if (max > 1 && firstEffectPos > 0) {
                     // Find first kdenlive effect
                     std::shared_ptr<Mlt::Filter> ft(ms->filter(firstEffectPos));
                     const QString firstId = ft->get("mlt_service");
