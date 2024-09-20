@@ -170,9 +170,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         return result;
     }
 
-    QDomDocument domDoc {};
-    int line;
-    int col;
+    QDomDocument domDoc{};
     QString domErrorMessage;
     if (recoverCorruption) {
         // this seems to also drop valid non-BMP Unicode characters, so only do

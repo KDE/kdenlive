@@ -112,7 +112,12 @@ void RenderJob::sendFinish(int status, const QString &error)
     }
 #endif
     else {
-        qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
+        QFile resultFile(m_dest);
+        if (!resultFile.exists() || resultFile.size() == 0) {
+            qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors: Result file does not exist!!!";
+        } else {
+            qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
+        }
     }
 }
 

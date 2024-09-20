@@ -135,6 +135,8 @@ void SubtitleTextEdit::keyPressEvent(QKeyEvent *event)
         switch (event->key()) {
         case Qt::Key_Escape:
             completer->popup()->hide();
+            event->accept();
+            return;
         case Qt::Key_Enter:
         case Qt::Key_Return:
         case Qt::Key_Tab:
