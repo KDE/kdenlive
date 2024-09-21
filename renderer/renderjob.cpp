@@ -154,8 +154,11 @@ void RenderJob::receivedStderr()
     } else {
         bool ok;
         int progress = result.section(QLatin1Char(' '), -1).toInt(&ok);
-        int frame = result.section(QLatin1Char(','), 0, 0).section(QLatin1Char(' '), -1).toInt();
-        if (!ok || progress <= m_progress || progress <= 0 || progress > 100) {
+        if (!ok) {
+            return;
+        }
+        int frame = result.section(QLatin1Char(','), 0, 0).section(QLatin1Char(' '), -1).toInt(&ok);
+        if (!ok || progress <= m_progress || progress <= 0 || progress > 100 || frame < m_frame) {
             return;
         }
         m_progress = progress;
