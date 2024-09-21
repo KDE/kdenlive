@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-20 00:40+0000\n"
-"PO-Revision-Date: 2024-09-16 12:17+0200\n"
+"POT-Creation-Date: 2024-09-21 00:39+0000\n"
+"PO-Revision-Date: 2024-09-21 00:26+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -88,7 +88,7 @@ msgstr "Het type grafiek om de niveaus te tonen."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:441
+#: src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Background Color"
 msgstr "Achtergrondkleur"
@@ -4568,7 +4568,7 @@ msgstr "Ontbrekende oorspronkelijke clip"
 msgid "Unable to write to file %1"
 msgstr "Kan niet wegschrijven naar bestand %1"
 
-#: src/bin/bin.cpp:1846 src/bin/bin.cpp:2516 src/doc/kdenlivedoc.cpp:743
+#: src/bin/bin.cpp:1846 src/bin/bin.cpp:2516 src/doc/kdenlivedoc.cpp:741
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -5439,12 +5439,12 @@ msgstr "Tijdsduur: "
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT-afspeellijst (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:387
+#: src/bin/mediabrowser.cpp:53
 #, kde-format
 msgid "Zoom In"
 msgstr "Inzoomen"
 
-#: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:389
+#: src/bin/mediabrowser.cpp:54
 #, kde-format
 msgid "Zoom Out"
 msgstr "Uitzoomen"
@@ -6254,7 +6254,7 @@ msgstr "Tekstclip"
 msgid "Create Text clip"
 msgstr "Tekstclip aanmaken"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1179
+#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1177
 #, kde-format
 msgid "Template title clip"
 msgstr "Voorbeeld titel clip"
@@ -6597,8 +6597,8 @@ msgid "Export Guides Data"
 msgstr "Hulplijngegevens exporteren"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1704
-#: src/dialogs/renderwidget.cpp:1728 src/doc/kdenlivedoc.cpp:760
-#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
+#: src/dialogs/renderwidget.cpp:1728 src/doc/kdenlivedoc.cpp:758
+#: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1317
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
@@ -7458,9 +7458,9 @@ msgstr "YADIF (beter)"
 msgid "BWDIF (best)"
 msgstr "BWDIF (beste)"
 
-#: src/dialogs/renderwidget.cpp:236 src/dialogs/subtitleedit.cpp:1492
-#: src/dialogs/subtitleedit.cpp:1509 src/dialogs/subtitleedit.cpp:1523
-#: src/dialogs/subtitleedit.cpp:1563 src/project/dialogs/slideshowclip.cpp:65
+#: src/dialogs/renderwidget.cpp:236 src/dialogs/subtitleedit.cpp:1538
+#: src/dialogs/subtitleedit.cpp:1555 src/dialogs/subtitleedit.cpp:1569
+#: src/dialogs/subtitleedit.cpp:1609 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
@@ -7630,7 +7630,7 @@ msgstr "Audio zonder videotrack"
 msgid "Rendering <i>%1</i> started"
 msgstr "Renderen van <i>%1</i> gestart"
 
-#: src/dialogs/renderwidget.cpp:933 src/monitor/monitor.cpp:1272
+#: src/dialogs/renderwidget.cpp:933 src/monitor/monitor.cpp:1276
 #, kde-format
 msgid "untitled"
 msgstr "naamloos"
@@ -8559,45 +8559,59 @@ msgstr "Boven naar beneden"
 msgid "Bottom To Top"
 msgstr "Beneden naar boven"
 
+#: src/dialogs/subtitleedit.cpp:387
+#, fuzzy, kde-format
+#| msgid "Increase Font Size"
+msgid "Increase Editor Font Size"
+msgstr "Tekengrootte groter"
+
+#: src/dialogs/subtitleedit.cpp:389
+#, fuzzy, kde-format
+#| msgid "Decrease Font Size"
+msgid "Decrease Editor Font Size"
+msgstr "Tekengrootte kleiner"
+
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
-msgid "Clear All Tags"
-msgstr "Alles tags wissen"
+msgid "Clear All Custom Formatting"
+msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:402
+#: src/dialogs/subtitleedit.cpp:403
 #, kde-format
 msgid "Simple Editor"
 msgstr "Eenvoudige bewerker"
 
-#: src/dialogs/subtitleedit.cpp:574
+#: src/dialogs/subtitleedit.cpp:595
 #, kde-format
 msgid "Manage Styles…"
 msgstr "Stijlen beheren.…"
 
-#: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
-#, kde-format
-msgid "Character: %1, total: <b>%2</b>"
+#: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
+#: src/dialogs/subtitleedit.cpp:772
+#, fuzzy, kde-format
+#| msgid "Character: %1, total: <b>%2</b>"
+msgid "Cursor: %1, total: <b>%2</b>"
 msgstr "Teken: %1, totaal: <b>%2</b>"
 
-#: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
+#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
 msgid "Set Position X"
 msgstr "Positie X instellen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
-#: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
+#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #: src/ui/titlewidget_ui.ui:553
 #, kde-format
 msgid "X:"
 msgstr "X:"
 
-#: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
+#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
 #, kde-format
 msgid "Set Position Y"
 msgstr "Positie Y instellen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
-#: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
+#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
 #: src/ui/titlewidget_ui.ui:576
 #, kde-format
 msgid "Y:"
@@ -9469,13 +9483,13 @@ msgstr "De volgende filters/transities zijn uit het project verwijderd:"
 msgid "Invalid file path"
 msgstr "Ongeldig bestandspad"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:817
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:817
 #: src/project/projectmanager.cpp:859
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Kon beschadigd bestand niet herstellen."
 
-#: src/doc/kdenlivedoc.cpp:217
+#: src/doc/kdenlivedoc.cpp:215
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -9484,17 +9498,17 @@ msgstr ""
 "Kan bestand %1 niet openen:\n"
 "%2 (regel %3, kolom %4)"
 
-#: src/doc/kdenlivedoc.cpp:229
+#: src/doc/kdenlivedoc.cpp:227
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "Bestand %1 is geen Kdenlive project bestand"
 
-#: src/doc/kdenlivedoc.cpp:236
+#: src/doc/kdenlivedoc.cpp:234
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "Bestand %1 is geen Kdenlive projectbestand."
 
-#: src/doc/kdenlivedoc.cpp:249
+#: src/doc/kdenlivedoc.cpp:247
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -9503,7 +9517,7 @@ msgstr ""
 "Versnelling met GPU is uitgeschakeld in de instellingen van Kdenlive, maar "
 "is vereist voor de Movit-filters van dit project."
 
-#: src/doc/kdenlivedoc.cpp:292
+#: src/doc/kdenlivedoc.cpp:290
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -9514,23 +9528,23 @@ msgstr ""
 "Zorg ervoor dat U de nodige rechten heeft.\n"
 "Standaard is systeemmappen"
 
-#: src/doc/kdenlivedoc.cpp:295
+#: src/doc/kdenlivedoc.cpp:293
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr ""
 "Documentprojectmap is ongeldig, standaard van systeemmap wordt gebruikt"
 
-#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:588
+#: src/doc/kdenlivedoc.cpp:576 src/doc/kdenlivedoc.cpp:586
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "Kan bestand %1 voor automatisch opslaan niet aanmaken"
 
-#: src/doc/kdenlivedoc.cpp:583 src/doc/kdenlivedoc.cpp:721
+#: src/doc/kdenlivedoc.cpp:581 src/doc/kdenlivedoc.cpp:719
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "Onmogelijk te schrijven naar bestand %1, de scenelijst is beschadigd."
 
-#: src/doc/kdenlivedoc.cpp:739
+#: src/doc/kdenlivedoc.cpp:737
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -9539,7 +9553,7 @@ msgstr ""
 "Het project bestand is bijgewerkt naar de laatst bekende Kdenlive versie, \n"
 "Veiligheidshalve is er een backup met de naam %1 gemaakt."
 
-#: src/doc/kdenlivedoc.cpp:753
+#: src/doc/kdenlivedoc.cpp:751
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -9548,36 +9562,36 @@ msgstr ""
 "Het projectbestand is bijgewerkt naar de laatst bekende Kdenlive "
 "documentversie, maar helaas kon er geen backup %1 gemaakt worden."
 
-#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1461
+#: src/doc/kdenlivedoc.cpp:912 src/project/projectmanager.cpp:1461
 #: src/project/projectmanager.cpp:1497
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
 
-#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2362
+#: src/doc/kdenlivedoc.cpp:1102 src/doc/kdenlivedoc.cpp:2360
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1718
 #, kde-format
 msgid "Untitled"
 msgstr "Zonder titel"
 
-#: src/doc/kdenlivedoc.cpp:1165
+#: src/doc/kdenlivedoc.cpp:1163
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Voer sjabloon pad in"
 
-#: src/doc/kdenlivedoc.cpp:1326
+#: src/doc/kdenlivedoc.cpp:1324
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "De volgende effecten zijn uit het project geïmporteerd"
 
-#: src/doc/kdenlivedoc.cpp:1359 src/doc/kdenlivedoc.cpp:1373
+#: src/doc/kdenlivedoc.cpp:1357 src/doc/kdenlivedoc.cpp:1371
 #, kde-format
 msgid "Project Folder"
 msgstr "Projectmap"
 
-#: src/doc/kdenlivedoc.cpp:1417 src/doc/kdenlivedoc.cpp:1434
+#: src/doc/kdenlivedoc.cpp:1415 src/doc/kdenlivedoc.cpp:1432
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -9586,26 +9600,26 @@ msgstr ""
 "Kan geen backup-bestand maken.\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1589
+#: src/doc/kdenlivedoc.cpp:1587
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Proxy clip toevoegen"
 msgstr[1] "Proxy clips toevoegen"
 
-#: src/doc/kdenlivedoc.cpp:1591
+#: src/doc/kdenlivedoc.cpp:1589
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Verwijder proxy clip"
 msgstr[1] "Verwijder proxy clips"
 
-#: src/doc/kdenlivedoc.cpp:1635 src/doc/kdenlivedoc.cpp:1693
+#: src/doc/kdenlivedoc.cpp:1633 src/doc/kdenlivedoc.cpp:1691
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Clip-type ondersteunt geen proxies"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -9615,14 +9629,14 @@ msgstr ""
 "Het project gebruikt een niet-standaard framesnelheid (%1), dit zal "
 "resulteren in misplaatste clips en frame-offset."
 
-#: src/doc/kdenlivedoc.cpp:1927
+#: src/doc/kdenlivedoc.cpp:1925
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Waarschuwing: niet standaard fps, wordt aangepast naar dichts bij zijnd "
 "geheel getal. "
 
-#: src/doc/kdenlivedoc.cpp:1945
+#: src/doc/kdenlivedoc.cpp:1943
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -9631,43 +9645,43 @@ msgstr ""
 "Uw standaard projectprofiel is %1, maar het profiel (%2) van uw clip is %3.\n"
 "Wilt u het standaard profiel voor komende projecten wijzigingen?"
 
-#: src/doc/kdenlivedoc.cpp:1947
+#: src/doc/kdenlivedoc.cpp:1945
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standaard projectprofiel wijzigen"
 
-#: src/doc/kdenlivedoc.cpp:1947
+#: src/doc/kdenlivedoc.cpp:1945
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standaard wijzigen naar %1"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1946
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Huidige standaard %1 behouden"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1946
 #, kde-format
 msgid "Ask me later"
 msgstr "Later opnieuw vragen"
 
-#: src/doc/kdenlivedoc.cpp:1968
+#: src/doc/kdenlivedoc.cpp:1966
 #, kde-format
 msgid "Switch"
 msgstr "Omschakelen"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1970 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1968 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/doc/kdenlivedoc.cpp:1972
+#: src/doc/kdenlivedoc.cpp:1970
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Omschakelen naar clip (%1) profiel %2?"
 
-#: src/doc/kdenlivedoc.cpp:1977
+#: src/doc/kdenlivedoc.cpp:1975
 #, kde-format
 msgid ""
 "\n"
@@ -9676,7 +9690,7 @@ msgstr ""
 "\n"
 "Profiel fps aangepast van originele %1"
 
-#: src/doc/kdenlivedoc.cpp:1981
+#: src/doc/kdenlivedoc.cpp:1979
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -9685,13 +9699,13 @@ msgstr ""
 "Geen profiel gevonden voor uw clip %1.\n"
 "Maak en schakel om naar nieuw profiel (%2x%3, %4fps)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2399 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Rood"
 
-#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2400 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9699,24 +9713,24 @@ msgstr "Rood"
 msgid "Green"
 msgstr "Groen"
 
-#: src/doc/kdenlivedoc.cpp:2403 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Blauw"
 
-#: src/doc/kdenlivedoc.cpp:2404 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Geel"
 
-#: src/doc/kdenlivedoc.cpp:2405
+#: src/doc/kdenlivedoc.cpp:2403
 #, kde-format
 msgid "Cyan"
 msgstr "Cyaan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2742 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2740 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10744,7 +10758,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:317
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:321
 #, kde-format
 msgid "Merged streams"
 msgstr "Samengevoegde streams"
@@ -11342,7 +11356,7 @@ msgstr "Renderknop"
 msgid "Rendering preview"
 msgstr "Weergave voorbeeld"
 
-#: src/mainwindow.cpp:692 src/monitor/monitor.cpp:425
+#: src/mainwindow.cpp:692 src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Go to Guide…"
 msgstr "Ga naar hulplijn…"
@@ -11832,22 +11846,22 @@ msgstr "Taken voor overlay op clip monitoren"
 msgid "Full Resolution (1:1)"
 msgstr "Volledige resolutie (1:1)"
 
-#: src/mainwindow.cpp:1620 src/monitor/monitor.cpp:232
+#: src/mainwindow.cpp:1620 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1624 src/monitor/monitor.cpp:232
+#: src/mainwindow.cpp:1624 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1628 src/monitor/monitor.cpp:233
+#: src/mainwindow.cpp:1628 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1632 src/monitor/monitor.cpp:233
+#: src/mainwindow.cpp:1632 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -13140,13 +13154,13 @@ msgid "Enable audio"
 msgstr "Geluid inschakelen"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:721
-#: src/monitor/monitor.cpp:300
+#: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "Audiostreams"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:743
-#: src/monitor/monitor.cpp:1894
+#: src/monitor/monitor.cpp:1898
 #, kde-format
 msgid "Merge all streams"
 msgstr "Alle streams samenvoegen"
@@ -13421,13 +13435,13 @@ msgstr "Audio volume"
 msgid "%1%"
 msgstr "%1%"
 
-#: src/monitor/monitor.cpp:228
+#: src/monitor/monitor.cpp:232
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
 "Resolutie voorbeeldweergave - lagere resolutie betekent sneller voorbeeld"
 
-#: src/monitor/monitor.cpp:229
+#: src/monitor/monitor.cpp:233
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13439,49 +13453,49 @@ msgstr ""
 "selecteren tussen 1:1, 720p, 540p, 360p, 270p (hoe lager de resolutie hoe "
 "sneller het voorbeeld)."
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:236
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:370 src/monitor/monitormanager.cpp:641
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Set Zone In"
 msgstr "Zone-begin instellen"
 
-#: src/monitor/monitor.cpp:371 src/monitor/monitormanager.cpp:645
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:645
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Zone-eind instellen"
 
-#: src/monitor/monitor.cpp:383 src/monitor/monitormanager.cpp:525
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:525
 #, kde-format
 msgid "Rewind"
 msgstr "Terugspoelen"
 
-#: src/monitor/monitor.cpp:388 src/monitor/monitor.cpp:391
+#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
 #: src/monitor/monitormanager.cpp:500
 #, kde-format
 msgid "Play"
 msgstr "Afspelen"
 
-#: src/monitor/monitor.cpp:391 src/monitor/monitormanager.cpp:500
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:500
 #: src/monitor/monitormanager.cpp:506
 #, kde-format
 msgid "Pause"
 msgstr "Pauzeren"
 
-#: src/monitor/monitor.cpp:411 src/monitor/monitormanager.cpp:538
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:538
 #, kde-format
 msgid "Forward"
 msgstr "Vooruit"
 
-#: src/monitor/monitor.cpp:415
+#: src/monitor/monitor.cpp:419
 #, kde-format
 msgid "More Options…"
 msgstr "Meer opties…"
 
-#: src/monitor/monitor.cpp:416
+#: src/monitor/monitor.cpp:420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13491,137 +13505,137 @@ msgstr ""
 "Opent de lijst van opties voor project/clip monitor (bijv. geluidsvolume, "
 "monitorgrootte)."
 
-#: src/monitor/monitor.cpp:425
+#: src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Go to Marker…"
 msgstr "Ga naar markering…"
 
-#: src/monitor/monitor.cpp:429
+#: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "Monitorgrootte afdwingen"
 
-#: src/monitor/monitor.cpp:430
+#: src/monitor/monitor.cpp:434
 #, kde-format
 msgid "Force 100%"
 msgstr "100% afdwingen"
 
-#: src/monitor/monitor.cpp:432
+#: src/monitor/monitor.cpp:436
 #, kde-format
 msgid "Force 50%"
 msgstr "50% afdwingen"
 
-#: src/monitor/monitor.cpp:434
+#: src/monitor/monitor.cpp:438
 #, kde-format
 msgid "Free Resize"
 msgstr "Vrij grootte wijzigen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:442 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:262 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "Zwart"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:444 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "Wit"
 
-#: src/monitor/monitor.cpp:446
+#: src/monitor/monitor.cpp:450
 #, kde-format
 msgid "Pink"
 msgstr "Roze"
 
-#: src/monitor/monitor.cpp:509
+#: src/monitor/monitor.cpp:513
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:515
+#: src/monitor/monitor.cpp:519
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:521
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:527
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:673
+#: src/monitor/monitor.cpp:677
 #, kde-format
 msgid "Extract Zone"
 msgstr "Zone extraheren"
 
-#: src/monitor/monitor.cpp:686
+#: src/monitor/monitor.cpp:690
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Maak van huidige afbeelding miniatuur"
 
-#: src/monitor/monitor.cpp:693
+#: src/monitor/monitor.cpp:697
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Altijd audio-miniaturen tonen"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:714
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Geluidsniveaus tonen"
 
-#: src/monitor/monitor.cpp:717
+#: src/monitor/monitor.cpp:721
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Tijdcode van bron tonen"
 
-#: src/monitor/monitor.cpp:754
+#: src/monitor/monitor.cpp:758
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Uw schermresolutie is niet voldoende voor deze actie"
 
-#: src/monitor/monitor.cpp:895 src/monitor/monitor.cpp:926
+#: src/monitor/monitor.cpp:899 src/monitor/monitor.cpp:930
 #: src/timeline2/view/timelinecontroller.cpp:1798
 #, kde-format
 msgid "Set Zone"
 msgstr "Zone instellen"
 
-#: src/monitor/monitor.cpp:1284
+#: src/monitor/monitor.cpp:1288
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Image naar project opslaan"
 
-#: src/monitor/monitor.cpp:1284
+#: src/monitor/monitor.cpp:1288
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: src/monitor/monitor.cpp:1291
+#: src/monitor/monitor.cpp:1295
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Afbeelding exporteren met resolutie van bron"
 
-#: src/monitor/monitor.cpp:1879 src/monitor/monitor.cpp:2028
+#: src/monitor/monitor.cpp:1883 src/monitor/monitor.cpp:2032
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "Audiostream"
 msgstr[1] "%1 audiostreams"
 
-#: src/monitor/monitor.cpp:2361
+#: src/monitor/monitor.cpp:2365
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Initialiseren van GLSL-manager van Movit kan niet, schakel Movit uit"
 
-#: src/monitor/monitor.cpp:2403 src/monitor/monitor.cpp:2460
+#: src/monitor/monitor.cpp:2407 src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13630,17 +13644,17 @@ msgstr ""
 "Het filter alphagrad is vereist voor die functie, installeer frei0r en start "
 "Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2423
+#: src/monitor/monitor.cpp:2427
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Clip heeft geen effecten"
 
-#: src/monitor/monitor.cpp:2425
+#: src/monitor/monitor.cpp:2429
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Selecteer een clip in de project-bin om effect te vergelijken"
 
-#: src/monitor/monitor.cpp:2467
+#: src/monitor/monitor.cpp:2471
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13649,7 +13663,7 @@ msgstr ""
 "De transitie cairoblend is vereist voor die functie, installeer frei0r en "
 "start Kdenlive opnieuw"
 
-#: src/monitor/monitor.cpp:2513
+#: src/monitor/monitor.cpp:2517
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Modus Bewerken in monitor inschakelen om effect te bewerken"
@@ -15817,26 +15831,26 @@ msgstr "Geen python venv gevonden"
 msgid "Python venv size: %1"
 msgstr "Python venv grootte: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:289
-#, kde-format
+#: src/pythoninterfaces/abstractpythoninterface.cpp:313
+#: src/pythoninterfaces/abstractpythoninterface.cpp:315
+#, fuzzy, kde-format
+#| msgid "Cannot create temporary directory %1"
 msgid ""
-"Cannot find python virtualenv, please install it on your system. Defaulting "
-"to system python."
-msgstr ""
-"Kan python virtualenv niet vinden, installeer het op uw systeem. Standaard "
-"is de python van het systeem."
+"Cannot create the python virtual environment:\n"
+"%1"
+msgstr "Kan geen tijdelijke map %1 aanmaken"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:330
+#: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Het %1-script is niet gevonden, controleer uw installatie."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:384
+#: src/pythoninterfaces/abstractpythoninterface.cpp:385
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "De python-module <application>%1</application> is vereist."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:421
+#: src/pythoninterfaces/abstractpythoninterface.cpp:422
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -15847,67 +15861,67 @@ msgstr ""
 "installeren.\n"
 "Op deze manier zal het uw systeembibliotheken niet verstoren."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:423
+#: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, kde-format
 msgid "Python environment"
 msgstr "Python omgeving"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:423
+#: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr "Virtuele omgeving gebruiken (aanbevolen)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid "Use system install"
 msgstr "Systeeminstallatie gebruiken"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:442
-#: src/pythoninterfaces/abstractpythoninterface.cpp:554
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
+#: src/pythoninterfaces/abstractpythoninterface.cpp:555
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Interne fout: lijst met afhankelijkheden is niet te vinden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:456
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Fout bij controle op versie van module %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:460
+#: src/pythoninterfaces/abstractpythoninterface.cpp:461
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Minstens versie %1 van module %2 is vereist, maar uw huidige versie is %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:464
+#: src/pythoninterfaces/abstractpythoninterface.cpp:465
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Overweeg uw opzet bij te werken."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:481
+#: src/pythoninterfaces/abstractpythoninterface.cpp:482
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Geen versie-informatie beschikbaar."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:498
+#: src/pythoninterfaces/abstractpythoninterface.cpp:499
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "ontbrekend (optioneel)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:583
+#: src/pythoninterfaces/abstractpythoninterface.cpp:584
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python uitvoerbaar programma niet gevonden"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:585
+#: src/pythoninterfaces/abstractpythoninterface.cpp:586
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Vinden van scriptbestand %1 is mislukt"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:622
+#: src/pythoninterfaces/abstractpythoninterface.cpp:623
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15918,7 +15932,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:644
+#: src/pythoninterfaces/abstractpythoninterface.cpp:645
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -20270,7 +20284,7 @@ msgstr "Ondertitels:"
 #: src/ui/configmisc_ui.ui:262
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "Oorspronkelijke framegrootte van clip handhaven bij importeren"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -23328,6 +23342,16 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid "Clear All Tags"
+#~ msgstr "Alles tags wissen"
+
+#~ msgid ""
+#~ "Cannot find python virtualenv, please install it on your system. "
+#~ "Defaulting to system python."
+#~ msgstr ""
+#~ "Kan python virtualenv niet vinden, installeer het op uw systeem. "
+#~ "Standaard is de python van het systeem."
 
 #~ msgid "Apply effect change to all clips in the group"
 #~ msgstr "Wijziging in effect toepassen op alle clips in de groep"
@@ -26687,9 +26711,6 @@ msgstr "%1u"
 
 #~ msgid "Load"
 #~ msgstr "Laden"
-
-#~ msgid "Cannot create temporary directory %1"
-#~ msgstr "Kan geen tijdelijke map %1 aanmaken"
 
 #~ msgid "Menu movie is invalid"
 #~ msgstr "Menu film is ongeldig"
