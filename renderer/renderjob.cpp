@@ -112,9 +112,9 @@ void RenderJob::sendFinish(int status, const QString &error)
     }
 #endif
     else {
-        QFile resultFile(m_dest);
-        if (!resultFile.exists() || resultFile.size() == 0) {
+        if (!QFile::exists(m_dest)) {
             qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors: Result file does not exist!!!";
+            qDebug() << "===================\nJOB OUTPUT: " << m_renderProcess->readAllStandardOutput();
         } else {
             qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
         }
@@ -358,7 +358,9 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         if (m_dualpass) {
             deleteLater();
         } else {
-            m_logfile.remove();
+            if (QFile::exists(m_dest)) {
+                m_logfile.remove();
+            }
             if (!m_subtitleFile.isEmpty()) {
                 // Embed subtitles
                 QString ffmpegExe = QStandardPaths::findExecutable(QStringLiteral("ffmpeg"));
