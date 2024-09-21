@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-20 00:40+0000\n"
+"POT-Creation-Date: 2024-09-21 00:39+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -88,7 +88,7 @@ msgstr "스펙트럼을 표시할 그래프 종류입니다."
 #: data/effects/audiowaveform.xml:7 data/effects/dynamictext.xml:23
 #: data/effects/pan_zoom.xml:17 data/effects/rotation.xml:41
 #: data/effects/rotation_keyframable.xml:23 data/effects/timer.xml:26
-#: src/monitor/monitor.cpp:441
+#: src/monitor/monitor.cpp:445
 #, kde-format
 msgid "Background Color"
 msgstr "배경색"
@@ -4538,7 +4538,7 @@ msgstr "누락된 원본 클립"
 msgid "Unable to write to file %1"
 msgstr "%1 파일에 쓸 수 없음"
 
-#: src/bin/bin.cpp:1846 src/bin/bin.cpp:2516 src/doc/kdenlivedoc.cpp:743
+#: src/bin/bin.cpp:1846 src/bin/bin.cpp:2516 src/doc/kdenlivedoc.cpp:741
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -5430,13 +5430,13 @@ msgstr "지속 시간:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT 재생 목록 (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:53 src/dialogs/subtitleedit.cpp:387
+#: src/bin/mediabrowser.cpp:53
 #, fuzzy, kde-format
 #| msgid "Zoom in"
 msgid "Zoom In"
 msgstr "확대"
 
-#: src/bin/mediabrowser.cpp:54 src/dialogs/subtitleedit.cpp:389
+#: src/bin/mediabrowser.cpp:54
 #, fuzzy, kde-format
 #| msgid "Zoom out"
 msgid "Zoom Out"
@@ -6275,7 +6275,7 @@ msgstr "텍스트 클립"
 msgid "Create Text clip"
 msgstr "타이틀 클립 만들기"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1179
+#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1177
 #, kde-format
 msgid "Template title clip"
 msgstr "템플릿 타이틀 클립"
@@ -6597,8 +6597,8 @@ msgid "Export Guides Data"
 msgstr "안내선 가져오기"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1704
-#: src/dialogs/renderwidget.cpp:1728 src/doc/kdenlivedoc.cpp:760
-#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
+#: src/dialogs/renderwidget.cpp:1728 src/doc/kdenlivedoc.cpp:758
+#: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1317
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
@@ -7493,9 +7493,9 @@ msgstr "바이큐빅(더 나음)"
 msgid "BWDIF (best)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:236 src/dialogs/subtitleedit.cpp:1492
-#: src/dialogs/subtitleedit.cpp:1509 src/dialogs/subtitleedit.cpp:1523
-#: src/dialogs/subtitleedit.cpp:1563 src/project/dialogs/slideshowclip.cpp:65
+#: src/dialogs/renderwidget.cpp:236 src/dialogs/subtitleedit.cpp:1538
+#: src/dialogs/subtitleedit.cpp:1555 src/dialogs/subtitleedit.cpp:1569
+#: src/dialogs/subtitleedit.cpp:1609 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
@@ -7667,7 +7667,7 @@ msgstr "오디오 트랙이 없는 동영상"
 msgid "Rendering <i>%1</i> started"
 msgstr "렌더링<i>%1</i>이(가) 시작됨"
 
-#: src/dialogs/renderwidget.cpp:933 src/monitor/monitor.cpp:1272
+#: src/dialogs/renderwidget.cpp:933 src/monitor/monitor.cpp:1276
 #, kde-format
 msgid "untitled"
 msgstr "제목 없음"
@@ -8613,49 +8613,62 @@ msgstr "아래쪽 자르기"
 msgid "Bottom To Top"
 msgstr "아래쪽"
 
+#: src/dialogs/subtitleedit.cpp:387
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Increase Editor Font Size"
+msgstr "글꼴 크기"
+
+#: src/dialogs/subtitleedit.cpp:389
+#, fuzzy, kde-format
+#| msgid "Font Size"
+msgid "Decrease Editor Font Size"
+msgstr "글꼴 크기"
+
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
-msgid "Clear All Tags"
+msgid "Clear All Custom Formatting"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:402
+#: src/dialogs/subtitleedit.cpp:403
 #, fuzzy, kde-format
 #| msgid "Speed options"
 msgid "Simple Editor"
 msgstr "속도 옵션"
 
-#: src/dialogs/subtitleedit.cpp:574
+#: src/dialogs/subtitleedit.cpp:595
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgid "Manage Styles…"
 msgstr "자막"
 
-#: src/dialogs/subtitleedit.cpp:725 src/dialogs/subtitleedit.cpp:727
+#: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
+#: src/dialogs/subtitleedit.cpp:772
 #, kde-format
-msgid "Character: %1, total: <b>%2</b>"
+msgid "Cursor: %1, total: <b>%2</b>"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
+#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, fuzzy, kde-format
 #| msgid "Position X"
 msgid "Set Position X"
 msgstr "X 위치"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
-#: src/dialogs/subtitleedit.cpp:1621 src/dialogs/subtitleedit.cpp:1635
+#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #: src/ui/titlewidget_ui.ui:553
 #, kde-format
 msgid "X:"
 msgstr "X:"
 
-#: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
+#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
 #, fuzzy, kde-format
 #| msgid "Position Y"
 msgid "Set Position Y"
 msgstr "Y 위치"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
-#: src/dialogs/subtitleedit.cpp:1623 src/dialogs/subtitleedit.cpp:1637
+#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
 #: src/ui/titlewidget_ui.ui:576
 #, kde-format
 msgid "Y:"
@@ -9561,14 +9574,14 @@ msgstr "다음 필터/전환 효과가 프로젝트에서 삭제되었습니다:
 msgid "Invalid file path"
 msgstr "프로필 잘못됨"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:817
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:817
 #: src/project/projectmanager.cpp:859
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
 msgstr "이 프로젝트 파일을 복구할 수 없음"
 
-#: src/doc/kdenlivedoc.cpp:217
+#: src/doc/kdenlivedoc.cpp:215
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid ""
@@ -9576,25 +9589,25 @@ msgid ""
 "%2 (line %3, col %4)"
 msgstr "%1 파일을 열 수 없음"
 
-#: src/doc/kdenlivedoc.cpp:229
+#: src/doc/kdenlivedoc.cpp:227
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "파일 %1은(는) Kdenlive 프로젝트 파일이 아닙니다"
 
-#: src/doc/kdenlivedoc.cpp:236
+#: src/doc/kdenlivedoc.cpp:234
 #, fuzzy, kde-format
 #| msgid "File %1 is not a Kdenlive project file."
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "파일 %1은(는) Kdenlive 프로젝트 파일이 아닙니다."
 
-#: src/doc/kdenlivedoc.cpp:249
+#: src/doc/kdenlivedoc.cpp:247
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
 "this project's Movit filters."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:292
+#: src/doc/kdenlivedoc.cpp:290
 #, kde-format
 msgid ""
 "The project directory %1, could not be created.\n"
@@ -9605,22 +9618,22 @@ msgstr ""
 "필요한 권한이 있는지 확인하십시오.\n"
 "기본값으로 시스템 폴더를 사용합니다"
 
-#: src/doc/kdenlivedoc.cpp:295
+#: src/doc/kdenlivedoc.cpp:293
 #, kde-format
 msgid "Document project folder is invalid, using system default folders"
 msgstr "문서 프로젝트 폴더가 유효하지 않아서 시스템 기본 폴더를 사용합니다"
 
-#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:588
+#: src/doc/kdenlivedoc.cpp:576 src/doc/kdenlivedoc.cpp:586
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "자동 저장 파일 %1을(를) 생성할 수 없음"
 
-#: src/doc/kdenlivedoc.cpp:583 src/doc/kdenlivedoc.cpp:721
+#: src/doc/kdenlivedoc.cpp:581 src/doc/kdenlivedoc.cpp:719
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "파일 %1에 쓸 수 없습니다. 장면 목록이 손상되었습니다."
 
-#: src/doc/kdenlivedoc.cpp:739
+#: src/doc/kdenlivedoc.cpp:737
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -9629,7 +9642,7 @@ msgstr ""
 "프로젝트 파일이 최신 Kdenlive 문서 버전으로 업그레이드되었습니다.\n"
 "데이터가 손실되지 않도록 백업 복사본 %1을(를) 만들었습니다."
 
-#: src/doc/kdenlivedoc.cpp:753
+#: src/doc/kdenlivedoc.cpp:751
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -9638,36 +9651,36 @@ msgstr ""
 "프로젝트 파일이 최신 Kdenlive 문서 버전으로 업그레이드되었지만 백업 복사본 %1"
 "을(를) 만들 수 없습니다."
 
-#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1461
+#: src/doc/kdenlivedoc.cpp:912 src/project/projectmanager.cpp:1461
 #: src/project/projectmanager.cpp:1497
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
-#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2362
+#: src/doc/kdenlivedoc.cpp:1102 src/doc/kdenlivedoc.cpp:2360
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1718
 #, kde-format
 msgid "Untitled"
 msgstr "제목 없음"
 
-#: src/doc/kdenlivedoc.cpp:1165
+#: src/doc/kdenlivedoc.cpp:1163
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "템플릿 경로 입력"
 
-#: src/doc/kdenlivedoc.cpp:1326
+#: src/doc/kdenlivedoc.cpp:1324
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "다음 효과를 프로젝트에서 가져왔습니다:"
 
-#: src/doc/kdenlivedoc.cpp:1359 src/doc/kdenlivedoc.cpp:1373
+#: src/doc/kdenlivedoc.cpp:1357 src/doc/kdenlivedoc.cpp:1371
 #, kde-format
 msgid "Project Folder"
 msgstr "프로젝트 폴더"
 
-#: src/doc/kdenlivedoc.cpp:1417 src/doc/kdenlivedoc.cpp:1434
+#: src/doc/kdenlivedoc.cpp:1415 src/doc/kdenlivedoc.cpp:1432
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -9676,24 +9689,24 @@ msgstr ""
 "백업 복사본을 만들 수 없음:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1589
+#: src/doc/kdenlivedoc.cpp:1587
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "프록시 클립 추가"
 
-#: src/doc/kdenlivedoc.cpp:1591
+#: src/doc/kdenlivedoc.cpp:1589
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "프록시 클립 삭제"
 
-#: src/doc/kdenlivedoc.cpp:1635 src/doc/kdenlivedoc.cpp:1693
+#: src/doc/kdenlivedoc.cpp:1633 src/doc/kdenlivedoc.cpp:1691
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "클립 종류는 프록시를 지원하지 않습니다"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1830
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -9701,12 +9714,12 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1927
+#: src/doc/kdenlivedoc.cpp:1925
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1945
+#: src/doc/kdenlivedoc.cpp:1943
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -9718,44 +9731,44 @@ msgstr ""
 "기본 프로젝트 프로필은 %1(이)지만 클립 프로필은 %2입니다.\n"
 "차후에 사용할 프로젝트의 기본 프로필을 변경하시겠습니까?"
 
-#: src/doc/kdenlivedoc.cpp:1947
+#: src/doc/kdenlivedoc.cpp:1945
 #, kde-format
 msgid "Change default project profile"
 msgstr "기본 프로젝트 프로필 변경"
 
-#: src/doc/kdenlivedoc.cpp:1947
+#: src/doc/kdenlivedoc.cpp:1945
 #, kde-format
 msgid "Change default to %1"
 msgstr "기본값을 %1(으)로 변경"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1946
 #, kde-format
 msgid "Keep current default %1"
 msgstr "현재 기본값 %1 유지"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1946
 #, kde-format
 msgid "Ask me later"
 msgstr "나중에 묻기"
 
-#: src/doc/kdenlivedoc.cpp:1968
+#: src/doc/kdenlivedoc.cpp:1966
 #, kde-format
 msgid "Switch"
 msgstr "전환"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1970 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1968 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "취소"
 
-#: src/doc/kdenlivedoc.cpp:1972
+#: src/doc/kdenlivedoc.cpp:1970
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "클립 프로필을 %1(으)로 전환하시겠습니까?"
 
-#: src/doc/kdenlivedoc.cpp:1977
+#: src/doc/kdenlivedoc.cpp:1975
 #, kde-format
 msgid ""
 "\n"
@@ -9764,7 +9777,7 @@ msgstr ""
 "\n"
 "프로필 fps가 원본 %1에서 조정됨"
 
-#: src/doc/kdenlivedoc.cpp:1981
+#: src/doc/kdenlivedoc.cpp:1979
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -9776,13 +9789,13 @@ msgstr ""
 "클립에 대한 프로필이 없습니다.\n"
 "새 프로필(%1x %2, %3fps)을 만들고 전환하시겠습니까?%4"
 
-#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2399 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "빨간색"
 
-#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2400 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9790,24 +9803,24 @@ msgstr "빨간색"
 msgid "Green"
 msgstr "녹색"
 
-#: src/doc/kdenlivedoc.cpp:2403 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "파란색"
 
-#: src/doc/kdenlivedoc.cpp:2404 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "노란색"
 
-#: src/doc/kdenlivedoc.cpp:2405
+#: src/doc/kdenlivedoc.cpp:2403
 #, kde-format
 msgid "Cyan"
 msgstr "청록색"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2742 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2740 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10862,7 +10875,7 @@ msgstr "kHz "
 msgid "Hz "
 msgstr "Hz "
 
-#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:317
+#: src/lib/audio/audioStreamInfo.cpp:153 src/monitor/monitor.cpp:321
 #, kde-format
 msgid "Merged streams"
 msgstr "병합된 스트림"
@@ -11468,7 +11481,7 @@ msgstr "렌더 단추"
 msgid "Rendering preview"
 msgstr "렌더링 미리 보기"
 
-#: src/mainwindow.cpp:692 src/monitor/monitor.cpp:425
+#: src/mainwindow.cpp:692 src/monitor/monitor.cpp:429
 #, fuzzy, kde-format
 #| msgid "Go to Guide..."
 msgid "Go to Guide…"
@@ -11954,22 +11967,22 @@ msgstr "시간 코드 모니터 오버레이"
 msgid "Full Resolution (1:1)"
 msgstr "전체 해상도(1:1)"
 
-#: src/mainwindow.cpp:1620 src/monitor/monitor.cpp:232
+#: src/mainwindow.cpp:1620 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "720p"
 msgstr "720p"
 
-#: src/mainwindow.cpp:1624 src/monitor/monitor.cpp:232
+#: src/mainwindow.cpp:1624 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "540p"
 msgstr "540p"
 
-#: src/mainwindow.cpp:1628 src/monitor/monitor.cpp:233
+#: src/mainwindow.cpp:1628 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "360p"
 msgstr "360p"
 
-#: src/mainwindow.cpp:1632 src/monitor/monitor.cpp:233
+#: src/mainwindow.cpp:1632 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "270p"
 msgstr "270p"
@@ -13311,13 +13324,13 @@ msgid "Enable audio"
 msgstr "오디오 사용"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:721
-#: src/monitor/monitor.cpp:300
+#: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "오디오 스트림"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:743
-#: src/monitor/monitor.cpp:1894
+#: src/monitor/monitor.cpp:1898
 #, kde-format
 msgid "Merge all streams"
 msgstr "모든 스트림 병합"
@@ -13610,12 +13623,12 @@ msgstr "오디오 음량"
 msgid "%1%"
 msgstr "%1 %%"
 
-#: src/monitor/monitor.cpp:228
+#: src/monitor/monitor.cpp:232
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr "미리 보기 해상도 - 해상도가 낮아질수록 미리 보기가 빨라집니다"
 
-#: src/monitor/monitor.cpp:229
+#: src/monitor/monitor.cpp:233
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13624,50 +13637,50 @@ msgid ""
 "preview)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:232
+#: src/monitor/monitor.cpp:236
 #, kde-format
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:370 src/monitor/monitormanager.cpp:641
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:641
 #, kde-format
 msgid "Set Zone In"
 msgstr "영역 시점 설정"
 
-#: src/monitor/monitor.cpp:371 src/monitor/monitormanager.cpp:645
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:645
 #, kde-format
 msgid "Set Zone Out"
 msgstr "영역 종점 설정"
 
-#: src/monitor/monitor.cpp:383 src/monitor/monitormanager.cpp:525
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:525
 #, kde-format
 msgid "Rewind"
 msgstr "되감기"
 
-#: src/monitor/monitor.cpp:388 src/monitor/monitor.cpp:391
+#: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
 #: src/monitor/monitormanager.cpp:500
 #, kde-format
 msgid "Play"
 msgstr "재생"
 
-#: src/monitor/monitor.cpp:391 src/monitor/monitormanager.cpp:500
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:500
 #: src/monitor/monitormanager.cpp:506
 #, kde-format
 msgid "Pause"
 msgstr "일시 정지"
 
-#: src/monitor/monitor.cpp:411 src/monitor/monitormanager.cpp:538
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:538
 #, kde-format
 msgid "Forward"
 msgstr "빨리감기"
 
-#: src/monitor/monitor.cpp:415
+#: src/monitor/monitor.cpp:419
 #, fuzzy, kde-format
 #| msgid "More options"
 msgid "More Options…"
 msgstr "옵션 더 보기"
 
-#: src/monitor/monitor.cpp:416
+#: src/monitor/monitor.cpp:420
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -13675,138 +13688,138 @@ msgid ""
 "size)."
 msgstr ""
 
-#: src/monitor/monitor.cpp:425
+#: src/monitor/monitor.cpp:429
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to Marker…"
 msgstr "마커로 이동..."
 
-#: src/monitor/monitor.cpp:429
+#: src/monitor/monitor.cpp:433
 #, kde-format
 msgid "Force Monitor Size"
 msgstr "모니터 크기 강제"
 
-#: src/monitor/monitor.cpp:430
+#: src/monitor/monitor.cpp:434
 #, kde-format
 msgid "Force 100%"
 msgstr "강제 100%"
 
-#: src/monitor/monitor.cpp:432
+#: src/monitor/monitor.cpp:436
 #, kde-format
 msgid "Force 50%"
 msgstr "강제 50%"
 
-#: src/monitor/monitor.cpp:434
+#: src/monitor/monitor.cpp:438
 #, kde-format
 msgid "Free Resize"
 msgstr "자유 크기 조정"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:442 src/scopes/colorscopes/vectorscope.cpp:50
+#: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
 #: src/timeline2/view/timelinecontroller.cpp:262 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "검은색"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
-#: src/monitor/monitor.cpp:444 src/scopes/colorscopes/rgbparade.cpp:26
+#: src/monitor/monitor.cpp:448 src/scopes/colorscopes/rgbparade.cpp:26
 #: src/scopes/colorscopes/waveform.cpp:33 src/ui/titlewidget_ui.ui:130
 #, kde-format
 msgid "White"
 msgstr "흰색"
 
-#: src/monitor/monitor.cpp:446
+#: src/monitor/monitor.cpp:450
 #, kde-format
 msgid "Pink"
 msgstr "분홍색"
 
-#: src/monitor/monitor.cpp:509
+#: src/monitor/monitor.cpp:513
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:515
+#: src/monitor/monitor.cpp:519
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:521
+#: src/monitor/monitor.cpp:525
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:527
+#: src/monitor/monitor.cpp:531
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:673
+#: src/monitor/monitor.cpp:677
 #, kde-format
 msgid "Extract Zone"
 msgstr "영역 추출"
 
-#: src/monitor/monitor.cpp:686
+#: src/monitor/monitor.cpp:690
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "현재 이미지를 섬네일으로 설정"
 
-#: src/monitor/monitor.cpp:693
+#: src/monitor/monitor.cpp:697
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "항상 오디오 미리 듣기 표시"
 
-#: src/monitor/monitor.cpp:710
+#: src/monitor/monitor.cpp:714
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "오디오 레벨 표시"
 
-#: src/monitor/monitor.cpp:717
+#: src/monitor/monitor.cpp:721
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "원본 타임코드 표시"
 
-#: src/monitor/monitor.cpp:754
+#: src/monitor/monitor.cpp:758
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "현재 화면 해상도가 이 작업에 충분하지 않음"
 
-#: src/monitor/monitor.cpp:895 src/monitor/monitor.cpp:926
+#: src/monitor/monitor.cpp:899 src/monitor/monitor.cpp:930
 #: src/timeline2/view/timelinecontroller.cpp:1798
 #, kde-format
 msgid "Set Zone"
 msgstr "영역 설정"
 
-#: src/monitor/monitor.cpp:1284
+#: src/monitor/monitor.cpp:1288
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "프로젝트에 이미지 저장"
 
-#: src/monitor/monitor.cpp:1284
+#: src/monitor/monitor.cpp:1288
 #, fuzzy, kde-format
 #| msgid "Save Image"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "이미지 저장"
 
-#: src/monitor/monitor.cpp:1291
+#: src/monitor/monitor.cpp:1295
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "원본 해상도로 이미지 내보내기"
 
-#: src/monitor/monitor.cpp:1879 src/monitor/monitor.cpp:2028
+#: src/monitor/monitor.cpp:1883 src/monitor/monitor.cpp:2032
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "오디오 스트림 %1개"
 
-#: src/monitor/monitor.cpp:2361
+#: src/monitor/monitor.cpp:2365
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Movit의 GLSL 관리자를 초기화할 수 없습니다. Movit을 비활성화하십시오"
 
-#: src/monitor/monitor.cpp:2403 src/monitor/monitor.cpp:2460
+#: src/monitor/monitor.cpp:2407 src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13815,17 +13828,17 @@ msgstr ""
 "해당 기능에 alphagrad 필터가 필요합니다. frei0r를 설치하고 Kdenlive를 다시 시"
 "작하십시오"
 
-#: src/monitor/monitor.cpp:2423
+#: src/monitor/monitor.cpp:2427
 #, kde-format
 msgid "Clip has no effects"
 msgstr "클립 효과 없음"
 
-#: src/monitor/monitor.cpp:2425
+#: src/monitor/monitor.cpp:2429
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "효과를 비교하려면 프로젝트 보관함에서 클립을 선택하십시오"
 
-#: src/monitor/monitor.cpp:2467
+#: src/monitor/monitor.cpp:2471
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13834,7 +13847,7 @@ msgstr ""
 "해당 기능에는 cairoblend 전환이 필요합니다. frei0r를 설치하고 Kdenlive를 다"
 "시 시작하십시오"
 
-#: src/monitor/monitor.cpp:2513
+#: src/monitor/monitor.cpp:2517
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "효과를 편집하려면 모니터에서 편집 모드 활성화"
@@ -16077,26 +16090,27 @@ msgstr "항목을 찾을 수 없습니다."
 msgid "Python venv size: %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:289
+#: src/pythoninterfaces/abstractpythoninterface.cpp:313
+#: src/pythoninterfaces/abstractpythoninterface.cpp:315
 #, fuzzy, kde-format
-#| msgid "Cannot find python3, please install it on your system."
+#| msgid "Cannot create temporary directory %1"
 msgid ""
-"Cannot find python virtualenv, please install it on your system. Defaulting "
-"to system python."
-msgstr "Python3을 찾을 수 없습니다. 시스템에 설치하십시오."
+"Cannot create the python virtual environment:\n"
+"%1"
+msgstr "%1 임시 디렉터리를 생성할 수 없음"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:330
+#: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, fuzzy, kde-format
 #| msgid "The speech script was not found, check your install."
 msgid "The %1 script was not found, check your install."
 msgstr "음성 스크립트를 찾을 수 없습니다. 설치 상태를 확인하십시오."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:384
+#: src/pythoninterfaces/abstractpythoninterface.cpp:385
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:421
+#: src/pythoninterfaces/abstractpythoninterface.cpp:422
 #, kde-format
 msgid ""
 "Kdenlive can install the missing python modules in a virtual environment "
@@ -16104,71 +16118,71 @@ msgid ""
 "This way, it won't touch your system libraries."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:423
+#: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, fuzzy, kde-format
 #| msgid "Environment"
 msgid "Python environment"
 msgstr "환경"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:423
+#: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, kde-format
 msgid "Use virtual environment (recommended)"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
+#: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid "Use system install"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:442
-#: src/pythoninterfaces/abstractpythoninterface.cpp:554
+#: src/pythoninterfaces/abstractpythoninterface.cpp:443
+#: src/pythoninterfaces/abstractpythoninterface.cpp:555
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:456
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:460
+#: src/pythoninterfaces/abstractpythoninterface.cpp:461
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:464
+#: src/pythoninterfaces/abstractpythoninterface.cpp:465
 #, fuzzy, kde-format
 #| msgid "Please configure speech to text."
 msgid "Please consider to update your setup."
 msgstr "텍스트 음성 합성을 설정하십시오."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:481
+#: src/pythoninterfaces/abstractpythoninterface.cpp:482
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "클립보드에 정보 없음"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:498
+#: src/pythoninterfaces/abstractpythoninterface.cpp:499
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "그리기 옵션"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:583
+#: src/pythoninterfaces/abstractpythoninterface.cpp:584
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:585
+#: src/pythoninterfaces/abstractpythoninterface.cpp:586
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "파일을 만들지 못했습니다."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:622
+#: src/pythoninterfaces/abstractpythoninterface.cpp:623
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -16176,7 +16190,7 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:644
+#: src/pythoninterfaces/abstractpythoninterface.cpp:645
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -23912,6 +23926,13 @@ msgid "%1h"
 msgstr "%1시간"
 
 #, fuzzy
+#~| msgid "Cannot find python3, please install it on your system."
+#~ msgid ""
+#~ "Cannot find python virtualenv, please install it on your system. "
+#~ "Defaulting to system python."
+#~ msgstr "Python3을 찾을 수 없습니다. 시스템에 설치하십시오."
+
+#, fuzzy
 #~| msgid "Vertical"
 #~ msgid "Veritical"
 #~ msgstr "세로"
@@ -27228,9 +27249,6 @@ msgstr "%1시간"
 
 #~ msgid "Load"
 #~ msgstr "불러오기"
-
-#~ msgid "Cannot create temporary directory %1"
-#~ msgstr "%1 임시 디렉터리를 생성할 수 없음"
 
 #~ msgid "Menu movie is invalid"
 #~ msgstr "메뉴 무비가 잘못됨"
