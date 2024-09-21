@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-20 02:38+0000\n"
-"PO-Revision-Date: 2024-08-24 16:24+0300\n"
+"PO-Revision-Date: 2024-09-20 16:03+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -3207,7 +3207,7 @@ msgstr "אפקטים ראשיים"
 #: src/assets/assetlist/view/assetlistwidget.cpp:93
 #, kde-format
 msgid "Main compositions"
-msgstr "הרכבות ראשיות"
+msgstr "תרכובות ראשיות"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:99
 #, kde-format
@@ -3257,7 +3257,7 @@ msgstr "הצגת/הסתרת תיאורי האפקטים"
 #: src/assets/assetlist/view/assetlistwidget.cpp:176
 #, kde-format
 msgid "Show/hide description of the compositions"
-msgstr "הצגת/הסתרת תיאור ההרכבות"
+msgstr "הצגת/הסתרת תיאור התרכובות"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:184 src/bin/bin.cpp:1198
 #, kde-format
@@ -3279,7 +3279,7 @@ msgstr "תיעוד מקוון"
 #: src/assets/assetpanel.cpp:68
 #, kde-format
 msgid "Change composition type"
-msgstr "החלפת סוג הרכבה"
+msgstr "החלפת סוג תרכובת"
 
 #: src/assets/assetpanel.cpp:79
 #, kde-format
@@ -10660,13 +10660,13 @@ msgstr "דפדפן מדיה"
 #: src/mainwindow.cpp:433
 #, kde-format
 msgid "Effect/Composition Stack"
-msgstr "ערימת אפקטים/קומפוזיציות"
+msgstr "ערימת אפקטים/תרכובות"
 
 #: src/mainwindow.cpp:504
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
 #, kde-format
 msgid "Compositions"
-msgstr "הרכבות"
+msgstr "תרכובות"
 
 #: src/mainwindow.cpp:507
 #, kde-format
@@ -13274,12 +13274,12 @@ msgstr "החלפת שכבת על"
 #: src/monitor/view/EffectToolBar.qml:87
 #, kde-format
 msgid "Go to Next Keyframe"
-msgstr "מעבר לתמונת המפתח הבאה"
+msgstr "מעבר לתמונית המפתח הבאה"
 
 #: src/monitor/view/EffectToolBar.qml:93
 #, kde-format
 msgid "Go to Previous Keyframe"
-msgstr "מעבר לתמונת המפתח הקודמת"
+msgstr "מעבר לתמונית המפתח הקודמת"
 
 #: src/monitor/view/EffectToolBar.qml:104
 #, kde-format
@@ -16149,7 +16149,7 @@ msgstr "נמצא סרטון רצף פגום בסל"
 #, kde-format
 msgid ""
 "Invalid composition %1 found on track %2 at %3, compositing with track %4."
-msgstr "נמצאה הרכבה שגויה %1 ברצועה %2 ב־%3, מתבצעת הרכבה עם רצועה %4."
+msgstr "נמצאה תרכובת שגויה %1 ברצועה %2 ב־%3, מתבצעת הרכבה עם רצועה %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:307
 #: src/timeline2/model/builders/meltBuilder.cpp:574
@@ -16158,20 +16158,20 @@ msgid ""
 "Incorrect composition %1 found on track %2 at %3, compositing with track %4 "
 "was set to forced track."
 msgstr ""
-"נמצא יחס הרכבה שגוי %1 ברצועה %2 ב־%3, הרכבה עם רצועה %4 הוגדרה לרצועה "
+"נמצא יחס תרכובת שגוי %1 ברצועה %2 ב־%3, הרכבה עם רצועה %4 הוגדרה לרצועה "
 "מקובעת."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:312
 #, kde-format
 msgid ""
 "Unknown composition %1 found on track %2 at %3, compositing with track %4."
-msgstr "נמצאה הרכבה לא ידועה %1 ברצועה %2 ב־%3, מתבצעת הרכבה עם רצועה %4."
+msgstr "נמצאה תרכובת לא ידועה %1 ברצועה %2 ב־%3, מתבצעת הרכבה עם רצועה %4."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:322
 #: src/timeline2/model/builders/meltBuilder.cpp:588
 #, kde-format
 msgid "Invalid composition %1 found on track %2 at %3."
-msgstr "נמצאה הרכבה שגויה %1 ברצועה %2 ב־%3."
+msgstr "נמצאה תרכובת שגויה %1 ברצועה %2 ב־%3."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:344
 #: src/timeline2/model/builders/meltBuilder.cpp:629
@@ -16184,18 +16184,18 @@ msgstr "נמצאו תקלות בקובץ המיזם שלך"
 #: src/timeline2/model/builders/meltBuilder.cpp:559
 #, kde-format
 msgid "%1 Composition (%2) with invalid track reference found and removed."
-msgstr "%1 הרכב (%2) עם הפנייה שגויה לרצועה נמצא והוסר."
+msgstr "%1 תרכובת (%2) עם הפנייה שגויה לרצועה נמצא והוסר."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:573
 #, kde-format
 msgid ""
 "%1 Composition was not applied on expected track, manually enforce the track."
-msgstr "%1 ההרכבה לא חלה על הרצועה המצופה, תתבצע אכיפה ידנית על הרצועה."
+msgstr "%1 התרכובת לא חלה על הרצועה המצופה, תתבצע אכיפה ידנית על הרצועה."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:587
 #, kde-format
 msgid "%1 Invalid composition found and removed."
-msgstr "%1 נמצאה הרכבה שגויה והיא הוסרה."
+msgstr "%1 נמצאה תרכובת שגויה והיא הוסרה."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:623
 #, kde-format
@@ -16461,7 +16461,7 @@ msgstr "שחזור וידאו"
 #: src/timeline2/model/timelinefunctions.cpp:1304
 #, kde-format
 msgid "Change Composition Track"
-msgstr "שינוי רצועת הרכבה"
+msgstr "שינוי רצועת תרכובת"
 
 #: src/timeline2/model/timelinefunctions.cpp:1319
 #, kde-format
@@ -16697,7 +16697,7 @@ msgstr "הסרת קבוצה"
 #: src/timeline2/model/timelinemodel.cpp:2163
 #, kde-format
 msgid "Delete Composition"
-msgstr "מחיקת הרכבה"
+msgstr "מחיקת תרכובת"
 
 #: src/timeline2/model/timelinemodel.cpp:2397
 #: src/timeline2/model/timelinemodel.cpp:2674
@@ -16734,7 +16734,7 @@ msgstr "שינוי גודל סרטון"
 #: src/timeline2/model/timelinemodel.cpp:3949
 #, kde-format
 msgid "Resize composition"
-msgstr "שינוי גודל הרכבה"
+msgstr "שינוי גודל תרכובת"
 
 #: src/timeline2/model/timelinemodel.cpp:4268
 #, kde-format
@@ -16744,7 +16744,7 @@ msgstr "שינוי גודל סרטון באדווה"
 #: src/timeline2/model/timelinemodel.cpp:4270
 #, kde-format
 msgid "Ripple resize composition"
-msgstr "שינוי גודל הרכבה כאדוות"
+msgstr "שינוי גודל תרכובת כאדוות"
 
 #: src/timeline2/model/timelinemodel.cpp:4272
 #, kde-format
@@ -16822,12 +16822,12 @@ msgstr "כיוון עמעום"
 #: src/timeline2/model/timelinemodel.cpp:5400
 #, kde-format
 msgid "Insert Composition"
-msgstr "הוספת הרכבה"
+msgstr "הוספת תרכובת"
 
 #: src/timeline2/model/timelinemodel.cpp:5615
 #, kde-format
 msgid "Move composition"
-msgstr "העברת הרכבה"
+msgstr "העברת תרכובת"
 
 #: src/timeline2/model/timelinemodel.cpp:6283
 #, kde-format
@@ -16862,12 +16862,12 @@ msgstr "ביטול נעילת רצועה"
 #: src/timeline2/model/timelinemodel.cpp:6917
 #, kde-format
 msgid "Change composition"
-msgstr "שינוי הרכבה"
+msgstr "שינוי תרכובת"
 
 #: src/timeline2/model/timelinemodel.cpp:6869
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
-msgstr "לא ניתן לתפעל הרכבה מקובצת, נא לפרק"
+msgstr "לא ניתן לתפעל תרכובת מקובצת, נא לפרק"
 
 #: src/timeline2/model/timelinemodel.cpp:7064
 #: src/timeline2/model/timelinemodel.cpp:7101
@@ -17073,7 +17073,7 @@ msgstr "<b>לחיצה</b> תיישר את הסרטונים"
 #: src/timeline2/view/qml/Clip.qml:1255 src/timeline2/view/qml/Clip.qml:1292
 #, kde-format
 msgid "<b>Click</b> to add composition"
-msgstr "יש <b>ללחוץ</b> כדי להוסיף הרכבה"
+msgstr "יש <b>ללחוץ</b> כדי להוסיף תרכובת"
 
 #: src/timeline2/view/qml/Clip.qml:1369 src/timeline2/view/qml/Clip.qml:1376
 #, kde-format
@@ -17277,7 +17277,7 @@ msgstr "אין פריט תחת סמן ציר הזמן ברצועה הפעילה"
 #: src/timeline2/view/timelinecontroller.cpp:593
 #, kde-format
 msgid "Could not add composition at selected position"
-msgstr "לא ניתן להוסיף הרכבה במקום הנוכחי"
+msgstr "לא ניתן להוסיף התרכובת במקום הנוכחי"
 
 #: src/timeline2/view/timelinecontroller.cpp:655
 #: src/timeline2/view/timelinecontroller.cpp:1090
@@ -17382,7 +17382,7 @@ msgstr "נא לבחור רצועת יעד בלחיצה על קטע היעד של
 #: src/timeline2/view/timelinecontroller.cpp:3245
 #, kde-format
 msgid "Select a favorite composition"
-msgstr "נא לבחור הרכבה מועדפת"
+msgstr "נא לבחור תרכובת מועדפת"
 
 #: src/timeline2/view/timelinecontroller.cpp:3296
 #, kde-format
@@ -17583,7 +17583,7 @@ msgstr "הוספת אפקט…"
 #: src/timeline2/view/timelinewidget.cpp:61
 #, kde-format
 msgid "Insert a composition..."
-msgstr "הוספת הרכבה…"
+msgstr "הוספת תרכובת…"
 
 #: src/timeline2/view/timelinewidget.cpp:329
 #, kde-format
@@ -17819,7 +17819,7 @@ msgid ""
 "When selected, a click on an asset in the timeline selects the asset (e.g. "
 "clip, composition)."
 msgstr ""
-"כשהאפשרות נבחרת, לחיצה על נכס בציר הזמן בוחרת אותו (למשל: סרטון, הרכבה)."
+"כשהאפשרות נבחרת, לחיצה על נכס בציר הזמן בוחרת אותו (למשל: סרטון, תרכובת)."
 
 #: src/titler/titlewidget.cpp:386 src/titler/titlewidget.cpp:389
 #, kde-format
@@ -18231,7 +18231,7 @@ msgstr "<small>אין מידע נוסף לתו זה.</small>"
 #: src/transitions/transitionsrepository.cpp:30
 #, kde-format
 msgid "Some of your favorite compositions are invalid and were removed: %1"
-msgstr "חלק מההרכבות המועדפות עליך שגויות והן הוסרו: %1"
+msgstr "חלק מהתרכובות המועדפות עליך שגויות והן הוסרו: %1"
 
 #: src/transitions/view/mixstackview.cpp:35 src/widgets/geometrywidget.cpp:97
 #, kde-format
@@ -18253,7 +18253,7 @@ msgstr "רקע"
 #: src/transitions/view/transitionstackview.cpp:59
 #, kde-format
 msgid "Composition track:"
-msgstr "רצועת הרכבה:"
+msgstr "רצועת תרכובת:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, before_select)
 #: src/ui/addtrack_ui.ui:22
@@ -19503,7 +19503,7 @@ msgstr "מקום לשונית:"
 #: src/ui/configmisc_ui.ui:150
 #, kde-format
 msgid "Preferred track compositing composition:"
-msgstr "הרכבה של הרכבת רצועה מועדפת:"
+msgstr "הרכבה של תרכובת רצועה מועדפת:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configmisc_ui.ui:160
