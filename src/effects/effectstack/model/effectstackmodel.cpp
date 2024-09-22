@@ -404,7 +404,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             }
         }
         if (Xml::hasXmlProperty(node, QLatin1String("kdenlive:builtin"))) {
-            effect->filter().set("kdenlive:builtin", Xml::getXmlProperty(node, QLatin1String("kdenlive:builtin")).toInt());
+            effect->setBuiltIn();
             if (Xml::hasXmlProperty(node, QLatin1String("kdenlive:hiddenbuiltin"))) {
                 effect->filter().set("kdenlive:hiddenbuiltin", Xml::getXmlProperty(node, QLatin1String("kdenlive:hiddenbuiltin")).toInt());
             }
