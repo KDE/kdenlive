@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-21 00:39+0000\n"
-"PO-Revision-Date: 2024-09-14 21:24+0200\n"
+"PO-Revision-Date: 2024-09-21 11:39+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -8538,21 +8538,19 @@ msgid "Bottom To Top"
 msgstr "Od spodaj navzgor"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Povečaj pisavo"
+msgstr "Povečaj pisavo urejevalnika"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Zmanjšaj pisavo"
+msgstr "Zmanjšaj pisavo urejevalnika"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Počisti vse oblikovanje po meri"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, kde-format
@@ -8566,10 +8564,9 @@ msgstr "Upravljaj sloge …"
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "Znak: %1, skupaj: <b>%2</b>"
+msgstr "Kazalka: %1, skupaj: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -15833,13 +15830,13 @@ msgstr "Velikost venv python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Failed to remove the virtual environment folder."
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Odstranitev mape virtualnega okolja je spodletela."
+msgstr ""
+"Navideznega okolja python ni možno ustvariti:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format
@@ -20280,7 +20277,7 @@ msgstr "Podnaslovi:"
 #: src/ui/configmisc_ui.ui:262
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "Pri uvozu ohrani izvorno velikost sličic posnetka"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -23334,13 +23331,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "Clear All Tags"
-#~ msgstr "Počisti vse značke"
-
-#~ msgid ""
-#~ "Cannot find python virtualenv, please install it on your system. "
-#~ "Defaulting to system python."
-#~ msgstr ""
-#~ "Virtualnega okolja python virtualenv ni mogoče najti, prosimo, namestite "
-#~ "ga v sistem. Uporabljena bo privzeta sistemska nastavitev python."

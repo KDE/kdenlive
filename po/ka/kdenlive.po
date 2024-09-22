@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-21 00:39+0000\n"
-"PO-Revision-Date: 2024-09-20 05:51+0200\n"
+"PO-Revision-Date: 2024-09-21 05:33+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -8508,21 +8508,19 @@ msgid "Bottom To Top"
 msgstr "ქვემოდან ზემოთ"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "ფონტის ზომის გაზრდა"
+msgstr "რედაქტორის ფონტის ზომის გაზრდა"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "ფონტის ზომის შემცირება"
+msgstr "რედაქტორის ფონტის ზომის შემცირება"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "ყველა მომხმარებლის დაფორმატების მოცილება"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, kde-format
@@ -8536,10 +8534,9 @@ msgstr "სტილების მართვა…"
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "სიმბოლო: %1, ჯამში: <b>%2</b>"
+msgstr "კურსორი: %1, ჯამში: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -15748,13 +15745,13 @@ msgstr "Python-ის venv-ის ზომა: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Failed to remove the virtual environment folder."
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "ვირტუალური გარემოს საქაღალდის წაშლა ჩავარდა."
+msgstr ""
+"ვერ შევქმენი python-ის ვირტუალური გარემო:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format

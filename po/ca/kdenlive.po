@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-21 00:39+0000\n"
-"PO-Revision-Date: 2024-09-20 10:46+0200\n"
+"PO-Revision-Date: 2024-09-21 11:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -8582,21 +8582,19 @@ msgid "Bottom To Top"
 msgstr "De baix a dalt"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Incrementa la mida de la lletra"
+msgstr "Incrementa la mida de la lletra de l'editor"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Disminueix la mida de la lletra"
+msgstr "Disminueix la mida de la lletra de l'editor"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Neteja tots els formats personalitzats"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, kde-format
@@ -8610,10 +8608,9 @@ msgstr "Gestió d'estils…"
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "Caràcter: %1, total: <b>%2</b>"
+msgstr "Cursor: %1, total: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -15910,13 +15907,13 @@ msgstr "Mida del «venv» del Python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Failed to remove the virtual environment folder."
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Ha fallat en eliminar la carpeta de l'entorn virtual."
+msgstr ""
+"No s'ha pogut crear l'entorn virtual del Python:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format

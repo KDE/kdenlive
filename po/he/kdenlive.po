@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-21 00:39+0000\n"
-"PO-Revision-Date: 2024-09-20 16:03+0300\n"
+"PO-Revision-Date: 2024-09-21 08:50+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -8451,21 +8451,19 @@ msgid "Bottom To Top"
 msgstr "מלמטה למעלה"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "הגדלת הכתב"
+msgstr "הגדלת הכתב בעורך"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "הקטנת נכתב"
+msgstr "הקטנת הכתב בעורך"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "איפוס כל העיצוב המותאם"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, kde-format
@@ -8479,10 +8477,9 @@ msgstr "ניהול סגנונות…"
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "תו: %1, סך הכול: <b>%2</b>"
+msgstr "סמן: %1, סך הכול: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -15623,11 +15620,13 @@ msgstr "גודל venv של Python‏: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "לא ניתן לכתוב לקובץ %1"
+msgstr ""
+"לא ניתן ליצור את סביבת הפיית׳ון הווירטואלית:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format

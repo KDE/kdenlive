@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-21 00:39+0000\n"
-"PO-Revision-Date: 2024-09-20 19:08+0300\n"
+"PO-Revision-Date: 2024-09-21 22:04+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -8511,21 +8511,19 @@ msgid "Bottom To Top"
 msgstr "Aşağıdan Yukarıya"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Yazıtipi Boyutunu Artır"
+msgstr "Düzenleyici Yazıtipi Boyutunu Artır"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Yazıtipi Boyutunu Azalt"
+msgstr "Düzenleyici Yazıtipi Boyutunu Azalt"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Tüm Özel Biçimlendirmeyi Temizle"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, kde-format
@@ -8539,10 +8537,9 @@ msgstr "Biçemleri Yönet…"
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "Karakter: %1, toplam: <b>%2</b>"
+msgstr "İmleç: %1, toplam: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -15757,13 +15754,13 @@ msgstr "Python sanal ortam boyutu: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Failed to remove the virtual environment folder."
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Sanal ortam klasörü kaldırılamadı."
+msgstr ""
+"Python sanal ortamı oluşturulamıyor:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format
