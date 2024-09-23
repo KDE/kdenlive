@@ -143,7 +143,7 @@ public:
     bool checkConsistency() override;
 
     /** @brief Return the row of the effect in the stack, -1 if not */
-    int effectRow(const QString &assetId, int eid = -1) const;
+    int effectRow(const QString &assetId, int eid = -1, bool enabledOnly = false) const;
 
     /** @brief Remove all effects for this stack */
     void removeAllEffects(Fun &undo, Fun &redo);

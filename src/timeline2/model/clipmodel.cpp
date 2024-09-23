@@ -1552,9 +1552,9 @@ void ClipModel::switchBinReference(const QString newId, const QUuid &uuid)
     }
 }
 
-int ClipModel::assetRow(const QString &assetId, int eid) const
+int ClipModel::assetRow(const QString &assetId, int eid, bool enabledOnly) const
 {
-    return m_effectStack->effectRow(assetId, eid);
+    return m_effectStack->effectRow(assetId, eid, enabledOnly);
 }
 
 std::shared_ptr<KeyframeModelList> ClipModel::getKFModel(int row)

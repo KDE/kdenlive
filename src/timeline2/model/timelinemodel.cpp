@@ -6682,11 +6682,11 @@ void TimelineModel::requestRemoveFromSelection(int itemId)
 
 bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
 {
-    QWriteLocker locker(&m_lock);
     TRACE(ids);
     if (m_currentSelection.size() > 0) {
         requestClearSelection();
     }
+    QWriteLocker locker(&m_lock);
     // if the items are in groups, we must retrieve their topmost containing groups
     std::unordered_set<int> roots;
     std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return m_groups->getRootId(id); });

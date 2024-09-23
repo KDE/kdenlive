@@ -52,7 +52,7 @@ template <typename Service> std::pair<int, int> MoveableItem<Service>::getInOut(
     return {getIn(), getOut()};
 }
 
-template <typename Service> int MoveableItem<Service>::assetRow(const QString &assetId, int /*eid*/) const
+template <typename Service> int MoveableItem<Service>::assetRow(const QString &assetId, int /*eid*/, bool enabledOnly) const
 {
     Q_UNUSED(assetId);
     return -1;

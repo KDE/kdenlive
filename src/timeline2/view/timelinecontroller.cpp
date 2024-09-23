@@ -5615,11 +5615,15 @@ void TimelineController::switchFocusClip()
                     int nextClip = m_model->getTrackById_const(track)->getClipByPosition(pCore->getMonitorPosition());
                     if (nextClip > -1) {
                         std::shared_ptr<ClipModel> clip2 = m_model->getClipPtr(nextClip);
-                        int row = clip2->assetRow(assetId);
+                        int row = clip2->assetRow(assetId, -1, true);
                         if (row > -1) {
                             pCore->monitorManager()->projectMonitor()->blockSceneChange(true);
                             clip2->setActiveEffect(row);
-                            selectItems({nextClip});
+                            m_model->requestSetSelection({nextClip});
+                            if (m_model->m_groups->isInGroup(nextClip)) {
+                                // When the clip is grouped, we need to explicitely show the stack
+                                showAsset(nextClip);
+                            }
                             pCore->monitorManager()->projectMonitor()->blockSceneChange(false);
                             return;
                         }

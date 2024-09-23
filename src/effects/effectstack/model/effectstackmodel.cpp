@@ -1834,7 +1834,7 @@ bool EffectStackModel::hasKeyFrame(int frame)
     return listModel->hasKeyframe(frame);
 }
 
-int EffectStackModel::effectRow(const QString &assetId, int eid) const
+int EffectStackModel::effectRow(const QString &assetId, int eid, bool enabledOnly) const
 {
     for (int i = 0; i < rootItem->childCount(); ++i) {
         if (eid > -1) {
@@ -1844,7 +1844,9 @@ int EffectStackModel::effectRow(const QString &assetId, int eid) const
         } else {
             auto effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
             if (effect->getAssetId() == assetId) {
-                return i;
+                if (!enabledOnly || effect->isAssetEnabled()) {
+                    return i;
+                }
             }
         }
     }
