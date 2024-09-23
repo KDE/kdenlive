@@ -465,6 +465,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
         pCore->closing = true;
     }
+    if (m_project) {
+        m_project->closing = true;
+    }
     // Abort clip loading if any
     Q_EMIT pCore->stopProgressTask();
     qApp->processEvents();
@@ -477,7 +480,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     if (m_project) {
         pCore->taskManager.slotCancelJobs(true);
-        m_project->closing = true;
         if (m_activeTimelineModel) {
             m_activeTimelineModel->m_closing = true;
         }

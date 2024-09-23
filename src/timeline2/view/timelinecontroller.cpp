@@ -818,7 +818,7 @@ int TimelineController::copyItem()
         return -1;
     }
     int clipId = *(selectedIds.begin());
-    QString copyString = TimelineFunctions::copyClips(m_model, selectedIds, getMainSelectedClip());
+    const QString copyString = TimelineFunctions::copyClips(m_model, selectedIds, getMainSelectedClip());
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(copyString);
     m_root->setProperty("copiedClip", clipId);

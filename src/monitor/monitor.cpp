@@ -2005,6 +2005,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         pCore->guidesList()->setClipMarkerModel(nullptr);
         // m_audioChannels->menuAction()->setVisible(false);
         m_streamAction->setVisible(false);
+        if (pCore->currentDoc()->closing) {
+            return;
+        }
         if (monitorVisible()) {
             slotActivateMonitor();
         }
