@@ -1242,6 +1242,7 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
 void RenderWidget::setRenderProgress(const QString &dest, int progress, int frame)
 {
     RenderJobItem *item = nullptr;
+    qDebug() << "RECEIVED PROGRESS INFO: " << dest << ", progress:" << progress << ", FRM: " << frame;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
     if (!existing.isEmpty()) {
         item = static_cast<RenderJobItem *>(existing.at(0));
@@ -1258,12 +1259,26 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
         slotCheckJob();
     } else {
         QDateTime startTime = item->data(1, StartTimeRole).toDateTime();
-        qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
-        int dt = elapsedTime - item->data(1, LastTimeRole).toInt();
-        if (dt == 0) {
+        if (startTime.isNull()) {
+            // Recovering a job
+            QDateTime t = QDateTime::currentDateTime();
+            item->setData(1, StartTimeRole, t);
+            item->setData(1, LastTimeRole, 0);
+            item->setData(1, LastFrameRole, frame);
             return;
         }
-        qint64 remaining = elapsedTime * (100 - progress) / progress;
+        qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
+        qint64 lastTimeRole = item->data(1, LastTimeRole).toInt();
+        int dt = elapsedTime - lastTimeRole;
+        if (dt < 1) {
+            return;
+        }
+        qint64 remaining;
+        if (lastTimeRole == 0) {
+            remaining = elapsedTime * (100 - progress);
+        } else {
+            remaining = elapsedTime * (100 - progress) / progress;
+        }
         int days = int(remaining / 86400);
         int remainingSecs = int(remaining % 86400);
         QTime when = QTime(0, 0, 0, 0).addSecs(remainingSecs);
@@ -1272,7 +1287,15 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
             est.append(i18np("%1 day ", "%1 days ", days));
         }
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
-        int speed = (frame - item->data(1, LastFrameRole).toInt()) / dt;
+        int lastFrame = item->data(1, LastFrameRole).toInt();
+        if (frame < lastFrame) {
+            // Something is wrong, ignore progress
+            // return;
+        }
+        int speed = (frame - lastFrame) / dt;
+        if (speed < 0) {
+            // return;
+        }
         est.append(i18n(" (frame %1 @ %2 fps)", frame, speed));
         item->setData(1, Qt::UserRole, est);
         item->setData(1, LastTimeRole, elapsedTime);

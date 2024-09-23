@@ -8,6 +8,7 @@
 #include "mainwindow.h"
 #include <KLocalizedString>
 #include <QCoreApplication>
+#include <QJsonArray>
 #include <QJsonDocument>
 
 RenderServer::RenderServer(QObject *parent)
@@ -61,18 +62,20 @@ void RenderServer::jobSent()
 void RenderServer::handleJson(const QJsonObject &json, QLocalSocket *socket)
 {
     if (json.contains("url")) {
-        m_jobSocket[json["url"].toString()] = socket;
+        m_jobSocket[json.value("url").toString()] = socket;
     }
     if (json.contains("setRenderingProgress")) {
-        const auto url = json["setRenderingProgress"]["url"].toString();
-        const auto progress = json["setRenderingProgress"]["progress"].toInt();
-        const auto frame = json["setRenderingProgress"]["frame"].toInt();
+        const QJsonObject obj = json.value("setRenderingProgress").toObject();
+        const auto url = obj.value("url").toString();
+        const auto progress = obj.value("progress").toInt();
+        const auto frame = obj.value("frame").toInt();
         Q_EMIT setRenderingProgress(url, progress, frame);
     }
     if (json.contains("setRenderingFinished")) {
-        const auto url = json["setRenderingFinished"]["url"].toString();
-        const auto status = json["setRenderingFinished"]["status"].toInt();
-        const auto error = json["setRenderingFinished"]["error"].toString();
+        const QJsonObject obj = json.value("setRenderingFinished").toObject();
+        const auto url = obj.value("url").toString();
+        const auto status = obj.value("status").toInt();
+        const auto error = obj.value("error").toString();
         Q_EMIT setRenderingFinished(url, status, error);
         m_jobSocket.remove(url);
     }

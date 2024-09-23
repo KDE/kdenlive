@@ -6,16 +6,13 @@
 
 #pragma once
 
-#ifdef NODBUS
-#include <QLocalSocket>
-#else
-#include <QDBusInterface>
-#endif
 #include <QDateTime>
 #include <QEventLoop>
 #include <QFile>
+#include <QLocalSocket>
 #include <QObject>
 #include <QProcess>
+#include <QTimer>
 // Testing
 #include <QTextStream>
 
@@ -45,12 +42,8 @@ private:
     QString m_dest;
     int m_progress;
     QString m_prog;
-#ifdef NODBUS
     QLocalSocket* m_kdenlivesocket;
-#else
-    QDBusInterface *m_jobUiserver;
-    QDBusInterface *m_kdenliveinterface;
-#endif
+    QTimer m_connectTimer;
     /** @brief Used to create a temporary file for logging. */
     QFile m_logfile;
     bool m_erase;
@@ -58,7 +51,7 @@ private:
     int m_frame;
     int m_framein;
     int m_frameout;
-    /** @brief The process id of the Kdenlive instance, used to get the dbus service. */
+    /** @brief The process id of the Kdenlive instance, used to create the local socket instance. */
     int m_pid;
     bool m_dualpass;
     QString m_subtitleFile;
@@ -67,19 +60,14 @@ private:
     QProcess *m_subsProcess;
     QEventLoop m_looper;
     QString m_errorMessage;
-    QList<QVariant> m_dbusargs;
     QDateTime m_startTime;
     QStringList m_args;
     /** @brief Used to write to the log file. */
     QTextStream m_logstream;
     QString m_outputData;
-#ifdef NODBUS
     void fromServer();
-#else
-    void initKdenliveDbusInterface();
-#endif
     void sendFinish(int status, const QString &error);
-    void updateProgress(int speed = -1);
+    void updateProgress();
     void sendProgress();
 
 Q_SIGNALS:

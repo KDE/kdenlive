@@ -35,11 +35,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
-#ifdef NODBUS
 #include "render/renderserver.h"
-#else
-#include "mainwindowadaptor.h"
+
+#ifndef NODBUS
+#include <QDBusConnectionInterface>
+#include <QDBusInterface>
 #endif
+
 #include "dialogs/textbasededit.h"
 #include "dialogs/timeremap.h"
 #include "filefilter.h"
@@ -227,12 +229,8 @@ void MainWindow::init(const QString &mltPath)
     connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
 #endif
 
-    // QIcon::setThemeSearchPaths(QStringList() <<QStringLiteral(":/icons/"));
-#ifdef NODBUS
+    // Handle communication with the renderer app
     new RenderServer(this);
-#else
-    new RenderingAdaptor(this);
-#endif
     QString defaultProfile = KdenliveSettings::default_profile();
 
     // Initialise MLT connection
