@@ -1225,8 +1225,8 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                 int max = rootItem->childCount();
                 auto ms = m_masterService.lock();
                 int currentEffectPos = ms->filter_count() - 1;
-                int firstEffectPos = ms->filter_count() - max - 1;
-                if (max > 1 && firstEffectPos > 0) {
+                int firstEffectPos = ms->filter_count() - max;
+                if (max > 1 && firstEffectPos >= 0) {
                     // Find first kdenlive effect
                     std::shared_ptr<Mlt::Filter> ft(ms->filter(firstEffectPos));
                     const QString firstId = ft->get("mlt_service");
@@ -1237,6 +1237,9 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                     }
                     if (currentEffectPos != target) {
                         ms->move_filter(currentEffectPos, target);
+                        if (!effectItem->isHiddenBuiltIn()) {
+                            rootItem->moveChild(target, effectItem);
+                        }
                     }
                 }
             }
