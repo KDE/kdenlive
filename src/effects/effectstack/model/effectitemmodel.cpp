@@ -313,10 +313,15 @@ void EffectItemModel::setInOut(const QString &effectName, QPair<int, int> bounds
         Q_EMIT showEffectZone(m_ownerId, currentInOut, currentState == 1);
         return true;
     };
-    Fun redo = [this, enabled, bounds]() {
+    Fun redo = [this, enabled, bounds, currentInOut]() {
         m_asset->set("kdenlive:force_in_out", enabled ? 1 : 0);
         m_asset->set("in", bounds.first);
         m_asset->set("out", bounds.second);
+        if (!enabled) {
+            // Store last used zone
+            m_asset->set("_kdenlive_zone_in", currentInOut.first);
+            m_asset->set("_kdenlive_zone_out", currentInOut.second);
+        }
         Q_EMIT AssetParameterModel::updateChildren({QStringLiteral("in"), QStringLiteral("out")});
         if (!isAudio()) {
             pCore->refreshProjectItem(m_ownerId);

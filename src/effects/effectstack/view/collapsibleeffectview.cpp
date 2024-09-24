@@ -1024,8 +1024,15 @@ void CollapsibleEffectView::switchInOut(bool checked)
         ObjectId owner = m_model->getOwnerId();
         switch (owner.type) {
         case KdenliveObjectType::TimelineClip: {
-            int in = pCore->getItemIn(owner);
-            inOut = {in, in + pCore->getItemDuration(owner)};
+            int lastOut = m_model->filter().get_int("_kdenlive_zone_out");
+            if (lastOut > 0) {
+                int in = m_model->filter().get_int("_kdenlive_zone_in");
+                ;
+                inOut = {in, lastOut};
+            } else {
+                int in = pCore->getItemIn(owner);
+                inOut = {in, in + pCore->getItemDuration(owner)};
+            }
             break;
         }
         case KdenliveObjectType::TimelineTrack:
@@ -1033,8 +1040,15 @@ void CollapsibleEffectView::switchInOut(bool checked)
             if (!checked) {
                 inOut = {0, 0};
             } else {
-                int in = pCore->getMonitorPosition();
-                inOut = {in, in + pCore->getDurationFromString(KdenliveSettings::transition_duration())};
+                int lastOut = m_model->filter().get_int("_kdenlive_zone_out");
+                if (lastOut > 0) {
+                    int in = m_model->filter().get_int("_kdenlive_zone_in");
+                    ;
+                    inOut = {in, lastOut};
+                } else {
+                    int in = pCore->getMonitorPosition();
+                    inOut = {in, in + pCore->getDurationFromString(KdenliveSettings::transition_duration())};
+                }
             }
             break;
         }
