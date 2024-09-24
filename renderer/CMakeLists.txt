@@ -30,6 +30,7 @@ if(NOT USE_DBUS)
     target_link_libraries(kdenlive_render Qt${QT_MAJOR_VERSION}::Network)
 else()
     target_link_libraries(kdenlive_render Qt${QT_MAJOR_VERSION}::DBus)
+    target_link_libraries(kdenlive_render Qt${QT_MAJOR_VERSION}::Network)
 endif()
 
 install(TARGETS kdenlive_render DESTINATION ${KDE_INSTALL_BINDIR})
