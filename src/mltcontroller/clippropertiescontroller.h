@@ -130,6 +130,8 @@ private:
     void fillProperties();
     /** @brief Add/remove icon beside audio stream to indicate effects. */
     void updateStreamIcon(int row, int streamIndex);
+    /** @brief Create a rotated icon to display in side tabs. */
+    QIcon rotatedIcon(const QSize iconSize, const QString &iconName);
 
 Q_SIGNALS:
     void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);
