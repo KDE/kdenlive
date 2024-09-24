@@ -259,6 +259,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
         m_enableStackButton->setVisible(false);
         m_saveEffectStack->setVisible(false);
         m_switchBuiltStack->setVisible(false);
+        m_applyEffectGroups->menuAction()->setVisible(false);
         clear();
         return;
     }
