@@ -159,7 +159,7 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
     if (type == OperationCompletedMessage) {
         m_progress->setVisible(false);
     }
-    if (item.type == ErrorMessage || item.type == MltError) {
+    if (item.type == MltError) {
         KNotification::event(QStringLiteral("ErrorMessage"), item.text);
     }
 
