@@ -4580,7 +4580,7 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QStri
     */
 }
 
-void Bin::focusBinView() const
+void Bin::focusBinView()
 {
     if (m_itemView) {
         m_itemView->setFocus();
