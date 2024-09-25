@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-24 00:38+0000\n"
+"POT-Creation-Date: 2024-09-25 00:38+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -573,7 +573,7 @@ msgstr "Kuhu"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:876
+#: src/mltcontroller/clippropertiescontroller.cpp:877
 #, kde-format
 msgid "Swap channels"
 msgstr "Kanalite vahetamine"
@@ -3476,22 +3476,22 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Kaadrite näitamine ajateljel"
 
-#: src/assets/assetpanel.cpp:281
+#: src/assets/assetpanel.cpp:282
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efektid"
 
-#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:287 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parameetrid"
 
-#: src/assets/assetpanel.cpp:290
+#: src/assets/assetpanel.cpp:291
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Raja %1 efektid"
 
-#: src/assets/assetpanel.cpp:295
+#: src/assets/assetpanel.cpp:296
 #, kde-format
 msgid "Bin %1 effects"
 msgstr ""
@@ -4286,7 +4286,7 @@ msgid ""
 msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:932
+#: src/mltcontroller/clippropertiescontroller.cpp:933
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -4882,7 +4882,7 @@ msgstr "Vaigista video"
 msgid "Audio"
 msgstr "Heli"
 
-#: src/bin/bin.cpp:2424 src/mltcontroller/clippropertiescontroller.cpp:441
+#: src/bin/bin.cpp:2424 src/mltcontroller/clippropertiescontroller.cpp:442
 #, kde-format
 msgid "Image"
 msgstr "Pilt"
@@ -4919,7 +4919,7 @@ msgstr "Tiitrimall"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/bin/bin.cpp:2448 src/layoutmanagement.cpp:36
-#: src/mltcontroller/clippropertiescontroller.cpp:351
+#: src/mltcontroller/clippropertiescontroller.cpp:352
 #: src/ui/editsubstyle_ui.ui:80
 #, kde-format
 msgid "Color"
@@ -5071,7 +5071,7 @@ msgstr "Klooni klipp"
 msgid "Clip Properties"
 msgstr "Klipi omadused"
 
-#: src/bin/bin.cpp:3655 src/mltcontroller/clippropertiescontroller.cpp:280
+#: src/bin/bin.cpp:3655 src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-format
 msgid "Edit Clip"
 msgstr "Muuda klippi"
@@ -5358,7 +5358,7 @@ msgstr ""
 "Lisavood klipile\n"
 " %1"
 
-#: src/bin/bin.cpp:5902 src/mltcontroller/clippropertiescontroller.cpp:667
+#: src/bin/bin.cpp:5902 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "Videovoog %1"
@@ -5530,7 +5530,7 @@ msgstr[1] "Klippide lisamine"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
-#: src/mltcontroller/clippropertiescontroller.cpp:293
+#: src/mltcontroller/clippropertiescontroller.cpp:294
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:84
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:341
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
@@ -6971,7 +6971,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:515 src/dialogs/timeremap.cpp:1583
-#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1042
+#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1043
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -7086,8 +7086,8 @@ msgstr "Praegused seadistused"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1631
 #: src/dialogs/kdenlivesettingsdialog.cpp:1667
 #: src/dialogs/kdenlivesettingsdialog.cpp:1684
-#: src/mltcontroller/clippropertiescontroller.cpp:560
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:561
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:230
 #, kde-format
@@ -9570,7 +9570,7 @@ msgid "Asset file"
 msgstr "Kustuta failid"
 
 #: src/doc/documentchecker.cpp:1793
-#: src/mltcontroller/clippropertiescontroller.cpp:428
+#: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "Asendusklipp"
@@ -10121,7 +10121,7 @@ msgstr "Kaadrite peitmine"
 msgid "Show keyframes"
 msgstr "Liiguta võtmekaadreid"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:343
+#: src/effects/effectstack/model/effectitemmodel.cpp:348
 #, fuzzy, kde-format
 #| msgid "Update %1"
 msgid "Update zone for %1"
@@ -10137,7 +10137,7 @@ msgstr "Kopeeri efekt"
 #: src/effects/effectstack/model/effectstackmodel.cpp:366
 #: src/effects/effectstack/model/effectstackmodel.cpp:509
 #: src/effects/effectstack/model/effectstackmodel.cpp:614
-#: src/effects/effectstack/model/effectstackmodel.cpp:1396
+#: src/effects/effectstack/model/effectstackmodel.cpp:1399
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -13405,98 +13405,98 @@ msgstr "Renderdamiseks vajalikku programmi melt (MLT osa) ei leitud"
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "MLT profiile ei leitud, palun sisesta asukoht"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:172
-#: src/mltcontroller/clippropertiescontroller.cpp:1418
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:173
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
+#: src/mltcontroller/clippropertiescontroller.cpp:1476
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
 msgstr "kb/s"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:257
+#: src/mltcontroller/clippropertiescontroller.cpp:258
 #, kde-format
 msgid "Analysis data"
 msgstr "Analüüsiandmed"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:260
+#: src/mltcontroller/clippropertiescontroller.cpp:261
 #, kde-format
 msgid "Delete analysis"
 msgstr "Kustuta analüüs"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:261
+#: src/mltcontroller/clippropertiescontroller.cpp:262
 #, fuzzy, kde-kuit-format
 #| msgid "Delete data"
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Kustuta andmed"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:262
+#: src/mltcontroller/clippropertiescontroller.cpp:263
 #, fuzzy, kde-format
 #| msgid "Export analysis"
 msgid "Export analysis…"
 msgstr "Ekspordi analüüs"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:263
+#: src/mltcontroller/clippropertiescontroller.cpp:264
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:264
+#: src/mltcontroller/clippropertiescontroller.cpp:265
 #, fuzzy, kde-format
 #| msgid "Import analysis"
 msgid "Import analysis…"
 msgstr "Impordi analüüs"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:265
+#: src/mltcontroller/clippropertiescontroller.cpp:266
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:321
-#: src/mltcontroller/clippropertiescontroller.cpp:603
+#: src/mltcontroller/clippropertiescontroller.cpp:322
+#: src/mltcontroller/clippropertiescontroller.cpp:604
 #, kde-format
 msgid "Disable autorotate"
 msgstr "Automaatse pööramise keelamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:341
+#: src/mltcontroller/clippropertiescontroller.cpp:342
 #, kde-format
 msgid "Enter template text here"
 msgstr "Kirjuta siia malli tekst"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:343
+#: src/mltcontroller/clippropertiescontroller.cpp:344
 #, kde-format
 msgid "Apply"
 msgstr "Rakenda"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:373
+#: src/mltcontroller/clippropertiescontroller.cpp:374
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "Külgede suhe:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:483
+#: src/mltcontroller/clippropertiescontroller.cpp:484
 #, kde-format
 msgid "Delete proxy file"
 msgstr "Kustuta asendusfail"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:489
+#: src/mltcontroller/clippropertiescontroller.cpp:490
 #, kde-format
 msgid "Proxy options"
 msgstr "Asendusfaili valikud"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:494
+#: src/mltcontroller/clippropertiescontroller.cpp:495
 #, fuzzy, kde-format
 #| msgid "Open folder"
 msgid "Open folder…"
 msgstr "Ava kataloog"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:500
+#: src/mltcontroller/clippropertiescontroller.cpp:501
 #, kde-format
 msgid "Play proxy clip"
 msgstr "Asendusklipi esitamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:506
+#: src/mltcontroller/clippropertiescontroller.cpp:507
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "Kopeeri faili asukoht lõikepuhvrisse"
@@ -13504,9 +13504,9 @@ msgstr "Kopeeri faili asukoht lõikepuhvrisse"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:523
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
-#: src/mltcontroller/clippropertiescontroller.cpp:1412
+#: src/mltcontroller/clippropertiescontroller.cpp:524
+#: src/mltcontroller/clippropertiescontroller.cpp:1419
+#: src/mltcontroller/clippropertiescontroller.cpp:1424
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:115
 #, kde-format
@@ -13515,8 +13515,8 @@ msgstr "Kaadrisagedus:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:551
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:552
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:168
 #, fuzzy, kde-format
@@ -13527,8 +13527,8 @@ msgstr "Realaotus"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:559
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:560
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:225
 #, kde-format
@@ -13536,143 +13536,143 @@ msgid "Interlaced"
 msgstr "Ülerealaotusega"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:577
+#: src/mltcontroller/clippropertiescontroller.cpp:578
 #: src/ui/profiledialog_ui.ui:301
 #, fuzzy, kde-format
 #| msgid "Field order"
 msgid "Field order:"
 msgstr "Väljajärjestus"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:585
+#: src/mltcontroller/clippropertiescontroller.cpp:586
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom First"
 msgstr "Alumine esimesena"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:586
+#: src/mltcontroller/clippropertiescontroller.cpp:587
 #, fuzzy, kde-format
 #| msgid "Top first"
 msgid "Top First"
 msgstr "Ülemine esimesena"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:629
+#: src/mltcontroller/clippropertiescontroller.cpp:630
 #, fuzzy, kde-format
 #| msgid "Default"
 msgid "%1 (default)"
 msgstr "Vaikimisi"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:655
+#: src/mltcontroller/clippropertiescontroller.cpp:656
 #, kde-format
 msgid "Disable video"
 msgstr "Video keelamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:655
+#: src/mltcontroller/clippropertiescontroller.cpp:656
 #, kde-format
 msgid "Enable video"
 msgstr "Video lubamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:663
+#: src/mltcontroller/clippropertiescontroller.cpp:664
 #, kde-format
 msgid "Video stream"
 msgstr "Videovoog"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:713
+#: src/mltcontroller/clippropertiescontroller.cpp:714
 #, kde-format
 msgid "Disable audio"
 msgstr "Heli keelamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:713
+#: src/mltcontroller/clippropertiescontroller.cpp:714
 #, kde-format
 msgid "Enable audio"
 msgstr "Heli lubamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:721
+#: src/mltcontroller/clippropertiescontroller.cpp:722
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "Helivood"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:743
+#: src/mltcontroller/clippropertiescontroller.cpp:744
 #: src/monitor/monitor.cpp:1898
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:854
+#: src/mltcontroller/clippropertiescontroller.cpp:855
 #, kde-format
 msgid "Normalize"
 msgstr "Normaliseerimine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:898
+#: src/mltcontroller/clippropertiescontroller.cpp:899
 #, fuzzy, kde-format
 #| msgid "Channel"
 msgid "Copy channel:"
 msgstr "Kanal"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:899
+#: src/mltcontroller/clippropertiescontroller.cpp:900
 #: src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:900
+#: src/mltcontroller/clippropertiescontroller.cpp:901
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:929
+#: src/mltcontroller/clippropertiescontroller.cpp:930
 #, fuzzy, kde-format
 #| msgid "Gain"
 msgid "Gain:"
 msgstr "Signaalivõimendus"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:956
+#: src/mltcontroller/clippropertiescontroller.cpp:957
 #, fuzzy, kde-format
 #| msgid "Audio sync"
 msgid "Audio sync:"
 msgstr "Heli sünkroonis"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:958
+#: src/mltcontroller/clippropertiescontroller.cpp:959
 #, kde-format
 msgid "ms"
 msgstr "ms"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:977
+#: src/mltcontroller/clippropertiescontroller.cpp:978
 #, fuzzy, kde-format
 #| msgid "Color space"
 msgid "Color space:"
 msgstr "Värviruum"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1014
+#: src/mltcontroller/clippropertiescontroller.cpp:1015
 #, fuzzy, kde-format
 #| msgid "Color Space"
 msgid "Color range:"
 msgstr "Värviruum"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1023
+#: src/mltcontroller/clippropertiescontroller.cpp:1024
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1024
+#: src/mltcontroller/clippropertiescontroller.cpp:1025
 #, kde-format
 msgid "Full (JPEG)"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1041
+#: src/mltcontroller/clippropertiescontroller.cpp:1042
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr ""
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1072
+#: src/mltcontroller/clippropertiescontroller.cpp:1074
 #, kde-format
 msgid "File info"
 msgstr "Faili teave"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1073
+#: src/mltcontroller/clippropertiescontroller.cpp:1075
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -13680,86 +13680,86 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1075
+#: src/mltcontroller/clippropertiescontroller.cpp:1077
 #: src/ui/profiledialog_ui.ui:62 src/ui/titlewidget_ui.ui:660
 #, kde-format
 msgid "Properties"
 msgstr "Omadused"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1076
+#: src/mltcontroller/clippropertiescontroller.cpp:1078
 #, fuzzy, kde-kuit-format
 #| msgid "Display a vectorscope of the video data"
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "Videoandmete vektorskoobi näitamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1078
+#: src/mltcontroller/clippropertiescontroller.cpp:1080
 #, kde-format
 msgid "Audio Properties"
 msgstr "Heli omadused"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1079
+#: src/mltcontroller/clippropertiescontroller.cpp:1081
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1081
+#: src/mltcontroller/clippropertiescontroller.cpp:1083
 #: src/project/dialogs/projectsettings.cpp:870 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Metaandmed"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1083
+#: src/mltcontroller/clippropertiescontroller.cpp:1085
 #, kde-format
 msgid "Analysis"
 msgstr "Analüüs"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
 #, fuzzy, kde-kuit-format
 #| msgid "Delete analysis data"
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "Analüüsiandmete kustutamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1157
-#: src/mltcontroller/clippropertiescontroller.cpp:1470
+#: src/mltcontroller/clippropertiescontroller.cpp:1169
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, fuzzy, kde-format
 #| msgid "Tracks"
 msgid "Tracks:"
 msgstr "Rajad"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1361
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #, fuzzy, kde-format
 #| msgid "Image size"
 msgid "Image size:"
 msgstr "Pildi suurus"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1364
+#: src/mltcontroller/clippropertiescontroller.cpp:1376
 #, fuzzy, kde-format
 #| msgid "Frame duration"
 msgid "Image duration:"
 msgstr "Kaadri kestus"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1383
 #, fuzzy, kde-format
 #| msgid "Image background"
 msgid "Image count:"
 msgstr "Pildi taust"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1398
+#: src/mltcontroller/clippropertiescontroller.cpp:1410
 #, fuzzy, kde-format
 #| msgid "Video codec"
 msgid "Video codec:"
 msgstr "Videokoodek"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1414
 #, kde-format
 msgid "Frame size:"
 msgstr "Kaadrisuurus:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1418
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, fuzzy, kde-format
 #| msgid "Video bitrate"
 msgid "Video bitrate:"
@@ -13767,13 +13767,13 @@ msgstr "Video bitikiirus"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:1434
+#: src/mltcontroller/clippropertiescontroller.cpp:1446
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:271
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "Küljesuhe pikslites:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1436
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, fuzzy, kde-format
 #| msgid "Pixel format"
 msgid "Pixel format:"
@@ -13781,103 +13781,103 @@ msgstr "Pikslivorming"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1439
+#: src/mltcontroller/clippropertiescontroller.cpp:1451
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:281
 #, fuzzy, kde-format
 #| msgid "Colorspace"
 msgid "Colorspace:"
 msgstr "Värviruum"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "B frames:"
 msgstr " kaadrit"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, fuzzy, kde-format
 #| msgid "yes"
 msgid "Yes"
 msgstr "Jah"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, fuzzy, kde-format
 #| msgid "N"
 msgid "No"
 msgstr "N"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1445
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #, fuzzy, kde-format
 #| msgid "Audio streams"
 msgid "Audio streams:"
 msgstr "Helivood"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1451
+#: src/mltcontroller/clippropertiescontroller.cpp:1463
 #, fuzzy, kde-format
 #| msgid "Audio codec"
 msgid "Audio codec:"
 msgstr "Helikoodek"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1467
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Audio channels:"
 msgstr "Helikanalid"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1471
 #, fuzzy, kde-format
 #| msgid "Audio frequency"
 msgid "Audio frequency:"
 msgstr "Helisagedus"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1471
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:1476
 #, fuzzy, kde-format
 #| msgid "Audio bitrate"
 msgid "Audio bitrate:"
 msgstr "Audio bitikiirus"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1476
+#: src/mltcontroller/clippropertiescontroller.cpp:1488
 #, fuzzy, kde-format
 #| msgid "File size"
 msgid "File size:"
 msgstr "Failisuurus"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1498
-#: src/mltcontroller/clippropertiescontroller.cpp:1530
-#: src/mltcontroller/clippropertiescontroller.cpp:1562
+#: src/mltcontroller/clippropertiescontroller.cpp:1510
+#: src/mltcontroller/clippropertiescontroller.cpp:1542
+#: src/mltcontroller/clippropertiescontroller.cpp:1574
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1583
-#: src/mltcontroller/clippropertiescontroller.cpp:1609
+#: src/mltcontroller/clippropertiescontroller.cpp:1595
+#: src/mltcontroller/clippropertiescontroller.cpp:1621
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1650
+#: src/mltcontroller/clippropertiescontroller.cpp:1662
 #, fuzzy, kde-format
 #| msgid "Save Analysis Data"
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Analüüsiandmete salvestamine"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1651
-#: src/mltcontroller/clippropertiescontroller.cpp:1664
+#: src/mltcontroller/clippropertiescontroller.cpp:1663
+#: src/mltcontroller/clippropertiescontroller.cpp:1676
 #: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Tekstifail (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1663
+#: src/mltcontroller/clippropertiescontroller.cpp:1675
 #, fuzzy, kde-format
 #| msgid "Open Analysis Data"
 msgctxt "@title:window"
