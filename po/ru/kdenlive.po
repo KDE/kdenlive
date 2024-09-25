@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-24 00:38+0000\n"
+"POT-Creation-Date: 2024-09-25 00:38+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -585,7 +585,7 @@ msgstr "В"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:876
+#: src/mltcontroller/clippropertiescontroller.cpp:877
 #, kde-format
 msgid "Swap channels"
 msgstr "Поменять каналы местами"
@@ -3509,22 +3509,22 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Переключает отображение ключевых кадров на монтажном столе"
 
-#: src/assets/assetpanel.cpp:281
+#: src/assets/assetpanel.cpp:282
 #, kde-format
 msgid "%1 effects"
 msgstr "Эффекты %1"
 
-#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:287 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "Параметры %1"
 
-#: src/assets/assetpanel.cpp:290
+#: src/assets/assetpanel.cpp:291
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Эффекты дорожки %1"
 
-#: src/assets/assetpanel.cpp:295
+#: src/assets/assetpanel.cpp:296
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Эффекты корзины %1"
@@ -4282,7 +4282,7 @@ msgstr ""
 "аудио клипы)."
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:932
+#: src/mltcontroller/clippropertiescontroller.cpp:933
 #, kde-format
 msgid "dB"
 msgstr "дБ"
@@ -4861,7 +4861,7 @@ msgstr "Видео без звука"
 msgid "Audio"
 msgstr "Звук"
 
-#: src/bin/bin.cpp:2424 src/mltcontroller/clippropertiescontroller.cpp:441
+#: src/bin/bin.cpp:2424 src/mltcontroller/clippropertiescontroller.cpp:442
 #, kde-format
 msgid "Image"
 msgstr "Изображение"
@@ -4897,7 +4897,7 @@ msgstr "Шаблоны титров"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/bin/bin.cpp:2448 src/layoutmanagement.cpp:36
-#: src/mltcontroller/clippropertiescontroller.cpp:351
+#: src/mltcontroller/clippropertiescontroller.cpp:352
 #: src/ui/editsubstyle_ui.ui:80
 #, kde-format
 msgid "Color"
@@ -5043,7 +5043,7 @@ msgstr "Дублировать клип"
 msgid "Clip Properties"
 msgstr "Свойства клипа"
 
-#: src/bin/bin.cpp:3655 src/mltcontroller/clippropertiescontroller.cpp:280
+#: src/bin/bin.cpp:3655 src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-format
 msgid "Edit Clip"
 msgstr "Изменить клип"
@@ -5317,7 +5317,7 @@ msgstr ""
 "Дополнительные потоки для клипа\n"
 "%1"
 
-#: src/bin/bin.cpp:5902 src/mltcontroller/clippropertiescontroller.cpp:667
+#: src/bin/bin.cpp:5902 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "Видеопоток %1"
@@ -5476,7 +5476,7 @@ msgstr[3] "Добавить клип"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
-#: src/mltcontroller/clippropertiescontroller.cpp:293
+#: src/mltcontroller/clippropertiescontroller.cpp:294
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:84
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:341
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
@@ -6893,7 +6893,7 @@ msgstr ""
 # BUGME: Please split to the button captures and settings group name. --ayavorsky 20200418
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:515 src/dialogs/timeremap.cpp:1583
-#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1042
+#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1043
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -7005,8 +7005,8 @@ msgstr "Текущие параметры"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1631
 #: src/dialogs/kdenlivesettingsdialog.cpp:1667
 #: src/dialogs/kdenlivesettingsdialog.cpp:1684
-#: src/mltcontroller/clippropertiescontroller.cpp:560
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:561
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:230
 #, kde-format
@@ -9422,7 +9422,7 @@ msgid "Asset file"
 msgstr "Файл ресурса"
 
 #: src/doc/documentchecker.cpp:1793
-#: src/mltcontroller/clippropertiescontroller.cpp:428
+#: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "Прокси-клип"
@@ -9956,7 +9956,7 @@ msgstr "Ключевые кадры скрыты"
 msgid "Show keyframes"
 msgstr "Показать ключевые кадры"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:343
+#: src/effects/effectstack/model/effectitemmodel.cpp:348
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Обновить участок для %1"
@@ -9971,7 +9971,7 @@ msgstr "Копировать эффект"
 #: src/effects/effectstack/model/effectstackmodel.cpp:366
 #: src/effects/effectstack/model/effectstackmodel.cpp:509
 #: src/effects/effectstack/model/effectstackmodel.cpp:614
-#: src/effects/effectstack/model/effectstackmodel.cpp:1396
+#: src/effects/effectstack/model/effectstackmodel.cpp:1399
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Эффект %1 нельзя добавить дважды."
@@ -13188,94 +13188,94 @@ msgstr ""
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Не найдены профили MLT, укажите путь к ним"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:172
-#: src/mltcontroller/clippropertiescontroller.cpp:1418
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:173
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
+#: src/mltcontroller/clippropertiescontroller.cpp:1476
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
 msgstr "кб/с"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:257
+#: src/mltcontroller/clippropertiescontroller.cpp:258
 #, kde-format
 msgid "Analysis data"
 msgstr "Данные анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:260
+#: src/mltcontroller/clippropertiescontroller.cpp:261
 #, kde-format
 msgid "Delete analysis"
 msgstr "Удалить данные анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:261
+#: src/mltcontroller/clippropertiescontroller.cpp:262
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Удаляет набор(ы) данных."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:262
+#: src/mltcontroller/clippropertiescontroller.cpp:263
 #, kde-format
 msgid "Export analysis…"
 msgstr "Экспортировать данные анализа…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:263
+#: src/mltcontroller/clippropertiescontroller.cpp:264
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "Открывает диалоговое окно для экспорта/сохранения данных анализа."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:264
+#: src/mltcontroller/clippropertiescontroller.cpp:265
 #, kde-format
 msgid "Import analysis…"
 msgstr "Импортировать данные анализа…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:265
+#: src/mltcontroller/clippropertiescontroller.cpp:266
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "Открывает диалоговое окно для импорта/загрузки данных анализа."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:321
-#: src/mltcontroller/clippropertiescontroller.cpp:603
+#: src/mltcontroller/clippropertiescontroller.cpp:322
+#: src/mltcontroller/clippropertiescontroller.cpp:604
 #, kde-format
 msgid "Disable autorotate"
 msgstr "Выключить автоповорот"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:341
+#: src/mltcontroller/clippropertiescontroller.cpp:342
 #, kde-format
 msgid "Enter template text here"
 msgstr "Введите здесь текст шаблона"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:343
+#: src/mltcontroller/clippropertiescontroller.cpp:344
 #, kde-format
 msgid "Apply"
 msgstr "Применить"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:373
+#: src/mltcontroller/clippropertiescontroller.cpp:374
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "Соотношение сторон:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:483
+#: src/mltcontroller/clippropertiescontroller.cpp:484
 #, kde-format
 msgid "Delete proxy file"
 msgstr "Удалить прокси-файл"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:489
+#: src/mltcontroller/clippropertiescontroller.cpp:490
 #, kde-format
 msgid "Proxy options"
 msgstr "Опции прокси"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:494
+#: src/mltcontroller/clippropertiescontroller.cpp:495
 #, kde-format
 msgid "Open folder…"
 msgstr "Открыть папку…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:500
+#: src/mltcontroller/clippropertiescontroller.cpp:501
 #, kde-format
 msgid "Play proxy clip"
 msgstr "Воспроизвести прокси-клип"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:506
+#: src/mltcontroller/clippropertiescontroller.cpp:507
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "Копировать путь к файлу в буфер обмена"
@@ -13283,9 +13283,9 @@ msgstr "Копировать путь к файлу в буфер обмена"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:523
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
-#: src/mltcontroller/clippropertiescontroller.cpp:1412
+#: src/mltcontroller/clippropertiescontroller.cpp:524
+#: src/mltcontroller/clippropertiescontroller.cpp:1419
+#: src/mltcontroller/clippropertiescontroller.cpp:1424
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:115
 #, kde-format
@@ -13294,8 +13294,8 @@ msgstr "Кадровая частота:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:551
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:552
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:168
 #, kde-format
@@ -13305,8 +13305,8 @@ msgstr "Сканирование:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:559
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:560
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:225
 #, kde-format
@@ -13314,134 +13314,134 @@ msgid "Interlaced"
 msgstr "Чересстрочная"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:577
+#: src/mltcontroller/clippropertiescontroller.cpp:578
 #: src/ui/profiledialog_ui.ui:301
 #, kde-format
 msgid "Field order:"
 msgstr "Порядок полей:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:585
+#: src/mltcontroller/clippropertiescontroller.cpp:586
 #, kde-format
 msgid "Bottom First"
 msgstr "Сначала нижнее"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:586
+#: src/mltcontroller/clippropertiescontroller.cpp:587
 #, kde-format
 msgid "Top First"
 msgstr "Сначала верхнее"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:629
+#: src/mltcontroller/clippropertiescontroller.cpp:630
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1 (по умолчанию)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:655
+#: src/mltcontroller/clippropertiescontroller.cpp:656
 #, kde-format
 msgid "Disable video"
 msgstr "Выключить видео"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:655
+#: src/mltcontroller/clippropertiescontroller.cpp:656
 #, kde-format
 msgid "Enable video"
 msgstr "Включить видео"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:663
+#: src/mltcontroller/clippropertiescontroller.cpp:664
 #, kde-format
 msgid "Video stream"
 msgstr "Видеопоток"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:713
+#: src/mltcontroller/clippropertiescontroller.cpp:714
 #, kde-format
 msgid "Disable audio"
 msgstr "Выключить звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:713
+#: src/mltcontroller/clippropertiescontroller.cpp:714
 #, kde-format
 msgid "Enable audio"
 msgstr "Включить звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:721
+#: src/mltcontroller/clippropertiescontroller.cpp:722
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "Звуковые потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:743
+#: src/mltcontroller/clippropertiescontroller.cpp:744
 #: src/monitor/monitor.cpp:1898
 #, kde-format
 msgid "Merge all streams"
 msgstr "Объединить все потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:854
+#: src/mltcontroller/clippropertiescontroller.cpp:855
 #, kde-format
 msgid "Normalize"
 msgstr "Нормализация"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:898
+#: src/mltcontroller/clippropertiescontroller.cpp:899
 #, kde-format
 msgid "Copy channel:"
 msgstr "Скопировать канал:"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:899
+#: src/mltcontroller/clippropertiescontroller.cpp:900
 #: src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:900
+#: src/mltcontroller/clippropertiescontroller.cpp:901
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:929
+#: src/mltcontroller/clippropertiescontroller.cpp:930
 #, kde-format
 msgid "Gain:"
 msgstr "Усиление:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:956
+#: src/mltcontroller/clippropertiescontroller.cpp:957
 #, kde-format
 msgid "Audio sync:"
 msgstr "Синхронизация звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:958
+#: src/mltcontroller/clippropertiescontroller.cpp:959
 #, kde-format
 msgid "ms"
 msgstr "мс"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:977
+#: src/mltcontroller/clippropertiescontroller.cpp:978
 #, kde-format
 msgid "Color space:"
 msgstr "Цветовое пространство:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1014
+#: src/mltcontroller/clippropertiescontroller.cpp:1015
 #, kde-format
 msgid "Color range:"
 msgstr "Цветовой диапазон:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1023
+#: src/mltcontroller/clippropertiescontroller.cpp:1024
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Ограниченный для трансляции (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1024
+#: src/mltcontroller/clippropertiescontroller.cpp:1025
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Полный (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1041
+#: src/mltcontroller/clippropertiescontroller.cpp:1042
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "В файле используется переменная кадровая частота, не рекомендуется"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1072
+#: src/mltcontroller/clippropertiescontroller.cpp:1074
 #, kde-format
 msgid "File info"
 msgstr "Сведения о файле"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1073
+#: src/mltcontroller/clippropertiescontroller.cpp:1075
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -13449,184 +13449,184 @@ msgstr "Выводит подробную информацию о файле."
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1075
+#: src/mltcontroller/clippropertiescontroller.cpp:1077
 #: src/ui/profiledialog_ui.ui:62 src/ui/titlewidget_ui.ui:660
 #, kde-format
 msgid "Properties"
 msgstr "Свойства"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1076
+#: src/mltcontroller/clippropertiescontroller.cpp:1078
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "Выводит подробную информацию о видеоданных/кодеке."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1078
+#: src/mltcontroller/clippropertiescontroller.cpp:1080
 #, kde-format
 msgid "Audio Properties"
 msgstr "Свойства звука"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1079
+#: src/mltcontroller/clippropertiescontroller.cpp:1081
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
 msgstr "Выводит подробную информацию о звуковых потоках/данных/кодеке."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1081
+#: src/mltcontroller/clippropertiescontroller.cpp:1083
 #: src/project/dialogs/projectsettings.cpp:870 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "Метаданные"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1083
+#: src/mltcontroller/clippropertiescontroller.cpp:1085
 #, kde-format
 msgid "Analysis"
 msgstr "Обработать"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "Отображает данные обработки."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1157
-#: src/mltcontroller/clippropertiescontroller.cpp:1470
+#: src/mltcontroller/clippropertiescontroller.cpp:1169
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, kde-format
 msgid "Tracks:"
 msgstr "Дорожки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1361
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #, kde-format
 msgid "Image size:"
 msgstr "Размер изображения:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1364
+#: src/mltcontroller/clippropertiescontroller.cpp:1376
 #, kde-format
 msgid "Image duration:"
 msgstr "Длительность изображения:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1383
 #, kde-format
 msgid "Image count:"
 msgstr "Количество изображений:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1398
+#: src/mltcontroller/clippropertiescontroller.cpp:1410
 #, kde-format
 msgid "Video codec:"
 msgstr "Кодек видео:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1414
 #, kde-format
 msgid "Frame size:"
 msgstr "Размер кадра:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1418
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Битовый поток видео:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:1434
+#: src/mltcontroller/clippropertiescontroller.cpp:1446
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:271
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "Пропорции пиксела:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1436
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, kde-format
 msgid "Pixel format:"
 msgstr "Формат пиксела:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1439
+#: src/mltcontroller/clippropertiescontroller.cpp:1451
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:281
 #, kde-format
 msgid "Colorspace:"
 msgstr "Цветовое пространство:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "B frames:"
 msgstr "B-кадры:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "Yes"
 msgstr "Да"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "No"
 msgstr "Нет"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1445
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #, kde-format
 msgid "Audio streams:"
 msgstr "Звуковые потоки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1451
+#: src/mltcontroller/clippropertiescontroller.cpp:1463
 #, kde-format
 msgid "Audio codec:"
 msgstr "Кодек звука:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1467
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "Каналы звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1471
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Частота звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1471
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Гц"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:1476
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Битовый поток звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1476
+#: src/mltcontroller/clippropertiescontroller.cpp:1488
 #, kde-format
 msgid "File size:"
 msgstr "Размер файла:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1498
-#: src/mltcontroller/clippropertiescontroller.cpp:1530
-#: src/mltcontroller/clippropertiescontroller.cpp:1562
+#: src/mltcontroller/clippropertiescontroller.cpp:1510
+#: src/mltcontroller/clippropertiescontroller.cpp:1542
+#: src/mltcontroller/clippropertiescontroller.cpp:1574
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1583
-#: src/mltcontroller/clippropertiescontroller.cpp:1609
+#: src/mltcontroller/clippropertiescontroller.cpp:1595
+#: src/mltcontroller/clippropertiescontroller.cpp:1621
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1650
+#: src/mltcontroller/clippropertiescontroller.cpp:1662
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Сохранение данных анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1651
-#: src/mltcontroller/clippropertiescontroller.cpp:1664
+#: src/mltcontroller/clippropertiescontroller.cpp:1663
+#: src/mltcontroller/clippropertiescontroller.cpp:1676
 #: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Текстовый файл (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1663
+#: src/mltcontroller/clippropertiescontroller.cpp:1675
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"

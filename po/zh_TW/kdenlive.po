@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-24 00:38+0000\n"
+"POT-Creation-Date: 2024-09-25 00:38+0000\n"
 "PO-Revision-Date: 2024-09-23 21:10+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -544,7 +544,7 @@ msgstr "到"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:876
+#: src/mltcontroller/clippropertiescontroller.cpp:877
 #, kde-format
 msgid "Swap channels"
 msgstr "交換聲道"
@@ -3390,22 +3390,22 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "切換時間軸中是否顯示素材的關鍵幀"
 
-#: src/assets/assetpanel.cpp:281
+#: src/assets/assetpanel.cpp:282
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 的效果"
 
-#: src/assets/assetpanel.cpp:286 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:287 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 個參數"
 
-#: src/assets/assetpanel.cpp:290
+#: src/assets/assetpanel.cpp:291
 #, kde-format
 msgid "Track %1 effects"
 msgstr "軌道 %1 的效果"
 
-#: src/assets/assetpanel.cpp:295
+#: src/assets/assetpanel.cpp:296
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "素材庫 %1 的效果"
@@ -4137,7 +4137,7 @@ msgid ""
 msgstr "調整音訊軌道的輸出音量（會同等影響所有音訊素材）。"
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
-#: src/mltcontroller/clippropertiescontroller.cpp:932
+#: src/mltcontroller/clippropertiescontroller.cpp:933
 #, kde-format
 msgid "dB"
 msgstr "dB"
@@ -4696,7 +4696,7 @@ msgstr "將影片靜音"
 msgid "Audio"
 msgstr "音訊"
 
-#: src/bin/bin.cpp:2424 src/mltcontroller/clippropertiescontroller.cpp:441
+#: src/bin/bin.cpp:2424 src/mltcontroller/clippropertiescontroller.cpp:442
 #, kde-format
 msgid "Image"
 msgstr "圖片"
@@ -4732,7 +4732,7 @@ msgstr "標題樣板"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/bin/bin.cpp:2448 src/layoutmanagement.cpp:36
-#: src/mltcontroller/clippropertiescontroller.cpp:351
+#: src/mltcontroller/clippropertiescontroller.cpp:352
 #: src/ui/editsubstyle_ui.ui:80
 #, kde-format
 msgid "Color"
@@ -4876,7 +4876,7 @@ msgstr "複製素材"
 msgid "Clip Properties"
 msgstr "素材屬性"
 
-#: src/bin/bin.cpp:3655 src/mltcontroller/clippropertiescontroller.cpp:280
+#: src/bin/bin.cpp:3655 src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-format
 msgid "Edit Clip"
 msgstr "編輯素材"
@@ -5137,7 +5137,7 @@ msgstr ""
 "以下素材的額外串流\n"
 " %1"
 
-#: src/bin/bin.cpp:5902 src/mltcontroller/clippropertiescontroller.cpp:667
+#: src/bin/bin.cpp:5902 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "視訊串流 %1"
@@ -5287,7 +5287,7 @@ msgstr[0] "新增素材"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
-#: src/mltcontroller/clippropertiescontroller.cpp:293
+#: src/mltcontroller/clippropertiescontroller.cpp:294
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:84
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:341
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
@@ -6656,7 +6656,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:515 src/dialogs/timeremap.cpp:1583
-#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1042
+#: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1043
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -6766,8 +6766,8 @@ msgstr "目前設定"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1631
 #: src/dialogs/kdenlivesettingsdialog.cpp:1667
 #: src/dialogs/kdenlivesettingsdialog.cpp:1684
-#: src/mltcontroller/clippropertiescontroller.cpp:560
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:561
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:230
 #, kde-format
@@ -9036,7 +9036,7 @@ msgid "Asset file"
 msgstr "資源檔案"
 
 #: src/doc/documentchecker.cpp:1793
-#: src/mltcontroller/clippropertiescontroller.cpp:428
+#: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "代理素材"
@@ -9550,7 +9550,7 @@ msgstr "隱藏關鍵幀"
 msgid "Show keyframes"
 msgstr "顯示關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:343
+#: src/effects/effectstack/model/effectitemmodel.cpp:348
 #, kde-format
 msgid "Update zone for %1"
 msgstr "為 %1 更新區段"
@@ -9565,7 +9565,7 @@ msgstr "複製效果"
 #: src/effects/effectstack/model/effectstackmodel.cpp:366
 #: src/effects/effectstack/model/effectstackmodel.cpp:509
 #: src/effects/effectstack/model/effectstackmodel.cpp:614
-#: src/effects/effectstack/model/effectstackmodel.cpp:1396
+#: src/effects/effectstack/model/effectstackmodel.cpp:1399
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 無法加入兩次。"
@@ -12635,94 +12635,94 @@ msgstr "無法找到算繪影片所需的 melt 程式 (它是 MLT 的一部分)"
 msgid "Cannot find your MLT profiles, please give the path"
 msgstr "無法找到您的 MLT 編碼方案，請指定路徑"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:172
-#: src/mltcontroller/clippropertiescontroller.cpp:1418
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:173
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
+#: src/mltcontroller/clippropertiescontroller.cpp:1476
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
 msgstr "kB/秒"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:257
+#: src/mltcontroller/clippropertiescontroller.cpp:258
 #, kde-format
 msgid "Analysis data"
 msgstr "分析數據"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:260
+#: src/mltcontroller/clippropertiescontroller.cpp:261
 #, kde-format
 msgid "Delete analysis"
 msgstr "刪除數據"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:261
+#: src/mltcontroller/clippropertiescontroller.cpp:262
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "刪除資料集。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:262
+#: src/mltcontroller/clippropertiescontroller.cpp:263
 #, kde-format
 msgid "Export analysis…"
 msgstr "匯出分析…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:263
+#: src/mltcontroller/clippropertiescontroller.cpp:264
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "開啟檔案對話框視窗來匯出/儲存分析資料。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:264
+#: src/mltcontroller/clippropertiescontroller.cpp:265
 #, kde-format
 msgid "Import analysis…"
 msgstr "匯入分析…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:265
+#: src/mltcontroller/clippropertiescontroller.cpp:266
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "開啟檔案對話框視窗來匯入/載入分析資料。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:321
-#: src/mltcontroller/clippropertiescontroller.cpp:603
+#: src/mltcontroller/clippropertiescontroller.cpp:322
+#: src/mltcontroller/clippropertiescontroller.cpp:604
 #, kde-format
 msgid "Disable autorotate"
 msgstr "關閉自動旋轉"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:341
+#: src/mltcontroller/clippropertiescontroller.cpp:342
 #, kde-format
 msgid "Enter template text here"
 msgstr "在此輸入樣板文字"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:343
+#: src/mltcontroller/clippropertiescontroller.cpp:344
 #, kde-format
 msgid "Apply"
 msgstr "套用"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:373
+#: src/mltcontroller/clippropertiescontroller.cpp:374
 #, kde-format
 msgid "Aspect ratio:"
 msgstr "寬高比："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:483
+#: src/mltcontroller/clippropertiescontroller.cpp:484
 #, kde-format
 msgid "Delete proxy file"
 msgstr "刪除代理檔"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:489
+#: src/mltcontroller/clippropertiescontroller.cpp:490
 #, kde-format
 msgid "Proxy options"
 msgstr "代理選項"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:494
+#: src/mltcontroller/clippropertiescontroller.cpp:495
 #, kde-format
 msgid "Open folder…"
 msgstr "開啟資料夾…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:500
+#: src/mltcontroller/clippropertiescontroller.cpp:501
 #, kde-format
 msgid "Play proxy clip"
 msgstr "播放代理素材"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:506
+#: src/mltcontroller/clippropertiescontroller.cpp:507
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "複製檔案路徑到剪貼簿"
@@ -12730,9 +12730,9 @@ msgstr "複製檔案路徑到剪貼簿"
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:523
-#: src/mltcontroller/clippropertiescontroller.cpp:1407
-#: src/mltcontroller/clippropertiescontroller.cpp:1412
+#: src/mltcontroller/clippropertiescontroller.cpp:524
+#: src/mltcontroller/clippropertiescontroller.cpp:1419
+#: src/mltcontroller/clippropertiescontroller.cpp:1424
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
 #: src/ui/profiledialog_ui.ui:115
 #, kde-format
@@ -12741,8 +12741,8 @@ msgstr "幀率："
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:551
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:552
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
 #: src/ui/profiledialog_ui.ui:168
 #, kde-format
@@ -12752,8 +12752,8 @@ msgstr "掃描："
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:559
-#: src/mltcontroller/clippropertiescontroller.cpp:1422
+#: src/mltcontroller/clippropertiescontroller.cpp:560
+#: src/mltcontroller/clippropertiescontroller.cpp:1434
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
 #: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:225
 #, kde-format
@@ -12761,134 +12761,134 @@ msgid "Interlaced"
 msgstr "交錯式"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:577
+#: src/mltcontroller/clippropertiescontroller.cpp:578
 #: src/ui/profiledialog_ui.ui:301
 #, kde-format
 msgid "Field order:"
 msgstr "場序："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:585
+#: src/mltcontroller/clippropertiescontroller.cpp:586
 #, kde-format
 msgid "Bottom First"
 msgstr "底部先"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:586
+#: src/mltcontroller/clippropertiescontroller.cpp:587
 #, kde-format
 msgid "Top First"
 msgstr "頂端先"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:629
+#: src/mltcontroller/clippropertiescontroller.cpp:630
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1（預設）"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:655
+#: src/mltcontroller/clippropertiescontroller.cpp:656
 #, kde-format
 msgid "Disable video"
 msgstr "關閉視訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:655
+#: src/mltcontroller/clippropertiescontroller.cpp:656
 #, kde-format
 msgid "Enable video"
 msgstr "啟用視訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:663
+#: src/mltcontroller/clippropertiescontroller.cpp:664
 #, kde-format
 msgid "Video stream"
 msgstr "視訊串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:713
+#: src/mltcontroller/clippropertiescontroller.cpp:714
 #, kde-format
 msgid "Disable audio"
 msgstr "關閉音效"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:713
+#: src/mltcontroller/clippropertiescontroller.cpp:714
 #, kde-format
 msgid "Enable audio"
 msgstr "啟用音訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:721
+#: src/mltcontroller/clippropertiescontroller.cpp:722
 #: src/monitor/monitor.cpp:304
 #, kde-format
 msgid "Audio streams"
 msgstr "音訊串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:743
+#: src/mltcontroller/clippropertiescontroller.cpp:744
 #: src/monitor/monitor.cpp:1898
 #, kde-format
 msgid "Merge all streams"
 msgstr "合併所有串流"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:854
+#: src/mltcontroller/clippropertiescontroller.cpp:855
 #, kde-format
 msgid "Normalize"
 msgstr "正規化"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:898
+#: src/mltcontroller/clippropertiescontroller.cpp:899
 #, kde-format
 msgid "Copy channel:"
 msgstr "複製頻道："
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:899
+#: src/mltcontroller/clippropertiescontroller.cpp:900
 #: src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:900
+#: src/mltcontroller/clippropertiescontroller.cpp:901
 #: src/ui/projectsettings_ui.ui:579
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:929
+#: src/mltcontroller/clippropertiescontroller.cpp:930
 #, kde-format
 msgid "Gain:"
 msgstr "增益："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:956
+#: src/mltcontroller/clippropertiescontroller.cpp:957
 #, kde-format
 msgid "Audio sync:"
 msgstr "音訊同步："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:958
+#: src/mltcontroller/clippropertiescontroller.cpp:959
 #, kde-format
 msgid "ms"
 msgstr "毫秒"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:977
+#: src/mltcontroller/clippropertiescontroller.cpp:978
 #, kde-format
 msgid "Color space:"
 msgstr "色彩空間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1014
+#: src/mltcontroller/clippropertiescontroller.cpp:1015
 #, kde-format
 msgid "Color range:"
 msgstr "色彩範圍："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1023
+#: src/mltcontroller/clippropertiescontroller.cpp:1024
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "有限 (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1024
+#: src/mltcontroller/clippropertiescontroller.cpp:1025
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "完整 (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1041
+#: src/mltcontroller/clippropertiescontroller.cpp:1042
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "檔案使用可變幀率，不建議"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1072
+#: src/mltcontroller/clippropertiescontroller.cpp:1074
 #, kde-format
 msgid "File info"
 msgstr "檔案資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1073
+#: src/mltcontroller/clippropertiescontroller.cpp:1075
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the file."
@@ -12896,184 +12896,184 @@ msgstr "顯示關於檔案的詳細資訊。"
 
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
-#: src/mltcontroller/clippropertiescontroller.cpp:1075
+#: src/mltcontroller/clippropertiescontroller.cpp:1077
 #: src/ui/profiledialog_ui.ui:62 src/ui/titlewidget_ui.ui:660
 #, kde-format
 msgid "Properties"
 msgstr "屬性"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1076
+#: src/mltcontroller/clippropertiescontroller.cpp:1078
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the video data/codec."
 msgstr "顯示關於視訊資料/編碼器的詳細資訊。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1078
+#: src/mltcontroller/clippropertiescontroller.cpp:1080
 #, kde-format
 msgid "Audio Properties"
 msgstr "音訊屬性"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1079
+#: src/mltcontroller/clippropertiescontroller.cpp:1081
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays detailed information about the audio streams/data/codec."
 msgstr "顯示關於音訊串流/資料/編碼器的詳細資訊。"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/mltcontroller/clippropertiescontroller.cpp:1081
+#: src/mltcontroller/clippropertiescontroller.cpp:1083
 #: src/project/dialogs/projectsettings.cpp:870 src/ui/projectsettings_ui.ui:552
 #, kde-format
 msgid "Metadata"
 msgstr "描述資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1083
+#: src/mltcontroller/clippropertiescontroller.cpp:1085
 #, kde-format
 msgid "Analysis"
 msgstr "分析"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1084
+#: src/mltcontroller/clippropertiescontroller.cpp:1086
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "顯示分析數據。"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1157
-#: src/mltcontroller/clippropertiescontroller.cpp:1470
+#: src/mltcontroller/clippropertiescontroller.cpp:1169
+#: src/mltcontroller/clippropertiescontroller.cpp:1482
 #, kde-format
 msgid "Tracks:"
 msgstr "軌道："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1361
+#: src/mltcontroller/clippropertiescontroller.cpp:1373
 #, kde-format
 msgid "Image size:"
 msgstr "圖片大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1364
+#: src/mltcontroller/clippropertiescontroller.cpp:1376
 #, kde-format
 msgid "Image duration:"
 msgstr "圖片持續時間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1371
+#: src/mltcontroller/clippropertiescontroller.cpp:1383
 #, kde-format
 msgid "Image count:"
 msgstr "圖片數量："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1398
+#: src/mltcontroller/clippropertiescontroller.cpp:1410
 #, kde-format
 msgid "Video codec:"
 msgstr "視訊編碼："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1414
 #, kde-format
 msgid "Frame size:"
 msgstr "畫面大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1418
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #, kde-format
 msgid "Video bitrate:"
 msgstr "視訊位元率："
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: src/mltcontroller/clippropertiescontroller.cpp:1434
+#: src/mltcontroller/clippropertiescontroller.cpp:1446
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:271
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "像素寬高比："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1436
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, kde-format
 msgid "Pixel format:"
 msgstr "像素格式："
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
-#: src/mltcontroller/clippropertiescontroller.cpp:1439
+#: src/mltcontroller/clippropertiescontroller.cpp:1451
 #: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:281
 #, kde-format
 msgid "Colorspace:"
 msgstr "色彩空間："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "B frames:"
 msgstr "B-Frame："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "Yes"
 msgstr "是"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1442
+#: src/mltcontroller/clippropertiescontroller.cpp:1454
 #, kde-format
 msgid "No"
 msgstr "否"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1445
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #, kde-format
 msgid "Audio streams:"
 msgstr "音訊串流："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1451
+#: src/mltcontroller/clippropertiescontroller.cpp:1463
 #, kde-format
 msgid "Audio codec:"
 msgstr "音訊編碼："
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1455
+#: src/mltcontroller/clippropertiescontroller.cpp:1467
 #: src/ui/configproject_ui.ui:117 src/ui/projectsettings_ui.ui:134
 #, kde-format
 msgid "Audio channels:"
 msgstr "聲道："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1471
 #, kde-format
 msgid "Audio frequency:"
 msgstr "音訊頻率："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1459
+#: src/mltcontroller/clippropertiescontroller.cpp:1471
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1464
+#: src/mltcontroller/clippropertiescontroller.cpp:1476
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "音訊位元率："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1476
+#: src/mltcontroller/clippropertiescontroller.cpp:1488
 #, kde-format
 msgid "File size:"
 msgstr "檔案大小："
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1498
-#: src/mltcontroller/clippropertiescontroller.cpp:1530
-#: src/mltcontroller/clippropertiescontroller.cpp:1562
+#: src/mltcontroller/clippropertiescontroller.cpp:1510
+#: src/mltcontroller/clippropertiescontroller.cpp:1542
+#: src/mltcontroller/clippropertiescontroller.cpp:1574
 #, kde-format
 msgid "Exif"
 msgstr "Exif 資訊"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1583
-#: src/mltcontroller/clippropertiescontroller.cpp:1609
+#: src/mltcontroller/clippropertiescontroller.cpp:1595
+#: src/mltcontroller/clippropertiescontroller.cpp:1621
 #, kde-format
 msgid "Magic Lantern"
 msgstr "魔術燈"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1650
+#: src/mltcontroller/clippropertiescontroller.cpp:1662
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "儲存分析數據"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1651
-#: src/mltcontroller/clippropertiescontroller.cpp:1664
+#: src/mltcontroller/clippropertiescontroller.cpp:1663
+#: src/mltcontroller/clippropertiescontroller.cpp:1676
 #: src/project/dialogs/projectsettings.cpp:808
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "文字檔案 (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1663
+#: src/mltcontroller/clippropertiescontroller.cpp:1675
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
