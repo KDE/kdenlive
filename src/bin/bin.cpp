@@ -4582,7 +4582,11 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QStri
 
 void Bin::focusBinView() const
 {
-    m_itemView->setFocus();
+    if (m_itemView) {
+        m_itemView->setFocus();
+    } else {
+        setFocus();
+    }
 }
 
 void Bin::slotOpenClipExtern()
