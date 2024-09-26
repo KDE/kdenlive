@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-25 00:38+0000\n"
+"POT-Creation-Date: 2024-09-26 00:39+0000\n"
 "PO-Revision-Date: 2024-09-21 08:50+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -4639,7 +4639,7 @@ msgstr "אי אפשר להחליף סרטון בסוג אחר של סרטון (�
 msgid "Replace in timeline"
 msgstr "החלפה בציר הזמן"
 
-#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5775 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5779 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5031,27 +5031,27 @@ msgstr "עריכת תגיות"
 msgid "Unnamed"
 msgstr "ללא שם"
 
-#: src/bin/bin.cpp:4574
+#: src/bin/bin.cpp:4578
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "נא למלא את הנתיב ליישום עריכת התמונות שלך"
 
-#: src/bin/bin.cpp:4586
+#: src/bin/bin.cpp:4590
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי תמונות"
 
-#: src/bin/bin.cpp:4591
+#: src/bin/bin.cpp:4595
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "נא למלא את הנתיב ליישום עריכת השמע שלך"
 
-#: src/bin/bin.cpp:4603
+#: src/bin/bin.cpp:4607
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי שמע"
 
-#: src/bin/bin.cpp:4613 src/core.cpp:320 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4617 src/core.cpp:320 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -5060,12 +5060,12 @@ msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי
 msgid "Cannot open file %1"
 msgstr "לא ניתן לפתוח את הקובץ %1"
 
-#: src/bin/bin.cpp:4793 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4797 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr "(עותק)"
 
-#: src/bin/bin.cpp:4803
+#: src/bin/bin.cpp:4807
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5074,75 +5074,75 @@ msgstr ""
 "בחרת לערוך סרטון כותרת חיצוני (%1). לשמור את השינויים שלך לקובץ הכותרת או "
 "לשמור את השינויים רק למיזם הזה?"
 
-#: src/bin/bin.cpp:4806 src/titler/titlewidget.cpp:2263
+#: src/bin/bin.cpp:4810 src/titler/titlewidget.cpp:2263
 #, kde-format
 msgid "Save Title"
 msgstr "שמירת כותר"
 
-#: src/bin/bin.cpp:4806
+#: src/bin/bin.cpp:4810
 #, kde-format
 msgid "Save to title file"
 msgstr "שמירה לקובץ כותר"
 
-#: src/bin/bin.cpp:4807
+#: src/bin/bin.cpp:4811
 #, kde-format
 msgid "Save in project only"
 msgstr "שמירה במיזם בלבד"
 
-#: src/bin/bin.cpp:4827 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4831 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "סרטון כותר"
 
-#: src/bin/bin.cpp:4877
+#: src/bin/bin.cpp:4881
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "הסרטון שגוי, הוא יוסר מהמיזם."
 
-#: src/bin/bin.cpp:4881
+#: src/bin/bin.cpp:4885
 #, kde-format
 msgid "Invalid clip"
 msgstr "סרטון שגוי"
 
-#: src/bin/bin.cpp:4995
+#: src/bin/bin.cpp:4999
 #, kde-format
 msgid "Enable proxies"
 msgstr "הפעלת תיווכים"
 
-#: src/bin/bin.cpp:4995
+#: src/bin/bin.cpp:4999
 #, kde-format
 msgid "Disable proxies"
 msgstr "השבתת תיווכים"
 
-#: src/bin/bin.cpp:5169
+#: src/bin/bin.cpp:5173
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "בניית תיווכים מחדש"
 
-#: src/bin/bin.cpp:5394
+#: src/bin/bin.cpp:5398
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "סל מיזם"
 
-#: src/bin/bin.cpp:5410
+#: src/bin/bin.cpp:5414
 #, kde-format
 msgid "Add Tracks"
 msgstr "הוספת רצועות"
 
-#: src/bin/bin.cpp:5412
+#: src/bin/bin.cpp:5416
 #, kde-format
 msgid "Edit Streams"
 msgstr "עריכת תזרימים"
 
-#: src/bin/bin.cpp:5427
+#: src/bin/bin.cpp:5431
 #, kde-format
 msgid "Don't ask again"
 msgstr "לא לשאול שוב"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5431
+#: src/bin/bin.cpp:5435
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5150,27 +5150,27 @@ msgid ""
 msgstr ""
 "המיזם שלך צריך יותר רצועות שמע כדי לטפל בכל התזרימים. להוסיף %1 רצועות שמע?"
 
-#: src/bin/bin.cpp:5443 src/mainwindow.cpp:2833
+#: src/bin/bin.cpp:5447 src/mainwindow.cpp:2833
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "לא נמצא סרטון להוספת סמן"
 
-#: src/bin/bin.cpp:5537
+#: src/bin/bin.cpp:5541
 #, kde-format
 msgid "Could not find master clip"
 msgstr "לא ניתן למצוא את סרטון ההורה"
 
-#: src/bin/bin.cpp:5797
+#: src/bin/bin.cpp:5801
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> סרטונים | "
 
-#: src/bin/bin.cpp:5799
+#: src/bin/bin.cpp:5803
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> סרטונים (%2 נבחרו) | "
 
-#: src/bin/bin.cpp:5866 src/bin/bin.cpp:5943
+#: src/bin/bin.cpp:5870 src/bin/bin.cpp:5947
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5179,12 +5179,12 @@ msgstr[1] "הוספת תזרימים נוספים לסרטון"
 msgstr[2] "הוספת תזרימים נוספים לסרטון"
 msgstr[3] "הוספת תזרימים נוספים לסרטון"
 
-#: src/bin/bin.cpp:5887
+#: src/bin/bin.cpp:5891
 #, kde-format
 msgid "Import selected clips"
 msgstr "ייבוא הסרטונים הנבחרים"
 
-#: src/bin/bin.cpp:5889
+#: src/bin/bin.cpp:5893
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5193,51 +5193,51 @@ msgstr ""
 "תזרימים נוספים לסרטון\n"
 "%1"
 
-#: src/bin/bin.cpp:5902 src/mltcontroller/clippropertiescontroller.cpp:668
+#: src/bin/bin.cpp:5906 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "תזרים וידאו %1"
 
-#: src/bin/bin.cpp:5917
+#: src/bin/bin.cpp:5921
 #, kde-format
 msgid "Audio stream %1"
 msgstr "תזרים שמע %1"
 
-#: src/bin/bin.cpp:5970
+#: src/bin/bin.cpp:5974
 #, kde-format
 msgid "Remove clip markers"
 msgstr "הסרת סמני סרטון"
 
-#: src/bin/bin.cpp:6117
+#: src/bin/bin.cpp:6121
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "אנו ממליצים לך לשמור את המיזם לפני ההתמרה"
 
-#: src/bin/bin.cpp:6118
+#: src/bin/bin.cpp:6122
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "שמירת המיזם"
 
-#: src/bin/bin.cpp:6119
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "התמרה ללא שמירה"
 
-#: src/bin/bin.cpp:6268 src/effects/effectstack/model/effectstackmodel.cpp:173
+#: src/bin/bin.cpp:6272 src/effects/effectstack/model/effectstackmodel.cpp:173
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "מחיקת אפקט %1"
 
-#: src/bin/bin.cpp:6333 src/mainwindow.cpp:396
+#: src/bin/bin.cpp:6337 src/mainwindow.cpp:396
 #, kde-format
 msgid "Project Bin"
 msgstr "סל מיזם"
 
-#: src/bin/bin.cpp:6336 src/bin/bin.cpp:6339 src/mainwindow.cpp:4976
+#: src/bin/bin.cpp:6340 src/bin/bin.cpp:6343 src/mainwindow.cpp:4976
 #, kde-format
 msgid "Project Bin %1"
 msgstr "סל המיזם %1"
@@ -7523,7 +7523,7 @@ msgstr "וידאו ללא רצועת שמע"
 msgid "Audio without video track"
 msgstr "שמע ללא רצועת וידאו"
 
-#: src/dialogs/renderwidget.cpp:871 src/main.cpp:423
+#: src/dialogs/renderwidget.cpp:871 src/main.cpp:426
 #, kde-format
 msgid "Rendering <i>%1</i> started"
 msgstr "התיצוג של <i>%1</i> התחיל"
@@ -11002,7 +11002,7 @@ msgstr "מסמך Kdenlive לפתיחה."
 msgid "Output file for rendered video."
 msgstr "קובץ פלט לווידאו שעבר תיצוג."
 
-#: src/main.cpp:442
+#: src/main.cpp:445
 #, kde-format
 msgid "Version %1"
 msgstr "גרסה %1"
