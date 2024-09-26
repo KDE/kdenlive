@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-20 02:38+0000\n"
+"POT-Creation-Date: 2024-09-26 02:30+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -4727,7 +4727,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Učitaj projektne isječke"
 
-#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5808 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5812 src/bin/clipcreator.cpp:324
 #, fuzzy, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5141,24 +5141,24 @@ msgstr "Trajanje"
 msgid "Unnamed"
 msgstr "Ime datoteke"
 
-#: src/bin/bin.cpp:4602
+#: src/bin/bin.cpp:4606
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4614
+#: src/bin/bin.cpp:4618
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
 msgid "Please set a default application to open image files"
 msgstr "Postavi zadanu aplikaciju za otvaranje slika u dijalogu Postavke"
 
-#: src/bin/bin.cpp:4619
+#: src/bin/bin.cpp:4623
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4631
+#: src/bin/bin.cpp:4635
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -5167,7 +5167,7 @@ msgid "Please set a default application to open audio files"
 msgstr ""
 "Postavi zadanu aplikaciju za otvaranje zvukovnih datoteka u dijalogu Postavke"
 
-#: src/bin/bin.cpp:4641 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4645 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5177,122 +5177,122 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/bin/bin.cpp:4821 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4825 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4831
+#: src/bin/bin.cpp:4835
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
 "changes to the title file or save the changes for this project only?"
 msgstr ""
 
-#: src/bin/bin.cpp:4834 src/titler/titlewidget.cpp:2281
+#: src/bin/bin.cpp:4838 src/titler/titlewidget.cpp:2281
 #, kde-format
 msgid "Save Title"
 msgstr "Spremi naslov"
 
-#: src/bin/bin.cpp:4834
+#: src/bin/bin.cpp:4838
 #, fuzzy, kde-format
 #| msgid "Save Profile"
 msgid "Save to title file"
 msgstr "Spremi profil"
 
-#: src/bin/bin.cpp:4835
+#: src/bin/bin.cpp:4839
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgid "Save in project only"
 msgstr "Spremi DVD projekt"
 
-#: src/bin/bin.cpp:4855 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4859 src/dialogs/clipcreationdialog.cpp:328
 #, fuzzy, kde-format
 msgid "Title clip"
 msgstr "isječak naslova"
 
-#: src/bin/bin.cpp:4905
+#: src/bin/bin.cpp:4909
 #, fuzzy, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "isječak <b>%1</b><br>nije valjan, bit će uklonjen iz projekta."
 
-#: src/bin/bin.cpp:4909
+#: src/bin/bin.cpp:4913
 #, kde-format
 msgid "Invalid clip"
 msgstr "Pogrešan isječak"
 
-#: src/bin/bin.cpp:5023
+#: src/bin/bin.cpp:5027
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Enable proxies"
 msgstr "Obriši profil"
 
-#: src/bin/bin.cpp:5023
+#: src/bin/bin.cpp:5027
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Disable proxies"
 msgstr "Obriši profil"
 
-#: src/bin/bin.cpp:5197
+#: src/bin/bin.cpp:5201
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Rebuild proxies"
 msgstr "Obriši profil"
 
-#: src/bin/bin.cpp:5427
+#: src/bin/bin.cpp:5431
 #, fuzzy, kde-format
 #| msgid "Project"
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:5443
+#: src/bin/bin.cpp:5447
 #, fuzzy, kde-format
 msgid "Add Tracks"
 msgstr "Dodaj traku"
 
-#: src/bin/bin.cpp:5445
+#: src/bin/bin.cpp:5449
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "Uredi vodić"
 
-#: src/bin/bin.cpp:5460
+#: src/bin/bin.cpp:5464
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5464
+#: src/bin/bin.cpp:5468
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5476 src/mainwindow.cpp:2850
+#: src/bin/bin.cpp:5480 src/mainwindow.cpp:2850
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Ne mogu naći isječak za dodati marker"
 
-#: src/bin/bin.cpp:5570
+#: src/bin/bin.cpp:5574
 #, fuzzy, kde-format
 #| msgid "Add clips"
 msgid "Could not find master clip"
 msgstr "Dodaj isječke"
 
-#: src/bin/bin.cpp:5830
+#: src/bin/bin.cpp:5834
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5832
+#: src/bin/bin.cpp:5836
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5899 src/bin/bin.cpp:5976
+#: src/bin/bin.cpp:5903 src/bin/bin.cpp:5980
 #, fuzzy, kde-format
 #| msgid "Add transition to clip"
 msgid "Add additional stream for clip"
@@ -5301,13 +5301,13 @@ msgstr[0] "Dodaj prijelaz isječku"
 msgstr[1] "Dodaj prijelaz isječku"
 msgstr[2] "Dodaj prijelaz isječku"
 
-#: src/bin/bin.cpp:5920
+#: src/bin/bin.cpp:5924
 #, fuzzy, kde-format
 #| msgid "Remove selected clips"
 msgid "Import selected clips"
 msgstr "Ukloni odabrane isjeèke"
 
-#: src/bin/bin.cpp:5922
+#: src/bin/bin.cpp:5926
 #, fuzzy, kde-format
 #| msgid "Add transition to clip"
 msgid ""
@@ -5315,58 +5315,58 @@ msgid ""
 " %1"
 msgstr "Dodaj prijelaz isječku"
 
-#: src/bin/bin.cpp:5935 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5939 src/mltcontroller/clippropertiescontroller.cpp:647
 #, fuzzy, kde-format
 #| msgid "Video track"
 msgid "Video stream %1"
 msgstr "Video traka"
 
-#: src/bin/bin.cpp:5950
+#: src/bin/bin.cpp:5954
 #, fuzzy, kde-format
 #| msgid "Audio track"
 msgid "Audio stream %1"
 msgstr "Audio traka"
 
-#: src/bin/bin.cpp:6003
+#: src/bin/bin.cpp:6007
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Remove clip markers"
 msgstr "Obriši oznaku"
 
-#: src/bin/bin.cpp:6150
+#: src/bin/bin.cpp:6154
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6151
+#: src/bin/bin.cpp:6155
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Spremi DVD projekt"
 
-#: src/bin/bin.cpp:6152
+#: src/bin/bin.cpp:6156
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Pretvori"
 
-#: src/bin/bin.cpp:6301 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6305 src/effects/effectstack/model/effectstackmodel.cpp:158
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Obriši efekt"
 
-#: src/bin/bin.cpp:6366 src/mainwindow.cpp:405
+#: src/bin/bin.cpp:6370 src/mainwindow.cpp:405
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6369 src/bin/bin.cpp:6372 src/mainwindow.cpp:4962
+#: src/bin/bin.cpp:6373 src/bin/bin.cpp:6376 src/mainwindow.cpp:4962
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
