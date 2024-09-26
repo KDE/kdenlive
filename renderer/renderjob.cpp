@@ -25,7 +25,7 @@ public:
 };
 
 RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out, const QString &subtitleFile,
-                     QObject *parent)
+                     bool debugMode, QObject *parent)
     : QObject(parent)
     , m_scenelist(scenelist)
     , m_dest(target)
@@ -41,6 +41,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_pid(pid)
     , m_dualpass(false)
     , m_subtitleFile(subtitleFile)
+    , m_debugMode(debugMode)
 {
     m_renderProcess = new QProcess(&m_looper);
     m_renderProcess->setReadChannel(QProcess::StandardError);
@@ -260,7 +261,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         if (m_dualpass) {
             deleteLater();
         } else {
-            if (QFile::exists(m_dest)) {
+            if (!m_debugMode && QFile::exists(m_dest)) {
                 m_logfile.remove();
             }
             if (!m_subtitleFile.isEmpty()) {

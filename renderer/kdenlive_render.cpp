@@ -165,6 +165,9 @@ int main(int argc, char **argv)
         QCommandLineOption subtitleOption("subtitle", "Subtitle file.", "file");
         parser.addOption(subtitleOption);
 
+        QCommandLineOption debugOption("debug", "Enable debug mode, doesn't delete log file on render success.");
+        parser.addOption(debugOption);
+
         parser.process(app);
         args = parser.positionalArguments();
 
@@ -231,8 +234,9 @@ int main(int argc, char **argv)
         }
         int pid = parser.value(pidOption).toInt();
         QString subtitleFile = parser.value(subtitleOption);
+        bool debugMode = parser.isSet(debugOption);
 
-        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
+        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, debugMode, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();
             app.quit();

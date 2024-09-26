@@ -406,7 +406,10 @@ int main(int argc, char *argv[])
         int exitCode = EXIT_SUCCESS;
 
         for (const auto &job : renderjobs) {
-            const QStringList argsJob = RenderRequest::argsByJob(job, false);
+            QStringList argsJob = RenderRequest::argsByJob(job, false);
+            if (parser.value(mltLogLevelOption) == QStringLiteral("debug")) {
+                argsJob << "--debug";
+            }
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
             if (!parser.isSet(exitOption)) {
