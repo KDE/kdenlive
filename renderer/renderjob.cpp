@@ -218,7 +218,11 @@ void RenderJob::start()
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
     m_renderProcess->start(m_prog, m_args);
     m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
-    m_logstream << "Using MLT REPOSITORY: " << qgetenv("MLT_REPOSITORY") << "\n";
+    if (m_debugMode) {
+        m_logstream << "Using MLT REPOSITORY: " << qgetenv("MLT_REPOSITORY") << "\n";
+        m_logstream << "Using MLT DATA: " << qgetenv("MLT_DATA") << "\n";
+        m_logstream << "Using MLT APPDIR: " << qgetenv("MLT_APPDIR") << "\n";
+    }
     m_logstream.flush();
     m_looper.exec();
 }
