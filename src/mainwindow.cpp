@@ -127,11 +127,6 @@ class Producer;
 QMap<QString, QImage> MainWindow::m_lumacache;
 QMap<QString, QStringList> MainWindow::m_lumaFiles;
 
-/*static bool sortByNames(const QPair<QString, QAction *> &a, const QPair<QString, QAction*> &b)
-{
-    return a.first < b.first;
-}*/
-
 #if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
 // determine the default KDE style as defined BY THE USER
 // (as opposed to whatever style KDE considers default)
@@ -461,10 +456,6 @@ void MainWindow::init(const QString &mltPath)
     });
 
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
-    /*connect(pCore->bin(), &Bin::requestShowEffectStack, [&]() {
-        // Don't raise effect stack on clip bin in case it is docked with bin or clip monitor
-        // m_effectStackDock->raise();
-    });*/
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel, Qt::DirectConnection);
     connect(this, &MainWindow::assetPanelWarning, m_assetPanel, &AssetPanel::assetPanelWarning);
     connect(m_assetPanel, &AssetPanel::seekToPos, this, [this](int pos) {
@@ -805,18 +796,6 @@ void MainWindow::init(const QString &mltPath)
 
     // Populate encoding profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    /*KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
-        KConfigGroup group(&conf, "proxy");
-        QMap<QString, QString> values = group.entryMap();
-        QMapIterator<QString, QString> i(values);
-        if (i.hasNext()) {
-            i.next();
-            QString proxystring = i.value();
-            KdenliveSettings::setProxyparams(proxystring.section(QLatin1Char(';'), 0, 0));
-            KdenliveSettings::setProxyextension(proxystring.section(QLatin1Char(';'), 1, 1));
-        }
-    }*/
     if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
         KConfigGroup group(&conf, "video4linux");
         QMap<QString, QString> values = group.entryMap();
