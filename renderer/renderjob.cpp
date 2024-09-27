@@ -52,10 +52,10 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     if (m_debugMode) {
         // Enforce repository since we have a failure in kdenlive-test-suite where MLT's repository is randomly set to usr/bin/lib/mlt-7 instead of
         // usr/lib/mlt-7
-        QDir dataDir = QFileInfo(m_prog).absoluteDir();
+        /*QDir dataDir = QFileInfo(m_prog).absoluteDir();
         if (dataDir.cd("../lib/mlt-7")) {
             m_args << "-repository" << dataDir.absolutePath();
-        }
+        }*/
     }
     m_args << "-progress2" << scenelist;
 
