@@ -470,10 +470,10 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     qApp->processEvents();
     if (guiConstructed) {
         pCore->window()->disableMulticam();
-        Q_EMIT pCore->window()->clearAssetPanel();
         pCore->mixer()->unsetModel();
-        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
+        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+        Q_EMIT pCore->window()->clearAssetPanel();
     }
     if (m_project) {
         pCore->taskManager.slotCancelJobs(true);
