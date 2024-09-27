@@ -4552,6 +4552,10 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QStri
 
 void Bin::focusBinView()
 {
+    if (pCore->currentDoc()->closing) {
+        // Don't focus item if we are closing...
+        return;
+    }
     if (m_itemView) {
         m_itemView->setFocus();
         std::shared_ptr<ProjectClip> currentItem = getFirstSelectedClip();
