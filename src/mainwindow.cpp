@@ -979,20 +979,6 @@ void MainWindow::slotThemeChanged(const QString &name)
         m_audioSpectrum->refreshPixmap();
     }
     Q_EMIT pCore->updatePalette();
-
-    /*KSharedConfigPtr kconfig = KSharedConfig::openConfig();
-    KConfigGroup initialGroup(kconfig, "version");
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    bool isAppimage = pCore->packageType() == QStringLiteral("appimage");
-    bool isKDE = env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde");
-    bool forceBreeze = initialGroup.exists() && KdenliveSettings::force_breeze();
-    if ((!isKDE || isAppimage || forceBreeze) &&
-        ((useDarkIcons && QIcon::themeName() == QStringLiteral("breeze")) || (!useDarkIcons && QIcon::themeName() == QStringLiteral("breeze-dark")))) {
-        // We need to reload icon theme, on KDE desktops this is not necessary, however for the Appimage it is even on KDE Desktop
-        // See also https://kate-editor.org/post/2021/2021-03-07-cross-platform-light-dark-themes-and-icons/
-        QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
-        KdenliveSettings::setUse_dark_breeze(useDarkIcons);
-    }*/
 }
 
 MainWindow::~MainWindow()
@@ -1912,13 +1898,6 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("keyframe-next")), QKeySequence(), kfActions);
     addAction(QStringLiteral("keyframe_previous"), i18n("Go to previous keyframe"), m_assetPanel, SLOT(slotPreviousKeyframe()),
               QIcon::fromTheme(QStringLiteral("keyframe-previous")), QKeySequence(), kfActions);
-
-    /*act = KStandardAction::copy(this, SLOT(slotCopy()), actionCollection());
-    clipActionCategory->addAction(KStandardAction::name(KStandardAction::Copy), act);
-    act->setEnabled(false);
-    act = KStandardAction::paste(this, SLOT(slotPaste()), actionCollection());
-    clipActionCategory->addAction(KStandardAction::name(KStandardAction::Paste), act);
-    act->setEnabled(false);*/
 
     kdenliveCategoryMap.insert(QStringLiteral("timelineselection"), clipActionCategory);
 
