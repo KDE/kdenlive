@@ -21190,7 +21190,8 @@ msgstr "Sejajar kiri"
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
 #: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Underline"
 msgid "Underline"
 msgstr "Garisbawahi"
 
@@ -21199,7 +21200,8 @@ msgstr "Garisbawahi"
 #. i18n: ectx: property (text), widget (QLabel, labelBackColor)
 #: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
 #: src/ui/managesubtitles_ui.ui:409
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Shadow"
 msgid "Shadow"
 msgstr "Bayangan"
 

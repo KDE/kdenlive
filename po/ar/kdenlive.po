@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-26 00:39+0000\n"
-"PO-Revision-Date: 2024-09-17 07:44+0400\n"
+"PO-Revision-Date: 2024-09-26 11:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -8480,21 +8480,19 @@ msgid "Bottom To Top"
 msgstr "من أسفل إلى أعلى"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "زد حجم الخط"
+msgstr "زد حجم الخط للمحرر"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "انقص حجم الخط"
+msgstr "انقص حجم الخط للمحرر"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "امسح كل التنسيقات المخصصة"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, kde-format
@@ -8508,10 +8506,9 @@ msgstr "أدر الطُرُز…"
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "المحرف: %1، المجموع: <b>%2</b>"
+msgstr "المؤشر: %1، المجموع: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -15703,12 +15700,13 @@ msgstr "حجم بيئة بيثون:  %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary directory %1"
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "تعذّر إنشاء الدّليل المؤقّت %1"
+msgstr ""
+"فشل في إنشاء البيئة الافتراضية:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format
@@ -20111,7 +20109,7 @@ msgstr "الترجمة:"
 #: src/ui/configmisc_ui.ui:262
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "أبقِ بحجم الإطار الأصلي عند الاستيراد"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
