@@ -49,6 +49,14 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
 
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
+    if (m_debugMode) {
+        // Enforce repository since we have a failure in kdenlive-test-suite where MLT's repository is randomly set to usr/bin/lib/mlt-7 instead of
+        // usr/lib/mlt-7
+        QDir dataDir = QFileInfo(m_prog).absoluteDir();
+        if (dataDir.cd("../lib/mlt-7")) {
+            m_args << "-repository" << dataDir.absolutePath();
+        }
+    }
     m_args << "-progress2" << scenelist;
 
     // Create a log of every render process.
@@ -216,8 +224,8 @@ void RenderJob::start()
     }
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
-    m_renderProcess->start(m_prog, m_args);
     m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
+    m_renderProcess->start(m_prog, m_args);
     if (m_debugMode) {
         m_logstream << "Using MLT REPOSITORY: " << qgetenv("MLT_REPOSITORY") << "\n";
         m_logstream << "Using MLT DATA: " << qgetenv("MLT_DATA") << "\n";
