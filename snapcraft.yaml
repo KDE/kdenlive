@@ -1,4 +1,6 @@
-# Trigger rebuild 2
+# SPDX-FileCopyrightText: 2024 Scarlett Moore <sgmoore@kde.org>
+#
+# SPDX-License-Identifier: CC0-1.0
 ---
 name: kdenlive
 confinement: strict
@@ -6,196 +8,121 @@ grade: stable
 base: core22
 adopt-info: kdenlive
 apps:
-    kdenlive:
-        # extensions:
-        # - kde-neon
-        common-id: org.kde.kdenlive.desktop
-        desktop: usr/share/applications/org.kde.kdenlive.desktop
-        command: usr/bin/kdenlive
-        plugs:
-        - desktop
-        - desktop-legacy
-        - opengl
-        - wayland
-        - x11
-        - home
-        - network
-        - network-bind
-        - audio-playback
-        - audio-record
-        - removable-media
-        - system-observe
-        command-chain:
-        - snap/command-chain/desktop-launch
-    pip:
-        command: bin/pip
-        plugs:
-        - network
-        - home
-assumes:
-- snapd2.55.3
-compression: lzo
-plugs:
-    desktop:
-        mount-host-font-cache: false
-    icon-themes:
-        interface: content
-        target: $SNAP/data-dir/icons
-        default-provider: gtk-common-themes
-    sound-themes:
-        interface: content
-        target: $SNAP/data-dir/sounds
-        default-provider: gtk-common-themes
-    kf5-5-110-qt-5-15-11-core22:
-        content: kf5-5-110-qt-5-15-11-core22-all
-        interface: content
-        default-provider: kf5-5-110-qt-5-15-11-core22
-        target: $SNAP/kf5
-hooks:
-    configure:
-        plugs:
-        - desktop
-        command-chain:
-        - snap/command-chain/hooks-configure-desktop
-layout:
-    /usr/share/X11:
-        symlink: $SNAP/kf5/usr/share/X11
+  kdenlive:
+    extensions:
+      - kde-neon-6
+    common-id: org.kde.kdenlive.desktop
+    desktop: usr/share/applications/org.kde.kdenlive.desktop
+    command: usr/bin/kdenlive
+    plugs:
+      - audio-record
+      - removable-media
+      - system-observe
+      - home
 environment:
     PYTHONPYCACHEPREFIX: "$SNAP_USER_COMMON/.pycache"
     PYTHONUSERBASE: $SNAP_USER_COMMON/.local
     PIP_USER: 1
     PYTHONPATH: "$PYTHONUSERBASE/lib/python3.10/site-packages:$SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages"
-    MLT_REPOSITORY: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/mlt-7/"
+    MLT_REPOSITORY: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/mlt-7/"
     MLT_DATA: "$SNAP/usr/share/mlt-7/"
     MLT_ROOT_DIR: "$SNAP/usr/"
     LADSPA_PATH: "$SNAP/usr/lib/ladspa"
     FREI0R_PATH: "$SNAP/usr/lib/frei0r-1"
     MLT_PROFILES_PATH: "$SNAP/usr/share/mlt-7/profiles/"
     MLT_PRESETS_PATH: "$SNAP/usr/share/mlt-7/presets/"
-    SNAP_DESKTOP_RUNTIME: $SNAP/kf5
-    LD_LIBRARY_PATH: "$LD_LIBRARY_PATH:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/:$SNAP/kf5/usr/lib/$CRAFT_ARCH_TRIPLET/:$SNAP/usr/lib:/$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/lapack"
+    ALSA_CONFIG_PATH: "/snap/kf6-core22/current/etc/asound.conf"
 slots:
-    session-dbus-interface:
-        interface: dbus
-        name: org.kde.kdenlive
-        bus: session
+  session-dbus-interface:
+    interface: dbus
+    name: org.kde.kdenlive
+    bus: session
 package-repositories:
--   type: apt
+  - type: apt
     components:
-    - main
+      - main
     suites:
-    - jammy
+      - jammy
     key-id: 444DABCF3667D0283F894EDDE6D4736255751E5D
-    url: http://archive.neon.kde.org/user
+    url: http://origin.archive.neon.kde.org/user
     key-server: keyserver.ubuntu.com
 parts:
-    kde-neon:
-        source: /snap/snapcraft/current/share/snapcraft/extensions/desktop/kde-neon
-        source-type: local
-        plugin: make
-        make-parameters:
-        - PLATFORM_PLUG=kf5-5-110-qt-5-15-11-core22
-        build-snaps:
-        - kf5-5-110-qt-5-15-11-core22-sdk
-        build-environment:
-        - &id001
-            PATH: /snap/kf5-5-110-qt-5-15-11-core22-sdk/current/usr/bin${PATH:+:$PATH}
-        - &id002
-            XDG_DATA_DIRS: $CRAFT_STAGE/usr/share:/snap/kf5-5-110-qt-5-15-11-core22-sdk/current/usr/share:/usr/share${XDG_DATA_DIRS:+:$XDG_DATA_DIRS}
-        - &id003
-            XDG_CONFIG_HOME: $CRAFT_STAGE/etc/xdg:/snap/kf5-5-110-qt-5-15-11-core22-sdk/current/etc/xdg:/etc/xdg${XDG_CONFIG_HOME:+:$XDG_CONFIG_HOME}
-        - &id004
-            CRAFT_CMAKE_ARGS: -DCMAKE_FIND_ROOT_PATH=/snap/kf5-5-110-qt-5-15-11-core22-sdk/current${CRAFT_CMAKE_ARGS:+:$CRAFT_CMAKE_ARGS}
-    python-deps:
-        after:
-        - kde-neon
-        plugin: python
-        source: .
-        build-packages:
-        - python3-dev
-        python-packages:
-        - vosk
-        - srt
-        - pip
-        stage:
-        - "-pyvenv.cfg"
-    kdenlive:
-        after:
-        - kde-neon
-        - python-deps
-        parse-info:
-        - usr/share/metainfo/org.kde.kdenlive.appdata.xml
-        plugin: cmake
-        build-packages:
-        - cmake
-        - libkf5doctools-dev
-        - libkf5purpose-dev
-        - librttr-dev
-        - libv4l-dev
-        - libmlt++-dev
-        - libmlt-dev
-        build-snaps:
-        - ffmpeg-2204
-        stage-packages:
-        - on amd64:
-            - libpsm-infinipath1
-        - frei0r-plugins
-        - librttr-core0.9.6
-        - libkf5purpose-bin
-        - dvgrab
-        - recordmydesktop
-        - swh-plugins
-        - libslang2
-        - libmagic1
-        - libgpm2
-        - kio-extras
-        - mediainfo
-        - kded5
-        - kinit
-        - kio
-        - melt
-        - qml-module-qtquick-controls
-        - qml-module-qtquick-shapes
-        - qml-module-qtquick2
-        - libcudart11.0
-        stage-snaps:
-        - ffmpeg-2204
-        source: .
-        source-type: local
-        cmake-parameters:
-        - "-DCMAKE_INSTALL_PREFIX=/usr"
-        - "-DCMAKE_BUILD_TYPE=Release"
-        - "-DMOD_GLAXNIMATE=ON"
-        - "-DBUILD_TESTING=OFF"
-        - "-DCMAKE_FIND_ROOT_PATH=/usr\\;$CRAFT_STAGE\\;/snap/kf5-5-110-qt-5-15-11-core22-sdk/current"
-        - "-DKDE_INSTALL_PLUGINDIR=/usr/lib/$CRAFT_ARCH_TRIPLET/qt5/plugins/"
-        build-environment: &id005
-        - *id001
-        - *id002
-        - *id003
-        - *id004
-        override-build: |
-            craftctl default
-            sed -i "${CRAFT_PART_INSTALL}/usr/share/applications/org.kde.kdenlive.desktop" -e 's|Icon=kdenlive$|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/kdenlive.svg|'
-            cd "${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/scalable/apps"
-            gzip -d -c kdenlive.svgz > kdenlive.svg
-            if [ "$CRAFT_TARGET_ARCH" = amd64 ]; then
-                ln -sf ../libpsm1/libpsm_infinipath.so.1.16  $CRAFT_PART_INSTALL/usr/lib/$CRAFT_ARCH_TRIPLET/libpsm_infinipath.so.1
-            fi
-        prime:
-        - -usr/lib/*/cmake/*
-        - -usr/include/*
-        - -usr/share/ECM/*
-        - -usr/share/doc/*
-        - -usr/share/man/*
-        - -usr/share/icons/breeze-dark*
-        - -usr/bin/X11
-        - -usr/lib/gcc/$CRAFT_ARCH_TRIPLET/6.0.0
-        - -usr/lib/aspell/*
-    cleanup:
-        after:
-        - kdenlive
-        plugin: nil
-        override-prime: |
-            set -eux
-            #unused libs found by linter
+  python-deps:
+    plugin: python
+    source: .
+    build-packages:
+      - python3-dev
+    python-packages:
+      - vosk
+      - srt
+      - pip
+    stage:
+      - "-pyvenv.cfg"
+  kdenlive:
+    after:
+      - python-deps
+    parse-info:
+      - usr/share/metainfo/org.kde.kdenlive.appdata.xml
+    plugin: cmake
+    source: .
+    source-type: local
+    build-packages:
+      - librttr-dev
+      - libv4l-dev
+      - libmlt++-dev
+      - libmlt-dev
+    stage-packages:
+      - on amd64:
+        - libpsm-infinipath1
+      - frei0r-plugins
+      - librttr-core0.9.6
+      - dvgrab
+      - recordmydesktop
+      - swh-plugins
+      - libslang2
+      - libmagic1
+      - libgpm2
+      - mediainfo
+      - melt
+      - libcudart11.0
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DQT_MAJOR_VERSION=6
+      - -DBUILD_WITH_QT6=ON
+      - -DBUILD_TESTING=OFF
+      - -DMOD_GLAXNIMATE=ON
+      - -DCMAKE_INSTALL_SYSCONFDIR=/etc
+      - -DCMAKE_INSTALL_LOCALSTATEDIR=/var
+      - -DCMAKE_EXPORT_NO_PACKAGE_REGISTRY=ON
+      - -DCMAKE_FIND_USE_PACKAGE_REGISTRY=OFF
+      - -DCMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY=ON
+      - -DCMAKE_INSTALL_RUNSTATEDIR=/run
+      - -DCMAKE_SKIP_INSTALL_ALL_DEPENDENCY=ON
+      - -DCMAKE_VERBOSE_MAKEFILE=ON
+      - -DCMAKE_INSTALL_LIBDIR=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+      - --log-level=STATUS
+      - -DCMAKE_LIBRARY_PATH=lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+    prime:
+      - -usr/lib/*/cmake/*
+      - -usr/include/*
+      - -usr/share/ECM/*
+      - -usr/share/man/*
+      - -usr/bin/X11
+      - -usr/lib/gcc/$CRAFT_ARCH_TRIPLET_BUILD_FOR/6.0.0
+      - -usr/lib/aspell/*
+      - -usr/share/lintian
+  cleanup:
+    after:
+      - kdenlive
+    plugin: nil
+    build-snaps:
+      - core22
+      - kf6-core22
+      - qt-common-themes
+    override-prime: |
+      set -eux
+      for snap in "core22" "kf6-core22" "qt-common-themes"; do
+          cd "/snap/$snap/current" && find . -type f,l -exec rm -rf "${CRAFT_PRIME}/{}" \;
+      done
+
