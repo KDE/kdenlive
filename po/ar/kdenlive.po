@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-26 00:39+0000\n"
+"POT-Creation-Date: 2024-09-28 00:39+0000\n"
 "PO-Revision-Date: 2024-09-26 11:36+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -2797,7 +2797,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "الحد من الضوضاء واستعادة الصوت"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:116 src/mainwindow.cpp:1485
+#: src/dialogs/kdenlivesettingsdialog.cpp:116 src/mainwindow.cpp:1450
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3952,13 +3952,13 @@ msgid "Switch to curve editor view"
 msgstr "بدل إلى عرض محرر المنحنى"
 
 #: src/assets/view/widgets/keyframewidget.cpp:96 src/dialogs/timeremap.cpp:1621
-#: src/mainwindow.cpp:1934
+#: src/mainwindow.cpp:1899
 #, kde-format
 msgid "Go to previous keyframe"
 msgstr "انتقل إلى الإطار الرئيس السّابق"
 
 #: src/assets/view/widgets/keyframewidget.cpp:100
-#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1932
+#: src/dialogs/timeremap.cpp:1618 src/mainwindow.cpp:1897
 #, kde-format
 msgid "Go to next keyframe"
 msgstr "انتقل إلى الإطار الرئيس التّالي"
@@ -4514,7 +4514,7 @@ msgstr "المقطع المصدر مفقود"
 msgid "Unable to write to file %1"
 msgstr "تعذّرت الكتابة إلى الملفّ %1"
 
-#: src/bin/bin.cpp:1846 src/bin/bin.cpp:2516 src/doc/kdenlivedoc.cpp:741
+#: src/bin/bin.cpp:1846 src/bin/bin.cpp:2516 src/doc/kdenlivedoc.cpp:743
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -4657,7 +4657,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "استبدل في الخطّ الزّمني"
 
-#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5779 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5783 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4905,7 +4905,7 @@ msgstr "أنشئ تحريك…"
 msgid "Add Sequence…"
 msgstr "أضف تسلسل…"
 
-#: src/bin/bin.cpp:3607 src/mainwindow.cpp:403
+#: src/bin/bin.cpp:3607 src/mainwindow.cpp:398
 #, kde-format
 msgid "Online Resources"
 msgstr "الموارد على الإنترنت"
@@ -5053,27 +5053,27 @@ msgstr "حرر الأوسمة"
 msgid "Unnamed"
 msgstr "غير مسمى"
 
-#: src/bin/bin.cpp:4578
+#: src/bin/bin.cpp:4582
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "أدخل مسار تطبيق تحرير الصورة"
 
-#: src/bin/bin.cpp:4590
+#: src/bin/bin.cpp:4594
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "فضلًا اضبط تطبيقًا مبدئيا ليفتح ملفات الصور"
 
-#: src/bin/bin.cpp:4595
+#: src/bin/bin.cpp:4599
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "أدخل مسار تطبيق تحرير الصوت"
 
-#: src/bin/bin.cpp:4607
+#: src/bin/bin.cpp:4611
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "فضلًا اضبط تطبيقًا مبدئياً ليفتح ملفّات الصّوت"
 
-#: src/bin/bin.cpp:4617 src/core.cpp:320 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4621 src/core.cpp:320 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -5082,12 +5082,12 @@ msgstr "فضلًا اضبط تطبيقًا مبدئياً ليفتح ملفّا�
 msgid "Cannot open file %1"
 msgstr "تعذّر فتح الملفّ %1"
 
-#: src/bin/bin.cpp:4797 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4801 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr " (نسخة)"
 
-#: src/bin/bin.cpp:4807
+#: src/bin/bin.cpp:4811
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5096,75 +5096,75 @@ msgstr ""
 "أنت تحرّر مقطع عنوان خارجيّة (%1). أتريد حفظ تغييراتك إلى ملفّ العنوان أو حفظها "
 "لهذا المشروع فقط؟"
 
-#: src/bin/bin.cpp:4810 src/titler/titlewidget.cpp:2263
+#: src/bin/bin.cpp:4814 src/titler/titlewidget.cpp:2263
 #, kde-format
 msgid "Save Title"
 msgstr "احفظ العنوان"
 
-#: src/bin/bin.cpp:4810
+#: src/bin/bin.cpp:4814
 #, kde-format
 msgid "Save to title file"
 msgstr "احفظ إلى ملفّ العنوان"
 
-#: src/bin/bin.cpp:4811
+#: src/bin/bin.cpp:4815
 #, kde-format
 msgid "Save in project only"
 msgstr "احفظ في المشروع فقط"
 
-#: src/bin/bin.cpp:4831 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4835 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "مقطع عنوان"
 
-#: src/bin/bin.cpp:4881
+#: src/bin/bin.cpp:4885
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "المقطع غير صالحة، ستُزال من المشروع."
 
-#: src/bin/bin.cpp:4885
+#: src/bin/bin.cpp:4889
 #, kde-format
 msgid "Invalid clip"
 msgstr "مقطع غير صالحة"
 
-#: src/bin/bin.cpp:4999
+#: src/bin/bin.cpp:5003
 #, kde-format
 msgid "Enable proxies"
 msgstr "تفعيل وسطاء"
 
-#: src/bin/bin.cpp:4999
+#: src/bin/bin.cpp:5003
 #, kde-format
 msgid "Disable proxies"
 msgstr "تعطيل وسطاء"
 
-#: src/bin/bin.cpp:5173
+#: src/bin/bin.cpp:5177
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "إعادة بناء وسطاء"
 
-#: src/bin/bin.cpp:5398
+#: src/bin/bin.cpp:5402
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:5414
+#: src/bin/bin.cpp:5418
 #, kde-format
 msgid "Add Tracks"
 msgstr "أضف مسارات"
 
-#: src/bin/bin.cpp:5416
+#: src/bin/bin.cpp:5420
 #, kde-format
 msgid "Edit Streams"
 msgstr "حرّر الدفق"
 
-#: src/bin/bin.cpp:5431
+#: src/bin/bin.cpp:5435
 #, kde-format
 msgid "Don't ask again"
 msgstr "لا تسألني ثانيةً"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5435
+#: src/bin/bin.cpp:5439
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5173,27 +5173,27 @@ msgstr ""
 "يحتاج مشروعك إلى مزيد من المسارات الصوتية للتعامل مع جميع التدفقات. إضافة %1 "
 "مسارات الصوت؟"
 
-#: src/bin/bin.cpp:5447 src/mainwindow.cpp:2833
+#: src/bin/bin.cpp:5451 src/mainwindow.cpp:2791
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "لم يعثر على مقطع ليضيف علامة لها"
 
-#: src/bin/bin.cpp:5541
+#: src/bin/bin.cpp:5545
 #, kde-format
 msgid "Could not find master clip"
 msgstr "لم يعثر على المقطع الرئيس"
 
-#: src/bin/bin.cpp:5801
+#: src/bin/bin.cpp:5805
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> مقطع | "
 
-#: src/bin/bin.cpp:5803
+#: src/bin/bin.cpp:5807
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> مقطع (%2 محددة) | "
 
-#: src/bin/bin.cpp:5870 src/bin/bin.cpp:5947
+#: src/bin/bin.cpp:5874 src/bin/bin.cpp:5951
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5204,12 +5204,12 @@ msgstr[3] "أضف تدفقات إضافياً إلى مقطع"
 msgstr[4] "أضف دفقاً إضافياً إلى مقطع"
 msgstr[5] "أضف دفقاً إضافياً إلى مقطع"
 
-#: src/bin/bin.cpp:5891
+#: src/bin/bin.cpp:5895
 #, kde-format
 msgid "Import selected clips"
 msgstr "استورد المقاطع المحدّدة"
 
-#: src/bin/bin.cpp:5893
+#: src/bin/bin.cpp:5897
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5218,51 +5218,51 @@ msgstr ""
 "تدفقات إضافية للمقطع\n"
 " %1"
 
-#: src/bin/bin.cpp:5906 src/mltcontroller/clippropertiescontroller.cpp:668
+#: src/bin/bin.cpp:5910 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "دفق الفيديو %1"
 
-#: src/bin/bin.cpp:5921
+#: src/bin/bin.cpp:5925
 #, kde-format
 msgid "Audio stream %1"
 msgstr "دفق الصّوت %1"
 
-#: src/bin/bin.cpp:5974
+#: src/bin/bin.cpp:5978
 #, kde-format
 msgid "Remove clip markers"
 msgstr "أزل علامات المقطع"
 
-#: src/bin/bin.cpp:6121
+#: src/bin/bin.cpp:6125
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "نوصي بحفظ المشروع قبل عملية تحويل الترميز"
 
-#: src/bin/bin.cpp:6122
+#: src/bin/bin.cpp:6126
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "احفظ المشروع"
 
-#: src/bin/bin.cpp:6123
+#: src/bin/bin.cpp:6127
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "يبدل الترميز دون حفظ"
 
-#: src/bin/bin.cpp:6272 src/effects/effectstack/model/effectstackmodel.cpp:173
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:173
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "احذف التّأثير %1"
 
-#: src/bin/bin.cpp:6337 src/mainwindow.cpp:396
+#: src/bin/bin.cpp:6341 src/mainwindow.cpp:391
 #, kde-format
 msgid "Project Bin"
 msgstr "سلّة المشروع"
 
-#: src/bin/bin.cpp:6340 src/bin/bin.cpp:6343 src/mainwindow.cpp:4976
+#: src/bin/bin.cpp:6344 src/bin/bin.cpp:6347 src/mainwindow.cpp:4934
 #, kde-format
 msgid "Project Bin %1"
 msgstr "سلّة المشروع %1"
@@ -5551,7 +5551,7 @@ msgstr "أضف علامات"
 
 #. i18n: ectx: Menu (subtitles)
 #: src/bin/model/subtitlemodel.cpp:88 src/core.cpp:699 src/kdenliveui.rc:30
-#: src/mainwindow.cpp:302 src/project/dialogs/archivewidget.cpp:103
+#: src/mainwindow.cpp:297 src/project/dialogs/archivewidget.cpp:103
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
 msgid "Subtitles"
@@ -5754,7 +5754,7 @@ msgstr "أضف مقطع فرعي"
 msgid "Rename Folder"
 msgstr "أعد تسمية المجلّد"
 
-#: src/bin/projectitemmodel.cpp:1054 src/mainwindow.cpp:1539
+#: src/bin/projectitemmodel.cpp:1054 src/mainwindow.cpp:1504
 #, kde-format
 msgid "Clean Project"
 msgstr "نظف المشروع"
@@ -6203,7 +6203,7 @@ msgstr "مقطع نصي"
 msgid "Create Text clip"
 msgstr "أنشئ مقطع نصي"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1177
+#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1179
 #, kde-format
 msgid "Template title clip"
 msgstr "مقطع قالب عنوان"
@@ -6389,7 +6389,7 @@ msgstr "المقاطع وسيطة"
 
 #. i18n: ectx: Menu (timeline_preview)
 #: src/dialogs/encodingprofilesdialog.cpp:53 src/kdenliveui.rc:137
-#: src/mainwindow.cpp:641
+#: src/mainwindow.cpp:632
 #, kde-format
 msgid "Timeline Preview"
 msgstr "معاينة الخطّ الزّمنيّ"
@@ -6533,8 +6533,8 @@ msgid "Export Guides Data"
 msgstr "صدر بيانات الأدلة"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1727
-#: src/dialogs/renderwidget.cpp:1751 src/doc/kdenlivedoc.cpp:758
-#: src/doc/kdenlivedoc.cpp:766 src/doc/kdenlivedoc.cpp:1317
+#: src/dialogs/renderwidget.cpp:1751 src/doc/kdenlivedoc.cpp:760
+#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
@@ -6634,7 +6634,7 @@ msgstr "حُدد الترميز على أنه %1"
 msgid "Import Subtitle"
 msgstr "استورد ترجمة"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:112 src/mainwindow.cpp:4070
+#: src/dialogs/kdenlivesettingsdialog.cpp:112 src/mainwindow.cpp:4028
 #, kde-format
 msgid "Timeline"
 msgstr "الخطّ الزّمنيّ"
@@ -6805,7 +6805,7 @@ msgstr "عفريت ARTS"
 #: src/dialogs/kdenlivesettingsdialog.cpp:737
 #: src/dialogs/kdenlivesettingsdialog.cpp:738
 #: src/dialogs/managesubtitles.cpp:550 src/dialogs/renderwidget.cpp:217
-#: src/dialogs/subtitlestyleedit.cpp:97 src/mainwindow.cpp:212
+#: src/dialogs/subtitlestyleedit.cpp:97 src/mainwindow.cpp:207
 #: src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
@@ -6821,7 +6821,7 @@ msgstr "اس دي ال"
 msgid "RtAudio"
 msgstr "أرتي‌أوديو"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:825 src/mainwindow.cpp:351
+#: src/dialogs/kdenlivesettingsdialog.cpp:825 src/mainwindow.cpp:346
 #, kde-format
 msgid "Monitor %1"
 msgstr "الشّاشة %1"
@@ -7334,12 +7334,12 @@ msgstr "أُجهض التّصيير"
 msgid "Nearest (fast)"
 msgstr "الأقرب (سريع)"
 
-#: src/dialogs/renderwidget.cpp:206 src/monitor/monitormanager.cpp:599
+#: src/dialogs/renderwidget.cpp:206 src/monitor/monitormanager.cpp:598
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "خطي ثنائي (جيد)"
 
-#: src/dialogs/renderwidget.cpp:207 src/monitor/monitormanager.cpp:600
+#: src/dialogs/renderwidget.cpp:207 src/monitor/monitormanager.cpp:599
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "تكعيبي مزدوج (أفضل)"
@@ -7364,17 +7364,17 @@ msgstr "عمودي (9:16)"
 msgid "Square (1:1)"
 msgstr "مربع (1:1)"
 
-#: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:580
+#: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "One Field (fast)"
 msgstr "حقل واحد (سريع)"
 
-#: src/dialogs/renderwidget.cpp:225 src/monitor/monitormanager.cpp:581
+#: src/dialogs/renderwidget.cpp:225 src/monitor/monitormanager.cpp:580
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "خلط خطي (سريع)"
 
-#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:582
+#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:581
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF-الزمانيه فقط (جيد)"
@@ -9356,7 +9356,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "ملف الترجمة:<br/>%1<br/>موجود بالفعل. هل تريد الكتابة فوقه؟"
 
-#: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3579
+#: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3537
 #, kde-format
 msgid "Overwrite"
 msgstr "استبدل"
@@ -9444,17 +9444,17 @@ msgstr ""
 msgid "Document project folder is invalid, using system default folders"
 msgstr "مجلّد مشروع المستند غير صالح، سأستخدم مجلّدات النّظام الافتراضيّة"
 
-#: src/doc/kdenlivedoc.cpp:576 src/doc/kdenlivedoc.cpp:586
+#: src/doc/kdenlivedoc.cpp:578 src/doc/kdenlivedoc.cpp:588
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "تعذّر إنشاء حفظ تلقائي للملف %1"
 
-#: src/doc/kdenlivedoc.cpp:581 src/doc/kdenlivedoc.cpp:719
+#: src/doc/kdenlivedoc.cpp:583 src/doc/kdenlivedoc.cpp:721
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "تعذّرت الكتابة في الملفّ %1، قائمة المشاهد معطوبة."
 
-#: src/doc/kdenlivedoc.cpp:737
+#: src/doc/kdenlivedoc.cpp:739
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -9463,7 +9463,7 @@ msgstr ""
 "لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات كدنلايف.\n"
 "للتأكّد من عدم فقدانك أيّة بيانات، أُنشئت نسخة احتياطيّة بالاسم %1."
 
-#: src/doc/kdenlivedoc.cpp:751
+#: src/doc/kdenlivedoc.cpp:753
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -9472,36 +9472,36 @@ msgstr ""
 "لقد رُقّي ملفّ المشروع إلى آخر إصدارة من مستندات «كدنلايف»، ولكن لم يكن ممكنًا "
 "إنشاء النّسخة الاحتياطيّة %1."
 
-#: src/doc/kdenlivedoc.cpp:912 src/project/projectmanager.cpp:1463
+#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1463
 #: src/project/projectmanager.cpp:1499
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "خطأ في نقل مجلّد المشروع: %1"
 
-#: src/doc/kdenlivedoc.cpp:1102 src/doc/kdenlivedoc.cpp:2360
+#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2362
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1720
 #, kde-format
 msgid "Untitled"
 msgstr "غير معنون"
 
-#: src/doc/kdenlivedoc.cpp:1163
+#: src/doc/kdenlivedoc.cpp:1165
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "أدخل مسار القالب"
 
-#: src/doc/kdenlivedoc.cpp:1324
+#: src/doc/kdenlivedoc.cpp:1326
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "استُوردت التّأثيرات الآتية من المشروع:"
 
-#: src/doc/kdenlivedoc.cpp:1357 src/doc/kdenlivedoc.cpp:1371
+#: src/doc/kdenlivedoc.cpp:1359 src/doc/kdenlivedoc.cpp:1373
 #, kde-format
 msgid "Project Folder"
 msgstr "مجلّد المشروع"
 
-#: src/doc/kdenlivedoc.cpp:1415 src/doc/kdenlivedoc.cpp:1432
+#: src/doc/kdenlivedoc.cpp:1417 src/doc/kdenlivedoc.cpp:1434
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -9510,7 +9510,7 @@ msgstr ""
 "تعذّر إنشاء نسخة احتياطيّة:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1587
+#: src/doc/kdenlivedoc.cpp:1589
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -9521,7 +9521,7 @@ msgstr[3] "أضف مقاطع وسيطة"
 msgstr[4] "أضف مقاطع وسيطة"
 msgstr[5] "أضف مقاطع وسيطة"
 
-#: src/doc/kdenlivedoc.cpp:1589
+#: src/doc/kdenlivedoc.cpp:1591
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -9532,12 +9532,12 @@ msgstr[3] "أزل مقاطع وسيطة"
 msgstr[4] "أزل مقاطع وسيطة"
 msgstr[5] "أزل مقاطع وسيطة"
 
-#: src/doc/kdenlivedoc.cpp:1633 src/doc/kdenlivedoc.cpp:1691
+#: src/doc/kdenlivedoc.cpp:1635 src/doc/kdenlivedoc.cpp:1693
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "نوع المقطع لا يدعم الوسطاء"
 
-#: src/doc/kdenlivedoc.cpp:1830
+#: src/doc/kdenlivedoc.cpp:1832
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -9547,12 +9547,12 @@ msgstr ""
 "يستخدم المشروع معدل إطارات غير قياسي (%1)، سيؤدي ذلك إلى وجود مقاطع في غير "
 "موضعها وإزاحة إطار."
 
-#: src/doc/kdenlivedoc.cpp:1925
+#: src/doc/kdenlivedoc.cpp:1927
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "تحذير: إطارًا في الثانية غير قياسي، سيعدل لأقرب عدد صحيح."
 
-#: src/doc/kdenlivedoc.cpp:1943
+#: src/doc/kdenlivedoc.cpp:1945
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -9561,43 +9561,43 @@ msgstr ""
 "تشكيلة المشروع الافتراضيّة هي %1، بينما تشكيلة المقطع (%2) هي %3.\n"
 "أتريد تغيير التشكيلة الافتراضيّة للمشاريع القادمة؟"
 
-#: src/doc/kdenlivedoc.cpp:1945
+#: src/doc/kdenlivedoc.cpp:1947
 #, kde-format
 msgid "Change default project profile"
 msgstr "غيّر تشكيلة المشاريع الافتراضيّة"
 
-#: src/doc/kdenlivedoc.cpp:1945
+#: src/doc/kdenlivedoc.cpp:1947
 #, kde-format
 msgid "Change default to %1"
 msgstr "غيّر الافتراضيّ إلى %1"
 
-#: src/doc/kdenlivedoc.cpp:1946
+#: src/doc/kdenlivedoc.cpp:1948
 #, kde-format
 msgid "Keep current default %1"
 msgstr "أبقِ الحاليّ %1 افتراضيّ"
 
-#: src/doc/kdenlivedoc.cpp:1946
+#: src/doc/kdenlivedoc.cpp:1948
 #, kde-format
 msgid "Ask me later"
 msgstr "اسألني لاحقًا"
 
-#: src/doc/kdenlivedoc.cpp:1966
+#: src/doc/kdenlivedoc.cpp:1968
 #, kde-format
 msgid "Switch"
 msgstr "بدّل"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1968 src/ui/titlewidget_ui.ui:191
+#: src/doc/kdenlivedoc.cpp:1970 src/ui/titlewidget_ui.ui:191
 #, kde-format
 msgid "Cancel"
 msgstr "ألغِ"
 
-#: src/doc/kdenlivedoc.cpp:1970
+#: src/doc/kdenlivedoc.cpp:1972
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "أأبدّل إلى تشكيلة (%1) المقطع %2؟"
 
-#: src/doc/kdenlivedoc.cpp:1975
+#: src/doc/kdenlivedoc.cpp:1977
 #, kde-format
 msgid ""
 "\n"
@@ -9606,7 +9606,7 @@ msgstr ""
 "\n"
 "عُدلت تشكيلة معدل الأطر عن الأصل %1"
 
-#: src/doc/kdenlivedoc.cpp:1979
+#: src/doc/kdenlivedoc.cpp:1981
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -9615,13 +9615,13 @@ msgstr ""
 "لم يُعثر على تشكيلة لمقطعك %1.\n"
 "أأنشئ واحدة وأحوّل إلى التشكيلة الجديدة (%2×%3، %4 إطار/ثا)؟%5"
 
-#: src/doc/kdenlivedoc.cpp:2399 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "الأحمر"
 
-#: src/doc/kdenlivedoc.cpp:2400 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -9629,24 +9629,24 @@ msgstr "الأحمر"
 msgid "Green"
 msgstr "الأخضر"
 
-#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2403 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "الأزرق"
 
-#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2404 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "الأصفر"
 
-#: src/doc/kdenlivedoc.cpp:2403
+#: src/doc/kdenlivedoc.cpp:2405
 #, kde-format
 msgid "Cyan"
 msgstr "أزرق سماوي"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2740 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2742 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10375,13 +10375,13 @@ msgid "Add Markers by Category"
 msgstr "أضف علامات حسب الفئة"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3965
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3923
 #, kde-format
 msgid "Extract Audio"
 msgstr "استخرج الصوت"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3939
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3897
 #, kde-format
 msgid "Clip Jobs"
 msgstr "مهام المقطع"
@@ -10442,20 +10442,20 @@ msgstr "فضاء"
 
 #. i18n: ectx: Menu (timeline_tracks)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstracks)
-#: src/kdenliveui.rc:184 src/mainwindow.cpp:1952
+#: src/kdenliveui.rc:184 src/mainwindow.cpp:1910
 #: src/ui/configtimeline_ui.ui:169
 #, kde-format
 msgid "Tracks"
 msgstr "المقطوعات"
 
 #. i18n: ectx: Menu (video_effects_menu)
-#: src/kdenliveui.rc:204 src/mainwindow.cpp:575
+#: src/kdenliveui.rc:204 src/mainwindow.cpp:566
 #, kde-format
 msgid "Add Effect"
 msgstr "أضف تأثيرًا"
 
 #. i18n: ectx: Menu (monitor)
-#: src/kdenliveui.rc:218 src/mainwindow.cpp:154
+#: src/kdenliveui.rc:218 src/mainwindow.cpp:149
 #, kde-format
 msgid "Monitor"
 msgstr "راقب"
@@ -10479,7 +10479,7 @@ msgid "Current Monitor Overlay"
 msgstr "المعلومات المسقطة على الشاشة الحالية"
 
 #. i18n: ectx: Menu (monitor_scaling)
-#: src/kdenliveui.rc:262 src/mainwindow.cpp:1610
+#: src/kdenliveui.rc:262 src/mainwindow.cpp:1575
 #, kde-format
 msgid "Preview Resolution"
 msgstr "عاين الدقة"
@@ -10525,7 +10525,7 @@ msgid "Editing"
 msgstr "التّحرير"
 
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
-#: src/layoutmanagement.cpp:35 src/mainwindow.cpp:492 src/mainwindow.cpp:576
+#: src/layoutmanagement.cpp:35 src/mainwindow.cpp:483 src/mainwindow.cpp:567
 #: src/ui/editsub_ui.ui:434
 #, kde-format
 msgid "Effects"
@@ -11061,157 +11061,157 @@ msgstr "ملفّ الخرج للفيديو المصير."
 msgid "Version %1"
 msgstr "الإصدار %1"
 
-#: src/mainwindow.cpp:156
+#: src/mainwindow.cpp:151
 #, kde-format
 msgid "Add Clip"
 msgstr "أضف مقطع"
 
-#: src/mainwindow.cpp:158
+#: src/mainwindow.cpp:153
 #, kde-format
 msgid "Add Marker/Guide by Category Number"
 msgstr "أضف علامة/دليل سريعاً حسب رقم الفئة"
 
-#: src/mainwindow.cpp:160
+#: src/mainwindow.cpp:155
 #, kde-format
 msgid "Navigation and Playback"
 msgstr "التنقل والتشغيل"
 
-#: src/mainwindow.cpp:162
+#: src/mainwindow.cpp:157
 #, kde-format
 msgid "Bin Tags"
 msgstr "وسوم السلة"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#: src/mainwindow.cpp:182 src/ui/managesubtitles_ui.ui:211
+#: src/mainwindow.cpp:177 src/ui/managesubtitles_ui.ui:211
 #, kde-format
 msgid "Style"
 msgstr "النّمط"
 
-#: src/mainwindow.cpp:244
+#: src/mainwindow.cpp:239
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
 msgstr "تعذّر العثور على التشكيلة الافتراضيّة، سأحوّل إلى ATSC 1080p 25"
 
-#: src/mainwindow.cpp:301
+#: src/mainwindow.cpp:296
 #, kde-format
 msgid "Library"
 msgstr "المكتبة"
 
-#: src/mainwindow.cpp:303
+#: src/mainwindow.cpp:298
 #, kde-format
 msgid "Speech Editor"
 msgstr "محرر الكلام"
 
-#: src/mainwindow.cpp:304
+#: src/mainwindow.cpp:299
 #, kde-format
 msgid "Time Remapping"
 msgstr "إعادة تنظيم الوقت"
 
 #. i18n: ectx: property (text), widget (KSqueezedTextLabel, guideslist_label)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
-#: src/mainwindow.cpp:305 src/ui/guideslist_ui.ui:126
+#: src/mainwindow.cpp:300 src/ui/guideslist_ui.ui:126
 #: src/ui/projectsettings_ui.ui:547
 #, kde-format
 msgid "Guides"
 msgstr "الأدلة"
 
-#: src/mainwindow.cpp:359 src/timeline2/view/qml/AudioLevels.qml:28
+#: src/mainwindow.cpp:354 src/timeline2/view/qml/AudioLevels.qml:28
 #: src/timeline2/view/qml/AudioLevels.qml:44
 #, kde-format
 msgid "Record"
 msgstr "سجّل"
 
-#: src/mainwindow.cpp:365
+#: src/mainwindow.cpp:360
 #, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
 msgstr "مكن مراقبة الصوت من جهاز المزج للتسجيل"
 
-#: src/mainwindow.cpp:373 src/monitor/recmanager.cpp:103
+#: src/mainwindow.cpp:368 src/monitor/recmanager.cpp:103
 #, kde-format
 msgid "Configure Recording"
 msgstr "اضبط التّسجيل"
 
 #. i18n: ectx: attribute (title), widget (QWidget, screen_grab_tab)
-#: src/mainwindow.cpp:376 src/monitor/recmanager.cpp:38
+#: src/mainwindow.cpp:371 src/monitor/recmanager.cpp:38
 #: src/monitor/recmanager.cpp:94 src/ui/configcapture_ui.ui:263
 #, kde-format
 msgid "Screen Grab"
 msgstr "التقاط الشاشة"
 
-#: src/mainwindow.cpp:382
+#: src/mainwindow.cpp:377
 #, kde-format
 msgid "Switch to next Sequence"
 msgstr "بدل إلى التسلسل التالي"
 
-#: src/mainwindow.cpp:386
+#: src/mainwindow.cpp:381
 #, kde-format
 msgid "Switch to previous Sequence"
 msgstr "بدّل إلى التسلسل السّابق"
 
-#: src/mainwindow.cpp:392
+#: src/mainwindow.cpp:387
 #, kde-format
 msgid "Audio Spectrum"
 msgstr "طيف الصّوت"
 
-#: src/mainwindow.cpp:399
+#: src/mainwindow.cpp:394
 #, kde-format
 msgid "Media Browser"
 msgstr "متصفح الوسائط"
 
-#: src/mainwindow.cpp:424
+#: src/mainwindow.cpp:419
 #, kde-format
 msgid "Effect/Composition Stack"
 msgstr "كومة التأثير/التركيب"
 
-#: src/mainwindow.cpp:495
+#: src/mainwindow.cpp:486
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:32
 #, kde-format
 msgid "Compositions"
 msgstr "التّراكبات"
 
-#: src/mainwindow.cpp:498
+#: src/mainwindow.cpp:489
 #, kde-format
 msgid "Clip Monitor"
 msgstr "شاشة المقطع"
 
-#: src/mainwindow.cpp:499
+#: src/mainwindow.cpp:490
 #, kde-format
 msgid "Project Monitor"
 msgstr "شاشة المشروع"
 
-#: src/mainwindow.cpp:503
+#: src/mainwindow.cpp:494
 #, kde-format
 msgid "Clean"
 msgstr "مسح"
 
-#: src/mainwindow.cpp:505
+#: src/mainwindow.cpp:496
 #, kde-format
 msgid "Undo History"
 msgstr "تأريخ التّراجع"
 
-#: src/mainwindow.cpp:532
+#: src/mainwindow.cpp:523
 #, kde-format
 msgid "Force Breeze Icon Theme"
 msgstr "أجبر سمة أيقونات «نسيم»"
 
-#: src/mainwindow.cpp:539 src/mainwindow.cpp:541
+#: src/mainwindow.cpp:530 src/mainwindow.cpp:532
 #, kde-format
 msgid "Audio Mixer"
 msgstr "مازج الصوت"
 
-#: src/mainwindow.cpp:540
+#: src/mainwindow.cpp:531
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "تظهر/تخفي لوحة مازج الصوت."
 
-#: src/mainwindow.cpp:579
+#: src/mainwindow.cpp:570
 #, kde-format
 msgid "Add Transition"
 msgstr "أضف انتقالًا"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_raisepropstransitions)
-#: src/mainwindow.cpp:580 src/mainwindow.cpp:2119
+#: src/mainwindow.cpp:571 src/mainwindow.cpp:2077
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:33
 #: src/ui/configtimeline_ui.ui:162
 #, kde-format
@@ -11219,12 +11219,12 @@ msgid "Transitions"
 msgstr "الانتقالات"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:598 src/mainwindow.cpp:610 src/mainwindow.cpp:617
+#: src/mainwindow.cpp:589 src/mainwindow.cpp:601 src/mainwindow.cpp:608
 #, kde-format
 msgid "Favorite Effects"
 msgstr "التّأثيرات المفضّلة"
 
-#: src/mainwindow.cpp:599 src/mainwindow.cpp:612
+#: src/mainwindow.cpp:590 src/mainwindow.cpp:603
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11234,12 +11234,12 @@ msgstr ""
 "انقر لعرض قائمة التأثيرات المفضلة. انقر نقر مزدوج على تأثير لإضافته للمقطع "
 "المحدد."
 
-#: src/mainwindow.cpp:625 src/mainwindow.cpp:1533
+#: src/mainwindow.cpp:616 src/mainwindow.cpp:1498
 #, kde-format
 msgid "Render…"
 msgstr "صيّر…"
 
-#: src/mainwindow.cpp:630
+#: src/mainwindow.cpp:621
 #, kde-format
 msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
@@ -11247,68 +11247,68 @@ msgctxt ""
 msgid "Render Button"
 msgstr "زرّ التّصيير"
 
-#: src/mainwindow.cpp:636
+#: src/mainwindow.cpp:627
 #, kde-format
 msgid "Rendering preview"
 msgstr "يصير المعاينة"
 
-#: src/mainwindow.cpp:690 src/monitor/monitor.cpp:429
+#: src/mainwindow.cpp:681 src/monitor/monitor.cpp:429
 #, kde-format
 msgid "Go to Guide…"
 msgstr "انتقل إلى دليل…"
 
-#: src/mainwindow.cpp:718
+#: src/mainwindow.cpp:709
 #, kde-format
 msgid "Separate Channels"
 msgstr "افصل القنوات"
 
-#: src/mainwindow.cpp:725
+#: src/mainwindow.cpp:716
 #, kde-format
 msgid "Normalize Audio Thumbnails"
 msgstr "سوّي مصغّرات الصّوت"
 
-#: src/mainwindow.cpp:732
+#: src/mainwindow.cpp:723
 #, kde-format
 msgid "Thumbnails"
 msgstr "المصغّرات"
 
-#: src/mainwindow.cpp:734
+#: src/mainwindow.cpp:725
 #, kde-format
 msgid "In Frame"
 msgstr "إطار دخول"
 
-#: src/mainwindow.cpp:738
+#: src/mainwindow.cpp:729
 #, kde-format
 msgid "In/Out Frames"
 msgstr "إطارات الدخل/الخرج"
 
-#: src/mainwindow.cpp:742
+#: src/mainwindow.cpp:733
 #, kde-format
 msgid "All Frames"
 msgstr "كل الإطارات"
 
-#: src/mainwindow.cpp:746
+#: src/mainwindow.cpp:737
 #, kde-format
 msgid "No Thumbnails"
 msgstr "لا مصغّرات"
 
-#: src/mainwindow.cpp:782
+#: src/mainwindow.cpp:773
 #, kde-format
 msgid "Preview Using Proxy Clips"
 msgstr "عاين مستخدمًا المقاطع الوسيطة"
 
-#: src/mainwindow.cpp:789
+#: src/mainwindow.cpp:780
 #, kde-format
 msgid "Automatic Preview"
 msgstr "معانية آلية"
 
-#: src/mainwindow.cpp:901
+#: src/mainwindow.cpp:880
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "يحمّل مشروعًا"
 
-#: src/mainwindow.cpp:1049
+#: src/mainwindow.cpp:1014
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -11333,42 +11333,42 @@ msgstr[5] ""
 "لديك %1 مهمّة تصيير تنتظر في الطّابور.\n"
 "ما الذي تريد فعله بها؟"
 
-#: src/mainwindow.cpp:1052
+#: src/mainwindow.cpp:1017
 #, kde-format
 msgid "Start them now"
 msgstr "ابدأها الآن"
 
-#: src/mainwindow.cpp:1052
+#: src/mainwindow.cpp:1017
 #, kde-format
 msgid "Delete them"
 msgstr "احذفها"
 
-#: src/mainwindow.cpp:1148 src/timeline2/view/timelinecontroller.cpp:2149
+#: src/mainwindow.cpp:1113 src/timeline2/view/timelinecontroller.cpp:2149
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "اختر مقطع لتقاران التأثير"
 
-#: src/mainwindow.cpp:1198
+#: src/mainwindow.cpp:1163
 #, kde-format
 msgid "Normal Mode"
 msgstr "الوضع العاديّ"
 
-#: src/mainwindow.cpp:1205
+#: src/mainwindow.cpp:1170
 #, kde-format
 msgid "Overwrite Mode"
 msgstr "نمط الطمس"
 
-#: src/mainwindow.cpp:1212
+#: src/mainwindow.cpp:1177
 #, kde-format
 msgid "Insert Mode"
 msgstr "وضع الإدراج"
 
-#: src/mainwindow.cpp:1216
+#: src/mainwindow.cpp:1181
 #, kde-format
 msgid "Timeline Edit Mode"
 msgstr "وضع تحرير الخطّ الزّمنيّ"
 
-#: src/mainwindow.cpp:1218
+#: src/mainwindow.cpp:1183
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11378,86 +11378,86 @@ msgstr ""
 "تبدل بين وضع الإدخال ووضع التبديل والوضع العادي. تحدد الإجراء المبدئي عند "
 "التعامل مع المقاطع في الخط الزمني."
 
-#: src/mainwindow.cpp:1231
+#: src/mainwindow.cpp:1196
 #, kde-format
 msgid "Do not Use Timeline Zone for Insert"
 msgstr "لا تستخدم منطقة الخط الزمني للإدراج"
 
-#: src/mainwindow.cpp:1231
+#: src/mainwindow.cpp:1196
 #, kde-format
 msgid "Use Timeline Zone for Insert"
 msgstr "استخدم منطقة الخط الزمني للإدراج"
 
-#: src/mainwindow.cpp:1232
+#: src/mainwindow.cpp:1197
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr "تبدل بين استخدام منطقة الخط الزمني للإدراج أو لا."
 
-#: src/mainwindow.cpp:1239
+#: src/mainwindow.cpp:1204
 #, kde-format
 msgid "Enable Track Compositing"
 msgstr "مكن تركيب المسار"
 
-#: src/mainwindow.cpp:1245
+#: src/mainwindow.cpp:1210
 #, kde-format
 msgid "Split Audio Tracks"
 msgstr "اقسم مسارات الصّوت"
 
-#: src/mainwindow.cpp:1251
+#: src/mainwindow.cpp:1216
 #, kde-format
 msgid "Split Audio Tracks (reverse)"
 msgstr "اقسم مسارات الصّوت (عكسياً)"
 
-#: src/mainwindow.cpp:1257
+#: src/mainwindow.cpp:1222
 #, kde-format
 msgid "Mixed Audio tracks"
 msgstr "مسارات الصّوت مخلوطة"
 
-#: src/mainwindow.cpp:1283
+#: src/mainwindow.cpp:1248
 #, kde-format
 msgid "Track menu"
 msgstr "قائمة المسار"
 
-#: src/mainwindow.cpp:1288 src/project/dialogs/slideshowclip.cpp:91
+#: src/mainwindow.cpp:1253 src/project/dialogs/slideshowclip.cpp:91
 #, kde-format
 msgid "hh:mm:ss:ff"
 msgstr "hh:mm:ss:ff"
 
-#: src/mainwindow.cpp:1289 src/project/dialogs/slideshowclip.cpp:92
+#: src/mainwindow.cpp:1254 src/project/dialogs/slideshowclip.cpp:92
 #, kde-format
 msgid "Frames"
 msgstr "الإطارات"
 
-#: src/mainwindow.cpp:1301
+#: src/mainwindow.cpp:1266
 #, kde-format
 msgid "Edit Subtitle Tool"
 msgstr "أداة تحرير الترجمة"
 
-#: src/mainwindow.cpp:1302
+#: src/mainwindow.cpp:1267
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "تعرض/تخفي مسار الترجمة في الخط الزمني."
 
-#: src/mainwindow.cpp:1309 src/titler/titlewidget.cpp:386
+#: src/mainwindow.cpp:1274 src/titler/titlewidget.cpp:386
 #: src/titler/titlewidget.cpp:389
 #, kde-format
 msgid "Selection Tool"
 msgstr "أداة التّحديد"
 
-#: src/mainwindow.cpp:1314
+#: src/mainwindow.cpp:1279
 #, kde-format
 msgid "Razor Tool"
 msgstr "أداة المقصّ"
 
-#: src/mainwindow.cpp:1319
+#: src/mainwindow.cpp:1284
 #, kde-format
 msgid "Spacer Tool"
 msgstr "أداة الفضاء"
 
-#: src/mainwindow.cpp:1322
+#: src/mainwindow.cpp:1287
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11467,12 +11467,12 @@ msgstr ""
 "عند تحديدها، النقر وسحب الفأرة في الخط الزمني سيجمع المقاطع المتفرقة مؤقتا "
 "وسينشئ أو يزيل المساحة بين المقاطع."
 
-#: src/mainwindow.cpp:1327
+#: src/mainwindow.cpp:1292
 #, kde-format
 msgid "Ripple Tool"
 msgstr "أداة التموج"
 
-#: src/mainwindow.cpp:1330
+#: src/mainwindow.cpp:1295
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11486,12 +11486,12 @@ msgstr ""
 #.
 #. m_buttonRollTool->setCheckable(true);
 #. m_buttonRollTool->setChecked(false);
-#: src/mainwindow.cpp:1340
+#: src/mainwindow.cpp:1305
 #, kde-format
 msgid "Slip Tool"
 msgstr "أداة الانزلاق"
 
-#: src/mainwindow.cpp:1341
+#: src/mainwindow.cpp:1306
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11500,22 +11500,22 @@ msgid ""
 msgstr ""
 "عند تحديدها، سحب مقطعًا سيزلق المقطع الذي بأسفل النافذة المحددة ذهابًا وإيابًا."
 
-#: src/mainwindow.cpp:1345
+#: src/mainwindow.cpp:1310
 #, kde-format
 msgid "Multicam Tool"
 msgstr "أداة الكاميرات"
 
-#: src/mainwindow.cpp:1366
+#: src/mainwindow.cpp:1331
 #, kde-format
 msgid "Collapse/Expand Item"
 msgstr "اطو/وسع العنصر"
 
-#: src/mainwindow.cpp:1370
+#: src/mainwindow.cpp:1335
 #, kde-format
 msgid "Mix Clips"
 msgstr "اخلط المقاطع"
 
-#: src/mainwindow.cpp:1372
+#: src/mainwindow.cpp:1337
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11524,12 +11524,12 @@ msgid ""
 msgstr ""
 "ينشئ انتقالًا من نفس المسار بين المقطع المحدد وأقرب مقطع إلى رأس التشغيل."
 
-#: src/mainwindow.cpp:1380
+#: src/mainwindow.cpp:1345
 #, kde-format
 msgid "Show Video Thumbnails"
 msgstr "أظهر مصغّرات الفيديو"
 
-#: src/mainwindow.cpp:1381
+#: src/mainwindow.cpp:1346
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11537,12 +11537,12 @@ msgid ""
 "(default is On)."
 msgstr "تعرض/تخفي مصغرات الفيديو للمقاطع في الخطّ الزمني (مفعلة مبدئيا)"
 
-#: src/mainwindow.cpp:1389
+#: src/mainwindow.cpp:1354
 #, kde-format
 msgid "Show Audio Thumbnails"
 msgstr "أظهر مصغّرات الصّوت"
 
-#: src/mainwindow.cpp:1390
+#: src/mainwindow.cpp:1355
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11550,17 +11550,17 @@ msgid ""
 "(default is On)."
 msgstr "تعرض/تخفي مصغرات صوتية للمقاطع في الخطّ الزمني (مفعلة مبدئيا)"
 
-#: src/mainwindow.cpp:1396
+#: src/mainwindow.cpp:1361
 #, kde-format
 msgid "Show Markers Comments"
 msgstr "اعرض تعليقات العلامات"
 
-#: src/mainwindow.cpp:1402
+#: src/mainwindow.cpp:1367
 #, kde-format
 msgid "Snap"
 msgstr "اجذب"
 
-#: src/mainwindow.cpp:1403
+#: src/mainwindow.cpp:1368
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11570,40 +11570,40 @@ msgstr ""
 "تفعل/تعطل وظيفة الجذب (المقاطع تنجذب إلى حواف رأس التشغيل، أوالعلامات أو "
 "الأدلة وغيرها)."
 
-#: src/mainwindow.cpp:1409
+#: src/mainwindow.cpp:1374
 #, kde-format
 msgid "Show Color Tags in Timeline"
 msgstr "أظهر وسوم لون في الخطّ الزّمنيّ"
 
-#: src/mainwindow.cpp:1410
+#: src/mainwindow.cpp:1375
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr "تعرض/تخفي وسوم المقطع في الخطّ الزمني (مفعلة مبدئياً)."
 
-#: src/mainwindow.cpp:1416
+#: src/mainwindow.cpp:1381
 #, kde-format
 msgid "Fit Zoom to Project"
 msgstr "لائم التكبير للمشروع"
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1382
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Adjusts the zoom level to fit the entire project into the timeline windows."
 msgstr "يضبط مستوى التكبير ليلائم كامل المشروع داخل نوافذ الخط الزمني."
 
-#: src/mainwindow.cpp:1442
+#: src/mainwindow.cpp:1407
 #, kde-format
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "المعالجة الرسومية بالعتاد التجربية مفعلة - ليست للإنتاج"
 
-#: src/mainwindow.cpp:1452 src/mainwindow.cpp:3565
+#: src/mainwindow.cpp:1417 src/mainwindow.cpp:3523
 #, kde-format
 msgid "Multicam"
 msgstr "الكاميرات"
 
-#: src/mainwindow.cpp:1453
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "Active tool and editing mode"
 msgstr "أداة نشطة و نمط التحرير"
@@ -11611,239 +11611,239 @@ msgstr "أداة نشطة و نمط التحرير"
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, encoder_threads)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
-#: src/mainwindow.cpp:1504 src/ui/editrenderpreset_ui.ui:551
+#: src/mainwindow.cpp:1469 src/ui/editrenderpreset_ui.ui:551
 #: src/ui/editrenderpreset_ui.ui:694 src/ui/renderwidget_ui.ui:769
 #, kde-format
 msgid "Auto"
 msgstr "آليّ"
 
-#: src/mainwindow.cpp:1509
+#: src/mainwindow.cpp:1474
 #, kde-format
 msgid "OpenGL"
 msgstr "أوبن‌جي‌إل"
 
-#: src/mainwindow.cpp:1514
+#: src/mainwindow.cpp:1479
 #, kde-format
 msgid "DirectX (ANGLE)"
 msgstr "دايركت إكس(أنجل)"
 
-#: src/mainwindow.cpp:1519
+#: src/mainwindow.cpp:1484
 #, kde-format
 msgid "Software OpenGL"
 msgstr "أوبن‌جي‌إل برمجي"
 
-#: src/mainwindow.cpp:1529
+#: src/mainwindow.cpp:1494
 #, kde-format
 msgid "Run Config Wizard…"
 msgstr "شغّل مرشد الضّبط…"
 
-#: src/mainwindow.cpp:1530
+#: src/mainwindow.cpp:1495
 #, kde-format
 msgid "Project Settings…"
 msgstr "إعدادات المشروع…"
 
-#: src/mainwindow.cpp:1536
+#: src/mainwindow.cpp:1501
 #, kde-format
 msgid "Stop Render"
 msgstr "أوقف التّصيير"
 
-#: src/mainwindow.cpp:1541
+#: src/mainwindow.cpp:1506
 #, kde-format
 msgid "Reset Configuration…"
 msgstr "أعد الضبط…"
 
-#: src/mainwindow.cpp:1546
+#: src/mainwindow.cpp:1511
 #, kde-format
 msgid "Play Zone From Cursor"
 msgstr "شغّل المنطقة من المؤشر"
 
-#: src/mainwindow.cpp:1549
+#: src/mainwindow.cpp:1514
 #, kde-format
 msgid "Play Zone"
 msgstr "شغّل المنطقة"
 
-#: src/mainwindow.cpp:1551
+#: src/mainwindow.cpp:1516
 #, kde-format
 msgid "Loop Zone"
 msgstr "منطقة حلقة التكرار"
 
-#: src/mainwindow.cpp:1553
+#: src/mainwindow.cpp:1518
 #, kde-format
 msgid "Loop Selected Clip"
 msgstr "كرر المقطع المحدد"
 
-#: src/mainwindow.cpp:1557
+#: src/mainwindow.cpp:1522
 #, kde-format
 msgid "Transcode Clips…"
 msgstr "تبديل ترميز المقاطع…"
 
-#: src/mainwindow.cpp:1558
+#: src/mainwindow.cpp:1523
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
 msgstr "&صدر ‏OpenTimelineIO‏…"
 
-#: src/mainwindow.cpp:1561
+#: src/mainwindow.cpp:1526
 #, kde-format
 msgid "OpenTimelineIO &Import…"
 msgstr "ا&ستورد OpenTimelineIO…"
 
-#: src/mainwindow.cpp:1565
+#: src/mainwindow.cpp:1530
 #, kde-format
 msgid "Archive Project…"
 msgstr "أرشف المشروع…"
 
-#: src/mainwindow.cpp:1567
+#: src/mainwindow.cpp:1532
 #, kde-format
 msgid "Switch Monitor"
 msgstr "بدّل الشّاشة"
 
-#: src/mainwindow.cpp:1568
+#: src/mainwindow.cpp:1533
 #, kde-format
 msgid "Focus Timecode"
 msgstr "رمز وقت التركيز"
 
-#: src/mainwindow.cpp:1569
+#: src/mainwindow.cpp:1534
 #, kde-format
 msgid "Expand Clip"
 msgstr "وسع المقطع"
 
-#: src/mainwindow.cpp:1571
+#: src/mainwindow.cpp:1536
 #, kde-format
 msgid "Monitor Info Overlay"
 msgstr "المعلومات المسقطة على الشاشة"
 
-#: src/mainwindow.cpp:1576
+#: src/mainwindow.cpp:1541
 #, kde-format
 msgid "Monitor Overlay Timecode"
 msgstr "رمز الوقت المسقط على الشاشة"
 
-#: src/mainwindow.cpp:1581
+#: src/mainwindow.cpp:1546
 #, kde-format
 msgid "Monitor Overlay Playback Fps"
 msgstr "معدل الأطر المسقط على الشاشة"
 
-#: src/mainwindow.cpp:1586
+#: src/mainwindow.cpp:1551
 #, kde-format
 msgid "Monitor Overlay Markers"
 msgstr "العلامات المسقطة على الشاشة"
 
-#: src/mainwindow.cpp:1591
+#: src/mainwindow.cpp:1556
 #, kde-format
 msgid "Monitor Overlay Audio Waveform"
 msgstr "الشكل الموجي للصوت المُسقط على الشاشة"
 
-#: src/mainwindow.cpp:1596
+#: src/mainwindow.cpp:1561
 #, kde-format
 msgid "Monitor Overlay Clip Jobs"
 msgstr "مهام رمز الوقت المسقط على الشاشة"
 
-#: src/mainwindow.cpp:1614
+#: src/mainwindow.cpp:1579
 #, kde-format
 msgid "Full Resolution (1:1)"
 msgstr "دقة عالية (1:1)"
 
-#: src/mainwindow.cpp:1618 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1583 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "720p"
 msgstr "720ب"
 
-#: src/mainwindow.cpp:1622 src/monitor/monitor.cpp:236
+#: src/mainwindow.cpp:1587 src/monitor/monitor.cpp:236
 #, kde-format
 msgid "540p"
 msgstr "540ب"
 
-#: src/mainwindow.cpp:1626 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1591 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "360p"
 msgstr "360ب"
 
-#: src/mainwindow.cpp:1630 src/monitor/monitor.cpp:237
+#: src/mainwindow.cpp:1595 src/monitor/monitor.cpp:237
 #, kde-format
 msgid "270p"
 msgstr "270ب"
 
-#: src/mainwindow.cpp:1661
+#: src/mainwindow.cpp:1626
 #, kde-format
 msgid "Real Time (drop frames)"
 msgstr "الوقت الحقيقي (إسقاط الأطر)"
 
-#: src/mainwindow.cpp:1667
+#: src/mainwindow.cpp:1632
 #, kde-format
 msgid "Monitor Gamma"
 msgstr "غاما الشاشة"
 
-#: src/mainwindow.cpp:1668
+#: src/mainwindow.cpp:1633
 #, kde-format
 msgid "sRGB (computer)"
 msgstr "sRGB (حاسوب)"
 
-#: src/mainwindow.cpp:1669
+#: src/mainwindow.cpp:1634
 #, kde-format
 msgid "Rec. 709 (TV)"
 msgstr "Rec. 709 (TV)"
 
-#: src/mainwindow.cpp:1675
+#: src/mainwindow.cpp:1640
 #, kde-format
 msgid "Insert Zone in Project Bin"
 msgstr "أدرج منطقة في سلة المشروع"
 
-#: src/mainwindow.cpp:1677
+#: src/mainwindow.cpp:1642
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Creates a new clip in the project bin from the defined zone."
 msgstr "ينشئ مقطعاً جديداً في سلة المشروع من المنطقة المعرفة."
 
-#: src/mainwindow.cpp:1680
+#: src/mainwindow.cpp:1645
 #, kde-format
 msgid "Go to Previous Snap Point"
 msgstr "انتقل إلى نقطة الجذب السّابقة"
 
-#: src/mainwindow.cpp:1682
+#: src/mainwindow.cpp:1647
 #, kde-format
 msgid "Go to Next Snap Point"
 msgstr "انتقل إلى نقطة الجذب التّالية"
 
-#: src/mainwindow.cpp:1685
+#: src/mainwindow.cpp:1650
 #, kde-format
 msgid "Go to Clip Start"
 msgstr "انتقل إلى بداية المقطع"
 
-#: src/mainwindow.cpp:1687
+#: src/mainwindow.cpp:1652
 #, kde-format
 msgid "Go to Clip End"
 msgstr "انتقل إلى نهاية المقطع"
 
-#: src/mainwindow.cpp:1689
+#: src/mainwindow.cpp:1654
 #, kde-format
 msgid "Go to Previous Guide"
 msgstr "انتقل إلى الدليل السّابق"
 
-#: src/mainwindow.cpp:1691
+#: src/mainwindow.cpp:1656
 #, kde-format
 msgid "Go to Next Guide"
 msgstr "انتقل إلى الدليل التّالي"
 
-#: src/mainwindow.cpp:1693
+#: src/mainwindow.cpp:1658
 #, kde-format
 msgid "Align Playhead to Mouse Position"
 msgstr "حاذِ رأس التشغيل مع موضع الفأرة"
 
-#: src/mainwindow.cpp:1696
+#: src/mainwindow.cpp:1661
 #, kde-format
 msgid "Grab Current Item"
 msgstr "أمسك العنصر الحالي"
 
-#: src/mainwindow.cpp:1699
+#: src/mainwindow.cpp:1664
 #, kde-format
 msgid "Automatic Transition"
 msgstr "انتقال آليّ"
 
-#: src/mainwindow.cpp:1706
+#: src/mainwindow.cpp:1671
 #, kde-format
 msgid "Overwrite Clip Zone in Timeline"
 msgstr "استبدل منطقة المقطع في الخط الزمني"
 
-#: src/mainwindow.cpp:1708
+#: src/mainwindow.cpp:1673
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11855,12 +11855,12 @@ msgstr ""
 "التشغيل في الجدول الزمني النشيط. المقاطع التي في موضع الإدراج ستُقص ويعاد "
 "كتابتها."
 
-#: src/mainwindow.cpp:1710
+#: src/mainwindow.cpp:1675
 #, kde-format
 msgid "Insert Clip Zone in Timeline"
 msgstr "أدرج منطقة مقطع في الخط الزمني"
 
-#: src/mainwindow.cpp:1712
+#: src/mainwindow.cpp:1677
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11872,12 +11872,12 @@ msgstr ""
 "التشغيل في الجدول الزمني النشيط. المقاطع التي في موضع الإدراج ستُقص وستحرك "
 "إلى اليمين."
 
-#: src/mainwindow.cpp:1714
+#: src/mainwindow.cpp:1679
 #, kde-format
 msgid "Extract Timeline Zone"
 msgstr "استخرج منطقة الخط الزمني"
 
-#: src/mainwindow.cpp:1716
+#: src/mainwindow.cpp:1681
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11887,12 +11887,12 @@ msgstr ""
 "انقر لتحذف منطقة الخط الزمني من الخط الزمني، كل المقاطع التي على اليمين "
 "ستحرك إلى اليسار."
 
-#: src/mainwindow.cpp:1717
+#: src/mainwindow.cpp:1682
 #, kde-format
 msgid "Lift Timeline Zone"
 msgstr "ارفع منطقة الخط الزمني"
 
-#: src/mainwindow.cpp:1719
+#: src/mainwindow.cpp:1684
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11902,24 +11902,24 @@ msgstr ""
 "انقر لتحذف منطقة الخط الزمني من الخط الزمني، كل المقاطع التي على اليمين "
 "ستبقى في مكانها."
 
-#: src/mainwindow.cpp:1720
+#: src/mainwindow.cpp:1685
 #, kde-format
 msgid "Add Preview Zone"
 msgstr "أضف منطقة معاينة"
 
-#: src/mainwindow.cpp:1722
+#: src/mainwindow.cpp:1687
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr "أضف المنطقة المعرفة في الخط الزمني/المحددة كمنطقة تصيير كمعاينة"
 
-#: src/mainwindow.cpp:1723
+#: src/mainwindow.cpp:1688
 #, kde-format
 msgid "Remove Preview Zone"
 msgstr "أزل منطقة معاينة"
 
-#: src/mainwindow.cpp:1727
+#: src/mainwindow.cpp:1692
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11929,23 +11929,23 @@ msgstr ""
 "تزيل المنطقة المعرفة في الخط الزمني/المحددة من مناطق تصيير كمعاينة. لاحظ أن "
 "هذا قد يترك فراغات في مناطق المصيرة كمعاينة."
 
-#: src/mainwindow.cpp:1728
+#: src/mainwindow.cpp:1693
 #, kde-format
 msgid "Remove All Preview Zones"
 msgstr "أزل كل مناطق المعاينة"
 
-#: src/mainwindow.cpp:1730
+#: src/mainwindow.cpp:1695
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
 msgstr "أزل كل مناطق تصيير كمعاينة"
 
-#: src/mainwindow.cpp:1731
+#: src/mainwindow.cpp:1696
 #, kde-format
 msgid "Start Preview Render"
 msgstr "ابدأ تصيير المعاينة"
 
-#: src/mainwindow.cpp:1734
+#: src/mainwindow.cpp:1699
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -11958,228 +11958,228 @@ msgstr ""
 "للحصول على قائمة بالخيارات (على سبيل المثال: أضف منطقة تصيير كمعاينة، أزل "
 "جميع المناطق) ."
 
-#: src/mainwindow.cpp:1736
+#: src/mainwindow.cpp:1701
 #, kde-format
 msgid "Stop Preview Render"
 msgstr "أوقف تصيير المعاينة"
 
-#: src/mainwindow.cpp:1739
+#: src/mainwindow.cpp:1704
 #, kde-format
 msgid "Adjust Timeline Zone to Selection"
 msgstr "اضبط منطقة الخط الزمني إلى التحديد"
 
-#: src/mainwindow.cpp:1741
+#: src/mainwindow.cpp:1706
 #, kde-format
 msgid "Select Clip"
 msgstr "حدّد المقطع"
 
-#: src/mainwindow.cpp:1743
+#: src/mainwindow.cpp:1708
 #, kde-format
 msgid "Deselect Clip"
 msgstr "أزل تحديد المقطع"
 
-#: src/mainwindow.cpp:1745
+#: src/mainwindow.cpp:1710
 #, kde-format
 msgid "Add Clip to Selection"
 msgstr "أضف المقطع إلى التّحديد"
 
-#: src/mainwindow.cpp:1747
+#: src/mainwindow.cpp:1712
 #, kde-format
 msgid "Select Transition"
 msgstr "حدّد الانتقال"
 
-#: src/mainwindow.cpp:1749
+#: src/mainwindow.cpp:1714
 #, kde-format
 msgid "Deselect Transition"
 msgstr "أزل تحديد الانتقال"
 
-#: src/mainwindow.cpp:1751
+#: src/mainwindow.cpp:1716
 #, kde-format
 msgid "Add Transition to Selection"
 msgstr "أضف الانتقال إلى التّحديد"
 
-#: src/mainwindow.cpp:1754
+#: src/mainwindow.cpp:1719
 #, kde-format
 msgid "Delete All Markers"
 msgstr "احذف كل العلامات"
 
-#: src/mainwindow.cpp:1756
+#: src/mainwindow.cpp:1721
 #, kde-format
 msgid "Add Marker/Guide Quickly"
 msgstr "أضف علامة/دليل سريعاً"
 
-#: src/mainwindow.cpp:1760
+#: src/mainwindow.cpp:1725
 #, kde-format
 msgid "Add Marker/Guide 1"
 msgstr "أضف علامة/دليل 1"
 
-#: src/mainwindow.cpp:1764
+#: src/mainwindow.cpp:1729
 #, kde-format
 msgid "Add Marker/Guide 2"
 msgstr "أضف علامة/دليل 2"
 
-#: src/mainwindow.cpp:1768
+#: src/mainwindow.cpp:1733
 #, kde-format
 msgid "Add Marker/Guide 3"
 msgstr "أضف علامة/دليل 3"
 
-#: src/mainwindow.cpp:1772
+#: src/mainwindow.cpp:1737
 #, kde-format
 msgid "Add Marker/Guide 4"
 msgstr "أضف علامة/دليل 4"
 
-#: src/mainwindow.cpp:1776
+#: src/mainwindow.cpp:1741
 #, kde-format
 msgid "Add Marker/Guide 5"
 msgstr "أضف علامة/دليل 5"
 
-#: src/mainwindow.cpp:1780
+#: src/mainwindow.cpp:1745
 #, kde-format
 msgid "Add Marker/Guide 6"
 msgstr "أضف علامة/دليل 6"
 
-#: src/mainwindow.cpp:1784
+#: src/mainwindow.cpp:1749
 #, kde-format
 msgid "Add Marker/Guide 7"
 msgstr "أضف علامة/دليل 7"
 
-#: src/mainwindow.cpp:1788
+#: src/mainwindow.cpp:1753
 #, kde-format
 msgid "Add Marker/Guide 8"
 msgstr "أضف علامة/دليل 8"
 
-#: src/mainwindow.cpp:1792
+#: src/mainwindow.cpp:1757
 #, kde-format
 msgid "Add Marker/Guide 9"
 msgstr "أضف علامة/دليل 9"
 
-#: src/mainwindow.cpp:1796
+#: src/mainwindow.cpp:1761
 #, kde-format
 msgid "Add Marker/Guide 10"
 msgstr "أضف علامة/دليل 10"
 
-#: src/mainwindow.cpp:1801
+#: src/mainwindow.cpp:1766
 #, kde-format
 msgid "Current Selection"
 msgstr "التحديد الحالي"
 
-#: src/mainwindow.cpp:1803 src/monitor/view/SceneToolBar.qml:94
+#: src/mainwindow.cpp:1768 src/monitor/view/SceneToolBar.qml:94
 #, kde-format
 msgid "Add Marker"
 msgstr "أضف علامة"
 
-#: src/mainwindow.cpp:1807
+#: src/mainwindow.cpp:1772
 #, kde-format
 msgid "Delete Marker"
 msgstr "احذف علامة"
 
-#: src/mainwindow.cpp:1811
+#: src/mainwindow.cpp:1776
 #, kde-format
 msgid "Edit Marker…"
 msgstr "حرر علامة…"
 
-#: src/mainwindow.cpp:1816 src/timeline2/model/timelinefunctions.cpp:1208
+#: src/mainwindow.cpp:1781 src/timeline2/model/timelinefunctions.cpp:1208
 #, kde-format
 msgid "Restore Audio"
 msgstr "استعد الصوت"
 
-#: src/mainwindow.cpp:1822
+#: src/mainwindow.cpp:1787
 #, kde-format
 msgid "Extract Clip"
 msgstr "استخرج مقطع"
 
-#: src/mainwindow.cpp:1828
+#: src/mainwindow.cpp:1793
 #, kde-format
 msgid "Save Clip Part to Bin"
 msgstr "احفظ جزء مقطع في السلة"
 
-#: src/mainwindow.cpp:1833
+#: src/mainwindow.cpp:1798
 #, kde-format
 msgid "Disable Clip"
 msgstr "تعطيل مقطع"
 
-#: src/mainwindow.cpp:1838
+#: src/mainwindow.cpp:1803
 #, kde-format
 msgid "Set Audio Reference"
 msgstr "حدد مرجع للصوت"
 
-#: src/mainwindow.cpp:1845
+#: src/mainwindow.cpp:1810
 #, kde-format
 msgid "Align Audio to Reference"
 msgstr "حاذِ الصوت إلى المرجع"
 
-#: src/mainwindow.cpp:1850
+#: src/mainwindow.cpp:1815
 #, kde-format
 msgid "Edit Duration"
 msgstr "حرّر المدّة"
 
-#: src/mainwindow.cpp:1854
+#: src/mainwindow.cpp:1819
 #, kde-format
 msgid "Change Speed"
 msgstr "غيّر السرعة"
 
-#: src/mainwindow.cpp:1860
+#: src/mainwindow.cpp:1825
 #, kde-format
 msgid "Time Remap"
 msgstr "إعادة تعيين الوقت"
 
-#: src/mainwindow.cpp:1867
+#: src/mainwindow.cpp:1832
 #, kde-format
 msgid "Clip in Project Bin"
 msgstr "مقطع في سلة المشروع"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, CutJobDialog_UI)
-#: src/mainwindow.cpp:1873 src/ui/cutjobdialog_ui.ui:18
+#: src/mainwindow.cpp:1838 src/ui/cutjobdialog_ui.ui:18
 #, kde-format
 msgid "Cut Clip"
 msgstr "قص المقطع"
 
-#: src/mainwindow.cpp:1876
+#: src/mainwindow.cpp:1841
 #, kde-format
 msgid "Cut All Clips"
 msgstr "قص كل المقاطع"
 
-#: src/mainwindow.cpp:1879
+#: src/mainwindow.cpp:1844
 #, kde-format
 msgid "Delete Selected Item"
 msgstr "احذف العنصر المحدّد"
 
-#: src/mainwindow.cpp:1882
+#: src/mainwindow.cpp:1847
 #, kde-format
 msgid "Resize Item Start"
 msgstr "غير حجم بدء العنصر"
 
-#: src/mainwindow.cpp:1886
+#: src/mainwindow.cpp:1851
 #, kde-format
 msgid "Resize Item End"
 msgstr "غير حجم نهاية العنصر"
 
-#: src/mainwindow.cpp:1890
+#: src/mainwindow.cpp:1855
 #, kde-format
 msgid "Paste Effects"
 msgstr "ألصق التّأثيرات"
 
-#: src/mainwindow.cpp:1896
+#: src/mainwindow.cpp:1861
 #, kde-format
 msgid "Delete Effects"
 msgstr "احذف التّأثيرات"
 
-#: src/mainwindow.cpp:1903
+#: src/mainwindow.cpp:1868
 #, kde-format
 msgid "Group Clips"
 msgstr "جمّع المقاطع"
 
-#: src/mainwindow.cpp:1909
+#: src/mainwindow.cpp:1874
 #, kde-format
 msgid "Ungroup Clips"
 msgstr "أزل تجميع المقاطع"
 
-#: src/mainwindow.cpp:1915
+#: src/mainwindow.cpp:1880
 #, kde-format
 msgid "Create Sequence from Selection"
 msgstr "أنشئ تسلسلًا جديدًا من التحديد"
 
-#: src/mainwindow.cpp:1918
+#: src/mainwindow.cpp:1883
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12189,123 +12189,123 @@ msgstr ""
 "تضيف المقطع أو المقاطع المحددة في الخط الزمني إلى مقطع تسلسل جديد يمكن فتحه "
 "في لسان خط زمني أخر."
 
-#: src/mainwindow.cpp:1929
+#: src/mainwindow.cpp:1894
 #, kde-format
 msgid "Effect Keyframes"
 msgstr "تأثير الإطار الرئيس"
 
-#: src/mainwindow.cpp:1930 src/monitor/view/EffectToolBar.qml:99
+#: src/mainwindow.cpp:1895 src/monitor/view/EffectToolBar.qml:99
 #, kde-format
 msgid "Add/Remove Keyframe"
 msgstr "أضف/أزل الإطار الرئيس"
 
-#: src/mainwindow.cpp:1946
+#: src/mainwindow.cpp:1904
 #, kde-format
 msgid "Insert Space…"
 msgstr "أدرج فضاء…"
 
-#: src/mainwindow.cpp:1947
+#: src/mainwindow.cpp:1905
 #, kde-format
 msgid "Remove Space"
 msgstr "أزل الفضاء"
 
-#: src/mainwindow.cpp:1948
+#: src/mainwindow.cpp:1906
 #, kde-format
 msgid "Remove All Spaces After Cursor"
 msgstr "أزل كلّ الفضاءات بعد المؤشّر"
 
-#: src/mainwindow.cpp:1949
+#: src/mainwindow.cpp:1907
 #, kde-format
 msgid "Remove All Clips After Cursor"
 msgstr "أزل كلّ المقاطع بعد المؤشّر"
 
-#: src/mainwindow.cpp:1950
+#: src/mainwindow.cpp:1908
 #, kde-format
 msgid "Remove Space in All Tracks"
 msgstr "أزل الفضاء في كلّ المسارات"
 
-#: src/mainwindow.cpp:1953
+#: src/mainwindow.cpp:1911
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track…"
 msgstr "أدرج مسار…"
 
-#: src/mainwindow.cpp:1957
+#: src/mainwindow.cpp:1915
 #, kde-format
 msgid "Fit all Tracks in View"
 msgstr "لائم كلّ المسارات في العرض"
 
-#: src/mainwindow.cpp:1963 src/timeline2/view/timelinecontroller.cpp:4969
+#: src/mainwindow.cpp:1921 src/timeline2/view/timelinecontroller.cpp:4969
 #, kde-format
 msgid "Master effects"
 msgstr "التّأثيرات الرئيسة"
 
-#: src/mainwindow.cpp:1970
+#: src/mainwindow.cpp:1928
 #, kde-format
 msgid "Switch Track Target Audio Stream"
 msgstr "بدّل دفق صوت المسار المستهدف"
 
-#: src/mainwindow.cpp:1975
+#: src/mainwindow.cpp:1933
 #, kde-format
 msgid "Delete Track…"
 msgstr "احذف المسار…"
 
-#: src/mainwindow.cpp:1980
+#: src/mainwindow.cpp:1938
 #, kde-format
 msgid "Show Record Controls"
 msgstr "اعرض متحكمات التّسجيل"
 
-#: src/mainwindow.cpp:1986
+#: src/mainwindow.cpp:1944
 #, kde-format
 msgid "Select All in Current Track"
 msgstr "حدّد الكلّ في المقطع الحاليّ"
 
-#: src/mainwindow.cpp:2003
+#: src/mainwindow.cpp:1961
 #, kde-format
 msgid "Manage Cached Data…"
 msgstr "أدر البيانات المخبّئة…"
 
-#: src/mainwindow.cpp:2006
+#: src/mainwindow.cpp:1964
 #, kde-format
 msgid "Disable Timeline Preview"
 msgstr "عطّل معاينة الخط الزمني"
 
-#: src/mainwindow.cpp:2010
+#: src/mainwindow.cpp:1968
 #, kde-format
 msgid "Add/Remove Guide"
 msgstr "أضف/أزل دليل"
 
-#: src/mainwindow.cpp:2011
+#: src/mainwindow.cpp:1969
 #, kde-format
 msgid "Delete Guide"
 msgstr "حذف الدليل"
 
-#: src/mainwindow.cpp:2012
+#: src/mainwindow.cpp:1970
 #, kde-format
 msgid "Edit Guide…"
 msgstr "حرر الدليل…"
 
-#: src/mainwindow.cpp:2013
+#: src/mainwindow.cpp:1971
 #, kde-format
 msgid "Search Guide…"
 msgstr "ابحث عن دليل..."
 
-#: src/mainwindow.cpp:2014
+#: src/mainwindow.cpp:1972
 #, kde-format
 msgid "Export Guides…"
 msgstr "صدر الأدلة …"
 
-#: src/mainwindow.cpp:2017
+#: src/mainwindow.cpp:1975
 #, kde-format
 msgid "Guides Locked"
 msgstr "الأدلة مقفلة"
 
-#: src/mainwindow.cpp:2020
+#: src/mainwindow.cpp:1978
 #, kde-format
 msgid "Lock guides"
 msgstr "اقفل الأدلّة"
 
-#: src/mainwindow.cpp:2022
+#: src/mainwindow.cpp:1980
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12315,52 +12315,52 @@ msgstr ""
 "اقفل الأدلة. عند قفلها لن تتحرك الأدلة عند استعمال أداة الفضاء أو عند إدراج/"
 "حذف فراغ في المسارات."
 
-#: src/mainwindow.cpp:2024
+#: src/mainwindow.cpp:1982
 #, kde-format
 msgid "Delete All Guides"
 msgstr "احذف كل الأدلة"
 
-#: src/mainwindow.cpp:2026
+#: src/mainwindow.cpp:1984
 #, kde-format
 msgid "Add Subtitle"
 msgstr "أضف ترجمة"
 
-#: src/mainwindow.cpp:2028
+#: src/mainwindow.cpp:1986
 #, kde-format
 msgid "Disable Subtitle"
 msgstr "عطل الترجمة"
 
-#: src/mainwindow.cpp:2029
+#: src/mainwindow.cpp:1987
 #, kde-format
 msgid "Lock Subtitle"
 msgstr "اقفل الترجمة"
 
-#: src/mainwindow.cpp:2031
+#: src/mainwindow.cpp:1989
 #, kde-format
 msgid "Manage Subtitles"
 msgstr "أدر الترجمة"
 
-#: src/mainwindow.cpp:2033
+#: src/mainwindow.cpp:1991
 #, kde-format
 msgid "Import Subtitle File…"
 msgstr "استورد ملف الترجمة…"
 
-#: src/mainwindow.cpp:2035
+#: src/mainwindow.cpp:1993
 #, kde-format
 msgid "Export Subtitle File…"
 msgstr "صدّر ملفّ ترجمة…"
 
-#: src/mainwindow.cpp:2037 src/timeline2/model/timelinemodel.cpp:2169
+#: src/mainwindow.cpp:1995 src/timeline2/model/timelinemodel.cpp:2169
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "احذف الترجمة"
 
-#: src/mainwindow.cpp:2038
+#: src/mainwindow.cpp:1996
 #, kde-format
 msgid "Speech Recognition…"
 msgstr "تعرف على الكلام…"
 
-#: src/mainwindow.cpp:2045
+#: src/mainwindow.cpp:2003
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12370,87 +12370,87 @@ msgstr ""
 "هذا يبدل بين <emphasis>شريط القائمة </emphasis> و زر <interface> القائمة "
 "المزدوجة </interface> في شريط الأدوات الرئيس."
 
-#: src/mainwindow.cpp:2074
+#: src/mainwindow.cpp:2032
 #, kde-format
 msgid "Copy Debug Information"
 msgstr "انسخ معلومات التنقيح"
 
-#: src/mainwindow.cpp:2076
+#: src/mainwindow.cpp:2034
 #, kde-format
 msgid "Disable Timeline Effects"
 msgstr "عطّل تأثيرات الخطّ الزّمنيّ"
 
-#: src/mainwindow.cpp:2082
+#: src/mainwindow.cpp:2040
 #, kde-format
 msgid "Toggle Track Disabled"
 msgstr "تبديل المسار مقفل"
 
-#: src/mainwindow.cpp:2084
+#: src/mainwindow.cpp:2042
 #, kde-format
 msgid "Toggle Track Lock"
 msgstr "اقلب قفل المسار"
 
-#: src/mainwindow.cpp:2086
+#: src/mainwindow.cpp:2044
 #, kde-format
 msgid "Toggle All Track Lock"
 msgstr "اقلب قفل كلّ المسارات"
 
-#: src/mainwindow.cpp:2088
+#: src/mainwindow.cpp:2046
 #, kde-format
 msgid "Toggle Track Target"
 msgstr "اقلب المسار لنشط"
 
-#: src/mainwindow.cpp:2090
+#: src/mainwindow.cpp:2048
 #, kde-format
 msgid "Toggle Track Active"
 msgstr "اقلب المسار لنشط"
 
-#: src/mainwindow.cpp:2092
+#: src/mainwindow.cpp:2050
 #, kde-format
 msgid "Toggle All Tracks Active"
 msgstr "اقلب كل المسارات إلى نشطة"
 
-#: src/mainwindow.cpp:2094
+#: src/mainwindow.cpp:2052
 #, kde-format
 msgid "Switch All Tracks Active"
 msgstr "تبدل كلّ المسارات الحالة النشطة"
 
-#: src/mainwindow.cpp:2096
+#: src/mainwindow.cpp:2054
 #, kde-format
 msgid "Restore Current Clip Target Tracks"
 msgstr "استعادة المسارات المستهدفة للمقطع الحالي"
 
-#: src/mainwindow.cpp:2098
+#: src/mainwindow.cpp:2056
 #, kde-format
 msgid "Add Project Note"
 msgstr "أضف ملاحظات المشروع"
 
-#: src/mainwindow.cpp:2104
+#: src/mainwindow.cpp:2062
 #, kde-format
 msgid "Select Audio Track %1"
 msgstr "حدد مسار الصوت %1"
 
-#: src/mainwindow.cpp:2108
+#: src/mainwindow.cpp:2066
 #, kde-format
 msgid "Select Video Track %1"
 msgstr "حدد مسار الفيديو %1"
 
-#: src/mainwindow.cpp:2112
+#: src/mainwindow.cpp:2070
 #, kde-format
 msgid "Select Target %1"
 msgstr "اختر الهدف %1"
 
-#: src/mainwindow.cpp:2130
+#: src/mainwindow.cpp:2088
 #, kde-format
 msgid "Extract Frame…"
 msgstr "استخرج الإطار…"
 
-#: src/mainwindow.cpp:2133
+#: src/mainwindow.cpp:2091
 #, kde-format
 msgid "Extract Frame to Project…"
 msgstr "استخرج الإطار إلى مشروع…"
 
-#: src/mainwindow.cpp:2266
+#: src/mainwindow.cpp:2224
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -12459,13 +12459,13 @@ msgstr ""
 "لقد غيرت المعلمات الوسيط. هل تريد إعادة إنشاء جميع مقاطع الوسطاء لهذا "
 "المشروع؟"
 
-#: src/mainwindow.cpp:2267
+#: src/mainwindow.cpp:2225
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "أعد الإنشاء"
 
-#: src/mainwindow.cpp:2268 src/onlineresources/resourcewidget.cpp:609
+#: src/mainwindow.cpp:2226 src/onlineresources/resourcewidget.cpp:609
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2259
 #, kde-format
@@ -12473,7 +12473,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "تابع دونها"
 
-#: src/mainwindow.cpp:2324
+#: src/mainwindow.cpp:2282
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -12484,7 +12484,7 @@ msgstr ""
 "الملفات المؤقتة من <br/><b>%1</b> إلى <b>%2</b>،<br> و إعادة تحميل ملف "
 "المشروع"
 
-#: src/mainwindow.cpp:2332
+#: src/mainwindow.cpp:2290
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -12493,38 +12493,38 @@ msgstr ""
 "سيؤدي إلى نقل جميع الملفات المؤقتة من<br/> <b>%1</b> إلى <b>%2</b> ،<br/> و "
 "إعادة تحميل ملف المشروع"
 
-#: src/mainwindow.cpp:2341 src/project/projectmanager.cpp:616
+#: src/mainwindow.cpp:2299 src/project/projectmanager.cpp:616
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "لا يمكن إجراء العمليّة، مستند غير صالح: %1"
 
-#: src/mainwindow.cpp:2346 src/project/projectmanager.cpp:622
+#: src/mainwindow.cpp:2304 src/project/projectmanager.cpp:622
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "لا يمكن إجراء العمليّة، دليل المقصد موجود فعلاً: %1"
 
-#: src/mainwindow.cpp:2493
+#: src/mainwindow.cpp:2451
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "سيزيل هذا كلّ المقاطع غير المستخدمة من مشروعك."
 
-#: src/mainwindow.cpp:2493
+#: src/mainwindow.cpp:2451
 #, kde-format
 msgid "Clean up project"
 msgstr "تنظيف المشروع"
 
-#: src/mainwindow.cpp:2635
+#: src/mainwindow.cpp:2593
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "تشكيلات لوحة المفاتيح جديدة…"
 
-#: src/mainwindow.cpp:2644
+#: src/mainwindow.cpp:2602
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "عامّ"
 
-#: src/mainwindow.cpp:2718
+#: src/mainwindow.cpp:2676
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -12532,28 +12532,28 @@ msgid ""
 msgstr ""
 "سيؤدي هذا إلى حذف ملف ضبط كدنلايف وإعادة التشغيل التطبيق. هل تريد المتابعة؟"
 
-#: src/mainwindow.cpp:2719
+#: src/mainwindow.cpp:2677
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "أعد الضبط"
 
-#: src/mainwindow.cpp:2851 src/mainwindow.cpp:2878
+#: src/mainwindow.cpp:2809 src/mainwindow.cpp:2836
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "لم يعثر على مقطع ليحذف العلامة"
 
-#: src/mainwindow.cpp:2861 src/mainwindow.cpp:2907
+#: src/mainwindow.cpp:2819 src/mainwindow.cpp:2865
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "لم يعثر على علامة في وقت المُؤشِر"
 
-#: src/mainwindow.cpp:2883
+#: src/mainwindow.cpp:2841
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "حدث خطأ في أثناء حذف العلامات"
 
-#: src/mainwindow.cpp:2900 src/timeline2/view/timelinecontroller.cpp:1312
+#: src/mainwindow.cpp:2858 src/timeline2/view/timelinecontroller.cpp:1312
 #: src/timeline2/view/timelinecontroller.cpp:1320
 #: src/timeline2/view/timelinecontroller.cpp:1341
 #: src/timeline2/view/timelinecontroller.cpp:1381
@@ -12562,46 +12562,46 @@ msgstr "حدث خطأ في أثناء حذف العلامات"
 msgid "Cannot find clip to edit marker"
 msgstr "لم يعثر على مقطع ليحرر العلامة"
 
-#: src/mainwindow.cpp:2951
+#: src/mainwindow.cpp:2909
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "فئة العلامة غير موجودة"
 
-#: src/mainwindow.cpp:3136 src/timeline2/model/timelinefunctions.cpp:784
+#: src/mainwindow.cpp:3094 src/timeline2/model/timelinefunctions.cpp:784
 #: src/timeline2/view/timelinecontroller.cpp:3137
 #, kde-format
 msgid "Overwrite zone"
 msgstr "استبدل منطقة"
 
-#: src/mainwindow.cpp:3138 src/mainwindow.cpp:3157
+#: src/mainwindow.cpp:3096 src/mainwindow.cpp:3115
 #: src/timeline2/model/timelinefunctions.cpp:786
 #: src/timeline2/view/timelinecontroller.cpp:3139
 #, kde-format
 msgid "Could not insert zone"
 msgstr "تعذر إدراج منطقة"
 
-#: src/mainwindow.cpp:3148
+#: src/mainwindow.cpp:3106
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "لم تحدد مقطع في سلة المشروع"
 
-#: src/mainwindow.cpp:3155 src/timeline2/model/timelinefunctions.cpp:784
+#: src/mainwindow.cpp:3113 src/timeline2/model/timelinefunctions.cpp:784
 #: src/timeline2/view/timelinecontroller.cpp:3137
 #, kde-format
 msgid "Insert zone"
 msgstr "أدرج منطقة"
 
-#: src/mainwindow.cpp:3322
+#: src/mainwindow.cpp:3280
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "لا يمكن إضافة تأثير للعنصر النشط"
 
-#: src/mainwindow.cpp:3384
+#: src/mainwindow.cpp:3342
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "مستوى التكبير: %1/%2"
 
-#: src/mainwindow.cpp:3533
+#: src/mainwindow.cpp:3491
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12613,7 +12613,7 @@ msgstr ""
 "مع shift</shortcut> للتحديد المتعدد، <shortcut>سحب مع Meta</shortcut> لنقل "
 "المقطع المجموع إلى مسار أخر،<shortcut>سحب مع ctrl</shortcut> للتوزيع"
 
-#: src/mainwindow.cpp:3537
+#: src/mainwindow.cpp:3495
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12626,24 +12626,24 @@ msgstr ""
 "مع shift</shortcut> للتحديد المتعدد، <shortcut>سحب مع Meta + Alt</shortcut> "
 "لنقل المقطع المجموع إلى مسار أخر،<shortcut>سحب مع ctrl</shortcut> للتوزيع"
 
-#: src/mainwindow.cpp:3540
+#: src/mainwindow.cpp:3498
 #, kde-format
 msgid "Select"
 msgstr "اختر"
 
-#: src/mainwindow.cpp:3542
+#: src/mainwindow.cpp:3500
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> لمعاينة الإطار المقطوع"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3543 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3501 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "المقصّ"
 
-#: src/mainwindow.cpp:3547
+#: src/mainwindow.cpp:3505
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12653,12 +12653,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> للتطبيق على المسار الحالي فقط، <shortcut>Shift</"
 "shortcut> يحرك الخطوط الإرشادية. يمكنك الجمع بين المعدلين."
 
-#: src/mainwindow.cpp:3548
+#: src/mainwindow.cpp:3506
 #, kde-format
 msgid "Spacer"
 msgstr "مُباعد"
 
-#: src/mainwindow.cpp:3550
+#: src/mainwindow.cpp:3508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12668,13 +12668,13 @@ msgstr ""
 "<shortcut>النقر</shortcut> على العنصر لإزلاقه, <shortcut>النقر مع Shift</"
 "shortcut> للتحديد المتعدد"
 
-#: src/mainwindow.cpp:3551
+#: src/mainwindow.cpp:3509
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "انزلاق"
 
-#: src/mainwindow.cpp:3556
+#: src/mainwindow.cpp:3514
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12686,13 +12686,13 @@ msgstr ""
 "مع Shift</shortcut> للتحديد المتعدد، <shortcut>النقر مع Alt</shortcut> لتحيد "
 "عنصر في مجموعة،<shortcut>سحب مع Ctrl</shortcut> للتوزيع"
 
-#: src/mainwindow.cpp:3558
+#: src/mainwindow.cpp:3516
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "تموج"
 
-#: src/mainwindow.cpp:3564
+#: src/mainwindow.cpp:3522
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -12702,145 +12702,145 @@ msgstr ""
 "<shortcut>انقر</shortcut> على عرض المسار في شاشة المشروع لتنفذ رفع لكل "
 "المسارات باستثناء النشط منها"
 
-#: src/mainwindow.cpp:3576
+#: src/mainwindow.cpp:3534
 #, kde-format
 msgid "Insert"
 msgstr "أدرج"
 
-#: src/mainwindow.cpp:3855 src/mainwindow.cpp:3857
+#: src/mainwindow.cpp:3813 src/mainwindow.cpp:3815
 #, kde-format
 msgid "Scopes"
 msgstr "مناظير"
 
-#: src/mainwindow.cpp:3862
+#: src/mainwindow.cpp:3820
 #, kde-format
 msgid "Project Bins"
 msgstr "سلال المشروع"
 
-#: src/mainwindow.cpp:3958
+#: src/mainwindow.cpp:3916
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "اضبط مهامّ المقاطع…"
 
-#: src/mainwindow.cpp:3964
+#: src/mainwindow.cpp:3922
 #, kde-format
 msgid "Transcoders"
 msgstr "مبدلات الترميز"
 
-#: src/mainwindow.cpp:4024
+#: src/mainwindow.cpp:3982
 #, kde-format
 msgid "-merged"
 msgstr "-مدمج"
 
-#: src/mainwindow.cpp:4027
+#: src/mainwindow.cpp:3985
 #, kde-format
 msgid "-stream-%1"
 msgstr "-الدفق-%1"
 
-#: src/mainwindow.cpp:4069
+#: src/mainwindow.cpp:4027
 #, kde-format
 msgid "Interface"
 msgstr "الواجهة"
 
-#: src/mainwindow.cpp:4091
+#: src/mainwindow.cpp:4049
 #, kde-format
 msgid "Raise %1"
 msgstr "ارفع %1"
 
-#: src/mainwindow.cpp:4158
+#: src/mainwindow.cpp:4116
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "ملفات ليبدل ترميزها"
 
-#: src/mainwindow.cpp:4290
+#: src/mainwindow.cpp:4248
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "لا يمكن حفظ ملف المشروع للأرشفة."
 
-#: src/mainwindow.cpp:4296
+#: src/mainwindow.cpp:4254
 #, kde-format
 msgid "Archiving project"
 msgstr "يأرشف المشروع"
 
-#: src/mainwindow.cpp:4458
+#: src/mainwindow.cpp:4416
 #, kde-format
 msgid "Icon Size"
 msgstr "حجم الأيقونات"
 
-#: src/mainwindow.cpp:4462
+#: src/mainwindow.cpp:4420
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "الافتراضيّ"
 
-#: src/mainwindow.cpp:4483 src/mainwindow.cpp:4511
+#: src/mainwindow.cpp:4441 src/mainwindow.cpp:4469
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "صغيرة (%1×%2)"
 
-#: src/mainwindow.cpp:4485 src/mainwindow.cpp:4513
+#: src/mainwindow.cpp:4443 src/mainwindow.cpp:4471
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "متوسّطة (%1×%2)"
 
-#: src/mainwindow.cpp:4487 src/mainwindow.cpp:4515
+#: src/mainwindow.cpp:4445 src/mainwindow.cpp:4473
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "كبيرة (%1×%2)"
 
-#: src/mainwindow.cpp:4489 src/mainwindow.cpp:4517
+#: src/mainwindow.cpp:4447 src/mainwindow.cpp:4475
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ضخمة (%1×%2)"
 
-#: src/mainwindow.cpp:4573
+#: src/mainwindow.cpp:4531
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "سيُخفي هذا شريط القوائم بالكامل. يمكنك إظهاره مجدّدًا بضغط Ctrl+M."
 
-#: src/mainwindow.cpp:4573
+#: src/mainwindow.cpp:4531
 #, kde-format
 msgid "Hide menu bar"
 msgstr "أخفِ شريط القوائم"
 
-#: src/mainwindow.cpp:4589
+#: src/mainwindow.cpp:4547
 #, kde-format
 msgid ""
 "Kdenlive needs to be restarted to apply the icon theme change. Restart now?"
 msgstr "يجب إعادة تشغيل كدنلايف لتطبيق تغيّر سمة الأيقونات. أأعيد التّشغيل الآن؟"
 
-#: src/mainwindow.cpp:4845 src/timeline2/view/timelinecontroller.cpp:5200
+#: src/mainwindow.cpp:4803 src/timeline2/view/timelinecontroller.cpp:5200
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "لا يوجد ترجمات في المشروع الحالي"
 
-#: src/mainwindow.cpp:5132
+#: src/mainwindow.cpp:5090
 #, kde-format
 msgid "Go to download page"
 msgstr "اذهب إلى صفحة التحميل"
 
-#: src/mainwindow.cpp:5135
+#: src/mainwindow.cpp:5093
 #, kde-format
 msgid "Never check again"
 msgstr "لا تحقق مجددًا"
 
-#: src/mainwindow.cpp:5138
+#: src/mainwindow.cpp:5096
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "الإصدار كدنلايف قديمة بعام كامل، نحن نشجعك بشدة على الترقية"
 
-#: src/mainwindow.cpp:5141
+#: src/mainwindow.cpp:5099
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "إصدار كدنلايف قديمة بستة أشهر، نحن نشجعك على الترقية"
 
-#: src/mainwindow.cpp:5184
+#: src/mainwindow.cpp:5142
 #, kde-format
 msgid "Checking cached data size"
 msgstr "يفحص حجم بيانات الخبيئة"
@@ -13330,34 +13330,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:641
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "Set Zone In"
 msgstr "عيين التكبير"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:645
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:644
 #, kde-format
 msgid "Set Zone Out"
 msgstr "عيين التصغير"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:525
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:524
 #, kde-format
 msgid "Rewind"
 msgstr "رجوع"
 
 #: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
-#: src/monitor/monitormanager.cpp:500
+#: src/monitor/monitormanager.cpp:499
 #, kde-format
 msgid "Play"
 msgstr "شغّل"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:500
-#: src/monitor/monitormanager.cpp:506
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:499
+#: src/monitor/monitormanager.cpp:505
 #, kde-format
 msgid "Pause"
 msgstr "ألبث"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:538
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:537
 #, kde-format
 msgid "Forward"
 msgstr "تقدّم"
@@ -13540,7 +13540,7 @@ msgstr ""
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "مكّن نمط التحرير في الشاشة لتحرر التأثير"
 
-#: src/monitor/monitormanager.cpp:201
+#: src/monitor/monitormanager.cpp:200
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
@@ -13548,7 +13548,7 @@ msgid ""
 msgstr ""
 "هل تريد <a href=\"#clipmonitor\"> إظهار مراقبة المقطع </a> لعرض الخط الزمني؟"
 
-#: src/monitor/monitormanager.cpp:221
+#: src/monitor/monitormanager.cpp:220
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
@@ -13557,125 +13557,125 @@ msgstr ""
 "هل تريد <a href=\"#projectmonitor\"> إظهار مراقبة المشروع </a> لعرض الخط "
 "الزمني؟"
 
-#: src/monitor/monitormanager.cpp:510
+#: src/monitor/monitormanager.cpp:509
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "بدّل بين ملء الشّاشة"
 
-#: src/monitor/monitormanager.cpp:515
+#: src/monitor/monitormanager.cpp:514
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "قرّب الشاشة"
 
-#: src/monitor/monitormanager.cpp:520
+#: src/monitor/monitormanager.cpp:519
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "بعّد الشاشة"
 
-#: src/monitor/monitormanager.cpp:529
+#: src/monitor/monitormanager.cpp:528
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "ارجع إطار واحد"
 
-#: src/monitor/monitormanager.cpp:533
+#: src/monitor/monitormanager.cpp:532
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "ارجع ثانية واحدة"
 
-#: src/monitor/monitormanager.cpp:542
+#: src/monitor/monitormanager.cpp:541
 #, kde-format
 msgid "Go to Project Start"
 msgstr "انتقل إلى بداية المشروع"
 
-#: src/monitor/monitormanager.cpp:546
+#: src/monitor/monitormanager.cpp:545
 #, kde-format
 msgid "Go to Project End"
 msgstr "انتقل إلى نهاية المشروع"
 
-#: src/monitor/monitormanager.cpp:550
+#: src/monitor/monitormanager.cpp:549
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "قدّم إطار واحد"
 
-#: src/monitor/monitormanager.cpp:554
+#: src/monitor/monitormanager.cpp:553
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "قدّم ثانية واحدة"
 
-#: src/monitor/monitormanager.cpp:559
+#: src/monitor/monitormanager.cpp:558
 #, kde-format
 msgid "Multitrack View"
 msgstr "عرض متعدد المسارات"
 
-#: src/monitor/monitormanager.cpp:568
+#: src/monitor/monitormanager.cpp:567
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "نفذ عملية متعددة المسارات"
 
-#: src/monitor/monitormanager.cpp:572
+#: src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "أظهر/أخفِ وضع التّحرير"
 
-#: src/monitor/monitormanager.cpp:573
+#: src/monitor/monitormanager.cpp:572
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "تظهر/تخفي نمط التحرير (وتعرض مقابض الكائنات)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:579 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:578 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "التشابك"
 
-#: src/monitor/monitormanager.cpp:583
+#: src/monitor/monitormanager.cpp:582
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF -الزماني + الخاص (الأفضل)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:597 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:596 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "الاستيفاء"
 
-#: src/monitor/monitormanager.cpp:598
+#: src/monitor/monitormanager.cpp:597
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "أقرب جار (سريع)"
 
-#: src/monitor/monitormanager.cpp:601
+#: src/monitor/monitormanager.cpp:600
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "فائق/لنكوزس (الأفضل)"
 
-#: src/monitor/monitormanager.cpp:615
+#: src/monitor/monitormanager.cpp:614
 #, kde-format
 msgid "Progressive playback"
 msgstr "تشغيل متتالي"
 
-#: src/monitor/monitormanager.cpp:621
+#: src/monitor/monitormanager.cpp:620
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "تنقية الصوت"
 
-#: src/monitor/monitormanager.cpp:627
+#: src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Mute Monitor"
 msgstr "اكتم الشّاشة"
 
-#: src/monitor/monitormanager.cpp:627
+#: src/monitor/monitormanager.cpp:626
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "ألغ كتم الشّاشة"
 
-#: src/monitor/monitormanager.cpp:633
+#: src/monitor/monitormanager.cpp:632
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "انتقل إلى بداية المنطقة"
 
-#: src/monitor/monitormanager.cpp:637
+#: src/monitor/monitormanager.cpp:636
 #, kde-format
 msgid "Go to Zone End"
 msgstr "انتقل إلى نهاية المنطقة"
