@@ -127,11 +127,6 @@ class Producer;
 QMap<QString, QImage> MainWindow::m_lumacache;
 QMap<QString, QStringList> MainWindow::m_lumaFiles;
 
-/*static bool sortByNames(const QPair<QString, QAction *> &a, const QPair<QString, QAction*> &b)
-{
-    return a.first < b.first;
-}*/
-
 #if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
 // determine the default KDE style as defined BY THE USER
 // (as opposed to whatever style KDE considers default)
@@ -461,10 +456,6 @@ void MainWindow::init(const QString &mltPath)
     });
 
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
-    /*connect(pCore->bin(), &Bin::requestShowEffectStack, [&]() {
-        // Don't raise effect stack on clip bin in case it is docked with bin or clip monitor
-        // m_effectStackDock->raise();
-    });*/
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel, Qt::DirectConnection);
     connect(this, &MainWindow::assetPanelWarning, m_assetPanel, &AssetPanel::assetPanelWarning);
     connect(m_assetPanel, &AssetPanel::seekToPos, this, [this](int pos) {
@@ -805,18 +796,6 @@ void MainWindow::init(const QString &mltPath)
 
     // Populate encoding profiles
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    /*KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
-    if (KdenliveSettings::proxyparams().isEmpty() || KdenliveSettings::proxyextension().isEmpty()) {
-        KConfigGroup group(&conf, "proxy");
-        QMap<QString, QString> values = group.entryMap();
-        QMapIterator<QString, QString> i(values);
-        if (i.hasNext()) {
-            i.next();
-            QString proxystring = i.value();
-            KdenliveSettings::setProxyparams(proxystring.section(QLatin1Char(';'), 0, 0));
-            KdenliveSettings::setProxyextension(proxystring.section(QLatin1Char(';'), 1, 1));
-        }
-    }*/
     if (KdenliveSettings::v4l_parameters().isEmpty() || KdenliveSettings::v4l_extension().isEmpty()) {
         KConfigGroup group(&conf, "video4linux");
         QMap<QString, QString> values = group.entryMap();
@@ -1000,20 +979,6 @@ void MainWindow::slotThemeChanged(const QString &name)
         m_audioSpectrum->refreshPixmap();
     }
     Q_EMIT pCore->updatePalette();
-
-    /*KSharedConfigPtr kconfig = KSharedConfig::openConfig();
-    KConfigGroup initialGroup(kconfig, "version");
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    bool isAppimage = pCore->packageType() == QStringLiteral("appimage");
-    bool isKDE = env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde");
-    bool forceBreeze = initialGroup.exists() && KdenliveSettings::force_breeze();
-    if ((!isKDE || isAppimage || forceBreeze) &&
-        ((useDarkIcons && QIcon::themeName() == QStringLiteral("breeze")) || (!useDarkIcons && QIcon::themeName() == QStringLiteral("breeze-dark")))) {
-        // We need to reload icon theme, on KDE desktops this is not necessary, however for the Appimage it is even on KDE Desktop
-        // See also https://kate-editor.org/post/2021/2021-03-07-cross-platform-light-dark-themes-and-icons/
-        QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
-        KdenliveSettings::setUse_dark_breeze(useDarkIcons);
-    }*/
 }
 
 MainWindow::~MainWindow()
@@ -1933,13 +1898,6 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("keyframe-next")), QKeySequence(), kfActions);
     addAction(QStringLiteral("keyframe_previous"), i18n("Go to previous keyframe"), m_assetPanel, SLOT(slotPreviousKeyframe()),
               QIcon::fromTheme(QStringLiteral("keyframe-previous")), QKeySequence(), kfActions);
-
-    /*act = KStandardAction::copy(this, SLOT(slotCopy()), actionCollection());
-    clipActionCategory->addAction(KStandardAction::name(KStandardAction::Copy), act);
-    act->setEnabled(false);
-    act = KStandardAction::paste(this, SLOT(slotPaste()), actionCollection());
-    clipActionCategory->addAction(KStandardAction::name(KStandardAction::Paste), act);
-    act->setEnabled(false);*/
 
     kdenliveCategoryMap.insert(QStringLiteral("timelineselection"), clipActionCategory);
 

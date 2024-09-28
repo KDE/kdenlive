@@ -33,7 +33,7 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_prog(render)
     , m_kdenlivesocket(new QLocalSocket(this))
     , m_logfile(m_dest + QStringLiteral(".log"))
-    , m_erase(scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QString("xml:%2").arg(QDir::tempPath())))
+    , m_erase(debugMode == false && (scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QString("xml:%2").arg(QDir::tempPath()))))
     , m_seconds(0)
     , m_frame(in)
     , m_framein(in)
@@ -52,10 +52,10 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     if (m_debugMode) {
         // Enforce repository since we have a failure in kdenlive-test-suite where MLT's repository is randomly set to usr/bin/lib/mlt-7 instead of
         // usr/lib/mlt-7
-        QDir dataDir = QFileInfo(m_prog).absoluteDir();
+        /*QDir dataDir = QFileInfo(m_prog).absoluteDir();
         if (dataDir.cd("../lib/mlt-7")) {
             m_args << "-repository" << dataDir.absolutePath();
-        }
+        }*/
     }
     m_args << "-progress2" << scenelist;
 

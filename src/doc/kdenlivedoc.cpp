@@ -329,7 +329,9 @@ KdenliveDoc::~KdenliveDoc()
         }
     }
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN";
-    disconnect(this, &KdenliveDoc::docModified, pCore->window(), &MainWindow::slotUpdateDocumentState);
+    if (pCore->window()) {
+        disconnect(this, &KdenliveDoc::docModified, pCore->window(), &MainWindow::slotUpdateDocumentState);
+    }
     m_commandStack->clear();
     m_timelines.clear();
     // qCDebug(KDENLIVE_LOG) << "// DEL CLP MAN done";
