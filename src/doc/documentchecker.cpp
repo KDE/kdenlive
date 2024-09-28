@@ -310,7 +310,9 @@ bool DocumentChecker::hasErrorInProject()
         QDomElement e = documentTractors.item(i).toElement();
         bool isBinClip = m_binIds.contains(e.attribute(QLatin1String("id")));
         // Ensure each timeline producer is connected to a bin clip
-        ensureControlIdForItem(e, isBinClip);
+        if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:id"))) {
+            ensureControlIdForItem(e, isBinClip);
+        }
         Q_EMIT pCore->loadingMessageIncrease();
     }
     // Check that we don't have circular dependencies (a sequence embedding itself as a track / ptoducer
