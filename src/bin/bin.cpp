@@ -4552,7 +4552,7 @@ void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QStri
 
 void Bin::focusBinView()
 {
-    if (pCore->currentDoc()->closing) {
+    if (pCore->currentDoc() == nullptr || pCore->currentDoc()->closing) {
         // Don't focus item if we are closing...
         return;
     }
