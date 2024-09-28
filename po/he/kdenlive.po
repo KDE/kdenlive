@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-26 02:30+0000\n"
-"PO-Revision-Date: 2024-09-20 16:03+0300\n"
+"PO-Revision-Date: 2024-09-25 21:57+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -143,7 +143,7 @@ msgstr "זווית"
 #: data/effects/audiowaveform.xml:17
 #, kde-format
 msgid "The rotation angle to be applied to the waveform."
-msgstr "זווית ההטייה להחלה על צורת הגל."
+msgstr "זווית ההטיה להחלה על צורת הגל."
 
 #: data/effects/audiolevelgraph.xml:37 data/effects/audiospectrum.xml:30
 #: data/effects/audiowaveform.xml:20 data/effects/lightshow.xml:26
@@ -1790,7 +1790,7 @@ msgstr "מקום, קנה מידה ואטימות."
 #: src/assets/view/widgets/keyframeimport.cpp:405
 #, kde-format
 msgid "Rotation"
-msgstr "הטייה"
+msgstr "הטיה"
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:33
 #: data/transitions/qtblend.xml:14
@@ -12401,7 +12401,7 @@ msgstr "פותח חלונית קובץ כדי לייבא/לטעון נתוני �
 #: src/mltcontroller/clippropertiescontroller.cpp:591
 #, kde-format
 msgid "Disable autorotate"
-msgstr "השבתת הטייה אוטומטית"
+msgstr "השבתת הטיה אוטומטית"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:349
 #, kde-format
@@ -22305,7 +22305,7 @@ msgstr ""
 #: src/widgets/doublewidget.cpp:27
 #, kde-format
 msgid "Rotate by 90 ° steps"
-msgstr "הטייה בצעדים של ‎90 °‎"
+msgstr "הטיה בצעדים של ‎90 °‎"
 
 #: src/widgets/dragvalue.cpp:114
 #, kde-format
