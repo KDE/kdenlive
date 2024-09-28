@@ -142,15 +142,15 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int
         std::shared_ptr<EffectItemModel> effect = nullptr;
         bool targetHasAudio = ptr->get_int("set.test_audio") == 0;
         bool targetHasVideo = ptr->get_int("set.test_image") == 0;
-        if (auto ptr2 = m_model.lock()) {
-            effect = EffectItemModel::construct(effectId, ptr2);
-            if (isAudio()) {
-                if (!targetHasAudio) {
-                    return;
-                }
-            } else if (!targetHasVideo) {
+        if (isAudio()) {
+            if (!targetHasAudio) {
                 return;
             }
+        } else if (!targetHasVideo) {
+            return;
+        }
+        if (auto ptr2 = m_model.lock()) {
+            effect = EffectItemModel::construct(effectId, ptr2);
             effect->setParameters(getAllParameters(), false);
             // ensure duplicated assets gets disabled if the original is
             if (m_asset->get_int("disable") == 1) {
@@ -198,6 +198,8 @@ void EffectItemModel::unplantClone(const std::weak_ptr<Mlt::Service> &service)
         if (effect && effect->isValid()) {
             ptr->detach(effect->filter());
             effect.reset();
+        } else {
+            qDebug() << "TRYING TO REMOVE INVALID EFFECT!!!!!!!";
         }
     } else {
         qDebug() << "Error : Cannot plant effect because parent service is not available anymore";
