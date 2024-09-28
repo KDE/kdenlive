@@ -423,6 +423,13 @@ void EffectStackView::loadEffects()
     int active = 0;
     if (max > 1) {
         active = qBound(0, m_model->getActiveEffect(), max - 1);
+    } else if (max == 0) {
+        // blank stack
+        ObjectId item = m_model->getOwnerId();
+        pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
+            ->slotShowEffectScene(MonitorSceneDefault);
+        updateTreeHeight();
+        return;
     }
     bool hasLift = false;
     QModelIndex activeIndex;

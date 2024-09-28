@@ -1023,11 +1023,11 @@ void CollapsibleEffectView::switchInOut(bool checked)
     if (inOut.first == inOut.second || !checked) {
         ObjectId owner = m_model->getOwnerId();
         switch (owner.type) {
+        case KdenliveObjectType::BinClip:
         case KdenliveObjectType::TimelineClip: {
             int lastOut = m_model->filter().get_int("_kdenlive_zone_out");
             if (lastOut > 0) {
                 int in = m_model->filter().get_int("_kdenlive_zone_in");
-                ;
                 inOut = {in, lastOut};
             } else {
                 int in = pCore->getItemIn(owner);
@@ -1043,7 +1043,6 @@ void CollapsibleEffectView::switchInOut(bool checked)
                 int lastOut = m_model->filter().get_int("_kdenlive_zone_out");
                 if (lastOut > 0) {
                     int in = m_model->filter().get_int("_kdenlive_zone_in");
-                    ;
                     inOut = {in, lastOut};
                 } else {
                     int in = pCore->getMonitorPosition();

@@ -217,7 +217,8 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
         inFades = int(m_fadeIns.size()) - inFades;
         outFades = int(m_fadeOuts.size()) - outFades;
         effectName = EffectsRepository::get()->getName(effect->getAssetId());
-        Fun update = [this, inFades, outFades]() {
+        bool hasZone = effect->hasForcedInOut();
+        Fun update = [this, inFades, outFades, hasZone]() {
             // Required to build the effect view
             if (rowCount() == 0) {
                 // Stack is now empty
@@ -232,11 +233,13 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
                 }
                 Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
             }
-            updateEffectZones();
+            if (hasZone) {
+                updateEffectZones();
+            }
             pCore->updateItemKeyframes(m_ownerId);
             return true;
         };
-        Fun update2 = [this, inFades, outFades, current]() {
+        Fun update2 = [this, inFades, outFades, current, hasZone]() {
             // Required to build the effect view
             QVector<int> roles = {TimelineModel::EffectNamesRole, TimelineModel::EffectCountRole};
             // TODO: only update if effect is fade or keyframe
@@ -246,7 +249,9 @@ void EffectStackModel::removeEffectWithUndo(const std::shared_ptr<EffectItemMode
                 roles << TimelineModel::FadeOutRole;
             }
             Q_EMIT dataChanged(QModelIndex(), QModelIndex(), roles);
-            updateEffectZones();
+            if (hasZone) {
+                updateEffectZones();
+            }
             pCore->updateItemKeyframes(m_ownerId);
             setActiveEffect(current);
             return true;
