@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-28 00:39+0000\n"
+"POT-Creation-Date: 2024-09-29 00:39+0000\n"
 "PO-Revision-Date: 2024-09-22 08:57+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -5118,13 +5118,13 @@ msgstr "Sélectionner un clip auquel appliquer un effet"
 msgid "Cannot apply effects on folders"
 msgstr "Impossible d'appliquer des effets sur des dossiers"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:628
-#: src/effects/effectstack/model/effectstackmodel.cpp:634
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:633
+#: src/effects/effectstack/model/effectstackmodel.cpp:639
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Impossible d'ajouter l'effet au clip"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:589
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:594
 #, kde-format
 msgid "Paste effect"
 msgstr "Coller l'effet"
@@ -5688,7 +5688,7 @@ msgstr "Déplacer un sous-titre"
 
 #: src/bin/model/subtitlemodel.cpp:1228
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:591
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:370
 #, kde-format
@@ -5814,8 +5814,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Utilisation"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1773
-#: src/doc/documentchecker.cpp:1801 src/doc/documentchecker.cpp:1821
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1775
+#: src/doc/documentchecker.cpp:1803 src/doc/documentchecker.cpp:1823
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6652,7 +6652,7 @@ msgstr "Exporter des données de guides"
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:667
-#: src/effects/effectstack/view/effectstackview.cpp:800
+#: src/effects/effectstack/view/effectstackview.cpp:807
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9313,112 +9313,112 @@ msgstr ""
 "L'identifiant de document de votre projet était non valable. Un nouvel "
 "identifiant a été créé."
 
-#: src/doc/documentchecker.cpp:1763
+#: src/doc/documentchecker.cpp:1765
 #, kde-format
 msgid "Video clip"
 msgstr "Clip vidéo"
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1767
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip diaporama"
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1769
 #, kde-format
 msgid "Image clip"
 msgstr "Clip image"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1771
 #, kde-format
 msgid "Playlist clip"
 msgstr "Clip séquence"
 
-#: src/doc/documentchecker.cpp:1771 src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1773 src/doc/documentchecker.cpp:1789
 #, kde-format
 msgid "Title Image"
 msgstr "Image de titre"
 
-#: src/doc/documentchecker.cpp:1783
+#: src/doc/documentchecker.cpp:1785
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1787
 #, kde-format
 msgid "Title Font"
 msgstr "Police de titre"
 
-#: src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1791
 #, kde-format
 msgid "Luma file"
 msgstr "Fichier luminosité"
 
-#: src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1793
 #, kde-format
 msgid "Asset file"
 msgstr "Fichier de ressources"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1795
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip intermédiaire"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1797
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Effet"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1799
 #, kde-format
 msgid "Transition"
 msgstr "Transition"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1801
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Séquence corrompue"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1809 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1811 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Fixe"
 
-#: src/doc/documentchecker.cpp:1811
+#: src/doc/documentchecker.cpp:1813
 #, kde-format
 msgid "Reload"
 msgstr "Recharger"
 
-#: src/doc/documentchecker.cpp:1813
+#: src/doc/documentchecker.cpp:1815
 #, kde-format
 msgid "Missing"
 msgstr "Manquant"
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1817
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Manquant mais serveur mandataire disponible"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1817 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1819 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Espace réservé"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1819 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1821 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Supprimer"
 
-#: src/doc/documentchecker.cpp:1830
+#: src/doc/documentchecker.cpp:1832
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Le fichier projet contient des clips ou fichiers manquants."
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1835
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -9889,44 +9889,44 @@ msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 "Certains de vos effets favoris ne sont pas valables et ont été supprimés : %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:267
+#: src/effects/effectstack/model/effectitemmodel.cpp:269
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Cacher les images clés"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:267
+#: src/effects/effectstack/model/effectitemmodel.cpp:269
 #, kde-format
 msgid "Show keyframes"
 msgstr "Afficher les trames clé"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:348
+#: src/effects/effectstack/model/effectitemmodel.cpp:350
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Mettre à jour la zone pour %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:270
+#: src/effects/effectstack/model/effectstackmodel.cpp:275
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, kde-format
 msgid "Copy effect"
 msgstr "Copier l'effet"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:366
-#: src/effects/effectstack/model/effectstackmodel.cpp:509
-#: src/effects/effectstack/model/effectstackmodel.cpp:614
-#: src/effects/effectstack/model/effectstackmodel.cpp:1399
+#: src/effects/effectstack/model/effectstackmodel.cpp:371
+#: src/effects/effectstack/model/effectstackmodel.cpp:514
+#: src/effects/effectstack/model/effectstackmodel.cpp:619
+#: src/effects/effectstack/model/effectstackmodel.cpp:1404
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "L'effet %1 ne peut être ajouté une deuxième fois."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:605
+#: src/effects/effectstack/model/effectstackmodel.cpp:610
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "Ajouter l'effet %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1157
+#: src/effects/effectstack/model/effectstackmodel.cpp:1162
 #, kde-format
 msgid "Move effect %1"
 msgstr "Déplacer l'effet %1"
@@ -10155,47 +10155,47 @@ msgstr "Basculement vertical"
 msgid "Flip"
 msgstr "Bascule"
 
-#: src/effects/effectstack/view/effectstackview.cpp:682
+#: src/effects/effectstack/view/effectstackview.cpp:689
 #: src/timeline2/view/timelinecontroller.cpp:3277
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Activer la pile d'effets"
 
-#: src/effects/effectstack/view/effectstackview.cpp:682
+#: src/effects/effectstack/view/effectstackview.cpp:689
 #: src/timeline2/view/timelinecontroller.cpp:3277
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Désactiver la pile d'effets"
 
-#: src/effects/effectstack/view/effectstackview.cpp:721
+#: src/effects/effectstack/view/effectstackview.cpp:728
 #, kde-format
 msgid "No effect selected."
 msgstr "Aucun effet sélectionné."
 
-#: src/effects/effectstack/view/effectstackview.cpp:727
+#: src/effects/effectstack/view/effectstackview.cpp:734
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Enregistrer la pile d'effets courants"
 
-#: src/effects/effectstack/view/effectstackview.cpp:732
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "Nom pour la pile enregistrée : "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:733
+#: src/effects/effectstack/view/effectstackview.cpp:740
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Description : "
 
-#: src/effects/effectstack/view/effectstackview.cpp:746
+#: src/effects/effectstack/view/effectstackview.cpp:753
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "Aucun nom fourni, la pile d'effets n'a pas été enregistrée."
 
-#: src/effects/effectstack/view/effectstackview.cpp:753
+#: src/effects/effectstack/view/effectstackview.cpp:760
 #, kde-format
 msgid ""
 "No description provided. \n"

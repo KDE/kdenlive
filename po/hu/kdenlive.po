@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-28 00:39+0000\n"
+"POT-Creation-Date: 2024-09-29 00:39+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -5244,14 +5244,14 @@ msgstr "Jelölje ki a klipet, ha alkalmazni kívánja az effektet"
 msgid "Cannot apply effects on folders"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:628
-#: src/effects/effectstack/model/effectstackmodel.cpp:634
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:633
+#: src/effects/effectstack/model/effectstackmodel.cpp:639
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
 msgstr "Videóeffektus nem adható hozzá ehhez a kliphez"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:589
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:594
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
@@ -5876,7 +5876,7 @@ msgstr "Segédpont áthelyezése"
 
 #: src/bin/model/subtitlemodel.cpp:1228
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:591
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:370
 #, kde-format
@@ -6017,8 +6017,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1773
-#: src/doc/documentchecker.cpp:1801 src/doc/documentchecker.cpp:1821
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1775
+#: src/doc/documentchecker.cpp:1803 src/doc/documentchecker.cpp:1823
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6868,7 +6868,7 @@ msgstr "Jelölők betöltése"
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:667
-#: src/effects/effectstack/view/effectstackview.cpp:800
+#: src/effects/effectstack/view/effectstackview.cpp:807
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -9622,120 +9622,120 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1763
+#: src/doc/documentchecker.cpp:1765
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklip"
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1767
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Diavetítés klip"
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1769
 #, kde-format
 msgid "Image clip"
 msgstr "Képklip"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1771
 #, kde-format
 msgid "Playlist clip"
 msgstr "Lejátszólista klip"
 
-#: src/doc/documentchecker.cpp:1771 src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1773 src/doc/documentchecker.cpp:1789
 #, kde-format
 msgid "Title Image"
 msgstr "Cím kép"
 
-#: src/doc/documentchecker.cpp:1783
+#: src/doc/documentchecker.cpp:1785
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "Klip"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1787
 #, kde-format
 msgid "Title Font"
 msgstr "Cím betűtípus"
 
-#: src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1791
 #, kde-format
 msgid "Luma file"
 msgstr "Luma fájl használata"
 
-#: src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1793
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Fájlok törlése"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1795
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "Proxyklip"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1797
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Effektus"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1799
 #, kde-format
 msgid "Transition"
 msgstr "Átmenet"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1801
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Corrupted sequence"
 msgstr "Új szekvencia készítése"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1809 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1811 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1811
+#: src/doc/documentchecker.cpp:1813
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Klip újratöltése"
 
-#: src/doc/documentchecker.cpp:1813
+#: src/doc/documentchecker.cpp:1815
 #, kde-format
 msgid "Missing"
 msgstr "Hiányzó"
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1817
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Hiányzó proxy"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1817 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1819 src/ui/editrenderpreset_ui.ui:525
 #, fuzzy, kde-format
 #| msgid "Keep as placeholder"
 msgid "Placeholder"
 msgstr "Megtartás helykitöltőként"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1819 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1821 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove"
 msgstr "Fájl eltávolítása"
 
-#: src/doc/documentchecker.cpp:1830
+#: src/doc/documentchecker.cpp:1832
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "A projektfájl hiányzó klipeket vagy fájlokat tartalmaz"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1835
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
@@ -10212,25 +10212,25 @@ msgstr "Videó effektus hozzáadása"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:267
+#: src/effects/effectstack/model/effectitemmodel.cpp:269
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide keyframes"
 msgstr "Képkocka elrejtése"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:267
+#: src/effects/effectstack/model/effectitemmodel.cpp:269
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show keyframes"
 msgstr "Kulcskép törlése"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:348
+#: src/effects/effectstack/model/effectitemmodel.cpp:350
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update zone for %1"
 msgstr "Profil frissítése"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:270
+#: src/effects/effectstack/model/effectstackmodel.cpp:275
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, fuzzy, kde-format
@@ -10238,22 +10238,22 @@ msgstr "Profil frissítése"
 msgid "Copy effect"
 msgstr "%1 effektus hozzáadása"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:366
-#: src/effects/effectstack/model/effectstackmodel.cpp:509
-#: src/effects/effectstack/model/effectstackmodel.cpp:614
-#: src/effects/effectstack/model/effectstackmodel.cpp:1399
+#: src/effects/effectstack/model/effectstackmodel.cpp:371
+#: src/effects/effectstack/model/effectstackmodel.cpp:514
+#: src/effects/effectstack/model/effectstackmodel.cpp:619
+#: src/effects/effectstack/model/effectstackmodel.cpp:1404
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:605
+#: src/effects/effectstack/model/effectstackmodel.cpp:610
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 effektus hozzáadása"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1157
+#: src/effects/effectstack/model/effectstackmodel.cpp:1162
 #, fuzzy, kde-format
 #| msgid "Move effect"
 msgid "Move effect %1"
@@ -10494,7 +10494,7 @@ msgstr "Függőleges"
 msgid "Flip"
 msgstr "Flippo"
 
-#: src/effects/effectstack/view/effectstackview.cpp:682
+#: src/effects/effectstack/view/effectstackview.cpp:689
 #: src/timeline2/view/timelinecontroller.cpp:3277
 #, fuzzy, kde-format
 #| msgid "Enable effect"
@@ -10502,7 +10502,7 @@ msgstr "Flippo"
 msgid "Enable Effect Stack"
 msgstr "Effekt engedélyezése"
 
-#: src/effects/effectstack/view/effectstackview.cpp:682
+#: src/effects/effectstack/view/effectstackview.cpp:689
 #: src/timeline2/view/timelinecontroller.cpp:3277
 #, fuzzy, kde-format
 #| msgid "Disable effect"
@@ -10510,38 +10510,38 @@ msgstr "Effekt engedélyezése"
 msgid "Disable Effect Stack"
 msgstr "Effekt letiltása"
 
-#: src/effects/effectstack/view/effectstackview.cpp:721
+#: src/effects/effectstack/view/effectstackview.cpp:728
 #, fuzzy, kde-format
 #| msgid "No available clip selected"
 msgid "No effect selected."
 msgstr "Nincs elérhető klip kiválasztva"
 
-#: src/effects/effectstack/view/effectstackview.cpp:727
+#: src/effects/effectstack/view/effectstackview.cpp:734
 #, fuzzy, kde-format
 #| msgid "Effect Stack"
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "Effektus verem"
 
-#: src/effects/effectstack/view/effectstackview.cpp:732
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #, fuzzy, kde-format
 #| msgid "Name for saved effect: "
 msgid "Name for saved stack:"
 msgstr "Elmentett effektus neve:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:733
+#: src/effects/effectstack/view/effectstackview.cpp:740
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "Leírás:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:746
+#: src/effects/effectstack/view/effectstackview.cpp:753
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr ""
 
-#: src/effects/effectstack/view/effectstackview.cpp:753
+#: src/effects/effectstack/view/effectstackview.cpp:760
 #, kde-format
 msgid ""
 "No description provided. \n"

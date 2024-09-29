@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-28 00:39+0000\n"
+"POT-Creation-Date: 2024-09-29 00:39+0000\n"
 "PO-Revision-Date: 2024-09-23 21:10+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4950,13 +4950,13 @@ msgstr "選取素材來套用效果"
 msgid "Cannot apply effects on folders"
 msgstr "無法將效果套用在資料夾上"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:628
-#: src/effects/effectstack/model/effectstackmodel.cpp:634
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:633
+#: src/effects/effectstack/model/effectstackmodel.cpp:639
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "無法新增效果到素材上"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:589
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:594
 #, kde-format
 msgid "Paste effect"
 msgstr "貼上效果"
@@ -5505,7 +5505,7 @@ msgstr "移動字幕"
 
 #: src/bin/model/subtitlemodel.cpp:1228
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:591
-#: src/effects/effectstack/view/effectstackview.cpp:765
+#: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:370
 #, kde-format
@@ -5630,8 +5630,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "用量"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1773
-#: src/doc/documentchecker.cpp:1801 src/doc/documentchecker.cpp:1821
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1775
+#: src/doc/documentchecker.cpp:1803 src/doc/documentchecker.cpp:1823
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6439,7 +6439,7 @@ msgstr "匯出參照線資料"
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:667
-#: src/effects/effectstack/view/effectstackview.cpp:800
+#: src/effects/effectstack/view/effectstackview.cpp:807
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -8990,112 +8990,112 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "您的專案的文件 ID 是無效的，已建立一個新的。"
 
-#: src/doc/documentchecker.cpp:1763
+#: src/doc/documentchecker.cpp:1765
 #, kde-format
 msgid "Video clip"
 msgstr "視訊素材"
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1767
 #, kde-format
 msgid "Slideshow clip"
 msgstr "幻燈片素材"
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1769
 #, kde-format
 msgid "Image clip"
 msgstr "圖片素材"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1771
 #, kde-format
 msgid "Playlist clip"
 msgstr "播放清單素材"
 
-#: src/doc/documentchecker.cpp:1771 src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1773 src/doc/documentchecker.cpp:1789
 #, kde-format
 msgid "Title Image"
 msgstr "字幕 / 標題圖片"
 
-#: src/doc/documentchecker.cpp:1783
+#: src/doc/documentchecker.cpp:1785
 #, kde-format
 msgid "Clip"
 msgstr "素材"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1787
 #, kde-format
 msgid "Title Font"
 msgstr "標題字型"
 
-#: src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1791
 #, kde-format
 msgid "Luma file"
 msgstr "Luma 檔案"
 
-#: src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1793
 #, kde-format
 msgid "Asset file"
 msgstr "資源檔案"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1795
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "代理素材"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1797
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "效果"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1799
 #, kde-format
 msgid "Transition"
 msgstr "轉場特效"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1801
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "已毀損的序列"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1809 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1811 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "固定"
 
-#: src/doc/documentchecker.cpp:1811
+#: src/doc/documentchecker.cpp:1813
 #, kde-format
 msgid "Reload"
 msgstr "重新載入"
 
-#: src/doc/documentchecker.cpp:1813
+#: src/doc/documentchecker.cpp:1815
 #, kde-format
 msgid "Missing"
 msgstr "遺失"
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1817
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "遺失，但代理可用"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1817 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1819 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "佔位"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1819 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1821 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "移除"
 
-#: src/doc/documentchecker.cpp:1830
+#: src/doc/documentchecker.cpp:1832
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "專案檔包含遺失的素材或檔案。"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1835
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "遺失的代理可以在開啟時重新產生。"
@@ -9540,44 +9540,44 @@ msgstr "匯出自訂效果"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "您加入最愛的一些效果是無效的而已被移除：%1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:267
+#: src/effects/effectstack/model/effectitemmodel.cpp:269
 #, kde-format
 msgid "Hide keyframes"
 msgstr "隱藏關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:267
+#: src/effects/effectstack/model/effectitemmodel.cpp:269
 #, kde-format
 msgid "Show keyframes"
 msgstr "顯示關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:348
+#: src/effects/effectstack/model/effectitemmodel.cpp:350
 #, kde-format
 msgid "Update zone for %1"
 msgstr "為 %1 更新區段"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:270
+#: src/effects/effectstack/model/effectstackmodel.cpp:275
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, kde-format
 msgid "Copy effect"
 msgstr "複製效果"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:366
-#: src/effects/effectstack/model/effectstackmodel.cpp:509
-#: src/effects/effectstack/model/effectstackmodel.cpp:614
-#: src/effects/effectstack/model/effectstackmodel.cpp:1399
+#: src/effects/effectstack/model/effectstackmodel.cpp:371
+#: src/effects/effectstack/model/effectstackmodel.cpp:514
+#: src/effects/effectstack/model/effectstackmodel.cpp:619
+#: src/effects/effectstack/model/effectstackmodel.cpp:1404
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 無法加入兩次。"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:605
+#: src/effects/effectstack/model/effectstackmodel.cpp:610
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "添加效果 %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1157
+#: src/effects/effectstack/model/effectstackmodel.cpp:1162
 #, kde-format
 msgid "Move effect %1"
 msgstr "移動效果 %1"
@@ -9795,47 +9795,47 @@ msgstr "垂直翻轉"
 msgid "Flip"
 msgstr "翻轉"
 
-#: src/effects/effectstack/view/effectstackview.cpp:682
+#: src/effects/effectstack/view/effectstackview.cpp:689
 #: src/timeline2/view/timelinecontroller.cpp:3277
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "啟用效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:682
+#: src/effects/effectstack/view/effectstackview.cpp:689
 #: src/timeline2/view/timelinecontroller.cpp:3277
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "停用效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:721
+#: src/effects/effectstack/view/effectstackview.cpp:728
 #, kde-format
 msgid "No effect selected."
 msgstr "沒有選擇任何效果。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:727
+#: src/effects/effectstack/view/effectstackview.cpp:734
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "儲存目前效果堆疊"
 
-#: src/effects/effectstack/view/effectstackview.cpp:732
+#: src/effects/effectstack/view/effectstackview.cpp:739
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "儲存的效果堆疊名稱："
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:733
+#: src/effects/effectstack/view/effectstackview.cpp:740
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "描述："
 
-#: src/effects/effectstack/view/effectstackview.cpp:746
+#: src/effects/effectstack/view/effectstackview.cpp:753
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "未提供名稱，因此未儲存效果堆疊。"
 
-#: src/effects/effectstack/view/effectstackview.cpp:753
+#: src/effects/effectstack/view/effectstackview.cpp:760
 #, kde-format
 msgid ""
 "No description provided. \n"
