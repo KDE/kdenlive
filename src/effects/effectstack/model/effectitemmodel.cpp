@@ -111,7 +111,7 @@ void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
         std::shared_ptr<EffectItemModel> effect = nullptr;
         for (int i = 0; i < ptr->filter_count(); i++) {
             std::unique_ptr<Mlt::Filter> filt(ptr->filter(i));
-            QString effName = filt->get("kdenlive_id");
+            const QString effName = filt->get("kdenlive_id");
             if (effName == m_assetId && filt->get_int("_kdenlive_processed") == 0) {
                 if (auto ptr2 = m_model.lock()) {
                     effect = EffectItemModel::construct(std::move(filt), ptr2, QString());

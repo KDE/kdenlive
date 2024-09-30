@@ -1332,7 +1332,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 } else {
                     m_timewarpProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
                 }
-                m_effectStack->loadService(m_timewarpProducers[clipId]);
+                m_effectStack->loadService(m_timewarpProducers.at(clipId));
                 return {master, true};
             }
             if (state == PlaylistState::AudioOnly) {
@@ -1350,7 +1350,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     return {prod, false};
                 }
                 m_audioProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
-                m_effectStack->loadService(m_audioProducers[tid]);
+                m_effectStack->loadService(m_audioProducers.at(tid));
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly) {
@@ -1368,7 +1368,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                         return {prod, false};
                     }
                     m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
-                    m_effectStack->loadService(m_videoProducers[tid]);
+                    m_effectStack->loadService(m_videoProducers.at(tid));
                 } else {
                     // Ensure clip out = length - 1 so that effects work correctly
                     if (out != master->parent().get_length() - 1) {
