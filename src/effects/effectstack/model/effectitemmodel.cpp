@@ -191,8 +191,9 @@ void EffectItemModel::unplantClone(const std::weak_ptr<Mlt::Service> &service)
         return;
     }
     if (auto ptr = service.lock()) {
-        int ret = ptr->detach(filter());
-        Q_ASSERT(ret == 0);
+        if (!ptr->property_exists("_childid")) {
+            return;
+        }
         int childId = ptr->get_int("_childid");
         auto effect = m_childEffects.take(childId);
         if (effect && effect->isValid()) {
