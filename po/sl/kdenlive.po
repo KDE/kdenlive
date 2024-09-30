@@ -2,8 +2,8 @@
 # This file is distributed under the same license as the kdenlive package.
 #
 #
+# Martin Srebotnjak <miles@filmsi.net>, 2015, 2019, 2020, 2021, 2022, 2023, 2024.
 # Andrej Mernik <andrejm@ubuntu.si>, 2015, 2016, 2017, 2018, 2019, 2020.
-# Martin Srebotnjak <miles@filmsi.net>, 2015, 2019, 2020, 2021, 2022, 2023.
 # Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021, 2022, 2023.
 #
 # SPDX-FileCopyrightText: 2024 Jure Repinc <jlp@holodeck1.com>
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-29 00:39+0000\n"
-"PO-Revision-Date: 2024-09-21 11:39+0200\n"
+"PO-Revision-Date: 2024-09-29 18:08+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -13033,7 +13033,7 @@ msgstr "Izbriši posredniško datoteko"
 #: src/mltcontroller/clippropertiescontroller.cpp:490
 #, kde-format
 msgid "Proxy options"
-msgstr "Možnosti posrednika"
+msgstr "Možnosti posrednih posnetkov"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:495
 #, kde-format
@@ -13070,7 +13070,7 @@ msgstr "Hitrost sličic:"
 #: src/ui/profiledialog_ui.ui:168
 #, kde-format
 msgid "Scanning:"
-msgstr "Preiskovanje:"
+msgstr "Zapis sličic:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), widget (QLabel, p_progressive)
@@ -20357,7 +20357,7 @@ msgstr "Omogoči posredne posnetke"
 #: src/ui/configproxy_ui.ui:63 src/ui/projectsettings_ui.ui:222
 #, kde-format
 msgid "Generate for videos larger than"
-msgstr "Ustvari za videe daljše od"
+msgstr "Ustvari za videe, širše od"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -20373,27 +20373,27 @@ msgstr " slik. točk"
 #: src/ui/configproxy_ui.ui:83
 #, kde-format
 msgid "Proxy video resize (width):"
-msgstr "Sprememba velikosti slike nadomestnega posnetka (širine):"
+msgstr "Spremenjena širina sličic nadomestnega posnetka:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, generate_imageproxy)
 #: src/ui/configproxy_ui.ui:130 src/ui/projectsettings_ui.ui:248
 #, kde-format
 msgid "Generate for images larger than"
-msgstr "Ustvari za slike večje od"
+msgstr "Ustvari za slike, širše od"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
 #: src/ui/configproxy_ui.ui:156 src/ui/projectsettings_ui.ui:479
 #, kde-format
 msgid "Proxy image size"
-msgstr "Velikost posredniške slike"
+msgstr "Velikost slike posrednega posnetka"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configproxy_ui.ui:189 src/ui/projectsettings_ui.ui:409
 #, kde-format
 msgid "External proxy clips:"
-msgstr "Zunanji posredni posnetki"
+msgstr "Zunanji posredni posnetki:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_play_monitor_on_click)
@@ -20409,7 +20409,7 @@ msgstr "Omogoči"
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
-msgstr "Predvajaj/premor na miškin klik"
+msgstr "Predvajaj/premor ob kliku miške"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
@@ -22019,7 +22019,7 @@ msgstr "Predogled časovnice:"
 #: src/ui/projectsettings_ui.ui:204
 #, kde-format
 msgid "Proxy"
-msgstr "Posrednik"
+msgstr "Posredni"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:210
