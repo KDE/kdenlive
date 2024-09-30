@@ -5,7 +5,6 @@
 
 #pragma once
 
-#include "../kiss_fft/kiss_fft.h"
 #include "kiss_fft.h"
 #ifdef __cplusplus
 extern "C" {
