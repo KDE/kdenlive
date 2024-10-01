@@ -74,7 +74,7 @@ void EffectStackModel::addService(std::weak_ptr<Mlt::Service> service)
 void EffectStackModel::loadService(std::weak_ptr<Mlt::Service> service)
 {
     // Ensure child stack has the same effects count, otherwise re-sync
-    /*if (auto ptr = service.lock()) {
+    if (auto ptr = service.lock()) {
         auto ms = m_masterService.lock();
         if (ptr->filter_count() != ms->filter_count()) {
             // Filters mismatch
@@ -89,7 +89,7 @@ void EffectStackModel::loadService(std::weak_ptr<Mlt::Service> service)
             addService(service);
             return;
         }
-    }*/
+    }
     QWriteLocker locker(&m_lock);
     m_childServices.emplace_back(std::move(service));
     for (int i = 0; i < rootItem->childCount(); ++i) {
@@ -1508,6 +1508,8 @@ void EffectStackModel::setActiveEffect(int ix)
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(current));
         if (effect) {
             effect->setActive(false);
+            pCore->updateItemKeyframes(m_ownerId);
+            locker.unlock();
             Q_EMIT currentChanged(getIndexFromItem(effect), false);
         }
     }
@@ -1516,10 +1518,11 @@ void EffectStackModel::setActiveEffect(int ix)
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
         if (effect) {
             effect->setActive(true);
+            pCore->updateItemKeyframes(m_ownerId);
+            locker.unlock();
             Q_EMIT currentChanged(getIndexFromItem(effect), true);
         }
     }
-    pCore->updateItemKeyframes(m_ownerId);
 }
 
 int EffectStackModel::getActiveEffect() const

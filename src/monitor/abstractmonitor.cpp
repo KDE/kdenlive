@@ -25,5 +25,10 @@ bool AbstractMonitor::isActive() const
 
 bool AbstractMonitor::slotActivateMonitor()
 {
-    return m_monitorManager->activateMonitor(m_id);
+    return m_monitorManager->activateMonitor(m_id, true);
+}
+
+bool AbstractMonitor::slotTemporaryActivateMonitor()
+{
+    return m_monitorManager->activateMonitor(m_id, false);
 }

@@ -1345,6 +1345,10 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 m_effectStack->loadService(m_timewarpProducers.at(clipId));
                 return {master, true};
             }
+            if (m_clipType == ClipType::Timeline) {
+                // Timeline clips always use the master instance
+                return {master, true};
+            }
             if (state == PlaylistState::AudioOnly) {
                 int audioStream = master->parent().get_int("audio_index");
                 if (audioStream > -1) {
