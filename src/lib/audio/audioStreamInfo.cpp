@@ -76,7 +76,7 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
     if (m_audioStreams.count() > 1 && active.isEmpty()) {
         // initialize enabled streams
         QStringList streamString;
-        for (int streamIx : qAsConst(m_activeStreams)) {
+        for (int streamIx : std::as_const(m_activeStreams)) {
             streamString << QString::number(streamIx);
         }
         producer->set("kdenlive:active_streams", streamString.join(QLatin1Char(';')).toUtf8().constData());
@@ -233,7 +233,7 @@ void AudioStreamInfo::updateActiveStreams(const QString &activeStreams)
         return;
     }
     QStringList st = activeStreams.split(QLatin1Char(';'));
-    for (const QString &s : qAsConst(st)) {
+    for (const QString &s : std::as_const(st)) {
         m_activeStreams << s.toInt();
     }
 }

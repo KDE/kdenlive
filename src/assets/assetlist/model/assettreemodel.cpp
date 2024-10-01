@@ -46,13 +46,13 @@ Qt::ItemFlags AssetTreeModel::flags(const QModelIndex &index) const
     return Qt::ItemIsDragEnabled | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
-bool AssetTreeModel::isFavorite(const QModelIndex &index) const
+bool AssetTreeModel::isFavorite(const QModelIndex &index, bool isEffect) const
 {
     if (!index.isValid()) {
         return false;
     }
     std::shared_ptr<TreeItem> item = getItemById(int(index.internalId()));
-    if (item->depth() == 1) {
+    if (isEffect && item->depth() == 1) {
         return false;
     }
     return item->dataColumn(AssetTreeModel::FavCol).toBool();
@@ -94,6 +94,8 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     case NameRole:
     case Qt::DisplayRole:
         return item->dataColumn(index.column());
+    case IncludeListRole:
+        return item->dataColumn(AssetTreeModel::IncludeListCol);
     case Qt::DecorationRole: {
         if (item->dataColumn(AssetTreeModel::IdCol).toString() == QLatin1String("root") || item->dataColumn(0).toString().isEmpty()) {
             return QIcon();

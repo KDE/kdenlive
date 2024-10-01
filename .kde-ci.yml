@@ -2,36 +2,6 @@
 # SPDX-License-Identifier: CC0-1.0
 
 Dependencies:
-- 'on': ['Linux/Qt5', 'FreeBSD/Qt5', 'Windows/Qt5', 'macOS/Qt5']
-  'require':
-    'frameworks/extra-cmake-modules': '@stable'
-    'frameworks/breeze-icons' : '@stable'
-    'frameworks/karchive' : '@stable'
-    'frameworks/kbookmarks' : '@stable'
-    'frameworks/kconfig' : '@stable'
-    'frameworks/kconfigwidgets' : '@stable'
-    'frameworks/kcompletion' : '@stable'
-    'frameworks/kcoreaddons' : '@stable'
-    'frameworks/kcrash' : '@stable'
-    'frameworks/kdbusaddons' : '@stable'
-    'frameworks/kdeclarative' : '@stable'
-    'frameworks/kguiaddons' : '@stable'
-    'frameworks/ki18n' : '@stable'
-    'frameworks/kiconthemes' : '@stable'
-    #'frameworks/kinit' : '@stable'
-    'frameworks/kio' : '@stable'
-    'frameworks/kitemviews' : '@stable'
-    'frameworks/kjobwidgets' : '@stable'
-    'frameworks/knewstuff' : '@stable'
-    'frameworks/knotifications' : '@stable'
-    'frameworks/knotifyconfig' : '@stable'
-    'frameworks/kplotting' : '@stable'
-    'frameworks/kservice' : '@stable'
-    'frameworks/ktextwidgets' : '@stable'
-    'frameworks/kwidgetsaddons' : '@stable'
-    'frameworks/kxmlgui' : '@stable'
-    'frameworks/kfilemetadata' : '@stable'
-    'frameworks/purpose' : '@stable'
 - 'on': ['Linux/Qt6', 'FreeBSD/Qt6', 'Windows/Qt6', 'macOS/Qt6']
   'require':
     'frameworks/extra-cmake-modules': '@latest-kf6'
@@ -66,7 +36,7 @@ Dependencies:
     #'plasma/drkonqi' : '@stable'
 
 Options:
-  require-passing-tests-on: [ 'Linux/Qt5', 'FreeBSD/Qt5', 'Linux/Qt6', 'FreeBSD/Qt6']
+  require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6']
   cppcheck-arguments: '--suppress="*:tests/fakeit.hpp" --suppress="*:tests/catch.hpp" --suppress="*:fuzzer/fakeit_standalone.hpp"'
   per-test-timeout: 120
 

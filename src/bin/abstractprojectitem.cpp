@@ -199,7 +199,7 @@ const QVariant AbstractProjectItem::getData(DataType type) const
         break;
     case JobProgress:
         if (itemType() == ClipItem) {
-            data = pCore->taskManager.getJobProgressForClip(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()));
+            return m_jobsProgress;
         }
         break;
     case JobSuccess:

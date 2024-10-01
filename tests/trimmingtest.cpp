@@ -19,16 +19,15 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
 
     // Here we do some trickery to enable testing.
     KdenliveDoc document(undoStack, {1, 3});
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
-    QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = timeline->getTrackIndexFromPosition(3);
@@ -48,13 +47,13 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     int audio2 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
     int audio3 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
 
-    timeline->m_allClips[cid1]->m_endlessResize = false;
-    timeline->m_allClips[cid2]->m_endlessResize = false;
-    timeline->m_allClips[cid3]->m_endlessResize = false;
-    timeline->m_allClips[cid4]->m_endlessResize = false;
-    timeline->m_allClips[cid5]->m_endlessResize = false;
-    timeline->m_allClips[cid6]->m_endlessResize = false;
-    timeline->m_allClips[cid7]->m_endlessResize = false;
+    KdenliveTests::makeFiniteClipEnd(timeline, cid1);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid2);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid3);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid4);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid5);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid6);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid7);
 
     SECTION("Clip cutting")
     {
@@ -73,8 +72,8 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipPosition(cid1) == 0);
             REQUIRE(timeline->getClipPosition(cid2) == l);
             REQUIRE(timeline->getClipPosition(cid3) == l + l - 5);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 2);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 4);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 2);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 4);
         };
         state();
 
@@ -101,10 +100,10 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipPosition(cid2) == l);
             REQUIRE(timeline->getClipPosition(splitted) == l + 4);
             REQUIRE(timeline->getClipPosition(cid3) == l + l - 5);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 2);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == 5);
-            REQUIRE(timeline->getClipPtr(splitted)->getIn() == 6);
-            REQUIRE(timeline->getClipPtr(splitted)->getOut() == l - 4);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 2);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, splitted)->getIn() == 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, splitted)->getOut() == l - 4);
         };
         state2();
 
@@ -119,7 +118,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         int l = timeline->getClipPlaytime(cid1);
-        timeline->m_allClips[cid1]->m_endlessResize = false;
+        KdenliveTests::makeFiniteClipEnd(timeline, cid1);
 
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -131,7 +130,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
 
         REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 9));
         int splitted = timeline->getClipByPosition(tid1, 10);
-        timeline->m_allClips[splitted]->m_endlessResize = false;
+        KdenliveTests::makeFiniteClipEnd(timeline, splitted);
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
@@ -206,10 +205,10 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
             }
             REQUIRE(timeline->getClipPosition(cid7) == 200);
             REQUIRE(timeline->getClipTrackId(cid7) == tid1);
-            REQUIRE(timeline->m_groups->getDirectChildren(gid1) == std::unordered_set<int>({cid1, cid4}));
-            REQUIRE(timeline->m_groups->getDirectChildren(gid2) == std::unordered_set<int>({cid2, cid5}));
-            REQUIRE(timeline->m_groups->getDirectChildren(gid3) == std::unordered_set<int>({cid3, cid6}));
-            REQUIRE(timeline->m_groups->getDirectChildren(gid4) == std::unordered_set<int>({gid1, gid2, gid3, cid7}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(gid1) == std::unordered_set<int>({cid1, cid4}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(gid2) == std::unordered_set<int>({cid2, cid5}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(gid3) == std::unordered_set<int>({cid3, cid6}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(gid4) == std::unordered_set<int>({gid1, gid2, gid3, cid7}));
             REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5, cid6, cid7}));
         };
         state();
@@ -226,17 +225,17 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
         int splitted2 = timeline->getClipByPosition(tid2, l + 5);
         REQUIRE(splitted != splitted2);
         auto check_groups = [&]() {
-            REQUIRE(timeline->m_groups->getDirectChildren(gid2) == std::unordered_set<int>({splitted, splitted2}));
-            REQUIRE(timeline->m_groups->getDirectChildren(gid3) == std::unordered_set<int>({cid3, cid6}));
-            REQUIRE(timeline->m_groups->getDirectChildren(gid4) == std::unordered_set<int>({gid2, gid3, cid7}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(gid2) == std::unordered_set<int>({splitted, splitted2}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(gid3) == std::unordered_set<int>({cid3, cid6}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(gid4) == std::unordered_set<int>({gid2, gid3, cid7}));
             REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({splitted, splitted2, cid3, cid6, cid7}));
 
-            int g1b = timeline->m_groups->m_upLink[cid1];
-            int g2b = timeline->m_groups->m_upLink[cid2];
-            int g4b = timeline->m_groups->getRootId(cid1);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1b) == std::unordered_set<int>({cid1, cid4}));
-            REQUIRE(timeline->m_groups->getDirectChildren(g2b) == std::unordered_set<int>({cid2, cid5}));
-            REQUIRE(timeline->m_groups->getDirectChildren(g4b) == std::unordered_set<int>({g1b, g2b}));
+            int g1b = KdenliveTests::groupUpLink(timeline)[cid1];
+            int g2b = KdenliveTests::groupUpLink(timeline)[cid2];
+            int g4b = KdenliveTests::groupsModel(timeline)->getRootId(cid1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1b) == std::unordered_set<int>({cid1, cid4}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g2b) == std::unordered_set<int>({cid2, cid5}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g4b) == std::unordered_set<int>({g1b, g2b}));
             REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2, cid4, cid5}));
         };
         auto state2 = [&]() {
@@ -341,9 +340,9 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
 
             REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, splitted1}));
 
-            int g1 = timeline->m_groups->getDirectAncestor(audio1);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({audio1, splitted1}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(audio1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({audio1, splitted1}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
         state2();
 
@@ -424,15 +423,15 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
             REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, splitted1, audio2, audio3, splitted2, splitted3}));
             REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>({audio1, splitted1, audio2, audio3, splitted2, splitted3}));
 
-            int g1 = timeline->m_groups->getDirectAncestor(audio1);
-            int g2 = timeline->m_groups->getDirectAncestor(audio2);
-            int g3 = timeline->m_groups->getDirectAncestor(audio3);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({audio1, splitted1}));
-            REQUIRE(timeline->m_groups->getDirectChildren(g2) == std::unordered_set<int>({audio2, splitted2}));
-            REQUIRE(timeline->m_groups->getDirectChildren(g3) == std::unordered_set<int>({audio3, splitted3}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
-            REQUIRE(timeline->m_groups->getType(g2) == GroupType::AVSplit);
-            REQUIRE(timeline->m_groups->getType(g3) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(audio1);
+            int g2 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(audio2);
+            int g3 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(audio3);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({audio1, splitted1}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g2) == std::unordered_set<int>({audio2, splitted2}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g3) == std::unordered_set<int>({audio3, splitted3}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g2) == GroupType::AVSplit);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g3) == GroupType::AVSplit);
         };
         state2();
 
@@ -443,7 +442,7 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
     }
     SECTION("Cut should preserve AV groups")
     {
-        QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
+        QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
 
         int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid5 = TrackModel::construct(timeline);
@@ -451,13 +450,13 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
         audioInfo.insert(1, QStringLiteral("stream1"));
-        timeline->m_binAudioTargets = audioInfo;
-        timeline->m_videoTarget = tid5;
+        KdenliveTests::setAudioTargets(timeline, audioInfo);
+        KdenliveTests::setVideoTargets(timeline, tid5);
 
         int cid6 = -1;
         int pos = 3;
         REQUIRE(timeline->requestClipInsertion(binId3, tid5, pos, cid6, true, true, false));
-        int cid7 = timeline->m_groups->getSplitPartner(cid6);
+        int cid7 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid6);
         int l = timeline->getClipPlaytime(cid6);
         REQUIRE(l >= 10);
 
@@ -469,14 +468,14 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipTrackId(cid7) == tid6);
             REQUIRE(timeline->getClipPosition(cid6) == pos);
             REQUIRE(timeline->getClipPosition(cid7) == pos);
-            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid7)->clipState() == PlaylistState::AudioOnly);
 
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid6) == std::unordered_set<int>({cid6, cid7}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid6);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid6);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
         state();
 
@@ -501,22 +500,22 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
             REQUIRE(timeline->getClipPosition(cid8) == pos + 4);
             REQUIRE(timeline->getClipPosition(cid9) == pos + 4);
 
-            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
-            REQUIRE(timeline->getClipPtr(cid8)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid9)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid7)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid8)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid9)->clipState() == PlaylistState::AudioOnly);
 
             // original AV group
             REQUIRE(timeline->getGroupElements(cid6) == std::unordered_set<int>({cid6, cid7}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid6);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid6);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
 
             // new AV group
             REQUIRE(timeline->getGroupElements(cid8) == std::unordered_set<int>({cid8, cid9}));
-            int g2 = timeline->m_groups->getDirectAncestor(cid8);
-            REQUIRE(timeline->m_groups->getDirectChildren(g2) == std::unordered_set<int>({cid8, cid9}));
-            REQUIRE(timeline->m_groups->getType(g2) == GroupType::AVSplit);
+            int g2 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid8);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g2) == std::unordered_set<int>({cid8, cid9}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g2) == GroupType::AVSplit);
         };
         state2();
 
@@ -535,18 +534,17 @@ TEST_CASE("Spacer operations", "[Spacer]")
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveDoc document(undoStack, {0, 1});
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     std::shared_ptr<MarkerListModel> guideModel = document.getGuideModel(document.uuid());
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
-    QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = timeline->getTrackIndexFromPosition(0);
@@ -558,9 +556,9 @@ TEST_CASE("Spacer operations", "[Spacer]")
 
     // int audio1 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
 
-    timeline->m_allClips[cid1]->m_endlessResize = false;
-    timeline->m_allClips[cid2]->m_endlessResize = false;
-    timeline->m_allClips[cid3]->m_endlessResize = false;
+    KdenliveTests::makeFiniteClipEnd(timeline, cid1);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid2);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid3);
 
     SECTION("Simple one track space insertion")
     {
@@ -579,12 +577,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
             REQUIRE(timeline->getClipPosition(cid2) == p2);
             REQUIRE(timeline->getClipPosition(cid3) == p3);
 
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l - 1);
         };
         state();
 
@@ -603,12 +601,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
             REQUIRE(timeline->getClipPosition(cid1) == 0);
             REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
             REQUIRE(timeline->getClipPosition(cid3) == p3 + space);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l - 1);
         };
         state1();
 
@@ -628,12 +626,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
             REQUIRE(timeline->getClipPosition(cid1) == 0);
             REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
             REQUIRE(timeline->getClipPosition(cid3) == p3 + space + space2);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l - 1);
         };
         state2();
 
@@ -650,7 +648,7 @@ TEST_CASE("Spacer operations", "[Spacer]")
 
     SECTION("Simple one track space insertion with guides")
     {
-        pCore->projectManager()->m_activeTimelineModel = timeline;
+        pCore->projectManager()->testSetActiveTimeline(timeline);
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         int l = timeline->getClipPlaytime(cid1);
         int p2 = l + 10;
@@ -672,12 +670,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
             REQUIRE(timeline->getClipPosition(cid2) == p2);
             REQUIRE(timeline->getClipPosition(cid3) == p3);
 
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l - 1);
         };
         state();
 
@@ -697,12 +695,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
             REQUIRE(timeline->getClipPosition(cid1) == 0);
             REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
             REQUIRE(timeline->getClipPosition(cid3) == p3 + space);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l - 1);
         };
         state1();
 
@@ -723,12 +721,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
             REQUIRE(timeline->getClipPosition(cid1) == 0);
             REQUIRE(timeline->getClipPosition(cid2) == p2 + space);
             REQUIRE(timeline->getClipPosition(cid3) == p3 + space + space2);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l - 1);
         };
         state2();
 
@@ -760,12 +758,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
             REQUIRE(timeline->getClipPosition(cid2) == p2);
             REQUIRE(timeline->getClipPosition(cid3) == p3);
 
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l - 1);
         };
         state();
 
@@ -785,12 +783,12 @@ TEST_CASE("Spacer operations", "[Spacer]")
             REQUIRE(timeline->getClipPosition(cid1) == 0);
             REQUIRE(timeline->getClipPosition(cid2) == p2 - 10);
             REQUIRE(timeline->getClipPosition(cid3) == p3 - 10);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l - 1);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l - 1);
         };
         state1();
 
@@ -822,29 +820,28 @@ TEST_CASE("Insert/delete", "[Trimming2]")
 
     // Here we do some trickery to enable testing.
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
+    QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
     int tid2 = timeline->getTrackIndexFromPosition(1);
     int tid1 = timeline->getTrackIndexFromPosition(2);
 
     // Setup timeline audio drop info
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
-    timeline->m_binAudioTargets = audioInfo;
-    timeline->m_videoTarget = tid1;
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
+    KdenliveTests::setVideoTargets(timeline, tid1);
 
     SECTION("Remove Space should preserve groups")
     {
 
         int cid1 = -1;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
-        int cid2 = timeline->m_groups->getSplitPartner(cid1);
+        int cid2 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid1);
 
         auto state = [&](int pos) {
             REQUIRE(timeline->checkConsistency());
@@ -854,13 +851,13 @@ TEST_CASE("Insert/delete", "[Trimming2]")
             REQUIRE(timeline->getClipTrackId(cid2) == tid2);
             REQUIRE(timeline->getClipPosition(cid1) == pos);
             REQUIRE(timeline->getClipPosition(cid2) == pos);
-            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->clipState() == PlaylistState::AudioOnly);
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid1);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
         state(3);
 
@@ -877,7 +874,7 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     {
         int cid1 = -1;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
-        int cid2 = timeline->m_groups->getSplitPartner(cid1);
+        int cid2 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid1);
 
         int l = timeline->getClipPlaytime(cid2);
         auto state = [&]() {
@@ -888,24 +885,27 @@ TEST_CASE("Insert/delete", "[Trimming2]")
             REQUIRE(timeline->getClipTrackId(cid2) == tid2);
             REQUIRE(timeline->getClipPosition(cid1) == 3);
             REQUIRE(timeline->getClipPosition(cid2) == 3);
-            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->clipState() == PlaylistState::AudioOnly);
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid1);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
         state();
 
-        timeline->m_audioTarget.insert(tid2, 0);
-        timeline->m_videoTarget = tid1;
+        QMap<int, int> aTarget;
+        aTarget.insert(tid2, 0);
+        KdenliveTests::setAudioTimelineTargets(timeline, aTarget);
+        KdenliveTests::setVideoTargets(timeline, tid1);
         // Make tracks active
         timeline->setTrackProperty(tid1, QStringLiteral("kdenlive:timeline_active"), QStringLiteral("1"));
         timeline->setTrackProperty(tid2, QStringLiteral("kdenlive:timeline_active"), QStringLiteral("1"));
         REQUIRE(TimelineFunctions::insertZone(timeline, {tid1, tid2}, binId, 3 + 2, {l / 4, 3 * l / 4}, false));
-        timeline->m_audioTarget.clear();
-        timeline->m_videoTarget = -1;
+        aTarget.clear();
+        KdenliveTests::setAudioTimelineTargets(timeline, aTarget);
+        KdenliveTests::setVideoTargets(timeline, -1);
         int small_length = 3 * l / 4 - l / 4;
         int cid3 = timeline->getClipByPosition(tid1, 3 + 2);
         int cid4 = timeline->getClipByPosition(tid2, 3 + 2);
@@ -931,26 +931,26 @@ TEST_CASE("Insert/delete", "[Trimming2]")
             REQUIRE(timeline->getClipPlaytime(cid1) + timeline->getClipPlaytime(cid5) == l);
             REQUIRE(timeline->getClipPlaytime(cid1) == 2);
             REQUIRE(timeline->getClipPlaytime(cid3) == small_length);
-            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
-            REQUIRE(timeline->getClipPtr(cid3)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid4)->clipState() == PlaylistState::AudioOnly);
-            REQUIRE(timeline->getClipPtr(cid5)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->clipState() == PlaylistState::AudioOnly);
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid1);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
 
             REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({cid3, cid4}));
-            int g2 = timeline->m_groups->getDirectAncestor(cid3);
-            REQUIRE(timeline->m_groups->getDirectChildren(g2) == std::unordered_set<int>({cid3, cid4}));
-            REQUIRE(timeline->m_groups->getType(g2) == GroupType::AVSplit);
+            int g2 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid3);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g2) == std::unordered_set<int>({cid3, cid4}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g2) == GroupType::AVSplit);
 
-            int g3 = timeline->m_groups->getDirectAncestor(cid5);
-            REQUIRE(timeline->m_groups->getDirectChildren(g3) == std::unordered_set<int>({cid5, cid6}));
-            REQUIRE(timeline->m_groups->getType(g3) == GroupType::AVSplit);
+            int g3 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid5);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g3) == std::unordered_set<int>({cid5, cid6}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g3) == GroupType::AVSplit);
         };
         state2();
         undoStack->undo();
@@ -969,15 +969,14 @@ TEST_CASE("Copy/paste", "[CP]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     KdenliveDoc document(undoStack);
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
 
     int tid2b = timeline->getTrackIndexFromPosition(0);
     int tid2 = timeline->getTrackIndexFromPosition(1);
@@ -987,8 +986,8 @@ TEST_CASE("Copy/paste", "[CP]")
     // Setup timeline audio drop info
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
-    timeline->m_binAudioTargets = audioInfo;
-    timeline->m_videoTarget = tid1;
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
+    KdenliveTests::setVideoTargets(timeline, tid1);
 
     SECTION("Simple copy paste of one clip")
     {
@@ -1026,7 +1025,7 @@ TEST_CASE("Copy/paste", "[CP]")
 
         // Paste after the last clip
         REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 3 + 2 * l));
-        int cid3 = timeline->getTrackById(tid1)->getClipByPosition(3 + 2 * l + 1);
+        int cid3 = timeline->getClipByPosition(tid1, 3 + 2 * l + 1);
         REQUIRE(cid3 != -1);
         auto state2 = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -1047,7 +1046,7 @@ TEST_CASE("Copy/paste", "[CP]")
 
         // Paste in different track
         REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1b, 0));
-        int cid4 = timeline->getTrackById(tid1b)->getClipByPosition(0);
+        int cid4 = timeline->getClipByPosition(tid1b, 0);
         REQUIRE(cid4 != -1);
         auto state3 = [&]() {
             state2();
@@ -1081,7 +1080,7 @@ TEST_CASE("Copy/paste", "[CP]")
         int cid1 = -1;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
         int l = timeline->getClipPlaytime(cid1);
-        int cid2 = timeline->m_groups->getSplitPartner(cid1);
+        int cid2 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid1);
 
         auto state = [&](int count1, int count2) {
             REQUIRE(timeline->checkConsistency());
@@ -1093,13 +1092,13 @@ TEST_CASE("Copy/paste", "[CP]")
             REQUIRE(timeline->getClipTrackId(cid2) == tid2);
             REQUIRE(timeline->getClipPosition(cid1) == 3);
             REQUIRE(timeline->getClipPosition(cid2) == 3);
-            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->clipState() == PlaylistState::AudioOnly);
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid1);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
         state(1, 0);
 
@@ -1116,22 +1115,22 @@ TEST_CASE("Copy/paste", "[CP]")
 
         // paste on same track, after clip
         REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 3 + 2 * l));
-        int cid3 = timeline->getTrackById(tid1)->getClipByPosition(3 + 2 * l + 1);
+        int cid3 = timeline->getClipByPosition(tid1, 3 + 2 * l + 1);
         REQUIRE(cid3 != -1);
-        int cid4 = timeline->m_groups->getSplitPartner(cid3);
+        int cid4 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid3);
         auto state2 = [&](int count1, int count2) {
             state(count1, count2);
             REQUIRE(timeline->getClipTrackId(cid3) == tid1);
             REQUIRE(timeline->getClipTrackId(cid4) == tid2);
             REQUIRE(timeline->getClipPosition(cid3) == 3 + 2 * l);
             REQUIRE(timeline->getClipPosition(cid4) == 3 + 2 * l);
-            REQUIRE(timeline->getClipPtr(cid3)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid4)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->clipState() == PlaylistState::AudioOnly);
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({cid3, cid4}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid3);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid3, cid4}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid3);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid3, cid4}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
         state2(2, 0);
 
@@ -1180,13 +1179,13 @@ TEST_CASE("Copy/paste", "[CP]")
         qDebug() << "track tid2 count" << timeline->getTrackClipsCount(tid2);
         qDebug() << "track tid1b count" << timeline->getTrackClipsCount(tid1b);
         qDebug() << "track tid2b count" << timeline->getTrackClipsCount(tid2b);
-        int cid5 = timeline->getTrackById(tid1b)->getClipByPosition(0);
+        int cid5 = timeline->getClipByPosition(tid1b, 0);
         REQUIRE(cid5 != -1);
-        int cid6 = timeline->m_groups->getSplitPartner(cid5);
+        int cid6 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid5);
         REQUIRE(cid6 != -1);
-        int cid7 = timeline->getTrackById(tid1b)->getClipByPosition(2 * l + 1);
+        int cid7 = timeline->getClipByPosition(tid1b, 2 * l + 1);
         REQUIRE(cid7 != -1);
-        int cid8 = timeline->m_groups->getSplitPartner(cid7);
+        int cid8 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid7);
         REQUIRE(cid8 != -1);
         auto state3 = [&](int count1, int count2) {
             state2(count1, count2);
@@ -1198,20 +1197,20 @@ TEST_CASE("Copy/paste", "[CP]")
             REQUIRE(timeline->getClipPosition(cid6) == 0);
             REQUIRE(timeline->getClipPosition(cid7) == 2 * l);
             REQUIRE(timeline->getClipPosition(cid8) == 2 * l);
-            REQUIRE(timeline->getClipPtr(cid5)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::AudioOnly);
-            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid8)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid7)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid8)->clipState() == PlaylistState::AudioOnly);
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid5) == std::unordered_set<int>({cid5, cid6}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid5);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid5, cid6}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid5);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid5, cid6}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
 
             REQUIRE(timeline->getGroupElements(cid7) == std::unordered_set<int>({cid7, cid8}));
-            int g2 = timeline->m_groups->getDirectAncestor(cid7);
-            REQUIRE(timeline->m_groups->getDirectChildren(g2) == std::unordered_set<int>({cid7, cid8}));
-            REQUIRE(timeline->m_groups->getType(g2) == GroupType::AVSplit);
+            int g2 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid7);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g2) == std::unordered_set<int>({cid7, cid8}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g2) == GroupType::AVSplit);
         };
         state3(2, 2);
 
@@ -1241,7 +1240,7 @@ TEST_CASE("Copy/paste", "[CP]")
         int cid1 = -1;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
         timeline->getClipPlaytime(cid1);
-        int cid2 = timeline->m_groups->getSplitPartner(cid1);
+        int cid2 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid1);
 
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -1253,13 +1252,13 @@ TEST_CASE("Copy/paste", "[CP]")
             REQUIRE(timeline->getClipTrackId(cid2) == tid2);
             REQUIRE(timeline->getClipPosition(cid1) == 3);
             REQUIRE(timeline->getClipPosition(cid2) == 3);
-            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->clipState() == PlaylistState::AudioOnly);
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid1);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid1);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
         state();
 
@@ -1270,9 +1269,9 @@ TEST_CASE("Copy/paste", "[CP]")
         state0();
 
         REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 0));
-        int cid3 = timeline->getTrackById(tid1)->getClipByPosition(0);
+        int cid3 = timeline->getClipByPosition(tid1, 0);
         REQUIRE(cid3 != -1);
-        int cid4 = timeline->m_groups->getSplitPartner(cid3);
+        int cid4 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid3);
         auto state2 = [&](int audio) {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
@@ -1282,13 +1281,13 @@ TEST_CASE("Copy/paste", "[CP]")
             REQUIRE(timeline->getClipTrackId(cid4) == audio);
             REQUIRE(timeline->getClipPosition(cid3) == 0);
             REQUIRE(timeline->getClipPosition(cid4) == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid4)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->clipState() == PlaylistState::AudioOnly);
             // we check that the av group was correctly created
             REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({cid3, cid4}));
-            int g1 = timeline->m_groups->getDirectAncestor(cid3);
-            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid3, cid4}));
-            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+            int g1 = KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid3);
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(g1) == std::unordered_set<int>({cid3, cid4}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getType(g1) == GroupType::AVSplit);
         };
         state2(tid2);
 
@@ -1308,9 +1307,9 @@ TEST_CASE("Copy/paste", "[CP]")
         undoStack->undo();
         // now, tid2b should be a valid audio track
         REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 0));
-        cid3 = timeline->getTrackById(tid1)->getClipByPosition(0);
+        cid3 = timeline->getClipByPosition(tid1, 0);
         REQUIRE(cid3 != -1);
-        cid4 = timeline->m_groups->getSplitPartner(cid3);
+        cid4 = KdenliveTests::groupsModel(timeline)->getSplitPartner(cid3);
         state2(tid2b);
     }
     pCore->projectManager()->closeCurrentDocument(false, false);
@@ -1324,15 +1323,14 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
 
     // Here we do some trickery to enable testing.
     KdenliveDoc document(undoStack, {0, 2});
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
 
     int tid1 = timeline->getTrackIndexFromPosition(0);
     int tid2 = timeline->getTrackIndexFromPosition(1);
@@ -1343,11 +1341,11 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
     int cid4 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int cid5 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
 
-    timeline->m_allClips[cid1]->m_endlessResize = false;
-    timeline->m_allClips[cid2]->m_endlessResize = false;
-    timeline->m_allClips[cid3]->m_endlessResize = false;
-    timeline->m_allClips[cid4]->m_endlessResize = false;
-    timeline->m_allClips[cid5]->m_endlessResize = false;
+    KdenliveTests::makeFiniteClipEnd(timeline, cid1);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid2);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid3);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid4);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid5);
 
     // sliping a fullsized clips should not to anything
     SECTION("Slip single fullsized clip")
@@ -1358,8 +1356,8 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
         };
         state();
 
@@ -1392,8 +1390,8 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
             REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 6);
         };
         state();
 
@@ -1402,8 +1400,8 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
             REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 3);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 9);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 3);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 9);
         };
         state2();
 
@@ -1430,14 +1428,14 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
         REQUIRE(timeline->getClipPlaytime(cid1) == l);
         REQUIRE(timeline->requestItemResize(cid1, l - 5, true) == l - 5);
         REQUIRE(timeline->requestItemResize(cid1, l - 11, false) == l - 11);
-        REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 6);
+        REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 6);
 
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
             REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 6);
         };
         state();
 
@@ -1447,8 +1445,8 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
             REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 12);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 12);
         };
         state2();
 
@@ -1458,8 +1456,8 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l - 11);
             REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 11);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 11);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l - 1);
         };
         state3();
 
@@ -1504,35 +1502,35 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l1 - 11);
             REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 6);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
 
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 11);
             REQUIRE(timeline->getClipPosition(cid2) == 50 + 11);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 11);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 11);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 1);
             REQUIRE(timeline->getClipTrackId(cid2) == tid1);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3 - 5);
             REQUIRE(timeline->getClipPosition(cid3) == 25);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 6);
             REQUIRE(timeline->getClipTrackId(cid3) == tid2);
 
             REQUIRE(timeline->getClipPlaytime(cid4) == l4 - 17);
             REQUIRE(timeline->getClipPosition(cid4) == 8);
-            REQUIRE(timeline->getClipPtr(cid4)->getIn() == 8);
-            REQUIRE(timeline->getClipPtr(cid4)->getOut() == l4 - 10);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getIn() == 8);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getOut() == l4 - 10);
             REQUIRE(timeline->getClipTrackId(cid4) == tid2);
 
             REQUIRE(timeline->getClipPlaytime(cid5) == l5);
             REQUIRE(timeline->getClipPosition(cid5) == 60);
-            REQUIRE(timeline->getClipPtr(cid5)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid5)->getOut() == l5 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getOut() == l5 - 1);
             REQUIRE(timeline->getClipTrackId(cid5) == tid2);
 
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
         };
         state();
 
@@ -1542,35 +1540,35 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l1 - 11);
             REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 3);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 9);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 3);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 9);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
 
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 11);
             REQUIRE(timeline->getClipPosition(cid2) == 50 + 11);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 8);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 4);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 8);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 4);
             REQUIRE(timeline->getClipTrackId(cid2) == tid1);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3 - 5);
             REQUIRE(timeline->getClipPosition(cid3) == 25);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 6);
             REQUIRE(timeline->getClipTrackId(cid3) == tid2);
 
             REQUIRE(timeline->getClipPlaytime(cid4) == l4 - 17);
             REQUIRE(timeline->getClipPosition(cid4) == 8);
-            REQUIRE(timeline->getClipPtr(cid4)->getIn() == 5);
-            REQUIRE(timeline->getClipPtr(cid4)->getOut() == l4 - 13);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getIn() == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getOut() == l4 - 13);
             REQUIRE(timeline->getClipTrackId(cid4) == tid2);
 
             REQUIRE(timeline->getClipPlaytime(cid5) == l5);
             REQUIRE(timeline->getClipPosition(cid5) == 60);
-            REQUIRE(timeline->getClipPtr(cid5)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid5)->getOut() == l5 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getOut() == l5 - 1);
             REQUIRE(timeline->getClipTrackId(cid5) == tid2);
 
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
         };
         state2();
 
@@ -1580,35 +1578,35 @@ TEST_CASE("Advanced trimming operations: Slip", "[TrimmingSlip]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l1 - 11);
             REQUIRE(timeline->getClipPosition(cid1) == 5 + 6);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 12);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 12);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
 
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 11);
             REQUIRE(timeline->getClipPosition(cid2) == 50 + 11);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 12);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 12);
             REQUIRE(timeline->getClipTrackId(cid2) == tid1);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3 - 5);
             REQUIRE(timeline->getClipPosition(cid3) == 25);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 6);
             REQUIRE(timeline->getClipTrackId(cid3) == tid2);
 
             REQUIRE(timeline->getClipPlaytime(cid4) == l4 - 17);
             REQUIRE(timeline->getClipPosition(cid4) == 8);
-            REQUIRE(timeline->getClipPtr(cid4)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid4)->getOut() == l4 - 18);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getOut() == l4 - 18);
             REQUIRE(timeline->getClipTrackId(cid4) == tid2);
 
             REQUIRE(timeline->getClipPlaytime(cid5) == l5);
             REQUIRE(timeline->getClipPosition(cid5) == 60);
-            REQUIRE(timeline->getClipPtr(cid5)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid5)->getOut() == l5 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getOut() == l5 - 1);
             REQUIRE(timeline->getClipTrackId(cid5) == tid2);
 
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3, cid4, cid5}));
         };
         state3();
 
@@ -1634,15 +1632,14 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
 
     // Here we do some trickery to enable testing.
     KdenliveDoc document(undoStack, {0, 2});
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
 
     int tid1 = timeline->getTrackIndexFromPosition(0);
     int tid2 = timeline->getTrackIndexFromPosition(1);
@@ -1654,11 +1651,11 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
     int cid5 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
 
-    timeline->m_allClips[cid1]->m_endlessResize = false;
-    timeline->m_allClips[cid2]->m_endlessResize = false;
-    timeline->m_allClips[cid3]->m_endlessResize = false;
-    timeline->m_allClips[cid4]->m_endlessResize = false;
-    timeline->m_allClips[cid5]->m_endlessResize = false;
+    KdenliveTests::makeFiniteClipEnd(timeline, cid1);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid2);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid3);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid4);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid5);
 
     // ripple resize a fullsized clip longer should not to anything
     SECTION("Ripple resize single fullsized clip (longer)")
@@ -1676,16 +1673,16 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l1);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
             REQUIRE(timeline->getClipPlaytime(cid2) == l2);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 1);
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 80);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
         };
         state();
 
@@ -1730,21 +1727,21 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l1);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
         };
         auto stateA2 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 1);
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 80);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
         };
         stateA1();
         stateA2();
@@ -1753,13 +1750,13 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 5);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 6);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 75);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
         };
         REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 5, true) == l2 - 5);
         stateA1();
@@ -1769,13 +1766,13 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 8);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 3);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 3);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 6);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 72);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
         };
 
         REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));
@@ -1830,39 +1827,39 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l1);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid4) == timeline->getClipPlaytime(cid1));
             REQUIRE(timeline->getClipPosition(cid4) == timeline->getClipPosition(cid1));
-            REQUIRE(timeline->getClipPtr(cid4)->getIn() == timeline->getClipPtr(cid1)->getIn());
-            REQUIRE(timeline->getClipPtr(cid4)->getOut() == timeline->getClipPtr(cid1)->getOut());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getIn() == KdenliveTests::getClipPtr(timeline, cid1)->getIn());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getOut() == KdenliveTests::getClipPtr(timeline, cid1)->getOut());
         };
         auto stateA2 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 1);
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 80);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid5) == timeline->getClipPlaytime(cid2));
             REQUIRE(timeline->getClipPosition(cid5) == timeline->getClipPosition(cid2));
-            REQUIRE(timeline->getClipPtr(cid5)->getIn() == timeline->getClipPtr(cid2)->getIn());
-            REQUIRE(timeline->getClipPtr(cid5)->getOut() == timeline->getClipPtr(cid2)->getOut());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getIn() == KdenliveTests::getClipPtr(timeline, cid2)->getIn());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getOut() == KdenliveTests::getClipPtr(timeline, cid2)->getOut());
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid6) == timeline->getClipPlaytime(cid3));
             REQUIRE(timeline->getClipPosition(cid6) == timeline->getClipPosition(cid3));
-            REQUIRE(timeline->getClipPtr(cid6)->getIn() == timeline->getClipPtr(cid3)->getIn());
-            REQUIRE(timeline->getClipPtr(cid6)->getOut() == timeline->getClipPtr(cid3)->getOut());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->getIn() == KdenliveTests::getClipPtr(timeline, cid3)->getIn());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->getOut() == KdenliveTests::getClipPtr(timeline, cid3)->getOut());
         };
         stateA1();
         stateA2();
@@ -1871,25 +1868,25 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 5);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 6);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 75);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid5) == timeline->getClipPlaytime(cid2));
             REQUIRE(timeline->getClipPosition(cid5) == timeline->getClipPosition(cid2));
-            REQUIRE(timeline->getClipPtr(cid5)->getIn() == timeline->getClipPtr(cid2)->getIn());
-            REQUIRE(timeline->getClipPtr(cid5)->getOut() == timeline->getClipPtr(cid2)->getOut());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getIn() == KdenliveTests::getClipPtr(timeline, cid2)->getIn());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getOut() == KdenliveTests::getClipPtr(timeline, cid2)->getOut());
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid6) == timeline->getClipPlaytime(cid3));
             REQUIRE(timeline->getClipPosition(cid6) == timeline->getClipPosition(cid3));
-            REQUIRE(timeline->getClipPtr(cid6)->getIn() == timeline->getClipPtr(cid3)->getIn());
-            REQUIRE(timeline->getClipPtr(cid6)->getOut() == timeline->getClipPtr(cid3)->getOut());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->getIn() == KdenliveTests::getClipPtr(timeline, cid3)->getIn());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->getOut() == KdenliveTests::getClipPtr(timeline, cid3)->getOut());
         };
         REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 5, true) == l2 - 5);
         stateA1();
@@ -1899,25 +1896,25 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 8);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 3);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 3);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 6);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 72);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid5) == timeline->getClipPlaytime(cid2));
             REQUIRE(timeline->getClipPosition(cid5) == timeline->getClipPosition(cid2));
-            REQUIRE(timeline->getClipPtr(cid5)->getIn() == timeline->getClipPtr(cid2)->getIn());
-            REQUIRE(timeline->getClipPtr(cid5)->getOut() == timeline->getClipPtr(cid2)->getOut());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getIn() == KdenliveTests::getClipPtr(timeline, cid2)->getIn());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getOut() == KdenliveTests::getClipPtr(timeline, cid2)->getOut());
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid6) == timeline->getClipPlaytime(cid3));
             REQUIRE(timeline->getClipPosition(cid6) == timeline->getClipPosition(cid3));
-            REQUIRE(timeline->getClipPtr(cid6)->getIn() == timeline->getClipPtr(cid3)->getIn());
-            REQUIRE(timeline->getClipPtr(cid6)->getOut() == timeline->getClipPtr(cid3)->getOut());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->getIn() == KdenliveTests::getClipPtr(timeline, cid3)->getIn());
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid6)->getOut() == KdenliveTests::getClipPtr(timeline, cid3)->getOut());
         };
 
         REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));
@@ -1958,25 +1955,25 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid1) == l1);
             REQUIRE(timeline->getClipPosition(cid1) == 5);
-            REQUIRE(timeline->getClipPtr(cid1)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid1)->getOut() == l1 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
 
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
         };
         auto stateA2 = [&]() {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 1);
 
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 80);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
 
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
         };
         stateA1();
         stateA2();
@@ -1985,15 +1982,15 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 5);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 6);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 75);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
 
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
         };
         REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 5, true) == l2 - 5);
         stateA1();
@@ -2003,15 +2000,15 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getClipPlaytime(cid2) == l2 - 8);
             REQUIRE(timeline->getClipPosition(cid2) == 50);
-            REQUIRE(timeline->getClipPtr(cid2)->getIn() == 3);
-            REQUIRE(timeline->getClipPtr(cid2)->getOut() == l2 - 6);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 3);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 6);
 
             REQUIRE(timeline->getClipPlaytime(cid3) == l3);
             REQUIRE(timeline->getClipPosition(cid3) == 72);
-            REQUIRE(timeline->getClipPtr(cid3)->getIn() == 0);
-            REQUIRE(timeline->getClipPtr(cid3)->getOut() == l3 - 1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
 
-            REQUIRE(timeline->m_groups->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
+            REQUIRE(KdenliveTests::groupsModel(timeline)->getLeaves(gid1) == std::unordered_set<int>({cid1, cid2, cid3}));
         };
 
         REQUIRE(timeline->requestItemRippleResize(timeline, cid2, l2 - 8, false));

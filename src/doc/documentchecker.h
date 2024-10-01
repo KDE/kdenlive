@@ -20,6 +20,7 @@ class DocumentChecker : public QObject
 public:
     enum MissingStatus { Fixed, Reload, Missing, MissingButProxy, Placeholder, Remove };
     enum MissingType { Clip, Proxy, Luma, AssetFile, TitleImage, TitleFont, Effect, Transition, CircularRef };
+    friend class KdenliveTests;
     struct DocumentResource
     {
         MissingStatus status = MissingStatus::Missing;
@@ -53,10 +54,16 @@ public:
     static QString searchDirRecursively(const QDir &dir, const QString &matchHash, const QString &fullName);
 
     bool resolveProblemsWithGUI();
-    /* @brief Get a count of missing items in each category */
+    /** @brief Get a count of missing items in each category */
     QMap<DocumentChecker::MissingType, int> getCheckResults();
+    /** @brief Check if a luma seems to be an internally generated MLT luma file  */
+    static bool isMltBuildInLuma(const QString &lumaName);
 
     std::vector<DocumentResource> resourceItems() { return m_items; }
+
+protected:
+    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
+    static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
 
 private:
     QUrl m_url;
@@ -73,6 +80,8 @@ private:
 
     QStringList m_binIds;
     QStringList m_warnings;
+    QMap<int, std::pair<QString, QUuid>> m_recoveryMap;
+    QMap<int, QString> m_hashMap;
 
     QString ensureAbsolutePath(QString filepath);
 
@@ -85,6 +94,7 @@ private:
      *  @returns true if the producer has been changed (id recovered), false if it was either already okay or could not be recovered
      */
     bool ensureProducerHasId(QDomElement &producer, const QDomNodeList &entries);
+    bool ensureControlIdForItem(QDomElement &e, bool isBinClip);
     /** @brief Check if the producer represents an "invalid" placeholder (project saved with missing source). If such a placeholder is detected, it tries to
      * recover the original clip.
      *  @returns true if the producer has been changed (recovered), false if it was either already okay or could not be recovered
@@ -102,11 +112,9 @@ private:
     QString getProducerResource(const QDomElement &producer);
     static QString getKdenliveClipId(const QDomElement &producer);
     static QStringList getAssetsFilesByMltTag(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs);
-    static QStringList getAssetsServiceIds(const QDomDocument &doc, const QString &tagName);
 
     QStringList getInfoMessages();
 
-    static bool isMltBuildInLuma(const QString &lumaName);
     static bool isSlideshow(const QString &resource);
     bool isSequenceWithSpeedEffect(const QDomElement &producer);
     static bool isProfileHD(const QDomDocument &doc);
@@ -120,7 +128,7 @@ private:
     void fixTitleImage(QDomElement &e, const QString &oldPath, const QString &newPath);
     void fixTitleFont(const QDomNodeList &producers, const QString &oldFont, const QString &newFont);
     void fixAssetResource(const QDomNodeList &assets, const QMap<QString, QString> &searchPairs, const QString &oldPath, const QString &newPath);
-    static void removeAssetsById(QDomDocument &doc, const QString &tagName, const QStringList &idsToDelete);
+
     /** @brief Update a filter's tag and id with a new name */
     static void fixAssetsById(QDomDocument &doc, const QString &tagName, const QString &oldId, const QString &newId);
     void usePlaceholderForClip(const QDomNodeList &items, const QString &clipId);

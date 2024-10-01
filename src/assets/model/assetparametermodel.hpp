@@ -26,6 +26,7 @@ enum class ParamType {
     UrlList,            // File can be chosen from a list of pre-defined ones or a custom file can be used (like url)
     Bool,
     Switch,
+    EffectButtons,
     MultiSwitch,
     AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
     Geometry,
@@ -86,6 +87,7 @@ public:
         DefaultRole,
         SuffixRole,
         DecimalsRole,
+        CompactRole,
         OddRole,
         ValueRole,
         AlphaRole,
@@ -145,7 +147,7 @@ public:
 
     /** @brief Set the parameter with given name to the given value
      */
-    Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, const QModelIndex &paramIndex = QModelIndex());
+    Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, QModelIndex paramIndex = QModelIndex());
     void setParameter(const QString &name, int value, bool update = true);
 
     /** @brief Return all the parameters as pairs (parameter name, parameter value) */
@@ -198,6 +200,8 @@ public:
     Mlt::Properties *getAsset();
     /** @brief Returns a frame time as click time (00:00:00.000) */
     const QString framesToTime(int t) const;
+    /** @brief Given an animation keyframe string, find out the keyframe type */
+    static const QChar getKeyframeType(const QString keyframeString);
 
 public Q_SLOTS:
     /** @brief Sets the value of a list of parameters
@@ -230,6 +234,9 @@ protected:
     */
     void addKeyframeParam(const QModelIndex &index, int in, int out);
 
+    /** @brief Check if all parameters for this asset are set to the default */
+    bool isDefault() const;
+
     struct ParamRow
     {
         ParamType type;
@@ -241,6 +248,7 @@ protected:
     QString m_assetId;
     ObjectId m_ownerId;
     bool m_active;
+    bool m_builtIn{false};
     /** @brief Keep track of parameter order, important for sox */
     std::vector<QString> m_paramOrder;
     /** @brief Store all parameters by name */
@@ -277,7 +285,8 @@ Q_SIGNALS:
     void compositionTrackChanged();
     void replugEffect(std::shared_ptr<AssetParameterModel> asset);
     void rebuildEffect(std::shared_ptr<AssetParameterModel> asset);
-    void enabledChange(bool);
+    /** @brief Emitted when a builtin effect status changes between enabled/disabled */
+    void enabledChange(bool enabled);
     void hideKeyframesChange(bool);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
 };

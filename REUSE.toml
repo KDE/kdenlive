@@ -1,0 +1,265 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: None
+
+version = 1
+SPDX-PackageName = "Kdenlive"
+SPDX-PackageSupplier = "kdenlive@kde.org"
+SPDX-PackageDownloadLocation = "https://invent.kde.org/multimedia/kdenlive"
+
+[[annotations]]
+path = ["data/effects/**.xml", "data/transitions/**.xml", "data/generators/**.xml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["data/effects/**/CMakeLists.txt", "data/effects/CMakeLists.txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "data/effects/README.md"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Julius Künzel"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["data/lumas/PAL/**", "data/lumas/HD/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Massimo Stella"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "data/luts/**.cube"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "data/knewstuff/**.knsrc"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Kdenlive translators"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "data/icons/breeze/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2014 Uri Herrera <uri_herrera@nitrux.in> and others"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = ["data/icons/**.png", "data/icons/kdenlive.ico", "data/icons/sc-apps-kdenlive.svgz", "data/icons/sc-mimetypes-application-x-kdenlivetitle.svgz"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nara Oliveira and Farid Abdelnour"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = "data/icons/sc-mimetypes-application-x-kdenlive.svgz"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Vincent Pinon"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = "data/icons/**.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Julius Künzel"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = "data/icons/sc-mimetypes-video-mlt-playlist.svgz"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "The Oxygen Icon Theme"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = "data/resourceproviders/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2021 Julius Künzel"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "data/titles/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Marco Gittler"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["data/Info.plist", "data/camcorderfilters.rc", "data/clipjobsettings.rc", "data/encodingprofiles.rc", "data/externalproxies.rc", "data/westley.xml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "data/pics/breeze-light/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = "data/pics/kdenlive-logo.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nara Oliveira and Farid Abdelnour"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = "data/pics/splash-background.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Farid Abdelnour"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = "data/pics/kde-logo.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "KDE project"
+SPDX-License-Identifier = "LGPL-3.0-or-later"
+
+[[annotations]]
+path = "data/profiles.xml"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Vincent Pinon, Farid Abdelnour, Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "data/profiles/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["data/excluded_effects.txt", "data/excluded_transitions.txt", "data/included_effects.txt", "data/included_transitions.txt"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle, Massimo Stella"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "data/scripts/**.txt"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "data/man/kdenlive**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Mads Bondo Dydensborg"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "data/preferred_effects.txt"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle, Juku Trump"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "data/org.kde.kdenlive.**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Kdenlive translators"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "data/meta_magiclantern.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Magic Lantern Project"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "data/kdenlive**.notifyrc"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle, Kdenlive translators"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = ["data/slideanimations.rc", "data/kdenlivedefaultlayouts.rc", "data/kdenlivetranscodingrc"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "data/kdenliveeffectscategory.rc"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Massimo Stella"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "data/shortcuts/Premiere"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Bruno Santos"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = [".flatpak-manifest.json", "packaging/flatpak/python-modules.json", "packaging/flatpak/org.kde.kdenlive-**.json"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "dev-docs/**.md"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2020 Kdenlive contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = "doc/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2020 Kdenlive contributors"
+SPDX-License-Identifier = "CC-BY-SA-4.0"
+
+[[annotations]]
+path = ["src/qml/qmldir", "src/kdenlivesettings.kcfgc"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "src/uiresources.qrc"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Julius Künzel, Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["src/org.kdenlive.MainWindow.xml", "src/mlt_config.h.in", "src/kdenliveui.rc", "src/kdenlivesettings.kcfg"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "po/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Kdenlive translators (see each file for details)"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = "tests/dataset/**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle, Eric Jiang"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "tests/small.mkv"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = ["thumbnailer/mltpreview.json", "thumbnailer-deprecated/mltpreview.desktop"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Kdenlive translators"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"
+
+[[annotations]]
+path = ["suppressions.txt", ".mailmap"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "None"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "config-kdenlive.h.cmake"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Jean-Baptiste Mardelle, Alberto Villa"
+SPDX-License-Identifier = "BSD-2-Clause"
+
+[[annotations]]
+path = "snapcraft.yaml"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Scarlett Moore"
+SPDX-License-Identifier = "GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL"

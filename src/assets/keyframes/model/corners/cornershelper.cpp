@@ -38,7 +38,7 @@ void CornersHelper::refreshParams(int pos)
 {
     QVariantList points{QPointF(), QPointF(), QPointF(), QPointF()};
     QSize frameSize = pCore->getCurrentFrameSize();
-    for (const auto &ix : qAsConst(m_indexes)) {
+    for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::KeyframeParam) {
             continue;

@@ -214,7 +214,9 @@ void AudioGraphWidget::drawBackground()
     if (!s.isValid()) {
         return;
     }
-    m_pixmap = QPixmap(s);
+    qreal scalingFactor = devicePixelRatioF();
+    m_pixmap = QPixmap(s * scalingFactor);
+    m_pixmap.setDevicePixelRatio(scalingFactor);
     if (m_pixmap.isNull()) {
         return;
     }

@@ -87,9 +87,6 @@ void ProxyTask::run()
             if (playlist->open()) {
                 source = playlist->fileName();
                 QTextStream out(playlist);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                out.setCodec("UTF-8");
-#endif
                 out << doc.toString();
                 playlist->close();
             }
@@ -129,7 +126,7 @@ void ProxyTask::run()
         }
 
         bool skipNext = false;
-        for (const QString &s : qAsConst(params)) {
+        for (const QString &s : std::as_const(params)) {
             QString t = s.simplified();
             if (skipNext) {
                 skipNext = false;
@@ -448,15 +445,21 @@ void ProxyTask::processLogInfo()
                     progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
                 }
             }
-            m_progress = 100 * progress / m_jobDuration;
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = 100 * progress / m_jobDuration;
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
             // Q_EMIT jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (buffer.contains(QLatin1String("percentage:"))) {
-            m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
             // Q_EMIT jobProgress(progress);
         }
     }

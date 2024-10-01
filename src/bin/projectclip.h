@@ -48,6 +48,7 @@ class ProjectClip : public AbstractProjectItem, public ClipController
 
 public:
     friend class Bin;
+    friend class KdenliveTests;
     friend bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps); // for testing
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
@@ -96,9 +97,6 @@ public:
 
     void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) override;
     void setThumbFrame(int frame) override;
-
-    /** @brief Returns a unique hash identifier used to store clip thumbnails. */
-    // virtual void hash() = 0;
 
     /** @brief Returns this if @param id matches the clip's id or nullptr otherwise. */
     std::shared_ptr<ProjectClip> clip(const QString &id) override;
@@ -156,6 +154,8 @@ public:
 
     /** @brief Returns the original clip's fps. */
     double getOriginalFps() const;
+    /** @brief Returns the original clip's fps as {frame_rate_num, frame_rate_den}. */
+    std::pair<int, int> fpsInfo() const;
 
     bool rename(const QString &name, int column) override;
 
@@ -303,6 +303,8 @@ public:
     QPixmap pixmap(int position = 0, int width = 0, int height = 0);
     /** @brief Returns true if this clip has a variable framerate */
     bool hasVariableFps();
+    /** @brief Get the unique and unmutable uuid for this project clip */
+    const QString getControlUuid() const;
 
 protected:
     friend class ClipModel;
@@ -375,6 +377,8 @@ public Q_SLOTS:
     void importJsonMarkers(const QString &json);
     /** @brief Refresh zones of insertion in timeline. */
     void checkClipBounds();
+    /** @brief Check if proxy clip should be build for this clip. */
+    void checkProxy(bool rebuildProxy = false);
 
 private:
     QMutex m_producerMutex;

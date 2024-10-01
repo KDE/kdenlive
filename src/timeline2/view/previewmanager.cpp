@@ -184,7 +184,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     if (!dirtyChunks.isEmpty()) {
         std::sort(dirtyChunks.begin(), dirtyChunks.end(), chunkSort);
         QMutexLocker lock(&m_dirtyMutex);
-        for (const auto &i : qAsConst(dirtyChunks)) {
+        for (const auto &i : std::as_const(dirtyChunks)) {
             if (!m_dirtyChunks.contains(i)) {
                 m_dirtyChunks << i;
             }
@@ -310,6 +310,7 @@ bool PreviewManager::loadParams()
         m_consumerParams << QStringLiteral("s=%1x%2").arg(int(resizeWidth * pCore->getCurrentDar())).arg(resizeWidth);
     }
     m_consumerParams << QStringLiteral("an=1");
+    m_consumerParams << QStringLiteral("audio_off=1");
     if (KdenliveSettings::gpu_accel()) {
         m_consumerParams << QStringLiteral("glsl.=1");
     }
@@ -432,7 +433,7 @@ void PreviewManager::clearPreviewRange(bool resetZones)
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
     QMutexLocker lock(&m_dirtyMutex);
-    for (const auto &ix : qAsConst(m_renderedChunks)) {
+    for (const auto &ix : std::as_const(m_renderedChunks)) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
         if (!m_dirtyChunks.contains(ix)) {
             m_dirtyChunks << ix;
@@ -494,7 +495,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         abortRendering();
         m_tractor->lock();
         bool hasPreview = m_previewTrack != nullptr;
-        for (int ix : qAsConst(toRemove)) {
+        for (int ix : std::as_const(toRemove)) {
             m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             if (!hasPreview) {
                 continue;
@@ -551,7 +552,7 @@ void PreviewManager::startPreviewRender()
         const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
         if (!KdenliveSettings::proxypreview() && pCore->currentDoc()->useProxy()) {
             const QString playlist =
-                pCore->projectItemModel()->sceneList(m_cacheDir.absolutePath(), QString(), pCore->currentDoc()->getTimeline(m_uuid)->tractor(), -1);
+                pCore->projectItemModel()->sceneList(m_cacheDir.absolutePath(), QString(), pCore->currentDoc()->getTimeline(m_uuid)->tractor(), -1).first;
             QDomDocument doc;
             doc.setContent(playlist);
             KdenliveDoc::useOriginals(doc);
@@ -655,7 +656,7 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
     }
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     bool ok;
-    for (const QString &dir : qAsConst(dirs)) {
+    for (const QString &dir : std::as_const(dirs)) {
         if (dir.toInt(&ok) >= ix && ok) {
             QDir tmp = m_undoDir;
             if (tmp.cd(dir)) {

@@ -12,6 +12,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class SubtitleModel;
 class TimelineController;
 
+class SideBarDropFilter : public QObject
+{
+    Q_OBJECT
+public:
+    explicit SideBarDropFilter(QObject *parent = nullptr);
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+Q_SIGNALS:
+    void drop(QObject *obj, QDropEvent *event);
+};
+
 /**
  * @class ManageSubtitles
  * @brief A dialog for managing project subtitles.
@@ -28,12 +40,25 @@ public:
 private:
     std::shared_ptr<SubtitleModel> m_model;
     TimelineController *m_controller;
-    void parseList(int ix = -1);
+    void parseFileList();
+    void parseEventList();
+    void parseStyleList(bool global);
+    void parseInfoList();
+    void parseSideBar();
+
+    int m_activeSubFile{-1};
 
 private Q_SLOTS:
     void updateSubtitle(QTreeWidgetItem *item, int column);
-    void addSubtitle(const QString name = QString());
-    void duplicateSubtitle();
-    void deleteSubtitle();
-    void importSubtitle();
+    void addSubtitleFile(const QString name = QString());
+    void duplicateFile();
+    void deleteFile();
+    void addLayer();
+    void deleteLayer();
+    void duplicateLayer();
+    void addStyle(bool global);
+    void deleteStyle(bool global);
+    void duplicateStyle(bool global);
+    void editStyle(bool global);
+    void importSubtitleFile();
 };

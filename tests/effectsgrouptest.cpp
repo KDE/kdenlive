@@ -30,19 +30,18 @@ TEST_CASE("Effects groups", "[Effects]")
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
 
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Create a request
     int tid1;
     REQUIRE(timeline->requestTrackInsertion(-1, tid1));
 
     // Create clip
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
     int cid1;
     int cid2;
     int cid3;
@@ -51,7 +50,7 @@ TEST_CASE("Effects groups", "[Effects]")
     REQUIRE(timeline->requestClipInsertion(binId, tid1, 140, cid3));
     timeline->requestClipsGroup({cid1, cid2, cid3});
     std::shared_ptr<ProjectClip> clip = binModel->getClipByBinID(binId);
-    auto model = clip->m_effectStack;
+    auto model = clip->getEffectStack();
 
     REQUIRE(model->checkConsistency());
     REQUIRE(model->rowCount() == 0);
@@ -65,15 +64,15 @@ TEST_CASE("Effects groups", "[Effects]")
     REQUIRE(!anEffect.isEmpty());
 
     auto state = [&](int count) {
-        auto clipModel1 = timeline->getClipPtr(cid1)->m_effectStack;
+        auto clipModel1 = timeline->getClipEffectStackModel(cid1);
         REQUIRE(clipModel1->rowCount() == count);
-        auto clipModel2 = timeline->getClipPtr(cid2)->m_effectStack;
+        auto clipModel2 = timeline->getClipEffectStackModel(cid2);
         REQUIRE(clipModel2->rowCount() == count);
-        auto clipModel3 = timeline->getClipPtr(cid3)->m_effectStack;
+        auto clipModel3 = timeline->getClipEffectStackModel(cid3);
         REQUIRE(clipModel3->rowCount() == count);
     };
     auto effectState = [&](int cid, const QString &paramName, const QString value) {
-        auto clipModel1 = timeline->getClipPtr(cid)->m_effectStack;
+        auto clipModel1 = timeline->getClipEffectStackModel(cid);
         std::shared_ptr<AssetParameterModel> model = clipModel1->getAssetModelById(anEffect);
         REQUIRE(model->getParamFromName(paramName) == value);
     };
@@ -95,7 +94,7 @@ TEST_CASE("Effects groups", "[Effects]")
         KdenliveSettings::setApplyEffectParamsToGroup(true);
         KdenliveSettings::setApplyEffectParamsToGroupWithSameValue(false);
         // Apply aan effect param change that should apply to all 3 clips
-        auto clipModel1 = timeline->getClipPtr(cid1)->m_effectStack;
+        auto clipModel1 = timeline->getClipEffectStackModel(cid1);
         std::shared_ptr<AssetParameterModel> model = clipModel1->getAssetModelById(anEffect);
         QModelIndex ix = model->getParamIndexFromName(QStringLiteral("u"));
         auto *command = new AssetCommand(model, ix, QStringLiteral("140"));
@@ -116,7 +115,7 @@ TEST_CASE("Effects groups", "[Effects]")
         KdenliveSettings::setApplyEffectParamsToGroup(false);
 
         // Modify only effect on cid2
-        auto clipModel2 = timeline->getClipPtr(cid2)->m_effectStack;
+        auto clipModel2 = timeline->getClipEffectStackModel(cid2);
         std::shared_ptr<AssetParameterModel> model2 = clipModel2->getAssetModelById(anEffect);
         QModelIndex ix2 = model2->getParamIndexFromName(QStringLiteral("u"));
         auto *command2 = new AssetCommand(model2, ix2, QStringLiteral("60"));

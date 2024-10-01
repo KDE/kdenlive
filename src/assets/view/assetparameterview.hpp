@@ -13,6 +13,7 @@
 #include <memory>
 
 class QVBoxLayout;
+class QFormLayout;
 class QMenu;
 class QActionGroup;
 class AbstractParamWidget;
@@ -34,6 +35,7 @@ public:
 
     /** Set the widget to display no model (this yield ownership on the smart-ptr)*/
     void unsetModel();
+    void disconnectKeyframeWidget();
 
     /** Returns the preferred widget height */
     int contentHeight() const;
@@ -43,6 +45,8 @@ public:
 
     /** Returns true is the effect can use keyframes */
     bool keyframesAllowed() const;
+    /** @brief Returns true is the model has more than one keyframe */
+    bool hasMultipleKeyframes() const;
     /** Returns true is the keyframes should be hidden on first opening*/
     bool modelHideKeyframes() const;
     /** Returns the preset menu to be embedded in toolbars */
@@ -66,7 +70,7 @@ protected:
         It basically instructs the widgets in the given range to be refreshed */
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 
-    QVBoxLayout *m_lay;
+    QFormLayout *m_lay;
     /** @brief Protect from concurrent operations
      **/
     QMutex m_lock;
@@ -91,7 +95,7 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void seekToPos(int);
-    void initKeyframeView(bool active);
+    void initKeyframeView(bool active, bool outside);
     /** @brief clear and refill the effect presets */
     void updatePresets(const QString &presetName = QString());
     void updateHeight();
@@ -99,6 +103,7 @@ Q_SIGNALS:
     void nextKeyframe();
     void previousKeyframe();
     void addRemoveKeyframe();
+    void saveEffect();
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
 };

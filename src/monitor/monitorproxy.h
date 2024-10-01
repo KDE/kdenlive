@@ -42,6 +42,9 @@ class MonitorProxy : public QObject
     Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
+    Q_PROPERTY(int gridH READ gridH NOTIFY gridChanged)
+    Q_PROPERTY(int gridV READ gridV NOTIFY gridChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
     Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
@@ -106,6 +109,9 @@ public:
     Q_INVOKABLE QString toTimecode(int frames) const;
     Q_INVOKABLE void startZoneMove();
     Q_INVOKABLE void endZoneMove();
+    Q_INVOKABLE void switchGrid();
+    Q_INVOKABLE int gridH() const;
+    Q_INVOKABLE int gridV() const;
     Q_INVOKABLE double fps() const;
     Q_INVOKABLE void switchAutoKeyframe();
     Q_INVOKABLE bool autoKeyframe() const;
@@ -137,6 +143,7 @@ public:
     /** @brief Temporarily set timeline cursor position (-1 to hide it)*/
     void setCursorPosition(int pos);
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
+    void clearJobsProgress();
 
 Q_SIGNALS:
     void positionChanged(int);
@@ -151,10 +158,14 @@ Q_SIGNALS:
     void removeSnap(int);
     void triggerAction(const QString &name);
     void overlayTypeChanged();
-    void seekNextKeyframe();
-    void seekPreviousKeyframe();
+    void showGridChanged();
+    void gridChanged();
     void addRemoveKeyframe();
-    void seekToKeyframe();
+    /** @brief Seek to an effect keyframe
+     *  @param ix the index of the keyframe we want to reach
+     *  @param offset if offset != 0, the ix param is ignored and we seek to previous (-1) or next(+1) keyframe
+     */
+    void seekToKeyframe(int ix, int offset);
     void clipHasAVChanged();
     void clipNameChanged();
     void clipStreamChanged();
@@ -175,6 +186,8 @@ Q_SIGNALS:
     void jobsProgressChanged();
     void addTimelineEffect(const QStringList &);
     void lastClipsChanged();
+    /** @brief Switch to another clip at the same time position that uses the same effect scene*/
+    void switchFocusClip();
 
 private:
     VideoWidget *q;
@@ -183,6 +196,7 @@ private:
     int m_zoneOut;
     bool m_hasAV;
     double m_speed;
+    bool m_showGrid{false};
     QList <int> m_audioStreams;
     QList <int> m_audioChannels;
     QString m_markerComment;

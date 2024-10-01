@@ -25,6 +25,7 @@
 #include "timelinewidget.h"
 #include "utils/clipboardproxy.hpp"
 
+#include <KQuickIconProvider>
 #include <QAction>
 #include <QActionGroup>
 #include <QFontDatabase>
@@ -34,14 +35,6 @@
 #include <QQuickItem>
 #include <QSortFilterProxyModel>
 #include <QUuid>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include "kdeclarative_version.h"
-#endif
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
-#include <KQuickIconProvider>
-#else
-#include <KDeclarative/KDeclarative>
-#endif
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
@@ -49,13 +42,7 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     : QQuickWidget(parent)
     , m_uuid(uuid)
 {
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
-#else
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupEngine(engine());
-#endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
     setClearColor(palette().window().color());
     setMouseTracking(true);
@@ -201,7 +188,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("documentId", model->uuid());
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
-    rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    rootContext()->setContextProperty("miniFontSize", QFontInfo(font()).pixelSize());
     rootContext()->setContextProperty("subtitleModel", model->getSubtitleModel().get());
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
@@ -243,11 +230,7 @@ void TimelineWidget::loadMarkerModel()
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
     Q_EMIT focusProjectMonitor();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_clickPos = event->globalPos();
-#else
     m_clickPos = event->globalPosition().toPoint();
-#endif
     QQuickWidget::mousePressEvent(event);
 }
 
@@ -269,7 +252,7 @@ void TimelineWidget::showClipMenu(int cid)
         isAudioTrack = model()->isAudioTrack(tid);
     }
     m_favCompositions->setEnabled(!isAudioTrack);
-    for (auto ac : qAsConst(effects)) {
+    for (auto ac : std::as_const(effects)) {
         const QString &id = ac->data().toString();
         if (EffectsRepository::get()->isAudioEffect(id) != isAudioTrack) {
             ac->setVisible(false);
@@ -297,7 +280,7 @@ void TimelineWidget::showHeaderMenu()
     QList<QAction *> menuActions = m_headerMenu->actions();
     QList<QAction *> audioActions;
     QStringList allowedActions = {QLatin1String("show_track_record"), QLatin1String("separate_channels"), QLatin1String("normalize_channels")};
-    for (QAction *ac : qAsConst(menuActions)) {
+    for (QAction *ac : std::as_const(menuActions)) {
         if (allowedActions.contains(ac->data().toString())) {
             audioActions << ac;
         }
@@ -306,20 +289,20 @@ void TimelineWidget::showHeaderMenu()
         // Video track
         int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
         QList<QAction *> actions = m_thumbsMenu->actions();
-        for (QAction *ac : qAsConst(actions)) {
+        for (QAction *ac : std::as_const(actions)) {
             if (ac->data().toInt() == currentThumbs) {
                 ac->setChecked(true);
                 break;
             }
         }
         m_thumbsMenu->menuAction()->setVisible(true);
-        for (auto ac : qAsConst(audioActions)) {
+        for (auto ac : std::as_const(audioActions)) {
             ac->setVisible(false);
         }
     } else {
         // Audio track
         m_thumbsMenu->menuAction()->setVisible(false);
-        for (auto ac : qAsConst(audioActions)) {
+        for (auto ac : std::as_const(audioActions)) {
             ac->setVisible(true);
             if (ac->data().toString() == QLatin1String("show_track_record")) {
                 ac->setChecked(m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);

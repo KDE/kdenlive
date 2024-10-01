@@ -30,7 +30,7 @@ TransitionsRepository::TransitionsRepository()
         pCore->displayMessage(i18n("Some of your favorite compositions are invalid and were removed: %1", invalidTransition.join(QLatin1Char(','))),
                               ErrorMessage);
         QStringList newFavorites = KdenliveSettings::favorite_transitions();
-        for (const QString &effect : qAsConst(invalidTransition)) {
+        for (const QString &effect : std::as_const(invalidTransition)) {
             newFavorites.removeAll(effect);
         }
         KdenliveSettings::setFavorite_transitions(newFavorites);
@@ -83,6 +83,9 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         } else if (type == QLatin1String("short")) {
             result.type = AssetListType::AssetType::VideoShortComposition;
         }
+        if (m_includedList.contains(result.id)) {
+            result.included = true;
+        }
         if (getSingleTrackTransitions().contains(result.id)) {
             if (type == QLatin1String("audio")) {
                 result.type = AssetListType::AssetType::AudioTransition;
@@ -131,9 +134,19 @@ QSet<QString> TransitionsRepository::getSingleTrackTransitions()
     return {QStringLiteral("slide"), QStringLiteral("dissolve"), QStringLiteral("wipe"), QStringLiteral("mix")};
 }
 
-QString TransitionsRepository::assetBlackListPath() const
+QStringList TransitionsRepository::assetIncludedPath() const
 {
-    return QStringLiteral(":data/blacklisted_transitions.txt");
+    QStringList results = {QStringLiteral(":data/included_transitions.txt")};
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+    if (dir.exists() && dir.exists(QStringLiteral("included_transitions.txt"))) {
+        results << dir.absoluteFilePath(QStringLiteral("included_transitions.txt"));
+    }
+    return results;
+}
+
+QStringList TransitionsRepository::assetExcludedPath() const
+{
+    return {QStringLiteral(":data/excluded_transitions.txt")};
 }
 
 QString TransitionsRepository::assetPreferredListPath() const
@@ -145,6 +158,7 @@ QString TransitionsRepository::assetPreferredListPath() const
 
 std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QString &transitionId) const
 {
+    qDebug() << "===== QUERYING TRANSITION: " << transitionId;
     Q_ASSERT(exists(transitionId));
     QString service_name = m_assets.at(transitionId).mltId;
     // We create the Mlt element from its name
@@ -171,7 +185,7 @@ const QString TransitionsRepository::getCompositingTransition()
     if (KdenliveSettings::gpu_accel()) {
         return QStringLiteral("movit.overlay");
     }
-    if (KdenliveSettings::preferredcomposite() == i18n("auto")) {
+    if (KdenliveSettings::preferredcomposite().isEmpty() || KdenliveSettings::preferredcomposite() == i18n("auto")) {
         // If auto, default to qtblend
         QString qtblendTransiton = QStringLiteral("qtblend");
         if (exists(qtblendTransiton)) {

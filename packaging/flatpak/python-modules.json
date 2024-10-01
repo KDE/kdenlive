@@ -5,13 +5,13 @@
             "name": "pyaaf2",
             "buildsystem": "simple",
             "build-commands": [
-                "python3 setup.py install --prefix=/app --root=/"
+                "python3 setup.py install --prefix=${FLATPAK_DEST} --root=/"
             ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://files.pythonhosted.org/packages/77/c5/f3ad278fa038c7e0de5d3a084bae8bc2a403d2223acf9e0b5a7ad4f97768/pyaaf2-1.7.1.tar.gz",
-                    "sha256": "e18e5a84bca4ea18c1b9e8384958e2f6d296195c901a448f71f830b22b89c225",
+                    "url": "https://files.pythonhosted.org/packages/c5/65/cd8c6eac8632ba817387d56f112c7a4bbea3760377ea8a8a78ea1b60ecac/pyaaf2-1.6.0.tar.gz",
+                    "sha256": "83815554dbe56aabae4cf48d02e58cd7c102733d649672832ec8a2542d3f24ad",
                     "x-checker-data": {
                         "type": "pypi",
                         "name": "pyaaf2"
@@ -24,21 +24,35 @@
             "buildsystem": "simple",
             "build-commands": [
                 "sed -e \"s|\\('-DOTIO_PYTHON_INSTALL:BOOL=ON'\\)|\\1 , '-DCMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES=/usr/include/python3.9'|\" -i setup.py",
-                "python3 setup.py install --prefix=/app --root=/"
+                "python3 setup.py install --prefix=${FLATPAK_DEST} --root=/"
             ],
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://files.pythonhosted.org/packages/6d/5f/e9e9227b475b27a2b922e059edf01aab0b1b034c490c7eb54f46fd64b3a3/OpenTimelineIO-0.15.0.tar.gz",
-                    "sha256": "bb093fb1d1a6e0f2c0ebbda6f7be0906080a63d611da5aa9b6c5d0f1f2f86916",
+                    "url": "https://files.pythonhosted.org/packages/75/1a/cafe8f9efa3b2f16b60f6712ba18181fed3876e17dc2d3baf204fd51a256/OpenTimelineIO-0.16.0.tar.gz",
+                    "sha256": "c0d615724b042f4f51f2f143130cd5847a97204f431dcfd4a711bc235a4d9411",
                     "x-checker-data": {
                         "type": "pypi",
                         "name": "OpenTimelineIO"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "name": "python3-otio-kdenlive-adapter",
+            "buildsystem": "simple",
+            "build-commands": [
+                "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"otio-kdenlive-adapter\" --no-build-isolation"
+            ],
+            "sources": [
                 {
-                    "type": "patch",
-                    "path": "0001-Support-compiling-with-GCC-13-1605.patch"
+                    "type": "file",
+                    "url": "https://files.pythonhosted.org/packages/56/81/adc84754021a436458faa037e0b85366a283550bfef54ac2bcc85e39e161/otio_kdenlive_adapter-0.0.2-py3-none-any.whl",
+                    "sha256": "71426ed646f43c55a2c7d4f755a91668b3f0a4e65322e25fd3146905b2218719",
+                    "x-checker-data": {
+                        "type": "pypi",
+                        "name": "otio-kdenlive-adapter"
+                    }
                 }
             ]
         },
@@ -70,7 +84,7 @@
             ],
             "buildsystem": "simple",
             "build-commands": [
-                "pip3 install --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=/app --root=/ \"cffi\" --no-build-isolation"
+                "pip3 install --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} --root=/ \"cffi\" --no-build-isolation"
             ],
             "sources": [
                 {

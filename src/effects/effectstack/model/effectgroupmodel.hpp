@@ -27,7 +27,7 @@ public:
     /** @brief This function plants the effect into the given service in last position
      */
     void plant(const std::weak_ptr<Mlt::Service> &service) override;
-    void plantClone(const std::weak_ptr<Mlt::Service> &service) override;
+    void plantClone(const std::weak_ptr<Mlt::Service> &service, int target = -1) override;
     /** @brief This function unplants (removes) the effect from the given service
      */
     void unplant(const std::weak_ptr<Mlt::Service> &service) override;

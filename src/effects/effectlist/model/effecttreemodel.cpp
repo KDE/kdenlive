@@ -33,7 +33,7 @@ EffectTreeModel::EffectTreeModel(QObject *parent)
 std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categoryFile, QObject *parent)
 {
     std::shared_ptr<EffectTreeModel> self(new EffectTreeModel(parent));
-    QList<QVariant> rootData{"Name", "ID", "Type", "isFav"};
+    QList<QVariant> rootData{"Name", "ID", "Type", "isFav", "Includelist"};
     self->rootItem = TreeItem::construct(rootData, self, true);
 
     QHash<QString, std::shared_ptr<TreeItem>> effectCategory; // category in which each effect should land.
@@ -53,7 +53,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             }
             QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), Qt::SkipEmptyParts);
             auto groupItem = self->rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
-            for (const QString &effect : qAsConst(list)) {
+            for (const QString &effect : std::as_const(list)) {
                 effectCategory[effect] = groupItem;
             }
         }
@@ -73,7 +73,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
     // We parse effects
     auto allEffects = EffectsRepository::get()->getNames();
     QString favCategory = QStringLiteral("kdenlive:favorites");
-    for (const auto &effect : qAsConst(allEffects)) {
+    for (const auto &effect : std::as_const(allEffects)) {
         auto targetCategory = miscCategory;
         AssetListType::AssetType type = EffectsRepository::get()->getType(effect.first);
         if (effectCategory.contains(effect.first)) {
@@ -92,13 +92,14 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         // we create the data list corresponding to this profile
         bool isFav = KdenliveSettings::favorite_effects().contains(effect.first);
         bool isPreferred = EffectsRepository::get()->isPreferred(effect.first);
+        bool includeListed = EffectsRepository::get()->isIncludedInList(effect.first);
         QList<QVariant> data;
         if (targetCategory->dataColumn(0).toString() == i18n("Deprecated")) {
             QString updatedName = effect.second + i18n(" - deprecated");
-            data = {updatedName, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred};
+            data = {updatedName, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred, includeListed};
         } else {
             // qDebug() << effect.second << effect.first << "in " << targetCategory->dataColumn(0).toString();
-            data = {effect.second, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred};
+            data = {effect.second, effect.first, QVariant::fromValue(type), isFav, targetCategory->row(), isPreferred, includeListed};
         }
         if (KdenliveSettings::favorite_effects().contains(effect.first) && effectCategory.contains(favCategory)) {
             targetCategory = effectCategory[favCategory];
@@ -182,7 +183,7 @@ void EffectTreeModel::reloadTemplates()
         QDir current_dir(dir);
         QStringList filter{QStringLiteral("*.xml")};
         QStringList fileList = current_dir.entryList(filter, QDir::Files);
-        for (const auto &file : qAsConst(fileList)) {
+        for (const auto &file : std::as_const(fileList)) {
             QString path = current_dir.absoluteFilePath(file);
             reloadEffect(path);
         }
@@ -284,9 +285,6 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-#endif
             out << doc.toString();
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
@@ -300,9 +298,6 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
         QFile file(dir.absoluteFilePath(currentName + QStringLiteral(".xml")));
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
             QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-#endif
             out << doc.toString();
         } else {
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));

@@ -36,7 +36,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/RenameDialog>
 #include <KImageCache>
 #include <KLocalizedString>
@@ -585,7 +584,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     if (producer->property_exists("_reloadName")) {
         m_name.clear();
     }
-    bool buildProxy = producer->property_exists("_replaceproxy") && !pCore->currentDoc()->loading;
+    bool rebuildProxy = producer->property_exists("_replaceproxy") && !pCore->currentDoc()->loading;
+    bool waitForTranscode = producer->property_exists("_wait_for_transcode");
     bool replacingProducer = m_masterProducer != nullptr;
     updateProducer(producer);
     producer.reset();
@@ -645,9 +645,19 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         // Generate video thumb
         ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
     }
-    if (KdenliveSettings::audiothumbnails() &&
+    if (!waitForTranscode && KdenliveSettings::audiothumbnails() &&
         (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
         AudioLevelsTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), this, false);
+    }
+    if (KdenliveSettings::keep_original_frame_size() && !m_usesProxy && m_clipType != ClipType::Timeline && !replacingProducer) {
+        const QSize producerSize = getFrameSize();
+        const QSize refSize = pCore->getCurrentFrameSize();
+        if (producerSize != refSize) {
+            // Built-in effects are required for this feature
+            KdenliveSettings::setEnableBuiltInEffects(true);
+            // Add a transform effect to keep original size
+            m_effectStack->setBuildInSize(producerSize);
+        }
     }
     if (pCore->bin()) {
         pCore->bin()->reloadMonitorIfActive(clipId());
@@ -675,9 +685,17 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
     }
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
+    if (!waitForTranscode) {
+        checkProxy(rebuildProxy);
+    }
+    return true;
+}
+
+void ProjectClip::checkProxy(bool rebuildProxy)
+{
     bool generateProxy = false;
     std::shared_ptr<ProjectClip> clipToProxy = nullptr;
-    if (buildProxy ||
+    if (rebuildProxy ||
         (!m_usesProxy && pCore->currentDoc()->useProxy() && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1)) {
         // automatic proxy generation enabled
         if (m_clipType == ClipType::Image && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() == 1) {
@@ -685,9 +703,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
                 getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
                 clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
-        } else if ((buildProxy || pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) &&
+        } else if ((rebuildProxy || pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) &&
                    (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
-            if (m_hasVideo && (buildProxy || getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize())) {
+            if (m_hasVideo && (rebuildProxy || getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize())) {
                 clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
         } else if (m_clipType == ClipType::Playlist && pCore->getCurrentFrameDisplaySize().width() >= KdenliveSettings::proxyminsize() &&
@@ -706,7 +724,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         QMetaObject::invokeMethod(pCore->currentDoc(), "slotProxyCurrentItem", Q_ARG(bool, true), Q_ARG(QList<std::shared_ptr<ProjectClip>>, {clipToProxy}),
                                   Q_ARG(bool, false));
     }
-    return true;
 }
 
 // static
@@ -993,7 +1010,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 m_audioProducers[trackId]->set("set.test_image", 1);
                 if (m_streamEffects.contains(audioStream)) {
                     QStringList effects = m_streamEffects.value(audioStream);
-                    for (const QString &effect : qAsConst(effects)) {
+                    for (const QString &effect : std::as_const(effects)) {
                         Mlt::Filter filt(m_audioProducers[trackId]->get_profile(), effect.toUtf8().constData());
                         if (filt.is_valid()) {
                             // Add stream effect markup
@@ -1168,6 +1185,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     warpProducer->set("set.test_audio", 1);
     warpProducer->set("set.test_image", 1);
     warpProducer->set("kdenlive:id", binId().toUtf8().constData());
+    warpProducer->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
+
     if (state == PlaylistState::AudioOnly) {
         warpProducer->set("set.test_audio", 0);
     }
@@ -1242,7 +1261,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 } else {
                     m_timewarpProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
                 }
-                m_effectStack->loadService(m_timewarpProducers[clipId]);
+                m_effectStack->loadService(m_timewarpProducers.at(clipId));
+                return {master, true};
+            }
+            if (m_clipType == ClipType::Timeline) {
+                // Timeline clips always use the master instance
                 return {master, true};
             }
             if (state == PlaylistState::AudioOnly) {
@@ -1260,7 +1283,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     return {prod, false};
                 }
                 m_audioProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
-                m_effectStack->loadService(m_audioProducers[tid]);
+                m_effectStack->loadService(m_audioProducers.at(tid));
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly) {
@@ -1278,7 +1301,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                         return {prod, false};
                     }
                     m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
-                    m_effectStack->loadService(m_videoProducers[tid]);
+                    m_effectStack->loadService(m_videoProducers.at(tid));
                 } else {
                     // Ensure clip out = length - 1 so that effects work correctly
                     if (out != master->parent().get_length() - 1) {
@@ -2028,7 +2051,7 @@ const QVariant ProjectClip::getData(DataType type) const
         if (m_properties && m_properties->get_int("meta.media.variable_frame_rate")) {
             return QVariant("emblem-warning");
         }
-        return m_effectStack && m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
+        return m_effectStack && m_effectStack->hasEffects() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
     default:
         return AbstractProjectItem::getData(type);
     }
@@ -2576,17 +2599,18 @@ void ProjectClip::replaceInTimeline()
 
 void ProjectClip::updateTimelineClips(const QVector<int> &roles)
 {
-    const QUuid uuid = pCore->currentTimelineId();
-    if (m_registeredClipsByUuid.contains(uuid)) {
-        QList<int> instances = m_registeredClipsByUuid.value(uuid);
+    QMapIterator<QUuid, QList<int>> i(m_registeredClipsByUuid);
+    while (i.hasNext()) {
+        i.next();
+        QList<int> instances = i.value();
         if (!instances.isEmpty()) {
-            auto timeline = pCore->currentDoc()->getTimeline(uuid);
+            auto timeline = pCore->currentDoc()->getTimeline(i.key());
             if (!timeline) {
                 if (pCore->projectItemModel()->closing) {
                     return;
                 }
                 qDebug() << "Error while reloading clip: timeline unavailable";
-                Q_ASSERT(false);
+                continue;
             }
             for (auto &cid : instances) {
                 timeline->requestClipUpdate(cid, roles);
@@ -2778,7 +2802,7 @@ void ProjectClip::requestAddStreamEffect(int streamIndex, const QString effectNa
     QStringList readEffects = m_streamEffects.value(streamIndex);
     QString oldEffect;
     // Remove effect if present (parameters might have changed
-    for (const QString &effect : qAsConst(readEffects)) {
+    for (const QString &effect : std::as_const(readEffects)) {
         if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
             oldEffect = effect;
             break;
@@ -2808,7 +2832,7 @@ void ProjectClip::requestRemoveStreamEffect(int streamIndex, const QString effec
     QStringList readEffects = m_streamEffects.value(streamIndex);
     QString oldEffect = effectName;
     // Remove effect if present (parameters might have changed
-    for (const QString &effect : qAsConst(readEffects)) {
+    for (const QString &effect : std::as_const(readEffects)) {
         if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
             oldEffect = effect;
             break;
@@ -2836,7 +2860,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
         // effect has parameters
         QStringList params = effectName.split(QLatin1Char(' '));
         addedEffectName = params.takeFirst();
-        for (const QString &p : qAsConst(params)) {
+        for (const QString &p : std::as_const(params)) {
             QStringList paramValue = p.split(QLatin1Char('='));
             if (paramValue.size() == 2) {
                 effectParams.insert(paramValue.at(0), paramValue.at(1));
@@ -2849,7 +2873,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
     if (m_streamEffects.contains(streamIndex)) {
         QStringList readEffects = m_streamEffects.value(streamIndex);
         // Remove effect if present (parameters might have changed
-        for (const QString &effect : qAsConst(readEffects)) {
+        for (const QString &effect : std::as_const(readEffects)) {
             if (effect == addedEffectName || effect.startsWith(addedEffectName + QStringLiteral(" "))) {
                 continue;
             }
@@ -2898,7 +2922,7 @@ void ProjectClip::removeAudioStreamEffect(int streamIndex, QString effectName)
     if (m_streamEffects.contains(streamIndex)) {
         QStringList readEffects = m_streamEffects.value(streamIndex);
         // Remove effect if present (parameters might have changed
-        for (const QString &effect : qAsConst(readEffects)) {
+        for (const QString &effect : std::as_const(readEffects)) {
             if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
                 continue;
             }
@@ -2968,8 +2992,12 @@ void ProjectClip::updateTimelineOnReload()
 
 void ProjectClip::updateJobProgress()
 {
-    if (auto ptr = m_model.lock()) {
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(m_binId, AbstractProjectItem::JobProgress);
+    uint progress = pCore->taskManager.getJobProgressForClip(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()));
+    if (progress != m_jobsProgress) {
+        m_jobsProgress = progress;
+        if (auto ptr = m_model.lock()) {
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(m_binId, AbstractProjectItem::JobProgress);
+        }
     }
 }
 
@@ -3063,3 +3091,29 @@ const QString ProjectClip::getSequenceResource()
 }
 
 void ProjectClip::removeSequenceWarpResources() {}
+
+std::pair<int, int> ProjectClip::fpsInfo() const
+{
+    if (m_clipStatus == FileStatus::StatusReady) {
+        std::vector<int> allowedfps = {0, 1, 2, 125, 1001};
+        int fps_num = m_masterProducer->get_int("meta.media.frame_rate_num");
+        int fps_den = m_masterProducer->get_int("meta.media.frame_rate_den");
+        if (std::find(allowedfps.begin(), allowedfps.end(), fps_den) == allowedfps.end()) {
+            // This is not an allowed fps_den, adjust
+            double target_fps = double(fps_num) / fps_den;
+            bool adjusted = false;
+            std::pair<int, int> fpsInfo = KdenliveDoc::getFpsFraction(target_fps, &adjusted);
+            fps_num = fpsInfo.first;
+            fps_den = fpsInfo.second;
+        }
+        if (fps_den > 0) {
+            return {fps_num, fps_den};
+        }
+    }
+    return pCore->getProjectFpsInfo();
+}
+
+const QString ProjectClip::getControlUuid() const
+{
+    return m_controlUuid.toString();
+}

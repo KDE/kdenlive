@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 #include <memory>
@@ -82,9 +83,10 @@ protected:
     EffectStackView *m_effectStackWidget;
 
 private:
-    QToolButton *m_switchBuiltStack;
-    QAction *m_applyEffectGroups;
-    QToolButton *m_saveEffectStack;
+    QAction *m_switchBuiltStack;
+    QAction *m_compositionHelpLink;
+    QMenu *m_applyEffectGroups;
+    QAction *m_saveEffectStack;
     QComboBox *m_switchCompoButton;
     QAction *m_titleAction;
     QAction *m_switchAction;
@@ -93,6 +95,7 @@ private:
     KDualAction *m_timelineButton;
     QScrollArea *m_sc;
     KMessageWidget *m_infoMessage;
+    QTimer m_dragScrollTimer;
 
 private Q_SLOTS:
     void processSplitEffect(bool enable);
@@ -102,6 +105,8 @@ private Q_SLOTS:
     void enableStack(bool enable);
     /** Scroll effects view */
     void scrollTo(QRect rect);
+    /** Check if view needs to be scrolled on drag move */
+    void checkDragScroll();
 
 Q_SIGNALS:
     void doSplitEffect(bool);

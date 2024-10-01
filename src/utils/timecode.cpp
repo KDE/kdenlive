@@ -143,27 +143,13 @@ int Timecode::getFrameCount(const QString &duration) const
     int offset = 0;
     if (duration.at(0) == '-') {
         offset = 1;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        hours = duration.midRef(1, 2).toInt();
-#else
         hours = QStringView(duration).mid(1, 2).toInt();
-#endif
     } else {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        hours = duration.leftRef(2).toInt();
-#else
         hours = QStringView(duration).left(2).toInt();
-#endif
     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    minutes = duration.midRef(3 + offset, 2).toInt();
-    seconds = duration.midRef(6 + offset, 2).toInt();
-    frames = duration.rightRef(duration.length() - 9 - offset).toInt();
-#else
     minutes = QStringView(duration).mid(3 + offset, 2).toInt();
     seconds = QStringView(duration).mid(6 + offset, 2).toInt();
     frames = QStringView(duration).right(duration.length() - 9 - offset).toInt();
-#endif
     if (m_dropFrameTimecode) {
         // CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
         // Code by David Heidelberger, adapted from Andrew Duncan

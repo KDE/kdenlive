@@ -6,16 +6,13 @@
 
 #pragma once
 
-#ifdef NODBUS
-#include <QLocalSocket>
-#else
-#include <QDBusInterface>
-#endif
 #include <QDateTime>
 #include <QEventLoop>
 #include <QFile>
+#include <QLocalSocket>
 #include <QObject>
 #include <QProcess>
+#include <QTimer>
 // Testing
 #include <QTextStream>
 
@@ -25,7 +22,7 @@ class RenderJob : public QObject
 
 public:
     RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid = -1, int in = -1, int out = -1,
-              const QString &subtitleFile = QString(), QObject *parent = nullptr);
+              const QString &subtitleFile = QString(), bool debugMode = false, QObject *parent = nullptr);
     ~RenderJob() override;
 
 public Q_SLOTS:
@@ -36,7 +33,7 @@ private Q_SLOTS:
     void receivedStderr();
     void slotAbort();
     void slotAbort(const QString &url);
-    void slotCheckProcess(QProcess::ProcessState state);
+    void slotCheckProcess(int /*exitCode*/, QProcess::ExitStatus exitStatus);
     void slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exitStatus);
     void receivedSubtitleProgress();
 
@@ -45,12 +42,8 @@ private:
     QString m_dest;
     int m_progress;
     QString m_prog;
-#ifdef NODBUS
     QLocalSocket* m_kdenlivesocket;
-#else
-    QDBusInterface *m_jobUiserver;
-    QDBusInterface *m_kdenliveinterface;
-#endif
+    QTimer m_connectTimer;
     /** @brief Used to create a temporary file for logging. */
     QFile m_logfile;
     bool m_erase;
@@ -58,27 +51,24 @@ private:
     int m_frame;
     int m_framein;
     int m_frameout;
-    /** @brief The process id of the Kdenlive instance, used to get the dbus service. */
+    /** @brief The process id of the Kdenlive instance, used to create the local socket instance. */
     int m_pid;
     bool m_dualpass;
     QString m_subtitleFile;
+    bool m_debugMode;
     QString m_temporaryRenderFile;
     QProcess *m_renderProcess;
     QProcess *m_subsProcess;
     QEventLoop m_looper;
     QString m_errorMessage;
-    QList<QVariant> m_dbusargs;
     QDateTime m_startTime;
     QStringList m_args;
     /** @brief Used to write to the log file. */
     QTextStream m_logstream;
-#ifdef NODBUS
+    QString m_outputData;
     void fromServer();
-#else
-    void initKdenliveDbusInterface();
-#endif
     void sendFinish(int status, const QString &error);
-    void updateProgress(int speed = -1);
+    void updateProgress();
     void sendProgress();
 
 Q_SIGNALS:

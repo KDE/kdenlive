@@ -32,11 +32,15 @@ public:
      */
     virtual void reloadFilterOnFavorite() = 0;
 
-    QVariantList getCategories();
+    /** @brief IncludeList setting changed, refresh repositories
+     */
+    void updateIncludeList();
+
+    QVariantList getCategories() const;
     Q_INVOKABLE QModelIndex getNextChild(const QModelIndex &current);
     Q_INVOKABLE QModelIndex getPreviousChild(const QModelIndex &current);
     Q_INVOKABLE QModelIndex firstVisibleItem(const QModelIndex &current);
-    Q_INVOKABLE QModelIndex getCategory(int catRow);
+    Q_INVOKABLE QModelIndex getCategory(int catRow) const;
     Q_INVOKABLE QModelIndex getModelIndex(const QModelIndex &current);
     Q_INVOKABLE QModelIndex getProxyIndex(const QModelIndex &current);
 
@@ -56,5 +60,6 @@ protected:
     virtual bool applyAll(std::shared_ptr<TreeItem> item) const;
 
     bool m_name_enabled{false};
+    bool m_includeListEnabled{false};
     QString m_name_value;
 };

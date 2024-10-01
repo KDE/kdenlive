@@ -5,11 +5,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "kdenlivesettingsdialog.h"
-#include "filefilter.h"
 #include "core.h"
 #include "dialogs/customcamcorderdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
+#include "filefilter.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -33,15 +33,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KArchiveDirectory>
 #include <KIO/DesktopExecParser>
 #include <KIO/FileCopyJob>
-#include <KIO/OpenFileManagerWindowJob>
-#include <kio/directorysizejob.h>
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KIO/JobUiDelegateFactory>
-#else
-#include <KIO/JobUiDelegate>
-#endif
-#include "utils/KMessageBox_KdenliveCompat.h"
+#include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
 #include <KLineEdit>
 #include <KMessageBox>
@@ -50,6 +43,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KTar>
 #include <KUrlRequesterDialog>
 #include <KZip>
+#include <kio/directorysizejob.h>
 
 #include <QAction>
 #include <QButtonGroup>
@@ -66,7 +60,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <cstdio>
 #include <cstdlib>
 #include <fcntl.h>
-#include <unistd.h>
 
 #ifdef USE_JOGSHUTTLE
 #include "jogshuttle/jogaction.h"
@@ -367,13 +360,15 @@ void KdenliveSettingsDialog::initEnviromentPage()
     // Script rendering files folder
     m_configEnv.videofolderurl->setMode(KFile::Directory);
     m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
-    m_configEnv.videofolderurl->setEnabled(KdenliveSettings::videotodefaultfolder() == 2);
+    m_configEnv.videofolderurl->setEnabled(KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToCustomFolder);
     m_configEnv.videofolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-    m_configEnv.kcfg_videotodefaultfolder->setItemText(0, i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
+    m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToVideoFolder,
+                                                       i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
     if (KdenliveSettings::customprojectfolder()) {
-        m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
+                                                           i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
     } else {
-        m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use active project folder"));
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
     }
     connect(m_configEnv.kcfg_videotodefaultfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotEnableVideoFolder);
 
@@ -458,7 +453,11 @@ void KdenliveSettingsDialog::initJogShuttlePage()
     QWidget *p6 = new QWidget;
     m_configShuttle.setupUi(p6);
 #ifdef USE_JOGSHUTTLE
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::checkStateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
+#else
     connect(m_configShuttle.kcfg_enableshuttle, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotCheckShuttle);
+#endif
     connect(m_configShuttle.shuttledevicelist, SIGNAL(activated(int)), this, SLOT(slotUpdateShuttleDevice(int)));
     connect(m_configShuttle.toolBtnReload, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotReloadShuttleDevices);
 
@@ -492,7 +491,9 @@ void KdenliveSettingsDialog::initJogShuttlePage()
 #endif /* USE_JOGSHUTTLE */
     m_pageJog = addPage(p6, i18n("JogShuttle"), QStringLiteral("dialog-input-devices"));
 #if defined(Q_OS_WIN)
-    m_configShuttle.shuttledisabled->setText(i18n("For device configuration see <a href=\"https://docs.kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our documentation</a>."));
+    m_configShuttle.shuttledisabled->setText(
+        i18n("For device configuration see <a href=\"https://docs.kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
+             "documentation</a>."));
     connect(m_configShuttle.shuttledisabled, &QLabel::linkActivated, this, &KdenliveSettingsDialog::openBrowserUrl);
 #endif
 }
@@ -501,11 +502,7 @@ void KdenliveSettingsDialog::openBrowserUrl(const QString &url)
 {
     qDebug() << "=== LINK CLICKED: " << url;
     auto *job = new KIO::OpenUrlJob(QUrl(url));
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
     job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#else
-    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-#endif
     // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
     // exist in both classes
     job->start();
@@ -524,7 +521,11 @@ void KdenliveSettingsDialog::initTranscodePage()
     connect(m_configTranscode.profile_description, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_extension, &QLineEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
     connect(m_configTranscode.profile_parameters, &QPlainTextEdit::textChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_configTranscode.profile_audioonly, &QCheckBox::checkStateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+#else
     connect(m_configTranscode.profile_audioonly, &QCheckBox::stateChanged, this, &KdenliveSettingsDialog::slotEnableTranscodeUpdate);
+#endif
 
     connect(m_configTranscode.button_update, &QAbstractButton::pressed, this, &KdenliveSettingsDialog::slotUpdateTranscodingProfile);
 
@@ -658,7 +659,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     // action_names, as the sorting may depend on the user-language.
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
-    for (const QString &action_id : qAsConst(actions_map)) {
+    for (const QString &action_id : std::as_const(actions_map)) {
         // This loop find out at what index is the string that would map to the action_id.
         for (int i = 0; i < action_names.size(); ++i) {
             if (mappable_actions[action_names.at(i)] == action_id) {
@@ -669,7 +670,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
     }
 
     int i = 0;
-    for (QComboBox *button : qAsConst(m_shuttle_buttons)) {
+    for (QComboBox *button : std::as_const(m_shuttle_buttons)) {
         button->addItems(action_names);
         connect(button, SIGNAL(activated(int)), this, SLOT(slotShuttleModified()));
         ++i;
@@ -702,7 +703,7 @@ void KdenliveSettingsDialog::slotEnableLibraryFolder()
 
 void KdenliveSettingsDialog::slotEnableVideoFolder(int ix)
 {
-    m_configEnv.videofolderurl->setEnabled(ix == 2);
+    m_configEnv.videofolderurl->setEnabled(ix == KdenliveDoc::SaveToCustomFolder);
 }
 
 void KdenliveSettingsDialog::initDevices()
@@ -982,7 +983,7 @@ void KdenliveSettingsDialog::updateWidgets()
     std::sort(action_names.begin(), action_names.end());
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
-    for (const QString &action_id : qAsConst(actions_map)) {
+    for (const QString &action_id : std::as_const(actions_map)) {
         // This loop find out at what index is the string that would map to the action_id.
         for (int i = 0; i < action_names.size(); ++i) {
             if (m_mappable_actions[action_names[i]] == action_id) {
@@ -992,7 +993,7 @@ void KdenliveSettingsDialog::updateWidgets()
         }
     }
     int i = 0;
-    for (QComboBox *button : qAsConst(m_shuttle_buttons)) {
+    for (QComboBox *button : std::as_const(m_shuttle_buttons)) {
         ++i;
         if (i < actions_map.size()) {
             button->setCurrentIndex(action_pos[actions_map[i]]);
@@ -1073,17 +1074,19 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configProject.projecturl->url().toLocalFile() != KdenliveSettings::defaultprojectfolder()) {
         KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
         if (!KdenliveSettings::sameprojectfolder()) {
-            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
+                                                               i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
         }
     }
 
     if (m_configProject.kcfg_customprojectfolder->isChecked() != KdenliveSettings::customprojectfolder()) {
         if (KdenliveSettings::customprojectfolder()) {
-            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use active project folder"));
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
         } else {
-            m_configEnv.kcfg_videotodefaultfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+            m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
+                                                               i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
         }
     }
@@ -1243,6 +1246,15 @@ void KdenliveSettingsDialog::updateSettings()
         fullReset = true;
     }
 
+    if (m_configColors.kcfg_monitorGridH->value() != KdenliveSettings::monitorGridH()) {
+        KdenliveSettings::setMonitorGridH(m_configColors.kcfg_monitorGridH->value());
+        Q_EMIT updateMonitorGrid();
+    }
+    if (m_configColors.kcfg_monitorGridV->value() != KdenliveSettings::monitorGridV()) {
+        KdenliveSettings::setMonitorGridV(m_configColors.kcfg_monitorGridV->value());
+        Q_EMIT updateMonitorGrid();
+    }
+
     if (m_configColors.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configColors.kcfg_window_background->color());
         Q_EMIT updateMonitorBg();
@@ -1283,7 +1295,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     QStringList actions;
     actions << QStringLiteral("monitor_pause"); // the Job rest position action.
-    for (QComboBox *button : qAsConst(m_shuttle_buttons)) {
+    for (QComboBox *button : std::as_const(m_shuttle_buttons)) {
         actions << m_mappable_actions[button->currentText()];
     }
     QString maps = JogShuttleConfig::actionMap(actions);
@@ -1535,7 +1547,7 @@ void KdenliveSettingsDialog::slotShuttleModified()
 #ifdef USE_JOGSHUTTLE
     QStringList actions;
     actions << QStringLiteral("monitor_pause"); // the Job rest position action.
-    for (QComboBox *button : qAsConst(m_shuttle_buttons)) {
+    for (QComboBox *button : std::as_const(m_shuttle_buttons)) {
         actions << m_mappable_actions[button->currentText()];
     }
     QString maps = JogShuttleConfig::actionMap(actions);
@@ -1841,7 +1853,11 @@ void KdenliveSettingsDialog::initSpeechPage()
     // Python setup
     m_configEnv.pythonSetupMessage->hide();
     connect(m_sttWhisper, &SpeechToText::gotPythonSize, m_configEnv.label_python_size, &QLabel::setText);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
     connect(m_configEnv.kcfg_usePythonVenv, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
         if (m_sttWhisper->installInProcess()) {
             return;
         }
@@ -1919,9 +1935,13 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
     });
     connect(m_sttWhisper, &SpeechToText::scriptGpuCheckFinished, [this]() {
-        int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
-        if (ix > -1) {
-            m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+        if (!KdenliveSettings::whisperDevice().isEmpty()) {
+            int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
+            if (ix > -1) {
+                m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+            }
+        } else if (m_configSpeech.combo_wr_device->count() > 0) {
+            m_configSpeech.combo_wr_device->setCurrentIndex(0);
         }
     });
     connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() { m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {}); });
@@ -1953,7 +1973,11 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_configSpeech.speech_info->setWordWrap(true);
     connect(m_configSpeech.check_config, &QPushButton::clicked, this, &KdenliveSettingsDialog::slotCheckSttConfig);
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_configSpeech.custom_vosk_folder, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+#else
     connect(m_configSpeech.custom_vosk_folder, &QCheckBox::stateChanged, this, [this](int state) {
+#endif
         m_configSpeech.vosk_folder->setEnabled(state != Qt::Unchecked);
         if (state == Qt::Unchecked) {
             // Clear custom folder

@@ -19,7 +19,6 @@
 #include "titler/unicodedialog.h"
 #include "ui_titlewidget_ui.h"
 
-#include <knewstuff_version.h>
 #include <KNSWidgets/Action>
 #include <QMap>
 #include <QModelIndex>
@@ -75,7 +74,7 @@ public:
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
      * @return list of the image files */
-    static QStringList extractImageList(QString &xml, const QString &root);
+    static QStringList extractImageList(const QString &xml, const QString &root);
     /** @brief Checks for the images referenced by a title clip, and modifies the urls to ensure they are absolute
      * @param xml XML data representing the title
      * @return list of the image files / fonts */
@@ -193,16 +192,16 @@ private:
     void updateTextOriginY();
 
     /** @brief Enables the toolbars suiting to toolType. */
-    void enableToolbars(TITLETOOL toolType);
+    void enableToolbars(GraphicsSceneRectMove::TITLETOOL toolType);
 
     /** @brief Shows the toolbars suiting to toolType. */
-    void showToolbars(TITLETOOL toolType);
+    void showToolbars(GraphicsSceneRectMove::TITLETOOL toolType);
 
     /** @brief Set up the tools suiting referenceItem */
     void prepareTools(QGraphicsItem *referenceItem);
 
     /** @brief Checks a tool button. */
-    void checkButton(TITLETOOL toolType);
+    void checkButton(GraphicsSceneRectMove::TITLETOOL toolType);
 
     void adjustFrameSize();
 

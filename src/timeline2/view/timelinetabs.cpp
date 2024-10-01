@@ -23,6 +23,7 @@
 #include <KXMLGUIFactory>
 #include <QInputDialog>
 #include <QMenu>
+#include <QPainter>
 #include <QQmlContext>
 
 TimelineContainer::TimelineContainer(QWidget *parent)
@@ -54,6 +55,7 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     connect(this, &TimelineTabs::tabCloseRequested, this, &TimelineTabs::closeTimelineByIndex);
     connect(tabBar(), &QTabBar::tabBarDoubleClicked, this, &TimelineTabs::onTabBarDoubleClicked);
+    connect(pCore.get(), &Core::saveTimelinePreview, this, &TimelineTabs::saveTimelinePreview);
 }
 
 TimelineTabs::~TimelineTabs()
@@ -178,7 +180,7 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
             pCore->bin()->sequenceActivated();
         }
         // Wait a few milliseconds to allow for the qml view to display
-        QTimer::singleShot(200, pCore->monitorManager()->projectMonitor(), &Monitor::updateTimelineProducer);
+        pCore->monitorManager()->projectMonitor()->refreshMonitorTimer.start();
     } else {
         connectTimeline(m_activeTimeline);
     }
@@ -414,6 +416,10 @@ void TimelineTabs::slotPreviousSequence()
 
 void TimelineTabs::onTabBarDoubleClicked(int index)
 {
+    if (index == -1) {
+        // No action when double clicking in empty space
+        return;
+    }
     const QString currentTabName = KLocalizedString::removeAcceleratorMarker(tabBar()->tabText(index));
     bool ok = false;
     const QString newName = QInputDialog::getText(this, i18n("Rename Sequence"), i18n("Rename Sequence"), QLineEdit::Normal, currentTabName, &ok);
@@ -427,4 +433,16 @@ void TimelineTabs::onTabBarDoubleClicked(int index)
             }
         }
     }
+}
+
+void TimelineTabs::saveTimelinePreview(const QString &path)
+{
+    int imageWidth = 600;
+    int imageHeight = size().height() * imageWidth / size().width();
+    QPixmap bitmap(size());
+    QPainter painter(&bitmap);
+    render(&painter);
+    painter.end();
+    QPixmap scaled = bitmap.scaled(imageWidth, imageHeight);
+    scaled.save(path);
 }

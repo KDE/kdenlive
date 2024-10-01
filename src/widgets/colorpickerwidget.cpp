@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KLocalizedString>
 #include <QApplication>
+#ifndef NODBUS
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QDBusMetaType>
@@ -17,6 +18,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QDBusPendingCall>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
+#endif
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QMouseEvent>
@@ -31,6 +33,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <fixx11h.h>
 #endif
 
+#ifndef NODBUS
 QDBusArgument &operator<<(QDBusArgument &arg, const QColor &color)
 {
     arg.beginStructure();
@@ -51,6 +54,7 @@ const QDBusArgument &operator>>(const QDBusArgument &arg, QColor &color)
 
     return arg;
 }
+#endif
 
 MyFrame::MyFrame(QWidget *parent)
     : QFrame(parent)
@@ -108,8 +112,10 @@ ColorPickerWidget::ColorPickerWidget(QWidget *parent)
         setFocusPolicy(Qt::StrongFocus);
         setMouseTracking(true);
     } else {
+#ifndef NODBUS
         qDBusRegisterMetaType<QColor>();
         connect(button, &QAbstractButton::clicked, this, &ColorPickerWidget::grabColorDBus);
+#endif
     }
 
     layout->addWidget(button);
@@ -200,11 +206,7 @@ void ColorPickerWidget::mousePressEvent(QMouseEvent *event)
     }
 
     if (m_filterActive) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_clickPoint = event->globalPos();
-#else
         m_clickPoint = event->globalPosition().toPoint();
-#endif
         m_grabRect = QRect(m_clickPoint, QSize(1, 1));
         m_grabRectFrame->setGeometry(m_grabRect);
         m_grabRectFrame->show();
@@ -215,13 +217,8 @@ void ColorPickerWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (m_filterActive) {
         closeEventFilter();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_grabRect.setWidth(event->globalX() - m_grabRect.x());
-        m_grabRect.setHeight(event->globalY() - m_grabRect.y());
-#else
         m_grabRect.setWidth(event->globalPosition().x() - m_grabRect.x());
         m_grabRect.setHeight(event->globalPosition().y() - m_grabRect.y());
-#endif
         m_grabRect = m_grabRect.normalized();
         m_clickPoint = QPoint();
 
@@ -243,13 +240,8 @@ void ColorPickerWidget::mouseMoveEvent(QMouseEvent *event)
     m_mouseColor = grabColor(QCursor::pos(), true);
     update();
     if (m_filterActive && !m_clickPoint.isNull()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_grabRect.setWidth(event->globalX() - m_grabRect.x());
-        m_grabRect.setHeight(event->globalY() - m_grabRect.y());
-#else
         m_grabRect.setWidth(event->globalPosition().x() - m_grabRect.x());
         m_grabRect.setHeight(event->globalPosition().y() - m_grabRect.y());
-#endif
         m_grabRectFrame->setGeometry(m_grabRect.normalized());
     }
 }
@@ -330,6 +322,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
 #endif
 }
 
+#ifndef NODBUS
 void ColorPickerWidget::grabColorDBus()
 {
     QDBusMessage message = QDBusMessage::createMethodCall(QLatin1String("org.freedesktop.portal.Desktop"), QLatin1String("/org/freedesktop/portal/desktop"),
@@ -364,3 +357,4 @@ void ColorPickerWidget::gotColorResponse(uint response, const QVariantMap &resul
         qWarning() << "Failed to take screenshot" << response << results;
     }
 }
+#endif

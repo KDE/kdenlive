@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QWidget>
 
 class DragValue;
+class QLabel;
 
 /** @class DoubleWidget
     @brief Widget to choose a double parameter (for a effect) with the help of a slider and a spinbox.
@@ -30,7 +31,7 @@ public:
      * @param suffix (optional) Suffix to display in spinbox
      * @param parent (optional) Parent Widget */
     explicit DoubleWidget(const QString &name, double value, double min, double max, double factor, double defaultValue, const QString &comment, int id,
-                          const QString &suffix = QString(), int decimals = 0, bool oddOnly = false, QWidget *parent = nullptr);
+                          const QString &suffix = QString(), int decimals = 0, bool oddOnly = false, bool compact = false, QWidget *parent = nullptr);
     ~DoubleWidget() override;
 
     /** @brief Gets the parameter's value. */
@@ -43,6 +44,8 @@ public:
     bool hasEditFocus() const;
     /** @brief Define dragValue object name */
     void setDragObjectName(const QString &name);
+    /** @brief Create the parameter's label widget */
+    QLabel *createLabel();
 
 public Q_SLOTS:
     /** @brief Sets the value to @param value. */

@@ -29,7 +29,6 @@ set(KdenliveTest_SOURCES
     snaptest.cpp
     spacertest.cpp
     subtitlestest.cpp
-    sysinfotest.cpp
     timelinepreviewtest.cpp
     timewarptest.cpp
     titlertest.cpp

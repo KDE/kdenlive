@@ -102,12 +102,8 @@ ecm_qt_declare_logging_category(kdenlive_SRCS
     EXPORT KDENLIVE
 )
 
-if(NOT NODBUS)
-    if(USE_VERSIONLESS_TARGETS)
-        qt_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
-    else()
-        qt5_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
-    endif()
+if(USE_DBUS)
+    qt_add_dbus_adaptor(kdenlive_SRCS org.kdenlive.MainWindow.xml mainwindow.h MainWindow)
 endif()
 
 ## UI's
@@ -115,20 +111,12 @@ file(GLOB kdenlive_UIS "ui/*.ui")
 ki18n_wrap_ui(kdenlive_UIS ${kdenlive_UIS})
 
 ## MOC
-if(USE_VERSIONLESS_TARGETS)
-    qt_wrap_cpp(kdenlive_MOC definitions.h)
-else()
-    qt5_wrap_cpp(kdenlive_MOC definitions.h)
-endif()
+qt_wrap_cpp(kdenlive_MOC definitions.h)
 set_property(SOURCE definitions.h PROPERTY SKIP_AUTOMOC ON)
 
 add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} ${kdenlive_MOC} lib/localeHandling.cpp lib/localeHandling.h)
 
-if(USE_VERSIONLESS_TARGETS)
-    qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
-else()
-    qt5_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
-endif()
+qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
 
 ## Icon for Windows and OSX
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
@@ -166,6 +154,7 @@ target_link_libraries(kdenliveLib
     KF${KF_MAJOR}::Codecs
     KF${KF_MAJOR}::KIOFileWidgets
     KF${KF_MAJOR}::KIOWidgets
+    KF${KF_MAJOR}::NewStuffWidgets
     KF${KF_MAJOR}::NotifyConfig
     KF${KF_MAJOR}::XmlGui
     KF${KF_MAJOR}::GuiAddons
@@ -182,49 +171,25 @@ target_link_libraries(kdenliveLib
     ${MLTPP_LIBRARIES}
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
-    kiss_fft)
+    kiss_fft
+    )
 
-if(KF${KF_MAJOR}NewStuff_VERSION VERSION_LESS "5.90")
-    target_link_libraries(kdenliveLib
-        KF${KF_MAJOR}::NewStuff)
-else()
-    target_link_libraries(kdenliveLib
-        KF${KF_MAJOR}::NewStuffWidgets)
-endif()
+target_link_libraries(kdenliveLib
+    Qt${QT_MAJOR_VERSION}::Svg
+    Qt${QT_MAJOR_VERSION}::Quick
+    Qt${QT_MAJOR_VERSION}::QuickControls2
+    Qt${QT_MAJOR_VERSION}::QuickWidgets
+    Qt${QT_MAJOR_VERSION}::Concurrent
+    Qt${QT_MAJOR_VERSION}::Multimedia
+    Qt${QT_MAJOR_VERSION}::NetworkAuth
+    Qt${QT_MAJOR_VERSION}::SvgWidgets
+)
 
-if (KF_MAJOR LESS "6")
-    target_link_libraries(kdenliveLib
-        KF${KF_MAJOR}::Declarative)
-endif()
-
-if(USE_VERSIONLESS_TARGETS)
-    target_link_libraries(kdenliveLib
-        Qt::Svg
-        Qt::Quick
-        Qt::QuickControls2
-        Qt::QuickWidgets
-        Qt::Concurrent
-        Qt::Multimedia
-        Qt::NetworkAuth)
-else()
-    target_link_libraries(kdenliveLib
-        Qt${QT_MAJOR_VERSION}::Svg
-        Qt${QT_MAJOR_VERSION}::Quick
-        Qt${QT_MAJOR_VERSION}::QuickControls2
-        Qt${QT_MAJOR_VERSION}::QuickWidgets
-        Qt${QT_MAJOR_VERSION}::Concurrent
-        Qt${QT_MAJOR_VERSION}::Multimedia
-        Qt${QT_MAJOR_VERSION}::NetworkAuth)
-endif()
-if (QT_MAJOR_VERSION STREQUAL "6")
-    target_link_libraries(kdenliveLib Qt${QT_MAJOR_VERSION}::SvgWidgets)
-endif()
-
-if(WIN32 AND QT_MAJOR_VERSION STREQUAL "6")
+if(WIN32)
     target_link_libraries(kdenliveLib d3d11 d3dcompiler)
 endif()
 
-if(NOT NODBUS)
+if(USE_DBUS)
   target_link_libraries(kdenliveLib KF${KF_MAJOR}::DBusAddons)
 endif()
 if(BUILD_COVERAGE)
@@ -279,7 +244,7 @@ if(APPLE)
 endif()
 
 
-if(NODBUS)
+if(NOT USE_DBUS)
     target_compile_definitions(kdenliveLib PRIVATE -DNODBUS)
     target_compile_definitions(kdenlive PRIVATE -DNODBUS)
 endif()

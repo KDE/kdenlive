@@ -106,7 +106,9 @@ void MonitorAudioLevel::drawBackground(int channels)
     gradientVal = IEC_ScaleMax(-5, m_maxDb);
     gradient.setColorAt(gradientVal, QColor(255, 200, 20)); // -5db, orange
     gradient.setColorAt(1., Qt::red);                       // 0db, red
-    m_pixmap = QPixmap(QWidget::size());
+    qreal scalingFactor = devicePixelRatioF();
+    m_pixmap = QPixmap(QWidget::size() * scalingFactor);
+    m_pixmap.setDevicePixelRatio(scalingFactor);
     if (m_pixmap.isNull()) {
         return;
     }

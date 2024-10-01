@@ -104,7 +104,7 @@ QPoint VectorscopeGenerator::mapToCircle(const QSize &targetSize, const QPointF 
     return {int((targetSize.width() - 1) * (point.x() + 1) / 2), int((targetSize.height() - 1) * (1 - (point.y() + 1) / 2))};
 }
 
-QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,
+QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, qreal scalingFactor, const QImage &image, const float &gain,
                                                   const VectorscopeGenerator::PaintMode &paintMode, const VectorscopeGenerator::ColorSpace &colorSpace, bool,
                                                   uint accelFactor) const
 {
@@ -117,6 +117,7 @@ QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, 
     // Prepare the vectorscope data
     const int cw = (vectorscopeSize.width() < vectorscopeSize.height()) ? vectorscopeSize.width() : vectorscopeSize.height();
     QImage scope = QImage(cw, cw, QImage::Format_ARGB32);
+    scope.setDevicePixelRatio(scalingFactor);
     scope.fill(qRgba(0, 0, 0, 0));
 
     double dy, dr, dg, db, dmax;

@@ -147,11 +147,8 @@ void TimecodeDisplay::wheelEvent(QWheelEvent *e)
         slotEditingFinished();
     }
 }
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+
 void TimecodeDisplay::enterEvent(QEnterEvent *e)
-#else
-void TimecodeDisplay::enterEvent(QEvent *e)
-#endif
 {
     QAbstractSpinBox::enterEvent(e);
     setFrame(true);

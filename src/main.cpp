@@ -9,14 +9,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #ifdef CRASH_AUTO_TEST
 #include "logger.hpp"
 #endif
+#include "definitions.h"
 #include "dialogs/splash.hpp"
+#include "dialogs/wizard.h"
+#include "kdenlive_debug.h"
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "render/renderrequest.h"
 #include <config-kdenlive.h>
+#include <project/projectmanager.h>
 
 #include <mlt++/Mlt.h>
 
-#include "kcoreaddons_version.h"
-#include "mainwindow.h"
-#include <project/projectmanager.h>
+#include <kiconthemes_version.h>
 
 #include <KAboutData>
 #include <KConfigGroup>
@@ -27,16 +32,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 
 #include <KIconLoader>
+#include <KIconTheme>
+#include <KNotification>
 #include <KSandbox>
 #include <KSharedConfig>
 
-#include "definitions.h"
-#include "kdenlive_debug.h"
 #ifndef NODBUS
 #include <KDBusService>
 #endif
-#include <KIconTheme>
 #include <KLocalizedString>
+
+#define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
+#if HAVE_STYLE_MANAGER
+#include <KStyleManager>
+#endif
+
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -48,15 +58,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QQuickWindow>
 #include <QResource>
 #include <QSplashScreen>
-#include <QUrl> //new
-#include <kiconthemes_version.h>
-
-#include "render/renderrequest.h"
-
 #include <QUndoGroup>
-
-#include "kdenlivesettings.h"
-#include <KNotification>
+#include <QUrl> //new
 
 #ifdef Q_OS_WIN
 extern "C" {
@@ -151,9 +154,6 @@ static void resetConfig()
                     if (f.open(QIODevice::WriteOnly | QIODevice::Text)) {
                         // overwrite local xml config
                         QTextStream out(&f);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                        out.setCodec("UTF-8");
-#endif
                         out << doc2.toString();
                         f.close();
                     }
@@ -167,57 +167,6 @@ static void resetConfig()
     }
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-static void initIconRCC(LinuxPackageType packageType)
-{
-#if defined(Q_OS_WIN) || defined(Q_OS_MACOS)
-    const QStringList themes{"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
-    for (const QString &theme : themes) {
-        const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
-        if (!themePath.isEmpty()) {
-            const QString iconSubdir = theme.left(theme.lastIndexOf('/'));
-            if (QResource::registerResource(themePath, iconSubdir)) {
-                if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
-                    qDebug() << "Loaded icon theme:" << theme;
-                } else {
-                    qWarning() << "No index.theme found in" << theme;
-                    QResource::unregisterResource(themePath, iconSubdir);
-                }
-            } else {
-                qWarning() << "Invalid rcc file" << theme;
-            }
-        }
-    }
-#else
-    // AppImage
-    if (packageType == LinuxPackageType::AppImage) {
-        QMap<QString, QString> themeMap;
-        themeMap.insert("breeze", "/../icons/breeze/breeze-icons.rcc");
-        themeMap.insert("breeze-dark", "/../icons/breeze-dark/breeze-icons-dark.rcc");
-
-        QMapIterator<QString, QString> i(themeMap);
-        while (i.hasNext()) {
-            i.next();
-            QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, i.value());
-            if (!themePath.isEmpty()) {
-                const QString iconSubdir = "/icons/" + i.key();
-                if (QResource::registerResource(themePath, iconSubdir)) {
-                    if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
-                        qDebug() << "Loaded icon theme:" << i.key();
-                    } else {
-                        qWarning() << "No index.theme found for" << i.key();
-                        QResource::unregisterResource(themePath, iconSubdir);
-                    }
-                } else {
-                    qWarning() << "Invalid rcc file" << i.key();
-                }
-            }
-        }
-    }
-#endif
-}
-#endif
-
 int main(int argc, char *argv[])
 {
     int result = EXIT_SUCCESS;
@@ -225,18 +174,16 @@ int main(int argc, char *argv[])
     ExcHndlInit();
 #endif
     // Force QDomDocument to use a deterministic XML attribute order
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    QHashSeed::setDeterministicGlobalSeed();
+#else
     qSetGlobalQHashSeed(0);
+#endif
 
 #ifdef CRASH_AUTO_TEST
     Logger::init();
 #endif
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #if defined(Q_OS_WIN)
     QQuickWindow::setGraphicsApi(QSGRendererInterface::Direct3D11);
 #elif defined(Q_OS_MACOS)
@@ -245,12 +192,9 @@ int main(int argc, char *argv[])
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
     QCoreApplication::setAttribute(Qt::AA_UseDesktopOpenGL, true);
 #endif
-#endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-    // blacklist MLT Qt5 module to prevent crashes
+    // Block MLT Qt5 module to prevent crashes
     qputenv("MLT_REPOSITORY_DENY", "libmltqt:libmltglaxnimate");
-#endif
 
 #if defined(Q_OS_WIN)
     QGuiApplication::setHighDpiScaleFactorRoundingPolicy(Qt::HighDpiScaleFactorRoundingPolicy::RoundPreferFloor);
@@ -258,12 +202,22 @@ int main(int argc, char *argv[])
     // TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
+// trigger initialisation of proper icon theme
+#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(6, 3, 0)
+    KIconTheme::initTheme();
+#endif
+
     QApplication app(argc, argv);
 
     // Default to org.kde.desktop style unless the user forces another style
     if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
         QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     }
+
+#if HAVE_STYLE_MANAGER
+    // trigger initialisation of proper application style
+    KStyleManager::initStyle();
+#endif
 
     // Try to detect package type
     LinuxPackageType packageType = getPackageType();
@@ -424,6 +378,9 @@ int main(int argc, char *argv[])
         pCore->initHeadless(url);
         app.processEvents();
 
+        // ensure we have a proper kdenlive_render path, particular important for AppImage
+        Wizard::fixKdenliveRenderPath();
+
         RenderRequest *renderrequest = new RenderRequest();
         renderrequest->setOutputFile(renderUrl.toLocalFile());
         renderrequest->loadPresetParams(presetName);
@@ -449,7 +406,10 @@ int main(int argc, char *argv[])
         int exitCode = EXIT_SUCCESS;
 
         for (const auto &job : renderjobs) {
-            const QStringList argsJob = RenderRequest::argsByJob(job);
+            QStringList argsJob = RenderRequest::argsByJob(job, false);
+            if (parser.value(mltLogLevelOption) == QStringLiteral("debug")) {
+                argsJob << "--debug";
+            }
             qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
             qDebug() << "starting kdenlive_render process using: " << KdenliveSettings::kdenliverendererpath();
             if (!parser.isSet(exitOption)) {
@@ -479,24 +439,6 @@ int main(int argc, char *argv[])
         return exitCode;
     }
 
-#if defined(Q_OS_WIN)
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
-    KConfigGroup grp1(configWin, "misc");
-    if (grp1.exists()) {
-        int glMode = grp1.readEntry("opengl_backend", 0);
-        if (glMode > 0) {
-            QCoreApplication::setAttribute((Qt::ApplicationAttribute)glMode, true);
-        }
-    } else {
-        // Default to OpenGLES (QtAngle) on first start
-        QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
-        grp1.writeEntry("opengl_backend", int(Qt::AA_UseOpenGLES));
-    }
-    configWin->sync();
-#endif
-#endif
-
     qApp->processEvents(QEventLoop::AllEvents);
     Splash splash;
     qApp->processEvents(QEventLoop::AllEvents);
@@ -507,10 +449,6 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_WIN
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
     qputenv("PATH", path.toUtf8().constData());
-#endif
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    initIconRCC(packageType);
 #endif
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
@@ -525,10 +463,13 @@ int main(int argc, char *argv[])
     // Init DBus services
     KDBusService programDBusService;
 #endif
+
+#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze || packageType == LinuxPackageType::AppImage) {
         QIcon::setThemeName(QStringLiteral("breeze"));
     }
+#endif
     qApp->processEvents(QEventLoop::AllEvents);
 
 #if defined(KF5_USE_CRASH)
@@ -559,6 +500,11 @@ int main(int argc, char *argv[])
                                      "com.enums",                // import statement
                                      1, 0,                       // major and minor version of the import
                                      "ProjectTool",              // name in QML
+                                     "Error: only enums");
+    qmlRegisterUncreatableMetaObject(KeyframeType::staticMetaObject, // static meta object
+                                     "com.enums",                    // import statement
+                                     1, 0,                           // major and minor version of the import
+                                     "KeyframeType",                 // name in QML
                                      "Error: only enums");
     if (parser.value(mltLogLevelOption) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);

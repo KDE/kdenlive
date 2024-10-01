@@ -20,15 +20,15 @@ class AssetTreeModel : public AbstractTreeModel
 public:
     explicit AssetTreeModel(QObject *parent = nullptr);
 
-    enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole, TypeRole };
-    enum { NameCol = 0, IdCol = 1, TypeCol = 2, FavCol = 3, PreferredCol = 5 };
+    enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole, TypeRole, IncludeListRole };
+    enum { NameCol = 0, IdCol = 1, TypeCol = 2, FavCol = 3, PreferredCol = 5, IncludeListCol = 6 };
 
     /** @brief Helper function to retrieve name */
     QString getName(const QModelIndex &index) const;
     /** @brief  Helper function to retrieve description */
     QString getDescription(bool isEffect, const QModelIndex &index) const;
     /** @brief Helper function to retrieve if an effect is categorized as favorite */
-    bool isFavorite(const QModelIndex &index) const;
+    bool isFavorite(const QModelIndex &index, bool isEffect) const;
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
     virtual void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) = 0;

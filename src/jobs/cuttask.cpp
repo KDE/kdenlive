@@ -296,7 +296,10 @@ void CutTask::processLogInfo()
                 progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
             }
         }
-        m_progress = 100 * progress / m_jobDuration;
-        QMetaObject::invokeMethod(m_object, "updateJobProgress");
+        int val = 100 * progress / m_jobDuration;
+        if (m_progress != val) {
+            m_progress = val;
+            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+        }
     }
 }

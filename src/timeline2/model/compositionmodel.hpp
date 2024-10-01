@@ -67,11 +67,6 @@ public:
      */
     const QString getProperty(const QString &name) const override;
 
-    int getFakeTrackId() const;
-    void setFakeTrackId(int fid);
-    void setFakePosition(int fpos);
-    int getFakePosition() const;
-
     /** @brief returns the active effect's keyframe model
      */
     KeyframeModel *getEffectKeyframeModel();
@@ -91,9 +86,6 @@ protected:
     void setCurrentTrackId(int tid, bool finalMove = true) override;
     int getOut() const override;
     int getIn() const override;
-    /** @brief Fake track id, used when dragging in insert/overwrite mode */
-    int m_fakeTrack;
-    int m_fakePosition;
 
     /** @brief Performs a resize of the given composition.
        Returns true if the operation succeeded, and otherwise nothing is modified

@@ -37,6 +37,7 @@ class InvalidDialog;
 class TranscodeSeek;
 class KdenliveDoc;
 class KSelectAction;
+class KeyframeModelList;
 class TagWidget;
 class Monitor;
 class ProjectClip;
@@ -274,7 +275,7 @@ public:
     void setupGeneratorMenu();
 
     /** @brief Set focus to the Bin view. */
-    void focusBinView() const;
+    void focusBinView();
     /** @brief Get a string list of all clip ids that are inside a folder defined by id. */
     QStringList getBinFolderClipIds(const QString &id) const;
     /** @brief Build a rename subclip command. */
@@ -334,8 +335,6 @@ public:
     /** @brief Update a sequence AV info (has audio/video) */
     void updateSequenceAVType(const QUuid &uuid, int tracksCount);
 
-    // TODO refac: remove this and call directly the function in ProjectItemModel
-    void cleanupUnused();
     void selectAll();
     /** @brief Save an mlt playlist from a bin id and a list of cuts
      * @param binId the id of the source clip for zones
@@ -373,7 +372,9 @@ public:
     void applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                                  const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
     int clipAssetGroupInstances(int cid, const QString &assetId);
-    void removeEffectFromGroup(const QString &assetId);
+    /** @brief Return all similar keyframe models from the selection */
+    QList<std::shared_ptr<KeyframeModelList>> getGroupKeyframeModels(int bid, const QString &assetId);
+    void removeEffectFromGroup(int bid, const QString &assetId, int eid);
     void disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo);
     /** @brief The root id of the folder that this bin displays */
     const QString rootFolderId() const;
@@ -381,6 +382,8 @@ public:
     const QString binInfoToString() const;
     /** @brief Load info (root folder, view type) from a string */
     const QString loadInfo(const QStringList binInfo, const QStringList existingNames);
+    /** @brief Display a clip effect stack */
+    void showItemEffectStack(ObjectId owner);
 
 private Q_SLOTS:
     void slotAddClip();

@@ -24,13 +24,13 @@ KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<A
 bool KeyframeMonitorHelper::connectMonitor(bool activate)
 {
     if (activate == m_active) {
-        return true;
+        return false;
     }
     m_active = activate;
     if (activate) {
         connect(m_monitor, &Monitor::effectPointsChanged, this, &KeyframeMonitorHelper::slotUpdateFromMonitorData, Qt::UniqueConnection);
     } else {
-        m_monitor->setEffectKeyframe(false);
+        m_monitor->setEffectKeyframe(false, true);
         disconnect(m_monitor, &Monitor::effectPointsChanged, this, &KeyframeMonitorHelper::slotUpdateFromMonitorData);
     }
     return m_active;
@@ -46,18 +46,20 @@ QList<QPersistentModelIndex> KeyframeMonitorHelper::getIndexes()
     return m_indexes;
 }
 
-void KeyframeMonitorHelper::refreshParams(int /* pos */)
+void KeyframeMonitorHelper::refreshParams(int pos)
 {
     QVariantList points;
     QVariantList types;
+    QString rectAtPosData;
     std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
-    for (const auto &ix : qAsConst(m_indexes)) {
+    for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::AnimatedRect) {
             continue;
         }
         KeyframeModel *kfr = keyframes->getKeyModel(ix);
         bool ok;
+        rectAtPosData = kfr->getInterpolatedValue(pos).toString();
         Keyframe kf = kfr->getNextKeyframe(GenTime(-1), &ok);
         while (ok) {
             if (kf.second == KeyframeType::Curve) {
@@ -76,6 +78,14 @@ void KeyframeMonitorHelper::refreshParams(int /* pos */)
         break;
     }
     if (m_monitor) {
+        if (!rectAtPosData.isEmpty()) {
+            QStringList data = rectAtPosData.split(QLatin1Char(' '));
+            if (data.size() > 3) {
+                QRect r(data.at(0).toInt(), data.at(1).toInt(), data.at(2).toInt(), data.at(3).toInt());
+                m_monitor->setUpEffectGeometry(r, points, types);
+                return;
+            }
+        }
         m_monitor->setUpEffectGeometry(QRect(), points, types);
     }
 }
@@ -84,10 +94,9 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
 {
     std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
     if (centers.count() != keyframes->count()) {
-        qDebug() << "* * * *CENTER POINTS MISMATCH, aborting edit";
         return;
     }
-    for (const auto &ix : qAsConst(m_indexes)) {
+    for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::AnimatedRect) {
             continue;

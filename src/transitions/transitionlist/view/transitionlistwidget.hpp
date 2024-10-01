@@ -7,7 +7,6 @@
 
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "kdenlivesettings.h"
-#include <knewstuff_version.h>
 
 class TransitionListWidgetProxy;
 

@@ -4,66 +4,16 @@
 include:
   - project: sysadmin/ci-utilities
     file:
-      # CI
+      # Linting
       - /gitlab-templates/reuse-lint.yml
-      - /gitlab-templates/linux.yml
-      # The FreeBSD is not containerized and hence has Qt5 and Qt6 around
-      # Kdenlive preferes Qt6 and there is no way to tell the CI to use Qt5 in this case
-      #- /gitlab-templates/freebsd.yml
+      - /gitlab-templates/xml-lint.yml
+      # CI Qt6
       - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/freebsd-qt6.yml
-      # CD Qt5
-      #- /gitlab-templates/craft-appimage.yml
-      #- /gitlab-templates/craft-windows-mingw64.yml
-      #- /gitlab-templates/craft-macos-x86-64.yml
-      #- /gitlab-templates/craft-macos-arm64.yml
       # CD Qt6
       - /gitlab-templates/flatpak.yml
       - /gitlab-templates/craft-appimage-qt6.yml
       - /gitlab-templates/craft-windows-mingw64-qt6.yml
       - /gitlab-templates/craft-macos-x86-64-qt6.yml
       - /gitlab-templates/craft-macos-arm64-qt6.yml
-
-#.craft-mac-notarize:
-#  rules:
-#    - when: manual
-#  variables:
-#    KDECI_NOTARIZEMACAPP_CONFIG: $CI_PROJECT_DIR/ci-utilities/signing/notarizemacapp.ini
-#  script:
-#    - !reference [.craft_macos_base, script]
-#    - python3 ci-notary-service/notarizemacapp.py -v --config $KDECI_NOTARIZEMACAPP_CONFIG $CI_PROJECT_DIR/.kde-ci-packages/*.dmg
-
-#craft_macos_arm64_notarize_test:
-#  extends:
-#    - craft_macos_qt6_arm64
-#    - .craft-mac-notarize
-#  artifacts:
-#    expire_in: 3 days
-#    when: always
-#    expose_as: "macOS ARM Signed"
-#    paths:
-#     - ".kde-ci-packages/"
-#     - ".logs/"
-
-
-xml_lint:
-  stage: build
-  image: invent-registry.kde.org/sysadmin/ci-images/suse-qt515:latest
-  tags:
-    - Linux
-  script:
-    # enable globstar to be able to use ** as recursive wildcard
-    - shopt -s globstar
-    # exit shell on non-zero exit code
-    - set -e
-    # execute xmllint for all xml files
-    - for x in **/*.xml; do echo "Processing $x"; xmllint -noout "$x"; done
-  rules:
-    - changes: [ "**/*.xml" ]
-
-
-flatpak:
-  before_script:
-    - git clone https://invent.kde.org/sysadmin/ci-utilities.git --depth=1
-    - git clone https://invent.kde.org/sysadmin/ci-notary-service.git --depth=1
-    - flatpak --user install -y flathub org.freedesktop.Sdk.Extension.llvm17
+  

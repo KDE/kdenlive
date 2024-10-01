@@ -32,6 +32,7 @@ public:
 
     /** @brief Return type of asset */
     AssetType getType(const QString &assetId) const;
+    bool isIncludedInList(const QString &assetId) const;
 
     /** @brief Return type of asset */
     bool isUnique(const QString &assetId) const;
@@ -54,12 +55,13 @@ protected:
         QString mltId; //"tag" of the asset, that is the name of the mlt service
         QString name, description, author, version_str;
         int version{};
+        bool included{false};
         QDomElement xml;
         AssetType type;
     };
 
     // Reads the asset list from file and populates appropriate structure
-    void parseAssetList(const QString &filePath, QSet<QString> &destination);
+    void parseAssetList(const QStringList &filePaths, QSet<QString> &destination);
 
     void init();
     virtual Mlt::Properties *retrieveListFromMlt() const = 0;
@@ -90,15 +92,19 @@ protected:
     /** @brief Returns the path to custom XML description of the assets*/
     virtual QStringList assetDirs() const = 0;
 
-    /** @brief Returns the path to the assets' blacklist*/
-    virtual QString assetBlackListPath() const = 0;
+    /** @brief Returns the path to the assets that will be displayed*/
+    virtual QStringList assetIncludedPath() const = 0;
+
+    /** @brief Returns the path to the assets that will be hidden*/
+    virtual QStringList assetExcludedPath() const = 0;
 
     /** @brief Returns the path to the assets' preferred list*/
     virtual QString assetPreferredListPath() const = 0;
 
     std::unordered_map<QString, Info> m_assets;
 
-    QSet<QString> m_blacklist;
+    QSet<QString> m_excludedList;
+    QSet<QString> m_includedList;
 
     QSet<QString> m_preferred_list;
 };

@@ -60,6 +60,16 @@ MouseArea {
             }
             MonitorToolButton {
                 objectName: "switchOverlay"
+                iconName: "snap"
+                toolTipText: i18n("Show Grid")
+                checkable: true
+                checked: controller.showGrid
+                onClicked: {
+                    controller.switchGrid()
+                }
+            }
+            MonitorToolButton {
+                objectName: "switchOverlay"
                 iconName: "view-grid"
                 toolTipText: i18n("Change Overlay")
                 onClicked: {
@@ -75,13 +85,13 @@ MouseArea {
                 objectName: "nextKeyframe"
                 iconName: "keyframe-next"
                 toolTipText: i18n("Go to Next Keyframe")
-                onClicked: controller.seekNextKeyframe()
+                onClicked: controller.seekToKeyframe(-1, 1);
             }
             MonitorToolButton {
                 objectName: "prevKeyframe"
                 iconName: "keyframe-previous"
                 toolTipText: i18n("Go to Previous Keyframe")
-                onClicked: controller.seekPreviousKeyframe()
+                onClicked: controller.seekToKeyframe(-1, -1);
             }
             MonitorToolButton {
                 objectName: "addKeyframe"

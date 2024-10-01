@@ -53,6 +53,7 @@ public:
 
     friend class ProjectClip;
     friend class ThumbnailCache;
+    friend class KdenliveTests;
     /** @brief Timer checking if we have missing clips in the project */
     QTimer missingClipTimer;
 
@@ -60,7 +61,7 @@ public:
     void buildPlaylist(const QUuid uuid);
 
     /** @brief Returns a clip from the hierarchy, given its id */
-    std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
+    std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId) const;
     /** @brief Returns audio levels for a clip from its id */
     const QVector <uint8_t>getAudioLevelsByBinID(const QString &binId, int stream);
     double getAudioMaxLevel(const QString &binId, int stream);
@@ -189,6 +190,8 @@ public:
 
     /** @brief Request that the unused clips are deleted */
     bool requestCleanupUnused();
+    /** @brief Return a list of clips unused id */
+    const QStringList getUnusedClipIds() const;
 
     /** @brief Request that all clips using one of the given urls are removed from the project and deleted from the hard disk*/
     bool requestTrashClips(QStringList &ids, QStringList &urls);
@@ -238,7 +241,10 @@ public:
     QMap<QUuid, QString> getAllSequenceClips() const;
     /** @brief Return the main project tractor (container of all playlists) */
     std::shared_ptr<Mlt::Tractor> projectTractor();
-    const QString sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration, const QString &aspectRatio = QString());
+    /** @brief Return the main sequence's xml as a playlist. If the render ratio is used and we use a tmp file containing the real xml data, return the tmp
+     * file's path as second parameter */
+    const std::pair<QString, QString> sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration,
+                                                const QString &aspectRatio = QString());
     /** @brief Ensure that sequence @destUuid is not embedded in any dependency of sequence @srcUuid */
     bool canBeEmbeded(const QUuid destUuid, const QUuid srcUuid);
     /** @brief Store a newly created sequence tractor for reuse */
@@ -256,6 +262,9 @@ public:
     /** @brief Check that all sequences are correctly stored in the model */
     void checkSequenceIntegrity(const QString activeSequenceId);
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
+    /** @brief Get the unique and unmutable uuid for this project clip */
+    const QString getBinClipUuid(const QString &binId) const;
+    const QString getBinClipIdByUuid(const QString uuid);
 
 protected:
     bool closing;

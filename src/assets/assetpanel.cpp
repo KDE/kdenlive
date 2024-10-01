@@ -28,6 +28,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QFontDatabase>
+#include <QFormLayout>
 #include <QMenu>
 #include <QScrollArea>
 #include <QScrollBar>
@@ -53,7 +54,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchCompoButton = new QComboBox(this);
     m_switchCompoButton->setFrame(false);
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : qAsConst(allTransitions)) {
+    for (const auto &transition : std::as_const(allTransitions)) {
         if (transition.first != QLatin1String("mix")) {
             m_switchCompoButton->addItem(transition.second, transition.first);
         }
@@ -74,53 +75,57 @@ AssetPanel::AssetPanel(QWidget *parent)
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     buttonToolbar->addWidget(empty);
 
-    m_switchBuiltStack = new QToolButton(this);
-    m_switchBuiltStack->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
-    m_switchBuiltStack->setToolTip(i18n("Adjust clip"));
+    m_switchBuiltStack = new QAction(QIcon::fromTheme(QStringLiteral("adjustlevels")), QString(), this);
+    m_switchBuiltStack->setToolTip(i18n("Enable Builtin Effects"));
+    m_switchBuiltStack->setWhatsThis(xi18nc(
+        "@info:whatsthis", "When enabled, this will add basic effects (Flip, Transform, Volume) to all clips for convenience. These effects are disabled "
+                           "and will only be applied if you change a parameter."));
     m_switchBuiltStack->setCheckable(true);
-    m_switchBuiltStack->setChecked(KdenliveSettings::showbuiltstack());
-    m_switchBuiltStack->setVisible(false);
-    // connect(m_switchBuiltStack, &QToolButton::toggled, m_effectStackWidget, &EffectStackView::switchBuiltStack);
-    buttonToolbar->addWidget(m_switchBuiltStack);
-
-    QToolButton *applyEffectGroupsButton = new QToolButton(this);
-    applyEffectGroupsButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_applyEffectGroups = new QAction(i18n("Apply effect change to all clips in the group"), this);
-    m_applyEffectGroups->setCheckable(true);
-    m_applyEffectGroups->setChecked(KdenliveSettings::applyEffectParamsToGroup());
-    m_applyEffectGroups->setIcon(QIcon::fromTheme(QStringLiteral("link")));
-    m_applyEffectGroups->setToolTip(i18n("Apply effect change to all clips in the group…"));
-    m_applyEffectGroups->setWhatsThis(
-        xi18nc("@info:whatsthis", "When enabled and the clip is in a group, all clips in this group that have the same effect will see the parameters adjusted "
-                                  "as well. Deleting an effect will delete it in all clips in the group."));
-    buttonToolbar->addWidget(applyEffectGroupsButton);
-    connect(m_applyEffectGroups, &QAction::toggled, this, [this](bool enabled) {
-        KdenliveSettings::setApplyEffectParamsToGroup(enabled);
-        Q_EMIT m_effectStackWidget->updateEffectsGroupesInstances();
+    m_switchBuiltStack->setChecked(KdenliveSettings::enableBuiltInEffects());
+    connect(m_switchBuiltStack, &QAction::triggered, this, [this](bool enable) {
+        KdenliveSettings::setEnableBuiltInEffects(enable);
+        if (m_effectStackWidget) {
+            ObjectId owner = m_effectStackWidget->stackOwner();
+            pCore->clearAssetPanel(-1);
+            m_effectStackWidget->unsetModel();
+            pCore->showEffectStackFromId(owner);
+        } else {
+            pCore->clearAssetPanel(-1);
+        }
     });
-    QMenu *effectGroupMenu = new QMenu(this);
+    buttonToolbar->addAction(m_switchBuiltStack);
+    m_switchBuiltStack->setVisible(false);
+
+    m_applyEffectGroups = new QMenu(this);
+    m_applyEffectGroups->setIcon(QIcon::fromTheme(QStringLiteral("link")));
     QAction *applyToSameOnly = new QAction(i18n("Apply only to effects with same value"), this);
     applyToSameOnly->setCheckable(true);
     applyToSameOnly->setChecked(KdenliveSettings::applyEffectParamsToGroupWithSameValue());
     connect(applyToSameOnly, &QAction::toggled, this, [](bool enabled) { KdenliveSettings::setApplyEffectParamsToGroupWithSameValue(enabled); });
-    effectGroupMenu->addAction(applyToSameOnly);
-
-    applyEffectGroupsButton->setMenu(effectGroupMenu);
-    applyEffectGroupsButton->setDefaultAction(m_applyEffectGroups);
-    m_saveEffectStack = new QToolButton(this);
-    m_saveEffectStack->setIcon(QIcon::fromTheme(QStringLiteral("document-save-all")));
+    m_applyEffectGroups->addAction(applyToSameOnly);
+    m_applyEffectGroups->menuAction()->setCheckable(true);
+    m_applyEffectGroups->menuAction()->setToolTip(i18n("Apply effect change to all clips in the group…"));
+    m_applyEffectGroups->menuAction()->setWhatsThis(
+        xi18nc("@info:whatsthis", "When enabled and the clip is in a group, all clips in this group that have the same effect will see the parameters adjusted "
+                                  "as well. Deleting an effect will delete it in all clips in the group."));
+    buttonToolbar->addAction(m_applyEffectGroups->menuAction());
+    m_applyEffectGroups->menuAction()->setChecked(KdenliveSettings::applyEffectParamsToGroup());
+    connect(m_applyEffectGroups->menuAction(), &QAction::triggered, this, [this]() {
+        KdenliveSettings::setApplyEffectParamsToGroup(m_applyEffectGroups->menuAction()->isChecked());
+        Q_EMIT m_effectStackWidget->updateEffectsGroupesInstances();
+    });
+    m_applyEffectGroups->menuAction()->setVisible(false);
+    m_saveEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("document-save-all")), QString(), this);
     m_saveEffectStack->setToolTip(i18n("Save Effect Stack…"));
     m_saveEffectStack->setWhatsThis(xi18nc("@info:whatsthis", "Saves the entire effect stack as an XML file for use in other projects."));
-
-    // Would be better to have something like `setVisible(false)` here, but this apparently removes the button.
-    // See https://stackoverflow.com/a/17645563/5172513
-    m_saveEffectStack->setEnabled(false);
-    connect(m_saveEffectStack, &QToolButton::released, this, &AssetPanel::slotSaveStack);
-    buttonToolbar->addWidget(m_saveEffectStack);
+    connect(m_saveEffectStack, &QAction::triggered, this, &AssetPanel::slotSaveStack);
+    buttonToolbar->addAction(m_saveEffectStack);
+    m_saveEffectStack->setVisible(false);
 
     m_splitButton = new KDualAction(i18n("Normal view"), i18n("Compare effect"), this);
     m_splitButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("view-right-close")));
     m_splitButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("view-split-left-right")));
+    m_splitButton->setCheckable(true);
     m_splitButton->setToolTip(i18n("Compare effect"));
     m_splitButton->setWhatsThis(xi18nc(
         "@info:whatsthis",
@@ -138,7 +143,11 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_enableStackButton, &KDualAction::activeChangedByUser, this, &AssetPanel::enableStack);
     m_enableStackButton->setVisible(false);
     buttonToolbar->addAction(m_enableStackButton);
-
+    m_compositionHelpLink = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);
+    m_compositionHelpLink->setToolTip(i18n("Open composition documentation in browser"));
+    buttonToolbar->addAction(m_compositionHelpLink);
+    connect(m_compositionHelpLink, &QAction::triggered, this, [this]() { m_transitionWidget->openCompositionHelp(); });
+    m_compositionHelpLink->setVisible(false);
     m_timelineButton = new KDualAction(i18n("Display keyframes in timeline"), i18n("Hide keyframes in timeline"), this);
     m_timelineButton->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the display of keyframes in the clip on the timeline"));
     m_timelineButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("keyframe-disable")));
@@ -174,6 +183,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     updatePalette();
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
     connect(m_effectStackWidget, &EffectStackView::scrollView, this, &AssetPanel::scrollTo);
+    connect(m_effectStackWidget, &EffectStackView::checkDragScrolling, this, &AssetPanel::checkDragScroll);
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
@@ -182,6 +192,9 @@ AssetPanel::AssetPanel(QWidget *parent)
             [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
 
     connect(this, &AssetPanel::slotSaveStack, m_effectStackWidget, &EffectStackView::slotSaveStack);
+    m_dragScrollTimer.setSingleShot(true);
+    m_dragScrollTimer.setInterval(200);
+    connect(&m_dragScrollTimer, &QTimer::timeout, this, &AssetPanel::checkDragScroll);
 }
 
 void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transitionModel)
@@ -196,9 +209,10 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_switchAction->setVisible(true);
     m_titleAction->setVisible(false);
-    m_applyEffectGroups->setVisible(false);
+    m_applyEffectGroups->menuAction()->setVisible(false);
     m_assetTitle->clear();
     m_transitionWidget->setVisible(true);
+    m_compositionHelpLink->setVisible(true);
     m_timelineButton->setVisible(true);
     m_enableStackButton->setVisible(false);
     QSize s = pCore->getCompositionSizeOnTrack(id);
@@ -229,8 +243,9 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
     m_titleAction->setVisible(false);
     m_assetTitle->clear();
     m_mixWidget->setVisible(true);
+    m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(false);
-    m_applyEffectGroups->setVisible(false);
+    m_applyEffectGroups->menuAction()->setVisible(false);
     m_enableStackButton->setVisible(false);
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_mixWidget->setModel(transitionModel, QSize(), true);
@@ -242,7 +257,9 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
         // Item is not ready
         m_splitButton->setVisible(false);
         m_enableStackButton->setVisible(false);
-        m_saveEffectStack->setEnabled(false);
+        m_saveEffectStack->setVisible(false);
+        m_switchBuiltStack->setVisible(false);
+        m_applyEffectGroups->menuAction()->setVisible(false);
         clear();
         return;
     }
@@ -285,9 +302,10 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     }
     m_assetTitle->setText(title);
     m_titleAction->setVisible(true);
-    m_applyEffectGroups->setVisible(true);
+    m_applyEffectGroups->menuAction()->setVisible(true);
     m_splitButton->setVisible(showSplit);
-    m_saveEffectStack->setEnabled(true);
+    m_saveEffectStack->setVisible(true);
+    m_switchBuiltStack->setVisible(true);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
@@ -299,10 +317,9 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
             m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
         });
     }
+    m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(enableKeyframes);
     m_timelineButton->setActive(showKeyframes);
-    // Disable built stack until properly implemented
-    // m_switchBuiltStack->setVisible(true);
     m_effectStackWidget->setVisible(true);
     m_effectStackWidget->setModel(effectsModel, frameSize);
 }
@@ -343,7 +360,9 @@ void AssetPanel::clear()
     m_mixWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
-    m_saveEffectStack->setEnabled(false);
+    m_saveEffectStack->setVisible(false);
+    m_switchBuiltStack->setVisible(false);
+    m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->unsetModel();
@@ -373,9 +392,13 @@ const QString AssetPanel::getStyleSheet()
     QString stylesheet;
 
     // effect background
-    stylesheet.append(QStringLiteral("QFrame#decoframe {border-bottom:2px solid "
-                                     "palette(mid);background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;}")
-                          .arg(hgh.name()));
+    stylesheet.append(QStringLiteral("QFrame#decoframe {border-top:2px solid "
+                                     "palette(shadow);background: transparent} QFrame#decoframe.builtin {border-top:0px solid "
+                                     "palette(shadow);border-bottom:2px solid "
+                                     "#33FF0000 ;background: transparent} QFrame#decoframe[target=\"true\"] {border-top:2px solid %2;"
+                                     "background: transparent} QFrame#decoframe[active=\"true\"] {background: %1;} "
+                                     "QFrame#decoframe.builtin[active=\"true\"] {background: %1;}")
+                          .arg(hgh.name(), hover_bg.name()));
 
     // effect in group background
     stylesheet.append(
@@ -408,10 +431,10 @@ const QString AssetPanel::getStyleSheet()
 
     // spin box for draggable widget
     stylesheet.append(
-        QStringLiteral("QAbstractSpinBox#dragBox {border: 1px solid palette(dark);border-top-right-radius: 4px;border-bottom-right-radius: "
-                       "4px;padding-right:0px;} QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px "
+        QStringLiteral("QAbstractSpinBox#dragBox {border-width: 2px; border-style: solid; border-radius: 4px; border-color: transparent }"
+                       "QAbstractSpinBox::down-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragBox {border: 1px} "
                        "solid palette(button);} QAbstractSpinBox::up-button#dragBox {width:0px;padding:0px;} QAbstractSpinBox[inTimeline=\"true\"]#dragBox { "
-                       "border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ")
+                       "border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;border-radius: 4px} ")
             .arg(hover_bg.name(), selected_bg.name()));
 
     // minimal double edit
@@ -496,6 +519,27 @@ void AssetPanel::scrollTo(QRect rect)
         m_sc->ensureVisible(0, rect.y() + rect.height(), 0, 0);
     } else {
         m_sc->ensureVisible(0, rect.y() + m_sc->height(), 0, 0);
+    }
+}
+
+void AssetPanel::checkDragScroll()
+{
+    if (m_effectStackWidget->dragPos.isNull()) {
+        return;
+    }
+    int dragYPos = m_effectStackWidget->dragPos.y();
+    int mousePos = m_effectStackWidget->mapTo(m_sc, m_effectStackWidget->dragPos).y();
+    int viewPos = m_sc->verticalScrollBar()->value();
+    if (viewPos > 0 && mousePos < 15) {
+        m_sc->verticalScrollBar()->setValue(qMax(0, viewPos - m_sc->verticalScrollBar()->singleStep()));
+        viewPos -= m_sc->verticalScrollBar()->value();
+        m_effectStackWidget->dragPos.setY(dragYPos - viewPos);
+        m_dragScrollTimer.start();
+    } else if (m_sc->height() - mousePos < 15) {
+        m_sc->verticalScrollBar()->setValue(viewPos + m_sc->verticalScrollBar()->singleStep());
+        viewPos -= m_sc->verticalScrollBar()->value();
+        m_effectStackWidget->dragPos.setY(dragYPos - viewPos);
+        m_dragScrollTimer.start();
     }
 }
 

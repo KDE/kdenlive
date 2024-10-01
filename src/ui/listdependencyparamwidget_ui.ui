@@ -11,13 +11,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>304</width>
-    <height>78</height>
+    <height>84</height>
    </rect>
   </property>
   <layout class="QGridLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
    <property name="topMargin">
     <number>0</number>
    </property>
@@ -30,16 +27,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="0">
-    <widget class="QLabel" name="m_labelName">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QComboBox" name="m_list"/>
-   </item>
    <item row="2" column="0" colspan="2">
     <widget class="QWidget" name="m_widgetComment" native="true">
      <layout class="QGridLayout" name="_2">
@@ -67,6 +54,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <bool>true</bool>
      </property>
     </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QComboBox" name="m_list"/>
    </item>
   </layout>
  </widget>

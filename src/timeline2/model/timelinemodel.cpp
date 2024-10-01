@@ -13,6 +13,7 @@
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
+#include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
@@ -178,7 +179,7 @@ TimelineModel::~TimelineModel()
         qDebug() << "::::::==\n\nCLOSING TIMELINE MODEL\n\n::::::::";
         QScopedPointer<Mlt::Service> service(m_tractor->field());
         QScopedPointer<Mlt::Field> field(m_tractor->field());
-        field->lock();
+        field->block();
         // Make sure all previous track compositing is removed
         while (service != nullptr && service->is_valid()) {
             if (service->type() == mlt_service_transition_type) {
@@ -191,7 +192,7 @@ TimelineModel::~TimelineModel()
                 service.reset(service->producer());
             }
         }
-        field->unlock();
+        field->unblock();
         m_allTracks.clear();
         if (pCore && !pCore->closing && pCore->currentDoc() && !pCore->currentDoc()->closing) {
             // If we are not closing the project, unregister this timeline clips from bin
@@ -213,7 +214,7 @@ void TimelineModel::setMarkerModel(std::shared_ptr<MarkerListModel> markerModel)
     m_guidesFilterModel->setSourceModel(m_guidesModel.get());
     m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
     m_guidesFilterModel->sort(0, Qt::AscendingOrder);
-    m_guidesModel->loadCategories(KdenliveSettings::guidesCategories());
+    m_guidesModel->loadCategories(KdenliveSettings::guidesCategories(), false);
 }
 
 int TimelineModel::getTracksCount() const
@@ -225,8 +226,9 @@ int TimelineModel::getTracksCount() const
     }
     Q_ASSERT(count >= 0);
     // don't count the black background track
-    Q_ASSERT(count - 1 == static_cast<int>(m_allTracks.size()));
-    return count - 1;
+    count--;
+    Q_ASSERT(count == static_cast<int>(m_allTracks.size()));
+    return count;
 }
 
 QPair<int, int> TimelineModel::getAVtracksCount() const
@@ -294,12 +296,12 @@ int TimelineModel::getClipTrackId(int clipId) const
     return clip->getCurrentTrackId();
 }
 
-int TimelineModel::clipAssetRow(int clipId, const QString &assetId) const
+int TimelineModel::clipAssetRow(int clipId, const QString &assetId, int eid) const
 {
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     const auto clip = m_allClips.at(clipId);
-    return clip->assetRow(assetId);
+    return clip->assetRow(assetId, eid);
 }
 
 int TimelineModel::getCompositionTrackId(int compoId) const
@@ -396,8 +398,7 @@ const QString TimelineModel::getClipBinId(int clipId) const
     READ_LOCK();
     Q_ASSERT(m_allClips.count(clipId) > 0);
     const auto clip = m_allClips.at(clipId);
-    QString id = clip->binId();
-    return id;
+    return clip->binId();
 }
 
 int TimelineModel::getClipPlaytime(int clipId) const
@@ -432,14 +433,15 @@ int TimelineModel::getClipByStartPosition(int trackId, int position) const
     return getTrackById_const(trackId)->getClipByStartPosition(position);
 }
 
-int TimelineModel::getClipByPosition(int trackId, int position, int playlist) const
+int TimelineModel::getClipByPosition(int trackId, int position, int playlistOrLayer) const
 {
     READ_LOCK();
     if (isSubtitleTrack(trackId)) {
-        return getSubtitleByPosition(position);
+        Q_ASSERT(playlistOrLayer > -1);
+        return getSubtitleByPosition(playlistOrLayer, position);
     }
     Q_ASSERT(isTrack(trackId));
-    return getTrackById_const(trackId)->getClipByPosition(position, playlist);
+    return getTrackById_const(trackId)->getClipByPosition(position, playlistOrLayer);
 }
 
 int TimelineModel::getCompositionByPosition(int trackId, int position) const
@@ -449,16 +451,16 @@ int TimelineModel::getCompositionByPosition(int trackId, int position) const
     return getTrackById_const(trackId)->getCompositionByPosition(position);
 }
 
-int TimelineModel::getSubtitleByStartPosition(int position) const
+int TimelineModel::getSubtitleByStartPosition(int layer, int position) const
 {
     READ_LOCK();
-    return m_subtitleModel->getSubtitleIdByPosition(position);
+    return m_subtitleModel->getSubtitleIdByPosition(layer, position);
 }
 
-int TimelineModel::getSubtitleByPosition(int position) const
+int TimelineModel::getSubtitleByPosition(int layer, int position) const
 {
     READ_LOCK();
-    return m_subtitleModel->getSubtitleIdAtPosition(position);
+    return m_subtitleModel->getSubtitleIdAtPosition(layer, position);
 }
 
 int TimelineModel::getTrackPosition(int trackId) const
@@ -570,6 +572,19 @@ int TimelineModel::getPreviousVideoTrackIndex(int trackId) const
     auto it = m_iteratorTable.at(trackId);
     while (it != m_allTracks.cbegin()) {
         --it;
+        if (!(*it)->isAudioTrack()) {
+            return (*it)->getId();
+        }
+    }
+    return 0;
+}
+
+int TimelineModel::getTopVideoTrackIndex()
+{
+    READ_LOCK();
+    auto it = m_allTracks.end();
+    --it;
+    if (it != m_allTracks.cbegin()) {
         if (!(*it)->isAudioTrack()) {
             return (*it)->getId();
         }
@@ -1314,21 +1329,22 @@ std::shared_ptr<SubtitleModel> TimelineModel::getSubtitleModel()
     return m_subtitleModel;
 }
 
-int TimelineModel::cutSubtitle(int position, Fun &undo, Fun &redo)
+int TimelineModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
 {
     if (m_subtitleModel) {
-        return m_subtitleModel->cutSubtitle(position, undo, redo);
+        return m_subtitleModel->cutSubtitle(layer, position, undo, redo);
     }
     return -1;
 }
 
-bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool finalMove, bool fakeMove)
+bool TimelineModel::requestSubtitleMove(int clipId, int layer, int position, bool updateView, bool logUndo, bool finalMove, bool fakeMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_subtitleModel->hasSubtitle(clipId));
+    int oldLayer = m_subtitleModel->getLayerForId(clipId);
     GenTime oldPos = m_subtitleModel->getSubtitlePosition(clipId);
     GenTime newPos(position, pCore->getCurrentFps());
-    if (oldPos == newPos) {
+    if (oldPos == newPos && oldLayer == layer) {
         return true;
     }
     if (m_groups->isInGroup(clipId)) {
@@ -1340,23 +1356,24 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestSubtitleMove(clipId, position, updateView, logUndo, logUndo, finalMove, undo, redo);
+    bool res = requestSubtitleMove(clipId, layer, position, updateView, logUndo, logUndo, finalMove, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move subtitle"));
     }
     return res;
 }
 
-bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo)
+bool TimelineModel::requestSubtitleMove(int clipId, int layer, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    int oldLayer = m_subtitleModel->getLayerForId(clipId);
     GenTime oldPos = m_subtitleModel->getSubtitlePosition(clipId);
     GenTime newPos(position, pCore->getCurrentFps());
-    Fun local_redo = [this, clipId, newPos, reloadSubFile = last && finalMove, updateView]() {
-        return m_subtitleModel->moveSubtitle(clipId, newPos, reloadSubFile, updateView);
+    Fun local_redo = [this, clipId, layer, newPos, reloadSubFile = last && finalMove, updateView]() {
+        return m_subtitleModel->moveSubtitle(clipId, layer, newPos, reloadSubFile, updateView);
     };
-    Fun local_undo = [this, oldPos, clipId, reloadSubFile = first && finalMove, updateView]() {
-        return m_subtitleModel->moveSubtitle(clipId, oldPos, reloadSubFile, updateView);
+    Fun local_undo = [this, oldPos, oldLayer, clipId, reloadSubFile = first && finalMove, updateView]() {
+        return m_subtitleModel->moveSubtitle(clipId, oldLayer, oldPos, reloadSubFile, updateView);
     };
     bool res = local_redo();
     if (res) {
@@ -1404,7 +1421,8 @@ QVariantList TimelineModel::suggestItemMove(int itemId, int trackId, int positio
         return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance, fakeMove);
     }
     if (isSubTitle(itemId)) {
-        return {suggestSubtitleMove(itemId, position, cursorPosition, snapDistance, fakeMove), -1};
+        int layer = getSubtitleLayer(itemId);
+        return {suggestSubtitleMove(itemId, layer, position, cursorPosition, snapDistance, fakeMove), -1};
     }
     return QVariantList();
 }
@@ -1417,7 +1435,7 @@ int TimelineModel::adjustFrame(int frame, int trackId)
     return frame;
 }
 
-int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance, bool fakeMove)
+int TimelineModel::suggestSubtitleMove(int subId, int newLayer, int position, int cursorPosition, int snapDistance, bool fakeMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isSubTitle(subId));
@@ -1451,7 +1469,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
         }
     }
     // m_subtitleModel->moveSubtitle(GenTime(currentPos, pCore->getCurrentFps()), GenTime(position, pCore->getCurrentFps()));
-    if (requestSubtitleMove(subId, newPos, true, false, false, fakeMove)) {
+    if (requestSubtitleMove(subId, newLayer, newPos, true, false, false, fakeMove)) {
         return newPos;
     }
     return currentPos;
@@ -1761,7 +1779,11 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     if (!master->statusReady() || !master->isCompatible(state)) {
-        qWarning() << "clip not ready or not compatible" << state << master->statusReady();
+        if (!master->statusReady()) {
+            qWarning() << "clip not ready...";
+        } else {
+            qWarning() << "clip not compatible" << state;
+        }
         return false;
     }
     int clipId = TimelineModel::getNextId();
@@ -1895,7 +1917,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             // Find first possible audio target
             QList<int> audioTargetTracks = m_audioTarget.keys();
             trackId = -1;
-            for (int tid : qAsConst(audioTargetTracks)) {
+            for (int tid : std::as_const(audioTargetTracks)) {
                 if (tid > -1 && !getTrackById_const(tid)->isLocked() && allowedTracks.contains(tid)) {
                     trackId = tid;
                     break;
@@ -2135,7 +2157,8 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     TRACE(itemId, logUndo);
     Q_ASSERT(isItem(itemId));
     QString actionLabel;
-    if (m_groups->isInGroup(itemId) && !m_singleSelectionMode) {
+    bool singleSelectOperation = m_singleSelectionMode && m_currentSelection.find(itemId) != m_currentSelection.end();
+    if (!singleSelectOperation && m_groups->isInGroup(itemId)) {
         actionLabel = i18n("Remove group");
     } else {
         if (isClip(itemId)) {
@@ -2148,12 +2171,15 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-
     bool res = true;
-    if (m_singleSelectionMode) {
+    if (singleSelectOperation) {
         // Ungroup all items first
         auto selection = m_currentSelection;
-        extractSelectionFromGroup(selection, undo, redo);
+        for (auto s : selection) {
+            if (m_groups->isInGroup(s)) {
+                extractSelectionFromGroup({s}, undo, redo, true);
+            }
+        }
         // loop deletion
         for (int id : selection) {
             res = res && requestItemDeletion(id, undo, redo, logUndo);
@@ -2168,7 +2194,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     return res;
 }
 
-std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo)
+std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo, bool onDeletion)
 {
     int gid = m_groups->getDirectAncestor(*selection.begin());
     std::pair<int, int> grpPair = {gid, -1};
@@ -2184,20 +2210,48 @@ std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<
             if (siblings.size() > 0) {
                 grpPair.second = *siblings.begin();
             }
-            if (grandParent > -1) {
-                // The group is inside another one, move remaining items in that top level group
-                for (int id : siblings) {
-                    m_groups->setInGroupOf(id, gid, undo, redo);
+            if (onDeletion) {
+                // Item will be deleted, remove the group
+                if (grandParent > -1) {
+                    // The group is inside another one, move remaining items in that top level group
+                    for (int id : siblings) {
+                        m_groups->setInGroupOf(id, gid, undo, redo);
+                    }
+                    // Remove group
+                    m_groups->removeFromGroup(gid, undo, redo);
                 }
-                // Remove group
-                m_groups->removeFromGroup(gid, undo, redo);
+                // Remove all remaining items from group
+                siblings = m_groups->getLeaves(gid);
+                for (int id : siblings) {
+                    m_groups->removeFromGroup(id, undo, redo);
+                }
+                // Remove the top group
+                Fun local_redo = [this, cid = grpPair.second]() {
+                    // Clear selection
+                    int gid = m_groups->getDirectAncestor(cid);
+                    bool isSelected = m_currentSelection.count(gid) || m_currentSelection.count(cid);
+                    if (isSelected) {
+                        // Clear group selection to not leave an invalid selection
+                        requestClearSelection(true);
+                    }
+                    return true;
+                };
+                Fun local_undo = [this, cid = grpPair.second]() {
+                    // Clear selection
+                    int gid = m_groups->getDirectAncestor(cid);
+                    bool isSelected = m_currentSelection.count(cid) || m_currentSelection.count(gid);
+                    if (isSelected) {
+                        // Clear group selection to not leave an invalid selection
+                        requestClearSelection(true);
+                    }
+                    return true;
+                };
+                local_redo();
+                PUSH_FRONT_LAMBDA(local_redo, redo);
+                PUSH_LAMBDA(local_undo, undo);
             }
-            // Remove all remaining items from group
-            siblings = m_groups->getLeaves(gid);
-            for (int id : siblings) {
-                m_groups->removeFromGroup(id, undo, redo);
-            }
-        } else {
+        }
+        if (!onDeletion) {
             for (int id : selection) {
                 // Ungroup item before deletion
                 m_groups->removeFromGroup(id, undo, redo);
@@ -2249,12 +2303,10 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool l
 bool TimelineModel::requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last)
 {
     GenTime startTime = m_subtitleModel->getSubtitlePosition(clipId);
-    SubtitledTime sub = m_subtitleModel->getSubtitle(startTime);
+    int layer = m_subtitleModel->getLayerForId(clipId);
+    SubtitleEvent sub = m_subtitleModel->getSubtitle(layer, startTime);
     Fun operation = [this, clipId, last]() { return m_subtitleModel->removeSubtitle(clipId, false, last); };
-    GenTime start = sub.start();
-    GenTime end = sub.end();
-    QString text = sub.subtitle();
-    Fun reverse = [this, clipId, start, end, text, first]() { return m_subtitleModel->addSubtitle(clipId, start, end, text, false, first); };
+    Fun reverse = [this, clipId, layer, startTime, sub, first]() { return m_subtitleModel->addSubtitle(clipId, {layer, startTime}, sub, false, first); };
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -2314,7 +2366,7 @@ std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, i
     if (isSubtitleTrack(trackId) || trackId == -1) {
         // Subtitles
         if (m_subtitleModel) {
-            std::unordered_set<int> subs = m_subtitleModel->getItemsInRange(start, end);
+            std::unordered_set<int> subs = m_subtitleModel->getItemsInRange(-1, start, end);
             allClips.insert(subs.begin(), subs.end());
         }
     }
@@ -2375,10 +2427,15 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     bool hasAudio = false;
     bool hasVideo = false;
     std::unordered_map<int, int> old_track_ids, old_position, old_forced_track;
+    std::unordered_set<int> locked_items;
     for (int item : all_items) {
         int old_trackId = getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
+            if (trackIsLocked(old_trackId)) {
+                locked_items.insert(item);
+                continue;
+            }
             if (isClip(item)) {
                 old_position[item] = m_allClips[item]->getPosition();
                 if (!hasAudio && getTrackById_const(old_trackId)->isAudioTrack()) {
@@ -2392,6 +2449,26 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
                 old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
             } else if (isSubTitle(item)) {
                 old_position[item] = getSubtitlePosition(item);
+            }
+        }
+    }
+    // Remove locked items from the operation
+    for (auto &d : locked_items) {
+        all_items.erase(d);
+    }
+
+    // Ensure our locked items are not grouped with a non locked item, else abort the move
+    for (auto &d : locked_items) {
+        int parentGroup = m_groups->getDirectAncestor(d);
+        if (isGroup(parentGroup)) {
+            auto child_items = m_groups->getLeaves(parentGroup);
+            for (auto &c : child_items) {
+                if (all_items.find(c) != all_items.end()) {
+                    // We are trying to move a locked item, abort
+                    int lockedTrack = getItemTrackId(d);
+                    Q_EMIT flashLock(lockedTrack);
+                    return false;
+                }
             }
         }
     }
@@ -2621,7 +2698,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     std::vector<std::pair<int, int>> sorted_clips;
     QVector<int> sorted_clips_ids;
     std::vector<std::pair<int, std::pair<int, int>>> sorted_compositions;
-    std::vector<std::pair<int, GenTime>> sorted_subtitles;
+    std::vector<std::pair<int, std::pair<int, GenTime>>> sorted_subtitles;
     int lowerTrack = -1;
     int upperTrack = -1;
     QVector<int> tracksWithMix;
@@ -2681,7 +2758,8 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             sorted_compositions.push_back({affectedItemId, {m_allCompositions[affectedItemId]->getPosition(), getTrackMltIndex(current_track_id)}});
         } else if (isSubTitle(affectedItemId)) {
             all_subs.emplace(affectedItemId);
-            sorted_subtitles.emplace_back(affectedItemId, m_subtitleModel->getSubtitlePosition(affectedItemId));
+            sorted_subtitles.push_back(
+                {affectedItemId, {m_subtitleModel->getLayerForId(affectedItemId), m_subtitleModel->getSubtitlePosition(affectedItemId)}});
         }
     }
 
@@ -2696,9 +2774,10 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     });
 
     // Sort subtitles
-    std::sort(sorted_subtitles.begin(), sorted_subtitles.end(), [delta_pos](const std::pair<int, GenTime> &clipId1, const std::pair<int, GenTime> &clipId2) {
-        return delta_pos > 0 ? clipId2.second < clipId1.second : clipId1.second < clipId2.second;
-    });
+    std::sort(sorted_subtitles.begin(), sorted_subtitles.end(),
+              [delta_pos](const std::pair<int, std::pair<int, GenTime>> &clipId1, const std::pair<int, std::pair<int, GenTime>> &clipId2) {
+                  return delta_pos > 0 ? clipId2.second.second < clipId1.second.second : clipId1.second.second < clipId2.second.second;
+              });
 
     // Sort compositions. We need to delete in the move direction from top to bottom
     std::sort(sorted_compositions.begin(), sorted_compositions.end(),
@@ -2718,8 +2797,8 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         return true;
     };
     // Check that we don't move subtitles before 0
-    if (!sorted_subtitles.empty() && sorted_subtitles.front().second.frames(pCore->getCurrentFps()) + delta_pos < 0) {
-        delta_pos = -sorted_subtitles.front().second.frames(pCore->getCurrentFps());
+    if (!sorted_subtitles.empty() && sorted_subtitles.front().second.second.frames(pCore->getCurrentFps()) + delta_pos < 0) {
+        delta_pos = -sorted_subtitles.front().second.second.frames(pCore->getCurrentFps());
         if (delta_pos == 0) {
             return false;
         }
@@ -3077,12 +3156,12 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     }
     // Move subtitles
     if (!sorted_subtitles.empty()) {
-        std::vector<std::pair<int, GenTime>>::iterator ptr;
+        std::vector<std::pair<int, std::pair<int, GenTime>>>::iterator ptr;
         auto last = std::prev(sorted_subtitles.end());
 
         for (ptr = sorted_subtitles.begin(); ptr < sorted_subtitles.end(); ptr++) {
-            ok = requestSubtitleMove((*ptr).first, (*ptr).second.frames(pCore->getCurrentFps()) + delta_pos, updateSubtitles, ptr == sorted_subtitles.begin(),
-                                     ptr == last, finalMove, local_undo, local_redo);
+            ok = requestSubtitleMove((*ptr).first, (*ptr).second.first, (*ptr).second.second.frames(pCore->getCurrentFps()) + delta_pos, updateSubtitles,
+                                     ptr == sorted_subtitles.begin(), ptr == last, finalMove, local_undo, local_redo);
             if (!ok) {
                 bool undone = local_undo();
                 Q_ASSERT(undone);
@@ -3277,7 +3356,7 @@ void TimelineModel::processGroupResize(QVariantList startPosList, QVariantList e
             changedItems << i.key();
         }
     }
-    for (int id : qAsConst(changedItems)) {
+    for (int id : std::as_const(changedItems)) {
         QPair<int, int> endItemPos = endData.value(id);
         int duration = endItemPos.second;
         result = result & requestItemResize(id, duration, right, true, undo, redo, false);
@@ -3361,7 +3440,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
     bool result = true;
     for (int id : all_items) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         // First delete clip, then timewarp, resize and reinsert
@@ -3750,7 +3829,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             }
         }
     }
-    if (!allowSingleResize && m_groups->isInGroup(itemId)) {
+    if ((!m_singleSelectionMode && !allowSingleResize) && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
         std::unordered_set<int> items = m_groups->getLeaves(groupId);
         /*if (m_groups->getType(groupId) == GroupType::AVSplit) {
@@ -3831,10 +3910,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     int finalSize;
     for (int id : all_items) {
         int trackId = getItemTrackId(id);
-        if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
-            continue;
-        }
-        if (isSubtitleTrack(trackId) && m_subtitleModel && m_subtitleModel->isLocked()) {
+        if (trackId > -1 && trackIsLocked(trackId)) {
             continue;
         }
         if (right) {
@@ -4168,10 +4244,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
     int resizedCount = 0;
     for (int id : all_items) {
         int trackId = getItemTrackId(id);
-        if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
-            continue;
-        }
-        if (isSubtitleTrack(trackId) && m_subtitleModel && m_subtitleModel->isLocked()) {
+        if (trackId > -1 && trackIsLocked(trackId)) {
             continue;
         }
         if (right) {
@@ -4329,7 +4402,7 @@ int TimelineModel::requestSlipSelection(int offset, bool logUndo)
     int slipCount = 0;
     for (auto id : getCurrentSelection()) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         if (!isClip(id)) {
@@ -4367,7 +4440,7 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool al
     int slipCount = 0;
     for (int id : all_items) {
         int tid = getItemTrackId(id);
-        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+        if (tid > -1 && trackIsLocked(tid)) {
             continue;
         }
         result = result && requestClipSlip(id, offset, logUndo, undo, redo);
@@ -4602,14 +4675,14 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
             }
         }
     }
-    Fun local_update = [position, updatedCompositions]() {
-        for (auto &compo : updatedCompositions) {
+    Fun local_update = [position, cp = updatedCompositions]() {
+        for (auto &compo : cp) {
             compo->setATrack(position + 1, -1);
         }
         return true;
     };
-    Fun local_update_undo = [position, updatedCompositions]() {
-        for (auto &compo : updatedCompositions) {
+    Fun local_update_undo = [position, cp = updatedCompositions]() {
+        for (auto &compo : cp) {
             compo->setATrack(position, -1);
         }
         return true;
@@ -4654,8 +4727,8 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         }
         return true;
     };
+    PUSH_LAMBDA(local_update_undo, local_undo);
     if (addCompositing) {
-        PUSH_LAMBDA(local_update_undo, local_undo);
         PUSH_LAMBDA(rebuild_compositing, local_undo);
     }
     PUSH_LAMBDA(local_name_update, local_undo);
@@ -5072,6 +5145,7 @@ void TimelineModel::updateDuration()
     if (m_closing) {
         return;
     }
+
     int current = m_blackClip->get_playtime() - TimelineModel::seekDuration - 1;
     int duration = 0;
     for (const auto &tck : m_iteratorTable) {
@@ -5090,10 +5164,9 @@ void TimelineModel::updateDuration()
     }
     if (duration != current) {
         // update black track length
-        std::unique_ptr<Mlt::Field> field(m_tractor->field());
-        field->lock();
+        m_blackClip->lock();
         m_blackClip->set("out", duration + TimelineModel::seekDuration);
-        field->unlock();
+        m_blackClip->unlock();
         Q_EMIT durationUpdated(m_uuid);
         if (m_masterStack) {
             Q_EMIT m_masterStack->dataChanged(QModelIndex(), QModelIndex(), {});
@@ -5401,6 +5474,12 @@ int TimelineModel::getSubtitlePosition(int subId) const
     return m_subtitleModel->getPosition(subId).frames(pCore->getCurrentFps());
 }
 
+int TimelineModel::getSubtitleLayer(int subId) const
+{
+    Q_ASSERT(m_subtitleModel->hasSubtitle(subId));
+    return m_subtitleModel->getLayerForId(subId);
+}
+
 int TimelineModel::getCompositionPosition(int compoId) const
 {
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
@@ -5452,6 +5531,12 @@ int TimelineModel::getItemFakePosition(int itemId) const
     return -1;
 }
 
+std::pair<int, int> TimelineModel::getClipInOut(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->getInOut();
+}
+
 int TimelineModel::getClipSubPlaylistIndex(int cid) const
 {
     Q_ASSERT(isClip(cid));
@@ -5462,6 +5547,12 @@ const QString TimelineModel::getClipName(int cid) const
 {
     Q_ASSERT(isClip(cid));
     return m_allClips.at(cid)->clipName();
+}
+
+bool TimelineModel::clipIsValid(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    return m_allClips.at(cid)->isValid();
 }
 
 int TimelineModel::getItemEnd(int itemId) const
@@ -5677,26 +5768,26 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
 
     // Unplant track compositing
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
-    mlt_properties properties = MLT_SERVICE_PROPERTIES(nextservice);
-    QString resource = mlt_properties_get(properties, "mlt_service");
-
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     QList<Mlt::Transition *> trackCompositions;
+    QString resource;
     while (mlt_type == mlt_service_transition_type) {
         Mlt::Transition transition(reinterpret_cast<mlt_transition>(nextservice));
         nextservice = mlt_service_producer(nextservice);
+        resource = transition.get("mlt_service");
         int internal = transition.get_int("internal_added");
-        if (internal > 0 && resource != QLatin1String("mix")) {
-            trackCompositions << new Mlt::Transition(transition);
-            field->disconnect_service(transition);
-            transition.disconnect_all_producers();
+        if (internal > 0) {
+            if (resource != QLatin1String("mix")) {
+                trackCompositions << new Mlt::Transition(transition);
+                field->disconnect_service(transition);
+                transition.disconnect_all_producers();
+            }
         }
+
         if (nextservice == nullptr) {
             break;
         }
         mlt_type = mlt_service_identify(nextservice);
-        properties = MLT_SERVICE_PROPERTIES(nextservice);
-        resource = mlt_properties_get(properties, "mlt_service");
     }
     // Sort track compositing
     std::sort(trackCompositions.begin(), trackCompositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
@@ -5717,9 +5808,11 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         }
     }
     // Replant last tracks compositing
+    Mlt::Transition *firstTr = nullptr;
     while (!trackCompositions.isEmpty()) {
-        Mlt::Transition *firstTr = trackCompositions.takeFirst();
+        firstTr = trackCompositions.takeFirst();
         field->plant_transition(*firstTr, firstTr->get_a_track(), firstTr->get_b_track());
+        delete firstTr;
     }
     field->unlock();
     if (updateView) {
@@ -5735,7 +5828,7 @@ bool TimelineModel::unplantComposition(int compoId)
     mlt_service consumer = mlt_service_consumer(transition.get_service());
     Q_ASSERT(consumer != nullptr);
     QScopedPointer<Mlt::Field> field(m_tractor->field());
-    field->lock();
+    field->block();
     field->disconnect_service(transition);
     int ret = transition.disconnect_all_producers();
 
@@ -5743,7 +5836,7 @@ bool TimelineModel::unplantComposition(int compoId)
     // mlt_service consumer = mlt_service_consumer(transition.get_service());
     Q_ASSERT(nextservice == nullptr);
     // Q_ASSERT(consumer == nullptr);
-    field->unlock();
+    field->unblock();
     return ret != 0;
 }
 
@@ -5870,7 +5963,7 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
         }
     }
     QScopedPointer<Mlt::Field> field(m_tractor->field());
-    field->lock();
+    field->block();
 
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
@@ -5906,7 +5999,7 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
                 qWarning() << "No matching composition IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack << " / " << currentATrack
                            << ", SERVICE: " << mlt_properties_get(MLT_TRANSITION_PROPERTIES(tr), "mlt_service")
                            << "\nID: " << mlt_properties_get(MLT_TRANSITION_PROPERTIES(tr), "id");
-                field->unlock();
+                field->unblock();
                 return false;
             }
             remaining_compo.erase(foundId);
@@ -5917,7 +6010,7 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
         }
         mlt_type = mlt_service_identify(nextservice);
     }
-    field->unlock();
+    field->unblock();
 
     if (!remaining_compo.empty()) {
         qWarning() << "Compositions have not been found:";
@@ -6054,13 +6147,23 @@ void TimelineModel::importMasterEffects(std::weak_ptr<Mlt::Service> service)
 QStringList TimelineModel::extractCompositionLumas() const
 {
     QStringList urls;
+    QStringList parsedLumas;
     for (const auto &compo : m_allCompositions) {
         QString luma = compo.second->getProperty(QStringLiteral("resource"));
         if (luma.isEmpty()) {
             luma = compo.second->getProperty(QStringLiteral("luma"));
         }
         if (!luma.isEmpty()) {
-            urls << QUrl::fromLocalFile(luma).toLocalFile();
+            if (parsedLumas.contains(luma)) {
+                continue;
+            }
+            parsedLumas << luma;
+            QFileInfo info(luma);
+            if (!info.exists() && DocumentChecker::isMltBuildInLuma(info.fileName())) {
+                // Built-in MLT luma, ignore
+                continue;
+            }
+            urls << info.absoluteFilePath();
         }
     }
     urls.removeDuplicates();
@@ -6579,9 +6682,11 @@ void TimelineModel::requestRemoveFromSelection(int itemId)
 
 bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
 {
-    QWriteLocker locker(&m_lock);
     TRACE(ids);
-    requestClearSelection();
+    if (m_currentSelection.size() > 0) {
+        requestClearSelection();
+    }
+    QWriteLocker locker(&m_lock);
     // if the items are in groups, we must retrieve their topmost containing groups
     std::unordered_set<int> roots;
     std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return m_groups->getRootId(id); });
@@ -6590,41 +6695,26 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
     if (roots.size() == 0) {
         m_currentSelection.clear();
     } else if (roots.size() == 1) {
-        m_currentSelection = {*(roots.begin())};
+        int sid = *(roots.begin());
+        m_currentSelection = {sid};
         setSelected(*m_currentSelection.begin(), true);
+        if (isGroup(sid)) {
+            // Check if this is a group of same
+            std::unordered_set<int> childIds = m_groups->getLeaves(sid);
+            checkAndUpdateOffset(childIds);
+        }
     } else {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         if (ids.size() == 2) {
             // Check if we selected 2 clips from the same master
-            QList<int> pairIds;
+            std::unordered_set<int> pairIds;
             for (auto &id : roots) {
                 if (isClip(id)) {
-                    pairIds << id;
+                    pairIds.insert(id);
                 }
             }
-            if (pairIds.size() == 2 && getClipBinId(pairIds.at(0)) == getClipBinId(pairIds.at(1))) {
-                // Check if they have same bin id
-                ClipType::ProducerType type = m_allClips[pairIds.at(0)]->clipType();
-                if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {
-                    // Both clips have same bin ID, display offset
-                    int pos1 = getClipPosition(pairIds.at(0));
-                    int pos2 = getClipPosition(pairIds.at(1));
-                    if (pos2 > pos1) {
-                        int offset = pos2 - getClipIn(pairIds.at(1)) - (pos1 - getClipIn(pairIds.at(0)));
-                        if (offset != 0) {
-                            m_allClips[pairIds.at(1)]->setOffset(offset);
-                            m_allClips[pairIds.at(0)]->setOffset(-offset);
-                        }
-                    } else {
-                        int offset = pos1 - getClipIn(pairIds.at(0)) - (pos2 - getClipIn(pairIds.at(1)));
-                        if (offset != 0) {
-                            m_allClips[pairIds.at(0)]->setOffset(offset);
-                            m_allClips[pairIds.at(1)]->setOffset(-offset);
-                        }
-                    }
-                }
-            }
+            checkAndUpdateOffset(pairIds);
         }
         int groupId = m_groups->groupItems(ids, undo, redo, GroupType::Selection);
         if (groupId > -1) {
@@ -6640,6 +6730,39 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
     }
     Q_EMIT selectionChanged();
     return result;
+}
+
+void TimelineModel::checkAndUpdateOffset(std::unordered_set<int> pairIds)
+{
+    if (pairIds.size() != 2) {
+        return;
+    }
+    std::unordered_set<int>::iterator it = pairIds.begin();
+    int ix1 = *it;
+    std::advance(it, 1);
+    int ix2 = *it;
+    if (getClipBinId(ix1) == getClipBinId(ix2)) {
+        // Check if they have same bin id
+        ClipType::ProducerType type = m_allClips[ix1]->clipType();
+        if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {
+            // Both clips have same bin ID, display offset
+            int pos1 = getClipPosition(ix1);
+            int pos2 = getClipPosition(ix2);
+            if (pos2 > pos1) {
+                int offset = pos2 - getClipIn(ix2) - (pos1 - getClipIn(ix1));
+                if (offset != 0) {
+                    m_allClips[ix2]->setOffset(offset);
+                    m_allClips[ix1]->setOffset(-offset);
+                }
+            } else {
+                int offset = pos1 - getClipIn(ix1) - (pos2 - getClipIn(ix2));
+                if (offset != 0) {
+                    m_allClips[ix1]->setOffset(offset);
+                    m_allClips[ix2]->setOffset(-offset);
+                }
+            }
+        }
+    }
 }
 
 void TimelineModel::setSelected(int itemId, bool sel)
@@ -7378,7 +7501,7 @@ void TimelineModel::loadPreview(const QString &chunks, const QString &dirty, boo
     QVariantList dirtyChunks;
     QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
     QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
-    for (const QString &frame : qAsConst(chunksList)) {
+    for (const QString &frame : std::as_const(chunksList)) {
         if (frame.contains(QLatin1Char('-'))) {
             // Range, process
             int start = frame.section(QLatin1Char('-'), 0, 0).toInt();
@@ -7390,7 +7513,7 @@ void TimelineModel::loadPreview(const QString &chunks, const QString &dirty, boo
             renderedChunks << frame.toInt();
         }
     }
-    for (const QString &frame : qAsConst(dirtyList)) {
+    for (const QString &frame : std::as_const(dirtyList)) {
         if (frame.contains(QLatin1Char('-'))) {
             // Range, process
             int start = frame.section(QLatin1Char('-'), 0, 0).toInt();

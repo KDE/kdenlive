@@ -33,6 +33,7 @@ class TimelineItemModel : public TimelineModel
     Q_OBJECT
 
 public:
+    friend class KdenliveTests;
     /** @brief construct a timeline object and returns a pointer to the created object
        @param undo_stack is a weak pointer to the undo stack of the project
        @param guideModel ptr to the guide model of the project
@@ -99,7 +100,7 @@ public:
     void applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                                  const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
     QList<std::shared_ptr<KeyframeModelList>> getGroupKeyframeModels(int cid, const QString &assetId);
-    void removeEffectFromGroup(int cid, const QString &assetId);
+    void removeEffectFromGroup(int cid, const QString &assetId, int originalId);
     void disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo);
 
     const QString groupsData();
@@ -110,6 +111,7 @@ public:
 
     /** @brief Rebuild track compositing */
     void buildTrackCompositing(bool rebuild = false) override;
+    void removeTrackCompositing() override;
     /** @brief Register all tracks in the mixer */
     void rebuildMixer();
     void _beginRemoveRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
@@ -128,4 +130,5 @@ Q_SIGNALS:
     void showTrackEffectStack(int tid);
     void subtitleModelInitialized();
     void subtitlesListChanged();
+    void maxSubLayerChanged();
 };

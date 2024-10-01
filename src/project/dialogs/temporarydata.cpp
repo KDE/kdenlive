@@ -56,7 +56,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
     const QRectF pieRect(5, 5, pieWidth, pieWidth);
     int ix = 0;
     int previous = 0;
-    for (int val : qAsConst(m_segments)) {
+    for (int val : std::as_const(m_segments)) {
         if (val == 0) {
             ix++;
             continue;
@@ -330,7 +330,7 @@ void TemporaryData::updateTotal()
     currentSize->setText(KIO::convertSize(m_totalCurrent));
     delCurrent->setEnabled(m_totalCurrent > 0);
     QList<int> segments;
-    for (KIO::filesize_t size : qAsConst(m_currentSizes)) {
+    for (KIO::filesize_t size : std::as_const(m_currentSizes)) {
         if (m_totalCurrent == 0) {
             segments << 0;
         } else {
@@ -383,7 +383,7 @@ void TemporaryData::cleanBackup()
     QStringList oldFiles;
     QDateTime current = QDateTime::currentDateTime();
     KIO::filesize_t totalSize = 0;
-    for (const QFileInfo &f : qAsConst(files)) {
+    for (const QFileInfo &f : std::as_const(files)) {
         if (f.lastModified().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             oldFiles << f.fileName();
             totalSize += f.size();
@@ -400,7 +400,7 @@ void TemporaryData::cleanBackup()
         return;
     }
     if (backupFolder.dirName() == QLatin1String(".backup")) {
-        for (const QString &f : qAsConst(oldFiles)) {
+        for (const QString &f : std::as_const(oldFiles)) {
             backupFolder.remove(f);
         }
         processBackupDirectories();
@@ -433,7 +433,7 @@ void TemporaryData::cleanCache()
         }
     }
     QStringList folders;
-    for (auto *item : qAsConst(emptyDirs)) {
+    for (auto *item : std::as_const(emptyDirs)) {
         folders << item->data(0, Qt::UserRole).toString();
     }
     if (folders.isEmpty()) {
@@ -471,7 +471,7 @@ void TemporaryData::deleteProjectProxy()
                                                files) != KMessageBox::Continue) {
         return;
     }
-    for (const QString &file : qAsConst(files)) {
+    for (const QString &file : std::as_const(files)) {
         dir.remove(file);
     }
     Q_EMIT disableProxies();
@@ -688,7 +688,7 @@ void TemporaryData::refreshGlobalPie()
 {
     QList<QTreeWidgetItem *> list = listWidget->selectedItems();
     KIO::filesize_t currentSize = 0;
-    for (QTreeWidgetItem *current : qAsConst(list)) {
+    for (QTreeWidgetItem *current : std::as_const(list)) {
         if (current) {
             currentSize += current->data(1, Qt::UserRole).toULongLong();
         }
@@ -707,7 +707,7 @@ void TemporaryData::deleteSelected()
 {
     QList<QTreeWidgetItem *> list = listWidget->selectedItems();
     QStringList folders;
-    for (QTreeWidgetItem *current : qAsConst(list)) {
+    for (QTreeWidgetItem *current : std::as_const(list)) {
         if (current) {
             folders << current->data(0, Qt::UserRole).toString();
         }
@@ -725,7 +725,7 @@ void TemporaryData::deleteSelected()
 void TemporaryData::deleteCache(QStringList &folders)
 {
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    for (const QString &folder : qAsConst(folders)) {
+    for (const QString &folder : std::as_const(folders)) {
         if (folder == currentId) {
             // Trying to delete current project's tmp folder. Do not delete, but clear it
             deleteCurrentCacheData(false);
@@ -764,7 +764,7 @@ void TemporaryData::cleanProxy()
     QStringList oldFiles;
     QDateTime current = QDateTime::currentDateTime();
     size_t size = 0;
-    for (const QFileInfo &f : qAsConst(files)) {
+    for (const QFileInfo &f : std::as_const(files)) {
         if (f.lastModified().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             oldFiles << f.fileName();
             size += size_t(f.size());
@@ -779,7 +779,7 @@ void TemporaryData::cleanProxy()
         KMessageBox::Continue) {
         return;
     }
-    for (const QString &f : qAsConst(oldFiles)) {
+    for (const QString &f : std::as_const(oldFiles)) {
         proxies.remove(f);
     }
     processProxyDirectory();

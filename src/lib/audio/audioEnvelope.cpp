@@ -26,7 +26,7 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
     m_producer = clip->cloneProducer();
     if (length > 2000) {
-        // Analyse on timeline clip zone only
+        // Analyze on timeline clip zone only
         m_offset = 0;
         m_producer->set_in_and_out(int(offset), int(offset + length));
     }
@@ -58,11 +58,7 @@ AudioEnvelope::~AudioEnvelope()
 
 void AudioEnvelope::startComputeEnvelope()
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_audioSummary = QtConcurrent::run(this, &AudioEnvelope::loadAndNormalizeEnvelope);
-#else
     m_audioSummary = QtConcurrent::run(&AudioEnvelope::loadAndNormalizeEnvelope, this);
-#endif
     m_watcher.setFuture(m_audioSummary);
 }
 

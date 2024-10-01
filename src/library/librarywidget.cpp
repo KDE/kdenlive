@@ -41,11 +41,7 @@ LibraryTree::LibraryTree(QWidget *parent)
 }
 
 // virtual
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> list) const
-#else
 QMimeData *LibraryTree::mimeData(const QList<QTreeWidgetItem *> &list) const
-#endif
 {
     QList<QUrl> urls;
     urls.reserve(list.count());
@@ -66,7 +62,7 @@ void LibraryTree::slotUpdateThumb(const QString &path, const QString &iconPath)
 {
     QString name = QUrl::fromLocalFile(path).fileName();
     QList<QTreeWidgetItem *> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
-    for (QTreeWidgetItem *item : qAsConst(list)) {
+    for (QTreeWidgetItem *item : std::as_const(list)) {
         if (item->data(0, Qt::UserRole).toString() == path) {
             // We found our item
             blockSignals(true);
@@ -81,7 +77,7 @@ void LibraryTree::slotUpdateThumb(const QString &path, const QPixmap &pix)
 {
     QString name = QUrl::fromLocalFile(path).fileName();
     QList<QTreeWidgetItem *> list = findItems(name, Qt::MatchExactly | Qt::MatchRecursive);
-    for (QTreeWidgetItem *item : qAsConst(list)) {
+    for (QTreeWidgetItem *item : std::as_const(list)) {
         if (item->data(0, Qt::UserRole).toString() == path) {
             // We found our item
             blockSignals(true);
@@ -97,13 +93,13 @@ void LibraryTree::mousePressEvent(QMouseEvent *event)
     QTreeWidgetItem *clicked = this->itemAt(event->pos());
     QList<QAction *> act = actions();
     if (clicked) {
-        for (QAction *a : qAsConst(act)) {
+        for (QAction *a : std::as_const(act)) {
             a->setEnabled(true);
         }
     } else {
         // Clicked in empty area, disable clip actions
         clearSelection();
-        for (QAction *a : qAsConst(act)) {
+        for (QAction *a : std::as_const(act)) {
             if (a->data().toInt() == 1) {
                 a->setEnabled(false);
             }
@@ -115,11 +111,7 @@ void LibraryTree::mousePressEvent(QMouseEvent *event)
 void LibraryTree::dropEvent(QDropEvent *event)
 {
     const QMimeData *qMimeData = event->mimeData();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QTreeWidgetItem *dropped = this->itemAt(event->pos());
-#else
     QTreeWidgetItem *dropped = this->itemAt(event->position().toPoint());
-#endif
     QString dest;
     if (dropped) {
         dest = dropped->data(0, Qt::UserRole).toString();
@@ -134,7 +126,7 @@ void LibraryTree::dropEvent(QDropEvent *event)
         Q_EMIT importSequence(QString(qMimeData->data(QStringLiteral("kdenlive/clip"))).split(QLatin1Char(';')), dest);
     } else if (qMimeData->hasFormat(QStringLiteral("text/producerslist"))) {
         QStringList list = QString(qMimeData->data(QStringLiteral("text/producerslist"))).split(QLatin1Char(';'));
-        for (const QString &prodslist : qAsConst(list)) {
+        for (const QString &prodslist : std::as_const(list)) {
             if (prodslist.startsWith(QLatin1Char('#'))) {
                 // Bin folder, not supported yet
                 continue;
@@ -559,7 +551,7 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
         }
         QTreeWidgetItem *matchingFolder = nullptr;
         if (path != m_directory.absolutePath()) {
-            for (QTreeWidgetItem *folder : qAsConst(m_folders)) {
+            for (QTreeWidgetItem *folder : std::as_const(m_folders)) {
                 if (folder->data(0, Qt::UserRole).toString() == path) {
                     // Found parent folder
                     matchingFolder = folder;
@@ -572,12 +564,12 @@ void LibraryWidget::slotItemsDeleted(const KFileItemList &list)
                 m_folders.removeAll(matchingFolder);
                 // warning, we also need to remove all subfolders since they will be recreated
                 QList<QTreeWidgetItem *> subList;
-                for (QTreeWidgetItem *folder : qAsConst(m_folders)) {
+                for (QTreeWidgetItem *folder : std::as_const(m_folders)) {
                     if (folder->data(0, Qt::UserRole).toString().startsWith(path)) {
                         subList << folder;
                     }
                 }
-                for (QTreeWidgetItem *sub : qAsConst(subList)) {
+                for (QTreeWidgetItem *sub : std::as_const(subList)) {
                     m_folders.removeAll(sub);
                 }
                 delete matchingFolder;
@@ -611,7 +603,7 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         if (url != QUrl::fromLocalFile(m_directory.absolutePath())) {
             // not a top level item
             QString directory = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
-            for (QTreeWidgetItem *folder : qAsConst(m_folders)) {
+            for (QTreeWidgetItem *folder : std::as_const(m_folders)) {
                 if (folder->data(0, Qt::UserRole).toString() == directory) {
                     // Found parent folder
                     parent = folder;

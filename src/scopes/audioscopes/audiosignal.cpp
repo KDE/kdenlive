@@ -40,11 +40,11 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
         chanAvg.append(char(val / num_samples));
     }
 
-    if (m_peeks.count() != chanAvg.count()) {
-        m_peeks = QByteArray(chanAvg.count(), 0);
-        m_peekage = QByteArray(chanAvg.count(), 0);
+    if (m_peeks.size() != chanAvg.size()) {
+        m_peeks = QByteArray(chanAvg.size(), 0);
+        m_peekage = QByteArray(chanAvg.size(), 0);
     }
-    for (int chan = 0; chan < m_peeks.count(); chan++) {
+    for (int chan = 0; chan < m_peeks.size(); chan++) {
         m_peekage[chan] = char(m_peekage[chan] + 1);
         if (m_peeks.at(chan) < chanAvg.at(chan) || m_peekage.at(chan) > 50) {
             m_peekage[chan] = 0;
@@ -112,7 +112,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
     }
     if (showdb) {
         // draw db value at related pixel
-        for (int l : qAsConst(m_dbscale)) {
+        for (int l : std::as_const(m_dbscale)) {
             if (!horiz) {
                 double xf = pow(10.0, l / 20.0) * height();
                 p.drawText(width() - dbsize, height() - int(xf * 40 / 42 + 20), QString::number(l));
@@ -192,11 +192,11 @@ void AudioSignal::slotNoAudioTimeout()
 void AudioSignal::showAudio(const QByteArray &arr)
 {
     m_channels = arr;
-    if (m_peeks.count() != m_channels.count()) {
-        m_peeks = QByteArray(m_channels.count(), 0);
-        m_peekage = QByteArray(m_channels.count(), 0);
+    if (m_peeks.size() != m_channels.size()) {
+        m_peeks = QByteArray(m_channels.size(), 0);
+        m_peekage = QByteArray(m_channels.size(), 0);
     }
-    for (int chan = 0; chan < m_peeks.count(); chan++) {
+    for (int chan = 0; chan < m_peeks.size(); chan++) {
         m_peekage[chan] = char(m_peekage[chan] + 1);
         if (m_peeks.at(chan) < arr.at(chan) || m_peekage.at(chan) > 50) {
             m_peekage[chan] = 0;

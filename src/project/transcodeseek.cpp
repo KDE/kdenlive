@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "transcodeseek.h"
+#include "bin/projectclip.h"
 #include "kdenlivesettings.h"
 
 #include <KLocalizedString>
@@ -14,7 +15,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QFontDatabase>
 #include <QPushButton>
 #include <QStandardPaths>
-#include <kxmlgui_version.h>
 
 TranscodeSeek::TranscodeSeek(bool onUserRequest, bool forceReplace, QWidget *parent)
     : QDialog(parent)
@@ -23,6 +23,16 @@ TranscodeSeek::TranscodeSeek(bool onUserRequest, bool forceReplace, QWidget *par
     setupUi(this);
     if (onUserRequest) {
         label->setVisible(false);
+    }
+    if (KdenliveSettings::transcodeFriendly().isEmpty()) {
+        // Use GPU accel by default if possible
+        if (KdenliveSettings::supportedHWCodecs().contains(QLatin1String("h264_nvenc"))) {
+            KdenliveSettings::setTranscodeFriendly(QStringLiteral("Lossy x264 I frame only (NVidia GPU)"));
+        } else if (KdenliveSettings::supportedHWCodecs().contains(QLatin1String("h264_vaapi"))) {
+            KdenliveSettings::setTranscodeFriendly(QStringLiteral("Lossy x264 I frame only (VAAPI GPU)"));
+        } else {
+            KdenliveSettings::setTranscodeFriendly(QStringLiteral("Lossy x264 I frame only"));
+        }
     }
     setAttribute(Qt::WA_DeleteOnClose, false);
     setWindowTitle(i18nc("@title:window", "Transcode Clip"));
@@ -80,7 +90,6 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
     }
     const QString currentParams = m_encodeParams.value(encodingprofiles->currentText());
     if (listWidget->count() == 1) {
-        QString currentParams = m_encodeParams.value(encodingprofiles->currentText());
         if (type == ClipType::Audio) {
             if (!currentParams.endsWith(QLatin1String(";audio"))) {
                 // Switch to audio only profile
@@ -141,8 +150,27 @@ QMap<QString, QStringList> TranscodeSeek::ids() const
     return urls;
 }
 
-QString TranscodeSeek::params(int clipType) const
+QString TranscodeSeek::params(std::shared_ptr<ProjectClip> clip, int clipType, std::pair<int, int> fps_info) const
 {
+    QString parameters = params(clipType, fps_info);
+    const QString pix_fmt = clip->videoCodecProperty(QStringLiteral("pix_fmt"));
+    if (pix_fmt.contains(QLatin1String("p10"))) {
+        // 10 bit source, not supported on nvidia hw, enforce 8 bit
+        if (parameters.contains(QLatin1String(" h264_nvenc "))) {
+            parameters.replace(QStringLiteral(" h264_nvenc "), QStringLiteral(" h264_nvenc -pix_fmt yuv420p "));
+        }
+    }
+    return parameters;
+}
+
+QString TranscodeSeek::params(int clipType, std::pair<int, int> fps_info) const
+{
+    QString params = m_encodeParams.value(encodingprofiles->currentText());
+    params = params.section(QLatin1Char(';'), 0, -2);
+    if (params.contains(QLatin1String(" -i "))) {
+        params = params.section(QLatin1String(" -i "), 1);
+    }
+    QStringList splitParams = params.split(QLatin1Char(' '));
     switch (clipType) {
     case ClipType::Audio: {
         if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
@@ -158,29 +186,73 @@ QString TranscodeSeek::params(int clipType) const
         break;
     }
     case ClipType::Video: {
-        if (!m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";video"))) {
-            // Switch to video only profile
-            QMapIterator<QString, QString> i(m_encodeParams);
-            while (i.hasNext()) {
-                i.next();
-                if (i.value().endsWith(QLatin1String(";video"))) {
-                    return i.value().section(QLatin1Char(';'), 0, -2);
+        if (m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";av"))) {
+            KdenliveSettings::setTranscodeFriendly(encodingprofiles->currentText());
+            // Remove audio options
+            int ix = splitParams.indexOf(QLatin1String("-codec:a"));
+            if (ix == -1) {
+                ix = splitParams.indexOf(QLatin1String("-c:a"));
+            }
+            if (ix > -1 && ix + 1 < splitParams.count()) {
+                // Remove audio codec
+                splitParams.removeAt(ix + 1);
+                splitParams[ix] = QStringLiteral("-an");
+            }
+            // Now, remove audio bitrate info if any
+            ix = splitParams.indexOf(QLatin1String("-ab"));
+            if (ix > -1) {
+                // Remove -ab
+                splitParams.removeAt(ix);
+                if (ix < splitParams.count()) {
+                    // Remove bitrate
+                    splitParams.removeAt(ix);
                 }
             }
         }
         break;
     }
     default:
+        if (m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";av"))) {
+            // Only store selected av preset
+            KdenliveSettings::setTranscodeFriendly(encodingprofiles->currentText());
+        }
         break;
     }
-    if (m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";av"))) {
-        // Only store selected av preset
-        KdenliveSettings::setTranscodeFriendly(encodingprofiles->currentText());
+    if (clipType != ClipType::Audio && !m_encodeParams.value(encodingprofiles->currentText()).endsWith(QLatin1String(";audio"))) {
+        // Enforce constant fps for clips with video
+        int ix = splitParams.indexOf(QLatin1String("-vf"));
+        if (ix == -1) {
+            ix = splitParams.indexOf(QLatin1String("-filter:v"));
+        }
+        if (ix == -1) {
+            ix = splitParams.indexOf(QLatin1String("-f:v"));
+        }
+        if (ix == -1) {
+            splitParams.insert(splitParams.count() - 1, QStringLiteral("-filter:v"));
+            splitParams.insert(splitParams.count() - 1, QStringLiteral("fps=fps=%1/%2").arg(fps_info.first).arg(fps_info.second));
+        } else {
+            // We already have a video filter, simply append the fps params
+            ix++;
+            if (ix < splitParams.count()) {
+                QString filterParams = splitParams.at(ix);
+                filterParams.append(QStringLiteral(",fps=fps=%1/%2").arg(fps_info.first).arg(fps_info.second));
+                splitParams[ix] = filterParams;
+            }
+        }
     }
-    return m_encodeParams.value(encodingprofiles->currentText()).section(QLatin1Char(';'), 0, -2);
+    params = splitParams.join(QLatin1Char(' '));
+    return params;
 }
 
 QString TranscodeSeek::preParams() const
 {
-    return QStringLiteral("-noautorotate");
+    QString params = m_encodeParams.value(encodingprofiles->currentText());
+    params = params.section(QLatin1Char(';'), 0, -2);
+    if (params.contains(QLatin1String(" -i "))) {
+        QString p = params.section(QLatin1String(" -i "), 0, 0);
+        p.append(QStringLiteral(" -noautorotate"));
+        return p.simplified();
+    } else {
+        return QStringLiteral("-noautorotate");
+    }
 }

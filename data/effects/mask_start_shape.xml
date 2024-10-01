@@ -30,4 +30,5 @@
         <name>Use Threshold</name>
         <comment>Whether to apply a threshold filter to the luma or alpha or not. If not, luma or alpha value of the resource (File) is copied to the alpha channel.</comment>
     </parameter>
+    <parameter type="fixed" name="filter.audio_match" default="0" />
 </effect>

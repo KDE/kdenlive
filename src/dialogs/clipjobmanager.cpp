@@ -42,14 +42,14 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     connect(button_delete, &QToolButton::clicked, this, &ClipJobManager::deleteJob);
 
     job_params->setToolTip(i18n("Arguments for the command line script"));
-    job_params->setWhatsThis(
-        xi18nc("@info:whatsthis",
-               "<b>{&#x25;1}</b> will be replaced by the first parameter, <b>{&#x25;2}</b> by the second, <b>{&#x25;3}</b> by the output file path."));
+    job_params->setWhatsThis(xi18nc(
+        "@info:whatsthis", "<b>{source}</b> will be replaced by the Bin Clip source file path, <b>{param1}</b> will be replaced by the first parameter value, "
+                           "<b>{param2}</b> will be replaced by the second parameter value, <b>{output}</b> will be replaced by the output file name."));
     destination_pattern->setToolTip(i18n("File extension for the output file"));
     destination_pattern->setWhatsThis(
         xi18nc("@info:whatsthis",
                "The output file name will be the same as the source bin clip filename, with the modified extension. It will be appended at the end of the "
-               "arguments or inserted in place of <b>{&#x25;3}</b> if found. If output filename already exists, a -0001 pattern will be appended."));
+               "arguments or inserted in place of <b>{output}</b> if found. If output filename already exists, a -0001 pattern will be appended."));
 
     param1_isfile->setToolTip(i18n("If selected, a file path will be requested on execution"));
     param1_islist->setToolTip(i18n("If selected, a dropdown list of values will be shown on execution"));
@@ -58,13 +58,13 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     param1_list->setToolTip(i18n("A newline separated list of possible values that will be offered on execution"));
     param1_list->setWhatsThis(
         xi18nc("@info:whatsthis",
-               "When the parameter is set to <b>Request Option in List</b> the user will be asked to choose a value in this list when the job is started."));
+               "When the parameter is set to <b>Request Option from List</b> the user will be asked to choose a value in this list when the job is started."));
 
     param2_isfile->setToolTip(i18n("If selected, a file path will be requested on execution"));
     param1_islist->setToolTip(i18n("If selected, a dropdown list of values will be shown on execution"));
     param2_list->setWhatsThis(
         xi18nc("@info:whatsthis",
-               "When the parameter is set to <b>Request Option in List</b> the user will be asked to choose a value in this list when the job is started."));
+               "When the parameter is set to <b>Request Option from List</b> the user will be asked to choose a value in this list when the job is started."));
 
     connect(job_list, &QListWidget::itemChanged, this, &ClipJobManager::updateName);
 
@@ -81,11 +81,8 @@ ClipJobManager::ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent)
     param1Bg->addButton(param1_isframe);
 
     // Mark preset as dirty if anything changes
-    connect(url_binary, &KUrlRequester::textChanged, this, [this]() {
-        checkScript();
-        setDirty();
-    });
-    connect(job_params, &QPlainTextEdit::textChanged, this, &ClipJobManager::setDirty);
+    connect(url_binary, &KUrlRequester::textChanged, this, [this]() { checkScript(); });
+    connect(job_params, &QPlainTextEdit::textChanged, this, &ClipJobManager::checkScript);
     connect(destination_pattern, &QLineEdit::textChanged, this, &ClipJobManager::setDirty);
     connect(radio_replace, &QRadioButton::toggled, this, &ClipJobManager::setDirty);
     connect(combo_folder, &QComboBox::currentIndexChanged, this, &ClipJobManager::setDirty);
@@ -243,6 +240,15 @@ void ClipJobManager::displayJob(int row)
 
 void ClipJobManager::checkScript()
 {
+    // Check that we have an even number of quotes
+    int dquotes = job_params->toPlainText().count(QLatin1Char('"'));
+    int squotes = job_params->toPlainText().count(QLatin1Char('\''));
+    if (dquotes % 2 != 0 || squotes % 2 != 0) {
+        script_message->setText(i18n("Check your parameters syntax (incorrect number of quotes)"));
+        script_message->setVisible(true);
+        setDirty();
+        return;
+    }
     if (url_binary->text().isEmpty() || !url_binary->isEnabled()) {
         script_message->setVisible(false);
         return;
@@ -257,6 +263,7 @@ void ClipJobManager::checkScript()
     } else {
         script_message->setVisible(false);
     }
+    setDirty();
 }
 
 QMap<QString, QString> ClipJobManager::getClipJobNames()

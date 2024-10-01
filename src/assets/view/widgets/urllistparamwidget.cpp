@@ -46,7 +46,6 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
         m_knsbutton->hide();
     }
     // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     m_isLutList = m_model->getAssetId().startsWith(QLatin1String("avfilter.lut3d"));
     UrlListParamWidget::slotRefresh();
 
@@ -144,7 +143,7 @@ void UrlListParamWidget::slotRefresh()
 
         // check for Kdenlive installed luts files
         QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-        for (const QString &folderpath : qAsConst(customLuts)) {
+        for (const QString &folderpath : std::as_const(customLuts)) {
             QDir dir(folderpath);
             QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
             while (it.hasNext()) {
@@ -153,12 +152,22 @@ void UrlListParamWidget::slotRefresh()
         }
     }
     // add all matching files in the location of the current item too
-    if (!currentValue.isEmpty()) {
-        const QString path = QUrl(currentValue).adjusted(QUrl::RemoveFilename).toString();
-        QDir dir(path);
+    bool builtIn = false;
+    if (m_isLumaList) {
+        QFileInfo info(currentValue);
+        // This is an MLT build luma
+        QRegularExpression re("^luma[0-2][0-9].pgm$");
+        if (re.match(info.fileName()).hasMatch() && !info.exists()) {
+            // This is a built in luma.
+            currentValue = info.fileName();
+            builtIn = true;
+        }
+    }
+    if (!currentValue.isEmpty() && !builtIn) {
+        QDir dir = QFileInfo(currentValue).absoluteDir();
         if (dir.exists()) {
             QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
-            for (const auto &filename : qAsConst(entrys)) {
+            for (const auto &filename : std::as_const(entrys)) {
                 values.append(dir.filePath(filename));
             }
             // make sure the current value is added. If it is a duplicate we remove it later
@@ -174,7 +183,7 @@ void UrlListParamWidget::slotRefresh()
     QMap<QString, QString> entryMap;
     int ix = 0;
     // Put all name/value combinations in a map
-    for (const QString &value : qAsConst(values)) {
+    for (const QString &value : std::as_const(values)) {
         if (m_isLutList) {
             if (value.toLower().endsWith(QLatin1String(".cube")) && !KdenliveSettings::validated_luts().contains(value)) {
                 // Open LUT file and check validity
@@ -248,11 +257,7 @@ void UrlListParamWidget::slotRefresh()
         }
     }
     if (!thumbnailsToBuild.isEmpty() && !m_watcher.isRunning()) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        m_thumbJob = QtConcurrent::run(this, &UrlListParamWidget::buildThumbnails, thumbnailsToBuild);
-#else
         m_thumbJob = QtConcurrent::run(&UrlListParamWidget::buildThumbnails, this, thumbnailsToBuild);
-#endif
         m_watcher.setFuture(m_thumbJob);
     }
 }
@@ -309,7 +314,7 @@ void UrlListParamWidget::openFile()
     QString urlString = QFileDialog::getOpenFileName(this, QString(), path, filter);
 
     if (!urlString.isEmpty()) {
-        KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QUrl(urlString).adjusted(QUrl::RemoveFilename).toString());
+        KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QFileInfo(urlString).absolutePath());
         if (m_isLutList && urlString.toLower().endsWith(QLatin1String(".cube"))) {
             if (isValidCubeFile(urlString)) {
                 Q_EMIT valueChanged(m_index, urlString, true);

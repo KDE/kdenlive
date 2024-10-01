@@ -19,7 +19,7 @@ class GeometryEditWidget : public AbstractParamWidget
     Q_OBJECT
 public:
     /** @brief Sets up the parameter's GUI.*/
-    explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent = nullptr);
+    explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent, QFormLayout *layout);
     ~GeometryEditWidget() override;
 
 public Q_SLOTS:
@@ -33,12 +33,12 @@ public Q_SLOTS:
 
     /** @brief initialize qml overlay
      */
-    void slotInitMonitor(bool active) override;
+    void slotInitMonitor(bool active, bool outside) override;
 
 private Q_SLOTS:
     /** @brief monitor seek pos changed. */
     void monitorSeek(int pos);
 
 private:
-    GeometryWidget *m_geom;
+    std::unique_ptr<GeometryWidget> m_geom;
 };

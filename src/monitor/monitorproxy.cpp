@@ -39,6 +39,24 @@ MonitorProxy::MonitorProxy(VideoWidget *parent)
     if (q->m_id == int(Kdenlive::ClipMonitor)) {
         connect(pCore->bin(), &Bin::clipNameChanged, this, &MonitorProxy::updateClipName);
     }
+    m_showGrid = KdenliveSettings::showMonitorGrid();
+}
+
+void MonitorProxy::switchGrid()
+{
+    m_showGrid = !m_showGrid;
+    KdenliveSettings::setShowMonitorGrid(m_showGrid);
+    Q_EMIT showGridChanged();
+}
+
+int MonitorProxy::gridH() const
+{
+    return KdenliveSettings::monitorGridH();
+}
+
+int MonitorProxy::gridV() const
+{
+    return KdenliveSettings::monitorGridV();
 }
 
 int MonitorProxy::getPosition() const
@@ -608,13 +626,24 @@ void MonitorProxy::setJobsProgress(const ObjectId &owner, const QStringList &job
         // Not interested
         return;
     }
+
+    m_jobsProgress = jobProgress;
+    m_jobsUuids = jobUuids;
     if (m_runningJobs != jobNames) {
         m_runningJobs = jobNames;
         Q_EMIT runningJobsChanged();
     }
-    m_jobsProgress = jobProgress;
-    m_jobsUuids = jobUuids;
     Q_EMIT jobsProgressChanged();
+}
+
+void MonitorProxy::clearJobsProgress()
+{
+    if (!m_runningJobs.isEmpty()) {
+        m_jobsProgress.clear();
+        m_jobsUuids.clear();
+        m_runningJobs.clear();
+        Q_EMIT runningJobsChanged();
+    }
 }
 
 void MonitorProxy::terminateJob(const QString &uuid)

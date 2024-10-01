@@ -35,7 +35,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/RenameDialog>
 #include <KImageCache>
 #include <KLocalizedString>
@@ -180,7 +179,7 @@ void SequenceClip::createDisabledMasterProducer()
         m_disabledProducer = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(pCore->getProjectProfile(), "color", "red"));
         Mlt::Properties original(m_masterProducer->get_properties());
         Mlt::Properties target(m_disabledProducer->get_properties());
-        target.pass_list(original, "kdenlive:id,kdenlive:duration,kdenlive:maxduration,length");
+        target.pass_list(original, "kdenlive:control_uuid,kdenlive:id,kdenlive:duration,kdenlive:maxduration,length");
         m_disabledProducer->set("set.test_audio", 1);
         m_disabledProducer->set("set.test_image", 1);
     }

@@ -34,6 +34,7 @@ protected:
               PlaylistState::ClipState state, double speed = 1.);
 
 public:
+    friend class KdenliveTests;
     ~ClipModel() override;
     /** @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
@@ -80,6 +81,8 @@ public:
 
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
+    /** @brief Set the active effect in the stack */
+    void setActiveEffect(int row);
 
     /** @brief Returns true if effect stack is enabled */
     bool stackEnabled() const;
@@ -93,21 +96,13 @@ public:
     ClipType::ProducerType clipType() const;
     /** @brief Sets the timeline clip status (video / audio only) */
     bool setClipState(PlaylistState::ClipState state, Fun &undo, Fun &redo);
-    /** @brief The fake track is used in insert/overwrite mode.
-     *  in this case, dragging a clip is always accepted, but the change is not applied to the model.
-     *  so we use a 'fake' track id to pass to the qml view
-     */
-    int getFakeTrackId() const;
-    void setFakeTrackId(int fid);
-    void setFakePosition(int fpos);
-    int getFakePosition() const;
     void setMixDuration(int mix, int offset);
     void setMixDuration(int mix);
     int getMixDuration() const;
     int getMixCutPosition() const;
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
-    int assetRow(const QString &assetId) const override;
+    int assetRow(const QString &assetId, int eid = -1, bool enabledOnly = false) const override;
     std::shared_ptr<KeyframeModelList> getKFModel(int row);
 
     /** @brief Returns an XML representation of the clip with its effects */
@@ -118,6 +113,8 @@ public:
 
     /** @brief Replace the bin producer with another bin clip */
     void switchBinReference(const QString newId, const QUuid &uuid);
+    /** @brief Get the asset id of the active effect, empty if none */
+    const QString activeEffectId() const;
 
 protected:
     /** @brief helper functions that creates the lambda */
@@ -154,6 +151,7 @@ public:
 
     int fadeIn() const;
     int fadeOut() const;
+    int fadeMethod(bool fadeIn) const;
 
     /** @brief Tracks have two sub playlists to enable same track transitions. This returns the index of the sub-playlist containing this clip */
     int getSubPlaylistIndex() const;
@@ -271,9 +269,6 @@ protected:
     double m_speed = -1;
 
     bool m_canBeVideo, m_canBeAudio;
-    /** @brief Fake track id, used when dragging in insert/overwrite mode */
-    int m_fakeTrack;
-    int m_fakePosition;
     /** @brief Temporary val to store offset between two clips with same bin id. */
     int m_positionOffset;
     /** @brief Tracks have two sub playlists to enable same track transitions, we store in which one this clip is. */

@@ -191,7 +191,10 @@ private:
     double m_clipOffset;
     QTemporaryFile m_playlistWav;
     QTemporaryFile m_tmpCutWav;
+    QMenu *m_modelsMenu;
+    QActionGroup *m_modelsGroup{nullptr};
     QAction *m_translateAction;
     SpeechToText *m_stt;
     void applyFontSize();
+    void enableEditActions(bool enable, bool enableStart = true);
 };

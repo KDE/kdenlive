@@ -24,6 +24,7 @@ set(kdenlive_SRCS
   assets/view/widgets/buttonparamwidget.cpp
   assets/view/widgets/switchparamwidget.cpp
   assets/view/widgets/multiswitchparamwidget.cpp
+  assets/view/widgets/effectbuttonsparamwidget.cpp
   assets/view/widgets/urllistparamwidget.cpp
   assets/view/widgets/urlparamwidget.cpp
   assets/view/widgets/doubleparamwidget.cpp
@@ -45,6 +46,7 @@ set(kdenlive_SRCS
   assets/view/widgets/curves/abstractcurvewidget.h
   assets/view/widgets/curves/bezier/beziersplineeditor.cpp
   assets/view/widgets/curves/bezier/cubicbezierspline.cpp
+  assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp
   assets/view/widgets/curves/cubic/kis_curve_widget.cpp
   assets/view/widgets/curves/cubic/kis_cubic_curve.cpp
   PARENT_SCOPE)

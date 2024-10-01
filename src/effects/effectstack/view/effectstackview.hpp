@@ -7,6 +7,7 @@
 
 #include "definitions.h"
 #include <QMutex>
+#include <QReadWriteLock>
 #include <QStyledItemDelegate>
 #include <QTimer>
 #include <QWidget>
@@ -20,7 +21,9 @@ class EffectStackModel;
 class EffectItemModel;
 class AssetIconProvider;
 class BuiltStack;
+class EffectStackFilter;
 class AssetPanel;
+class QPushButton;
 
 class WidgetDelegate : public QStyledItemDelegate
 {
@@ -33,7 +36,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
-    QMap<QModelIndex, int> m_height;
+    QMap<QPersistentModelIndex, int> m_height;
+    mutable QReadWriteLock m_lock;
 };
 
 class EffectStackView : public QWidget
@@ -65,6 +69,8 @@ public:
     void addRemoveKeyframe();
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
+    /** @brief The drag pos, null if not dragging */
+    QPoint dragPos;
 
 public Q_SLOTS:
     /** @brief Save current effect stack
@@ -84,15 +90,19 @@ protected:
 private:
     QMutex m_mutex;
     QVBoxLayout *m_lay;
-    // BuiltStack *m_builtStack;
+
     QTreeView *m_effectsTree;
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
+    std::shared_ptr<EffectStackFilter> m_filter;
     QTimer m_scrollTimer;
     QTimer m_timerHeight;
     QPoint m_dragStart;
     bool m_dragging;
+    QWidget *m_builtStack{nullptr};
+    QPushButton *m_flipV{nullptr};
+    QPushButton *m_flipH{nullptr};
 
     /** @brief the frame size of the original clip this effect is applied on
      */
@@ -114,8 +124,9 @@ private Q_SLOTS:
     /** @brief Activate an effect in the view
      */
     void activateEffect(const QModelIndex &ix, bool active);
-
-    //    void switchBuiltStack(bool show);
+    /** @brief Mark an effect as drop target (draw bottom highlight bar)
+     */
+    void setDropTargetEffect(const QModelIndex &ix, bool active);
 
 Q_SIGNALS:
     void switchCollapsedView(int row);
@@ -126,5 +137,6 @@ Q_SIGNALS:
     void blockWheelEvent(bool block);
     void checkScrollBar();
     void scrollView(QRect);
+    void checkDragScrolling();
     void updateEffectsGroupesInstances();
 };

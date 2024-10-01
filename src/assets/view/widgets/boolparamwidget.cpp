@@ -6,25 +6,33 @@
 #include "boolparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 
+#include <QCheckBox>
+#include <QHBoxLayout>
+#include <QString>
+
 BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    setupUi(this);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    // setup the comment
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
-    m_labelComment->setText(comment);
-    m_widgetComment->setHidden(true);
-
-    // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
-    setMinimumHeight(m_labelName->sizeHint().height());
-
+    QHBoxLayout *lay = new QHBoxLayout(this);
+    lay->setContentsMargins(0, 0, 0, 0);
+    m_checkBox = new QCheckBox(this);
+    lay->addWidget(m_checkBox);
     // set check state
     slotRefresh();
 
     // Q_EMIT the signal of the base class when appropriate
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(this->m_checkBox, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+        // To represent 'checked' status, Qt uses number '2', but
+        // the boolean parameters in MLT effects use number '1'
+        int mltState = int(state);
+        if (state == Qt::CheckState::Checked) {
+            mltState = 1;
+        }
+        Q_EMIT valueChanged(m_index, QString::number(mltState), true);
+    });
+#else
     connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this](int state) {
         // To represent 'checked' status, Qt uses number '2', but
         // the boolean parameters in MLT effects use number '1'
@@ -33,14 +41,10 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
         }
         Q_EMIT valueChanged(m_index, QString::number(state), true);
     });
+#endif
 }
 
-void BoolParamWidget::slotShowComment(bool show)
-{
-    if (!m_labelComment->text().isEmpty()) {
-        m_widgetComment->setVisible(show);
-    }
-}
+void BoolParamWidget::slotShowComment(bool) {}
 
 void BoolParamWidget::slotRefresh()
 {

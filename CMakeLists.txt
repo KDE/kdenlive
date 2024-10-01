@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.16)
 
 # KDE Application Version, managed by release script
 set (RELEASE_SERVICE_VERSION_MAJOR "24")
-set (RELEASE_SERVICE_VERSION_MINOR "07")
+set (RELEASE_SERVICE_VERSION_MINOR "11")
 set (RELEASE_SERVICE_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}.${RELEASE_SERVICE_VERSION_MICRO}")
@@ -23,10 +23,16 @@ option(RELEASE_BUILD "Remove Git revision from program version" ON) # To be swit
 option(BUILD_TESTING "Build tests" ON)
 option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR library, needed for fuzzing)" OFF)
 option(BUILD_FUZZING "Build fuzzing target" OFF)
-option(NODBUS "Build without DBus IPC" OFF)
-option(USE_VERSIONLESS_TARGETS "Use versionless targets" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+
+# shall we use DBus?
+# enabled per default on Linux & BSD systems
+set(USE_DBUS_DEFAULT OFF)
+if(UNIX AND NOT APPLE AND NOT ANDROID AND NOT HAIKU)
+    set(USE_DBUS_DEFAULT ON)
+endif()
+option(USE_DBUS "Build components using DBus" ${USE_DBUS_DEFAULT})
 
 option(BUILD_DESIGNERPLUGIN "Build plugin for Qt Designer" OFF)
 
@@ -37,34 +43,14 @@ set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 # Qt version
-set(QT_MIN_VERSION 5.15.2)
-set(KF_DEP_VERSION "5.92.0")
+set(QT_MIN_VERSION 6.5.0)
+set(KF_DEP_VERSION "6.0.0")
 
 find_package(ECM ${KF_DEP_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-# Select the Qt version we want to use
-# Qt6 is the prefered one, Qt5 the fallback
 if (NOT DEFINED QT_MAJOR_VERSION)
-    if (NOT WIN32)
-      find_package(Qt6 COMPONENTS Core QUIET)
-      if (TARGET Qt6::Core)
-          set(QT_MAJOR_VERSION 6)
-      else()
-          find_package(Qt5 COMPONENTS Core QUIET)
-          if (TARGET Qt5::Core)
-            set(QT_MAJOR_VERSION 5)
-          endif()
-      endif()
-    endif()
-    if(NOT QT_MAJOR_VERSION)
-        option(BUILD_WITH_QT6 "Build against Qt 6" ON)
-        if (BUILD_WITH_QT6)
-            set(QT_MAJOR_VERSION 6)
-        else()
-            set(QT_MAJOR_VERSION 5)
-        endif()
-    endif()
+    set(QT_MAJOR_VERSION 6)
 endif()
 
 ## include ECM Modules
@@ -81,19 +67,13 @@ include(ECMAddQch)
 include(ECMDeprecationSettings)
 remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, but we don't want that yet
 # MLT uses variadic macros upstream and hence the build log gets spamed, so disable the warning
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
-
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(USE_VERSIONLESS_TARGETS ON)
+if(NOT MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
 endif()
 
 # KDE Frameworks
 if (NOT DEFINED KF_MAJOR)
   set(KF_MAJOR ${QT_MAJOR_VERSION})
-endif()
-
-if (KF_MAJOR STREQUAL "6")
-  set(KF_DEP_VERSION "5.240.0")
 endif()
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
@@ -123,13 +103,6 @@ find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}
     Crash
 )
 
-if (KF_MAJOR LESS "6")
-  find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}
-      REQUIRED COMPONENTS
-      Declarative
-  )
-endif()
-
 ecm_set_disabled_deprecation_versions(
     QT ${QT_MIN_VERSION}
     KF ${KF_DEP_VERSION}
@@ -146,11 +119,10 @@ find_package(Qt${QT_MAJOR_VERSION}
     QuickWidgets
     Multimedia
     NetworkAuth
+    SvgWidgets
 )
-if (QT_MAJOR_VERSION STREQUAL "6")
-    find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS SvgWidgets)
-endif()
-if(NOT NODBUS)
+
+if(USE_DBUS)
     find_package(KF${KF_MAJOR} ${KF_DEP_VERSION} REQUIRED COMPONENTS DBusAddons)
     find_package(Qt${QT_MAJOR_VERSION} REQUIRED COMPONENTS DBus)
 endif()
@@ -224,11 +196,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 # Sources
 add_subdirectory(src)
 add_subdirectory(renderer)
-if(KF${KF_MAJOR}GuiAddons_VERSION VERSION_LESS "5.100")
-  add_subdirectory(thumbnailer-deprecated)
-else()
-  add_subdirectory(thumbnailer)
-endif()
+add_subdirectory(thumbnailer)
 add_subdirectory(data)
 
 # Install

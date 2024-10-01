@@ -233,7 +233,6 @@ QString Builder::toQFilter() const
     return filters.join(";;");
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 QList<KFileFilter> Builder::toKFilter() const
 {
     QList<KFileFilter> filters;
@@ -247,21 +246,6 @@ QList<KFileFilter> Builder::toKFilter() const
 
     return filters;
 }
-#else
-QString Builder::toKFilter() const
-{
-    QStringList filters;
-
-    for (auto cat : m_types) {
-        QString label = i18n_label(cat);
-        QStringList extensions = query(cat);
-
-        filters.append(qsl("%2|%1").arg(label, extensions.join(' ')));
-    }
-    
-    return filters.join("\n");
-}
-#endif
 
 QStringList Builder::toExtensionsList() const
 {

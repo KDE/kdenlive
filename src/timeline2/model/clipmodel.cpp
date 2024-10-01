@@ -32,8 +32,6 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     , forceThumbReload(false)
     , m_currentState(state)
     , m_speed(speed)
-    , m_fakeTrack(-1)
-    , m_fakePosition(-1)
     , m_positionOffset(0)
     , m_subPlaylistIndex(0)
     , m_mixDuration(0)
@@ -584,7 +582,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                     }
                 }
                 // Remove all requested keyframes
-                for (int d : qAsConst(toDelete)) {
+                for (int d : std::as_const(toDelete)) {
                     keyframes.remove(d);
                 }
                 // Add replacement keyframes
@@ -1135,6 +1133,11 @@ int ClipModel::fadeOut() const
     return m_effectStack->getFadePosition(false);
 }
 
+int ClipModel::fadeMethod(bool fadeIn) const
+{
+    return m_effectStack->getFadeMethod(fadeIn);
+}
+
 double ClipModel::getSpeed() const
 {
     return m_speed;
@@ -1315,26 +1318,6 @@ const QStringList ClipModel::externalFiles() const
 {
     READ_LOCK();
     return m_effectStack->externalFiles();
-}
-
-int ClipModel::getFakeTrackId() const
-{
-    return m_fakeTrack;
-}
-
-void ClipModel::setFakeTrackId(int fid)
-{
-    m_fakeTrack = fid;
-}
-
-int ClipModel::getFakePosition() const
-{
-    return m_fakePosition;
-}
-
-void ClipModel::setFakePosition(int fpos)
-{
-    m_fakePosition = fpos;
 }
 
 QDomElement ClipModel::toXml(QDomDocument &document)
@@ -1569,9 +1552,9 @@ void ClipModel::switchBinReference(const QString newId, const QUuid &uuid)
     }
 }
 
-int ClipModel::assetRow(const QString &assetId) const
+int ClipModel::assetRow(const QString &assetId, int eid, bool enabledOnly) const
 {
-    return m_effectStack->effectRow(assetId);
+    return m_effectStack->effectRow(assetId, eid, enabledOnly);
 }
 
 std::shared_ptr<KeyframeModelList> ClipModel::getKFModel(int row)
@@ -1583,4 +1566,22 @@ std::shared_ptr<KeyframeModelList> ClipModel::getKFModel(int row)
     }
     std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
     return eff->getKeyframeModel();
+}
+
+const QString ClipModel::activeEffectId() const
+{
+    int activeEffect = m_effectStack->getActiveEffect();
+    if (activeEffect > -1) {
+        std::shared_ptr<AbstractEffectItem> item = m_effectStack->getEffectStackRow(activeEffect);
+        if (item) {
+            std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item);
+            return eff->getAssetId();
+        }
+    }
+    return QString();
+}
+
+void ClipModel::setActiveEffect(int row)
+{
+    m_effectStack->setActiveEffect(row);
 }

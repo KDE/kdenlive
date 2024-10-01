@@ -53,10 +53,18 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     if (m_properties) {
         m_hasMultipleVideoStreams = m_properties->property_exists("kdenlive:multistreams");
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
+        if (m_masterProducer->parent().property_exists("kdenlive:control_uuid")) {
+            const QString uuid = m_masterProducer->parent().get("kdenlive:control_uuid");
+            m_controlUuid = QUuid(uuid);
+        } else {
+            m_controlUuid = QUuid::createUuid();
+            m_properties->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
+        }
         getInfoForProducer();
         checkAudioVideo();
     } else {
         m_producerLock.lockForWrite();
+        m_controlUuid = QUuid::createUuid();
     }
 }
 
@@ -93,19 +101,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     QMapIterator<QString, QVariant> i(m_tempProps);
     while (i.hasNext()) {
         i.next();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        switch (i.value().type()) {
-        case QVariant::Int:
-            setProducerProperty(i.key(), i.value().toInt());
-            break;
-        case QVariant::Double:
-            setProducerProperty(i.key(), i.value().toDouble());
-            break;
-        default:
-            setProducerProperty(i.key(), i.value().toString());
-            break;
-        }
-#else
         switch (i.value().typeId()) {
         case QMetaType::Int:
             setProducerProperty(i.key(), i.value().toInt());
@@ -117,7 +112,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
             setProducerProperty(i.key(), i.value().toString());
             break;
         }
-#endif
     }
     m_tempProps.clear();
     int id = m_controllerBinId.toInt();
@@ -127,6 +121,9 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
+        if (!m_properties->property_exists("kdenlive:control_uuid")) {
+            m_properties->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
+        }
         getInfoForProducer();
         checkAudioVideo();
         if (!m_hasMultipleVideoStreams && m_service.startsWith(QLatin1String("avformat")) && (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
@@ -414,12 +411,14 @@ bool ClipController::isValid()
 const char *ClipController::getPassPropertiesList(bool passLength)
 {
     if (!passLength) {
-        return "kdenlive:proxy,kdenlive:originalurl,kdenlive:multistreams,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_"
+        return "kdenlive:control_uuid,kdenlive:proxy,kdenlive:originalurl,kdenlive:multistreams,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,"
+               "force_fps,force_"
                "progressive,force_tff,threads,"
                "force_"
                "colorspace,set.force_full_luma,file_hash,autorotate,disable_exif,xmldata,vstream,astream,set.test_image,set.test_audio,ttl";
     }
-    return "kdenlive:proxy,kdenlive:originalurl,kdenlive:multistreams,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,"
+    return "kdenlive:control_uuid,kdenlive:proxy,kdenlive:originalurl,kdenlive:multistreams,rotate,force_aspect_num,force_aspect_den,force_aspect_ratio,force_"
+           "fps,force_progressive,"
            "force_tff,threads,"
            "force_"
            "colorspace,set.force_full_luma,templatetext,file_hash,autorotate,disable_exif,xmldata,length,vstream,astream,set.test_image,set.test_audio,"
@@ -477,6 +476,9 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         // Pass properties from previous producer
         m_properties->pass_list(passProperties, passList);
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
+        if (!m_properties->property_exists("kdenlive:control_uuid")) {
+            m_properties->set("kdenlive:control_uuid", m_controlUuid.toString().toUtf8().constData());
+        }
         if (m_clipType != ClipType::Timeline) {
             // Timeline clips effect stack point to the tractor and are handled in ProjectClip::reloadTimeline
             m_effectStack->resetService(m_masterProducer);
@@ -739,6 +741,9 @@ ClipType::ProducerType ClipController::clipType() const
 
 const QSize ClipController::getFrameSize() const
 {
+    if (m_clipType == ClipType::Color) {
+        return pCore->getCurrentFrameSize();
+    }
     QReadLocker lock(&m_producerLock);
     if (m_masterProducer == nullptr) {
         return QSize();
@@ -958,7 +963,7 @@ void ClipController::clearBackupProperties()
             passProps << propName;
         }
     }
-    for (const QString &p : qAsConst(passProps)) {
+    for (const QString &p : std::as_const(passProps)) {
         m_properties->clear(p.toUtf8().constData());
     }
     m_properties->clear("kdenlive:original.backup");

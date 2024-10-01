@@ -443,13 +443,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     dlg->setLayout(layout);
 
     auto dialogFilter = FileFilter::Builder().defaultCategories().toKFilter();
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    fileWidget->setFilter(dialogFilter);
-#else
     fileWidget->setFilters(dialogFilter);
-#endif
-
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
     QWindow *handle = dlg->windowHandle();

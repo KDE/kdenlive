@@ -12,6 +12,7 @@
 #include <KIO/FileCopyJob>
 #include <KMessageBox>
 #include <KRecentDirs>
+
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -21,7 +22,6 @@
 #include <QMenu>
 #include <QStandardPaths>
 #include <QTextEdit>
-#include <knewstuff_version.h>
 
 #include <memory>
 
@@ -34,13 +34,14 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_proxyModel = std::make_unique<EffectFilter>(this);
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(EffectTreeModel::NameRole);
+    setFilterType(QStringLiteral());
     m_proxyModel->sort(0, Qt::AscendingOrder);
     m_effectsTree->setModel(m_proxyModel.get());
     m_effectsTree->setColumnHidden(1, true);
     m_effectsTree->setColumnHidden(2, true);
     m_effectsTree->setColumnHidden(3, true);
+    m_effectsTree->setColumnHidden(4, true);
     m_effectsTree->header()->setStretchLastSection(true);
-    setFilterType("");
     QItemSelectionModel *sel = m_effectsTree->selectionModel();
     connect(sel, &QItemSelectionModel::currentChanged, this, &AssetListWidget::updateAssetInfo);
 }
@@ -49,13 +50,13 @@ EffectListWidget::~EffectListWidget() {}
 
 void EffectListWidget::setFilterType(const QString &type)
 {
-    if (type == "video") {
+    if (type == QLatin1String("video")) {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Video);
-    } else if (type == "audio") {
+    } else if (type == QLatin1String("audio")) {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Audio);
-    } else if (type == "custom") {
+    } else if (type == QLatin1String("custom")) {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Custom);
-    } else if (type == "favorites") {
+    } else if (type == QLatin1String("favorites")) {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Favorites);
     } else {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(false, AssetListType::AssetType::Preferred);

@@ -22,10 +22,10 @@ AudioCorrelation::AudioCorrelation(std::unique_ptr<AudioEnvelope> mainTrackEnvel
 
 AudioCorrelation::~AudioCorrelation()
 {
-    for (AudioEnvelope *envelope : qAsConst(m_children)) {
+    for (AudioEnvelope *envelope : std::as_const(m_children)) {
         delete envelope;
     }
-    for (AudioCorrelationInfo *info : qAsConst(m_correlations)) {
+    for (AudioCorrelationInfo *info : std::as_const(m_correlations)) {
         delete info;
     }
 

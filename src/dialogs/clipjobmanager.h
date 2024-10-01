@@ -27,7 +27,7 @@ public:
     enum class JobCompletionAction { ReplaceOriginal = 0, RootFolder = 1, SubFolder = 2, NoAction = 3 };
 
     explicit ClipJobManager(AbstractTask::JOBTYPE type, QWidget *parent = nullptr);
-    virtual ~ClipJobManager() override;
+    ~ClipJobManager() override;
     static QMap<QString, QString> getClipJobNames();
     /** @brief Returns the {wanted action, folder name} for clip job type @jobId */
     static std::pair<JobCompletionAction, QString> getJobAction(const QString &jobId);
@@ -79,7 +79,7 @@ private Q_SLOTS:
     void deleteJob();
     /** @brief Check if job name was edited and correctly store it */
     void updateName(QListWidgetItem *item);
-    /** @brief Check if the script file or application exists and is executable */
+    /** @brief Check if the script file or application exists and is executable, and that paramaters are valid */
     void checkScript();
 
 private:

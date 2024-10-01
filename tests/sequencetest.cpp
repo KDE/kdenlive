@@ -24,24 +24,24 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
     {
         // Create document
         KdenliveDoc document(undoStack);
-        pCore->projectManager()->m_project = &document;
+        pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
-        pCore->projectManager()->testSetActiveDocument(&document, timeline);
-        KdenliveDoc::next_id = 0;
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+        KdenliveTests::resetNextId();
         QDir dir = QDir::temp();
 
-        QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
-        QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
+        QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
+        QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
         int tid1 = timeline->getTrackIndexFromPosition(2);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
         audioInfo.insert(1, QStringLiteral("stream1"));
-        timeline->m_binAudioTargets = audioInfo;
-        timeline->m_videoTarget = tid1;
+        KdenliveTests::setAudioTargets(timeline, audioInfo);
+        KdenliveTests::setVideoTargets(timeline, tid1);
         // Insert 2 clips (length=20, pos = 80 / 100)
         int cid1 = -1;
         REQUIRE(timeline->requestClipInsertion(binId2, tid1, 80, cid1, true, true, false));
@@ -81,17 +81,17 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
         REQUIRE(openResults.isSuccessful() == true);
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
-        pCore->projectManager()->m_project = openedDoc.get();
+        pCore->projectManager()->testSetDocument(openedDoc.get());
         const QUuid uuid = openedDoc->uuid();
         documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         const QString firstSeqId = allSequences.value(uuid);
         pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
-        timeline = pCore->projectManager()->m_project->getTimeline(uuid);
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+        timeline = openedDoc->getTimeline(uuid);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
         REQUIRE(timeline->getTracksCount() == 4);
-        REQUIRE(timeline->m_allGroups.size() == 1);
+        REQUIRE(KdenliveTests::groupsCount(timeline) == 1);
         timeline.reset();
         pCore->projectManager()->closeCurrentDocument(false, false);
     }
@@ -100,24 +100,25 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
         // Create document
         binModel->clean();
         KdenliveDoc document(undoStack);
-        pCore->projectManager()->m_project = &document;
+        pCore->projectManager()->testSetDocument(&document);
         QDateTime documentDate = QDateTime::currentDateTime();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         auto timeline = document.getTimeline(document.uuid());
-        pCore->projectManager()->testSetActiveDocument(&document, timeline);
-        KdenliveDoc::next_id = 0;
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+        KdenliveTests::resetNextId();
         QDir dir = QDir::temp();
 
-        QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel);
-        QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
+        QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
+        QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 20, false);
 
         int tid1 = timeline->getTrackIndexFromPosition(2);
 
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo;
         audioInfo.insert(1, QStringLiteral("stream1"));
-        timeline->m_binAudioTargets = audioInfo;
-        timeline->m_videoTarget = tid1;
+        KdenliveTests::setAudioTargets(timeline, audioInfo);
+        KdenliveTests::setVideoTargets(timeline, tid1);
+
         // Insert 2 clips (length=20, pos = 80 / 100)
         int cid1 = -1;
         REQUIRE(timeline->requestClipInsertion(binId2, tid1, 80, cid1, true, true, false));
@@ -152,20 +153,20 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
             }
         }
         auto timeline2 = pCore->currentDoc()->getTimeline(secondaryUuid);
-        pCore->projectManager()->m_activeTimelineModel = timeline2;
+        pCore->projectManager()->testSetActiveTimeline(timeline2);
         tid1 = timeline2->getTrackIndexFromPosition(2);
         // Setup timeline audio drop info
         QMap<int, QString> audioInfo2;
         audioInfo2.insert(1, QStringLiteral("stream1"));
-        timeline2->m_binAudioTargets = audioInfo;
-        timeline2->m_videoTarget = tid1;
+        KdenliveTests::setAudioTargets(timeline2, audioInfo);
+        KdenliveTests::setVideoTargets(timeline2, tid1);
 
         int cid3 = -1;
         REQUIRE(timeline2->requestClipInsertion(binId, tid1, 80 + l, cid3, true, true, false));
         int cid4 = -1;
         REQUIRE(timeline2->requestClipInsertion(binId, tid1, 160 + l, cid4, true, true, false));
 
-        pCore->projectManager()->m_activeTimelineModel = timeline;
+        pCore->projectManager()->testSetActiveTimeline(timeline);
 
         pCore->projectManager()->testSaveFileAs(dir.absoluteFilePath(QStringLiteral("test.kdenlive")));
         timeline.reset();
@@ -182,26 +183,26 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
         REQUIRE(openResults.isSuccessful() == true);
 
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
-        pCore->projectManager()->m_project = openedDoc.get();
+        pCore->projectManager()->testSetDocument(openedDoc.get());
         QUuid uuid = openedDoc->uuid();
         documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         QMap<QUuid, QString> allSequences = binModel->getAllSequenceClips();
         QString firstSeqId = allSequences.value(uuid);
         QString secondSeqId = allSequences.value(secondaryUuid);
         pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         timeline = pCore->currentDoc()->getTimeline(uuid);
-        pCore->projectManager()->testSetActiveDocument(openedDoc.get(), timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
         REQUIRE(timeline->getTracksCount() == 4);
-        REQUIRE(timeline->m_allGroups.size() == 1);
+        REQUIRE(KdenliveTests::groupsCount(timeline) == 1);
         // pCore->projectManager()->openTimeline(secondSeqId, -1, secondaryUuid);
         timeline2 = pCore->currentDoc()->getTimeline(secondaryUuid);
         Q_ASSERT(timeline2 != nullptr);
         REQUIRE(timeline2->getTracksCount() == 4);
-        REQUIRE(timeline2->m_allGroups.size() == 2);
+        REQUIRE(KdenliveTests::groupsCount(timeline2) == 2);
         std::shared_ptr<ProjectClip> sequenceClip = binModel->getClipByBinID(secondSeqId);
         REQUIRE(sequenceClip->clipName() == QLatin1String("Sequence2"));
-        pCore->projectManager()->m_activeTimelineModel = timeline;
+        pCore->projectManager()->testSetActiveTimeline(timeline);
         // Save again without any changes
         pCore->projectManager()->testSaveFileAs(dir.absoluteFilePath(QStringLiteral("test.kdenlive")));
         sequenceClip.reset();
@@ -214,23 +215,23 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
         REQUIRE(openResults2.isSuccessful() == true);
 
         std::unique_ptr<KdenliveDoc> openedDoc2 = openResults2.getDocument();
-        pCore->projectManager()->m_project = openedDoc2.get();
+        pCore->projectManager()->testSetDocument(openedDoc2.get());
         uuid = openedDoc2->uuid();
         documentDate = QFileInfo(openURL.toLocalFile()).lastModified();
-        pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+        KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
         allSequences = binModel->getAllSequenceClips();
         firstSeqId = allSequences.value(uuid);
         secondSeqId = allSequences.value(secondaryUuid);
         pCore->projectManager()->openTimeline(firstSeqId, -1, uuid);
         timeline = pCore->currentDoc()->getTimeline(uuid);
-        pCore->projectManager()->testSetActiveDocument(openedDoc2.get(), timeline);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
         REQUIRE(timeline->getTracksCount() == 4);
-        REQUIRE(timeline->m_allGroups.size() == 1);
+        REQUIRE(KdenliveTests::groupsCount(timeline) == 1);
         timeline2 = pCore->currentDoc()->getTimeline(secondaryUuid);
         qDebug() << "::: LOOKIG FOR UUID: " << secondaryUuid << ", ALL SEQS: " << allSequences.keys();
         Q_ASSERT(timeline2 != nullptr);
         REQUIRE(timeline2->getTracksCount() == 4);
-        REQUIRE(timeline2->m_allGroups.size() == 2);
+        REQUIRE(KdenliveTests::groupsCount(timeline2) == 2);
         sequenceClip = binModel->getClipByBinID(secondSeqId);
         REQUIRE(sequenceClip->clipName() == QLatin1String("Sequence2"));
         sequenceClip.reset();

@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: BSD-2-Clause
 # SPDX-FileCopyrightText: Julius Künzel <jk.kdedev@smartlab.uber.space>
 
-if(NODBUS)
+#if(NOT USE_DBUS)
     list(APPEND kdenlive_SRCS
       render/renderserver.cpp)
-endif()
+#endif()
 
 set(kdenlive_SRCS
   ${kdenlive_SRCS}

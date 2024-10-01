@@ -12,7 +12,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profiles/profilerepository.hpp"
 
 #include "klocalizedstring.h"
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KMessageBox>
 #include <KMessageWidget>
 
@@ -148,7 +147,7 @@ void ProfilesDialog::fillList(const QString &selectedProfile)
     m_view.profiles_list->clear();
     // Retrieve the list from the repository
     QVector<QPair<QString, QString>> profiles = ProfileRepository::get()->getAllProfiles();
-    for (const auto &p : qAsConst(profiles)) {
+    for (const auto &p : std::as_const(profiles)) {
         m_view.profiles_list->addItem(p.first, p.second);
     }
 

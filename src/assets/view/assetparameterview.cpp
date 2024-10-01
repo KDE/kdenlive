@@ -5,6 +5,7 @@
 
 #include "assetparameterview.hpp"
 
+#include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/model/assetcommand.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/abstractparamwidget.hpp"
@@ -16,7 +17,9 @@
 #include <QDebug>
 #include <QDir>
 #include <QFontDatabase>
+#include <QFormLayout>
 #include <QInputDialog>
+#include <QLabel>
 #include <QMenu>
 #include <QStandardPaths>
 #include <QVBoxLayout>
@@ -26,9 +29,10 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
 
 {
-    m_lay = new QVBoxLayout(this);
+    m_lay = new QFormLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 2);
-    m_lay->setSpacing(0);
+    m_lay->setVerticalSpacing(0);
+    m_lay->setHorizontalSpacing(m_lay->horizontalSpacing() * 3);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Presets Combo
     m_presetMenu = new QMenu(this);
@@ -61,7 +65,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             updatePreset->setEnabled(false);
             deletePreset->setEnabled(false);
         }
-        for (const QString &pName : qAsConst(presets)) {
+        for (const QString &pName : std::as_const(presets)) {
             QAction *ac = m_presetMenu->addAction(pName, this, &AssetParameterView::slotLoadPreset);
             m_presetGroup->addAction(ac);
             ac->setData(pName);
@@ -70,10 +74,13 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 ac->setChecked(true);
             }
         }
+        m_presetMenu->addSeparator();
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save effect"), this, &AssetParameterView::saveEffect);
     });
     Q_EMIT updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     int minHeight = 0;
+    int keyframeRow = -1;
     for (int i = 0; i < model->rowCount(); ++i) {
         QModelIndex index = model->index(i, 0);
         auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -84,7 +91,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 m_mainKeyframeWidget->addParameter(index);
             }
         } else {
-            auto *w = AbstractParamWidget::construct(model, index, frameSize, this);
+            auto *w = AbstractParamWidget::construct(model, index, frameSize, this, m_lay);
             connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
             connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
             connect(w, &AbstractParamWidget::disableCurrentFilter, this, &AssetParameterView::disableCurrentFilter);
@@ -96,12 +103,19 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             });
             if (AssetParameterModel::isAnimated(type)) {
                 m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                keyframeRow = i;
                 connect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
                 connect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
                 connect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
                 connect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
-            } else {
-                m_lay->addWidget(w);
+                minHeight += w->minimumHeight();
+            } else if (type != ParamType::Hidden) {
+                if (keyframeRow == -1) {
+                    m_lay->addRow(w->createLabel(), w);
+                } else {
+                    m_lay->insertRow(keyframeRow, w->createLabel(), w);
+                    keyframeRow++;
+                }
                 minHeight += w->minimumHeight();
             }
             m_widgets.push_back(w);
@@ -110,12 +124,11 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     if (m_mainKeyframeWidget) {
         // Add keyframe widget to the bottom to have a clear seperation
         // between animated an non-animated params
-        m_lay->addWidget(m_mainKeyframeWidget);
         minHeight += m_mainKeyframeWidget->minimumHeight();
     }
     setMinimumHeight(minHeight);
     if (addSpacer) {
-        m_lay->addStretch();
+        // m_lay->addStretch();
     }
     // Ensure effect parameters are adjusted to current position
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
@@ -157,7 +170,6 @@ void AssetParameterView::resetValues()
     QAction *ac = m_presetGroup->checkedAction();
     if (ac) {
         ac->setChecked(false);
-        ;
     }
 }
 
@@ -194,6 +206,17 @@ void AssetParameterView::commitMultipleChanges(const QList<QModelIndex> &indexes
     }
 }
 
+void AssetParameterView::disconnectKeyframeWidget()
+{
+    if (m_mainKeyframeWidget) {
+        disconnect(this, &AssetParameterView::initKeyframeView, m_mainKeyframeWidget, &AbstractParamWidget::slotInitMonitor);
+        disconnect(this, &AssetParameterView::nextKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToNext);
+        disconnect(this, &AssetParameterView::previousKeyframe, m_mainKeyframeWidget, &KeyframeWidget::goToPrevious);
+        disconnect(this, &AssetParameterView::addRemoveKeyframe, m_mainKeyframeWidget, &KeyframeWidget::addRemove);
+        disconnect(this, &AssetParameterView::sendStandardCommand, m_mainKeyframeWidget, &KeyframeWidget::sendStandardCommand);
+    }
+}
+
 void AssetParameterView::unsetModel()
 {
     QMutexLocker lock(&m_lock);
@@ -201,22 +224,14 @@ void AssetParameterView::unsetModel()
         // if a model is already there, we have to disconnect signals first
         disconnect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     }
+    delete m_mainKeyframeWidget;
     m_mainKeyframeWidget = nullptr;
-
+    // Delete widgets
+    while (m_lay->rowCount() > 0) {
+        m_lay->removeRow(0);
+    }
     // clear layout
     m_widgets.clear();
-    QLayoutItem *child = nullptr;
-    while ((child = m_lay->takeAt(0)) != nullptr) {
-        if (child->layout()) {
-            QLayoutItem *subchild = nullptr;
-            while ((subchild = child->layout()->takeAt(0)) != nullptr) {
-                delete subchild->widget();
-                delete subchild->spacerItem();
-            }
-        }
-        delete child->widget();
-        delete child->spacerItem();
-    }
 
     // Release ownership of smart pointer
     m_model.reset();
@@ -278,6 +293,14 @@ void AssetParameterView::slotRefresh()
 bool AssetParameterView::keyframesAllowed() const
 {
     return m_mainKeyframeWidget != nullptr;
+}
+
+bool AssetParameterView::hasMultipleKeyframes() const
+{
+    if (m_model->getKeyframeModel()) {
+        return !m_model->getKeyframeModel()->singleKeyframe();
+    }
+    return false;
 }
 
 bool AssetParameterView::modelHideKeyframes() const

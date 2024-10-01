@@ -13,11 +13,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "klocalizedstring.h"
 #include <KCharsets>
-#include <kio_version.h>
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QTextCodec>
-#endif
 
 ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
     : QDialog(parent)
@@ -29,11 +24,7 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
     buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
     QStringList listCodecs = KCharsets::charsets()->descriptiveEncodingNames();
     const QString filter = QStringLiteral("*.srt *.ass *.vtt *.sbv");
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
     subtitle_url->setNameFilter(filter);
-#else
-    subtitle_url->setFilter(filter);
-#endif
     codecs_list->addItems(listCodecs);
     info_message->setVisible(false);
     // Set UTF-8 as default codec
@@ -57,21 +48,11 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
         }
         QByteArray codec = KCharsets::charsets()->encodingForName(codecs_list->currentText()).toUtf8();
         QTextStream stream(&srtFile);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QTextCodec *inputEncoding = QTextCodec::codecForName(codec);
-        if (inputEncoding) {
-            stream.setCodec(inputEncoding);
-        } else {
-            qWarning() << "No QTextCodec named" << codec;
-            stream.setCodec("UTF-8");
-        }
-#else
         std::optional<QStringConverter::Encoding> inputEncoding = QStringConverter::encodingForName(codec.data());
         if (inputEncoding) {
             stream.setEncoding(inputEncoding.value());
         }
         // else: UTF8 is the default
-#endif
         text_preview->clear();
         int maxLines = 30;
         QStringList textData;

@@ -485,7 +485,7 @@ void ProjectItemModel::onItemUpdated(const QString &binId, int role)
     }
 }
 
-std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
+std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId) const
 {
     READ_LOCK();
     auto search = m_allClipItems.find(binId.toInt());
@@ -669,7 +669,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
     }
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
     auto list = json.array();
-    for (const auto &entry : qAsConst(list)) {
+    for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qWarning() << "Skipping invalid marker data";
             continue;
@@ -1038,6 +1038,19 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
     return res;
 }
 
+const QStringList ProjectItemModel::getUnusedClipIds() const
+{
+    QStringList unusedIds;
+    // Iterate to find clips that are not in timeline
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline() && c->clipType() != ClipType::Timeline) {
+            unusedIds << std::static_pointer_cast<ProjectClip>(c)->getProducerProperty(QStringLiteral("id"));
+        }
+    }
+    return unusedIds;
+}
+
 bool ProjectItemModel::requestCleanupUnused()
 {
     QWriteLocker locker(&m_lock);
@@ -1050,6 +1063,9 @@ bool ProjectItemModel::requestCleanupUnused()
         if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline() && c->clipType() != ClipType::Timeline) {
             to_delete.push_back(c);
         }
+    }
+    if (to_delete.size() == 0) {
+        return false;
     }
     // it is important to execute deletion in a separate loop, because otherwise
     // the iterators of m_allItems get messed up
@@ -1260,7 +1276,26 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
 
             // Read notes
             QString notes = playlistProps.get("kdenlive:documentnotes");
-            pCore->projectManager()->setDocumentNotes(notes);
+            int version = playlistProps.get_int("kdenlive:documentnotesversion");
+            QStringList notesBinIds;
+            if (!notes.isEmpty() && version < 2) {
+                // Convert old format notes (Bin id > Control uuid)
+                QRegularExpression regexp("href=\"([^\"]+)");
+                QRegularExpressionMatchIterator i = regexp.globalMatch(notes);
+                while (i.hasNext()) {
+                    QRegularExpressionMatch match = i.next();
+                    if (match.hasMatch()) {
+                        qDebug() << match.captured(0);
+                        const QString captured = match.captured(0);
+                        if (!captured.isEmpty() && captured.contains(QLatin1Char('#'))) {
+                            const QString binId = captured.section(QLatin1Char('#'), 0, 0).section(QLatin1Char('"'), 1);
+                            if (!notesBinIds.contains(binId)) {
+                                notesBinIds << binId;
+                            }
+                        }
+                    }
+                }
+            }
 
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
@@ -1297,6 +1332,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         trac->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
                         trac->set("length", prod->parent().get("length"));
                         trac->set("out", prod->parent().get("out"));
+                        trac->set("kdenlive:control_uuid", prod->parent().get("kdenlive:control_uuid"));
                         trac->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
                         trac->set("kdenlive:description", prod->parent().get("kdenlive:description"));
                         trac->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
@@ -1310,6 +1346,7 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                         prod2->set("kdenlive:uuid", uuid.toString().toUtf8().constData());
                         prod2->set("length", prod->parent().get("length"));
                         prod2->set("out", prod->parent().get("out"));
+                        prod2->set("kdenlive:control_uuid", prod->parent().get("kdenlive:control_uuid"));
                         prod2->set("kdenlive:clipname", prod->parent().get("kdenlive:clipname"));
                         prod2->set("kdenlive:description", prod->parent().get("kdenlive:description"));
                         prod2->set("kdenlive:folderid", prod->parent().get("kdenlive:folderid"));
@@ -1391,10 +1428,13 @@ QList<QUuid> ProjectItemModel::loadBinPlaylist(Mlt::Service *documentTractor, st
                     }
                 }
                 prod->set("_kdenlive_processed", 1);
+                const QString uuid(prod->get("kdenlive:control_uuid"));
                 requestAddBinClip(newId, prod, parentId, undo, redo);
                 qApp->processEvents();
-                binIdCorresp[QString::number(bid)] = newId;
+                binIdCorresp[uuid] = newId;
             }
+            // Now that bin clips are loaded, load notes (we need bin clips to upgrade notes from v1)
+            pCore->projectManager()->setDocumentNotes(notes, notesBinIds);
         }
     } else {
         qDebug() << "HHHHHHHHHHHH\nINVALID BIN PLAYLIST...";
@@ -1451,17 +1491,21 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
                     qDebug() << ":::: LOOKING FOR A MATCHING ITEM TYPE: " << matchType;
                     // Try to find matching clip
                     bool found = false;
-                    for (const auto &clip : m_allItems) {
-                        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
-                        if (c->itemType() == AbstractProjectItem::ClipItem) {
-                            if (c->clipType() == matchType) {
-                                std::shared_ptr<ProjectClip> pClip = std::static_pointer_cast<ProjectClip>(c);
-                                qDebug() << "::::::\nTRYING TO MATCH: " << pClip->getProducerProperty(QStringLiteral("resource")) << " = " << resource;
-                                if (pClip->getProducerProperty(QStringLiteral("kdenlive:file_hash")) == hash) {
-                                    // Found a match
-                                    binIdCorresp[QString::number(cid)] = pClip->clipId();
-                                    found = true;
-                                    break;
+                    const QString uuid = clip->parent().get("kdenlive:uuid");
+                    if (uuid.isEmpty() || binIdCorresp.find(uuid) == binIdCorresp.end()) {
+                        for (const auto &clipLoop : m_allItems) {
+                            auto c = std::static_pointer_cast<AbstractProjectItem>(clipLoop.second.lock());
+                            if (c->itemType() == AbstractProjectItem::ClipItem) {
+                                if (c->clipType() == matchType) {
+                                    std::shared_ptr<ProjectClip> pClip = std::static_pointer_cast<ProjectClip>(c);
+                                    qDebug() << "::::::\nTRYING TO MATCH: " << pClip->getProducerProperty(QStringLiteral("resource")) << " = " << resource;
+                                    if (pClip->getProducerProperty(QStringLiteral("kdenlive:file_hash")) == hash) {
+                                        // Found a match
+                                        // binIdCorresp[QString::number(cid)] = pClip->clipId();
+                                        clip->parent().set("kdenlive:uuid", pClip->getProducerProperty(QStringLiteral("kdenlive:uuid")).toUtf8().constData());
+                                        found = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -1494,9 +1538,10 @@ void ProjectItemModel::loadTractorPlaylist(Mlt::Tractor documentTractor, std::un
             }
         }
         prod->set("_kdenlive_processed", 1);
+        const QString uuid(prod->get("kdenlive:control_uuid"));
         qDebug() << "======\nADDING NEW CLIP: " << newId << " = " << prod->is_valid();
         requestAddBinClip(newId, prod, parentId, undo, redo);
-        binIdCorresp[QString::number(bid)] = newId;
+        binIdCorresp[uuid] = newId;
     }
 }
 
@@ -1522,7 +1567,8 @@ std::shared_ptr<Mlt::Tractor> ProjectItemModel::projectTractor()
     return m_projectTractor;
 }
 
-const QString ProjectItemModel::sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration, const QString &aspectRatio)
+const std::pair<QString, QString> ProjectItemModel::sceneList(const QString &root, const QString &filterData, Mlt::Tractor *activeTractor, int duration,
+                                                              const QString &aspectRatio)
 {
     QWriteLocker lock(&pCore->xmlMutex);
     LocaleHandling::resetLocale();
@@ -1533,7 +1579,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fi
         tempFile.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.kdenlive")));
         if (!tempFile.open()) {
             qDebug() << "Could not open temporary file for writing";
-            return QString();
+            return {};
         }
     }
 
@@ -1544,7 +1590,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fi
         xmlConsumer.set("root", root.toUtf8().constData());
     }
     if (!xmlConsumer.is_valid()) {
-        return QString();
+        return {};
     }
     xmlConsumer.set("store", "kdenlive");
     xmlConsumer.set("time_format", "clock");
@@ -1573,10 +1619,10 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fi
     }
     if (aspectRatio.isEmpty()) {
         playlist = QString::fromUtf8(xmlConsumer.get("kdenlive_playlist"));
-        return playlist;
+        return {playlist, QString()};
     }
 
-   double targetAspectRatio = 16.0 / 9.0; // default to horizontal (16:9)
+    double targetAspectRatio = 16.0 / 9.0; // default to horizontal (16:9)
     if (aspectRatio == "vertical") {
         targetAspectRatio = 9.0 / 16.0;
     } else if (aspectRatio == "square") {
@@ -1631,7 +1677,7 @@ const QString ProjectItemModel::sceneList(const QString &root, const QString &fi
     xmlConsumer2.run();
 
     playlist = QString::fromUtf8(xmlConsumer2.get("kdenlive_playlist"));
-    return playlist;
+    return {playlist, tempFile.fileName()};
 }
 
 std::shared_ptr<Mlt::Tractor> ProjectItemModel::getExtraTimeline(const QString &uuid)
@@ -1652,7 +1698,7 @@ void ProjectItemModel::setExtraTimelineSaved(const QString &uuid)
 void ProjectItemModel::removeReferencedClips(const QUuid &uuid, bool onDeletion)
 {
     QList<std::shared_ptr<ProjectClip>> clipList = getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         if (clip->refCount() > 0) {
             clip->purgeReferences(uuid, onDeletion);
         }
@@ -1867,4 +1913,24 @@ std::shared_ptr<EffectStackModel> ProjectItemModel::getClipEffectStack(int itemI
     std::shared_ptr<ProjectClip> clip = getClipByBinID(QString::number(itemId));
     Q_ASSERT(clip != nullptr);
     return clip->getEffectStack();
+}
+
+const QString ProjectItemModel::getBinClipUuid(const QString &binId) const
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
+    if (clip) {
+        return clip->getControlUuid();
+    }
+    return QString();
+}
+
+const QString ProjectItemModel::getBinClipIdByUuid(const QString uuid)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = getRootFolder()->childClips();
+    for (const auto &clip : std::as_const(clips)) {
+        if (clip->getControlUuid() == uuid) {
+            return clip->clipId();
+        }
+    }
+    return QString();
 }

@@ -14,7 +14,7 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
     QString newLocale;
     QList<QString> localesToTest;
     localesToTest << lcName << lcName + ".utf-8" << lcName + ".UTF-8" << lcName + ".utf8" << lcName + ".UTF8";
-    for (const auto &locale : qAsConst(localesToTest)) {
+    for (const auto &locale : std::as_const(localesToTest)) {
 #ifdef Q_OS_FREEBSD
         auto *result = setlocale(MLT_LC_CATEGORY, locale.toStdString().c_str());
 #else
@@ -64,7 +64,7 @@ QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPo
 
     // Parse installed locales to find one matching. Check matching language first
     QList<QLocale> list = QLocale::matchingLocales(QLocale().language(), QLocale().script(), QLocale::AnyCountry);
-    for (const QLocale &loc : qAsConst(list)) {
+    for (const QLocale &loc : std::as_const(list)) {
         if (loc.decimalPoint() == decimalPoint) {
             locale = loc;
             matchType = MatchType::Exact;
@@ -75,7 +75,7 @@ QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPo
     if (matchType == MatchType::NoMatch) {
         // Parse installed locales to find one matching. Check in all languages
         list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
-        for (const QLocale &loc : qAsConst(list)) {
+        for (const QLocale &loc : std::as_const(list)) {
             if (loc.decimalPoint() == decimalPoint) {
                 locale = loc;
                 matchType = MatchType::DecimalOnly;

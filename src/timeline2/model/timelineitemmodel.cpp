@@ -107,10 +107,14 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
     bool result = true;
 
     int insertionIndex = position;
-
+    Fun clean_compositing = [this]() {
+        removeTrackCompositing();
+        return true;
+    };
+    clean_compositing();
+    int newTid;
     for (int ix = 0; ix < tracksCount; ++ix) {
-        int newTid;
-        result = requestTrackInsertion(insertionIndex, newTid, trackName, addAudioTrack, undo, redo);
+        result = requestTrackInsertion(insertionIndex, newTid, trackName, addAudioTrack, undo, redo, false);
         // bump up insertion index so that the next new track goes after this one
         insertionIndex++;
         if (result) {
@@ -121,23 +125,33 @@ bool TimelineItemModel::addTracksAtPosition(int position, int tracksCount, QStri
                 if (mirrorId > -1) {
                     mirrorPos = getTrackMltIndex(mirrorId);
                 }
-                result = requestTrackInsertion(mirrorPos, newTid2, trackName, true, undo, redo);
+                result = requestTrackInsertion(mirrorPos, newTid2, trackName, true, undo, redo, false);
                 // because we also added an audio track, we need to put the next
                 // new track's index is 1 further
                 insertionIndex++;
-            }
-            if (addRecTrack) {
-                pCore->mixer()->monitorAudio(newTid, true);
             }
         } else {
             break;
         }
     }
     if (result) {
+        Fun local_redo = [this, addRecTrack, newTid]() {
+            buildTrackCompositing(true);
+            if (addRecTrack) {
+                pCore->mixer()->monitorAudio(newTid, true);
+            }
+            return true;
+        };
+        local_redo();
+        PUSH_FRONT_LAMBDA(clean_compositing, redo);
+        PUSH_FRONT_LAMBDA(clean_compositing, undo);
+        PUSH_LAMBDA(local_redo, redo);
+        PUSH_LAMBDA(local_redo, undo);
         pCore->pushUndo(undo, redo, addAVTrack || tracksCount > 1 ? i18nc("@action", "Insert Tracks") : i18nc("@action", "Insert Track"));
         return true;
     } else {
         undo();
+        buildTrackCompositing(true);
         return false;
     }
 }
@@ -262,6 +276,8 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[IsLockedRole] = "locked";
     roles[FadeInRole] = "fadeIn";
     roles[FadeOutRole] = "fadeOut";
+    roles[FadeInMethodRole] = "fadeInMethod";
+    roles[FadeOutMethodRole] = "fadeOutMethod";
     roles[FileHashRole] = "hash";
     roles[SpeedRole] = "speed";
     roles[TimeRemapRole] = "timeremap";
@@ -382,6 +398,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->fadeIn();
         case FadeOutRole:
             return clip->fadeOut();
+        case FadeInMethodRole:
+            return clip->fadeMethod(true);
+        case FadeOutMethodRole:
+            return clip->fadeMethod(false);
         case MixRole:
             return clip->getMixDuration();
         case MixCutRole:
@@ -568,10 +588,28 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
 
 void TimelineItemModel::setTrackStackEnabled(int tid, bool enable)
 {
-    std::shared_ptr<TrackModel> track = getTrackById(tid);
-    track->setEffectStackEnabled(enable);
-    QModelIndex ix = makeTrackIndexFromID(tid);
-    Q_EMIT dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+    Fun redo = [this, tid, enable]() {
+        std::shared_ptr<TrackModel> track = getTrackById(tid);
+        if (!track) {
+            return false;
+        }
+        track->setEffectStackEnabled(enable);
+        QModelIndex ix = makeTrackIndexFromID(tid);
+        Q_EMIT dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+        return true;
+    };
+    Fun undo = [this, tid, enable]() {
+        std::shared_ptr<TrackModel> track = getTrackById(tid);
+        if (!track) {
+            return false;
+        }
+        track->setEffectStackEnabled(!enable);
+        QModelIndex ix = makeTrackIndexFromID(tid);
+        Q_EMIT dataChanged(ix, ix, {TimelineModel::EffectsEnabledRole});
+        return true;
+    };
+    redo();
+    pCore->pushUndo(undo, redo, enable ? i18n("Enable Track Effect Stack") : i18n("Disable Track Effect Stack"));
 }
 
 void TimelineItemModel::importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service)
@@ -737,40 +775,50 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
     return m_allClips.at(clipId)->copyEffect(effectStack, itemRow);
 }
 
+void TimelineItemModel::removeTrackCompositing()
+{
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    QScopedPointer<Mlt::Service> service(m_tractor->field());
+    field->block();
+    mlt_service nextservice = mlt_service_get_producer(field->get_service());
+    mlt_service_type mlt_type = mlt_service_identify(nextservice);
+    while (mlt_type == mlt_service_transition_type) {
+        Mlt::Transition transition(reinterpret_cast<mlt_transition>(nextservice));
+        nextservice = mlt_service_producer(nextservice);
+        if (transition.get_int("internal_added") == 237) {
+            // remove all compositing transitions
+            qDebug() << "!!!!!!!!!!!!! REMOVING COMPO: " << transition.get_a_track() << " / " << transition.get_b_track();
+            field->disconnect_service(transition);
+            transition.disconnect_all_producers();
+        }
+        if (nextservice == nullptr) {
+            break;
+        }
+        mlt_type = mlt_service_identify(nextservice);
+    }
+    field->unblock();
+}
+
 void TimelineItemModel::buildTrackCompositing(bool rebuild)
 {
     READ_LOCK();
     bool isMultiTrack = pCore->enableMultiTrack(false);
-    auto it = m_allTracks.cbegin();
-    QScopedPointer<Mlt::Service> service(m_tractor->field());
-    QScopedPointer<Mlt::Field> field(m_tractor->field());
-    field->lock();
-    // Make sure all previous track compositing is removed
     if (rebuild) {
-        while (service != nullptr && service->is_valid()) {
-            if (service->type() == mlt_service_transition_type) {
-                Mlt::Transition t(mlt_transition(service->get_service()));
-                service.reset(service->producer());
-                if (t.get_int("internal_added") == 237) {
-                    // remove all compositing transitions
-                    field->disconnect_service(t);
-                    t.disconnect_all_producers();
-                }
-            } else {
-                service.reset(service->producer());
-            }
-        }
+        removeTrackCompositing();
     }
     if (m_closing) {
-        field->unlock();
         return;
     }
+    QScopedPointer<Mlt::Field> field(m_tractor->field());
+    QScopedPointer<Mlt::Service> service(m_tractor->field());
+    field->block();
     QString composite;
     if (pCore->currentDoc()->getSequenceProperty(m_uuid, QStringLiteral("compositing"), QStringLiteral("1")).toInt() > 0) {
         composite = TransitionsRepository::get()->getCompositingTransition();
     }
     int videoTracks = 0;
     int audioTracks = 0;
+    auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
         int trackPos = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
@@ -794,7 +842,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         }
         ++it;
     }
-    field->unlock();
+    field->unblock();
     if (rebuild) {
         rebuildMixer();
     }
@@ -953,6 +1001,9 @@ void TimelineItemModel::processTimelineReplacement(QList<int> instances, const Q
 
 int TimelineItemModel::clipAssetGroupInstances(int cid, const QString &assetId)
 {
+    if (!isClip(cid)) {
+        return 0;
+    }
     int gid = m_groups->getRootId(cid);
     int count = 0;
     if (gid > -1) {
@@ -969,6 +1020,9 @@ int TimelineItemModel::clipAssetGroupInstances(int cid, const QString &assetId)
 void TimelineItemModel::applyClipAssetGroupCommand(int cid, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
                                                    QUndoCommand *command)
 {
+    if (!isClip(cid)) {
+        return;
+    }
     int gid = m_groups->getRootId(cid);
     if (gid > -1) {
         std::unordered_set<int> sub;
@@ -993,6 +1047,9 @@ void TimelineItemModel::applyClipAssetGroupCommand(int cid, const QString &asset
 void TimelineItemModel::applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, const QModelIndex &index, GenTime pos,
                                                            const QVariant &previousValue, const QVariant &value, int ix, QUndoCommand *command)
 {
+    if (!isClip(cid)) {
+        return;
+    }
     int gid = m_groups->getRootId(cid);
     if (gid > -1) {
         std::unordered_set<int> sub;
@@ -1040,8 +1097,11 @@ void TimelineItemModel::applyClipAssetGroupMultiKeyframeCommand(int cid, const Q
     }
 }
 
-void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId)
+void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId, int originalId)
 {
+    if (!isClip(cid)) {
+        return;
+    }
     int gid = m_groups->getRootId(cid);
     std::unordered_set<int> sub;
     Fun undo = []() { return true; };
@@ -1056,12 +1116,17 @@ void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId)
         sub = {cid};
     }
     QString effectName;
+    int assetRow = -1;
     for (auto &id : sub) {
         if (isClip(id)) {
-            int assetRow = clipAssetRow(id, assetId);
+            if (id == cid && originalId > -1) {
+                assetRow = clipAssetRow(id, assetId, originalId);
+            } else {
+                assetRow = clipAssetRow(id, assetId);
+            }
             if (assetRow > -1) {
                 const auto clip = getClipPtr(id);
-                clip->m_effectStack->removeEffectWithUndo(assetId, effectName, undo, redo);
+                clip->m_effectStack->removeEffectWithUndo(assetId, effectName, assetRow, undo, redo);
             }
         }
     }
@@ -1070,6 +1135,9 @@ void TimelineItemModel::removeEffectFromGroup(int cid, const QString &assetId)
 
 void TimelineItemModel::disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo)
 {
+    if (!isClip(cid)) {
+        return;
+    }
     int gid = m_groups->getRootId(cid);
     std::unordered_set<int> sub;
     if (gid > -1) {
@@ -1081,12 +1149,13 @@ void TimelineItemModel::disableEffectFromGroup(int cid, const QString &assetId, 
     } else {
         return;
     }
+    int assetRow = -1;
     for (auto &id : sub) {
         if (id == cid) {
             continue;
         }
         if (isClip(id)) {
-            int assetRow = clipAssetRow(id, assetId);
+            assetRow = clipAssetRow(id, assetId);
             if (assetRow > -1) {
                 const auto clip = getClipPtr(id);
                 auto effect = clip->m_effectStack->getEffectStackRow(assetRow);
@@ -1100,6 +1169,9 @@ void TimelineItemModel::disableEffectFromGroup(int cid, const QString &assetId, 
 
 QList<std::shared_ptr<KeyframeModelList>> TimelineItemModel::getGroupKeyframeModels(int cid, const QString &assetId)
 {
+    if (!isClip(cid) && !isComposition(cid)) {
+        return {};
+    }
     QList<std::shared_ptr<KeyframeModelList>> models;
     int gid = m_groups->getRootId(cid);
     if (gid > -1) {

@@ -27,7 +27,7 @@ Rectangle {
     property color textColor: activePalette.text
     property var groupTrimData
     property bool trimInProgress: false
-    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active || groupTrimData !== undefined || spacerGroup > -1 || trimInProgress || clipDropArea.containsDrag || compoArea.containsDrag
     property int trimmingOffset: 0
     property int trimmingClickFrame: -1
     Timer {
@@ -49,6 +49,10 @@ Rectangle {
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
     signal showSubtitleClipMenu()
+
+    readonly property font miniFont: ({
+        pixelSize: miniFontSize
+    })
 
     FontMetrics {
         id: fontMetrics
@@ -97,7 +101,7 @@ Rectangle {
         if (subtitleTrack.height > root.collapsedHeight) {
             subtitleTrack.height = root.collapsedHeight
         } else {
-            subtitleTrack.height = 5 * root.baseUnit
+            subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
         }
     }
 
@@ -230,10 +234,10 @@ Rectangle {
 
     function continuousScrolling(x, y) {
         // This provides continuous scrolling at the left/right edges.
-        var maxScroll = trackHeaders.height - tracksArea.height + horZoomBar.height + ruler.height + subtitleTrack.height
+        var maxScroll = trackHeaders.height + subtitleTrack.height
         y = Math.min(y, maxScroll)
-        y += ruler.height + subtitleTrack.height
-        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
+        y += ruler.height
+        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3 && x < scrollView.contentX + scrollView.width) {
             scrollTimer.horizontal = root.baseUnit
             scrollTimer.start()
         } else if (x < 50) {
@@ -347,6 +351,12 @@ Rectangle {
         dragProxy.sourceFrame = itemPos
         dragProxy.isComposition = isComposition
         dragProxy.verticalOffset = isComposition ? itemObject.displayHeight : 0
+    }
+
+    function endDragIfFocused(itemId) {
+        if (dragProxy.draggedItem == itemId) {
+            endDrag()
+        }
     }
 
     function endDrag() {
@@ -516,10 +526,15 @@ Rectangle {
     property bool subtitlesWarning: timeline.subtitlesWarning
     property bool subtitlesLocked: timeline.subtitlesLocked
     property bool subtitlesDisabled: timeline.subtitlesDisabled
+    property int maxSubLayer: timeline.maxSubLayer
     property int trackTagWidth: fontMetrics.boundingRect("M").width * ((getAudioTracksCount() > 9) || (trackHeaderRepeater.count - getAudioTracksCount() > 9)  ? 3 : 2)
     property bool scrollVertically: timeline.scrollVertically
     property int spacerMinPos: 0
     property int spacerMaxPos: -1
+
+    onMaxSubLayerChanged: {
+        subtitleTrack.height = showSubtitles? root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
+    }
 
     onAutoTrackHeightChanged: {
         trackHeightTimer.stop()
@@ -533,7 +548,7 @@ Rectangle {
     }
 
     onShowSubtitlesChanged: {
-        subtitleTrack.height = showSubtitles? root.baseUnit * 5 : 0
+        subtitleTrack.height = showSubtitles? root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1)) : 0
         if (root.autoTrackHeight) {
             timeline.autofitTrackHeight(scrollView.height - subtitleTrack.height, root.collapsedHeight)
         }
@@ -626,6 +641,8 @@ Rectangle {
         x: headerWidth
         property bool isAudioDrag
         property int sameCutPos: -1
+        property int fakeFrame: -1
+        property int fakeTrack: -1
         keys: 'kdenlive/composition'
         function moveDrop(offset, voffset)
         {
@@ -637,13 +654,13 @@ Rectangle {
                         // Don't allow moving composition to an audio track
                         track = controller.getCompositionTrackId(clipBeingDroppedId)
                     }
-                    var moveData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
-                    var currentFrame = moveData[0]
-                    var currentTrack = moveData[1]
+                    var frameData = controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
+                    fakeTrack = frameData[1]
+                    timeline.activeTrack = fakeTrack
                     sameCutPos = timeline.isOnCut(clipBeingDroppedId)
                     if (sameCutPos > -1) {
-                        var sourceTrack = Logic.getTrackById(currentTrack)
-                        if (drag.y < sourceTrack.y + sourceTrack.height / 2 || isAudioDrag) {
+                        var sourceTrack = Logic.getTrackById(fakeTrack)
+                        if ((drag.y > sourceTrack.y + sourceTrack.height / 2) || isAudioDrag) {
                             sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
                             sameTrackIndicator.y = sourceTrack.y
                             sameTrackIndicator.height = sourceTrack.height
@@ -914,7 +931,6 @@ Rectangle {
     DropArea { //Drop area for urls (direct drop from file manager)
         /** @brief local helper function to handle the insertion of multiple dragged items */
         property int fakeFrame: -1
-        property int fakeTrack: -1
         property var droppedUrls: []
         enabled: !clipDropArea.containsDrag && !compoArea.containsDrag
         width: root.width - headerWidth
@@ -925,6 +941,9 @@ Rectangle {
         onEntered: drag => {
             drag.accepted = true
             droppedUrls.length = 0
+            if (dragProxy.draggedItem > -1) {
+                endDrag()
+            }
             for(var i in drag.urls){
                 var url = drag.urls[i]
                 droppedUrls.push(Qt.resolvedUrl(url))
@@ -946,35 +965,15 @@ Rectangle {
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
-                    if (clipBeingDroppedId == -1) {
-                        if (controller.normalEdit() == false) {
-                            // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
-                            //clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
-                            //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
-                            fakeTrack = timeline.activeTrack
-                        }
-                    }
                 }
             }
         }
         onDropped: drag => {
             var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
             var track = timeline.activeTrack
-            //var binIds = clipBeingDroppedData.split(";")
-            //if (binIds.length == 1) {
-                if (controller.normalEdit()) {
-                    timeline.urlDropped(droppedUrls, frame, track)
-                } else {
-                    //timeline.insertClipZone(clipBeingDroppedData, track, frame)
-                }
-            /*} else {
-                if (controller.normalEdit()) {
-                    timeline.insertClips(track, frame, binIds, true, true)
-                } else {
-                    // TODO
-                    console.log('multiple clips insert/overwrite not supported yet')
-                }
-            }*/
+            if (controller.normalEdit()) {
+                timeline.urlDropped(droppedUrls, frame, track)
+            }
             clearDropData()
         }
     }
@@ -1056,6 +1055,8 @@ Rectangle {
                     id: subtitleTrackHeader
                     width: trackHeaders.width
                     height: subtitleTrack.height
+                    border.color: frameColor
+                    border.width: 1
                     property bool collapsed: subtitleTrack.height == root.collapsedHeight
                     visible: height > 0
                     color: (controller && controller.isSubtitleTrack(timeline.activeTrack)) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
@@ -1086,7 +1087,7 @@ Rectangle {
                             if (subtitleTrack.height > root.collapsedHeight) {
                                 subtitleTrack.height = root.collapsedHeight
                             } else {
-                                subtitleTrack.height = 5 * root.baseUnit
+                                subtitleTrack.height = root.baseUnit * 2.5 * ((maxSubLayer == 0)? 2: (maxSubLayer + 1))
                             }
                         }
                     }
@@ -1099,6 +1100,8 @@ Rectangle {
                         }
                         anchors.right: parent.right
                         anchors.top: expandSubButton.bottom
+                        anchors.left: subButtonsRow.left
+                        visible: (subtitleTrack.visible && subtitleTrack.height != root.collapsedHeight)
                         flat: true
                         onActivated: index => {
                             timeline.subtitlesMenuActivatedAsync(index)
@@ -1218,6 +1221,33 @@ Rectangle {
                             }
                         }
                     }
+                    Column {
+                        id: subtitleLayerIndicator
+                        width: root.trackTagWidth
+                        height: parent.height
+                        anchors.left: expandSubButton.right
+                        anchors.top: warningButton.bottom
+                        anchors.bottom: parent.bottom
+
+                        Repeater {
+                            model: maxSubLayer + 1
+                            id: subLayerRepeater
+                            delegate: Rectangle {
+                                height: parent.height / subLayerRepeater.count
+                                width: parent.width
+                                color: activePalette.base
+                                visible: (subtitleTrack.visible && subtitleTrack.height != root.collapsedHeight)
+                                border.color: root.frameColor
+                                Text {
+                                    id: name
+                                    font: miniFont
+                                    text: "S" + index
+                                    color: activePalette.text
+                                    anchors.centerIn: parent
+                                }
+                            }
+                        }
+                    }
                 }
                 Column {
                     id: trackHeaders
@@ -1248,7 +1278,6 @@ Rectangle {
                             current: item === timeline.activeTrack
                             trackId: item
                             height: model.trackHeight
-                            onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             collapsed: height <= root.collapsedHeight
                             Component.onCompleted: {
                                 root.collapsedHeight = collapsedHeight
@@ -1318,7 +1347,19 @@ Rectangle {
             hoverEnabled: true
             preventStealing: true
             acceptedButtons: Qt.AllButtons
-            cursorShape: root.activeTool === ProjectTool.SelectTool ? Qt.ArrowCursor : root.activeTool === ProjectTool.RazorTool ? Qt.IBeamCursor : root.activeTool === ProjectTool.RippleTool ? Qt.SplitHCursor : Qt.SizeHorCursor
+            cursorShape: {
+                switch(root.activeTool) {
+                case ProjectTool.SelectTool:
+                case ProjectTool.RollTool:
+                    return Qt.ArrowCursor;
+                case ProjectTool.RazorTool:
+                    return Qt.IBeamCursor;
+                case ProjectTool.RippleTool:
+                    return Qt.SplitHCursor;
+                default:
+                    return Qt.SizeHorCursor;
+                }
+            }
             onWheel: wheel => {
                 if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
                     zoomByWheel(wheel)
@@ -1330,12 +1371,13 @@ Rectangle {
             onPressed: mouse => {
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
-                if (mouse.buttons === Qt.MiddleButton || ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
+                let selectLikeTool = root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                if (mouse.buttons === Qt.MiddleButton || (selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
                     return
                 }
-                if ((root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && shiftPress && mouse.y > ruler.height) {
+                if (selectLikeTool && shiftPress && mouse.y > ruler.height) {
                         // rubber selection
                         rubberSelect.x = mouse.x + scrollView.contentX
                         rubberSelect.y = mouse.y - ruler.height + scrollView.contentY
@@ -1424,7 +1466,7 @@ Rectangle {
                                 }
                             }
                         }
-                    } else if (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool || mouse.y <= ruler.height) {
+                    } else if (selectLikeTool || mouse.y <= ruler.height) {
                         if (mouse.y > ruler.height) {
                             controller.requestClearSelection();
                             proxy.position = Math.min((scrollView.contentX + mouse.x) / root.timeScale, timeline.fullDuration - 1)
@@ -1439,6 +1481,7 @@ Rectangle {
                             timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
                         } else {
                             timeline.activeTrack = -2
+                            timeline.activeSubLayer = (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1))
                         }
                         root.clickFrame = Math.floor((mouse.x + scrollView.contentX) / root.timeScale)
                         root.showTimelineMenu()
@@ -1460,8 +1503,9 @@ Rectangle {
             onDoubleClicked: mouse => {
                 if (mouse.buttons === Qt.LeftButton && root.activeTool === ProjectTool.SelectTool && mouse.y > ruler.height) {
                     if (root.showSubtitles && mouse.y < (ruler.height + subtitleTrack.height)) {
-                        subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale)
+                        subtitleModel.addSubtitle((scrollView.contentX + mouseX) / root.timeScale, (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1)))
                         timeline.activeTrack = -2
+                        timeline.activeSubLayer = (mouse.y - ruler.height) / (subtitleTrack.height / (maxSubLayer + 1))
                     } else {
                         timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
                     }
@@ -1470,7 +1514,8 @@ Rectangle {
                 }
             }
             onPositionChanged: mouse => {
-                if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
+                let selectLikeTool = root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
                     var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
                     var vScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height + subtitleTrackHeader.height - scrollView.height+ horZoomBar.height)
@@ -1494,7 +1539,7 @@ Rectangle {
                     }
                 }
                 ruler.showZoneLabels = mouse.y < ruler.height
-                if (shiftPress && mouse.buttons === Qt.LeftButton && (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool) && !rubberSelect.visible && rubberSelect.y > 0) {
+                if (shiftPress && mouse.buttons === Qt.LeftButton && selectLikeTool && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
                     var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
                     var dy = rubberSelect.originY - (mouseY - ruler.height + scrollView.contentY)
@@ -1521,7 +1566,7 @@ Rectangle {
                     }
                     continuousScrolling(newX, newY)
                 } else if ((pressedButtons & Qt.LeftButton) && (!shiftPress || spacerGuides)) {
-                    if (root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool || (mouse.y < ruler.height && root.activeTool !== ProjectTool.SlipTool && (root.activeTool !== ProjectTool.SpacerTool || spacerGroup == -1))) {
+                    if (selectLikeTool || (mouse.y < ruler.height && root.activeTool !== ProjectTool.SlipTool && (root.activeTool !== ProjectTool.SpacerTool || spacerGroup == -1))) {
                         proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / root.timeScale, timeline.fullDuration - 1))
                     } else if (root.activeTool === ProjectTool.SpacerTool && spacerGroup > -1) {
                         // Spacer tool, move group
@@ -1539,10 +1584,11 @@ Rectangle {
                             frame = Math.min(spacerMaxPos, frame)
                         }
                         finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping, true)[0]
-                        if (spacerGuides) {
+                        console.log('MOVING SPACE TO FRAME: ', finalSpacerFrame)
+                        if (spacerGuides && finalSpacerFrame > -1) {
                             timeline.spacerMoveGuides(selectedGuides, finalSpacerFrame - lastPos)
                         }
-                        continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
+                        continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY - ruler.height)
                     } else if (spacerGuides) {
                         var frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale)
                         frame = Math.max(spacerMinPos, frame)
@@ -1616,16 +1662,18 @@ Rectangle {
                     return
                 }
 
-                if (spacerGroup > -1 && finalSpacerFrame > -1) {
-                    var frame = controller.getItemPosition(spacerGroup)
-                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack, selectedGuides, spacerGuides ? spacerClickFrame : -1);
-                } else if (spacerGuides) {
-                    // Move back guides to original pos
-                    timeline.spacerMoveGuides(selectedGuides, spacerClickFrame - spacerFrame)
-                    timeline.moveGuidesInRange(spacerClickFrame, -1, spacerFrame - finalSpacerFrame)
+                if (finalSpacerFrame > -1) {
+                    if (spacerGroup > -1) {
+                        var frame = controller.getItemPosition(spacerGroup)
+                        timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack, selectedGuides, spacerGuides ? spacerClickFrame : -1);
+                    } else if (spacerGuides) {
+                        // Move back guides to original pos
+                        timeline.spacerMoveGuides(selectedGuides, spacerClickFrame - spacerFrame)
+                        timeline.moveGuidesInRange(spacerClickFrame, -1, spacerFrame - finalSpacerFrame)
+                    }
                 }
 
-                if (spacerGroup > -1 && finalSpacerFrame > -1 || spacerGuides) {
+                if (spacerGroup > -1 || spacerGuides) {
                     spacerClickFrame = -1
                     spacerFrame = -1
                     spacerGroup = -1
@@ -1725,12 +1773,18 @@ Rectangle {
                     // These make the striped background for the tracks.
                     // It is important that these are not part of the track visual hierarchy;
                     // otherwise, the clips will be obscured by the Track's background.
-                    Rectangle {
-                        width: scrollView.width
-                        border.width: 1
-                        border.color: root.frameColor
-                        height: subtitleTrack.height
-                        color: (controller && controller.isSubtitleTrack(timeline.activeTrack)) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                    Column {
+                        topPadding: -scrollView.contentY
+                        Repeater {
+                            model: maxSubLayer + 1
+                            Rectangle {
+                                width: scrollView.width
+                                border.width: 1
+                                border.color: root.frameColor
+                                height: subtitleTrack.height / (maxSubLayer + 1)
+                                color: (controller && controller.isSubtitleTrack(timeline.activeTrack) && (timeline.activeSubLayer == index)) ? Qt.tint(getTrackColor(false, false), selectedTrackColor) : getTrackColor(false, false)
+                            }
+                        }
                     }
                     Column {
                         y: subtitleTrack.height
@@ -1833,7 +1887,12 @@ Rectangle {
                                     property int dragFrame
                                     property int snapping: root.snapping
                                     property bool moveMirrorTracks: true
-                                    cursorShape: root.activeTool === ProjectTool.SelectTool ? dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
+                                    cursorShape: {
+                                        if (root.activeTool === ProjectTool.SelectTool) {
+                                            return dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+                                        }
+                                        return tracksArea.cursorShape
+                                    }
                                     enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
                                     onPressed: mouse => {
                                         if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
@@ -2284,6 +2343,7 @@ Rectangle {
             width: tracksContainerArea.width
             height: trackHeight
             isAudio: audio
+            isLocked: model.locked
             trackThumbsFormat: thumbsFormat
             trackInternalId: item
             effectZones: model.effectZones
@@ -2320,6 +2380,7 @@ Rectangle {
             endFrame: model.endframe
             subtitle: model.subtitle
             isGrabbed: model.grabbed
+            subLayer: model.layer
         }
     }
 
@@ -2352,11 +2413,11 @@ Rectangle {
                     vertical = 0
                     stop()
                 } else {
-                    if ((clipBeingMovedId == -1 && clipBeingDroppedId == -1 && !rubberSelect.visible)) {
+                    if ((clipBeingMovedId == -1 && clipBeingDroppedId == -1 && !rubberSelect.visible && spacerGroup == -1)) {
                         vertical = 0
                         stop()
                     } else {
-                        var maxScroll = trackHeaders.height - tracksArea.height + horZoomBar.height + ruler.height + subtitleTrack.height
+                        var maxScroll = trackHeaders.height + subtitleTrack.height - scrollView.height
                         if (scrollView.contentY > maxScroll) {
                             scrollView.contentY = Math.max(0, maxScroll)
                             vertical = 0

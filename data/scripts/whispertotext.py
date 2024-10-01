@@ -61,6 +61,10 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
         'condition_on_previous_text':True,
         'word_timestamps':True
     }
+    if sys.platform == 'darwin':
+        # Set FFmpeg path for whisper
+        from os.path import abspath, dirname, join
+        os.environ["PATH"] += os.pathsep + abspath(join(dirname(__file__), '../../MacOS/'))
 
     if len(extraparams) > 1:
         extraArgs = extraparams.split()

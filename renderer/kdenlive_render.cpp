@@ -125,7 +125,7 @@ int main(int argc, char **argv)
             QScopedPointer<Mlt::Producer> playlst(prod.cut(frame.toInt(), frame.toInt() + chunkSize));
             QScopedPointer<Mlt::Consumer> cons(
                 new Mlt::Consumer(profile, QString("avformat:%1").arg(baseFolder.absoluteFilePath(fileName)).toUtf8().constData()));
-            for (const QString &param : qAsConst(consumerParams)) {
+            for (const QString &param : std::as_const(consumerParams)) {
                 if (param.contains(QLatin1Char('='))) {
                     cons->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toUtf8().constData());
                 }
@@ -165,6 +165,9 @@ int main(int argc, char **argv)
         QCommandLineOption subtitleOption("subtitle", "Subtitle file.", "file");
         parser.addOption(subtitleOption);
 
+        QCommandLineOption debugOption("debug", "Enable debug mode, doesn't delete log file on render success.");
+        parser.addOption(debugOption);
+
         parser.process(app);
         args = parser.positionalArguments();
 
@@ -188,7 +191,7 @@ int main(int argc, char **argv)
             qWarning() << "Failed to open file" << f.fileName() << "for reading";
             return 1;
         }
-        if (!doc.setContent(&f, false)) {
+        if (!doc.setContent(&f)) {
             qWarning() << "Failed to parse file" << f.fileName() << "to QDomDocument";
             f.close();
             return 1;
@@ -220,9 +223,6 @@ int main(int argc, char **argv)
                         playlist = tmp.fileName();
                         target = output;
                         QTextStream outStream(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                        outStream.setCodec("UTF-8");
-#endif
                         outStream << doc.toString();
                     }
                     file.close();
@@ -234,8 +234,9 @@ int main(int argc, char **argv)
         }
         int pid = parser.value(pidOption).toInt();
         QString subtitleFile = parser.value(subtitleOption);
+        bool debugMode = parser.isSet(debugOption);
 
-        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, &app);
+        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, debugMode, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();
             app.quit();

@@ -69,6 +69,10 @@
       <label>Check if document profile is same as first imported clip.</label>
       <default>true</default>
     </entry>
+    <entry name="keep_original_frame_size" type="Bool">
+      <label>On clip import, add a Transform effect to keep the clip's original frame size.</label>
+      <default>false</default>
+    </entry>
     <entry name="exportframe_usingsourceres" type="Bool">
       <label>Export image using source resolution.</label>
       <default>true</default>
@@ -140,6 +144,11 @@
     <entry name="transition_duration" type="String">
       <label>Default transition duration.</label>
       <default>00:00:03:00</default>
+    </entry>
+
+    <entry name="enableAssetsIncludeList" type="Bool">
+      <label>Only display include list assets.</label>
+      <default>false</default>
     </entry>
 
     <entry name="disable_effect_parameters" type="Bool">
@@ -247,7 +256,7 @@
 
     <entry name="transcodeFriendly" type="String">
       <label>Name of the default transcoding profile for edit friendly convert.</label>
-      <default>Lossy x264 I frame only</default>
+      <default></default>
     </entry>
 
     <entry name="transcodingReplace" type="Bool">
@@ -387,6 +396,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="enableBuiltInEffects" type="Bool">
+      <label>Enable built-in effects.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="scrollvertically" type="Bool">
       <label>Scroll vertically with scroll wheel, horizontally with Shift + scroll wheel</label>
       <default>false</default>
@@ -477,6 +491,21 @@
       <default>#535353</default>
     </entry>
 
+    <entry name="showMonitorGrid" type="Bool">
+      <label>Should we show the monitor grid.</label>
+      <default>false</default>
+    </entry>
+
+    <entry name="monitorGridH" type="Int">
+      <label>Default size for grid horizontal spacing.</label>
+      <default>100</default>
+    </entry>
+
+    <entry name="monitorGridV" type="Int">
+      <label>Default size for grid vertical spacing.</label>
+      <default>100</default>
+    </entry>
+
     <entry name="monitor_background" type="String">
       <label>Background color for clip monitor (only visible with transparent clips).</label>
       <default>black</default>
@@ -533,7 +562,7 @@
     </entry>
     <entry name="compositingList" type="StringList">
       <label>The allowed compositions for track compositing (sorted by preference).</label>
-      <default>frei0r.cairoblend,qtblend</default>
+      <default>qtblend,frei0r.cairoblend</default>
     </entry>
 </group>
 
@@ -993,10 +1022,7 @@
       <label>When editing an effect with position, seek to the keyframe pos.</label>
       <default>true</default>
     </entry>
-    <entry name="showbuiltstack" type="Bool">
-      <label>Show builtin effect stack.</label>
-      <default>false</default>
-    </entry>
+
     <entry name="showeffectinfo" type="Bool">
       <label>Show small effect description in effects list.</label>
       <default>false</default>

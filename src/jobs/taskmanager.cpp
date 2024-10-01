@@ -46,19 +46,16 @@ void TaskManager::updateConcurrency()
 
 void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type, bool softDelete, const QVector<AbstractTask::JOBTYPE> exceptions)
 {
-    qDebug() << "========== READY FOR TASK DISCARD ON: " << owner.itemId;
     if (m_blockUpdates) {
         // We are already deleting all tasks
         return;
     }
-    m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
+    QWriteLocker lk(&m_tasksListLock);
     if (m_taskList.find(owner.itemId) == m_taskList.end()) {
-        m_tasksListLock.unlock();
         return;
     }
     std::vector<AbstractTask *> taskList = m_taskList.at(owner.itemId);
-    m_tasksListLock.unlock();
     int ix = taskList.size() - 1;
     while (ix >= 0) {
         AbstractTask *t = taskList.at(ix);
@@ -76,6 +73,8 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
         if (taskType != AbstractTask::TRANSCODEJOB && taskType != AbstractTask::PROXYJOB) {
             if (m_taskPool.tryTake(t)) {
                 // Task was not started yet, we can simply delete
+                m_taskList[owner.itemId].erase(std::remove(m_taskList[owner.itemId].begin(), m_taskList[owner.itemId].end(), t),
+                                               m_taskList[owner.itemId].end());
                 delete t;
                 ix--;
                 continue;
@@ -83,16 +82,20 @@ void TaskManager::discardJobs(const ObjectId &owner, AbstractTask::JOBTYPE type,
         } else {
             if (m_transcodePool.tryTake(t)) {
                 // Task was not started yet, we can simply delete
+                m_taskList[owner.itemId].erase(std::remove(m_taskList[owner.itemId].begin(), m_taskList[owner.itemId].end(), t),
+                                               m_taskList[owner.itemId].end());
                 delete t;
                 ix--;
                 continue;
             }
         }
-        t->cancelJob(softDelete);
-        // Block until the task is finished
-        t->m_runMutex.lock();
-        t->m_runMutex.unlock();
-        t->deleteLater();
+        if (t->cancelJob(softDelete)) {
+            // Block until the task is finished
+            m_taskList[owner.itemId].erase(std::remove(m_taskList[owner.itemId].begin(), m_taskList[owner.itemId].end(), t), m_taskList[owner.itemId].end());
+            t->m_runMutex.lock();
+            t->m_runMutex.unlock();
+            t->deleteLater();
+        }
         ix--;
     }
 }
@@ -103,14 +106,12 @@ void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
         // We are already deleting all tasks
         return;
     }
-    m_tasksListLock.lockForRead();
     // See if there is already a task for this MLT service and resource.
     if (m_taskList.find(owner.itemId) == m_taskList.end()) {
-        m_tasksListLock.unlock();
         return;
     }
+    QWriteLocker lk(&m_tasksListLock);
     std::vector<AbstractTask *> taskList = m_taskList.at(owner.itemId);
-    m_tasksListLock.unlock();
     int ix = taskList.size() - 1;
     while (ix >= 0) {
         AbstractTask *t = taskList.at(ix);
@@ -122,6 +123,8 @@ void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
         if (taskType != AbstractTask::TRANSCODEJOB && taskType != AbstractTask::PROXYJOB) {
             if (m_taskPool.tryTake(t)) {
                 // Task was not started yet, we can simply delete
+                m_taskList[owner.itemId].erase(std::remove(m_taskList[owner.itemId].begin(), m_taskList[owner.itemId].end(), t),
+                                               m_taskList[owner.itemId].end());
                 delete t;
                 ix--;
                 continue;
@@ -129,16 +132,20 @@ void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
         } else {
             if (m_transcodePool.tryTake(t)) {
                 // Task was not started yet, we can simply delete
+                m_taskList[owner.itemId].erase(std::remove(m_taskList[owner.itemId].begin(), m_taskList[owner.itemId].end(), t),
+                                               m_taskList[owner.itemId].end());
                 delete t;
                 ix--;
                 continue;
             }
         }
-        t->cancelJob();
-        // Block until the task is finished
-        t->m_runMutex.lock();
-        t->m_runMutex.unlock();
-        t->deleteLater();
+        if (t->cancelJob()) {
+            m_taskList[owner.itemId].erase(std::remove(m_taskList[owner.itemId].begin(), m_taskList[owner.itemId].end(), t), m_taskList[owner.itemId].end());
+            // Block until the task is finished
+            t->m_runMutex.lock();
+            t->m_runMutex.unlock();
+            t->deleteLater();
+        }
         ix--;
     }
 }
@@ -178,17 +185,6 @@ TaskManagerStatus TaskManager::jobStatus(const ObjectId &owner) const
     return TaskManagerStatus::Pending;
 }
 
-void TaskManager::updateJobCount()
-{
-    QReadLocker lk(&m_tasksListLock);
-    int count = 0;
-    for (const auto &task : m_taskList) {
-        count += task.second.size();
-    }
-    // Set jobs count
-    Q_EMIT jobCount(count);
-}
-
 void TaskManager::taskDone(int cid, AbstractTask *task)
 {
     // This will be executed in the QRunnable job thread
@@ -197,14 +193,20 @@ void TaskManager::taskDone(int cid, AbstractTask *task)
         return;
     }
     m_tasksListLock.lockForWrite();
-    Q_ASSERT(m_taskList.find(cid) != m_taskList.end());
-    m_taskList[cid].erase(std::remove(m_taskList[cid].begin(), m_taskList[cid].end(), task), m_taskList[cid].end());
-    if (m_taskList[cid].size() == 0) {
-        m_taskList.erase(cid);
+    if (m_taskList.find(cid) != m_taskList.end()) {
+        m_taskList[cid].erase(std::remove(m_taskList[cid].begin(), m_taskList[cid].end(), task), m_taskList[cid].end());
+        if (m_taskList[cid].size() == 0) {
+            m_taskList.erase(cid);
+        }
+    }
+    int count = 0;
+    for (const auto &task : m_taskList) {
+        count += task.second.size();
     }
     m_tasksListLock.unlock();
+    // Set jobs count
+    Q_EMIT jobCount(count);
     task->deleteLater();
-    QMetaObject::invokeMethod(this, "updateJobCount");
 }
 
 void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::JOBTYPE> exceptions)
@@ -256,11 +258,12 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
         m_taskList.clear();
         m_taskPool.clear();
     }
+    m_tasksListLock.unlock();
+    // Set jobs count
+    Q_EMIT jobCount(0);
     if (!leaveBlocked) {
         m_blockUpdates = false;
     }
-    m_tasksListLock.unlock();
-    updateJobCount();
 }
 
 void TaskManager::unBlock()
@@ -282,14 +285,19 @@ void TaskManager::startTask(int ownerId, AbstractTask *task)
     } else {
         m_taskList[ownerId].emplace_back(task);
     }
+    int count = 0;
+    for (const auto &task : m_taskList) {
+        count += task.second.size();
+    }
     m_tasksListLock.unlock();
+    // Set jobs count
+    Q_EMIT jobCount(count);
     if (task->m_type == AbstractTask::TRANSCODEJOB || task->m_type == AbstractTask::PROXYJOB) {
         // We only want a limited concurrent jobs for those as for example GPU usually only accept 2 concurrent encoding jobs
         m_transcodePool.start(task, task->m_priority);
     } else {
         m_taskPool.start(task, task->m_priority);
     }
-    updateJobCount();
 }
 
 int TaskManager::getJobProgressForClip(const ObjectId &owner)
@@ -311,8 +319,8 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner)
     }
     int total = 0;
     for (AbstractTask *t : taskList) {
-        if (t->m_type == AbstractTask::LOADJOB) {
-            // Don't show progress for load task
+        if (t->m_type == AbstractTask::LOADJOB || t->m_type == AbstractTask::THUMBJOB || t->m_progress == 100 || t->m_isCanceled) {
+            // Don't show progress for load task or canceled tasks
             cnt--;
         } else if (owner.itemId == displayedClip) {
             jobNames << t->m_description;
@@ -322,12 +330,12 @@ int TaskManager::getJobProgressForClip(const ObjectId &owner)
         total += t->m_progress;
     }
     lk.unlock();
+    if (owner.itemId == displayedClip) {
+        Q_EMIT detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
+    }
     if (cnt == 0) {
         return 100;
     }
     total /= cnt;
-    if (owner.itemId == displayedClip) {
-        Q_EMIT detailedProgress(owner, jobNames, jobsProgress, jobsUuids);
-    }
     return total;
 }

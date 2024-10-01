@@ -38,6 +38,7 @@ public Q_SLOTS:
     /** @brief refresh the properties to reflect changes in the model
      */
     void slotRefresh() override;
+    QLabel *createLabel() override;
 
 private:
     QPushButton *m_button;

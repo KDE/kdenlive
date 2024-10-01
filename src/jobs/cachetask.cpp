@@ -64,8 +64,11 @@ void CacheTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip)
         int count = 0;
         const QString clipId = QString::number(m_owner.itemId);
         for (int i : frames) {
-            m_progress = 100 * count / size;
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = 100 * count / size;
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
             count++;
             if (m_isCanceled || pCore->taskManager.isBlocked()) {
                 break;

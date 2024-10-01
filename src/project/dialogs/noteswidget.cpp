@@ -60,11 +60,12 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
 void NotesWidget::createMarker(const QStringList &anchors)
 {
     QMap<QString, QList<int>> clipMarkers;
-    QList<int> guides;
+    QMap<QUuid, QList<int>> guides;
     for (const QString &anchor : anchors) {
         if (anchor.contains(QLatin1Char('#'))) {
             // That's a Bin Clip reference.
-            const QString binId = anchor.section(QLatin1Char('#'), 0, 0);
+            const QString uuid = anchor.section(QLatin1Char('#'), 0, 0);
+            const QString binId = pCore->projectItemModel()->getBinClipIdByUuid(uuid);
             QList<int> timecodes;
             if (clipMarkers.contains(binId)) {
                 timecodes = clipMarkers.value(binId);
@@ -75,11 +76,22 @@ void NotesWidget::createMarker(const QStringList &anchors)
             clipMarkers.insert(binId, timecodes);
         } else {
             // That is a guide
-            if (anchor.contains(QLatin1Char('?'))) {
-                guides << anchor.section(QLatin1Char('?'), 0, 0).toInt();
-            } else {
-                guides << anchor.toInt();
+            QUuid uuid;
+            QString anchorLink = anchor;
+            if (anchorLink.contains(QLatin1Char('!'))) {
+                // Linked to a timeline sequence
+                uuid = QUuid(anchorLink.section(QLatin1Char('!'), 0, 0));
+                anchorLink = anchorLink.section(QLatin1Char('!'), 1);
             }
+            if (anchorLink.contains(QLatin1Char('?'))) {
+                anchorLink = anchorLink.section(QLatin1Char('?'), 0, 0);
+            }
+            QList<int> guidesToAdd;
+            if (guides.contains(uuid)) {
+                guidesToAdd = guides.value(uuid);
+            }
+            guidesToAdd << anchorLink.toInt();
+            guides.insert(uuid, guidesToAdd);
         }
     }
     QMapIterator<QString, QList<int>> i(clipMarkers);
@@ -117,7 +129,13 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
     }
     if (anchor.contains(QLatin1Char('#'))) {
         // That's a Bin Clip reference.
-        pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
+        const QString uuid = anchor.section(QLatin1Char('#'), 0, 0);
+        const QString binId = pCore->projectItemModel()->getBinClipIdByUuid(uuid);
+        if (!binId.isEmpty()) {
+            pCore->selectBinClip(binId, true, anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
+        } else {
+            pCore->displayMessage(i18n("Cannot find project clip"), ErrorMessage);
+        }
     } else {
         Q_EMIT seekProject(anchor);
     }
@@ -224,7 +242,7 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
     bool enforceHtml = false;
     // Check for timecodes
     QStringList words = pastedText.split(QLatin1Char(' '));
-    for (const QString &w : qAsConst(words)) {
+    for (const QString &w : std::as_const(words)) {
         if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
             // This is probably a timecode
             int frames = pCore->timecode().getFrameCount(w);

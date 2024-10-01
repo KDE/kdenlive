@@ -9,12 +9,7 @@
 #include "assets/assetlist/view/asseticonprovider.hpp"
 #include "mltconnection.h"
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <KNS3/Entry>
-#else
 #include <KNSCore/Entry>
-#endif
-
 #include <KNSWidgets/Action>
 #include <QAction>
 #include <QFontDatabase>
@@ -128,11 +123,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
         connect(downloadAction, &KNSWidgets::Action::dialogFinished, this, [&](const QList<KNSCore::Entry> &changedEntries) {
             if (changedEntries.count() > 0) {
                 for (auto &ent : changedEntries) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                    if (ent.status() == KNS3::Entry::Status::Deleted) {
-#else
                     if (ent.status() == KNSCore::Entry::Status::Deleted) {
-#endif
                         reloadTemplates();
                     } else {
                         QStringList files = ent.installedFiles();
@@ -158,17 +149,27 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     QWidget *empty = new QWidget(this);
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(empty);
-    QAction *showInfo = new QAction(this);
+    // Include list
+    QAction *includeList = new QAction(QIcon::fromTheme(QStringLiteral("view-filter")), QString(), this);
+    includeList->setCheckable(true);
+    // Disable include list on startup until ready
+    KdenliveSettings::setEnableAssetsIncludeList(false);
+    includeList->setChecked(KdenliveSettings::enableAssetsIncludeList());
+    connect(includeList, &QAction::triggered, this, [this](bool enable) {
+        KdenliveSettings::setEnableAssetsIncludeList(enable);
+        m_proxyModel->updateIncludeList();
+    });
+    includeList->setToolTip(i18n("Only show reviewed assets"));
+    m_toolbar->addAction(includeList);
+    // Asset Info
+    QAction *showInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-about")), QString(), this);
     showInfo->setCheckable(true);
-    showInfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
     showInfo->setToolTip(m_isEffect ? i18n("Show/hide description of the effects") : i18n("Show/hide description of the compositions"));
     m_toolbar->addAction(showInfo);
     m_lay->addWidget(m_toolbar);
 
     // Search line
     m_searchLine = new QLineEdit(this);
-    m_searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    // m_searchLine->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_searchLine->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search…"));
@@ -177,10 +178,9 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) { setFilterName(str); });
     m_lay->addWidget(m_searchLine);
 
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setAcceptDrops(true);
     m_effectsTree = new QTreeView(this);
-    m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_effectsTree->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_effectsTree->setHeaderHidden(true);
     m_effectsTree->setAlternatingRowColors(true);
     m_effectsTree->setRootIsDecorated(true);
@@ -196,7 +196,8 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     QTextBrowser *textEdit = new QTextBrowser(this);
     textEdit->setReadOnly(true);
     textEdit->setAcceptRichText(true);
-    textEdit->setOpenExternalLinks(true);
+    textEdit->setOpenLinks(false);
+    connect(textEdit, &QTextBrowser::anchorClicked, pCore.get(), &Core::openDocumentationLink);
     m_infoDocument = new QTextDocument(this);
     textEdit->setDocument(m_infoDocument);
     viewSplitter->addWidget(textEdit);
@@ -278,7 +279,7 @@ QString AssetListWidget::getName(const QModelIndex &index) const
 
 bool AssetListWidget::isFavorite(const QModelIndex &index) const
 {
-    return m_model->isFavorite(m_proxyModel->mapToSource(index));
+    return m_model->isFavorite(m_proxyModel->mapToSource(index), isEffect());
 }
 
 void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite)
@@ -413,7 +414,7 @@ void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIn
     }
 }
 
-const QString AssetListWidget::buildLink(const QString id, AssetListType::AssetType type) const
+const QString AssetListWidget::buildLink(const QString id, AssetListType::AssetType type)
 {
     QString prefix;
     if (type == AssetListType::AssetType::Audio) {

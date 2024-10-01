@@ -11,9 +11,6 @@
 #include <QAction>
 #include <QtGlobal>
 
-#include <kconfigwidgets_version.h>
-
-
 // KDE includes
 #include <KColorSchemeManager>
 

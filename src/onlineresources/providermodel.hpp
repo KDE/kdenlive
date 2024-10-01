@@ -60,6 +60,7 @@ public Q_SLOTS:
     // void slotShowResults(QNetworkReply *reply);
 
 protected:
+    QOAuthHttpServerReplyHandler *m_replyHandler;
     QOAuth2AuthorizationCodeFlow m_oauth2;
     QString m_path;
     QString m_name;
@@ -75,7 +76,10 @@ protected:
     QNetworkAccessManager *m_networkManager;
 
 private:
+    bool m_oauth2InitDone = false;
+
     void validate();
+    void initOAuth2();
     QUrl getSearchUrl(const QString &searchText, const int page = 1);
     QUrl getFilesUrl(const QString &id);
     QJsonValue objectGetValue(QJsonObject item, QString key);

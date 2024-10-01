@@ -22,7 +22,7 @@ QColor QColorUtils::stringToColor(QString strColor)
                          intval & 0xff);        // a
         } else {
             // 0xRRGGBB, 0xRGB
-            color.setNamedColor(strColor.replace(0, 2, QLatin1Char('#')));
+            color = QColor::fromString(strColor.replace(0, 2, QLatin1Char('#')));
         }
     } else {
         if (strColor.length() == 9) {
@@ -36,10 +36,10 @@ QColor QColorUtils::stringToColor(QString strColor)
         } else if (strColor.length() == 8) {
             // 0xRRGGBB
             strColor = strColor.replace('#', QLatin1String("0x"));
-            color.setNamedColor(strColor);
+            color = QColor::fromString(strColor);
         } else {
             // #RRGGBB, #RGB
-            color.setNamedColor(strColor);
+            color = QColor::fromString(strColor);
         }
     }
 

@@ -57,7 +57,7 @@ Item {
     property int trackOffset: 5
     y: trackOffset
     height: 5
-    enabled: !compoArea.containsDrag
+    enabled: !compoArea.containsDrag && !clipDropArea.containsDrag
 
 
     signal trimmingIn(var clip, real newDuration)
@@ -88,7 +88,9 @@ Item {
     }
     onFakePositionChanged: {
         console.log('COMPOSITION POS CHANGED TO: ', fakePosition)
-        x = fakePosition * timeScale
+        if (fakePosition > -1) {
+            x = fakePosition * timeScale
+        }
     }
     onFakeTidChanged: {
         if (compositionRoot.fakeTid > -1 && parentTrack) {
@@ -262,13 +264,12 @@ Item {
                 root.autoScrolling = timeline.autoScroll
             }
             onEntered: {
-                var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
-                initDrag(compositionRoot, itemPos, compositionRoot.clipId, compositionRoot.modelStart, compositionRoot.trackId, true)
+                updateDrag()
                 var s = i18n("%1, Position: %2, Duration: %3".arg(label.text).arg(timeline.simplifiedTC(compositionRoot.modelStart)).arg(timeline.simplifiedTC(compositionRoot.clipDuration)))
                 timeline.showToolTip(s)
             }
             onExited: {
-                endDrag()
+                root.endDragIfFocused(compositionRoot.clipId)
                 if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse) {
                     timeline.showToolTip()
                 }

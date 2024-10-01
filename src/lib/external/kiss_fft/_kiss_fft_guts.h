@@ -9,7 +9,9 @@
    defines kiss_fft_scalar as either short or a float type
    and defines
    typedef struct { kiss_fft_scalar r; kiss_fft_scalar i; }kiss_fft_cpx; */
+
 #include "kiss_fft.h"
+#include "kiss_fft_log.h"
 #include <limits.h>
 
 #define MAXFACTORS 32
@@ -36,22 +38,23 @@ struct kiss_fft_state
    C_ADDTO( res , a)    : res += a
  * */
 #ifdef FIXED_POINT
+#include <stdint.h>
 #if (FIXED_POINT == 32)
 #define FRACBITS 31
 #define SAMPPROD int64_t
-#define SAMP_MAX 2147483647
+#define SAMP_MAX INT32_MAX
+#define SAMP_MIN INT32_MIN
 #else
 #define FRACBITS 15
 #define SAMPPROD int32_t
-#define SAMP_MAX 32767
+#define SAMP_MAX INT16_MAX
+#define SAMP_MIN INT16_MIN
 #endif
-
-#define SAMP_MIN -SAMP_MAX
 
 #if defined(CHECK_OVERFLOW)
 #define CHECK_OVERFLOW_OP(a, op, b)                                                                                                                            \
     if ((SAMPPROD)(a)op(SAMPPROD)(b) > SAMP_MAX || (SAMPPROD)(a)op(SAMPPROD)(b) < SAMP_MIN) {                                                                  \
-        fprintf(stderr, "WARNING:overflow @ " __FILE__ "(%d): (%d " #op " %d) = %ld\n", __LINE__, (a), (b), (SAMPPROD)(a)op(SAMPPROD)(b));                     \
+        KISS_FFT_WARNING("overflow (%d " #op " %d) = %ld", (a), (b), (SAMPPROD)(a)op(SAMPPROD)(b));                                                            \
     }
 #endif
 
@@ -141,7 +144,7 @@ struct kiss_fft_state
 #else
 #define KISS_FFT_COS(phase) (kiss_fft_scalar) cos(phase)
 #define KISS_FFT_SIN(phase) (kiss_fft_scalar) sin(phase)
-#define HALF_OF(x) ((x)*.5)
+#define HALF_OF(x) ((x) * ((kiss_fft_scalar).5))
 #endif
 
 #define kf_cexp(x, phase)                                                                                                                                      \
@@ -151,7 +154,7 @@ struct kiss_fft_state
     } while (0)
 
 /* a debugging function */
-#define pcpx(c) fprintf(stderr, "%g + %gi\n", (double)((c)->r), (double)((c)->i))
+#define pcpx(c) KISS_FFT_DEBUG("%g + %gi\n", (double)((c)->r), (double)((c)->i))
 
 #ifdef KISS_FFT_USE_ALLOCA
 // define this to allow use of alloca instead of malloc for temporary buffers

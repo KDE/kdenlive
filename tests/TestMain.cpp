@@ -20,7 +20,11 @@ Write your tests in a file with a name corresponding to what you're testing */
 
 int main(int argc, char *argv[])
 {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
+    QHashSeed::setDeterministicGlobalSeed();
+#else
     qSetGlobalQHashSeed(0);
+#endif
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));

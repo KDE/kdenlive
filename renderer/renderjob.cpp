@@ -6,18 +6,15 @@
 
 #include "renderjob.h"
 
-#include <QStringList>
-#include <QThread>
-#ifndef NODBUS
-#include <QtDBus>
-#else
-#include <QJsonDocument>
-#include <QJsonObject>
-#endif
+#include <QApplication>
 #include <QDebug>
 #include <QDir>
 #include <QElapsedTimer>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QStandardPaths>
+#include <QStringList>
+#include <QThread>
 #include <utility>
 // Can't believe I need to do this to sleep.
 class SleepThread : QThread
@@ -28,20 +25,15 @@ public:
 };
 
 RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out, const QString &subtitleFile,
-                     QObject *parent)
+                     bool debugMode, QObject *parent)
     : QObject(parent)
     , m_scenelist(scenelist)
     , m_dest(target)
     , m_progress(0)
     , m_prog(render)
-#ifndef NODBUS
-    , m_jobUiserver(nullptr)
-    , m_kdenliveinterface(nullptr)
-#else
     , m_kdenlivesocket(new QLocalSocket(this))
-#endif
     , m_logfile(m_dest + QStringLiteral(".log"))
-    , m_erase(scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QString("xml:%2").arg(QDir::tempPath())))
+    , m_erase(debugMode == false && (scenelist.startsWith(QDir::tempPath()) || scenelist.startsWith(QString("xml:%2").arg(QDir::tempPath()))))
     , m_seconds(0)
     , m_frame(in)
     , m_framein(in)
@@ -49,14 +41,23 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_pid(pid)
     , m_dualpass(false)
     , m_subtitleFile(subtitleFile)
+    , m_debugMode(debugMode)
 {
     m_renderProcess = new QProcess(&m_looper);
     m_renderProcess->setReadChannel(QProcess::StandardError);
-    connect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
+    connect(m_renderProcess, &QProcess::finished, this, &RenderJob::slotCheckProcess);
 
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
-    m_args << "-progress" << scenelist;
+    if (m_debugMode) {
+        // Enforce repository since we have a failure in kdenlive-test-suite where MLT's repository is randomly set to usr/bin/lib/mlt-7 instead of
+        // usr/lib/mlt-7
+        /*QDir dataDir = QFileInfo(m_prog).absoluteDir();
+        if (dataDir.cd("../lib/mlt-7")) {
+            m_args << "-repository" << dataDir.absolutePath();
+        }*/
+    }
+    m_args << "-progress2" << scenelist;
 
     // Create a log of every render process.
     if (!m_logfile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -64,19 +65,16 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     } else {
         m_logstream.setDevice(&m_logfile);
     }
+    m_connectTimer.setSingleShot(true);
+    m_connectTimer.setInterval(5000);
 }
 
 RenderJob::~RenderJob()
 {
-#ifndef NODBUS
-    delete m_jobUiserver;
-    delete m_kdenliveinterface;
-#else
     if (m_kdenlivesocket->state() == QLocalSocket::ConnectedState) {
         m_kdenlivesocket->disconnectFromServer();
     }
     delete m_kdenlivesocket;
-#endif
     delete m_renderProcess;
     m_logfile.close();
 }
@@ -90,17 +88,6 @@ void RenderJob::slotAbort(const QString &url)
 
 void RenderJob::sendFinish(int status, const QString &error)
 {
-#ifndef NODBUS
-    if (m_kdenliveinterface) {
-        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), {m_dest, status, error});
-    }
-    if (m_jobUiserver) {
-        if (status > -3) {
-            m_jobUiserver->call(QStringLiteral("setDescriptionField"), 1, tr("Rendered file"), m_dest);
-        }
-        m_jobUiserver->call(QStringLiteral("terminate"), QString());
-    }
-#else
     if (m_kdenlivesocket->state() == QLocalSocket::ConnectedState) {
         QJsonObject method, args;
         args["url"] = m_dest;
@@ -109,10 +96,13 @@ void RenderJob::sendFinish(int status, const QString &error)
         method["setRenderingFinished"] = args;
         m_kdenlivesocket->write(QJsonDocument(method).toJson());
         m_kdenlivesocket->flush();
-    }
-#endif
-    else {
-        qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
+    } else {
+        if (!QFile::exists(m_dest)) {
+            qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors: Result file does not exist!!!";
+            qDebug() << "===================\nJOB OUTPUT: " << m_renderProcess->readAllStandardOutput();
+        } else {
+            qDebug() << "Rendering to" << m_dest << "finished. Status:" << status << "Errors:" << error;
+        }
     }
 }
 
@@ -128,21 +118,30 @@ void RenderJob::slotAbort()
                 << "\n";
     m_logstream.flush();
     m_logfile.close();
-#ifndef NODBUS
     qApp->quit();
-#endif
 }
 
 void RenderJob::receivedStderr()
 {
-    QString result = QString::fromLocal8Bit(m_renderProcess->readAllStandardError()).simplified();
+    QString result = QString::fromLocal8Bit(m_renderProcess->readAllStandardError());
+    if (!result.contains(QLatin1Char('\n'))) {
+        m_outputData.append(result);
+        return;
+    }
+    result.prepend(m_outputData);
+    m_outputData.clear();
+    result = result.simplified();
     if (!result.startsWith(QLatin1String("Current Frame"))) {
         m_errorMessage.append(result + QStringLiteral("<br>"));
         m_logstream << result;
     } else {
-        int progress = result.section(QLatin1Char(' '), -1).toInt();
-        int frame = result.section(QLatin1Char(','), 0, 0).section(QLatin1Char(' '), -1).toInt();
-        if (progress <= m_progress || progress <= 0 || progress > 100) {
+        bool ok;
+        int progress = result.section(QLatin1Char(' '), -1).toInt(&ok);
+        if (!ok) {
+            return;
+        }
+        int frame = result.section(QLatin1Char(','), 0, 0).section(QLatin1Char(' '), -1).toInt(&ok);
+        if (!ok || progress <= m_progress || progress <= 0 || progress > 100 || frame < m_frame) {
             return;
         }
         m_progress = progress;
@@ -155,37 +154,14 @@ void RenderJob::receivedStderr()
         if (elapsedTime == m_seconds) {
             return;
         }
-        int speed = (frame - m_frame) / (elapsedTime - m_seconds);
         m_seconds = elapsedTime;
         m_frame = frame;
-        updateProgress(speed);
+        updateProgress();
     }
 }
 
-void RenderJob::updateProgress(int speed)
+void RenderJob::updateProgress()
 {
-#ifndef NODBUS
-    if ((m_kdenliveinterface != nullptr) && m_kdenliveinterface->isValid()) {
-        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), {m_dest, m_progress, m_frame});
-    }
-    if (m_jobUiserver) {
-        qint64 remaining = m_seconds * (100 - m_progress) / m_progress;
-        int days = int(remaining / 86400);
-        int remainingSecs = int(remaining % 86400);
-        QTime when = QTime(0, 0, 0, 0).addSecs(remainingSecs);
-        QString est = tr("Estimated time remaining");
-        if (days > 0) {
-            est.append(tr("%n day(s) ", "", days));
-        }
-        est.append(when.toString(QStringLiteral("hh:mm:ss")));
-        m_jobUiserver->call(QStringLiteral("setPercent"), uint(m_progress));
-        m_jobUiserver->call(QStringLiteral("setProcessedAmount"), qulonglong(m_frame - m_framein), tr("frames"));
-        if (speed > -1) {
-            m_jobUiserver->call(QStringLiteral("setSpeed"), qulonglong(speed));
-        }
-        m_jobUiserver->call(QStringLiteral("setDescriptionField"), 0, QString(), est);
-    }
-#else
     if (m_kdenlivesocket->state() == QLocalSocket::ConnectedState) {
         QJsonObject method, args;
         args["url"] = m_dest;
@@ -194,126 +170,74 @@ void RenderJob::updateProgress(int speed)
         method["setRenderingProgress"] = args;
         m_kdenlivesocket->write(QJsonDocument(method).toJson());
         m_kdenlivesocket->flush();
+#if defined(Q_OS_WIN) || defined(Q_OS_MAC)
     }
-#endif
-    else {
+#else
+    } else if (!m_connectTimer.isActive()) {
+        // Linux, try to reconnect if we have a Kdenlive instance
+        QStringList files = QDir::temp().entryList({QStringLiteral("org.kde.kdenlive*")}, QDir::System);
+        qDebug() << "=== FOUND POSS MATHCES:" << files;
+        if (!files.isEmpty()) {
+            qDebug() << "::: FOUND POSSIBLE RUNNING INSTANCE: " << files.first();
+            bool ok;
+            int pid = files.first().section(QLatin1Char('-'), -1).toInt(&ok);
+            qDebug() << "::: FOUND POSSIBLE RUNNING INSTANCE PID: " << pid;
+            if (ok && pid > -1) {
+                m_pid = pid;
+                QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
+                m_kdenlivesocket->connectToServer(servername);
+            }
+        }
+        m_connectTimer.start();
         qDebug() << "Progress:" << m_progress << "%,"
                  << "frame" << m_frame;
     }
+#endif
     m_logstream << QStringLiteral("%1\t%2\t%3\n").arg(m_seconds).arg(m_frame).arg(m_progress);
 }
 
 void RenderJob::start()
 {
     m_startTime = QDateTime::currentDateTime();
-#ifndef NODBUS
-    QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if ((interface != nullptr)) {
-        if (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
-            qWarning() << "No org.kde.JobViewServer registered, trying to start kuiserver";
-            if (QProcess::startDetached(QStringLiteral("kuiserver"), QStringList())) {
-                // Give it a couple of seconds to start
-                QElapsedTimer t;
-                t.start();
-                while (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer")) && t.elapsed() < 3000) {
-                    SleepThread::msleep(100); // Sleep 100 ms
-                }
-            } else {
-                qWarning() << "Failed to start kuiserver";
-            }
-        }
-
-        if (interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
-            QDBusInterface kuiserver(QStringLiteral("org.kde.JobViewServer"), QStringLiteral("/JobViewServer"), QStringLiteral("org.kde.JobViewServer"));
-            QDBusReply<QDBusObjectPath> objectPath =
-                kuiserver.asyncCall(QStringLiteral("requestView"), QLatin1String("kdenlive"), QLatin1String("kdenlive"), 0x0001);
-            QString reply = QDBusObjectPath(objectPath).path();
-
-            // Use of the KDE JobViewServer is an ugly hack, it is not reliable
-            QString dbusView = QStringLiteral("org.kde.JobViewV2");
-            m_jobUiserver = new QDBusInterface(QStringLiteral("org.kde.JobViewServer"), reply, dbusView);
-            if (m_jobUiserver->isValid()) {
-                if (!m_args.contains(QStringLiteral("pass=2"))) {
-                    m_jobUiserver->call(QStringLiteral("setPercent"), 0);
-                }
-
-                m_jobUiserver->call(QStringLiteral("setInfoMessage"), tr("Rendering %1").arg(QFileInfo(m_dest).fileName()));
-                m_jobUiserver->call(QStringLiteral("setTotalAmount"), m_frameout);
-                QDBusConnection::sessionBus().connect(QStringLiteral("org.kde.JobViewServer"), reply, dbusView, QStringLiteral("cancelRequested"), this,
-                                                      SLOT(slotAbort()));
-            }
-        }
-    }
     if (m_pid > -1) {
-        initKdenliveDbusInterface();
-    }
-#else
-    connect(m_kdenlivesocket, &QLocalSocket::connected, this, [this]() {
-        m_kdenlivesocket->write(QJsonDocument({{"url", m_dest}}).toJson());
-        m_kdenlivesocket->flush();
-        QJsonObject method, args;
-        args["url"] = m_dest;
-        args["progress"] = 0;
-        args["frame"] = 0;
-        method["setRenderingProgress"] = args;
-        m_kdenlivesocket->write(QJsonDocument(method).toJson());
-        m_kdenlivesocket->flush();
-    });
-    connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, [this]() {
-        QByteArray msg = m_kdenlivesocket->readAll();
-        if (msg == "abort") {
-            slotAbort();
-        }
-    });
-    if (m_pid > -1) {
+        connect(m_kdenlivesocket, &QLocalSocket::connected, this, [this]() {
+            QJsonObject obj;
+            obj["url"] = m_dest;
+            m_kdenlivesocket->write(QJsonDocument(obj).toJson());
+            m_kdenlivesocket->flush();
+            QJsonObject method, args;
+            args["url"] = m_dest;
+            args["progress"] = 0;
+            args["frame"] = 0;
+            method["setRenderingProgress"] = args;
+            m_kdenlivesocket->write(QJsonDocument(method).toJson());
+            m_kdenlivesocket->flush();
+        });
+        connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, [this]() {
+            QByteArray msg = m_kdenlivesocket->readAll();
+            if (msg == "abort") {
+                slotAbort();
+            }
+        });
         QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
         m_kdenlivesocket->connectToServer(servername);
     }
-#endif
-
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
-    m_renderProcess->start(m_prog, m_args);
     m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
+    m_renderProcess->start(m_prog, m_args);
+    if (m_debugMode) {
+        m_logstream << "Using MLT REPOSITORY: " << qgetenv("MLT_REPOSITORY") << "\n";
+        m_logstream << "Using MLT DATA: " << qgetenv("MLT_DATA") << "\n";
+        m_logstream << "Using MLT APPDIR: " << qgetenv("MLT_APPDIR") << "\n";
+    }
     m_logstream.flush();
     m_looper.exec();
 }
 
-#ifndef NODBUS
-void RenderJob::initKdenliveDbusInterface()
+void RenderJob::slotCheckProcess(int /*exitCode*/, QProcess::ExitStatus exitStatus)
 {
-    QString kdenliveId = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
-    QDBusConnection connection = QDBusConnection::sessionBus();
-    QDBusConnectionInterface *ibus = connection.interface();
-    if (!ibus->isServiceRegistered(kdenliveId)) {
-        kdenliveId.clear();
-        const QStringList services = ibus->registeredServiceNames();
-        for (const QString &service : services) {
-            if (!service.startsWith(QLatin1String("org.kde.kdenlive"))) {
-                continue;
-            }
-            kdenliveId = service;
-            break;
-        }
-    }
-    if (kdenliveId.isEmpty()) {
-        return;
-    }
-    m_kdenliveinterface =
-        new QDBusInterface(kdenliveId, QStringLiteral("/kdenlive/MainWindow_1"), QStringLiteral("org.kde.kdenlive.rendering"), connection, this);
-
-    if (!m_args.contains(QStringLiteral("pass=2"))) {
-        m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingProgress"), {m_dest, 0, 0});
-    }
-    connect(m_kdenliveinterface, SIGNAL(abortRenderJob(QString)), this, SLOT(slotAbort(QString)));
-}
-#endif
-
-void RenderJob::slotCheckProcess(QProcess::ProcessState state)
-{
-    if (state == QProcess::NotRunning) {
-        slotIsOver(m_renderProcess->exitStatus());
-    }
+    slotIsOver(exitStatus);
 }
 
 void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
@@ -349,7 +273,9 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         if (m_dualpass) {
             deleteLater();
         } else {
-            m_logfile.remove();
+            if (!m_debugMode && QFile::exists(m_dest)) {
+                m_logfile.remove();
+            }
             if (!m_subtitleFile.isEmpty()) {
                 // Embed subtitles
                 QString ffmpegExe = QStandardPaths::findExecutable(QStringLiteral("ffmpeg"));
@@ -360,7 +286,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
                         "-y", "-v", "quiet", "-stats", "-i", m_dest, "-i", m_subtitleFile, "-c", "copy", "-f", "matroska", m_temporaryRenderFile};
                     qDebug() << "::: JOB ARGS: " << args;
                     m_progress = 0;
-                    disconnect(m_renderProcess, &QProcess::stateChanged, this, &RenderJob::slotCheckProcess);
+                    disconnect(m_renderProcess, &QProcess::finished, this, &RenderJob::slotCheckProcess);
                     disconnect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
                     m_subsProcess = new QProcess(&m_looper);
                     m_subsProcess->setProcessChannelMode(QProcess::MergedChannels);

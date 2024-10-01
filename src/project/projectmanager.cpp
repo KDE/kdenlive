@@ -38,7 +38,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KJob>
@@ -47,7 +46,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <KNotification>
 #include <KRecentDirs>
-#include <kcoreaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <QAction>
@@ -113,7 +111,7 @@ void ProjectManager::slotLoadOnOpen()
     // For some reason Qt seems to be doing some stuff that modifies the tabs text after window is shown, so use a timer
     QTimer::singleShot(1000, this, []() {
         QList<QTabBar *> tabbars = pCore->window()->findChildren<QTabBar *>();
-        for (QTabBar *tab : qAsConst(tabbars)) {
+        for (QTabBar *tab : std::as_const(tabbars)) {
             // Fix tabbar tooltip containing ampersand
             for (int i = 0; i < tab->count(); i++) {
                 tab->setTabToolTip(i, tab->tabText(i).replace('&', ""));
@@ -338,9 +336,13 @@ void ProjectManager::activateDocument(const QUuid &uuid)
     // pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
 }
 
-void ProjectManager::testSetActiveDocument(KdenliveDoc *doc, std::shared_ptr<TimelineItemModel> timeline)
+void ProjectManager::testSetDocument(KdenliveDoc *doc)
 {
     m_project = doc;
+}
+
+void ProjectManager::testSetActiveTimeline(std::shared_ptr<TimelineItemModel> timeline)
+{
     if (timeline == nullptr) {
         // New nested document format, build timeline model now
         const QUuid uuid = m_project->uuid();
@@ -410,7 +412,7 @@ bool ProjectManager::testSaveFileAs(const QString &outputFileName)
     pCore->projectItemModel()->saveDocumentProperties(docProperties, QMap<QString, QString>());
     // QString scene = m_activeTimelineModel->sceneList(saveFolder);
     int duration = m_activeTimelineModel->duration();
-    QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), m_activeTimelineModel->tractor(), duration);
+    QString scene = pCore->projectItemModel()->sceneList(saveFolder, QString(), m_activeTimelineModel->tractor(), duration).first;
     if (scene.isEmpty()) {
         qDebug() << "//////  ERROR writing EMPTY scene list to file: " << outputFileName;
         return false;
@@ -463,19 +465,21 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
         pCore->closing = true;
     }
+    if (m_project) {
+        m_project->closing = true;
+    }
     // Abort clip loading if any
     Q_EMIT pCore->stopProgressTask();
     qApp->processEvents();
     if (guiConstructed) {
         pCore->window()->disableMulticam();
-        Q_EMIT pCore->window()->clearAssetPanel();
         pCore->mixer()->unsetModel();
-        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
+        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
+        Q_EMIT pCore->window()->clearAssetPanel();
     }
     if (m_project) {
         pCore->taskManager.slotCancelJobs(true);
-        m_project->closing = true;
         if (m_activeTimelineModel) {
             m_activeTimelineModel->m_closing = true;
         }
@@ -541,7 +545,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateWorkFilesBeforeSave(outputFileName);
     checkProjectIntegrity();
-    QString scene = projectSceneList(saveFolder);
+    QString scene = projectSceneList(saveFolder).first;
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
         while (i.hasNext()) {
@@ -732,7 +736,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instance
     if (!staleFiles.isEmpty()) {
-        for (KAutoSaveFile *stale : qAsConst(staleFiles)) {
+        for (KAutoSaveFile *stale : std::as_const(staleFiles)) {
             if (stale->open(QIODevice::QIODevice::ReadWrite)) {
                 // Found orphaned autosave file
                 if (!sourceTime.isValid() || QFileInfo(stale->fileName()).lastModified() > sourceTime) {
@@ -751,7 +755,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
         }
     }
     // remove the stale files
-    for (KAutoSaveFile *stale : qAsConst(staleFiles)) {
+    for (KAutoSaveFile *stale : std::as_const(staleFiles)) {
         stale->open(QIODevice::ReadWrite);
         delete stale;
     }
@@ -886,6 +890,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         doc->m_autosave = stale;
     } else {
         doc->m_autosave = stale;
+        doc->m_restoreFromBackup = true;
         stale->setParent(doc);
         // if loading from an autosave of unnamed file, or restore failed then keep unnamed
         bool loadingFailed = doc->url().isEmpty();
@@ -897,6 +902,45 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         }
         doc->setModified(!loadingFailed);
         stale->setParent(doc);
+    }
+    if (isBackup) {
+        // Copy subtitle files if any
+        // Get timestamp
+        QFileInfo info(url.toLocalFile());
+        QString timeStamp = info.completeBaseName();
+        timeStamp = timeStamp.section(QLatin1Char('-'), -5);
+        //.toString(QStringLiteral("yyyy-MM-dd-hh-mm"));
+        QDir backupDir = info.absoluteDir();
+        if (backupDir.cd(timeStamp)) {
+            // Found backup folder
+            QStringList subtitles = backupDir.entryList(QDir::Files);
+            qDebug() << "===== YES; FOUND BACKUP FOLDER: " << backupDir.absolutePath() << ", FILES: " << subtitles.count();
+            // Get real project file name
+            QString projectFileName = info.completeBaseName().section(QLatin1Char('-'), 0, -7);
+            projectFileName.append(QStringLiteral(".%1").arg(info.suffix()));
+            const QString projectId = doc->getDocumentProperty(QStringLiteral("documentid"));
+            // Restore subtitle files to work files
+            for (auto &s : subtitles) {
+                if (!s.startsWith(projectFileName)) {
+                    continue;
+                }
+                QString destName = projectId;
+                if (QFileInfo(s).completeBaseName() == projectFileName) {
+                    destName.append(QStringLiteral("-%1.%2").arg(pCore->sessionId).arg(QFileInfo(s).suffix()));
+                } else {
+                    QString uuid = QFileInfo(s).completeBaseName();
+                    uuid.remove(0, projectFileName.length());
+                    destName.append(QStringLiteral("%1-%2.%3").arg(uuid).arg(pCore->sessionId).arg(QFileInfo(s).suffix()));
+                }
+                QFileInfo destFile(QDir::temp().absoluteFilePath(destName));
+                if (destFile.exists()) {
+                    QFile::remove(destFile.absoluteFilePath());
+                }
+                QFile::copy(backupDir.absoluteFilePath(s), destFile.absoluteFilePath());
+            }
+        } else {
+            qDebug() << "No Subtitles backup folder found...";
+        }
     }
     pCore->bin()->setDocument(doc);
 
@@ -1096,7 +1140,7 @@ void ProjectManager::doOpenFileHeadless(const QUrl &url)
     }
 
     auto timeline = m_project->getTimeline(activeUuid);
-    testSetActiveDocument(m_project, timeline);
+    testSetActiveTimeline(timeline);
 }
 
 void ProjectManager::slotRevert()
@@ -1180,7 +1224,7 @@ void ProjectManager::slotAutoSave()
     }
     prepareSave();
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
-    QString scene = projectSceneList(saveFolder);
+    QString scene = projectSceneList(saveFolder).first;
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
         while (i.hasNext()) {
@@ -1197,7 +1241,7 @@ void ProjectManager::slotAutoSave()
     m_lastSave.start();
 }
 
-QString ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData, const QString &aspectRatio)
+std::pair<QString, QString> ProjectManager::projectSceneList(const QString &outputFolder, const QString &overlayData, const QString &aspectRatio)
 {
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager() && pCore->monitorManager()->isMultiTrack();
@@ -1218,7 +1262,8 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
 
     // We must save from the primary timeline model
     int duration = pCore->window() ? pCore->window()->getCurrentTimeline()->controller()->duration() : m_activeTimelineModel->duration();
-    QString scene = pCore->projectItemModel()->sceneList(outputFolder, overlayData, m_activeTimelineModel->tractor(), duration, aspectRatio);
+    std::pair<QString, QString> scene =
+        pCore->projectItemModel()->sceneList(outputFolder, overlayData, m_activeTimelineModel->tractor(), duration, aspectRatio);
     if (pCore->mixer()) {
         pCore->mixer()->pauseMonitoring(false);
     }
@@ -1234,9 +1279,17 @@ QString ProjectManager::projectSceneList(const QString &outputFolder, const QStr
     return scene;
 }
 
-void ProjectManager::setDocumentNotes(const QString &notes)
+void ProjectManager::setDocumentNotes(QString &notes, QStringList deprecatedBinIds)
 {
-    if (m_notesPlugin) {
+    if (m_notesPlugin && !notes.isEmpty()) {
+        for (auto &b : deprecatedBinIds) {
+            const QString controlId = pCore->projectItemModel()->getBinClipUuid(b);
+            if (!controlId.isEmpty()) {
+                const QString pattern = QStringLiteral(" href=\"%1#").arg(b);
+                const QString replacement = QStringLiteral(" href=\"%1#").arg(controlId);
+                notes = notes.replace(pattern, replacement);
+            }
+        }
         m_notesPlugin->widget()->setHtml(notes);
     }
 }
@@ -1269,6 +1322,7 @@ void ProjectManager::prepareSave()
     pCore->projectItemModel()->saveDocumentProperties(pCore->currentDoc()->documentProperties(), m_project->metadata());
     pCore->bin()->saveFolderState();
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotes"), documentNotes());
+    pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:documentnotesversion"), QStringLiteral("2"));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.opensequences"), pCore->window()->openedSequences().join(QLatin1Char(';')));
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.activetimeline"), m_activeTimelineModel->uuid().toString());
 }
@@ -1365,7 +1419,7 @@ QString ProjectManager::getDefaultProjectFormat()
     ntscCountries << QLocale::Canada << QLocale::Chile << QLocale::CostaRica << QLocale::Cuba << QLocale::DominicanRepublic << QLocale::Ecuador;
     ntscCountries << QLocale::Japan << QLocale::Mexico << QLocale::Nicaragua << QLocale::Panama << QLocale::Peru << QLocale::Philippines;
     ntscCountries << QLocale::PuertoRico << QLocale::SouthKorea << QLocale::Taiwan << QLocale::UnitedStates;
-    bool ntscProject = ntscCountries.contains(zone.country());
+    bool ntscProject = ntscCountries.contains(zone.territory());
     if (!ntscProject) {
         return QStringLiteral("atsc_1080p_25");
     }
@@ -1582,6 +1636,7 @@ void ProjectManager::passSequenceProperties(const QUuid &uuid, std::shared_ptr<M
     }
     prod->parent().set("kdenlive:sequenceproperties.tracksCount", tracks.first + tracks.second);
     prod->parent().set("kdenlive:sequenceproperties.documentuuid", m_project->uuid().toString().toUtf8().constData());
+    prod->parent().set("kdenlive:control_uuid", m_project->uuid().toString().toUtf8().constData());
     if (tractor.property_exists("kdenlive:duration")) {
         const QString duration(tractor.get("kdenlive:duration"));
         const QString maxduration(tractor.get("kdenlive:maxduration"));
@@ -1700,7 +1755,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
             return;
         }
         prepareSave();
-        QString scene = projectSceneList(saveFolder);
+        QString scene = projectSceneList(saveFolder).first;
         if (!m_replacementPattern.isEmpty()) {
             QMapIterator<QString, QString> i(m_replacementPattern);
             while (i.hasNext()) {
@@ -1754,7 +1809,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
                 QJsonArray updatedList;
                 if (json.isArray()) {
                     auto list = json.array();
-                    for (const auto &entry : qAsConst(list)) {
+                    for (const auto &entry : std::as_const(list)) {
                         if (!entry.isObject()) {
                             qDebug() << "Warning : Skipping invalid marker data";
                             continue;
@@ -1829,9 +1884,6 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
         return;
     }
     QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    out.setCodec("UTF-8");
-#endif
     out << doc.toString();
     if (file.error() != QFile::NoError) {
         KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", convertedFile));
@@ -1840,8 +1892,8 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     }
     file.close();
     // Copy subtitle file if any
-    if (QFile::exists(currentFile + QStringLiteral(".srt"))) {
-        QFile(currentFile + QStringLiteral(".srt")).copy(convertedFile + QStringLiteral(".srt"));
+    if (QFile::exists(currentFile + QStringLiteral(".ass"))) {
+        QFile(currentFile + QStringLiteral(".ass")).copy(convertedFile + QStringLiteral(".ass"));
     }
     openFile(QUrl::fromLocalFile(convertedFile));
     pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);

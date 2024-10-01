@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>194</width>
-    <height>139</height>
+    <height>64</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -30,21 +30,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="2" column="0">
+   <item row="1" column="0">
     <widget class="QComboBox" name="comboboxwidget"/>
    </item>
-   <item row="1" column="0">
+   <item row="0" column="0">
     <widget class="QLineEdit" name="lineeditwidget"/>
-   </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Param</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

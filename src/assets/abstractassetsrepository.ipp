@@ -23,11 +23,12 @@ template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAsset
 
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 {
-    // Parse blacklist
-    parseAssetList(assetBlackListPath(), m_blacklist);
+    // Parse include/exclude lists
+    parseAssetList(assetExcludedPath(), m_excludedList);
+    parseAssetList(assetIncludedPath(), m_includedList);
 
     // Parse preferred list
-    parseAssetList(assetPreferredListPath(), m_preferred_list);
+    parseAssetList({assetPreferredListPath()}, m_preferred_list);
 
     // Retrieve the list of MLT's available assets.
     QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());
@@ -39,17 +40,20 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
         QString name = assets->get_name(i);
         info.id = name;
         if (name.startsWith(sox)) {
-            // sox effects are not usage directly (parameters not available)
+            // sox effects are not used directly (parameters not available)
             continue;
         }
-        if (!m_blacklist.contains(name) && parseInfoFromMlt(name, info)) {
-            m_assets[name] = info;
-            if (info.xml.isNull()) {
-                // Metadata was invalid
-                emptyMetaAssets << name;
-            }
-        } else {
-            if (!m_blacklist.contains(name)) {
+        if (!m_excludedList.contains(name)) {
+            if (parseInfoFromMlt(name, info)) {
+                m_assets[name] = info;
+                if (m_includedList.contains(name)) {
+                    info.included = true;
+                }
+                if (info.xml.isNull()) {
+                    // Metadata was invalid
+                    emptyMetaAssets << name;
+                }
+            } else {
                 qWarning() << "Failed to parse" << name;
             }
         }
@@ -71,7 +75,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
         QDir current_dir(dir);
         QStringList filter {QStringLiteral("*.xml")};
         QStringList fileList = current_dir.entryList(filter, QDir::Files);
-        for (const auto &file : qAsConst(fileList)) {
+        for (const auto &file : std::as_const(fileList)) {
             QString path = current_dir.absoluteFilePath(file);
             parseCustomAssetFile(path, customAssets);
         }
@@ -119,23 +123,25 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     // Remove really invalid assets
     emptyMetaAssets << missingDependency;
     emptyMetaAssets.removeDuplicates();
-    for (const auto &invalid : qAsConst(emptyMetaAssets)) {
+    for (const auto &invalid : std::as_const(emptyMetaAssets)) {
         m_assets.erase(invalid);
     }
 }
 
-template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseAssetList(const QString &filePath, QSet<QString> &destination)
+template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseAssetList(const QStringList &filePaths, QSet<QString> &destination)
 {
-    if (filePath.isEmpty())
-        return;
-    QFile assetFile(filePath);
-    if (assetFile.open(QIODevice::ReadOnly)) {
-        QTextStream stream(&assetFile);
-        QString line;
-        while (stream.readLineInto(&line)) {
-            line = line.simplified();
-            if (!line.isEmpty() && !line.startsWith('#')) {
-                destination.insert(line);
+    for (auto &filePath : filePaths) {
+        if (filePath.isEmpty())
+            continue;
+        QFile assetFile(filePath);
+        if (assetFile.open(QIODevice::ReadOnly)) {
+            QTextStream stream(&assetFile);
+            QString line;
+            while (stream.readLineInto(&line)) {
+                line = line.simplified();
+                if (!line.isEmpty() && !line.startsWith('#')) {
+                    destination.insert(line);
+                }
             }
         }
     }
@@ -147,7 +153,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     if (metadata && metadata->is_valid()) {
         if (metadata->property_exists("title") && metadata->property_exists("identifier") && strlen(metadata->get("title")) > 0) {
             QString id = metadata->get("identifier");
-            res.name = i18nc("@item:inlistbox effect name", metadata->get("title"));
+            res.name = i18n(metadata->get("title"));
             res.name[0] = res.name[0].toUpper();
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
@@ -197,6 +203,37 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     }
                 }
 
+
+		if (paramType == QLatin1String("string") && paramdesc.get_data("values")) {
+		  Mlt::Properties param_list_values(mlt_properties(paramdesc.get_data("values")));
+
+		  if (param_list_values.count() > 1)
+		    {
+		      QString paramlist_str(param_list_values.get(0));
+		      QString paramlistdisplay_str(param_list_values.get_name(0));
+
+		      for (int jff = 1; jff < param_list_values.count(); ++jff) {
+			paramlist_str += QLatin1String(",")+QLatin1String(param_list_values.get(jff));
+			paramlistdisplay_str += QLatin1String(";")+QLatin1String(param_list_values.get_name(jff));
+		      }
+
+		      // qDebug() << " paramlist: " << paramlist_str << "\n";
+		      params.setAttribute(QStringLiteral("paramlist"), paramlistdisplay_str);
+
+		      QDomElement pname = doc.createElement(QStringLiteral("paramlistdisplay"));
+		      pname.appendChild(doc.createTextNode(paramlist_str));
+		      params.appendChild(pname);
+
+		      QDomElement pnamez = doc.createElement(QStringLiteral("name"));
+		      if (paramdesc.property_exists("title"))
+			pnamez.appendChild(doc.createTextNode(paramdesc.get("title")));
+		      else
+			pnamez.appendChild(doc.createTextNode(paramdesc.get("identifier")));
+		      params.appendChild(pnamez);
+
+		    }
+		}
+
                 if (paramType == QLatin1String("integer")) {
                     if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1")) {
                         params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
@@ -209,9 +246,12 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     params.setAttribute(QStringLiteral("decimals"), QStringLiteral("3"));
                 } else if (paramType == QLatin1String("boolean")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
+
                 } else if (paramType == QLatin1String("geometry")) {
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("geometry"));
-                } else if (paramType == QLatin1String("string")) {
+                } else if (paramType == QLatin1String("string") && paramdesc.get_data("values")) {
+		    params.setAttribute(QStringLiteral("type"), QStringLiteral("list"));
+		} else if (paramType == QLatin1String("string")) {
                     // string parameter are not really supported, so if we have a default value, enforce it
                     params.setAttribute(QStringLiteral("type"), QStringLiteral("fixed"));
                     if (paramdesc.get("default")) {
@@ -307,6 +347,12 @@ template <typename AssetType> AssetType AbstractAssetsRepository<AssetType>::get
     return m_assets.at(assetId).type;
 }
 
+template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isIncludedInList(const QString &assetId) const
+{
+    Q_ASSERT(m_assets.count(assetId) > 0);
+    return m_assets.at(assetId).included;
+}
+
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isUnique(const QString &assetId) const
 {
     if (m_assets.count(assetId) > 0) {
@@ -363,7 +409,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     // Update name if the xml provide one
     const QString name = Xml::getSubTagContent(currentAsset, QStringLiteral("name"));
     if (!name.isEmpty()) {
-        res.name = i18nc("@item:inlistbox effect name", name.toUtf8().constData());
+        res.name = i18n(name.toUtf8().constData());
     }
     // Update description if the xml provide one
     const QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));

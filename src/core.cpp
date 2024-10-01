@@ -32,9 +32,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "timeline2/view/timelinewidget.h"
 #include <mlt++/MltRepository.h>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
+
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QDir>
@@ -98,12 +98,11 @@ bool Core::build(LinuxPackageType packageType, bool testMode)
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
     qRegisterMetaType<QVector<QPair<QString, QVariant>>>("paramVector");
     qRegisterMetaType<ProfileParam *>("ProfileParam*");
+    qRegisterMetaType<ObjectId>("ObjectId");
     KeyframeModel::initKeyframeTypes();
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     // Increase memory limit allowed per image
     QImageReader::setAllocationLimit(1024);
-#endif
 
     if (!testMode) {
         // Check if we had a crash
@@ -151,16 +150,8 @@ void Core::initHeadless(const QUrl &url)
 void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clipsToLoad)
 {
     m_mainWindow = new MainWindow();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 
-    QStringList styles = QQuickStyle::availableStyles();
-    if (styles.contains(QLatin1String("org.kde.desktop"))) {
-        QQuickStyle::setStyle("org.kde.desktop");
-    } else if (styles.contains(QLatin1String("Fusion"))) {
-        QQuickStyle::setStyle("Fusion");
-    }
-    // ELSE Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
-#endif
+    // TODO Qt6 see: https://doc.qt.io/qt-6/qtquickcontrols-changes-qt6.html#custom-styles-are-now-proper-qml-modules
 
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotShowPreferencePage);
 
@@ -221,7 +212,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         // we get the list of profiles
         QVector<QPair<QString, QString>> all_profiles = ProfileRepository::get()->getAllProfiles();
         QStringList all_descriptions;
-        for (const auto &profile : qAsConst(all_profiles)) {
+        for (const auto &profile : std::as_const(all_profiles)) {
             all_descriptions << profile.first;
         }
 
@@ -230,7 +221,7 @@ void Core::initGUI(const QString &MltPath, const QUrl &Url, const QString &clips
         QString item = QInputDialog::getItem(m_mainWindow, i18nc("@title:window", "Select Default Profile"), i18n("Profile:"), all_descriptions, 0, false, &ok);
         if (ok) {
             ok = false;
-            for (const auto &profile : qAsConst(all_profiles)) {
+            for (const auto &profile : std::as_const(all_profiles)) {
                 if (profile.first == item) {
                     m_profile = profile.second;
                     ok = true;
@@ -575,6 +566,11 @@ Mlt::Profile &Core::getProjectProfile()
     return m_projectProfile;
 }
 
+std::pair<int, int> Core::getProjectFpsInfo() const
+{
+    return {m_projectProfile.frame_rate_num(), m_projectProfile.frame_rate_den()};
+}
+
 void Core::updateMonitorProfile()
 {
     m_monitorProfile.set_colorspace(m_projectProfile.colorspace());
@@ -863,6 +859,27 @@ int Core::getItemTrack(const ObjectId &id)
     return 0;
 }
 
+bool Core::itemContainsPos(const ObjectId &id, int pos)
+{
+    if (!m_guiConstructed || (!id.uuid.isNull() && !m_mainWindow->getTimeline(id.uuid))) return false;
+    switch (id.type) {
+    case KdenliveObjectType::TimelineClip:
+    case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineMix: {
+        int itemPos = getItemPosition(id);
+        if (pos < itemPos) {
+            return false;
+        }
+        if (pos >= itemPos + getItemDuration(id)) {
+            return false;
+        }
+        return true;
+    }
+    default:
+        return true;
+    }
+}
+
 void Core::refreshProjectItem(const ObjectId &id)
 {
     if (!m_guiConstructed || (!id.uuid.isNull() && !m_mainWindow->getTimeline(id.uuid))) return;
@@ -888,12 +905,31 @@ void Core::refreshProjectItem(const ObjectId &id)
             m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
             m_monitorManager->refreshClipMonitor(true);
         }
-        if (m_monitorManager->projectMonitorVisible() && m_mainWindow->getCurrentTimeline()->controller()->refreshIfVisible(id.itemId)) {
+        if (m_monitorManager->projectMonitorVisible() && m_mainWindow->getCurrentTimeline() &&
+            m_mainWindow->getCurrentTimeline()->controller()->refreshIfVisible(id.itemId)) {
             m_monitorManager->refreshTimer.start();
         }
         break;
     case KdenliveObjectType::Master:
-        refreshProjectMonitorOnce();
+        if (m_monitorManager->isActive(Kdenlive::ProjectMonitor)) {
+            if (m_monitorManager->clipMonitorVisible()) {
+                m_monitorManager->activateMonitor(Kdenlive::ClipMonitor, false);
+                m_monitorManager->refreshClipMonitor(true);
+            }
+            if (m_monitorManager->projectMonitorVisible()) {
+                m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor, false);
+                m_monitorManager->refreshProjectMonitor(true);
+            }
+        } else {
+            if (m_monitorManager->projectMonitorVisible()) {
+                m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor, false);
+                m_monitorManager->refreshProjectMonitor(true);
+            }
+            if (m_monitorManager->clipMonitorVisible()) {
+                m_monitorManager->activateMonitor(Kdenlive::ClipMonitor, false);
+                m_monitorManager->refreshClipMonitor(true);
+            }
+        }
         break;
     default:
         qWarning() << "unhandled object type";
@@ -1097,14 +1133,27 @@ void Core::updateItemKeyframes(ObjectId id)
     }
 }
 
-void Core::updateItemModel(ObjectId id, const QString &service)
+void Core::updateItemModel(ObjectId id, const QString &service, const QString &updatedParam)
 {
     if (m_guiConstructed && id.type == KdenliveObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading &&
         service.startsWith(QLatin1String("fade"))) {
         auto tl = m_mainWindow->getTimeline(id.uuid);
         if (tl) {
             bool startFade = service.startsWith(QLatin1String("fadein")) || service.startsWith(QLatin1String("fade_from_"));
-            tl->controller()->updateClip(id.itemId, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
+            QVector<int> roles;
+            if (startFade) {
+                roles = {TimelineModel::FadeInRole, TimelineModel::FadeInMethodRole};
+                if (updatedParam == QLatin1String("alpha") || updatedParam == QLatin1String("level")) {
+                    roles << TimelineModel::FadeInMethodRole;
+                }
+            } else {
+                roles = {TimelineModel::FadeOutRole, TimelineModel::FadeOutMethodRole};
+                if (updatedParam == QLatin1String("alpha") || updatedParam == QLatin1String("level")) {
+                    roles << TimelineModel::FadeOutMethodRole;
+                }
+            }
+            qDebug() << "==== UPDATING FADE ROLES";
+            tl->controller()->updateClip(id.itemId, roles);
         }
     }
 }
@@ -1275,14 +1324,6 @@ void Core::setAudioMonitoring(bool enable)
     m_capture->switchMonitorState(enable);
 }
 
-QString Core::getProjectFolderName()
-{
-    if (currentDoc()) {
-        return currentDoc()->projectDataFolder(QStringLiteral()) + QDir::separator();
-    }
-    return QString();
-}
-
 QString Core::getProjectCaptureFolderName()
 {
     if (currentDoc()) {
@@ -1383,14 +1424,23 @@ int Core::audioChannels()
     return 2;
 }
 
-void Core::addGuides(const QList<int> &guides)
+void Core::addGuides(const QMap<QUuid, QList<int>> &guides)
 {
-    QMap<GenTime, QString> markers;
-    for (int pos : guides) {
-        GenTime p(pos, pCore->getCurrentFps());
-        markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+    QMapIterator<QUuid, QList<int>> i(guides);
+    while (i.hasNext()) {
+        i.next();
+        QMap<GenTime, QString> markers;
+        for (int pos : i.value()) {
+            GenTime p(pos, pCore->getCurrentFps());
+            markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+        }
+        auto timeline = m_mainWindow->getTimeline(i.key());
+        if (timeline == nullptr) {
+            // Timeline not found, default to active one
+            timeline = m_mainWindow->getCurrentTimeline();
+        }
+        timeline->controller()->getModel()->getGuideModel()->addMarkers(markers);
     }
-    m_mainWindow->getCurrentTimeline()->controller()->getModel()->getGuideModel()->addMarkers(markers);
 }
 
 void Core::temporaryUnplug(const QList<int> &clipIds, bool hide)
@@ -1476,13 +1526,6 @@ void Core::cleanup()
     }
 }
 
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
-int Core::getNewStuff(const QString &config)
-{
-    return m_mainWindow->getNewStuff(config);
-}
-#endif
-
 void Core::addBin(const QString &id)
 {
     Bin *bin = new Bin(m_projectItemModel, m_mainWindow, false);
@@ -1515,6 +1558,28 @@ int Core::getAssetGroupedInstance(const ObjectId &id, const QString &assetId)
     default:
         return 0;
     }
+}
+
+QList<std::shared_ptr<KeyframeModelList>> Core::getGroupKeyframeModels(const ObjectId &id, const QString &assetId)
+{
+    if (KdenliveSettings::applyEffectParamsToGroup()) {
+        switch (id.type) {
+        case KdenliveObjectType::TimelineClip:
+            if (auto tl = currentDoc()->getTimeline(id.uuid)) {
+                return tl->getGroupKeyframeModels(id.itemId, assetId);
+            }
+            break;
+        case KdenliveObjectType::BinClip:
+            if (bin() != nullptr) {
+                return bin()->getGroupKeyframeModels(id.itemId, assetId);
+            }
+            break;
+        default:
+            // Nothing to do
+            break;
+        }
+    }
+    return {};
 }
 
 void Core::groupAssetCommand(const ObjectId &id, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
@@ -1583,17 +1648,17 @@ void Core::groupAssetMultiKeyframeCommand(const ObjectId &id, const QString &ass
     }
 }
 
-void Core::removeGroupEffect(const ObjectId &id, const QString &assetId)
+void Core::removeGroupEffect(const ObjectId &id, const QString &assetId, int originalId)
 {
     switch (id.type) {
     case KdenliveObjectType::TimelineClip:
         if (auto tl = currentDoc()->getTimeline(id.uuid)) {
-            tl->removeEffectFromGroup(id.itemId, assetId);
+            tl->removeEffectFromGroup(id.itemId, assetId, originalId);
         }
         break;
     case KdenliveObjectType::BinClip:
         if (bin() != nullptr) {
-            bin()->removeEffectFromGroup(assetId);
+            bin()->removeEffectFromGroup(id.itemId, assetId, originalId);
         }
         break;
     default:
@@ -1641,4 +1706,83 @@ void Core::highlightFileInExplorer(QList<QUrl> urls)
     } else {
         KIO::highlightInFileManager(urls);
     }
+}
+
+void Core::updateHoverItem(const QUuid &uuid)
+{
+    if (m_guiConstructed && uuid == m_mainWindow->getCurrentTimeline()->getUuid()) {
+        m_mainWindow->getCurrentTimeline()->regainFocus();
+    }
+}
+
+std::pair<bool, bool> Core::assetHasAV(ObjectId id)
+{
+    switch (id.type) {
+    case KdenliveObjectType::Master:
+        return {true, true};
+    case KdenliveObjectType::TimelineTrack: {
+        auto timeline = m_mainWindow->getTimeline(id.uuid);
+        if (timeline && timeline->model()->isAudioTrack(id.itemId)) {
+            return {true, false};
+        }
+        return {false, true};
+    }
+    case KdenliveObjectType::TimelineClip: {
+        auto timeline = m_mainWindow->getTimeline(id.uuid);
+        if (timeline && timeline->model()->clipIsAudio(id.itemId)) {
+            return {true, false};
+        }
+        return {false, true};
+    }
+    case KdenliveObjectType::BinClip: {
+        PlaylistState::ClipState state = bin()->getClipState(id.itemId);
+        if (state == PlaylistState::Disabled) {
+            return {true, true};
+        } else if (state == PlaylistState::AudioOnly) {
+            return {true, false};
+        } else {
+            return {false, true};
+        }
+    }
+    default:
+        return {false, false};
+    }
+}
+
+void Core::showEffectStackFromId(ObjectId owner)
+{
+    switch (owner.type) {
+    case KdenliveObjectType::BinClip:
+        activeBin()->showItemEffectStack(owner);
+        break;
+    case KdenliveObjectType::TimelineClip:
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->showAsset(owner.itemId);
+        }
+        break;
+    case KdenliveObjectType::TimelineTrack:
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->showTrackAsset(owner.itemId);
+        }
+        break;
+    case KdenliveObjectType::Master:
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->showMasterEffects();
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+void Core::openDocumentationLink(const QUrl &link)
+{
+    if (KMessageBox::questionTwoActions(
+            QApplication::activeWindow(),
+            i18n("This will open a browser to display Kdenlive's online documentation at the following url:\n %1", link.toDisplayString()), {},
+            KGuiItem(i18n("Open Browser")), KStandardGuiItem::cancel(), QStringLiteral("allow_browser_help")) == KMessageBox::SecondaryAction) {
+        // Stop
+        return;
+    }
+    QDesktopServices::openUrl(link);
 }

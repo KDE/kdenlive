@@ -6,16 +6,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "monitormanager.h"
 #include "core.h"
-#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
+#include "monitorproxy.h"
 #include "timeline2/view/timelinewidget.h"
 
 #include <mlt++/Mlt.h>
 
 #include "klocalizedstring.h"
 #include <KDualAction>
-#include <kwidgetsaddons_version.h>
 
 #include "kdenlive_debug.h"
 #include <QObject>
@@ -190,6 +189,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!m_clipMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
                     m_clipMonitor->parentWidget()->raise();
+                    pCore->window()->activeBin()->focusBinView();
                 }
             } else {
                 m_clipMonitor->fixFocus();
@@ -211,6 +211,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 if (raiseMonitor) {
                     m_projectMonitor->parentWidget()->raise();
+                    pCore->window()->focusTimeline();
                 }
             } else {
                 m_projectMonitor->fixFocus();
@@ -845,5 +846,15 @@ void MonitorManager::updateBgColor()
     if (m_clipMonitor) {
         m_clipMonitor->updateBgColor();
         m_clipMonitor->forceMonitorRefresh();
+    }
+}
+
+void MonitorManager::updateGrid()
+{
+    if (m_projectMonitor) {
+        Q_EMIT m_projectMonitor->getControllerProxy()->gridChanged();
+    }
+    if (m_clipMonitor) {
+        Q_EMIT m_clipMonitor->getControllerProxy()->gridChanged();
     }
 }

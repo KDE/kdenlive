@@ -50,11 +50,7 @@ ProxyTest::ProxyTest(QWidget *parent)
         infoWidget->animatedShow();
         resultList->setCursor(Qt::BusyCursor);
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QtConcurrent::run(this, &ProxyTest::startTest);
-#else
         (void)QtConcurrent::run(&ProxyTest::startTest, this);
-#endif
     });
 }
 
@@ -173,7 +169,7 @@ void ProxyTest::startTest()
                 parameters << QStringLiteral("-i") << src.fileName();
             }
             QStringList paramList = params.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-            for (const QString &s : qAsConst(paramList)) {
+            for (const QString &s : std::as_const(paramList)) {
                 QString t = s.simplified();
                 if (t != QLatin1String("-noautorotate")) {
                     parameters << t;

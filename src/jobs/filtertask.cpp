@@ -196,11 +196,7 @@ void FilterTask::run()
             if (it.first == QLatin1String("in") || it.first == QLatin1String("out")) {
                 continue;
             }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            if (it.second.type() == QVariant::Double) {
-#else
             if (it.second.typeId() == QMetaType::Double) {
-#endif
                 filter.set(it.first.toUtf8().constData(), it.second.toDouble());
             } else {
                 filter.set(it.first.toUtf8().constData(), it.second.toString().toUtf8().constData());
@@ -234,7 +230,7 @@ void FilterTask::run()
         dom.documentElement().insertAfter(consumerNode, profiles.at(profiles.length() - 1));
     }
     consumerNode.setAttribute("mlt_service", "xml");
-    for (const QString &param : qAsConst(m_consumerArgs)) {
+    for (const QString &param : std::as_const(m_consumerArgs)) {
         if (param.contains(QLatin1Char('='))) {
             consumerNode.setAttribute(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
         }
@@ -245,9 +241,6 @@ void FilterTask::run()
     QFile f1(sourceFile.fileName());
     f1.open(QIODevice::WriteOnly);
     QTextStream stream(&f1);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    stream.setCodec("UTF-8");
-#endif
     stream << dom.toString();
     f1.close();
     dom.clear();

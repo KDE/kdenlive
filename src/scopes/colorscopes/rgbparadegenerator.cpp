@@ -30,15 +30,16 @@ struct StructRGB
 
 RGBParadeGenerator::RGBParadeGenerator() = default;
 
-QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, const QImage &image, const RGBParadeGenerator::PaintMode paintMode, bool drawAxis,
-                                              bool drawGradientRef, uint accelFactor)
+QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const RGBParadeGenerator::PaintMode paintMode,
+                                              bool drawAxis, bool drawGradientRef, uint accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
     if (paradeSize.width() <= 0 || paradeSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
     }
-    QImage parade(paradeSize, QImage::Format_ARGB32);
+    QImage parade(paradeSize * scalingFactor, QImage::Format_ARGB32);
+    parade.setDevicePixelRatio(scalingFactor);
     parade.fill(Qt::transparent);
 
     QPainter davinci;

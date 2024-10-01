@@ -8,6 +8,7 @@
 #include "abstractmodel/abstracttreemodel.hpp"
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
+#include "kdenlivesettings.h"
 #include <KLocalizedString>
 #include <utility>
 
@@ -15,6 +16,7 @@ AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
 
 {
+    m_includeListEnabled = KdenliveSettings::enableAssetsIncludeList();
     setFilterRole(Qt::DisplayRole);
     setSortRole(Qt::DisplayRole);
     setDynamicSortFilter(false);
@@ -28,6 +30,12 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
     if (rowCount() > 1) {
         sort(0);
     }
+}
+
+void AssetFilter::updateIncludeList()
+{
+    m_includeListEnabled = KdenliveSettings::enableAssetsIncludeList();
+    invalidateFilter();
 }
 
 bool AssetFilter::lessThan(const QModelIndex &left, const QModelIndex &right) const
@@ -68,8 +76,14 @@ bool AssetFilter::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParen
     QModelIndex row = sourceModel()->index(sourceRow, 0, sourceParent);
     auto *model = static_cast<AbstractTreeModel *>(sourceModel());
     std::shared_ptr<TreeItem> item = model->getItemById(int(row.internalId()));
-
-    if (item->dataColumn(AssetTreeModel::IdCol) == QStringLiteral("root")) {
+    if (item->dataColumn(AssetTreeModel::IdCol) != QStringLiteral("root")) {
+        // This is an asset
+        if (m_includeListEnabled) {
+            if (!item->dataColumn(AssetTreeModel::IncludeListCol).toBool()) {
+                return false;
+            }
+        }
+    } else {
         // In that case, we have a category. We hide it if it does not have children.
         QModelIndex category = sourceModel()->index(sourceRow, 0, sourceParent);
         if (!category.isValid()) {
@@ -154,13 +168,13 @@ QModelIndex AssetFilter::firstVisibleItem(const QModelIndex &current)
     return current;
 }
 
-QModelIndex AssetFilter::getCategory(int catRow)
+QModelIndex AssetFilter::getCategory(int catRow) const
 {
     QModelIndex cat = index(catRow, 0, QModelIndex());
     return cat;
 }
 
-QVariantList AssetFilter::getCategories()
+QVariantList AssetFilter::getCategories() const
 {
     QVariantList list;
     for (int i = 0; i < sourceModel()->rowCount(); i++) {

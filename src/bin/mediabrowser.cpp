@@ -38,7 +38,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QProcessEnvironment>
 #include <QToolBar>
 #include <QVBoxLayout>
-#include <kio_version.h>
 
 MediaBrowser::MediaBrowser(QWidget *parent)
     : QWidget(parent)
@@ -64,7 +63,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     m_op = new KDirOperator(QUrl(), parent);
     m_op->dirLister()->setAutoUpdate(false);
     // Ensure shortcuts are only active on this widget to avoid conflicts with app shortcuts
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     QList<QAction *> actions = m_op->allActions();
     QAction *trash = m_op->action(KDirOperator::Trash);
     QAction *up = m_op->action(KDirOperator::Up);
@@ -73,16 +71,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QAction *inlinePreview = m_op->action(KDirOperator::ShowPreviewPanel);
     QAction *preview = m_op->action(KDirOperator::ShowPreviewPanel);
     QAction *viewMenu = m_op->action(KDirOperator::ViewModeMenu);
-#else
-    QList<QAction *> actions = m_op->actionCollection()->actions();
-    QAction *trash = m_op->actionCollection()->action("trash");
-    QAction *up = m_op->actionCollection()->action("up");
-    QAction *back = m_op->actionCollection()->action("back");
-    QAction *forward = m_op->actionCollection()->action("forward");
-    QAction *inlinePreview = m_op->actionCollection()->action("inline preview");
-    QAction *preview = m_op->actionCollection()->action("preview");
-    QAction *viewMenu = m_op->actionCollection()->action("view menu");
-#endif
+
     // Disable "Del" shortcut to move item to trash - too dangerous ??
     trash->setShortcut({});
     // Plug actions
@@ -125,11 +114,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     });
     KConfigGroup grp(KSharedConfig::openConfig(), "Media Browser");
     m_op->readConfig(grp);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     m_op->setViewMode(KFile::Default);
-#else
-    m_op->setView(KFile::Default);
-#endif
     m_op->setMode(KFile::ExistingOnly | KFile::Files | KFile::Directory);
     m_op->setIconSize(KdenliveSettings::mediaIconSize());
     m_filterCombo = new KFileFilterCombo(this);
@@ -162,13 +147,8 @@ MediaBrowser::MediaBrowser(QWidget *parent)
 
     auto dialogFilter = FileFilter::Builder().defaultCategories().toKFilter();
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    m_filterCombo->setFilter(dialogFilter);
-    m_op->setNameFilter(m_filterCombo->currentFilter());
-#else
     m_filterCombo->setFilters(dialogFilter, dialogFilter.first());
     m_op->setNameFilter(dialogFilter.first().toFilterString());
-#endif
 
     // Setup mime filter combo
     m_filterCombo->setEditable(true);
@@ -283,11 +263,7 @@ void MediaBrowser::slotViewDoubleClicked()
 
 void MediaBrowser::detectShortcutConflicts()
 {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     QList<QAction *> actions = m_op->allActions();
-#else
-    QList<QAction *> actions = m_op->actionCollection()->actions();
-#endif
     QList<QKeySequence> shortcutsList;
     m_browserActions.clear();
     m_conflictingAppActions.clear();
@@ -438,19 +414,6 @@ void MediaBrowser::setUrl(const QUrl url)
 void MediaBrowser::slotFilterChanged()
 {
     m_filterDelayTimer.stop();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QString filter = m_filterCombo->currentFilter();
-    m_op->clearFilter();
-    if (filter.contains(QLatin1Char('/'))) {
-        QStringList types = filter.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-        types.prepend(QStringLiteral("inode/directory"));
-        m_op->setMimeFilter(types);
-    } else if (filter.contains(QLatin1Char('*')) || filter.contains(QLatin1Char('?')) || filter.contains(QLatin1Char('['))) {
-        m_op->setNameFilter(filter);
-    } else {
-        m_op->setNameFilter(QLatin1Char('*') + filter.replace(QLatin1Char(' '), QLatin1Char('*')) + QLatin1Char('*'));
-    }
-#else
     KFileFilter filter = m_filterCombo->currentFilter();
     m_op->clearFilter();
     if (!filter.mimePatterns().isEmpty()) {
@@ -460,7 +423,6 @@ void MediaBrowser::slotFilterChanged()
     } else {
         m_op->setNameFilter(filter.toFilterString());
     }
-#endif
     m_op->updateDir();
 }
 

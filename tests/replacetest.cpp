@@ -31,11 +31,11 @@ TEST_CASE("Replace Clip", "[ReplaceClip]")
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
 
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Create tracks
     /*int tid1 =*/ timeline->getTrackIndexFromPosition(0);
@@ -44,14 +44,14 @@ TEST_CASE("Replace Clip", "[ReplaceClip]")
     /*int tid4 =*/ timeline->getTrackIndexFromPosition(3);
 
     // Create clips with audio
-    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
-    QString binId2 = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
-    QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel, 15);
+    QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QString binId2 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 15);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
-    timeline->m_binAudioTargets = audioInfo;
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
 
     int cid1;
     int cid2;
@@ -89,12 +89,12 @@ TEST_CASE("Replace Clip", "[ReplaceClip]")
         REQUIRE(timeline->getClipPosition(audio2) == 110);
         REQUIRE(timeline->getClipPosition(audio3) == 200);
         REQUIRE(timeline->getClipPlaytime(audio3) == 20);
-        REQUIRE(timeline->m_allClips[cid1]->binId() == binId);
-        REQUIRE(timeline->m_allClips[audio1]->binId() == binId);
-        REQUIRE(timeline->m_allClips[cid2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[cid3]->binId() == binId);
-        REQUIRE(timeline->m_allClips[audio3]->binId() == binId);
+        REQUIRE(timeline->getClipBinId(cid1) == binId);
+        REQUIRE(timeline->getClipBinId(audio1) == binId);
+        REQUIRE(timeline->getClipBinId(cid2) == binId2);
+        REQUIRE(timeline->getClipBinId(audio2) == binId2);
+        REQUIRE(timeline->getClipBinId(cid3) == binId);
+        REQUIRE(timeline->getClipBinId(audio3) == binId);
     };
 
     auto state1 = [&]() {
@@ -111,12 +111,12 @@ TEST_CASE("Replace Clip", "[ReplaceClip]")
         REQUIRE(timeline->getClipPosition(audio2) == 110);
         REQUIRE(timeline->getClipPosition(audio3) == 200);
         REQUIRE(timeline->getClipPlaytime(audio3) == 20);
-        REQUIRE(timeline->m_allClips[cid1]->binId() == binId);
-        REQUIRE(timeline->m_allClips[audio1]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[cid2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[cid3]->binId() == binId);
-        REQUIRE(timeline->m_allClips[audio3]->binId() == binId2);
+        REQUIRE(timeline->getClipBinId(cid1) == binId);
+        REQUIRE(timeline->getClipBinId(audio1) == binId2);
+        REQUIRE(timeline->getClipBinId(cid2) == binId2);
+        REQUIRE(timeline->getClipBinId(audio2) == binId2);
+        REQUIRE(timeline->getClipBinId(cid3) == binId);
+        REQUIRE(timeline->getClipBinId(audio3) == binId2);
     };
 
     auto state2 = [&]() {
@@ -133,12 +133,12 @@ TEST_CASE("Replace Clip", "[ReplaceClip]")
         REQUIRE(timeline->getClipPosition(audio2) == 110);
         REQUIRE(timeline->getClipPosition(audio3) == 200);
         REQUIRE(timeline->getClipPlaytime(audio3) == 20);
-        REQUIRE(timeline->m_allClips[cid1]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio1]->binId() == binId);
-        REQUIRE(timeline->m_allClips[cid2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[cid3]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio3]->binId() == binId);
+        REQUIRE(timeline->getClipBinId(cid1) == binId2);
+        REQUIRE(timeline->getClipBinId(audio1) == binId);
+        REQUIRE(timeline->getClipBinId(cid2) == binId2);
+        REQUIRE(timeline->getClipBinId(audio2) == binId2);
+        REQUIRE(timeline->getClipBinId(cid3) == binId2);
+        REQUIRE(timeline->getClipBinId(audio3) == binId);
     };
 
     auto state3 = [&]() {
@@ -155,12 +155,12 @@ TEST_CASE("Replace Clip", "[ReplaceClip]")
         REQUIRE(timeline->getClipPosition(audio2) == 110);
         REQUIRE(timeline->getClipPosition(audio3) == 200);
         REQUIRE(timeline->getClipPlaytime(audio3) == 20);
-        REQUIRE(timeline->m_allClips[cid1]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio1]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[cid2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[cid3]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio3]->binId() == binId2);
+        REQUIRE(timeline->getClipBinId(cid1) == binId2);
+        REQUIRE(timeline->getClipBinId(audio1) == binId2);
+        REQUIRE(timeline->getClipBinId(cid2) == binId2);
+        REQUIRE(timeline->getClipBinId(audio2) == binId2);
+        REQUIRE(timeline->getClipBinId(cid3) == binId2);
+        REQUIRE(timeline->getClipBinId(audio3) == binId2);
     };
     auto state4 = [&]() {
         REQUIRE(timeline->getClipsCount() == 6);
@@ -176,12 +176,12 @@ TEST_CASE("Replace Clip", "[ReplaceClip]")
         REQUIRE(timeline->getClipPosition(audio2) == 110);
         REQUIRE(timeline->getClipPosition(audio3) == 200);
         REQUIRE(timeline->getClipPlaytime(audio3) == 20);
-        REQUIRE(timeline->m_allClips[cid1]->binId() == binId);
-        REQUIRE(timeline->m_allClips[audio1]->binId() == binId3);
-        REQUIRE(timeline->m_allClips[cid2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[audio2]->binId() == binId2);
-        REQUIRE(timeline->m_allClips[cid3]->binId() == binId);
-        REQUIRE(timeline->m_allClips[audio3]->binId() == binId);
+        REQUIRE(timeline->getClipBinId(cid1) == binId);
+        REQUIRE(timeline->getClipBinId(audio1) == binId3);
+        REQUIRE(timeline->getClipBinId(cid2) == binId2);
+        REQUIRE(timeline->getClipBinId(audio2) == binId2);
+        REQUIRE(timeline->getClipBinId(cid3) == binId);
+        REQUIRE(timeline->getClipBinId(audio3) == binId);
     };
 
     SECTION("Replace audio from Bin Clip 1 with Bin Clip 2")

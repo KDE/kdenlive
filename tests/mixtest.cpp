@@ -31,11 +31,11 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     // We mock the project class so that the undoStack function returns our undoStack
     KdenliveDoc document(undoStack);
 
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     // Create a request
     int tid1 = timeline->getTrackIndexFromPosition(0);
@@ -44,14 +44,14 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     int tid4 = timeline->getTrackIndexFromPosition(3);
 
     // Create clip with audio
-    QString binId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
 
     // Create video clip
-    QString binId2 = createProducer(pCore->getProjectProfile(), "red", binModel, 50, false);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 50, false);
     // Setup insert stream data
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
-    timeline->m_binAudioTargets = audioInfo;
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
 
     // Create AV clip 1
     int cid1;
@@ -89,9 +89,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPlaytime(cid3) == 20);
         REQUIRE(timeline->getClipPosition(cid4) == 520);
         REQUIRE(timeline->getClipPlaytime(cid4) == 20);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
     };
 
     auto state0b = [&]() {
@@ -106,9 +106,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPlaytime(cid3) == 20);
         REQUIRE(timeline->getClipPosition(cid4) == 520);
         REQUIRE(timeline->getClipPlaytime(cid4) == 20);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
     };
 
     auto state1 = [&]() {
@@ -117,26 +117,26 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPosition(cid1) == 100);
         REQUIRE(timeline->getClipPlaytime(cid2) > 10);
         REQUIRE(timeline->getClipPosition(cid2) < 110);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
     };
 
     auto state1b = [&]() {
         REQUIRE(timeline->getClipsCount() == 8);
         REQUIRE(timeline->getClipPlaytime(cid1) > 10);
         REQUIRE(timeline->getClipPosition(cid1) == 100);
-        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[audio1]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(audio1) == 0);
         REQUIRE(timeline->getClipPlaytime(cid2) > 10);
         REQUIRE(timeline->getClipPosition(cid2) < 110);
-        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[audio2]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(audio2) == 1);
         REQUIRE(timeline->getClipPlaytime(cid5) == 10);
         REQUIRE(timeline->getClipPosition(cid5) == 120);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[audio5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(audio5) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
     };
 
     auto state3 = [&, mixDuration]() {
@@ -145,9 +145,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPosition(cid1) == 100);
         REQUIRE(timeline->getClipPlaytime(cid2) > 30);
         REQUIRE(timeline->getClipPosition(cid2) < 130);
-        REQUIRE(timeline->m_allClips[cid2]->getMixDuration() == mixDuration);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getMixDuration(cid2) == mixDuration);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
     };
 
     auto state2 = [&]() {
@@ -156,10 +156,10 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPosition(cid3) == 500);
         REQUIRE(timeline->getClipPlaytime(cid4) == 33);
         REQUIRE(timeline->getClipPosition(cid4) == 507);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid1)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
     };
 
     SECTION("Create and delete mix on color clips")
@@ -214,21 +214,21 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         // Move clip inside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid4, tid2, 509));
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
         undoStack->undo();
         state2();
         // Move clip outside mix zone, should delete the mix and move it back to playlist 0
         REQUIRE(timeline->requestClipMove(cid4, tid2, 600));
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
         undoStack->undo();
         state2();
         // Move clip to another track, should delete mix
         REQUIRE(timeline->requestClipMove(cid4, tid4, 600));
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 0);
         undoStack->undo();
         state2();
         undoStack->undo();
@@ -247,20 +247,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         // Move clip inside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid3, tid2, 499));
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
         undoStack->undo();
         state2();
         // Move clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid3, tid2, 450));
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
         undoStack->undo();
         state2();
         // Move clip to another track, should delete mix
         REQUIRE(timeline->requestClipMove(cid3, tid4, 600));
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 0);
         undoStack->undo();
         state2();
         undoStack->undo();
@@ -287,28 +287,28 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPosition(cid5) == 540);
         undoStack->redo();
         REQUIRE(timeline->getClipPosition(cid5) < 540);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
 
         // Move middle clip to another track, should delete the mixes
         REQUIRE(timeline->requestClipMove(cid4, tid4, 500));
         REQUIRE(timeline->getClipPosition(cid5) == 540);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
 
         // Undo track move
         undoStack->undo();
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
 
         // Undo mixes
         undoStack->undo();
@@ -329,18 +329,18 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestClipsGroup(g1));
         // Move clip to another track, should delete mix
         REQUIRE(timeline->requestClipMove(cid4, tid4, 600));
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 1);
         undoStack->undo();
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 0);
         state2();
         // Move on same track
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
         REQUIRE(timeline->requestClipMove(cid4, tid3, 800));
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
         undoStack->undo();
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
         state2();
         // Undo group
         undoStack->undo();
@@ -380,20 +380,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state1();
         // Resize right clip, should resize the mix
         REQUIRE(timeline->requestItemResize(cid2, 15, false, true) == 15);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
         undoStack->undo();
         state1();
         // Resize left clip, should resize the mix
         REQUIRE(timeline->requestItemResize(cid1, 18, true, true) == 18);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
         undoStack->undo();
         state1();
         // Move clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid2, tid2, 200));
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
         undoStack->undo();
         state1();
         // Undo mix
@@ -424,18 +424,18 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // CID 1 length=10, pos=100, CID2 length=20, pos=130, CID5 length=20, pos=130
 
         // Create mix between cid1 and cid2
-        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 0);
         REQUIRE(timeline->mixClip(cid1));
         state1b();
-        REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid2) == false);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixIsReversed(audio2) == false);
 
         // Create mix between cid2 and cid5
         REQUIRE(timeline->mixClip(cid2));
-        REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid2) == false);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == true);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio2) == false);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixIsReversed(audio5) == true);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid2) == false);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == true);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixIsReversed(audio2) == false);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixIsReversed(audio5) == true);
         // Undo cid5 mix
         undoStack->undo();
 
@@ -460,44 +460,44 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state2();
         // Resize left clip, should resize the mix
         REQUIRE(timeline->requestItemResize(cid3, 24, true, true) == 24);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         undoStack->undo();
         state2();
         // Resize left clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestItemResize(cid3, 4, true, true) == 20);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
         undoStack->undo();
         state2();
         // Resize right clip, should resize the mix
         REQUIRE(timeline->requestItemResize(cid4, 16, false, true) == 16);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         undoStack->undo();
         state2();
         // Resize right clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestItemResize(cid4, 4, false, true) == 20);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
         undoStack->undo();
         state2();
         // Resize right clip before left clip, should limit the resize to left clip position
         REQUIRE(timeline->requestItemResize(cid4, 50, false, true) == 40);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         undoStack->undo();
         state2();
         // Resize left clip past right clip, should limit the resize to left clip position
         REQUIRE(timeline->requestItemResize(cid3, 100, true, true) == 40);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         undoStack->undo();
         state2();
 
@@ -506,26 +506,26 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         // Resize left clip before right clip start, then right clip outside left clip, should delete the mix
         REQUIRE(timeline->requestItemResize(cid3, 20, true, true) == 20);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         REQUIRE(timeline->requestItemResize(cid4, 20, false, true) == 20);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
         undoStack->undo();
         undoStack->undo();
         state2();
 
         // Resize right clip after left clip end, then left clip outside right clip, should delete the mix
         REQUIRE(timeline->requestItemResize(cid4, 20, false, true) == 20);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         REQUIRE(timeline->requestItemResize(cid3, 20, true, true) == 20);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
         undoStack->undo();
         undoStack->undo();
         state2();
@@ -538,8 +538,8 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     {
         state0();
         // CID 1 length=10, pos=100, CID2 length=10, pos=110
-        REQUIRE(timeline->m_allClips[cid1]->getPlaytime() == 10);
-        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == 10);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 10);
+        REQUIRE(timeline->getClipPlaytime(cid2) == 10);
         // Resize clip in to have some space for mix
         REQUIRE(timeline->requestItemResize(cid2, 90, true, true) == 90);
         REQUIRE(timeline->requestItemResize(cid2, 30, false, true) == 30);
@@ -552,50 +552,50 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Default mix duration = 25 frames (12 before / 13 after)
         // Resize left clip, should resize the mix
         REQUIRE(timeline->requestItemResize(cid1, 35, true, true) == 35);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
         undoStack->undo();
         state3();
         // Resize left clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestItemResize(cid1, 10, true, true) == 30);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 0);
         undoStack->undo();
         state3();
         // Resize right clip, should resize the mix
         REQUIRE(timeline->requestItemResize(cid2, 25, false, true) == 25);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
         undoStack->undo();
         state3();
         // Resize right clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestItemResize(cid2, 4, false, true) == 30);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
-        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 0);
         undoStack->undo();
         state3();
         // Resize right clip before left clip, should limit to left clip position
         REQUIRE(timeline->requestItemResize(cid2, 80, false, true) == 60);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
         undoStack->undo();
         state3();
         // Resize left clip after right clip, should limit to right clip duration
         REQUIRE(timeline->requestItemResize(cid1, 80, true, true) == 60);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
-        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
         undoStack->undo();
         state3();
         undoStack->undo();
@@ -629,48 +629,48 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         // Mix 3 and 4
         REQUIRE(timeline->mixClip(cid3));
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
 
         // Mix 6 and 7
         REQUIRE(timeline->mixClip(cid6));
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
 
         // Mix 5 and 6
         REQUIRE(timeline->mixClip(cid5));
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 3);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 3);
 
         // Undo mix 5 and 6
         undoStack->undo();
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
 
         // Undo mix 6 and 7
         undoStack->undo();
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
 
         // Undo mix 3 and 4
         undoStack->undo();
@@ -708,21 +708,21 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         auto mix0 = [&]() {
             REQUIRE(timeline->getClipsCount() == 9);
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
         };
 
         auto mix1 = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 1);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
         };
 
         // Mix 4 and 5
@@ -776,12 +776,12 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Cid7 pos=520, duration=20 on tid4
 
         auto mix1 = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
         };
 
         // Mix cid3 & cid4
@@ -837,49 +837,49 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         auto mix0 = [&]() {
             REQUIRE(timeline->getClipsCount() == 9);
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == false);
         };
 
         auto mix1 = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == true);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid6) == true);
         };
 
         auto mix2 = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 3);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == true);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid7) == false);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 1);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 3);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid6) == true);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid7) == false);
         };
 
         auto mix3 = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 4);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid4) == false);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == true);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == false);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid7) == true);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 4);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid4) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == true);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid6) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid7) == true);
         };
 
         // Mix 4 and 5
@@ -989,63 +989,63 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         auto mix0 = [&]() {
             REQUIRE(timeline->getClipsCount() == 12);
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == false);
         };
 
         auto mix1 = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == true);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid6) == true);
         };
 
         auto mix2 = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 3);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == false);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == true);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid7) == false);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 1);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 3);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid6) == true);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid7) == false);
         };
 
         auto mix3 = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 4);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid4) == false);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid5) == true);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid6) == false);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixIsReversed(cid7) == true);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 4);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid4) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid5) == true);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid6) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixIsReversed(cid7) == true);
         };
 
         auto mix3b = [&]() {
-            REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
-            REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
-            REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-            REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 4);
-            REQUIRE(timeline->getTrackById_const(tid4)->mixIsReversed(cid4) == false);
-            REQUIRE(timeline->getTrackById_const(tid4)->mixIsReversed(cid5) == true);
-            REQUIRE(timeline->getTrackById_const(tid4)->mixIsReversed(cid6) == false);
-            REQUIRE(timeline->getTrackById_const(tid4)->mixIsReversed(cid7) == true);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid7) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 4);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixIsReversed(cid4) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixIsReversed(cid5) == true);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixIsReversed(cid6) == false);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixIsReversed(cid7) == true);
         };
 
         // Mix 4 and 5
@@ -1114,27 +1114,27 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         // Mix 3 and 4
         REQUIRE(timeline->mixClip(cid3));
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
 
         // Mix 4 and 5
         REQUIRE(timeline->mixClip(cid4));
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
 
         // Mix 5 and 6
         REQUIRE(timeline->mixClip(cid5));
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 3);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 1);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 3);
 
         // Now try to cut mixes and check they are in the correct subplaylist
 
@@ -1143,13 +1143,13 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Get newly created cut clip
         int clone = timeline->getClipByPosition(tid2, 506, 0);
         // Ensure each clip is on the correct playlist
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(clone) == 0);
         // Undo cid3 cut
         undoStack->undo();
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
         undoStack->redo();
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 1);
         undoStack->undo();
 
         // Cut a clip with mix at start and end
@@ -1157,14 +1157,14 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Get newly created cut clip
         clone = timeline->getClipByPosition(tid2, 540, 1);
         // Ensure each clip is on the correct playlist
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(clone) == 1);
         // Undo cid3 cut
         undoStack->undo();
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         undoStack->redo();
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(clone) == 1);
         undoStack->undo();
 
         // Cut a clip with mix at end
@@ -1172,30 +1172,30 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Get newly created cut clip
         clone = timeline->getClipByPosition(tid2, 710, 0);
         // Ensure each clip is on the correct playlist
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(clone) == 0);
         undoStack->undo();
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         undoStack->redo();
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[clone]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(clone) == 0);
         undoStack->undo();
 
         // Undo mix 5 and 6
         undoStack->undo();
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 2);
 
         // Undo mix 4 and 5
         undoStack->undo();
-        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
-        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
-        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
 
         // Undo mix 3 and 4
         undoStack->undo();

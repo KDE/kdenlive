@@ -23,13 +23,13 @@ public:
     /** @brief This function change the individual enabled state of the effect, creating an undo/redo entry*/
     void markEnabled(bool enabled, Fun &undo, Fun &redo);
     /** @brief This function directly change the individual enabled state of the effect */
-    void setEnabled(bool enabled);
+    void setAssetEnabled(bool enabled, bool update = true);
 
     /** @brief This function change the global (effectstack-wise) enabled state of the effect */
     virtual void setEffectStackEnabled(bool enabled);
 
     /** @brief Returns whether the effect is enabled */
-    bool isEnabled() const;
+    bool isAssetEnabled() const;
 
     friend class EffectGroupModel;
 
@@ -43,7 +43,7 @@ public:
     /** @brief This function plants the effect into the given service in last position
      */
     virtual void plant(const std::weak_ptr<Mlt::Service> &service) = 0;
-    virtual void plantClone(const std::weak_ptr<Mlt::Service> &service) = 0;
+    virtual void plantClone(const std::weak_ptr<Mlt::Service> &service, int target = -1) = 0;
     /** @brief This function unplants (removes) the effect from the given service
      */
     virtual void unplant(const std::weak_ptr<Mlt::Service> &service) = 0;

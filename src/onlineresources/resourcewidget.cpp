@@ -8,7 +8,6 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KFileItem>
 #include <KIO/FileCopyJob>
 #include <KIO/Global>
@@ -26,8 +25,6 @@
 #include <QMenu>
 #include <QToolBar>
 #include <QtConcurrent>
-
-#include <kcompletion_version.h>
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)
@@ -265,7 +262,7 @@ void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int
     message_line->setMessageType(KMessageWidget::Information);
     message_line->show();
     int count = 0;
-    for (const ResourceItemInfo &item : qAsConst(list)) {
+    for (const ResourceItemInfo &item : std::as_const(list)) {
         message_line->setText(i18nc("@info:progress", "Parsing item %1 of %2…", count, list.count()));
         // if item has no name use "Created by Author", if item even has no author use "Unnamed"
         QListWidgetItem *listItem = new QListWidgetItem(
@@ -304,11 +301,7 @@ void ResourceWidget::slotSearchFinished(const QList<ResourceItemInfo> &list, int
     page_number->setEnabled(true);
     blockUI(false);
     lock.unlock();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QtConcurrent::run(this, &ResourceWidget::slotLoadImages);
-#else
     (void)QtConcurrent::run(&ResourceWidget::slotLoadImages, this);
-#endif
 }
 
 void ResourceWidget::slotShowPixmap(const QString &url, const QPixmap &pixmap)

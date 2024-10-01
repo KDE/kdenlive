@@ -23,6 +23,6 @@ public:
     WaveformGenerator();
     ~WaveformGenerator() override;
 
-    QImage calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
+    QImage calculateWaveform(const QSize &waveformSize, qreal scalingFactor, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
                              const ITURec rec, uint accelFactor = 1);
 };

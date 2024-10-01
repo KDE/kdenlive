@@ -17,21 +17,18 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Create document
-    KdenliveDoc document(undoStack, {0, 2});
-    Mock<KdenliveDoc> docMock(document);
-
-    pCore->projectManager()->m_project = &document;
+    KdenliveDoc document(undoStack);
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
-    KdenliveDoc::next_id = 0;
+    KdenliveTests::resetNextId();
 
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel);
-    QString binId2 = createProducer(pCore->getProjectProfile(), "blue", binModel);
-    QString binId3 = createProducerWithSound(pCore->getProjectProfile(), binModel);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
+    QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = timeline->getTrackIndexFromPosition(1);
@@ -41,9 +38,9 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid3 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
 
-    timeline->m_allClips[cid1]->m_endlessResize = false;
-    timeline->m_allClips[cid2]->m_endlessResize = false;
-    timeline->m_allClips[cid3]->m_endlessResize = false;
+    KdenliveTests::makeFiniteClipEnd(timeline, cid1);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid2);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid3);
 
     SECTION("Timewarping orphan clip")
     {
@@ -58,8 +55,8 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
         REQUIRE(timeline->requestClipTimeWarp(cid3, 0.1, false, true, undo, redo));
 
         REQUIRE(timeline->getClipSpeed(cid3) == 0.1);
-        INFO(timeline->m_allClips[cid3]->getIn());
-        INFO(timeline->m_allClips[cid3]->getOut());
+        INFO(timeline->getClipIn(cid3));
+        INFO(timeline->getClipPlaytime(cid3));
         REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration / 0.1);
 
         undo();

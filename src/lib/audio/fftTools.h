@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include "../../definitions.h"
-#include "../external/kiss_fft/tools/kiss_fftr.h"
+#include "../external/kiss_fft/kiss_fftr.h"
 #include <QHash>
 #include <QVector>
 

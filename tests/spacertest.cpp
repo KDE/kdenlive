@@ -21,24 +21,23 @@ TEST_CASE("Remove all spaces", "[Spacer]")
 
     // Here we do some trickery to enable testing.
     KdenliveDoc document(undoStack, {1, 2});
-    pCore->projectManager()->m_project = &document;
+    pCore->projectManager()->testSetDocument(&document);
     QDateTime documentDate = QDateTime::currentDateTime();
-    pCore->projectManager()->updateTimeline(false, QString(), QString(), documentDate, 0);
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
     auto timeline = document.getTimeline(document.uuid());
-    pCore->projectManager()->m_activeTimelineModel = timeline;
-    pCore->projectManager()->testSetActiveDocument(&document, timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
 
     int tid1 = timeline->getTrackIndexFromPosition(2);
     int tid2 = timeline->getTrackIndexFromPosition(1);
 
     // Create clip with audio (40 frames long)
-    QString binId = createProducer(pCore->getProjectProfile(), "red", binModel, 20);
-    QString avBinId = createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 20);
+    QString avBinId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
 
     // Setup insert stream data
     QMap<int, QString> audioInfo;
     audioInfo.insert(1, QStringLiteral("stream1"));
-    timeline->m_binAudioTargets = audioInfo;
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
 
     // Create clips in timeline
     int cid1;

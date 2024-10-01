@@ -110,6 +110,9 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void onTabBarDoubleClicked(int index);
+    /** @brief Save an image of the timeline
+     */
+    void saveTimelinePreview(const QString &path);
 
 private:
     TimelineWidget *m_activeTimeline;

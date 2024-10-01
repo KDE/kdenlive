@@ -1,0 +1,6 @@
+numba==0.59
+numpy==1.26.0
+openai-whisper
+srt
+srt_equalizer
+torch

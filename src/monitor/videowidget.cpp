@@ -15,24 +15,21 @@
 #include <QApplication>
 #include <QFontDatabase>
 #include <QOpenGLContext>
+#if QT_CONFIG(opengles2)
+#include <QOpenGLFunctions_ES2>
+#else
 #include <QOpenGLFunctions_3_2_Core>
+#endif
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QtGlobal>
 #include <memory>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include "kdeclarative_version.h"
-#endif
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
-#include <KQuickIconProvider>
-#else
-#include <KDeclarative/KDeclarative>
-#endif
 #include <KLocalizedContext>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KQuickIconProvider>
 
 #include "bin/model/markersortmodel.h"
 #include "core.h"
@@ -95,13 +92,7 @@ VideoWidget::VideoWidget(int id, QObject *parent)
     , m_loopIn(0)
     , m_offset(QPoint(0, 0))
 {
-#if QT_VERSION > QT_VERSION_CHECK(6, 0, 0) || KDECLARATIVE_VERSION > QT_VERSION_CHECK(5, 98, 0)
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
-#else
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupEngine(engine());
-#endif
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
@@ -423,11 +414,7 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
             m_dragStart = event->pos();
         }
     } else if ((event->button() & Qt::RightButton) != 0u) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        Q_EMIT showContextMenu(event->globalPos());
-#else
         Q_EMIT showContextMenu(event->globalPosition().toPoint());
-#endif
     } else if ((event->button() & Qt::MiddleButton) != 0u) {
         m_panStart = event->pos();
         setCursor(Qt::ClosedHandCursor);
@@ -1091,11 +1078,25 @@ bool VideoWidget::playZone(bool startFromIn, bool loop)
         pCore->displayMessage(i18n("Select a zone to play"), ErrorMessage, 500);
         return false;
     }
+    return playZone(m_proxy->zoneIn(), m_proxy->zoneOut(), startFromIn, loop, true);
+}
+
+bool VideoWidget::loopClip(std::pair<int, int> inOut)
+{
+    if (!m_producer || inOut.second <= inOut.first) {
+        pCore->displayMessage(i18n("Select a clip to play"), ErrorMessage, 500);
+        return false;
+    }
+    return playZone(inOut.first, inOut.second, false, true, false);
+}
+
+bool VideoWidget::playZone(int in, int out, bool startFromIn, bool loop, bool zoneMode)
+{
     double current_speed = m_producer->get_speed();
     m_producer->set_speed(0);
     m_proxy->setSpeed(0);
-    m_loopOut = m_proxy->zoneOut();
-    m_loopIn = m_proxy->zoneIn();
+    m_loopOut = out;
+    m_loopIn = in;
     if (qFuzzyIsNull(current_speed)) {
         if (startFromIn || getCurrentPos() > m_loopOut) {
             m_producer->seek(m_loopIn);
@@ -1105,7 +1106,7 @@ bool VideoWidget::playZone(bool startFromIn, bool loop)
         m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
         m_consumer->set("volume", KdenliveSettings::volume() / 100.);
-    } else if (startFromIn || getCurrentPos() > m_loopOut) {
+    } else if (getCurrentPos() > m_loopOut) {
         // Speed change, purge to reduce latency
         m_consumer->set("refresh", 0);
         m_producer->seek(m_loopIn);
@@ -1113,7 +1114,7 @@ bool VideoWidget::playZone(bool startFromIn, bool loop)
         m_producer->set_speed(1.0);
         m_consumer->set("refresh", 1);
     }
-    m_isZoneMode = true;
+    m_isZoneMode = zoneMode;
     m_isLoopMode = loop;
     return true;
 }
@@ -1132,36 +1133,6 @@ bool VideoWidget::restartConsumer()
         }
     }
     return result != -1;
-}
-
-bool VideoWidget::loopClip(QPoint inOut)
-{
-    if (!m_producer || inOut.y() <= inOut.x()) {
-        pCore->displayMessage(i18n("Select a clip to play"), ErrorMessage, 500);
-        return false;
-    }
-    m_loopIn = inOut.x();
-    double current_speed = m_producer->get_speed();
-    m_producer->set_speed(0);
-    m_proxy->setSpeed(0);
-    m_loopOut = inOut.y();
-    if (qFuzzyIsNull(current_speed)) {
-        m_producer->seek(m_loopIn);
-        m_consumer->start();
-        m_consumer->set("scrub_audio", 0);
-        m_consumer->set("refresh", 1);
-        m_consumer->set("volume", KdenliveSettings::volume() / 100.);
-    } else {
-        // Speed change, purge to reduce latency
-        m_consumer->set("refresh", 0);
-        m_consumer->purge();
-        m_producer->seek(m_loopIn);
-        m_producer->set_speed(1.0);
-        m_consumer->set("refresh", 1);
-    }
-    m_isZoneMode = false;
-    m_isLoopMode = true;
-    return true;
 }
 
 void VideoWidget::resetZoneMode()

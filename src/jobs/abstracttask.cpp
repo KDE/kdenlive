@@ -72,15 +72,16 @@ bool AbstractTask::isCanceled() const
     return m_isCanceled;
 }
 
-void AbstractTask::cancelJob(bool softDelete)
+bool AbstractTask::cancelJob(bool softDelete)
 {
     if (m_isCanceled.testAndSetAcquire(0, 1)) {
         if (softDelete) {
             m_softDelete.testAndSetAcquire(0, 1);
         }
-        qDebug() << "====== SETTING TASK CANCELED: " << m_isCanceled << ", TYPE: " << m_type;
         Q_EMIT jobCanceled();
+        return true;
     }
+    return false;
 }
 
 const ObjectId AbstractTask::ownerId() const

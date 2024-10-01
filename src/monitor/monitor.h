@@ -64,6 +64,7 @@ public:
 
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor() override;
+    QTimer refreshMonitorTimer;
     bool locked{false};
     void resetProfile();
     /** @brief Rebuild consumers after a property change */
@@ -98,7 +99,7 @@ public:
     QRect effectRect() const;
     QVariantList effectPolygon() const;
     QVariantList effectRoto() const;
-    void setEffectKeyframe(bool enable);
+    void setEffectKeyframe(bool enable, bool outside);
     void sendFrameForAnalysis(bool analyse);
     void updateAudioForAnalysis();
     void switchMonitorInfo(int code);
@@ -262,7 +263,11 @@ private Q_SLOTS:
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
     void buildBackgroundedProducer(int pos);
-    void slotSeekToKeyFrame();
+    /** @brief Seek to an effect keyframe
+     *  @param ix the index of the keyframe we want to reach
+     *  @param offset if offset != 0, the ix param is ignored and we seek to previous (-1) or next(+1) keyframe
+     */
+    void slotSeekToKeyFrame(int ix, int offset = 0);
     void slotLockMonitor(bool lock);
     void slotSwitchPlay();
     void slotEditInlineMarker();
@@ -304,7 +309,7 @@ public Q_SLOTS:
     void slotPlayZone(bool startFromIn = true);
     void slotLoopZone();
     /** @brief Loops the selected item (clip or transition). */
-    void slotLoopClip(QPoint inOut);
+    void slotLoopClip(std::pair<int, int> inOut);
     void slotForward(double speed = 0, bool allowNormalPlay = false) override;
     void slotRewind(double speed = 0) override;
     void slotRewindOneFrame(int diff = 1);
@@ -372,9 +377,11 @@ Q_SIGNALS:
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
     void addRemoveKeyframe();
-    void seekToNextKeyframe();
-    void seekToPreviousKeyframe();
-    void seekToKeyframe(int);
+    /** @brief Seek to an effect keyframe
+     *  @param ix the index of the keyframe we want to reach
+     *  @param offset if offset != 0, the ix param is ignored and we seek to previous (-1) or next(+1) keyframe
+     */
+    void seekToKeyframe(int ix, int offset);
     void addClipToProject(const QUrl &);
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
@@ -392,4 +399,5 @@ Q_SIGNALS:
     void activateTrack(int, bool notesMode = false);
     void autoKeyframeChanged();
     void zoneDurationChanged();
+    void blockSceneChange(bool);
 };

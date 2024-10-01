@@ -215,6 +215,7 @@ protected:
     QString m_usageText;
     uint m_rating;
     QString m_tags;
+    uint m_jobsProgress{100};
     FileStatus::ClipStatus m_clipStatus;
 
     PROJECTITEMTYPE m_itemType;

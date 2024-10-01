@@ -40,10 +40,15 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     m_view.icon_list->setIconSize(QSize(50, 50));
     m_view.show_thumbs->setChecked(KdenliveSettings::showslideshowthumbs());
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(m_view.show_thumbs, &QCheckBox::checkStateChanged, this, &SlideshowClip::slotEnableThumbs);
+    connect(m_view.slide_fade, &QCheckBox::checkStateChanged, this, &SlideshowClip::slotEnableLuma);
+    connect(m_view.luma_fade, &QCheckBox::checkStateChanged, this, &SlideshowClip::slotEnableLumaFile);
+#else
     connect(m_view.show_thumbs, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableThumbs);
     connect(m_view.slide_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLuma);
     connect(m_view.luma_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLumaFile);
-
+#endif
     // WARNING: keep in sync with project/clipproperties.cpp
     m_view.image_type->addItem(QStringLiteral("JPG (*.jpg)"), QStringLiteral("jpg"));
     m_view.image_type->addItem(QStringLiteral("JPEG (*.jpeg)"), QStringLiteral("jpeg"));
@@ -147,7 +152,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     values.removeDuplicates();
 
     QStringList names;
-    for (const QString &value : qAsConst(values)) {
+    for (const QString &value : std::as_const(values)) {
         names.append(QUrl(value).fileName());
     }
     for (int i = 0; i < values.count(); i++) {
@@ -295,15 +300,15 @@ void SlideshowClip::parseFolder()
             filter = filter.section(QLatin1Char('%'), 0, -2);
         } else {
             filter = filter.section(QLatin1Char('.'), 0, -2);
-            while (!filter.isEmpty() && filter.at(filter.count() - 1).isDigit()) {
-                filter.remove(filter.count() - 1, 1);
+            while (!filter.isEmpty() && filter.at(filter.size() - 1).isDigit()) {
+                filter.remove(filter.size() - 1, 1);
             }
         }
         qDebug() << " / /" << path_pattern << " / " << ext << " / " << filter;
         QString regexp = QLatin1Char('^') + filter + QStringLiteral("\\d+\\.") + ext + QLatin1Char('$');
         static const QRegularExpression rx(QRegularExpression::anchoredPattern(regexp));
         QStringList entries;
-        for (const QString &p : qAsConst(result)) {
+        for (const QString &p : std::as_const(result)) {
             if (rx.match(p).hasMatch()) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
@@ -317,7 +322,7 @@ void SlideshowClip::parseFolder()
         }
         result = entries;
     }
-    for (const QString &p : qAsConst(result)) {
+    for (const QString &p : std::as_const(result)) {
         auto *item = new QListWidgetItem(unknownicon, p);
         item->setData(Qt::UserRole, dir.filePath(p));
         m_view.icon_list->addItem(item);
@@ -428,11 +433,7 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
 
         // Find number of digits in sequence
         int precision = fullSize - filter.size();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        int firstFrame = firstFrameData.rightRef(precision).toInt();
-#else
         int firstFrame = QStringView(firstFrameData).right(precision).toInt();
-#endif
         // Check how many files we have
         QDir dir(folder);
         QString path;

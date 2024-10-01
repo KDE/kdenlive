@@ -57,7 +57,9 @@ public:
     void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false,
                        const QString &originalDecimalPoint = QString(), const QUuid &uuid = QUuid());
     bool removeFade(bool fromStart);
-
+    /** @brief Insert the necessary builtin effects in the effect stack
+     */
+    void plugBuiltinEffects();
     /** @brief This function change the global (timeline-wise) enabled state of the effects
      */
     void setEffectStackEnabled(bool enabled);
@@ -68,6 +70,7 @@ public:
 
     /** @brief Move an effect in the stack */
     void moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item);
+    bool moveEffectWithUndo(int destRow, const std::shared_ptr<AbstractEffectItem> &item, Fun &undo, Fun &redo);
 
     /** @brief Set effect in row as current one */
     void setActiveEffect(int ix);
@@ -115,11 +118,17 @@ public:
 
     /** @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
+    /** @brief Returns true there are effect (built in disabled effects don't count */
+    bool hasEffects() const;
+    /** @brief Returns true there is an active built in effect with this MLT id */
+    bool hasBuiltInEffect(const QString effectId) const;
 
     /** @brief Returns a list of external file urls used by the effects (e.g. LUTs) */
     QStringList externalFiles() const;
 
     bool isStackEnabled() const;
+    int getFadeMethod(bool fromStart);
+    static int keyframeTypeFromSeparator(const QChar mod);
 
     /** @brief Returns an XML representation of the effect stack with all parameters */
     QDomElement toXml(QDomDocument &document);
@@ -134,7 +143,7 @@ public:
     bool checkConsistency() override;
 
     /** @brief Return the row of the effect in the stack, -1 if not */
-    int effectRow(const QString &assetId) const;
+    int effectRow(const QString &assetId, int eid = -1, bool enabledOnly = false) const;
 
     /** @brief Remove all effects for this stack */
     void removeAllEffects(Fun &undo, Fun &redo);
@@ -151,6 +160,11 @@ public:
     void applyAssetMultiKeyframeCommand(int row, const QList<QModelIndex> &indexes, GenTime pos, const QStringList &sourceValues, const QStringList &values,
                                         QUndoCommand *command);
 
+    /** @brief Add default built-in audio effects */
+    void appendAudioBuildInEffects();
+    /** @brief Add default built-in video effects */
+    void appendVideoBuildInEffects();
+
 public Q_SLOTS:
     /** @brief Delete an effect from the stack */
     void removeEffect(const std::shared_ptr<EffectItemModel> &effect);
@@ -158,10 +172,12 @@ public Q_SLOTS:
         @param effect The effect to be deleted
         @param effectName Will be set to the effect name
     */
-    void removeEffectWithUndo(const QString &assetId, QString &effectName, Fun &undo, Fun &redo);
+    void removeEffectWithUndo(const QString &assetId, QString &effectName, int assetRow, Fun &undo, Fun &redo);
     void removeEffectWithUndo(const std::shared_ptr<EffectItemModel> &effect, QString &effectName, Fun &undo, Fun &redo);
     /** @brief Move an effect in the stack */
     void moveEffectByRow(int destRow, int srcRow);
+    /** @brief Set the size for the bin effect item */
+    void setBuildInSize(const QSize size);
 
 protected:
     /** @brief Register the existence of a new element

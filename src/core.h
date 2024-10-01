@@ -10,7 +10,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
 #include "utils/timecode.h"
+
 #include <KSharedDataCache>
+
 #include <QColor>
 #include <QMutex>
 #include <QObject>
@@ -18,12 +20,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTextEdit>
 #include <QThreadPool>
 #include <QUrl>
-#include <knewstuff_version.h>
+
 #include <memory>
 #include <unordered_set>
 
-#include <mlt++/MltProfile.h>
 #include <mlt++/MltPlaylist.h>
+#include <mlt++/MltProfile.h>
 
 class Bin;
 class DocUndoStack;
@@ -43,11 +45,12 @@ class SubtitleEdit;
 class SubtitleModel;
 class TextBasedEdit;
 class GuidesList;
+class KeyframeModelList;
 class TimeRemap;
 
 namespace Mlt {
-    class Repository;
-    class Producer;
+class Repository;
+class Producer;
 } // namespace Mlt
 
 #define EXIT_RESTART (42)
@@ -67,6 +70,7 @@ class /*KDENLIVECORE_EXPORT*/ Core : public QObject
 
 public:
     friend class KdenliveDoc;
+    friend class ProjectManager;
     Core(const Core &) = delete;
     Core &operator=(const Core &) = delete;
     Core(Core &&) = delete;
@@ -176,12 +180,14 @@ public:
     void refreshProjectRange(QPair<int, int> range);
     /** @brief Request project monitor refresh if referenced item is under cursor */
     void refreshProjectItem(const ObjectId &id);
+    /** @brief Returns true if position pos is inside the item */
+    bool itemContainsPos(const ObjectId &id, int pos);
     /** @brief Returns a reference to a monitor (clip or project monitor) */
     Monitor *getMonitor(int id);
     /** @brief Seek a monitor to position */
     void seekMonitor(int id, int position);
     /** @brief Returns timeline's active track info (position and tag) */
-    QPair <int,QString> currentTrackInfo() const;
+    QPair<int, QString> currentTrackInfo() const;
     /** @brief This function must be called whenever the profile used changes */
     void profileChanged();
 
@@ -217,13 +223,13 @@ public:
     double getClipSpeed(ObjectId id) const;
     /** @brief Mark an item as invalid for timeline preview */
     void invalidateItem(ObjectId itemId);
-    void invalidateRange(QPair<int, int>range);
+    void invalidateRange(QPair<int, int> range);
     void prepareShutdown();
     void finishShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
     void updateItemKeyframes(ObjectId id);
     /** A fade for clip id changed, update timeline */
-    void updateItemModel(ObjectId id, const QString &service);
+    void updateItemModel(ObjectId id, const QString &service, const QString &updatedParam);
     /** Show / hide keyframes for a timeline clip */
     void showClipKeyframes(ObjectId id, bool enable);
     Mlt::Profile &thumbProfile();
@@ -245,8 +251,6 @@ public:
     /** @brief True if we are currently displaying the record countdown */
     bool captureShowsCountDown() const;
     MediaCapture *getAudioDevice();
-    /** @brief Returns Project Folder name for capture output location */
-    QString getProjectFolderName();
     /** @brief Returns configured folder for audio capture storage */
     QString getProjectCaptureFolderName();
     /** @brief Returns a timeline clip's bin id */
@@ -258,9 +262,11 @@ public:
     /** @brief An error occurred within a filter, inform user */
     void processInvalidFilter(const QString &service, const QString &id, const QString &message);
     /** @brief Update current project's tags */
-    void updateProjectTags(int previousCount, const QMap <int, QStringList> &tags);
+    void updateProjectTags(int previousCount, const QMap<int, QStringList> &tags);
     /** @brief Returns the project profile */
     Mlt::Profile &getProjectProfile();
+    /** @brief Returns the project profile frame rate num/den */
+    std::pair<int, int> getProjectFpsInfo() const;
     /** @brief Returns the consumer profile, that will be scaled
      *  according to preview settings. Should only be used on the consumer */
     Mlt::Profile &getMonitorProfile();
@@ -275,7 +281,7 @@ public:
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
     /** @brief Add guides in the project. */
-    void addGuides(const QList <int> &guides);
+    void addGuides(const QMap<QUuid, QList<int>> &guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(const QList<int> &clipIds, bool hide);
     /** @brief Transcode a video file. */
@@ -299,21 +305,12 @@ public:
     void clearTimeRemap();
     /** @brief Create the dock widgets */
     void buildDocks();
-#if KNEWSTUFF_VERSION < QT_VERSION_CHECK(5, 98, 0)
-    /** @brief Instantiates a "Get Hot New Stuff" dialog.
-     * @param configFile configuration file for KNewStuff
-     * @return number of installed items */
-    int getNewStuff(const QString &configFile);
-#endif
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     void loadTimelinePreview(const QUuid uuid, const QString &chunks, const QString &dirty, bool enablePreview, Mlt::Playlist &playlist);
     /** @brief Returns true if the audio mixer widget is visible */
     bool audioMixerVisible{false};
-    LinuxPackageType packageType()
-    {
-        return m_packageType;
-    };
+    LinuxPackageType packageType() { return m_packageType; };
     /** @brief Start / stop audio capture */
     void switchCapture();
     /** @brief Get the uuid of currently active timeline */
@@ -329,8 +326,10 @@ public:
                                    const QVariant &value, int ix, QUndoCommand *command);
     void groupAssetMultiKeyframeCommand(const ObjectId &id, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                         const QStringList &sourceValues, const QStringList &values, QUndoCommand *command);
+    /** @brief Return all similar keyframe models from the selection */
+    QList<std::shared_ptr<KeyframeModelList>> getGroupKeyframeModels(const ObjectId &id, const QString &assetId);
     /** @brief Remove all effect instances in a group */
-    void removeGroupEffect(const ObjectId &id, const QString &assetId);
+    void removeGroupEffect(const ObjectId &id, const QString &assetId, int originalId);
     /** @brief Disable/enable all instance of an effect in a group */
     void applyEffectDisableToGroup(const ObjectId &id, const QString &assetId, bool disable, Fun &undo, Fun &redo);
     /** @brief Returns true if all ui elements have been initialized */
@@ -345,6 +344,12 @@ public:
     void folderRenamed(const QString &binId, const QString &folderName);
     /** @brief Open a file in a file manager, workaround needed for Flatpak crash https://bugs.kde.org/show_bug.cgi?id=486494 */
     void highlightFileInExplorer(QList<QUrl> urls);
+    /** @brief When a timeline operation changes the clip under the mouse cursor, inform the qml view */
+    void updateHoverItem(const QUuid &uuid);
+    /** @brief Returns true if the asset has {audio, video} */
+    std::pair<bool, bool> assetHasAV(ObjectId id);
+    /** @brief Show an item's effect stack */
+    void showEffectStackFromId(ObjectId owner);
 
 private:
     explicit Core(LinuxPackageType packageType);
@@ -395,7 +400,8 @@ public Q_SLOTS:
     /** @brief Add an action to the app's actionCollection */
     void addActionToCollection(const QString &name, QAction *action);
     /** @brief display a user info/warning message in the project bin */
-    void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
+    void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false,
+                           BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void displayBinLogMessage(const QString &text, int type, const QString logInfo);
     /** @brief Create small thumbnails for luma used in compositions */
     void buildLumaThumbs(const QStringList &values);
@@ -408,7 +414,7 @@ public Q_SLOTS:
     /** @brief Set current project modified. */
     void setDocumentModified();
     /** @brief Show currently selected effect zone in timeline ruler. */
-    void showEffectZone(ObjectId id, QPair <int, int>inOut, bool checked);
+    void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
     void updateMasterZones();
     /** @brief Open the proxies test dialog. */
     void testProxies();
@@ -426,11 +432,13 @@ public Q_SLOTS:
     void startRecording(bool showCountdown = false);
     /** @brief Show or hide track head audio rec controls. */
     void monitorAudio(int tid, bool monitor);
+    /** @brief Open a documentation link, showing a warning box first */
+    void openDocumentationLink(const QUrl &link);
 
 Q_SIGNALS:
     void coreIsReady();
     void updateLibraryPath();
-    //void updateMonitorProfile();
+    // void updateMonitorProfile();
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(Kdenlive::ConfigPage, int);
     void finalizeRecording(const QUuid uuid, const QString &captureFile);
@@ -460,7 +468,7 @@ Q_SIGNALS:
     /** @brief Emitted when a clip is resized (to handle clip monitor inserted zones) */
     void clipInstanceResized(const QString &binId);
     /** @brief Contains the project audio levels */
-    void audioLevelsAvailable(const QVector<double>& levels);
+    void audioLevelsAvailable(const QVector<double> &levels);
     /** @brief A frame was displayed in monitor, update audio mixer */
     void updateMixerLevels(int pos);
     /** @brief Audio recording was started or stopped*/
@@ -487,4 +495,8 @@ Q_SIGNALS:
     void mltWarning(const QString &message);
     /** @brief Request display of effect stack for a Bin clip. */
     void requestShowBinEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
+    /** @brief Save guide categories in document properties */
+    void saveGuideCategories();
+    /** @brief When creating a backup file, also save a thumbnail of current timeline */
+    void saveTimelinePreview(const QString &path);
 };

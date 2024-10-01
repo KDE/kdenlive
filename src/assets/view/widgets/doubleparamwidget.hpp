@@ -22,6 +22,7 @@ class DoubleParamWidget : public AbstractParamWidget
 public:
     DoubleParamWidget() = delete;
     DoubleParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
+    QLabel *createLabel() override;
 
 public Q_SLOTS:
     /** @brief Toggle the comments on or off

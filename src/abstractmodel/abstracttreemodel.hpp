@@ -19,6 +19,7 @@ class AbstractTreeModel : public QAbstractItemModel, public std::enable_shared_f
     Q_OBJECT
 
 public:
+    friend class KdenliveTests;
     /** @brief Construct a TreeModel
        @param parent is the parent object of the model
        @return a ptr to the created object

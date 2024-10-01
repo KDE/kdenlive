@@ -30,11 +30,16 @@ void QmlManager::setProperty(const QString &name, const QVariant &value)
     m_view->rootObject()->setProperty(name.toUtf8().constData(), value);
 }
 
-void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration)
+void QmlManager::blockSceneChange(bool block)
 {
-    if (type == m_sceneType) {
+    m_sceneChangeBlocked = block;
+}
+
+bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration)
+{
+    if (type == m_sceneType || m_sceneChangeBlocked) {
         // Scene type already active
-        return;
+        return false;
     }
     m_sceneType = type;
     QQuickItem *root = nullptr;
@@ -115,6 +120,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     if (root && duration > 0) {
         root->setProperty("duration", duration);
     }
+    return true;
 }
 
 void QmlManager::effectRectChanged()

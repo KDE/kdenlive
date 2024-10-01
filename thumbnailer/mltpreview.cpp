@@ -20,10 +20,8 @@ K_PLUGIN_CLASS_WITH_JSON(MltPreview, "mltpreview.json")
 MltPreview::MltPreview(QObject *parent, const QVariantList &args)
     : KIO::ThumbnailCreator(parent, args)
 {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     // block MLT Qt5 modules to prevent crashes
     qputenv("MLT_REPOSITORY_DENY", "libmltqt:libmltglaxnimate");
-#endif
 
     // After initialising the MLT factory, set the locale back from user default to C
     // to ensure numbers are always serialised with . as decimal point.

@@ -218,7 +218,9 @@ QImage Vectorscope::renderHUD(uint)
     if (m_mouseWithinWidget) {
         // Mouse moved: Draw a circle over the scope
 
-        hud = QImage(m_visibleRect.size(), QImage::Format_ARGB32);
+        qreal dpr = devicePixelRatioF();
+        hud = QImage(m_visibleRect.size() * dpr, QImage::Format_ARGB32);
+        hud.setDevicePixelRatio(dpr);
         hud.fill(qRgba(0, 0, 0, 0));
 
         QPainter davinci;
@@ -277,7 +279,8 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
         VectorscopeGenerator::ColorSpace colorSpace =
             m_aColorSpace_YPbPr->isChecked() ? VectorscopeGenerator::ColorSpace_YPbPr : VectorscopeGenerator::ColorSpace_YUV;
         VectorscopeGenerator::PaintMode paintMode = VectorscopeGenerator::PaintMode(m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt());
-        scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(), qimage, m_gain, paintMode, colorSpace, m_aAxisEnabled->isChecked(),
+        qreal dpr = devicePixelRatioF();
+        scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size() * dpr, dpr, qimage, m_gain, paintMode, colorSpace, m_aAxisEnabled->isChecked(),
                                                              accelerationFactor);
     }
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
@@ -289,7 +292,9 @@ QImage Vectorscope::renderBackground(uint)
     QElapsedTimer timer;
     timer.start();
 
-    QImage bg(m_visibleRect.size(), QImage::Format_ARGB32);
+    qreal scalingFactor = devicePixelRatioF();
+    QImage bg(m_visibleRect.size() * scalingFactor, QImage::Format_ARGB32);
+    bg.setDevicePixelRatio(scalingFactor);
     bg.fill(qRgba(0, 0, 0, 0));
 
     // Set up tools

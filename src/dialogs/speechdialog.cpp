@@ -24,7 +24,6 @@
 #include <QDir>
 #include <QFontDatabase>
 #include <QProcess>
-#include <kwidgetsaddons_version.h>
 
 #include <memory>
 #include <utility>
@@ -334,11 +333,7 @@ void SpeechDialog::slotProcessSpeech()
     speech_progress->setValue(0);
     m_errorLog.clear();
     logOutput->clear();
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
     speech_info->clearActions();
-#else
-    speech_info->removeAction(m_logAction);
-#endif
     frame_progress->setVisible(true);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     qApp->processEvents();

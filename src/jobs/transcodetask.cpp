@@ -74,9 +74,6 @@ void TranscodeTask::run()
             QDomDocument doc;
             binClip->getProducerXML(doc, false, true);
             QTextStream out(&src);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-#endif
             out << doc.toString();
             src.close();
         }
@@ -129,7 +126,7 @@ void TranscodeTask::run()
         // Convert param style
         QStringList params = m_transcodeParams.split(QLatin1Char('-'), Qt::SkipEmptyParts);
         QStringList mltParameters;
-        for (const QString &s : qAsConst(params)) {
+        for (const QString &s : std::as_const(params)) {
             QString t = s.simplified();
             if (t.count(QLatin1Char(' ')) == 0) {
                 t.append(QLatin1String("=1"));
@@ -205,7 +202,7 @@ void TranscodeTask::run()
             parameters << QStringLiteral("-map") << QStringLiteral("0");
         }
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
-        for (const QString &s : qAsConst(params)) {
+        for (const QString &s : std::as_const(params)) {
             QString t = s.simplified();
             if (t.startsWith(QLatin1String("%1"))) {
                 parameters << t.replace(QLatin1String("%1"), destUrl);
@@ -215,9 +212,8 @@ void TranscodeTask::run()
         }
         qDebug() << "/// FULL TRANSCODE PARAMS:\n" << parameters << "\n------";
         m_jobProcess.reset(new QProcess);
-        // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         QObject::connect(this, &TranscodeTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);
-        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo);
+        QObject::connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &TranscodeTask::processLogInfo, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
         AbstractTask::setPreferredPriority(m_jobProcess->processId());
         m_jobProcess->waitForFinished(-1);
@@ -281,7 +277,7 @@ void TranscodeTask::processLogInfo()
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
             if (buffer.contains(QLatin1String("Duration:"))) {
-                QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+                const QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
                 if (!data.isEmpty()) {
                     QStringList numbers = data.split(QLatin1Char(':'));
                     if (numbers.size() < 3) {
@@ -304,15 +300,21 @@ void TranscodeTask::processLogInfo()
                     progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
                 }
             }
-            m_progress = 100 * progress / m_jobDuration;
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = 100 * progress / m_jobDuration;
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
             // Q_EMIT jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (buffer.contains(QLatin1String("percentage:"))) {
-            m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
         }
     }
 }

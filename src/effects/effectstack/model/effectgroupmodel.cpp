@@ -55,10 +55,10 @@ void EffectGroupModel::plant(const std::weak_ptr<Mlt::Service> &service)
         std::static_pointer_cast<AbstractEffectItem>(child(i))->plant(service);
     }
 }
-void EffectGroupModel::plantClone(const std::weak_ptr<Mlt::Service> &service)
+void EffectGroupModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int target)
 {
     for (int i = 0; i < childCount(); ++i) {
-        std::static_pointer_cast<AbstractEffectItem>(child(i))->plantClone(service);
+        std::static_pointer_cast<AbstractEffectItem>(child(i))->plantClone(service, target);
     }
 }
 void EffectGroupModel::unplant(const std::weak_ptr<Mlt::Service> &service)

@@ -78,6 +78,9 @@ public:
     /** @brief Return true if the effect type is audio
      */
     static bool isAudioType(AssetListType::AssetType type);
+    /** @brief Return the https link to our documentation
+     */
+    static const QString buildLink(const QString id, AssetListType::AssetType type);
 
 private:
     QToolBar *m_toolbar;
@@ -92,7 +95,6 @@ protected:
     QLineEdit *m_searchLine;
     QTreeView *m_effectsTree;
     bool eventFilter(QObject *obj, QEvent *event) override;
-    const QString buildLink(const QString id, AssetListType::AssetType type) const;
 
 private Q_SLOTS:
     void onCustomContextMenu(const QPoint &pos);

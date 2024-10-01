@@ -90,13 +90,14 @@ public Q_SLOTS:
     void slotResetEffect();
     void importKeyframes(const QString &keyframes);
     void slotActivateEffect(bool active);
+    void slotSetTargetEffect(bool active);
     void updateHeight();
     /** @brief Should we block wheel event (if parent is a view with scrollbar) */
     void blockWheelEvent(bool block);
     /** @brief Switch between collapsed/expanded state */
     void switchCollapsed(int row);
     /** @brief Open a save effect dialog */
-    void slotSaveEffect();
+    void slotSaveEffect(const QString title = QString(), const QString description = QString());
     /** @brief Show hide the count of grouped instances for this effect */
     void updateGroupedInstances();
 
@@ -132,7 +133,7 @@ private:
     bool m_blockWheel;
     /** @brief The add group action. */
     QAction *m_groupAction;
-    KDualAction *m_enabledButton;
+    KDualAction *m_enabledButton{nullptr};
     KDualAction *m_keyframesButton;
     QAction *m_inOutButton;
     QLabel *m_colorIcon;
@@ -174,5 +175,7 @@ Q_SIGNALS:
     void switchHeight(std::shared_ptr<EffectItemModel> model, int height);
     void activateEffect(int row);
     void showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked);
+    /** @brief A built in effect was enabled/disabled, udate effect names. */
+    void effectNamesUpdated();
     void refresh();
 };

@@ -36,6 +36,9 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
     m_requiresInOut = assetXml.hasAttribute(QStringLiteral("requires_in_out"));
     m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
+    if (m_asset->property_exists("kdenlive:builtin")) {
+        m_builtIn = true;
+    }
 
     bool needsLocaleConversion = false;
     QString separator;
@@ -45,13 +48,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC"))); // Check if effect has a special locale → probably OK
         if (QLocale::c().decimalPoint() != effectLocale.decimalPoint()) {
             needsLocaleConversion = true;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            separator = QString(QLocale::c().decimalPoint());
-            oldSeparator = QString(effectLocale.decimalPoint());
-#else
             separator = QLocale::c().decimalPoint();
             oldSeparator = effectLocale.decimalPoint();
-#endif
         }
     }
 
@@ -143,7 +141,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 value.replace(QRegularExpression(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
                 break;
             case ParamType::ColorWheel:
-                // Colour wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
+                // Color wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
             case ParamType::Double:
             case ParamType::Hidden:
             case ParamType::List:
@@ -170,6 +168,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             case ParamType::Switch:
             case ParamType::MultiSwitch:
             case ParamType::Wipe:
+            case ParamType::EffectButtons:
                 // Pretty sure that those are fine
                 converted = false;
                 break;
@@ -228,7 +227,7 @@ void AssetParameterModel::prepareKeyframes(int in, int out)
 {
     if (m_keyframes) return;
     int ix = 0;
-    for (const auto &name : qAsConst(m_rows)) {
+    for (const auto &name : std::as_const(m_rows)) {
         if (isAnimated(m_params.at(name).type)) {
             addKeyframeParam(index(ix, 0), in, out);
         }
@@ -266,6 +265,18 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
 {
     Q_ASSERT(m_asset->is_valid());
     m_asset->set(name.toLatin1().constData(), value);
+    if (m_builtIn) {
+        bool isDisabled = m_asset->get_int("disable") == 1;
+        bool shouldDisable = isDefault();
+        if (isDisabled != shouldDisable) {
+            if (shouldDisable) {
+                m_asset->set("disable", 1);
+            } else {
+                m_asset->clear("disable");
+            }
+            // Q_EMIT enabledChange(!shouldDisable);
+        }
+    }
     if (m_fixedParams.count(name) == 0) {
         m_params[name].value = value;
     } else {
@@ -288,7 +299,7 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
         Q_EMIT modelChanged();
         Q_EMIT dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         // Update fades in timeline
-        pCore->updateItemModel(m_ownerId, m_assetId);
+        pCore->updateItemModel(m_ownerId, m_assetId, name);
         if (!m_isAudio) {
             // Trigger monitor refresh
             pCore->refreshProjectItem(m_ownerId);
@@ -329,7 +340,18 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
             QStringList values = paramValue.split(QLatin1Char('\n'));
             if (names.count() == values.count()) {
                 for (int i = 0; i < names.count(); i++) {
-                    m_asset->set(names.at(i).toLatin1().constData(), values.at(i).toLatin1().constData());
+                    const QString currentVal(m_asset->get(names.at(i).toLatin1().constData()));
+                    QString updatedValue = values.at(i);
+                    QChar mod;
+                    if (currentVal.contains(QLatin1Char('='))) {
+                        mod = getKeyframeType(currentVal);
+                        if (!mod.isNull()) {
+                            QString replacement = mod + QLatin1Char('=');
+                            updatedValue.replace(QLatin1Char('='), replacement);
+                            QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                        }
+                    }
+                    m_asset->set(names.at(i).toLatin1().constData(), updatedValue.toLatin1().constData());
                 }
                 m_params[name].value = paramValue;
             }
@@ -369,26 +391,83 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
         if (m_assetId.startsWith(QLatin1String("fade_from"))) {
             if (getAsset()->get("alpha") == QLatin1String("1")) {
                 // Adjust level value to match filter end
-                getAsset()->set("level", "0=0;-1=1");
+                const QString current = getAsset()->get("level");
+                const QChar mod = getKeyframeType(current);
+                if (!mod.isNull()) {
+                    QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                    getAsset()->set("level", val.toUtf8().constData());
+                } else {
+                    getAsset()->set("level", "0=0;-1=1");
+                }
             } else if (getAsset()->get("level") == QLatin1String("1")) {
-                getAsset()->set("alpha", "0=0;-1=1");
+                const QString current = getAsset()->get("alpha");
+                const QChar mod = getKeyframeType(current);
+                if (!mod.isNull()) {
+                    QString val = QStringLiteral("0%1=0;-1%1=1").arg(mod);
+                    getAsset()->set("alpha", val.toUtf8().constData());
+                } else {
+                    getAsset()->set("alpha", "0=0;-1=1");
+                }
             }
         } else {
             if (getAsset()->get("alpha") == QLatin1String("1")) {
                 // Adjust level value to match filter end
-                getAsset()->set("level", "0=1;-1=0");
+                const QString current = getAsset()->get("level");
+                const QChar mod = getKeyframeType(current);
+                if (!mod.isNull()) {
+                    QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
+                    getAsset()->set("level", val.toUtf8().constData());
+                } else {
+                    getAsset()->set("level", "0=1;-1=0");
+                }
             } else if (getAsset()->get("level") == QLatin1String("1")) {
-                getAsset()->set("alpha", "0=1;-1=0");
+                const QString current = getAsset()->get("alpha");
+                const QChar mod = getKeyframeType(current);
+                if (!mod.isNull()) {
+                    QString val = QStringLiteral("0%1=1;-1%1=0").arg(mod);
+                    getAsset()->set("alpha", val.toUtf8().constData());
+                } else {
+                    getAsset()->set("alpha", "0=1;-1=0");
+                }
             }
         }
     }
     // qDebug() << " = = SET EFFECT PARAM: " << name << " = " << m_asset->get(name.toLatin1().constData());
 }
 
-void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
+const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
 {
-    // qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
+    QChar mod;
+    if (keyframeString.contains(QLatin1Char('='))) {
+        mod = keyframeString.section(QLatin1Char('='), 0, -2).back();
+        if (mod.isDigit()) {
+            mod = QChar();
+        }
+    }
+    return mod;
+}
+
+void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, QModelIndex paramIndex)
+{
+    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
+    if (!paramIndex.isValid()) {
+        paramIndex = index(m_rows.indexOf(name), 0);
+    }
     internalSetParameter(name, paramValue, paramIndex);
+    QStringList paramName = {name};
+    if (m_builtIn) {
+        bool isDisabled = m_asset->get_int("disable") == 1;
+        bool shouldDisable = isDefault();
+        if (isDisabled != shouldDisable) {
+            if (shouldDisable) {
+                m_asset->set("disable", 1);
+            } else {
+                m_asset->clear("disable");
+            }
+            paramName << QStringLiteral("disable");
+            // Q_EMIT enabledChange(!shouldDisable);
+        }
+    }
     bool updateChildRequired = true;
     if (m_assetId.startsWith(QStringLiteral("sox_"))) {
         // Warning, SOX effect, need unplug/replug
@@ -407,14 +486,11 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         qDebug() << "// SENDING DATA CHANGE....";
         if (paramIndex.isValid()) {
             Q_EMIT dataChanged(paramIndex, paramIndex);
-        } else {
-            QModelIndex ix = index(m_rows.indexOf(name), 0);
-            Q_EMIT dataChanged(ix, ix);
         }
         Q_EMIT modelChanged();
     }
     if (updateChildRequired) {
-        Q_EMIT updateChildren({name});
+        Q_EMIT updateChildren({paramName});
     }
     // Update timeline view if necessary
     if (m_ownerId.type == KdenliveObjectType::NoItem) {
@@ -422,7 +498,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         if (!update) Q_EMIT modelChanged();
     } else {
         // Update fades in timeline
-        pCore->updateItemModel(m_ownerId, m_assetId);
+        pCore->updateItemModel(m_ownerId, m_assetId, name);
         if (!m_isAudio) {
             // Trigger monitor refresh
             pCore->refreshProjectItem(m_ownerId);
@@ -588,6 +664,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     }
     case NewStuffRole:
         return element.attribute(QStringLiteral("newstuff"));
+    case CompactRole:
+        return element.hasAttribute(QStringLiteral("compact"));
     case ModeRole:
         return element.attribute(QStringLiteral("mode"));
     case List1Role:
@@ -660,6 +738,9 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
     }
     if (type == QLatin1String("switch")) {
         return ParamType::Switch;
+    }
+    if (type == QLatin1String("effectbuttons")) {
+        return ParamType::EffectButtons;
     }
     if (type == QLatin1String("multiswitch")) {
         return ParamType::MultiSwitch;
@@ -752,7 +833,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             // check for Kdenlive installed luts files
             QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
             QStringList results;
-            for (const QString &folderpath : qAsConst(customLuts)) {
+            for (const QString &folderpath : std::as_const(customLuts)) {
                 QDir dir(folderpath);
                 QDirIterator it(dir.absolutePath(), fileExt, QDir::Files, QDirIterator::Subdirectories);
                 while (it.hasNext()) {
@@ -766,25 +847,30 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             return defaultValue;
         }
     }
-    std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    int width = profile->width();
-    int height = profile->height();
+    QSize profileSize = pCore->getCurrentFrameSize();
     QSize frameSize = pCore->getItemFrameSize(owner);
-    if (type == ParamType::AnimatedRect && content == "adjustcenter" && !frameSize.isEmpty()) {
-        int contentHeight = height;
-        int contentWidth = width;
+    if (frameSize.isEmpty()) {
+        frameSize = profileSize;
+    }
+    if (type == ParamType::AnimatedRect && content == "adjustcenter") {
+        int contentHeight = profileSize.height();
+        int contentWidth = profileSize.width();
         double sourceDar = frameSize.width() / frameSize.height();
         if (sourceDar > pCore->getCurrentDar()) {
             // Fit to width
-            double factor = double(width) / frameSize.width() * pCore->getCurrentSar();
-            contentHeight = qRound(height * factor);
+            double factor = double(profileSize.width()) / frameSize.width() * pCore->getCurrentSar();
+            contentHeight = qRound(profileSize.height() * factor);
         } else {
             // Fit to height
-            double factor = double(height) / frameSize.height();
+            double factor = double(profileSize.height()) / frameSize.height();
             contentWidth = qRound(frameSize.width() / pCore->getCurrentSar() * factor);
         }
         // Center
-        content = QString("%1 %2 %3 %4").arg((width - contentWidth) / 2).arg((height - contentHeight) / 2).arg(contentWidth).arg(contentHeight);
+        content = QString("%1 %2 %3 %4")
+                      .arg((profileSize.width() - contentWidth) / 2)
+                      .arg((profileSize.height() - contentHeight) / 2)
+                      .arg(contentWidth)
+                      .arg(contentHeight);
     } else if (content.contains(QLatin1Char('%'))) {
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner) - 1;
@@ -801,12 +887,12 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             currentPos = qBound(itemIn, currentPos, itemIn + pCore->getItemDuration(m_ownerId) - 1);
         }
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
-        double fitScale = qMin(double(width) / double(frameSize.width()), double(height) / double(frameSize.height()));
+        double fitScale = qMin(double(profileSize.width()) / double(frameSize.width()), double(profileSize.height()) / double(frameSize.height()));
         // replace symbols in the double parameter
-        content.replace(QLatin1String("%maxWidth"), QString::number(width))
-            .replace(QLatin1String("%maxHeight"), QString::number(height))
-            .replace(QLatin1String("%width"), QString::number(width))
-            .replace(QLatin1String("%height"), QString::number(height))
+        content.replace(QLatin1String("%maxWidth"), QString::number(profileSize.width()))
+            .replace(QLatin1String("%maxHeight"), QString::number(profileSize.height()))
+            .replace(QLatin1String("%width"), QString::number(profileSize.width()))
+            .replace(QLatin1String("%height"), QString::number(profileSize.height()))
             .replace(QLatin1String("%position"), QString::number(currentPos))
             .replace(QLatin1String("%contentWidth"), QString::number(frameSize.width()))
             .replace(QLatin1String("%contentHeight"), QString::number(frameSize.height()))
@@ -825,9 +911,9 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                         val.chop(1);
                         double n = val.toDouble() / 100.;
                         if (ix % 2 == 0) {
-                            n *= width;
+                            n *= profileSize.width();
                         } else {
-                            n *= height;
+                            n *= profileSize.height();
                         }
                         ix++;
                         content.append(QString("%1 ").arg(qRound(n)));
@@ -957,13 +1043,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
             currentParam.insert(QLatin1String("value"),
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                                fixed.second.type() == QVariant::Double
-#else
-                                fixed.second.typeId() == QMetaType::Double
-#endif
-                                    ? QJsonValue(fixed.second.toDouble())
-                                    : QJsonValue(fixed.second.toString()));
+                                fixed.second.typeId() == QMetaType::Double ? QJsonValue(fixed.second.toDouble()) : QJsonValue(fixed.second.toString()));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -1009,14 +1089,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
 
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("DisplayName"), QJsonValue(param.second.name));
-        if (
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            param.second.value.type() == QVariant::Double
-
-#else
-            param.second.value.typeId() == QMetaType::Double
-#endif
-        ) {
+        if (param.second.value.typeId() == QMetaType::Double) {
             currentParam.insert(QLatin1String("value"), QJsonValue(param.second.value.toDouble()));
         } else {
             QString resultValue = param.second.value.toString();
@@ -1121,14 +1194,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
             auto value = m_keyframes->getInterpolatedValue(pos, ix);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
             currentParam.insert(QLatin1String("value"), QJsonValue(QStringLiteral("0=%1").arg(
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-
-                                                            value.type() == QVariant::Double
-#else
-                                                            value.typeId() == QMetaType::Double
-#endif
-                                                                ? QString::number(value.toDouble())
-                                                                : value.toString())));
+                                                            value.typeId() == QMetaType::Double ? QString::number(value.toDouble()) : value.toString())));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -1180,15 +1246,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
             obj.insert(QStringLiteral("0"), value.toJsonArray());
             currentParam.insert(QLatin1String("value"), QJsonValue(obj));
         } else {
-            stringValue = QStringLiteral("0=%1").arg(
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-                value.type() == QVariant::Double
-
-#else
-                value.typeId() == QMetaType::Double
-#endif
-                    ? QString::number(value.toDouble())
-                    : value.toString());
+            stringValue = QStringLiteral("0=%1").arg(value.typeId() == QMetaType::Double ? QString::number(value.toDouble()) : value.toString());
             currentParam.insert(QLatin1String("value"), QJsonValue(stringValue));
         }
 
@@ -1245,7 +1303,7 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
                         toDelete << i;
                     }
                 }
-                for (int i : qAsConst(toDelete)) {
+                for (int i : std::as_const(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {
@@ -1295,7 +1353,7 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
                         toDelete << i;
                     }
                 }
-                for (int i : qAsConst(toDelete)) {
+                for (int i : std::as_const(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {
@@ -1385,6 +1443,8 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
                 }
             }
         }
+    } else {
+        pCore->displayMessage(i18nc("@info:status", "Failed to load preset %1", presetFile), ErrorMessage);
     }
     return params;
 }
@@ -1504,4 +1564,54 @@ const QVariant AssetParameterModel::getParamFromName(const QString &paramName)
 const QModelIndex AssetParameterModel::getParamIndexFromName(const QString &paramName)
 {
     return index(m_rows.indexOf(paramName), 0);
+}
+
+bool AssetParameterModel::isDefault() const
+{
+    for (const auto &name : m_rows) {
+        ParamRow currentRow = m_params.at(name);
+        const QDomElement &element = currentRow.xml;
+        QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), element);
+        QString value = defaultValue.toString();
+        if (isAnimated(currentRow.type) && currentRow.type != ParamType::Roto_spline) {
+            // Roto_spline keyframes are stored as JSON so do not apply this to roto
+            if (!value.contains(QLatin1Char('='))) {
+                value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
+            }
+            if (currentRow.value.toString() != value && !currentRow.value.toString().contains(QLatin1Char(';'))) {
+                const QStringList values = currentRow.value.toString().section(QLatin1Char('='), 1).split(QLatin1Char(' '));
+                const QStringList defaults = value.section(QLatin1Char('='), 1).split(QLatin1Char(' '));
+                if (defaults.count() != values.count()) {
+                    // Not the same count of parameters
+                    return false;
+                }
+                int ix = 0;
+                bool ok;
+                for (auto &v : values) {
+                    if (v != defaults.at(ix)) {
+                        double val = v.toDouble(&ok);
+                        double def;
+                        if (ok) {
+                            def = defaults.at(ix).toDouble(&ok);
+                        }
+                        if (!ok) {
+                            // not a double, abort
+                            return false;
+                        }
+                        if (def != val) {
+                            return false;
+                        }
+                    }
+                    ix++;
+                }
+                return true;
+            }
+        }
+        if (currentRow.value != value) {
+            qDebug() << "======= ERROR COMPARING PARMA VALUES:\n" << currentRow.value << " = " << value;
+            return false;
+        }
+    }
+    qDebug() << "YYYYYYYYYYYYY DISABLING EFFECT:\n";
+    return true;
 }

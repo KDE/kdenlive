@@ -26,7 +26,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KIO/FileCopyJob>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -360,7 +359,7 @@ void ProjectSettings::slotDeleteUnused()
     QStringList toDelete;
     QStringList idsToDelete;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         if (!clip->isIncludedInTimeline()) {
             idsToDelete << clip->clipId();
             ClipType::ProducerType type = clip->clipType();
@@ -373,7 +372,7 @@ void ProjectSettings::slotDeleteUnused()
         }
     }
     // make sure our urls are not used in another clip
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         if (clip->isIncludedInTimeline()) {
             QUrl url(clip->getOriginalUrl());
             if (url.isValid() && toDelete.contains(url.path())) toDelete.removeAll(url.path());
@@ -437,12 +436,12 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     subtitles->setExpanded(true);
     int count = 0;
     QStringList allFonts;
-    for (const QString &file : qAsConst(m_lumas)) {
+    for (const QString &file : std::as_const(m_lumas)) {
         count++;
         new QTreeWidgetItem(images, QStringList() << file);
     }
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
+    for (const std::shared_ptr<ProjectClip> &clip : std::as_const(clipList)) {
         switch (clip->clipType()) {
         case ClipType::Color:
         case ClipType::Timeline:
@@ -457,10 +456,12 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
             break;
         }
         case ClipType::Text: {
-            new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
-            QString titleData = clip->getProducerProperty(QStringLiteral("xmldata"));
+            if (!clip->clipUrl().isEmpty()) {
+                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
+            }
+            const QString titleData = clip->getProducerProperty(QStringLiteral("xmldata"));
             const QStringList imagefiles = TitleWidget::extractImageList(titleData, pCore->currentDoc()->documentRoot());
-            const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            const QStringList fonts = TitleWidget::extractFontList(titleData);
             for (const QString &file : imagefiles) {
                 new QTreeWidgetItem(images, QStringList() << file);
             }
@@ -469,23 +470,29 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         }
         case ClipType::Audio:
             new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl());
+            count++;
             break;
         case ClipType::Image:
             new QTreeWidgetItem(images, QStringList() << clip->clipUrl());
+            count++;
             break;
         case ClipType::Playlist: {
             new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl());
+            count++;
             const QStringList files = extractPlaylistUrls(clip->clipUrl());
             for (const QString &file : files) {
                 new QTreeWidgetItem(others, QStringList() << file);
+                count++;
             }
             break;
         }
         case ClipType::Unknown:
             new QTreeWidgetItem(others, QStringList() << clip->clipUrl());
+            count++;
             break;
         default:
             new QTreeWidgetItem(videos, QStringList() << clip->clipUrl());
+            count++;
             break;
         }
     }

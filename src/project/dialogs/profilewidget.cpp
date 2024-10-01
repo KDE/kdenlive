@@ -8,7 +8,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "profilewidget.h"
 #include "kdenlivesettings.h"
-#include "kxmlgui_version.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profiles/tree/profilefilter.hpp"
@@ -139,7 +138,7 @@ void ProfileWidget::refreshFpsCombo()
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_fpsFilt->addItem(i18n("Any"), -1);
     auto all_fps = ProfileRepository::get()->getAllFps();
-    for (double fps : qAsConst(all_fps)) {
+    for (double fps : std::as_const(all_fps)) {
         m_fpsFilt->addItem(locale.toString(fps), fps);
     }
     if (currentValue.isValid()) {

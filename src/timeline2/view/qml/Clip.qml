@@ -46,7 +46,9 @@ Rectangle {
     property int clipStatus: 0
     property int itemType: 0
     property int fadeIn: 0
+    property int fadeInMethod: 0
     property int fadeOut: 0
+    property int fadeOutMethod: 0
     property int binId: 0
     property int positionOffset: 0
     property var parentTrack
@@ -78,7 +80,7 @@ Rectangle {
     property int mouseXPos: mouseArea.mouseX
     width : Math.round(clipDuration * timeScale)
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
-    enabled: !clipDropArea.containsDrag
+    enabled: !clipDropArea.containsDrag && !compoArea.containsDrag
 
     signal trimmingIn(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedIn(var clip, bool shiftTrim, bool controlTrim)
@@ -379,8 +381,10 @@ Rectangle {
         }
 
         onExited: {
+            if (!dragProxyArea.pressed) {
+                root.endDragIfFocused(clipRoot.clipId)
+            }
             if (pressed) {
-                root.endDrag()
                 if (!trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !compInArea.containsMouse && !compOutArea.containsMouse) {
                     timeline.showToolTip()
                 }
@@ -400,7 +404,18 @@ Rectangle {
             //clip: true
             asynchronous: true
             visible: status == Loader.Ready
-            source: (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === ProducerType.Color) ? "" : parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : timeline.showThumbnails ? "ClipThumbs.qml" : ""
+            source: {
+                if (clipRoot.hideClipViews || clipRoot.itemType == 0 || clipRoot.itemType === ProducerType.Color) {
+                    return ""
+                }
+                if (parentTrack.isAudio) {
+                    return timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : ""
+                }
+                if (timeline.showThumbnails) {
+                    return "ClipThumbs.qml"
+                }
+                return ""
+            }
             onStatusChanged: {
                 if (!parentTrack.isAudio && thumbsLoader.item) {
                     thumbsLoader.item.initialSpeed = clipRoot.speed
@@ -413,7 +428,22 @@ Rectangle {
             color: 'transparent'
             id: itemBorder
             anchors.fill: parent
-            border.color: (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting) ? "#ff0000" : clipRoot.selected ? root.selectionColor : grouped ? root.groupColor : borderColor
+            border.color: {
+                let placeholder = (clipStatus === ClipStatus.StatusMissing || ClipStatus === ClipStatus.StatusWaiting || clipStatus === ClipStatus.StatusDeleting)
+                if (placeholder) {
+                    return "#ff0000"
+                }
+
+                if (clipRoot.selected) {
+                    return root.selectionColor
+                }
+
+                if (grouped) {
+                    return root.groupColor
+                }
+
+                return borderColor
+            }
             border.width: isGrabbed ? 8 : 2
         }
 
@@ -531,41 +561,45 @@ Rectangle {
                             root.trimInProgress = false;
                         }
                         onPositionChanged: mouse => {
-                            if (mouse.buttons === Qt.LeftButton) {
-                                var currentFrame = Math.round(x / clipRoot.timeScale)
-                                if (currentFrame != previousMix) {
-                                    parent.width = currentFrame * clipRoot.timeScale
-                                    sizeChanged = true
-                                    if (currentFrame > previousMix) {
-                                        timeline.showToolTip(i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
-                                    } else {
-                                        timeline.showToolTip(i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
-                                    }
-                                } else {
-                                    timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
-                                }
-                                if (x < mixCutPos.x) {
-                                    // This will delete the mix
-                                    mixBackground.anchors.bottom = mixContainer.top
-                                } else {
-                                    mixBackground.anchors.bottom = mixContainer.bottom
-                                }
+                            if (mouse.buttons !== Qt.LeftButton) {
+                                return
                             }
+                            var currentFrame = Math.round(x / clipRoot.timeScale)
+                            if (currentFrame != previousMix) {
+                                parent.width = currentFrame * clipRoot.timeScale
+                                sizeChanged = true
+                                if (currentFrame > previousMix) {
+                                    timeline.showToolTip(i18n("+%1, Mix duration: %2", timeline.simplifiedTC(currentFrame - previousMix), timeline.simplifiedTC(currentFrame)))
+                                } else {
+                                    timeline.showToolTip(i18n("-%1, Mix duration: %2", timeline.simplifiedTC(previousMix - currentFrame), timeline.simplifiedTC(currentFrame)))
+                                }
+                            } else {
+                                timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(currentFrame)))
+                            }
+                            if (x < mixCutPos.x) {
+                                // This will delete the mix
+                                mixBackground.anchors.bottom = mixContainer.top
+                            } else {
+                                mixBackground.anchors.bottom = mixContainer.bottom
+                            }
+
                         }
                         onEntered: {
-                            if (!pressed) {
-                                mixOut.color = 'red'
-                                timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
+                            if (pressed) {
+                                return
                             }
+                            mixOut.color = 'red'
+                            timeline.showToolTip(i18n("Mix duration: %1", timeline.simplifiedTC(clipRoot.mixDuration)))
                         }
                         onExited: {
-                            if (!pressed) {
-                                mixOut.color = itemBorder.border.color
-                                if (!mouseArea.containsMouse) {
-                                    timeline.showToolTip()
-                                } else {
-                                    clipRoot.showClipInfo()
-                                }
+                            if (pressed) {
+                                return
+                            }
+                            mixOut.color = itemBorder.border.color
+                            if (!mouseArea.containsMouse) {
+                                timeline.showToolTip()
+                            } else {
+                                clipRoot.showClipInfo()
                             }
                         }
                         Rectangle {
@@ -648,7 +682,22 @@ Rectangle {
                 x: -itemBorder.border.width
                 height: parent.height
                 width: root.baseUnit / 2
-                visible: enabled && (root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0 && !controller.hasClipEndMix(clipRoot.clipId)))
+                visible: {
+                    if (!enabled) {
+                        return false
+                    }
+
+                    if (root.activeTool === ProjectTool.SelectTool) {
+                        return true
+                    }
+
+                    let hasMix = clipRoot.mixDuration > 0 || controller.hasClipEndMix(clipRoot.clipId)
+                    if (root.activeTool === ProjectTool.RippleTool && !hasMix) {
+                        return true
+                    }
+
+                    return false
+                }
                 enabled: !isLocked && (pressed || (container.handleVisible && (mixArea.enabled || clipRoot.mixDuration == 0))) && clipRoot.clipId == dragProxy.draggedItem
                 hoverEnabled: true
                 drag.target: trimInMouseArea
@@ -668,7 +717,7 @@ Rectangle {
                     if (!shiftTrim && (clipRoot.grouped || controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
-                    if (root.activeTool === ProjectTool.RippleTool) {
+                    if (root.activeTool === ProjectTool.RippleTool) { //TODO
                         timeline.requestStartTrimmingMode(clipRoot.clipId, false, false);
                     }
                     trimIn.opacity = 0
@@ -685,7 +734,7 @@ Rectangle {
                             root.endDrag()
                         }
                     } else {
-                        if (root.activeTool === ProjectTool.RippleTool) {
+                        if (root.activeTool === ProjectTool.RippleTool) { //TODO
                             timeline.requestEndTrimmingMode();
                         }
                         root.groupTrimData = undefined
@@ -762,7 +811,10 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimInMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimInMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)) && !mouseArea.drag.active && parent.enabled)
+                    visible: trimInMouseArea.pressed || (
+                                 (root.activeTool === ProjectTool.SelectTool
+                                  || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                                  ) && !mouseArea.drag.active && parent.enabled)
 
                     /*ToolTip {
                         visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
@@ -790,7 +842,8 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 hoverEnabled: true
-                visible: enabled && (root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0))
+                visible: enabled && (root.activeTool === ProjectTool.SelectTool
+                                     || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0))
                 enabled: !isLocked && (pressed || container.handleVisible) && clipRoot.clipId == dragProxy.draggedItem
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -903,7 +956,10 @@ Rectangle {
                     opacity: 0
                     Drag.active: trimOutMouseArea.drag.active
                     Drag.proposedAction: Qt.MoveAction
-                    visible: trimOutMouseArea.pressed || ((root.activeTool === ProjectTool.SelectTool || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)) && !mouseArea.drag.active && parent.enabled)
+                    visible: trimOutMouseArea.pressed || (
+                                 (root.activeTool === ProjectTool.SelectTool
+                                  || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                                 ) && !mouseArea.drag.active && parent.enabled)
                 }
             }
 
@@ -911,6 +967,7 @@ Rectangle {
                 // Green fade in triangle
                 id: fadeInTriangle
                 fillColor: 'green'
+                curveType: clipRoot.fadeInMethod
                 width: Math.min(clipRoot.fadeIn * clipRoot.timeScale, container.width)
                 height: parent.height
                 anchors.left: parent.left
@@ -922,12 +979,14 @@ Rectangle {
                 // Red fade out triangle
                 id: fadeOutCanvas
                 fillColor: 'red'
+                curveType: clipRoot.fadeOutMethod
                 width: Math.min(clipRoot.fadeOut * clipRoot.timeScale, container.width)
                 height: parent.height
                 anchors.right: parent.right
                 anchors.top: parent.top
+                endFade: true
                 opacity: 0.4
-                transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2}
+                transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2 }
             }
 
             Item {
@@ -1140,7 +1199,8 @@ Rectangle {
                 clip: true
                 anchors.fill: parent
                 asynchronous: true
-                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && clipRoot.width > 2 * root.baseUnit
+                property bool hasKeyframes: false
+                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * root.baseUnit
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item
@@ -1201,7 +1261,7 @@ Rectangle {
         states: [
             State {
                 name: 'locked'
-                when: isLocked
+                when: clipRoot.isLocked === true
                 PropertyChanges {
                     target: clipRoot
                     color: root.lockedColor

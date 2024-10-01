@@ -21,7 +21,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
 {
     auto model = AbstractTreeModel::construct();
 
-    REQUIRE(model->checkConsistency());
+    REQUIRE(KdenliveTests::checkModelConsistency(model));
     REQUIRE(model->rowCount() == 0);
 
     SECTION("Item creation Test")
@@ -29,19 +29,19 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         auto item = TreeItem::construct(QList<QVariant>{QString("test")}, model, false);
         int id = item->getId();
         REQUIRE(item->depth() == 0);
-        REQUIRE(model->checkConsistency());
+        REQUIRE(KdenliveTests::checkModelConsistency(model));
 
         // check that a valid Id has been assigned
         REQUIRE(id != -1);
 
         // check that the item is not yet registered (not valid parent)
-        REQUIRE(model->m_allItems.size() == 1);
+        REQUIRE(KdenliveTests::modelSize(model) == 1);
 
         // Assign this to a parent
         model->getRoot()->appendChild(item);
-        REQUIRE(model->checkConsistency());
+        REQUIRE(KdenliveTests::checkModelConsistency(model));
         // Now the item should be registered, we query it
-        REQUIRE(model->m_allItems.size() == 2);
+        REQUIRE(KdenliveTests::modelSize(model) == 2);
         REQUIRE(model->getItemById(id) == item);
         REQUIRE(item->depth() == 1);
         REQUIRE(model->rowCount() == 1);
@@ -53,7 +53,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         // Try joint creation / assignation
         auto item2 = item->appendChild(QList<QVariant>{QString("test2")});
         auto state = [&]() {
-            REQUIRE(model->checkConsistency());
+            REQUIRE(KdenliveTests::checkModelConsistency(model));
             REQUIRE(item->depth() == 1);
             REQUIRE(item2->depth() == 2);
             REQUIRE(model->rowCount() == 1);
@@ -64,14 +64,14 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         };
         state();
         REQUIRE(model->rowCount(model->getIndexFromItem(item)) == 1);
-        REQUIRE(model->m_allItems.size() == 3);
+        REQUIRE(KdenliveTests::modelSize(model) == 3);
 
         // Add a second child to item to check if everything collapses
         auto item3 = item->appendChild(QList<QVariant>{QString("test3")});
         state();
         REQUIRE(model->rowCount(model->getIndexFromItem(item3)) == 0);
         REQUIRE(model->rowCount(model->getIndexFromItem(item)) == 2);
-        REQUIRE(model->m_allItems.size() == 4);
+        REQUIRE(KdenliveTests::modelSize(model) == 4);
         REQUIRE(item3->depth() == 2);
         REQUIRE(item3->row() == 1);
         REQUIRE(model->data(model->getIndexFromItem(item3), 0) == QStringLiteral("test3"));
@@ -81,7 +81,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
     {
         auto item = model->getRoot()->appendChild(QList<QVariant>{QString("test")});
         auto state = [&]() {
-            REQUIRE(model->checkConsistency());
+            REQUIRE(KdenliveTests::checkModelConsistency(model));
             REQUIRE(model->rowCount() == 1);
             REQUIRE(item->depth() == 1);
             REQUIRE(item->row() == 0);
@@ -124,7 +124,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
 
         // valid move
         REQUIRE(item4->changeParent(item2));
-        REQUIRE(model->checkConsistency());
+        REQUIRE(KdenliveTests::checkModelConsistency(model));
     }
 
     SECTION("Deregistration tests")
@@ -136,7 +136,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         auto item4 = item3->appendChild(QList<QVariant>{QString("test4")});
         auto item5 = item2->appendChild(QList<QVariant>{QString("test5")});
         auto state = [&]() {
-            REQUIRE(model->checkConsistency());
+            REQUIRE(KdenliveTests::checkModelConsistency(model));
             REQUIRE(model->rowCount() == 1);
             REQUIRE(item->depth() == 1);
             REQUIRE(item->row() == 0);
@@ -158,7 +158,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
             REQUIRE(item5->row() == 1);
             REQUIRE(model->data(model->getIndexFromItem(item5), 0) == QStringLiteral("test5"));
             REQUIRE(model->rowCount(model->getIndexFromItem(item5)) == 0);
-            REQUIRE(model->m_allItems.size() == 6);
+            REQUIRE(KdenliveTests::modelSize(model) == 6);
             REQUIRE(item->isInModel());
             REQUIRE(item2->isInModel());
             REQUIRE(item3->isInModel());
@@ -169,7 +169,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
 
         // deregister the topmost item, should also deregister its children
         item->changeParent(std::shared_ptr<TreeItem>());
-        REQUIRE(model->m_allItems.size() == 1);
+        REQUIRE(KdenliveTests::modelSize(model) == 1);
         REQUIRE(model->rowCount() == 0);
         REQUIRE(!item->isInModel());
         REQUIRE(!item2->isInModel());
@@ -184,7 +184,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         item2->removeChild(item5);
         REQUIRE(!item5->isInModel());
         REQUIRE(model->rowCount(model->getIndexFromItem(item2)) == 1);
-        REQUIRE(model->m_allItems.size() == 5);
+        REQUIRE(KdenliveTests::modelSize(model) == 5);
 
         // reinsert
         REQUIRE(item5->changeParent(item2));
@@ -209,15 +209,15 @@ TEST_CASE("Effect filter text-matching logic")
         item->setData(AssetTreeModel::NameCol, "This is K-denlive");
 
         filter.setFilterName(true, "wORL");
-        CHECK(filter.filterName(item) == true);
+        CHECK(KdenliveTests::effectFilterName(filter, item) == true);
 
         // should not search across spaces
         filter.setFilterName(true, "Thisis");
-        CHECK(filter.filterName(item) == false);
+        CHECK(KdenliveTests::effectFilterName(filter, item) == false);
 
         // should ignore punctuation
         filter.setFilterName(true, "Kden");
-        CHECK(filter.filterName(item) == true);
+        CHECK(KdenliveTests::effectFilterName(filter, item) == true);
     }
 
     // Tests for bug 432699 where filtering the effects list in Chinese fails
@@ -229,13 +229,13 @@ TEST_CASE("Effect filter text-matching logic")
         item->setData(AssetTreeModel::NameCol, "ミュート");
 
         filter.setFilterName(true, "音");
-        CHECK(filter.filterName(item) == true);
+        CHECK(KdenliveTests::effectFilterName(filter, item) == true);
         filter.setFilterName(true, "默");
-        CHECK(filter.filterName(item) == false);
+        CHECK(KdenliveTests::effectFilterName(filter, item) == false);
 
         // should ignore punctuation
         filter.setFilterName(true, "ミュ");
-        CHECK(filter.filterName(item) == true);
+        CHECK(KdenliveTests::effectFilterName(filter, item) == true);
     }
 
     SECTION("Ignores diacritics")
@@ -246,8 +246,8 @@ TEST_CASE("Effect filter text-matching logic")
 
         // should be able to search with and without diacritics
         filter.setFilterName(true, "defile");
-        CHECK(filter.filterName(item) == true);
+        CHECK(KdenliveTests::effectFilterName(filter, item) == true);
         filter.setFilterName(true, "ilé");
-        CHECK(filter.filterName(item) == true);
+        CHECK(KdenliveTests::effectFilterName(filter, item) == true);
     }
 }

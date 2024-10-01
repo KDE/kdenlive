@@ -17,7 +17,6 @@
 #include "widgets/timecodedisplay.h"
 #include <profiles/profilemodel.hpp>
 
-#include "utils/KMessageBox_KdenliveCompat.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequesterDialog>
@@ -617,6 +616,8 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
 
     // Settings menu
     QMenu *menu = new QMenu(this);
+    m_modelsMenu = new QMenu(i18n("Speech Model"), this);
+    menu->addMenu(m_modelsMenu);
     m_translateAction = new QAction(i18n("Translate to English"), this);
     m_translateAction->setCheckable(true);
     menu->addAction(m_translateAction);
@@ -632,7 +633,10 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     });
 
     m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, []() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech); });
+    connect(m_voskConfig, &QAction::triggered, this, [this]() {
+        info_message->animatedHide();
+        pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech);
+    });
 
     // Visual text editor
     auto *l = new QVBoxLayout;
@@ -660,7 +664,9 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     insertMenu->addAction(saveAsPlaylist);
     button_insert->setMenu(insertMenu);
     button_insert->setDefaultAction(createSequence);
-    button_insert->setToolTip(i18n("Create new sequence with text edit "));
+    button_insert->setToolTip(i18n("Create new sequence with text edit"));
+    button_search->setToolTip(i18n("Search in text"));
+    language_box->setToolTip(i18n("Language"));
 
     connect(createSequence, &QAction::triggered, this, &TextBasedEdit::createSequence);
     connect(insertSelection, &QAction::triggered, this, &TextBasedEdit::insertToTimeline);
@@ -674,7 +680,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         insertSelection->setEnabled(hasSelection);
     });
 
-    button_start->setEnabled(false);
+    enableEditActions(false, false);
     connect(button_start, &QPushButton::clicked, this, &TextBasedEdit::startRecognition);
     frame_progress->setVisible(false);
     connect(button_abort, &QToolButton::clicked, this, [this]() {
@@ -684,33 +690,47 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             m_tCodeJob->kill();
         }
     });
-    language_box->setToolTip(i18n("Speech model"));
-    speech_language->setToolTip(i18n("Speech language"));
     connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
         if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
             return;
         }
-        language_box->clear();
-        language_box->addItems(models);
-
+        m_modelsMenu->clear();
+        delete m_modelsGroup;
+        m_modelsGroup = new QActionGroup(this);
+        QAction *a = nullptr;
+        for (auto &m : models) {
+            a = m_modelsMenu->addAction(m);
+            a->setData(m);
+            a->setCheckable(true);
+            m_modelsGroup->addAction(a);
+        }
         if (models.isEmpty()) {
             showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_voskConfig);
         } else {
+            bool found = false;
+            QList<QAction *> acts = m_modelsMenu->actions();
             if (!KdenliveSettings::vosk_text_model().isEmpty() && models.contains(KdenliveSettings::vosk_text_model())) {
-                int ix = language_box->findText(KdenliveSettings::vosk_text_model());
-                if (ix > -1) {
-                    language_box->setCurrentIndex(ix);
+                for (auto &a : acts) {
+                    if (a->data().toString() == KdenliveSettings::vosk_text_model()) {
+                        a->setChecked(true);
+                        found = true;
+                        break;
+                    }
                 }
+            }
+            if (!found && !acts.isEmpty()) {
+                QAction *a = acts.first();
+                a->setChecked(true);
             }
         }
     });
-    connect(language_box, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [this]() {
+    connect(m_modelsMenu, &QMenu::triggered, this, [this](QAction *a) {
         if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
-            const QString modelName = language_box->currentData().toString();
-            speech_language->setEnabled(!modelName.endsWith(QLatin1String(".en")));
+            const QString modelName = a->data().toString();
+            language_box->setEnabled(!modelName.endsWith(QLatin1String(".en")));
             KdenliveSettings::setWhisperModel(modelName);
         } else {
-            KdenliveSettings::setVosk_text_model(language_box->currentText());
+            KdenliveSettings::setVosk_text_model(a->data().toString());
         }
     });
     info_message->hide();
@@ -720,7 +740,11 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(m_logAction, &QAction::triggered, this, [this]() { KMessageBox::error(this, m_errorString, i18n("Detailed log")); });
 
     speech_zone->setChecked(KdenliveSettings::speech_zone());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
+    connect(speech_zone, &QCheckBox::checkStateChanged, [](Qt::CheckState state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });
+#else
     connect(speech_zone, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });
+#endif
     button_delete->setDefaultAction(m_visualEditor->deleteAction);
     button_delete->setToolTip(i18n("Delete selected text"));
     connect(m_visualEditor->deleteAction, &QAction::triggered, this, &TextBasedEdit::deleteItem);
@@ -730,19 +754,16 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(m_visualEditor->bookmarkAction, &QAction::triggered, this, &TextBasedEdit::addBookmark);
 
     // Zoom
-    QAction *zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("zoom-in")), i18n("Zoom In"), this);
+    QAction *zoomIn = new QAction(QIcon::fromTheme(QStringLiteral("format-font-size-more")), i18n("Increase Font Size"), this);
     connect(zoomIn, &QAction::triggered, this, &TextBasedEdit::slotZoomIn);
-    QAction *zoomOut = new QAction(QIcon::fromTheme(QStringLiteral("zoom-out")), i18n("Zoom Out"), this);
+    button_font_more->setDefaultAction(zoomIn);
+    QAction *zoomOut = new QAction(QIcon::fromTheme(QStringLiteral("format-font-size-less")), i18n("Decrease Font Size"), this);
     connect(zoomOut, &QAction::triggered, this, &TextBasedEdit::slotZoomOut);
-    QAction *removeSilence = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Remove non speech zones"), this);
+    button_font_less->setDefaultAction(zoomOut);
+
+    QAction *removeSilence = new QAction(QIcon::fromTheme(QStringLiteral("edit-delete-remove")), i18n("Remove non speech zones"), this);
     connect(removeSilence, &QAction::triggered, m_visualEditor, &VideoTextEdit::slotRemoveSilence);
-    // Build menu
-    QMenu *extraMenu = new QMenu(this);
-    extraMenu->addAction(zoomIn);
-    extraMenu->addAction(zoomOut);
-    extraMenu->addSeparator();
-    extraMenu->addAction(removeSilence);
-    subMenu->setMenu(extraMenu);
+    button_remove_silence->setDefaultAction(removeSilence);
 
     // Message Timer
     m_hideTimer.setSingleShot(true);
@@ -852,35 +873,45 @@ void TextBasedEdit::updateEngine()
     delete m_stt;
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         m_stt = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
-        language_box->clear();
+        m_modelsMenu->clear();
+        delete m_modelsGroup;
+        m_modelsGroup = new QActionGroup(this);
         QList<std::pair<QString, QString>> whisperModels = m_stt->whisperModels();
+        QAction *a = nullptr;
+        bool found = false;
         for (auto &w : whisperModels) {
-            language_box->addItem(w.first, w.second);
+            a = m_modelsMenu->addAction(w.first);
+            a->setCheckable(true);
+            a->setData(w.second);
+            m_modelsGroup->addAction(a);
+            if (w.second == KdenliveSettings::whisperModel()) {
+                a->setChecked(true);
+                found = true;
+            }
         }
-        int ix = language_box->findData(KdenliveSettings::whisperModel());
+        if (!found) {
+            QList<QAction *> acts = m_modelsMenu->actions();
+            if (!acts.isEmpty()) {
+                acts.first()->setChecked(true);
+            }
+        }
+        language_box->clear();
+        QMap<QString, QString> languages = m_stt->whisperLanguages();
+        QMapIterator<QString, QString> j(languages);
+        while (j.hasNext()) {
+            j.next();
+            language_box->addItem(j.key(), j.value());
+        }
+        int ix = language_box->findData(KdenliveSettings::whisperLanguage());
         if (ix > -1) {
             language_box->setCurrentIndex(ix);
         }
-        if (speech_language->count() == 0) {
-            // Fill whisper languages
-            QMap<QString, QString> languages = m_stt->whisperLanguages();
-            QMapIterator<QString, QString> j(languages);
-            while (j.hasNext()) {
-                j.next();
-                speech_language->addItem(j.key(), j.value());
-            }
-            int ix = speech_language->findData(KdenliveSettings::whisperLanguage());
-            if (ix > -1) {
-                speech_language->setCurrentIndex(ix);
-            }
-        }
-        speech_language->setEnabled(!KdenliveSettings::whisperModel().endsWith(QLatin1String(".en")));
-        speech_language->setVisible(true);
+        language_box->setEnabled(!KdenliveSettings::whisperModel().endsWith(QLatin1String(".en")));
+        language_box->setVisible(true);
     } else {
         // VOSK
-        speech_language->setVisible(false);
+        language_box->setVisible(false);
         m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
-        language_box->clear();
         m_stt->parseVoskDictionaries();
     }
 }
@@ -932,8 +963,10 @@ void TextBasedEdit::startRecognition()
             showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_voskConfig);
             return;
         }
-        modelName = language_box->currentData().toString();
-        language = speech_language->isEnabled() ? speech_language->currentData().toString().simplified() : QString();
+        if (m_modelsGroup->checkedAction()) {
+            modelName = m_modelsGroup->checkedAction()->data().toString();
+        }
+        language = language_box->isEnabled() ? language_box->currentData().toString().simplified() : QString();
         if (!language.isEmpty()) {
             language.prepend(QStringLiteral("language="));
         }
@@ -947,7 +980,9 @@ void TextBasedEdit::startRecognition()
             return;
         }
         // Start python script
-        modelName = language_box->currentText();
+        if (m_modelsGroup->checkedAction()) {
+            modelName = m_modelsGroup->checkedAction()->data().toString();
+        }
         if (modelName.isEmpty()) {
             showMessage(i18n("Please install a language model."), KMessageWidget::Warning, m_voskConfig);
             return;
@@ -978,7 +1013,7 @@ void TextBasedEdit::startRecognition()
             clipName = clipItem->clipName();
             hasAudio = clipItem->hasAudio();
             if (speech_zone->isChecked()) {
-                // Analyse clip zone only
+                // Analyze clip zone only
                 QPoint zone = clipItem->zone();
                 m_lastPosition = zone.x();
                 m_clipOffset = GenTime(zone.x(), pCore->getCurrentFps()).seconds();
@@ -1088,7 +1123,7 @@ void TextBasedEdit::startRecognition()
         button_insert->setEnabled(false);
         if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
             // Whisper
-            qDebug() << "=== STARTING Whisper reco: " << m_stt->speechScript() << " / " << language_box->currentData() << " / "
+            qDebug() << "=== STARTING Whisper reco: " << m_stt->speechScript() << " / " << language_box->currentData().toString() << " / "
                      << KdenliveSettings::whisperDevice() << " / "
                      << (KdenliveSettings::whisperTranslate() ? QStringLiteral("translate") : QStringLiteral("transcribe")) << " / " << m_sourceUrl
                      << ", START: " << m_clipOffset << ", DUR: " << endPos << " / " << language;
@@ -1127,12 +1162,14 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
     if (status == QProcess::CrashExit) {
         showMessage(i18n("Speech recognition aborted."), KMessageWidget::Warning, m_errorString.isEmpty() ? nullptr : m_logAction);
     } else if (m_visualEditor->toPlainText().isEmpty()) {
+        enableEditActions(false);
         if (m_errorString.contains(QStringLiteral("ModuleNotFoundError"))) {
             showMessage(i18n("Error, please check the speech to text configuration."), KMessageWidget::Warning, m_voskConfig);
         } else {
             showMessage(i18n("No speech detected."), KMessageWidget::Information, m_errorString.isEmpty() ? nullptr : m_logAction);
         }
     } else {
+        enableEditActions(true);
         // Last empty object - no speech detected
         if (KdenliveSettings::speechEngine() != QLatin1String("whisper")) {
             // VOSK
@@ -1150,7 +1187,6 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
             }
         }
 
-        button_insert->setEnabled(true);
         showMessage(i18n("Speech recognition finished."), KMessageWidget::Positive);
         // Store speech analysis in clip properties
         std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
@@ -1436,7 +1472,7 @@ void TextBasedEdit::previewPlaylist(bool createNew)
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("kdenlive:baseid"), m_binId);
     QStringList playZones;
-    for (const auto &p : qAsConst(zones)) {
+    for (const auto &p : std::as_const(zones)) {
         playZones << QString("%1:%2").arg(p.x()).arg(p.y());
     }
     properties.insert(QStringLiteral("kdenlive:cutzones"), playZones.join(QLatin1Char(';')));
@@ -1497,7 +1533,7 @@ void TextBasedEdit::createSequence()
         // Aborting
         return;
     }
-    for (const auto &p : qAsConst(zones)) {
+    for (const auto &p : std::as_const(zones)) {
         if (p.y() > p.x()) {
             pCore->window()->getCurrentTimeline()->controller()->insertZone(m_binId, p, false, undo, redo);
         }
@@ -1558,7 +1594,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
                 clipNameLabel->setText(refClip->clipName());
             }
             QStringList zones = clip->getProducerProperty("kdenlive:cutzones").split(QLatin1Char(';'));
-            for (const QString &z : qAsConst(zones)) {
+            for (const QString &z : std::as_const(zones)) {
                 cutZones << QPoint(z.section(QLatin1Char(':'), 0, 0).toInt(), z.section(QLatin1Char(':'), 1, 1).toInt());
             }
         } else {
@@ -1568,8 +1604,7 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
         }
         if (speech.isEmpty()) {
             // Nothing else to do
-            button_insert->setEnabled(false);
-            button_start->setEnabled(true);
+            enableEditActions(false, true);
             return;
         }
         m_visualEditor->insertHtml(speech);
@@ -1577,10 +1612,9 @@ void TextBasedEdit::openClip(std::shared_ptr<ProjectClip> clip)
             m_visualEditor->processCutZones(cutZones);
         }
         m_visualEditor->rebuildZones();
-        button_insert->setEnabled(true);
-        button_start->setEnabled(true);
+        enableEditActions(true);
     } else {
-        button_start->setEnabled(false);
+        enableEditActions(false, false);
         clipNameLabel->clear();
         m_visualEditor->cleanup();
     }
@@ -1615,4 +1649,13 @@ void TextBasedEdit::addBookmark()
     } else {
         qDebug() << "==== NO CLIP FOR " << m_binId;
     }
+}
+
+void TextBasedEdit::enableEditActions(bool enable, bool enableStart)
+{
+    button_insert->setEnabled(enable);
+    button_delete->setEnabled(enable);
+    button_remove_silence->setEnabled(enable);
+    button_search->setEnabled(enable);
+    button_start->setEnabled(enableStart);
 }

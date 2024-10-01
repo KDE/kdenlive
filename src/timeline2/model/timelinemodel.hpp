@@ -105,6 +105,7 @@ public:
     friend class MarkerListModel;
     friend class TimeRemap;
     friend struct TimelineFunctions;
+    friend class KdenliveTests;
 
     bool isClosed{true};
     Q_PROPERTY(QString visibleSequenceName MEMBER m_visibleSequenceName NOTIFY visibleSequenceNameChanged)
@@ -153,6 +154,8 @@ public:
         TrackTagRole,         /// track only
         FadeInRole,           /// clip only
         FadeOutRole,          /// clip only
+        FadeInMethodRole,     /// clip only
+        FadeOutMethodRole,    /// clip only
         FileHashRole,         /// clip only
         SpeedRole,            /// clip only
         ClipThumbRole,        /// clip only
@@ -163,6 +166,7 @@ public:
         ItemIdRole,
         ThumbsFormatRole,   /// track only
         EffectNamesRole,    /// track and clip only
+        EffectCountRole,    /// track and clip only
         EffectsEnabledRole, /// track and clip only
         GrabbedRole,        /// clip+composition only
         SelectedRole,       /// clip+composition only
@@ -212,7 +216,7 @@ public:
     Q_INVOKABLE int getClipTrackId(int clipId) const;
 
     /** @brief Returns the row of the effect if the clip has it in its effectstack, -1 otherwise */
-    int clipAssetRow(int cid, const QString &assetId) const;
+    int clipAssetRow(int cid, const QString &assetId, int eid = -1) const;
 
     /** @brief Returns the id of the track containing composition (-1 if it is not inserted)
        @param clipId Id of the composition to test */
@@ -223,6 +227,7 @@ public:
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     int getSubtitlePosition(int subId) const;
+    int getSubtitleLayer(int subId) const;
     int getCompositionPlaytime(int compoId) const;
     int getCompositionEnd(int compoId) const;
     std::pair<int, int> getMixInOut(int cid) const;
@@ -235,7 +240,9 @@ public:
     int getItemPlaytime(int itemId) const;
     /** @brief Returns an item's out point on its track, item can be clip, subtitle or composition */
     int getItemEnd(int itemId) const;
-
+    /** @brief Returns a clip in / out frames */
+    std::pair<int, int> getClipInOut(int cid) const;
+    bool clipIsValid(int cid) const;
     /** @brief Returns the subplaylist index of a clip in a track */
     int getClipSubPlaylistIndex(int cid) const;
     /** @brief Returns the name of a timeline clip */
@@ -373,6 +380,7 @@ public:
        @param trackId Id of the track to test
     */
     int getPreviousVideoTrackIndex(int trackId) const;
+    int getTopVideoTrackIndex();
 
     /** @brief Set the marker model on this timeline (usually the marker model from its Bin Sequence clip.
      */
@@ -405,13 +413,14 @@ public:
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true,
                                      bool invalidateTimeline = false, bool revertMove = false);
-    Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool finalMove = false, bool fakeMove = false);
-    bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo);
+    Q_INVOKABLE bool requestSubtitleMove(int clipId, int layer, int position, bool updateView = true, bool logUndo = true, bool finalMove = false,
+                                         bool fakeMove = false);
+    bool requestSubtitleMove(int clipId, int layer, int position, bool updateView, bool first, bool last, bool finalMove, Fun &undo, Fun &redo);
     /** @brief return the previous blank frame on a track */
     Q_INVOKABLE int getPreviousBlank(int trackId, int pos);
     /** @brief return the next blank frame on a track */
     Q_INVOKABLE int getNextBlank(int trackId, int pos);
-    int cutSubtitle(int position, Fun &undo, Fun &redo);
+    int cutSubtitle(int layer, int position, Fun &undo, Fun &redo);
     bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView,
                         bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
@@ -451,7 +460,7 @@ public:
     Q_INVOKABLE QVariantList suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
     Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true,
                                              bool fakeMove = false);
-    Q_INVOKABLE int suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance, bool fakeMove = false);
+    Q_INVOKABLE int suggestSubtitleMove(int subId, int newLayer, int position, int cursorPosition, int snapDistance, bool fakeMove = false);
     Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool fakeMove = false);
     /** @brief returns the frame pos adjusted to edit mode
      */
@@ -531,6 +540,8 @@ protected:
 
     /** @brief Switch item selection status */
     void setSelected(int itemId, bool sel);
+    /** @brief Check if selection is 2 clips from the same bin clip and check offset */
+    void checkAndUpdateOffset(std::unordered_set<int> pairIds);
 
 public:
     /** @brief Deletes the given clip or composition from the timeline.
@@ -720,7 +731,7 @@ protected:
      *  @returns a pair with { original group id of the element, the id of the other element
      *  in the group if it was a 2 items group and group was deleted in the operation }
      */
-    std::pair<int, int> extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo);
+    std::pair<int, int> extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo, bool onDeletion = false);
 
 public:
     /** @brief Requests the next snapped point
@@ -779,7 +790,7 @@ public:
 
     /** @brief Get a timeline clip id by its position or -1 if not found
      */
-    int getClipByPosition(int trackId, int position, int playlist = -1) const;
+    int getClipByPosition(int trackId, int position, int playlistOrLayer = -1) const;
     int getClipByStartPosition(int trackId, int position) const;
 
     /** @brief Get a timeline composition id by its starting position or -1 if not found
@@ -787,8 +798,8 @@ public:
     int getCompositionByPosition(int trackId, int position) const;
     /** @brief Get a timeline subtitle id by its starting position or -1 if not found
      */
-    int getSubtitleByStartPosition(int position) const;
-    int getSubtitleByPosition(int position) const;
+    int getSubtitleByStartPosition(int layer, int position) const;
+    int getSubtitleByPosition(int layer, int position) const;
 
     /** @brief Returns a list of all items that are intersect with a given range.
      * @param trackId is the id of the track for concerned items. Setting trackId to -1 returns items on all tracks
@@ -1016,8 +1027,6 @@ Q_SIGNALS:
     void checkItemDeletion(int cid);
     /** @brief request animation of the track tid lock icon */
     void flashLock(int tid);
-    /** @brief Save guide categories in document properties */
-    void saveGuideCategories();
     /** @brief Highlight a subtitle item in timeline */
     void highlightSub(int index);
     /** @brief The visible sequence name has to be changed */
@@ -1091,6 +1100,7 @@ protected:
 protected:
     /** @brief Rebuild track compositing */
     virtual void buildTrackCompositing(bool rebuild = false) = 0;
+    virtual void removeTrackCompositing() = 0;
     virtual void _beginRemoveRows(const QModelIndex &, int, int) = 0;
     virtual void _beginInsertRows(const QModelIndex &, int, int) = 0;
     virtual void _endRemoveRows() = 0;

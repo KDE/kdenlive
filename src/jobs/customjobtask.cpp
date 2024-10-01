@@ -164,6 +164,7 @@ void CustomJobTask::run()
     if (!binClip) {
         return;
     }
+    m_clipPointer = binClip.get();
     QString source = binClip->url();
     QString folderId = binClip->parent()->clipId();
     const QString binary = m_parameters.value(QLatin1String("binary"));
@@ -208,7 +209,7 @@ void CustomJobTask::run()
             fixedName.append(QString::asprintf("-%04d", 1));
         } else {
             const int currentSuffix = match.captured(1).toInt();
-            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("%04d", currentSuffix + 1));
         }
         destPath = baseDir.absoluteFilePath(fixedName + extension);
         while (QFileInfo::exists(destPath) || requestedOutput.contains(destPath)) {
@@ -216,13 +217,31 @@ void CustomJobTask::run()
             // increase the number
             match = regex.match(fixedName);
             const int currentSuffix = match.captured(1).toInt();
-            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("-%04d", currentSuffix + 1));
+            fixedName.replace(match.capturedStart(1), match.capturedLength(1), QString::asprintf("%04d", currentSuffix + 1));
             destPath = baseDir.absoluteFilePath(fixedName + extension);
         }
     }
     // Extract frame is necessary
     requestedOutput << destPath;
-    parameters << jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    QStringList splitParameters;
+    QStringList quotedStrings;
+    if (jobParameters.contains(QLatin1Char('"'))) {
+        quotedStrings = jobParameters.split(QLatin1Char('"'));
+    } else if (jobParameters.contains(QLatin1Char('\''))) {
+        quotedStrings = jobParameters.split(QLatin1Char('\''));
+    }
+    if (!quotedStrings.isEmpty()) {
+        for (int ix = 0; ix < quotedStrings.size(); ix++) {
+            if (ix % 2 == 0) {
+                splitParameters << quotedStrings.at(ix).split(QLatin1Char(' '), Qt::SkipEmptyParts);
+                continue;
+            }
+            splitParameters << quotedStrings.at(ix).simplified();
+        }
+    } else {
+        splitParameters = jobParameters.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+    }
+    parameters << splitParameters;
 
     bool outputPlaced = false;
     for (auto &p : parameters) {
@@ -249,6 +268,13 @@ void CustomJobTask::run()
         }
         if (p.contains(QStringLiteral("{param2}"))) {
             p.replace(QStringLiteral("{param2}"), m_parameters.value(QLatin1String("param2value")));
+        }
+        if (p.startsWith(QLatin1Char('"')) && p.endsWith(QLatin1Char('"'))) {
+            p.remove(0, 1);
+            p.chop(1);
+        } else if (p.startsWith(QLatin1Char('\'')) && p.endsWith(QLatin1Char('\''))) {
+            p.remove(0, 1);
+            p.chop(1);
         }
     }
     if (!outputPlaced) {
@@ -281,7 +307,7 @@ void CustomJobTask::run()
     requestedOutput.removeAll(destPath);
     // remove temporary playlist if it exists
     m_progress = 100;
-    QMetaObject::invokeMethod(m_object, "updateJobProgress");
+    QMetaObject::invokeMethod(m_clipPointer, "updateJobProgress");
     if (result) {
         if (QFileInfo(destPath).size() == 0) {
             QFile::remove(destPath);
@@ -343,15 +369,21 @@ void CustomJobTask::processLogInfo()
                     progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
                 }
             }
-            m_progress = 100 * progress / m_jobDuration;
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = 100 * progress / m_jobDuration;
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_clipPointer, "updateJobProgress");
+            }
             // emit jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse MLT output
         if (buffer.contains(QLatin1String("percentage:"))) {
-            m_progress = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
-            QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            int val = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_clipPointer, "updateJobProgress");
+            }
         }
     }
 }
