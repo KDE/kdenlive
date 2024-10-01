@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-29 00:39+0000\n"
+"POT-Creation-Date: 2024-10-01 00:39+0000\n"
 "PO-Revision-Date: 2024-01-31 01:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -5060,13 +5060,13 @@ msgstr "Valitse leike tehosteen käyttämiseksi"
 msgid "Cannot apply effects on folders"
 msgstr "Tehosteita ei voi käyttää kansioihin"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:633
-#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
+#: src/effects/effectstack/model/effectstackmodel.cpp:656
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Tehostetta ei voitu lisätä tähän leikkeeseen"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:594
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
 #, kde-format
 msgid "Paste effect"
 msgstr "Liitä tehoste"
@@ -5283,7 +5283,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Muuntaminen ilman tallennusta"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:173
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
@@ -9810,44 +9810,44 @@ msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 "Jotkut sinun suosimat tehosteet ovat virheellisiä ja ne poistettiin: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:269
+#: src/effects/effectstack/model/effectitemmodel.cpp:270
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Piilota leikekehykset"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:269
+#: src/effects/effectstack/model/effectitemmodel.cpp:270
 #, kde-format
 msgid "Show keyframes"
 msgstr "Näytä leikekehykset"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:350
+#: src/effects/effectstack/model/effectitemmodel.cpp:351
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Päivitä aluetta %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:275
+#: src/effects/effectstack/model/effectstackmodel.cpp:292
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, kde-format
 msgid "Copy effect"
 msgstr "Kopioi tehoste"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:371
-#: src/effects/effectstack/model/effectstackmodel.cpp:514
-#: src/effects/effectstack/model/effectstackmodel.cpp:619
-#: src/effects/effectstack/model/effectstackmodel.cpp:1404
+#: src/effects/effectstack/model/effectstackmodel.cpp:388
+#: src/effects/effectstack/model/effectstackmodel.cpp:531
+#: src/effects/effectstack/model/effectstackmodel.cpp:636
+#: src/effects/effectstack/model/effectstackmodel.cpp:1421
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Tehostetta %1 ei voi lisätä kahdesti."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:610
+#: src/effects/effectstack/model/effectstackmodel.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "Lisää tehoste %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1162
+#: src/effects/effectstack/model/effectstackmodel.cpp:1179
 #, kde-format
 msgid "Move effect %1"
 msgstr "Siirrä tehoste %1"

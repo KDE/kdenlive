@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-29 00:39+0000\n"
+"POT-Creation-Date: 2024-10-01 00:39+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -5170,14 +5170,14 @@ msgstr "Odabrati snimak ako želite primijeniti efekt"
 msgid "Cannot apply effects on folders"
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:633
-#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
+#: src/effects/effectstack/model/effectstackmodel.cpp:656
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:594
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
@@ -5424,7 +5424,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Dekodiranje"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:173
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Delete effect"
@@ -10077,25 +10077,25 @@ msgstr "Izbriši efekat"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:269
+#: src/effects/effectstack/model/effectitemmodel.cpp:270
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide keyframes"
 msgstr "Sakrij okvir"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:269
+#: src/effects/effectstack/model/effectitemmodel.cpp:270
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show keyframes"
 msgstr "Izbriši glavni okvir"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:350
+#: src/effects/effectstack/model/effectitemmodel.cpp:351
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update zone for %1"
 msgstr "Ažuriraj profil"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:275
+#: src/effects/effectstack/model/effectstackmodel.cpp:292
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, fuzzy, kde-format
@@ -10103,15 +10103,15 @@ msgstr "Ažuriraj profil"
 msgid "Copy effect"
 msgstr "Uredi efekat %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:371
-#: src/effects/effectstack/model/effectstackmodel.cpp:514
-#: src/effects/effectstack/model/effectstackmodel.cpp:619
-#: src/effects/effectstack/model/effectstackmodel.cpp:1404
+#: src/effects/effectstack/model/effectstackmodel.cpp:388
+#: src/effects/effectstack/model/effectstackmodel.cpp:531
+#: src/effects/effectstack/model/effectstackmodel.cpp:636
+#: src/effects/effectstack/model/effectstackmodel.cpp:1421
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:610
+#: src/effects/effectstack/model/effectstackmodel.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, fuzzy, kde-format
@@ -10119,7 +10119,7 @@ msgstr ""
 msgid "Add effect %1"
 msgstr "Uredi efekat %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1162
+#: src/effects/effectstack/model/effectstackmodel.cpp:1179
 #, fuzzy, kde-format
 #| msgid "Move effect"
 msgid "Move effect %1"

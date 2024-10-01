@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-29 00:39+0000\n"
+"POT-Creation-Date: 2024-10-01 00:39+0000\n"
 "PO-Revision-Date: 2024-09-23 21:10+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4950,13 +4950,13 @@ msgstr "選取素材來套用效果"
 msgid "Cannot apply effects on folders"
 msgstr "無法將效果套用在資料夾上"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:633
-#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
+#: src/effects/effectstack/model/effectstackmodel.cpp:656
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "無法新增效果到素材上"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:594
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
 #, kde-format
 msgid "Paste effect"
 msgstr "貼上效果"
@@ -5170,7 +5170,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "繼續轉換編碼而不儲存"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:173
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
@@ -9540,44 +9540,44 @@ msgstr "匯出自訂效果"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "您加入最愛的一些效果是無效的而已被移除：%1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:269
+#: src/effects/effectstack/model/effectitemmodel.cpp:270
 #, kde-format
 msgid "Hide keyframes"
 msgstr "隱藏關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:269
+#: src/effects/effectstack/model/effectitemmodel.cpp:270
 #, kde-format
 msgid "Show keyframes"
 msgstr "顯示關鍵幀"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:350
+#: src/effects/effectstack/model/effectitemmodel.cpp:351
 #, kde-format
 msgid "Update zone for %1"
 msgstr "為 %1 更新區段"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:275
+#: src/effects/effectstack/model/effectstackmodel.cpp:292
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, kde-format
 msgid "Copy effect"
 msgstr "複製效果"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:371
-#: src/effects/effectstack/model/effectstackmodel.cpp:514
-#: src/effects/effectstack/model/effectstackmodel.cpp:619
-#: src/effects/effectstack/model/effectstackmodel.cpp:1404
+#: src/effects/effectstack/model/effectstackmodel.cpp:388
+#: src/effects/effectstack/model/effectstackmodel.cpp:531
+#: src/effects/effectstack/model/effectstackmodel.cpp:636
+#: src/effects/effectstack/model/effectstackmodel.cpp:1421
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 無法加入兩次。"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:610
+#: src/effects/effectstack/model/effectstackmodel.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "添加效果 %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1162
+#: src/effects/effectstack/model/effectstackmodel.cpp:1179
 #, kde-format
 msgid "Move effect %1"
 msgstr "移動效果 %1"

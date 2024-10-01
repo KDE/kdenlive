@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-29 00:39+0000\n"
+"POT-Creation-Date: 2024-10-01 00:39+0000\n"
 "PO-Revision-Date: 2024-09-21 11:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -5100,13 +5100,13 @@ msgstr "Seleccioneu un clip per a aplicar-hi un efecte"
 msgid "Cannot apply effects on folders"
 msgstr "No es poden aplicar efectes a les carpetes"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:633
-#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
+#: src/effects/effectstack/model/effectstackmodel.cpp:656
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "No s'ha pogut afegir un efecte al clip"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:594
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
 #, kde-format
 msgid "Paste effect"
 msgstr "Enganxa l'efecte"
@@ -5324,7 +5324,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificació sense desar"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:173
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
@@ -9829,44 +9829,44 @@ msgstr "Exportació d'efecte personalitzat"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Diversos efectes preferits no són vàlids i s'han eliminat: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:269
+#: src/effects/effectstack/model/effectitemmodel.cpp:270
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Oculta els fotogrames clau"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:269
+#: src/effects/effectstack/model/effectitemmodel.cpp:270
 #, kde-format
 msgid "Show keyframes"
 msgstr "Mostra els fotogrames clau"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:350
+#: src/effects/effectstack/model/effectitemmodel.cpp:351
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Actualitza la zona per a %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:275
+#: src/effects/effectstack/model/effectstackmodel.cpp:292
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, kde-format
 msgid "Copy effect"
 msgstr "Copia l'efecte"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:371
-#: src/effects/effectstack/model/effectstackmodel.cpp:514
-#: src/effects/effectstack/model/effectstackmodel.cpp:619
-#: src/effects/effectstack/model/effectstackmodel.cpp:1404
+#: src/effects/effectstack/model/effectstackmodel.cpp:388
+#: src/effects/effectstack/model/effectstackmodel.cpp:531
+#: src/effects/effectstack/model/effectstackmodel.cpp:636
+#: src/effects/effectstack/model/effectstackmodel.cpp:1421
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "No es pot afegir l'efecte %1 dues vegades."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:610
+#: src/effects/effectstack/model/effectstackmodel.cpp:627
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "Afegeix l'efecte %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1162
+#: src/effects/effectstack/model/effectstackmodel.cpp:1179
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mou l'efecte %1"
