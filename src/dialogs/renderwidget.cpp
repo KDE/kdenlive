@@ -104,6 +104,10 @@ void RenderJobItem::setStatus(int status)
         setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
         setData(1, Qt::UserRole, i18n("Waiting…"));
         break;
+    case STARTINGJOB:
+        setIcon(0, QIcon::fromTheme(QStringLiteral("media-record")));
+        setData(1, Qt::UserRole, i18n("Starting…"));
+        break;
     case FINISHEDJOB:
         setData(1, Qt::UserRole, i18n("Rendering finished"));
         setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
@@ -1248,16 +1252,14 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
         item = static_cast<RenderJobItem *>(existing.at(0));
     } else {
         item = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << dest);
-        if (progress == 0) {
-            item->setStatus(WAITINGJOB);
-        }
     }
     item->setData(1, ProgressRole, progress);
-    item->setStatus(RUNNINGJOB);
     if (progress == 0) {
+        item->setStatus(STARTINGJOB);
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("media-record")));
         slotCheckJob();
     } else {
+        item->setStatus(RUNNINGJOB);
         QDateTime startTime = item->data(1, StartTimeRole).toDateTime();
         if (startTime.isNull()) {
             // Recovering a job
