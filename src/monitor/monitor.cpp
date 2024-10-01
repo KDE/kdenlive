@@ -1645,7 +1645,7 @@ void Monitor::slotRefreshMonitor(bool visible)
 
 void Monitor::forceMonitorRefresh()
 {
-    if (!slotActivateMonitor()) {
+    if (!slotTemporaryActivateMonitor()) {
         return;
     }
     m_glMonitor->refresh();

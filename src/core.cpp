@@ -921,7 +921,25 @@ void Core::refreshProjectItem(const ObjectId &id)
         }
         break;
     case KdenliveObjectType::Master:
-        refreshProjectMonitorOnce();
+        if (m_monitorManager->isActive(Kdenlive::ProjectMonitor)) {
+            if (m_monitorManager->clipMonitorVisible()) {
+                m_monitorManager->activateMonitor(Kdenlive::ClipMonitor, false);
+                m_monitorManager->refreshClipMonitor(true);
+            }
+            if (m_monitorManager->projectMonitorVisible()) {
+                m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor, false);
+                m_monitorManager->refreshProjectMonitor(true);
+            }
+        } else {
+            if (m_monitorManager->projectMonitorVisible()) {
+                m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor, false);
+                m_monitorManager->refreshProjectMonitor(true);
+            }
+            if (m_monitorManager->clipMonitorVisible()) {
+                m_monitorManager->activateMonitor(Kdenlive::ClipMonitor, false);
+                m_monitorManager->refreshClipMonitor(true);
+            }
+        }
         break;
     default:
         qWarning() << "unhandled object type";

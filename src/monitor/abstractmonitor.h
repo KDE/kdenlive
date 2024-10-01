@@ -78,6 +78,7 @@ public Q_SLOTS:
     virtual void refreshMonitorIfActive(bool directUpdate = false) = 0;
     virtual void slotMouseSeek(int eventDelta, uint modifiers) = 0;
     bool slotActivateMonitor();
+    bool slotTemporaryActivateMonitor();
     virtual void slotSwitchFullScreen(bool minimizeOnly = false) = 0;
 
 protected:
