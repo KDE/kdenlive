@@ -1406,6 +1406,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             effectEnabled = filter->get_int("disable") == 0;
+            bool forcedInOut = filter->get_int("kdenlive:force_in_out") == 1;
             if (disabledStack && filter->get_int("kdenlive:bin-disabled") == 0) {
                 disabledStack = false;
             }
@@ -1455,7 +1456,10 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             }
             effect->prepareKeyframes(clipIn, clipOut);
             if (redo()) {
-                if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
+                if (forcedInOut) {
+                    effect->filter().set("in", filter->get_in());
+                    effect->filter().set("out", filter->get_out());
+                } else if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
                     m_fadeIns.insert(effect->getId());
                     if (effect->filter().get_int("in") != clipIn) {
                         // Broken fade, fix
