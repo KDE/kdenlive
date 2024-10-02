@@ -1469,6 +1469,11 @@ void Core::showEffectZone(ObjectId id, QPair<int, int> inOut, bool checked)
     if (m_guiConstructed && id.type != KdenliveObjectType::BinClip) {
         auto tl = m_mainWindow->getTimeline(id.uuid);
         if (tl) {
+            if (id.type == KdenliveObjectType::TimelineClip) {
+                int offset = getItemPosition(id);
+                inOut.first += offset;
+                inOut.second += offset;
+            }
             tl->controller()->showRulerEffectZone(inOut, checked);
         }
     }

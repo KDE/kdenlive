@@ -182,7 +182,14 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
-            m_inPos->setValue(pCore->getMonitorPosition());
+            int pos = pCore->getMonitorPosition();
+            if (m_model->getOwnerId().type == KdenliveObjectType::TimelineClip) {
+                int min = pCore->getItemPosition(m_model->getOwnerId());
+                int duration = pCore->getItemDuration(m_model->getOwnerId());
+                pos -= min;
+                pos = qBound(0, pos, duration);
+            }
+            m_inPos->setValue(pos);
         }
         updateEffectZone();
     });
@@ -190,7 +197,14 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         if (m_model->getOwnerId().type == KdenliveObjectType::BinClip) {
             m_outPos->setValue(pCore->getMonitor(Kdenlive::ClipMonitor)->position());
         } else {
-            m_outPos->setValue(pCore->getMonitorPosition());
+            int pos = pCore->getMonitorPosition();
+            if (m_model->getOwnerId().type == KdenliveObjectType::TimelineClip) {
+                int min = pCore->getItemPosition(m_model->getOwnerId());
+                int duration = pCore->getItemDuration(m_model->getOwnerId());
+                pos -= min;
+                pos = qBound(m_inPos->getValue(), pos, duration);
+            }
+            m_outPos->setValue(pos);
         }
         updateEffectZone();
     });
@@ -1023,8 +1037,7 @@ void CollapsibleEffectView::switchInOut(bool checked)
     if (inOut.first == inOut.second || !checked) {
         ObjectId owner = m_model->getOwnerId();
         switch (owner.type) {
-        case KdenliveObjectType::BinClip:
-        case KdenliveObjectType::TimelineClip: {
+        case KdenliveObjectType::BinClip: {
             int lastOut = m_model->filter().get_int("_kdenlive_zone_out");
             if (lastOut > 0) {
                 int in = m_model->filter().get_int("_kdenlive_zone_in");
@@ -1051,6 +1064,31 @@ void CollapsibleEffectView::switchInOut(bool checked)
             }
             break;
         }
+        case KdenliveObjectType::TimelineClip: {
+            if (!checked) {
+                inOut = {0, 0};
+            } else {
+                int lastOut = m_model->filter().get_int("_kdenlive_zone_out");
+                if (lastOut > 0) {
+                    int in = m_model->filter().get_int("_kdenlive_zone_in");
+                    inOut = {in, lastOut};
+                } else {
+                    int clipIn = pCore->getItemPosition(owner);
+                    int clipOut = clipIn + pCore->getItemDuration(owner);
+                    int in = pCore->getMonitorPosition();
+                    if (in > clipIn && in < clipOut) {
+                        // Cursor is inside the clip, set zone from here
+                        in = in - clipIn;
+                    } else {
+                        in = 0;
+                    }
+                    int out = in + pCore->getDurationFromString(KdenliveSettings::transition_duration());
+                    out = qBound(in, out, clipOut);
+                    inOut = {in, out};
+                }
+            }
+            break;
+        }
         default:
             qDebug() << "== UNSUPPORTED ITEM TYPE FOR EFFECT RANGE: " << int(owner.type);
             break;
@@ -1073,6 +1111,15 @@ void CollapsibleEffectView::updateInOut(QPair<int, int> inOut, bool withUndo)
     QString effectId = m_model->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
     if (inOut.first > -1) {
+        ObjectId owner = m_model->getOwnerId();
+        if (owner.type == KdenliveObjectType::TimelineClip) {
+            int in = pCore->getItemPosition(owner);
+            int duration = pCore->getItemDuration(owner);
+            inOut.first -= in;
+            inOut.second -= in;
+            inOut.first = qBound(0, inOut.first, duration);
+            inOut.second = qBound(inOut.first, inOut.second, duration);
+        }
         m_model->setInOut(effectName, inOut, true, withUndo);
         m_inPos->setValue(inOut.first);
         m_outPos->setValue(inOut.second);
