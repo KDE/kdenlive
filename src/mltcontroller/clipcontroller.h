@@ -35,6 +35,7 @@ class ClipController
 {
 public:
     friend class Bin;
+    friend class ClipPropertiesController;
     /**
      * @brief Constructor.
      The constructor is protected because you should call the static Construct instead
@@ -241,6 +242,8 @@ protected:
     QString m_temporaryUrl;
     /** @brief A unique id identifying this clip, will never change. */
     QUuid m_controlUuid;
+    // Extra properties set by the clip
+    QMap<QString, QString> m_extraProperties;
 
 private:
     /** @brief Temporarily store clip properties until producer is available */

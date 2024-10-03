@@ -395,41 +395,45 @@ void ClipLoadTask::run()
         if (producer) {
             QFile f(resource);
             QDomDocument doc;
-            doc.setContent(&f);
-            f.close();
-            if (resource.endsWith(QLatin1String(".kdenlive"))) {
-                QDomElement pl = doc.documentElement().firstChildElement(QStringLiteral("playlist"));
-                if (!pl.isNull()) {
-                    QString offsetData = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.seekOffset"));
-                    if (offsetData.isEmpty() && Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.version")) == QLatin1String("0.98")) {
-                        offsetData = QStringLiteral("30000");
-                    }
-                    if (!offsetData.isEmpty()) {
-                        bool ok = false;
-                        int offset = offsetData.toInt(&ok);
-                        if (ok) {
-                            qDebug() << " / / / FIXING OFFSET DATA: " << offset;
-                            offset = producer->get_playtime() - offset - 1;
-                            producer->set("out", offset - 1);
-                            producer->set("length", offset);
-                            producer->set("kdenlive:duration", producer->frames_to_time(offset));
+            if (f.open(QIODevice::ReadOnly)) {
+                doc.setContent(&f);
+                f.close();
+                if (resource.endsWith(QLatin1String(".kdenlive"))) {
+                    QDomElement pl = doc.documentElement().firstChildElement(QStringLiteral("playlist"));
+                    if (!pl.isNull()) {
+                        QString offsetData = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.seekOffset"));
+                        if (offsetData.isEmpty() && Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.version")) == QLatin1String("0.98")) {
+                            offsetData = QStringLiteral("30000");
+                        }
+                        if (!offsetData.isEmpty()) {
+                            bool ok = false;
+                            int offset = offsetData.toInt(&ok);
+                            if (ok) {
+                                qDebug() << " / / / FIXING OFFSET DATA: " << offset;
+                                offset = producer->get_playtime() - offset - 1;
+                                producer->set("out", offset - 1);
+                                producer->set("length", offset);
+                                producer->set("kdenlive:duration", producer->frames_to_time(offset));
+                            }
+                        } else {
+                            qDebug() << "// NO OFFSET DAT FOUND\n\n";
                         }
                     } else {
-                        qDebug() << "// NO OFFSET DAT FOUND\n\n";
+                        qDebug() << "EMPTY PLAYLIST\n----";
                     }
-                } else {
-                    qDebug() << ":_______\n______<nEMPTY PLAYLIST\n----";
+                } else if (resource.endsWith(QLatin1String(".mlt"))) {
+                    // Find the last tractor and check if it has a duration
+                    QDomElement tractor = doc.documentElement().lastChildElement(QStringLiteral("tractor"));
+                    QString duration = Xml::getXmlProperty(tractor, QStringLiteral("kdenlive:duration"));
+                    if (!duration.isEmpty()) {
+                        int frames = producer->time_to_frames(duration.toUtf8().constData());
+                        producer->set("out", frames - 1);
+                        producer->set("length", frames);
+                        producer->set("kdenlive:duration", duration.toUtf8().constData());
+                    }
                 }
-            } else if (resource.endsWith(QLatin1String(".mlt"))) {
-                // Find the last tractor and check if it has a duration
-                QDomElement tractor = doc.documentElement().lastChildElement(QStringLiteral("tractor"));
-                QString duration = Xml::getXmlProperty(tractor, QStringLiteral("kdenlive:duration"));
-                if (!duration.isEmpty()) {
-                    int frames = producer->time_to_frames(duration.toUtf8().constData());
-                    producer->set("out", frames - 1);
-                    producer->set("length", frames);
-                    producer->set("kdenlive:duration", duration.toUtf8().constData());
-                }
+            } else {
+                qDebug() << "==== CANNOT OPEN FILE: " << resource;
             }
         }
         break;

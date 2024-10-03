@@ -807,13 +807,6 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         return nullptr;
     }
     std::unique_ptr<Mlt::Producer> thumbProd;
-    if (m_clipType == ClipType::Playlist) {
-        QReadLocker lock(&pCore->xmlMutex);
-        // thumbProd.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", m_thumbXml.constData()));
-        thumbProd.reset(masterProducer());
-        m_thumbMutex.unlock();
-        return thumbProd;
-    }
     if (!m_thumbXml.isEmpty()) {
         QReadLocker lock(&pCore->xmlMutex);
         thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
@@ -829,8 +822,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         if (mltService == QLatin1String("avformat")) {
             mltService = QStringLiteral("avformat-novalidate");
         }
-        thumbProd.reset(new Mlt::Producer(m_clipType == ClipType::Playlist ? pCore->getProjectProfile() : pCore->thumbProfile(),
-                                          mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
     }
     if (thumbProd->is_valid()) {
         Mlt::Properties original(m_masterProducer->get_properties());
@@ -1652,7 +1644,7 @@ const QString ProjectClip::getFileHash()
             return QString();
         }
     }
-    QString result = fileHash.toHex();
+    const QString result = fileHash.toHex();
     ClipController::setProducerProperty(QStringLiteral("kdenlive:file_hash"), result);
     return result;
 }

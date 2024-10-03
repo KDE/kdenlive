@@ -1480,6 +1480,14 @@ void ClipPropertiesController::fillProperties()
         int tracks = m_sourceProperties->get_int("kdenlive:sequenceproperties.tracksCount");
         qDebug() << "============\nUPDATING TRACKS CNT: " << tracks << "\n============";
         propertyMap.append({i18n("Tracks:"), QString::number(tracks)});
+    } else if (m_type == ClipType::Playlist) {
+        // The sequence unique identifier
+        QMap<QString, QString> extra = m_controller->m_extraProperties;
+        QMapIterator<QString, QString> ix(extra);
+        while (ix.hasNext()) {
+            ix.next();
+            propertyMap.append({ix.key(), ix.value()});
+        }
     }
 
     qint64 filesize = m_sourceProperties->get_int64("kdenlive:file_size");

@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "lib/localeHandling.h"
 #include "macros.hpp"
+#include "playlistclip.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "projectclip.h"
@@ -888,9 +889,16 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     ClipType::ProducerType type = ClipType::Unknown;
     if (description.hasAttribute(QStringLiteral("type"))) {
         type = ClipType::ProducerType(description.attribute(QStringLiteral("type")).toInt());
+    } else {
+        const QString resource = Xml::getXmlProperty(description, QStringLiteral("resource"));
+        if (resource.endsWith(QLatin1String(".kdenlive")) || resource.endsWith(QLatin1String(".mlt"))) {
+            type = ClipType::Playlist;
+        }
     }
     if (type == ClipType::Timeline) {
         new_clip = SequenceClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    } else if (type == ClipType::Playlist) {
+        new_clip = PlaylistClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     } else {
         new_clip = ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
     }
@@ -937,11 +945,15 @@ bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Produ
         } else {
             type = ClipType::Timeline;
         }
+    } else if (producerService == QLatin1String("xml")) {
+        type = ClipType::Playlist;
     }
 
     std::shared_ptr<ProjectClip> new_clip;
     if (type == ClipType::Timeline) {
         new_clip = SequenceClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
+    } else if (type == ClipType::Playlist) {
+        new_clip = PlaylistClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
     } else {
         new_clip = ProjectClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
     }
