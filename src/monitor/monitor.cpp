@@ -1136,7 +1136,7 @@ void Monitor::mouseReleaseEvent(QMouseEvent *event)
     }
     if (event->button() != Qt::RightButton) {
         if (m_glMonitor->geometry().contains(event->pos())) {
-            if (isActive()) {
+            if (isActive() && KdenliveSettings::play_monitor_on_click()) {
                 slotPlay();
             } else {
                 slotActivateMonitor();
