@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-26 02:30+0000\n"
-"PO-Revision-Date: 2024-09-14 16:29+0200\n"
+"PO-Revision-Date: 2024-10-02 17:19+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -15155,7 +15155,7 @@ msgstr "Salva copia..."
 #: src/project/projectmanager.cpp:154
 #, kde-format
 msgid "Open Backup File…"
-msgstr "Apri la copia di sicurezza…"
+msgstr "Apri copia di sicurezza…"
 
 #: src/project/projectmanager.cpp:442
 #, kde-format
@@ -21799,7 +21799,7 @@ msgstr "Sovrapposizione:"
 #: src/ui/renderwidget_ui.ui:615
 #, kde-format
 msgid "Aspect Ratio:"
-msgstr "Proporzioni:"
+msgstr "Rapporto d'aspetto:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:637
