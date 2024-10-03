@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-02 00:39+0000\n"
+"POT-Creation-Date: 2024-10-03 00:39+0000\n"
 "PO-Revision-Date: 2024-08-29 20:57-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -3751,7 +3751,7 @@ msgid "Failed to load preset %1"
 msgstr "No fue posible cargar el ajuste %1"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:265
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
 #, kde-format
 msgid "Reset Effect"
 msgstr "Restablecer efecto"
@@ -5490,7 +5490,7 @@ msgstr "Importar archivo con doble clic"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:565
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5672,7 +5672,7 @@ msgid "Move subtitle"
 msgstr "Mover subtítulo"
 
 #: src/bin/model/subtitlemodel.cpp:1228
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:591
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:370
@@ -6208,7 +6208,7 @@ msgstr "El perfil del proyecto no es válido, el procesamiento podría fallar."
 msgid "Loading clips"
 msgstr "Cargando clips"
 
-#: src/core.cpp:1782
+#: src/core.cpp:1787
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -6216,7 +6216,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1783
+#: src/core.cpp:1788
 #, fuzzy, kde-format
 #| msgid "Media Browser"
 msgid "Open Browser"
@@ -6635,7 +6635,7 @@ msgstr "Exportar datos de guías"
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:667
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:681
 #: src/effects/effectstack/view/effectstackview.cpp:807
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9895,7 +9895,7 @@ msgstr "Copiar efecto"
 #: src/effects/effectstack/model/effectstackmodel.cpp:388
 #: src/effects/effectstack/model/effectstackmodel.cpp:531
 #: src/effects/effectstack/model/effectstackmodel.cpp:636
-#: src/effects/effectstack/model/effectstackmodel.cpp:1421
+#: src/effects/effectstack/model/effectstackmodel.cpp:1422
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "El efecto %1 no puede ser agregado dos veces."
@@ -10054,12 +10054,12 @@ msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Define la posición actual del cursor de tiempo como final de la zona."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
 #, kde-format
 msgid "Use effect zone"
 msgstr "Usar zona de efecto"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:213
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -10067,13 +10067,13 @@ msgstr "Mostrar la zona de efecto."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:260
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Ajustes"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:261
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -10081,12 +10081,12 @@ msgstr ""
 "Abre una lista de opciones avanzadas para administrar ajustes "
 "predeterminados para el efecto."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:335
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:349
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instancias de este efecto en el grupo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:501
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10097,28 +10097,28 @@ msgstr ""
 "otro clip de proyecto para copiarlo. <b>Alt+arrastrar</b> para copiarlo a un "
 "único elemento del grupo."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:525
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "Disable %1"
 msgstr "Deshabilitar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:525
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "Enable %1"
 msgstr "Habilitar %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:561
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Guardar efecto…"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:566
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:580
 #, kde-format
 msgid "Comments:"
 msgstr "Comentarios:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:582
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:596
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "No se proporcionó ningún nombre. No se guardó el efecto."
