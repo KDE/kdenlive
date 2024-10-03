@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-02 00:39+0000\n"
-"PO-Revision-Date: 2024-09-14 16:29+0200\n"
+"POT-Creation-Date: 2024-10-03 00:39+0000\n"
+"PO-Revision-Date: 2024-10-02 17:19+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3741,7 +3741,7 @@ msgid "Failed to load preset %1"
 msgstr "Impossibile caricare la preimpostazione %1"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:265
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
 #, kde-format
 msgid "Reset Effect"
 msgstr "Ripristina effetto"
@@ -5482,7 +5482,7 @@ msgstr "Importa file al doppio clic"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:565
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5664,7 +5664,7 @@ msgid "Move subtitle"
 msgstr "Sposta sottotitolo"
 
 #: src/bin/model/subtitlemodel.cpp:1228
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:591
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:370
@@ -6198,19 +6198,21 @@ msgstr ""
 msgid "Loading clips"
 msgstr "Caricamento clip"
 
-#: src/core.cpp:1782
+#: src/core.cpp:1787
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
 "following url:\n"
 " %1"
 msgstr ""
+"Questa opzione aprirà un browser per visualizzare la documentazione in linea "
+"di Kdenlive al seguente url:\n"
+" %1"
 
-#: src/core.cpp:1783
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#: src/core.cpp:1788
+#, kde-format
 msgid "Open Browser"
-msgstr "Browser multimediale"
+msgstr "Apri il browser"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
@@ -6621,7 +6623,7 @@ msgstr "Esporta i dati delle guide"
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:667
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:681
 #: src/effects/effectstack/view/effectstackview.cpp:807
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -7408,10 +7410,9 @@ msgid "Waiting…"
 msgstr "In attesa…"
 
 #: src/dialogs/renderwidget.cpp:109
-#, fuzzy, kde-format
-#| msgid "Waiting…"
+#, kde-format
 msgid "Starting…"
-msgstr "In attesa…"
+msgstr "Avvio..."
 
 # , kde-format, kde-format
 #: src/dialogs/renderwidget.cpp:112
@@ -8595,21 +8596,19 @@ msgid "Bottom To Top"
 msgstr "Dal basso in alto"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Aumenta dimensione caratteri"
+msgstr "Aumenta dimensione caratteri dell'editor"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Diminuisci dimensione caratteri"
+msgstr "Diminuisci dimensione caratteri dell'editor"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Rimuovi tutta la formattazione personalizzata"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, fuzzy, kde-format
@@ -8624,10 +8623,9 @@ msgstr "Gestisci stili..."
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "Carattere: %1, totale: <b>%2</b>"
+msgstr "Cursore: %1, totale: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -9879,7 +9877,7 @@ msgstr "Copia effetto"
 #: src/effects/effectstack/model/effectstackmodel.cpp:388
 #: src/effects/effectstack/model/effectstackmodel.cpp:531
 #: src/effects/effectstack/model/effectstackmodel.cpp:636
-#: src/effects/effectstack/model/effectstackmodel.cpp:1421
+#: src/effects/effectstack/model/effectstackmodel.cpp:1422
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "L'effetto %1 non può essere aggiunto due volte."
@@ -10040,12 +10038,12 @@ msgstr ""
 "Imposta la posizione corrente del fotogramma o dell'indicatore di "
 "riproduzione come fine della zona."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
 #, kde-format
 msgid "Use effect zone"
 msgstr "Usa zona dell'effetto"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:213
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -10053,13 +10051,13 @@ msgstr "Visualizza o nasconde la zona dell'effetto."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:260
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Preimpostazioni"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:261
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -10067,12 +10065,12 @@ msgstr ""
 "Apre un elenco di opzioni avanzate per gestire le preimpostazioni "
 "dell'effetto."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:335
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:349
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 istanze di questo effetto nel gruppo"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:501
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10083,28 +10081,28 @@ msgstr ""
 "traccia o clip del progetto per copiarlo. <b>Alt + trascinamento</b> lo "
 "copia invece su un singolo elemento del gruppo."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:525
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "Disable %1"
 msgstr "Disabilita %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:525
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "Enable %1"
 msgstr "Abilita %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:561
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Salva effetto"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:566
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:580
 #, kde-format
 msgid "Comments:"
 msgstr "Commenti:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:582
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:596
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Non è stato fornito nessun nome, effetto non salvato."
@@ -15618,7 +15616,7 @@ msgstr "Salva copia..."
 #: src/project/projectmanager.cpp:154
 #, kde-format
 msgid "Open Backup File…"
-msgstr "Apri la copia di sicurezza…"
+msgstr "Apri copia di sicurezza…"
 
 #: src/project/projectmanager.cpp:442
 #, kde-format
@@ -15947,12 +15945,13 @@ msgstr "Dimensione di Python venv: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary directory %1"
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Impossibile creare la cartella temporanea %1"
+msgstr ""
+"Impossibile creare l'ambiente virtuale Python:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format
@@ -22464,7 +22463,7 @@ msgstr "Sovrapposizione:"
 #: src/ui/renderwidget_ui.ui:615
 #, kde-format
 msgid "Aspect Ratio:"
-msgstr "Proporzioni:"
+msgstr "Rapporto d'aspetto:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:637

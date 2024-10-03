@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-02 00:39+0000\n"
+"POT-Creation-Date: 2024-10-03 00:39+0000\n"
 "PO-Revision-Date: 2024-08-26 09:35+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -3702,7 +3702,7 @@ msgid "Failed to load preset %1"
 msgstr "Neizdevās ielādēt priekšiestatījumu „%1“"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:265
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
 #, kde-format
 msgid "Reset Effect"
 msgstr "Atiestatīt efektu"
@@ -5431,7 +5431,7 @@ msgstr "Importē datni ar dubultklikšķi"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:565
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -5613,7 +5613,7 @@ msgid "Move subtitle"
 msgstr "Pārvietot subtitru"
 
 #: src/bin/model/subtitlemodel.cpp:1228
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:591
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:370
@@ -6149,7 +6149,7 @@ msgstr "Jūsu projekts nav derīgs, renderēšana var neizdoties."
 msgid "Loading clips"
 msgstr "Ielādē klipus"
 
-#: src/core.cpp:1782
+#: src/core.cpp:1787
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -6157,7 +6157,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1783
+#: src/core.cpp:1788
 #, fuzzy, kde-format
 #| msgid "Media Browser"
 msgid "Open Browser"
@@ -6565,7 +6565,7 @@ msgstr "Eksportēt palīgnorāžu datus"
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:667
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:681
 #: src/effects/effectstack/view/effectstackview.cpp:807
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -9813,7 +9813,7 @@ msgstr "Kopēt efektu"
 #: src/effects/effectstack/model/effectstackmodel.cpp:388
 #: src/effects/effectstack/model/effectstackmodel.cpp:531
 #: src/effects/effectstack/model/effectstackmodel.cpp:636
-#: src/effects/effectstack/model/effectstackmodel.cpp:1421
+#: src/effects/effectstack/model/effectstackmodel.cpp:1422
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efektu „%1“ nevar pievienot vēlreiz."
@@ -9968,12 +9968,12 @@ msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "Pašreizējo kadru/atskaņošanas pozīciju iestata uz apgabala beigām."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:198
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
 #, kde-format
 msgid "Use effect zone"
 msgstr "Izmantot efekta apgabalu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:199
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:213
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -9981,25 +9981,25 @@ msgstr "Ieslēdz un izslēdz efekta apgabala parādīšanu."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:260
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Priekšiestatījumi"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:261
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 "Atver sarakstu ar papildu opcijām, lai pārvaldītu efekta priekšiestatījumus."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:335
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:349
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 šīs efekta instances grupā"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:501
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10010,28 +10010,28 @@ msgstr ""
 "lai to nokopētu. <b>„Alt“ taustiņš un vilkšana</b> to nokopēs uz atsevišķu "
 "vienumu grupā."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:525
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "Disable %1"
 msgstr "Izslēgt %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:525
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
 #, kde-format
 msgid "Enable %1"
 msgstr "Ieslēgt %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:561
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Saglabāt efektu"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:566
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:580
 #, kde-format
 msgid "Comments:"
 msgstr "Komentāri:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:582
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:596
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Nav norādīts nosaukums, efekts nav saglabāts."
