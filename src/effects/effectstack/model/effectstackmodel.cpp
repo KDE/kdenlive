@@ -78,12 +78,15 @@ void EffectStackModel::loadService(std::weak_ptr<Mlt::Service> service)
         auto ms = m_masterService.lock();
         if (ptr->filter_count() != ms->filter_count()) {
             // Filters mismatch
-            qDebug() << "=============\nCLONE FILTER MISMATCH; RESETTING";
             ms->unlock();
             // Remove all filters from service
-            while (ptr->filter_count() > 0) {
-                std::unique_ptr<Mlt::Filter> filt(ptr->filter(0));
-                ptr->detach(*filt.get());
+            int ix = ptr->filter_count() - 1;
+            while (ix >= 0) {
+                std::unique_ptr<Mlt::Filter> filt(ptr->filter(ix));
+                if (filt->property_exists("kdenlive_id")) {
+                    ptr->detach(*filt.get());
+                }
+                ix--;
             }
             ptr->unlock();
             addService(service);
