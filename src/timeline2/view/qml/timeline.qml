@@ -2022,33 +2022,38 @@ Rectangle {
                                     onReleased: {
                                         clipBeingMovedId = -1
                                         root.blockAutoScroll = false
-                                        if (dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
-                                            var tId = controller.getItemTrackId(dragProxy.draggedItem)
-                                            if (dragProxy.isComposition) {
+                                        var itemId = dragProxy.draggedItem
+                                        var sourceTrack = dragProxy.sourceTrack
+                                        var sourceFrame = dragProxy.sourceFrame
+                                        var isComposition = dragProxy.isComposition
+
+                                        if (itemId > -1 && dragFrame > -1 && (controller.isClip(itemId) || controller.isComposition(itemId))) {
+                                            var tId = controller.getItemTrackId(itemId)
+                                            if (isComposition) {
                                                 if (controller.normalEdit()) {
                                                     // Move composition back to original position
-                                                    controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false)
+                                                    controller.requestCompositionMove(itemId, sourceTrack, sourceFrame, true, false)
                                                     // Move composition to final pos
-                                                    controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true)
+                                                    controller.requestCompositionMove(itemId, tId, dragFrame , true, true)
                                                 } else {
                                                     // Fake move, only process final move
-                                                    timeline.endFakeMove(dragProxy.draggedItem, dragFrame, true, true, true)
+                                                    timeline.endFakeMove(itemId, dragFrame, true, true, true)
                                                 }
                                             } else {
                                                 if (controller.normalEdit()) {
                                                     // Move clip back to original position
-                                                    controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false, true)
+                                                    controller.requestClipMove(itemId, sourceTrack, sourceFrame, moveMirrorTracks, true, false, false, true)
                                                     // Move clip to final pos
-                                                    controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , moveMirrorTracks, true, true, true)
+                                                    controller.requestClipMove(itemId, tId, dragFrame , moveMirrorTracks, true, true, true)
                                                 } else {
                                                     // Fake move, only process final move
-                                                    timeline.endFakeMove(dragProxy.draggedItem, dragFrame, true, true, true)
+                                                    timeline.endFakeMove(itemId, dragFrame, true, true, true)
                                                 }
                                             }
                                             if (dragProxy.masterObject && dragProxy.masterObject.isGrabbed) {
                                                 dragProxy.masterObject.grabItem()
                                             }
-                                            dragProxy.x = controller.getItemPosition(dragProxy.draggedItem) * root.timeScale
+                                            dragProxy.x = controller.getItemPosition(itemId) * root.timeScale
                                             timeline.showToolTip()
                                             //bubbleHelp.hide()
                                             tracksArea.focus = true
