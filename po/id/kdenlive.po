@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-26 02:30+0000\n"
-"PO-Revision-Date: 2024-08-07 07:47+0700\n"
+"PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
 "Language: id\n"
@@ -7462,10 +7462,9 @@ msgid "Add to Current Project"
 msgstr "Tambahkan ke proyek saat ini"
 
 #: src/dialogs/renderwidget.cpp:1900 src/library/librarywidget.cpp:256
-#, fuzzy, kde-format
-#| msgid "Open containing folder"
+#, kde-format
 msgid "Open Containing Folder"
-msgstr "Buka folder yang mengandungnya"
+msgstr "Buka Folder Konten"
 
 #: src/dialogs/speechdialog.cpp:43
 #, kde-format
