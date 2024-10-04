@@ -25,8 +25,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class ClipController;
 
 ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
-                               const QString &timecode, const QMap<QString, QString> &zoneProperties)
-    : AbstractProjectItem(AbstractProjectItem::SubClipItem, id, model)
+                               const QString &timecode, const QMap<QString, QString> &zoneProperties, bool isSequence)
+    : AbstractProjectItem(isSequence ? AbstractProjectItem::SubSequenceItem : AbstractProjectItem::SubClipItem, id, model)
     , m_masterClip(parent)
 {
     m_inPoint = in;
@@ -39,6 +39,9 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
     m_name = zoneProperties.value(QLatin1String("name"));
+    if (zoneProperties.contains(QLatin1String("uuid"))) {
+        m_sequenceUuid = QUuid(zoneProperties.value(QLatin1String("uuid")));
+    }
     if (m_name.isEmpty()) {
         m_name = i18n("Zone %1", parent->childCount() + 1);
     }
@@ -51,9 +54,9 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
 
 std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
                                                           const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
-                                                          const QMap<QString, QString> &zoneProperties)
+                                                          const QMap<QString, QString> &zoneProperties, bool isSequence)
 {
-    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, zoneProperties));
+    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, zoneProperties, isSequence));
     baseFinishConstruct(self);
     return self;
 }
@@ -177,6 +180,11 @@ std::shared_ptr<ProjectClip> ProjectSubClip::getMasterClip() const
 ClipType::ProducerType ProjectSubClip::clipType() const
 {
     return m_masterClip->clipType();
+}
+
+const QUuid ProjectSubClip::sequenceUuid() const
+{
+    return m_sequenceUuid;
 }
 
 bool ProjectSubClip::hasAudioAndVideo() const

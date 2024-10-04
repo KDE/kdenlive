@@ -116,8 +116,9 @@ QDomElement PlaylistClip::toXml(QDomDocument &document, bool includeMeta, bool i
 bool PlaylistClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb, bool clearTrackProducers)
 {
     // Get number of sequences in the project
+    bool result = ProjectClip::setProducer(producer, generateThumb, clearTrackProducers);
     parsePlaylistProps();
-    return ProjectClip::setProducer(producer, generateThumb, clearTrackProducers);
+    return result;
 }
 
 void PlaylistClip::parsePlaylistProps()
@@ -128,6 +129,7 @@ void PlaylistClip::parsePlaylistProps()
     Mlt::Service s(m_masterProducer->parent());
     Mlt::Properties retainList(mlt_properties(s.get_data("xml_retain")));
     if (retainList.is_valid()) {
+        qDebug() << "::::::::::\nRETAIN LIST VALID\n\n::";
         Mlt::Playlist playlist(mlt_playlist(retainList.get_data("main_bin")));
         // Read project file properties
         QMap<QString, QString> parsableProperties;
@@ -141,23 +143,39 @@ void PlaylistClip::parsePlaylistProps()
         }
         int max = playlist.count();
         int sequenceCount = 0;
-        QStringList sequenceNames;
-        QMap<int, std::shared_ptr<Mlt::Producer>> binProducers;
+        m_sequences.clear();
         for (int i = 0; i < max; i++) {
             QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
             if (prod->is_blank() || !prod->is_valid()) {
                 continue;
             }
-            if (prod->parent().property_exists("kdenlive:uuid")) {
-                if (prod->parent().type() == mlt_service_tractor_type) {
+            if (prod->parent().type() == mlt_service_tractor_type) {
+                if (prod->parent().property_exists("kdenlive:uuid")) {
                     // Load sequence properties
                     sequenceCount++;
+                    SequenceInfo info;
                     Mlt::Properties props(prod->parent());
-                    sequenceNames << qstrdup(props.get("kdenlive:clipname"));
+                    const QUuid controlUuid(props.get("kdenlive:control_uuid"));
+                    info.sequenceName = qstrdup(props.get("kdenlive:clipname"));
+                    info.sequenceId = qstrdup(props.get("id"));
+                    info.sequenceDuration = qstrdup(props.get("kdenlive:duration"));
+                    info.sequenceFrameDuration = m_masterProducer->time_to_frames(info.sequenceDuration.toUtf8().constData());
+                    m_sequences.insert(controlUuid, info);
                 }
             }
         }
-        m_extraProperties.insert(i18n("Sequences"), QString::number(sequenceNames.count()));
+        m_extraProperties.insert(i18n("Sequence count"), QString::number(m_sequences.size()));
+        if (auto ptr = m_model.lock()) {
+            QMetaObject::invokeMethod(ptr.get(), "loadSubSequences", Qt::QueuedConnection, Q_ARG(QString, m_binId), Q_ARG(sequenceMap, m_sequences));
+        }
+        QMapIterator<QUuid, SequenceInfo> ix2(m_sequences);
+        while (ix2.hasNext()) {
+            ix2.next();
+            SequenceInfo info = ix2.value();
+            m_extraProperties.insert(info.sequenceName, info.sequenceDuration);
+        }
+    } else {
+        qDebug() << "::::::::::\nRETAIN LIST INVALID\n\n::";
     }
 }
 
@@ -243,4 +261,40 @@ const QUuid PlaylistClip::getSequenceUuid() const
 void PlaylistClip::setThumbFrame(int frame)
 {
     ProjectClip::setThumbFrame(frame);
+}
+
+std::shared_ptr<Mlt::Producer> PlaylistClip::sequenceProducer(const QUuid &sequenceUuid)
+{
+    QReadLocker lock(&m_producerLock);
+    if (sequenceUuid.isNull()) {
+        return m_masterProducer;
+    }
+    // Parse producer's sequences to match
+    Mlt::Service s(m_masterProducer->parent());
+    Mlt::Properties retainList(mlt_properties(s.get_data("xml_retain")));
+    if (retainList.is_valid()) {
+        Mlt::Playlist playlist(mlt_playlist(retainList.get_data("main_bin")));
+        int max = playlist.count();
+        for (int i = 0; i < max; i++) {
+            QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
+            if (prod->is_blank() || !prod->is_valid()) {
+                continue;
+            }
+            if (prod->parent().type() == mlt_service_tractor_type) {
+                const QUuid uuid(prod->parent().get("kdenlive:control_uuid"));
+                if (uuid == sequenceUuid) {
+                    return std::shared_ptr<Mlt::Producer>(new Mlt::Producer(prod->parent()));
+                }
+            }
+        }
+    }
+    return m_masterProducer;
+}
+
+size_t PlaylistClip::sequenceFrameDuration(const QUuid &uuid)
+{
+    if (!m_sequences.contains(uuid)) {
+        return frameDuration();
+    }
+    return size_t(m_sequences.value(uuid).sequenceFrameDuration);
 }

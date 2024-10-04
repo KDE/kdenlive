@@ -31,11 +31,11 @@ public:
      */
     static std::shared_ptr<ProjectSubClip> construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
                                                      const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
-                                                     const QMap<QString, QString> &zoneProperties);
+                                                     const QMap<QString, QString> &zoneProperties, bool isSequence = false);
 
 protected:
     ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
-                   const QString &timecode, const QMap<QString, QString> &zoneProperties);
+                   const QString &timecode, const QMap<QString, QString> &zoneProperties, bool isSequence = false);
 
 public:
     ~ProjectSubClip() override;
@@ -71,6 +71,7 @@ public:
 
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType::ProducerType clipType() const override;
+    const QUuid sequenceUuid() const;
 
     /** @brief Set properties on this clip zone */
     void setProperties(const QMap<QString, QString> &properties);
@@ -81,6 +82,7 @@ public:
 private:
     std::shared_ptr<ProjectClip> m_masterClip;
     QString m_parentClipId;
+    QUuid m_sequenceUuid;
 
 private Q_SLOTS:
     void gotThumb(int pos, const QImage &img);

@@ -305,6 +305,7 @@ public:
     bool hasVariableFps();
     /** @brief Get the unique and unmutable uuid for this project clip */
     const QString getControlUuid() const;
+    virtual size_t sequenceFrameDuration(const QUuid &);
 
 protected:
     friend class ClipModel;

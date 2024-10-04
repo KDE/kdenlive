@@ -290,8 +290,17 @@ struct requestClipInfo
     bool operator==(const requestClipInfo &a) const { return clipId == a.clipId; }
 };
 
+struct SequenceInfo
+{
+    QString sequenceName;
+    QString sequenceId;
+    QString sequenceDuration;
+    int sequenceFrameDuration{0};
+};
+
 typedef QMap<QString, QString> stringMap;
 typedef QMap<int, QMap<int, QByteArray>> audioByteArray;
+typedef QMap<QUuid, SequenceInfo> sequenceMap;
 using audioShortVector = QVector<qint16>;
 
 class ItemInfo

@@ -36,6 +36,7 @@ class ClipController
 public:
     friend class Bin;
     friend class ClipPropertiesController;
+    friend class Monitor;
     /**
      * @brief Constructor.
      The constructor is protected because you should call the static Construct instead
@@ -213,6 +214,8 @@ protected:
     /** @brief Mutex to protect the producer properties on read/write */
     mutable QReadWriteLock m_producerLock;
     virtual void connectEffectStack(){};
+    /** @brief Returns a timeline sequence producer if this is a playlist clip */
+    virtual std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &);
 
     // Update audio stream info
     void refreshAudioInfo();

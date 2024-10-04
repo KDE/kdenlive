@@ -3109,3 +3109,8 @@ const QString ProjectClip::getControlUuid() const
 {
     return m_controlUuid.toString();
 }
+
+size_t ProjectClip::sequenceFrameDuration(const QUuid &)
+{
+    return frameDuration();
+}

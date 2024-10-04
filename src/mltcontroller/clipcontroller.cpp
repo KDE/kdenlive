@@ -1207,3 +1207,9 @@ bool ClipController::removeMarkerCategories(QList<int> toRemove, const QMap<int,
     }
     return found;
 }
+
+std::shared_ptr<Mlt::Producer> ClipController::sequenceProducer(const QUuid &)
+{
+    QReadLocker lock(&m_producerLock);
+    return m_masterProducer;
+}

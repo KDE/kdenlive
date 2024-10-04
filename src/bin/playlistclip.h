@@ -47,6 +47,7 @@ class PlaylistClip : public ProjectClip
 public:
     friend class Bin;
     friend bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps); // for testing
+
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
@@ -67,6 +68,8 @@ protected:
     const QString getFileHash() override;
     /** @brief Remove temporary warp producer resource files */
     void removeSequenceWarpResources() override;
+    std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &sequenceUuid) override;
+    size_t sequenceFrameDuration(const QUuid &uuid) override;
 
 public:
     ~PlaylistClip() override;
@@ -83,6 +86,8 @@ public:
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
 
 private:
+    /** @brief The timeline sequences contained in this project. */
+    QMap<QUuid, SequenceInfo> m_sequences;
     void parsePlaylistProps();
 
 public Q_SLOTS:
