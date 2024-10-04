@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-03 00:39+0000\n"
-"PO-Revision-Date: 2024-09-30 08:08+0200\n"
+"PO-Revision-Date: 2024-10-03 10:31+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7366,10 +7366,9 @@ msgid "Waiting…"
 msgstr "Čakanje …"
 
 #: src/dialogs/renderwidget.cpp:109
-#, fuzzy, kde-format
-#| msgid "Waiting…"
+#, kde-format
 msgid "Starting…"
-msgstr "Čakanje …"
+msgstr "Začenjanje …"
 
 #: src/dialogs/renderwidget.cpp:112
 #, kde-format

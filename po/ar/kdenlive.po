@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-03 00:39+0000\n"
-"PO-Revision-Date: 2024-09-26 11:36+0400\n"
+"PO-Revision-Date: 2024-10-03 07:04+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -7315,10 +7315,9 @@ msgid "Waiting…"
 msgstr "ينتظر…"
 
 #: src/dialogs/renderwidget.cpp:109
-#, fuzzy, kde-format
-#| msgid "Waiting…"
+#, kde-format
 msgid "Starting…"
-msgstr "ينتظر…"
+msgstr "يبدأ…"
 
 #: src/dialogs/renderwidget.cpp:112
 #, kde-format
