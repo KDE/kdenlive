@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-03 00:39+0000\n"
+"POT-Creation-Date: 2024-10-05 00:39+0000\n"
 "PO-Revision-Date: 2024-09-21 15:58+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -5074,13 +5074,13 @@ msgstr "Seleccione un fragmento para aplicar un efecto"
 msgid "Cannot apply effects on folders"
 msgstr "Non se poden aplicar efectos en cartafoles"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
-#: src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:653
+#: src/effects/effectstack/model/effectstackmodel.cpp:659
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Non é posíbel engadir o efecto ao fragmento"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:614
 #, kde-format
 msgid "Paste effect"
 msgstr "Pegar o efecto"
@@ -5297,7 +5297,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificar sen gardar"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
@@ -9815,29 +9815,29 @@ msgstr "Amosar os fotogramas clave"
 msgid "Update zone for %1"
 msgstr "Actualizar a zona para %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:292
+#: src/effects/effectstack/model/effectstackmodel.cpp:295
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, kde-format
 msgid "Copy effect"
 msgstr "Copiar o efecto"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:388
-#: src/effects/effectstack/model/effectstackmodel.cpp:531
-#: src/effects/effectstack/model/effectstackmodel.cpp:636
-#: src/effects/effectstack/model/effectstackmodel.cpp:1422
+#: src/effects/effectstack/model/effectstackmodel.cpp:391
+#: src/effects/effectstack/model/effectstackmodel.cpp:534
+#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/effects/effectstack/model/effectstackmodel.cpp:1425
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "O efecto %1 non pode engadirse dúas veces."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:627
+#: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "Engadir o efecto %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1179
+#: src/effects/effectstack/model/effectstackmodel.cpp:1182
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mover o efecto %1"
@@ -17722,7 +17722,7 @@ msgid "Stop"
 msgstr "Parar"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2179
+#: src/timeline2/view/qml/timeline.qml:2184
 #, kde-format
 msgid "Paused"
 msgstr "En pausa"
@@ -17904,13 +17904,13 @@ msgstr "<b>Clic duplo</b> para engadir un subtítulo"
 msgid "Offset: %1, Position: %2"
 msgstr "Desprazamento: %1, posición: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2168
-#: src/timeline2/view/qml/timeline.qml:2177
+#: src/timeline2/view/qml/timeline.qml:2173
+#: src/timeline2/view/qml/timeline.qml:2182
 #, kde-format
 msgid "Recording"
 msgstr "Gravación"
 
-#: src/timeline2/view/qml/timeline.qml:2271
+#: src/timeline2/view/qml/timeline.qml:2276
 #, kde-format
 msgid "Multicam In"
 msgstr "Entrada de varias cámaras"

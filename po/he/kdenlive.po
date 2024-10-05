@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-03 00:39+0000\n"
+"POT-Creation-Date: 2024-10-05 00:39+0000\n"
 "PO-Revision-Date: 2024-09-25 21:57+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -5002,13 +5002,13 @@ msgstr "נא לבחור סרטון כדי להחיל אפקט"
 msgid "Cannot apply effects on folders"
 msgstr "לא ניתן להחיל אפקטים על תיקיות"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
-#: src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:653
+#: src/effects/effectstack/model/effectstackmodel.cpp:659
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "לא ניתן להוסיף אפקטים לסרטון"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:614
 #, kde-format
 msgid "Paste effect"
 msgstr "הדבקת אפקט"
@@ -5226,7 +5226,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "התמרה ללא שמירה"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
@@ -9687,29 +9687,29 @@ msgstr "הצגת תמוניות מפתח"
 msgid "Update zone for %1"
 msgstr "עדכון קטע עבור %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:292
+#: src/effects/effectstack/model/effectstackmodel.cpp:295
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, kde-format
 msgid "Copy effect"
 msgstr "העתקת אפקט"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:388
-#: src/effects/effectstack/model/effectstackmodel.cpp:531
-#: src/effects/effectstack/model/effectstackmodel.cpp:636
-#: src/effects/effectstack/model/effectstackmodel.cpp:1422
+#: src/effects/effectstack/model/effectstackmodel.cpp:391
+#: src/effects/effectstack/model/effectstackmodel.cpp:534
+#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/effects/effectstack/model/effectstackmodel.cpp:1425
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "אי אפשר להוסיף את האפקט %1 פעמיים."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:627
+#: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "הוספת אפקט %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1179
+#: src/effects/effectstack/model/effectstackmodel.cpp:1182
 #, kde-format
 msgid "Move effect %1"
 msgstr "העברת אפקט %1"
@@ -17449,7 +17449,7 @@ msgid "Stop"
 msgstr "עצירה"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2179
+#: src/timeline2/view/qml/timeline.qml:2184
 #, kde-format
 msgid "Paused"
 msgstr "מושהה"
@@ -17631,13 +17631,13 @@ msgstr "<b>לחיצה כפולה</b> להוספת כתובית"
 msgid "Offset: %1, Position: %2"
 msgstr "היסט: %1, מקום: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2168
-#: src/timeline2/view/qml/timeline.qml:2177
+#: src/timeline2/view/qml/timeline.qml:2173
+#: src/timeline2/view/qml/timeline.qml:2182
 #, kde-format
 msgid "Recording"
 msgstr "הקלטה"
 
-#: src/timeline2/view/qml/timeline.qml:2271
+#: src/timeline2/view/qml/timeline.qml:2276
 #, kde-format
 msgid "Multicam In"
 msgstr "ריבוי מצלמות נכנס"

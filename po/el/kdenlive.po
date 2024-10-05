@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-03 00:39+0000\n"
+"POT-Creation-Date: 2024-10-05 00:39+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -5172,14 +5172,14 @@ msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενό
 msgid "Cannot apply effects on folders"
 msgstr "Αδυναμία προσθήκης εφέ βίντεο σε αυτό το κλιπ"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
-#: src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:653
+#: src/effects/effectstack/model/effectstackmodel.cpp:659
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
 msgstr "Αδυναμία προσθήκης εφέ βίντεο σε αυτό το κλιπ"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:614
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
@@ -5412,7 +5412,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Μετατροπή"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Delete effect"
@@ -10052,7 +10052,7 @@ msgstr "Διαγραφή του keyframe"
 msgid "Update zone for %1"
 msgstr "Ενημέρωση προφίλ"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:292
+#: src/effects/effectstack/model/effectstackmodel.cpp:295
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, fuzzy, kde-format
@@ -10060,15 +10060,15 @@ msgstr "Ενημέρωση προφίλ"
 msgid "Copy effect"
 msgstr "Επεξεργασία εφέ %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:388
-#: src/effects/effectstack/model/effectstackmodel.cpp:531
-#: src/effects/effectstack/model/effectstackmodel.cpp:636
-#: src/effects/effectstack/model/effectstackmodel.cpp:1422
+#: src/effects/effectstack/model/effectstackmodel.cpp:391
+#: src/effects/effectstack/model/effectstackmodel.cpp:534
+#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/effects/effectstack/model/effectstackmodel.cpp:1425
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:627
+#: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, fuzzy, kde-format
@@ -10076,7 +10076,7 @@ msgstr ""
 msgid "Add effect %1"
 msgstr "Επεξεργασία εφέ %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1179
+#: src/effects/effectstack/model/effectstackmodel.cpp:1182
 #, fuzzy, kde-format
 #| msgid "Move effect"
 msgid "Move effect %1"
@@ -18155,7 +18155,7 @@ msgid "Stop"
 msgstr "Διακοπή"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2179
+#: src/timeline2/view/qml/timeline.qml:2184
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -18350,14 +18350,14 @@ msgstr "Κάντε κλικ για να προσθέσετε μία μετάβα
 msgid "Offset: %1, Position: %2"
 msgstr "Θέση: %1"
 
-#: src/timeline2/view/qml/timeline.qml:2168
-#: src/timeline2/view/qml/timeline.qml:2177
+#: src/timeline2/view/qml/timeline.qml:2173
+#: src/timeline2/view/qml/timeline.qml:2182
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Εγγραφή"
 
-#: src/timeline2/view/qml/timeline.qml:2271
+#: src/timeline2/view/qml/timeline.qml:2276
 #, kde-format
 msgid "Multicam In"
 msgstr ""

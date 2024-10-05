@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-03 00:39+0000\n"
+"POT-Creation-Date: 2024-10-05 00:39+0000\n"
 "PO-Revision-Date: 2024-10-04 01:13+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -5059,13 +5059,13 @@ msgstr "Bir efekt uygulamak için bir klip seçin"
 msgid "Cannot apply effects on folders"
 msgstr "Klasörlere efektler uygulanamaz"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
-#: src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:653
+#: src/effects/effectstack/model/effectstackmodel.cpp:659
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Klibe efekt eklenemez"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:614
 #, kde-format
 msgid "Paste effect"
 msgstr "Efekti Yapıştır"
@@ -5282,7 +5282,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Kaydetmeden Arakodla"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
@@ -9757,29 +9757,29 @@ msgstr "Anahtar Kareleri Göster"
 msgid "Update zone for %1"
 msgstr "%1 için bölgeyi güncelle"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:292
+#: src/effects/effectstack/model/effectstackmodel.cpp:295
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, kde-format
 msgid "Copy effect"
 msgstr "Efekti kopyala"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:388
-#: src/effects/effectstack/model/effectstackmodel.cpp:531
-#: src/effects/effectstack/model/effectstackmodel.cpp:636
-#: src/effects/effectstack/model/effectstackmodel.cpp:1422
+#: src/effects/effectstack/model/effectstackmodel.cpp:391
+#: src/effects/effectstack/model/effectstackmodel.cpp:534
+#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/effects/effectstack/model/effectstackmodel.cpp:1425
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 etkisi iki kez eklenemiyor."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:627
+#: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, kde-format
 msgid "Add effect %1"
 msgstr "%1 efekti ekle"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1179
+#: src/effects/effectstack/model/effectstackmodel.cpp:1182
 #, kde-format
 msgid "Move effect %1"
 msgstr "%1 Efektini Taşı"
@@ -17597,7 +17597,7 @@ msgid "Stop"
 msgstr "Durdur"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2179
+#: src/timeline2/view/qml/timeline.qml:2184
 #, kde-format
 msgid "Paused"
 msgstr "Duraklatıldı"
@@ -17779,13 +17779,13 @@ msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
 msgid "Offset: %1, Position: %2"
 msgstr "Ofset: %1, Konum: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2168
-#: src/timeline2/view/qml/timeline.qml:2177
+#: src/timeline2/view/qml/timeline.qml:2173
+#: src/timeline2/view/qml/timeline.qml:2182
 #, kde-format
 msgid "Recording"
 msgstr "Kaydediliyor"
 
-#: src/timeline2/view/qml/timeline.qml:2271
+#: src/timeline2/view/qml/timeline.qml:2276
 #, kde-format
 msgid "Multicam In"
 msgstr "Çoklu Kamera Girişi"

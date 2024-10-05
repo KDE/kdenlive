@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-03 00:39+0000\n"
+"POT-Creation-Date: 2024-10-05 00:39+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -5205,14 +5205,14 @@ msgstr ""
 msgid "Cannot apply effects on folders"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:650
-#: src/effects/effectstack/model/effectstackmodel.cpp:656
+#: src/bin/bin.cpp:3974 src/effects/effectstack/model/effectstackmodel.cpp:653
+#: src/effects/effectstack/model/effectstackmodel.cpp:659
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot add effect to clip"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:611
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:614
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Paste effect"
@@ -5435,7 +5435,7 @@ msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "ئالماشتۇر"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:190
+#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Delete %1"
@@ -9999,7 +9999,7 @@ msgstr " كاندۇك"
 msgid "Update zone for %1"
 msgstr " كاندۇك"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:292
+#: src/effects/effectstack/model/effectstackmodel.cpp:295
 #: src/timeline2/model/timelineitemmodel.cpp:758
 #: src/timeline2/model/timelineitemmodel.cpp:771
 #, fuzzy, kde-format
@@ -10007,15 +10007,15 @@ msgstr " كاندۇك"
 msgid "Copy effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:388
-#: src/effects/effectstack/model/effectstackmodel.cpp:531
-#: src/effects/effectstack/model/effectstackmodel.cpp:636
-#: src/effects/effectstack/model/effectstackmodel.cpp:1422
+#: src/effects/effectstack/model/effectstackmodel.cpp:391
+#: src/effects/effectstack/model/effectstackmodel.cpp:534
+#: src/effects/effectstack/model/effectstackmodel.cpp:639
+#: src/effects/effectstack/model/effectstackmodel.cpp:1425
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:627
+#: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5065
 #, fuzzy, kde-format
@@ -10023,7 +10023,7 @@ msgstr ""
 msgid "Add effect %1"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1179
+#: src/effects/effectstack/model/effectstackmodel.cpp:1182
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Move effect %1"
@@ -18003,7 +18003,7 @@ msgid "Stop"
 msgstr "توختا"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2179
+#: src/timeline2/view/qml/timeline.qml:2184
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -18198,14 +18198,14 @@ msgstr "تاللانما"
 msgid "Offset: %1, Position: %2"
 msgstr " ئورنى:"
 
-#: src/timeline2/view/qml/timeline.qml:2168
-#: src/timeline2/view/qml/timeline.qml:2177
+#: src/timeline2/view/qml/timeline.qml:2173
+#: src/timeline2/view/qml/timeline.qml:2182
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "خاتىرە"
 
-#: src/timeline2/view/qml/timeline.qml:2271
+#: src/timeline2/view/qml/timeline.qml:2276
 #, kde-format
 msgid "Multicam In"
 msgstr ""
