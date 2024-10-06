@@ -32,7 +32,7 @@
         <name>Up</name>
     </parameter>
     <parameter type="constant" name="down" max="100" min="0" default="0" suffix="%" factor="1">
-        <name>Left</name>
+        <name>Down</name>
     </parameter>
     <parameter type="constant" name="clockwise" max="360" min="0" default="0" suffix="°" factor="1">
         <name>Clockwise</name>
