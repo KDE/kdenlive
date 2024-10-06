@@ -404,7 +404,6 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
         // The event has been handled in qml
         m_swallowDrop = true;
     }
-    // event->accept();
     if ((event->button() & Qt::LeftButton) != 0u) {
         if ((event->modifiers() & Qt::ControlModifier) != 0u) {
             // Pan view

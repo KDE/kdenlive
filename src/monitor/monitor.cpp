@@ -936,7 +936,6 @@ void Monitor::mousePressEvent(QMouseEvent *event)
     m_monitorManager->activateMonitor(m_id);
     if ((event->button() & Qt::RightButton) == 0u) {
         if (m_glWidget->geometry().contains(event->pos())) {
-            m_DragStartPosition = event->pos();
             event->accept();
         }
     } else if (m_contextMenu) {

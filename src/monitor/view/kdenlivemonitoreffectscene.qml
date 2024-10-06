@@ -377,6 +377,8 @@ Item {
           onPressed: mouse => {
             if (mouse.button & Qt.LeftButton) {
                 if (mouse.modifiers & Qt.AltModifier) {
+                    mouse.accepted = true
+                    root.captureRightClick = true
                     controller.switchFocusClip()
                     return;
                 } else if (handleContainsMouse) {

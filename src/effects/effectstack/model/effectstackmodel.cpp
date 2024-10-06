@@ -1539,6 +1539,9 @@ int EffectStackModel::getActiveEffect() const
         if (ptr->property_exists("kdenlive:activeeffect")) {
             return ptr->get_int("kdenlive:activeeffect");
         }
+        if (rootItem->childCount() > 0) {
+            return 0;
+        }
         return -1;
     }
     return -1;
