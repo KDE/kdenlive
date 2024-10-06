@@ -213,7 +213,6 @@ private:
     QMenu *m_audioChannels;
     QToolButton *m_streamsButton;
     QAction *m_streamAction;
-    QPoint m_DragStartPosition;
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = nullptr. */
     bool m_loopClipTransition;

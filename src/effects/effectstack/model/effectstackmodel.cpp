@@ -1438,7 +1438,13 @@ int EffectStackModel::getActiveEffect() const
 {
     QWriteLocker locker(&m_lock);
     if (auto ptr = m_masterService.lock()) {
-        return ptr->get_int("kdenlive:activeeffect");
+        if (ptr->property_exists("kdenlive:activeeffect")) {
+            return ptr->get_int("kdenlive:activeeffect");
+        }
+        if (rootItem->childCount() > 0) {
+            return 0;
+        }
+        return -1;
     }
     return 0;
 }
