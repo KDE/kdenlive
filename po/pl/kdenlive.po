@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-05 00:39+0000\n"
-"PO-Revision-Date: 2024-09-07 18:28+0200\n"
+"PO-Revision-Date: 2024-10-05 13:14+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -3438,10 +3438,9 @@ msgstr ""
 "obrazem pierwotnym, a po zmianach lub do przyspieszenie przewijania."
 
 #: src/assets/assetpanel.cpp:147
-#, fuzzy, kde-format
-#| msgid "Open effect documentation in browser"
+#, kde-format
 msgid "Open composition documentation in browser"
-msgstr "Otwórz dokumentację efektu w przeglądarce"
+msgstr "Otwórz dokumentację złożenia w przeglądarce"
 
 #: src/assets/assetpanel.cpp:151
 #, kde-format
@@ -6171,12 +6170,13 @@ msgid ""
 "following url:\n"
 " %1"
 msgstr ""
+"Wyświetli to w przeglądarce dokumentację Kdenlive pod adresem:\n"
+" %1"
 
 #: src/core.cpp:1788
-#, fuzzy, kde-format
-#| msgid "Media Browser"
+#, kde-format
 msgid "Open Browser"
-msgstr "Przeglądarka multimediów"
+msgstr "Otwórz przeglądarkę"
 
 #: src/dialogs/clipcreationdialog.cpp:59
 #, kde-format
@@ -7365,10 +7365,9 @@ msgid "Waiting…"
 msgstr "Oczekiwanie…"
 
 #: src/dialogs/renderwidget.cpp:109
-#, fuzzy, kde-format
-#| msgid "Waiting…"
+#, kde-format
 msgid "Starting…"
-msgstr "Oczekiwanie…"
+msgstr "Uruchamianie…"
 
 #: src/dialogs/renderwidget.cpp:112
 #, kde-format
@@ -8542,21 +8541,19 @@ msgid "Bottom To Top"
 msgstr "Z dołu do góry"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Zwiększ rozmiar czcionki"
+msgstr "Zwiększ rozmiar czcionki edytora"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Zmniejsz rozmiar czcionki"
+msgstr "Zmniejsz rozmiar czcionki edytora"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Wyczyść całe formatowanie użytkownika"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, kde-format
@@ -8564,17 +8561,15 @@ msgid "Simple Editor"
 msgstr "Prosty edytor"
 
 #: src/dialogs/subtitleedit.cpp:595
-#, fuzzy, kde-format
-#| msgid "Manage Styles.."
+#, kde-format
 msgid "Manage Styles…"
-msgstr "Zarządzaj stylami..."
+msgstr "Zarządzaj stylami…"
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "Znak: %1, razem: <b>%2</b>"
+msgstr "Kursor: %1, łącznie: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -15827,12 +15822,13 @@ msgstr "Rozmiar venv pythona: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary directory %1"
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Nie można utworzyć katalogu tymczasowego %1"
+msgstr ""
+"Nie można utworzyć wirtualnego środowiska Pythona:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format
@@ -20299,7 +20295,7 @@ msgstr "Napisy:"
 #: src/ui/configmisc_ui.ui:262
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "Zachowaj pierwotny rozmiar klatki podczas importowania"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
