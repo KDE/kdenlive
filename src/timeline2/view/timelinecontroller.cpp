@@ -968,7 +968,6 @@ void TimelineController::switchTrackRecord(int tid, bool monitor)
     } else {
         // Enable rec controls
         if (recDisplayed == 1) {
-            // Already displayed
             return;
         }
         m_model->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), QStringLiteral("1"));

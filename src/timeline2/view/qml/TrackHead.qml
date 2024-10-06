@@ -38,9 +38,9 @@ Rectangle {
     }
     
     onShowAudioRecordChanged: {
-        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + resizer.height) {
+        if (showAudioRecord && trackHeadRoot.height < 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3)) {
             // Ensure trackheight is large enough to have the vu-meter visible
-            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + resizer.height)
+            timeline.adjustTrackHeight(trackHeadRoot.trackId, 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
         }
     }
 
@@ -530,7 +530,7 @@ Rectangle {
                 id: audioVuMeter
                 asynchronous: true 
                 anchors.fill: parent
-                visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + resizer.height)
+                visible: showAudioRecord && (trackHeadRoot.height >= 2 * root.collapsedHeight + Math.ceil(root.baseUnit/3))
                 source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
                 onLoaded: item.trackId = trackId
             }

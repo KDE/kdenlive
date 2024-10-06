@@ -803,15 +803,6 @@ void ProjectManager::openFile(const QUrl &url)
     }
     pCore->displayMessage(i18n("Opening file %1", url.toLocalFile()), OperationCompletedMessage, 100);
     doOpenFile(url, nullptr);
-
-    // TODO: remove this shit and fix it the right way (idk how to fix it properly)
-    for (int tid : pCore->window()->getCurrentTimeline()->model()->getTracksIds(true)) {
-        auto track = pCore->window()->getCurrentTimeline()->model()->getTrackById(tid);
-        if (track->getProperty("kdenlive:audio_rec").toInt() == 1) {
-            pCore->window()->getCurrentTimeline()->controller()->switchTrackRecord(tid, false);
-            pCore->mixer()->monitorAudio(tid, true);
-        };
-    }
 }
 
 void ProjectManager::abortLoading()
