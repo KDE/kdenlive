@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-09-26 02:30+0000\n"
-"PO-Revision-Date: 2024-10-02 17:19+0200\n"
+"PO-Revision-Date: 2024-10-03 15:40+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -21494,7 +21494,7 @@ msgstr "Cartella genitore del file del progetto"
 #: src/ui/projectsettings_ui.ui:76
 #, kde-format
 msgid "Custom:"
-msgstr "Personalizzato:"
+msgstr "Personalizzata:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, audio_channels)
 #: src/ui/projectsettings_ui.ui:148
