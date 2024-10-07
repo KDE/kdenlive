@@ -4820,9 +4820,12 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
                 newprops.insert(QStringLiteral("resource"), QString());
             }
         }
+        QMap<QString, QString> previousProps = clip->currentProperties(newprops);
         // trigger producer reload
         newprops.insert(QStringLiteral("force_reload"), QStringLiteral("1"));
-        slotEditClipCommand(clip->AbstractProjectItem::clipId(), clip->currentProperties(newprops), newprops);
+        previousProps.insert(QStringLiteral("force_reload"), QStringLiteral("1"));
+
+        slotEditClipCommand(clip->AbstractProjectItem::clipId(), previousProps, newprops);
         // when edit is triggered from the timeline, project monitor refresh is necessary after an edit is made
         pCore->refreshProjectMonitorOnce();
     } else {
