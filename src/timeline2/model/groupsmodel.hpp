@@ -168,6 +168,7 @@ public:
        @param changeState when false, the grouped role for item won't be updated (for selection)
     */
     void setGroup(int id, int groupId, bool changeState = true);
+    bool addToGroup(int id, int gid, Fun &undo, Fun &redo);
 
     QString debugString();
 

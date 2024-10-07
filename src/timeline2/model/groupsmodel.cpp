@@ -368,6 +368,29 @@ void GroupsModel::removeFromGroup(int id)
     m_upLink[id] = -1;
 }
 
+bool GroupsModel::addToGroup(int id, int gid, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    if (m_groupIds.count(gid) > 0) {
+        Fun reverse = [this, id]() {
+            removeFromGroup(id);
+            return true;
+        };
+        Fun operation = [this, id, gid]() {
+            setGroup(id, gid, false);
+            return true;
+        };
+        bool res = operation();
+        if (!res) {
+            bool undone = reverse();
+            Q_ASSERT(undone);
+            return res;
+        }
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    }
+    return false;
+}
+
 bool GroupsModel::removeFromGroup(int id, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
