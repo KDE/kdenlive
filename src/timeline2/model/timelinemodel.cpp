@@ -922,19 +922,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             }
         }
     }
-    GroupType gType = GroupType::Normal;
-    std::pair<int, int> previousGroupPair = {-1, -1};
+    int currentGroup = -1;
     if (old_trackId != -1) {
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
         }
         if (m_singleSelectionMode) {
-            // Clip is in a group, so we must re-add it to the group after deletion
-            int parent = m_groups->getDirectAncestor(clipId);
-            if (parent > -1) {
-                gType = m_groups->getType(parent);
-            }
-            previousGroupPair = extractSelectionFromGroup({clipId}, local_undo, local_redo);
+            // Clip is in a group, so we must re-add it to the group after move
+            currentGroup = extractSelectionFromGroup(clipId, local_undo, local_redo).first;
         }
         ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, finalMove, local_undo, local_redo, groupMove, false, allowedClipMixes);
         if (!ok) {
@@ -948,15 +943,9 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     ok = ok && getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove, old_trackId == -1,
                                                            allowedClipMixes);
     if (ok) {
-        if (m_singleSelectionMode && previousGroupPair.first > -1) {
+        if (m_singleSelectionMode && currentGroup > -1) {
             // Regroup items
-            if (previousGroupPair.second > -1) {
-                // Recreate the group
-                m_groups->createGroupAtSameLevel(previousGroupPair.second, {clipId}, gType, local_undo, local_redo);
-            } else {
-                int targetId = *m_groups->getLeaves(previousGroupPair.first).begin();
-                m_groups->setInGroupOf(clipId, targetId, local_undo, local_redo);
-            }
+            m_groups->addToGroup(clipId, currentGroup, local_undo, local_redo);
         }
     } else {
         qWarning() << "clip insertion failed";
@@ -2177,7 +2166,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
         auto selection = m_currentSelection;
         for (auto s : selection) {
             if (m_groups->isInGroup(s)) {
-                extractSelectionFromGroup({s}, undo, redo, true);
+                extractSelectionFromGroup(s, undo, redo, true);
             }
         }
         // loop deletion
@@ -2194,16 +2183,14 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     return res;
 }
 
-std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo, bool onDeletion)
+std::pair<int, int> TimelineModel::extractSelectionFromGroup(int selection, Fun &undo, Fun &redo, bool onDeletion)
 {
-    int gid = m_groups->getDirectAncestor(*selection.begin());
+    int gid = m_groups->getDirectAncestor(selection);
     std::pair<int, int> grpPair = {gid, -1};
     if (gid > -1) {
         // Item is in a group, check if deletion would leave an orphaned group (with only 1 child)
         auto siblings = m_groups->getLeaves(gid);
-        for (int id : selection) {
-            siblings.erase(id);
-        }
+        siblings.erase(selection);
         if (siblings.size() < 2) {
             // Parent group should be deleted
             int grandParent = m_groups->getDirectAncestor(gid);
@@ -2252,10 +2239,20 @@ std::pair<int, int> TimelineModel::extractSelectionFromGroup(std::unordered_set<
             }
         }
         if (!onDeletion) {
-            for (int id : selection) {
-                // Ungroup item before deletion
-                m_groups->removeFromGroup(id, undo, redo);
-            }
+            // Remove the top group
+            Fun local_redo = [this, selection]() {
+                // Clear selection
+                m_groups->removeFromGroup(selection);
+                return true;
+            };
+            Fun local_undo = [this, selection, gid]() {
+                // Clear selection
+                m_groups->setGroup(selection, gid, false);
+                return true;
+            };
+            local_redo();
+            PUSH_FRONT_LAMBDA(local_redo, redo);
+            PUSH_LAMBDA(local_undo, undo);
         }
     }
     return grpPair;
@@ -2643,31 +2640,44 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool res = false;
-    auto groupSize = m_groups->getLeaves(groupId).size();
-    if (m_singleSelectionMode && m_currentSelection.size() < groupSize) {
-        // Moving multiple items apart from the group
-        int itemsGroup = m_groups->getRootId(*m_currentSelection.begin());
-        bool isInInitialGroup = itemsGroup == groupId;
-        if (isInInitialGroup) {
-            for (int id : m_currentSelection) {
-                // Ungroup item before move "<<m_currentSelection.size();
-                m_groups->removeFromGroup(id, undo, redo);
-            }
-            // Group concerned items in a new group
-            itemsGroup = m_groups->groupItems(m_currentSelection, undo, redo);
-        }
 
-        res = requestGroupMove(itemId, itemsGroup, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
-        if (isInInitialGroup) {
-            // Put back in initial group
-            Fun regroup = [this, selection = m_currentSelection, gid = groupId]() {
-                for (auto &id : selection) {
-                    m_groups->setGroup(id, gid);
+    if (m_singleSelectionMode) {
+        // A list of {gid, items to move inside that group}
+        QMap<int, std::unordered_set<int>> itemGroups;
+        QMap<int, std::unordered_set<int>> groupInitialItems;
+        std::unordered_set<int> ids;
+        // We have multiple single items selected, store their respective groups
+        for (int id : m_currentSelection) {
+            int gid = m_groups->getDirectAncestor(id);
+            if (itemGroups.contains(gid)) {
+                ids = itemGroups.value(gid);
+                ids.insert(id);
+            } else {
+                groupInitialItems.insert(gid, m_groups->getLeaves(gid));
+                ids = {id};
+            }
+            itemGroups.insert(gid, ids);
+        }
+        // Ungroup the items
+        for (int id : m_currentSelection) {
+            // Ungroup item before move
+            m_groups->removeFromGroup(id, undo, redo);
+        }
+        // Group concerned items in a new group
+        int grp = m_groups->groupItems(m_currentSelection, undo, redo);
+        res = requestGroupMove(itemId, grp, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
+
+        QMapIterator<int, std::unordered_set<int>> g(itemGroups);
+        while (g.hasNext()) {
+            g.next();
+            if (!isGroup(g.key())) {
+                m_groups->groupItems(groupInitialItems.value(g.key()), undo, redo);
+            } else {
+                int sibling = *(m_groups->getLeaves(g.key()).begin());
+                for (auto &id : g.value()) {
+                    m_groups->setInGroupOf(id, sibling, undo, redo);
                 }
-                return true;
-            };
-            regroup();
-            PUSH_LAMBDA(regroup, redo);
+            }
         }
     } else {
         res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);

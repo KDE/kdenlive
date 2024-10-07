@@ -731,7 +731,7 @@ protected:
      *  @returns a pair with { original group id of the element, the id of the other element
      *  in the group if it was a 2 items group and group was deleted in the operation }
      */
-    std::pair<int, int> extractSelectionFromGroup(std::unordered_set<int> selection, Fun &undo, Fun &redo, bool onDeletion = false);
+    std::pair<int, int> extractSelectionFromGroup(int selection, Fun &undo, Fun &redo, bool onDeletion = false);
 
 public:
     /** @brief Requests the next snapped point
