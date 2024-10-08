@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-09-26 02:30+0000\n"
+"POT-Creation-Date: 2024-10-08 02:30+0000\n"
 "PO-Revision-Date: 2024-05-24 21:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -674,7 +674,7 @@ msgid "Top"
 msgstr "Augšā"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#: data/effects/crop.xml:11 data/effects/dance.xml:26 data/effects/dance.xml:35
+#: data/effects/crop.xml:11 data/effects/dance.xml:26
 #: src/ui/configmisc_ui.ui:130
 #, kde-format
 msgid "Left"
@@ -742,6 +742,11 @@ msgstr "Tuvināt"
 #, kde-format
 msgid "Up"
 msgstr "Augšup"
+
+#: data/effects/dance.xml:35
+#, kde-format
+msgid "Down"
+msgstr ""
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -4655,7 +4660,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Aizvietot laika joslā"
 
-#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5812 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2128 src/bin/bin.cpp:5819 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4812,7 +4817,7 @@ msgid "Create bin folder"
 msgstr "Izveidot lādes mapi"
 
 #: src/bin/bin.cpp:2710 src/bin/bin.cpp:2723 src/bin/bin.cpp:3705
-#: src/timeline2/model/timelinemodel.cpp:2161
+#: src/timeline2/model/timelinemodel.cpp:2150
 #, kde-format
 msgid "Delete Clip"
 msgstr "Dzēst klipu"
@@ -5015,13 +5020,13 @@ msgstr "Atlasiet klipu, lai pievienotu efektu"
 msgid "Cannot apply effects on folders"
 msgstr "Nevar pievienot efektus mapēm"
 
-#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:584
-#: src/effects/effectstack/model/effectstackmodel.cpp:590
+#: src/bin/bin.cpp:4012 src/effects/effectstack/model/effectstackmodel.cpp:604
+#: src/effects/effectstack/model/effectstackmodel.cpp:610
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Never pievienot efektu klipam"
 
-#: src/bin/bin.cpp:4050 src/effects/effectstack/model/effectstackmodel.cpp:545
+#: src/bin/bin.cpp:4050 src/effects/effectstack/model/effectstackmodel.cpp:565
 #, kde-format
 msgid "Paste effect"
 msgstr "Ielīmēt efektu"
@@ -5037,34 +5042,34 @@ msgid "Edit Tags"
 msgstr "Rediģēt birkas"
 
 #: src/bin/bin.cpp:4548 src/bin/projectclip.cpp:210
-#: src/bin/projectclip.cpp:2077 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2081 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
 #, kde-format
 msgid "Unnamed"
 msgstr "Nenosaukts"
 
-#: src/bin/bin.cpp:4606
+#: src/bin/bin.cpp:4610
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Ierakstiet ceļu uz attēlu rediģēšanas programmu"
 
-#: src/bin/bin.cpp:4618
+#: src/bin/bin.cpp:4622
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Norādiet noklusējuma programmu attēlu atvēršanai"
 
-#: src/bin/bin.cpp:4623
+#: src/bin/bin.cpp:4627
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Ievadiet ceļu uz audio rediģēšanas programmu"
 
-#: src/bin/bin.cpp:4635
+#: src/bin/bin.cpp:4639
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Norādiet noklusējuma programmu audio datņu atvēršanai"
 
-#: src/bin/bin.cpp:4645 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
+#: src/bin/bin.cpp:4649 src/core.cpp:330 src/doc/kdenlivedoc.cpp:168
 #: src/jobs/cliploadtask.cpp:468 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:471
 #: src/layoutmanagement.cpp:532 src/profiles/profilerepository.cpp:173
@@ -5073,12 +5078,12 @@ msgstr "Norādiet noklusējuma programmu audio datņu atvēršanai"
 msgid "Cannot open file %1"
 msgstr "Nevar atvērt datni „%1“"
 
-#: src/bin/bin.cpp:4825 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4829 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr "(kopija)"
 
-#: src/bin/bin.cpp:4835
+#: src/bin/bin.cpp:4839
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5087,75 +5092,75 @@ msgstr ""
 "Jūs rediģējat ārēju titru klipu („%1“). Vai vēlaties izmaiņas saglabāt pašā "
 "titru datnē vai tās saglabāt tikai šim projektam?"
 
-#: src/bin/bin.cpp:4838 src/titler/titlewidget.cpp:2281
+#: src/bin/bin.cpp:4842 src/titler/titlewidget.cpp:2281
 #, kde-format
 msgid "Save Title"
 msgstr "Saglabā titru"
 
-#: src/bin/bin.cpp:4838
+#: src/bin/bin.cpp:4842
 #, kde-format
 msgid "Save to title file"
 msgstr "Saglabāt titru datnē"
 
-#: src/bin/bin.cpp:4839
+#: src/bin/bin.cpp:4843
 #, kde-format
 msgid "Save in project only"
 msgstr "Saglabāt tikai projektā"
 
-#: src/bin/bin.cpp:4859 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4866 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Titru klips"
 
-#: src/bin/bin.cpp:4909
+#: src/bin/bin.cpp:4916
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Klips nav derīgs, tas tiks noņemts no projekta"
 
-#: src/bin/bin.cpp:4913
+#: src/bin/bin.cpp:4920
 #, kde-format
 msgid "Invalid clip"
 msgstr "Nederīgs klips"
 
-#: src/bin/bin.cpp:5027
+#: src/bin/bin.cpp:5034
 #, kde-format
 msgid "Enable proxies"
 msgstr "Ieslēgt starpniekus"
 
-#: src/bin/bin.cpp:5027
+#: src/bin/bin.cpp:5034
 #, kde-format
 msgid "Disable proxies"
 msgstr "Izslēgt starpniekus"
 
-#: src/bin/bin.cpp:5201
+#: src/bin/bin.cpp:5208
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Pārbūvēt starpniekus"
 
-#: src/bin/bin.cpp:5431
+#: src/bin/bin.cpp:5438
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projekta lāde"
 
-#: src/bin/bin.cpp:5447
+#: src/bin/bin.cpp:5454
 #, kde-format
 msgid "Add Tracks"
 msgstr "Pievienot celiņus"
 
-#: src/bin/bin.cpp:5449
+#: src/bin/bin.cpp:5456
 #, kde-format
 msgid "Edit Streams"
 msgstr "Rediģēt straumes"
 
-#: src/bin/bin.cpp:5464
+#: src/bin/bin.cpp:5471
 #, kde-format
 msgid "Don't ask again"
 msgstr "Vairāk nejautāt"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5468
+#: src/bin/bin.cpp:5475
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5164,27 +5169,27 @@ msgstr ""
 "Jūsu projektam vajadzīgi papildu audio celiņi, lai apstrādātu visas "
 "straumes. Vai pievienot %1 audio celiņus?"
 
-#: src/bin/bin.cpp:5480 src/mainwindow.cpp:2850
+#: src/bin/bin.cpp:5487 src/mainwindow.cpp:2850
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nevar atrast klipu, kam pievienot marķieri"
 
-#: src/bin/bin.cpp:5574
+#: src/bin/bin.cpp:5581
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Nevar atrast pamata klipu"
 
-#: src/bin/bin.cpp:5834
+#: src/bin/bin.cpp:5841
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> klipi | "
 
-#: src/bin/bin.cpp:5836
+#: src/bin/bin.cpp:5843
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> klipi (%2 atlasīti) | "
 
-#: src/bin/bin.cpp:5903 src/bin/bin.cpp:5980
+#: src/bin/bin.cpp:5910 src/bin/bin.cpp:5987
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5192,12 +5197,12 @@ msgstr[0] "Klipam pievienot papildu straumi"
 msgstr[1] "Klipam pievienot papildu straumes"
 msgstr[2] "Klipam pievienot papildu straumju"
 
-#: src/bin/bin.cpp:5924
+#: src/bin/bin.cpp:5931
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importēt atlasītos klipus"
 
-#: src/bin/bin.cpp:5926
+#: src/bin/bin.cpp:5933
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5206,51 +5211,51 @@ msgstr ""
 "Papildu straumes klipam\n"
 " %1"
 
-#: src/bin/bin.cpp:5939 src/mltcontroller/clippropertiescontroller.cpp:647
+#: src/bin/bin.cpp:5946 src/mltcontroller/clippropertiescontroller.cpp:647
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video straume %1"
 
-#: src/bin/bin.cpp:5954
+#: src/bin/bin.cpp:5961
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Audio straume %1"
 
-#: src/bin/bin.cpp:6007
+#: src/bin/bin.cpp:6014
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Noņemt klipa marķierus"
 
-#: src/bin/bin.cpp:6154
+#: src/bin/bin.cpp:6161
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Iesakām pirms transkodēšanas projektu saglabāt"
 
-#: src/bin/bin.cpp:6155
+#: src/bin/bin.cpp:6162
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Projektu saglabāt"
 
-#: src/bin/bin.cpp:6156
+#: src/bin/bin.cpp:6163
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkodēt bez saglabāšanas"
 
-#: src/bin/bin.cpp:6305 src/effects/effectstack/model/effectstackmodel.cpp:158
+#: src/bin/bin.cpp:6312 src/effects/effectstack/model/effectstackmodel.cpp:178
 #: src/timeline2/model/timelineitemmodel.cpp:1115
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Dzēst efektu „%1“"
 
-#: src/bin/bin.cpp:6370 src/mainwindow.cpp:405
+#: src/bin/bin.cpp:6377 src/mainwindow.cpp:405
 #, kde-format
 msgid "Project Bin"
 msgstr "Projekta lāde"
 
-#: src/bin/bin.cpp:6373 src/bin/bin.cpp:6376 src/mainwindow.cpp:4962
+#: src/bin/bin.cpp:6380 src/bin/bin.cpp:6383 src/mainwindow.cpp:4962
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Projekta lāde „%1“"
@@ -5561,13 +5566,13 @@ msgid "Cut clip"
 msgstr "Izgriezt klipu"
 
 #: src/bin/model/subtitlemodel.cpp:825 src/bin/model/subtitlemodel.cpp:1588
-#: src/timeline2/model/timelinemodel.cpp:3951
+#: src/timeline2/model/timelinemodel.cpp:3961
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Mainīt subtitra izmēru"
 
 #: src/bin/model/subtitlemodel.cpp:1021
-#: src/timeline2/model/timelinemodel.cpp:1359
+#: src/timeline2/model/timelinemodel.cpp:1348
 #, kde-format
 msgid "Move subtitle"
 msgstr "Pārvietot subtitru"
@@ -5640,24 +5645,24 @@ msgstr ""
 msgid "Invalid"
 msgstr "Nederīgs"
 
-#: src/bin/projectclip.cpp:1446 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1450 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1481
 #, kde-format
 msgid "File already exists"
 msgstr "Datne jau pastāv"
 
-#: src/bin/projectclip.cpp:2688
+#: src/bin/projectclip.cpp:2692
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Regulēt laika joslas klipus"
 
-#: src/bin/projectclip.cpp:2935
+#: src/bin/projectclip.cpp:2939
 #, kde-format
 msgid "Add stream effect"
 msgstr "Pievienot straumes efektu"
 
-#: src/bin/projectclip.cpp:2960
+#: src/bin/projectclip.cpp:2964
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Noņemt straumes efektu"
@@ -5685,8 +5690,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "Lietojums"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1773
-#: src/doc/documentchecker.cpp:1801 src/doc/documentchecker.cpp:1821
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1775
+#: src/doc/documentchecker.cpp:1803 src/doc/documentchecker.cpp:1823
 #: src/mltcontroller/clipcontroller.cpp:524 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6086,7 +6091,7 @@ msgstr "Pulkstenis, augšā"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Jūsu projekts nav derīgs, renderēšana var neizdoties."
 
-#: src/core.cpp:1005
+#: src/core.cpp:1023
 #, kde-format
 msgid "Loading clips"
 msgstr "Ielādē klipus"
@@ -7150,12 +7155,12 @@ msgstr "Renderēšana atcelta"
 msgid "Nearest (fast)"
 msgstr "Tuvākais (ātrs)"
 
-#: src/dialogs/renderwidget.cpp:206 src/monitor/monitormanager.cpp:597
+#: src/dialogs/renderwidget.cpp:206 src/monitor/monitormanager.cpp:596
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilineāri (labs)"
 
-#: src/dialogs/renderwidget.cpp:207 src/monitor/monitormanager.cpp:598
+#: src/dialogs/renderwidget.cpp:207 src/monitor/monitormanager.cpp:597
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bikuba (labāks)"
@@ -7180,17 +7185,17 @@ msgstr "Vertikāli (9:16)"
 msgid "Square (1:1)"
 msgstr "Kvadrāts (1:1)"
 
-#: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:578
+#: src/dialogs/renderwidget.cpp:224 src/monitor/monitormanager.cpp:577
 #, kde-format
 msgid "One Field (fast)"
 msgstr "Viens lauks (ātrs)"
 
-#: src/dialogs/renderwidget.cpp:225 src/monitor/monitormanager.cpp:579
+#: src/dialogs/renderwidget.cpp:225 src/monitor/monitormanager.cpp:578
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Lineārs sajaukums (ātrs)"
 
-#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:580
+#: src/dialogs/renderwidget.cpp:226 src/monitor/monitormanager.cpp:579
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF — tikai pagaidu (labs)"
@@ -7371,7 +7376,7 @@ msgstr "Audio bez video celiņa"
 msgid "Rendering <i>%1</i> started"
 msgstr "Sākusies <i>%1</i> renderēšana"
 
-#: src/dialogs/renderwidget.cpp:924 src/monitor/monitor.cpp:1287
+#: src/dialogs/renderwidget.cpp:924 src/monitor/monitor.cpp:1286
 #, kde-format
 msgid "untitled"
 msgstr "bez nosaukuma"
@@ -8765,112 +8770,112 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Jūsu projekta dokumenta ID ir nederīgs, tāpēc ir izveidots jauns."
 
-#: src/doc/documentchecker.cpp:1763
+#: src/doc/documentchecker.cpp:1765
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklips"
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1767
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Slīdrādes klips"
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1769
 #, kde-format
 msgid "Image clip"
 msgstr "Attēla klips"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1771
 #, kde-format
 msgid "Playlist clip"
 msgstr "Repertuāra klips"
 
-#: src/doc/documentchecker.cpp:1771 src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1773 src/doc/documentchecker.cpp:1789
 #, kde-format
 msgid "Title Image"
 msgstr "Titru attēls"
 
-#: src/doc/documentchecker.cpp:1783
+#: src/doc/documentchecker.cpp:1785
 #, kde-format
 msgid "Clip"
 msgstr "Klips"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1787
 #, kde-format
 msgid "Title Font"
 msgstr "Titru fonts"
 
-#: src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1791
 #, kde-format
 msgid "Luma file"
 msgstr "Spožuma datne"
 
-#: src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1793
 #, kde-format
 msgid "Asset file"
 msgstr "Resursu datne"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1795
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Starpniekklips"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1797
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efekts"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1799
 #, kde-format
 msgid "Transition"
 msgstr "Pāreja"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1801
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Bojāta sekvence"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1809 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1811 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Labots"
 
-#: src/doc/documentchecker.cpp:1811
+#: src/doc/documentchecker.cpp:1813
 #, kde-format
 msgid "Reload"
 msgstr "Pārlādēt"
 
-#: src/doc/documentchecker.cpp:1813
+#: src/doc/documentchecker.cpp:1815
 #, kde-format
 msgid "Missing"
 msgstr "Trūkst"
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1817
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Trūkst, bet pieejams starpniekklips"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1817 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1819 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Vietturis"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1819 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1821 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Noņemt"
 
-#: src/doc/documentchecker.cpp:1830
+#: src/doc/documentchecker.cpp:1832
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projekta datne satur trūkstošus klipus vai datnes."
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1835
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Trūkstoši starpnieki var tikt izveidoti no jauna pēc atvēršanas."
@@ -9324,44 +9329,44 @@ msgstr "Eksportēt pielāgoto efektu"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Daži no jūsu iecienītajiem efektiem nav derīgi un ir noņemti: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:241
+#: src/effects/effectstack/model/effectitemmodel.cpp:255
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Slēpt atslēgas kadrus"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:241
+#: src/effects/effectstack/model/effectitemmodel.cpp:255
 #, kde-format
 msgid "Show keyframes"
 msgstr "Rādīt atslēgas kadrus"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:317
+#: src/effects/effectstack/model/effectitemmodel.cpp:331
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Atjaunināt „%1“ apgabalu"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:255
+#: src/effects/effectstack/model/effectstackmodel.cpp:275
 #: src/timeline2/model/timelineitemmodel.cpp:740
 #: src/timeline2/model/timelineitemmodel.cpp:753
 #, kde-format
 msgid "Copy effect"
 msgstr "Kopēt efektu"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:351
-#: src/effects/effectstack/model/effectstackmodel.cpp:485
-#: src/effects/effectstack/model/effectstackmodel.cpp:570
-#: src/effects/effectstack/model/effectstackmodel.cpp:1307
+#: src/effects/effectstack/model/effectstackmodel.cpp:371
+#: src/effects/effectstack/model/effectstackmodel.cpp:505
+#: src/effects/effectstack/model/effectstackmodel.cpp:590
+#: src/effects/effectstack/model/effectstackmodel.cpp:1327
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efektu „%1“ nevar pievienot vēlreiz."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:561
+#: src/effects/effectstack/model/effectstackmodel.cpp:581
 #: src/effects/effectstack/view/effectstackview.cpp:239
-#: src/timeline2/model/timelinemodel.cpp:5061
+#: src/timeline2/model/timelinemodel.cpp:5071
 #, kde-format
 msgid "Add effect %1"
 msgstr "Pievienot efektu „%1“"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1108
+#: src/effects/effectstack/model/effectstackmodel.cpp:1128
 #, kde-format
 msgid "Move effect %1"
 msgstr "Pārvietot efektu „%1“"
@@ -11961,7 +11966,7 @@ msgstr "Importēt subtitru datni..."
 msgid "Export Subtitle File…"
 msgstr "Eksportēt subtitru datni..."
 
-#: src/mainwindow.cpp:2054 src/timeline2/model/timelinemodel.cpp:2165
+#: src/mainwindow.cpp:2054 src/timeline2/model/timelinemodel.cpp:2154
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Dzēst subtitru"
@@ -12665,7 +12670,7 @@ msgid "Audio streams"
 msgstr "Audio straumes"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:723
-#: src/monitor/monitor.cpp:1923
+#: src/monitor/monitor.cpp:1922
 #, kde-format
 msgid "Merge all streams"
 msgstr "Apvienot visas straumes"
@@ -12930,17 +12935,17 @@ msgctxt "@title:window"
 msgid "Open Analysis Data"
 msgstr "Atvērt analīzes datus"
 
-#: src/monitor/glwidget.cpp:1650 src/monitor/videowidget.cpp:1082
+#: src/monitor/glwidget.cpp:1650 src/monitor/videowidget.cpp:1081
 #, kde-format
 msgid "Select a zone to play"
 msgstr "Atlasīt atskaņojamo apgabalu"
 
-#: src/monitor/glwidget.cpp:1699 src/monitor/videowidget.cpp:1091
+#: src/monitor/glwidget.cpp:1699 src/monitor/videowidget.cpp:1090
 #, kde-format
 msgid "Select a clip to play"
 msgstr "Atlasīt atskaņojamo klipu"
 
-#: src/monitor/glwidget.cpp:1781 src/monitor/videowidget.cpp:1196
+#: src/monitor/glwidget.cpp:1781 src/monitor/videowidget.cpp:1195
 #, kde-format
 msgid ""
 "Could not create the video preview window.\n"
@@ -12985,34 +12990,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:376 src/monitor/monitormanager.cpp:639
+#: src/monitor/monitor.cpp:376 src/monitor/monitormanager.cpp:638
 #, kde-format
 msgid "Set Zone In"
 msgstr "Iestatīt apgabala sākumu"
 
-#: src/monitor/monitor.cpp:377 src/monitor/monitormanager.cpp:643
+#: src/monitor/monitor.cpp:377 src/monitor/monitormanager.cpp:642
 #, kde-format
 msgid "Set Zone Out"
 msgstr "Iestatīt apgabala beigas"
 
-#: src/monitor/monitor.cpp:389 src/monitor/monitormanager.cpp:523
+#: src/monitor/monitor.cpp:389 src/monitor/monitormanager.cpp:522
 #, kde-format
 msgid "Rewind"
 msgstr "Paiet atpakaļ"
 
 #: src/monitor/monitor.cpp:394 src/monitor/monitor.cpp:397
-#: src/monitor/monitormanager.cpp:498
+#: src/monitor/monitormanager.cpp:497
 #, kde-format
 msgid "Play"
 msgstr "Atskaņot"
 
-#: src/monitor/monitor.cpp:397 src/monitor/monitormanager.cpp:498
-#: src/monitor/monitormanager.cpp:504
+#: src/monitor/monitor.cpp:397 src/monitor/monitormanager.cpp:497
+#: src/monitor/monitormanager.cpp:503
 #, kde-format
 msgid "Pause"
 msgstr "Pauzēt"
 
-#: src/monitor/monitor.cpp:417 src/monitor/monitormanager.cpp:536
+#: src/monitor/monitor.cpp:417 src/monitor/monitormanager.cpp:535
 #, kde-format
 msgid "Forward"
 msgstr "Paiet uz priekšu"
@@ -13132,24 +13137,24 @@ msgstr "Jūsu ekrāna izšķirtspēja nav pietiekama šai darbībai"
 msgid "Set Zone"
 msgstr "Iestatīt apgabalu"
 
-#: src/monitor/monitor.cpp:1299
+#: src/monitor/monitor.cpp:1298
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Saglabāt attēlu projektā"
 
-#: src/monitor/monitor.cpp:1299
+#: src/monitor/monitor.cpp:1298
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Saglabāt attēlu"
 
-#: src/monitor/monitor.cpp:1306
+#: src/monitor/monitor.cpp:1305
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Eksportēt attēlu ar avotu izšķirtspēju"
 
-#: src/monitor/monitor.cpp:1908 src/monitor/monitor.cpp:2057
+#: src/monitor/monitor.cpp:1907 src/monitor/monitor.cpp:2056
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -13157,12 +13162,12 @@ msgstr[0] "%1 audio straume"
 msgstr[1] "%1 audio straumes"
 msgstr[2] "%1 audio straumju"
 
-#: src/monitor/monitor.cpp:2390
+#: src/monitor/monitor.cpp:2389
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Nevar palaist „Movit“ GLSL pārvaldnieku. Izslēdziet „Movit“."
 
-#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
+#: src/monitor/monitor.cpp:2431 src/monitor/monitor.cpp:2488
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13171,17 +13176,17 @@ msgstr ""
 "Lai šī iespēja darbotos, ierīcē ir jābūt „alphagrad“ filtram. Instalējiet "
 "„frei0r“ un pārstartējiet „Kdenlive“"
 
-#: src/monitor/monitor.cpp:2452
+#: src/monitor/monitor.cpp:2451
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipam nav efektu"
 
-#: src/monitor/monitor.cpp:2454
+#: src/monitor/monitor.cpp:2453
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Atlasiet klipu projekta lādē, lai salīdzinātu efektu"
 
-#: src/monitor/monitor.cpp:2496
+#: src/monitor/monitor.cpp:2495
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13190,12 +13195,12 @@ msgstr ""
 "Lai šī iespēja darbotos, ir nepieciešama „cairoblend“ iespēja. Instalējiet "
 "„frei0r“ un pārstartējiet „Kdenlive“"
 
-#: src/monitor/monitor.cpp:2542
+#: src/monitor/monitor.cpp:2541
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ieslēdziet rediģēšanas režīmu un pārskatiet rediģēšanas efektu"
 
-#: src/monitor/monitormanager.cpp:200
+#: src/monitor/monitormanager.cpp:199
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
@@ -13204,7 +13209,7 @@ msgstr ""
 "Vai vēlaties <a href=\"#clipmonitor\">parādīt klipu monitoru</a>, lai "
 "skatītu laika joslu?"
 
-#: src/monitor/monitormanager.cpp:219
+#: src/monitor/monitormanager.cpp:218
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
@@ -13213,125 +13218,125 @@ msgstr ""
 "Vai vēlaties <a href=\"#projectmonitor\">parādīt projekta monitoru</a>, lai "
 "skatītu laika joslu?"
 
-#: src/monitor/monitormanager.cpp:508
+#: src/monitor/monitormanager.cpp:507
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "Pārslēgt monitoru pilnekrānā"
 
-#: src/monitor/monitormanager.cpp:513
+#: src/monitor/monitormanager.cpp:512
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "Tuvināt monitorā"
 
-#: src/monitor/monitormanager.cpp:518
+#: src/monitor/monitormanager.cpp:517
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "Tālināt monitorā"
 
-#: src/monitor/monitormanager.cpp:527
+#: src/monitor/monitormanager.cpp:526
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "Iet atpakaļ vienu kadru"
 
-#: src/monitor/monitormanager.cpp:531
+#: src/monitor/monitormanager.cpp:530
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "Iet atpakaļ vienu sekundi"
 
-#: src/monitor/monitormanager.cpp:540
+#: src/monitor/monitormanager.cpp:539
 #, kde-format
 msgid "Go to Project Start"
 msgstr "Iet uz projekta sākumu"
 
-#: src/monitor/monitormanager.cpp:544
+#: src/monitor/monitormanager.cpp:543
 #, kde-format
 msgid "Go to Project End"
 msgstr "Iet uz projekta beigām"
 
-#: src/monitor/monitormanager.cpp:548
+#: src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "Iet uz priekšu vienu kadru"
 
-#: src/monitor/monitormanager.cpp:552
+#: src/monitor/monitormanager.cpp:551
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "Iet uz priekšu vienu sekundi"
 
-#: src/monitor/monitormanager.cpp:557
+#: src/monitor/monitormanager.cpp:556
 #, kde-format
 msgid "Multitrack View"
 msgstr "Vairāku celiņu skats"
 
-#: src/monitor/monitormanager.cpp:566
+#: src/monitor/monitormanager.cpp:565
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "Veikt vairāku celiņu darbību"
 
-#: src/monitor/monitormanager.cpp:570
+#: src/monitor/monitormanager.cpp:569
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "Slēpt/rādīt rediģēšanas režīmu"
 
-#: src/monitor/monitormanager.cpp:571
+#: src/monitor/monitormanager.cpp:570
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "Ieslēdz vai izslēdz rediģēšanas režīmu (un objektu turu displeju)."
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:577 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:576 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "Rindpārleces veidotājs"
 
-#: src/monitor/monitormanager.cpp:581
+#: src/monitor/monitormanager.cpp:580
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF — laika + telpas (labākais)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:595 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:594 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "Interpolācijas"
 
-#: src/monitor/monitormanager.cpp:596
+#: src/monitor/monitormanager.cpp:595
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "Tuvākais kaimiņš (ātrs)"
 
-#: src/monitor/monitormanager.cpp:599
+#: src/monitor/monitormanager.cpp:598
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Hiper/„Lanczos“ (labākais"
 
-#: src/monitor/monitormanager.cpp:613
+#: src/monitor/monitormanager.cpp:612
 #, kde-format
 msgid "Progressive playback"
 msgstr "Progresīvā atskaņošana"
 
-#: src/monitor/monitormanager.cpp:619
+#: src/monitor/monitormanager.cpp:618
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "Audio skrubēšana"
 
-#: src/monitor/monitormanager.cpp:625
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "Mute Monitor"
 msgstr "Apklusināt monitoru"
 
-#: src/monitor/monitormanager.cpp:625
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "Noņemt monitora skaņu"
 
-#: src/monitor/monitormanager.cpp:631
+#: src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "Iet uz apgabala sākumu"
 
-#: src/monitor/monitormanager.cpp:635
+#: src/monitor/monitormanager.cpp:634
 #, kde-format
 msgid "Go to Zone End"
 msgstr "Iet uz apgabala beigām"
@@ -16753,7 +16758,7 @@ msgid "Delete clips on track"
 msgstr "Dzēst klipus celiņā"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4642
+#: src/timeline2/model/timelinemodel.cpp:4652
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -16799,140 +16804,140 @@ msgstr "Aizstātie klipi: %1, pārāk gari klipi: %2"
 msgid "Replace clip"
 msgstr "Aizstāt klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:989
-#: src/timeline2/model/timelinemodel.cpp:1206
+#: src/timeline2/model/timelinemodel.cpp:978
+#: src/timeline2/model/timelinemodel.cpp:1195
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "Atlasiet klipi, lai pielietotu sajaukšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1193
 #, kde-format
 msgid "start"
 msgstr "sākt"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1193
 #, kde-format
 msgid "end"
 msgstr "beigt"
 
-#: src/timeline2/model/timelinemodel.cpp:1204
+#: src/timeline2/model/timelinemodel.cpp:1193
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "Klipā „%1“ nepietiek kadru, lai pielietotu sajaukšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:1210
+#: src/timeline2/model/timelinemodel.cpp:1199
 #, kde-format
 msgid "Create mix"
 msgstr "Izveidot sajaukšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:1285
-#: src/timeline2/model/timelinemodel.cpp:1320
+#: src/timeline2/model/timelinemodel.cpp:1274
+#: src/timeline2/model/timelinemodel.cpp:1309
 #, kde-format
 msgid "Move clip"
 msgstr "Pārvietot klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:1838
-#: src/timeline2/model/timelinemodel.cpp:1928
-#: src/timeline2/model/timelinemodel.cpp:1951
-#: src/timeline2/model/timelinemodel.cpp:1974
+#: src/timeline2/model/timelinemodel.cpp:1827
+#: src/timeline2/model/timelinemodel.cpp:1917
+#: src/timeline2/model/timelinemodel.cpp:1940
+#: src/timeline2/model/timelinemodel.cpp:1963
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Ievietošanas darbībai nav pieejams celiņš"
 
-#: src/timeline2/model/timelinemodel.cpp:1843
+#: src/timeline2/model/timelinemodel.cpp:1832
 #, kde-format
 msgid "Insert Clip"
 msgstr "Ievietot klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:1896
+#: src/timeline2/model/timelinemodel.cpp:1885
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Nevarat ievietot sekvenci, kas satur pati sevi"
 
-#: src/timeline2/model/timelinemodel.cpp:1944
-#: src/timeline2/model/timelinemodel.cpp:1966
+#: src/timeline2/model/timelinemodel.cpp:1933
+#: src/timeline2/model/timelinemodel.cpp:1955
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Nepietiek audio celiņu visām straumēm (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2050
+#: src/timeline2/model/timelinemodel.cpp:2039
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Nepietiek celiņu sadalīšanas darbībai"
 
-#: src/timeline2/model/timelinemodel.cpp:2087
+#: src/timeline2/model/timelinemodel.cpp:2076
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Audio sadalīšana neizdevās: nav piemērota celiņa"
 
-#: src/timeline2/model/timelinemodel.cpp:2095
+#: src/timeline2/model/timelinemodel.cpp:2084
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Audio sadalīšana neizdevās: nav iespējams izveidot audio klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:2158
+#: src/timeline2/model/timelinemodel.cpp:2147
 #, kde-format
 msgid "Remove group"
 msgstr "Noņemt grupu"
 
-#: src/timeline2/model/timelinemodel.cpp:2163
+#: src/timeline2/model/timelinemodel.cpp:2152
 #, kde-format
 msgid "Delete Composition"
 msgstr "Dzēst kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:2397
-#: src/timeline2/model/timelinemodel.cpp:2674
+#: src/timeline2/model/timelinemodel.cpp:2394
+#: src/timeline2/model/timelinemodel.cpp:2684
 #: src/timeline2/view/timelinecontroller.cpp:4335
 #, kde-format
 msgid "Move group"
 msgstr "Pārvietot grupu"
 
-#: src/timeline2/model/timelinemodel.cpp:3366
+#: src/timeline2/model/timelinemodel.cpp:3376
 #, kde-format
 msgid "Resize group"
 msgstr "Mainīt grupas izmēru"
 
-#: src/timeline2/model/timelinemodel.cpp:3490
+#: src/timeline2/model/timelinemodel.cpp:3500
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Mainīt klipa ātrumu"
 
-#: src/timeline2/model/timelinemodel.cpp:3649
+#: src/timeline2/model/timelinemodel.cpp:3659
 #, kde-format
 msgid "Remove mix"
 msgstr "Noņemt sajaukšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:3651
+#: src/timeline2/model/timelinemodel.cpp:3661
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Sajaukšanas noņemšana neizdevās"
 
-#: src/timeline2/model/timelinemodel.cpp:3947
+#: src/timeline2/model/timelinemodel.cpp:3957
 #, kde-format
 msgid "Resize clip"
 msgstr "Mainīt klipa izmēru"
 
-#: src/timeline2/model/timelinemodel.cpp:3949
+#: src/timeline2/model/timelinemodel.cpp:3959
 #, kde-format
 msgid "Resize composition"
 msgstr "Mainīt klip kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:4268
+#: src/timeline2/model/timelinemodel.cpp:4278
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Mainīt klipa izmēru ķēdē"
 
-#: src/timeline2/model/timelinemodel.cpp:4270
+#: src/timeline2/model/timelinemodel.cpp:4280
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Mainīt kompozīcijas izmēru ķēdē"
 
-#: src/timeline2/model/timelinemodel.cpp:4272
+#: src/timeline2/model/timelinemodel.cpp:4282
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Mainīt subtitru izmēru ķēdē"
 
-#: src/timeline2/model/timelinemodel.cpp:4415
+#: src/timeline2/model/timelinemodel.cpp:4425
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -16941,136 +16946,136 @@ msgstr[0] "Slidināt klipu"
 msgstr[1] "Slidināt klipus"
 msgstr[2] "Slidināt klipus"
 
-#: src/timeline2/model/timelinemodel.cpp:4450
+#: src/timeline2/model/timelinemodel.cpp:4460
 #, kde-format
 msgid "Slip clip"
 msgstr "Slidināt klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:4485
+#: src/timeline2/model/timelinemodel.cpp:4495
 #, kde-format
 msgid "Group clips"
 msgstr "Grupēt klipus"
 
-#: src/timeline2/model/timelinemodel.cpp:4570
-#: src/timeline2/model/timelinemodel.cpp:4586
+#: src/timeline2/model/timelinemodel.cpp:4580
+#: src/timeline2/model/timelinemodel.cpp:4596
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Atgrupēt klipus"
 
-#: src/timeline2/model/timelinemodel.cpp:4751
+#: src/timeline2/model/timelinemodel.cpp:4761
 #: src/timeline2/view/timelinecontroller.cpp:944
 #, kde-format
 msgid "Delete Track"
 msgstr "Dzēst celiņu"
 
-#: src/timeline2/model/timelinemodel.cpp:4761
+#: src/timeline2/model/timelinemodel.cpp:4771
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Nevar dzēst pēdējo celiņu laika joslā"
 
-#: src/timeline2/model/timelinemodel.cpp:4986
+#: src/timeline2/model/timelinemodel.cpp:4996
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Nevar pievienot efektu „%1“ pamata celiņam"
 
-#: src/timeline2/model/timelinemodel.cpp:4993
+#: src/timeline2/model/timelinemodel.cpp:5003
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Nevar pievienot efektu „%1“ atlasītajam celiņam"
 
-#: src/timeline2/model/timelinemodel.cpp:5014
+#: src/timeline2/model/timelinemodel.cpp:5024
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Nevar ielīmēt efektu pamata celiņam"
 
-#: src/timeline2/model/timelinemodel.cpp:5020
+#: src/timeline2/model/timelinemodel.cpp:5030
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Nevar ielīmēt efektu atlasītajam celiņam"
 
-#: src/timeline2/model/timelinemodel.cpp:5064
+#: src/timeline2/model/timelinemodel.cpp:5074
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Nevar pievienot efektu „%1“ atlasītajam klipam"
 
-#: src/timeline2/model/timelinemodel.cpp:5088
+#: src/timeline2/model/timelinemodel.cpp:5098
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Regulēt izgaišanu"
 
-#: src/timeline2/model/timelinemodel.cpp:5400
+#: src/timeline2/model/timelinemodel.cpp:5410
 #, kde-format
 msgid "Insert Composition"
 msgstr "Ievietot kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:5615
+#: src/timeline2/model/timelinemodel.cpp:5625
 #, kde-format
 msgid "Move composition"
 msgstr "Pārvietot kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:6283
+#: src/timeline2/model/timelinemodel.cpp:6293
 #, kde-format
 msgid "Enable time remap"
 msgstr "Ieslēgt laika pārkartēšanu"
 
-#: src/timeline2/model/timelinemodel.cpp:6357
+#: src/timeline2/model/timelinemodel.cpp:6367
 #, kde-format
 msgid "Change speed failed"
 msgstr "Ātruma mainīšana neizdevās"
 
-#: src/timeline2/model/timelinemodel.cpp:6367
+#: src/timeline2/model/timelinemodel.cpp:6377
 #, kde-format
 msgid "Change clip speed"
 msgstr "Mainīt klipa ātrumu"
 
-#: src/timeline2/model/timelinemodel.cpp:6816
+#: src/timeline2/model/timelinemodel.cpp:6826
 #: src/timeline2/view/qml/timeline.qml:1200
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Slēgt celiņu"
 
-#: src/timeline2/model/timelinemodel.cpp:6821
+#: src/timeline2/model/timelinemodel.cpp:6831
 #: src/timeline2/view/qml/timeline.qml:1200
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Atslēgt celiņu"
 
-#: src/timeline2/model/timelinemodel.cpp:6855
-#: src/timeline2/model/timelinemodel.cpp:6917
+#: src/timeline2/model/timelinemodel.cpp:6865
+#: src/timeline2/model/timelinemodel.cpp:6927
 #, kde-format
 msgid "Change composition"
 msgstr "Mainīt kompozīciju"
 
-#: src/timeline2/model/timelinemodel.cpp:6869
+#: src/timeline2/model/timelinemodel.cpp:6879
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Nevar darboties ar grupētu kompozīciju. Atgrupējiet, lai turpinātu"
 
-#: src/timeline2/model/timelinemodel.cpp:7064
-#: src/timeline2/model/timelinemodel.cpp:7101
-#: src/timeline2/model/timelinemodel.cpp:7134
-#: src/timeline2/model/timelinemodel.cpp:7215
+#: src/timeline2/model/timelinemodel.cpp:7074
+#: src/timeline2/model/timelinemodel.cpp:7111
+#: src/timeline2/model/timelinemodel.cpp:7144
+#: src/timeline2/model/timelinemodel.cpp:7225
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Nevar mainīt sajaukšanas izmēru uz mazāk par vienu kadru"
 
-#: src/timeline2/model/timelinemodel.cpp:7075
-#: src/timeline2/model/timelinemodel.cpp:7109
-#: src/timeline2/model/timelinemodel.cpp:7153
-#: src/timeline2/model/timelinemodel.cpp:7239
+#: src/timeline2/model/timelinemodel.cpp:7085
+#: src/timeline2/model/timelinemodel.cpp:7119
+#: src/timeline2/model/timelinemodel.cpp:7163
+#: src/timeline2/model/timelinemodel.cpp:7249
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Nevar mainīt sajaukšanas izmēru"
 
-#: src/timeline2/model/timelinemodel.cpp:7253
+#: src/timeline2/model/timelinemodel.cpp:7263
 #, kde-format
 msgid "Resize mix"
 msgstr "Mainīt sajaukšanas izmēru"
 
-#: src/timeline2/model/timelinemodel.cpp:7373
+#: src/timeline2/model/timelinemodel.cpp:7383
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Kļūda, palaižot laika joslas priekšskatījumu"
@@ -17172,7 +17177,7 @@ msgid "Stop"
 msgstr "Apturēt"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2116
+#: src/timeline2/view/qml/timeline.qml:2121
 #, kde-format
 msgid "Paused"
 msgstr "Pauzēts"
@@ -17354,13 +17359,13 @@ msgstr "<b>Dubultklikšķis</b>, lai atvērtu subtitru"
 msgid "Offset: %1, Position: %2"
 msgstr "Nobīde: %1, Pozīcija: %2"
 
-#: src/timeline2/view/qml/timeline.qml:2105
-#: src/timeline2/view/qml/timeline.qml:2114
+#: src/timeline2/view/qml/timeline.qml:2110
+#: src/timeline2/view/qml/timeline.qml:2119
 #, kde-format
 msgid "Recording"
 msgstr "Ieraksta"
 
-#: src/timeline2/view/qml/timeline.qml:2208
+#: src/timeline2/view/qml/timeline.qml:2213
 #, kde-format
 msgid "Multicam In"
 msgstr "Vairāku kameru ievade"
