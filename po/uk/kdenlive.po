@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-07 00:39+0000\n"
+"POT-Creation-Date: 2024-10-08 00:39+0000\n"
 "PO-Revision-Date: 2024-10-02 20:34+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -690,7 +690,7 @@ msgstr "Вгорі"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #. i18n: ectx: property (text), widget (QLabel, labelMarginL)
-#: data/effects/crop.xml:11 data/effects/dance.xml:26 data/effects/dance.xml:35
+#: data/effects/crop.xml:11 data/effects/dance.xml:26
 #: src/dialogs/managesubtitles.cpp:529 src/dialogs/subtitlestyleedit.cpp:106
 #: src/ui/configmisc_ui.ui:130 src/ui/editsub_ui.ui:427
 #: src/ui/editsubstyle_ui.ui:413
@@ -764,6 +764,12 @@ msgstr "Масштабування"
 #, kde-format
 msgid "Up"
 msgstr "Верх"
+
+#: data/effects/dance.xml:35
+#, fuzzy, kde-format
+#| msgid "&Download"
+msgid "Down"
+msgstr "&Отримати"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -4729,7 +4735,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Замінити на монтажному столі"
 
-#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5783 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5786 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4889,7 +4895,7 @@ msgid "Create bin folder"
 msgstr "Створити теку контейнера"
 
 #: src/bin/bin.cpp:2672 src/bin/bin.cpp:2685 src/bin/bin.cpp:3667
-#: src/timeline2/model/timelinemodel.cpp:2165
+#: src/timeline2/model/timelinemodel.cpp:2154
 #, kde-format
 msgid "Delete Clip"
 msgstr "Вилучити кліп"
@@ -5183,60 +5189,60 @@ msgstr "Зберегти до файла титрів"
 msgid "Save in project only"
 msgstr "Зберегти лише у проєкті"
 
-#: src/bin/bin.cpp:4835 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4838 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Кліп з титрами"
 
-#: src/bin/bin.cpp:4885
+#: src/bin/bin.cpp:4888
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Дані кліпу пошкоджено, його буде вилучено з проєкту."
 
-#: src/bin/bin.cpp:4889
+#: src/bin/bin.cpp:4892
 #, kde-format
 msgid "Invalid clip"
 msgstr "Некоректний кліп"
 
-#: src/bin/bin.cpp:5003
+#: src/bin/bin.cpp:5006
 #, kde-format
 msgid "Enable proxies"
 msgstr "Увімкнути проміжні"
 
-#: src/bin/bin.cpp:5003
+#: src/bin/bin.cpp:5006
 #, kde-format
 msgid "Disable proxies"
 msgstr "Вимкнути проміжні"
 
-#: src/bin/bin.cpp:5177
+#: src/bin/bin.cpp:5180
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Перебудувати проміжні"
 
-#: src/bin/bin.cpp:5402
+#: src/bin/bin.cpp:5405
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Контейнер проєкту"
 
-#: src/bin/bin.cpp:5418
+#: src/bin/bin.cpp:5421
 #, kde-format
 msgid "Add Tracks"
 msgstr "Додати доріжки"
 
-#: src/bin/bin.cpp:5420
+#: src/bin/bin.cpp:5423
 #, kde-format
 msgid "Edit Streams"
 msgstr "Редагування потоків"
 
-#: src/bin/bin.cpp:5435
+#: src/bin/bin.cpp:5438
 #, kde-format
 msgid "Don't ask again"
 msgstr "Більше не питати"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5439
+#: src/bin/bin.cpp:5442
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -5245,27 +5251,27 @@ msgstr ""
 "Вашому проєкту потрібно більше звукових доріжок, щоб можна було обробляти "
 "усі потоки звукових даних. Додати %1 звукові доріжки?"
 
-#: src/bin/bin.cpp:5451 src/mainwindow.cpp:2791
+#: src/bin/bin.cpp:5454 src/mainwindow.cpp:2791
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Не вдалося знайти кліп для додавання позначки"
 
-#: src/bin/bin.cpp:5545
+#: src/bin/bin.cpp:5548
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Не вдалося знайти основний кліп"
 
-#: src/bin/bin.cpp:5805
+#: src/bin/bin.cpp:5808
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> кліпів | "
 
-#: src/bin/bin.cpp:5807
+#: src/bin/bin.cpp:5810
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> кліпів (позначено %2) | "
 
-#: src/bin/bin.cpp:5874 src/bin/bin.cpp:5951
+#: src/bin/bin.cpp:5877 src/bin/bin.cpp:5954
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5274,12 +5280,12 @@ msgstr[1] "Додати до кліпу додаткові потоки"
 msgstr[2] "Додати до кліпу додаткові потоки"
 msgstr[3] "Додати до кліпу додаткові потоки"
 
-#: src/bin/bin.cpp:5895
+#: src/bin/bin.cpp:5898
 #, kde-format
 msgid "Import selected clips"
 msgstr "Імпортувати позначені кліпи"
 
-#: src/bin/bin.cpp:5897
+#: src/bin/bin.cpp:5900
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5288,52 +5294,52 @@ msgstr ""
 "Додаткові потоки даних для кліпу\n"
 " %1"
 
-#: src/bin/bin.cpp:5910 src/mltcontroller/clippropertiescontroller.cpp:668
+#: src/bin/bin.cpp:5913 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "Відеопотік %1"
 
-#: src/bin/bin.cpp:5925
+#: src/bin/bin.cpp:5928
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Потік звукових даних %1"
 
-#: src/bin/bin.cpp:5978
+#: src/bin/bin.cpp:5981
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Вилучити позначки кліпів"
 
-#: src/bin/bin.cpp:6125
+#: src/bin/bin.cpp:6128
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Ми рекомендуємо зберегти проєкт перед використанням дії з перекодування"
 
-#: src/bin/bin.cpp:6126
+#: src/bin/bin.cpp:6129
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Зберегти проєкт"
 
-#: src/bin/bin.cpp:6127
+#: src/bin/bin.cpp:6130
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Перекодувати без збереження"
 
-#: src/bin/bin.cpp:6276 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6279 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Вилучити ефект %1"
 
-#: src/bin/bin.cpp:6341 src/mainwindow.cpp:391
+#: src/bin/bin.cpp:6344 src/mainwindow.cpp:391
 #, kde-format
 msgid "Project Bin"
 msgstr "Контейнер проєкту"
 
-#: src/bin/bin.cpp:6344 src/bin/bin.cpp:6347 src/mainwindow.cpp:4934
+#: src/bin/bin.cpp:6347 src/bin/bin.cpp:6350 src/mainwindow.cpp:4934
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Контейнер проєкту %1"
@@ -5650,13 +5656,13 @@ msgid "Cut clip"
 msgstr "Розрізати кліп"
 
 #: src/bin/model/subtitlemodel.cpp:856 src/bin/model/subtitlemodel.cpp:1633
-#: src/timeline2/model/timelinemodel.cpp:3955
+#: src/timeline2/model/timelinemodel.cpp:3965
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Змінити розмір субтитрів"
 
 #: src/bin/model/subtitlemodel.cpp:1054
-#: src/timeline2/model/timelinemodel.cpp:1361
+#: src/timeline2/model/timelinemodel.cpp:1350
 #, kde-format
 msgid "Move subtitle"
 msgstr "Пересунути субтитри"
@@ -9861,17 +9867,17 @@ msgstr "Експортувати нетиповий ефект"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Деякі з ваших улюблених ефектів є некоректними, їх буде вилучено: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:270
+#: src/effects/effectstack/model/effectitemmodel.cpp:272
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Приховати ключові кадри"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:270
+#: src/effects/effectstack/model/effectitemmodel.cpp:272
 #, kde-format
 msgid "Show keyframes"
 msgstr "Показати ключові кадри"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:351
+#: src/effects/effectstack/model/effectitemmodel.cpp:353
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Оновити ділянку для %1"
@@ -9893,7 +9899,7 @@ msgstr "Ефект %1 не можна додавати двічі."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
-#: src/timeline2/model/timelinemodel.cpp:5065
+#: src/timeline2/model/timelinemodel.cpp:5075
 #, kde-format
 msgid "Add effect %1"
 msgstr "Додавання ефекту %1"
@@ -12533,7 +12539,7 @@ msgstr "Імпортування файла субтитрів…"
 msgid "Export Subtitle File…"
 msgstr "Експортування файла субтитрів…"
 
-#: src/mainwindow.cpp:1995 src/timeline2/model/timelinemodel.cpp:2169
+#: src/mainwindow.cpp:1995 src/timeline2/model/timelinemodel.cpp:2158
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Вилучення субтитрів"
@@ -17378,7 +17384,7 @@ msgid "Delete clips on track"
 msgstr "Вилучити кліпи на доріжці"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4646
+#: src/timeline2/model/timelinemodel.cpp:4656
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -17437,140 +17443,140 @@ msgstr "Замінено кліпів: %1, надто довгих кліпів:
 msgid "Replace clip"
 msgstr "Замінити кліп"
 
-#: src/timeline2/model/timelinemodel.cpp:990
-#: src/timeline2/model/timelinemodel.cpp:1207
+#: src/timeline2/model/timelinemodel.cpp:979
+#: src/timeline2/model/timelinemodel.cpp:1196
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "Виберіть кліп для застосування мікшування"
 
-#: src/timeline2/model/timelinemodel.cpp:1205
+#: src/timeline2/model/timelinemodel.cpp:1194
 #, kde-format
 msgid "start"
 msgstr "початок"
 
-#: src/timeline2/model/timelinemodel.cpp:1205
+#: src/timeline2/model/timelinemodel.cpp:1194
 #, kde-format
 msgid "end"
 msgstr "кінець"
 
-#: src/timeline2/model/timelinemodel.cpp:1205
+#: src/timeline2/model/timelinemodel.cpp:1194
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "Недостатньо кадрів у кліпі %1 для застосування мікшування"
 
-#: src/timeline2/model/timelinemodel.cpp:1211
+#: src/timeline2/model/timelinemodel.cpp:1200
 #, kde-format
 msgid "Create mix"
 msgstr "Створити мікс"
 
-#: src/timeline2/model/timelinemodel.cpp:1286
-#: src/timeline2/model/timelinemodel.cpp:1321
+#: src/timeline2/model/timelinemodel.cpp:1275
+#: src/timeline2/model/timelinemodel.cpp:1310
 #, kde-format
 msgid "Move clip"
 msgstr "Пересунути кліп"
 
-#: src/timeline2/model/timelinemodel.cpp:1842
-#: src/timeline2/model/timelinemodel.cpp:1932
-#: src/timeline2/model/timelinemodel.cpp:1955
-#: src/timeline2/model/timelinemodel.cpp:1978
+#: src/timeline2/model/timelinemodel.cpp:1831
+#: src/timeline2/model/timelinemodel.cpp:1921
+#: src/timeline2/model/timelinemodel.cpp:1944
+#: src/timeline2/model/timelinemodel.cpp:1967
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "Немає доступної доріжки для вставлення"
 
-#: src/timeline2/model/timelinemodel.cpp:1847
+#: src/timeline2/model/timelinemodel.cpp:1836
 #, kde-format
 msgid "Insert Clip"
 msgstr "Вставити кліп"
 
-#: src/timeline2/model/timelinemodel.cpp:1900
+#: src/timeline2/model/timelinemodel.cpp:1889
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "Не можна вставляти послідовності, які містять самі себе"
 
-#: src/timeline2/model/timelinemodel.cpp:1948
-#: src/timeline2/model/timelinemodel.cpp:1970
+#: src/timeline2/model/timelinemodel.cpp:1937
+#: src/timeline2/model/timelinemodel.cpp:1959
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "Недостатньо звукових доріжок для усіх потоків (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2054
+#: src/timeline2/model/timelinemodel.cpp:2043
 #, kde-format
 msgid "No available track for split operation"
 msgstr "Немає доступної доріжки для поділу"
 
-#: src/timeline2/model/timelinemodel.cpp:2091
+#: src/timeline2/model/timelinemodel.cpp:2080
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Помилка відділення звуку: немає належної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:2099
+#: src/timeline2/model/timelinemodel.cpp:2088
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Помилка відділення звуку: неможливо створити звуковий кліп"
 
-#: src/timeline2/model/timelinemodel.cpp:2162
+#: src/timeline2/model/timelinemodel.cpp:2151
 #, kde-format
 msgid "Remove group"
 msgstr "Вилучити групу"
 
-#: src/timeline2/model/timelinemodel.cpp:2167
+#: src/timeline2/model/timelinemodel.cpp:2156
 #, kde-format
 msgid "Delete Composition"
 msgstr "Вилучити композицію"
 
-#: src/timeline2/model/timelinemodel.cpp:2399
-#: src/timeline2/model/timelinemodel.cpp:2676
+#: src/timeline2/model/timelinemodel.cpp:2396
+#: src/timeline2/model/timelinemodel.cpp:2686
 #: src/timeline2/view/timelinecontroller.cpp:4355
 #, kde-format
 msgid "Move group"
 msgstr "Пересунути групу"
 
-#: src/timeline2/model/timelinemodel.cpp:3370
+#: src/timeline2/model/timelinemodel.cpp:3380
 #, kde-format
 msgid "Resize group"
 msgstr "Змінити розміри групи"
 
-#: src/timeline2/model/timelinemodel.cpp:3494
+#: src/timeline2/model/timelinemodel.cpp:3504
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Змінити швидкість кліпу"
 
-#: src/timeline2/model/timelinemodel.cpp:3653
+#: src/timeline2/model/timelinemodel.cpp:3663
 #, kde-format
 msgid "Remove mix"
 msgstr "Вилучити мікс"
 
-#: src/timeline2/model/timelinemodel.cpp:3655
+#: src/timeline2/model/timelinemodel.cpp:3665
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Не вдалося вилучити мікс"
 
-#: src/timeline2/model/timelinemodel.cpp:3951
+#: src/timeline2/model/timelinemodel.cpp:3961
 #, kde-format
 msgid "Resize clip"
 msgstr "Змінити розміри кліпу"
 
-#: src/timeline2/model/timelinemodel.cpp:3953
+#: src/timeline2/model/timelinemodel.cpp:3963
 #, kde-format
 msgid "Resize composition"
 msgstr "Змінити розмір композиції"
 
-#: src/timeline2/model/timelinemodel.cpp:4272
+#: src/timeline2/model/timelinemodel.cpp:4282
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Змінити розміри кліпу з брижами"
 
-#: src/timeline2/model/timelinemodel.cpp:4274
+#: src/timeline2/model/timelinemodel.cpp:4284
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Змінити розмір композиції з брижами"
 
-#: src/timeline2/model/timelinemodel.cpp:4276
+#: src/timeline2/model/timelinemodel.cpp:4286
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Змінити розмір субтитрів з брижами"
 
-#: src/timeline2/model/timelinemodel.cpp:4419
+#: src/timeline2/model/timelinemodel.cpp:4429
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -17580,137 +17586,137 @@ msgstr[1] "Зсунути кліпи"
 msgstr[2] "Зсунути кліпи"
 msgstr[3] "Зсунути кліп"
 
-#: src/timeline2/model/timelinemodel.cpp:4454
+#: src/timeline2/model/timelinemodel.cpp:4464
 #, kde-format
 msgid "Slip clip"
 msgstr "Зсунути кліп"
 
-#: src/timeline2/model/timelinemodel.cpp:4489
+#: src/timeline2/model/timelinemodel.cpp:4499
 #, kde-format
 msgid "Group clips"
 msgstr "Згрупувати кліпи"
 
-#: src/timeline2/model/timelinemodel.cpp:4574
-#: src/timeline2/model/timelinemodel.cpp:4590
+#: src/timeline2/model/timelinemodel.cpp:4584
+#: src/timeline2/model/timelinemodel.cpp:4600
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Розгрупувати кліпи"
 
-#: src/timeline2/model/timelinemodel.cpp:4755
+#: src/timeline2/model/timelinemodel.cpp:4765
 #: src/timeline2/view/timelinecontroller.cpp:945
 #, kde-format
 msgid "Delete Track"
 msgstr "Вилучити доріжку"
 
-#: src/timeline2/model/timelinemodel.cpp:4765
+#: src/timeline2/model/timelinemodel.cpp:4775
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Не можна вилучати останню доріжку на монтажному столі"
 
-#: src/timeline2/model/timelinemodel.cpp:4990
+#: src/timeline2/model/timelinemodel.cpp:5000
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Не вдалося додати ефект %1 до основної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:4997
+#: src/timeline2/model/timelinemodel.cpp:5007
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Не вдалося додати ефект %1 до позначеної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:5018
+#: src/timeline2/model/timelinemodel.cpp:5028
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Не вдалося вставити ефект до основної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:5024
+#: src/timeline2/model/timelinemodel.cpp:5034
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Не вдалося вставити ефект до позначеної доріжки"
 
-#: src/timeline2/model/timelinemodel.cpp:5068
+#: src/timeline2/model/timelinemodel.cpp:5078
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Не вдалося додати ефект %1 до позначеного кліпу"
 
-#: src/timeline2/model/timelinemodel.cpp:5092
+#: src/timeline2/model/timelinemodel.cpp:5102
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Скоригувати перехід"
 
-#: src/timeline2/model/timelinemodel.cpp:5404
+#: src/timeline2/model/timelinemodel.cpp:5414
 #, kde-format
 msgid "Insert Composition"
 msgstr "Вставити композицію"
 
-#: src/timeline2/model/timelinemodel.cpp:5625
+#: src/timeline2/model/timelinemodel.cpp:5635
 #, kde-format
 msgid "Move composition"
 msgstr "Пересунути композицію"
 
-#: src/timeline2/model/timelinemodel.cpp:6293
+#: src/timeline2/model/timelinemodel.cpp:6303
 #, kde-format
 msgid "Enable time remap"
 msgstr "Дозволити переприв'язування до часу"
 
-#: src/timeline2/model/timelinemodel.cpp:6367
+#: src/timeline2/model/timelinemodel.cpp:6377
 #, kde-format
 msgid "Change speed failed"
 msgstr "Не вдалося змінити швидкість"
 
-#: src/timeline2/model/timelinemodel.cpp:6377
+#: src/timeline2/model/timelinemodel.cpp:6387
 #, kde-format
 msgid "Change clip speed"
 msgstr "Змінити швидкість кліпу"
 
-#: src/timeline2/model/timelinemodel.cpp:6826
+#: src/timeline2/model/timelinemodel.cpp:6836
 #: src/timeline2/view/qml/timeline.qml:1209
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Заблокувати доріжку"
 
-#: src/timeline2/model/timelinemodel.cpp:6831
+#: src/timeline2/model/timelinemodel.cpp:6841
 #: src/timeline2/view/qml/timeline.qml:1209
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Розблокувати доріжку"
 
-#: src/timeline2/model/timelinemodel.cpp:6865
-#: src/timeline2/model/timelinemodel.cpp:6927
+#: src/timeline2/model/timelinemodel.cpp:6875
+#: src/timeline2/model/timelinemodel.cpp:6937
 #, kde-format
 msgid "Change composition"
 msgstr "Змінити композицію"
 
-#: src/timeline2/model/timelinemodel.cpp:6879
+#: src/timeline2/model/timelinemodel.cpp:6889
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Обробка згрупованої композиції неможлива. Будь ласка, розгрупуйте композицію."
 
-#: src/timeline2/model/timelinemodel.cpp:7074
-#: src/timeline2/model/timelinemodel.cpp:7111
-#: src/timeline2/model/timelinemodel.cpp:7144
-#: src/timeline2/model/timelinemodel.cpp:7225
+#: src/timeline2/model/timelinemodel.cpp:7084
+#: src/timeline2/model/timelinemodel.cpp:7121
+#: src/timeline2/model/timelinemodel.cpp:7154
+#: src/timeline2/model/timelinemodel.cpp:7235
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Не можна змінювати розмір мікшування до менше, ніж 1 кадр"
 
-#: src/timeline2/model/timelinemodel.cpp:7085
-#: src/timeline2/model/timelinemodel.cpp:7119
-#: src/timeline2/model/timelinemodel.cpp:7163
-#: src/timeline2/model/timelinemodel.cpp:7249
+#: src/timeline2/model/timelinemodel.cpp:7095
+#: src/timeline2/model/timelinemodel.cpp:7129
+#: src/timeline2/model/timelinemodel.cpp:7173
+#: src/timeline2/model/timelinemodel.cpp:7259
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Не вдалося змінити розміри мікшування"
 
-#: src/timeline2/model/timelinemodel.cpp:7263
+#: src/timeline2/model/timelinemodel.cpp:7273
 #, kde-format
 msgid "Resize mix"
 msgstr "Мікшування зі зміною розміру"
 
-#: src/timeline2/model/timelinemodel.cpp:7383
+#: src/timeline2/model/timelinemodel.cpp:7393
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr ""
@@ -24072,9 +24078,6 @@ msgstr "%1 год."
 
 #~ msgid "Properties of transition %1"
 #~ msgstr "Властивості переходу %1"
-
-#~ msgid "&Download"
-#~ msgstr "&Отримати"
 
 #~ msgid "Default video4linux device:"
 #~ msgstr "Типовий пристрій video4linux:"
