@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-08 02:30+0000\n"
-"PO-Revision-Date: 2024-10-04 01:13+0300\n"
+"PO-Revision-Date: 2024-10-08 20:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -752,7 +752,7 @@ msgstr "Yukarı"
 #: data/effects/dance.xml:35
 #, kde-format
 msgid "Down"
-msgstr ""
+msgstr "Aşağı"
 
 #: data/effects/dance.xml:38
 #, kde-format
