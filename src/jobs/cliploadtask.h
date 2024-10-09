@@ -38,6 +38,7 @@ protected:
 private:
     //QString cacheKey();
     QDomElement m_xml;
+    QUuid m_sequenceUuid;
     int m_in;
     int m_out;
     bool m_thumbOnly;

@@ -79,7 +79,7 @@ public:
     /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
     const QUuid getSequenceUuid() const override;
     void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false) override;
-    std::unique_ptr<Mlt::Producer> getThumbProducer() override;
+    std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
 
 public Q_SLOTS:

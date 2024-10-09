@@ -2058,9 +2058,14 @@ void Monitor::reloadActiveStream()
     }
 }
 
-const QString Monitor::activeClipId()
+const QString Monitor::activeClipId(bool withSequence)
 {
     if (m_controller) {
+        if (withSequence && !m_activeSequence.isNull()) {
+            QString id = m_controller->clipId();
+            id.append(m_activeSequence.toString());
+            return id;
+        }
         return m_controller->clipId();
     }
     return QString();

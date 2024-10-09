@@ -22,6 +22,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class ClipPropertiesController;
 class ProjectClip;
 class QDomElement;
+class PlaylistSubClip;
 
 namespace Mlt {
 class Producer;
@@ -68,7 +69,6 @@ protected:
     const QString getFileHash() override;
     /** @brief Remove temporary warp producer resource files */
     void removeSequenceWarpResources() override;
-    std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &sequenceUuid) override;
     size_t sequenceFrameDuration(const QUuid &uuid) override;
 
 public:
@@ -77,19 +77,29 @@ public:
     int getThumbFrame() const override;
     void setThumbFrame(int frame) override;
     int getThumbFromPercent(int percent, bool storeFrame = false) override;
+    std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &sequenceUuid) override;
     /** @brief Returns false if the clip is or embeds a timeline with uuid. */
     bool canBeDropped(const QUuid &) const override;
     /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
     const QUuid getSequenceUuid() const override;
     void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false) override;
-    std::unique_ptr<Mlt::Producer> getThumbProducer() override;
+    std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &uuid = QUuid()) override;
     QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
+    bool isActiveTimeline(const QUuid &uuid) const;
 
 private:
-    /** @brief The timeline sequences contained in this project. */
+    /** @brief The timeline sequences contained in this project file. */
     QMap<QUuid, SequenceInfo> m_sequences;
+    /** @brief The timeline sequences tmp playlists for this project file. */
+    QMap<QUuid, QString> m_sequencePlaylists;
+    QUuid m_activeTimeline;
     void parsePlaylistProps();
+    /** @brief Generate temporary playlist files for each sequence in this clip. */
+    void generateTmpPlaylists();
+    std::unique_ptr<Mlt::Producer> sequenceThumProducer(const QUuid &sequenceUuid);
+    std::shared_ptr<PlaylistSubClip> getSubSequence(const QUuid &uuid);
 
 public Q_SLOTS:
     bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb = false, bool clearTrackProducers = true) override;
+    void setSequenceThumbnail(const QImage &img, const QUuid &uuid, bool inCache = false) override;
 };

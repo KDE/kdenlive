@@ -42,6 +42,11 @@ ClipLoadTask::ClipLoadTask(const ObjectId &owner, const QDomElement &xml, bool t
     , m_thumbOnly(thumbOnly)
 {
     m_description = m_thumbOnly ? i18n("Video thumbs") : i18n("Loading clip");
+    if (!m_xml.isNull()) {
+        if (m_xml.hasAttribute(QStringLiteral("sequenceUuid"))) {
+            m_sequenceUuid = QUuid(m_xml.attribute(QStringLiteral("sequenceUuid")));
+        }
+    }
 }
 
 ClipLoadTask::~ClipLoadTask() {}
@@ -229,7 +234,7 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
             if (m_isCanceled.loadAcquire() || pCore->taskManager.isBlocked()) {
                 return;
             }
-            std::unique_ptr<Mlt::Producer> thumbProd = binClip->getThumbProducer();
+            std::unique_ptr<Mlt::Producer> thumbProd = binClip->getThumbProducer(m_sequenceUuid);
             if (thumbProd && thumbProd->is_valid()) {
                 if (binClip->clipType() != ClipType::Timeline && binClip->clipType() != ClipType::Playlist) {
                     Mlt::Profile *prodProfile = &pCore->thumbProfile();
@@ -266,13 +271,20 @@ void ClipLoadTask::generateThumbnail(std::shared_ptr<ProjectClip> binClip, std::
                                                   Q_ARG(int, m_out), Q_ARG(bool, false));
                     } else if (binClip.get() && !m_isCanceled.loadAcquire()) {
                         // We don't follow m_isCanceled there,
-                        qDebug() << "=== GOT THUMB FOR: " << m_in << "x" << m_out;
+                        qDebug() << "=== GOT THUMB FOR: " << m_in << "x" << m_out << ", UUID: " << m_sequenceUuid << "\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
                         ThumbnailCache::get()->storeThumbnail(QString::number(m_owner.itemId), frameNumber, result, false);
                         m_progress = 100;
-                        QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
-                                                  Q_ARG(int, m_out), Q_ARG(bool, false));
+                        if (m_sequenceUuid.isNull()) {
+                            QMetaObject::invokeMethod(binClip.get(), "setThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result), Q_ARG(int, m_in),
+                                                      Q_ARG(int, m_out), Q_ARG(bool, false));
+                        } else {
+                            QMetaObject::invokeMethod(binClip.get(), "setSequenceThumbnail", Qt::QueuedConnection, Q_ARG(QImage, result),
+                                                      Q_ARG(QUuid, m_sequenceUuid), Q_ARG(bool, false));
+                        }
                     }
                 }
+            } else {
+                qDebug() << "YYYYYYYYYYYYY\n\nGOT INVALID THUMB PRODUCER FOT CLIP\n\nYYYYYYYYYYYY";
             }
         }
     }
@@ -295,7 +307,7 @@ void ClipLoadTask::run()
                 abort();
                 return;
             }
-            generateThumbnail(binClip, binClip->originalProducer());
+            generateThumbnail(binClip, binClip->sequenceProducer(m_sequenceUuid));
         }
         if (m_isCanceled.loadAcquire() == 1 || pCore->taskManager.isBlocked()) {
             abort();

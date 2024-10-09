@@ -78,7 +78,7 @@ public:
     const QString binId() const;
 
     /** @brief Returns this clip's producer. */
-    virtual std::unique_ptr<Mlt::Producer> getThumbProducer() = 0;
+    virtual std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &uuid = QUuid()) = 0;
     virtual void setThumbFrame(int frame) = 0;
 
     virtual void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) = 0;
@@ -139,6 +139,8 @@ public:
 
     /** @brief Returns the original master producer. */
     std::shared_ptr<Mlt::Producer> originalProducer();
+    /** @brief Returns a timeline sequence producer if this is a playlist clip */
+    virtual std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &);
 
     /** @brief Holds index of currently selected master clip effect. */
     int selectedEffectIndex;
@@ -214,8 +216,6 @@ protected:
     /** @brief Mutex to protect the producer properties on read/write */
     mutable QReadWriteLock m_producerLock;
     virtual void connectEffectStack(){};
-    /** @brief Returns a timeline sequence producer if this is a playlist clip */
-    virtual std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &);
 
     // Update audio stream info
     void refreshAudioInfo();

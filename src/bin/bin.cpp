@@ -40,6 +40,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
 #include "playlistclip.h"
+#include "playlistsubclip.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/guideslist.h"
 #include "project/dialogs/slideshowclip.h"
@@ -2658,7 +2659,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
     if (id.isValid()) {
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(id));
         if (currentItem) {
-            if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == currentItem->clipId()) {
+            if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId(true) == currentItem->clipId(true)) {
                 qDebug() << "//// COMPARING BIN CLIP ID - - - - - ALREADY OPENED";
                 return;
             }
@@ -5215,7 +5216,7 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
         break;
     }
     case AbstractProjectItem::SubSequenceItem: {
-        auto subClip = std::static_pointer_cast<ProjectSubClip>(item);
+        auto subClip = std::static_pointer_cast<PlaylistSubClip>(item);
         std::shared_ptr<PlaylistClip> master = std::static_pointer_cast<PlaylistClip>(subClip->getMasterClip());
         if (!master || !master->statusReady()) {
             return;

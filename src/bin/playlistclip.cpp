@@ -24,6 +24,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mltcontroller/clippropertiescontroller.h"
 #include "model/markerlistmodel.hpp"
 #include "model/markersortmodel.h"
+#include "playlistsubclip.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "projectfolder.h"
@@ -74,6 +75,7 @@ PlaylistClip::PlaylistClip(const QString &id, const QIcon &thumb, const std::sha
     : ProjectClip(id, thumb, model, producer)
 {
     // Read some basic infos from the playlist
+    m_clipType = ClipType::Playlist;
     parsePlaylistProps();
 }
 
@@ -131,6 +133,8 @@ void PlaylistClip::parsePlaylistProps()
     if (retainList.is_valid()) {
         qDebug() << "::::::::::\nRETAIN LIST VALID\n\n::";
         Mlt::Playlist playlist(mlt_playlist(retainList.get_data("main_bin")));
+        // Get active timeline
+        m_activeTimeline = QUuid(playlist.get("kdenlive:docproperties.activetimeline"));
         // Read project file properties
         QMap<QString, QString> parsableProperties;
         parsableProperties.insert(i18n("version"), QStringLiteral("kdenlive:docproperties.kdenliveversion"));
@@ -155,12 +159,12 @@ void PlaylistClip::parsePlaylistProps()
                     sequenceCount++;
                     SequenceInfo info;
                     Mlt::Properties props(prod->parent());
-                    const QUuid controlUuid(props.get("kdenlive:control_uuid"));
+                    const QUuid sequenceUuid(props.get("kdenlive:uuid"));
                     info.sequenceName = qstrdup(props.get("kdenlive:clipname"));
                     info.sequenceId = qstrdup(props.get("id"));
                     info.sequenceDuration = qstrdup(props.get("kdenlive:duration"));
                     info.sequenceFrameDuration = m_masterProducer->time_to_frames(info.sequenceDuration.toUtf8().constData());
-                    m_sequences.insert(controlUuid, info);
+                    m_sequences.insert(sequenceUuid, info);
                 }
             }
         }
@@ -174,12 +178,13 @@ void PlaylistClip::parsePlaylistProps()
             SequenceInfo info = ix2.value();
             m_extraProperties.insert(info.sequenceName, info.sequenceDuration);
         }
+        generateTmpPlaylists();
     } else {
         qDebug() << "::::::::::\nRETAIN LIST INVALID\n\n::";
     }
 }
 
-std::unique_ptr<Mlt::Producer> PlaylistClip::getThumbProducer()
+std::unique_ptr<Mlt::Producer> PlaylistClip::getThumbProducer(const QUuid &uuid)
 {
     if (m_clipType == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
         return nullptr;
@@ -189,7 +194,11 @@ std::unique_ptr<Mlt::Producer> PlaylistClip::getThumbProducer()
     }
     std::unique_ptr<Mlt::Producer> thumbProd;
     QReadLocker lock(&pCore->xmlMutex);
-    thumbProd.reset(masterProducer());
+    if (uuid.isNull()) {
+        thumbProd.reset(masterProducer());
+    } else {
+        thumbProd = sequenceThumProducer(uuid);
+    }
     m_thumbMutex.unlock();
     return thumbProd;
 }
@@ -281,7 +290,7 @@ std::shared_ptr<Mlt::Producer> PlaylistClip::sequenceProducer(const QUuid &seque
                 continue;
             }
             if (prod->parent().type() == mlt_service_tractor_type) {
-                const QUuid uuid(prod->parent().get("kdenlive:control_uuid"));
+                const QUuid uuid(prod->parent().get("kdenlive:uuid"));
                 if (uuid == sequenceUuid) {
                     return std::shared_ptr<Mlt::Producer>(new Mlt::Producer(prod->parent()));
                 }
@@ -291,10 +300,119 @@ std::shared_ptr<Mlt::Producer> PlaylistClip::sequenceProducer(const QUuid &seque
     return m_masterProducer;
 }
 
+std::unique_ptr<Mlt::Producer> PlaylistClip::sequenceThumProducer(const QUuid &sequenceUuid)
+{
+    QReadLocker lock(&m_producerLock);
+    // Parse producer's sequences to match
+    Mlt::Service s(m_masterProducer->parent());
+    Mlt::Properties retainList(mlt_properties(s.get_data("xml_retain")));
+    if (retainList.is_valid()) {
+        Mlt::Playlist playlist(mlt_playlist(retainList.get_data("main_bin")));
+        int max = playlist.count();
+        for (int i = 0; i < max; i++) {
+            QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
+            if (prod->is_blank() || !prod->is_valid()) {
+                continue;
+            }
+            if (prod->parent().type() == mlt_service_tractor_type) {
+                const QUuid uuid(prod->parent().get("kdenlive:uuid"));
+                if (uuid == sequenceUuid) {
+                    return std::unique_ptr<Mlt::Producer>(new Mlt::Producer(prod->parent()));
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
 size_t PlaylistClip::sequenceFrameDuration(const QUuid &uuid)
 {
     if (!m_sequences.contains(uuid)) {
         return frameDuration();
     }
     return size_t(m_sequences.value(uuid).sequenceFrameDuration);
+}
+
+bool PlaylistClip::isActiveTimeline(const QUuid &uuid) const
+{
+    return (uuid != QUuid() && uuid == m_activeTimeline);
+}
+
+void PlaylistClip::generateTmpPlaylists()
+{
+    const QString resource = clipUrl();
+    QFile sourceFile(resource);
+    if (!sourceFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return;
+    }
+    QDomDocument doc;
+    if (!doc.setContent(&sourceFile)) {
+        qWarning() << "Failed to parse file" << sourceFile.fileName() << "to QDomDocument";
+        sourceFile.close();
+        return;
+    }
+    sourceFile.close();
+    // Find project tractor
+    QDomNodeList tractors = doc.elementsByTagName(QStringLiteral("tractor"));
+    QDomElement mainTrack;
+    for (int i = 0; i < tractors.count(); ++i) {
+        QDomElement trac = tractors.item(i).toElement();
+        if (Xml::hasXmlProperty(trac, QStringLiteral("kdenlive:projectTractor"))) {
+            mainTrack = trac.firstChildElement(QStringLiteral("track"));
+            break;
+        }
+    }
+    if (mainTrack.isNull()) {
+        qWarning() << "Could not find main project tractor, aborting sub playlists creation";
+        return;
+    }
+    QMapIterator<QUuid, SequenceInfo> ix(m_sequences);
+    while (ix.hasNext()) {
+        ix.next();
+        if (ix.key() == m_activeTimeline) {
+            //  Don't generate sequence for currently active sequence'
+            continue;
+        }
+        SequenceInfo info = ix.value();
+        QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.mlt")));
+        tmp.setAutoRemove(false);
+        if (tmp.open()) {
+            tmp.close();
+            QFile file(tmp.fileName());
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                qDebug() << "Failed to generate temporary playlist file...";
+            } else {
+                // define main sequence
+                mainTrack.setAttribute(QStringLiteral("producer"), info.sequenceId);
+                mainTrack.setAttribute(QStringLiteral("out"), info.sequenceDuration);
+                QTextStream outStream(&file);
+                outStream << doc.toString();
+                qDebug() << ":::: CREATED SEQUENCE " << info.sequenceName << " = " << tmp.fileName();
+                m_sequencePlaylists.insert(ix.key(), tmp.fileName());
+                file.close();
+            }
+        }
+    }
+}
+
+std::shared_ptr<PlaylistSubClip> PlaylistClip::getSubSequence(const QUuid &uuid)
+{
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<PlaylistSubClip> clip = std::static_pointer_cast<PlaylistSubClip>(child(i));
+        if (clip && clip->sequenceUuid() == uuid) {
+            return clip;
+        }
+    }
+    return nullptr;
+}
+
+void PlaylistClip::setSequenceThumbnail(const QImage &img, const QUuid &uuid, bool inCache)
+{
+    if (img.isNull()) {
+        return;
+    }
+    std::shared_ptr<PlaylistSubClip> sub = getSubSequence(uuid);
+    if (sub) {
+        sub->setThumbnail(img);
+    }
 }

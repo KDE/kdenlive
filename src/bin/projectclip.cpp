@@ -553,6 +553,8 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
     }
 }
 
+void ProjectClip::setSequenceThumbnail(const QImage &, const QUuid &, bool) {}
+
 bool ProjectClip::hasAudioAndVideo() const
 {
     return hasAudio() && hasVideo() && m_masterProducer->get_int("set.test_image") == 0 && m_masterProducer->get_int("set.test_audio") == 0;
@@ -798,7 +800,7 @@ const QString ProjectClip::getProxyFromOriginal(QString originalPath)
     return QString();
 }
 
-std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
+std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer(const QUuid &)
 {
     if (m_clipType == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
         return nullptr;

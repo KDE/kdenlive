@@ -157,7 +157,7 @@ bool SequenceClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gen
     return ProjectClip::setProducer(producer, generateThumb, clearTrackProducers);
 }
 
-std::unique_ptr<Mlt::Producer> SequenceClip::getThumbProducer()
+std::unique_ptr<Mlt::Producer> SequenceClip::getThumbProducer(const QUuid &)
 {
     if (m_clipType == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
         return nullptr;

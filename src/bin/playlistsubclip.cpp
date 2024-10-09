@@ -5,7 +5,7 @@ This file is part of Kdenlive. See www.kdenlive.org.
 SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-#include "projectsubclip.h"
+#include "playlistsubclip.h"
 #include "bincommands.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
@@ -19,100 +19,112 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KLocalizedString>
 #include <QDomElement>
 #include <QPainter>
+#include <QPainterPath>
+#include <QTemporaryFile>
 #include <QtMath>
 #include <utility>
 
 class ClipController;
 
-ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
-                               const QString &timecode, const QMap<QString, QString> &zoneProperties)
-    : AbstractProjectItem(AbstractProjectItem::SubClipItem, id, model)
+PlaylistSubClip::PlaylistSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model,
+                                 const QString &timecode, const QMap<QString, QString> &zoneProperties)
+    : AbstractProjectItem(AbstractProjectItem::SubSequenceItem, id, model)
     , m_masterClip(parent)
 {
-    m_inPoint = in;
-    m_outPoint = out;
     m_duration = timecode;
-    m_parentDuration = int(m_masterClip->frameDuration());
     m_parentClipId = m_masterClip->clipId();
-    m_date = parent->date.addSecs(in);
+
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
     m_name = zoneProperties.value(QLatin1String("name"));
-    if (m_name.isEmpty()) {
-        m_name = i18n("Zone %1", parent->childCount() + 1);
-    }
+    m_sequenceUuid = QUuid(zoneProperties.value(QLatin1String("uuid")));
     m_rating = zoneProperties.value(QLatin1String("rating")).toUInt();
     m_tags = zoneProperties.value(QLatin1String("tags"));
     qDebug() << "=== LOADING SUBCLIP WITH RATING: " << m_rating << ", TAGS: " << m_tags;
     m_clipStatus = FileStatus::StatusReady;
-    ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, m_parentClipId.toInt(), QUuid()), QDomElement(), true, in, out, this);
+    m_clipIdWithSequence = m_parentClipId;
+    m_clipIdWithSequence.append(m_sequenceUuid.toString());
+
+    QDomDocument doc;
+    QDomElement prod = doc.createElement("producer");
+    prod.setAttribute(QStringLiteral("sequenceUuid"), m_sequenceUuid.toString());
+    doc.appendChild(prod);
+    ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, m_parentClipId.toInt(), QUuid()), prod, true, 0, -1, this);
 }
 
-std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
-                                                          const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
-                                                          const QMap<QString, QString> &zoneProperties)
+std::shared_ptr<PlaylistSubClip> PlaylistSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
+                                                            const std::shared_ptr<ProjectItemModel> &model, const QString &timecode,
+                                                            const QMap<QString, QString> &zoneProperties)
 {
-    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, zoneProperties));
+    std::shared_ptr<PlaylistSubClip> self(new PlaylistSubClip(id, parent, model, timecode, zoneProperties));
     baseFinishConstruct(self);
     return self;
 }
 
-ProjectSubClip::~ProjectSubClip()
+PlaylistSubClip::~PlaylistSubClip()
 {
     // controller is deleted in bincontroller
 }
 
-const QString ProjectSubClip::cutClipId() const
+const QString &PlaylistSubClip::clipId(bool withSequence) const
+{
+    if (withSequence) {
+        return m_clipIdWithSequence;
+    }
+    return m_binId;
+}
+
+const QString PlaylistSubClip::cutClipId() const
 {
     return QString("%1/%2/%3").arg(m_parentClipId).arg(m_inPoint).arg(m_outPoint);
 }
 
-void ProjectSubClip::gotThumb(int pos, const QImage &img)
+void PlaylistSubClip::gotThumb(int pos, const QImage &img)
 {
     if (pos == m_inPoint) {
         setThumbnail(img);
-        disconnect(m_masterClip.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+        disconnect(m_masterClip.get(), &ProjectClip::thumbReady, this, &PlaylistSubClip::gotThumb);
     }
 }
 
-QString ProjectSubClip::getToolTip() const
+QString PlaylistSubClip::getToolTip() const
 {
     return QString("%1-%2").arg(m_inPoint).arg(m_outPoint);
 }
 
-std::shared_ptr<ProjectClip> ProjectSubClip::clip(const QString &id)
+std::shared_ptr<ProjectClip> PlaylistSubClip::clip(const QString &id)
 {
     Q_UNUSED(id);
     return std::shared_ptr<ProjectClip>();
 }
 
-std::shared_ptr<ProjectFolder> ProjectSubClip::folder(const QString &id)
+std::shared_ptr<ProjectFolder> PlaylistSubClip::folder(const QString &id)
 {
     Q_UNUSED(id);
     return std::shared_ptr<ProjectFolder>();
 }
 
-void ProjectSubClip::setBinEffectsEnabled(bool) {}
+void PlaylistSubClip::setBinEffectsEnabled(bool) {}
 
-GenTime ProjectSubClip::duration() const
+GenTime PlaylistSubClip::duration() const
 {
     // TODO
     return {};
 }
 
-QPoint ProjectSubClip::zone() const
+QPoint PlaylistSubClip::zone() const
 {
     return {m_inPoint, m_outPoint};
 }
 
-std::shared_ptr<ProjectClip> ProjectSubClip::clipAt(int ix)
+std::shared_ptr<ProjectClip> PlaylistSubClip::clipAt(int ix)
 {
     Q_UNUSED(ix);
     return std::shared_ptr<ProjectClip>();
 }
 
-QDomElement ProjectSubClip::toXml(QDomDocument &document, bool, bool)
+QDomElement PlaylistSubClip::toXml(QDomDocument &document, bool, bool)
 {
     QDomElement sub = document.createElement(QStringLiteral("subclip"));
     sub.setAttribute(QStringLiteral("id"), m_masterClip->AbstractProjectItem::clipId());
@@ -121,42 +133,32 @@ QDomElement ProjectSubClip::toXml(QDomDocument &document, bool, bool)
     return sub;
 }
 
-std::shared_ptr<ProjectSubClip> ProjectSubClip::subClip(int in, int out)
+std::shared_ptr<PlaylistSubClip> PlaylistSubClip::subClip(int in, int out)
 {
     if (m_inPoint == in && m_outPoint == out) {
-        return std::static_pointer_cast<ProjectSubClip>(shared_from_this());
+        return std::static_pointer_cast<PlaylistSubClip>(shared_from_this());
     }
-    return std::shared_ptr<ProjectSubClip>();
+    return std::shared_ptr<PlaylistSubClip>();
 }
 
-void ProjectSubClip::setThumbnail(const QImage &img)
+void PlaylistSubClip::setThumbnail(const QImage &img)
 {
     if (img.isNull()) {
         return;
     }
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
-    int duration = m_parentDuration;
-    double factor = double(thumb.width()) / duration;
-    int zoneOut = m_outPoint - duration;
-    QRect zoneRect(0, 0, thumb.width(), thumb.height());
-    zoneRect.adjust(0, int(zoneRect.height() * 0.9), 0, int(-zoneRect.height() * 0.05));
-    QPainter painter(&thumb);
-    painter.fillRect(zoneRect, Qt::darkGreen);
-    zoneRect.adjust(int(m_inPoint * factor), 0, int(zoneOut * factor), 0);
-    painter.fillRect(zoneRect, Qt::green);
-    painter.end();
     m_thumbnail = QIcon(thumb);
     if (auto ptr = m_model.lock())
-        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()),
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<PlaylistSubClip>(shared_from_this()),
                                                                        {AbstractProjectItem::DataThumbnail});
 }
 
-QPixmap ProjectSubClip::thumbnail(int width, int height)
+QPixmap PlaylistSubClip::thumbnail(int width, int height)
 {
     return m_thumbnail.pixmap(width, height);
 }
 
-bool ProjectSubClip::rename(const QString &name, int column)
+bool PlaylistSubClip::rename(const QString &name, int column)
 {
     // TODO refac: rework this
     Q_UNUSED(column)
@@ -169,22 +171,27 @@ bool ProjectSubClip::rename(const QString &name, int column)
     return true;
 }
 
-std::shared_ptr<ProjectClip> ProjectSubClip::getMasterClip() const
+std::shared_ptr<ProjectClip> PlaylistSubClip::getMasterClip() const
 {
     return m_masterClip;
 }
 
-ClipType::ProducerType ProjectSubClip::clipType() const
+ClipType::ProducerType PlaylistSubClip::clipType() const
 {
     return m_masterClip->clipType();
 }
 
-bool ProjectSubClip::hasAudioAndVideo() const
+const QUuid PlaylistSubClip::sequenceUuid() const
+{
+    return m_sequenceUuid;
+}
+
+bool PlaylistSubClip::hasAudioAndVideo() const
 {
     return m_masterClip->hasAudioAndVideo();
 }
 
-void ProjectSubClip::getThumbFromPercent(int percent)
+void PlaylistSubClip::getThumbFromPercent(int percent)
 {
     // extract a maximum of 30 frames for bin preview
     if (percent < 0) {
@@ -203,7 +210,7 @@ void ProjectSubClip::getThumbFromPercent(int percent)
     }
 }
 
-void ProjectSubClip::setProperties(const QMap<QString, QString> &properties)
+void PlaylistSubClip::setProperties(const QMap<QString, QString> &properties)
 {
     bool propertyFound = false;
     if (properties.contains(QStringLiteral("kdenlive:tags"))) {
@@ -226,7 +233,7 @@ void ProjectSubClip::setProperties(const QMap<QString, QString> &properties)
     }
 }
 
-void ProjectSubClip::setRating(uint rating)
+void PlaylistSubClip::setRating(uint rating)
 {
     AbstractProjectItem::setRating(rating);
     if (auto ptr = m_model.lock()) {

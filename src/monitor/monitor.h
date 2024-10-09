@@ -71,7 +71,7 @@ public:
     void resetConsumer(bool fullReset);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *playZoneFromCursor, QAction *loopZone, QMenu *markerMenu = nullptr,
                    QAction *loopClip = nullptr);
-    const QString activeClipId();
+    const QString activeClipId(bool withSequence = false);
     int position();
     void updateTimecodeFormat();
     void updateMarkers();

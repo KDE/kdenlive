@@ -166,7 +166,7 @@ public:
     QPixmap thumbnail(int width, int height);
 
     /** @brief Returns this clip's producer. */
-    std::unique_ptr<Mlt::Producer> getThumbProducer() override;
+    std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &uuid = QUuid()) override;
 
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
@@ -351,6 +351,7 @@ public Q_SLOTS:
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &, int in, int out, bool inCache = false);
+    virtual void setSequenceThumbnail(const QImage &, const QUuid &uuid, bool inCache = false);
 
     /** @brief A proxy clip is available or disabled, update path and reload */
     void updateProxyProducer(const QString &path);
