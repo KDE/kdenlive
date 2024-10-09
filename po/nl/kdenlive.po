@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-08 00:39+0000\n"
-"PO-Revision-Date: 2024-10-02 15:43+0200\n"
+"PO-Revision-Date: 2024-10-08 11:36+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -766,10 +766,9 @@ msgid "Up"
 msgstr "Omhoog"
 
 #: data/effects/dance.xml:35
-#, fuzzy, kde-format
-#| msgid "&Download"
+#, kde-format
 msgid "Down"
-msgstr "&Downloaden"
+msgstr "Omlaag"
 
 #: data/effects/dance.xml:38
 #, kde-format

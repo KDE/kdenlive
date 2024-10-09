@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-08 00:39+0000\n"
-"PO-Revision-Date: 2024-10-02 10:15+0200\n"
+"PO-Revision-Date: 2024-10-08 10:01+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -770,7 +770,7 @@ msgstr "Amunt"
 #: data/effects/dance.xml:35
 #, kde-format
 msgid "Down"
-msgstr ""
+msgstr "Avall"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -4813,7 +4813,7 @@ msgstr "Clips sense usar"
 #: src/bin/bin.cpp:2402
 #, kde-format
 msgid "Used Clips"
-msgstr "Clips sense usar"
+msgstr "Clips usats"
 
 #: src/bin/bin.cpp:2409
 #, kde-format
@@ -4828,7 +4828,7 @@ msgstr "Clip AV"
 #: src/bin/bin.cpp:2416
 #, kde-format
 msgid "Mute Video"
-msgstr "Silencia el vídeo"
+msgstr "Vídeo en silenci"
 
 #. i18n: ectx: property (title), widget (QGroupBox, audio_box)
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
@@ -4977,7 +4977,7 @@ msgstr "Afegeix un clip de títol…"
 #: src/bin/bin.cpp:3600
 #, kde-format
 msgid "Add Template Title…"
-msgstr "Afegeix una plantilla de títols…"
+msgstr "Afegeix un títol de plantilla…"
 
 #: src/bin/bin.cpp:3602
 #, kde-format

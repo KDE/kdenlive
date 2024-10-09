@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-08 00:39+0000\n"
-"PO-Revision-Date: 2024-10-02 20:34+0300\n"
+"PO-Revision-Date: 2024-10-08 21:15+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -766,10 +766,9 @@ msgid "Up"
 msgstr "Верх"
 
 #: data/effects/dance.xml:35
-#, fuzzy, kde-format
-#| msgid "&Download"
+#, kde-format
 msgid "Down"
-msgstr "&Отримати"
+msgstr "Низ"
 
 #: data/effects/dance.xml:38
 #, kde-format
