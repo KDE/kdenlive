@@ -6255,7 +6255,7 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     if (roles.contains(TimelineModel::ReloadAudioThumbRole)) {
         m_allClips[clipId]->forceThumbReload = !m_allClips[clipId]->forceThumbReload;
     }
-    if (roles.contains(TimelineModel::ResourceRole)) {
+    if (roles.contains(TimelineModel::ResourceRole) && !clipIsAudio(clipId)) {
         int in = getClipPosition(clipId);
         Q_EMIT invalidateZone(in, in + getClipPlaytime(clipId));
     }
