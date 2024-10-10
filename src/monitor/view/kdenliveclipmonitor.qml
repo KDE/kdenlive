@@ -554,7 +554,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: overlayMargin
                 }
-                visible: root.showMarkers && controller.position == controller.zoneIn
+                visible: root.showMarkers && controller.position == controller.zoneIn && root.duration > 0
                 text: controller.zoneIn == controller.zoneOut ? i18n("In/Out Point") : i18n("In Point")
                 color: "white"
                 background: Rectangle {
@@ -790,6 +790,7 @@ Item {
             right: root.right
             bottom: root.bottom
         }
+        visible: root.duration > 0
         height: controller.rulerHeight
         Repeater {
             model:controller.clipBounds

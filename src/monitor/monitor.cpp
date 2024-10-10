@@ -1858,7 +1858,32 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     m_glMonitor->getControllerProxy()->clearJobsProgress();
-    if (controller) {
+    if (controller == nullptr) {
+        // We had another clip displayed, reset
+        pCore->taskManager.displayedClip = -1;
+        m_markerModel = nullptr;
+        loadQmlScene(MonitorSceneDefault);
+        m_glMonitor->setProducer(nullptr, isActive(), -1);
+        m_glMonitor->getControllerProxy()->setAudioThumb();
+        m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
+        m_glMonitor->rootObject()->setProperty("zoomStart", 0);
+        m_glMonitor->rootObject()->setProperty("showZoomBar", false);
+        m_audioMeterWidget->audioChannels = 0;
+        m_timePos->setRange(0, 0);
+        m_glMonitor->setRulerInfo(0, nullptr);
+        m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
+        pCore->guidesList()->setClipMarkerModel(nullptr);
+        // m_audioChannels->menuAction()->setVisible(false);
+        m_streamAction->setVisible(false);
+        checkOverlay();
+        if (pCore->currentDoc()->closing) {
+            return;
+        }
+        if (monitorVisible()) {
+            slotActivateMonitor();
+        }
+        return;
+    } else {
         pCore->taskManager.displayedClip = m_controller->clipId().toInt();
         m_markerModel = m_controller->getMarkerModel();
         if (pCore->currentRemap(controller->clipId())) {
@@ -1990,26 +2015,6 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             qDebug() << "*************** CONTROLLER NOT READY";
         }
         // hasEffects =  controller->hasEffects();
-    } else {
-        pCore->taskManager.displayedClip = -1;
-        m_markerModel = nullptr;
-        loadQmlScene(MonitorSceneDefault);
-        m_glMonitor->setProducer(nullptr, isActive(), -1);
-        m_glMonitor->getControllerProxy()->setAudioThumb();
-        m_glMonitor->rootObject()->setProperty("zoomFactor", 1);
-        m_glMonitor->rootObject()->setProperty("zoomStart", 0);
-        m_glMonitor->rootObject()->setProperty("showZoomBar", false);
-        m_audioMeterWidget->audioChannels = 0;
-        m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
-        pCore->guidesList()->setClipMarkerModel(nullptr);
-        // m_audioChannels->menuAction()->setVisible(false);
-        m_streamAction->setVisible(false);
-        if (pCore->currentDoc()->closing) {
-            return;
-        }
-        if (monitorVisible()) {
-            slotActivateMonitor();
-        }
     }
     if (isActive()) {
         start();
