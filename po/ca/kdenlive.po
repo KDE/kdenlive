@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-08 00:39+0000\n"
-"PO-Revision-Date: 2024-10-08 10:01+0200\n"
+"PO-Revision-Date: 2024-10-08 21:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -7299,7 +7299,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
-msgstr "Compara el perfil de l'intermediari"
+msgstr "Compara el perfil dels intermediaris"
 
 #: src/dialogs/proxytest.cpp:31
 #, kde-format
@@ -22078,7 +22078,7 @@ msgstr "Paràmetres del projecte"
 #: src/ui/projectsettings_ui.ui:41
 #, kde-format
 msgid "Settings"
-msgstr "Arranjament"
+msgstr "Configuració"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:47
