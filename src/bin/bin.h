@@ -273,6 +273,7 @@ public:
     void blockBin(bool block);
     void doMoveFolder(const QString &id, const QString &newParentId);
     void setupGeneratorMenu();
+    void clearMonitor();
 
     /** @brief Set focus to the Bin view. */
     void focusBinView();

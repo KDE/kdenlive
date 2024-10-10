@@ -2711,7 +2711,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_deleteAction->setWhatsThis(
                     xi18nc("@info:whatsthis", "Deletes the currently selected clips from the project bin and also from the timeline."));
                 m_proxyAction->setText(i18n("Proxy Clip"));
-            } else if (itemType == AbstractProjectItem::FolderItem) {
+            } else if (isFolder) {
                 // A folder was selected, disable editing clip
                 m_tagsWidget->setTagData();
                 m_deleteAction->setText(i18n("Delete Folder"));
@@ -2800,15 +2800,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_deleteAction->setEnabled(true);
             m_renameAction->setEnabled(true);
             updateClipsCount();
+            if (isFolder) {
+                clearMonitor();
+            }
             return;
         }
     } else {
         // No item selected in bin
-        Q_EMIT requestShowClipProperties(nullptr);
-        Q_EMIT requestClipShow(nullptr);
-        // clear effect stack
-        Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
-        // Display black bg in clip monitor
+        clearMonitor();
         Q_EMIT openClip(std::shared_ptr<ProjectClip>());
     }
     m_editAction->setEnabled(false);
@@ -2825,6 +2824,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
     m_deleteAction->setEnabled(false);
     m_renameAction->setEnabled(false);
     updateClipsCount();
+}
+
+void Bin::clearMonitor()
+{
+    Q_EMIT requestShowClipProperties(nullptr);
+    Q_EMIT requestClipShow(nullptr);
+    // clear effect stack
+    Q_EMIT pCore->requestShowBinEffectStack(QString(), nullptr, QSize(), false);
 }
 
 std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
@@ -3326,7 +3333,7 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
     if (m_propertiesPanel == nullptr) {
         return;
     }
-    if ((clip == nullptr) || !clip->statusReady()) {
+    if ((clip == nullptr) || !clip->statusReady() || clip->itemType() == AbstractProjectItem::FolderItem) {
         for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             delete w;
         }

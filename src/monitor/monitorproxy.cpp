@@ -249,6 +249,7 @@ void MonitorProxy::resetZone()
     m_clipBounds = {};
     m_boundsCount = 0;
     Q_EMIT clipBoundsChanged();
+    Q_EMIT zoneChanged();
 }
 
 double MonitorProxy::fps() const
