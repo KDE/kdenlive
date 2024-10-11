@@ -314,7 +314,7 @@ public:
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();
     /** @brief Get binId of the current selected folder */
-    QString getCurrentFolder();
+    const QString getCurrentFolder();
     /** @brief Save a clip zone as MLT playlist */
     void saveZone(const QStringList &info, const QDir &dir);
     /** @brief A bin clip changed (its effects), invalidate preview */
