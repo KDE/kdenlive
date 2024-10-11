@@ -21,6 +21,8 @@ dmg              | macOS   | [Craft Blueprints Repository][craft]
 
 ### PPA
 
+⚠️ With the switch to Qt6 it has become almost impossible for us to maintain the PPA with the latest version of Kdenlive, hence we do not offically support it anymore.
+
 #### Permissions
 
 You need to be in the kdenlive team on launchpad so you can push into git clones hosted there, to update the code
@@ -38,14 +40,6 @@ For translations and packaging data there are `*-packaging` repositories:
 | Kdenlive | `git clone git+ssh://$USER@git.launchpad.net/~kdenlive/+git/kdenlive-packaging` |
 
 Replace `$USER` by your Launchpad username.
-
-#### Translations
-
-*(Only Kdenlive)*
-
-The kdenlive-packaging repository contains a `po` branch containing the `po/` directory that is merged by KDE release service into [official tarballs][kde-release-tars]. You need to copy and past and push this manually.
-
-At the moment this applies only to the release recipe, for master builds translations are in the source repository now. With 22.12 this will probably also be the case for release so this step will be obsolete.
 
 #### Packaging data
 
