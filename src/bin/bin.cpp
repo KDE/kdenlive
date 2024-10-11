@@ -5770,7 +5770,9 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &sourceClipI
 
         if (!found) {
             // if it was not found, create folder
-            m_itemModel->requestAddFolder(folderId, jobAction.second, baseFolder->clipId(), undo, redo);
+            QString newFolder;
+            m_itemModel->requestAddFolder(newFolder, jobAction.second, baseFolder->clipId(), undo, redo);
+            folderId = newFolder;
         }
     }
     std::function<void(const QString &)> callBack = [this, sourceClipId, jobAction, path](const QString &binId) {
