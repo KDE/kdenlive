@@ -1374,7 +1374,11 @@
        </entry>
        <entry name="whisperModel" type="String">
            <label>Last selected model for automatic subtitling</label>
-           <default>base</default>
+           <default>turbo</default>
+       </entry>
+       <entry name="whisperModelFolder" type="String">
+         <label>The path to models downloads</label>
+         <default></default>
        </entry>
        <entry name="whisperLanguage" type="String">
            <label>Last selected language for speech detection</label>

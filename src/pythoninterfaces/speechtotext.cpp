@@ -21,12 +21,13 @@ SpeechToText::SpeechToText(EngineType engineType, QObject *parent)
     if (engineType == EngineType::EngineVosk) {
         addDependency(QStringLiteral("vosk"), i18n("speech features"));
         addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
-        addScript(QStringLiteral("speech.py"));
-        addScript(QStringLiteral("speechtotext.py"));
+        addScript(QStringLiteral("vosk/speech.py"));
+        addScript(QStringLiteral("vosk/speechtotext.py"));
     } else if (engineType == EngineType::EngineWhisper) {
         buildWhisperDeps(KdenliveSettings::enableSeamless());
-        addScript(QStringLiteral("whispertotext.py"));
-        addScript(QStringLiteral("whispertosrt.py"));
+        addScript(QStringLiteral("whisper/whispertotext.py"));
+        addScript(QStringLiteral("whisper/whispertosrt.py"));
+        addScript(QStringLiteral("whisper/whisperquery.py"));
     }
 }
 
@@ -35,15 +36,15 @@ void SpeechToText::buildWhisperDeps(bool enableSeamless)
     m_dependencies.clear();
     m_optionalDeps.clear();
 #if defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/requirements-whisper-windows.txt"));
+    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/requirements-whisper-windows.txt"));
 #else
-    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/requirements-whisper.txt"));
+    QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/requirements-whisper.txt"));
 #endif
     if (!scriptPath.isEmpty()) {
         m_dependencies.insert(scriptPath, QString());
     }
     if (enableSeamless) {
-        scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/requirements-seamless.txt"));
+        scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/requirements-seamless.txt"));
         if (!scriptPath.isEmpty()) {
             m_dependencies.insert(scriptPath, QString());
         }

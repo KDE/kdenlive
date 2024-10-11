@@ -44,7 +44,7 @@ public:
     QString pythonExec() { return KdenliveSettings::pythonPath(); };
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     bool installDisabled() { return m_disableInstall; };
-    void runConcurrentScript(const QString &script, QStringList args);
+    void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
     /** @brief Delete the python venv folder. */
     bool removePythonVenv();
     /** @brief Python venv setup in progress. */
@@ -99,10 +99,10 @@ Q_SIGNALS:
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();
     void proposeUpdate(const QString &message);
-    void scriptFeedback(const QStringList message);
+    void scriptFeedback(const QString &script, const QStringList args, const QStringList message);
     void installFeedback(const QString &message);
     void gotPythonSize(const QString &message);
-    void scriptGpuCheckFinished();
+    void concurrentScriptFinished(const QString &script, const QStringList &args);
     void scriptFinished();
     void scriptStarted();
     void abortScript();

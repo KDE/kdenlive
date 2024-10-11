@@ -1357,8 +1357,8 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configSpeech.combo_wr_lang->currentData().toString() != KdenliveSettings::whisperLanguage()) {
         KdenliveSettings::setWhisperLanguage(m_configSpeech.combo_wr_lang->currentData().toString());
     }
-    if (m_configSpeech.combo_wr_model->currentData().toString() != KdenliveSettings::whisperModel()) {
-        KdenliveSettings::setWhisperModel(m_configSpeech.combo_wr_model->currentData().toString());
+    if (m_configSpeech.combo_wr_model->currentData(WPModelNameRole).toString() != KdenliveSettings::whisperModel()) {
+        KdenliveSettings::setWhisperModel(m_configSpeech.combo_wr_model->currentData(WPModelNameRole).toString());
     }
     if (m_configSpeech.combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
         KdenliveSettings::setWhisperDevice(m_configSpeech.combo_wr_device->currentData().toString());
@@ -1799,19 +1799,6 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
     });
 
-    // Basic info about model folders
-    const QString whisperModelFolder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
-    if (!whisperModelFolder.isEmpty()) {
-        m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(whisperModelFolder, i18n("Models folder")));
-        m_configSpeech.model_folder_label->setVisible(true);
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(whisperModelFolder));
-        connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
-        });
-    } else {
-        m_configSpeech.model_folder_label->setVisible(false);
-    }
     QString voskModelFolder = KdenliveSettings::vosk_folder_path();
     if (voskModelFolder.isEmpty()) {
         voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
@@ -1895,56 +1882,134 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
 
     // Whisper
-    m_configSpeech.combo_wr_device->addItem(i18n("Probing..."));
+    m_configSpeech.downloadButton->setVisible(false);
+    m_configSpeech.combo_wr_model->setPlaceholderText(i18n("Probing..."));
+    m_configSpeech.combo_wr_device->setPlaceholderText(i18n("Probing..."));
+    m_configSpeech.combo_wr_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    m_configSpeech.combo_wr_device->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
     m_configSpeech.message_layout_wr->addWidget(msgWhisper);
-    QList<std::pair<QString, QString>> whisperModels = m_sttWhisper->whisperModels();
-    for (auto &w : whisperModels) {
-        m_configSpeech.combo_wr_model->addItem(w.first, w.second);
-    }
-    int ix = m_configSpeech.combo_wr_model->findData(KdenliveSettings::whisperModel());
-    if (ix > -1) {
-        m_configSpeech.combo_wr_model->setCurrentIndex(ix);
-    }
     QMap<QString, QString> whisperLanguages = m_sttWhisper->whisperLanguages();
     QMapIterator<QString, QString> j(whisperLanguages);
     while (j.hasNext()) {
         j.next();
         m_configSpeech.combo_wr_lang->addItem(j.key(), j.value());
     }
-    ix = m_configSpeech.combo_wr_lang->findData(KdenliveSettings::whisperLanguage());
+    int ix = m_configSpeech.combo_wr_lang->findData(KdenliveSettings::whisperLanguage());
     if (ix > -1) {
         m_configSpeech.combo_wr_lang->setCurrentIndex(ix);
     }
     m_configSpeech.script_log->hide();
+    m_configSpeech.script_log->setCenterOnScroll(true);
     connect(m_sttWhisper, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
-    connect(m_sttWhisper, &SpeechToText::installFeedback, [this](const QString jobData) {
-        QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);
-        QMetaObject::invokeMethod(m_configSpeech.script_log, "appendPlainText", Q_ARG(QString, jobData));
-    });
+    connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
     connect(m_sttWhisper, &SpeechToText::scriptFinished, [msgWhisper]() { QMetaObject::invokeMethod(msgWhisper, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_configSpeech.downloadButton, &QPushButton::clicked, [this]() {
+        const QString currentModel = m_configSpeech.combo_wr_model->currentData(WPModelNameRole).toString();
+        QStringList args = {QStringLiteral("task=download"), QStringLiteral("model=%1").arg(currentModel)};
+        m_sttWhisper->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args, true);
+    });
 
-    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QStringList jobData) {
-        m_configSpeech.combo_wr_device->clear();
-        for (auto &s : jobData) {
-            if (s.contains(QLatin1Char('#'))) {
-                m_configSpeech.combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
-            } else {
-                m_configSpeech.combo_wr_device->addItem(s.simplified(), s.simplified());
+    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
+        if (scriptName.contains("checkgpu")) {
+            m_configSpeech.combo_wr_device->clear();
+            for (auto &s : jobData) {
+                if (s.contains(QLatin1Char('#'))) {
+                    m_configSpeech.combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+                } else {
+                    m_configSpeech.combo_wr_device->addItem(s.simplified(), s.simplified());
+                }
+            }
+        } else if (scriptName.contains("whisperquery")) {
+            qDebug() << "::: GOT WHISPER QUERY RESULT!!!!!: " << jobData;
+            if (args.contains(QStringLiteral("task=download"))) {
+                // check if model is now correcty downloaded
+                QMetaObject::invokeMethod(this, "checkWhisperModelFolder", Qt::QueuedConnection);
+                return;
+            }
+            if (args.contains(QStringLiteral("task=size"))) {
+                // we just queried the download size for the selected model
+                for (auto &s : jobData) {
+                    if (s.contains(QLatin1Char(':'))) {
+                        const QString modelName = s.section(QLatin1Char(':'), 0, 0).simplified();
+                        int size = s.section(QLatin1Char(':'), 1).simplified().toInt();
+                        int ix = m_configSpeech.combo_wr_model->findData(modelName, WPModelNameRole, Qt::MatchExactly);
+                        qDebug() << "::: GOT MODEL SIZE: " << size << ", SETTING ON IX: " << ix;
+                        if (ix > -1) {
+                            m_configSpeech.combo_wr_model->setItemData(ix, size, WPSizeRole);
+                        } else {
+                            qDebug() << ":: MODEL NAME NOT FOUND: " << modelName << ", ITEMS:  /" << m_configSpeech.combo_wr_model->currentText() << "/";
+                        }
+                        break;
+                    }
+                }
+                QMetaObject::invokeMethod(this, "checkWhisperModelSize", Qt::QueuedConnection);
+                return;
+            }
+            if (m_configSpeech.combo_wr_model->count() > 0) {
+                // Don't fetch model names twice
+                return;
+            }
+            // Don't display duplicated models'
+            QStringList excludedModels = {QStringLiteral("large-v1"), QStringLiteral("large-v2"), QStringLiteral("large-v3"), QStringLiteral("large-v3-turbo")};
+            for (auto &s : jobData) {
+                const QString name = s.section(QLatin1Char(':'), 0, 0).simplified();
+                qDebug() << ":::: /// FOUND MODEL:" << name;
+                if (name.isEmpty() || excludedModels.contains(name)) {
+                    continue;
+                }
+                if (name == QLatin1String("root_folder")) {
+                    KdenliveSettings::setWhisperModelFolder(s.section(QLatin1Char(':'), 1).simplified());
+                    qDebug() << "+++\nSET WHISPER FOLDER: " << KdenliveSettings::whisperModelFolder() << "\n\n+++++";
+                    continue;
+                }
+                QString displayName = name;
+                displayName[0] = displayName[0].toUpper();
+                const QString url = s.section(QLatin1Char(':'), 1).simplified();
+                m_configSpeech.combo_wr_model->addItem(displayName, name);
+                int ix = m_configSpeech.combo_wr_model->findText(displayName);
+                if (ix > -1) {
+                    m_configSpeech.combo_wr_model->setItemData(ix, url, WPUrlRole);
+                }
+            }
+            QMetaObject::invokeMethod(this, "checkWhisperModelFolder", Qt::QueuedConnection);
+        }
+    });
+    connect(m_configSpeech.combo_wr_model, &QComboBox::currentIndexChanged, this, &KdenliveSettingsDialog::checkWhisperModelSize);
+
+    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, [this](const QString &scriptName, const QStringList &args) {
+        if (scriptName.contains("checkgpu")) {
+            if (!KdenliveSettings::whisperDevice().isEmpty()) {
+                int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
+                if (ix > -1) {
+                    m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+                }
+            } else if (m_configSpeech.combo_wr_device->count() > 0) {
+                m_configSpeech.combo_wr_device->setCurrentIndex(0);
+            }
+        } else if (scriptName.contains("whisperquery")) {
+            if (args.contains(QLatin1String("task=list"))) {
+                if (!KdenliveSettings::whisperModel().isEmpty()) {
+                    int ix = m_configSpeech.combo_wr_model->findData(KdenliveSettings::whisperModel(), WPModelNameRole, Qt::MatchExactly);
+                    if (ix > -1) {
+                        m_configSpeech.combo_wr_model->setCurrentIndex(ix);
+                        return;
+                    }
+                }
+                if (m_configSpeech.combo_wr_model->count() > 0) {
+                    m_configSpeech.combo_wr_model->setCurrentIndex(0);
+                }
+            } else if (args.contains(QLatin1String("task=download"))) {
+                QMetaObject::invokeMethod(this, "checkWhisperModelFolder", Qt::QueuedConnection);
             }
         }
     });
-    connect(m_sttWhisper, &SpeechToText::scriptGpuCheckFinished, [this]() {
-        if (!KdenliveSettings::whisperDevice().isEmpty()) {
-            int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
-            if (ix > -1) {
-                m_configSpeech.combo_wr_device->setCurrentIndex(ix);
-            }
-        } else if (m_configSpeech.combo_wr_device->count() > 0) {
-            m_configSpeech.combo_wr_device->setCurrentIndex(0);
-        }
+    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
+        // Check if a GPU is available
+        m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+        // Check Whisper's model names
+        m_sttWhisper->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), {QStringLiteral("task=list")});
     });
-    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() { m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {}); });
 
     // VOSK
     m_configSpeech.vosk_folder->setPlaceholderText(
@@ -1959,10 +2024,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
     connect(m_stt, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { m_configSpeech.speech_info->animatedHide(); });
     connect(m_stt, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
-    connect(m_stt, &SpeechToText::installFeedback, [this](const QString jobData) {
-        QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);
-        QMetaObject::invokeMethod(m_configSpeech.script_log, "appendPlainText", Q_ARG(QString, jobData));
-    });
+    connect(m_stt, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
     connect(m_stt, &SpeechToText::scriptFinished, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
 
     m_speechListWidget = new SpeechList(this);
@@ -1997,6 +2059,76 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
+}
+
+void KdenliveSettingsDialog::showSpeechLog(const QString &jobData)
+{
+    m_configSpeech.script_log->show();
+    m_configSpeech.script_log->appendPlainText(jobData);
+    m_configSpeech.script_log->ensureCursorVisible();
+}
+
+void KdenliveSettingsDialog::checkWhisperModelSize()
+{
+    QVariant status = m_configSpeech.combo_wr_model->currentData(WPSizeRole);
+    qDebug() << "::: FOUND STATUS: " << status;
+    if (status.toString() == QLatin1String("-")) {
+        // Already checking for this model
+        m_configSpeech.whisperInfo->setText(i18n("An internet connection is required to download the selected model.\nWhisper processing on cpu is slow."));
+        m_configSpeech.downloadButton->setVisible(true);
+        return;
+    }
+    int size = status.toInt();
+    if (size == 0) {
+        m_configSpeech.downloadButton->setVisible(true);
+        m_configSpeech.combo_wr_model->setItemData(m_configSpeech.combo_wr_model->currentIndex(), QStringLiteral("-"), WPSizeRole);
+        const QString currentModel = m_configSpeech.combo_wr_model->currentData(WPModelNameRole).toString();
+        QStringList args = {QStringLiteral("task=size"), QStringLiteral("model=%1").arg(currentModel)};
+        m_sttWhisper->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args);
+    } else if (size == 1) {
+        // Model is already downloaded, nothing to do
+        m_configSpeech.downloadButton->setVisible(false);
+        m_configSpeech.whisperInfo->setText(i18n("Whisper processing on cpu is slow."));
+    } else if (size < 0) {
+        // Model size not found, maybe offline
+        m_configSpeech.whisperInfo->setText(i18n("An internet connection is required to download the selected model.\nWhisper processing on cpu is slow."));
+        m_configSpeech.downloadButton->setVisible(true);
+    } else {
+        m_configSpeech.whisperInfo->setText(i18n("The selected model %1 <b>must be downloaded (size of %2)</b>.<br/>Whisper processing on cpu is slow.",
+                                                 m_configSpeech.combo_wr_model->currentText(), KIO::convertSize(size)));
+        m_configSpeech.downloadButton->setVisible(true);
+    }
+}
+
+void KdenliveSettingsDialog::checkWhisperModelFolder()
+{
+    // Basic info about model folders
+    QString folder = KdenliveSettings::whisperModelFolder();
+    if (folder.isEmpty()) {
+        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
+    } else if (!QFileInfo::exists(folder)) {
+        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
+    }
+    QDir modelsFolder(folder);
+    if (!modelsFolder.exists()) {
+        m_configSpeech.model_folder_label->setVisible(false);
+        return;
+    }
+    m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(modelsFolder.absolutePath(), i18n("Models folder")));
+    m_configSpeech.model_folder_label->setVisible(true);
+    QStringList files = modelsFolder.entryList(QDir::Files);
+    for (int i = 0; i < m_configSpeech.combo_wr_model->count(); i++) {
+        const QString filename = QUrl(m_configSpeech.combo_wr_model->itemData(i, WPUrlRole).toString()).fileName();
+        if (files.contains(filename)) {
+            m_configSpeech.combo_wr_model->setItemIcon(i, QIcon::fromTheme(QStringLiteral("emblem-checked")));
+            m_configSpeech.combo_wr_model->setItemData(i, 1, WPSizeRole);
+        }
+    }
+    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(modelsFolder.absolutePath()));
+    connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size]() {
+        label->setText(KIO::convertSize(job->totalSize()));
+        job->deleteLater();
+    });
 }
 
 void KdenliveSettingsDialog::slotCheckSttConfig()

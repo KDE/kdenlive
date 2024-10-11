@@ -436,7 +436,7 @@ void AbstractPythonInterface::updateDependencies()
     runPackageScript(QStringLiteral("--upgrade"), true);
 }
 
-void AbstractPythonInterface::runConcurrentScript(const QString &script, QStringList args)
+void AbstractPythonInterface::runConcurrentScript(const QString &script, QStringList args, bool feedback)
 {
     if (m_dependencies.keys().isEmpty()) {
         qWarning() << "No dependencies specified";
@@ -444,9 +444,10 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
         return;
     }
     if (!checkSetup()) {
+        qWarning() << "setup error for script: " << script;
         return;
     }
-    (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, false);
+    (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, feedback);
 }
 
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
@@ -597,26 +598,25 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     }
     args.prepend(scriptpath);
     QProcess scriptJob;
-    if (concurrent) {
-        if (packageFeedback) {
-            connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
-                const QString processData = QString::fromUtf8(scriptJob.readAll());
-                if (!processData.isEmpty()) {
-                    Q_EMIT installFeedback(processData.simplified());
-                }
-            });
-        } else {
-            connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
-                const QString processData = QString::fromUtf8(scriptJob.readAll());
-                Q_EMIT scriptFeedback(processData.split(QLatin1Char('\n'), Qt::SkipEmptyParts));
-            });
-        }
-    }
     connect(this, &AbstractPythonInterface::abortScript, &scriptJob, &QProcess::kill, Qt::DirectConnection);
+
+    if (packageFeedback) {
+        if (concurrent) {
+            scriptJob.setProcessChannelMode(QProcess::MergedChannels);
+        }
+        connect(&scriptJob, &QProcess::readyReadStandardOutput, [this, &scriptJob]() {
+            const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
+            if (!processData.isEmpty()) {
+                Q_EMIT installFeedback(processData.simplified());
+            }
+        });
+    }
+
     scriptJob.start(KdenliveSettings::pythonPath(), args);
     // Don't timeout
     qDebug() << "::: RUNNONG SCRIPT: " << KdenliveSettings::pythonPath() << " = " << args;
     scriptJob.waitForFinished(-1);
+
     if (!concurrent && (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0)) {
         qDebug() << "::::: WARNING ERRROR EXIT STATUS: " << scriptJob.exitCode();
         const QString errorMessage = scriptJob.readAllStandardError();
@@ -624,8 +624,21 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
         qWarning() << " SCRIPT ERROR: " << errorMessage;
         return {};
     }
-    if (script == QLatin1String("checkgpu.py")) {
-        Q_EMIT scriptGpuCheckFinished();
+
+    if (concurrent) {
+        if (packageFeedback) {
+            const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
+            if (!processData.isEmpty()) {
+                Q_EMIT installFeedback(processData.simplified());
+            }
+        } else {
+            const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
+            Q_EMIT scriptFeedback(script, args, processData.split(QLatin1Char('\n'), Qt::SkipEmptyParts));
+        }
+    }
+
+    if (script.contains(QLatin1String("checkgpu.py")) || script.contains(QLatin1String("whisperquery"))) {
+        Q_EMIT concurrentScriptFinished(script, args);
     } else if (concurrent && (firstarg == QLatin1String("--install") || firstarg == QLatin1String("--upgrade"))) {
         Q_EMIT scriptFinished();
     }
