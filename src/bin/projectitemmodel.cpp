@@ -1151,9 +1151,13 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders, std::unordered_map<
     for (int i = 0; i < folders.count(); i++) {
         QString folderName = folders.get(i);
         QString id = folders.get_name(i);
-
         int parentId = id.section(QLatin1Char('.'), 0, 0).toInt();
         int folderId = id.section(QLatin1Char('.'), 1, 1).toInt();
+        if (folderId < 0 || parentId == folderId) {
+            // Broken folder, ignore
+            qWarning() << "Folder with corrupted id found: " << folderName << ", removing from project";
+            continue;
+        }
         downLinks[parentId].push_back(folderId);
         upLinks[folderId] = parentId;
         folderNames[folderId] = folderName;

@@ -1698,7 +1698,7 @@ void Bin::slotZoomView(bool zoomIn)
 void Bin::slotAddClip()
 {
     // Check if we are in a folder
-    QString parentFolder = getCurrentFolder();
+    const QString parentFolder = getCurrentFolder();
     ClipCreationDialog::createClipsCommand(m_doc, parentFolder, m_itemModel);
     pCore->window()->raiseBin();
 }
@@ -5258,7 +5258,7 @@ PlaylistState::ClipState Bin::getClipState(int itemId) const
     return audio ? (video ? PlaylistState::Disabled : PlaylistState::AudioOnly) : PlaylistState::VideoOnly;
 }
 
-QString Bin::getCurrentFolder()
+const QString Bin::getCurrentFolder()
 {
     // Check parent item
     QModelIndex ix = m_proxyModel->selectionModel()->currentIndex();
