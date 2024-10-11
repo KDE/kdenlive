@@ -740,7 +740,7 @@ msgstr "上方"
 #: data/effects/dance.xml:35
 #, kde-format
 msgid "Down"
-msgstr ""
+msgstr "下方"
 
 #: data/effects/dance.xml:38
 #, kde-format
