@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-11 00:39+0000\n"
+"POT-Creation-Date: 2024-10-12 00:38+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -4875,7 +4875,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Se încarcă clipurile"
 
-#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5793 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5795 src/bin/clipcreator.cpp:324
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -5445,17 +5445,17 @@ msgstr ""
 msgid "Could not find master clip"
 msgstr "Se adaugă clipurile"
 
-#: src/bin/bin.cpp:5815
+#: src/bin/bin.cpp:5817
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5817
+#: src/bin/bin.cpp:5819
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5884 src/bin/bin.cpp:5961
+#: src/bin/bin.cpp:5886 src/bin/bin.cpp:5963
 #, fuzzy, kde-format
 #| msgid "Add transition to clip"
 msgid "Add additional stream for clip"
@@ -5464,12 +5464,12 @@ msgstr[0] "Adaugă tranziție la clip"
 msgstr[1] "Adaugă tranziție la clip"
 msgstr[2] "Adaugă tranziție la clip"
 
-#: src/bin/bin.cpp:5905
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importă clipurile alese"
 
-#: src/bin/bin.cpp:5907
+#: src/bin/bin.cpp:5909
 #, fuzzy, kde-format
 #| msgid "Add transition to clip"
 msgid ""
@@ -5477,56 +5477,56 @@ msgid ""
 " %1"
 msgstr "Adaugă tranziție la clip"
 
-#: src/bin/bin.cpp:5920 src/mltcontroller/clippropertiescontroller.cpp:668
+#: src/bin/bin.cpp:5922 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "Flux video %1"
 
-#: src/bin/bin.cpp:5935
+#: src/bin/bin.cpp:5937
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Flux audio %1"
 
-#: src/bin/bin.cpp:5988
+#: src/bin/bin.cpp:5990
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
 msgstr "Elimină clipurile"
 
-#: src/bin/bin.cpp:6135
+#: src/bin/bin.cpp:6137
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6136
+#: src/bin/bin.cpp:6138
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Salvare proiect DVD"
 
-#: src/bin/bin.cpp:6137
+#: src/bin/bin.cpp:6139
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodare"
 
-#: src/bin/bin.cpp:6286 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6288 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Șterge efectul"
 
-#: src/bin/bin.cpp:6351 src/mainwindow.cpp:391
+#: src/bin/bin.cpp:6353 src/mainwindow.cpp:391
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Proiect"
 
-#: src/bin/bin.cpp:6354 src/bin/bin.cpp:6357 src/mainwindow.cpp:4934
+#: src/bin/bin.cpp:6356 src/bin/bin.cpp:6359 src/mainwindow.cpp:4934
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -6072,13 +6072,13 @@ msgstr "Redenumește dosarul"
 msgid "Clean Project"
 msgstr "Curăță proiectul"
 
-#: src/bin/projectitemmodel.cpp:1278
+#: src/bin/projectitemmodel.cpp:1282
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Reading project clips…"
 msgstr "Se încarcă proiectul"
 
-#: src/bin/projectitemmodel.cpp:1386
+#: src/bin/projectitemmodel.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project clips…"

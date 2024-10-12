@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-11 00:39+0000\n"
+"POT-Creation-Date: 2024-10-12 00:38+0000\n"
 "PO-Revision-Date: 2024-04-06 01:47-0300\n"
 "Last-Translator: Geraldo Simiao <geraldosimiao@fedoraproject.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -4727,7 +4727,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Linha do tempo principal"
 
-#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5793 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5795 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5254,29 +5254,29 @@ msgstr "Não foi encontrado clipe para adicionar marcador"
 msgid "Could not find master clip"
 msgstr "Não foi possível encontrar o clipe mestre"
 
-#: src/bin/bin.cpp:5815
+#: src/bin/bin.cpp:5817
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clipes |"
 
-#: src/bin/bin.cpp:5817
+#: src/bin/bin.cpp:5819
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clipes (%2 selecionado) |"
 
-#: src/bin/bin.cpp:5884 src/bin/bin.cpp:5961
+#: src/bin/bin.cpp:5886 src/bin/bin.cpp:5963
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Adicionar transmissão adicional para o clipe"
 msgstr[1] "Adicionar transmissões adicionais para o clipe"
 
-#: src/bin/bin.cpp:5905
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importar os clipes selecionados"
 
-#: src/bin/bin.cpp:5907
+#: src/bin/bin.cpp:5909
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5285,53 +5285,53 @@ msgstr ""
 "Transmissões adicionais do clipe\n"
 " %1"
 
-#: src/bin/bin.cpp:5920 src/mltcontroller/clippropertiescontroller.cpp:668
+#: src/bin/bin.cpp:5922 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "Transmissão de vídeo %1"
 
-#: src/bin/bin.cpp:5935
+#: src/bin/bin.cpp:5937
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Transmissão de áudio %1"
 
-#: src/bin/bin.cpp:5988
+#: src/bin/bin.cpp:5990
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Excluir os marcadores do clipe"
 
-#: src/bin/bin.cpp:6135
+#: src/bin/bin.cpp:6137
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6136
+#: src/bin/bin.cpp:6138
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Salvar Projeto de DVD"
 
-#: src/bin/bin.cpp:6137
+#: src/bin/bin.cpp:6139
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificando"
 
-#: src/bin/bin.cpp:6286 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6288 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Excluir efeito %1"
 
-#: src/bin/bin.cpp:6351 src/mainwindow.cpp:391
+#: src/bin/bin.cpp:6353 src/mainwindow.cpp:391
 #, kde-format
 msgid "Project Bin"
 msgstr "Arquivos do projeto"
 
-#: src/bin/bin.cpp:6354 src/bin/bin.cpp:6357 src/mainwindow.cpp:4934
+#: src/bin/bin.cpp:6356 src/bin/bin.cpp:6359 src/mainwindow.cpp:4934
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Arquivos do projeto %1"
@@ -5830,13 +5830,13 @@ msgstr "Renomear pasta"
 msgid "Clean Project"
 msgstr "Limpar Projeto"
 
-#: src/bin/projectitemmodel.cpp:1278
+#: src/bin/projectitemmodel.cpp:1282
 #, fuzzy, kde-format
 #| msgid "Loading project clips…"
 msgid "Reading project clips…"
 msgstr "Carregando clipes de projeto…"
 
-#: src/bin/projectitemmodel.cpp:1386
+#: src/bin/projectitemmodel.cpp:1390
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Carregando clipes de projeto…"

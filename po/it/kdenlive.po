@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-11 00:39+0000\n"
-"PO-Revision-Date: 2024-10-03 15:40+0200\n"
+"POT-Creation-Date: 2024-10-12 00:38+0000\n"
+"PO-Revision-Date: 2024-10-11 09:15+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -772,10 +772,9 @@ msgid "Up"
 msgstr "Su"
 
 #: data/effects/dance.xml:35
-#, fuzzy, kde-format
-#| msgid "&Download"
+#, kde-format
 msgid "Down"
-msgstr "&Scarica"
+msgstr "Giù"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -4740,7 +4739,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Sostituisci nella linea temporale"
 
-#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5793 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5795 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -5265,29 +5264,29 @@ msgstr "Impossibile trovare una clip per aggiungere il marcatore"
 msgid "Could not find master clip"
 msgstr "Impossibile trovare la clip principale"
 
-#: src/bin/bin.cpp:5815
+#: src/bin/bin.cpp:5817
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> clips | "
 
-#: src/bin/bin.cpp:5817
+#: src/bin/bin.cpp:5819
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> clip (%2 selezionate) | "
 
-#: src/bin/bin.cpp:5884 src/bin/bin.cpp:5961
+#: src/bin/bin.cpp:5886 src/bin/bin.cpp:5963
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Aggiungi un flusso addizionale per la clip"
 msgstr[1] "Aggiungi dei flussi addizionali per la clip"
 
-#: src/bin/bin.cpp:5905
+#: src/bin/bin.cpp:5907
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importa le clip selezionate"
 
-#: src/bin/bin.cpp:5907
+#: src/bin/bin.cpp:5909
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5296,22 +5295,22 @@ msgstr ""
 "Flussi addizionali per la clip\n"
 " %1"
 
-#: src/bin/bin.cpp:5920 src/mltcontroller/clippropertiescontroller.cpp:668
+#: src/bin/bin.cpp:5922 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr "Flusso video %1"
 
-#: src/bin/bin.cpp:5935
+#: src/bin/bin.cpp:5937
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Flusso audio %1"
 
-#: src/bin/bin.cpp:5988
+#: src/bin/bin.cpp:5990
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Rimuovi i marcatori della clip"
 
-#: src/bin/bin.cpp:6135
+#: src/bin/bin.cpp:6137
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
@@ -5319,30 +5318,30 @@ msgstr ""
 "Ti raccomandiamo di salvare il progetto prima dell'operazione di "
 "transcodifica"
 
-#: src/bin/bin.cpp:6136
+#: src/bin/bin.cpp:6138
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Salva il progetto"
 
-#: src/bin/bin.cpp:6137
+#: src/bin/bin.cpp:6139
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodifica senza salvare"
 
-#: src/bin/bin.cpp:6286 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6288 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Elimina effetto %1"
 
-#: src/bin/bin.cpp:6351 src/mainwindow.cpp:391
+#: src/bin/bin.cpp:6353 src/mainwindow.cpp:391
 #, kde-format
 msgid "Project Bin"
 msgstr "Contenitore del progetto"
 
-#: src/bin/bin.cpp:6354 src/bin/bin.cpp:6357 src/mainwindow.cpp:4934
+#: src/bin/bin.cpp:6356 src/bin/bin.cpp:6359 src/mainwindow.cpp:4934
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Contenitore del progetto %1"
@@ -5835,12 +5834,12 @@ msgstr "Rinomina cartella"
 msgid "Clean Project"
 msgstr "Ripulisci il progetto"
 
-#: src/bin/projectitemmodel.cpp:1278
+#: src/bin/projectitemmodel.cpp:1282
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Lettura delle clip del progetto..."
 
-#: src/bin/projectitemmodel.cpp:1386
+#: src/bin/projectitemmodel.cpp:1390
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Caricamento delle clip del progetto..."
@@ -7217,16 +7216,14 @@ msgid "Top Right"
 msgstr "In alto a destra"
 
 #: src/dialogs/managesubtitles.cpp:553
-#, fuzzy, kde-format
-#| msgid "Border "
+#, kde-format
 msgid "Box as Border"
-msgstr "Bordo "
+msgstr "Riquadro come bordo"
 
 #: src/dialogs/managesubtitles.cpp:556 src/dialogs/subtitlestyleedit.cpp:99
-#, fuzzy, kde-format
-#| msgid "Shadow"
+#, kde-format
 msgid "Box as Shadow"
-msgstr "Ombra"
+msgstr "Riquadro come ombra"
 
 #: src/dialogs/managesubtitles.cpp:706
 #, kde-format
@@ -8617,10 +8614,9 @@ msgid "Clear All Custom Formatting"
 msgstr "Rimuovi tutta la formattazione personalizzata"
 
 #: src/dialogs/subtitleedit.cpp:403
-#, fuzzy, kde-format
-#| msgid "Speech Editor"
+#, kde-format
 msgid "Simple Editor"
-msgstr "Editor vocale"
+msgstr "Semplice editor"
 
 #: src/dialogs/subtitleedit.cpp:595
 #, kde-format
@@ -8671,10 +8667,9 @@ msgstr ""
 "proprietà."
 
 #: src/dialogs/subtitlestyleedit.cpp:98
-#, fuzzy, kde-format
-#| msgid "Outline"
+#, kde-format
 msgid "Box as Outline"
-msgstr "Contorno testo"
+msgstr "Riquadro come contorno"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
 #: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
@@ -12908,7 +12903,7 @@ msgstr "Inserisci"
 #: src/mainwindow.cpp:3813 src/mainwindow.cpp:3815
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "Visori"
 
 #: src/mainwindow.cpp:3820
 #, kde-format
@@ -18357,7 +18352,7 @@ msgstr "Esporta file di sottotitoli"
 #: src/timeline2/view/timelinecontroller.cpp:5207
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
-msgstr ""
+msgstr "File Sub Station Alpha v4.00+ (*.ass);;File sottotitoli SubRip (*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5221
 #, kde-format
@@ -18367,6 +18362,11 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
+"La traccia corrente dei sottotitoli contiene più livelli. Questo significa "
+"che, se dei sottotitoli su livelli diversi condividono la stessa posizione "
+"iniziale, verranno mantenuti soli quelli nel livello inferiore. Nel file "
+"esportato possono quindi verificarsi delle perdite di sottotitoli. Vuoi "
+"continuare?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5226
 #, kde-format
@@ -20440,7 +20440,7 @@ msgstr "Sottotitoli:"
 #: src/ui/configmisc_ui.ui:262
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "Mantieni la dimensione originale del fotogramma durante l'esportazione"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
@@ -21282,10 +21282,9 @@ msgstr "Scorrimento"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Upper Bound"
-msgstr "Aggiornamenti al secondo"
+msgstr "Limite superiore"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMargin)
 #: src/ui/editsub_ui.ui:472
@@ -21309,10 +21308,9 @@ msgstr "Commento"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:589
-#, fuzzy, kde-format
-#| msgid "Power Blue"
+#, kde-format
 msgid "Lower Bound"
-msgstr "Potenza blu"
+msgstr "Limite inferiore"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
 #: src/ui/editsubstyle_ui.ui:24
@@ -21919,10 +21917,9 @@ msgstr "ColoreContorno"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:399
-#, fuzzy, kde-format
-#| msgid "Black color"
+#, kde-format
 msgid "BackColor"
-msgstr "Colore nero"
+msgstr "ColoreDietro"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439

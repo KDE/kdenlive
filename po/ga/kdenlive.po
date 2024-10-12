@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-11 00:39+0000\n"
+"POT-Creation-Date: 2024-10-12 00:38+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4881,7 +4881,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Amlíne"
 
-#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5793 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2093 src/bin/bin.cpp:5795 src/bin/clipcreator.cpp:324
 #, fuzzy, kde-format
 #| msgid "Close the current tab"
 msgctxt "@action"
@@ -5446,17 +5446,17 @@ msgstr ""
 msgid "Could not find master clip"
 msgstr "Dún an cluaisín reatha"
 
-#: src/bin/bin.cpp:5815
+#: src/bin/bin.cpp:5817
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5817
+#: src/bin/bin.cpp:5819
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5884 src/bin/bin.cpp:5961
+#: src/bin/bin.cpp:5886 src/bin/bin.cpp:5963
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -5466,70 +5466,70 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: src/bin/bin.cpp:5905
+#: src/bin/bin.cpp:5907
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Import selected clips"
 msgstr "Tionscadal"
 
-#: src/bin/bin.cpp:5907
+#: src/bin/bin.cpp:5909
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5920 src/mltcontroller/clippropertiescontroller.cpp:668
+#: src/bin/bin.cpp:5922 src/mltcontroller/clippropertiescontroller.cpp:668
 #, kde-format
 msgid "Video stream %1"
 msgstr ""
 
-#: src/bin/bin.cpp:5935
+#: src/bin/bin.cpp:5937
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Audio stream %1"
 msgstr "Cuir rian leis"
 
-#: src/bin/bin.cpp:5988
+#: src/bin/bin.cpp:5990
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Remove clip markers"
 msgstr "Scrios marcóir"
 
-#: src/bin/bin.cpp:6135
+#: src/bin/bin.cpp:6137
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6136
+#: src/bin/bin.cpp:6138
 #, fuzzy, kde-format
 #| msgid "Save Profile"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Sábháil an Phróifíl"
 
-#: src/bin/bin.cpp:6137
+#: src/bin/bin.cpp:6139
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Traschódaigh"
 
-#: src/bin/bin.cpp:6286 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6288 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Delete %1"
 msgid "Delete effect %1"
 msgstr "Scrios %1"
 
-#: src/bin/bin.cpp:6351 src/mainwindow.cpp:391
+#: src/bin/bin.cpp:6353 src/mainwindow.cpp:391
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Tionscadal"
 
-#: src/bin/bin.cpp:6354 src/bin/bin.cpp:6357 src/mainwindow.cpp:4934
+#: src/bin/bin.cpp:6356 src/bin/bin.cpp:6359 src/mainwindow.cpp:4934
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -6059,13 +6059,13 @@ msgstr "Cruthaigh Fillteán"
 msgid "Clean Project"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:1278
+#: src/bin/projectitemmodel.cpp:1282
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Reading project clips…"
 msgstr "Comhaid an Tionscadail"
 
-#: src/bin/projectitemmodel.cpp:1386
+#: src/bin/projectitemmodel.cpp:1390
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Loading project clips…"
