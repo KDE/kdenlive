@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-12 02:31+0000\n"
-"PO-Revision-Date: 2024-08-30 07:46+0200\n"
+"PO-Revision-Date: 2024-10-11 23:38+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -751,12 +751,12 @@ msgstr "Približanje"
 #: data/effects/dance.xml:32
 #, kde-format
 msgid "Up"
-msgstr "Gor"
+msgstr "Navzgor"
 
 #: data/effects/dance.xml:35
 #, kde-format
 msgid "Down"
-msgstr ""
+msgstr "Navzdol"
 
 #: data/effects/dance.xml:38
 #, kde-format
