@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-12 00:38+0000\n"
-"PO-Revision-Date: 2024-10-08 11:36+0200\n"
+"PO-Revision-Date: 2024-10-13 15:41+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -1403,7 +1403,7 @@ msgstr "Max"
 #: data/effects/mask_start_frei0r_select0r.xml:41
 #, kde-format
 msgid "Write on clear,Max,Min,Add,Subtract"
-msgstr "Schrijf op helder, Max, Min, Add ,Subtract"
+msgstr "Schrijf na gewist, Max, Min, Add ,Subtract"
 
 #: data/effects/mask_start_frei0r_alphaspot.xml:37
 #: data/effects/mask_start_frei0r_select0r.xml:42
@@ -1531,7 +1531,7 @@ msgstr "Modus"
 #: data/effects/mask_start_rotoscoping.xml:16 data/effects/rotoscoping.xml:13
 #, kde-format
 msgid "Write on clear,Maximum,Minimum,Add,Subtract"
-msgstr "Schrijf op helder, Maximum, Minimum, Add, Subtract"
+msgstr "Schrijf na gewist, Maximum, Minimum, Add, Subtract"
 
 #: data/effects/mask_start_rotoscoping.xml:17 data/effects/rotoscoping.xml:14
 #, kde-format
