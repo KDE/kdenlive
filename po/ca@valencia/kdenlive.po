@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-12 02:31+0000\n"
-"PO-Revision-Date: 2024-09-08 12:25+0200\n"
+"PO-Revision-Date: 2024-10-08 21:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.0\n"
+"X-Generator: Lokalize 24.08.1\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -760,7 +760,7 @@ msgstr "Amunt"
 #: data/effects/dance.xml:35
 #, kde-format
 msgid "Down"
-msgstr ""
+msgstr "Avall"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -4777,7 +4777,7 @@ msgstr "Clips sense utilitzar"
 #: src/bin/bin.cpp:2437
 #, kde-format
 msgid "Used Clips"
-msgstr "Clips sense utilitzar"
+msgstr "Clips utilitzats"
 
 #: src/bin/bin.cpp:2444
 #, kde-format
@@ -4792,7 +4792,7 @@ msgstr "Clip AV"
 #: src/bin/bin.cpp:2451
 #, kde-format
 msgid "Mute Video"
-msgstr "Silencia el vídeo"
+msgstr "Vídeo en silenci"
 
 #. i18n: ectx: property (title), widget (QGroupBox, audio_box)
 #. i18n: ectx: property (text), widget (QCheckBox, audio_thumbs)
@@ -4939,7 +4939,7 @@ msgstr "Afig un clip de títol…"
 #: src/bin/bin.cpp:3645
 #, kde-format
 msgid "Add Template Title…"
-msgstr "Afig una plantilla de títols…"
+msgstr "Afig un títol de plantilla…"
 
 #: src/bin/bin.cpp:3647
 #, kde-format
@@ -7086,7 +7086,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Compare Proxy Profile"
-msgstr "Compara el perfil de l'intermediari"
+msgstr "Compara el perfil dels intermediaris"
 
 #: src/dialogs/proxytest.cpp:31
 #, kde-format
