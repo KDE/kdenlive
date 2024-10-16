@@ -12,6 +12,8 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
+#include "pythoninterfaces/speechtotextvosk.h"
+#include "pythoninterfaces/speechtotextwhisper.h"
 
 #include "mlt++/MltConsumer.h"
 #include "mlt++/MltProfile.h"
@@ -53,10 +55,15 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
 
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         // Whisper model
-        m_stt = new SpeechToText(SpeechToText::EngineType::EngineWhisper);
-        QList<std::pair<QString, QString>> whisperModels = m_stt->whisperModels();
+        m_stt = new SpeechToTextWhisper(this);
+        const QStringList whisperModels = m_stt->getInstalledModels();
         for (auto &w : whisperModels) {
-            speech_model->addItem(w.first, w.second);
+            if (w.isEmpty()) {
+                continue;
+            }
+            QString modelName = w;
+            modelName[0] = w.at(0).toUpper();
+            speech_model->addItem(modelName, w);
         }
         int ix = speech_model->findData(KdenliveSettings::whisperModel());
         if (ix > -1) {
@@ -82,7 +89,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
         seamless_out_label->setVisible(seamlessEnabled);
         if (speech_language->count() == 0) {
             // Fill whisper languages
-            QMap<QString, QString> languages = m_stt->whisperLanguages();
+            QMap<QString, QString> languages = m_stt->speechLanguages();
             QMapIterator<QString, QString> j(languages);
             while (j.hasNext()) {
                 j.next();
@@ -99,9 +106,9 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     } else {
         // Vosk model
         whisper_settings->setVisible(false);
-        m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk);
+        m_stt = new SpeechToTextVosk(this);
         connect(pCore.get(), &Core::voskModelUpdate, this, &SpeechDialog::updateVoskModels);
-        m_stt->parseVoskDictionaries();
+        m_stt->getInstalledModels();
     }
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     adjustSize();
@@ -351,7 +358,7 @@ void SpeechDialog::slotProcessSpeech()
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting speech recognition"));
     qApp->processEvents();
-    QString modelDirectory = m_stt->voskModelPath();
+    QString modelDirectory = m_stt->modelFolder();
     m_speechJob = std::make_unique<QProcess>(this);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
             [this, speech](int, QProcess::ExitStatus status) { slotProcessSpeechStatus(status, speech); });

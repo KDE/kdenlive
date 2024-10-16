@@ -5,9 +5,10 @@
 
 #pragma once
 
-#include "ui_textbasededit_ui.h"
 #include "definitions.h"
-#include "pythoninterfaces/speechtotext.h"
+#include "pythoninterfaces/speechtotextvosk.h"
+#include "pythoninterfaces/speechtotextwhisper.h"
+#include "ui_textbasededit_ui.h"
 
 #include <QProcess>
 #include <QAction>

@@ -872,19 +872,24 @@ void TextBasedEdit::updateEngine()
 {
     delete m_stt;
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
-        m_stt = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
+        m_stt = new SpeechToTextWhisper(this);
         m_modelsMenu->clear();
         delete m_modelsGroup;
         m_modelsGroup = new QActionGroup(this);
-        QList<std::pair<QString, QString>> whisperModels = m_stt->whisperModels();
+        const QStringList whisperModels = m_stt->getInstalledModels();
         QAction *a = nullptr;
         bool found = false;
         for (auto &w : whisperModels) {
-            a = m_modelsMenu->addAction(w.first);
+            if (w.isEmpty()) {
+                continue;
+            }
+            QString modelName = w;
+            modelName[0] = w.at(0).toUpper();
+            a = m_modelsMenu->addAction(modelName);
             a->setCheckable(true);
-            a->setData(w.second);
+            a->setData(w);
             m_modelsGroup->addAction(a);
-            if (w.second == KdenliveSettings::whisperModel()) {
+            if (w == KdenliveSettings::whisperModel()) {
                 a->setChecked(true);
                 found = true;
             }
@@ -896,7 +901,7 @@ void TextBasedEdit::updateEngine()
             }
         }
         language_box->clear();
-        QMap<QString, QString> languages = m_stt->whisperLanguages();
+        QMap<QString, QString> languages = m_stt->speechLanguages();
         QMapIterator<QString, QString> j(languages);
         while (j.hasNext()) {
             j.next();
@@ -911,8 +916,8 @@ void TextBasedEdit::updateEngine()
     } else {
         // VOSK
         language_box->setVisible(false);
-        m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
-        m_stt->parseVoskDictionaries();
+        m_stt = new SpeechToTextVosk(this);
+        m_stt->getInstalledModels();
     }
 }
 
@@ -987,7 +992,7 @@ void TextBasedEdit::startRecognition()
             showMessage(i18n("Please install a language model."), KMessageWidget::Warning, m_voskConfig);
             return;
         }
-        modelDirectory = m_stt->voskModelPath();
+        modelDirectory = m_stt->modelFolder();
     }
     m_binId = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);

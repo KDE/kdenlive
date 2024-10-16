@@ -365,7 +365,7 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
     // Force check, reset flag
     m_missing.clear();
     m_optionalMissing.clear();
-    const QString output = runPackageScript(QStringLiteral("--check"));
+    const QString output = runPackageScript(QStringLiteral("--check"), false, false);
     QStringList missingDeps = output.split(QStringLiteral("Missing: "));
     QStringList outputMissing;
     for (auto &m : missingDeps) {
@@ -478,7 +478,7 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
     if (installDisabled()) {
         return;
     }
-    QString output = runPackageScript(QStringLiteral("--details"));
+    QString output = runPackageScript(QStringLiteral("--details"), false, false);
     if (output.isEmpty() || !output.contains(QStringLiteral("Version: "))) {
         Q_EMIT setupMessage(i18nc("@label:textbox", "No version information available."), int(KMessageWidget::Warning));
         qDebug() << "::: CHECKING DEPENDENCIES... NO VERSION INFO AVAILABLE";
@@ -549,7 +549,7 @@ QStringList AbstractPythonInterface::parseDependencies(QStringList deps, bool sp
     return packages;
 }
 
-QString AbstractPythonInterface::runPackageScript(const QString &mode, bool concurrent)
+QString AbstractPythonInterface::runPackageScript(const QString &mode, bool concurrent, bool displayFeedback)
 {
     if (m_dependencies.keys().isEmpty()) {
         qWarning() << "No dependencies specified";
@@ -562,10 +562,10 @@ QString AbstractPythonInterface::runPackageScript(const QString &mode, bool conc
     QStringList deps = parseDependencies(m_dependencies.keys(), mode != QLatin1String("--install") && mode != QLatin1String("--upgrade"));
 
     if (concurrent) {
-        (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, QStringLiteral("checkpackages.py"), deps, mode, concurrent, true);
+        (void)QtConcurrent::run(&AbstractPythonInterface::runScript, this, QStringLiteral("checkpackages.py"), deps, mode, concurrent, displayFeedback);
         return {};
     } else {
-        return runScript(QStringLiteral("checkpackages.py"), deps, mode, concurrent, true);
+        return runScript(QStringLiteral("checkpackages.py"), deps, mode, concurrent, displayFeedback);
     }
 }
 
@@ -618,23 +618,14 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     scriptJob.waitForFinished(-1);
 
     if (!concurrent && (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0)) {
-        qDebug() << "::::: WARNING ERRROR EXIT STATUS: " << scriptJob.exitCode();
         const QString errorMessage = scriptJob.readAllStandardError();
         Q_EMIT setupError(i18n("Error while running python3 script:\n %1\n%2", scriptpath, errorMessage));
-        qWarning() << " SCRIPT ERROR: " << errorMessage;
         return {};
     }
 
-    if (concurrent) {
-        if (packageFeedback) {
-            const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
-            if (!processData.isEmpty()) {
-                Q_EMIT installFeedback(processData.simplified());
-            }
-        } else {
-            const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
-            Q_EMIT scriptFeedback(script, args, processData.split(QLatin1Char('\n'), Qt::SkipEmptyParts));
-        }
+    if (concurrent && !packageFeedback) {
+        const QString processData = QString::fromUtf8(scriptJob.readAllStandardOutput());
+        Q_EMIT scriptFeedback(script, args, processData.split(QLatin1Char('\n'), Qt::SkipEmptyParts));
     }
 
     if (script.contains(QLatin1String("checkgpu.py")) || script.contains(QLatin1String("whisperquery"))) {

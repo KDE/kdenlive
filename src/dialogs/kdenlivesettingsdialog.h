@@ -53,7 +53,6 @@ class KdenliveSettingsDialog : public KConfigDialog
 public:
     KdenliveSettingsDialog(QMap<QString, QString> mappable_actions, bool gpuAllowed, QWidget *parent = nullptr);
     ~KdenliveSettingsDialog() override;
-    enum WhisperRole { WPModelNameRole = Qt::UserRole, WPUrlRole, WPSizeRole };
     void showPage(Kdenlive::ConfigPage page, int option);
     void checkProfile();
     /** @brief update kdenlive settings for external app path if they were changed outside config dialog */
@@ -105,8 +104,6 @@ private Q_SLOTS:
     void doShowSpeechMessage(const QString &message, int messageType);
     /** @brief Check required python dependencies for speech engine */
     void slotCheckSttConfig();
-    void checkWhisperModelSize();
-    void checkWhisperModelFolder();
     /** @brief Display the python job output */
     void showSpeechLog(const QString &jobData);
     /** @brief fill list of connected monitors */

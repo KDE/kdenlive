@@ -75,7 +75,7 @@ private:
 
     void installMissingDependencies();
     QString locateScript(const QString &script);
-    QString runPackageScript(const QString &mode, bool concurrent = false);
+    QString runPackageScript(const QString &mode, bool concurrent = false, bool displayFeedback = true);
     int versionToInt(const QString &version);
     /** @brief Create a python virtualenv */
     bool setupVenv();
