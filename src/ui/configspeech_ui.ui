@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>447</width>
-    <height>445</height>
+    <height>472</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -236,6 +236,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </item>
         </layout>
        </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="KMessageWidget" name="noModelMessage">
+         <property name="closeButtonVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
@@ -274,14 +281,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
-        <widget class="QCheckBox" name="kcfg_enableSeamless">
-         <property name="text">
-          <string>Enable translation through SeamlessM4T</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="2">
+       <item row="6" column="0" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLabel" name="model_folder_label">
@@ -312,7 +312,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </item>
         </layout>
        </item>
-       <item row="8" column="0" colspan="2">
+       <item row="7" column="0" colspan="2">
         <layout class="QVBoxLayout" name="message_layout_wr">
          <property name="spacing">
           <number>0</number>
@@ -321,13 +321,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <number>10</number>
          </property>
         </layout>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="KMessageWidget" name="noModelMessage">
-         <property name="closeButtonVisible">
-          <bool>false</bool>
-         </property>
-        </widget>
        </item>
       </layout>
      </widget>
