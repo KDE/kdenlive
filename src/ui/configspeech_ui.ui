@@ -236,52 +236,52 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Language:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QComboBox" name="combo_wr_lang"/>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_5">
          <property name="text">
           <string>Device:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QComboBox" name="combo_wr_device">
          <property name="sizeAdjustPolicy">
           <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QCheckBox" name="kcfg_whisperDisableFP16">
          <property name="text">
           <string>Disable half precision (FP16 )</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="1">
         <widget class="QCheckBox" name="kcfg_whisperTranslate">
          <property name="text">
           <string>Translate text to English</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="QCheckBox" name="kcfg_enableSeamless">
          <property name="text">
           <string>Enable translation through SeamlessM4T</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0" colspan="2">
+       <item row="7" column="0" colspan="2">
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLabel" name="model_folder_label">
@@ -312,7 +312,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </item>
         </layout>
        </item>
-       <item row="7" column="0" colspan="2">
+       <item row="8" column="0" colspan="2">
         <layout class="QVBoxLayout" name="message_layout_wr">
          <property name="spacing">
           <number>0</number>
@@ -321,6 +321,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <number>10</number>
          </property>
         </layout>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="KMessageWidget" name="noModelMessage">
+         <property name="closeButtonVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

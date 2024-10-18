@@ -23,7 +23,7 @@ public:
     void buildWhisperDeps(bool enableSeamless);
     const QString modelFolder() override;
     const QStringList getInstalledModels() override;
-    bool installNewModel() override;
+    bool installNewModel(const QString &modelName = QString()) override;
     QMap<QString, QString> speechLanguages() override;
 
 public Q_SLOTS:

@@ -23,7 +23,7 @@ public:
     QString speechScript() override;
     QString voskModelPath();
     const QStringList getInstalledModels() override;
-    bool installNewModel() override;
+    bool installNewModel(const QString &modelName = QString()) override;
     QMap<QString, QString> whisperLanguages();
 
 public Q_SLOTS:

@@ -181,9 +181,9 @@ QString SpeechToTextWhisper::speechScript()
     return m_scripts->value(QStringLiteral("whispertotext.py"));
 }
 
-bool SpeechToTextWhisper::installNewModel()
+bool SpeechToTextWhisper::installNewModel(const QString &modelName)
 {
-    WhisperDownload d(this, QApplication::activeWindow());
+    WhisperDownload d(this, modelName, QApplication::activeWindow());
     d.exec();
     bool installedNew = d.newModelsInstalled();
     return installedNew;

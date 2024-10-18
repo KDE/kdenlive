@@ -25,7 +25,7 @@ public:
     virtual QMap<QString, QString> speechLanguages();
     virtual const QString modelFolder() = 0;
     virtual const QStringList getInstalledModels() = 0;
-    virtual bool installNewModel() = 0;
+    virtual bool installNewModel(const QString &modelName = QString()) = 0;
 
 protected:
     QString featureName() override;

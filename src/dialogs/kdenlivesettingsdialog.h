@@ -125,6 +125,7 @@ private:
     KPageWidgetItem *m_pageProject;
     KPageWidgetItem *m_pageColors;
     KPageWidgetItem *m_pageSpeech;
+    QAction *m_downloadModelAction;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigColors_UI m_configColors;
@@ -180,6 +181,8 @@ private:
     void checkSpeechDependencies();
     /** @brief Check folder size */
     void checkWhisperFolderSize();
+    /** @brief Refresh the list of available models in combobox */
+    void reloadWhisperModels();
 
 Q_SIGNALS:
     void customChanged();

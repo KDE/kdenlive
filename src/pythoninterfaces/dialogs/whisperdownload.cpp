@@ -29,13 +29,18 @@
 #include <QVBoxLayout>
 #include <QtConcurrent>
 
-WhisperDownload::WhisperDownload(SpeechToText *engine, QWidget *parent)
+WhisperDownload::WhisperDownload(SpeechToText *engine, const QString &modelName, QWidget *parent)
     : QDialog(parent)
     , m_engine(engine)
+    , m_modelToInstall(modelName)
 {
     auto *l = new QVBoxLayout;
     setLayout(l);
-    l->addWidget(new QLabel(i18n("Select new models to download"), this));
+    if (m_modelToInstall.isEmpty()) {
+        l->addWidget(new QLabel(i18n("Select new models to download"), this));
+    } else {
+        l->addWidget(new QLabel(i18n("Installing model %1", m_modelToInstall), this));
+    }
     m_lw = new QListWidget(this);
     m_lw->setAlternatingRowColors(true);
     m_mw = new KMessageWidget(this);
@@ -67,13 +72,20 @@ WhisperDownload::WhisperDownload(SpeechToText *engine, QWidget *parent)
     connect(m_engine, &SpeechToText::installFeedback, this, &WhisperDownload::installFeedback);
     m_engine->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), {QStringLiteral("task=list")});
     connect(m_bd, &QPushButton::clicked, this, &WhisperDownload::downloadModel);
+    if (!m_modelToInstall.isEmpty()) {
+        m_lw->setEnabled(false);
+    }
     connect(this, &WhisperDownload::itemMatch, [this](const QString hash, bool match) {
         for (int i = 0; i < m_lw->count(); i++) {
             auto *item = m_lw->item(i);
             if (item->data(WPUrlRole).toString().contains(hash)) {
                 if (match) {
                     item->setData(WPInstalledRole, 1);
-                    item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-checked")));
+                    item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
+                    if (!m_modelToInstall.isEmpty() && item->data(WPModelNameRole).toString() == m_modelToInstall) {
+                        // We are done, exit
+                        accept();
+                    }
                 } else {
                     // Hash does not match, not ok, delete model
                     deleteModel(i);
@@ -81,6 +93,7 @@ WhisperDownload::WhisperDownload(SpeechToText *engine, QWidget *parent)
                 break;
             }
         }
+        updateDownloadButton(m_lw->currentRow());
     });
 }
 
@@ -134,7 +147,7 @@ void WhisperDownload::downloadModel()
         const QString modelName = item->data(WPModelNameRole).toString();
         QStringList args = {QStringLiteral("task=download"), QStringLiteral("model=%1").arg(modelName)};
         m_downloadProgress = 0;
-        item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-added")));
+        item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-1")));
         m_engine->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args, true);
         m_downloadGroup->setVisible(true);
         updateDownloadButton(m_lw->row(item));
@@ -165,7 +178,7 @@ void WhisperDownload::deleteModel(int row)
     const QString toRemove = modelFolder.absoluteFilePath(fileName);
     QFile::remove(toRemove);
     item->setData(WPInstalledRole, 0);
-    item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-pause")));
+    item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
     m_newModelInstalled = true;
     if (row == m_lw->currentRow()) {
         updateDownloadButton(row);
@@ -215,6 +228,7 @@ void WhisperDownload::parseScriptFeedback(const QString &scriptName, const QStri
         QStringList excludedModels = {QStringLiteral("large-v1"), QStringLiteral("large-v2"), QStringLiteral("large-v3"), QStringLiteral("large-v3-turbo")};
         QStringList updatedModelsList;
         QStringList hashList;
+        QListWidgetItem *itemToInstall = nullptr;
         for (auto &s : jobData) {
             const QString name = s.section(QLatin1Char(':'), 0, 0).simplified();
             const QString url = s.section(QLatin1Char(':'), 1).simplified();
@@ -241,19 +255,26 @@ void WhisperDownload::parseScriptFeedback(const QString &scriptName, const QStri
             displayName[0] = displayName[0].toUpper();
             QListWidgetItem *item = new QListWidgetItem(displayName, m_lw);
             item->setData(WPModelNameRole, name);
+            if (!m_modelToInstall.isEmpty() && m_modelToInstall == name) {
+                itemToInstall = item;
+            }
             item->setData(WPUrlRole, url);
             item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
             if (installedModels.contains(name)) {
                 item->setData(WPInstalledRole, 1);
-                item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-checked")));
+                item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
             } else {
                 item->setData(WPInstalledRole, 0);
-                item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-pause")));
+                item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
             }
         }
         if (!updatedModelsList.isEmpty()) {
             KdenliveSettings::setWhisperAvailableModels(updatedModelsList);
             KdenliveSettings::setWhisperAvailableModelsHash(hashList);
+        }
+        if (itemToInstall) {
+            m_lw->setCurrentItem(itemToInstall);
+            downloadModel();
         }
         checkHashes(m_engine->getInstalledModels());
     }
@@ -268,7 +289,7 @@ void WhisperDownload::checkHashes(const QStringList modelsToCheck)
         m_mw->animatedHide();
         return;
     }
-    m_mw->setText(i18n("Checking hashes of installed models"));
+    m_mw->setText(i18n("Checking models integrity…"));
     m_mw->show();
     QDir modelFolder(modelPath);
     QMap<QString, QString> hashesToCheck;
@@ -322,7 +343,6 @@ void WhisperDownload::scriptFinished(const QString &scriptName, const QStringLis
                 }
             }
             checkHashes({modelName});
-            updateDownloadButton(m_lw->currentRow());
         }
     }
 }
@@ -354,121 +374,3 @@ void WhisperDownload::queryClose()
     }
     close();
 }
-
-// const QString message = i18n("The selected model %1 <b>must be downloaded (size of %2)</b>.<br/>Whisper processing on cpu is slow.",
-
-/*m_configSpeech.combo_wr_model->currentText(), KIO::convertSize(size));
-if (KMessageBox::questionTwoActions(QApplication::activeWindow(), message, {}, KGuiItem(i18n("Download model")),
-KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
-return;
-}
-const QString currentModel = m_configSpeech.combo_wr_model->currentData(WPModelNameRole).toString();
-QStringList args = {QStringLiteral("task=download"), QStringLiteral("model=%1").arg(currentModel)};
-m_sttWhisper->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args, true);*/
-
-/*
-void KdenliveSettingsDialog::checkWhisperModelSize()
-{
-    QVariant status = m_configSpeech.combo_wr_model->currentData(WPSizeRole);
-    qDebug() << "::: FOUND STATUS: " << status;
-    if (status.toString() == QLatin1String("-")) {
-        // Already checking for this model
-        m_configSpeech.downloadButton->setVisible(true);
-        return;
-    }
-    int size = status.toInt();
-    if (size == 0) {
-        m_configSpeech.downloadButton->setVisible(true);
-        QStringList args = {QStringLiteral("task=size"), QStringLiteral("model=%1").arg(currentModel)};
-        m_sttWhisper->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args);
-    } else if (size == 1) {
-        // Model is already downloaded, nothing to do
-        m_configSpeech.downloadButton->setVisible(false);
-    } else if (size < 0) {
-        // Model size not found, maybe offline
-        m_configSpeech.downloadButton->setVisible(true);
-    } else {
-        m_configSpeech.downloadButton->setVisible(true);
-    }
-}
-
-void KdenliveSettingsDialog::checkWhisperModelFolder()
-{
-    // Basic info about model folders
-    QString folder = KdenliveSettings::whisperModelFolder();
-    if (folder.isEmpty()) {
-        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
-    } else if (!QFileInfo::exists(folder)) {
-        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
-    }
-    QDir modelsFolder(folder);
-    if (!modelsFolder.exists()) {
-        m_configSpeech.model_folder_label->setVisible(false);
-        return;
-    }
-    m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(modelsFolder.absolutePath(), i18n("Models folder")));
-    m_configSpeech.model_folder_label->setVisible(true);
-    QStringList files = modelsFolder.entryList(QDir::Files);
-    for (int i = 0; i < m_configSpeech.combo_wr_model->count(); i++) {
-
-    }
-    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(modelsFolder.absolutePath()));
-    connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size]() {
-        label->setText(KIO::convertSize(job->totalSize()));
-        job->deleteLater();
-    });
-}*/
-
-/*
-void KdenliveSettingsDialog::checkWhisperModelSize()
-{
-    QVariant status = m_configSpeech.combo_wr_model->currentData(WPSizeRole);
-    qDebug() << "::: FOUND STATUS: " << status;
-    if (status.toString() == QLatin1String("-")) {
-        // Already checking for this model
-        m_configSpeech.downloadButton->setVisible(true);
-        return;
-    }
-    int size = status.toInt();
-    if (size == 0) {
-        m_configSpeech.downloadButton->setVisible(true);
-        QStringList args = {QStringLiteral("task=size"), QStringLiteral("model=%1").arg(currentModel)};
-        m_sttWhisper->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args);
-    } else if (size == 1) {
-        // Model is already downloaded, nothing to do
-        m_configSpeech.downloadButton->setVisible(false);
-    } else if (size < 0) {
-        // Model size not found, maybe offline
-        m_configSpeech.downloadButton->setVisible(true);
-    } else {
-        m_configSpeech.downloadButton->setVisible(true);
-    }
-}
-
-void KdenliveSettingsDialog::checkWhisperModelFolder()
-{
-    // Basic info about model folders
-    QString folder = KdenliveSettings::whisperModelFolder();
-    if (folder.isEmpty()) {
-        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
-    } else if (!QFileInfo::exists(folder)) {
-        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
-    }
-    QDir modelsFolder(folder);
-    if (!modelsFolder.exists()) {
-        m_configSpeech.model_folder_label->setVisible(false);
-        return;
-    }
-    m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(modelsFolder.absolutePath(), i18n("Models folder")));
-    m_configSpeech.model_folder_label->setVisible(true);
-    QStringList files = modelsFolder.entryList(QDir::Files);
-    for (int i = 0; i < m_configSpeech.combo_wr_model->count(); i++) {
-
-    }
-    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(modelsFolder.absolutePath()));
-    connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size]() {
-        label->setText(KIO::convertSize(job->totalSize()));
-        job->deleteLater();
-    });
-}
-*/

@@ -63,7 +63,7 @@ const QStringList SpeechToTextVosk::getInstalledModels()
     return final;
 }
 
-bool SpeechToTextVosk::installNewModel()
+bool SpeechToTextVosk::installNewModel(const QString &)
 {
     return true;
 }
