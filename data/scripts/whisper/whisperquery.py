@@ -12,9 +12,10 @@ import whisper
 
 def main(**kwargs):
     kwargs_def = {
-        'task':'list',
-        'model' :'',
-        'url' :''
+        'task':'',
+        'model':'',
+        'url':'',
+        'download_root':''
     }
     assert all(k in kwargs_def for k in kwargs), f"Invalid kwargs: {kwargs.keys()}"
     kwargs = { **kwargs_def, **kwargs }
@@ -54,12 +55,13 @@ def main(**kwargs):
                 size = resp.headers.get("Content-length")
                 print (model + " : " + str(size), flush=True)
     elif task == "download" :
-        model = kwargs['model']
-        if model == '':
-            print ('Please give a model name', flush=True)
+        url = kwargs['url']
+        path = kwargs['download_root']
+        if url == '' or path == '':
+            print ('Please give an url and a path', flush=True)
             # Abort
             sys.exit()
-        whisper.load_model(model)
+        whisper._download(url, path, False)
     else:
         print ("Usage:", flush=True)
         print ("--task=list : list available models", flush=True)
