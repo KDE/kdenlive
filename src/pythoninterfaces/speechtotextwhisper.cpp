@@ -173,12 +173,12 @@ QMap<QString, QString> SpeechToTextWhisper::speechLanguages()
 
 QString SpeechToTextWhisper::subtitleScript()
 {
-    return m_scripts->value(QStringLiteral("whispertosrt.py"));
+    return m_scripts->value(QStringLiteral("whisper/whispertosrt.py"));
 }
 
 QString SpeechToTextWhisper::speechScript()
 {
-    return m_scripts->value(QStringLiteral("whispertotext.py"));
+    return m_scripts->value(QStringLiteral("whisper/whispertotext.py"));
 }
 
 bool SpeechToTextWhisper::installNewModel(const QString &modelName)

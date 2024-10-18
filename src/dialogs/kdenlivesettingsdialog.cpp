@@ -2016,7 +2016,7 @@ void KdenliveSettingsDialog::reloadWhisperModels()
     const QStringList models = m_sttWhisper->getInstalledModels();
     if (models.isEmpty()) {
         // Show install button
-        m_configSpeech.noModelMessage->setText(i18n("Install a speech model - we recommand the turbo"));
+        m_configSpeech.noModelMessage->setText(i18n("Install a speech model - we recommand <b>turbo</b>"));
         m_configSpeech.noModelMessage->addAction(m_downloadModelAction);
         m_configSpeech.noModelMessage->show();
         return;

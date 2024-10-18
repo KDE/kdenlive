@@ -70,10 +70,10 @@ bool SpeechToTextVosk::installNewModel(const QString &)
 
 QString SpeechToTextVosk::subtitleScript()
 {
-    return m_scripts->value(QStringLiteral("speech.py"));
+    return m_scripts->value(QStringLiteral("vosk/speech.py"));
 }
 
 QString SpeechToTextVosk::speechScript()
 {
-    return m_scripts->value(QStringLiteral("speechtotext.py"));
+    return m_scripts->value(QStringLiteral("vosk/speechtotext.py"));
 }
