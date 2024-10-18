@@ -1948,9 +1948,12 @@ void KdenliveSettingsDialog::initSpeechPage()
                 ix = 0;
             }
             m_configSpeech.combo_wr_model->setCurrentIndex(ix);
+            checkWhisperFolderSize();
+            Q_EMIT pCore->speechModelUpdate(SpeechToTextEngine::EngineWhisper, models);
         }
         connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
     });
+    checkWhisperFolderSize();
 
     connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
         Q_UNUSED(args);
@@ -2032,6 +2035,28 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
+}
+
+void KdenliveSettingsDialog::checkWhisperFolderSize()
+{
+    QDir modelsFolder(m_sttWhisper->modelFolder());
+    if (!modelsFolder.exists()) {
+        m_configSpeech.model_folder_label->setVisible(false);
+        m_configSpeech.downloadButton->setText(i18n("Install a model"));
+        return;
+    }
+    m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(modelsFolder.absolutePath(), i18n("Models folder")));
+    m_configSpeech.model_folder_label->setVisible(true);
+    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(modelsFolder.absolutePath()));
+    connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size, button = m_configSpeech.downloadButton]() {
+        label->setText(KIO::convertSize(job->totalSize()));
+        if (job->totalSize() == 0) {
+            button->setText(i18n("Install a model"));
+        } else {
+            button->setText(i18n("Manage models"));
+        }
+        job->deleteLater();
+    });
 }
 
 void KdenliveSettingsDialog::showSpeechLog(const QString &jobData)
@@ -2198,6 +2223,7 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
     } else {
         m_configSpeech.modelV_folder_label->setVisible(false);
     }
+    Q_EMIT pCore->speechModelUpdate(SpeechToTextEngine::EngineVosk, final);
 }
 
 void KdenliveSettingsDialog::showHelp()

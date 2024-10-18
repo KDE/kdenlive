@@ -12,6 +12,7 @@
 #include <QProcess>
 
 class QListWidget;
+class QListWidgetItem;
 class KMessageWidget;
 class QPushButton;
 class QHBoxLayout;
@@ -22,7 +23,7 @@ class WhisperDownload : public QDialog
 {
     Q_OBJECT
 public:
-    enum WhisperRole { WPModelNameRole = Qt::UserRole, WPUrlRole, WPSizeRole };
+    enum WhisperRole { WPModelNameRole = Qt::UserRole, WPUrlRole, WPSizeRole, WPInstalledRole };
     WhisperDownload(SpeechToText *engine, QWidget *parent = nullptr);
     static const QString getWhisperModelsFolder();
     bool newModelsInstalled();
@@ -38,16 +39,20 @@ private:
     QGroupBox *m_downloadGroup;
     int m_downloadProgress{0};
     bool m_newModelInstalled{false};
+    void checkHashes(const QStringList modelsToCheck);
+    void deleteModel(int row);
 
 private Q_SLOTS:
-    void checkItemList();
     void parseScriptFeedback(const QString &scriptName, const QStringList args, const QStringList jobData);
     void scriptFinished(const QString &scriptName, const QStringList &args);
-    void downloadModels();
+    void downloadModel();
     void installFeedback(const QString &feedback);
+    void processHashCheck(QMap<QString, QString> hashesToCheck);
+    void updateDownloadButton(int ix);
     void queryClose();
 
 Q_SIGNALS:
+    void itemMatch(const QString hash, bool match);
     // void subtitleProgressUpdate(int);
     // void subtitleFinished(int exitCode, QProcess::ExitStatus exitStatus);
 };

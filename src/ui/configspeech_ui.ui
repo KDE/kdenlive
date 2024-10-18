@@ -217,7 +217,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          <item>
           <widget class="QPushButton" name="downloadButton">
            <property name="text">
-            <string>Download new models</string>
+            <string>Manage models</string>
            </property>
           </widget>
          </item>

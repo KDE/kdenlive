@@ -25,7 +25,7 @@
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
-SpeechToText::SpeechToText(EngineType engineType, QObject *parent)
+SpeechToText::SpeechToText(SpeechToTextEngine::EngineType engineType, QObject *parent)
     : AbstractPythonInterface(parent)
     , m_engineType(engineType)
 {
@@ -49,4 +49,9 @@ QString SpeechToText::subtitleScript()
 QString SpeechToText::speechScript()
 {
     return QString();
+}
+
+SpeechToTextEngine::EngineType SpeechToText::engineType() const
+{
+    return m_engineType;
 }

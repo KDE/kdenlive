@@ -15,6 +15,7 @@
 #include <KMessageWidget>
 
 #include <QApplication>
+#include <QCryptographicHash>
 #include <QDebug>
 #include <QDialogButtonBox>
 #include <QDir>
@@ -24,7 +25,9 @@
 #include <QListWidgetItem>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QTimer>
 #include <QVBoxLayout>
+#include <QtConcurrent>
 
 WhisperDownload::WhisperDownload(SpeechToText *engine, QWidget *parent)
     : QDialog(parent)
@@ -51,19 +54,34 @@ WhisperDownload::WhisperDownload(SpeechToText *engine, QWidget *parent)
     m_downloadGroup->setLayout(m_downloadLayout);
     l->addWidget(m_downloadGroup);
     m_downloadGroup->setVisible(false);
-    m_bd = new QPushButton(i18n("Download selected models"), this);
+    m_bd = new QPushButton(i18n("Download Model"), this);
     l->addWidget(m_bd);
     m_bd->setEnabled(false);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     l->addWidget(buttonBox);
-    connect(m_lw, &QListWidget::itemChanged, this, &WhisperDownload::checkItemList);
+    connect(m_lw, &QListWidget::currentRowChanged, this, &WhisperDownload::updateDownloadButton);
     connect(buttonBox->button(QDialogButtonBox::Close), &QPushButton::clicked, this, &WhisperDownload::queryClose);
     // Fetch the model names
     connect(m_engine, &SpeechToText::scriptFeedback, this, &WhisperDownload::parseScriptFeedback);
     connect(m_engine, &SpeechToText::concurrentScriptFinished, this, &WhisperDownload::scriptFinished);
     connect(m_engine, &SpeechToText::installFeedback, this, &WhisperDownload::installFeedback);
     m_engine->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), {QStringLiteral("task=list")});
-    connect(m_bd, &QPushButton::clicked, this, &WhisperDownload::downloadModels);
+    connect(m_bd, &QPushButton::clicked, this, &WhisperDownload::downloadModel);
+    connect(this, &WhisperDownload::itemMatch, [this](const QString hash, bool match) {
+        for (int i = 0; i < m_lw->count(); i++) {
+            auto *item = m_lw->item(i);
+            if (item->data(WPUrlRole).toString().contains(hash)) {
+                if (match) {
+                    item->setData(WPInstalledRole, 1);
+                    item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-checked")));
+                } else {
+                    // Hash does not match, not ok, delete model
+                    deleteModel(i);
+                }
+                break;
+            }
+        }
+    });
 }
 
 void WhisperDownload::installFeedback(const QString &feedback)
@@ -80,43 +98,77 @@ void WhisperDownload::installFeedback(const QString &feedback)
     }
 }
 
-void WhisperDownload::downloadModels()
+void WhisperDownload::updateDownloadButton(int ix)
 {
-    for (int i = 0; i < m_lw->count(); i++) {
-        auto item = m_lw->item(i);
-        if (item->checkState() == Qt::Checked) {
-            Qt::ItemFlags flags = m_lw->item(i)->flags();
-            if (!(flags & Qt::ItemIsEnabled)) {
-                continue;
-            }
-            m_mw->setVisible(false);
-            item->setFlags(Qt::ItemIsUserCheckable);
-            const QString modelName = item->data(WPModelNameRole).toString();
-            QStringList args = {QStringLiteral("task=download"), QStringLiteral("model=%1").arg(modelName)};
-            m_downloadProgress = 0;
-            m_engine->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args, true);
-            m_downloadGroup->setVisible(true);
-            break;
+    auto item = m_lw->item(ix);
+    if (item == nullptr) {
+        return;
+    }
+    int installStatus = item->data(WPInstalledRole).toInt();
+    if (installStatus == -1) {
+        // We are already downloading this one
+        m_bd->setIcon(QIcon::fromTheme("dialog-cancel"));
+        m_bd->setText(i18n("Abort downloads"));
+    } else {
+        m_bd->setEnabled(true);
+        if (installStatus == 1) {
+            m_bd->setIcon(QIcon::fromTheme("list-remove"));
+            m_bd->setText(i18n("Uninstall model"));
+        } else {
+            m_bd->setIcon(QIcon::fromTheme("list-add"));
+            m_bd->setText(i18n("Install model"));
         }
     }
 }
 
-void WhisperDownload::checkItemList()
+void WhisperDownload::downloadModel()
 {
-    bool found = false;
-    for (int i = 0; i < m_lw->count(); i++) {
-        QListWidgetItem *item = m_lw->item(i);
-        if (item->checkState() == Qt::Checked) {
-            found = true;
-            m_bd->setEnabled(true);
-            m_mw->setText(i18n("Model download can take several minutes depending on your connection speed"));
-            m_mw->animatedShow();
-            break;
-        }
+    auto item = m_lw->currentItem();
+    if (item == nullptr) {
+        return;
     }
-    if (!found) {
-        m_bd->setEnabled(false);
-        m_mw->hide();
+    if (item->data(WPInstalledRole).toInt() == 0) {
+        // Start download
+        m_mw->setVisible(false);
+        item->setData(WPInstalledRole, -1);
+        const QString modelName = item->data(WPModelNameRole).toString();
+        QStringList args = {QStringLiteral("task=download"), QStringLiteral("model=%1").arg(modelName)};
+        m_downloadProgress = 0;
+        item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-added")));
+        m_engine->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args, true);
+        m_downloadGroup->setVisible(true);
+        updateDownloadButton(m_lw->row(item));
+    } else if (item->data(WPInstalledRole).toInt() == 1) {
+        // Remove model
+        deleteModel(m_lw->row(item));
+    } else if (item->data(WPInstalledRole).toInt() == -1) {
+        // Abort download
+        Q_EMIT m_engine->abortScript();
+        // Remove model
+        deleteModel(m_lw->row(item));
+        m_downloadProgress = 0;
+    }
+}
+
+void WhisperDownload::deleteModel(int row)
+{
+    QListWidgetItem *item = m_lw->item(row);
+    if (item == nullptr) {
+        return;
+    }
+    const QString modelPath = m_engine->modelFolder();
+    if (modelPath.isEmpty()) {
+        return;
+    }
+    QDir modelFolder(modelPath);
+    const QString fileName = QUrl(item->data(WPUrlRole).toString()).fileName();
+    const QString toRemove = modelFolder.absoluteFilePath(fileName);
+    QFile::remove(toRemove);
+    item->setData(WPInstalledRole, 0);
+    item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-pause")));
+    m_newModelInstalled = true;
+    if (row == m_lw->currentRow()) {
+        updateDownloadButton(row);
     }
 }
 
@@ -152,32 +204,34 @@ void WhisperDownload::parseScriptFeedback(const QString &scriptName, const QStri
                     }
                 }
             }
-            // QMetaObject::invokeMethod(this, "checkWhisperModelSize", Qt::QueuedConnection);
             return;
         }
         if (args.contains(QStringLiteral("task=download"))) {
             // check if model is now correcty downloaded
             return;
         }
-        // Don't display installed or duplicated models'
-        m_mw->animatedHide();
-        QStringList excludedModels = m_engine->getInstalledModels();
-        excludedModels.append({QStringLiteral("large-v1"), QStringLiteral("large-v2"), QStringLiteral("large-v3"), QStringLiteral("large-v3-turbo")});
+        // Don't display installed or duplicated models
+        const QStringList installedModels = m_engine->getInstalledModels();
+        QStringList excludedModels = {QStringLiteral("large-v1"), QStringLiteral("large-v2"), QStringLiteral("large-v3"), QStringLiteral("large-v3-turbo")};
         QStringList updatedModelsList;
+        QStringList hashList;
         for (auto &s : jobData) {
             const QString name = s.section(QLatin1Char(':'), 0, 0).simplified();
             const QString url = s.section(QLatin1Char(':'), 1).simplified();
             const QString fileName = QUrl(url).fileName();
+            const QString hash = url.section(QLatin1Char('/'), -2, -2);
             if (name.isEmpty()) {
                 continue;
             }
             if (name != QLatin1String("root_folder")) {
                 updatedModelsList << QString("%1=%2").arg(name, fileName);
+                hashList << QString("%1=%2").arg(fileName, hash);
             }
             if (excludedModels.contains(name)) {
-                // don't display already installed models in list'
+                // don't display duplicate models in list'
                 continue;
             }
+
             if (name == QLatin1String("root_folder")) {
                 KdenliveSettings::setWhisperModelFolder(s.section(QLatin1Char(':'), 1).simplified());
                 qDebug() << "+++\nSET WHISPER FOLDER: " << KdenliveSettings::whisperModelFolder() << "\n\n+++++";
@@ -188,21 +242,74 @@ void WhisperDownload::parseScriptFeedback(const QString &scriptName, const QStri
             QListWidgetItem *item = new QListWidgetItem(displayName, m_lw);
             item->setData(WPModelNameRole, name);
             item->setData(WPUrlRole, url);
-            item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable);
-            item->setCheckState(Qt::Unchecked);
+            item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+            if (installedModels.contains(name)) {
+                item->setData(WPInstalledRole, 1);
+                item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-checked")));
+            } else {
+                item->setData(WPInstalledRole, 0);
+                item->setIcon(QIcon::fromTheme(QStringLiteral("emblem-pause")));
+            }
         }
         if (!updatedModelsList.isEmpty()) {
             KdenliveSettings::setWhisperAvailableModels(updatedModelsList);
+            KdenliveSettings::setWhisperAvailableModelsHash(hashList);
+        }
+        checkHashes(m_engine->getInstalledModels());
+    }
+}
+
+void WhisperDownload::checkHashes(const QStringList modelsToCheck)
+{
+    // Check hashes
+    const QString modelPath = m_engine->modelFolder();
+    if (modelPath.isEmpty() || modelsToCheck.isEmpty()) {
+        // return
+        m_mw->animatedHide();
+        return;
+    }
+    m_mw->setText(i18n("Checking hashes of installed models"));
+    m_mw->show();
+    QDir modelFolder(modelPath);
+    QMap<QString, QString> hashesToCheck;
+    for (int i = 0; i < m_lw->count(); i++) {
+        QListWidgetItem *item = m_lw->item(i);
+        if (modelsToCheck.contains(item->data(WPModelNameRole).toString())) {
+            // Model is installed, check hash
+            const QString url = item->data(WPUrlRole).toString();
+            const QString fileName = QUrl(url).fileName();
+            const QString hash = url.section(QLatin1Char('/'), -2, -2);
+            hashesToCheck.insert(modelFolder.absoluteFilePath(fileName), hash);
         }
     }
-    // QMetaObject::invokeMethod(this, "checkWhisperModelFolder", Qt::QueuedConnection);
+    if (!hashesToCheck.isEmpty()) {
+        (void)QtConcurrent::run(&WhisperDownload::processHashCheck, this, hashesToCheck);
+    }
+}
+
+void WhisperDownload::processHashCheck(QMap<QString, QString> hashesToCheck)
+{
+    QMapIterator<QString, QString> i(hashesToCheck);
+    while (i.hasNext()) {
+        i.next();
+        QFile info(i.key());
+        bool hashMatch = false;
+        if (info.open(QFile::ReadOnly)) {
+            QCryptographicHash shahash(QCryptographicHash::Sha256);
+            shahash.addData(&info);
+            const QString calculatedHash(shahash.result().toHex());
+            hashMatch = calculatedHash == i.value();
+        }
+        Q_EMIT itemMatch(i.value(), hashMatch);
+    }
+    QMetaObject::invokeMethod(m_mw, "hide", Qt::QueuedConnection);
 }
 
 void WhisperDownload::scriptFinished(const QString &scriptName, const QStringList &args)
 {
     if (scriptName.contains("whisperquery")) {
         if (args.contains(QLatin1String("task=list"))) {
-            // Query model sizes
+            // Nothing
         } else if (args.contains(QLatin1String("task=download"))) {
             m_downloadGroup->setVisible(false);
             m_newModelInstalled = true;
@@ -214,16 +321,8 @@ void WhisperDownload::scriptFinished(const QString &scriptName, const QStringLis
                     break;
                 }
             }
-            if (!modelName.isEmpty()) {
-                for (int i = 0; i < m_lw->count(); i++) {
-                    QListWidgetItem *item = m_lw->item(i);
-                    if (item->data(WPModelNameRole).toString() == modelName) {
-                        item->setCheckState(Qt::Unchecked);
-                        item->setFlags(Qt::ItemIsSelectable);
-                        break;
-                    }
-                }
-            }
+            checkHashes({modelName});
+            updateDownloadButton(m_lw->currentRow());
         }
     }
 }
@@ -245,6 +344,13 @@ void WhisperDownload::queryClose()
         // Kill download job
         m_lw->setEnabled(false);
         Q_EMIT m_engine->abortScript();
+        for (int i = 0; i < m_lw->count(); i++) {
+            auto *item = m_lw->item(i);
+            if (item->data(WPInstalledRole).toInt() == -1) {
+                // Download was in progress, remove file
+                deleteModel(i);
+            }
+        }
     }
     close();
 }

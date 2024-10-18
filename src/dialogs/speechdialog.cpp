@@ -43,8 +43,8 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     speech_info->hide();
     logOutput->setVisible(false);
     setWindowTitle(i18n("Automatic Subtitling"));
-    m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, [this]() {
+    m_speechConfig = new QAction(i18n("Configure"), this);
+    connect(m_speechConfig, &QAction::triggered, [this]() {
         pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech);
         close();
     });
@@ -56,60 +56,14 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         // Whisper model
         m_stt = new SpeechToTextWhisper(this);
-        const QStringList whisperModels = m_stt->getInstalledModels();
-        for (auto &w : whisperModels) {
-            if (w.isEmpty()) {
-                continue;
-            }
-            QString modelName = w;
-            modelName[0] = w.at(0).toUpper();
-            speech_model->addItem(modelName, w);
-        }
-        int ix = speech_model->findData(KdenliveSettings::whisperModel());
-        if (ix > -1) {
-            speech_model->setCurrentIndex(ix);
-        }
-        translate_seamless->setEnabled(KdenliveSettings::enableSeamless());
-        translate_seamless->setChecked(KdenliveSettings::srtSeamlessTranslate());
-        connect(translate_seamless, &QCheckBox::toggled, [this](bool toggled) {
-            translate_box->setVisible(!toggled);
-            seamless_in->setVisible(toggled);
-            seamless_out->setVisible(toggled);
-            seamless_in_label->setVisible(toggled);
-            seamless_out_label->setVisible(toggled);
-        });
-        if (KdenliveSettings::enableSeamless()) {
-            fillSeamlessLanguages();
-        }
-        bool seamlessEnabled = translate_seamless->isChecked();
-        translate_box->setVisible(!seamlessEnabled);
-        seamless_in->setVisible(seamlessEnabled);
-        seamless_out->setVisible(seamlessEnabled);
-        seamless_in_label->setVisible(seamlessEnabled);
-        seamless_out_label->setVisible(seamlessEnabled);
-        if (speech_language->count() == 0) {
-            // Fill whisper languages
-            QMap<QString, QString> languages = m_stt->speechLanguages();
-            QMapIterator<QString, QString> j(languages);
-            while (j.hasNext()) {
-                j.next();
-                speech_language->addItem(j.key(), j.value());
-            }
-            int ix = speech_language->findData(KdenliveSettings::whisperLanguage());
-            if (ix > -1) {
-                speech_language->setCurrentIndex(ix);
-            }
-        }
-        speech_language->setEnabled(!KdenliveSettings::whisperModel().endsWith(QLatin1String(".en")));
-        translate_box->setChecked(KdenliveSettings::whisperTranslate());
-
     } else {
         // Vosk model
         whisper_settings->setVisible(false);
         m_stt = new SpeechToTextVosk(this);
-        connect(pCore.get(), &Core::voskModelUpdate, this, &SpeechDialog::updateVoskModels);
-        m_stt->getInstalledModels();
     }
+    const QStringList speechModels = m_stt->getInstalledModels();
+    buildSpeechModelsList(m_stt->engineType(), speechModels);
+    connect(pCore.get(), &Core::speechModelUpdate, this, &SpeechDialog::buildSpeechModelsList);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Process"));
     adjustSize();
 
@@ -120,9 +74,13 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonGroup->addButton(timeline_clips, 4);
     connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
             [=, selectedTrack = tid, sourceZone = zone, bg = buttonGroup](QAbstractButton *button) {
-                speech_info->animatedHide();
+                if (speech_info->messageType() == KMessageWidget::Information) {
+                    speech_info->animatedHide();
+                }
                 KdenliveSettings::setSubtitleMode(bg->checkedId());
-                buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+                if (speech_model->count() > 0) {
+                    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+                }
                 if (button == timeline_full) {
                     m_tid = -1;
                     m_zone = QPoint(0, pCore->projectDuration() - 1);
@@ -217,25 +175,76 @@ void SpeechDialog::checkDeps()
     maxChars->setEnabled(equalizerAvailable);
 }
 
-void SpeechDialog::updateVoskModels(const QStringList models)
+void SpeechDialog::buildSpeechModelsList(SpeechToTextEngine::EngineType engine, const QStringList models)
 {
     speech_model->clear();
-    speech_model->addItems(models);
     if (models.isEmpty()) {
-        speech_info->addAction(m_voskConfig);
-        speech_info->setMessageType(KMessageWidget::Information);
+        speech_info->addAction(m_speechConfig);
+        speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Please install speech recognition models"));
         speech_info->show();
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+        return;
+    }
+    speech_info->hide();
+    if (engine == SpeechToTextEngine::EngineWhisper) {
+        // Whisper
+        for (auto &w : models) {
+            if (w.isEmpty()) {
+                continue;
+            }
+            QString modelName = w;
+            modelName[0] = w.at(0).toUpper();
+            speech_model->addItem(modelName, w);
+        }
+        int ix = speech_model->findData(KdenliveSettings::whisperModel());
+        if (ix > -1) {
+            speech_model->setCurrentIndex(ix);
+        }
+        translate_seamless->setEnabled(KdenliveSettings::enableSeamless());
+        translate_seamless->setChecked(KdenliveSettings::srtSeamlessTranslate());
+        connect(translate_seamless, &QCheckBox::toggled, [this](bool toggled) {
+            translate_box->setVisible(!toggled);
+            seamless_in->setVisible(toggled);
+            seamless_out->setVisible(toggled);
+            seamless_in_label->setVisible(toggled);
+            seamless_out_label->setVisible(toggled);
+        });
+        if (KdenliveSettings::enableSeamless()) {
+            fillSeamlessLanguages();
+        }
+        bool seamlessEnabled = translate_seamless->isChecked();
+        translate_box->setVisible(!seamlessEnabled);
+        seamless_in->setVisible(seamlessEnabled);
+        seamless_out->setVisible(seamlessEnabled);
+        seamless_in_label->setVisible(seamlessEnabled);
+        seamless_out_label->setVisible(seamlessEnabled);
+        if (speech_language->count() == 0) {
+            // Fill whisper languages
+            QMap<QString, QString> languages = m_stt->speechLanguages();
+            QMapIterator<QString, QString> j(languages);
+            while (j.hasNext()) {
+                j.next();
+                speech_language->addItem(j.key(), j.value());
+            }
+            int ix = speech_language->findData(KdenliveSettings::whisperLanguage());
+            if (ix > -1) {
+                speech_language->setCurrentIndex(ix);
+            }
+        }
+        speech_language->setEnabled(!KdenliveSettings::whisperModel().endsWith(QLatin1String(".en")));
+        translate_box->setChecked(KdenliveSettings::whisperTranslate());
     } else {
+        // Vosk
+        speech_model->addItems(models);
         if (!KdenliveSettings::vosk_srt_model().isEmpty() && models.contains(KdenliveSettings::vosk_srt_model())) {
             int ix = speech_model->findText(KdenliveSettings::vosk_srt_model());
             if (ix > -1) {
                 speech_model->setCurrentIndex(ix);
             }
         }
-        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     }
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
 void SpeechDialog::slotProcessSpeech()
@@ -260,10 +269,10 @@ void SpeechDialog::slotProcessSpeech()
             speech_info->setText(i18n("Please configure speech to text."));
         }
         speech_info->animatedShow();
-        speech_info->addAction(m_voskConfig);
+        speech_info->addAction(m_speechConfig);
         return;
     }
-    speech_info->removeAction(m_voskConfig);
+    speech_info->removeAction(m_speechConfig);
     speech_info->setMessageType(KMessageWidget::Information);
     speech_info->setText(i18n("Starting audio export"));
     speech_info->show();

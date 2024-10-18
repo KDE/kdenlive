@@ -8,6 +8,7 @@
 #pragma once
 
 #include "abstractpythoninterface.h"
+#include "definitions.h"
 
 #include <QObject>
 #include <QProcess>
@@ -16,9 +17,9 @@ class SpeechToText: public AbstractPythonInterface
 {
     Q_OBJECT
 public:
-    enum class EngineType { EngineNone = 0, EngineVosk, EngineWhisper };
-    SpeechToText(EngineType engineType = EngineType::EngineNone, QObject *parent = nullptr);
+    SpeechToText(SpeechToTextEngine::EngineType engineType = SpeechToTextEngine::EngineNone, QObject *parent = nullptr);
     QString runSubtitleScript(QString modelDirectory, QString language, QString audio, QString speech);
+    SpeechToTextEngine::EngineType engineType() const;
     virtual QString subtitleScript();
     virtual QString speechScript();
     virtual QMap<QString, QString> speechLanguages();
@@ -28,7 +29,7 @@ public:
 
 protected:
     QString featureName() override;
-    EngineType m_engineType;
+    SpeechToTextEngine::EngineType m_engineType;
 
 public Q_SLOTS:
 

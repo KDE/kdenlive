@@ -39,7 +39,7 @@ private:
     int m_duration;
     std::unique_ptr<QTemporaryFile> m_tmpAudio;
     std::unique_ptr<QTemporaryFile> m_tmpSrt;
-    QAction *m_voskConfig;
+    QAction *m_speechConfig;
     QAction *m_logAction;
     QString m_errorLog;
     SpeechToText *m_stt;
@@ -50,6 +50,6 @@ private Q_SLOTS:
     void slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile);
     void slotProcessProgress();
     void slotProcessWhisperProgress();
-    void updateVoskModels(const QStringList models);
+    void buildSpeechModelsList(SpeechToTextEngine::EngineType engine, const QStringList models);
     void checkDeps();
 };

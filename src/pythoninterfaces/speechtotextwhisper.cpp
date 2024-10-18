@@ -26,7 +26,7 @@
 #include <QVBoxLayout>
 
 SpeechToTextWhisper::SpeechToTextWhisper(QObject *parent)
-    : SpeechToText(EngineType::EngineWhisper, parent)
+    : SpeechToText(SpeechToTextEngine::EngineWhisper, parent)
 {
     buildWhisperDeps(KdenliveSettings::enableSeamless());
     addScript(QStringLiteral("whisper/whispertotext.py"));

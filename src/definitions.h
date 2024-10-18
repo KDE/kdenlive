@@ -189,6 +189,12 @@ enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipTyp
 
 enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
 
+namespace SpeechToTextEngine {
+Q_NAMESPACE
+enum EngineType { EngineNone = 0, EngineVosk, EngineWhisper };
+Q_ENUM_NS(EngineType)
+} // namespace SpeechToTextEngine
+
 namespace KeyframeType {
 Q_NAMESPACE
 enum KeyframeEnum {

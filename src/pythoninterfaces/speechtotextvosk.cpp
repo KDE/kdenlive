@@ -27,7 +27,7 @@
 #include <QVBoxLayout>
 
 SpeechToTextVosk::SpeechToTextVosk(QObject *parent)
-    : SpeechToText(EngineType::EngineVosk, parent)
+    : SpeechToText(SpeechToTextEngine::EngineVosk, parent)
 {
     addDependency(QStringLiteral("vosk"), i18n("speech features"));
     addDependency(QStringLiteral("srt"), i18n("automated subtitling"));
@@ -49,7 +49,6 @@ const QStringList SpeechToTextVosk::getInstalledModels()
     QString modelDirectory = modelFolder();
     if (modelDirectory.isEmpty()) {
         qDebug() << "=== /// CANNOT ACCESS SPEECH DICTIONARIES FOLDER";
-        Q_EMIT pCore->voskModelUpdate({});
         return {};
     }
     QDir dir = QDir(modelDirectory);
@@ -61,7 +60,6 @@ const QStringList SpeechToTextVosk::getInstalledModels()
             final << d;
         }
     }
-    Q_EMIT pCore->voskModelUpdate(final);
     return final;
 }
 

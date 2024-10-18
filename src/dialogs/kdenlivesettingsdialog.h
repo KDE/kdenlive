@@ -178,6 +178,8 @@ private:
     void initTranscodePage();
     /** @brief Launch pytonh scripts to check speech engine dependencies */
     void checkSpeechDependencies();
+    /** @brief Check folder size */
+    void checkWhisperFolderSize();
 
 Q_SIGNALS:
     void customChanged();
