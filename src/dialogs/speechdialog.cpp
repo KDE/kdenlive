@@ -278,23 +278,20 @@ void SpeechDialog::slotProcessSpeech()
     speech_info->show();
     qApp->processEvents();
     QString sceneList;
-    QString speech;
     QString audio;
     QTemporaryFile tmpPlaylist(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
-    m_tmpSrt = std::make_unique<QTemporaryFile>(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.srt")));
     m_tmpAudio = std::make_unique<QTemporaryFile>(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.wav")));
     if (tmpPlaylist.open()) {
         sceneList = tmpPlaylist.fileName();
     }
     tmpPlaylist.close();
-    if (m_tmpSrt->open()) {
-        speech = m_tmpSrt->fileName();
-    }
-    m_tmpSrt->close();
     if (m_tmpAudio->open()) {
         audio = m_tmpAudio->fileName();
     }
     m_tmpAudio->close();
+    QString speech = QFileInfo(audio).completeBaseName();
+    speech.append(QStringLiteral(".srt"));
+    m_tmpSrtPath = QDir::temp().absoluteFilePath(speech);
     m_timeline->sceneList(QDir::temp().absolutePath(), sceneList);
     // TODO: do the rendering in another thread to not block the UI
     QReadLocker lock(&pCore->xmlMutex);
@@ -370,7 +367,7 @@ void SpeechDialog::slotProcessSpeech()
     QString modelDirectory = m_stt->modelFolder();
     m_speechJob = std::make_unique<QProcess>(this);
     connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
-            [this, speech](int, QProcess::ExitStatus status) { slotProcessSpeechStatus(status, speech); });
+            [this](int, QProcess::ExitStatus status) { slotProcessSpeechStatus(status); });
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         // Whisper
         QString modelName = speech_model->currentData().toString();
@@ -383,7 +380,7 @@ void SpeechDialog::slotProcessSpeech()
             KdenliveSettings::setWhisperMaxChars(maxCount);
         }
         KdenliveSettings::setCutWhisperMaxChars(check_maxchars->isChecked());
-        QStringList arguments = {m_stt->subtitleScript(), audio, modelName, speech};
+        QStringList arguments = {m_stt->subtitleScript(), audio, modelName};
         arguments << QStringLiteral("device=%1").arg(KdenliveSettings::whisperDevice());
         if (translate_seamless->isChecked()) {
             arguments << QStringLiteral("seamless_source=%1").arg(seamless_in->currentData().toString());
@@ -399,6 +396,7 @@ void SpeechDialog::slotProcessSpeech()
         }
         if (maxCount > 0) {
             arguments << QStringLiteral("max_line_width=%1").arg(maxCount);
+            arguments << QStringLiteral("max_line_count=1");
         }
         qDebug() << "::: PASSING SPEECH ARGS: " << arguments;
 
@@ -411,7 +409,7 @@ void SpeechDialog::slotProcessSpeech()
     }
 }
 
-void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QString &srtFile)
+void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status)
 {
     if (!m_errorLog.isEmpty()) {
         speech_info->addAction(m_logAction);
@@ -421,10 +419,12 @@ void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status, const QS
         speech_info->setText(i18n("Speech recognition aborted."));
         speech_info->animatedShow();
     } else {
-        if (QFile::exists(srtFile)) {
-            m_timeline->getSubtitleModel()->importSubtitle(srtFile, m_zone.x(), true);
+        qDebug() << ";;;; CHECKING FOR: " << m_tmpSrtPath;
+        if (QFile::exists(m_tmpSrtPath)) {
+            m_timeline->getSubtitleModel()->importSubtitle(m_tmpSrtPath, m_zone.x(), true);
             speech_info->setMessageType(KMessageWidget::Positive);
             speech_info->setText(i18n("Subtitles imported"));
+            QFile::remove(m_tmpSrtPath);
         } else {
             speech_info->setMessageType(KMessageWidget::Warning);
             speech_info->setText(i18n("Speech recognition failed"));

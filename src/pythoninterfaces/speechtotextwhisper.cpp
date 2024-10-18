@@ -46,12 +46,12 @@ void SpeechToTextWhisper::buildWhisperDeps(bool enableSeamless)
     if (!scriptPath.isEmpty()) {
         m_dependencies.insert(scriptPath, QString());
     }
-    if (enableSeamless) {
+    /*if (enableSeamless) {
         scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/requirements-seamless.txt"));
         if (!scriptPath.isEmpty()) {
             m_dependencies.insert(scriptPath, QString());
         }
-    }
+    }*/
 }
 
 QMap<QString, QString> SpeechToTextWhisper::speechLanguages()

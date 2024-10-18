@@ -1800,17 +1800,6 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
     // Fill models list
     reloadWhisperModels();
-    connect(m_configSpeech.kcfg_enableSeamless, &QCheckBox::toggled, [this](bool toggled) {
-        // m_sttWhisper->buildWhisperDeps(toggled);
-        m_sttWhisper->checkDependencies(true);
-        /*if (toggled) {
-            m_configSpeech.whisperInfo->setText(
-                i18n("On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After that, translations will happen offline."));
-        } else {
-            m_configSpeech.whisperInfo->setText(
-                i18n("On first run, Whisper will <b>download the chosen model</b>. After that, processing will happen offline. Cpu processing is very slow."));
-        }*/
-    });
 
     QString voskModelFolder = KdenliveSettings::vosk_folder_path();
     if (voskModelFolder.isEmpty()) {
