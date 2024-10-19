@@ -743,7 +743,7 @@ msgstr "Nahoru"
 #: data/effects/dance.xml:35
 #, kde-format
 msgid "Down"
-msgstr ""
+msgstr "Dolů"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -7115,10 +7115,9 @@ msgid "Waiting…"
 msgstr "Čeká se…"
 
 #: src/dialogs/renderwidget.cpp:109
-#, fuzzy, kde-format
-#| msgid "Waiting…"
+#, kde-format
 msgid "Starting…"
-msgstr "Čeká se…"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:112
 #, kde-format

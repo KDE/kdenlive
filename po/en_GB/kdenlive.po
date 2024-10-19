@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-12 00:38+0000\n"
-"PO-Revision-Date: 2024-09-15 10:40+0100\n"
+"PO-Revision-Date: 2024-10-18 17:05+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
 "Language: en_GB\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -761,10 +761,9 @@ msgid "Up"
 msgstr "Up"
 
 #: data/effects/dance.xml:35
-#, fuzzy, kde-format
-#| msgid "&Download"
+#, kde-format
 msgid "Down"
-msgstr "&Download"
+msgstr "Down"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -7342,10 +7341,9 @@ msgid "Waiting…"
 msgstr "Waiting…"
 
 #: src/dialogs/renderwidget.cpp:109
-#, fuzzy, kde-format
-#| msgid "Waiting…"
+#, kde-format
 msgid "Starting…"
-msgstr "Waiting…"
+msgstr "Starting…"
 
 #: src/dialogs/renderwidget.cpp:112
 #, kde-format
@@ -8520,21 +8518,19 @@ msgid "Bottom To Top"
 msgstr "Bottom To Top"
 
 #: src/dialogs/subtitleedit.cpp:387
-#, fuzzy, kde-format
-#| msgid "Increase Font Size"
+#, kde-format
 msgid "Increase Editor Font Size"
-msgstr "Increase Font Size"
+msgstr "Increase Editor Font Size"
 
 #: src/dialogs/subtitleedit.cpp:389
-#, fuzzy, kde-format
-#| msgid "Decrease Font Size"
+#, kde-format
 msgid "Decrease Editor Font Size"
-msgstr "Decrease Font Size"
+msgstr "Decrease Editor Font Size"
 
 #: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Clear All Custom Formatting"
-msgstr ""
+msgstr "Clear All Custom Formatting"
 
 #: src/dialogs/subtitleedit.cpp:403
 #, kde-format
@@ -8548,10 +8544,9 @@ msgstr "Manage Styles…"
 
 #: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
 #: src/dialogs/subtitleedit.cpp:772
-#, fuzzy, kde-format
-#| msgid "Character: %1, total: <b>%2</b>"
+#, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
-msgstr "Character: %1, total: <b>%2</b>"
+msgstr "Cursor: %1, total: <b>%2</b>"
 
 #: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
 #, kde-format
@@ -15712,12 +15707,13 @@ msgstr "Python venv size: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary directory %1"
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Cannot create temporary directory %1"
+msgstr ""
+"Cannot create the python virtual environment:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format
@@ -20129,7 +20125,7 @@ msgstr "Subtitles:"
 #: src/ui/configmisc_ui.ui:262
 #, kde-format
 msgid "Keep clip original frame size on import"
-msgstr ""
+msgstr "Keep clip original frame size on import"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
