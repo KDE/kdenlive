@@ -4,7 +4,6 @@
 
 import datetime
 import sys
-import srt
 import os
 
 import whispertotext
