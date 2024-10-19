@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-12 02:31+0000\n"
+"POT-Creation-Date: 2024-10-19 02:35+0000\n"
 "PO-Revision-Date: 2024-05-24 21:59+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -5690,8 +5690,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr "Lietojums"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1775
-#: src/doc/documentchecker.cpp:1803 src/doc/documentchecker.cpp:1823
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1777
+#: src/doc/documentchecker.cpp:1805 src/doc/documentchecker.cpp:1825
 #: src/mltcontroller/clipcontroller.cpp:524 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8759,7 +8759,7 @@ msgstr "Klipu mape"
 msgid "Applying fixes…"
 msgstr "Pielieto labojumus..."
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:237
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Pārbauda trūkstošos vienumus..."
@@ -8770,112 +8770,112 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Jūsu projekta dokumenta ID ir nederīgs, tāpēc ir izveidots jauns."
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1767
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklips"
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1769
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Slīdrādes klips"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1771
 #, kde-format
 msgid "Image clip"
 msgstr "Attēla klips"
 
-#: src/doc/documentchecker.cpp:1771
+#: src/doc/documentchecker.cpp:1773
 #, kde-format
 msgid "Playlist clip"
 msgstr "Repertuāra klips"
 
-#: src/doc/documentchecker.cpp:1773 src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1775 src/doc/documentchecker.cpp:1791
 #, kde-format
 msgid "Title Image"
 msgstr "Titru attēls"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1787
 #, kde-format
 msgid "Clip"
 msgstr "Klips"
 
-#: src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1789
 #, kde-format
 msgid "Title Font"
 msgstr "Titru fonts"
 
-#: src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1793
 #, kde-format
 msgid "Luma file"
 msgstr "Spožuma datne"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1795
 #, kde-format
 msgid "Asset file"
 msgstr "Resursu datne"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1797
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Starpniekklips"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1799
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efekts"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1801
 #, kde-format
 msgid "Transition"
 msgstr "Pāreja"
 
-#: src/doc/documentchecker.cpp:1801
+#: src/doc/documentchecker.cpp:1803
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Bojāta sekvence"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1811 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1813 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Labots"
 
-#: src/doc/documentchecker.cpp:1813
+#: src/doc/documentchecker.cpp:1815
 #, kde-format
 msgid "Reload"
 msgstr "Pārlādēt"
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1817
 #, kde-format
 msgid "Missing"
 msgstr "Trūkst"
 
-#: src/doc/documentchecker.cpp:1817
+#: src/doc/documentchecker.cpp:1819
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Trūkst, bet pieejams starpniekklips"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1819 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1821 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Vietturis"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1821 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1823 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Noņemt"
 
-#: src/doc/documentchecker.cpp:1832
+#: src/doc/documentchecker.cpp:1834
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projekta datne satur trūkstošus klipus vai datnes."
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1837
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Trūkstoši starpnieki var tikt izveidoti no jauna pēc atvēršanas."
