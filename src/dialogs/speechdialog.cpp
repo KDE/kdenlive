@@ -366,8 +366,7 @@ void SpeechDialog::slotProcessSpeech()
     qApp->processEvents();
     QString modelDirectory = m_stt->modelFolder();
     m_speechJob = std::make_unique<QProcess>(this);
-    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this,
-            [this](int, QProcess::ExitStatus status) { slotProcessSpeechStatus(status); });
+    connect(m_speechJob.get(), static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &SpeechDialog::slotProcessSpeechStatus);
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         // Whisper
         QString modelName = speech_model->currentData().toString();
@@ -409,28 +408,29 @@ void SpeechDialog::slotProcessSpeech()
     }
 }
 
-void SpeechDialog::slotProcessSpeechStatus(QProcess::ExitStatus status)
+void SpeechDialog::slotProcessSpeechStatus(int exitCode, QProcess::ExitStatus status)
 {
     if (!m_errorLog.isEmpty()) {
         speech_info->addAction(m_logAction);
     }
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
     if (status == QProcess::CrashExit) {
         speech_info->setMessageType(KMessageWidget::Warning);
         speech_info->setText(i18n("Speech recognition aborted."));
         speech_info->animatedShow();
-    } else {
-        qDebug() << ";;;; CHECKING FOR: " << m_tmpSrtPath;
-        if (QFile::exists(m_tmpSrtPath)) {
-            m_timeline->getSubtitleModel()->importSubtitle(m_tmpSrtPath, m_zone.x(), true);
-            speech_info->setMessageType(KMessageWidget::Positive);
-            speech_info->setText(i18n("Subtitles imported"));
-            QFile::remove(m_tmpSrtPath);
-        } else {
-            speech_info->setMessageType(KMessageWidget::Warning);
-            speech_info->setText(i18n("Speech recognition failed"));
-        }
+        return;
     }
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+    if (exitCode == 1 || !QFile::exists(m_tmpSrtPath)) {
+        speech_info->setMessageType(KMessageWidget::Warning);
+        speech_info->setText(i18n("Speech recognition failed."));
+        speech_info->animatedShow();
+        return;
+    }
+
+    m_timeline->getSubtitleModel()->importSubtitle(m_tmpSrtPath, m_zone.x(), true);
+    speech_info->setMessageType(KMessageWidget::Positive);
+    speech_info->setText(i18n("Subtitles imported"));
+    QFile::remove(m_tmpSrtPath);
     frame_progress->setVisible(false);
 }
 

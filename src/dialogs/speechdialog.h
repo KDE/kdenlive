@@ -47,7 +47,7 @@ private:
 
 private Q_SLOTS:
     void slotProcessSpeech();
-    void slotProcessSpeechStatus(QProcess::ExitStatus status);
+    void slotProcessSpeechStatus(int exitCode, QProcess::ExitStatus status);
     void slotProcessProgress();
     void slotProcessWhisperProgress();
     void buildSpeechModelsList(SpeechToTextEngine::EngineType engine, const QStringList models);
