@@ -768,7 +768,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool 
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
-    QtConcurrent::run(&KdenliveDoc::cleanupBackupFiles, this);
+    (void)QtConcurrent::run(&KdenliveDoc::cleanupBackupFiles, this);
     QFileInfo info(path);
     QString fileName = info.completeBaseName();
     const QString timeStamp = info.lastModified().toString(QStringLiteral("yyyy-MM-dd-hh-mm"));

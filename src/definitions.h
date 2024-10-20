@@ -412,11 +412,7 @@ public:
         m_effect = effect;
         m_effect.remove('\n');
     }
-    void setText(const QString &text)
-    {
-        m_text = text;
-        m_text.replace("\n", "\\N");
-    }
+    void setText(const QString &text) { m_text = text; }
 
     // convert ASS format time string to GenTime
     static GenTime stringtoTime(const QString &str, const double fps, const double factor = 1.);

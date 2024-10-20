@@ -202,6 +202,7 @@ SubtitleEvent::SubtitleEvent(const QString &eventString, const double fps, const
         text += parts.at(i) + ',';
     }
     text += parts.at(parts.size() - 1);
+    text.replace(QLatin1String("\\n"), QLatin1String("\n"));
 
     // check the validity
     if (layer < 0 || endTime <= startTime) {

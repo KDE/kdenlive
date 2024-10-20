@@ -48,8 +48,8 @@
 #include <KUrlRequesterDialog>
 #include <QClipboard>
 #include <QFontDatabase>
+#include <QJsonArray>
 #include <QQuickItem>
-
 #include <QtMath>
 
 #include <memory>

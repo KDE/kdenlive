@@ -137,21 +137,8 @@ void SubtitleTextEdit::keyPressEvent(QKeyEvent *event)
             completer->popup()->hide();
             event->accept();
             return;
-        case Qt::Key_Enter:
-        case Qt::Key_Return:
         case Qt::Key_Tab:
         case Qt::Key_Backtab:
-            event->ignore();
-            return;
-        default:
-            break;
-        }
-    } else {
-        switch (event->key()) {
-        // disable newline
-        case Qt::Key_Enter:
-        case Qt::Key_Return:
-            Q_EMIT triggerUpdate();
             event->ignore();
             return;
         default:

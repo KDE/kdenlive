@@ -27,7 +27,7 @@
 #include <QToolButton>
 
 const static QRegularExpression tagBlockRegex("(?<!\\\\){[^}]*}");
-const static QRegularExpression escapeRegex("\\\\[{}N]");
+const static QRegularExpression escapeRegex("\\\\[{}]");
 
 SimpleEditorEventFilter::SimpleEditorEventFilter(QObject *parent)
     : QObject(parent)
@@ -56,6 +56,9 @@ bool SimpleEditorEventFilter::eventFilter(QObject *obj, QEvent *event)
                 return true;
                 break;
             }
+        } else if (keyEvent->key() == Qt::Key_Tab) {
+            keyEvent->ignore();
+            return true;
         } else {
             Q_EMIT singleKeyPress(keyEvent);
         }
@@ -77,9 +80,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(filter, &SimpleEditorEventFilter::singleKeyPress, this, [this](QKeyEvent *event) {
         // Sync the key press event
         QTextCursor cursor = subText->textCursor();
-        if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
-            cursor.insertText("\\N");
-        } else if (event->key() == Qt::Key_BraceLeft) {
+        if (event->key() == Qt::Key_BraceLeft) {
             cursor.insertText("\\{");
         } else if (event->key() == Qt::Key_BraceRight) {
             cursor.insertText("\\}");
@@ -92,11 +93,16 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
                 } else {
                     cursor.setPosition(position);
                 }
-                if (!cursor.hasSelection() && (cursor.position() > 1)) {
-                    if ((cursor.block().text().at(cursor.position() - 1) == '{' || cursor.block().text().at(cursor.position() - 1) == '}' ||
-                         cursor.block().text().at(cursor.position() - 1) == 'N') &&
-                        cursor.block().text().at(cursor.position() - 2) == '\\') {
-                        cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, 2);
+                if (!cursor.hasSelection()) {
+                    int curPos = cursor.position() - cursor.block().position();
+                    if (curPos > 1) {
+                        const QChar prevChar = cursor.block().text().at(curPos - 1);
+                        if (prevChar == '{' || prevChar == '}' || prevChar == 'N') {
+                            const QChar secPrevChar = cursor.block().text().at(curPos - 2);
+                            if (secPrevChar == '\\') {
+                                cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, 2);
+                            }
+                        }
                     }
                 }
             }
@@ -110,11 +116,14 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
                 } else {
                     cursor.setPosition(position);
                 }
-                if (!cursor.hasSelection() && (cursor.position() < cursor.block().text().length() - 1)) {
-                    if ((cursor.block().text().at(cursor.position()) == '\\') &&
-                        ((cursor.block().text().at(cursor.position() + 1) == '{') || cursor.block().text().at(cursor.position() + 1) == '}' ||
-                         cursor.block().text().at(cursor.position() + 1) == 'N')) {
-                        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, 2);
+                if (!cursor.hasSelection()) {
+                    int curPos = cursor.position() - cursor.block().position();
+                    if (curPos < cursor.block().text().length() - 1) {
+                        const QChar secPrevChar = cursor.block().text().at(curPos);
+                        const QChar prevChar = cursor.block().text().at(curPos + 1);
+                        if (secPrevChar == '\\' && (prevChar == '{' || prevChar == '}' || prevChar == 'N')) {
+                            cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, 2);
+                        }
                     }
                 }
             }

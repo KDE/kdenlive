@@ -395,6 +395,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
                         end.clear();
                         comment.clear();
                         std::pair<int, GenTime> start;
+                        line.replace(QStringLiteral("\\N"), QStringLiteral("\n"));
                         SubtitleEvent event(line, pCore->getCurrentFps(), transformMult, &start);
                         // check if event successfully parsed
                         if (event.endTime() != GenTime()) {
@@ -1196,12 +1197,10 @@ void SubtitleModel::subtitleFileFromZone(int in, int out, const QString &outFile
         list.push_back(currentSubtitle);
         // qDebug()<<subtitle.first.seconds();
     }
-    QJsonDocument jsonDoc(list);
-    QString subData = QString(jsonDoc.toJson());
-    saveSubtitleData(subData, outFile);
+    saveSubtitleData(list, outFile);
 }
 
-QString SubtitleModel::toJson()
+const QJsonArray SubtitleModel::toJson()
 {
     // qDebug()<< "to JSON";
     QJsonArray list;
@@ -1213,9 +1212,7 @@ QString SubtitleModel::toJson()
         list.push_back(currentSubtitle);
         // qDebug()<<subtitle.first.seconds();
     }
-    QJsonDocument jsonDoc(list);
-    // qDebug()<<QString(jsonDoc.toJson());
-    return QString(jsonDoc.toJson());
+    return list;
 }
 
 void SubtitleModel::copySubtitle(const QString &path, int ix, bool checkOverwrite, bool updateFilter)
@@ -1248,7 +1245,7 @@ void SubtitleModel::restoreTmpFile(int ix)
     m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
 }
 
-void SubtitleModel::jsontoSubtitle(const QString &data)
+void SubtitleModel::jsontoSubtitle(const QJsonArray &data)
 {
     int ix = pCore->currentDoc()->getSequenceProperty(m_timeline->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
     QString outFile = pCore->currentDoc()->subTitlePath(m_timeline->uuid(), ix, false);
@@ -1266,7 +1263,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     }
 }
 
-int SubtitleModel::saveSubtitleData(const QString &data, const QString &outFile)
+int SubtitleModel::saveSubtitleData(const QJsonArray &list, const QString &outFile)
 {
     bool assFormat = outFile.endsWith(".ass");
     if (!assFormat) {
@@ -1276,13 +1273,11 @@ int SubtitleModel::saveSubtitleData(const QString &data, const QString &outFile)
 
     // qDebug()<< "Import from JSON";
     QWriteLocker locker(&m_lock);
-    auto json = QJsonDocument::fromJson(data.toUtf8());
-    if (!json.isArray()) {
+    if (list.isEmpty()) {
         qDebug() << "Error : Json file should be an array";
         return 0;
     }
     int line = 0;
-    auto list = json.array();
     if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
         if (assFormat) {
@@ -1327,10 +1322,12 @@ int SubtitleModel::saveSubtitleData(const QString &data, const QString &outFile)
             }
             GenTime startPos(entryObj[QLatin1String("startPos")].toDouble());
             QString dialogue = entryObj[QLatin1String("dialogue")].toString();
+            // Ensure line breaks are correctly handled
             SubtitleEvent sub(dialogue, pCore->getCurrentFps());
             GenTime endPos = sub.endTime();
             line++;
             if (assFormat) {
+                dialogue.replace(QLatin1Char('\n'), QStringLiteral("\\N"));
                 // Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
                 // TODO : (after adjusting the structure of m_subtitleList)
                 out << dialogue << '\n';

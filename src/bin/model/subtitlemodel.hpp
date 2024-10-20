@@ -123,7 +123,7 @@ public:
     void importSubtitle(const QString &filePath, int offset = 0, bool externalImport = false, float startFramerate = 30.00, float targetFramerate = 30.00, const QByteArray &encoding = "UTF-8");
 
     /** @brief Exports the subtitle model to json */
-    QString toJson();
+    const QJsonArray toJson();
     /** @brief Returns the path to sub file */
     const QString getUrl();
     /** @brief Get a subtitle Id from its start position*/
@@ -282,14 +282,14 @@ public:
     void setLayerDefaultStyle(int layer, const QString styleName);
     /** @brief Get default styles for subtitle layers */
     const QString getLayerDefaultStyle(int layer) const;
-    int saveSubtitleData(const QString &data, const QString &outFile);
+    int saveSubtitleData(const QJsonArray &data, const QString &outFile);
 
 public Q_SLOTS:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle(const QString &workPath);
 
     /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
-    void jsontoSubtitle(const QString &data);
+    void jsontoSubtitle(const QJsonArray &data);
     /** @brief Update a subtitle text*/
     bool setText(int id, const QString &text);
 
