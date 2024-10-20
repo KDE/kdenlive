@@ -2200,10 +2200,9 @@ msgid "Font Style"
 msgstr "Στυλ γραμματοσειράς"
 
 #: data/effects/timer.xml:46
-#, fuzzy, kde-format
-#| msgid "Formats"
+#, kde-format
 msgid "Format"
-msgstr "Μορφές δεδομένων"
+msgstr "Μορφή δεδομένων"
 
 #: data/effects/timer.xml:47
 #, kde-format
@@ -3637,10 +3636,9 @@ msgid "effect"
 msgstr "εφέ"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:1087
-#, fuzzy, kde-format
-#| msgid "Reset"
+#, kde-format
 msgid "Reset %1"
-msgstr "Επαναφορά"
+msgstr "Επαναφορά %1"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:1350
 #, kde-format
@@ -3724,10 +3722,9 @@ msgstr "Παρεμβολή"
 
 #: src/assets/model/assetcommand.cpp:23 src/assets/model/assetcommand.cpp:25
 #: src/assets/model/assetcommand.cpp:106 src/assets/model/assetcommand.cpp:108
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgid "Edit %1"
-msgstr "Επεξεργασία"
+msgstr "Επεξεργασία %1"
 
 #: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
 #: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
@@ -4300,10 +4297,9 @@ msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:121 src/audiomixer/mixerwidget.cpp:531
 #: src/mltcontroller/clippropertiescontroller.cpp:933
-#, fuzzy, kde-format
-#| msgid "B"
+#, kde-format
 msgid "dB"
-msgstr "B"
+msgstr "dB"
 
 #: src/audiomixer/mixerwidget.cpp:142 src/audiomixer/mixerwidget.cpp:155
 #, kde-kuit-format
@@ -4318,7 +4314,7 @@ msgstr ""
 #, kde-format
 msgctxt "Left"
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: src/audiomixer/mixerwidget.cpp:147
 #, kde-format
