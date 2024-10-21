@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-12 00:38+0000\n"
+"POT-Creation-Date: 2024-10-21 00:39+0000\n"
 "PO-Revision-Date: 2024-10-12 14:10+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -4532,7 +4532,7 @@ msgstr ""
 "ההחלפה קצרה ב־%1 תמוניות."
 
 #: src/bin/bin.cpp:1896 src/bin/bin.cpp:2109
-#: src/bin/model/subtitlemodel.cpp:434
+#: src/bin/model/subtitlemodel.cpp:435
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "הקובץ הנבחר %1 שגוי."
@@ -5541,34 +5541,34 @@ msgstr "כתוביות"
 msgid "Edit global subtitle style"
 msgstr "עריכת סגנון כתוביות כללי"
 
-#: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
-#: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
-#: src/bin/model/subtitlemodel.cpp:2257 src/bin/model/subtitlemodel.cpp:2290
-#: src/bin/model/subtitlemodel.cpp:2323 src/bin/model/subtitlemodel.cpp:2356
-#: src/bin/model/subtitlemodel.cpp:2389
+#: src/bin/model/subtitlemodel.cpp:445 src/bin/model/subtitlemodel.cpp:660
+#: src/bin/model/subtitlemodel.cpp:1611 src/bin/model/subtitlemodel.cpp:2187
+#: src/bin/model/subtitlemodel.cpp:2254 src/bin/model/subtitlemodel.cpp:2287
+#: src/bin/model/subtitlemodel.cpp:2320 src/bin/model/subtitlemodel.cpp:2353
+#: src/bin/model/subtitlemodel.cpp:2386
 #, kde-format
 msgid "Edit subtitle"
 msgstr "עריכת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:694 src/bin/model/subtitlemodel.cpp:1702
+#: src/bin/model/subtitlemodel.cpp:695 src/bin/model/subtitlemodel.cpp:1699
 #: src/timeline2/model/timelinefunctions.cpp:228
 #, kde-format
 msgid "Cut clip"
 msgstr "גזירת סרטון"
 
-#: src/bin/model/subtitlemodel.cpp:856 src/bin/model/subtitlemodel.cpp:1633
+#: src/bin/model/subtitlemodel.cpp:857 src/bin/model/subtitlemodel.cpp:1630
 #: src/timeline2/model/timelinemodel.cpp:3965
 #, kde-format
 msgid "Resize subtitle"
 msgstr "שינוי גודל כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1054
+#: src/bin/model/subtitlemodel.cpp:1055
 #: src/timeline2/model/timelinemodel.cpp:1350
 #, kde-format
 msgid "Move subtitle"
 msgstr "העברת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1228
+#: src/bin/model/subtitlemodel.cpp:1225
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
@@ -5581,39 +5581,39 @@ msgstr ""
 "הקובץ %1 קיים.\n"
 "לדרוס אותו?"
 
-#: src/bin/model/subtitlemodel.cpp:1645 src/titler/titlewidget.cpp:393
+#: src/bin/model/subtitlemodel.cpp:1642 src/titler/titlewidget.cpp:393
 #: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Text"
 msgstr "הוספת טקסט"
 
-#: src/bin/model/subtitlemodel.cpp:1670 src/dialogs/subtitleedit.cpp:274
+#: src/bin/model/subtitlemodel.cpp:1667 src/dialogs/subtitleedit.cpp:283
 #, kde-format
 msgid "Add subtitle"
 msgstr "הוספת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1722 src/dialogs/subtitleedit.cpp:284
+#: src/bin/model/subtitlemodel.cpp:1719 src/dialogs/subtitleedit.cpp:293
 #, kde-format
 msgid "Delete subtitle"
 msgstr "מחיקת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1794
+#: src/bin/model/subtitlemodel.cpp:1791
 #, kde-format
 msgid "Delete subtitle layer"
 msgstr "מחיקת שכבת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1821
+#: src/bin/model/subtitlemodel.cpp:1818
 #, kde-format
 msgid "Create subtitle layer"
 msgstr "יצירת שכבת כתוביות"
 
-#: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
+#: src/bin/model/subtitlemodel.cpp:1924 src/bin/model/subtitlemodel.cpp:1927
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "כתובית %1"
 
-#: src/bin/model/subtitlemodel.cpp:2226
+#: src/bin/model/subtitlemodel.cpp:2223
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "הקצאת סגנון חדש לכתוביות."
@@ -7368,9 +7368,9 @@ msgstr "YADIF (טוב יותר)"
 msgid "BWDIF (best)"
 msgstr "BWDIF (הטוב ביותר)"
 
-#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1538
-#: src/dialogs/subtitleedit.cpp:1555 src/dialogs/subtitleedit.cpp:1569
-#: src/dialogs/subtitleedit.cpp:1609 src/project/dialogs/slideshowclip.cpp:65
+#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1547
+#: src/dialogs/subtitleedit.cpp:1564 src/dialogs/subtitleedit.cpp:1578
+#: src/dialogs/subtitleedit.cpp:1618 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
@@ -8246,23 +8246,23 @@ msgstr "זולו"
 msgid "Made by KDE"
 msgstr "נוצר על ידי KDE"
 
-#: src/dialogs/subtitleedit.cpp:242
+#: src/dialogs/subtitleedit.cpp:251
 #, kde-format
 msgid "Edit subtitle style"
 msgstr "עריכת סגנון כתוביות"
 
-#: src/dialogs/subtitleedit.cpp:243
+#: src/dialogs/subtitleedit.cpp:252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
 msgstr "פתיחת חלונית לעריכת הכתוביות הנוכחיות."
 
-#: src/dialogs/subtitleedit.cpp:270
+#: src/dialogs/subtitleedit.cpp:279
 #, kde-format
 msgid "Go to next subtitle"
 msgstr "מעבר לכתובית הבאה"
 
-#: src/dialogs/subtitleedit.cpp:271
+#: src/dialogs/subtitleedit.cpp:280
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8270,12 +8270,12 @@ msgid ""
 "right."
 msgstr "מעביר את ראש הנגינה בציר הזמן לתחילת הכתובית מימין."
 
-#: src/dialogs/subtitleedit.cpp:272
+#: src/dialogs/subtitleedit.cpp:281
 #, kde-format
 msgid "Go to previous subtitle"
 msgstr "מעבר לכתובית הקודמת"
 
-#: src/dialogs/subtitleedit.cpp:273
+#: src/dialogs/subtitleedit.cpp:282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8283,7 +8283,7 @@ msgid ""
 "left."
 msgstr "מעביר את ראש הנגינה בציר הזמן לתחילת הכתובית משמאל."
 
-#: src/dialogs/subtitleedit.cpp:275
+#: src/dialogs/subtitleedit.cpp:284
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8294,12 +8294,12 @@ msgstr ""
 "יצירת כתובית חדשה באורך ברירת המחדל (מוגדר תחת <interface>הגדרות->הגדרת "
 "Kdenlive…->שונות</interface>) בתמונית/מקום הנוכחיים של ראש הנגינה."
 
-#: src/dialogs/subtitleedit.cpp:277
+#: src/dialogs/subtitleedit.cpp:286
 #, kde-format
 msgid "Split subtitle at cursor position"
 msgstr "פיצול הכתובית במקום של הסמן"
 
-#: src/dialogs/subtitleedit.cpp:279
+#: src/dialogs/subtitleedit.cpp:288
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8309,41 +8309,41 @@ msgstr ""
 "גזירת טקסט הכתוביות במקום של הסמן ויצירת כתובית חדשה מימין (כמו חיתוך של "
 "סרטון)."
 
-#: src/dialogs/subtitleedit.cpp:280
+#: src/dialogs/subtitleedit.cpp:289
 #, kde-format
 msgid "Update subtitle text"
 msgstr "עדכון טקסט הכתובית"
 
-#: src/dialogs/subtitleedit.cpp:281
+#: src/dialogs/subtitleedit.cpp:290
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr "עדכון תצוגת הכתוביות בציר הזמן."
 
-#: src/dialogs/subtitleedit.cpp:282
+#: src/dialogs/subtitleedit.cpp:291
 #, kde-format
 msgid "Show more options"
 msgstr "הצגת אפשרויות נוספות"
 
-#: src/dialogs/subtitleedit.cpp:283
+#: src/dialogs/subtitleedit.cpp:292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
 msgstr "הצגה/הסתרה של רשימה להתאמת הגדרות כתוביות נוספות."
 
-#: src/dialogs/subtitleedit.cpp:285
+#: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr "מוחק את הכתובית הנבחרת (לא עובד עם מגוון כתוביות)."
 
-#: src/dialogs/subtitleedit.cpp:288
+#: src/dialogs/subtitleedit.cpp:297
 #, kde-format
 msgid "Toggle bold"
 msgstr "הפעלה/השבתה של הדגשה"
 
-#: src/dialogs/subtitleedit.cpp:289
+#: src/dialogs/subtitleedit.cpp:298
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8352,12 +8352,12 @@ msgid ""
 msgstr ""
 "החלפת סגנון הטקסט המודגש לקטע הטקסט שנבחר או לטקסט שנמצא מיד אחרי מקום הסמן."
 
-#: src/dialogs/subtitleedit.cpp:292
+#: src/dialogs/subtitleedit.cpp:301
 #, kde-format
 msgid "Toggle italic"
 msgstr "הפעלה/השבתה של הטיה"
 
-#: src/dialogs/subtitleedit.cpp:294
+#: src/dialogs/subtitleedit.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8366,12 +8366,12 @@ msgid ""
 msgstr ""
 "החלפת סגנון הטקסט הנטוי לקטע הטקסט שנבחר או לטקסט שנמצא מיד אחרי מקום הסמן."
 
-#: src/dialogs/subtitleedit.cpp:297
+#: src/dialogs/subtitleedit.cpp:306
 #, kde-format
 msgid "Toggle underline"
 msgstr "הפעלה/השבתה של קו תחתי"
 
-#: src/dialogs/subtitleedit.cpp:299
+#: src/dialogs/subtitleedit.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8381,12 +8381,12 @@ msgstr ""
 "החלפת סגנון הטקסט עם הקו התחתי לקטע הטקסט שנבחר או לטקסט שנמצא מיד אחרי מקום "
 "הסמן."
 
-#: src/dialogs/subtitleedit.cpp:302
+#: src/dialogs/subtitleedit.cpp:311
 #, kde-format
 msgid "Toggle strikeout"
 msgstr "הפעלה/השבתה של קו חוצה"
 
-#: src/dialogs/subtitleedit.cpp:304
+#: src/dialogs/subtitleedit.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8396,12 +8396,12 @@ msgstr ""
 "החלפת סגנון הטקסט עם הקו החוצה לקטע הטקסט שנבחר או לטקסט שנמצא מיד אחרי מקום "
 "הסמן."
 
-#: src/dialogs/subtitleedit.cpp:309
+#: src/dialogs/subtitleedit.cpp:318
 #, kde-format
 msgid "Set font"
 msgstr "הגדרת גופן"
 
-#: src/dialogs/subtitleedit.cpp:312
+#: src/dialogs/subtitleedit.cpp:321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8411,12 +8411,12 @@ msgstr ""
 "פתיחת חלונית גופנים כדי לבחור גופן ולהגדיר את מאפייניו או לטקסט הנבחר או "
 "לטקסט שנמצא אחרי מקום הסמן."
 
-#: src/dialogs/subtitleedit.cpp:315
+#: src/dialogs/subtitleedit.cpp:324
 #, kde-format
 msgid "Reset style"
 msgstr "איפוס סגנון"
 
-#: src/dialogs/subtitleedit.cpp:316
+#: src/dialogs/subtitleedit.cpp:325
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8424,92 +8424,92 @@ msgid ""
 "cursor position."
 msgstr "איפוס הסגנון של הטקסט הנבחר או של הטקסט שנמצא אחרי מקום הסמן."
 
-#: src/dialogs/subtitleedit.cpp:318
+#: src/dialogs/subtitleedit.cpp:327
 #, kde-format
 msgid "Set Position"
 msgstr "הגדרת מקום"
 
-#: src/dialogs/subtitleedit.cpp:322
+#: src/dialogs/subtitleedit.cpp:331
 #, kde-format
 msgid "More tags"
 msgstr "תגיות נוספות"
 
-#: src/dialogs/subtitleedit.cpp:323
+#: src/dialogs/subtitleedit.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
 msgstr "פתיחת תפריט להצגת תגיות נוספות"
 
-#: src/dialogs/subtitleedit.cpp:382
+#: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Right To Left"
 msgstr "מימין לשמאל"
 
-#: src/dialogs/subtitleedit.cpp:383
+#: src/dialogs/subtitleedit.cpp:392
 #, kde-format
 msgid "Left To Right"
 msgstr "משמאל לימין"
 
-#: src/dialogs/subtitleedit.cpp:384
+#: src/dialogs/subtitleedit.cpp:393
 #, kde-format
 msgid "Top To Bottom"
 msgstr "מלמעלה למטה"
 
-#: src/dialogs/subtitleedit.cpp:385
+#: src/dialogs/subtitleedit.cpp:394
 #, kde-format
 msgid "Bottom To Top"
 msgstr "מלמטה למעלה"
 
-#: src/dialogs/subtitleedit.cpp:387
+#: src/dialogs/subtitleedit.cpp:396
 #, kde-format
 msgid "Increase Editor Font Size"
 msgstr "הגדלת הכתב בעורך"
 
-#: src/dialogs/subtitleedit.cpp:389
+#: src/dialogs/subtitleedit.cpp:398
 #, kde-format
 msgid "Decrease Editor Font Size"
 msgstr "הקטנת הכתב בעורך"
 
-#: src/dialogs/subtitleedit.cpp:391
+#: src/dialogs/subtitleedit.cpp:400
 #, kde-format
 msgid "Clear All Custom Formatting"
 msgstr "איפוס כל העיצוב המותאם"
 
-#: src/dialogs/subtitleedit.cpp:403
+#: src/dialogs/subtitleedit.cpp:412
 #, kde-format
 msgid "Simple Editor"
 msgstr "עורך פשוט"
 
-#: src/dialogs/subtitleedit.cpp:595
+#: src/dialogs/subtitleedit.cpp:604
 #, kde-format
 msgid "Manage Styles…"
 msgstr "ניהול סגנונות…"
 
-#: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
-#: src/dialogs/subtitleedit.cpp:772
+#: src/dialogs/subtitleedit.cpp:756 src/dialogs/subtitleedit.cpp:779
+#: src/dialogs/subtitleedit.cpp:781
 #, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
 msgstr "סמן: %1, סך הכול: <b>%2</b>"
 
-#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #, kde-format
 msgid "Set Position X"
 msgstr "הגדרת מקום ב־X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
-#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #: src/ui/titlewidget_ui.ui:553
 #, kde-format
 msgid "X:"
 msgstr "X:"
 
-#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #, kde-format
 msgid "Set Position Y"
 msgstr "הגדרת מקום ב־Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
-#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #: src/ui/titlewidget_ui.ui:576
 #, kde-format
 msgid "Y:"

@@ -652,8 +652,8 @@ void ClipLoadTask::run()
         }
         // Check audio / video
         producer->probe();
-        hasAudio = producer->get_int("video_index") > -1;
-        hasVideo = producer->get_int("audio_index") > -1;
+        hasAudio = producer->get_int("audio_index") > -1;
+        hasVideo = producer->get_int("video_index") > -1;
         if (hasAudio) {
             if (hasVideo) {
                 producer->set("kdenlive:clip_type", 0);

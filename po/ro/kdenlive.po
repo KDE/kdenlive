@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-12 00:38+0000\n"
+"POT-Creation-Date: 2024-10-21 00:39+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -4769,7 +4769,7 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:1896 src/bin/bin.cpp:2109
-#: src/bin/model/subtitlemodel.cpp:434
+#: src/bin/model/subtitlemodel.cpp:435
 #, fuzzy, kde-format
 #| msgid "The clip %1 is invalid."
 msgid "The selected file %1 is invalid."
@@ -5855,23 +5855,23 @@ msgstr "fără titlu"
 msgid "Edit global subtitle style"
 msgstr "Adaugă ghidaj"
 
-#: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
-#: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
-#: src/bin/model/subtitlemodel.cpp:2257 src/bin/model/subtitlemodel.cpp:2290
-#: src/bin/model/subtitlemodel.cpp:2323 src/bin/model/subtitlemodel.cpp:2356
-#: src/bin/model/subtitlemodel.cpp:2389
+#: src/bin/model/subtitlemodel.cpp:445 src/bin/model/subtitlemodel.cpp:660
+#: src/bin/model/subtitlemodel.cpp:1611 src/bin/model/subtitlemodel.cpp:2187
+#: src/bin/model/subtitlemodel.cpp:2254 src/bin/model/subtitlemodel.cpp:2287
+#: src/bin/model/subtitlemodel.cpp:2320 src/bin/model/subtitlemodel.cpp:2353
+#: src/bin/model/subtitlemodel.cpp:2386
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle"
 msgstr "Adaugă ghidaj"
 
-#: src/bin/model/subtitlemodel.cpp:694 src/bin/model/subtitlemodel.cpp:1702
+#: src/bin/model/subtitlemodel.cpp:695 src/bin/model/subtitlemodel.cpp:1699
 #: src/timeline2/model/timelinefunctions.cpp:228
 #, kde-format
 msgid "Cut clip"
 msgstr ""
 
-#: src/bin/model/subtitlemodel.cpp:856 src/bin/model/subtitlemodel.cpp:1633
+#: src/bin/model/subtitlemodel.cpp:857 src/bin/model/subtitlemodel.cpp:1630
 #: src/timeline2/model/timelinemodel.cpp:3965
 #, fuzzy, kde-format
 #| msgid "Delete clip"
@@ -5879,14 +5879,14 @@ msgstr ""
 msgid "Resize subtitle"
 msgstr "Șterge clipul"
 
-#: src/bin/model/subtitlemodel.cpp:1054
+#: src/bin/model/subtitlemodel.cpp:1055
 #: src/timeline2/model/timelinemodel.cpp:1350
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
 msgstr "Mută ghidajul"
 
-#: src/bin/model/subtitlemodel.cpp:1228
+#: src/bin/model/subtitlemodel.cpp:1225
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
@@ -5899,46 +5899,46 @@ msgstr ""
 "Fișierul „%1” există deja.\n"
 "Doriți să îl suprascrieți?"
 
-#: src/bin/model/subtitlemodel.cpp:1645 src/titler/titlewidget.cpp:393
+#: src/bin/model/subtitlemodel.cpp:1642 src/titler/titlewidget.cpp:393
 #: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Text"
 msgstr "Adaugă text"
 
-#: src/bin/model/subtitlemodel.cpp:1670 src/dialogs/subtitleedit.cpp:274
+#: src/bin/model/subtitlemodel.cpp:1667 src/dialogs/subtitleedit.cpp:283
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add subtitle"
 msgstr "Adaugă ghidaj"
 
-#: src/bin/model/subtitlemodel.cpp:1722 src/dialogs/subtitleedit.cpp:284
+#: src/bin/model/subtitlemodel.cpp:1719 src/dialogs/subtitleedit.cpp:293
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
 msgid "Delete subtitle"
 msgstr "Șterge clipul"
 
-#: src/bin/model/subtitlemodel.cpp:1794
+#: src/bin/model/subtitlemodel.cpp:1791
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 #| msgid_plural "Delete clips"
 msgid "Delete subtitle layer"
 msgstr "Șterge clipul"
 
-#: src/bin/model/subtitlemodel.cpp:1821
+#: src/bin/model/subtitlemodel.cpp:1818
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create subtitle layer"
 msgstr "Creează un nou profil"
 
-#: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
+#: src/bin/model/subtitlemodel.cpp:1924 src/bin/model/subtitlemodel.cpp:1927
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "fără titlu"
 
-#: src/bin/model/subtitlemodel.cpp:2226
+#: src/bin/model/subtitlemodel.cpp:2223
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr ""
@@ -7777,9 +7777,9 @@ msgstr "Bicubic (mai bun)"
 msgid "BWDIF (best)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1538
-#: src/dialogs/subtitleedit.cpp:1555 src/dialogs/subtitleedit.cpp:1569
-#: src/dialogs/subtitleedit.cpp:1609 src/project/dialogs/slideshowclip.cpp:65
+#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1547
+#: src/dialogs/subtitleedit.cpp:1564 src/dialogs/subtitleedit.cpp:1578
+#: src/dialogs/subtitleedit.cpp:1618 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
@@ -8686,25 +8686,25 @@ msgstr ""
 msgid "Made by KDE"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:242
+#: src/dialogs/subtitleedit.cpp:251
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle style"
 msgstr "Adaugă ghidaj"
 
-#: src/dialogs/subtitleedit.cpp:243
+#: src/dialogs/subtitleedit.cpp:252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:270
+#: src/dialogs/subtitleedit.cpp:279
 #, fuzzy, kde-format
 #| msgid "Go to marker..."
 msgid "Go to next subtitle"
 msgstr "Mergi la marcaj..."
 
-#: src/dialogs/subtitleedit.cpp:271
+#: src/dialogs/subtitleedit.cpp:280
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8712,13 +8712,13 @@ msgid ""
 "right."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:272
+#: src/dialogs/subtitleedit.cpp:281
 #, fuzzy, kde-format
 #| msgid "Go to previous keyframe"
 msgid "Go to previous subtitle"
 msgstr "Mergi la precedentul cadru-cheie"
 
-#: src/dialogs/subtitleedit.cpp:273
+#: src/dialogs/subtitleedit.cpp:282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8726,7 +8726,7 @@ msgid ""
 "left."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:275
+#: src/dialogs/subtitleedit.cpp:284
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8735,13 +8735,13 @@ msgid ""
 "frame."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:277
+#: src/dialogs/subtitleedit.cpp:286
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "Split subtitle at cursor position"
 msgstr "Niciun ghidaj la poziția cursorului"
 
-#: src/dialogs/subtitleedit.cpp:279
+#: src/dialogs/subtitleedit.cpp:288
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8749,44 +8749,44 @@ msgid ""
 "the right (like cutting a clip)."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:280
+#: src/dialogs/subtitleedit.cpp:289
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update subtitle text"
 msgstr "Actualizează profilul"
 
-#: src/dialogs/subtitleedit.cpp:281
+#: src/dialogs/subtitleedit.cpp:290
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:282
+#: src/dialogs/subtitleedit.cpp:291
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Show more options"
 msgstr "Arată/ascunde opțiunile"
 
-#: src/dialogs/subtitleedit.cpp:283
+#: src/dialogs/subtitleedit.cpp:292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:285
+#: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:288
+#: src/dialogs/subtitleedit.cpp:297
 #, fuzzy, kde-format
 #| msgid "with track"
 msgid "Toggle bold"
 msgstr "cu pista"
 
-#: src/dialogs/subtitleedit.cpp:289
+#: src/dialogs/subtitleedit.cpp:298
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8794,13 +8794,13 @@ msgid ""
 "following the cursor position."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:292
+#: src/dialogs/subtitleedit.cpp:301
 #, fuzzy, kde-format
 #| msgid "Toggle selection"
 msgid "Toggle italic"
 msgstr "Inversează selecția"
 
-#: src/dialogs/subtitleedit.cpp:294
+#: src/dialogs/subtitleedit.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8808,13 +8808,13 @@ msgid ""
 "following the cursor position."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:297
+#: src/dialogs/subtitleedit.cpp:306
 #, fuzzy, kde-format
 #| msgid "Toggle selection"
 msgid "Toggle underline"
 msgstr "Inversează selecția"
 
-#: src/dialogs/subtitleedit.cpp:299
+#: src/dialogs/subtitleedit.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8822,13 +8822,13 @@ msgid ""
 "following the cursor position."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:302
+#: src/dialogs/subtitleedit.cpp:311
 #, fuzzy, kde-format
 #| msgid "Toggle selection"
 msgid "Toggle strikeout"
 msgstr "Inversează selecția"
 
-#: src/dialogs/subtitleedit.cpp:304
+#: src/dialogs/subtitleedit.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8836,13 +8836,13 @@ msgid ""
 "following the cursor position."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:309
+#: src/dialogs/subtitleedit.cpp:318
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set font"
 msgstr "Stabilește intrarea zonei"
 
-#: src/dialogs/subtitleedit.cpp:312
+#: src/dialogs/subtitleedit.cpp:321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8850,13 +8850,13 @@ msgid ""
 "selected text or the text following the cursor position."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:315
+#: src/dialogs/subtitleedit.cpp:324
 #, fuzzy, kde-format
 #| msgid "Reset value"
 msgid "Reset style"
 msgstr "Resetare valoare"
 
-#: src/dialogs/subtitleedit.cpp:316
+#: src/dialogs/subtitleedit.cpp:325
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8864,105 +8864,105 @@ msgid ""
 "cursor position."
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:318
+#: src/dialogs/subtitleedit.cpp:327
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Set Position"
 msgstr "Selectare tranziție"
 
-#: src/dialogs/subtitleedit.cpp:322
+#: src/dialogs/subtitleedit.cpp:331
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "More tags"
 msgstr "Arată/ascunde opțiunile"
 
-#: src/dialogs/subtitleedit.cpp:323
+#: src/dialogs/subtitleedit.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:382
+#: src/dialogs/subtitleedit.cpp:391
 #, fuzzy, kde-format
 #| msgid "Clip left"
 msgid "Right To Left"
 msgstr "Tunde din stânga"
 
-#: src/dialogs/subtitleedit.cpp:383
+#: src/dialogs/subtitleedit.cpp:392
 #, fuzzy, kde-format
 #| msgid "Left,Right"
 msgid "Left To Right"
 msgstr "Stânga,Dreapta"
 
-#: src/dialogs/subtitleedit.cpp:384
+#: src/dialogs/subtitleedit.cpp:393
 #, fuzzy, kde-format
 #| msgid "Clip bottom"
 msgid "Top To Bottom"
 msgstr "Tunde de jos"
 
-#: src/dialogs/subtitleedit.cpp:385
+#: src/dialogs/subtitleedit.cpp:394
 #, fuzzy, kde-format
 #| msgid "Bottom"
 msgid "Bottom To Top"
 msgstr "Jos"
 
-#: src/dialogs/subtitleedit.cpp:387
+#: src/dialogs/subtitleedit.cpp:396
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Increase Editor Font Size"
 msgstr "Dimensiune font"
 
-#: src/dialogs/subtitleedit.cpp:389
+#: src/dialogs/subtitleedit.cpp:398
 #, fuzzy, kde-format
 #| msgid "Font Size"
 msgid "Decrease Editor Font Size"
 msgstr "Dimensiune font"
 
-#: src/dialogs/subtitleedit.cpp:391
+#: src/dialogs/subtitleedit.cpp:400
 #, kde-format
 msgid "Clear All Custom Formatting"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:403
+#: src/dialogs/subtitleedit.cpp:412
 #, fuzzy, kde-format
 #| msgid "Show/Hide options"
 msgid "Simple Editor"
 msgstr "Arată/ascunde opțiunile"
 
-#: src/dialogs/subtitleedit.cpp:595
+#: src/dialogs/subtitleedit.cpp:604
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Manage Styles…"
 msgstr "fără titlu"
 
-#: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
-#: src/dialogs/subtitleedit.cpp:772
+#: src/dialogs/subtitleedit.cpp:756 src/dialogs/subtitleedit.cpp:779
+#: src/dialogs/subtitleedit.cpp:781
 #, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #, fuzzy, kde-format
 #| msgid "Position X"
 msgid "Set Position X"
 msgstr "Poziția X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
-#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #: src/ui/titlewidget_ui.ui:553
 #, fuzzy, kde-format
 #| msgid "X"
 msgid "X:"
 msgstr "X"
 
-#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #, fuzzy, kde-format
 #| msgid "Position Y"
 msgid "Set Position Y"
 msgstr "Poziția Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
-#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #: src/ui/titlewidget_ui.ui:576
 #, fuzzy, kde-format
 #| msgid "Y"

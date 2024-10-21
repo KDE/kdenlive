@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-12 00:38+0000\n"
+"POT-Creation-Date: 2024-10-21 00:39+0000\n"
 "PO-Revision-Date: 2024-10-08 21:46+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -4623,7 +4623,7 @@ msgstr ""
 "El substitut és més curt en %1 fotogrames."
 
 #: src/bin/bin.cpp:1896 src/bin/bin.cpp:2109
-#: src/bin/model/subtitlemodel.cpp:434
+#: src/bin/model/subtitlemodel.cpp:435
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "El fitxer seleccionat %1 no és vàlid."
@@ -5641,34 +5641,34 @@ msgstr "Subtítols"
 msgid "Edit global subtitle style"
 msgstr "Edita l'estil global dels subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:444 src/bin/model/subtitlemodel.cpp:659
-#: src/bin/model/subtitlemodel.cpp:1614 src/bin/model/subtitlemodel.cpp:2190
-#: src/bin/model/subtitlemodel.cpp:2257 src/bin/model/subtitlemodel.cpp:2290
-#: src/bin/model/subtitlemodel.cpp:2323 src/bin/model/subtitlemodel.cpp:2356
-#: src/bin/model/subtitlemodel.cpp:2389
+#: src/bin/model/subtitlemodel.cpp:445 src/bin/model/subtitlemodel.cpp:660
+#: src/bin/model/subtitlemodel.cpp:1611 src/bin/model/subtitlemodel.cpp:2187
+#: src/bin/model/subtitlemodel.cpp:2254 src/bin/model/subtitlemodel.cpp:2287
+#: src/bin/model/subtitlemodel.cpp:2320 src/bin/model/subtitlemodel.cpp:2353
+#: src/bin/model/subtitlemodel.cpp:2386
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Edita els subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:694 src/bin/model/subtitlemodel.cpp:1702
+#: src/bin/model/subtitlemodel.cpp:695 src/bin/model/subtitlemodel.cpp:1699
 #: src/timeline2/model/timelinefunctions.cpp:228
 #, kde-format
 msgid "Cut clip"
 msgstr "Retalla el clip"
 
-#: src/bin/model/subtitlemodel.cpp:856 src/bin/model/subtitlemodel.cpp:1633
+#: src/bin/model/subtitlemodel.cpp:857 src/bin/model/subtitlemodel.cpp:1630
 #: src/timeline2/model/timelinemodel.cpp:3965
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Redimensiona els subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:1054
+#: src/bin/model/subtitlemodel.cpp:1055
 #: src/timeline2/model/timelinemodel.cpp:1350
 #, kde-format
 msgid "Move subtitle"
 msgstr "Mou els subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:1228
+#: src/bin/model/subtitlemodel.cpp:1225
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
@@ -5681,39 +5681,39 @@ msgstr ""
 "El fitxer %1 ja existix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/bin/model/subtitlemodel.cpp:1645 src/titler/titlewidget.cpp:393
+#: src/bin/model/subtitlemodel.cpp:1642 src/titler/titlewidget.cpp:393
 #: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Text"
 msgstr "Afig un text"
 
-#: src/bin/model/subtitlemodel.cpp:1670 src/dialogs/subtitleedit.cpp:274
+#: src/bin/model/subtitlemodel.cpp:1667 src/dialogs/subtitleedit.cpp:283
 #, kde-format
 msgid "Add subtitle"
 msgstr "Afig subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:1722 src/dialogs/subtitleedit.cpp:284
+#: src/bin/model/subtitlemodel.cpp:1719 src/dialogs/subtitleedit.cpp:293
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Suprimix els subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:1794
+#: src/bin/model/subtitlemodel.cpp:1791
 #, kde-format
 msgid "Delete subtitle layer"
 msgstr "Suprimix la capa de subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:1821
+#: src/bin/model/subtitlemodel.cpp:1818
 #, kde-format
 msgid "Create subtitle layer"
 msgstr "Crea una capa de subtítols"
 
-#: src/bin/model/subtitlemodel.cpp:1927 src/bin/model/subtitlemodel.cpp:1930
+#: src/bin/model/subtitlemodel.cpp:1924 src/bin/model/subtitlemodel.cpp:1927
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "Subtítol %1"
 
-#: src/bin/model/subtitlemodel.cpp:2226
+#: src/bin/model/subtitlemodel.cpp:2223
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "Assigna un estil nou a un subtítol."
@@ -7491,9 +7491,9 @@ msgstr "YADIF (millor)"
 msgid "BWDIF (best)"
 msgstr "BWDIF (millor)"
 
-#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1538
-#: src/dialogs/subtitleedit.cpp:1555 src/dialogs/subtitleedit.cpp:1569
-#: src/dialogs/subtitleedit.cpp:1609 src/project/dialogs/slideshowclip.cpp:65
+#: src/dialogs/renderwidget.cpp:240 src/dialogs/subtitleedit.cpp:1547
+#: src/dialogs/subtitleedit.cpp:1564 src/dialogs/subtitleedit.cpp:1578
+#: src/dialogs/subtitleedit.cpp:1618 src/project/dialogs/slideshowclip.cpp:65
 #: src/scopes/colorscopes/vectorscope.cpp:55
 #, kde-format
 msgid "None"
@@ -8367,23 +8367,23 @@ msgstr "Zulu"
 msgid "Made by KDE"
 msgstr "Creat per la comunitat KDE"
 
-#: src/dialogs/subtitleedit.cpp:242
+#: src/dialogs/subtitleedit.cpp:251
 #, kde-format
 msgid "Edit subtitle style"
 msgstr "Edita l'estil dels subtítols"
 
-#: src/dialogs/subtitleedit.cpp:243
+#: src/dialogs/subtitleedit.cpp:252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
 msgstr "Obri un diàleg per a editar el subtítol actual."
 
-#: src/dialogs/subtitleedit.cpp:270
+#: src/dialogs/subtitleedit.cpp:279
 #, kde-format
 msgid "Go to next subtitle"
 msgstr "Ves fins al subtítol següent"
 
-#: src/dialogs/subtitleedit.cpp:271
+#: src/dialogs/subtitleedit.cpp:280
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8393,12 +8393,12 @@ msgstr ""
 "Mou el capçal de reproducció en la línia de temps al començament del "
 "subtítol a la dreta."
 
-#: src/dialogs/subtitleedit.cpp:272
+#: src/dialogs/subtitleedit.cpp:281
 #, kde-format
 msgid "Go to previous subtitle"
 msgstr "Ves fins al subtítol anterior"
 
-#: src/dialogs/subtitleedit.cpp:273
+#: src/dialogs/subtitleedit.cpp:282
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8408,7 +8408,7 @@ msgstr ""
 "Mou el capçal de reproducció en la línia de temps al començament del "
 "subtítol a l'esquerra."
 
-#: src/dialogs/subtitleedit.cpp:275
+#: src/dialogs/subtitleedit.cpp:284
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8420,12 +8420,12 @@ msgstr ""
 "<interface>Configuració -> Configura Kdenlive… -> Miscel·lània</interface>) "
 "a la posició/fotograma actual del capçal de reproducció."
 
-#: src/dialogs/subtitleedit.cpp:277
+#: src/dialogs/subtitleedit.cpp:286
 #, kde-format
 msgid "Split subtitle at cursor position"
 msgstr "Dividix el subtítol a la posició del cursor"
 
-#: src/dialogs/subtitleedit.cpp:279
+#: src/dialogs/subtitleedit.cpp:288
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8435,29 +8435,29 @@ msgstr ""
 "Retalla el text del subtítol a la posició del cursor i crea un subtítol nou "
 "a la dreta (com retallar un clip)."
 
-#: src/dialogs/subtitleedit.cpp:280
+#: src/dialogs/subtitleedit.cpp:289
 #, kde-format
 msgid "Update subtitle text"
 msgstr "Actualitza el text del subtítol"
 
-#: src/dialogs/subtitleedit.cpp:281
+#: src/dialogs/subtitleedit.cpp:290
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
 msgstr "Actualitza la visualització dels subtítols en la línia de temps."
 
-#: src/dialogs/subtitleedit.cpp:282
+#: src/dialogs/subtitleedit.cpp:291
 #, kde-format
 msgid "Show more options"
 msgstr "Mostra més opcions"
 
-#: src/dialogs/subtitleedit.cpp:283
+#: src/dialogs/subtitleedit.cpp:292
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
 msgstr "Canvia una llista per a ajustar més paràmetres dels subtítols."
 
-#: src/dialogs/subtitleedit.cpp:285
+#: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8466,12 +8466,12 @@ msgstr ""
 "Suprimix el subtítol actualment seleccionat (no funciona amb múltiples "
 "subtítols)."
 
-#: src/dialogs/subtitleedit.cpp:288
+#: src/dialogs/subtitleedit.cpp:297
 #, kde-format
 msgid "Toggle bold"
 msgstr "Canvia a negreta"
 
-#: src/dialogs/subtitleedit.cpp:289
+#: src/dialogs/subtitleedit.cpp:298
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8481,12 +8481,12 @@ msgstr ""
 "Canvia l'estil del text a negreta per al text seleccionat o per al text que "
 "seguix a la posició del cursor."
 
-#: src/dialogs/subtitleedit.cpp:292
+#: src/dialogs/subtitleedit.cpp:301
 #, kde-format
 msgid "Toggle italic"
 msgstr "Canvia a cursiva"
 
-#: src/dialogs/subtitleedit.cpp:294
+#: src/dialogs/subtitleedit.cpp:303
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8496,12 +8496,12 @@ msgstr ""
 "Canvia l'estil del text a cursiva per al text seleccionat o per al text que "
 "seguix a la posició del cursor."
 
-#: src/dialogs/subtitleedit.cpp:297
+#: src/dialogs/subtitleedit.cpp:306
 #, kde-format
 msgid "Toggle underline"
 msgstr "Canvia a subratllat"
 
-#: src/dialogs/subtitleedit.cpp:299
+#: src/dialogs/subtitleedit.cpp:308
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8511,12 +8511,12 @@ msgstr ""
 "Canvia l'estil del text a subratllat per al text seleccionat o per al text "
 "que seguix a la posició del cursor."
 
-#: src/dialogs/subtitleedit.cpp:302
+#: src/dialogs/subtitleedit.cpp:311
 #, kde-format
 msgid "Toggle strikeout"
 msgstr "Canvia a ratllat"
 
-#: src/dialogs/subtitleedit.cpp:304
+#: src/dialogs/subtitleedit.cpp:313
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8526,12 +8526,12 @@ msgstr ""
 "Canvia l'estil del text a ratllat per al text seleccionat o per al text que "
 "seguix a la posició del cursor."
 
-#: src/dialogs/subtitleedit.cpp:309
+#: src/dialogs/subtitleedit.cpp:318
 #, kde-format
 msgid "Set font"
 msgstr "Establix la lletra"
 
-#: src/dialogs/subtitleedit.cpp:312
+#: src/dialogs/subtitleedit.cpp:321
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8542,12 +8542,12 @@ msgstr ""
 "propietats per al text seleccionat o el text que seguix a la posició del "
 "cursor."
 
-#: src/dialogs/subtitleedit.cpp:315
+#: src/dialogs/subtitleedit.cpp:324
 #, kde-format
 msgid "Reset style"
 msgstr "Reinicialitza l'estil"
 
-#: src/dialogs/subtitleedit.cpp:316
+#: src/dialogs/subtitleedit.cpp:325
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -8557,92 +8557,92 @@ msgstr ""
 "Reinicialitza l'estil del text seleccionat o del text que seguix a la "
 "posició del cursor."
 
-#: src/dialogs/subtitleedit.cpp:318
+#: src/dialogs/subtitleedit.cpp:327
 #, kde-format
 msgid "Set Position"
 msgstr "Establix una posició"
 
-#: src/dialogs/subtitleedit.cpp:322
+#: src/dialogs/subtitleedit.cpp:331
 #, kde-format
 msgid "More tags"
 msgstr "Més etiquetes"
 
-#: src/dialogs/subtitleedit.cpp:323
+#: src/dialogs/subtitleedit.cpp:332
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a menu to show more tags"
 msgstr "Obri un menú per a mostrar més etiquetes"
 
-#: src/dialogs/subtitleedit.cpp:382
+#: src/dialogs/subtitleedit.cpp:391
 #, kde-format
 msgid "Right To Left"
 msgstr "De dreta a esquerra"
 
-#: src/dialogs/subtitleedit.cpp:383
+#: src/dialogs/subtitleedit.cpp:392
 #, kde-format
 msgid "Left To Right"
 msgstr "D'esquerra a dreta"
 
-#: src/dialogs/subtitleedit.cpp:384
+#: src/dialogs/subtitleedit.cpp:393
 #, kde-format
 msgid "Top To Bottom"
 msgstr "De dalt a baix"
 
-#: src/dialogs/subtitleedit.cpp:385
+#: src/dialogs/subtitleedit.cpp:394
 #, kde-format
 msgid "Bottom To Top"
 msgstr "De baix a dalt"
 
-#: src/dialogs/subtitleedit.cpp:387
+#: src/dialogs/subtitleedit.cpp:396
 #, kde-format
 msgid "Increase Editor Font Size"
 msgstr "Incrementa la mida de la lletra de l'editor"
 
-#: src/dialogs/subtitleedit.cpp:389
+#: src/dialogs/subtitleedit.cpp:398
 #, kde-format
 msgid "Decrease Editor Font Size"
 msgstr "Disminuïx la mida de la lletra de l'editor"
 
-#: src/dialogs/subtitleedit.cpp:391
+#: src/dialogs/subtitleedit.cpp:400
 #, kde-format
 msgid "Clear All Custom Formatting"
 msgstr "Neteja tots els formats personalitzats"
 
-#: src/dialogs/subtitleedit.cpp:403
+#: src/dialogs/subtitleedit.cpp:412
 #, kde-format
 msgid "Simple Editor"
 msgstr "Editor senzill"
 
-#: src/dialogs/subtitleedit.cpp:595
+#: src/dialogs/subtitleedit.cpp:604
 #, kde-format
 msgid "Manage Styles…"
 msgstr "Gestioneu estils…"
 
-#: src/dialogs/subtitleedit.cpp:747 src/dialogs/subtitleedit.cpp:770
-#: src/dialogs/subtitleedit.cpp:772
+#: src/dialogs/subtitleedit.cpp:756 src/dialogs/subtitleedit.cpp:779
+#: src/dialogs/subtitleedit.cpp:781
 #, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
 msgstr "Cursor: %1, total: <b>%2</b>"
 
-#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #, kde-format
 msgid "Set Position X"
 msgstr "Establix la posició X"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
-#: src/dialogs/subtitleedit.cpp:1667 src/dialogs/subtitleedit.cpp:1681
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #: src/ui/titlewidget_ui.ui:553
 #, kde-format
 msgid "X:"
 msgstr "X:"
 
-#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #, kde-format
 msgid "Set Position Y"
 msgstr "Establix la posició Y"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
-#: src/dialogs/subtitleedit.cpp:1669 src/dialogs/subtitleedit.cpp:1683
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #: src/ui/titlewidget_ui.ui:576
 #, kde-format
 msgid "Y:"
