@@ -720,7 +720,7 @@ int SubtitleModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
             leftText = originalText;
             rightText = originalText;
         } else if (KdenliveSettings::subtitle_razor_mode() == RAZOR_MODE_AFTER_FIRST_LINE) {
-            static const QRegularExpression newlineRe("\\\\N");
+            static const QRegularExpression newlineRe("\\n");
             QRegularExpressionMatch newlineMatch = newlineRe.match(originalText);
             if (!newlineMatch.hasMatch()) {
                 undo();
