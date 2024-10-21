@@ -673,7 +673,7 @@ int VideoWidget::reconfigure()
             m_consumer->stop();
             m_consumer.reset();
         }
-        QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
+        QString audioBackend = (KdenliveSettings::external_display()) ? QStringLiteral("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
                                                                       : KdenliveSettings::audiobackend();
         if (m_consumer == nullptr || serviceName.isEmpty() || serviceName != audioBackend) {
             m_consumer.reset(new Mlt::FilteredConsumer(pCore->getMonitorProfile(), audioBackend.toLatin1().constData()));

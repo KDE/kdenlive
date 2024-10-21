@@ -2873,7 +2873,7 @@ QByteArray TrackModel::trackHash()
     // Parse mixes
     for (auto &sameComposition : m_sameCompositions) {
         Mlt::Transition *tr = static_cast<Mlt::Transition *>(sameComposition.second->getAsset());
-        QString mixData = QString("%1 %2 %3").arg(QString::number(tr->get_in()), QString::number(tr->get_out()), sameComposition.second->getAssetId());
+        QString mixData = QStringLiteral("%1 %2 %3").arg(QString::number(tr->get_in()), QString::number(tr->get_out()), sameComposition.second->getAssetId());
         fileData.append(mixData.toLatin1());
     }
     return fileData;

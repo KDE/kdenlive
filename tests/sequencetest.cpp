@@ -141,7 +141,7 @@ TEST_CASE("Test saving sequences elements", "[TSG]")
         state();
         REQUIRE(timeline->checkConsistency());
         // Add secondary timeline
-        const QString seq2 = ClipCreator::createPlaylistClip(QStringLiteral("Sequence2"), {2, 2}, QString("-1"), binModel);
+        const QString seq2 = ClipCreator::createPlaylistClip(QStringLiteral("Sequence2"), {2, 2}, QStringLiteral("-1"), binModel);
         QMap<QUuid, QString> uids = pCore->projectItemModel()->getAllSequenceClips();
         QUuid secondaryUuid;
         QMapIterator<QUuid, QString> i(uids);

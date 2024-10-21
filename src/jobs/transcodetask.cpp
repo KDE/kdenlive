@@ -68,7 +68,7 @@ void TranscodeTask::run()
     QString source;
     QTemporaryFile src;
     if (type == ClipType::Text || type == ClipType::Timeline) {
-        src.setFileTemplate(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+        src.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
         if (src.open()) {
             source = src.fileName();
             QDomDocument doc;
@@ -122,7 +122,7 @@ void TranscodeTask::run()
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         // insert transcoded filename
-        m_transcodeParams.replace(QStringLiteral("%1"), QString("-consumer %1"));
+        m_transcodeParams.replace(QStringLiteral("%1"), QStringLiteral("-consumer %1"));
         // Convert param style
         QStringList params = m_transcodeParams.split(QLatin1Char('-'), Qt::SkipEmptyParts);
         QStringList mltParameters;
@@ -133,7 +133,7 @@ void TranscodeTask::run()
             } else {
                 if (t.contains(QLatin1String("%1"))) {
                     // file name
-                    mltParameters.prepend(t.section(QLatin1Char(' '), 1).replace(QLatin1String("%1"), QString("avformat:%1").arg(destUrl)));
+                    mltParameters.prepend(t.section(QLatin1Char(' '), 1).replace(QLatin1String("%1"), QStringLiteral("avformat:%1").arg(destUrl)));
                     mltParameters.prepend(QStringLiteral("-consumer"));
                     continue;
                 }
@@ -159,8 +159,8 @@ void TranscodeTask::run()
         // Ask for progress reporting
         mltParameters << QStringLiteral("progress=1");
         if (m_outPoint > 0) {
-            mltParameters.prepend(QString("out=%1").arg(m_outPoint));
-            mltParameters.prepend(QString("in=%1").arg(m_inPoint));
+            mltParameters.prepend(QStringLiteral("out=%1").arg(m_outPoint));
+            mltParameters.prepend(QStringLiteral("in=%1").arg(m_inPoint));
         }
         mltParameters.prepend(source);
         m_jobProcess.reset(new QProcess);

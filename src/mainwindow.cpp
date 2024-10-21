@@ -269,10 +269,10 @@ void MainWindow::init(const QString &mltPath)
             KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
             if (highlight) {
                 QColor col = scheme.decoration(KColorScheme::HoverColor).color();
-                topFrame->setStyleSheet(QString("QFrame {border: 1px solid rgba(%1,%2,%3,70)}").arg(col.red()).arg(col.green()).arg(col.blue()));
+                topFrame->setStyleSheet(QStringLiteral("QFrame {border: 1px solid rgba(%1,%2,%3,70)}").arg(col.red()).arg(col.green()).arg(col.blue()));
             } else {
                 QColor col = scheme.decoration(KColorScheme::FocusColor).color();
-                topFrame->setStyleSheet(QString("QFrame {border: 1px solid rgba(%1,%2,%3,100)}").arg(col.red()).arg(col.green()).arg(col.blue()));
+                topFrame->setStyleSheet(QStringLiteral("QFrame {border: 1px solid rgba(%1,%2,%3,100)}").arg(col.red()).arg(col.green()).arg(col.blue()));
             }
         } else {
             topFrame->setStyleSheet(QString());
@@ -2062,15 +2062,15 @@ void MainWindow::setupActions()
         QAction *ac = new QAction(QIcon(), i18n("Select Audio Track %1", i), this);
         ac->setData(i - 1);
         connect(ac, &QAction::triggered, this, &MainWindow::slotActivateAudioTrackSequence);
-        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT | keysequence[i - 1]), timelineActions);
+        addAction(QStringLiteral("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT | keysequence[i - 1]), timelineActions);
         QAction *ac2 = new QAction(QIcon(), i18n("Select Video Track %1", i), this);
         ac2->setData(i - 1);
         connect(ac2, &QAction::triggered, this, &MainWindow::slotActivateVideoTrackSequence);
-        addAction(QString("activate_video_%1").arg(i), ac2, QKeySequence(keysequence[i - 1]), timelineActions);
+        addAction(QStringLiteral("activate_video_%1").arg(i), ac2, QKeySequence(keysequence[i - 1]), timelineActions);
         QAction *ac3 = new QAction(QIcon(), i18n("Select Target %1", i), this);
         ac3->setData(i - 1);
         connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
-        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL | keysequence[i - 1]), timelineActions);
+        addAction(QStringLiteral("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL | keysequence[i - 1]), timelineActions);
     }
 
     // Setup effects and transitions actions.
@@ -4926,10 +4926,10 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount)
                 objectNames << p->objectName();
             }
         }
-        QString newBinName = QString("project_bin_%1").arg(ix);
+        QString newBinName = QStringLiteral("project_bin_%1").arg(ix);
         while (objectNames.contains(newBinName)) {
             ix++;
-            newBinName = QString("project_bin_%1").arg(ix);
+            newBinName = QStringLiteral("project_bin_%1").arg(ix);
         }
         QDockWidget *binDock = addDock(binName.isEmpty() ? i18n("Project Bin %1", ix) : binName, newBinName, bin);
         if (pCore->guiReady()) {

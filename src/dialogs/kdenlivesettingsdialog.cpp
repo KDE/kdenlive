@@ -265,7 +265,7 @@ void KdenliveSettingsDialog::initProjectPage()
     m_configProject.setupUi(p9);
     // Timeline preview
     QString currentPreviewData =
-        KdenliveSettings::previewparams().isEmpty() ? QString() : QString("%1;%2").arg(KdenliveSettings::previewparams(), KdenliveSettings::previewextension());
+        KdenliveSettings::previewparams().isEmpty() ? QString() : QStringLiteral("%1;%2").arg(KdenliveSettings::previewparams(), KdenliveSettings::previewextension());
     m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p9, true, currentPreviewData, false);
     m_configProject.preview_profile_box->addWidget(m_tlPreviewProfiles);
     auto *vbox = new QVBoxLayout;
@@ -822,14 +822,14 @@ void KdenliveSettingsDialog::fillMonitorData()
     m_configSdl.fullscreen_monitor->addItem(i18n("auto"));
     int ix = 0;
     for (const QScreen *screen : qApp->screens()) {
-        QString screenName = screen->name().isEmpty() ? i18n("Monitor %1", ix + 1) : QString("%1: %2").arg(ix + 1).arg(screen->name());
+        QString screenName = screen->name().isEmpty() ? i18n("Monitor %1", ix + 1) : QStringLiteral("%1: %2").arg(ix + 1).arg(screen->name());
         if (!screen->model().isEmpty()) {
-            screenName.append(QString(" - %1").arg(screen->model()));
+            screenName.append(QStringLiteral(" - %1").arg(screen->model()));
         }
         if (!screen->manufacturer().isEmpty()) {
-            screenName.append(QString(" (%1)").arg(screen->manufacturer()));
+            screenName.append(QStringLiteral(" (%1)").arg(screen->manufacturer()));
         }
-        m_configSdl.fullscreen_monitor->addItem(screenName, QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+        m_configSdl.fullscreen_monitor->addItem(screenName, QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
         ix++;
     }
     if (!KdenliveSettings::fullscreen_monitor().isEmpty()) {

@@ -403,22 +403,22 @@ QString SubtitleStyle::toString(QString name) const
         .arg(name)
         .arg(m_fontName)
         .arg(m_fontSize, 0, 'f', 2)
-        .arg("&H" + QString("%1").arg(QString::number(255 - m_primaryColour.alpha(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_primaryColour.blue(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_primaryColour.green(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_primaryColour.red(), 16), 2, '0').toUpper())
-        .arg("&H" + QString("%1").arg(QString::number(255 - m_secondaryColour.alpha(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_secondaryColour.blue(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_secondaryColour.green(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_secondaryColour.red(), 16), 2, '0').toUpper())
-        .arg("&H" + QString("%1").arg(QString::number(255 - m_outlineColour.alpha(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_outlineColour.blue(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_outlineColour.green(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_outlineColour.red(), 16), 2, '0').toUpper())
-        .arg("&H" + QString("%1").arg(QString::number(255 - m_backColour.alpha(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_backColour.blue(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_backColour.green(), 16), 2, '0').toUpper() +
-             QString("%1").arg(QString::number(m_backColour.red(), 16), 2, '0').toUpper())
+        .arg("&H" + QStringLiteral("%1").arg(QString::number(255 - m_primaryColour.alpha(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_primaryColour.blue(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_primaryColour.green(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_primaryColour.red(), 16), 2, '0').toUpper())
+        .arg("&H" + QStringLiteral("%1").arg(QString::number(255 - m_secondaryColour.alpha(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_secondaryColour.blue(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_secondaryColour.green(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_secondaryColour.red(), 16), 2, '0').toUpper())
+        .arg("&H" + QStringLiteral("%1").arg(QString::number(255 - m_outlineColour.alpha(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_outlineColour.blue(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_outlineColour.green(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_outlineColour.red(), 16), 2, '0').toUpper())
+        .arg("&H" + QStringLiteral("%1").arg(QString::number(255 - m_backColour.alpha(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_backColour.blue(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_backColour.green(), 16), 2, '0').toUpper() +
+             QStringLiteral("%1").arg(QString::number(m_backColour.red(), 16), 2, '0').toUpper())
         .arg(m_bold ? -1 : 0)
         .arg(m_italic ? -1 : 0)
         .arg(m_underline ? -1 : 0)

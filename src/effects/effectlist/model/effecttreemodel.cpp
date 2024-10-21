@@ -250,7 +250,7 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
     if (!newDescription.trimmed().isEmpty()) {
         QDomElement root = doc.documentElement();
         QDomElement nodelist = root.firstChildElement("description");
-        QDomElement newNodeTag = doc.createElement(QString("description"));
+        QDomElement newNodeTag = doc.createElement(QStringLiteral("description"));
         QDomText text = doc.createTextNode(newDescription);
         newNodeTag.appendChild(text);
         if (!nodelist.isNull()) {
@@ -275,7 +275,7 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
 
         QDomElement root = doc.documentElement();
         QDomElement nodelist = root.firstChildElement("name");
-        QDomElement newNodeTag = doc.createElement(QString("name"));
+        QDomElement newNodeTag = doc.createElement(QStringLiteral("name"));
         QDomText text = doc.createTextNode(newName);
         newNodeTag.appendChild(text);
         root.replaceChild(newNodeTag, nodelist);

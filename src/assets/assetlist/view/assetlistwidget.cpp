@@ -403,9 +403,9 @@ void AssetListWidget::updateAssetInfo(const QModelIndex &current, const QModelIn
             // Add link to our documentation
             const QString link = buildLink(id, type);
             if (!description.isEmpty()) {
-                description.append(QString("<br/><a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id));
+                description.append(QStringLiteral("<br/><a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id));
             } else {
-                description = QString("<a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id);
+                description = QStringLiteral("<a title=\"%1\" href=\"%2\">&#128279; %3</a>").arg(i18nc("@info:tooltip", "Online documentation"), link, id);
             }
         }
         m_infoDocument->setHtml(description);

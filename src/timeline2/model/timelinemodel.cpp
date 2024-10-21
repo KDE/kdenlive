@@ -6081,7 +6081,7 @@ const QString TimelineModel::sceneList(const QString &root, const QString &fullP
     Mlt::Service s(m_tractor->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
     if (!filterData.isEmpty()) {
-        filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile().get_profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
+        filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile().get_profile(), QStringLiteral("dynamictext:%1").arg(filterData).toUtf8().constData());
         filter->set("fgcolour", "#ffffff");
         filter->set("bgcolour", "#bb333333");
         s.attach(*filter.get());
@@ -7345,7 +7345,7 @@ QByteArray TimelineModel::timelineHash()
     // Compositions hash
     for (auto &compo : m_allCompositions) {
         int track = getTrackPosition(compo.second->getCurrentTrackId());
-        QString compoData = QString("%1 %2 %3 %4")
+        QString compoData = QStringLiteral("%1 %2 %3 %4")
                                 .arg(QString::number(compo.second->getATrack()), QString::number(track), QString::number(compo.second->getPosition()),
                                      QString::number(compo.second->getPlaytime()));
         compoData.append(compo.second->getAssetId());

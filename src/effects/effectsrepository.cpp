@@ -264,7 +264,7 @@ QString EffectsRepository::getCustomPath(const QString &id)
     QString customAssetDir = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
     QPair<QStringList, QStringList> results;
     QDir current_dir(customAssetDir);
-    return current_dir.absoluteFilePath(QString("%1.xml").arg(id));
+    return current_dir.absoluteFilePath(QStringLiteral("%1.xml").arg(id));
 }
 
 QPair<QString, QString> EffectsRepository::reloadCustom(const QString &path)
@@ -388,7 +388,7 @@ QPair<QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pat
                                     QString frame = val.section(QLatin1Char('='), 0, 0);
                                     QString frameVal = val.section(QLatin1Char('='), 1);
                                     double v = frameVal.toDouble() / factor;
-                                    resultStr << QString("%1=%2").arg(frame).arg(v);
+                                    resultStr << QStringLiteral("%1=%2").arg(frame).arg(v);
                                 } else {
                                     double v = val.toDouble() / factor;
                                     resultStr << QString::number(v);

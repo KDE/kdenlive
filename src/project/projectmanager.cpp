@@ -1735,7 +1735,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
-    QString convertedFile = QStringUtils::appendToFilename(currentFile, QString("-%1").arg(int(newProfile->fps() * 100)));
+    QString convertedFile = QStringUtils::appendToFilename(currentFile, QStringLiteral("-%1").arg(int(newProfile->fps() * 100)));
     QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
     QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
     if (saveInTempFile) {

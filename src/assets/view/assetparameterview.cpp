@@ -46,7 +46,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     setSizePolicy(QSizePolicy::Preferred, addSpacer ? QSizePolicy::Preferred : QSizePolicy::Fixed);
     const QString paramTag = model->getAssetId();
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
-    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(paramTag));
+    const QString presetFile = dir.absoluteFilePath(QStringLiteral("%1.json").arg(paramTag));
     connect(this, &AssetParameterView::updatePresets, this, [this, presetFile](const QString &presetName) {
         m_presetMenu->clear();
         m_presetGroup.reset(new QActionGroup(this));
@@ -333,7 +333,7 @@ void AssetParameterView::slotDeletePreset(const QString &presetName)
     }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
     if (dir.exists()) {
-        const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
+        const QString presetFile = dir.absoluteFilePath(QStringLiteral("%1.json").arg(m_model->getAssetId()));
         m_model->deletePreset(presetFile, presetName);
         Q_EMIT updatePresets();
     }
@@ -360,7 +360,7 @@ void AssetParameterView::slotSavePreset(QString presetName)
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));
     }
-    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
+    const QString presetFile = dir.absoluteFilePath(QStringLiteral("%1.json").arg(m_model->getAssetId()));
     m_model->savePreset(presetFile, presetName);
     Q_EMIT updatePresets(presetName);
 }
@@ -373,7 +373,7 @@ void AssetParameterView::slotLoadPreset()
     }
     const QString presetName = action->data().toString();
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
-    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
+    const QString presetFile = dir.absoluteFilePath(QStringLiteral("%1.json").arg(m_model->getAssetId()));
     const QVector<QPair<QString, QVariant>> params = m_model->loadPreset(presetFile, presetName);
     auto *command = new AssetUpdateCommand(m_model, params);
     pCore->pushUndo(command);

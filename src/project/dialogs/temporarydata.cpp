@@ -155,14 +155,14 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     ok = false;
     QDir global = m_doc->getCacheDir(SystemCacheRoot, &ok);
     QDir proxyFolder(global.absoluteFilePath(QStringLiteral("proxy")));
-    gProxyPath->setText(QString("<a href='#'>%1</a>").arg(proxyFolder.absolutePath()));
+    gProxyPath->setText(QStringLiteral("<a href='#'>%1</a>").arg(proxyFolder.absolutePath()));
     connect(gProxyPath, &QLabel::linkActivated, [proxyFolder]() { QDesktopServices::openUrl(QUrl::fromLocalFile(proxyFolder.absolutePath())); });
 
     // Backup data
     connect(gBackupClean, &QToolButton::clicked, this, &TemporaryData::cleanBackup);
     connect(gBackupDelete, &QToolButton::clicked, this, &TemporaryData::deleteBackup);
     QDir backupFolder(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/.backup"));
-    gBackupPath->setText(QString("<a href='#'>%1</a>").arg(backupFolder.absolutePath()));
+    gBackupPath->setText(QStringLiteral("<a href='#'>%1</a>").arg(backupFolder.absolutePath()));
     connect(gBackupPath, &QLabel::linkActivated, [backupFolder]() { QDesktopServices::openUrl(QUrl::fromLocalFile(backupFolder.absolutePath())); });
 
     // Config cleanup age

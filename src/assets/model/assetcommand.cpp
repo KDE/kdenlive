@@ -20,9 +20,9 @@ AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, co
     m_name = m_model->data(index, AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", EffectsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", EffectsRepository::get()->getName(id))));
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", TransitionsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", TransitionsRepository::get()->getName(id))));
     }
     m_oldValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
 }
@@ -103,9 +103,9 @@ AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> 
     m_name = m_model->data(m_indexes.first(), AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", EffectsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", EffectsRepository::get()->getName(id))));
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", TransitionsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", TransitionsRepository::get()->getName(id))));
     }
     for (QModelIndex ix : std::as_const(m_indexes)) {
         QVariant previousVal = m_model->data(ix, AssetParameterModel::ValueRole);
@@ -163,10 +163,10 @@ AssetKeyframeCommand::AssetKeyframeCommand(const std::shared_ptr<AssetParameterM
 {
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(id))));
 
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", TransitionsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", TransitionsRepository::get()->getName(id))));
     }
     m_oldValue = m_model->getKeyframeModel()->getKeyModel(m_index)->getInterpolatedValue(m_pos);
 }
@@ -213,9 +213,9 @@ AssetMultiKeyframeCommand::AssetMultiKeyframeCommand(const std::shared_ptr<Asset
 {
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(id))));
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", TransitionsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", TransitionsRepository::get()->getName(id))));
     }
 }
 
@@ -271,9 +271,9 @@ AssetUpdateCommand::AssetUpdateCommand(const std::shared_ptr<AssetParameterModel
 {
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Update %1", EffectsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Update %1", EffectsRepository::get()->getName(id))));
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Update %1", TransitionsRepository::get()->getName(id))));
+        setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Update %1", TransitionsRepository::get()->getName(id))));
     }
     m_oldValue = m_model->getAllParameters();
 }

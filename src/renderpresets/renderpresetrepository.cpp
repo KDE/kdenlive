@@ -228,7 +228,7 @@ void RenderPresetRepository::parseMltPresets()
         const QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : profiles) {
             std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=lossless/" + prof), true));
+                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QStringLiteral("properties=lossless/%1").arg(prof), true));
             if (m_profiles.count(model->name()) == 0) {
                 m_groups.append(model->groupName());
                 m_groups.removeDuplicates();
@@ -241,7 +241,7 @@ void RenderPresetRepository::parseMltPresets()
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
         for (const QString &prof : std::as_const(profiles)) {
             std::unique_ptr<RenderPresetModel> model(
-                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QString("properties=stills/" + prof), false));
+                new RenderPresetModel(groupName, root.absoluteFilePath(prof), prof, QStringLiteral("properties=stills/%1").arg(prof), false));
             m_groups.append(model->groupName());
             m_groups.removeDuplicates();
             m_profiles.insert(std::make_pair(model->name(), std::move(model)));

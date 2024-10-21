@@ -78,7 +78,7 @@ void NotesPlugin::slotInsertTimecode()
         }
         const QString clipName = pCore->bin()->getBinClipName(binId);
         const QString uuid = pCore->projectItemModel()->getBinClipUuid(binId);
-        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(uuid, QString::number(frames), clipName, position));
+        m_widget->insertHtml(QStringLiteral("<a href=\"%1#%2\">%3:%4</a> ").arg(uuid, QString::number(frames), clipName, position));
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
@@ -87,10 +87,10 @@ void NotesPlugin::slotInsertTimecode()
         if (currentTrackInfo.first != -1) {
             // Insert timeline position with track reference
             m_widget->insertHtml(
-                QString("<a href=\"%1!%2?%3\">%4 %5</a> ")
+                QStringLiteral("<a href=\"%1!%2?%3\">%4 %5</a> ")
                     .arg(uuid.toString(), QString::number(frames), QString::number(currentTrackInfo.first), currentTrackInfo.second, position));
         } else {
-            m_widget->insertHtml(QString("<a href=\"%1!%2\">%3</a> ").arg(uuid.toString(), QString::number(frames), position));
+            m_widget->insertHtml(QStringLiteral("<a href=\"%1!%2\">%3</a> ").arg(uuid.toString(), QString::number(frames), position));
         }
     }
 }
@@ -117,7 +117,7 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
             updatedLink = a.section(QLatin1Char('#'), 1);
             position = updatedLink.toInt();
             if (!uuid.isEmpty()) {
-                updatedLink.prepend(QString("%1#").arg(uuid));
+                updatedLink.prepend(QStringLiteral("%1#").arg(uuid));
             }
         } else {
             if (a.contains(QLatin1Char('!'))) {
@@ -128,7 +128,7 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
             }
             position = updatedLink.toInt();
             if (!uuid.isEmpty()) {
-                updatedLink.prepend(QString("%1#").arg(uuid));
+                updatedLink.prepend(QStringLiteral("%1#").arg(uuid));
             }
         }
         QTextCursor cur(m_widget->textCursor());
@@ -137,10 +137,10 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
         QString pos = pCore->timecode().getTimecodeFromFrames(position);
         if (!binId.isEmpty()) {
             QString clipName = pCore->bin()->getBinClipName(binId);
-            cur.insertHtml(QString("<a href=\"%1\">%2:%3</a> ").arg(updatedLink, clipName, pos));
+            cur.insertHtml(QStringLiteral("<a href=\"%1\">%2:%3</a> ").arg(updatedLink, clipName, pos));
         } else {
             // Timestamp relative to project timeline
-            cur.insertHtml(QString("<a href=\"%1\">%2</a> ").arg(updatedLink, pos));
+            cur.insertHtml(QStringLiteral("<a href=\"%1\">%2</a> ").arg(updatedLink, pos));
         }
         ix++;
     }

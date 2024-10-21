@@ -130,7 +130,7 @@ void AudioLevelsTask::run()
                     QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
                     producer = binClip->originalProducer();
                     producer->lock();
-                    QString key = QString("_kdenlive:audio%1").arg(stream);
+                    QString key = QStringLiteral("_kdenlive:audio%1").arg(stream);
                     producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
                     producer->unlock();
                     producer.reset();
@@ -197,7 +197,7 @@ void AudioLevelsTask::run()
                 QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
                 producer = binClip->originalProducer();
                 producer->lock();
-                QString key = QString("_kdenlive:audio%1").arg(stream);
+                QString key = QStringLiteral("_kdenlive:audio%1").arg(stream);
                 producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
                 producer->unlock();
                 producer.reset();
@@ -218,8 +218,8 @@ void AudioLevelsTask::run()
             QVector<uint8_t> *levelsCopy = new QVector<uint8_t>(mltLevels);
             producer = binClip->originalProducer();
             producer->lock();
-            QString key = QString("_kdenlive:audio%1").arg(stream);
-            QString key2 = QString("kdenlive:audio_max%1").arg(stream);
+            QString key = QStringLiteral("_kdenlive:audio%1").arg(stream);
+            QString key2 = QStringLiteral("kdenlive:audio_max%1").arg(stream);
             producer->set(key2.toUtf8().constData(), int(maxLevel));
             producer->set(key.toUtf8().constData(), levelsCopy, 0, (mlt_destructor)deleteQVariantList);
             producer->unlock();

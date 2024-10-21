@@ -112,7 +112,7 @@ void SpeedTask::start(QObject *object, bool force)
             QDir dir(fileUrl.url().toLocalFile());
             binClip = pCore->projectItemModel()->getClipByBinID(binId.section(QLatin1Char('/'), 0, 0));
             mltfile = QFileInfo(binClip->url()).fileName().section(QLatin1Char('.'), 0, -2);
-            mltfile.append(QString("-%1.mlt").arg(QString::number(int(speed))));
+            mltfile.append(QStringLiteral("-%1.mlt").arg(QString::number(int(speed))));
             mltfile = dir.absoluteFilePath(mltfile);
         }
         // Filter several clips, destination points to a folder
@@ -185,12 +185,12 @@ void SpeedTask::run()
                                       Q_ARG(int, int(KMessageWidget::Warning)));
             return;
         }
-        producerArgs << QString("timewarp:%1:%2").arg(m_speed).arg(url);
+        producerArgs << QStringLiteral("timewarp:%1:%2").arg(m_speed).arg(url);
         if (m_inPoint > -1) {
-            producerArgs << QString("in=%1").arg(m_inPoint);
+            producerArgs << QStringLiteral("in=%1").arg(m_inPoint);
         }
         if (m_outPoint > -1) {
-            producerArgs << QString("out=%1").arg(m_outPoint);
+            producerArgs << QStringLiteral("out=%1").arg(m_outPoint);
         }
     } else {
         QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("No producer for this clip.")),
@@ -215,15 +215,15 @@ void SpeedTask::run()
     for (const auto &it : m_filterParams) {
         qDebug() << ". . ." << it.first << " = " << it.second;
         if (it.second.typeId() == QMetaType::Double) {
-            producerArgs << QString("%1=%2").arg(it.first, QString::number(it.second.toDouble()));
+            producerArgs << QStringLiteral("%1=%2").arg(it.first, QString::number(it.second.toDouble()));
         } else {
-            producerArgs << QString("%1=%2").arg(it.first, it.second.toString());
+            producerArgs << QStringLiteral("%1=%2").arg(it.first, it.second.toString());
         }
     }
 
     // Start the MLT Process
     QProcess filterProcess;
-    producerArgs << QStringLiteral("-consumer") << QString("xml:%1").arg(m_destination) << QStringLiteral("terminate_on_pause=1");
+    producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("terminate_on_pause=1");
     m_jobProcess.reset(new QProcess);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);

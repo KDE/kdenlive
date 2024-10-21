@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 
         if (str.startsWith(QLatin1String("--profile="))) {
             QString s = str;
-            s.remove(0, QString("--profile=").length());
+            s.remove(0, QStringLiteral("--profile=").length());
             profile = s.toStdString();
             args.removeOne(str);
 

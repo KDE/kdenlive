@@ -71,7 +71,7 @@ void ElidedLinkLabel::updateText(int width)
     if (m_link.isEmpty()) {
         setText(fontMetrics().elidedText(m_text, Qt::ElideLeft, width));
     } else {
-        setText(QString("<a href=\"%1\">%2</a>").arg(m_link, fontMetrics().elidedText(m_text, Qt::ElideLeft, width)));
+        setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(m_link, fontMetrics().elidedText(m_text, Qt::ElideLeft, width)));
     }
 }
 
@@ -441,7 +441,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
                     // Probable an image proxy
                     lab->setText(i18n("Image"));
                 } else {
-                    lab->setText(m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()));
+                    lab->setText(m_properties->get(QStringLiteral("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()));
                 }
             } else {
                 pbox->setCheckState(Qt::PartiallyChecked);
@@ -468,7 +468,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             pbox->setCheckState(hasProxyClip ? Qt::Checked : Qt::Unchecked);
             bg->setEnabled(pbox->isChecked());
             bg->setToolTip(pxy);
-            lab->setText(hasProxyClip ? m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData())
+            lab->setText(hasProxyClip ? m_properties->get(QStringLiteral("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData())
                                       : QString());
         });
         hlay->addWidget(pbox);
@@ -605,7 +605,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
         box->setObjectName(QStringLiteral("autorotate"));
         box->setChecked(autorotate == QLatin1String("0"));
         int vix = m_sourceProperties->get_int("video_index");
-        const QString query = QString("meta.media.%1.codec.rotate").arg(vix);
+        const QString query = QStringLiteral("meta.media.%1.codec.rotate").arg(vix);
         int angle = m_sourceProperties->get_int(query.toUtf8().constData());
 #if QT_VERSION >= QT_VERSION_CHECK(6, 7, 0)
         connect(box, &QCheckBox::checkStateChanged, this, &ClipPropertiesController::slotEnableForce);
@@ -818,8 +818,8 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
                     // Rename event
                     QString txt = item->text();
                     int row = m_audioStreamsView->row(item) + 1;
-                    if (!txt.startsWith(QString("%1|").arg(row))) {
-                        txt.prepend(QString("%1|").arg(row));
+                    if (!txt.startsWith(QStringLiteral("%1|").arg(row))) {
+                        txt.prepend(QStringLiteral("%1|").arg(row));
                     }
                     m_controller->renameAudioStream(streamId, txt);
                     QSignalBlocker bk(m_audioStreamsView);
@@ -940,7 +940,7 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
                     // Remove effect
                     m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("volume"));
                 } else {
-                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QString("volume level=%1").arg(value));
+                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("volume level=%1").arg(value));
                 }
                 updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
             });
@@ -1402,8 +1402,8 @@ void ClipPropertiesController::fillProperties()
 
         if (vindex > -1) {
             // We have a video stream
-            QString codecInfo = QString("meta.media.%1.codec.").arg(vindex);
-            QString streamInfo = QString("meta.media.%1.stream.").arg(vindex);
+            QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(vindex);
+            QString streamInfo = QStringLiteral("meta.media.%1.stream.").arg(vindex);
             QString property = codecInfo + QStringLiteral("long_name");
             QString codec = m_sourceProperties->get(property.toUtf8().constData());
             if (!codec.isEmpty()) {
@@ -1456,7 +1456,7 @@ void ClipPropertiesController::fillProperties()
         if (default_audio > -1) {
             propertyMap.append({i18n("Audio streams:"), QString::number(m_controller->audioStreamsCount())});
 
-            QString codecInfo = QString("meta.media.%1.codec.").arg(default_audio);
+            QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(default_audio);
             QString property = codecInfo + QStringLiteral("long_name");
             QString codec = m_sourceProperties->get(property.toUtf8().constData());
             if (!codec.isEmpty()) {

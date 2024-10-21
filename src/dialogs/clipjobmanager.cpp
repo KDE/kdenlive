@@ -279,7 +279,7 @@ QMap<QString, QString> ClipJobManager::getClipJobNames()
     while (i.hasNext()) {
         i.next();
         if (!i.value().isEmpty()) {
-            newIds.insert(QString("%1;%2").arg(i.key(), id2s.value(i.key())), i.value());
+            newIds.insert(QStringLiteral("%1;%2").arg(i.key(), id2s.value(i.key())), i.value());
         }
     }
     // Add the 3 internal jobs

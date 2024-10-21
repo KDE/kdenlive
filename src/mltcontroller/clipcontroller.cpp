@@ -136,7 +136,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
                 snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
                 QString type = m_properties->get(property);
                 if (type == QLatin1String("video")) {
-                    QString key = QString("meta.media.%1.codec.name").arg(ix);
+                    QString key = QStringLiteral("meta.media.%1.codec.name").arg(ix);
                     QString codec_name = m_properties->get(key.toLatin1().constData());
                     if (codec_name == QLatin1String("png")) {
                         // This is a cover image, skip
@@ -144,10 +144,10 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
                         continue;
                     }
                     if (codec_name == QLatin1String("mjpeg")) {
-                        key = QString("meta.media.%1.stream.frame_rate").arg(ix);
+                        key = QStringLiteral("meta.media.%1.stream.frame_rate").arg(ix);
                         QString fps = m_properties->get(key.toLatin1().constData());
                         if (fps.isEmpty()) {
-                            key = QString("meta.media.%1.codec.frame_rate").arg(ix);
+                            key = QStringLiteral("meta.media.%1.codec.frame_rate").arg(ix);
                             fps = m_properties->get(key.toLatin1().constData());
                         }
                         if (fps == QLatin1String("90000")) {
@@ -350,7 +350,7 @@ void ClipController::buildAudioInfo(int audioIndex)
     m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex, m_clipType == ClipType::Playlist || m_clipType == ClipType::Timeline);
     // Load stream effects
     for (int stream : m_audioInfo->streams().keys()) {
-        QString streamEffect = m_properties->get(QString("kdenlive:stream:%1").arg(stream).toUtf8().constData());
+        QString streamEffect = m_properties->get(QStringLiteral("kdenlive:stream:%1").arg(stream).toUtf8().constData());
         if (!streamEffect.isEmpty()) {
             m_streamEffects.insert(stream, streamEffect.split(QChar('#')));
         }
@@ -1158,11 +1158,11 @@ bool ClipController::isFullRange() const
 {
     bool full = !qstrcmp(m_masterProducer->get("meta.media.color_range"), "full");
     for (int i = 0; !full && i < m_masterProducer->get_int("meta.media.nb_streams"); i++) {
-        QString key = QString("meta.media.%1.stream.type").arg(i);
+        QString key = QStringLiteral("meta.media.%1.stream.type").arg(i);
         QString streamType(m_masterProducer->get(key.toLatin1().constData()));
         if (streamType == "video") {
             if (i == m_masterProducer->get_int("video_index")) {
-                key = QString("meta.media.%1.codec.pix_fmt").arg(i);
+                key = QStringLiteral("meta.media.%1.codec.pix_fmt").arg(i);
                 QString pix_fmt = QString::fromLatin1(m_masterProducer->get(key.toLatin1().constData()));
                 if (pix_fmt.startsWith("yuvj")) {
                     full = true;

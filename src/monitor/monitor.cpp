@@ -788,7 +788,7 @@ void Monitor::buildBackgroundedProducer(int pos)
     }
     if (KdenliveSettings::monitor_background() != "black") {
         Mlt::Tractor trac(pCore->getProjectProfile());
-        QString color = QString("color:%1").arg(KdenliveSettings::monitor_background());
+        QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(*trac.profile(), color.toUtf8().constData()));
         int maxLength = m_controller->originalProducer()->get_length();
         bg->set("length", maxLength);
@@ -1034,7 +1034,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                 // If the platform does now provide screen serial number, use indexes
                 for (const QScreen *screen : qApp->screens()) {
                     ix++;
-                    bool match = requestedMonitor == QString("%1:%2").arg(QString::number(ix), screen->serialNumber());
+                    bool match = requestedMonitor == QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber());
                     // Check if monitor's index changed
                     if (!match && !screen->serialNumber().isEmpty()) {
                         match = requestedMonitor.section(QLatin1Char(':'), 1) == screen->serialNumber();
@@ -1046,9 +1046,9 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                         m_glWidget->resize(screen->geometry().size());
                         screenFound = true;
                         if (m_id == Kdenlive::ProjectMonitor) {
-                            KdenliveSettings::setProject_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                            KdenliveSettings::setProject_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
                         } else {
-                            KdenliveSettings::setClip_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                            KdenliveSettings::setClip_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
                         }
                         break;
                     }
@@ -1064,17 +1064,17 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                             // We have 3 monitors, use each
                             if (m_id == Kdenlive::ProjectMonitor) {
                                 if (KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
-                                    KdenliveSettings::setProject_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                                    KdenliveSettings::setProject_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
                                 } else {
-                                    if (KdenliveSettings::clip_monitor_fullscreen() == QString("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
+                                    if (KdenliveSettings::clip_monitor_fullscreen() == QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
                                         continue;
                                     }
                                 }
                             } else {
                                 if (KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
-                                    KdenliveSettings::setClip_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                                    KdenliveSettings::setClip_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
                                 } else {
-                                    if (KdenliveSettings::project_monitor_fullscreen() == QString("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
+                                    if (KdenliveSettings::project_monitor_fullscreen() == QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
                                         continue;
                                     }
                                 }
@@ -1082,9 +1082,9 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 
                         } else {
                             if (m_id == Kdenlive::ProjectMonitor) {
-                                KdenliveSettings::setProject_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                                KdenliveSettings::setProject_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
                             } else {
-                                KdenliveSettings::setClip_monitor_fullscreen(QString("%1:%2").arg(QString::number(ix), screen->serialNumber()));
+                                KdenliveSettings::setClip_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
                             }
                         }
                         m_glWidget->setParent(nullptr);
@@ -1328,7 +1328,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // Clip monitor, using proxy. Use original clip url to get frame
-                QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+                QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
                 if (src.open()) {
                     src.setAutoRemove(false);
                     m_controller->cloneProducerToFile(src.fileName());
@@ -1401,7 +1401,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
                     QStringList pathInfo;
                     if (useSourceResolution) {
                         // Create a producer with the original clip
-                        QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+                        QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
                         if (src.open()) {
                             src.setAutoRemove(false);
                             m_controller->cloneProducerToFile(src.fileName());
@@ -1892,7 +1892,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         ClipType::ProducerType type = controller->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
             m_glMonitor->rootObject()->setProperty("baseThumbPath",
-                                                   QString("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid().toString()));
+                                                   QStringLiteral("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid().toString()));
         } else {
             m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
         }

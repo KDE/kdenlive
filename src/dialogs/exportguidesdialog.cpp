@@ -73,7 +73,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     });
 
     connect(btn2, &QAbstractButton::clicked, this, [this]() {
-        QString filter = format_text->isChecked() ? QString("%1 (*.txt)").arg(i18n("Text File")) : QString("%1 (*.json)").arg(i18n("JSON File"));
+        QString filter = format_text->isChecked() ? QStringLiteral("%1 (*.txt)").arg(i18n("Text File")) : QStringLiteral("%1 (*.json)").arg(i18n("JSON File"));
         const QString startFolder = pCore->projectManager()->current()->projectDataFolder();
         QString filename = QFileDialog::getSaveFileName(this, i18nc("@title:window", "Export Guides Data"), startFolder, filter);
         QFile file(filename);
@@ -121,7 +121,7 @@ ExportGuidesDialog::ExportGuidesDialog(const MarkerListModel *model, const GenTi
     while (i.hasNext()) {
         i.next();
         a = new QAction(this);
-        a->setText(QString("%1 - %2").arg(i.value(), i.key()));
+        a->setText(QStringLiteral("%1 - %2").arg(i.value(), i.key()));
         a->setData(i.key());
         infoButton->addAction(a);
     }

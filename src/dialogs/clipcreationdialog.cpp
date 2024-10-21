@@ -164,7 +164,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
             .arg(pCore->getCurrentFrameSize().width())
             .arg(pCore->getCurrentFrameSize().height());
     /*const QString templateJson =
-        QString("{\"v\":\"5.7.1\",\"ip\":0,\"op\":%1,\"nm\":\"Animation\",\"mn\":\"{c9eac49f-b1f0-482f-a8d8-302293bd1e46}\",\"fr\":%2,\"w\":%3,\"h\":%4,"
+        QStringLiteral("{\"v\":\"5.7.1\",\"ip\":0,\"op\":%1,\"nm\":\"Animation\",\"mn\":\"{c9eac49f-b1f0-482f-a8d8-302293bd1e46}\",\"fr\":%2,\"w\":%3,\"h\":%4,"
                 "\"assets\":[],\"layers\":[{\"ddd\":0,\"ty\":3,\"ind\":0,\"st\":0,\"ip\":0,\"op\":90,\"nm\":\"Layer\",\"mn\":\"{4d7c9721-b5ef-4075-a89c-"
                 "c4c5629423db}\",\"ks\":{\"a\":{\"a\":0,\"k\":[960,540]},\"p\":{\"a\":0,\"k\":[960,540]},\"s\":{\"a\":0,\"k\":[100,100]},\"r\":{\"a\":0,\"k\":"
                 "0},\"o\":{\"a\":0,\"k\":100}}}],\"meta\":{\"g\":\"Glaxnimate 0.5.0-52-g36d6269d\"}}")
@@ -359,7 +359,7 @@ do?", file.path()), i18n("Clip already exists")) == KMessageBox::Cancel)
         if (isOnRemovableDevice(file) && !isOnRemovableDevice(m_doc->projectFolder())) {
             int answer = KMessageBox::warningYesNoCancel(QApplication::activeWindow(), i18n("Clip <b>%1</b><br /> is on a removable device, will not be
 available when device is unplugged", file.path()), i18n("File on a Removable Device"), KGuiItem(i18n("Copy file to project folder")),
-KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QString("copyFilesToProjectFolder"));
+KGuiItem(i18n("Continue")), KStandardGuiItem::cancel(), QStringLiteral("copyFilesToProjectFolder"));
 
             if (answer == KMessageBox::Cancel) continue;
             else if (answer == KMessageBox::Yes) {

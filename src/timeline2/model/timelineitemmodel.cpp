@@ -900,7 +900,7 @@ void TimelineItemModel::passSequenceProperties(const QMap<QString, QString> base
     QMapIterator<QString, QString> i(baseProperties);
     while (i.hasNext()) {
         i.next();
-        tractor()->set(QString("kdenlive:sequenceproperties.%1").arg(i.key()).toUtf8().constData(), i.value().toUtf8().constData());
+        tractor()->set(QStringLiteral("kdenlive:sequenceproperties.%1").arg(i.key()).toUtf8().constData(), i.value().toUtf8().constData());
     }
     // Store groups data
     tractor()->set("kdenlive:sequenceproperties.groups", groupsData().toUtf8().constData());

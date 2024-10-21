@@ -4898,7 +4898,7 @@ void TimelineController::addAndInsertFile(const QString &recordedFile, int tid, 
         if (endPos > 0) {
             // Limited space on track
             endPos = qMin(int(clip->frameDuration() - 1), endPos);
-            QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(endPos);
+            QString binClipId = QStringLiteral("%1/%2/%3").arg(binId).arg(0).arg(endPos);
             model->requestClipInsertion(binClipId, track, recPosition.first, id, true, true, false);
             endPos++;
         } else {
@@ -5587,7 +5587,7 @@ const QString TimelineController::getActionShortcut(const QString actionName)
     if (a) {
         shortcut = a->shortcut().toString(QKeySequence::NativeText);
         if (!shortcut.isEmpty()) {
-            shortcut = QString(" (%1)").arg(shortcut);
+            shortcut = QStringLiteral(" (%1)").arg(shortcut);
         }
     }
     return shortcut;

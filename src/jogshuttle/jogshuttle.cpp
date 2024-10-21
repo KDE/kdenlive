@@ -194,8 +194,8 @@ DeviceMap JogShuttle::enumerateDevices(const QString &devPath)
     for (const QString &fileName : fileList) {
         QString devFullPath = devDir.absoluteFilePath(fileName);
         QString fileLink = JogShuttle::canonicalDevice(devFullPath);
-        // qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileName);
-        // qCDebug(KDENLIVE_LOG) << QString(" [%1] ").arg(fileLink);
+        // qCDebug(KDENLIVE_LOG) << QStringLiteral(" [%1] ").arg(fileName);
+        // qCDebug(KDENLIVE_LOG) << QStringLiteral(" [%1] ").arg(fileLink);
 
         media_ctrl mc;
         media_ctrl_open_dev(&mc, fileLink.toUtf8().data());

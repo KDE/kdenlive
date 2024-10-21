@@ -165,7 +165,7 @@ void ClipTranscode::slotStartTransCode()
     }
 
     if (mltEncoding) {
-        params.replace(QStringLiteral("%1"), QString("-consumer %1"));
+        params.replace(QStringLiteral("%1"), QStringLiteral("-consumer %1"));
         const QStringList splitted = params.split(QLatin1Char('-'), Qt::SkipEmptyParts);
         for (const QString &s : splitted) {
             QString t = s.simplified();
@@ -174,7 +174,7 @@ void ClipTranscode::slotStartTransCode()
             } else {
                 if (t.contains(QLatin1String("%1"))) {
                     // file name
-                    parameters.prepend(t.section(QLatin1Char(' '), 1).replace(QLatin1String("%1"), QString("avformat:%1").arg(destination)));
+                    parameters.prepend(t.section(QLatin1Char(' '), 1).replace(QLatin1String("%1"), QStringLiteral("avformat:%1").arg(destination)));
                     parameters.prepend(QStringLiteral("-consumer"));
                     continue;
                 }

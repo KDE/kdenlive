@@ -40,7 +40,7 @@ CustomJobTask::CustomJobTask(const ObjectId &owner, const QString &jobName, cons
     , m_jobProcess(nullptr)
 {
     m_description = jobName;
-    m_tmpFrameFile.setFileTemplate(QString("%1/kdenlive-frame-.XXXXXX.png").arg(QDir::tempPath()));
+    m_tmpFrameFile.setFileTemplate(QStringLiteral("%1/kdenlive-frame-.XXXXXX.png").arg(QDir::tempPath()));
 }
 
 void CustomJobTask::start(QObject *object, const QString &jobId)

@@ -16,7 +16,7 @@ FunctionalUndoCommand::FunctionalUndoCommand(Fun undo, Fun redo, const QString &
     , m_redo(std::move(redo))
     , m_undone(false)
 {
-    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(text));
+    setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(text));
 }
 
 void FunctionalUndoCommand::undo()

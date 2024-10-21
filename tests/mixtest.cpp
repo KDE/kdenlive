@@ -903,9 +903,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         mix2();
 
         // Now switch mixes to Slide type
-        timeline->switchComposition(cid7, QString("slide"));
-        timeline->switchComposition(cid6, QString("slide"));
-        timeline->switchComposition(cid5, QString("slide"));
+        timeline->switchComposition(cid7, QStringLiteral("slide"));
+        timeline->switchComposition(cid6, QStringLiteral("slide"));
+        timeline->switchComposition(cid5, QStringLiteral("slide"));
         mix2();
 
         // Mix 3 and 4, this will revert all subsequent mixes
@@ -917,9 +917,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         mix2();
 
         // Now switch mixes to Wipe type
-        timeline->switchComposition(cid7, QString("wipe"));
-        timeline->switchComposition(cid6, QString("wipe"));
-        timeline->switchComposition(cid5, QString("wipe"));
+        timeline->switchComposition(cid7, QStringLiteral("wipe"));
+        timeline->switchComposition(cid6, QStringLiteral("wipe"));
+        timeline->switchComposition(cid5, QStringLiteral("wipe"));
         mix2();
 
         // Mix 3 and 4, this will revert all subsequent mixes

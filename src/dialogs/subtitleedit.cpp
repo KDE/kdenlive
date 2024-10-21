@@ -1473,22 +1473,22 @@ void SubtitleEdit::slotSelectFont()
             QString newText = text;
 
             if (newText.contains(fontNameRegex)) {
-                newText.replace(fontNameRegex, QString("\\fn%1").arg(fontName));
+                newText.replace(fontNameRegex, QStringLiteral("\\fn%1").arg(fontName));
             } else {
-                newText.insert(newText.length() - 1, QString("\\fn%1").arg(fontName));
+                newText.insert(newText.length() - 1, QStringLiteral("\\fn%1").arg(fontName));
             }
 
             if (newText.contains(sizeRegex)) {
-                newText.replace(sizeRegex, QString("\\fs%1").arg(fontSize));
+                newText.replace(sizeRegex, QStringLiteral("\\fs%1").arg(fontSize));
             } else {
-                newText.insert(newText.length() - 1, QString("\\fs%1").arg(fontSize));
+                newText.insert(newText.length() - 1, QStringLiteral("\\fs%1").arg(fontSize));
             }
 
             if (!bold) {
                 if (newText.contains(fontWeightRegex)) {
-                    newText.replace(fontWeightRegex, QString("\\b%1").arg(fontWeight));
+                    newText.replace(fontWeightRegex, QStringLiteral("\\b%1").arg(fontWeight));
                 } else {
-                    newText.insert(newText.length() - 1, QString("\\b%1").arg(fontWeight));
+                    newText.insert(newText.length() - 1, QStringLiteral("\\b%1").arg(fontWeight));
                 }
             }
 
@@ -1525,7 +1525,7 @@ void SubtitleEdit::slotSelectFont()
 
             cursor.insertText(newText);
         } else {
-            cursor.insertText(QString("{\\fn%1\\fs%2\\b%3\\i%4\\u%5\\s%6}")
+            cursor.insertText(QStringLiteral("{\\fn%1\\fs%2\\b%3\\i%4\\u%5\\s%6}")
                                   .arg(fontName)
                                   .arg(fontSize)
                                   .arg(fontWeight)
@@ -1585,9 +1585,9 @@ void SubtitleEdit::slotResetStyle()
             cursor.setPosition(right, QTextCursor::KeepAnchor);
 
             if (styleRegex.match(text).hasMatch()) {
-                text.replace(styleRegex.match(text).captured(0), QString("\\r%1").arg(newStyle));
+                text.replace(styleRegex.match(text).captured(0), QStringLiteral("\\r%1").arg(newStyle));
             } else {
-                text.insert(text.length() - 1, QString("\\r%1").arg(newStyle));
+                text.insert(text.length() - 1, QStringLiteral("\\r%1").arg(newStyle));
             }
             cursor.insertText(text);
         } else {
@@ -1598,7 +1598,7 @@ void SubtitleEdit::slotResetStyle()
             cursor.setPosition(left, QTextCursor::MoveAnchor);
             cursor.setPosition(right, QTextCursor::KeepAnchor);
 
-            cursor.insertText(QString("{\\r%1}").arg(newStyle));
+            cursor.insertText(QStringLiteral("{\\r%1}").arg(newStyle));
         }
     } else {
         // if text selected
@@ -1626,13 +1626,13 @@ void SubtitleEdit::slotResetStyle()
 
         if (leftTagsBlock.hasSelection()) {
             if (styleRegex.match(leftText).hasMatch()) {
-                leftText.replace(styleRegex.match(leftText).captured(0), QString("\\r%1").arg(newStyle));
+                leftText.replace(styleRegex.match(leftText).captured(0), QStringLiteral("\\r%1").arg(newStyle));
             } else {
-                leftText.insert(leftText.length() - 1, QString("\\r%1").arg(newStyle));
+                leftText.insert(leftText.length() - 1, QStringLiteral("\\r%1").arg(newStyle));
             }
             leftTagsBlock.insertText(leftText);
         } else {
-            leftTagsBlock.insertText(QString("{\\r%1}").arg(newStyle));
+            leftTagsBlock.insertText(QStringLiteral("{\\r%1}").arg(newStyle));
         }
 
         if (leftTagsBlock != rightTagsBlock) {
@@ -1642,11 +1642,11 @@ void SubtitleEdit::slotResetStyle()
                     ;
                 } else {
                     // insert \r to make new style only take effect between the selected text
-                    rightText.insert(rightText.length() - 1, QString("\\r"));
+                    rightText.insert(rightText.length() - 1, QStringLiteral("\\r"));
                 }
                 rightTagsBlock.insertText(rightText);
             } else {
-                rightTagsBlock.insertText(QString("{\\r}"));
+                rightTagsBlock.insertText(QStringLiteral("{\\r}"));
             }
         }
     }
@@ -1678,9 +1678,9 @@ void SubtitleEdit::slotSetPosition()
             int y = QInputDialog::getInt(this, i18n("Set Position Y"), i18n("Y:"), subPos.second, 0, 9999, 1, &ok);
             if (ok) {
                 if (match.hasMatch()) {
-                    text.replace(posRegex, QString("\\pos(%1,%2)").arg(x).arg(y));
+                    text.replace(posRegex, QStringLiteral("\\pos(%1,%2)").arg(x).arg(y));
                 } else {
-                    text.insert(text.length() - 1, QString("\\pos(%1,%2)").arg(x).arg(y));
+                    text.insert(text.length() - 1, QStringLiteral("\\pos(%1,%2)").arg(x).arg(y));
                 }
                 cursor.insertText(text);
             }
@@ -1691,7 +1691,7 @@ void SubtitleEdit::slotSetPosition()
         if (ok) {
             int y = QInputDialog::getInt(this, i18n("Set Position Y"), i18n("Y:"), subPos.second, 0, 9999, 1, &ok);
             if (ok) {
-                cursor.insertText(QString("{\\pos(%1,%2)}").arg(x).arg(y));
+                cursor.insertText(QStringLiteral("{\\pos(%1,%2)}").arg(x).arg(y));
             }
         }
     }

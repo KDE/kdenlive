@@ -719,7 +719,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
                 bool ok;
                 QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
                 if (ok) {
-                    QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
+                    QString resource = sequenceFolder.absoluteFilePath(QStringLiteral("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                     QFile::remove(resource);
                 }
             }
@@ -1189,7 +1189,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 qWarning() << "Cannot write to cache folder: " << sequenceFolder.absolutePath();
                 return nullptr;
             }
-            resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
+            resource = sequenceFolder.absoluteFilePath(QStringLiteral("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
             if (!QFileInfo::exists(resource)) {
                 cloneProducerToFile(resource);
             }
@@ -1208,7 +1208,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             QString url;
             QString original_resource;
             if (m_clipStatus == FileStatus::StatusMissing) {
-                url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), QString("qtext"));
+                url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), QStringLiteral("qtext"));
                 original_resource = originalProducer()->get("resource");
 
             } else {
@@ -1219,7 +1219,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                     // We must use the special "consumer" producer for mlt playlist files
                     resource.prepend(QStringLiteral("consumer:"));
                 }
-                url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
+                url = QStringLiteral("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
             }
             warpProducer.reset(new Mlt::Producer(pCore->getProjectProfile(), url.toUtf8().constData()));
             int original_length = originalProducer()->get_length();
@@ -2180,7 +2180,7 @@ void ProjectClip::discardAudioThumb()
             QFile::remove(audioThumbPath);
         }
         // Clear audio cache
-        QString key = QString("%1:%2").arg(m_binId).arg(st);
+        QString key = QStringLiteral("%1:%2").arg(m_binId).arg(st);
         pCore->audioThumbCache.insert(key, QByteArray("-"));
     }
     // Delete thumbnail
@@ -2234,7 +2234,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
 {
     if (data.isEmpty()) {
         // Remove data
-        return QStringList() << QString("kdenlive:clipanalysis." + name) << QString();
+        return QStringList() << QStringLiteral("kdenlive:clipanalysis.%1").arg(name) << QString();
         // m_controller->resetProperty("kdenlive:clipanalysis." + name);
     }
     QString current = getProducerProperty("kdenlive:clipanalysis." + name);
@@ -2255,7 +2255,7 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
                 pos++;
                 geometry.insert(item);
             }
-            return QStringList() << QString("kdenlive:clipanalysis." + name) << geometry.serialise();
+            return QStringList() << QStringLiteral("kdenlive:clipanalysis.%1").arg(name) << geometry.serialise();
             // m_controller->setProperty("kdenlive:clipanalysis." + name, geometry.serialise());
         }*/
         // Add data with another name
@@ -2265,10 +2265,10 @@ QStringList ProjectClip::updatedAnalysisData(const QString &name, const QString 
             ++i;
             previous = getProducerProperty("kdenlive:clipanalysis." + name + QString::number(i));
         }
-        return QStringList() << QString("kdenlive:clipanalysis." + name + QString::number(i)) << geometryWithOffset(data, offset);
+        return QStringList() << QStringLiteral("kdenlive:clipanalysis.%1%2").arg(name).arg(i) << geometryWithOffset(data, offset);
         // m_controller->setProperty("kdenlive:clipanalysis." + name + QLatin1Char(' ') + QString::number(i), geometryWithOffset(data, offset));
     }
-    return QStringList() << QString("kdenlive:clipanalysis." + name) << geometryWithOffset(data, offset);
+    return QStringList() << QStringLiteral("kdenlive:clipanalysis.%1").arg(name) << geometryWithOffset(data, offset);
     // m_controller->setProperty("kdenlive:clipanalysis." + name, geometryWithOffset(data, offset));
 }
 
@@ -2512,7 +2512,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
                 bool ok;
                 QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
                 if (ok) {
-                    QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
+                    QString resource = sequenceFolder.absoluteFilePath(QStringLiteral("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                     QFile::remove(resource);
                 }
             }
@@ -2633,7 +2633,7 @@ void ProjectClip::reloadTimeline(std::shared_ptr<EffectStackModel> stack)
             bool ok;
             QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
             if (ok) {
-                QString resource = sequenceFolder.absoluteFilePath(QString("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
+                QString resource = sequenceFolder.absoluteFilePath(QStringLiteral("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
                 QFile::remove(resource);
             }
         }
@@ -2823,12 +2823,12 @@ void ProjectClip::setRating(uint rating)
 
 int ProjectClip::getAudioMax(int stream)
 {
-    const QString key = QString("kdenlive:audio_max%1").arg(stream);
+    const QString key = QStringLiteral("kdenlive:audio_max%1").arg(stream);
     if (m_masterProducer->property_exists(key.toUtf8().constData())) {
         return m_masterProducer->get_int(key.toUtf8().constData());
     }
     // Process audio max for the stream
-    const QString key2 = QString("_kdenlive:audio%1").arg(stream);
+    const QString key2 = QStringLiteral("_kdenlive:audio%1").arg(stream);
     if (!m_masterProducer->property_exists(key2.toUtf8().constData())) {
         return 0;
     }
@@ -2851,7 +2851,7 @@ const QVector<uint8_t> ProjectClip::audioFrameCache(int stream)
             return audioLevels;
         }
     }
-    const QString key = QString("_kdenlive:audio%1").arg(stream);
+    const QString key = QStringLiteral("_kdenlive:audio%1").arg(stream);
     if (m_masterProducer->get_data(key.toUtf8().constData())) {
         const QVector<uint8_t> audioData = *static_cast<QVector<uint8_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
         return audioData;
@@ -2861,7 +2861,7 @@ const QVector<uint8_t> ProjectClip::audioFrameCache(int stream)
     return QVector<uint8_t>();
 
     // TODO
-    /*QString key = QString("%1:%2").arg(m_binId).arg(stream);
+    /*QString key = QStringLiteral("%1:%2").arg(m_binId).arg(stream);
     QByteArray audioData;
     if (pCore->audioThumbCache.find(key, &audioData)) {
         if (audioData != QByteArray("-")) {
@@ -2910,7 +2910,7 @@ void ProjectClip::renameAudioStream(int id, const QString &name)
 {
     if (m_audioInfo) {
         m_audioInfo->renameStream(id, name);
-        QString prop = QString("kdenlive:streamname.%1").arg(id);
+        QString prop = QStringLiteral("kdenlive:streamname.%1").arg(id);
         m_masterProducer->set(prop.toUtf8().constData(), name.toUtf8().constData());
         if (m_audioInfo->activeStreams().keys().contains(id)) {
             pCore->bin()->updateTargets(clipId());
@@ -3006,7 +3006,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
         effects = QStringList({effectName});
     }
     m_streamEffects.insert(streamIndex, effects);
-    setProducerProperty(QString("kdenlive:stream:%1").arg(streamIndex), effects.join(QLatin1Char('#')));
+    setProducerProperty(QStringLiteral("kdenlive:stream:%1").arg(streamIndex), effects.join(QLatin1Char('#')));
     for (auto &p : m_audioProducers) {
         int stream = p.first / 100;
         if (stream == streamIndex) {
@@ -3052,10 +3052,10 @@ void ProjectClip::removeAudioStreamEffect(int streamIndex, QString effectName)
         }
         if (effects.isEmpty()) {
             m_streamEffects.remove(streamIndex);
-            resetProducerProperty(QString("kdenlive:stream:%1").arg(streamIndex));
+            resetProducerProperty(QStringLiteral("kdenlive:stream:%1").arg(streamIndex));
         } else {
             m_streamEffects.insert(streamIndex, effects);
-            setProducerProperty(QString("kdenlive:stream:%1").arg(streamIndex), effects.join(QLatin1Char('#')));
+            setProducerProperty(QStringLiteral("kdenlive:stream:%1").arg(streamIndex), effects.join(QLatin1Char('#')));
         }
     } else {
         // No effects for this stream, this is not expected, abort
@@ -3147,7 +3147,7 @@ const QStringList ProjectClip::enforcedParams() const
     QStringList paramNames = {QStringLiteral("rotate"), QStringLiteral("autorotate")};
     for (auto &name : paramNames) {
         if (hasProducerProperty(name)) {
-            params << QString("%1=%2").arg(name, getProducerProperty(name));
+            params << QStringLiteral("%1=%2").arg(name, getProducerProperty(name));
         }
     }
     return params;
@@ -3155,7 +3155,7 @@ const QStringList ProjectClip::enforcedParams() const
 
 const QString ProjectClip::baseThumbPath()
 {
-    return QString("%1/%2/#").arg(m_binId).arg(m_uuid.toString());
+    return QStringLiteral("%1/%2/#").arg(m_binId).arg(m_uuid.toString());
 }
 
 bool ProjectClip::canBeDropped(const QUuid &uuid) const

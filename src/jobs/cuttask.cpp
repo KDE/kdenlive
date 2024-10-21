@@ -90,7 +90,7 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
     QDir dir = finfo.absoluteDir();
     QString inString = QString::number(int(GenTime(in, pCore->getCurrentFps()).seconds()));
     QString outString = QString::number(int(GenTime(out, pCore->getCurrentFps()).seconds()));
-    QString fileName = QStringUtils::appendToFilename(finfo.fileName(), QString("-%1-%2").arg(inString, outString));
+    QString fileName = QStringUtils::appendToFilename(finfo.fileName(), QStringLiteral("-%1-%2").arg(inString, outString));
     QString path = dir.absoluteFilePath(fileName);
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
@@ -129,12 +129,12 @@ void CutTask::start(const ObjectId &owner, int in, int out, QObject *object, boo
     std::function<void()> callBack = [&ui, transcoderExt]() {
         if (ui.acodec->currentData().toString().isEmpty()) {
             // Video only
-            ui.extra_params->setPlainText(QString("-an -c:v %1").arg(ui.vcodec->currentData().toString()));
+            ui.extra_params->setPlainText(QStringLiteral("-an -c:v %1").arg(ui.vcodec->currentData().toString()));
         } else if (ui.vcodec->currentData().toString().isEmpty()) {
             // Audio only
-            ui.extra_params->setPlainText(QString("-vn -c:a %1").arg(ui.acodec->currentData().toString()));
+            ui.extra_params->setPlainText(QStringLiteral("-vn -c:a %1").arg(ui.acodec->currentData().toString()));
         } else {
-            ui.extra_params->setPlainText(QString("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString(), ui.vcodec->currentData().toString()));
+            ui.extra_params->setPlainText(QStringLiteral("-c:a %1 -c:v %2").arg(ui.acodec->currentData().toString(), ui.vcodec->currentData().toString()));
         }
         QString path = ui.file_url->url().toLocalFile();
         QString fileName = path.section(QLatin1Char('.'), 0, -2);

@@ -376,7 +376,7 @@ QImage AudioSpectrum::renderHUD(uint)
             } else {
                 x = leftDist + m_innerScopeRect.width();
                 davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
-                davinci.drawText(x - 10, y, i18n("%1 kHz", QString("%1").arg(m_freqMax / 1000., 0, 'f', 1)));
+                davinci.drawText(x - 10, y, i18n("%1 kHz", QStringLiteral("%1").arg(m_freqMax / 1000., 0, 'f', 1)));
             }
 
             if (hz > 0) {
@@ -439,7 +439,7 @@ QImage AudioSpectrum::renderHUD(uint)
                 davinci.setPen(AbstractScopeWidget::penLighter);
                 davinci.drawRect(rect);
                 davinci.drawText(textRect,
-                                 QString(i18n("%1 dB", QString("%1").arg(db, 0, 'f', 2)) + '\n' + i18n("%1 kHz", QString("%1").arg(freq / 1000, 0, 'f', 2))));
+                                 QString(i18n("%1 dB", QStringLiteral("%1").arg(db, 0, 'f', 2)) + '\n' + i18n("%1 kHz", QStringLiteral("%1").arg(freq / 1000, 0, 'f', 2))));
             }
         }
 

@@ -431,9 +431,9 @@ void Wizard::slotCheckPrograms(QString &infos, QString &warnings, QString &error
     const QStringList mltpath({QFileInfo(KdenliveSettings::meltpath()).canonicalPath(), qApp->applicationDirPath()});
     QString exepath;
     if (KdenliveSettings::ffmpegpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::ffmpegpath())) {
-        exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
+        exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
         if (exepath.isEmpty()) {
-            exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
+            exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX));
         }
         qDebug() << "Found FFMpeg binary: " << exepath;
         if (exepath.isEmpty()) {

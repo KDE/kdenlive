@@ -780,7 +780,7 @@ void EffectStackView::slotSaveStack()
         QDomElement effect = doc.createElement(QStringLiteral("effectgroup"));
         effect.setAttribute(QStringLiteral("id"), name);
         
-        QDomElement describtionNode = doc.createElement(QString("description"));
+        QDomElement describtionNode = doc.createElement(QStringLiteral("description"));
         QDomText descriptionText = doc.createTextNode(description);
         describtionNode.appendChild(descriptionText);
         

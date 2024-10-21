@@ -1369,9 +1369,9 @@ void Core::updateProjectTags(int previousCount, const QMap<int, QStringList> &ta
     if (previousCount > tags.size()) {
         // Clear previous tags
         for (int i = 1; i <= previousCount; i++) {
-            QString current = currentDoc()->getDocumentProperty(QString("tag%1").arg(i));
+            QString current = currentDoc()->getDocumentProperty(QStringLiteral("tag%1").arg(i));
             if (!current.isEmpty()) {
-                currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString());
+                currentDoc()->setDocumentProperty(QStringLiteral("tag%1").arg(i), QString());
             }
         }
     }
@@ -1379,7 +1379,7 @@ void Core::updateProjectTags(int previousCount, const QMap<int, QStringList> &ta
     int i = 1;
     while (j.hasNext()) {
         j.next();
-        currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString("%1:%2").arg(j.value().at(1), j.value().at(2)));
+        currentDoc()->setDocumentProperty(QStringLiteral("tag%1").arg(i), QStringLiteral("%1:%2").arg(j.value().at(1), j.value().at(2)));
         i++;
     }
 }

@@ -170,7 +170,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
         }
         int position = playlist.clip_start(i);
         if (previewChunks.contains(QString::number(position))) {
-            if (existingChuncks.contains(QString("%1.%2").arg(position).arg(m_extension))) {
+            if (existingChuncks.contains(QStringLiteral("%1.%2").arg(position).arg(m_extension))) {
                 clip.reset(playlist.get_clip(i));
                 m_renderedChunks << position;
                 m_previewTrack->insert_at(position, clip.get(), 1);
@@ -772,7 +772,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         if (progress < 0) {
             if (m_warnOnCrash) {
                 pCore->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2",
-                                           QString("<a href=\"" + QString::fromLatin1(QUrl::toPercentEncoding(file)) + QStringLiteral("\">")),
+                                           QStringLiteral("<a href=\"%1\">").arg(QUrl::toPercentEncoding(file)),
                                            QStringLiteral("</a>")),
                                       MltError);
             } else {
@@ -782,7 +782,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         return;
     }
     if (m_previewTrack->is_blank_at(frame)) {
-        Mlt::Producer prod(pCore->getProjectProfile(), QString("avformat:%1").arg(file).toUtf8().constData());
+        Mlt::Producer prod(pCore->getProjectProfile(), QStringLiteral("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid() && prod.get_length() == KdenliveSettings::timelinechunks()) {
             m_dirtyMutex.lock();
             m_dirtyChunks.removeAll(QVariant(frame));
@@ -858,7 +858,7 @@ const QStringList PreviewManager::getCompressedList(const QVariantList items) co
         if (current - KdenliveSettings::timelinechunks() == lastFrame) {
             lastFrame = current;
             if (frame == items.last()) {
-                currentString.append(QString("-%1").arg(lastFrame));
+                currentString.append(QStringLiteral("-%1").arg(lastFrame));
                 resultString << currentString;
                 currentString.clear();
             }
@@ -872,7 +872,7 @@ const QStringList PreviewManager::getCompressedList(const QVariantList items) co
             currentString = frame.toString();
         } else {
             // Range, store
-            currentString.append(QString("-%1").arg(lastFrame));
+            currentString.append(QStringLiteral("-%1").arg(lastFrame));
             resultString << currentString;
             currentString = frame.toString();
         }

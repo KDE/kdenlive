@@ -1585,7 +1585,7 @@ const std::pair<QString, QString> ProjectItemModel::sceneList(const QString &roo
     Mlt::Service s(m_projectTractor->get_service());
     std::unique_ptr<Mlt::Filter> filter = nullptr;
     if (!filterData.isEmpty()) {
-        filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData());
+        filter = std::make_unique<Mlt::Filter>(pCore->getProjectProfile(), QStringLiteral("dynamictext:%1").arg(filterData).toUtf8().constData());
         filter->set("fgcolour", "#ffffff");
         filter->set("bgcolour", "#bb333333");
         s.attach(*filter.get());

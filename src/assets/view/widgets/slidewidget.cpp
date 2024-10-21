@@ -186,7 +186,7 @@ const QString SlideWidget::getWipeString(wipeInfo info)
         start = QStringLiteral("0% 0% 100% 100%");
         break;
     }
-    start.append(QString(" %1%").arg(info.startTransparency));
+    start.append(QStringLiteral(" %1%").arg(info.startTransparency));
 
     switch (info.end) {
     case LEFT:
@@ -205,6 +205,6 @@ const QString SlideWidget::getWipeString(wipeInfo info)
         end = QStringLiteral("0% 0% 100% 100%");
         break;
     }
-    end.append(QString(" %1%").arg(info.endTransparency));
-    return QString("0=%1;-1=%2").arg(start, end);
+    end.append(QStringLiteral(" %1%").arg(info.endTransparency));
+    return QStringLiteral("0=%1;-1=%2").arg(start, end);
 }

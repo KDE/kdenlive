@@ -11,7 +11,7 @@
 #include "projectclip.h"
 #include <mlt++/Mlt.h>
 
-QString BinPlaylist::binPlaylistId = QString("main_bin");
+QString BinPlaylist::binPlaylistId = QStringLiteral("main_bin");
 
 BinPlaylist::BinPlaylist(const QUuid &uuid)
     : m_binPlaylist(new Mlt::Playlist(pCore->getProjectProfile()))

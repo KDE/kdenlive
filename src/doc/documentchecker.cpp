@@ -975,7 +975,7 @@ QString DocumentChecker::getMissingProducers(QDomElement &e, const QDomNodeList 
                 return original;
             }
         }
-        bool isPreviewChunk = QFileInfo(resource).absolutePath().endsWith(QString("/%1/preview").arg(m_documentid));
+        bool isPreviewChunk = QFileInfo(resource).absolutePath().endsWith(QStringLiteral("/%1/preview").arg(m_documentid));
         // Missing clip found, make sure to omit timeline preview
         if (!isPreviewChunk) {
             checkClip(e, resource);
@@ -1468,7 +1468,7 @@ void DocumentChecker::fixTitleFont(const QDomNodeList &producers, const QString 
             QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
             QStringList fonts = TitleWidget::extractFontList(xml);
             if (fonts.contains(oldFont)) {
-                xml.replace(QString("font=\"%1\"").arg(oldFont), QString("font=\"%1\"").arg(newFont));
+                xml.replace(QStringLiteral("font=\"%1\"").arg(oldFont), QStringLiteral("font=\"%1\"").arg(newFont));
                 Xml::setXmlProperty(e, QStringLiteral("xmldata"), xml);
                 Xml::setXmlProperty(e, QStringLiteral("force_reload"), QStringLiteral("2"));
                 Xml::setXmlProperty(e, QStringLiteral("_fullreload"), QStringLiteral("2"));

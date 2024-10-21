@@ -49,7 +49,7 @@ GlaxnimateLauncher &GlaxnimateLauncher::instance()
 void GlaxnimateLauncher::reset()
 {
     if (m_stream && m_socket && m_stream && QLocalSocket::ConnectedState == m_socket->state()) {
-        *m_stream << QString("clear");
+        *m_stream << QStringLiteral("clear");
         m_socket->flush();
     }
     m_parent.reset();
@@ -87,7 +87,7 @@ void GlaxnimateLauncher::openClip(int clipId)
     m_parent->m_clipId = clipId;
     m_server.reset(new QLocalServer);
     connect(m_server.get(), &QLocalServer::newConnection, this, &GlaxnimateLauncher::onConnect);
-    QString name = QString("kdenlive-%1").arg(QCoreApplication::applicationPid());
+    QString name = QStringLiteral("kdenlive-%1").arg(QCoreApplication::applicationPid());
     QStringList args = {"--ipc", name, filename};
     /*QProcess childProcess;
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
@@ -133,7 +133,7 @@ void GlaxnimateLauncher::onConnect()
     connect(m_socket, &QLocalSocket::errorOccurred, this, &GlaxnimateLauncher::onSocketError);
     m_stream.reset(new QDataStream(m_socket));
     m_stream->setVersion(QDataStream::Qt_5_15);
-    *m_stream << QString("hello");
+    *m_stream << QStringLiteral("hello");
     m_socket->flush();
     m_server->close();
     m_isProtocolValid = false;
@@ -146,7 +146,7 @@ void GlaxnimateLauncher::onReadyRead()
         *m_stream >> message;
         qDebug() << message;
         if (message.startsWith("version ") && message != "version 1") {
-            *m_stream << QString("bye");
+            *m_stream << QStringLiteral("bye");
             m_socket->flush();
             m_server->close();
         } else {
@@ -240,7 +240,7 @@ bool GlaxnimateLauncher::copyToShared(const QImage &image)
 
         m_sharedMemory->unlock();
         if (m_stream && m_socket) {
-            *m_stream << QString("redraw");
+            *m_stream << QStringLiteral("redraw");
             m_socket->flush();
         }
         return true;

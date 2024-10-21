@@ -204,10 +204,10 @@ void UrlListParamWidget::slotRefresh()
                 // Duplicate name, add a suffix
                 const QString baseName = lumaName;
                 int i = 2;
-                lumaName = baseName + QString(" / %1").arg(i);
+                lumaName = baseName + QStringLiteral(" / %1").arg(i);
                 while (entryMap.contains(lumaName)) {
                     i++;
-                    lumaName = baseName + QString(" / %1").arg(i);
+                    lumaName = baseName + QStringLiteral(" / %1").arg(i);
                 }
             }
             entryMap.insert(lumaName, value);

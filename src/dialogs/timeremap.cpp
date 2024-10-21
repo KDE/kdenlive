@@ -1235,7 +1235,7 @@ const QString RemapView::getKeyframesData(QMap<int, int> keyframes) const
             // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
             offset = 1;
         }
-        result << QString("%1=%2").arg(props.frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
+        result << QStringLiteral("%1=%2").arg(props.frames_to_time(i.key() + offset, mlt_time_clock)).arg(GenTime(i.value(), pCore->getCurrentFps()).seconds());
     }
     return result.join(QLatin1Char(';'));
 }

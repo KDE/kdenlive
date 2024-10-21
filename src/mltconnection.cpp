@@ -31,10 +31,10 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
         char *id = mlt_properties_get(properties, "id");
         if (!resource || resource[0] != '<' || resource[strlen(resource) - 1] != '>') mlt_type = mlt_properties_get(properties, "mlt_type");
         if (service_name)
-            message = QString("[%1 %2 %3] ").arg(mlt_type, service_name, id);
+            message = QStringLiteral("[%1 %2 %3] ").arg(mlt_type, service_name, id);
         else
             message = QString::asprintf("[%s %p] ", mlt_type, service);
-        if (resource) message.append(QString("\"%1\" ").arg(resource));
+        if (resource) message.append(QStringLiteral("\"%1\" ").arg(resource));
         message.append(QString::vasprintf(format, args));
         message.replace('\n', "");
         if (!strcmp(mlt_type, "filter")) {

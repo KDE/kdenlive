@@ -108,7 +108,7 @@ void ProxyTest::startTest()
     QMapIterator<QString, QString> k(values);
     int proxyResize = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyresize")).toInt();
     QElapsedTimer timer;
-    QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mov")));
+    QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mov")));
     if (!src.open()) {
         // Something went wrong
         QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create temporary files")));
@@ -145,7 +145,7 @@ void ProxyTest::startTest()
             QString params = k.value().section(QLatin1Char(';'), 0, 0);
             QString extension = k.value().section(QLatin1Char(';'), 1, 1);
             // Testing vaapi support
-            QTemporaryFile tmp(QDir::temp().absoluteFilePath(QString("XXXXXX.%1").arg(extension)));
+            QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.%1").arg(extension)));
             if (!tmp.open()) {
                 // Something went wrong
                 QMetaObject::invokeMethod(this, "showMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot create temporary files")));
@@ -156,7 +156,7 @@ void ProxyTest::startTest()
             if (params.contains(QStringLiteral("%frameSize"))) {
                 int w = proxyResize;
                 int h = w * 1080 / 1920;
-                params.replace(QStringLiteral("%frameSize"), QString("%1x%2").arg(w).arg(h));
+                params.replace(QStringLiteral("%frameSize"), QStringLiteral("%1x%2").arg(w).arg(h));
             }
             params.replace(QStringLiteral("%nvcodec"), QStringLiteral("h264_cuvid"));
             m_process.reset(new QProcess());

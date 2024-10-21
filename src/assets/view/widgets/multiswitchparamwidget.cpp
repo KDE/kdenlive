@@ -123,9 +123,9 @@ void MultiSwitchParamWidget::slotRefresh()
         // Replace -1 with out position
         int out = m_model->data(m_index, AssetParameterModel::OutRole).toInt() - m_model->data(m_index, AssetParameterModel::InRole).toInt();
         if (convertToTime) {
-            max.replace(QLatin1String("-1="), QString("%1=").arg(m_model->framesToTime(out)));
+            max.replace(QLatin1String("-1="), QStringLiteral("%1=").arg(m_model->framesToTime(out)));
         } else {
-            max.replace(QLatin1String("-1="), QString("%1=").arg(out));
+            max.replace(QLatin1String("-1="), QStringLiteral("%1=").arg(out));
         }
     }
     qDebug() << "=== GOT FILTER IN ROLE: " << m_model->data(m_index, AssetParameterModel::InRole).toInt()

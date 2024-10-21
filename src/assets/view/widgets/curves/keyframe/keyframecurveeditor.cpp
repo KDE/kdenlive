@@ -678,7 +678,7 @@ void KeyframeCurveEditor::updateKeyframeData(double val)
     QVariant data(val);
     if (m_rectindex >= 0) {
         auto rectdata = m_model->getInterpolatedValue(keyframePos, m_paramindex).toString().split(QLatin1Char(' '));
-        rectdata[m_rectindex] = QString("%1").arg(val);
+        rectdata[m_rectindex] = QStringLiteral("%1").arg(val);
         data = QVariant(rectdata.join(QLatin1Char(' ')));
     }
     m_model->updateKeyframe(GenTime(keyframePos, fps), data, m_currentPointIndex, m_paramindex);

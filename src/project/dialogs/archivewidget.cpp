@@ -930,7 +930,7 @@ void ArchiveWidget::processElement(QDomElement e, const QString root)
             if (isTimewarp) {
                 Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
                 Xml::setXmlProperty(e, QStringLiteral("resource"),
-                                    QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
+                                    QStringLiteral("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
             } else {
                 Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
             }

@@ -56,7 +56,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override
     {
         if (role == Qt::DisplayRole) {
-            return QString("%1 %2").arg(QIdentityProxyModel::data(index, MarkerListModel::TCRole).toString(),
+            return QStringLiteral("%1 %2").arg(QIdentityProxyModel::data(index, MarkerListModel::TCRole).toString(),
                                         QIdentityProxyModel::data(index, role).toString());
         }
         return sourceModel()->data(mapToSource(index), role);

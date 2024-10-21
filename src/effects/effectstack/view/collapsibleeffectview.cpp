@@ -344,7 +344,7 @@ void CollapsibleEffectView::updateGroupedInstances()
         auto *l = static_cast<QHBoxLayout *>(frame->layout());
         m_effectInstances = new QLabel(this);
         int h = (buttonUp->height() - 4) / 3;
-        m_effectInstances->setStyleSheet(QString("margin: 2px; padding: 0px; border-radius: %1px; background: #885500; color: #FFFFFF;").arg(h));
+        m_effectInstances->setStyleSheet(QStringLiteral("margin: 2px; padding: 0px; border-radius: %1px; background: #885500; color: #FFFFFF;").arg(h));
         m_effectInstances->setText(QString::number(groupedInstances));
         m_effectInstances->setToolTip(i18n("%1 instances of this effect in the group", groupedInstances));
         m_effectInstances->setMargin(4);
@@ -667,7 +667,7 @@ void CollapsibleEffectView::slotSaveEffect(const QString title, const QString de
         if (!enteredDescription.trimmed().isEmpty()) {
             QDomElement root = doc.documentElement();
             QDomElement nodelist = root.firstChildElement("description");
-            QDomElement newNodeTag = doc.createElement(QString("description"));
+            QDomElement newNodeTag = doc.createElement(QStringLiteral("description"));
             QDomText text = doc.createTextNode(enteredDescription);
             newNodeTag.appendChild(text);
             root.replaceChild(newNodeTag, nodelist);

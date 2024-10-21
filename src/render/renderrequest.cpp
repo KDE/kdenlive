@@ -241,7 +241,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         }
 
         QString newPlaylistPath = playlistPath;
-        newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QString("-%1.mlt").arg(i));
+        newPlaylistPath = newPlaylistPath.replace(QStringLiteral(".mlt"), QStringLiteral("-%1.mlt").arg(i));
         // QString newPlaylistPath = createEmptyTempFile(QStringLiteral("mlt")); // !!! This does not take the delayed rendering logic of generatePlaylistFile()
         // in to account
 
@@ -318,7 +318,7 @@ void RenderRequest::createRenderJobs(std::vector<RenderJob> &jobs, const QDomDoc
 
 QString RenderRequest::createEmptyTempFile(const QString &extension)
 {
-    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QString("kdenlive-XXXXXX.%1").arg(extension)));
+    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX.%1").arg(extension)));
     if (!tmp.open()) {
         // Something went wrong
         qDebug() << "Could not create temporary file";
@@ -415,7 +415,7 @@ void RenderRequest::setDocTwoPassParams(int pass, QDomDocument &doc, const QStri
     if (m_presetParams.isX265()) {
         // The x265 codec is special
         QString x265params = consumer.attribute(QStringLiteral("x265-params"));
-        x265params = QString("pass=%1:stats=%2:%3").arg(pass).arg(logFile.replace(":", "\\:"), x265params);
+        x265params = QStringLiteral("pass=%1:stats=%2:%3").arg(pass).arg(logFile.replace(":", "\\:"), x265params);
         consumer.setAttribute(QStringLiteral("x265-params"), x265params);
     } else {
         consumer.setAttribute(QStringLiteral("pass"), pass);
@@ -568,7 +568,7 @@ void RenderRequest::prepareMultiAudioFiles(std::vector<RenderJob> &jobs, const Q
         }
 
         // setup filenames
-        QString appendix = QString("_A%1%2%3")
+        QString appendix = QStringLiteral("_A%1%2%3")
                                .arg(audioCount)
                                .arg(trackName.isEmpty() ? QString() : QStringLiteral("-"))
                                .arg(trackName.replace(QStringLiteral(" "), QStringLiteral("_")));

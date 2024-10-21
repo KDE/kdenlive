@@ -1964,7 +1964,7 @@ void RenderWidget::updateMetadataToolTip()
         i.next();
         QString metaName = i.key().section(QLatin1Char('.'), 2, 2);
         metaName[0] = metaName[0].toUpper();
-        tipText.append(QString("%1: <b>%2</b><br/>").arg(metaName, i.value()));
+        tipText.append(QStringLiteral("%1: <b>%2</b><br/>").arg(metaName, i.value()));
     }
     m_view.edit_metadata->setToolTip(tipText);
 }

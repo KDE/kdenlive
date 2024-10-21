@@ -326,7 +326,7 @@ void ProxyTask::run()
                         h = int(w / pCore->getCurrentDar());
                     }
                     h += h % 2;
-                    proxyParams.replace(QStringLiteral("%frameSize"), QString("%1x%2").arg(w).arg(h));
+                    proxyParams.replace(QStringLiteral("%frameSize"), QStringLiteral("%1x%2").arg(w).arg(h));
                 }
                 if (supported) {
                     // Full hardware decoding supported

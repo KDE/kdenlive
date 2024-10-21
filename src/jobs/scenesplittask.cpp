@@ -130,14 +130,14 @@ void SceneSplitTask::run()
     m_jobDuration = int(binClip->duration().seconds());
     int producerDuration = binClip->frameDuration();
     // QStringList parameters =
-    // {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QString("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
+    // {QStringLiteral("-loglevel"),QStringLiteral("info"),QStringLiteral("-i"),source,QStringLiteral("-filter:v"),QStringLiteral("scdet"),QStringLiteral("-f"),QStringLiteral("null"),QStringLiteral("-")};
     QStringList parameters = {QStringLiteral("-y"),
                               QStringLiteral("-loglevel"),
                               QStringLiteral("info"),
                               QStringLiteral("-i"),
                               source,
                               QStringLiteral("-filter:v"),
-                              QString("select='gt(scene,%1)',showinfo").arg(m_threshold),
+                              QStringLiteral("select='gt(scene,%1)',showinfo").arg(m_threshold),
                               QStringLiteral("-vsync"),
                               QStringLiteral("vfr"),
                               QStringLiteral("-f"),

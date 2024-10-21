@@ -235,7 +235,7 @@ void RecManager::slotRecord(bool record)
             qDebug() << "GOT FILTERED DSOW1: " << dshowOutput;
             // dshowOutput = dshowOutput.section(QLatin1Char('"'), 3, 3);
             if (dshowOutput.contains(QLatin1Char('"'))) {
-                dshowOutput = QString("audio=\"%1\"").arg(dshowOutput.section(QLatin1Char('"'), 1, 1));
+                dshowOutput = QStringLiteral("audio=\"%1\"").arg(dshowOutput.section(QLatin1Char('"'), 1, 1));
                 qDebug().noquote() << "GOT FILTERED DSOW2: " << dshowOutput;
                 // captureArgs << params.split(QLatin1Char(' '));
                 // captureArgs.replace(captureArgs.indexOf(QLatin1String("default")), dshowOutput);
@@ -454,7 +454,7 @@ void RecManager::slotPreview(bool preview)
        producer = getV4lXmlPlaylist(profile, &isXml);
 
        //producer =
-    QString("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double)
+    QStringLiteral("avformat-novalidate:video4linux2:%1?width:%2&height:%3&frame_rate:%4").arg(KdenliveSettings::video4vdevice()).arg(profile.width).arg(profile.height).arg((double)
     profile.frame_rate_num / profile.frame_rate_den);
        if (!m_captureDevice->slotStartPreview(producer, isXml)) {
            // v4l capture failed to start

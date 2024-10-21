@@ -170,7 +170,7 @@ QImage ThumbnailCache::getThumbnail(QString hash, const QString &binId, int pos,
     if (hash.isEmpty()) {
         return QImage();
     }
-    hash.append(QString("#%1.jpg").arg(pos));
+    hash.append(QStringLiteral("#%1.jpg").arg(pos));
     QMutexLocker locker(&m_mutex);
     if (m_volatileCache->contains(hash)) {
         return m_volatileCache->get(hash);
@@ -364,7 +364,7 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
             if (streamIxes.size() > 1) {
                 QStringList streamsList;
                 for (const int st : std::as_const(streamIxes)) {
-                    streamsList << QString("%1_%2.png").arg(binClip->hash()).arg(st);
+                    streamsList << QStringLiteral("%1_%2.png").arg(binClip->hash()).arg(st);
                 }
                 return streamsList;
             }
@@ -372,14 +372,14 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
         if (streams.size() < 2) {
             int audio = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
             if (audio > -1) {
-                return {QString("%1_%2.png").arg(binClip->hash()).arg(audio)};
+                return {QStringLiteral("%1_%2.png").arg(binClip->hash()).arg(audio)};
             }
             return {binClip->hash() + QStringLiteral(".png")};
         }
         QStringList streamsList;
         QStringList streamIndexes = streams.split(QLatin1Char(';'));
         for (const QString &st : std::as_const(streamIndexes)) {
-            streamsList << QString("%1_%2.png").arg(binClip->hash(), st);
+            streamsList << QStringLiteral("%1_%2.png").arg(binClip->hash(), st);
         }
         return streamsList;
     }

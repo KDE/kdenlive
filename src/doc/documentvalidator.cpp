@@ -76,7 +76,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
 
     if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) { // Backwards compatibility
         // Check document numeric separator (added in Kdenlive 16.12.1 and removed in Kdenlive 20.08)
-        QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QString("."));
+        QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QStringLiteral("."));
         QString mltLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"), "C"); // Backwards compatibility
         qDebug() << "LOCALE: Document uses " << sep << " as decimal point and " << mltLocale << " as locale";
 
@@ -1593,7 +1593,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         item.insert(QLatin1String("leaf"), QJsonValue(QLatin1String("clip")));
                         QString pos = elements.at(h).toElement().attribute(QStringLiteral("position"));
                         QString track = trackIndex.value(elements.at(h).toElement().attribute(QStringLiteral("track")));
-                        item.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track, pos)));
+                        item.insert(QLatin1String("data"), QJsonValue(QStringLiteral("%1:%2").arg(track, pos)));
                         array.push_back(item);
                     }
                     QJsonObject currentGroup;
@@ -1608,7 +1608,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
                 const QString playlistName = playlists.at(i).toElement().attribute(QStringLiteral("id"));
                 QDomElement duplicate_playlist = m_doc.createElement(QStringLiteral("playlist"));
-                duplicate_playlist.setAttribute(QStringLiteral("id"), QString("%1_duplicate").arg(playlistName));
+                duplicate_playlist.setAttribute(QStringLiteral("id"), QStringLiteral("%1_duplicate").arg(playlistName));
                 QDomElement pltype = m_doc.createElement(QStringLiteral("property"));
                 pltype.setAttribute(QStringLiteral("name"), QStringLiteral("kdenlive:audio_track"));
                 pltype.setNodeValue(QStringLiteral("1"));
@@ -1673,12 +1673,12 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             QJsonObject items;
                             items.insert(QLatin1String("type"), QJsonValue(QStringLiteral("Leaf")));
                             items.insert(QLatin1String("leaf"), QJsonValue(QLatin1String("clip")));
-                            items.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(playlistName).arg(pos)));
+                            items.insert(QLatin1String("data"), QJsonValue(QStringLiteral("%1:%2").arg(playlistName).arg(pos)));
                             array.push_back(items);
                             QJsonObject itemb;
                             itemb.insert(QLatin1String("type"), QJsonValue(QStringLiteral("Leaf")));
                             itemb.insert(QLatin1String("leaf"), QJsonValue(QLatin1String("clip")));
-                            itemb.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(duplicate_playlist.attribute(QStringLiteral("id"))).arg(pos)));
+                            itemb.insert(QLatin1String("data"), QJsonValue(QStringLiteral("%1:%2").arg(duplicate_playlist.attribute(QStringLiteral("id"))).arg(pos)));
                             array.push_back(itemb);
                             QJsonObject currentGroup;
                             currentGroup.insert(QLatin1String("type"), QJsonValue(QStringLiteral("AVSplit")));
@@ -1702,7 +1702,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     mlt.insertBefore(duplicate_playlist, tractor);
                     QDomNode lastTrack = tractor.firstChildElement(QStringLiteral("track"));
                     QDomElement duplicate = m_doc.createElement(QStringLiteral("track"));
-                    duplicate.setAttribute(QStringLiteral("producer"), QString("%1_duplicate").arg(playlistName));
+                    duplicate.setAttribute(QStringLiteral("producer"), QStringLiteral("%1_duplicate").arg(playlistName));
                     duplicate.setAttribute(QStringLiteral("hide"), QStringLiteral("video"));
                     tractor.insertAfter(duplicate, lastTrack);
                     trackOffset++;
@@ -1735,8 +1735,8 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         tracks = tractor.toElement().elementsByTagName(QStringLiteral("track"));
         for (int i = 0; i < tracks.count(); i++) {
             // Replace track names with their current index in our view
-            const QString trackId = QString("%1:").arg(tracks.at(i).toElement().attribute(QStringLiteral("producer")));
-            groupsData.replace(trackId, QString("%1:").arg(i - 1));
+            const QString trackId = QStringLiteral("%1:").arg(tracks.at(i).toElement().attribute(QStringLiteral("producer")));
+            groupsData.replace(trackId, QStringLiteral("%1:").arg(i - 1));
         }
         Xml::setXmlProperty(mainplaylist.toElement(), QStringLiteral("kdenlive:docproperties.groups"), groupsData);
     }
@@ -1832,7 +1832,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
 
                         QDomElement root = doc.documentElement();
                         QDomElement nodelist = root.firstChildElement("name");
-                        QDomElement newNodeTag = doc.createElement(QString("name"));
+                        QDomElement newNodeTag = doc.createElement(QStringLiteral("name"));
                         QDomText text = doc.createTextNode(newId);
                         newNodeTag.appendChild(text);
                         root.replaceChild(newNodeTag, nodelist);
@@ -2116,16 +2116,16 @@ void DocumentValidator::convertSubtitles()
             for (int i = 0; i < subtitlesList.size(); i++) {
                 if (timelineUuid == documentUuid) {
                     // Main timeline, subtitle file is named just with project file name with an index
-                    path = (i > 0) ? (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1-%2.srt").arg(fileName).arg(i)))
-                                   : (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(fileName)));
+                    path = (i > 0) ? (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QStringLiteral("%1-%2.srt").arg(fileName).arg(i)))
+                                   : (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QStringLiteral("%1.srt").arg(fileName)));
                 } else {
                     // Secondary timeline, the timeline uuid is appended to the subtitle filename
-                    path = (i > 0) ? (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1%2-%3.srt").arg(fileName).arg(timelineUuid).arg(i)))
-                                   : (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1%2.srt").arg(fileName).arg(timelineUuid)));
+                    path = (i > 0) ? (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QStringLiteral("%1%2-%3.srt").arg(fileName).arg(timelineUuid).arg(i)))
+                                   : (QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QStringLiteral("%1%2.srt").arg(fileName).arg(timelineUuid)));
                 }
 
                 QString newFileContent =
-                    QString("[Script Info]\n; Script generated by Kdenlive %1\nScriptType: v4.00+\nPlayResX: %2\nPlayResY: %3\nLayoutResX: "
+                    QStringLiteral("[Script Info]\n; Script generated by Kdenlive %1\nScriptType: v4.00+\nPlayResX: %2\nPlayResY: %3\nLayoutResX: "
                             "%4\nLayoutResY: %5\nWrapStyle: 0\n"
                             "ScaledBorderAndShadow: yes\nYCbCr Matrix: None\n\n"
                             "[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, "

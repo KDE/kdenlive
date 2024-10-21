@@ -26,7 +26,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
 
     SECTION("Item creation Test")
     {
-        auto item = TreeItem::construct(QList<QVariant>{QString("test")}, model, false);
+        auto item = TreeItem::construct(QList<QVariant>{QStringLiteral("test")}, model, false);
         int id = item->getId();
         REQUIRE(item->depth() == 0);
         REQUIRE(KdenliveTests::checkModelConsistency(model));
@@ -51,7 +51,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         REQUIRE(model->data(model->getIndexFromItem(item), 0) == QStringLiteral("test"));
 
         // Try joint creation / assignation
-        auto item2 = item->appendChild(QList<QVariant>{QString("test2")});
+        auto item2 = item->appendChild(QList<QVariant>{QStringLiteral("test2")});
         auto state = [&]() {
             REQUIRE(KdenliveTests::checkModelConsistency(model));
             REQUIRE(item->depth() == 1);
@@ -67,7 +67,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         REQUIRE(KdenliveTests::modelSize(model) == 3);
 
         // Add a second child to item to check if everything collapses
-        auto item3 = item->appendChild(QList<QVariant>{QString("test3")});
+        auto item3 = item->appendChild(QList<QVariant>{QStringLiteral("test3")});
         state();
         REQUIRE(model->rowCount(model->getIndexFromItem(item3)) == 0);
         REQUIRE(model->rowCount(model->getIndexFromItem(item)) == 2);
@@ -79,7 +79,7 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
 
     SECTION("Invalid moves")
     {
-        auto item = model->getRoot()->appendChild(QList<QVariant>{QString("test")});
+        auto item = model->getRoot()->appendChild(QList<QVariant>{QStringLiteral("test")});
         auto state = [&]() {
             REQUIRE(KdenliveTests::checkModelConsistency(model));
             REQUIRE(model->rowCount() == 1);
@@ -95,9 +95,9 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
         state();
         REQUIRE(model->rowCount(model->getIndexFromItem(item)) == 0);
 
-        auto item2 = item->appendChild(QList<QVariant>{QString("test2")});
-        auto item3 = item2->appendChild(QList<QVariant>{QString("test3")});
-        auto item4 = item3->appendChild(QList<QVariant>{QString("test4")});
+        auto item2 = item->appendChild(QList<QVariant>{QStringLiteral("test2")});
+        auto item3 = item2->appendChild(QList<QVariant>{QStringLiteral("test3")});
+        auto item4 = item3->appendChild(QList<QVariant>{QStringLiteral("test4")});
         auto state2 = [&]() {
             state();
             REQUIRE(item2->depth() == 2);
@@ -130,11 +130,11 @@ TEST_CASE("Basic tree testing", "[TreeModel]")
     SECTION("Deregistration tests")
     {
         // we construct a non trivial structure
-        auto item = model->getRoot()->appendChild(QList<QVariant>{QString("test")});
-        auto item2 = item->appendChild(QList<QVariant>{QString("test2")});
-        auto item3 = item2->appendChild(QList<QVariant>{QString("test3")});
-        auto item4 = item3->appendChild(QList<QVariant>{QString("test4")});
-        auto item5 = item2->appendChild(QList<QVariant>{QString("test5")});
+        auto item = model->getRoot()->appendChild(QList<QVariant>{QStringLiteral("test")});
+        auto item2 = item->appendChild(QList<QVariant>{QStringLiteral("test2")});
+        auto item3 = item2->appendChild(QList<QVariant>{QStringLiteral("test3")});
+        auto item4 = item3->appendChild(QList<QVariant>{QStringLiteral("test4")});
+        auto item5 = item2->appendChild(QList<QVariant>{QStringLiteral("test5")});
         auto state = [&]() {
             REQUIRE(KdenliveTests::checkModelConsistency(model));
             REQUIRE(model->rowCount() == 1);

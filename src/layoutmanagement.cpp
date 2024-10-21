@@ -80,7 +80,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     m_container->setLayout(l1);
     KColorScheme scheme(main->palette().currentColorGroup(), KColorScheme::Button);
     QColor bg = scheme.background(KColorScheme::AlternateBackground).color();
-    QString style = QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);")
+    QString style = QStringLiteral("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);")
                         .arg(bg.red())
                         .arg(bg.green())
                         .arg(bg.blue())

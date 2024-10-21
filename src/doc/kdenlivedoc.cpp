@@ -1011,7 +1011,7 @@ void KdenliveDoc::updateWorkFilesBeforeSave(const QString &newUrl, bool onRender
                     finalName.append(QStringLiteral("-%1").arg(i.key().first));
                 }
                 QFileInfo info(finalName);
-                QString subPath = info.dir().absoluteFilePath(QString("%1.ass").arg(info.fileName()));
+                QString subPath = info.dir().absoluteFilePath(QStringLiteral("%1.ass").arg(info.fileName()));
                 j.value()->getSubtitleModel()->copySubtitle(subPath, i.key().first, checkOverwrite, true);
             }
         }
@@ -2390,7 +2390,7 @@ QMap<int, QStringList> KdenliveDoc::getProjectTags() const
     QMap<int, QStringList> tags;
     int ix = 1;
     for (int i = 1; i < 50; i++) {
-        QString current = getDocumentProperty(QString("tag%1").arg(i));
+        QString current = getDocumentProperty(QStringLiteral("tag%1").arg(i));
         if (current.isEmpty()) {
             break;
         }
@@ -2428,13 +2428,13 @@ const QString KdenliveDoc::subTitlePath(const QUuid &uuid, int ix, bool final, b
         path.append(QStringLiteral("-%1").arg(ix));
     }
     if (m_url.isValid() && final) {
-        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.ass").arg(path));
+        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QStringLiteral("%1.ass").arg(path));
     } else {
         if (restoreFromBackup) {
             const QString previousSessionId = pCore->currentDoc()->getDocumentProperty(QStringLiteral("sessionid"));
-            return QDir::temp().absoluteFilePath(QString("%1-%2.ass").arg(path, previousSessionId));
+            return QDir::temp().absoluteFilePath(QStringLiteral("%1-%2.ass").arg(path, previousSessionId));
         }
-        return QDir::temp().absoluteFilePath(QString("%1-%2.ass").arg(path, pCore->sessionId));
+        return QDir::temp().absoluteFilePath(QStringLiteral("%1-%2.ass").arg(path, pCore->sessionId));
     }
 }
 
@@ -2739,7 +2739,7 @@ const QStringList KdenliveDoc::getDefaultGuideCategories()
                           QLatin1String("#fdbc4b"), QLatin1String("#f39c1f"), QLatin1String("#f47750"), QLatin1String("#da4453")};
     QStringList guidesCategories;
     for (int i = 0; i < 9; i++) {
-        guidesCategories << QString("%1 %2:%3:%4").arg(i18n("Category")).arg(QString::number(i + 1)).arg(QString::number(i)).arg(colors.at(i));
+        guidesCategories << QStringLiteral("%1 %2:%3:%4").arg(i18n("Category")).arg(QString::number(i + 1)).arg(QString::number(i)).arg(colors.at(i));
     }
     return guidesCategories;
 }

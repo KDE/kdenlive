@@ -208,7 +208,7 @@ const QStringList GuideCategories::updatedGuides() const
         QString color = item->data(Qt::UserRole).toString();
         QString name = item->text();
         int ix = item->data(Qt::UserRole + 1).toInt();
-        categories << QString("%1:%2:%3").arg(name, QString::number(ix), color);
+        categories << QStringLiteral("%1:%2:%3").arg(name, QString::number(ix), color);
     }
     return categories;
 }

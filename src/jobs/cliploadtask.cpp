@@ -637,11 +637,11 @@ void ClipLoadTask::run()
         bool hasVideo = false;
         // Work around MLT freeze on files with cover art
         if (vindex > -1) {
-            QString key = QString("meta.media.%1.stream.frame_rate").arg(vindex);
+            QString key = QStringLiteral("meta.media.%1.stream.frame_rate").arg(vindex);
             fps = producer->get_double(key.toLatin1().constData());
-            key = QString("meta.media.%1.codec.name").arg(vindex);
+            key = QStringLiteral("meta.media.%1.codec.name").arg(vindex);
             QString codec_name = producer->get(key.toLatin1().constData());
-            key = QString("meta.media.%1.codec.frame_rate").arg(vindex);
+            key = QStringLiteral("meta.media.%1.codec.frame_rate").arg(vindex);
             QString frame_rate = producer->get(key.toLatin1().constData());
             if (codec_name == QLatin1String("png") || (codec_name == "mjpeg" && frame_rate == QLatin1String("90000"))) {
                 // Cover art
@@ -697,7 +697,7 @@ void ClipLoadTask::run()
             QString adjustedFpsString;
             if (fps > 0) {
                 int integerFps = qRound(fps);
-                adjustedFpsString = QString("-%1fps").arg(integerFps);
+                adjustedFpsString = QStringLiteral("-%1fps").arg(integerFps);
             }
             ClipType::ProducerType cType = type;
             if (cType == ClipType::Unknown) {

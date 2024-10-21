@@ -132,7 +132,7 @@ void EffectListWidget::exportCustomEffect(const QModelIndex &index)
         return;
     }
 
-    QString filter = QString("%1 (*.xml);;%2 (*)").arg(i18n("Kdenlive Effect definitions"), i18n("All Files"));
+    QString filter = QStringLiteral("%1 (*.xml);;%2 (*)").arg(i18n("Kdenlive Effect definitions"), i18n("All Files"));
     QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveExportCustomEffect"));
     QUrl source = QUrl::fromLocalFile(EffectsRepository::get()->getCustomPath(name));
     startFolder.append(source.fileName());

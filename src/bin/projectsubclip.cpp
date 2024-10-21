@@ -65,7 +65,7 @@ ProjectSubClip::~ProjectSubClip()
 
 const QString ProjectSubClip::cutClipId() const
 {
-    return QString("%1/%2/%3").arg(m_parentClipId).arg(m_inPoint).arg(m_outPoint);
+    return QStringLiteral("%1/%2/%3").arg(m_parentClipId).arg(m_inPoint).arg(m_outPoint);
 }
 
 void ProjectSubClip::gotThumb(int pos, const QImage &img)
@@ -78,7 +78,7 @@ void ProjectSubClip::gotThumb(int pos, const QImage &img)
 
 QString ProjectSubClip::getToolTip() const
 {
-    return QString("%1-%2").arg(m_inPoint).arg(m_outPoint);
+    return QStringLiteral("%1-%2").arg(m_inPoint).arg(m_outPoint);
 }
 
 std::shared_ptr<ProjectClip> ProjectSubClip::clip(const QString &id)

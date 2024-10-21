@@ -109,7 +109,7 @@ const QStringList MarkerListModel::categoriesToStringList() const
     QMapIterator<int, Core::MarkerCategory> i(pCore->markerTypes);
     while (i.hasNext()) {
         i.next();
-        categories << QString("%1:%2:%3").arg(i.value().displayName, QString::number(i.key()), i.value().color.name());
+        categories << QStringLiteral("%1:%2:%3").arg(i.value().displayName, QString::number(i.key()), i.value().color.name());
     }
     return categories;
 }
@@ -139,7 +139,7 @@ QStringList MarkerListModel::guideCategoriesToStringList(const QString &categori
         int ix = entryObj[QLatin1String("index")].toInt();
         QString comment = entryObj[QLatin1String("comment")].toString();
         QString color = entryObj[QLatin1String("color")].toString();
-        categories << QString("%1:%2:%3").arg(comment, QString::number(ix), color);
+        categories << QStringLiteral("%1:%2:%3").arg(comment, QString::number(ix), color);
     }
     return categories;
 }

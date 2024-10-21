@@ -600,7 +600,7 @@ void ClipModel::requestRemapResize(int inPoint, int outPoint, int oldIn, int old
                         // HACK: we always set last keyframe 1 frame after in MLT to ensure we have a correct last frame
                         offset = 1;
                     }
-                    result << QString("%1=%2")
+                    result << QStringLiteral("%1=%2")
                                   .arg(m_producer->frames_to_time(j.key() + offset, mlt_time_clock))
                                   .arg(GenTime(j.value(), pCore->getCurrentFps()).seconds());
                 }

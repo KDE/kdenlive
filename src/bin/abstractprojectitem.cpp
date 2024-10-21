@@ -64,7 +64,7 @@ void AbstractProjectItem::setRefCount(uint sequenceCount, uint totalCount)
             m_usageText = QString::number(sequenceCount);
         }
     } else {
-        m_usageText = QString("%1|%2").arg(sequenceCount).arg(totalCount);
+        m_usageText = QStringLiteral("%1|%2").arg(sequenceCount).arg(totalCount);
     }
     m_currentSequenceUsage = sequenceCount;
     m_totalUsage = totalCount;

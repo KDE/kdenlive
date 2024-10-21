@@ -770,7 +770,7 @@ QJsonObject GroupsModel::toJson(int gid) const
             int track = ptr->isSubTitle(gid) ? -2 : ptr->getTrackPosition(ptr->getItemTrackId(gid));
             int pos = ptr->getItemPosition(gid);
             int subLayer = ptr->isSubTitle(gid) ? ptr->getSubtitleLayer(gid) : -1;
-            currentGroup.insert(QLatin1String("data"), QJsonValue(QString("%1:%2:%3").arg(track).arg(pos).arg(subLayer)));
+            currentGroup.insert(QLatin1String("data"), QJsonValue(QStringLiteral("%1:%2:%3").arg(track).arg(pos).arg(subLayer)));
         } else {
             qDebug() << "Impossible to create group because the timeline is not available anymore";
             Q_ASSERT(false);
@@ -912,7 +912,7 @@ void GroupsModel::adjustOffset(QJsonArray &updatedNodes, const QJsonObject &chil
                 int trackPos = trackId == -2 ? -2 : ptr->getTrackPosition(trackMap.value(trackId));
                 int subLayer = trackId == -2 ? cur_data.section(":", 2, 2).toInt() : -1;
                 pos += offset;
-                child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2:%3").arg(trackPos).arg(pos).arg(subLayer)));
+                child.insert(QLatin1String("data"), QJsonValue(QStringLiteral("%1:%2:%3").arg(trackPos).arg(pos).arg(subLayer)));
                 updatedNodes.append(QJsonValue(child));
             }
         } else if (type != GroupType::Leaf) {

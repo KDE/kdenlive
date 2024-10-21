@@ -40,7 +40,7 @@ void MixerWidget::property_changed(mlt_service, MixerWidget *widget, mlt_event_d
             QVector<double> levels;
             for (int i = 0; i < widget->m_channels; i++) {
                 // NOTE: this is an approximation. To get the real peak level, we need version 2 of audiolevel MLT filter, see property_changedV2
-                levels << log10(mlt_properties_get_double(filter_props, QString("_audio_level.%1").arg(i).toUtf8().constData()) / 1.18) * 20;
+                levels << log10(mlt_properties_get_double(filter_props, QStringLiteral("_audio_level.%1").arg(i).toUtf8().constData()) / 1.18) * 20;
             }
             widget->m_levels[pos] = std::move(levels);
             if (widget->m_levels.size() > widget->m_maxLevels) {
@@ -58,7 +58,7 @@ void MixerWidget::property_changedV2(mlt_service, MixerWidget *widget, mlt_event
         if (!widget->m_levels.contains(pos)) {
             QVector<double> levels;
             for (int i = 0; i < widget->m_channels; i++) {
-                levels << mlt_properties_get_double(filter_props, QString("_audio_level.%1").arg(i).toUtf8().constData());
+                levels << mlt_properties_get_double(filter_props, QStringLiteral("_audio_level.%1").arg(i).toUtf8().constData());
             }
             widget->m_levels[pos] = std::move(levels);
             if (widget->m_levels.size() > widget->m_maxLevels) {
@@ -413,7 +413,7 @@ void MixerWidget::setTrackName(const QString &name)
     if (name.isEmpty() || m_tid == -1) {
         m_trackLabel->setText(m_trackTag);
     } else {
-        m_trackLabel->setText(QString("%1 - %2").arg(m_trackTag, name));
+        m_trackLabel->setText(QStringLiteral("%1 - %2").arg(m_trackTag, name));
     }
 }
 

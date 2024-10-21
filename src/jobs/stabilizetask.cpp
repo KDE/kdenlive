@@ -111,10 +111,10 @@ void StabilizeTask::run()
         producerArgs << binClip->enforcedParams();
 
         if (m_inPoint > -1) {
-            producerArgs << QString("in=%1").arg(m_inPoint);
+            producerArgs << QStringLiteral("in=%1").arg(m_inPoint);
         }
         if (m_outPoint > -1) {
-            producerArgs << QString("out=%1").arg(m_outPoint);
+            producerArgs << QStringLiteral("out=%1").arg(m_outPoint);
         }
     } else {
         // Filter applied on a track of master producer, leave config to source job
@@ -142,22 +142,22 @@ void StabilizeTask::run()
     for (const auto &it : m_filterParams) {
         qDebug() << ". . ." << it.first << " = " << it.second;
         if (it.second.typeId() == QMetaType::Double) {
-            producerArgs << QString("%1=%2").arg(it.first, QString::number(it.second.toDouble()));
+            producerArgs << QStringLiteral("%1=%2").arg(it.first, QString::number(it.second.toDouble()));
         } else {
-            producerArgs << QString("%1=%2").arg(it.first, it.second.toString());
+            producerArgs << QStringLiteral("%1=%2").arg(it.first, it.second.toString());
         }
     }
     QString targetFile = m_destination + QStringLiteral(".trf");
     int count = 1;
     while (QFile::exists(targetFile)) {
-        targetFile = m_destination + QString("-%1.trf").arg(count);
+        targetFile = m_destination + QStringLiteral("-%1.trf").arg(count);
         count++;
     }
-    producerArgs << QString("filename=%1").arg(targetFile);
+    producerArgs << QStringLiteral("filename=%1").arg(targetFile);
 
     // Start the MLT Process
     QProcess filterProcess;
-    producerArgs << QStringLiteral("-consumer") << QString("xml:%1").arg(m_destination) << QStringLiteral("all=1") << QStringLiteral("terminate_on_pause=1");
+    producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("all=1") << QStringLiteral("terminate_on_pause=1");
     m_jobProcess.reset(new QProcess);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);

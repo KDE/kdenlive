@@ -304,7 +304,7 @@ public:
                     // Draw usage counter
                     const QString usage = index.data(AbstractProjectItem::UsageCount).toString();
                     if (!usage.isEmpty()) {
-                        subText.append(QString(" [%1]").arg(usage));
+                        subText.append(QStringLiteral(" [%1]").arg(usage));
                     }
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
                     // Add audio/video icons for selective drag
@@ -501,12 +501,12 @@ public:
             // Draw usage counter
             const QString usage = isFolder ? QString() : index.data(AbstractProjectItem::UsageCount).toString();
             if (!usage.isEmpty()) {
-                int usageWidth = option.fontMetrics.horizontalAdvance(QString(" [%1]").arg(usage));
+                int usageWidth = option.fontMetrics.horizontalAdvance(QStringLiteral(" [%1]").arg(usage));
                 int availableWidth = textRect.width() - usageWidth;
                 if (option.fontMetrics.horizontalAdvance(itemText) > availableWidth) {
                     itemText = option.fontMetrics.elidedText(itemText, Qt::ElideRight, availableWidth);
                 }
-                itemText.append(QString(" [%1]").arg(usage));
+                itemText.append(QStringLiteral(" [%1]").arg(usage));
             } else {
                 if (option.fontMetrics.horizontalAdvance(itemText) > textRect.width()) {
                     itemText = option.fontMetrics.elidedText(itemText, Qt::ElideRight, textRect.width());
@@ -2189,7 +2189,7 @@ void Bin::slotDuplicateClip()
                         m_doc->storeGroups(uuid);
                         pCore->projectManager()->syncTimeline(uuid, true);
                     }
-                    QTemporaryFile src(QDir::temp().absoluteFilePath(QString("XXXXXX.mlt")));
+                    QTemporaryFile src(QDir::temp().absoluteFilePath(QStringLiteral("XXXXXX.mlt")));
                     src.setAutoRemove(false);
                     if (!src.open()) {
                         pCore->displayMessage(i18n("Could not create temporary file in %1", QDir::temp().absolutePath()), MessageType::ErrorMessage, 500);
@@ -2367,7 +2367,7 @@ void Bin::rebuildFilters(int tagsCount)
     m_filterMenu->addAction(tagFilter);
 
     for (int i = 1; i <= tagsCount; i++) {
-        QAction *tag = pCore->window()->actionCollection()->action(QString("tag_%1").arg(i));
+        QAction *tag = pCore->window()->actionCollection()->action(QStringLiteral("tag_%1").arg(i));
         if (tag) {
             QAction *tagFilter = new QAction(tag->icon(), tag->text(), &m_filterTagGroup);
             tagFilter->setData(tag->data());
@@ -2381,7 +2381,7 @@ void Bin::rebuildFilters(int tagsCount)
 
     for (int i = 0; i < 6; ++i) {
         auto *rateFilter = new QAction(QIcon::fromTheme(QStringLiteral("favorite")), i18np("%1 Star", "%1 Stars", i), &m_filterRateGroup);
-        rateFilter->setData(QString(".%1").arg(2 * i));
+        rateFilter->setData(QStringLiteral(".%1").arg(2 * i));
         rateFilter->setCheckable(true);
         m_filterMenu->addAction(rateFilter);
     }
@@ -5645,7 +5645,7 @@ void Bin::requestSelectionTranscoding(bool forceReplace)
                 ClipType::ProducerType type = clip->clipType();
                 std::pair<int, int> fpsInfo = clip->fpsInfo();
                 int integerFps = qRound(double(fpsInfo.first) / fpsInfo.second);
-                QString suffix = QString("-%1fps").arg(integerFps);
+                QString suffix = QStringLiteral("-%1fps").arg(integerFps);
                 m_transcodingDialog->addUrl(resource, id, suffix, type, QString());
             } else {
                 m_transcodingDialog->addUrl(clip->clipName(), id, QString(), clip->clipType(), QString());
@@ -5830,7 +5830,7 @@ void Bin::updateKeyBinding(const QString &bindingMessage)
 
 void Bin::showBinInfo()
 {
-    pCore->window()->showKeyBinding(QString("%1%2").arg(m_clipsCountMessage, m_keyBindingMessage));
+    pCore->window()->showKeyBinding(QStringLiteral("%1%2").arg(m_clipsCountMessage, m_keyBindingMessage));
 }
 
 bool Bin::containsId(const QString &clipId) const
@@ -6323,7 +6323,7 @@ const QString Bin::binInfoToString() const
     QDockWidget *dock = qobject_cast<QDockWidget *>(parentWidget());
     QString binInfo;
     if (dock) {
-        binInfo = QString("%1:%2:%3").arg(dock->objectName(), rootFolderId(), m_listType == BinIconView ? QLatin1String("1") : QLatin1String("0"));
+        binInfo = QStringLiteral("%1:%2:%3").arg(dock->objectName(), rootFolderId(), m_listType == BinIconView ? QLatin1String("1") : QLatin1String("0"));
     }
     return binInfo;
 }

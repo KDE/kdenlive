@@ -498,7 +498,7 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
             if (version == QLatin1String("missing")) {
                 version = i18nc("@item:intext indicates a missing dependency", "missing (optional)");
             }
-            versions.append(QString("<b>%1</b> %2").arg(name, version));
+            versions.append(QStringLiteral("<b>%1</b> %2").arg(name, version));
             if (m_versions->contains(name)) {
                 (*m_versions)[name.toLower()] = version;
             } else {

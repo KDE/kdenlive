@@ -38,7 +38,7 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
             snprintf(property, sizeof(property), "kdenlive:streamname.%d", ix);
             QString channelDescription = producer->get(property);
             if (channelDescription.isEmpty()) {
-                channelDescription = QString("%1|").arg(streamIndex++);
+                channelDescription = QStringLiteral("%1|").arg(streamIndex++);
                 switch (chan) {
                 case 1:
                     channelDescription.append(i18n("Mono "));

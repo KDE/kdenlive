@@ -59,7 +59,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     m_progress = new QProgressBar(this);
     m_progress->setMaximumHeight(m_button->height() / 5);
     m_progress->setTextVisible(false);
-    m_progress->setStyleSheet(QString("QProgressBar::chunk {background-color: %1;}").arg(m_progress->palette().highlight().color().name()));
+    m_progress->setStyleSheet(QStringLiteral("QProgressBar::chunk {background-color: %1;}").arg(m_progress->palette().highlight().color().name()));
     layout->addWidget(m_progress);
     m_progress->setVisible(false);
     setMinimumHeight(m_button->sizeHint().height());
@@ -92,17 +92,17 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                                     n *= pSize.height();
                                 }
                                 ix++;
-                                current.append(QString("%1 ").arg(qRound(n)));
+                                current.append(QStringLiteral("%1 ").arg(qRound(n)));
                             } else {
-                                current.append(QString("%1 ").arg(val));
+                                current.append(QStringLiteral("%1 ").arg(val));
                             }
                         }
                     } else {
                         current = defaultValue;
                     }
                 }
-                // values << QPair<QString, QVariant>(QString("rect"),current);
-                // values << QPair<QString, QVariant>(QString("_reset"),1);
+                // values << QPair<QString, QVariant>(QStringLiteral("rect"),current);
+                // values << QPair<QString, QVariant>(QStringLiteral("_reset"),1);
                 values << QPair<QString, QVariant>(m_keyParam, current);
             } else {
 

@@ -224,12 +224,12 @@ QString Timecode::getStringTimecode(int frames, const double &fps, bool showFram
     int hours = minutes / 60;
     minutes = minutes % 60;
     QString text = showFrames
-                       ? QString("%1:%2:%3.%4")
+                       ? QStringLiteral("%1:%2:%3.%4")
                              .arg(hours, 2, 10, QLatin1Char('0'))
                              .arg(minutes, 2, 10, QLatin1Char('0'))
                              .arg(seconds, 2, 10, QLatin1Char('0'))
                              .arg(frms, fps > 100 ? 3 : 2, 10, QLatin1Char('0'))
-                       : QString("%1:%2:%3").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0'));
+                       : QStringLiteral("%1:%2:%3").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0'));
     if (negative) {
         text.prepend('-');
     }
@@ -264,7 +264,7 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
 
     int seconds = frames / m_realFps;
     frames -= ceil(seconds * m_realFps);
-    QString text = QString("%1:%2:%3:%4")
+    QString text = QStringLiteral("%1:%2:%3:%4")
                        .arg(hours, 2, 10, QLatin1Char('0'))
                        .arg(minutes, 2, 10, QLatin1Char('0'))
                        .arg(seconds, 2, 10, QLatin1Char('0'))
@@ -292,7 +292,7 @@ const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime &time) const
     int hours = minutes / 60;
     minutes = minutes % 60;
 
-    QString text = QString("%1:%2:%3%5%4")
+    QString text = QStringLiteral("%1:%2:%3%5%4")
                        .arg(hours, 2, 10, QLatin1Char('0'))
                        .arg(minutes, 2, 10, QLatin1Char('0'))
                        .arg(seconds, 2, 10, QLatin1Char('0'))
@@ -346,7 +346,7 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     int minutes = (int)floor(floor(framenumber / m_displayedFramesPerSecond) / 60) % 60;
     int hours = floor(floor(floor(framenumber / m_displayedFramesPerSecond) / 60) / 60);
 
-    QString text = QString("%1:%2:%3,%4")
+    QString text = QStringLiteral("%1:%2:%3,%4")
                        .arg(hours, 2, 10, QLatin1Char('0'))
                        .arg(minutes, 2, 10, QLatin1Char('0'))
                        .arg(seconds, 2, 10, QLatin1Char('0'))

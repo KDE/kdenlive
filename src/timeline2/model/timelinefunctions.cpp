@@ -847,9 +847,9 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
             int newId = -1;
             QString binClipId;
             if (binId.contains(QLatin1Char('/'))) {
-                binClipId = QString("%1/%2/%3").arg(binId.section(QLatin1Char('/'), 0, 0)).arg(zone.x()).arg(zone.y() - 1);
+                binClipId = QStringLiteral("%1/%2/%3").arg(binId.section(QLatin1Char('/'), 0, 0)).arg(zone.x()).arg(zone.y() - 1);
             } else {
-                binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
+                binClipId = QStringLiteral("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
             }
             result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo, affectedTracks);
         }

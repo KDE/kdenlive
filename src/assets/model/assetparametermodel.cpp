@@ -866,7 +866,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             contentWidth = qRound(frameSize.width() / pCore->getCurrentSar() * factor);
         }
         // Center
-        content = QString("%1 %2 %3 %4")
+        content = QStringLiteral("%1 %2 %3 %4")
                       .arg((profileSize.width() - contentWidth) / 2)
                       .arg((profileSize.height() - contentHeight) / 2)
                       .arg(contentWidth)
@@ -916,9 +916,9 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                             n *= profileSize.height();
                         }
                         ix++;
-                        content.append(QString("%1 ").arg(qRound(n)));
+                        content.append(QStringLiteral("%1 ").arg(qRound(n)));
                     } else {
-                        content.append(QString("%1 ").arg(val));
+                        content.append(QStringLiteral("%1 ").arg(val));
                     }
                 }
                 content = content.trimmed();
@@ -1167,7 +1167,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
             wval = wval * frameSize.width() * 2;
             double hval = h.split(";").at(i).split("=").at(1).toDouble();
             hval = hval * frameSize.height() * 2;
-            value.append(QString("%1=%2 %3 %4 %5 1;").arg(pos).arg(int(xval - wval / 2)).arg(int(yval - hval / 2)).arg(int(wval)).arg(int(hval)));
+            value.append(QStringLiteral("%1=%2 %3 %4 %5 1;").arg(pos).arg(int(xval - wval / 2)).arg(int(yval - hval / 2)).arg(int(wval)).arg(int(hval)));
         }
         currentParam.insert(QLatin1String("value"), value);
         currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
@@ -1274,7 +1274,7 @@ QJsonDocument AssetParameterModel::valueAsJson(int pos, bool includeFixed) const
         y = y * frameSize.height();
         w = w * frameSize.width() * 2;
         h = h * frameSize.height() * 2;
-        currentParam.insert(QLatin1String("value"), QString("0=%1 %2 %3 %4 1;").arg(int(x - x / 2)).arg(int(y - y / 2)).arg(int(w)).arg(int(h)));
+        currentParam.insert(QLatin1String("value"), QStringLiteral("0=%1 %2 %3 %4 1;").arg(int(x - x / 2)).arg(int(y - y / 2)).arg(int(w)).arg(int(h)));
         currentParam.insert(QLatin1String("type"), QJsonValue(int(ParamType::AnimatedRect)));
         currentParam.insert(QLatin1String("min"), QJsonValue(0));
         currentParam.insert(QLatin1String("max"), QJsonValue(0));

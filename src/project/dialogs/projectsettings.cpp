@@ -176,7 +176,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     proxy_imageminsize->setEnabled(generate_imageproxy->isChecked());
     QString currentProfileParams;
     if (!m_previewparams.isEmpty() || !m_previewextension.isEmpty()) {
-        currentProfileParams = QString("%1;%2").arg(m_previewparams, m_previewextension);
+        currentProfileParams = QStringLiteral("%1;%2").arg(m_previewparams, m_previewextension);
     }
     m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(this, true, currentProfileParams);
     preview_profile_box->addWidget(m_tlPreviewProfiles);
@@ -529,7 +529,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 
 const QString ProjectSettings::selectedPreview() const
 {
-    return QString("%1;%2").arg(m_tlPreviewProfiles->currentParams(), m_tlPreviewProfiles->currentExtension());
+    return QStringLiteral("%1;%2").arg(m_tlPreviewProfiles->currentParams(), m_tlPreviewProfiles->currentExtension());
 }
 
 void ProjectSettings::accept()

@@ -15,7 +15,7 @@ MoveBinClipCommand::MoveBinClipCommand(Bin *bin, QMap<QString, std::pair<QString
     , m_bin(bin)
     , m_clipIds(std::move(clipIds))
 {
-    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Move Clip")));
+    setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Move Clip")));
 }
 // virtual
 void MoveBinClipCommand::undo()
@@ -35,7 +35,7 @@ MoveBinFolderCommand::MoveBinFolderCommand(Bin *bin, QString clipId, QString old
     , m_oldParentId(std::move(oldParentId))
     , m_newParentId(std::move(newParentId))
 {
-    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Move Clip")));
+    setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Move Clip")));
 }
 // virtual
 void MoveBinFolderCommand::undo()
@@ -59,7 +59,7 @@ RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, QString clipId, QStri
     , m_in(in)
     , m_out(out)
 {
-    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Rename Zone")));
+    setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Rename Zone")));
 }
 // virtual
 void RenameBinSubClipCommand::undo()
@@ -83,7 +83,7 @@ EditClipCommand::EditClipCommand(Bin *bin, QString id, QMap<QString, QString> ol
     , m_doIt(doIt)
     , m_firstExec(true)
 {
-    setText(QString("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Edit Clip")));
+    setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18nc("@action", "Edit Clip")));
 }
 // virtual
 void EditClipCommand::undo()

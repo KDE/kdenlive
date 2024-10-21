@@ -261,7 +261,7 @@ QImage Spectrogram::renderHUD(uint)
                        mouseX < m_innerScopeRect.width() && mouseX >= 0;
             davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
             if (!hideText) {
-                davinci.drawText(x - 10, y, i18n("%1 kHz", QString("%1").arg(m_freqMax / 1000., 0, 'f', 1)));
+                davinci.drawText(x - 10, y, i18n("%1 kHz", QStringLiteral("%1").arg(m_freqMax / 1000., 0, 'f', 1)));
             }
         }
 
@@ -272,7 +272,7 @@ QImage Spectrogram::renderHUD(uint)
             davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
             davinci.drawText(
                 x - 10, y,
-                i18n("%1 kHz", QString("%1").arg(double(m_mousePos.x() - m_innerScopeRect.left()) / m_innerScopeRect.width() * m_freqMax / 1000, 0, 'f', 2)));
+                i18n("%1 kHz", QStringLiteral("%1").arg(double(m_mousePos.x() - m_innerScopeRect.left()) / m_innerScopeRect.width() * m_freqMax / 1000, 0, 'f', 2)));
         }
 
         // Draw the dB brightness scale
@@ -431,7 +431,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         for (QList<QVector<float>>::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); ++it) {
             storedBytes += (*it).size() * sizeof((*it)[0]);
         }
-        qCDebug(KDENLIVE_LOG) << QString("Total storage used: %1 kB").arg((double)storedBytes / 1000, 0, 'f', 2);
+        qCDebug(KDENLIVE_LOG) << QStringLiteral("Total storage used: %1 kB").arg((double)storedBytes / 1000, 0, 'f', 2);
 #endif
 
         m_fftHistoryImg = spectrum;

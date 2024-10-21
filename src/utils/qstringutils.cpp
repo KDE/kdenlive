@@ -15,7 +15,7 @@ QString QStringUtils::getUniqueName(const QStringList &names, const QString &nam
     QString newName = name;
     while (names.contains(newName)) {
         // name is not unique, add a suffix
-        newName = name + QString("-%1").arg(i);
+        newName = name + QStringLiteral("-%1").arg(i);
         i++;
     }
     return newName;

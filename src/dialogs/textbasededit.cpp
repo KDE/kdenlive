@@ -66,7 +66,7 @@ void VideoTextEdit::cleanup()
     cutZones.clear();
     m_hoveredBlock = -1;
     clear();
-    document()->setDefaultStyleSheet(QString("a {text-decoration:none;color:%1}").arg(palette().text().color().name()));
+    document()->setDefaultStyleSheet(QStringLiteral("a {text-decoration:none;color:%1}").arg(palette().text().color().name()));
     setCurrentFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
 }
 
@@ -1110,7 +1110,7 @@ void TextBasedEdit::startRecognition()
             speech_progress->setValue(percent);
         });
         m_tCodeJob->start(KdenliveSettings::meltpath(),
-                          {QStringLiteral("-progress"), m_sourceUrl, QStringLiteral("-consumer"), QString("avformat:%1").arg(m_playlistWav.fileName()),
+                          {QStringLiteral("-progress"), m_sourceUrl, QStringLiteral("-consumer"), QStringLiteral("avformat:%1").arg(m_playlistWav.fileName()),
                            QStringLiteral("vn=1"), QStringLiteral("ar=16000")});
         speech_progress->setValue(0);
         frame_progress->setVisible(true);
@@ -1178,7 +1178,7 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
                 m_visualEditor->moveCursor(QTextCursor::End);
                 QTextCursor cursor = m_visualEditor->textCursor();
                 QTextCharFormat fmt = cursor.charFormat();
-                fmt.setAnchorHref(QString("%1#%2:%3").arg(m_binId).arg(silenceStart.seconds()).arg(GenTime(m_clipDuration + m_clipOffset).seconds()));
+                fmt.setAnchorHref(QStringLiteral("%1#%2:%3").arg(m_binId).arg(silenceStart.seconds()).arg(GenTime(m_clipDuration + m_clipOffset).seconds()));
                 fmt.setAnchor(true);
                 cursor.insertText(i18n("No speech"), fmt);
                 m_visualEditor->textCursor().insertBlock(cursor.blockFormat());
@@ -1245,7 +1245,7 @@ void TextBasedEdit::slotProcessWhisperSpeech()
         // Insert space
         GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
         m_visualEditor->moveCursor(QTextCursor::End);
-        fmt.setAnchorHref(QString("%1#%2:%3")
+        fmt.setAnchorHref(QStringLiteral("%1#%2:%3")
                               .arg(m_binId)
                               .arg(silenceStart.seconds())
                               .arg(GenTime(sentenceStart.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds()));
@@ -1269,7 +1269,7 @@ void TextBasedEdit::slotProcessWhisperSpeech()
             if (nextSentence.frames(pCore->getCurrentFps()) > lastSentence.frames(pCore->getCurrentFps()) + 1) {
                 // Insert space
                 m_visualEditor->moveCursor(QTextCursor::End);
-                fmt.setAnchorHref(QString("%1#%2:%3")
+                fmt.setAnchorHref(QStringLiteral("%1#%2:%3")
                                       .arg(m_binId)
                                       .arg(lastSentence.seconds())
                                       .arg(GenTime(nextSentence.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds()));
@@ -1284,7 +1284,7 @@ void TextBasedEdit::slotProcessWhisperSpeech()
             continue;
         }
         fmt.setAnchor(true);
-        fmt.setAnchorHref(QString("%1#%2:%3").arg(m_binId).arg(wordZone.first).arg(wordZone.second));
+        fmt.setAnchorHref(QStringLiteral("%1#%2:%3").arg(m_binId).arg(wordZone.first).arg(wordZone.second));
         cursor.insertText(text, fmt);
         fmt.setAnchor(false);
         cursor.insertText(QStringLiteral(" "), fmt);
@@ -1326,7 +1326,7 @@ void TextBasedEdit::slotProcessSpeech()
                         // Insert space
                         GenTime silenceStart(m_lastPosition, pCore->getCurrentFps());
                         m_visualEditor->moveCursor(QTextCursor::End);
-                        fmt.setAnchorHref(QString("%1#%2:%3")
+                        fmt.setAnchorHref(QStringLiteral("%1#%2:%3")
                                               .arg(m_binId)
                                               .arg(silenceStart.seconds())
                                               .arg(GenTime(startPos.frames(pCore->getCurrentFps()) - 1, pCore->getCurrentFps()).seconds()));
@@ -1350,7 +1350,7 @@ void TextBasedEdit::slotProcessSpeech()
                 for (const QJsonValue &v : obj2) {
                     textFound = true;
                     fmt.setAnchor(true);
-                    fmt.setAnchorHref(QString("%1#%2:%3")
+                    fmt.setAnchorHref(QStringLiteral("%1#%2:%3")
                                           .arg(m_binId)
                                           .arg(v.toObject().value("start").toDouble() + m_clipOffset)
                                           .arg(v.toObject().value("end").toDouble() + m_clipOffset));
@@ -1473,15 +1473,15 @@ void TextBasedEdit::previewPlaylist(bool createNew)
     properties.insert(QStringLiteral("kdenlive:baseid"), m_binId);
     QStringList playZones;
     for (const auto &p : std::as_const(zones)) {
-        playZones << QString("%1:%2").arg(p.x()).arg(p.y());
+        playZones << QStringLiteral("%1:%2").arg(p.x()).arg(p.y());
     }
     properties.insert(QStringLiteral("kdenlive:cutzones"), playZones.join(QLatin1Char(';')));
     if (createNew) {
         int ix = 1;
-        m_playlist = QString("%1-cut%2.kdenlive").arg(sourcePath).arg(ix);
+        m_playlist = QStringLiteral("%1-cut%2.kdenlive").arg(sourcePath).arg(ix);
         while (QFile::exists(m_playlist)) {
             ix++;
-            m_playlist = QString("%1-cut%2.kdenlive").arg(sourcePath).arg(ix);
+            m_playlist = QStringLiteral("%1-cut%2.kdenlive").arg(sourcePath).arg(ix);
         }
         QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(m_playlist), this, i18n("Enter new playlist path"));
         if (url.isEmpty()) {
