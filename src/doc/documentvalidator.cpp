@@ -1947,7 +1947,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
     }*/
-
     m_modified = true;
     return true;
 }
@@ -1981,6 +1980,10 @@ void DocumentValidator::convertSubtitles()
             }
             QString service = Xml::getXmlProperty(effect, QStringLiteral("mlt_service"));
             if (service == QLatin1String("avfilter.subtitles")) {
+                if (Xml::getXmlProperty(effect, QStringLiteral("av.filename")).endsWith(QLatin1String(".ass"))) {
+                    // Already in the new format, abort
+                    return;
+                }
                 QString style = Xml::getXmlProperty(effect, QStringLiteral("av.force_style"));
                 if (!style.isEmpty()) {
                     // convert to new style format
@@ -2351,7 +2354,6 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString
                 mltElement.removeAttribute("LC_NUMERIC");
             }
         }
-
         modified = true;
         qDebug() << "Decimal point: New XML: " << m_doc.toString(-1);
 
