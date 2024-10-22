@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:39+0000\n"
+"POT-Creation-Date: 2024-10-22 00:39+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -5961,7 +5961,7 @@ msgstr "Φόρτωση έργου"
 msgid "Loading project clips…"
 msgstr "Φόρτωση έργου"
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2407
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2409
 #, fuzzy, kde-format
 msgid "Zone %1"
 msgstr "Αρχή ζώνης: %1 "
@@ -6879,7 +6879,7 @@ msgstr "Διάφορα"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:243
 #: src/dialogs/kdenlivesettingsdialog.cpp:822
-#: src/doc/documentvalidator.cpp:2519
+#: src/doc/documentvalidator.cpp:2521
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
@@ -9643,7 +9643,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Ανανέωση των κλιπ τίτλου"
 
-#: src/doc/documentvalidator.cpp:731 src/doc/documentvalidator.cpp:2510
+#: src/doc/documentvalidator.cpp:731 src/doc/documentvalidator.cpp:2512
 #, fuzzy, kde-format
 #| msgid "Invert"
 msgid "Convert"
@@ -9660,20 +9660,20 @@ msgstr "Αδυναμία ανοίγματος του αρχείου %1 του έ
 msgid "extra audio"
 msgstr "Εξαγωγή σε"
 
-#: src/doc/documentvalidator.cpp:2206
+#: src/doc/documentvalidator.cpp:2209
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Το αρχείο υπάρχει ήδη. Επιθυμείτε την αντικατάστασή του;"
 
-#: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3537
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3537
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
 msgstr "Λειτουργία αντικατάστασης"
 
-#: src/doc/documentvalidator.cpp:2508
+#: src/doc/documentvalidator.cpp:2510
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -9682,18 +9682,18 @@ msgid ""
 "This might result in data loss."
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2510
+#: src/doc/documentvalidator.cpp:2512
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "GPU Effects"
 msgstr "εφέ"
 
-#: src/doc/documentvalidator.cpp:2603
+#: src/doc/documentvalidator.cpp:2605
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2606
+#: src/doc/documentvalidator.cpp:2608
 #, fuzzy, kde-format
 #| msgid "The following effects were imported from the project:"
 msgid "The following filters/transitions were deleted from the project:"

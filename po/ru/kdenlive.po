@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-21 00:39+0000\n"
+"POT-Creation-Date: 2024-10-22 00:39+0000\n"
 "PO-Revision-Date: 2023-11-15 16:49+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -5885,7 +5885,7 @@ msgstr "Загрузка клипов проекта..."
 msgid "Loading project clips…"
 msgstr "Загрузка клипов проекта..."
 
-#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2407
+#: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2409
 #, kde-format
 msgid "Zone %1"
 msgstr "Участок %1"
@@ -6813,7 +6813,7 @@ msgstr "Разное"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:243
 #: src/dialogs/kdenlivesettingsdialog.cpp:822
-#: src/doc/documentvalidator.cpp:2519
+#: src/doc/documentvalidator.cpp:2521
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
@@ -9575,7 +9575,7 @@ msgstr ""
 msgid "Update Text Clips"
 msgstr "Обновить текстовые клипы"
 
-#: src/doc/documentvalidator.cpp:731 src/doc/documentvalidator.cpp:2510
+#: src/doc/documentvalidator.cpp:731 src/doc/documentvalidator.cpp:2512
 #, kde-format
 msgid "Convert"
 msgstr "Преобразовать"
@@ -9590,19 +9590,19 @@ msgstr "Не удалось восстановить файл проекта"
 msgid "extra audio"
 msgstr "дополнительный звук"
 
-#: src/doc/documentvalidator.cpp:2206
+#: src/doc/documentvalidator.cpp:2209
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Выходной файл уже существует. Перезаписать?"
 
-#: src/doc/documentvalidator.cpp:2207 src/mainwindow.cpp:3537
+#: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3537
 #, kde-format
 msgid "Overwrite"
 msgstr "Заменить"
 
-#: src/doc/documentvalidator.cpp:2508
+#: src/doc/documentvalidator.cpp:2510
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -9615,19 +9615,19 @@ msgstr ""
 "Преобразовать проект в версию, не требующую использования GPU?\n"
 "Это может привести к потере данных."
 
-#: src/doc/documentvalidator.cpp:2510
+#: src/doc/documentvalidator.cpp:2512
 #, kde-format
 msgid "GPU Effects"
 msgstr "Эффекты GPU"
 
-#: src/doc/documentvalidator.cpp:2603
+#: src/doc/documentvalidator.cpp:2605
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 "Следующие фильтры/переходы были преобразованы в версии, которые не требуют "
 "использования GPU:"
 
-#: src/doc/documentvalidator.cpp:2606
+#: src/doc/documentvalidator.cpp:2608
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Следующие фильтры/переходы были удалены из проекта:"
