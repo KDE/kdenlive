@@ -167,7 +167,7 @@ bool RenderPresetParams::hasAlpha()
 
 bool RenderPresetParams::isImageSequence()
 {
-    return value(QStringLiteral("properties")).startsWith("stills/");
+    return value(QStringLiteral("properties")).startsWith("stills/") || value(QStringLiteral("f")).startsWith(QLatin1String("image"));
 }
 
 bool RenderPresetParams::isX265()
