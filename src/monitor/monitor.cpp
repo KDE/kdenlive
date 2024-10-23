@@ -482,7 +482,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_glMonitor->getControllerProxy()->setTimeCode(m_timePos);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::triggerAction, pCore.get(), &Core::triggerAction);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addRemoveKeyframe, this, &Monitor::addRemoveKeyframe);
-    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekToKeyframe, this, &Monitor::slotSeekToKeyFrame);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::seekToKeyframe, this, &Monitor::seekToKeyframe);
 
     m_toolbar->addAction(manager->getAction(QStringLiteral("monitor_editmode")));
 
@@ -2181,13 +2181,6 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, co
         m_lastMonitorSceneType = sceneType;
     }
     loadQmlScene(sceneType, sceneData);
-}
-
-void Monitor::slotSeekToKeyFrame(int ix, int offset)
-{
-    if (m_qmlManager->sceneType() == MonitorSceneGeometry) {
-        Q_EMIT seekToKeyframe(ix, offset);
-    }
 }
 
 void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, const QVariantList &types)
