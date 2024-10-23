@@ -261,11 +261,6 @@ private Q_SLOTS:
     void slotShowMenu(const QPoint pos);
     void slotForceSize(QAction *a);
     void buildBackgroundedProducer(int pos);
-    /** @brief Seek to an effect keyframe
-     *  @param ix the index of the keyframe we want to reach
-     *  @param offset if offset != 0, the ix param is ignored and we seek to previous (-1) or next(+1) keyframe
-     */
-    void slotSeekToKeyFrame(int ix, int offset = 0);
     void slotLockMonitor(bool lock);
     void slotSwitchPlay();
     void slotEditInlineMarker();
