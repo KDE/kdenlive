@@ -755,7 +755,6 @@ bool DocumentChecker::ensureControlIdForItem(QDomElement &e, bool isBinClip)
                     const QString hash = Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_hash"));
                     if (!hash.isEmpty()) {
                         QMapIterator<int, QString> j(m_hashMap);
-                        QMap<int, QUuid> matchingIds;
                         while (j.hasNext()) {
                             j.next();
                             if (j.value() == hash) {
