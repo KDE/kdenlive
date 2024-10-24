@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-22 00:39+0000\n"
+"POT-Creation-Date: 2024-10-24 00:39+0000\n"
 "PO-Revision-Date: 2024-10-10 08:38+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -13514,12 +13514,12 @@ msgstr[3] "%1 دفق صوتية"
 msgstr[4] "%1 دفق صوتية"
 msgstr[5] "%1 دفق صوتية"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2365
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "لا يمكن بدء مدير GLSL لـMovit ، الرجاء تعطيل Movit"
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2407 src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13527,17 +13527,17 @@ msgid ""
 msgstr ""
 "مطلوب مرشح alphagrad لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2427
 #, kde-format
 msgid "Clip has no effects"
 msgstr "المقطع لا يحوي تأثيرات"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2429
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "اختر مقطع في سلة المشروع لتقاران التأثير"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2471
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13545,7 +13545,7 @@ msgid ""
 msgstr ""
 "مطلوب مرشح cairoblend لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2517
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "مكّن نمط التحرير في الشاشة لتحرر التأثير"

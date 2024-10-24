@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-22 00:39+0000\n"
+"POT-Creation-Date: 2024-10-24 00:39+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -14104,12 +14104,12 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 helivoog"
 msgstr[1] "%1 helivoogu"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2365
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Moviti GLSL-i initsialiseerimine nurjus, palun keela Movit"
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2407 src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14118,17 +14118,17 @@ msgstr ""
 "Selleks on vajalik alphagrad'i filter, nii et palun paigalda frei0r ja "
 "käivita Kdenlive uuesti"
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2427
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipil pole ühtki efekti"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2429
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2471
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14137,7 +14137,7 @@ msgstr ""
 "Selleks on vajalik cairoblend'i üleminek, nii et palun paigalda frei0r ja "
 "käivita Kdenlive uuesti"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2517
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""

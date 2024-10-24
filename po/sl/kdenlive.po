@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-22 00:39+0000\n"
+"POT-Creation-Date: 2024-10-24 00:39+0000\n"
 "PO-Revision-Date: 2024-10-11 23:38+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -13617,12 +13617,12 @@ msgstr[1] "%1 tok zvoka"
 msgstr[2] "%1 tokova zvoka"
 msgstr[3] "%1 tokovi zvoka"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2365
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Ni možno začeti upravljalnika GLSL za Movit. Onemogočite Movit"
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2407 src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13631,17 +13631,17 @@ msgstr ""
 "Za to zmožnost je zahtevan filter alphagrad. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2427
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Posnetek nima učinkov"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2429
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Izberite posnetek v posodi projekta, če želite primerjati učinek"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2471
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13650,7 +13650,7 @@ msgstr ""
 "Za to zmožnost je zahtevan prehod cairoblend. Namestite frei0r in znova "
 "zaženite Kdenlive"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2517
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Omogoči urejanje in nadzoruj učinke urejanja"

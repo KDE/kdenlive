@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-22 00:39+0000\n"
+"POT-Creation-Date: 2024-10-24 00:39+0000\n"
 "PO-Revision-Date: 2024-10-14 16:38+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -13567,12 +13567,12 @@ msgstr[0] "%1 audio straume"
 msgstr[1] "%1 audio straumes"
 msgstr[2] "%1 audio straumju"
 
-#: src/monitor/monitor.cpp:2372
+#: src/monitor/monitor.cpp:2365
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Nevar palaist „Movit“ GLSL pārvaldnieku. Izslēdziet „Movit“."
 
-#: src/monitor/monitor.cpp:2414 src/monitor/monitor.cpp:2471
+#: src/monitor/monitor.cpp:2407 src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13581,17 +13581,17 @@ msgstr ""
 "Lai šī iespēja darbotos, ierīcē ir jābūt „alphagrad“ filtram. Instalējiet "
 "„frei0r“ un pārstartējiet „Kdenlive“"
 
-#: src/monitor/monitor.cpp:2434
+#: src/monitor/monitor.cpp:2427
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipam nav efektu"
 
-#: src/monitor/monitor.cpp:2436
+#: src/monitor/monitor.cpp:2429
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Atlasiet klipu projekta lādē, lai salīdzinātu efektu"
 
-#: src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2471
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13600,7 +13600,7 @@ msgstr ""
 "Lai šī iespēja darbotos, ir nepieciešama „cairoblend“ iespēja. Instalējiet "
 "„frei0r“ un pārstartējiet „Kdenlive“"
 
-#: src/monitor/monitor.cpp:2524
+#: src/monitor/monitor.cpp:2517
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Ieslēdziet rediģēšanas režīmu un pārskatiet rediģēšanas efektu"
