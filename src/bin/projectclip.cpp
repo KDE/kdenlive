@@ -744,10 +744,12 @@ void ProjectClip::checkProxy(bool rebuildProxy)
             }
         } else if ((rebuildProxy || pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) &&
                    (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
-            if (m_hasVideo && (rebuildProxy || getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize())) {
+            if (m_hasVideo && (rebuildProxy || getProducerIntProperty(QStringLiteral("meta.media.width")) >=
+                                                   pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyminsize")).toInt())) {
                 clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
-        } else if (m_clipType == ClipType::Playlist && pCore->getCurrentFrameDisplaySize().width() >= KdenliveSettings::proxyminsize() &&
+        } else if (m_clipType == ClipType::Playlist &&
+                   pCore->getCurrentFrameDisplaySize().width() >= pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyminsize")).toInt() &&
                    getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
             clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
         }
