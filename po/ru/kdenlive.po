@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-24 00:39+0000\n"
-"PO-Revision-Date: 2024-10-23 17:22+0300\n"
+"POT-Creation-Date: 2024-10-25 00:39+0000\n"
+"PO-Revision-Date: 2024-10-24 17:22+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -533,7 +533,7 @@ msgstr "Вертикальный мультипликатор"
 #: data/effects/box_blur.xml:15
 #, kde-format
 msgid "Preserve alpha"
-msgstr "Сохранение альфа"
+msgstr "Сохранить альфа-канал"
 
 #: data/effects/boxblur.xml:4
 #, kde-format
@@ -1786,17 +1786,17 @@ msgstr "Длительность яркости"
 #: data/effects/oldfilm.xml:23
 #, kde-format
 msgid "Unevendevelop up"
-msgstr "Повышение развития"
+msgstr "Неравномерное проявление вверх"
 
 #: data/effects/oldfilm.xml:26
 #, kde-format
 msgid "Unevendevelop down"
-msgstr "Понижение развития"
+msgstr "Неравномерное проявление вниз"
 
 #: data/effects/oldfilm.xml:29
 #, kde-format
 msgid "Unevendevelop Duration"
-msgstr "Длительность развития"
+msgstr "Длительность неравномерного проявления"
 
 #: data/effects/pan_zoom.xml:4
 #, kde-format
@@ -2882,9 +2882,9 @@ msgid "Modulators"
 msgstr "Модуляторы"
 
 #: data/kdenliveeffectscategory.rc:81
-#, fuzzy, kde-format
+#, kde-format
 msgid "Noise Reduction and Audio Restoration"
-msgstr "Подавление помех и восстановление звука"
+msgstr "Уменьшение шума и восстановление звука"
 
 #: data/kdenliveeffectscategory.rc:88
 #: src/dialogs/kdenlivesettingsdialog.cpp:116 src/mainwindow.cpp:1450
@@ -3761,10 +3761,10 @@ msgid "Cannot open preset file %1"
 msgstr "Не удалось открыть файл предустановок «%1»"
 
 #: src/assets/model/assetparametermodel.cpp:1447
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
-msgstr "Не удалось создать файл."
+msgstr "Не удалось загрузить предустановку %1"
 
 #: src/assets/view/assetparameterview.cpp:54
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:279
@@ -4414,9 +4414,9 @@ msgstr[2] "%1 заданий в очереди"
 msgstr[3] "%1 задание в очереди"
 
 #: src/bin/bin.cpp:1172
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bin Search"
-msgstr "Найти"
+msgstr "Поиск в корзине"
 
 #: src/bin/bin.cpp:1214
 #, kde-format
@@ -4496,13 +4496,13 @@ msgid "Show Video Preview in Thumbnails"
 msgstr "Предварительный просмотр видео в миниатюрах"
 
 #: src/bin/bin.cpp:1321
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Opens a menu to configure the project bin (e.g. view mode, sort, show "
 "rating)."
 msgstr ""
-"Открывает окно для настройки параметров корзины проекта (например, режим "
+"Открывает меню для настройки параметров корзины проекта (например, режим "
 "просмотра, сортировка, отображение оценки)."
 
 #: src/bin/bin.cpp:1328
@@ -4523,7 +4523,7 @@ msgstr "Показать оценку"
 #: src/bin/bin.cpp:1347
 #, kde-format
 msgid "Open Current Folder In New Bin"
-msgstr ""
+msgstr "Открыть текущую папку в новой корзине"
 
 #: src/bin/bin.cpp:1352
 #, kde-format
@@ -4543,9 +4543,9 @@ msgstr ""
 "фильтра."
 
 #: src/bin/bin.cpp:1409
-#, fuzzy, kde-format
+#, kde-format
 msgid "Close Current Bin"
-msgstr "Удалить выбранную точку"
+msgstr "Закрыть текущую корзину"
 
 #: src/bin/bin.cpp:1421
 #, kde-format
@@ -4563,9 +4563,9 @@ msgid "Cancel Pending Jobs"
 msgstr "Отменить задания в очереди"
 
 #: src/bin/bin.cpp:1466
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bin Clip Properties"
-msgstr "Свойства клипа"
+msgstr "Свойства клипа в корзине"
 
 #: src/bin/bin.cpp:1766
 #, kde-format
@@ -4702,14 +4702,14 @@ msgstr ""
 "на клип <b>%2</b>"
 
 #: src/bin/bin.cpp:1974 src/timeline2/model/timelineitemmodel.cpp:998
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace audio"
-msgstr "Записать звук"
+msgstr "Заменить звук"
 
 #: src/bin/bin.cpp:1977 src/timeline2/model/timelineitemmodel.cpp:998
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace video"
-msgstr "Восстановить видео"
+msgstr "Заменить видео"
 
 #: src/bin/bin.cpp:1987
 #, kde-format
@@ -4758,9 +4758,9 @@ msgstr ""
 "Нельзя заменить клип на клип другого типа (не соответствует звук или видео)"
 
 #: src/bin/bin.cpp:2072
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace in timeline"
-msgstr "Основной монтажный стол"
+msgstr "Заменить на монтажном столе"
 
 #: src/bin/bin.cpp:2093 src/bin/bin.cpp:5795 src/bin/clipcreator.cpp:324
 #, kde-format
@@ -5036,9 +5036,9 @@ msgid "Replace Clip…"
 msgstr "Заменить клип…"
 
 #: src/bin/bin.cpp:3640
-#, fuzzy, kde-format
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "Заменить клип…"
+msgstr "Заменить клип на монтажном столе…"
 
 #: src/bin/bin.cpp:3645
 #, kde-format
@@ -5342,7 +5342,7 @@ msgstr "Удалить маркеры клипа"
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
-msgstr ""
+msgstr "Рекомендуется сохранить проект перед операцией перекодирования"
 
 #: src/bin/bin.cpp:6138
 #, fuzzy, kde-format
@@ -5351,10 +5351,10 @@ msgid "Save Project"
 msgstr "Сохранить DVD-проект"
 
 #: src/bin/bin.cpp:6139
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
-msgstr "Перекодирование"
+msgstr "Перекодировать без сохранения"
 
 #: src/bin/bin.cpp:6288 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
@@ -5379,7 +5379,7 @@ msgid "Move Clip"
 msgstr "Переместить клип"
 
 #: src/bin/bincommands.cpp:62
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Переименовать участок"
@@ -5826,8 +5826,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Использование"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1775
-#: src/doc/documentchecker.cpp:1803 src/doc/documentchecker.cpp:1823
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1837
+#: src/doc/documentchecker.cpp:1867 src/doc/documentchecker.cpp:1887
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6324,7 +6324,7 @@ msgid "Arguments for the command line script"
 msgstr "Аргументы командной строки сценария"
 
 #: src/dialogs/clipjobmanager.cpp:47
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<b>{source}</b> will be replaced by the Bin Clip source file path, "
@@ -6332,11 +6332,10 @@ msgid ""
 "b> will be replaced by the second parameter value, <b>{output}</b> will be "
 "replaced by the output file name."
 msgstr ""
-"В аргументах возможно использовать следующие замены: <ul><li><b>{source}</b> "
-"заменяется путём к исходному файлу клипа в корзине</li><li><b>{output}</b> "
-"заменяется именем выходного файла</li><li><b>{param1}</b> заменяется "
-"значением первого параметра</li><li><b>{param2}</b> заменяется значением "
-"второго параметра</li></ul>"
+"<b>{source}</b> заменяется путём к исходному файлу клипа в корзине, "
+"<b>{param1}</b> заменяется значением первого параметра, <b>{param2}</b> "
+"заменяется значением второго параметра, <b>{output}</b> заменяется именем "
+"выходного файла."
 
 #: src/dialogs/clipjobmanager.cpp:48
 #, kde-format
@@ -6344,7 +6343,7 @@ msgid "File extension for the output file"
 msgstr "Расширение выходного файла"
 
 #: src/dialogs/clipjobmanager.cpp:51
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "The output file name will be the same as the source bin clip filename, with "
@@ -6354,23 +6353,20 @@ msgid ""
 msgstr ""
 "Имя выходного файла будет совпадать с именем исходного файла клипа в "
 "корзине, изменён будет только суффикс расширения. Оно будет добавлено после "
-"аргументов или вставлено вместо <b>{&#x25;3}</b>, если такая строка будет "
+"аргументов или вставлено вместо <b>{output}</b>, если такая строка будет "
 "найдена. Если файл с таким именем уже существует, к имени будет добавлено "
 "«-0001»."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
-#, fuzzy, kde-format
+#, kde-format
 msgid "If selected, a file path will be requested on execution"
-msgstr ""
-"Список возможных значений, разделённых символами новой строки, который будет "
-"предложен во время выполнения"
+msgstr "Если выбрано, при выполнении будет запрошен путь к файлу"
 
 #: src/dialogs/clipjobmanager.cpp:55 src/dialogs/clipjobmanager.cpp:64
-#, fuzzy, kde-format
+#, kde-format
 msgid "If selected, a dropdown list of values will be shown on execution"
 msgstr ""
-"Список возможных значений, разделённых символами новой строки, который будет "
-"предложен во время выполнения"
+"Если выбрано, при выполнении будет показан раскрывающийся список значений"
 
 #: src/dialogs/clipjobmanager.cpp:57
 #, kde-format
@@ -6378,6 +6374,8 @@ msgid ""
 "If selected, the selected clip's current frame will be extracted to a "
 "temporary file and the parameter value will be the image path"
 msgstr ""
+"Если выбрано, текущий кадр выбранного клипа будет извлечён во временный "
+"файл, а значением параметра будет путь к изображению"
 
 #: src/dialogs/clipjobmanager.cpp:58
 #, kde-format
@@ -6388,14 +6386,14 @@ msgstr ""
 "предложен во время выполнения"
 
 #: src/dialogs/clipjobmanager.cpp:61 src/dialogs/clipjobmanager.cpp:67
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "When the parameter is set to <b>Request Option from List</b> the user will "
 "be asked to choose a value in this list when the job is started."
 msgstr ""
 "Если для параметра установлено значение <b>Запросить параметр из списка</b>, "
-"пользователю будет предложено выбрать значение из этого списка при запуске "
+"пользователю будет предложено выбрать значение в этом списке при запуске "
 "задания."
 
 #: src/dialogs/clipjobmanager.cpp:129 src/dialogs/clipjobmanager.cpp:287
@@ -6411,7 +6409,7 @@ msgstr "Дублировать клип с изменением скорости
 #: src/dialogs/clipjobmanager.cpp:247
 #, kde-format
 msgid "Check your parameters syntax (incorrect number of quotes)"
-msgstr ""
+msgstr "Проверьте синтаксис параметров (неверное количество кавычек)"
 
 #: src/dialogs/clipjobmanager.cpp:258
 #, kde-format
@@ -6455,15 +6453,15 @@ msgstr ""
 "%1 ?"
 
 #: src/dialogs/customcamcorderdialog.cpp:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edit Custom Camcorder Proxy Profiles"
-msgstr "Сравнение профилей прокси"
+msgstr "Редактирование пользовательских профилей прокси видеокамеры"
 
 #: src/dialogs/customcamcorderdialog.cpp:36
 #: src/dialogs/customcamcorderdialog.cpp:198
 #, kde-format
 msgid "You can input several profiles in a preset, separated by a semicolon"
-msgstr ""
+msgstr "В предустановке можно указать несколько профилей через точку с запятой"
 
 #: src/dialogs/customcamcorderdialog.cpp:132
 #, kde-format
@@ -6476,6 +6474,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
+"Будут удалены все пользовательские профили видеокамеры, параметры будут "
+"сброшены на значения по умолчанию"
 
 #: src/dialogs/customcamcorderdialog.cpp:190
 #, kde-format
@@ -6483,6 +6483,9 @@ msgid ""
 "You are using multiple presets in one profile, ensure you have the same "
 "count of semicolon in each parameter. This profile will not be saved."
 msgstr ""
+"В одном профиле используются несколько предустановок: убедитесь, что в "
+"каждом параметре одинаковое количество точек с запятой. Этот профиль не "
+"будет сохранён."
 
 #: src/dialogs/encodingprofilesdialog.cpp:51
 #, kde-format
@@ -6596,8 +6599,8 @@ msgid ""
 "framerate,\n"
 "reverting to Automatic."
 msgstr ""
-"Выбранный профиль предпросмотра монтажного стола несовместим с кадровой "
-"частотой этого проекта, выполняется переход к автоматической настройке."
+"Выбранный профиль предпросмотра монтажного стола несовместим с частотой "
+"кадров этого проекта, выполняется переход к автоматической настройке."
 
 #: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
@@ -6697,7 +6700,7 @@ msgstr "Позиция направляющей (ЧЧ:)ММ.СС"
 #: src/dialogs/exportguidesdialog.cpp:115
 #, kde-format
 msgid "Next guide position in (HH:)MM.SS"
-msgstr "Следующая позиция направляющей в (ЧЧ:)ММ.СС"
+msgstr "Позиция следующей направляющей в (ЧЧ:)ММ.СС"
 
 #: src/dialogs/exportguidesdialog.cpp:116
 #, kde-format
@@ -6705,9 +6708,9 @@ msgid "Guide position in frames"
 msgstr "Позиция направляющей в кадрах"
 
 #: src/dialogs/exportguidesdialog.cpp:117
-#, fuzzy, kde-format
+#, kde-format
 msgid "Next guide position in frames"
-msgstr "Позиция направляющей в кадрах"
+msgstr "Позиция следующей направляющей в кадрах"
 
 #: src/dialogs/exportguidesdialog.cpp:118
 #, kde-format
@@ -6867,14 +6870,13 @@ msgid ""
 "documentation</a>."
 msgstr ""
 
-# BUGME: Please split to the button captures and settings group name. --ayavorsky 20200418
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:515 src/dialogs/timeremap.cpp:1583
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1043
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
-msgstr "Перекодировать"
+msgstr "Перекодирование"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:549
 #, kde-format
@@ -6997,6 +6999,9 @@ msgid ""
 "On first run, Whisper will <b>download the chosen model</b>. After that, "
 "processing will happen offline. Cpu processing is very slow."
 msgstr ""
+"При первом запуске Whisper <b>загрузит выбранную модель</b>. После этого "
+"обработка выполняется в автономном режиме. Обработка с помощью процессора "
+"компьютера занимает очень много времени."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1795
 #, kde-format
@@ -7004,6 +7009,8 @@ msgid ""
 "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
 "that, translations will happen offline."
 msgstr ""
+"При первом запуске SeamlessM4T <b>загрузит 9 ГБ данных модели</b>. После "
+"этого перевод выполняется в автономном режиме."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7011,37 +7018,37 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:1820
 #: src/dialogs/kdenlivesettingsdialog.cpp:2149 src/ui/configspeech_ui.ui:134
 #: src/ui/configspeech_ui.ui:249
-#, fuzzy, kde-format
+#, kde-format
 msgid "Models folder"
-msgstr "Папка моделей пользователя"
+msgstr "Папка моделей"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1866
-#, fuzzy, kde-format
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "Указать путь для окружения MLT."
+msgstr "Настройка виртуальной среды…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1868
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr ""
+msgstr "Отключение виртуальной среды"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1885
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Указать путь для окружения MLT."
+msgstr "Удаление папки виртуальной среды."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1890
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
-msgstr "Элементы не найдены."
+msgstr "Не найдена виртуальная среда python"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1893
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr ""
+msgstr "Не удалось удалить папку виртуальной среды."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1898
 #, kde-format
@@ -7613,16 +7620,18 @@ msgid ""
 "desync.\n"
 "We recommend to transcode to an edit friendly format."
 msgstr ""
+"Сборка проекта с клипами с переменной частотой кадров может привести к "
+"рассинхронизации звука и видео.\n"
+"Рекомендуется выполнить перекодирование в редактируемый формат."
 
 #: src/dialogs/renderwidget.cpp:670
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
-msgstr "Вставить линию"
+msgstr "Всё равно собрать"
 
-# BUGME: Please split to the button captures and settings group name. --ayavorsky 20200418
 #: src/dialogs/renderwidget.cpp:676
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Перекодировать"
@@ -7643,7 +7652,7 @@ msgstr ""
 "Убедитесь в наличии соответствующих прав."
 
 #: src/dialogs/renderwidget.cpp:747
-#, fuzzy, kde-format
+#, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "При попытке сборки произошли следующие ошибки"
 
@@ -7754,9 +7763,9 @@ msgid "Remove Job"
 msgstr "Удалить задание"
 
 #: src/dialogs/renderwidget.cpp:1813
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Добавить клип на монтажную дорожку прежде сборки"
+msgstr "Добавить клипы на монтажный стол перед сборкой"
 
 #: src/dialogs/renderwidget.cpp:1818
 #, fuzzy, kde-format
@@ -7796,14 +7805,14 @@ msgstr ""
 "%1"
 
 #: src/dialogs/renderwidget.cpp:1928
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add to Current Project"
 msgstr "Добавить в текущий проект"
 
 #: src/dialogs/renderwidget.cpp:1931 src/library/librarywidget.cpp:248
-#, fuzzy, kde-format
+#, kde-format
 msgid "Open Containing Folder"
-msgstr "Папка назначения"
+msgstr "Открыть содержащую объект папку"
 
 #: src/dialogs/speechdialog.cpp:43
 #, kde-format
@@ -7842,15 +7851,15 @@ msgstr "Установите модели распознавания речи"
 
 #: src/dialogs/speechdialog.cpp:244
 #: src/pythoninterfaces/abstractpythoninterface.cpp:174
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
-msgstr "Проверка конфигурации..."
+msgstr "Проверка настройки параметров…"
 
 #: src/dialogs/speechdialog.cpp:251
-#, fuzzy, kde-format
+#, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
-msgstr "Настройте параметры распознавания речи."
+msgstr "Настройте параметры распознавания речи. Отсутствующие зависимости: %1"
 
 #: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:963
 #: src/dialogs/textbasededit.cpp:979
@@ -7889,14 +7898,14 @@ msgid "Speech recognition failed"
 msgstr "Сбой распознавания речи"
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
+#, kde-format
 msgid "Translating text to %1"
-msgstr "Перевести текст на английский"
+msgstr "Перевод текста на %1"
 
 #: src/dialogs/speechdialog.cpp:450
-#, fuzzy, kde-format
+#, kde-format
 msgid "Initializing translation model"
-msgstr "Недопустимый переход"
+msgstr "Инициализация модели перевода"
 
 #: src/dialogs/speechdialog.cpp:461 src/pythoninterfaces/speechtotext.cpp:86
 #, kde-format
@@ -8778,9 +8787,9 @@ msgid "Decrease Font Size"
 msgstr "Размер шрифта"
 
 #: src/dialogs/textbasededit.cpp:764
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove non speech zones"
-msgstr "Удалить все участки предпросмотра"
+msgstr "Удалить участки без речи"
 
 #: src/dialogs/textbasededit.cpp:947
 #, kde-format
@@ -9274,123 +9283,128 @@ msgstr "Папка с клипами"
 msgid "Applying fixes…"
 msgstr "Применение исправлений…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:237
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
 #, fuzzy, kde-format
 msgid "Checking for missing items…"
 msgstr "Проверка конфигурации..."
 
-#: src/doc/documentchecker.cpp:194
+#: src/doc/documentchecker.cpp:195
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Идентификатор документа проекта неверен. Создан новый идентификатор."
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1827
 #, kde-format
 msgid "Video clip"
 msgstr "Видеоклип"
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1829
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Клип слайд-шоу"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1831
 #, kde-format
 msgid "Image clip"
 msgstr "Клип изображений"
 
-#: src/doc/documentchecker.cpp:1771
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Playlist clip"
 msgstr "Клип списка воспроизведения"
 
-#: src/doc/documentchecker.cpp:1773 src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1835 src/doc/documentchecker.cpp:1851
 #, kde-format
 msgid "Title Image"
 msgstr "Изображение титров"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1847
 #, fuzzy, kde-format
 msgid "Clip"
 msgstr "&Клип"
 
-#: src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1849
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титров"
 
-#: src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1853
 #, kde-format
 msgid "Luma file"
 msgstr "Файл каше"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1855
 #, kde-format
 msgid "Asset file"
 msgstr "Файл ресурса"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1857
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "Прокси-клип"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1859
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Эффект"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1861
 #, fuzzy, kde-format
 msgid "Transition"
 msgstr "Переходы"
 
-#: src/doc/documentchecker.cpp:1801
+#: src/doc/documentchecker.cpp:1863
+#, fuzzy, kde-format
+msgid "Unreferenced clip"
+msgstr "Удалить клипы"
+
+#: src/doc/documentchecker.cpp:1865
 #, fuzzy, kde-format
 msgid "Corrupted sequence"
 msgstr "Создать последовательность"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1811 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1875 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Фиксированная"
 
-#: src/doc/documentchecker.cpp:1813
+#: src/doc/documentchecker.cpp:1877
 #, kde-format
 msgid "Reload"
 msgstr "Обновить"
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1879
 #, fuzzy, kde-format
 msgid "Missing"
 msgstr "Элемент отсутствует"
 
-#: src/doc/documentchecker.cpp:1817
+#: src/doc/documentchecker.cpp:1881
 #, fuzzy, kde-format
 msgid "Missing, but proxy available"
 msgstr "Отсутствует прокси"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1819 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1883 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Заполнитель"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1821 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1885 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 msgid "Remove"
 msgstr "Удалить"
 
-#: src/doc/documentchecker.cpp:1832
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проекта ссылается на потерянные клипы или файлы."
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1899
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Отсутствующие прокси могут быть восстановлены при открытии."
@@ -9426,9 +9440,9 @@ msgid "Incorrect project file"
 msgstr "Некорректный файл проекта"
 
 #: src/doc/documentvalidator.cpp:188
-#, fuzzy, kde-format
+#, kde-format
 msgid "Upgrading project version…"
-msgstr "Загрузка проекта…"
+msgstr "Обновление версии проекта…"
 
 #: src/doc/documentvalidator.cpp:194
 #, kde-format
@@ -9678,6 +9692,8 @@ msgid ""
 "The project uses a non standard framerate (%1), this will result in "
 "misplaced clips and frame offset."
 msgstr ""
+"В проекте используется нестандартная частота кадров (%1); это приведёт к "
+"некорректному размещению клипов и смещению кадров."
 
 #: src/doc/kdenlivedoc.cpp:1927
 #, kde-format
@@ -11210,6 +11226,8 @@ msgstr "Родительская папка файла проекта"
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
 msgstr ""
+"Имя предустановки сборки Kdenlive (если не указано, будет использоваться MP4-"
+"H264/AAC)."
 
 #: src/main.cpp:328
 #, kde-format
@@ -11217,6 +11235,8 @@ msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
 msgstr ""
+"Выйти после запуска (отдельного) процесса сборки. Без этого флага выход "
+"будет выполнен только после завершения процесса."
 
 #: src/main.cpp:331
 #, kde-format
@@ -11224,9 +11244,9 @@ msgid "Kdenlive document to open."
 msgstr "Открываемый документ Kdenlive."
 
 #: src/main.cpp:332
-#, fuzzy, kde-format
+#, kde-format
 msgid "Output file for rendered video."
-msgstr "Расширение выходного файла"
+msgstr "Выходной файл для собранного видео."
 
 #: src/main.cpp:445
 #, kde-format
@@ -11414,7 +11434,7 @@ msgid "Render…"
 msgstr "Сборка…"
 
 #: src/mainwindow.cpp:621
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
 "toolbar"
@@ -11838,9 +11858,9 @@ msgid "Reset Configuration…"
 msgstr "Сбросить конфигурацию…"
 
 #: src/mainwindow.cpp:1511
-#, fuzzy, kde-format
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "Воспроизвести участок"
+msgstr "Воспроизвести участок от курсора"
 
 #: src/mainwindow.cpp:1514
 #, kde-format
@@ -12727,7 +12747,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
-msgstr "Сбросить конфигурацию"
+msgstr "Сброс конфигурации"
 
 #: src/mainwindow.cpp:2809 src/mainwindow.cpp:2836
 #, kde-format
@@ -12783,9 +12803,9 @@ msgid "Insert zone"
 msgstr "Вставить участок"
 
 #: src/mainwindow.cpp:3280
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot add effect to active item"
-msgstr "Не удалось добавить эффект к клипу"
+msgstr "Не удалось добавить эффект к активному элементу"
 
 #: src/mainwindow.cpp:3342
 #, kde-format
@@ -12908,9 +12928,9 @@ msgid "Scopes"
 msgstr ""
 
 #: src/mainwindow.cpp:3820
-#, fuzzy, kde-format
+#, kde-format
 msgid "Project Bins"
-msgstr "Корзина проекта"
+msgstr "Корзины проектов"
 
 #: src/mainwindow.cpp:3916
 #, kde-format
@@ -13017,7 +13037,7 @@ msgstr "В текущем проекте субтитры не найдены"
 #: src/mainwindow.cpp:5090
 #, kde-format
 msgid "Go to download page"
-msgstr ""
+msgstr "Перейти на страницу загрузки"
 
 #: src/mainwindow.cpp:5093
 #, fuzzy, kde-format
@@ -15619,7 +15639,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:558
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
-msgstr ""
+msgstr "Не удалось сохранить файл проекта <br><b>%1</B>"
 
 #: src/project/projectmanager.cpp:591
 #, fuzzy, kde-format
@@ -15709,9 +15729,9 @@ msgstr ""
 "сохранении"
 
 #: src/project/projectmanager.cpp:944
-#, fuzzy, kde-format
+#, kde-format
 msgid "Loading timeline…"
-msgstr "Загрузка модели…"
+msgstr "Загрузка монтажного стола…"
 
 #: src/project/projectmanager.cpp:962
 #, fuzzy, kde-format
@@ -15850,14 +15870,14 @@ msgid "%1 is properly configured."
 msgstr "%1 имеет правильную настройку."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:54
-#, fuzzy, kde-format
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Всё настроено: %1"
+msgstr "Всё настроено:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 имеет настройку: %2"
+msgstr "%1 имеет настройку:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:75
 #: src/pythoninterfaces/abstractpythoninterface.cpp:86
@@ -15868,17 +15888,17 @@ msgstr "Проверить обновления"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:99
 #, kde-format
 msgid "Installing modules… this can take a while"
-msgstr "Установка модулей... Потребуется время"
+msgstr "Установка модулей… Потребуется время"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:109
 #, kde-format
 msgid "Updating modules…"
-msgstr "Обновление модулей..."
+msgstr "Обновление модулей…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:131
 #, kde-format
 msgid "Checking configuration…"
-msgstr "Проверка конфигурации..."
+msgstr "Проверка конфигурации…"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:207
 #: src/pythoninterfaces/abstractpythoninterface.cpp:276
@@ -15888,7 +15908,7 @@ msgid ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Не удалось найти python3, установите его на свою систему.\n"
+"Не удалось найти python3, установите его в своей системе.\n"
 "Если python3 уже установлен, убедитесь в том, что каталог установки указан в "
 "переменой окружения PATH"
 
@@ -15899,24 +15919,24 @@ msgid ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 msgstr ""
-"Не удалось найти pip3, установите его на свою систему.\n"
+"Не удалось найти pip3, установите его в своей системе.\n"
 "Если pip3 уже установлен, убедитесь в том, что каталог установки указан в "
 "переменой окружения PATH"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:222
 #, kde-format
 msgid "Using python from %1"
-msgstr ""
+msgstr "Используется python из %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:230
-#, fuzzy, kde-format
+#, kde-format
 msgid "No python venv found"
-msgstr "Элементы не найдены."
+msgstr "Не найдена виртуальная среда python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:243
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Размер виртуальной среды Python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
@@ -15943,6 +15963,8 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive может установить недостающие модули python в виртуальной среде %1.\n"
+"Такая установка не затронет системные библиотеки."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, fuzzy, kde-format
@@ -15952,12 +15974,12 @@ msgstr "Окружение"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "Использовать виртуальную среду (рекомендуется)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
 msgid "Use system install"
-msgstr ""
+msgstr "Использовать установку в системе"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:443
 #: src/pythoninterfaces/abstractpythoninterface.cpp:555
@@ -15997,12 +16019,12 @@ msgstr "Параметры отрисовки"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:584
 #, kde-format
 msgid "Python exec not found"
-msgstr ""
+msgstr "Не найден исполняемый файл Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:586
-#, fuzzy, kde-format
+#, kde-format
 msgid "Failed to find script file %1"
-msgstr "Не удалось создать файл."
+msgstr "Не удалось найти файл сценария %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:623
 #, fuzzy, kde-format
@@ -16049,7 +16071,7 @@ msgstr ""
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
 msgid "The Kdenlive adapter was not found by OpenTimelineIO."
-msgstr ""
+msgstr "OpenTimelineIO не удалось найти адаптер Kdenlive."
 
 #: src/pythoninterfaces/otioconvertions.cpp:65
 #, kde-format
@@ -19425,7 +19447,7 @@ msgstr "Аргументы"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, info_message)
 #: src/ui/clipjobmanager_ui.ui:80
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "In the arguments, the following options are available: <ul><li><b>{source}</"
 "b> will be replaced by the Bin Clip source file path</li><li><b>{param1}</b> "
@@ -19434,10 +19456,10 @@ msgid ""
 "replaced by the output file name</li></ul>"
 msgstr ""
 "В аргументах возможно использовать следующие замены: <ul><li><b>{source}</b> "
-"заменяется путём к исходному файлу клипа в корзине</li><li><b>{output}</b> "
-"заменяется именем выходного файла</li><li><b>{param1}</b> заменяется "
-"значением первого параметра</li><li><b>{param2}</b> заменяется значением "
-"второго параметра</li></ul>"
+"заменяется путём к исходному файлу клипа в корзине</li><li><b>{param1}</b> "
+"заменяется значением первого параметра</li><li><b>{param2}</b> заменяется "
+"значением второго параметра</li><li><b>{output}</b> заменяется именем "
+"выходного файла</li></ul>"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: src/ui/clipjobmanager_ui.ui:93
@@ -20042,7 +20064,7 @@ msgstr "Папка для сборки, титров и сценариев:"
 #: src/ui/configenv_ui.ui:336
 #, kde-format
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:363
@@ -20054,7 +20076,7 @@ msgstr "Удалить %1"
 #: src/ui/configenv_ui.ui:372
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "Использовать виртуальную среду python (рекомендуется)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:400
@@ -20647,13 +20669,13 @@ msgstr "Работы системы распознавания Whisper на ЦП
 #: src/ui/configspeech_ui.ui:281
 #, kde-format
 msgid "Enable translation through SeamlessM4T"
-msgstr ""
+msgstr "Включить перевод через SeamlessM4T"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:308
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check speech engine installation"
-msgstr "Проверить установку VOSK"
+msgstr "Проверьте установку системы распознавания речи"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:311
@@ -20899,9 +20921,9 @@ msgstr "Удалить профиль"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_reset)
 #: src/ui/customcamcorderproxy_ui.ui:135
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reset all profiles"
-msgstr "Удалить профиль"
+msgstr "Сбросить все профили"
 
 #. i18n: ectx: property (text), widget (QLabel, progressLabel)
 #. i18n: ectx: property (text), widget (QLabel, param1Label)
@@ -21540,7 +21562,7 @@ msgstr "Импортировать в позицию курсора монтаж
 #: src/ui/import_subtitle_ui.ui:118
 #, kde-format
 msgid "Transform framerate"
-msgstr "Преобразовать кадровую частоту"
+msgstr "Преобразовать частоту кадров"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/import_subtitle_ui.ui:241
@@ -22833,12 +22855,11 @@ msgstr "Размер файла"
 msgid "Selected zone only"
 msgstr "Только выбранный участок"
 
-# BUGME: Please split to the button captures and settings group name. --ayavorsky 20200418
 #. i18n: ectx: property (text), widget (QPushButton, button_start)
 #: src/ui/textbasededit_ui.ui:107
 #, fuzzy, kde-format
 msgid "Transcribe"
-msgstr "Перекодировать"
+msgstr "Перекодирование"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/timeremap_ui.ui:77
@@ -23266,7 +23287,7 @@ msgstr ""
 #: src/ui/transcodeseekable_ui.ui:81
 #, kde-format
 msgid "Replace clip by transcoded version in project"
-msgstr ""
+msgstr "Заменить клип перекодированной версией в проекте"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UnicodeWidget_UI)
 #: src/ui/unicodewidget_ui.ui:24
@@ -28655,3 +28676,10 @@ msgstr "%1ч"
 
 #~ msgid "Apply effect change to all clips in the group"
 #~ msgstr "Применить изменение эффекта ко всем клипам в группе"
+
+#~ msgid ""
+#~ "Cannot find python virtualenv, please install it on your system. "
+#~ "Defaulting to system python."
+#~ msgstr ""
+#~ "Не удалось найти виртуальную среду python, установите её в своей системе. "
+#~ "Используется резервный общесистемный компилятор python."

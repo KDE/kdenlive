@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-24 00:39+0000\n"
+"POT-Creation-Date: 2024-10-25 00:39+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -5767,8 +5767,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1775
-#: src/doc/documentchecker.cpp:1803 src/doc/documentchecker.cpp:1823
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1837
+#: src/doc/documentchecker.cpp:1867 src/doc/documentchecker.cpp:1887
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, fuzzy, kde-format
@@ -9155,127 +9155,132 @@ msgstr "संचयीका जोडा"
 msgid "Applying fixes…"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:237
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
 #, fuzzy, kde-format
 msgid "Checking for missing items…"
 msgstr "साधन संयोजना"
 
-#: src/doc/documentchecker.cpp:194
+#: src/doc/documentchecker.cpp:195
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1827
 #, kde-format
 msgid "Video clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1829
 #, fuzzy, kde-format
 msgid "Slideshow clip"
 msgstr "स्लाइडशो"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1831
 #, kde-format
 msgid "Image clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1771
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Playlist clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1773 src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1835 src/doc/documentchecker.cpp:1851
 #, fuzzy, kde-format
 #| msgid "Image"
 msgid "Title Image"
 msgstr "प्रतिमा"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1847
 #, fuzzy, kde-format
 #| msgid "Folder"
 msgid "Clip"
 msgstr "संचयीका"
 
-#: src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1849
 #, fuzzy, kde-format
 #| msgid "Title"
 msgid "Title Font"
 msgstr "शिर्षक"
 
-#: src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1853
 #, kde-format
 msgid "Luma file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1855
 #, fuzzy, kde-format
 msgid "Asset file"
 msgstr "रूपरेषा :"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1857
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1859
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, fuzzy, kde-format
 msgid "Effect"
 msgstr "परिणाम :"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1861
 #, fuzzy, kde-format
 msgid "Transition"
 msgstr "पानाच्या रुंदीप्रमाणे समर्पक बसवा"
 
-#: src/doc/documentchecker.cpp:1801
+#: src/doc/documentchecker.cpp:1863
+#, fuzzy, kde-format
+msgid "Unreferenced clip"
+msgstr "फाईल उघडतेवेळी त्रुटी"
+
+#: src/doc/documentchecker.cpp:1865
 #, fuzzy, kde-format
 msgid "Corrupted sequence"
 msgstr "प्रतिमेचा आकार"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1811 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1875 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1813
+#: src/doc/documentchecker.cpp:1877
 #, kde-format
 msgid "Reload"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1879
 #, kde-format
 msgid "Missing"
 msgstr "आढळले नाही"
 
-#: src/doc/documentchecker.cpp:1817
+#: src/doc/documentchecker.cpp:1881
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1819 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1883 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1821 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1885 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove"
 msgstr "संचयीका बनवा"
 
-#: src/doc/documentchecker.cpp:1832
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1899
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""

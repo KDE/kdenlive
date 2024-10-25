@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-24 00:39+0000\n"
+"POT-Creation-Date: 2024-10-25 00:39+0000\n"
 "PO-Revision-Date: 2024-10-12 10:11+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -5761,8 +5761,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Wykorzystanie"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1775
-#: src/doc/documentchecker.cpp:1803 src/doc/documentchecker.cpp:1823
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1837
+#: src/doc/documentchecker.cpp:1867 src/doc/documentchecker.cpp:1887
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -9208,123 +9208,130 @@ msgstr "Katalog wycinków"
 msgid "Applying fixes…"
 msgstr "Stosowanie poprawek…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:237
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Poszukiwanie brakujących rzeczy…"
 
-#: src/doc/documentchecker.cpp:194
+#: src/doc/documentchecker.cpp:195
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Id dokumentu twojego projektu było nieprawidłowe, więc utworzono nowe."
 
-#: src/doc/documentchecker.cpp:1765
+#: src/doc/documentchecker.cpp:1827
 #, kde-format
 msgid "Video clip"
 msgstr "Wycinek wideo"
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1829
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Wycinek pokazu obrazów"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1831
 #, kde-format
 msgid "Image clip"
 msgstr "Wycinek obrazu"
 
-#: src/doc/documentchecker.cpp:1771
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Playlist clip"
 msgstr "Wycinek listy odtwarzania"
 
-#: src/doc/documentchecker.cpp:1773 src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1835 src/doc/documentchecker.cpp:1851
 #, kde-format
 msgid "Title Image"
 msgstr "Obraz tytułowy"
 
-#: src/doc/documentchecker.cpp:1785
+#: src/doc/documentchecker.cpp:1847
 #, kde-format
 msgid "Clip"
 msgstr "Wycinek"
 
-#: src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1849
 #, kde-format
 msgid "Title Font"
 msgstr "Czcionka tytułowa"
 
-#: src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1853
 #, kde-format
 msgid "Luma file"
 msgstr "Plik luminacji"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1855
 #, kde-format
 msgid "Asset file"
 msgstr "Plik zasobu"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1857
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "Pośredni wycinek"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1859
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1861
 #, kde-format
 msgid "Transition"
 msgstr "Przejście"
 
-#: src/doc/documentchecker.cpp:1801
+#: src/doc/documentchecker.cpp:1863
+#, fuzzy, kde-format
+#| msgid "One removed clip"
+#| msgid_plural "%1 removed clips"
+msgid "Unreferenced clip"
+msgstr "Jeden usunięty wycinek"
+
+#: src/doc/documentchecker.cpp:1865
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Uszkodzony odcinek"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1811 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1875 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Stałe"
 
-#: src/doc/documentchecker.cpp:1813
+#: src/doc/documentchecker.cpp:1877
 #, kde-format
 msgid "Reload"
 msgstr "Wczytaj ponownie"
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1879
 #, kde-format
 msgid "Missing"
 msgstr "Brakuje"
 
-#: src/doc/documentchecker.cpp:1817
+#: src/doc/documentchecker.cpp:1881
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Brakuje, lecz dostępny jest wycinek pośredni"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1819 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1883 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Pole zastępcze"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1821 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1885 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Usuń"
 
-#: src/doc/documentchecker.cpp:1832
+#: src/doc/documentchecker.cpp:1896
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Plik projektu zawiera brakujące wycinki lub pliki."
 
-#: src/doc/documentchecker.cpp:1835
+#: src/doc/documentchecker.cpp:1899
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Brakujące wycinki pośrednie można utworzyć ponownie po otwarciu."
