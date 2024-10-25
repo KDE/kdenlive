@@ -111,7 +111,7 @@ void AudioLevelsTask::run()
         }
         streamIndex++;
         // Generate one thumb per stream
-        QString cachePath = binClip->getAudioThumbPath(stream);
+        const QString cachePath = binClip->getAudioThumbPath(stream);
         QVector<uint8_t> mltLevels;
         if (!m_isForce && QFile::exists(cachePath)) {
             // Audio thumb already exists
