@@ -1826,10 +1826,14 @@ void Bin::slotReloadClip()
             }
             if (currentItem->clipType() == ClipType::Playlist) {
                 // Check if a clip inside playlist is missing
-                QString path = currentItem->url();
+                const QString path = currentItem->url();
                 QFile f(path);
                 QDomDocument doc;
-                if (!Xml::docContentFromFile(doc, path, false)) {
+                if (path.endsWith(QLatin1String(".mlt"))) {
+                    // MLT Playlist
+                    // TODO: check that file paths are correct
+                } else if (!Xml::docContentFromFile(doc, path, false)) {
+                    // Kdenlive project file
                     DocumentChecker d(QUrl::fromLocalFile(path), doc);
                     if (!d.hasErrorInProject() && doc.documentElement().hasAttribute(QStringLiteral("modified"))) {
                         QString backupFile = path + QStringLiteral(".backup");
