@@ -226,6 +226,7 @@ bool DocumentChecker::hasErrorInProject()
     QDomNodeList documentChains = m_doc.elementsByTagName(QStringLiteral("chain"));
     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
     QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
+    QDomNodeList filts = m_doc.elementsByTagName(QStringLiteral("filter"));
     QMap<QString, QString> renamedEffects;
     renamedEffects.insert(QStringLiteral("frei0r.alpha0ps"), QStringLiteral("frei0r.alpha0ps_alpha0ps"));
     renamedEffects.insert(QStringLiteral("frei0r.alphaspot"), QStringLiteral("frei0r.alpha0ps_alphaspot"));
@@ -489,7 +490,7 @@ bool DocumentChecker::hasErrorInProject()
             continue;
         }
 
-        QString fixedPath = fixLutFile(filePath);
+        const QString fixedPath = fixLutFile(filePath);
 
         DocumentResource item;
         item.type = MissingType::AssetFile;
@@ -497,6 +498,7 @@ bool DocumentChecker::hasErrorInProject()
 
         if (!fixedPath.isEmpty()) {
             item.newFilePath = fixedPath;
+            fixAssetResource(filts, getAssetPairs(), filePath, fixedPath);
             item.status = MissingStatus::Fixed;
         } else {
             item.status = MissingStatus::Missing;
