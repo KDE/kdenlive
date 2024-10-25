@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-19 02:35+0000\n"
+"POT-Creation-Date: 2024-10-25 02:31+0000\n"
 "PO-Revision-Date: 2020-04-15 11:41+0300\n"
 "Last-Translator: Petros Vidalis <pvidalis@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -5216,7 +5216,7 @@ msgid "Edit Tags"
 msgstr "Τροποποίηση διάρκειας"
 
 #: src/bin/bin.cpp:4555 src/bin/projectclip.cpp:210
-#: src/bin/projectclip.cpp:2081 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2083 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
 #, fuzzy, kde-format
@@ -5848,20 +5848,20 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:970
+#: src/bin/projectclip.cpp:972
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1221 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1223 src/jobs/cliploadtask.cpp:264
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "Μη έγκυρο κλιπ"
 
-#: src/bin/projectclip.cpp:1450 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1452 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1481
 #, fuzzy, kde-format
@@ -5869,20 +5869,20 @@ msgstr "Μη έγκυρο κλιπ"
 msgid "File already exists"
 msgstr "Το προφίλ αυτό υπάρχει ήδη"
 
-#: src/bin/projectclip.cpp:2692
+#: src/bin/projectclip.cpp:2694
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Διαγραφή κλιπ χρόνου"
 
-#: src/bin/projectclip.cpp:2939
+#: src/bin/projectclip.cpp:2941
 #, fuzzy, kde-format
 #| msgid "Edit effect %1"
 msgid "Add stream effect"
 msgstr "Επεξεργασία εφέ %1"
 
-#: src/bin/projectclip.cpp:2964
+#: src/bin/projectclip.cpp:2966
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -5912,8 +5912,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1777
-#: src/doc/documentchecker.cpp:1805 src/doc/documentchecker.cpp:1825
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1776
+#: src/doc/documentchecker.cpp:1804 src/doc/documentchecker.cpp:1824
 #: src/mltcontroller/clipcontroller.cpp:524 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -9080,119 +9080,119 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1766
 #, kde-format
 msgid "Video clip"
 msgstr "Βιντεοκλίπ"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1768
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Κλιπ προβολής διαφανειών"
 
-#: src/doc/documentchecker.cpp:1771
+#: src/doc/documentchecker.cpp:1770
 #, kde-format
 msgid "Image clip"
 msgstr "Εικονοκλίπ"
 
-#: src/doc/documentchecker.cpp:1773
+#: src/doc/documentchecker.cpp:1772
 #, kde-format
 msgid "Playlist clip"
 msgstr "Κλιπ λίστας αναπαραγωγής"
 
-#: src/doc/documentchecker.cpp:1775 src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1774 src/doc/documentchecker.cpp:1790
 #, kde-format
 msgid "Title Image"
 msgstr "Εικόνα τίτλου"
 
-#: src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1786
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "Κλιπ"
 
-#: src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1788
 #, kde-format
 msgid "Title Font"
 msgstr "Γραμματοσειρά τίτλου"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1792
 #, kde-format
 msgid "Luma file"
 msgstr "Αρχείο luma"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1794
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Διαγραφή αρχείων"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1796
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Κλιπ διαμεσολάβησης"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1798
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Εφέ"
 
-#: src/doc/documentchecker.cpp:1801
+#: src/doc/documentchecker.cpp:1800
 #, kde-format
 msgid "Transition"
 msgstr "Μετάβαση"
 
-#: src/doc/documentchecker.cpp:1803
+#: src/doc/documentchecker.cpp:1802
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Corrupted sequence"
 msgstr "Δημιουργία νέας ακολουθίας"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1813 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1812 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1814
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Επαναφόρτωση κλιπ"
 
-#: src/doc/documentchecker.cpp:1817
+#: src/doc/documentchecker.cpp:1816
 #, kde-format
 msgid "Missing"
 msgstr "Μη διαθέσιμα"
 
-#: src/doc/documentchecker.cpp:1819
+#: src/doc/documentchecker.cpp:1818
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Μη διαθέσιμος διαμεσολαβητής"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1821 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1820 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1823 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1822 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove"
 msgstr "Αφαίρεση αρχείου"
 
-#: src/doc/documentchecker.cpp:1834
+#: src/doc/documentchecker.cpp:1833
 #, fuzzy, kde-format
 #| msgid "The project file contains missing clips or files"
 msgid "The project file contains missing clips or files."
 msgstr "Το αρχείο έργου περιέχει μη διαθέσιμα κλιπ ή αρχεία"
 
-#: src/doc/documentchecker.cpp:1837
+#: src/doc/documentchecker.cpp:1836
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
@@ -13762,38 +13762,38 @@ msgid_plural "%1 audio streams"
 msgstr[0] "Ηχητικό κομμάτι"
 msgstr[1] "Ηχητικό κομμάτι"
 
-#: src/monitor/monitor.cpp:2397
+#: src/monitor/monitor.cpp:2390
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2439 src/monitor/monitor.cpp:2496
+#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2459
+#: src/monitor/monitor.cpp:2452
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "Το κλιπ δεν περιέχει δείκτες"
 
-#: src/monitor/monitor.cpp:2461
+#: src/monitor/monitor.cpp:2454
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
-#: src/monitor/monitor.cpp:2503
+#: src/monitor/monitor.cpp:2496
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2549
+#: src/monitor/monitor.cpp:2542
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""

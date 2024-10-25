@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-19 02:35+0000\n"
+"POT-Creation-Date: 2024-10-25 02:31+0000\n"
 "PO-Revision-Date: 2024-10-08 20:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -5047,7 +5047,7 @@ msgid "Edit Tags"
 msgstr "Künyeleri Düzenle"
 
 #: src/bin/bin.cpp:4555 src/bin/projectclip.cpp:210
-#: src/bin/projectclip.cpp:2081 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2083 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:602
 #: src/onlineresources/resourcewidget.cpp:617
 #, kde-format
@@ -5635,7 +5635,7 @@ msgstr ""
 "Görüntü boyutu 8 pikselden küçük.\n"
 "Bu, video çerçevemiz tarafından doğru şekilde desteklenmiyor."
 
-#: src/bin/projectclip.cpp:970
+#: src/bin/projectclip.cpp:972
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5644,29 +5644,29 @@ msgstr ""
 "%1 dosyasından üst veri ayıklanamıyor\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1221 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1223 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr "Geçersiz"
 
-#: src/bin/projectclip.cpp:1450 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1452 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1481
 #, kde-format
 msgid "File already exists"
 msgstr "Dosya halihazırda var"
 
-#: src/bin/projectclip.cpp:2692
+#: src/bin/projectclip.cpp:2694
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Zaman akışı kliplerini ayarla"
 
-#: src/bin/projectclip.cpp:2939
+#: src/bin/projectclip.cpp:2941
 #, kde-format
 msgid "Add stream effect"
 msgstr "Akış efekti ekle"
 
-#: src/bin/projectclip.cpp:2964
+#: src/bin/projectclip.cpp:2966
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Akış efektini kaldır"
@@ -5693,8 +5693,8 @@ msgstr "Kimlik"
 msgid "Usage"
 msgstr "Kullanım"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1777
-#: src/doc/documentchecker.cpp:1805 src/doc/documentchecker.cpp:1825
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1776
+#: src/doc/documentchecker.cpp:1804 src/doc/documentchecker.cpp:1824
 #: src/mltcontroller/clipcontroller.cpp:524 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8757,112 +8757,112 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Projenizin belge kimliği geçersizdi; yeni bir tane oluşturuldu."
 
-#: src/doc/documentchecker.cpp:1767
+#: src/doc/documentchecker.cpp:1766
 #, kde-format
 msgid "Video clip"
 msgstr "Video klibi"
 
-#: src/doc/documentchecker.cpp:1769
+#: src/doc/documentchecker.cpp:1768
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Sunu klibi"
 
-#: src/doc/documentchecker.cpp:1771
+#: src/doc/documentchecker.cpp:1770
 #, kde-format
 msgid "Image clip"
 msgstr "Görsel klibi"
 
-#: src/doc/documentchecker.cpp:1773
+#: src/doc/documentchecker.cpp:1772
 #, kde-format
 msgid "Playlist clip"
 msgstr "Oynatma listesi klibi"
 
-#: src/doc/documentchecker.cpp:1775 src/doc/documentchecker.cpp:1791
+#: src/doc/documentchecker.cpp:1774 src/doc/documentchecker.cpp:1790
 #, kde-format
 msgid "Title Image"
 msgstr "Başlık Resmi"
 
-#: src/doc/documentchecker.cpp:1787
+#: src/doc/documentchecker.cpp:1786
 #, kde-format
 msgid "Clip"
 msgstr "Klip"
 
-#: src/doc/documentchecker.cpp:1789
+#: src/doc/documentchecker.cpp:1788
 #, kde-format
 msgid "Title Font"
 msgstr "Başlık Yazıtipi"
 
-#: src/doc/documentchecker.cpp:1793
+#: src/doc/documentchecker.cpp:1792
 #, kde-format
 msgid "Luma file"
 msgstr "Luma dosyası"
 
-#: src/doc/documentchecker.cpp:1795
+#: src/doc/documentchecker.cpp:1794
 #, kde-format
 msgid "Asset file"
 msgstr "Varlık dosyası"
 
-#: src/doc/documentchecker.cpp:1797
+#: src/doc/documentchecker.cpp:1796
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Vekil klip"
 
-#: src/doc/documentchecker.cpp:1799
+#: src/doc/documentchecker.cpp:1798
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/doc/documentchecker.cpp:1801
+#: src/doc/documentchecker.cpp:1800
 #, kde-format
 msgid "Transition"
 msgstr "Geçiş"
 
-#: src/doc/documentchecker.cpp:1803
+#: src/doc/documentchecker.cpp:1802
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Hasarlı sekans"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1813 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1812 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Sabit"
 
-#: src/doc/documentchecker.cpp:1815
+#: src/doc/documentchecker.cpp:1814
 #, kde-format
 msgid "Reload"
 msgstr "Yeniden Yükle"
 
-#: src/doc/documentchecker.cpp:1817
+#: src/doc/documentchecker.cpp:1816
 #, kde-format
 msgid "Missing"
 msgstr "Eksik"
 
-#: src/doc/documentchecker.cpp:1819
+#: src/doc/documentchecker.cpp:1818
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Eksik; ancak vekil var"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1821 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1820 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Yer Tutucu"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1823 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1822 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Kaldır"
 
-#: src/doc/documentchecker.cpp:1834
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Proje dosyası eksik klipler veya dosyalar içeriyor."
 
-#: src/doc/documentchecker.cpp:1837
+#: src/doc/documentchecker.cpp:1836
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Eksik vekiller program açılırken yeniden oluşturulabilir."
@@ -13141,13 +13141,13 @@ msgid_plural "%1 audio streams"
 msgstr[0] "%1 ses akışı"
 msgstr[1] "%1 ses akışı"
 
-#: src/monitor/monitor.cpp:2397
+#: src/monitor/monitor.cpp:2390
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 "Movit’in GLSL yöneticisi başlatılamıyor, lütfen Movit’i devre dışı bırakın"
 
-#: src/monitor/monitor.cpp:2439 src/monitor/monitor.cpp:2496
+#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -13156,17 +13156,17 @@ msgstr ""
 "Bu özellik için alphagrad süzgeci gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2459
+#: src/monitor/monitor.cpp:2452
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klip bir efekt içermiyor"
 
-#: src/monitor/monitor.cpp:2461
+#: src/monitor/monitor.cpp:2454
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Efekti uygulamak için proje kovasından bir klip seçin"
 
-#: src/monitor/monitor.cpp:2503
+#: src/monitor/monitor.cpp:2496
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -13175,7 +13175,7 @@ msgstr ""
 "Bu özellik için cairoblend geçişi gerekiyor, lütfen frei0r’ı kurun ve "
 "Kdenlive’i yeniden başlatın"
 
-#: src/monitor/monitor.cpp:2549
+#: src/monitor/monitor.cpp:2542
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Efekti düzenlemek için monitörde düzenleme modunu etkinleştir"
