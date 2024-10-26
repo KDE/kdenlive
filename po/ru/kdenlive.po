@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-25 02:31+0000\n"
-"PO-Revision-Date: 2024-10-24 17:22+0300\n"
+"PO-Revision-Date: 2024-10-25 17:20+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -924,17 +924,14 @@ msgid "Text"
 msgstr "Текст"
 
 #: data/effects/dynamictext.xml:44
-#, fuzzy, kde-format
-#| msgid ""
-#| "timecode,frame,file date,local file date,source frame rate,source codec,"
-#| "source bit rate,source width,source height,source comment"
+#, kde-format
 msgid ""
 "timecode,frame,creation date,file date (GMT),file date (local),source frame "
 "rate,source codec,source bit rate,source width,source height,source comment"
 msgstr ""
-"тайм-код,кадр,дата файла,дата локального файла,исходная кадровая частота,"
-"исходный кодек,исходный битрейт,исходная ширина,исходная высота,исходные "
-"комментарии"
+"тайм-код,кадр,дата создания,дата файла (GMT),дата файла (локальная),исходная "
+"кадровая частота,исходный кодек,исходный битрейт,исходная ширина,исходная "
+"высота,исходные комментарии"
 
 #: data/effects/dynamictext.xml:45
 #, no-c-format, kde-format
@@ -3292,9 +3289,9 @@ msgid "Reload custom effect"
 msgstr "Обновить пользовательский эффект"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:76
-#, fuzzy, kde-format
+#, kde-format
 msgid "Edit Info…"
-msgstr "Изменить сведения"
+msgstr "Изменить сведения…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:81
 #, kde-format
@@ -3663,7 +3660,7 @@ msgstr "Обновить эффект"
 #, kde-format
 msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr ""
-"Ключевой кадр в позиции %1 был потерян и повторно добавлен автоматически"
+"Ключевой кадр в позиции %1 отсутствовал и повторно добавлен автоматически"
 
 #: src/assets/keyframes/view/keyframeview.cpp:139
 #, kde-format
@@ -4311,10 +4308,9 @@ msgid "When selected mutes all other audio tracks."
 msgstr "Выключает все выбранные звуковые дорожки."
 
 #: src/audiomixer/mixerwidget.cpp:277
-#, fuzzy, kde-format
-#| msgid "Monitor audio input"
+#, kde-format
 msgid "Monitor audio"
-msgstr "Слежение за входящим звуком"
+msgstr "Слежение за звуком"
 
 #: src/audiomixer/mixerwidget.cpp:278
 #, kde-kuit-format
@@ -4700,10 +4696,10 @@ msgid "Replacement clip duration is longer that your source clip"
 msgstr "Длительность заменяющего клипа превышает длительность исходного клипа"
 
 #: src/bin/bin.cpp:2061
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
-msgstr "Выбор файла для замены"
+msgstr "Открытие замены для %1"
 
 #: src/bin/bin.cpp:2095
 #, kde-format
@@ -5033,10 +5029,9 @@ msgid "Default Target Folder for Sequences"
 msgstr "Целевая папка по умолчанию для последовательностей"
 
 #: src/bin/bin.cpp:3723
-#, fuzzy, kde-format
-#| msgid "Default Target Folder for Sequences"
+#, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "Целевая папка по умолчанию для последовательностей"
+msgstr "Целевая папка по умолчанию для захвата звука"
 
 #: src/bin/bin.cpp:3727
 #, kde-format
@@ -5285,7 +5280,7 @@ msgstr[3] "Добавить дополнительный поток для кл�
 #: src/bin/bin.cpp:5940
 #, kde-format
 msgid "Import selected clips"
-msgstr "Импортировать выбранные клипы"
+msgstr "Импорт выбранных клипов"
 
 #: src/bin/bin.cpp:5942
 #, kde-format
@@ -5318,11 +5313,10 @@ msgid "We recommend that you save the project before the transcode operation"
 msgstr "Рекомендуется сохранить проект перед операцией перекодирования"
 
 #: src/bin/bin.cpp:6171
-#, fuzzy, kde-format
-#| msgid "Save DVD Project"
+#, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
-msgstr "Сохранить DVD-проект"
+msgstr "Сохранить проект"
 
 #: src/bin/bin.cpp:6172
 #, kde-format
@@ -5359,8 +5353,7 @@ msgid "Rename Zone"
 msgstr "Переименовать участок"
 
 #: src/bin/bincommands.cpp:86
-#, fuzzy, kde-format
-#| msgid "Edit Clip"
+#, kde-format
 msgctxt "@action"
 msgid "Edit Clip"
 msgstr "Изменить клип"
@@ -5484,7 +5477,7 @@ msgstr "Импорт выбранного"
 #: src/bin/mediabrowser.cpp:57
 #, kde-format
 msgid "Import File on Double Click"
-msgstr "Импортировать файл по двойному щелчку"
+msgstr "Импорт файла по двойному щелчку"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -5525,7 +5518,7 @@ msgstr ""
 #: src/bin/mediabrowser.cpp:205 src/dialogs/clipcreationdialog.cpp:413
 #, kde-format
 msgid "Import image sequence"
-msgstr "Импортировать серию изображений"
+msgstr "Импорт серии изображений"
 
 #: src/bin/mediabrowser.cpp:208 src/dialogs/clipcreationdialog.cpp:414
 #, kde-format
@@ -5696,11 +5689,10 @@ msgid "Delete subtitle"
 msgstr "Удалить субтитр"
 
 #: src/bin/model/subtitlemodel.cpp:1728 src/bin/model/subtitlemodel.cpp:1731
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Субтитры"
+msgstr "Субтитр %1"
 
 #: src/bin/projectclip.cpp:268
 #, kde-format
@@ -5708,12 +5700,10 @@ msgid "Timeline sequence"
 msgstr "Последовательность монтажного стола"
 
 #: src/bin/projectclip.cpp:577 src/timeline2/view/qml/Clip.qml:1104
-#, fuzzy, kde-format
-#| msgctxt "The first letter of Proxy, used as abbreviation"
-#| msgid "P"
+#, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
-msgstr "P"
+msgstr "П"
 
 #: src/bin/projectclip.cpp:656
 #, kde-format
@@ -5823,15 +5813,14 @@ msgid "Clean Project"
 msgstr "Очистить проект"
 
 #: src/bin/projectitemmodel.cpp:1266
-#, fuzzy, kde-format
-#| msgid "Loading project clips…"
+#, kde-format
 msgid "Reading project clips…"
-msgstr "Загрузка клипов проекта..."
+msgstr "Чтение клипов проекта…"
 
 #: src/bin/projectitemmodel.cpp:1374
 #, kde-format
 msgid "Loading project clips…"
-msgstr "Загрузка клипов проекта..."
+msgstr "Загрузка клипов проекта…"
 
 #: src/bin/projectsubclip.cpp:43 src/doc/documentvalidator.cpp:2137
 #, kde-format
@@ -6193,9 +6182,9 @@ msgid "Loading clips"
 msgstr "Загрузка клипов"
 
 #: src/dialogs/clipcreationdialog.cpp:59
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color Clip Dialog"
-msgstr "Цветовой клип"
+msgstr "Диалоговое окно цветового клипа"
 
 #: src/dialogs/clipcreationdialog.cpp:60
 #, kde-format
@@ -6209,12 +6198,12 @@ msgid "Color Clip"
 msgstr "Цветовой клип"
 
 #: src/dialogs/clipcreationdialog.cpp:63
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip Name"
-msgstr "Выравнивание выполнено."
+msgstr "Имя клипа"
 
 #: src/dialogs/clipcreationdialog.cpp:67
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create Color Clip"
 msgstr "Создать цветовой клип"
 
@@ -6551,7 +6540,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
 msgid "Export guides"
-msgstr "Экспортировать направляющие"
+msgstr "Экспорт направляющих"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -6592,7 +6581,7 @@ msgstr "Файл JSON"
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Guides Data"
-msgstr "Экспортировать данные направляющих"
+msgstr "Экспорт данных направляющих"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1695
 #: src/dialogs/renderwidget.cpp:1722 src/doc/kdenlivedoc.cpp:759
@@ -6665,7 +6654,7 @@ msgstr "Комментарий для направляющей"
 #: src/dialogs/importsubtitle.cpp:40
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
-msgstr "Кодировка символов для сохранения файла субтитров."
+msgstr "Кодировка символов для сохранения файла с субтитрами."
 
 #: src/dialogs/importsubtitle.cpp:41
 #, kde-kuit-format
@@ -6812,6 +6801,9 @@ msgid ""
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
 "documentation</a>."
 msgstr ""
+"Сведения о конфигурации устройства доступны в <a href=\"https://docs."
+"kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive."
+"html#windows\">документации</a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:512 src/dialogs/timeremap.cpp:1670
@@ -6966,30 +6958,30 @@ msgstr "Папка моделей"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1855
 #, kde-format
 msgid "Setting up virtual environment…"
-msgstr "Настройка виртуальной среды…"
+msgstr "Настройка виртуального окружения…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1857
 #, kde-format
 msgid "Disabling virtual environment"
-msgstr "Отключение виртуальной среды"
+msgstr "Отключение виртуального окружения"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1874
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
-msgstr "Удаление папки виртуальной среды."
+msgstr "Удаление папки виртуального окружения."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1879
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
-msgstr "Не найдена виртуальная среда python"
+msgstr "Не найдено виртуальное окружение python"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1882
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr "Не удалось удалить папку виртуальной среды."
+msgstr "Не удалось удалить папку виртуального окружения."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1887
 #, kde-format
@@ -7064,25 +7056,22 @@ msgid "New dictionary installed."
 msgstr "Установлен новый словарь."
 
 #: src/dialogs/managesubtitles.cpp:28
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Субтитры"
+msgstr "Управление субтитрами"
 
 #: src/dialogs/managesubtitles.cpp:44
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Импорт субтитров"
 
 #: src/dialogs/managesubtitles.cpp:45
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Импорт субтитров"
+msgstr "Экспорт субтитров"
 
 #: src/dialogs/managesubtitles.cpp:109
 #, kde-format
@@ -7090,6 +7079,8 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2 "
 msgstr ""
+"Будут удалены все записи субтитров в <b>%1</b>,<br/>а также файл с "
+"субтитрами: %2 "
 
 #: src/dialogs/profilesdialog.cpp:110
 #, kde-format
@@ -7569,33 +7560,32 @@ msgid "Add clips in timeline before rendering"
 msgstr "Добавить клипы на монтажный стол перед сборкой"
 
 #: src/dialogs/renderwidget.cpp:1787
-#, fuzzy, kde-format
-#| msgid "Render Duration: %1"
+#, kde-format
 msgid "Rendered File Length: %1"
-msgstr "Длительность сборки: %1"
+msgstr "Длина собранного файла: %1"
 
 #: src/dialogs/renderwidget.cpp:1791
-#, fuzzy, kde-format
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "Потерян %1 клип проекта."
-msgstr[1] "Потеряно %1 клипа проекта."
-msgstr[2] "Потеряно %1 клипов проекта."
-msgstr[3] "Потерян %1 клип проекта."
+msgstr[0] "<b>В проекте используется %1 отсутствующий клип.</b>"
+msgstr[1] "<b>В проекте используются %1 отсутствующих клипа.</b>"
+msgstr[2] "<b>В проекте используются %1 отсутствующих клипов.</b>"
+msgstr[3] "<b>В проекте используется один отсутствующий клип.</b>"
 
 #: src/dialogs/renderwidget.cpp:1793
-#, fuzzy, kde-format
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "Проверить наличие клипов"
-msgstr[1] "Проверить наличие клипов"
-msgstr[2] "Проверить наличие клипов"
-msgstr[3] "Проверить наличие клипов"
+msgstr[0] "%1 отсутствующий клип (не используются)."
+msgstr[1] "%1 отсутствующих клипа (не используются)."
+msgstr[2] "%1 отсутствующих клипов (не используются)."
+msgstr[3] "Один отсутствующий клип (не используется)."
 
 #: src/dialogs/renderwidget.cpp:1795
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "Потерян %1 клип проекта."
+msgstr "Отсутствующих клипов: %1 (<b>используются в проекте: %2</b>)."
 
 #: src/dialogs/renderwidget.cpp:1877
 #, kde-format
@@ -7760,10 +7750,9 @@ msgid "Burmese"
 msgstr "Бирманский"
 
 #: src/dialogs/speechdialog.cpp:471
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Cantonese"
-msgstr "Китайский"
+msgstr "Кантонский"
 
 #: src/dialogs/speechdialog.cpp:472 src/pythoninterfaces/speechtotext.cpp:102
 #, kde-format
@@ -7856,10 +7845,9 @@ msgid "Gujarati"
 msgstr "Гуджарати"
 
 #: src/dialogs/speechdialog.cpp:490
-#, fuzzy, kde-format
-#| msgid "Mongolian"
+#, kde-format
 msgid "Halh Mongolian"
-msgstr "Монгольский"
+msgstr "Халха-монгольский "
 
 #: src/dialogs/speechdialog.cpp:491 src/pythoninterfaces/speechtotext.cpp:123
 #, kde-format
@@ -7892,11 +7880,9 @@ msgid "Indonesian"
 msgstr "Индонезийский"
 
 #: src/dialogs/speechdialog.cpp:497
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Iris Box"
+#, kde-format
 msgid "Irish"
-msgstr "Прямоугольная ирисовая диафрагма"
+msgstr "Ирландский"
 
 #: src/dialogs/speechdialog.cpp:498 src/pythoninterfaces/speechtotext.cpp:128
 #, kde-format
@@ -7949,10 +7935,9 @@ msgid "Lithuanian"
 msgstr "Литовский"
 
 #: src/dialogs/speechdialog.cpp:508
-#, fuzzy, kde-format
-#| msgid "Lao"
+#, kde-format
 msgid "Luo"
-msgstr "Лаосский"
+msgstr "Луо"
 
 #: src/dialogs/speechdialog.cpp:509 src/pythoninterfaces/speechtotext.cpp:142
 #, kde-format
@@ -7960,10 +7945,9 @@ msgid "Macedonian"
 msgstr "Македонский"
 
 #: src/dialogs/speechdialog.cpp:510
-#, fuzzy, kde-format
-#| msgid "Swahili"
+#, kde-format
 msgid "Maithili"
-msgstr "Суахили"
+msgstr "Майтхили"
 
 #: src/dialogs/speechdialog.cpp:511 src/pythoninterfaces/speechtotext.cpp:145
 #, kde-format
@@ -7976,10 +7960,9 @@ msgid "Maltese"
 msgstr "Мальтийский"
 
 #: src/dialogs/speechdialog.cpp:513 src/dialogs/speechdialog.cpp:514
-#, fuzzy, kde-format
-#| msgid "Chinese"
+#, kde-format
 msgid "Mandarin Chinese"
-msgstr "Китайский"
+msgstr "Китайский (мандаринский диалект)"
 
 #: src/dialogs/speechdialog.cpp:515 src/pythoninterfaces/speechtotext.cpp:148
 #, kde-format
@@ -8012,10 +7995,9 @@ msgid "Nigerian Fulfulde"
 msgstr "Нигерийский фула"
 
 #: src/dialogs/speechdialog.cpp:521
-#, fuzzy, kde-format
-#| msgid "Azerbaijani"
+#, kde-format
 msgid "North Azerbaijani"
-msgstr "Азербайджанский"
+msgstr "Северный азербайджанский"
 
 #: src/dialogs/speechdialog.cpp:522
 #, kde-format
@@ -8023,22 +8005,19 @@ msgid "Northern Uzbek"
 msgstr "Северный узбекский"
 
 #: src/dialogs/speechdialog.cpp:523
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Bokmål"
-msgstr "Норвежский"
+msgstr "Норвежский (букмол)"
 
 #: src/dialogs/speechdialog.cpp:524
-#, fuzzy, kde-format
-#| msgid "Norwegian"
+#, kde-format
 msgid "Norwegian Nynorsk"
-msgstr "Норвежский"
+msgstr "Норвежский (нюнорск)"
 
 #: src/dialogs/speechdialog.cpp:525
-#, fuzzy, kde-format
-#| msgid "Panjabi"
+#, kde-format
 msgid "Nyanja"
-msgstr "Панджаби"
+msgstr "Ньянджа"
 
 #: src/dialogs/speechdialog.cpp:526
 #, kde-format
@@ -8111,10 +8090,9 @@ msgid "Spanish"
 msgstr "Испанский"
 
 #: src/dialogs/speechdialog.cpp:540
-#, fuzzy, kde-format
-#| msgid "Latvian"
+#, kde-format
 msgid "Standard Latvian"
-msgstr "Латышский"
+msgstr "Стандартный латышский"
 
 #: src/dialogs/speechdialog.cpp:541
 #, kde-format
@@ -8375,9 +8353,9 @@ msgid "Insert selection in timeline"
 msgstr "Вставить выделенное на монтажный стол"
 
 #: src/dialogs/textbasededit.cpp:655
-#, fuzzy, kde-format
+#, kde-format
 msgid "Save edited text in a playlist file"
-msgstr "Сохранить изменённый текст в новом списке воспроизведения"
+msgstr "Сохранить изменённый текст в файле списка воспроизведения"
 
 #: src/dialogs/textbasededit.cpp:662
 #, kde-format
@@ -8470,10 +8448,10 @@ msgid "Speech recognition finished."
 msgstr "Распознавание речи завершено."
 
 #: src/dialogs/textbasededit.cpp:1390
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
-msgstr "Редактировать нарезку клипа"
+msgstr "Редактировать текст клипа"
 
 #: src/dialogs/textbasededit.cpp:1422 src/dialogs/textbasededit.cpp:1504
 #, kde-format
@@ -8814,13 +8792,12 @@ msgstr "Аппаратные кодировщики найдены и включ
 #: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Рекурсивный поиск: обработка клипов"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Поиск завершён"
+msgstr "Рекурсивный поиск: выполнен за %1 с"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -8833,64 +8810,63 @@ msgid "Enter new location for file"
 msgstr "Укажите новое расположение файла"
 
 #: src/doc/dcresolvedialog.cpp:194
-#, fuzzy, kde-format
+#, kde-format
 msgid "The project contains:"
-msgstr "Использовать разрешение проекта"
+msgstr "Проект содержит:"
 
 #: src/doc/dcresolvedialog.cpp:200
-#, fuzzy, kde-format
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "Проверить наличие клипов"
-msgstr[1] "Проверить наличие клипов"
-msgstr[2] "Проверить наличие клипов"
-msgstr[3] "Проверить наличие клипов"
+msgstr[0] "%1 отсутствующий клип"
+msgstr[1] "%1 отсутствующих клипа"
+msgstr[2] "%1 отсутствующих клипов"
+msgstr[3] "Один отсутствующий клип"
 
 #: src/doc/dcresolvedialog.cpp:203
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "One missing source with available proxy"
 msgid_plural "%1 missing sources with available proxy"
-msgstr[0] "Удалить потерянные элементы"
-msgstr[1] "Удалить потерянные элементы"
-msgstr[2] "Удалить потерянные элементы"
-msgstr[3] "Удалить потерянные элементы"
+msgstr[0] "%1 отсутствующий источник с доступными прокси"
+msgstr[1] "%1 отсутствующих источника с доступными прокси"
+msgstr[2] "%1 отсутствующих источников с доступными прокси"
+msgstr[3] "Один отсутствующий источник с доступным прокси"
 
 #: src/doc/dcresolvedialog.cpp:206
-#, fuzzy, kde-format
+#, kde-format
 msgid "One placeholder clip"
 msgid_plural "%1 placeholder clips"
-msgstr[0] "Использовать заполнители вместо потерянных клипов"
-msgstr[1] "Использовать заполнители вместо потерянных клипов"
-msgstr[2] "Использовать заполнители вместо потерянных клипов"
-msgstr[3] "Использовать заполнители вместо потерянных клипов"
+msgstr[0] "%1 клип-заполнитель"
+msgstr[1] "%1 клипа-заполнителя"
+msgstr[2] "%1 клипов-заполнителей"
+msgstr[3] "Один клип-заполнитель"
 
 #: src/doc/dcresolvedialog.cpp:209
-#, fuzzy, kde-format
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "Удалить клипы"
-msgstr[1] "Удалить клипы"
-msgstr[2] "Удалить клипы"
-msgstr[3] "Удалить клипы"
+msgstr[0] "%1 удалённый клип"
+msgstr[1] "%1 удалённых клипа"
+msgstr[2] "%1 удалённых клипов"
+msgstr[3] "Один удалённый клип"
 
 #: src/doc/dcresolvedialog.cpp:218
-#, fuzzy, kde-format
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "Отсутствует прокси"
-msgstr[1] "Отсутствует прокси"
-msgstr[2] "Отсутствует прокси"
-msgstr[3] "Отсутствует прокси"
+msgstr[0] "%1 отсутствующий прокси"
+msgstr[1] "%1 отсутствующих прокси"
+msgstr[2] "%1 отсутствующих прокси"
+msgstr[3] "Один отсутствующий прокси"
 
 #: src/doc/dcresolvedialog.cpp:221
 #, kde-format
 msgid "One proxy can be recovered"
 msgid_plural "%1 proxies can be recovered"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Можно восстановить %1 прокси"
+msgstr[1] "Можно восстановить %1 прокси"
+msgstr[2] "Можно восстановить %1 прокси"
+msgstr[3] "Можно восстановить один прокси"
 
 #: src/doc/dcresolvedialog.cpp:238
 #, kde-format
@@ -8904,10 +8880,9 @@ msgid "Applying fixes…"
 msgstr "Применение исправлений…"
 
 #: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking for missing items…"
-msgstr "Проверка конфигурации..."
+msgstr "Проверка наличия отсутствующих элементов…"
 
 #: src/doc/documentchecker.cpp:194
 #, kde-format
@@ -8941,9 +8916,9 @@ msgid "Title Image"
 msgstr "Изображение титров"
 
 #: src/doc/documentchecker.cpp:1786
-#, fuzzy, kde-format
+#, kde-format
 msgid "Clip"
-msgstr "&Клип"
+msgstr "Клип"
 
 #: src/doc/documentchecker.cpp:1788
 #, kde-format
@@ -8973,14 +8948,14 @@ msgid "Effect"
 msgstr "Эффект"
 
 #: src/doc/documentchecker.cpp:1800
-#, fuzzy, kde-format
+#, kde-format
 msgid "Transition"
-msgstr "Переходы"
+msgstr "Переход"
 
 #: src/doc/documentchecker.cpp:1802
-#, fuzzy, kde-format
+#, kde-format
 msgid "Corrupted sequence"
-msgstr "Создать последовательность"
+msgstr "Повреждённая последовательность"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
 #: src/doc/documentchecker.cpp:1812 src/ui/editrenderpreset_ui.ui:538
@@ -8994,14 +8969,14 @@ msgid "Reload"
 msgstr "Обновить"
 
 #: src/doc/documentchecker.cpp:1816
-#, fuzzy, kde-format
+#, kde-format
 msgid "Missing"
-msgstr "Элемент отсутствует"
+msgstr "Отсутствует"
 
 #: src/doc/documentchecker.cpp:1818
-#, fuzzy, kde-format
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Отсутствует прокси"
+msgstr "Отсутствует, но доступен прокси"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1820 src/ui/editrenderpreset_ui.ui:525
@@ -9011,14 +8986,14 @@ msgstr "Заполнитель"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1822 src/ui/missingclips_ui.ui:152
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove"
 msgstr "Удалить"
 
 #: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "The project file contains missing clips or files."
-msgstr "Файл проекта ссылается на потерянные клипы или файлы."
+msgstr "Файл проекта ссылается на отсутствующие клипы или файлы."
 
 #: src/doc/documentchecker.cpp:1836
 #, kde-format
@@ -9026,10 +9001,9 @@ msgid "Missing proxies can be recreated on opening."
 msgstr "Отсутствующие прокси могут быть восстановлены при открытии."
 
 #: src/doc/documentvalidator.cpp:46
-#, fuzzy, kde-format
-#| msgid "Loading project…"
+#, kde-format
 msgid "Validating project…"
-msgstr "Загрузка проекта…"
+msgstr "Проверка проекта…"
 
 #: src/doc/documentvalidator.cpp:88
 #, kde-format
@@ -9305,6 +9279,8 @@ msgstr ""
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
+"Предупреждение: нестандартная кадровая частота, выполнена корректировка до "
+"ближайшего целого числа."
 
 #: src/doc/kdenlivedoc.cpp:1941
 #, kde-format
@@ -9472,7 +9448,7 @@ msgstr "Определения эффекта в Kdenlive"
 #, kde-format
 msgctxt "@title:window"
 msgid "Export Custom Effect"
-msgstr "Экспортирование пользовательского эффекта"
+msgstr "Экспорт пользовательского эффекта"
 
 #: src/effects/effectsrepository.cpp:39
 #, kde-format
@@ -9737,16 +9713,14 @@ msgid "No name provided, effect not saved."
 msgstr "Имя не указано, эффект не был сохранён."
 
 #: src/effects/effectstack/view/effectstackview.cpp:585
-#, fuzzy, kde-format
-#| msgid "Enable Effect"
+#, kde-format
 msgid "Enable Effect Stack"
-msgstr "Включить эффект"
+msgstr "Включить стек эффектов"
 
 #: src/effects/effectstack/view/effectstackview.cpp:585
-#, fuzzy, kde-format
-#| msgid "Disable Effect"
+#, kde-format
 msgid "Disable Effect Stack"
-msgstr "Выключить эффект"
+msgstr "Отключить стек эффектов"
 
 #: src/effects/effectstack/view/effectstackview.cpp:624
 #, kde-format
@@ -9786,34 +9760,29 @@ msgstr ""
 "Сохранить эффект без описания?"
 
 #: src/filefilter.cpp:122
-#, fuzzy, kde-format
-#| msgid "Audio levels"
+#, kde-format
 msgid "Audio Files"
-msgstr "Уровни звука"
+msgstr "Звуковые файлы"
 
 #: src/filefilter.cpp:124
-#, fuzzy, kde-format
-#| msgid "Luma Files"
+#, kde-format
 msgid "Image Files"
-msgstr "Файлы каше"
+msgstr "Файлы изображений"
 
 #: src/filefilter.cpp:126
-#, fuzzy, kde-format
-#| msgid "Video values"
+#, kde-format
 msgid "Video Files"
-msgstr "Значения видео"
+msgstr "Видеофайлы"
 
 #: src/filefilter.cpp:128
-#, fuzzy, kde-format
-#| msgid "Clear Filters"
+#, kde-format
 msgid "User Files"
-msgstr "Снять фильтры"
+msgstr "Файлы пользователя"
 
 #: src/filefilter.cpp:130
-#, fuzzy, kde-format
-#| msgid "Other Clips"
+#, kde-format
 msgid "Other Files"
-msgstr "Прочие клипы"
+msgstr "Прочие файлы"
 
 #: src/filefilter.cpp:134
 #, kde-format
@@ -10140,10 +10109,9 @@ msgstr "Маркеры"
 
 #. i18n: ectx: Menu (marker_category_menu)
 #: src/kdenliveui.rc:78
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Add Markers by Category"
-msgstr "Категория маркеров"
+msgstr "Добавить маркеры по категории"
 
 #. i18n: ectx: Menu (extract_audio)
 #: src/kdenliveui.rc:93 src/mainwindow.cpp:3965
@@ -10384,7 +10352,7 @@ msgstr "Загрузка макета"
 #: src/layoutmanagement.cpp:494
 #, kde-format
 msgid "Export selected"
-msgstr "Экспортировать выбранное"
+msgstr "Экспорт выбранного"
 
 #: src/layoutmanagement.cpp:498
 #, kde-format
@@ -10443,11 +10411,10 @@ msgid "Merged streams"
 msgstr "Объединенные потоки"
 
 #: src/library/librarywidget.cpp:190 src/statusbarmessagelabel.cpp:81
-#, fuzzy, kde-format
-#| msgid "%1%"
+#, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%1 %"
+msgstr "%p%"
 
 #: src/library/librarywidget.cpp:203 src/library/librarywidget.cpp:531
 #, kde-format
@@ -10581,8 +10548,8 @@ msgstr "Путь к библиотеке изменён на пользоват�
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
 msgstr ""
-"Не удалось осуществить запись в библиотеку по указанному пути: «%1», "
-"будетиспользовано значение по умолчанию"
+"Не удалось осуществить запись в библиотеку по указанному пути: «%1», будет "
+"использовано значение по умолчанию"
 
 #: src/main.cpp:308
 #, kde-format
@@ -10590,22 +10557,19 @@ msgid "Please report bugs to <a href=\"%1\">%2</a>"
 msgstr "Используйте <a href=\"%1\">%2</a> для отправки сообщений об ошибках."
 
 #: src/main.cpp:313
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the AppImage.<br>"
-msgstr "Используется пакет %1.<br>"
+msgstr "Используется пакет AppImage.<br>"
 
 #: src/main.cpp:316
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Flatpak.<br>"
-msgstr "Используется пакет %1.<br>"
+msgstr "Используется пакет Flatpak.<br>"
 
 #: src/main.cpp:319
-#, fuzzy, kde-format
-#| msgid "You are using the %1 package.<br>"
+#, kde-format
 msgid "You are using the Snap package.<br>"
-msgstr "Используется пакет %1.<br>"
+msgstr "Используется пакет Snap.<br>"
 
 #: src/main.cpp:325
 #, kde-format
@@ -10822,9 +10786,9 @@ msgstr ""
 "Разделённый запятыми список файлов, добавляемых в корзину в виде клипов"
 
 #: src/main.cpp:379
-#, fuzzy, kde-format
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Родительская папка файла проекта"
+msgstr "Выполнить непосредственную сборку проекта и выйти."
 
 #: src/main.cpp:382
 #, kde-format
@@ -10863,10 +10827,9 @@ msgid "Add Clip"
 msgstr "Добавить клип"
 
 #: src/mainwindow.cpp:163
-#, fuzzy, kde-format
-#| msgid "Add Marker/Guide quickly"
+#, kde-format
 msgid "Add Marker/Guide by Category Number"
-msgstr "Быстро добавить маркер/направляющую"
+msgstr "Добавить маркер/направляющую по номеру категории"
 
 #: src/mainwindow.cpp:165
 #, kde-format
@@ -10920,10 +10883,9 @@ msgid "Record"
 msgstr "Запись"
 
 #: src/mainwindow.cpp:374
-#, fuzzy, kde-format
-#| msgid "Enable edit mode in monitor to edit effect"
+#, kde-format
 msgid "Enable audio monitoring from the Mixer to record"
-msgstr "Для изменения эффекта включите в мониторе режим редактирования"
+msgstr "Включите слежение за звуком от микшера для записи"
 
 #: src/mainwindow.cpp:382 src/monitor/recmanager.cpp:103
 #, kde-format
@@ -11490,12 +11452,12 @@ msgstr "Перекодировать клипы…"
 #: src/mainwindow.cpp:1571
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
-msgstr "Э&кспортировать OpenTimelineIO…"
+msgstr "Э&кспорт OpenTimelineIO…"
 
 #: src/mainwindow.cpp:1574
 #, kde-format
 msgid "OpenTimelineIO &Import…"
-msgstr "&Импортировать OpenTimelineIO…"
+msgstr "&Импорт OpenTimelineIO…"
 
 #: src/mainwindow.cpp:1578
 #, kde-format
@@ -12107,7 +12069,7 @@ msgstr "Поиск направляющей…"
 #: src/mainwindow.cpp:2031
 #, kde-format
 msgid "Export Guides…"
-msgstr "Экспортировать направляющие…"
+msgstr "Экспорт направляющих…"
 
 #: src/mainwindow.cpp:2034
 #, kde-format
@@ -12151,20 +12113,19 @@ msgid "Lock Subtitle"
 msgstr "Заблокировать субтитры"
 
 #: src/mainwindow.cpp:2048
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
-msgstr "Субтитры"
+msgstr "Управление субтитрами"
 
 #: src/mainwindow.cpp:2050
 #, kde-format
 msgid "Import Subtitle File…"
-msgstr "Импортировать файл с субтитрами…"
+msgstr "Импорт файла с субтитрами…"
 
 #: src/mainwindow.cpp:2052
 #, kde-format
 msgid "Export Subtitle File…"
-msgstr "Экспортировать файл с субтитрами…"
+msgstr "Экспорт файла с субтитрами…"
 
 #: src/mainwindow.cpp:2054 src/timeline2/model/timelinemodel.cpp:2154
 #, kde-format
@@ -12381,10 +12342,9 @@ msgid "Cannot find clip to edit marker"
 msgstr "Не найден клип для изменения маркера"
 
 #: src/mainwindow.cpp:2969
-#, fuzzy, kde-format
-#| msgid "Markers Category"
+#, kde-format
 msgid "Marker category does not exist"
-msgstr "Категория маркеров"
+msgstr "Категория маркеров не существует"
 
 #: src/mainwindow.cpp:3154 src/timeline2/model/timelinefunctions.cpp:776
 #: src/timeline2/view/timelinecontroller.cpp:3130
@@ -12653,9 +12613,9 @@ msgid "Go to download page"
 msgstr "Перейти на страницу загрузки"
 
 #: src/mainwindow.cpp:5121
-#, fuzzy, kde-format
+#, kde-format
 msgid "Never check again"
-msgstr "Проверьте ещё раз"
+msgstr "Больше никогда не проверять"
 
 #: src/mainwindow.cpp:5124
 #, kde-format
@@ -12663,12 +12623,16 @@ msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
+"Эта версия Kdenlive не обновлялась более года, настоятельно рекомендуется "
+"выполнить обновление"
 
 #: src/mainwindow.cpp:5127
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
+"Эта версия Kdenlive не обновлялась более шести месяцев, настоятельно "
+"рекомендуется выполнить обновление"
 
 #: src/mainwindow.cpp:5170
 #, kde-format
@@ -12714,7 +12678,7 @@ msgstr "Удаляет набор(ы) данных."
 #: src/mltcontroller/clippropertiescontroller.cpp:278
 #, kde-format
 msgid "Export analysis…"
-msgstr "Экспортировать данные анализа…"
+msgstr "Экспорт данных анализа…"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:279
 #, kde-kuit-format
@@ -12725,7 +12689,7 @@ msgstr "Открывает диалоговое окно для экспорта
 #: src/mltcontroller/clippropertiescontroller.cpp:280
 #, kde-format
 msgid "Import analysis…"
-msgstr "Импортировать данные анализа…"
+msgstr "Импорт данных анализа…"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:281
 #, kde-kuit-format
@@ -13031,7 +12995,7 @@ msgstr "Битовый поток видео:"
 #: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:271
 #, kde-format
 msgid "Pixel aspect ratio:"
-msgstr "Пропорции пиксела:"
+msgstr "Соотношение сторон пиксела:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1400
 #, kde-format
@@ -13594,7 +13558,7 @@ msgstr "Захват не удался, проверьте параметры"
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr ""
 "Для включения спектра звуковых частот MLT должен быть скомпилирован с  "
-"библиотекойlibfftw3"
+"библиотекой libfftw3"
 
 #: src/monitor/scopes/audiographspectrum.cpp:291
 #, kde-format
@@ -13609,10 +13573,9 @@ msgid "Switch Full Screen"
 msgstr "Полноэкранный режим"
 
 #: src/monitor/view/EffectToolBar.qml:64
-#, fuzzy, kde-format
-#| msgid "Show fields"
+#, kde-format
 msgid "Show Grid"
-msgstr "Отобразить поля"
+msgstr "Показать сетку"
 
 #: src/monitor/view/EffectToolBar.qml:74 src/monitor/view/SceneToolBar.qml:65
 #, kde-format
@@ -14262,10 +14225,10 @@ msgstr "Файлы каше"
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
-msgstr[0] "Потерян %1 клип проекта."
-msgstr[1] "Потеряно %1 клипа проекта."
-msgstr[2] "Потеряно %1 клипов проекта."
-msgstr[3] "Потерян %1 клип проекта."
+msgstr[0] "В проекте отсутствует %1 клип."
+msgstr[1] "В проекте отсутствуют %1 клипа."
+msgstr[2] "В проекте отсутствуют %1 клипов."
+msgstr[3] "В проекте отсутствует %1 клип."
 
 #: src/project/dialogs/archivewidget.cpp:236
 #: src/project/dialogs/archivewidget.cpp:1337
@@ -14422,9 +14385,9 @@ msgid "Archiving %1"
 msgstr "Архивирование %1"
 
 #: src/project/dialogs/archivewidget.cpp:1129
-#, fuzzy, kde-format
+#, kde-format
 msgid "Cannot copy file %1 to %2."
-msgstr "Не удалось открыть файл «%1»"
+msgstr "Не удалось скопировать файл %1 в %2."
 
 #: src/project/dialogs/archivewidget.cpp:1159
 #, kde-format
@@ -14649,10 +14612,9 @@ msgid "Assign timestamps to current Bin Clip"
 msgstr "Назначить значения тайм-кода текущему клипу в корзине"
 
 #: src/project/dialogs/noteswidget.cpp:137
-#, fuzzy, kde-format
-#| msgid "Cannot insert clip."
+#, kde-format
 msgid "Cannot find project clip"
-msgstr "Не удалось вставить клип."
+msgstr "Не удалось найти клип проекта"
 
 #: src/project/dialogs/noteswidget.cpp:203
 #, kde-format
@@ -14713,7 +14675,7 @@ msgstr "Кадровая частота: %1 кадров/с"
 #: src/project/dialogs/profilewidget.cpp:199
 #, kde-format
 msgid "Pixel aspect ratio: %1"
-msgstr "Пропорции пиксела: %1"
+msgstr "Соотношение сторон пиксела: %1"
 
 #: src/project/dialogs/profilewidget.cpp:201
 #, kde-format
@@ -15255,9 +15217,9 @@ msgid "Saving project file <br><b>%1</B> failed"
 msgstr "Не удалось сохранить файл проекта <br><b>%1</B>"
 
 #: src/project/projectmanager.cpp:589
-#, fuzzy, kde-format
+#, kde-format
 msgid "Saving successful"
-msgstr "Запуск процесса"
+msgstr "Успешное сохранение"
 
 #: src/project/projectmanager.cpp:602
 #, kde-format
@@ -15348,17 +15310,18 @@ msgid "Loading timeline…"
 msgstr "Загрузка монтажного стола…"
 
 #: src/project/projectmanager.cpp:929
-#, fuzzy, kde-format
-#| msgid "Timeline sequence"
+#, kde-format
 msgid "Building sequences…"
-msgstr "Последовательность монтажного стола"
+msgstr "Построение последовательностей…"
 
 #: src/project/projectmanager.cpp:1068
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
 "%1\n"
-msgstr "Не удалось открыть файл проекта %1"
+msgstr ""
+"Не удалось открыть файл проекта. Ошибка:\n"
+"%1\n"
 
 #: src/project/projectmanager.cpp:1108
 #, kde-format
@@ -15441,7 +15404,7 @@ msgstr ""
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Импорт клипа последовательности, в данный момент функция работает в "
-"экмпериментальном режиме"
+"экспериментальном режиме"
 
 #: src/project/projectmanager.cpp:2192
 #, kde-format
@@ -15546,12 +15509,12 @@ msgstr "Используется python из %1"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:230
 #, kde-format
 msgid "No python venv found"
-msgstr "Не найдена виртуальная среда python"
+msgstr "Не найдено виртуальное окружение python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:243
 #, kde-format
 msgid "Python venv size: %1"
-msgstr "Размер виртуальной среды Python: %1"
+msgstr "Размер виртуального окружения Python: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:289
 #, kde-format
@@ -15583,9 +15546,9 @@ msgstr ""
 "Такая установка не затронет системные библиотеки."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:431
-#, fuzzy, kde-format
+#, kde-format
 msgid "Python environment"
-msgstr "Окружение"
+msgstr "Окружение Python"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:431
 #, kde-format
@@ -15621,18 +15584,16 @@ msgid "Please consider to update your setup."
 msgstr "Рекомендуется обновить настройку параметров."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:493
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
-msgstr "Нет информации в буфере обмена"
+msgstr "Нет информации о версии."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:510
-#, fuzzy, kde-format
-#| msgid "Drawing options"
+#, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
-msgstr "Параметры отрисовки"
+msgstr "отсутствует (необязательно)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:599
 #, kde-format
@@ -15645,14 +15606,15 @@ msgid "Failed to find script file %1"
 msgstr "Не удалось найти файл сценария %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:638
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Error while running python3 script:\n"
 " %1\n"
 "%2"
 msgstr ""
-"Ошибка при запуске сценария python3:\n"
-" %1"
+"Ошибка при запуске сценария python3\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:660
 #, kde-format
@@ -15661,21 +15623,19 @@ msgid ""
 "environment will be recreated and modules downloaded whenever you reenable "
 "the python virtual environment."
 msgstr ""
-"Будет удалена виртуальная среда python по следующему адресу:<br/><b>%1</"
-"b><br/>При каждом повторном включении виртуальной среды python будут "
-"выполняться пересоздание этой среды и загрузка модулей."
+"Будет удалено виртуальное окружение python по следующему адресу:<br/><b>%1</"
+"b><br/>При каждом повторном включении виртуального окружения python будут "
+"выполняться пересоздание этого окружения и загрузка модулей."
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO core functionality"
-msgstr "Преобразование OpenTimelineIO"
+msgstr "Базовые функциональные возможности OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:24
-#, fuzzy, kde-format
-#| msgid "OpenTimelineIO conversion"
+#, kde-format
 msgid "OpenTimelineIO Kdenlive support"
-msgstr "Преобразование OpenTimelineIO"
+msgstr "Поддержка Kdenlive OpenTimelineIO"
 
 #: src/pythoninterfaces/otioconvertions.cpp:29
 #, kde-format
@@ -15686,7 +15646,8 @@ msgid ""
 "environment variable"
 msgstr ""
 "Не удалось найти сценарий «otioconvert», хотя он установлен через pip3.\n"
-"Проверьте установку сценариев в каталоге, указанном в переменной среды PATH"
+"Проверьте установку сценариев в каталоге, указанном в переменной окружения "
+"PATH"
 
 #: src/pythoninterfaces/otioconvertions.cpp:49
 #, kde-format
@@ -16484,7 +16445,7 @@ msgstr "YPbPr"
 #: src/scopes/colorscopes/vectorscope.cpp:73
 #, kde-format
 msgid "Export background"
-msgstr "Экспортировать фон"
+msgstr "Экспорт фона"
 
 #: src/scopes/colorscopes/vectorscope.cpp:77
 #, kde-format
@@ -16639,10 +16600,9 @@ msgstr ""
 "Обнаружен и удалён клип монтажного стола %1 (%2) без привязки к корзине."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:788
-#, fuzzy, kde-format
-#| msgid "Project corrupted. Clip %1 (%2) not found in project bin."
+#, kde-format
 msgid "Project corrupted. Clip %1 (%2) with invalid Id."
-msgstr "Проект повреждён. Клип %1 (%2) не найден в корзине проекта."
+msgstr "Проект повреждён. Клип %1 (%2) имеет некорректный идентификатор."
 
 #: src/timeline2/model/builders/meltBuilder.cpp:809
 #: src/timeline2/model/builders/meltBuilder.cpp:821
@@ -16733,11 +16693,10 @@ msgid "Insert Clips"
 msgstr "Вставить клипы"
 
 #: src/timeline2/model/timelinefunctions.cpp:281
-#, fuzzy, kde-format
-#| msgid "When cutting subtitles:"
+#, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "При разрезании субтитров:"
+msgstr "Не удалось разрезать накладывающиеся субтитры"
 
 #: src/timeline2/model/timelinefunctions.cpp:351
 #: src/timeline2/model/timelinefunctions.cpp:370
@@ -16936,9 +16895,9 @@ msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
-"Частота кадров исходного проекта (%1 кадров/с) отличается от частоты "
-"кадровтекущего проекта.<br/>Могут возникнуть нестыковки клипов или ключевых "
-"кадров."
+"Кадровая частота исходного проекта (%1 кадров/с) отличается от кадровой "
+"частоты текущего проекта.<br/>Могут возникнуть нестыковки клипов или "
+"ключевых кадров."
 
 #: src/timeline2/model/timelinefunctions.cpp:2170
 #, kde-format
@@ -17310,10 +17269,9 @@ msgid "Error initializing timeline preview"
 msgstr "Ошибка инициализации предпросмотра монтажного стола"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:25
-#, fuzzy, kde-format
-#| msgid "Editing profiles for:"
+#, kde-format
 msgid "Editing in Ripple mode"
-msgstr "Настройка профиля под:"
+msgstr "Редактирование в режиме со сдвигом"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:25
 #, kde-format
@@ -17331,7 +17289,7 @@ msgstr ""
 #, kde-format
 msgid "Speed effect will render better when used on single high fps clips"
 msgstr ""
-"При использовании эффекта с изменением скорости воспроизведения сборкалучше "
+"При использовании эффекта с изменением скорости воспроизведения сборка лучше "
 "всего выполняется на одном клипе с высокой кадровой частотой"
 
 #: src/timeline2/view/dialogs/speeddialog.cpp:103
@@ -17761,6 +17719,8 @@ msgstr "Вход:%1, Выход:%2 (%3%4)"
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
+"Прокрутка может быть выполнена только для видеоклипов, звуковых клипов или "
+"клипов анимации"
 
 #: src/timeline2/view/timelinecontroller.cpp:2713
 #, kde-format
@@ -17965,18 +17925,16 @@ msgstr "Заблокировать дорожку субтитров"
 
 #: src/timeline2/view/timelinecontroller.cpp:5409
 #: src/timeline2/view/timelinecontroller.cpp:5418
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Субтитры"
 
 #: src/timeline2/view/timelinecontroller.cpp:5420
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Субтитры"
+msgstr "Управление субтитрами"
 
 #: src/timeline2/view/timelinetabs.cpp:49
 #, kde-format
@@ -17999,9 +17957,9 @@ msgid "Close %1"
 msgstr "Закрыть %1"
 
 #: src/timeline2/view/timelinetabs.cpp:423
-#, fuzzy, kde-format
+#, kde-format
 msgid "Rename Sequence"
-msgstr "Серия изображений"
+msgstr "Переименовать последовательность"
 
 #: src/timeline2/view/timelinewidget.cpp:60
 #, kde-format
@@ -18360,10 +18318,10 @@ msgstr "Встроить изображения"
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
-msgstr[0] "В этих титрах потерян %1 элемент"
-msgstr[1] "В этих титрах потеряно %1 элемента"
-msgstr[2] "В этих титрах потеряно %1 элементов"
-msgstr[3] "В этих титрах потерян %1 элемент"
+msgstr[0] "В этих титрах отсутствует %1 элемент"
+msgstr[1] "В этих титрах отсутствуют %1 элемента"
+msgstr[2] "В этих титрах отсутствуют %1 элементов"
+msgstr[3] "В этих титрах отсутствует %1 элемент"
 
 #: src/titler/titlewidget.cpp:2332 src/titler/unicodedialog.cpp:28
 #, kde-format
@@ -18373,7 +18331,7 @@ msgstr "Подробнее"
 #: src/titler/titlewidget.cpp:2335
 #, kde-format
 msgid "Delete missing elements"
-msgstr "Удалить потерянные элементы"
+msgstr "Удалить отсутствующие элементы"
 
 #: src/titler/titlewidget.cpp:2395
 #, kde-format
@@ -18388,7 +18346,7 @@ msgstr "Добавить в качестве новых титров"
 #: src/titler/titlewidget.cpp:2452
 #, kde-format
 msgid "The following files are missing:"
-msgstr "Потеряны следующие файлы:"
+msgstr "Отсутствуют следующие файлы:"
 
 #: src/titler/titlewidget.cpp:2650
 #, kde-format
@@ -18788,10 +18746,9 @@ msgstr "Архивировать только клипы монтажного с
 #. i18n: ectx: property (format), widget (QProgressBar, progressBar)
 #: src/ui/archivewidget_ui.ui:143 src/ui/cliptranscode_ui.ui:40
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:59
-#, fuzzy, no-c-format, kde-format
-#| msgid "%1%"
+#, no-c-format, kde-format
 msgid "%p%"
-msgstr "%1 %"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -18970,14 +18927,14 @@ msgid ""
 "Link the handles' position for current point.<br />Results in a natural "
 "spline."
 msgstr ""
-"Привязывает положение контрольной точки к текущей.<br />В "
-"результатепроисходит естественное построение кривой."
+"Привязывает положение контрольной точки к текущей.<br />В результате "
+"получается естественный сплайн."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonResetSpline)
 #: src/ui/bezierspline_ui.ui:118
 #, kde-format
 msgid "Reset the selected spline."
-msgstr "Вернуть исходное состояние выбранной кривой"
+msgstr "Вернуть исходное состояние выбранного сплайна."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonShowPixmap)
 #: src/ui/bezierspline_ui.ui:134
@@ -19112,9 +19069,9 @@ msgstr "Запросить путь к файлу"
 
 #. i18n: ectx: property (text), widget (QRadioButton, param1_isframe)
 #: src/ui/clipjobmanager_ui.ui:146
-#, fuzzy, kde-format
+#, kde-format
 msgid "Current clip frame"
-msgstr "Текущий клип"
+msgstr "Текущий кадр клипа"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/clipjobmanager_ui.ui:156
@@ -19261,7 +19218,7 @@ msgstr "Цвет клипа:"
 #: src/ui/colorplaneexport_ui.ui:18
 #, kde-format
 msgid "Export color plane to PNG"
-msgstr "Экспортировать цветовую плоскость в PNG"
+msgstr "Экспорт цветовой плоскости в PNG"
 
 #. i18n: ectx: property (text), widget (QLabel, lblSpace)
 #: src/ui/colorplaneexport_ui.ui:24
@@ -19510,10 +19467,9 @@ msgstr "Фоновый цвет монитора:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Монитор"
+msgstr "Сетка монитора"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -19565,9 +19521,9 @@ msgstr "Выводить предупреждение при превышени�
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
+#, kde-format
 msgid "Check for updates"
-msgstr "Проверить обновления"
+msgstr "Проверить наличие обновлений"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122
@@ -19654,17 +19610,15 @@ msgstr "Всегда использовать пользовательскую �
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #: src/ui/configenv_ui.ui:241
-#, fuzzy, kde-format
-#| msgid "Always use active project folder"
+#, kde-format
 msgid "Always use a custom subfolder of project folder"
-msgstr "Всегда использовать активную папку проекта"
+msgstr "Всегда использовать пользовательскую подпапку папки проекта"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
 #: src/ui/configenv_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Parent folder of project file"
+#, kde-format
 msgid "Subfolder of project folder"
-msgstr "Родительская папка файла проекта"
+msgstr "Вложенная папка папки проекта"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:263
@@ -19686,9 +19640,9 @@ msgstr "Python"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:363
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delete "
-msgstr "Удалить %1"
+msgstr "Удалить "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:372
@@ -20144,7 +20098,7 @@ msgstr "Включить"
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
-msgstr ""
+msgstr "Воспроизведение/пауза на мониторе по щелчку мыши"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
@@ -20237,15 +20191,15 @@ msgstr "Папка моделей пользователя"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:87
-#, fuzzy, kde-format
+#, kde-format
 msgid "Add Model"
-msgstr "Добавить папку"
+msgstr "Добавить модель"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:98
-#, fuzzy, kde-format
+#, kde-format
 msgid "Remove Model"
-msgstr "Удалить папку"
+msgstr "Удалить модель"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:189
@@ -20520,10 +20474,9 @@ msgstr "Суффикс для прокси:"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_add)
 #: src/ui/customcamcorderproxy_ui.ui:94
-#, fuzzy, kde-format
-#| msgid "Add new video file"
+#, kde-format
 msgid "Add new profile"
-msgstr "Добавить новый видеофайл"
+msgstr "Добавить новый профиль"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
@@ -20585,7 +20538,7 @@ msgstr "Соотношение сторон экрана:"
 #: src/ui/editrenderpreset_ui.ui:257
 #, kde-format
 msgid "Pixel Aspect Ratio:"
-msgstr "Пропорции пиксела:"
+msgstr "Соотношение сторон пиксела:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
@@ -20883,18 +20836,15 @@ msgstr "Другая тень"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
 #: src/ui/editsub_ui.ui:452
-#, fuzzy, kde-format
-#| msgctxt "Font style"
-#| msgid "Bold"
+#, kde-format
 msgid "Bold"
 msgstr "Жирный"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
 #: src/ui/editsub_ui.ui:459
-#, fuzzy, kde-format
-#| msgid "Italian"
+#, kde-format
 msgid "Italic"
-msgstr "Итальянский"
+msgstr "Курсив"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -20961,7 +20911,7 @@ msgstr "Сохранить как:"
 #: src/ui/exportguidesdialog_ui.ui:216
 #, kde-format
 msgid "Exported:"
-msgstr "Экспортировано:"
+msgstr "Выполнен экспорт:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, format_ffmpeg)
 #: src/ui/exportguidesdialog_ui.ui:223
@@ -21083,7 +21033,7 @@ msgstr "Кодировка"
 #: src/ui/import_subtitle_ui.ui:96
 #, kde-format
 msgid "Import at timeline cursor position"
-msgstr "Импортировать в позицию курсора монтажного стола"
+msgstr "Импорт в позицию курсора монтажного стола"
 
 #. i18n: ectx: property (text), widget (QCheckBox, transform_framerate_check_box)
 #: src/ui/import_subtitle_ui.ui:118
@@ -21099,15 +21049,15 @@ msgstr "Предпросмотр субтитров"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Показать дорожку субтитров"
+msgstr "Создать новую дорожку субтитров"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
-#, fuzzy, kde-format
+#, kde-format
 msgid "Subtitle Track Name"
-msgstr "Показать дорожку субтитров"
+msgstr "Имя дорожки субтитров"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/keywordval_ui.ui:42
@@ -21331,16 +21281,15 @@ msgstr "Настройка профиля под:"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_new)
 #: src/ui/managesubtitles_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Create New"
 msgstr "Создать"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/managesubtitles_ui.ui:46
-#, fuzzy, kde-format
+#, kde-format
 msgid "Delete"
-msgstr "Удалить %1"
+msgstr "Удалить"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, subtitlesList)
 #: src/ui/managesubtitles_ui.ui:108
@@ -21398,21 +21347,21 @@ msgstr "Пересоздать отсутствующие прокси"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:134
-#, fuzzy, kde-format
+#, kde-format
 msgid "Selected Items:"
-msgstr "Удалить выбранный элемент"
+msgstr "Выбранные элементы:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:141
-#, fuzzy, kde-format
+#, kde-format
 msgid "Search Manually"
-msgstr "Ручной поиск"
+msgstr "Найти вручную"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:170
-#, fuzzy, kde-format
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Элемент отсутствует"
+msgstr "Все отсутствующие элементы:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:177
@@ -21422,9 +21371,9 @@ msgstr "Рекурсивный поиск"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:188
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Заполнитель"
+msgstr "Использовать заполнители"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -21628,7 +21577,7 @@ msgstr "Файлы проекта:"
 #: src/ui/projectsettings_ui.ui:687
 #, kde-format
 msgid "Plain Text Export..."
-msgstr "Экспортировать в текстовый файл…"
+msgstr "Экспорт в текстовый файл…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/projectsettings_ui.ui:708
@@ -21856,10 +21805,9 @@ msgstr "Наложение:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:615
-#, fuzzy, kde-format
-#| msgid "Aspect Ratio"
+#, kde-format
 msgid "Aspect Ratio:"
-msgstr "Пропорции"
+msgstr "Соотношение сторон:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:637
@@ -22610,7 +22558,7 @@ msgstr "Рамка "
 #: src/ui/titlewidget_ui.ui:1385
 #, kde-format
 msgid "Preserve aspect ratio"
-msgstr "Сохранять пропорции"
+msgstr "Сохранять соотношение сторон"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_animation)
 #: src/ui/titlewidget_ui.ui:1471
@@ -22658,7 +22606,7 @@ msgstr "200%"
 #: src/ui/titlewidget_ui.ui:1540
 #, kde-format
 msgid "Keep aspect ratio"
-msgstr "Сохранять пропорции"
+msgstr "Сохранять соотношение сторон"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_patterns)
 #: src/ui/titlewidget_ui.ui:1564
@@ -22840,7 +22788,7 @@ msgstr "Ш"
 #: src/widgets/geometrywidget.cpp:56
 #, kde-format
 msgid "Lock aspect ratio"
-msgstr "Сохранять пропорции"
+msgstr "Сохранять соотношение сторон"
 
 #: src/widgets/geometrywidget.cpp:63
 #, kde-format

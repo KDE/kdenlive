@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-10-25 02:31+0000\n"
-"PO-Revision-Date: 2024-10-08 21:46+0200\n"
+"PO-Revision-Date: 2024-10-25 19:09+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 24.08.2\n"
 "X-Accelerator-Marker: &\n"
 
 #, kde-format
@@ -2160,7 +2160,7 @@ msgid ""
 "area."
 msgstr ""
 "Substitueix una àrea amb píxels interpolats. Els valors nous de píxel "
-"s'interpolen a partir dels píxels més propers situats immediatament a "
+"s'interpolen a partir dels píxels més pròxims situats immediatament a "
 "l'exterior de l'àrea especificada."
 
 #: data/effects/spot_remover.xml:9
@@ -4688,7 +4688,7 @@ msgid ""
 "only the video component of this clip in the active timeline ?"
 msgstr ""
 "El clip de substitució no conté cap flux d'àudio. Voleu substituir només el "
-"component de video d'aquest clip a la línia de temps activa?"
+"component de vídeo d'aquest clip a la línia de temps activa?"
 
 #: src/bin/bin.cpp:2104 src/bin/bin.cpp:2130
 #, kde-format
@@ -7212,7 +7212,7 @@ msgstr "S'ha interromput la renderització"
 #: src/dialogs/renderwidget.cpp:205
 #, kde-format
 msgid "Nearest (fast)"
-msgstr "Més proper (ràpid)"
+msgstr "Més pròxim (ràpid)"
 
 #: src/dialogs/renderwidget.cpp:206 src/monitor/monitormanager.cpp:596
 #, kde-format
@@ -9222,7 +9222,7 @@ msgstr ""
 #: src/doc/kdenlivedoc.cpp:1923
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
-msgstr "Avís: fps no estàndard, s'ajusta a l'enter més proper. "
+msgstr "Avís: fps no estàndard, s'ajusta a l'enter més pròxim. "
 
 #: src/doc/kdenlivedoc.cpp:1941
 #, kde-format
@@ -11210,7 +11210,7 @@ msgid ""
 "one closest to the playhead."
 msgstr ""
 "Crea una transició de la mateixa pista entre el clip seleccionat i "
-"l'adjacent més proper al capçal de reproducció."
+"l'adjacent més pròxim al capçal de reproducció."
 
 #: src/mainwindow.cpp:1393
 #, kde-format
@@ -13401,7 +13401,7 @@ msgstr "Interpolació"
 #: src/monitor/monitormanager.cpp:595
 #, kde-format
 msgid "Nearest Neighbor (fast)"
-msgstr "Veí més proper (ràpid)"
+msgstr "Veí més pròxim (ràpid)"
 
 #: src/monitor/monitormanager.cpp:598
 #, kde-format
@@ -15232,7 +15232,7 @@ msgstr "No s'ha pogut obrir el fitxer de còpia de seguretat del projecte."
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
-"El projecte s'ha actualitzat, es crearà una còpia de seguretat en el proper "
+"El projecte s'ha actualitzat, es crearà una còpia de seguretat en el pròxim "
 "desament"
 
 #: src/project/projectmanager.cpp:880
@@ -15241,7 +15241,7 @@ msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "El projecte s'ha modificat en obrir-lo, es crearà una còpia de seguretat en "
-"el proper desament"
+"el pròxim desament"
 
 #: src/project/projectmanager.cpp:911
 #, kde-format
@@ -20166,7 +20166,7 @@ msgstr "Idioma:"
 #: src/ui/configspeech_ui.ui:223
 #, kde-format
 msgid "Disable half precision (FP16 )"
-msgstr "Desactiva la precisió mitja (FP16)"
+msgstr "Desactiva la precisió mitjana (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
 #: src/ui/configspeech_ui.ui:230
