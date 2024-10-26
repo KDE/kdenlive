@@ -1826,10 +1826,14 @@ void Bin::slotReloadClip()
             }
             if (currentItem->clipType() == ClipType::Playlist) {
                 // Check if a clip inside playlist is missing
-                QString path = currentItem->url();
+                const QString path = currentItem->url();
                 QFile f(path);
                 QDomDocument doc;
-                if (!Xml::docContentFromFile(doc, path, false)) {
+                if (path.endsWith(QLatin1String(".mlt"))) {
+                    // MLT Playlist
+                    // TODO: check that file paths are correct
+                } else if (!Xml::docContentFromFile(doc, path, false)) {
+                    // Kdenlive project file
                     DocumentChecker d(QUrl::fromLocalFile(path), doc);
                     if (!d.hasErrorInProject() && doc.documentElement().hasAttribute(QStringLiteral("modified"))) {
                         QString backupFile = path + QStringLiteral(".backup");
@@ -2045,10 +2049,17 @@ void Bin::slotReplaceClip()
                     std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(pCore->getProjectProfile(), fileName.toUtf8().constData()));
                     int currentDuration = int(currentItem->frameDuration());
                     if (replacementProd->is_valid()) {
-                        replacementProd->probe();
-                        std::pair<bool, bool> replacementHasAV = {
-                            (replacementProd->property_exists("audio_index") && replacementProd->get_int("audio_index") > -1),
-                            (replacementProd->property_exists("video_index") && replacementProd->get_int("video_index") > -1)};
+                        const QString service(replacementProd->get("mlt_service"));
+                        std::pair<bool, bool> replacementHasAV;
+                        if (service == QLatin1String("xml")) {
+                            // Playlist or .kdenlive project file, get frame to check for AV
+                            std::unique_ptr<Mlt::Frame> frm(replacementProd->get_frame());
+                            replacementHasAV = {frm->get_int("test_audio") == 0, frm->get_int("test_image") == 0};
+                        } else {
+                            replacementProd->probe();
+                            replacementHasAV = {(replacementProd->property_exists("audio_index") && replacementProd->get_int("audio_index") > -1),
+                                                (replacementProd->property_exists("video_index") && replacementProd->get_int("video_index") > -1)};
+                        }
                         if (hasAV != replacementHasAV) {
                             replacementProd.reset();
                             QString message;

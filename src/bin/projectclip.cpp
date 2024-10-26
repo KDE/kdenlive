@@ -145,8 +145,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
         ObjectId oid(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
         ClipLoadTask::start(oid, QDomElement(), true, -1, -1, this);
         // Generate audio thumbnail
-        if (KdenliveSettings::audiothumbnails() &&
-            (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || (m_hasAudio && m_clipType != ClipType::Timeline))) {
+        if (KdenliveSettings::audiothumbnails() && (m_clipType == ClipType::AV || m_clipType == ClipType::Audio || m_hasAudio)) {
             AudioLevelsTask::start(oid, this, false);
         }
     }
