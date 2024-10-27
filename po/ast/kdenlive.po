@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-26 00:39+0000\n"
+"POT-Creation-Date: 2024-10-27 00:39+0000\n"
 "PO-Revision-Date: 2024-03-27 23:13+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -4888,7 +4888,7 @@ msgid "Edit Tags"
 msgstr ""
 
 #: src/bin/bin.cpp:4536 src/bin/projectclip.cpp:209
-#: src/bin/projectclip.cpp:2090 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2092 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, kde-format
@@ -5477,36 +5477,36 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:979
+#: src/bin/projectclip.cpp:981
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1230 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1232 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1459 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1461 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1491
 #, kde-format
 msgid "File already exists"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2701
+#: src/bin/projectclip.cpp:2703
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2948
+#: src/bin/projectclip.cpp:2950
 #, kde-format
 msgid "Add stream effect"
 msgstr ""
 
-#: src/bin/projectclip.cpp:2973
+#: src/bin/projectclip.cpp:2975
 #, kde-format
 msgid "Remove stream effect"
 msgstr ""
@@ -5533,8 +5533,8 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1837
-#: src/doc/documentchecker.cpp:1867 src/doc/documentchecker.cpp:1887
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1839
+#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -8831,7 +8831,7 @@ msgstr ""
 msgid "Applying fixes…"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
 #, kde-format
 msgid "Checking for missing items…"
 msgstr ""
@@ -8842,117 +8842,117 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1827
+#: src/doc/documentchecker.cpp:1829
 #, kde-format
 msgid "Video clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1829
+#: src/doc/documentchecker.cpp:1831
 #, kde-format
 msgid "Slideshow clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1831
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Image clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1835
 #, kde-format
 msgid "Playlist clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1835 src/doc/documentchecker.cpp:1851
+#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1853
 #, kde-format
 msgid "Title Image"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1847
+#: src/doc/documentchecker.cpp:1849
 #, kde-format
 msgid "Clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1851
 #, kde-format
 msgid "Title Font"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1853
+#: src/doc/documentchecker.cpp:1855
 #, kde-format
 msgid "Luma file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1855
+#: src/doc/documentchecker.cpp:1857
 #, kde-format
 msgid "Asset file"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1857
+#: src/doc/documentchecker.cpp:1859
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1859
+#: src/doc/documentchecker.cpp:1861
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1861
+#: src/doc/documentchecker.cpp:1863
 #, kde-format
 msgid "Transition"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1865
 #, kde-format
 msgid "Unreferenced clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1867
 #, kde-format
 msgid "Corrupted sequence"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1875 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1879
 #, kde-format
 msgid "Reload"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1881
 #, kde-format
 msgid "Missing"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1883
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1883 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1885 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1896
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1899
+#: src/doc/documentchecker.cpp:1901
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -17470,7 +17470,7 @@ msgstr ""
 msgid "Insert a composition..."
 msgstr ""
 
-#: src/timeline2/view/timelinewidget.cpp:325
+#: src/timeline2/view/timelinewidget.cpp:326
 #, kde-format
 msgid "No available stream"
 msgstr ""

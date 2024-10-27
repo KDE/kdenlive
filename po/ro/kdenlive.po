@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-26 00:39+0000\n"
+"POT-Creation-Date: 2024-10-27 00:39+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -5302,7 +5302,7 @@ msgid "Edit Tags"
 msgstr "Modifică durata"
 
 #: src/bin/bin.cpp:4536 src/bin/projectclip.cpp:209
-#: src/bin/projectclip.cpp:2090 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2092 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, fuzzy, kde-format
@@ -5963,20 +5963,20 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:979
+#: src/bin/projectclip.cpp:981
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1230 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1232 src/jobs/cliploadtask.cpp:264
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "Clip nevalid"
 
-#: src/bin/projectclip.cpp:1459 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1461 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1491
 #, fuzzy, kde-format
@@ -5984,19 +5984,19 @@ msgstr "Clip nevalid"
 msgid "File already exists"
 msgstr "Profilul există deja"
 
-#: src/bin/projectclip.cpp:2701
+#: src/bin/projectclip.cpp:2703
 #, fuzzy, kde-format
 #| msgid "Playlist clip"
 msgid "Adjust timeline clips"
 msgstr "Clip cu listă de redare"
 
-#: src/bin/projectclip.cpp:2948
+#: src/bin/projectclip.cpp:2950
 #, fuzzy, kde-format
 #| msgid "Add Effect"
 msgid "Add stream effect"
 msgstr "Adaugă efect"
 
-#: src/bin/projectclip.cpp:2973
+#: src/bin/projectclip.cpp:2975
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -6029,8 +6029,8 @@ msgstr "I"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1837
-#: src/doc/documentchecker.cpp:1867 src/doc/documentchecker.cpp:1887
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1839
+#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -9590,7 +9590,7 @@ msgstr "Dosar clipuri"
 msgid "Applying fixes…"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
 #, fuzzy, kde-format
 #| msgid "Checking system"
 msgid "Checking for missing items…"
@@ -9602,126 +9602,126 @@ msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1827
+#: src/doc/documentchecker.cpp:1829
 #, kde-format
 msgid "Video clip"
 msgstr "Clip video"
 
-#: src/doc/documentchecker.cpp:1829
+#: src/doc/documentchecker.cpp:1831
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip cu prezentare"
 
-#: src/doc/documentchecker.cpp:1831
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Image clip"
 msgstr "Clip cu imagine"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1835
 #, kde-format
 msgid "Playlist clip"
 msgstr "Clip cu listă de redare"
 
-#: src/doc/documentchecker.cpp:1835 src/doc/documentchecker.cpp:1851
+#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1853
 #, kde-format
 msgid "Title Image"
 msgstr "Imagine titlu"
 
-#: src/doc/documentchecker.cpp:1847
+#: src/doc/documentchecker.cpp:1849
 #, fuzzy, kde-format
 #| msgid "Clip"
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1851
 #, kde-format
 msgid "Title Font"
 msgstr "Font titlu"
 
-#: src/doc/documentchecker.cpp:1853
+#: src/doc/documentchecker.cpp:1855
 #, kde-format
 msgid "Luma file"
 msgstr "Fișier luminanță"
 
-#: src/doc/documentchecker.cpp:1855
+#: src/doc/documentchecker.cpp:1857
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Șterge fișierele"
 
-#: src/doc/documentchecker.cpp:1857
+#: src/doc/documentchecker.cpp:1859
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1859
+#: src/doc/documentchecker.cpp:1861
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efect"
 
-#: src/doc/documentchecker.cpp:1861
+#: src/doc/documentchecker.cpp:1863
 #, fuzzy, kde-format
 #| msgid "Transition"
 msgid "Transition"
 msgstr "Tranziție"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1865
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Unreferenced clip"
 msgstr "Elimină clipurile"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1867
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Corrupted sequence"
 msgstr "Creează o secvență nouă"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1875 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1879
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Reîncarcă clipul"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1881
 #, fuzzy, kde-format
 #| msgid "Missing"
 msgid "Missing"
 msgstr "Lipsește"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1883
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Proxy lipsă"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1883 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1885 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove"
 msgstr "Șterge fișierul"
 
-#: src/doc/documentchecker.cpp:1896
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1899
+#: src/doc/documentchecker.cpp:1901
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""
@@ -19082,7 +19082,7 @@ msgstr "Reinițializează efectul"
 msgid "Insert a composition..."
 msgstr "Compozit"
 
-#: src/timeline2/view/timelinewidget.cpp:325
+#: src/timeline2/view/timelinewidget.cpp:326
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"

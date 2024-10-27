@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-26 00:39+0000\n"
+"POT-Creation-Date: 2024-10-27 00:39+0000\n"
 "PO-Revision-Date: 2024-10-20 06:18+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -5126,7 +5126,7 @@ msgid "Edit Tags"
 msgstr "Modifica etichette"
 
 #: src/bin/bin.cpp:4536 src/bin/projectclip.cpp:209
-#: src/bin/projectclip.cpp:2090 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2092 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, kde-format
@@ -5738,7 +5738,7 @@ msgstr ""
 "La dimensione dell'immagine è più piccola di 8 pixel.\n"
 "Non è correttamente supportata dalla nostra infrastruttura video."
 
-#: src/bin/projectclip.cpp:979
+#: src/bin/projectclip.cpp:981
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -5747,29 +5747,29 @@ msgstr ""
 "Impossibile estrarre i metadati da %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1230 src/jobs/cliploadtask.cpp:264
+#: src/bin/projectclip.cpp:1232 src/jobs/cliploadtask.cpp:264
 #, kde-format
 msgid "Invalid"
 msgstr "Non valido"
 
-#: src/bin/projectclip.cpp:1459 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1461 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1491
 #, kde-format
 msgid "File already exists"
 msgstr "Il file esiste già"
 
-#: src/bin/projectclip.cpp:2701
+#: src/bin/projectclip.cpp:2703
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Regola le clip nella linea temporale"
 
-#: src/bin/projectclip.cpp:2948
+#: src/bin/projectclip.cpp:2950
 #, kde-format
 msgid "Add stream effect"
 msgstr "Aggiungi effetto del flusso"
 
-#: src/bin/projectclip.cpp:2973
+#: src/bin/projectclip.cpp:2975
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Rimuovi effetto del flusso"
@@ -5796,8 +5796,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uso"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1837
-#: src/doc/documentchecker.cpp:1867 src/doc/documentchecker.cpp:1887
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1839
+#: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
 #: src/mltcontroller/clipcontroller.cpp:510 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -9272,7 +9272,7 @@ msgstr "Cartella di clip"
 msgid "Applying fixes…"
 msgstr "Applicazione delle correzioni..."
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Verifica degli elementi mancanti..."
@@ -9285,119 +9285,119 @@ msgstr ""
 "L'identificativo del documento del tuo progetto non è valido, ne è stato "
 "creato uno nuovo."
 
-#: src/doc/documentchecker.cpp:1827
+#: src/doc/documentchecker.cpp:1829
 #, kde-format
 msgid "Video clip"
 msgstr "Clip video"
 
-#: src/doc/documentchecker.cpp:1829
+#: src/doc/documentchecker.cpp:1831
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Clip di presentazione"
 
-#: src/doc/documentchecker.cpp:1831
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Image clip"
 msgstr "Clip da immagine"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1835
 #, kde-format
 msgid "Playlist clip"
 msgstr "Lista di riproduzione clip"
 
-#: src/doc/documentchecker.cpp:1835 src/doc/documentchecker.cpp:1851
+#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1853
 #, kde-format
 msgid "Title Image"
 msgstr "Immagine del titolo"
 
-#: src/doc/documentchecker.cpp:1847
+#: src/doc/documentchecker.cpp:1849
 #, kde-format
 msgid "Clip"
 msgstr "Clip"
 
-#: src/doc/documentchecker.cpp:1849
+#: src/doc/documentchecker.cpp:1851
 #, kde-format
 msgid "Title Font"
 msgstr "Carattere del titolo"
 
-#: src/doc/documentchecker.cpp:1853
+#: src/doc/documentchecker.cpp:1855
 #, kde-format
 msgid "Luma file"
 msgstr "File luma"
 
-#: src/doc/documentchecker.cpp:1855
+#: src/doc/documentchecker.cpp:1857
 #, kde-format
 msgid "Asset file"
 msgstr "File di risorsa"
 
-#: src/doc/documentchecker.cpp:1857
+#: src/doc/documentchecker.cpp:1859
 #: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Proxy clip"
 msgstr "Clip rappresentativa"
 
-#: src/doc/documentchecker.cpp:1859
+#: src/doc/documentchecker.cpp:1861
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Effetto"
 
-#: src/doc/documentchecker.cpp:1861
+#: src/doc/documentchecker.cpp:1863
 #, kde-format
 msgid "Transition"
 msgstr "Transizione"
 
-#: src/doc/documentchecker.cpp:1863
+#: src/doc/documentchecker.cpp:1865
 #, fuzzy, kde-format
 #| msgid "One removed clip"
 #| msgid_plural "%1 removed clips"
 msgid "Unreferenced clip"
 msgstr "Una clip rimossa"
 
-#: src/doc/documentchecker.cpp:1865
+#: src/doc/documentchecker.cpp:1867
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Sequenza corrotta"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1875 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Fisso"
 
-#: src/doc/documentchecker.cpp:1877
+#: src/doc/documentchecker.cpp:1879
 #, kde-format
 msgid "Reload"
 msgstr "Ricarica"
 
-#: src/doc/documentchecker.cpp:1879
+#: src/doc/documentchecker.cpp:1881
 #, kde-format
 msgid "Missing"
 msgstr "Non trovato"
 
-#: src/doc/documentchecker.cpp:1881
+#: src/doc/documentchecker.cpp:1883
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Mancante, ma la clip rappresentativa è disponibile"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1883 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Segnaposto"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1885 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: src/doc/documentchecker.cpp:1896
+#: src/doc/documentchecker.cpp:1898
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Il file del progetto contiene delle clip o dei file mancanti."
 
-#: src/doc/documentchecker.cpp:1899
+#: src/doc/documentchecker.cpp:1901
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Le clip rappresentative mancanti possono essere ricreate all'apertura."
@@ -18457,7 +18457,7 @@ msgstr "Inserisci un effetto..."
 msgid "Insert a composition..."
 msgstr "Inserisci una composizione..."
 
-#: src/timeline2/view/timelinewidget.cpp:325
+#: src/timeline2/view/timelinewidget.cpp:326
 #, kde-format
 msgid "No available stream"
 msgstr "Nessun flusso disponibile"
