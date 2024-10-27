@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-25 02:31+0000\n"
+"POT-Creation-Date: 2024-10-27 02:39+0000\n"
 "PO-Revision-Date: 2024-10-09 20:58+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -17812,7 +17812,7 @@ msgstr "Txertatu efektua..."
 msgid "Insert a composition..."
 msgstr "Txertatu konposizioa..."
 
-#: src/timeline2/view/timelinewidget.cpp:329
+#: src/timeline2/view/timelinewidget.cpp:330
 #, kde-format
 msgid "No available stream"
 msgstr "Ez dago korronterik eskuragarri"

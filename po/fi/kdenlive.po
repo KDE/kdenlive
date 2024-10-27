@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-25 02:31+0000\n"
+"POT-Creation-Date: 2024-10-27 02:39+0000\n"
 "PO-Revision-Date: 2024-01-31 01:18+0200\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -17811,7 +17811,7 @@ msgstr "Lisää tehoste..."
 msgid "Insert a composition..."
 msgstr "Lisää koostaminen..."
 
-#: src/timeline2/view/timelinewidget.cpp:329
+#: src/timeline2/view/timelinewidget.cpp:330
 #, kde-format
 msgid "No available stream"
 msgstr "Ei suoratoistoa saatavilla"

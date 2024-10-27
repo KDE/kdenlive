@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-25 02:31+0000\n"
+"POT-Creation-Date: 2024-10-27 02:39+0000\n"
 "PO-Revision-Date: 2024-10-25 17:20+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -17971,7 +17971,7 @@ msgstr "Вставить эффект…"
 msgid "Insert a composition..."
 msgstr "Вставить композицию…"
 
-#: src/timeline2/view/timelinewidget.cpp:329
+#: src/timeline2/view/timelinewidget.cpp:330
 #, kde-format
 msgid "No available stream"
 msgstr "Нет доступных потоков"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-25 02:31+0000\n"
+"POT-Creation-Date: 2024-10-27 02:39+0000\n"
 "PO-Revision-Date: 2024-06-26 10:29+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -17836,7 +17836,7 @@ msgstr "Een effect invoegen..."
 msgid "Insert a composition..."
 msgstr "Een compositie invoegen..."
 
-#: src/timeline2/view/timelinewidget.cpp:329
+#: src/timeline2/view/timelinewidget.cpp:330
 #, kde-format
 msgid "No available stream"
 msgstr "Geen stream beschikbaar"
