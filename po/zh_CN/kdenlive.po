@@ -9081,7 +9081,7 @@ msgstr "转场"
 #: src/doc/documentchecker.cpp:1865
 #, kde-format
 msgid "Unreferenced clip"
-msgstr ""
+msgstr "未引用剪辑"
 
 #: src/doc/documentchecker.cpp:1867
 #, kde-format
