@@ -5184,7 +5184,7 @@ void TimelineController::importSubtitle(const QString &path)
             targetFramerate = d->caption_target_framerate->value();
         }
         subtitleModel->importSubtitle(d->subtitle_url->url().toLocalFile(), offset, true, startFramerate, targetFramerate,
-                                      d->codecs_list->currentText().toUtf8());
+                                      d->codecs_list->currentData().toString().toUtf8());
     }
     Q_EMIT regainFocus();
 }

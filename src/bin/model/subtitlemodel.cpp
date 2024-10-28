@@ -304,16 +304,11 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
             return;
         }
         QTextStream stream(&assFile);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        stream.setCodec(QTextCodec::codecForName(encoding));
-#else
-        // stream.setEncoding(QStringConverter::encodingForName(encoding.data()).value());
         std::optional<QStringConverter::Encoding> inputEncoding = QStringConverter::encodingForName(encoding.data());
         if (inputEncoding) {
             stream.setEncoding(inputEncoding.value());
         }
         // else: UTF8 is the default
-#endif
         QString line;
         qDebug() << " correct ass file  " << filePath;
         while (stream.readLineInto(&line)) {

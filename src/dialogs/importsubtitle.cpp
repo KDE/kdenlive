@@ -25,11 +25,12 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
     QStringList listCodecs = KCharsets::charsets()->descriptiveEncodingNames();
     const QString filter = QStringLiteral("*.srt *.ass *.vtt *.sbv");
     subtitle_url->setNameFilter(filter);
-    codecs_list->addItems(listCodecs);
+    for (auto &l : listCodecs) {
+        codecs_list->addItem(l, KCharsets::charsets()->encodingForName(l));
+    }
     info_message->setVisible(false);
     // Set UTF-8 as default codec
-    QString utf8Desc = KCharsets::charsets()->descriptionForEncoding(QStringLiteral("UTF-8"));
-    int matchIndex = codecs_list->findText(utf8Desc);
+    int matchIndex = codecs_list->findData(QStringLiteral("UTF-8"));
     if (matchIndex > -1) {
         codecs_list->setCurrentIndex(matchIndex);
     }
