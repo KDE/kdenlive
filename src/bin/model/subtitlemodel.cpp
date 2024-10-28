@@ -288,7 +288,7 @@ void SubtitleModel::importSubtitle(const QString &filePath, int offset, bool ext
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         stream.setCodec(QTextCodec::codecForName(encoding));
 #else
-        stream.setEncoding(QStringConverter::encodingForName(encoding.data()).value());
+        stream.setEncoding(QStringConverter::encodingForName(encoding.constData()).value());
 #endif
         QString line;
         qDebug() << " correct ass file  " << filePath;

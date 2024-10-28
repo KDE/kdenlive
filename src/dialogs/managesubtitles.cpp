@@ -153,6 +153,7 @@ void ManageSubtitles::importSubtitle()
             startFramerate = d->caption_original_framerate->value();
             targetFramerate = d->caption_target_framerate->value();
         }
-        m_model->importSubtitle(d->subtitle_url->url().toLocalFile(), offset, true, startFramerate, targetFramerate, d->codecs_list->currentText().toUtf8());
+        m_model->importSubtitle(d->subtitle_url->url().toLocalFile(), offset, true, startFramerate, targetFramerate,
+                                d->codecs_list->currentData().toString().toUtf8());
     }
 }
