@@ -909,10 +909,13 @@ void MainWindow::loadContainerActions()
     // Redirect help entry to our own function
     // First delete the default help action
     QAction *officialHelp = actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents));
+    // Save and later restore any custom shortcuts
+    QList<QKeySequence> helpShortcuts = officialHelp->shortcuts();
     actionCollection()->removeAction(officialHelp);
     // Now recreate our own
     KStandardAction::helpContents(this, &MainWindow::appHelpActivated, actionCollection());
     officialHelp = actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents));
+    officialHelp->setShortcuts(helpShortcuts);
     // Replug it in the Help menu
     QMenu *helpMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("help"), this));
     if (helpMenu) {
