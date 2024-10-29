@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 02:39+0000\n"
-"PO-Revision-Date: 2024-10-25 17:20+0300\n"
+"POT-Creation-Date: 2024-10-29 02:30+0000\n"
+"PO-Revision-Date: 2024-10-28 10:20+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -775,10 +775,9 @@ msgid "Up"
 msgstr "Сверху"
 
 #: data/effects/dance.xml:35
-#, fuzzy, kde-format
-#| msgid "&Download"
+#, kde-format
 msgid "Down"
-msgstr "&Загрузить"
+msgstr "Снизу"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -3522,63 +3521,59 @@ msgid "Smooth"
 msgstr "Плавная"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:51
-#, fuzzy, kde-format
-#| msgid "Set Zone In"
+#, kde-format
 msgid "Bounce In"
-msgstr "Установить начало участка"
+msgstr "Прыжковая на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:52
-#, fuzzy, kde-format
-#| msgid "Set Zone Out"
+#, kde-format
 msgid "Bounce Out"
-msgstr "Установить конец участка"
+msgstr "Прыжковая на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:53
 #, kde-format
 msgid "Cubic In"
-msgstr ""
+msgstr "Кубическая на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:54
 #, kde-format
 msgid "Cubic Out"
-msgstr ""
+msgstr "Кубическая на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:55
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "Экспоненциальная на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:56
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "Экспоненциальная на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:57
 #, kde-format
 msgid "Circular In"
-msgstr ""
+msgstr "Круговая на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:58
 #, kde-format
 msgid "Circular Out"
-msgstr ""
+msgstr "Круговая на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:59
 #, kde-format
 msgid "Elastic In"
-msgstr ""
+msgstr "Эластичная на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:60
-#, fuzzy, kde-format
-#| msgid "Gain Out"
+#, kde-format
 msgid "Elastic Out"
-msgstr "Усиление на выходе"
+msgstr "Эластичная на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:61
-#, fuzzy, kde-format
-#| msgid " - deprecated"
+#, kde-format
 msgid "Smooth (deprecated)"
-msgstr " — устарел"
+msgstr "Плавная (устарел)"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:147
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
@@ -5774,8 +5769,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Использование"
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1776
-#: src/doc/documentchecker.cpp:1804 src/doc/documentchecker.cpp:1824
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1839
+#: src/doc/documentchecker.cpp:1868 src/doc/documentchecker.cpp:1888
 #: src/mltcontroller/clipcontroller.cpp:524 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6651,12 +6646,12 @@ msgstr "Позиция следующей направляющей в кадра
 msgid "Guide comment"
 msgstr "Комментарий для направляющей"
 
-#: src/dialogs/importsubtitle.cpp:40
+#: src/dialogs/importsubtitle.cpp:41
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "Кодировка символов для сохранения файла с субтитрами."
 
-#: src/dialogs/importsubtitle.cpp:41
+#: src/dialogs/importsubtitle.cpp:42
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
@@ -6664,24 +6659,24 @@ msgstr ""
 "Если определиться сложно, попробуйте выбрать следующее:<br/><b>Unicode "
 "(UTF-8)</b>."
 
-#: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
+#: src/dialogs/importsubtitle.cpp:50 src/dialogs/importsubtitle.cpp:93
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1737
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Не удалось прочитать файл %1"
 
-#: src/dialogs/importsubtitle.cpp:102
+#: src/dialogs/importsubtitle.cpp:103
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "Не удалось определить кодировку, будет использоваться UTF-8"
 
-#: src/dialogs/importsubtitle.cpp:106
+#: src/dialogs/importsubtitle.cpp:107
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "Распознана кодировка «%1»"
 
-#: src/dialogs/importsubtitle.cpp:128
+#: src/dialogs/importsubtitle.cpp:129
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Импорт субтитров"
@@ -8879,123 +8874,123 @@ msgstr "Папка с клипами"
 msgid "Applying fixes…"
 msgstr "Применение исправлений…"
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Проверка наличия отсутствующих элементов…"
 
-#: src/doc/documentchecker.cpp:194
+#: src/doc/documentchecker.cpp:195
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Идентификатор документа проекта неверен. Создан новый идентификатор."
 
-#: src/doc/documentchecker.cpp:1766
+#: src/doc/documentchecker.cpp:1829
 #, kde-format
 msgid "Video clip"
 msgstr "Видеоклип"
 
-#: src/doc/documentchecker.cpp:1768
+#: src/doc/documentchecker.cpp:1831
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Клип слайд-шоу"
 
-#: src/doc/documentchecker.cpp:1770
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Image clip"
 msgstr "Клип изображений"
 
-#: src/doc/documentchecker.cpp:1772
+#: src/doc/documentchecker.cpp:1835
 #, kde-format
 msgid "Playlist clip"
 msgstr "Клип списка воспроизведения"
 
-#: src/doc/documentchecker.cpp:1774 src/doc/documentchecker.cpp:1790
+#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1854
 #, kde-format
 msgid "Title Image"
 msgstr "Изображение титров"
 
-#: src/doc/documentchecker.cpp:1786
+#: src/doc/documentchecker.cpp:1850
 #, kde-format
 msgid "Clip"
 msgstr "Клип"
 
-#: src/doc/documentchecker.cpp:1788
+#: src/doc/documentchecker.cpp:1852
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титров"
 
-#: src/doc/documentchecker.cpp:1792
+#: src/doc/documentchecker.cpp:1856
 #, kde-format
 msgid "Luma file"
 msgstr "Файл каше"
 
-#: src/doc/documentchecker.cpp:1794
+#: src/doc/documentchecker.cpp:1858
 #, kde-format
 msgid "Asset file"
 msgstr "Файл ресурса"
 
-#: src/doc/documentchecker.cpp:1796
+#: src/doc/documentchecker.cpp:1860
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Прокси-клип"
 
-#: src/doc/documentchecker.cpp:1798
+#: src/doc/documentchecker.cpp:1862
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Эффект"
 
-#: src/doc/documentchecker.cpp:1800
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Transition"
 msgstr "Переход"
 
-#: src/doc/documentchecker.cpp:1802
+#: src/doc/documentchecker.cpp:1866
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Повреждённая последовательность"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1812 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1876 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr "Фиксированная"
 
-#: src/doc/documentchecker.cpp:1814
+#: src/doc/documentchecker.cpp:1878
 #, kde-format
 msgid "Reload"
 msgstr "Обновить"
 
-#: src/doc/documentchecker.cpp:1816
+#: src/doc/documentchecker.cpp:1880
 #, kde-format
 msgid "Missing"
 msgstr "Отсутствует"
 
-#: src/doc/documentchecker.cpp:1818
+#: src/doc/documentchecker.cpp:1882
 #, kde-format
 msgid "Missing, but proxy available"
 msgstr "Отсутствует, но доступен прокси"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1820 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1884 src/ui/editrenderpreset_ui.ui:525
 #, kde-format
 msgid "Placeholder"
 msgstr "Заполнитель"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1822 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1886 src/ui/missingclips_ui.ui:152
 #, kde-format
 msgid "Remove"
 msgstr "Удалить"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1897
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проекта ссылается на отсутствующие клипы или файлы."
 
-#: src/doc/documentchecker.cpp:1836
+#: src/doc/documentchecker.cpp:1900
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Отсутствующие прокси могут быть восстановлены при открытии."
@@ -12498,7 +12493,7 @@ msgstr "Заменить"
 #: src/mainwindow.cpp:3855 src/mainwindow.cpp:3857
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "Приборы"
 
 #: src/mainwindow.cpp:3862
 #, kde-format
@@ -15239,10 +15234,9 @@ msgid "Save Copy"
 msgstr "Сохранение копии файла"
 
 #: src/project/projectmanager.cpp:749
-#, fuzzy, kde-format
-#| msgid "Auto-saved file exist. Do you want to recover now?"
+#, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
-msgstr "Найден файл автосохранения. Восстановить данные с этого файла?"
+msgstr "Найден файл автосохранения. Восстановить данные с его помощью?"
 
 #: src/project/projectmanager.cpp:749
 #, kde-format

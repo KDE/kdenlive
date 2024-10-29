@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 02:39+0000\n"
+"POT-Creation-Date: 2024-10-29 02:30+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -5845,8 +5845,8 @@ msgstr "ID"
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1776
-#: src/doc/documentchecker.cpp:1804 src/doc/documentchecker.cpp:1824
+#: src/bin/projectitemmodel.cpp:342 src/doc/documentchecker.cpp:1839
+#: src/doc/documentchecker.cpp:1868 src/doc/documentchecker.cpp:1888
 #: src/mltcontroller/clipcontroller.cpp:524 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
 #, kde-format
@@ -6740,18 +6740,18 @@ msgstr ""
 msgid "Guide comment"
 msgstr "A&bijoone tsoon"
 
-#: src/dialogs/importsubtitle.cpp:40
+#: src/dialogs/importsubtitle.cpp:41
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:41
+#: src/dialogs/importsubtitle.cpp:42
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:49 src/dialogs/importsubtitle.cpp:92
+#: src/dialogs/importsubtitle.cpp:50 src/dialogs/importsubtitle.cpp:93
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1737
 #: src/renderpresets/renderpresetrepository.cpp:313
 #, fuzzy, kde-format
@@ -6759,18 +6759,18 @@ msgstr ""
 msgid "Cannot read file %1"
 msgstr "Filtri %1 loomine nurjus"
 
-#: src/dialogs/importsubtitle.cpp:102
+#: src/dialogs/importsubtitle.cpp:103
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:106
+#: src/dialogs/importsubtitle.cpp:107
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding detected as %1"
 msgstr "Lõimede lahtikodeerimine"
 
-#: src/dialogs/importsubtitle.cpp:128
+#: src/dialogs/importsubtitle.cpp:129
 #, fuzzy, kde-format
 #| msgid "Import guides"
 msgid "Import Subtitle"
@@ -9064,131 +9064,131 @@ msgstr "Klippide kataloog"
 msgid "Applying fixes…"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:238
+#: src/doc/documentchecker.cpp:177 src/doc/documentchecker.cpp:239
 #, fuzzy, kde-format
 #| msgid "Checking system"
 msgid "Checking for missing items…"
 msgstr "Süsteemi kontroll"
 
-#: src/doc/documentchecker.cpp:194
+#: src/doc/documentchecker.cpp:195
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1766
+#: src/doc/documentchecker.cpp:1829
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklipp"
 
-#: src/doc/documentchecker.cpp:1768
+#: src/doc/documentchecker.cpp:1831
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Slaidiesituse klipp"
 
-#: src/doc/documentchecker.cpp:1770
+#: src/doc/documentchecker.cpp:1833
 #, kde-format
 msgid "Image clip"
 msgstr "Pildiklipp"
 
-#: src/doc/documentchecker.cpp:1772
+#: src/doc/documentchecker.cpp:1835
 #, kde-format
 msgid "Playlist clip"
 msgstr "Esitusloendi klipp"
 
-#: src/doc/documentchecker.cpp:1774 src/doc/documentchecker.cpp:1790
+#: src/doc/documentchecker.cpp:1837 src/doc/documentchecker.cpp:1854
 #, kde-format
 msgid "Title Image"
 msgstr "Tiitripilt"
 
-#: src/doc/documentchecker.cpp:1786
+#: src/doc/documentchecker.cpp:1850
 #, fuzzy, kde-format
 #| msgid "Clips"
 msgid "Clip"
 msgstr "Klipid"
 
-#: src/doc/documentchecker.cpp:1788
+#: src/doc/documentchecker.cpp:1852
 #, kde-format
 msgid "Title Font"
 msgstr "Tiitrifont"
 
-#: src/doc/documentchecker.cpp:1792
+#: src/doc/documentchecker.cpp:1856
 #, kde-format
 msgid "Luma file"
 msgstr "Luma fail"
 
-#: src/doc/documentchecker.cpp:1794
+#: src/doc/documentchecker.cpp:1858
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Asset file"
 msgstr "Kustuta failid"
 
-#: src/doc/documentchecker.cpp:1796
+#: src/doc/documentchecker.cpp:1860
 #: src/mltcontroller/clippropertiescontroller.cpp:432
 #, kde-format
 msgid "Proxy clip"
 msgstr "Asendusklipp"
 
-#: src/doc/documentchecker.cpp:1798
+#: src/doc/documentchecker.cpp:1862
 #: src/monitor/view/kdenlivemonitorsplit.qml:98
 #, kde-format
 msgid "Effect"
 msgstr "Efekt"
 
-#: src/doc/documentchecker.cpp:1800
+#: src/doc/documentchecker.cpp:1864
 #, kde-format
 msgid "Transition"
 msgstr "Üleminek"
 
-#: src/doc/documentchecker.cpp:1802
+#: src/doc/documentchecker.cpp:1866
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Corrupted sequence"
 msgstr "Uue seeria loomine"
 
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
-#: src/doc/documentchecker.cpp:1812 src/ui/editrenderpreset_ui.ui:538
+#: src/doc/documentchecker.cpp:1876 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
 msgid "Fixed"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1814
+#: src/doc/documentchecker.cpp:1878
 #, fuzzy, kde-format
 #| msgid "Reload Clip"
 msgid "Reload"
 msgstr "Laadi klipp uuesti"
 
-#: src/doc/documentchecker.cpp:1816
+#: src/doc/documentchecker.cpp:1880
 #, kde-format
 msgid "Missing"
 msgstr "Puudub"
 
-#: src/doc/documentchecker.cpp:1818
+#: src/doc/documentchecker.cpp:1882
 #, fuzzy, kde-format
 #| msgid "Missing proxy"
 msgid "Missing, but proxy available"
 msgstr "Asendusklipp puudub"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
-#: src/doc/documentchecker.cpp:1820 src/ui/editrenderpreset_ui.ui:525
+#: src/doc/documentchecker.cpp:1884 src/ui/editrenderpreset_ui.ui:525
 #, fuzzy, kde-format
 #| msgid "Keep as placeholder"
 msgid "Placeholder"
 msgstr "Hoia kohatäitena"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
-#: src/doc/documentchecker.cpp:1822 src/ui/missingclips_ui.ui:152
+#: src/doc/documentchecker.cpp:1886 src/ui/missingclips_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Removal"
 msgid "Remove"
 msgstr "Eemaldamine"
 
-#: src/doc/documentchecker.cpp:1833
+#: src/doc/documentchecker.cpp:1897
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projektifail sisaldab puuduvaid klippe või faile."
 
-#: src/doc/documentchecker.cpp:1836
+#: src/doc/documentchecker.cpp:1900
 #, fuzzy, kde-format
 #| msgid "Missing proxies will be recreated after opening."
 msgid "Missing proxies can be recreated on opening."
