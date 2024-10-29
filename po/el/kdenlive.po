@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:39+0000\n"
+"POT-Creation-Date: 2024-10-29 00:39+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4674,7 +4674,7 @@ msgid ""
 msgstr ""
 
 #: src/bin/bin.cpp:1900 src/bin/bin.cpp:2120
-#: src/bin/model/subtitlemodel.cpp:435
+#: src/bin/model/subtitlemodel.cpp:430
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "The selected file %1 is invalid."
@@ -5742,37 +5742,37 @@ msgstr "Χωρίς τίτλο"
 msgid "Edit global subtitle style"
 msgstr "Προσθήκη οδηγού"
 
-#: src/bin/model/subtitlemodel.cpp:445 src/bin/model/subtitlemodel.cpp:660
-#: src/bin/model/subtitlemodel.cpp:1611 src/bin/model/subtitlemodel.cpp:2187
-#: src/bin/model/subtitlemodel.cpp:2254 src/bin/model/subtitlemodel.cpp:2287
-#: src/bin/model/subtitlemodel.cpp:2320 src/bin/model/subtitlemodel.cpp:2353
-#: src/bin/model/subtitlemodel.cpp:2386
+#: src/bin/model/subtitlemodel.cpp:440 src/bin/model/subtitlemodel.cpp:655
+#: src/bin/model/subtitlemodel.cpp:1606 src/bin/model/subtitlemodel.cpp:2182
+#: src/bin/model/subtitlemodel.cpp:2249 src/bin/model/subtitlemodel.cpp:2282
+#: src/bin/model/subtitlemodel.cpp:2315 src/bin/model/subtitlemodel.cpp:2348
+#: src/bin/model/subtitlemodel.cpp:2381
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle"
 msgstr "Προσθήκη οδηγού"
 
-#: src/bin/model/subtitlemodel.cpp:695 src/bin/model/subtitlemodel.cpp:1699
+#: src/bin/model/subtitlemodel.cpp:690 src/bin/model/subtitlemodel.cpp:1694
 #: src/timeline2/model/timelinefunctions.cpp:228
 #, kde-format
 msgid "Cut clip"
 msgstr "Διαίρεση κλιπ"
 
-#: src/bin/model/subtitlemodel.cpp:857 src/bin/model/subtitlemodel.cpp:1630
+#: src/bin/model/subtitlemodel.cpp:852 src/bin/model/subtitlemodel.cpp:1625
 #: src/timeline2/model/timelinemodel.cpp:3965
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 msgid "Resize subtitle"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/model/subtitlemodel.cpp:1055
+#: src/bin/model/subtitlemodel.cpp:1050
 #: src/timeline2/model/timelinemodel.cpp:1350
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
 msgstr "Μετακίνηση οδηγού"
 
-#: src/bin/model/subtitlemodel.cpp:1225
+#: src/bin/model/subtitlemodel.cpp:1220
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
@@ -5785,44 +5785,44 @@ msgstr ""
 "Το αρχείο %1 υπάρχει ήδη.\n"
 "Επιθυμείτε να το αντικαταστήσετε;"
 
-#: src/bin/model/subtitlemodel.cpp:1642 src/titler/titlewidget.cpp:393
+#: src/bin/model/subtitlemodel.cpp:1637 src/titler/titlewidget.cpp:393
 #: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Text"
 msgstr "Προσθήκη κειμένου"
 
-#: src/bin/model/subtitlemodel.cpp:1667 src/dialogs/subtitleedit.cpp:283
+#: src/bin/model/subtitlemodel.cpp:1662 src/dialogs/subtitleedit.cpp:283
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add subtitle"
 msgstr "Προσθήκη οδηγού"
 
-#: src/bin/model/subtitlemodel.cpp:1719 src/dialogs/subtitleedit.cpp:293
+#: src/bin/model/subtitlemodel.cpp:1714 src/dialogs/subtitleedit.cpp:293
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 msgid "Delete subtitle"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/model/subtitlemodel.cpp:1791
+#: src/bin/model/subtitlemodel.cpp:1786
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 msgid "Delete subtitle layer"
 msgstr "Διαγραφή κλιπ"
 
-#: src/bin/model/subtitlemodel.cpp:1818
+#: src/bin/model/subtitlemodel.cpp:1813
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create subtitle layer"
 msgstr "Δημιουργία ενός νέου προφίλ"
 
-#: src/bin/model/subtitlemodel.cpp:1924 src/bin/model/subtitlemodel.cpp:1927
+#: src/bin/model/subtitlemodel.cpp:1919 src/bin/model/subtitlemodel.cpp:1922
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "Χωρίς τίτλο"
 
-#: src/bin/model/subtitlemodel.cpp:2223
+#: src/bin/model/subtitlemodel.cpp:2218
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr ""
@@ -6808,18 +6808,18 @@ msgstr ""
 msgid "Guide comment"
 msgstr "&Ζώνη οδηγού"
 
-#: src/dialogs/importsubtitle.cpp:36
+#: src/dialogs/importsubtitle.cpp:37
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:37
+#: src/dialogs/importsubtitle.cpp:38
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
+#: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1770
 #: src/renderpresets/renderpresetrepository.cpp:310
 #, fuzzy, kde-format
@@ -6827,18 +6827,18 @@ msgstr ""
 msgid "Cannot read file %1"
 msgstr "Αδυναμία δημιουργίας καταναλωτή %1."
 
-#: src/dialogs/importsubtitle.cpp:88
+#: src/dialogs/importsubtitle.cpp:89
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:92
+#: src/dialogs/importsubtitle.cpp:93
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding detected as %1"
 msgstr "Αποκωδικοποίηση νημάτων"
 
-#: src/dialogs/importsubtitle.cpp:114
+#: src/dialogs/importsubtitle.cpp:115
 #, fuzzy, kde-format
 msgid "Import Subtitle"
 msgstr "Προσθήκη δείκτη"

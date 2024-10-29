@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:39+0000\n"
+"POT-Creation-Date: 2024-10-29 00:39+0000\n"
 "PO-Revision-Date: 2024-10-20 06:18+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -4621,7 +4621,7 @@ msgstr ""
 "La sostituta è più breve di %1 fotogrammi."
 
 #: src/bin/bin.cpp:1900 src/bin/bin.cpp:2120
-#: src/bin/model/subtitlemodel.cpp:435
+#: src/bin/model/subtitlemodel.cpp:430
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Il file selezionato %1 non è valido."
@@ -5641,34 +5641,34 @@ msgstr "Sottotitoli"
 msgid "Edit global subtitle style"
 msgstr "Modifica lo stile globale dei sottotitoli"
 
-#: src/bin/model/subtitlemodel.cpp:445 src/bin/model/subtitlemodel.cpp:660
-#: src/bin/model/subtitlemodel.cpp:1611 src/bin/model/subtitlemodel.cpp:2187
-#: src/bin/model/subtitlemodel.cpp:2254 src/bin/model/subtitlemodel.cpp:2287
-#: src/bin/model/subtitlemodel.cpp:2320 src/bin/model/subtitlemodel.cpp:2353
-#: src/bin/model/subtitlemodel.cpp:2386
+#: src/bin/model/subtitlemodel.cpp:440 src/bin/model/subtitlemodel.cpp:655
+#: src/bin/model/subtitlemodel.cpp:1606 src/bin/model/subtitlemodel.cpp:2182
+#: src/bin/model/subtitlemodel.cpp:2249 src/bin/model/subtitlemodel.cpp:2282
+#: src/bin/model/subtitlemodel.cpp:2315 src/bin/model/subtitlemodel.cpp:2348
+#: src/bin/model/subtitlemodel.cpp:2381
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Modifica sottotitolo"
 
-#: src/bin/model/subtitlemodel.cpp:695 src/bin/model/subtitlemodel.cpp:1699
+#: src/bin/model/subtitlemodel.cpp:690 src/bin/model/subtitlemodel.cpp:1694
 #: src/timeline2/model/timelinefunctions.cpp:228
 #, kde-format
 msgid "Cut clip"
 msgstr "Taglia clip"
 
-#: src/bin/model/subtitlemodel.cpp:857 src/bin/model/subtitlemodel.cpp:1630
+#: src/bin/model/subtitlemodel.cpp:852 src/bin/model/subtitlemodel.cpp:1625
 #: src/timeline2/model/timelinemodel.cpp:3965
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Ridimensiona sottotitolo"
 
-#: src/bin/model/subtitlemodel.cpp:1055
+#: src/bin/model/subtitlemodel.cpp:1050
 #: src/timeline2/model/timelinemodel.cpp:1350
 #, kde-format
 msgid "Move subtitle"
 msgstr "Sposta sottotitolo"
 
-#: src/bin/model/subtitlemodel.cpp:1225
+#: src/bin/model/subtitlemodel.cpp:1220
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
@@ -5681,39 +5681,39 @@ msgstr ""
 "Il file %1 esiste già.\n"
 "Vuoi sovrascriverlo?"
 
-#: src/bin/model/subtitlemodel.cpp:1642 src/titler/titlewidget.cpp:393
+#: src/bin/model/subtitlemodel.cpp:1637 src/titler/titlewidget.cpp:393
 #: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Text"
 msgstr "Aggiungi testo"
 
-#: src/bin/model/subtitlemodel.cpp:1667 src/dialogs/subtitleedit.cpp:283
+#: src/bin/model/subtitlemodel.cpp:1662 src/dialogs/subtitleedit.cpp:283
 #, kde-format
 msgid "Add subtitle"
 msgstr "Aggiungi sottotitolo"
 
-#: src/bin/model/subtitlemodel.cpp:1719 src/dialogs/subtitleedit.cpp:293
+#: src/bin/model/subtitlemodel.cpp:1714 src/dialogs/subtitleedit.cpp:293
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Elimina sottotitolo"
 
-#: src/bin/model/subtitlemodel.cpp:1791
+#: src/bin/model/subtitlemodel.cpp:1786
 #, kde-format
 msgid "Delete subtitle layer"
 msgstr "Elimina livello sottotitoli"
 
-#: src/bin/model/subtitlemodel.cpp:1818
+#: src/bin/model/subtitlemodel.cpp:1813
 #, kde-format
 msgid "Create subtitle layer"
 msgstr "Crea livello sottotitoli"
 
-#: src/bin/model/subtitlemodel.cpp:1924 src/bin/model/subtitlemodel.cpp:1927
+#: src/bin/model/subtitlemodel.cpp:1919 src/bin/model/subtitlemodel.cpp:1922
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "Sottotitolo %1"
 
-#: src/bin/model/subtitlemodel.cpp:2223
+#: src/bin/model/subtitlemodel.cpp:2218
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "Assegna un nuovo stile a un sottotitolo."
@@ -6691,35 +6691,35 @@ msgstr "Posizione della guida successiva nei fotogrammi"
 msgid "Guide comment"
 msgstr "Commento della guida"
 
-#: src/dialogs/importsubtitle.cpp:36
+#: src/dialogs/importsubtitle.cpp:37
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "Codifica dei caratteri usata per salvare il file dei sottotitoli."
 
-#: src/dialogs/importsubtitle.cpp:37
+#: src/dialogs/importsubtitle.cpp:38
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Se non sei sicuro, prova:<br/><b>Unicode (UTF-8)</b>."
 
-#: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
+#: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1770
 #: src/renderpresets/renderpresetrepository.cpp:310
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Impossibile leggere il file %1."
 
-#: src/dialogs/importsubtitle.cpp:88
+#: src/dialogs/importsubtitle.cpp:89
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "La codifica potrebbe non essere intuita, usa UTF-8"
 
-#: src/dialogs/importsubtitle.cpp:92
+#: src/dialogs/importsubtitle.cpp:93
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "Codifica rilevata come %1"
 
-#: src/dialogs/importsubtitle.cpp:114
+#: src/dialogs/importsubtitle.cpp:115
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Importa sottotitoli"

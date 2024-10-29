@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:39+0000\n"
-"PO-Revision-Date: 2024-10-25 17:20+0300\n"
+"POT-Creation-Date: 2024-10-29 00:39+0000\n"
+"PO-Revision-Date: 2024-10-28 10:20+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -786,9 +786,9 @@ msgid "Up"
 msgstr "Сверху"
 
 #: data/effects/dance.xml:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "Down"
-msgstr "&Загрузить"
+msgstr "Снизу"
 
 #: data/effects/dance.xml:38
 #, kde-format
@@ -3551,59 +3551,59 @@ msgid "Smooth"
 msgstr "Плавная"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:50
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bounce In"
-msgstr "Установить начало участка"
+msgstr "Прыжковая на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:51
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bounce Out"
-msgstr "Установить конец участка"
+msgstr "Прыжковая на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:52
 #, kde-format
 msgid "Cubic In"
-msgstr ""
+msgstr "Кубическая на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:53
 #, kde-format
 msgid "Cubic Out"
-msgstr ""
+msgstr "Кубическая на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:54
 #, kde-format
 msgid "Exponential In"
-msgstr ""
+msgstr "Экспоненциальная на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:55
 #, kde-format
 msgid "Exponential Out"
-msgstr ""
+msgstr "Экспоненциальная на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:56
 #, kde-format
 msgid "Circular In"
-msgstr ""
+msgstr "Круговая на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:57
 #, kde-format
 msgid "Circular Out"
-msgstr ""
+msgstr "Круговая на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:58
 #, kde-format
 msgid "Elastic In"
-msgstr ""
+msgstr "Эластичная на входе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:59
-#, fuzzy, kde-format
+#, kde-format
 msgid "Elastic Out"
-msgstr "Усиление на выходе"
+msgstr "Эластичная на выходе"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:60
-#, fuzzy, kde-format
+#, kde-format
 msgid "Smooth (deprecated)"
-msgstr " — устарел"
+msgstr "Плавная (устарел)"
 
 #: src/assets/keyframes/model/keyframemodel.cpp:143
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
@@ -4644,7 +4644,7 @@ msgstr ""
 "Заменяющий клип будет содержать на %1 кадров меньше."
 
 #: src/bin/bin.cpp:1900 src/bin/bin.cpp:2120
-#: src/bin/model/subtitlemodel.cpp:435
+#: src/bin/model/subtitlemodel.cpp:430
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Выбран недопустимый файл «%1»."
@@ -5669,34 +5669,34 @@ msgstr "Субтитры"
 msgid "Edit global subtitle style"
 msgstr "Изменить стиль субтитров"
 
-#: src/bin/model/subtitlemodel.cpp:445 src/bin/model/subtitlemodel.cpp:660
-#: src/bin/model/subtitlemodel.cpp:1611 src/bin/model/subtitlemodel.cpp:2187
-#: src/bin/model/subtitlemodel.cpp:2254 src/bin/model/subtitlemodel.cpp:2287
-#: src/bin/model/subtitlemodel.cpp:2320 src/bin/model/subtitlemodel.cpp:2353
-#: src/bin/model/subtitlemodel.cpp:2386
+#: src/bin/model/subtitlemodel.cpp:440 src/bin/model/subtitlemodel.cpp:655
+#: src/bin/model/subtitlemodel.cpp:1606 src/bin/model/subtitlemodel.cpp:2182
+#: src/bin/model/subtitlemodel.cpp:2249 src/bin/model/subtitlemodel.cpp:2282
+#: src/bin/model/subtitlemodel.cpp:2315 src/bin/model/subtitlemodel.cpp:2348
+#: src/bin/model/subtitlemodel.cpp:2381
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Редактировать субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:695 src/bin/model/subtitlemodel.cpp:1699
+#: src/bin/model/subtitlemodel.cpp:690 src/bin/model/subtitlemodel.cpp:1694
 #: src/timeline2/model/timelinefunctions.cpp:228
 #, kde-format
 msgid "Cut clip"
 msgstr "Разрезать клип"
 
-#: src/bin/model/subtitlemodel.cpp:857 src/bin/model/subtitlemodel.cpp:1630
+#: src/bin/model/subtitlemodel.cpp:852 src/bin/model/subtitlemodel.cpp:1625
 #: src/timeline2/model/timelinemodel.cpp:3965
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Изменить размер субтитра"
 
-#: src/bin/model/subtitlemodel.cpp:1055
+#: src/bin/model/subtitlemodel.cpp:1050
 #: src/timeline2/model/timelinemodel.cpp:1350
 #, kde-format
 msgid "Move subtitle"
 msgstr "Переместить субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:1225
+#: src/bin/model/subtitlemodel.cpp:1220
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
@@ -5709,39 +5709,39 @@ msgstr ""
 "Файл «%1» уже существует.\n"
 "Перезаписать его?"
 
-#: src/bin/model/subtitlemodel.cpp:1642 src/titler/titlewidget.cpp:393
+#: src/bin/model/subtitlemodel.cpp:1637 src/titler/titlewidget.cpp:393
 #: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Text"
 msgstr "Введите текст"
 
-#: src/bin/model/subtitlemodel.cpp:1667 src/dialogs/subtitleedit.cpp:283
+#: src/bin/model/subtitlemodel.cpp:1662 src/dialogs/subtitleedit.cpp:283
 #, kde-format
 msgid "Add subtitle"
 msgstr "Добавить субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:1719 src/dialogs/subtitleedit.cpp:293
+#: src/bin/model/subtitlemodel.cpp:1714 src/dialogs/subtitleedit.cpp:293
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Удалить субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:1791
+#: src/bin/model/subtitlemodel.cpp:1786
 #, fuzzy, kde-format
 msgid "Delete subtitle layer"
 msgstr "Удалить субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:1818
+#: src/bin/model/subtitlemodel.cpp:1813
 #, fuzzy, kde-format
 msgid "Create subtitle layer"
 msgstr "Создать шаблон титров"
 
-#: src/bin/model/subtitlemodel.cpp:1924 src/bin/model/subtitlemodel.cpp:1927
+#: src/bin/model/subtitlemodel.cpp:1919 src/bin/model/subtitlemodel.cpp:1922
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "Субтитр %1"
 
-#: src/bin/model/subtitlemodel.cpp:2223
+#: src/bin/model/subtitlemodel.cpp:2218
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr ""
@@ -6717,12 +6717,12 @@ msgstr "Позиция следующей направляющей в кадра
 msgid "Guide comment"
 msgstr "Комментарий для направляющей"
 
-#: src/dialogs/importsubtitle.cpp:36
+#: src/dialogs/importsubtitle.cpp:37
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
 msgstr "Кодировка символов для сохранения файла с субтитрами."
 
-#: src/dialogs/importsubtitle.cpp:37
+#: src/dialogs/importsubtitle.cpp:38
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
@@ -6730,24 +6730,24 @@ msgstr ""
 "Если определиться сложно, попробуйте выбрать следующее:<br/><b>Unicode "
 "(UTF-8)</b>."
 
-#: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
+#: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1770
 #: src/renderpresets/renderpresetrepository.cpp:310
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Не удалось прочитать файл %1"
 
-#: src/dialogs/importsubtitle.cpp:88
+#: src/dialogs/importsubtitle.cpp:89
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr "Не удалось определить кодировку, будет использоваться UTF-8"
 
-#: src/dialogs/importsubtitle.cpp:92
+#: src/dialogs/importsubtitle.cpp:93
 #, kde-format
 msgid "Encoding detected as %1"
 msgstr "Распознана кодировка «%1»"
 
-#: src/dialogs/importsubtitle.cpp:114
+#: src/dialogs/importsubtitle.cpp:115
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Импорт субтитров"
@@ -12932,7 +12932,7 @@ msgstr "Добавить"
 #: src/mainwindow.cpp:3813 src/mainwindow.cpp:3815
 #, kde-format
 msgid "Scopes"
-msgstr ""
+msgstr "Приборы"
 
 #: src/mainwindow.cpp:3820
 #, kde-format
@@ -15675,9 +15675,9 @@ msgid "Save Copy"
 msgstr "Сохранение копии файла"
 
 #: src/project/projectmanager.cpp:751
-#, fuzzy, kde-format
+#, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
-msgstr "Найден файл автосохранения. Восстановить данные с этого файла?"
+msgstr "Найден файл автосохранения. Восстановить данные с его помощью?"
 
 #: src/project/projectmanager.cpp:751
 #, kde-format

@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: 2024 R. Arp <rarp@7bps.de>
 # Marco Gittler <g.marco@freenet.de>, 2008.
 # Felix Hammer <f.hammer@gmx.de>, 2008.
 # Thomas Holzmann <holzi1@gmx.at>, 2008.
@@ -13,16 +14,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-10-27 00:39+0000\n"
-"PO-Revision-Date: 2023-05-19 18:02+0200\n"
-"Last-Translator: Jannick Alexander Kuhr <opensource@kuhr.org>\n"
+"POT-Creation-Date: 2024-10-29 00:39+0000\n"
+"PO-Revision-Date: 2024-10-21 13:23+0200\n"
+"Last-Translator: R. Arp <rarp@7bps.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2682,10 +2683,9 @@ msgid "Drop frame timecode"
 msgstr "Auf Frame-Größe zuschneiden"
 
 #: data/generators/frei0r_test_pat_b.xml:3
-#, fuzzy, kde-format
-#| msgid "Color 1"
+#, kde-format
 msgid "Color Bars"
-msgstr "Farbe 1"
+msgstr "Farbbalken"
 
 #: data/generators/frei0r_test_pat_b.xml:4
 #, kde-format
@@ -3768,8 +3768,7 @@ msgstr "Effekt speichern"
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
-#, fuzzy, kde-format
-#| msgid "Enter preset name"
+#, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
 msgstr "Namen für Voreinstellung eingeben"
@@ -3777,10 +3776,9 @@ msgstr "Namen für Voreinstellung eingeben"
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
 #: src/dialogs/kdenlivesettingsdialog.cpp:1456
-#, fuzzy, kde-format
-#| msgid "Enter the name of this preset"
+#, kde-format
 msgid "Enter the name of this preset:"
-msgstr "Geben Sie den Namen der Voreinstellung ein"
+msgstr "Geben Sie den Namen der Voreinstellung ein:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:194
 #: src/project/dialogs/archivewidget.cpp:402
@@ -4624,7 +4622,7 @@ msgstr ""
 "Der neue Clip ist %1 Einzelbilder kürzer."
 
 #: src/bin/bin.cpp:1900 src/bin/bin.cpp:2120
-#: src/bin/model/subtitlemodel.cpp:435
+#: src/bin/model/subtitlemodel.cpp:430
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Der ausgewählte Datei %1 ist ungültig."
@@ -5009,10 +5007,9 @@ msgid "Replace Clip…"
 msgstr "Clip ersetzen ..."
 
 #: src/bin/bin.cpp:3651
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace Clip In Timeline…"
-msgstr "Clip ersetzen ..."
+msgstr "Clip in Zeitleiste ersetzen ..."
 
 #: src/bin/bin.cpp:3656
 #, kde-format
@@ -5350,8 +5347,7 @@ msgid "Move Clip"
 msgstr "Clip verschieben"
 
 #: src/bin/bincommands.cpp:62
-#, fuzzy, kde-format
-#| msgid "Rename Zone"
+#, kde-format
 msgctxt "@action"
 msgid "Rename Zone"
 msgstr "Zone umbenennen"
@@ -5644,34 +5640,34 @@ msgstr "Untertitel"
 msgid "Edit global subtitle style"
 msgstr "Untertitel-Stil bearbeiten"
 
-#: src/bin/model/subtitlemodel.cpp:445 src/bin/model/subtitlemodel.cpp:660
-#: src/bin/model/subtitlemodel.cpp:1611 src/bin/model/subtitlemodel.cpp:2187
-#: src/bin/model/subtitlemodel.cpp:2254 src/bin/model/subtitlemodel.cpp:2287
-#: src/bin/model/subtitlemodel.cpp:2320 src/bin/model/subtitlemodel.cpp:2353
-#: src/bin/model/subtitlemodel.cpp:2386
+#: src/bin/model/subtitlemodel.cpp:440 src/bin/model/subtitlemodel.cpp:655
+#: src/bin/model/subtitlemodel.cpp:1606 src/bin/model/subtitlemodel.cpp:2182
+#: src/bin/model/subtitlemodel.cpp:2249 src/bin/model/subtitlemodel.cpp:2282
+#: src/bin/model/subtitlemodel.cpp:2315 src/bin/model/subtitlemodel.cpp:2348
+#: src/bin/model/subtitlemodel.cpp:2381
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Untertitel hinzufügen"
 
-#: src/bin/model/subtitlemodel.cpp:695 src/bin/model/subtitlemodel.cpp:1699
+#: src/bin/model/subtitlemodel.cpp:690 src/bin/model/subtitlemodel.cpp:1694
 #: src/timeline2/model/timelinefunctions.cpp:228
 #, kde-format
 msgid "Cut clip"
 msgstr "Schnitt-Clip"
 
-#: src/bin/model/subtitlemodel.cpp:857 src/bin/model/subtitlemodel.cpp:1630
+#: src/bin/model/subtitlemodel.cpp:852 src/bin/model/subtitlemodel.cpp:1625
 #: src/timeline2/model/timelinemodel.cpp:3965
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Untertitel-Größe ändern"
 
-#: src/bin/model/subtitlemodel.cpp:1055
+#: src/bin/model/subtitlemodel.cpp:1050
 #: src/timeline2/model/timelinemodel.cpp:1350
 #, kde-format
 msgid "Move subtitle"
 msgstr "Untertitel verschieben"
 
-#: src/bin/model/subtitlemodel.cpp:1225
+#: src/bin/model/subtitlemodel.cpp:1220
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:605
 #: src/effects/effectstack/view/effectstackview.cpp:772
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
@@ -5684,42 +5680,42 @@ msgstr ""
 "Datei %1 existiert bereits.\n"
 "Möchten Sie sie überschreiben?"
 
-#: src/bin/model/subtitlemodel.cpp:1642 src/titler/titlewidget.cpp:393
+#: src/bin/model/subtitlemodel.cpp:1637 src/titler/titlewidget.cpp:393
 #: src/titler/titlewidget.cpp:396
 #, kde-format
 msgid "Add Text"
 msgstr "Text hinzufügen"
 
-#: src/bin/model/subtitlemodel.cpp:1667 src/dialogs/subtitleedit.cpp:283
+#: src/bin/model/subtitlemodel.cpp:1662 src/dialogs/subtitleedit.cpp:283
 #, kde-format
 msgid "Add subtitle"
 msgstr "Untertitel hinzufügen"
 
-#: src/bin/model/subtitlemodel.cpp:1719 src/dialogs/subtitleedit.cpp:293
+#: src/bin/model/subtitlemodel.cpp:1714 src/dialogs/subtitleedit.cpp:293
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Untertitel löschen"
 
-#: src/bin/model/subtitlemodel.cpp:1791
+#: src/bin/model/subtitlemodel.cpp:1786
 #, fuzzy, kde-format
 #| msgid "Delete subtitle"
 msgid "Delete subtitle layer"
 msgstr "Untertitel löschen"
 
-#: src/bin/model/subtitlemodel.cpp:1818
+#: src/bin/model/subtitlemodel.cpp:1813
 #, fuzzy, kde-format
 #| msgid "Create title template"
 msgid "Create subtitle layer"
 msgstr "Titelvorlage erstellen"
 
-#: src/bin/model/subtitlemodel.cpp:1924 src/bin/model/subtitlemodel.cpp:1927
+#: src/bin/model/subtitlemodel.cpp:1919 src/bin/model/subtitlemodel.cpp:1922
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "Untertitel"
 
-#: src/bin/model/subtitlemodel.cpp:2223
+#: src/bin/model/subtitlemodel.cpp:2218
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr ""
@@ -6547,10 +6543,9 @@ msgstr ""
 #: src/dialogs/encodingprofilesdialog.cpp:259
 #: src/dialogs/encodingprofilesdialog.cpp:348
 #: src/project/dialogs/projectsettings.cpp:904
-#, fuzzy, kde-format
-#| msgid "Automatic"
+#, kde-format
 msgid "Automatic (%1)"
-msgstr "Automatisch"
+msgstr "Automatisch (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
@@ -6693,36 +6688,36 @@ msgstr "Hilfslinienposition in Einzelbildern"
 msgid "Guide comment"
 msgstr "Hilfslinien-Kommentar"
 
-#: src/dialogs/importsubtitle.cpp:36
+#: src/dialogs/importsubtitle.cpp:37
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
-msgstr ""
+msgstr "Zu verwendende Zeichenkodierung beim Speichern der Untertiteldatei."
 
-#: src/dialogs/importsubtitle.cpp:37
+#: src/dialogs/importsubtitle.cpp:38
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Im Zweifelsfall:<br/><b>Unicode (UTF-8)</b>."
 
-#: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
+#: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
 #: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1770
 #: src/renderpresets/renderpresetrepository.cpp:310
 #, kde-format
 msgid "Cannot read file %1"
 msgstr "Die Datei %1 kann nicht gelesen werden"
 
-#: src/dialogs/importsubtitle.cpp:88
+#: src/dialogs/importsubtitle.cpp:89
 #, kde-format
 msgid "Encoding could not be guessed, using UTF-8"
 msgstr ""
 
-#: src/dialogs/importsubtitle.cpp:92
+#: src/dialogs/importsubtitle.cpp:93
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding detected as %1"
 msgstr "Dekodier-Threads"
 
-#: src/dialogs/importsubtitle.cpp:114
+#: src/dialogs/importsubtitle.cpp:115
 #, kde-format
 msgid "Import Subtitle"
 msgstr "Untertitel importieren"
@@ -6995,10 +6990,9 @@ msgid "Models folder"
 msgstr "Benutzerdefinierter Modellordner"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1866
-#, fuzzy, kde-format
-#| msgid "Set the path for MLT environment."
+#, kde-format
 msgid "Setting up virtual environment…"
-msgstr "Den Pfad für die MLT-Umgebung festlegen."
+msgstr "Die virtuelle Umgebung wird eingerichtet ..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1868
 #, kde-format
@@ -7013,17 +7007,16 @@ msgid "Removing the virtual environment folder."
 msgstr "Den Pfad für die MLT-Umgebung festlegen."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1890
-#, fuzzy, kde-format
-#| msgid "Sequence not found"
+#, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
-msgstr "Sequenz nicht gefunden"
+msgstr "Es wurde keine virtuelle Python-Umgebung gefunden"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1893
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
-msgstr ""
+msgstr "Der Ordner der virtuellen Umgebung kann nicht entfernt werden."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1898
 #, kde-format
@@ -7098,11 +7091,10 @@ msgid "New dictionary installed."
 msgstr "Neues Wörterbuch installiert."
 
 #: src/dialogs/managesubtitles.cpp:52
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Untertitel"
+msgstr "Untertitel verwalten"
 
 #: src/dialogs/managesubtitles.cpp:73
 #, kde-format
@@ -7170,18 +7162,16 @@ msgid "Select the subtitle file to copy the style to:"
 msgstr ""
 
 #: src/dialogs/managesubtitles.cpp:401
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Untertitel importieren"
 
 #: src/dialogs/managesubtitles.cpp:402
-#, fuzzy, kde-format
-#| msgid "Import Subtitle"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Untertitel importieren"
+msgstr "Untertitel exportieren"
 
 #: src/dialogs/managesubtitles.cpp:461
 #, kde-format
@@ -7255,10 +7245,9 @@ msgstr ""
 "%1"
 
 #: src/dialogs/managesubtitles.cpp:746
-#, fuzzy, kde-format
-#| msgid "Cannot create filter."
+#, kde-format
 msgid "Cannot delete default style."
-msgstr "Der Filter kann nicht erstellt werden"
+msgstr "Der Standard-Stil kann nicht gelöscht werden."
 
 #: src/dialogs/managesubtitles.cpp:750
 #, kde-format
@@ -7774,10 +7763,9 @@ msgid "Remove Job"
 msgstr "Vorgang entfernen"
 
 #: src/dialogs/renderwidget.cpp:1813
-#, fuzzy, kde-format
-#| msgid "Add clip to timeline"
+#, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Clip zur Zeitleiste hinzufügen"
+msgstr "Clips vor dem Rendern zur Zeitleiste hinzufügen"
 
 #: src/dialogs/renderwidget.cpp:1818
 #, fuzzy, kde-format
@@ -7786,28 +7774,23 @@ msgid "Rendered File Length: %1"
 msgstr "Rendere %1"
 
 #: src/dialogs/renderwidget.cpp:1822
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
-msgstr[0] "Es fehlt %1 Clip in Ihrem Projekt."
-msgstr[1] "Es fehlen %1 Clips in Ihrem Projekt."
+msgstr[0] "<b>Ein fehlender Clip in diesem Projekt.</b>"
+msgstr[1] "<b>%1 fehlende Clips in diesem Projekt.</b>"
 
 #: src/dialogs/renderwidget.cpp:1824
-#, fuzzy, kde-format
-#| msgid "Check missing clips"
+#, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
-msgstr[0] "Fehlende Clips überprüfen"
-msgstr[1] "Fehlende Clips überprüfen"
+msgstr[0] "Ein fehlender Clip (nicht verwendet)."
+msgstr[1] "%1 fehlende Clips (nicht verwendet)."
 
 #: src/dialogs/renderwidget.cpp:1826
-#, fuzzy, kde-format
-#| msgid "You have %1 missing clip in your project."
-#| msgid_plural "You have %1 missing clips in your project."
+#, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
-msgstr "Es fehlt %1 Clip in Ihrem Projekt."
+msgstr "%1 fehlende Clips (<b>davon %2 im Projekt verwendet</b>)."
 
 #: src/dialogs/renderwidget.cpp:1908
 #, fuzzy, kde-format
@@ -8577,10 +8560,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/subtitleedit.cpp:318
-#, fuzzy, kde-format
-#| msgid "Set Zone"
+#, kde-format
 msgid "Set font"
-msgstr "Bereich festlegen"
+msgstr "Schriftart auswählen"
 
 #: src/dialogs/subtitleedit.cpp:321
 #, kde-kuit-format
@@ -8819,10 +8801,9 @@ msgid "Create new sequence with text edit"
 msgstr "Neue Sequenz erstellen"
 
 #: src/dialogs/textbasededit.cpp:668
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Search in text"
-msgstr "Sprache-zu-Text"
+msgstr "Im Text suchen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/dialogs/textbasededit.cpp:669 src/ui/speechdialog_ui.ui:124
@@ -9067,7 +9048,7 @@ msgstr "Schließen"
 #: src/dialogs/wizard.cpp:158
 #, kde-format
 msgid "Codecs have been updated, everything seems fine."
-msgstr ""
+msgstr "Codecs wurden aktualisiert, alles scheint in Ordnung zu sein."
 
 #: src/dialogs/wizard.cpp:175
 #, kde-format
@@ -9159,8 +9140,8 @@ msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
 "output</li>"
 msgstr ""
-"<li>Fehlende MLT-Module: <b>sdl</b> oder <b>rtaudio</b><br/>sind für die "
-"Audio-Ausgabe erforderlich</li>"
+"<li>Fehlendes MLT-Modul: <b>sdl</b> oder <b>rtaudio</b><br/>erforderlich für "
+"die Audio-Ausgabe</li>"
 
 #: src/dialogs/wizard.cpp:348
 #, kde-format
@@ -9174,8 +9155,8 @@ msgid ""
 "<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/"
 "video</li>"
 msgstr ""
-"<li>Fehlendes MLT-Modul: <b>avformat</b> (FFmpeg)<br/> ist für die Audio und "
-"Video erforderlich</li>"
+"<li>Fehlendes MLT-Modul: <b>avformat</b> (FFmpeg)<br/>erforderlich für Audio/"
+"Video</li>"
 
 #: src/dialogs/wizard.cpp:369
 #, kde-format
@@ -9183,8 +9164,8 @@ msgid ""
 "<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for "
 "images and titles</li>"
 msgstr ""
-"<li>Fehlende MLT-Module: <b>qimage</b> oder <b>pixbuf</b><br/>sind für "
-"Bilder und Titel erforderlich</li>"
+"<li>Fehlendes MLT-Modul: <b>qimage</b> oder <b>pixbuf</b><br/>erforderlich "
+"für Bilder und Titel</li>"
 
 #: src/dialogs/wizard.cpp:376
 #, kde-format
@@ -9192,8 +9173,8 @@ msgid ""
 "<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</"
 "li>"
 msgstr ""
-"<li>Fehlendes MLT-Modul: <b>kdenlivetitle</b><br/>ist für das Erstellen von "
-"Titeln erforderlich</li>"
+"<li>Fehlendes MLT-Modul: <b>kdenlivetitle</b><br/>erforderlich für das "
+"Erstellen von Titeln</li>"
 
 #: src/dialogs/wizard.cpp:382
 #, kde-format
@@ -9205,14 +9186,11 @@ msgstr ""
 "Lottie-Animationen</li>"
 
 #: src/dialogs/wizard.cpp:418
-#, fuzzy, kde-format
-#| msgid ""
-#| "<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</"
-#| "li>"
+#, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Fehlende Anwendung: <b>ffprobe</b><br/>empfohlen für zusätzliche Clip-"
-"Analyse</li>"
+"<li>Fehlende Anwendung: <b>kdenlive_render</b><br/>erforderlich für das "
+"Rendern.</li>"
 
 #: src/dialogs/wizard.cpp:443
 #, kde-format
@@ -9220,6 +9198,8 @@ msgid ""
 "<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</"
 "li>"
 msgstr ""
+"<li>Fehlende Anwendung: <b>ffmpeg</b><br/>erforderlich für Proxy-Clips und "
+"Transkodierung</li>"
 
 #: src/dialogs/wizard.cpp:457
 #, kde-format
@@ -9265,21 +9245,19 @@ msgid "No hardware encoders found."
 msgstr "Keine Hardware-Kodierer gefunden"
 
 #: src/dialogs/wizard.cpp:836
-#, fuzzy, kde-format
-#| msgid "VAAPI hardware encoders found and enabled."
+#, kde-format
 msgid "hardware encoders found and enabled (%1)."
-msgstr "VAAPI-Hardware-Kodierer wurden gefunden und aktiviert."
+msgstr "Hardware-Kodierer gefunden und aktiviert (%1)."
 
 #: src/doc/dcresolvedialog.cpp:57
 #, kde-format
 msgid "Recursive search: processing clips"
-msgstr ""
+msgstr "Rekursive Suche: Clips werden gesucht"
 
 #: src/doc/dcresolvedialog.cpp:66
-#, fuzzy, kde-format
-#| msgid "Search done"
+#, kde-format
 msgid "Recursive search: done in %1 s"
-msgstr "Suche abgeschlossen"
+msgstr "Rekursive Suche: dauerte %1 s"
 
 #: src/doc/dcresolvedialog.cpp:149
 #, kde-format
@@ -9291,19 +9269,19 @@ msgstr "Geben Sie den neuen Ort für den Ordner an"
 msgid "Enter new location for file"
 msgstr "Geben Sie den neuen Ort für die Datei an"
 
+# Unfortunate wording, it refers to missing clips.
+# In my opinion, a project cannot contain elements that are missing, only references/links to missing elements.
 #: src/doc/dcresolvedialog.cpp:194
-#, fuzzy, kde-format
-#| msgid "The project file contains missing clips or files."
+#, kde-format
 msgid "The project contains:"
-msgstr "In der Projektdatei fehlen Clips oder Dateien."
+msgstr "Das Projekt enthält Verweise auf:"
 
 #: src/doc/dcresolvedialog.cpp:200
-#, fuzzy, kde-format
-#| msgid "Check missing clips"
+#, kde-format
 msgid "One missing clip"
 msgid_plural "%1 missing clips"
-msgstr[0] "Fehlende Clips überprüfen"
-msgstr[1] "Fehlende Clips überprüfen"
+msgstr[0] "einen fehlenden Clip"
+msgstr[1] "%1 fehlende Clips"
 
 #: src/doc/dcresolvedialog.cpp:203
 #, fuzzy, kde-format
@@ -9322,20 +9300,18 @@ msgstr[0] "Platzhalter für fehlende Clips verwenden"
 msgstr[1] "Platzhalter für fehlende Clips verwenden"
 
 #: src/doc/dcresolvedialog.cpp:209
-#, fuzzy, kde-format
-#| msgid "Remove clips"
+#, kde-format
 msgid "One removed clip"
 msgid_plural "%1 removed clips"
-msgstr[0] "Clips entfernen"
-msgstr[1] "Clips entfernen"
+msgstr[0] "Ein Clip entfernt"
+msgstr[1] "%1 Clips entfernt"
 
 #: src/doc/dcresolvedialog.cpp:218
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "One missing proxy"
 msgid_plural "%1 missing proxies"
-msgstr[0] "Fehlende Elemente löschen"
-msgstr[1] "Fehlende Elemente löschen"
+msgstr[0] "einen fehlenden Proxy"
+msgstr[1] "%1 fehlende Proxys"
 
 #: src/doc/dcresolvedialog.cpp:221
 #, kde-format
@@ -9345,8 +9321,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: src/doc/dcresolvedialog.cpp:238
-#, fuzzy, kde-format
-#| msgid "Clips folder"
+#, kde-format
 msgctxt "@title:window"
 msgid "Clips Folder"
 msgstr "Clip-Ordner"
@@ -9394,10 +9369,9 @@ msgid "Title Image"
 msgstr "Titelbild"
 
 #: src/doc/documentchecker.cpp:1849
-#, fuzzy, kde-format
-#| msgid "&Clip"
+#, kde-format
 msgid "Clip"
-msgstr "&Clip"
+msgstr "Clip"
 
 #: src/doc/documentchecker.cpp:1851
 #, kde-format
@@ -9445,6 +9419,9 @@ msgstr "Clips entfernen"
 msgid "Corrupted sequence"
 msgstr "Sequenz erstellen"
 
+# "Fest" kann so nicht stimmen, das geht sinngemäß eher Richtung "Gefunden":
+# String erscheint nach erfolgreicher rekursiver Suche nach fehlendem Clip in der Spalte "Status" des Fensters "Clip-Probleme".
+# Bitte um Vorschlag.
 #. i18n: ectx: property (text), widget (QCheckBox, fixedGop)
 #: src/doc/documentchecker.cpp:1877 src/ui/editrenderpreset_ui.ui:538
 #, kde-format
@@ -9458,16 +9435,14 @@ msgid "Reload"
 msgstr "Clip neu laden"
 
 #: src/doc/documentchecker.cpp:1881
-#, fuzzy, kde-format
-#| msgid "Missing"
+#, kde-format
 msgid "Missing"
 msgstr "Fehlt"
 
 #: src/doc/documentchecker.cpp:1883
-#, fuzzy, kde-format
-#| msgid "Missing proxy"
+#, kde-format
 msgid "Missing, but proxy available"
-msgstr "Fehlender Proxy"
+msgstr "Fehlt, aber Proxy verfügbar"
 
 #. i18n: ectx: property (text), widget (QLabel, frameRateDisplay)
 #: src/doc/documentchecker.cpp:1885 src/ui/editrenderpreset_ui.ui:525
@@ -9477,8 +9452,7 @@ msgstr "Platzhalter"
 
 #. i18n: ectx: property (text), widget (QPushButton, removeSelected)
 #: src/doc/documentchecker.cpp:1887 src/ui/missingclips_ui.ui:152
-#, fuzzy, kde-format
-#| msgid "Removal"
+#, kde-format
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -9488,10 +9462,10 @@ msgid "The project file contains missing clips or files."
 msgstr "In der Projektdatei fehlen Clips oder Dateien."
 
 #: src/doc/documentchecker.cpp:1901
-#, fuzzy, kde-format
-#| msgid "Missing proxies will be recreated after opening."
+#, kde-format
 msgid "Missing proxies can be recreated on opening."
-msgstr "Fehlende Proxy-Clips werden beim Öffnen des Projektes neu erzeugt."
+msgstr ""
+"Fehlende Proxy-Clips können beim Öffnen des Projekts neu erzeugt werden."
 
 #: src/doc/documentvalidator.cpp:47
 #, fuzzy, kde-format
@@ -9588,11 +9562,12 @@ msgid "extra audio"
 msgstr "Audio extrahieren"
 
 #: src/doc/documentvalidator.cpp:2209
-#, fuzzy, kde-format
-#| msgid "Output file already exists. Do you want to overwrite it?"
+#, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
-msgstr "Ausgabedatei existiert bereits. Soll sie überschrieben werden?"
+msgstr ""
+"Die Untertiteldatei:<br/>%1<br/>existiert bereits. Soll sie überschrieben "
+"werden?"
 
 #: src/doc/documentvalidator.cpp:2210 src/mainwindow.cpp:3537
 #, kde-format
@@ -9613,8 +9588,7 @@ msgstr ""
 "Das könnte zu Datenverlusten führen."
 
 #: src/doc/documentvalidator.cpp:2512
-#, fuzzy, kde-format
-#| msgid "GPU effects"
+#, kde-format
 msgid "GPU Effects"
 msgstr "GPU-Effekte"
 
@@ -9630,10 +9604,9 @@ msgid "The following filters/transitions were deleted from the project:"
 msgstr "Die folgenden Filter/Übergänge wurden aus dem Projekt entfernt:"
 
 #: src/doc/kdenlivedoc.cpp:161
-#, fuzzy, kde-format
-#| msgid "Invalid profile"
+#, kde-format
 msgid "Invalid file path"
-msgstr "Ungültiges Profil"
+msgstr "Ungültiger Dateipfad"
 
 #: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:810
 #: src/project/projectmanager.cpp:852
@@ -9643,12 +9616,13 @@ msgid "Could not recover corrupted file."
 msgstr "Konnte Videoausgabedatei %1 nicht öffnen"
 
 #: src/doc/kdenlivedoc.cpp:215
-#, fuzzy, kde-format
-#| msgid "Cannot open file %1"
+#, kde-format
 msgid ""
 "Cannot open file %1:\n"
 "%2 (line %3, col %4)"
-msgstr "Die Datei %1 lässt sich nicht öffnen"
+msgstr ""
+"Die Datei %1 kann nicht geöffnet werden:\n"
+"%2 (Zeile %3, Spalte %4)"
 
 #: src/doc/kdenlivedoc.cpp:227
 #, kde-format
@@ -9656,10 +9630,9 @@ msgid "File %1 is not a Kdenlive project file"
 msgstr "Datei %1 ist keine Kdenlive-Projektdatei"
 
 #: src/doc/kdenlivedoc.cpp:234
-#, fuzzy, kde-format
-#| msgid "File %1 is not a Kdenlive project file."
+#, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
-msgstr "Datei %1 ist keine Kdenlive-Projektdatei."
+msgstr "Datei %1 ist keine gültige Kdenlive-Projektdatei."
 
 #: src/doc/kdenlivedoc.cpp:247
 #, kde-format
@@ -11308,10 +11281,9 @@ msgid "Comma separated list of files to add as clips to the bin."
 msgstr "Liste von Clips, die hinzugefügt werden sollen (durch Komma getrennt)"
 
 #: src/main.cpp:320
-#, fuzzy, kde-format
-#| msgid "Parent folder of the project file"
+#, kde-format
 msgid "Directly render the project and exit."
-msgstr "Übergeordneter Ordner der Projektdatei"
+msgstr "Projekt direkt rendern und anschließend beenden."
 
 #: src/main.cpp:323
 #, kde-format
@@ -11677,8 +11649,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Toggles between using the timeline zone for inserting (on) or not (off)."
 msgstr ""
-"Wechselt zwischen der Verwendung der Zeitleisten-Zone fürs Einfügen (ein) "
-"oder nicht (aus)."
+"Aktiviert bzw. deaktiviert den Modus fürs Einfügen im Zeitleisten-Bereich."
 
 #: src/mainwindow.cpp:1204
 #, fuzzy, kde-format
@@ -11951,10 +11922,9 @@ msgid "Reset Configuration…"
 msgstr "Einrichtung zurücksetzen ..."
 
 #: src/mainwindow.cpp:1511
-#, fuzzy, kde-format
-#| msgid "Play Zone"
+#, kde-format
 msgid "Play Zone From Cursor"
-msgstr "Bereich abspielen"
+msgstr "Bereich ab Cursorposition abspielen"
 
 #: src/mainwindow.cpp:1514
 #, kde-format
@@ -12543,10 +12513,9 @@ msgid "Switch Track Target Audio Stream"
 msgstr ""
 
 #: src/mainwindow.cpp:1933
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Track…"
-msgstr "Spur löschen"
+msgstr "Spur löschen ..."
 
 #: src/mainwindow.cpp:1938
 #, kde-format
@@ -12632,10 +12601,9 @@ msgid "Lock Subtitle"
 msgstr "Untertitel sperren"
 
 #: src/mainwindow.cpp:1989
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgid "Manage Subtitles"
-msgstr "Untertitel"
+msgstr "Untertitel verwalten"
 
 #: src/mainwindow.cpp:1991
 #, kde-format
@@ -15876,16 +15844,14 @@ msgid "%1 is properly configured."
 msgstr "%1 ist korrekt eingerichtet."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:54
-#, fuzzy, kde-format
-#| msgid "Everything is configured: %1"
+#, kde-format
 msgid "Everything is configured:<br>%1"
-msgstr "Alles ist eingerichtet: %1"
+msgstr "Alles ist eingerichtet:<br>%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:56
-#, fuzzy, kde-format
-#| msgid "%1 is configured: %2"
+#, kde-format
 msgid "%1 is configured:<br>%2"
-msgstr "%1 ist eingerichtet: %2"
+msgstr "%1 ist eingerichtet:<br>%2"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:75
 #: src/pythoninterfaces/abstractpythoninterface.cpp:86
@@ -15935,30 +15901,29 @@ msgstr ""
 "PATH-Umgebungsvariablen aufgeführt ist."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:222
-#, fuzzy, kde-format
-#| msgid "MLT version: %1"
+#, kde-format
 msgid "Using python from %1"
-msgstr "MLT-Version: %1"
+msgstr "Verwendete Python-Umgebung: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:230
-#, fuzzy, kde-format
-#| msgid "Sequence not found"
+#, kde-format
 msgid "No python venv found"
-msgstr "Sequenz nicht gefunden"
+msgstr "Es wurde keine virtuelle Python-Umgebung gefunden"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:243
 #, kde-format
 msgid "Python venv size: %1"
-msgstr ""
+msgstr "Platzbedarf der virtuellen Python-Umgebung: %1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:313
 #: src/pythoninterfaces/abstractpythoninterface.cpp:315
-#, fuzzy, kde-format
-#| msgid "Cannot create temporary directory %1"
+#, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
 "%1"
-msgstr "Der temporäre Ordner „%1“ lässt sich nicht erstellen"
+msgstr ""
+"Die virtuelle Python-Umgebung kann nicht eingerichtet werden:\n"
+"%1"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:331
 #, kde-format
@@ -15978,6 +15943,9 @@ msgid ""
 "under %1.\n"
 "This way, it won't touch your system libraries."
 msgstr ""
+"Kdenlive kann fehlende Python-Module in einer virtuellen Umgebung unter %1 "
+"nachinstallieren.\n"
+"Systembibliotheken werden dadurch nicht beeinträchtigt."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, fuzzy, kde-format
@@ -15988,7 +15956,7 @@ msgstr "Umgebung"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:424
 #, kde-format
 msgid "Use virtual environment (recommended)"
-msgstr ""
+msgstr "Virtuelle Umgebung verwenden (empfohlen)"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:425
 #, kde-format
@@ -17444,10 +17412,9 @@ msgid "Clips replaced: %1, Clips too long: %2"
 msgstr ""
 
 #: src/timeline2/model/timelineitemmodel.cpp:998
-#, fuzzy, kde-format
-#| msgid "Replace Clip…"
+#, kde-format
 msgid "Replace clip"
-msgstr "Clip ersetzen ..."
+msgstr "Clip ersetzen"
 
 #: src/timeline2/model/timelinemodel.cpp:979
 #: src/timeline2/model/timelinemodel.cpp:1196
@@ -18368,7 +18335,7 @@ msgstr[1] "Spuren einfügen"
 #: src/timeline2/view/timelinecontroller.cpp:5206
 #, kde-format
 msgid "Export subtitle file"
-msgstr "Untertiteldatei hinzufügen"
+msgstr "Untertiteldatei exportieren"
 
 #: src/timeline2/view/timelinecontroller.cpp:5207
 #, kde-format
@@ -18419,18 +18386,16 @@ msgstr "Untertitelspur sperren"
 
 #: src/timeline2/view/timelinecontroller.cpp:5468
 #: src/timeline2/view/timelinecontroller.cpp:5477
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Untertitel"
 
 #: src/timeline2/view/timelinecontroller.cpp:5479
-#, fuzzy, kde-format
-#| msgid "Subtitles"
+#, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Untertitel"
+msgstr "Untertitel verwalten"
 
 #: src/timeline2/view/timelinetabs.cpp:50
 #, fuzzy, kde-format
@@ -19980,10 +19945,9 @@ msgstr "Farbe für Monitorhintergrund:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configcolors_ui.ui:58
-#, fuzzy, kde-format
-#| msgid "Monitor"
+#, kde-format
 msgid "Monitor grid"
-msgstr "Monitor"
+msgstr "Monitorgitter"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: src/ui/configenv_ui.ui:33
@@ -20035,10 +19999,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_checkForUpdate)
 #: src/ui/configenv_ui.ui:111
-#, fuzzy, kde-format
-#| msgid "Check for update"
+#, kde-format
 msgid "Check for updates"
-msgstr "Auf Aktualisierung prüfen"
+msgstr "Auf Aktualisierungen prüfen"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: src/ui/configenv_ui.ui:122
@@ -20070,11 +20033,13 @@ msgstr "FFprobe:"
 msgid "MLT profiles folder:"
 msgstr "MLT-Profilordner:"
 
+# Inconsistency in sources:
+# Removed "path" from translation since it's not being used for all the other paths in this widget.
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/configenv_ui.ui:168
 #, kde-format
 msgid "Melt path:"
-msgstr "Melt-Pfad:"
+msgstr "Melt:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configenv_ui.ui:178
@@ -20125,17 +20090,15 @@ msgstr "Immer benutzerdefinierten Ordner verwenden"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #: src/ui/configenv_ui.ui:241
-#, fuzzy, kde-format
-#| msgid "Always use active project folder"
+#, kde-format
 msgid "Always use a custom subfolder of project folder"
-msgstr "Immer aktiven Projektordner verwenden"
+msgstr "Immer benutzerdefinierten Unterordner des Projektordners verwenden"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
 #: src/ui/configenv_ui.ui:251
-#, fuzzy, kde-format
-#| msgid "Parent folder of project file"
+#, kde-format
 msgid "Subfolder of project folder"
-msgstr "Übergeordneter Ordner der Projektdatei"
+msgstr "Unterordner des Projektordners"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
 #: src/ui/configenv_ui.ui:263
@@ -20157,22 +20120,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, button_python_delete)
 #: src/ui/configenv_ui.ui:363
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete "
-msgstr "%1 löschen"
+msgstr "Löschen "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_usePythonVenv)
 #: src/ui/configenv_ui.ui:372
 #, kde-format
 msgid "Use python virtual environment (recommended)"
-msgstr ""
+msgstr "Virtuelle Python-Umgebung verwenden (empfohlen)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:400
 #, kde-format
 msgid "Default Apps"
-msgstr "Standardanwendungen:"
+msgstr "Standardanwendungen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configenv_ui.ui:406
@@ -20623,7 +20585,7 @@ msgstr "Aktivieren"
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
-msgstr ""
+msgstr "Monitor bei Mausklick abspielen/pausieren"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
@@ -20715,17 +20677,15 @@ msgstr "Benutzerdefinierter Modellordner"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
 #: src/ui/configspeech_ui.ui:87
-#, fuzzy, kde-format
-#| msgid "Add folder"
+#, kde-format
 msgid "Add Model"
-msgstr "Ordner hinzufügen"
+msgstr "Modell hinzufügen"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
 #: src/ui/configspeech_ui.ui:98
-#, fuzzy, kde-format
-#| msgid "Remove Folder"
+#, kde-format
 msgid "Remove Model"
-msgstr "Ordner entfernen"
+msgstr "Modell entfernen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configspeech_ui.ui:189
@@ -20909,7 +20869,7 @@ msgstr "Prüfen, ob das Projekt genügend Spuren enthält"
 #: src/ui/configtools_ui.ui:27
 #, kde-format
 msgid "When cutting subtitles:"
-msgstr ""
+msgstr "Beim Schneiden von Untertiteln:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:41
@@ -21859,10 +21819,9 @@ msgstr "Proxy-Datei löschen"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gBackupDelete)
 #: src/ui/managecache_ui.ui:557
-#, fuzzy, kde-format
-#| msgid "Delete all backup data"
+#, kde-format
 msgid "Delete all backup data."
-msgstr "Alle Sicherungsdaten löschen"
+msgstr "Alle Sicherungsdaten löschen."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/managecache_ui.ui:582
@@ -21893,10 +21852,9 @@ msgstr "Proxy-Datei löschen"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, gProxyDelete)
 #: src/ui/managecache_ui.ui:654
-#, fuzzy, kde-format
-#| msgid "Delete all proxy clips"
+#, kde-format
 msgid "Delete all proxy clips."
-msgstr "Alle Proxy-Clips löschen"
+msgstr "Alle Proxy-Clips löschen."
 
 #. i18n: ectx: property (text), widget (QLabel, gCleanupLabel)
 #: src/ui/managecache_ui.ui:679
@@ -21942,10 +21900,9 @@ msgstr "Textdatei"
 #. i18n: ectx: property (text), widget (QPushButton, buttonDeleteStyle)
 #: src/ui/managesubtitles_ui.ui:130 src/ui/managesubtitles_ui.ui:246
 #: src/ui/managesubtitles_ui.ui:505
-#, fuzzy, kde-format
-#| msgid "Delete %1"
+#, kde-format
 msgid "Delete"
-msgstr "%1 löschen"
+msgstr "Löschen"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabLayer)
 #: src/ui/managesubtitles_ui.ui:157
@@ -22099,45 +22056,39 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, recreateProxies)
 #: src/ui/missingclips_ui.ui:102
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Recreate missing proxies"
-msgstr "Fehlende Elemente löschen"
+msgstr "Fehlende Proxys neu erstellen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/ui/missingclips_ui.ui:134
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Selected Items:"
-msgstr "Ausgewähltes Element löschen"
+msgstr "Ausgewählte Elemente:"
 
 #. i18n: ectx: property (text), widget (QPushButton, manualSearch)
 #: src/ui/missingclips_ui.ui:141
-#, fuzzy, kde-format
-#| msgid "Search manually"
+#, kde-format
 msgid "Search Manually"
-msgstr "Suche manuell"
+msgstr "Manuell suchen"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/missingclips_ui.ui:170
-#, fuzzy, kde-format
-#| msgid "Missing item"
+#, kde-format
 msgid "All Missing Items:"
-msgstr "Fehlendes Element"
+msgstr "Alle fehlenden Elemente:"
 
 #. i18n: ectx: property (text), widget (QPushButton, recursiveSearch)
 #: src/ui/missingclips_ui.ui:177
-#, fuzzy, kde-format
-#| msgid "Search recursively"
+#, kde-format
 msgid "Search Recursively"
 msgstr "Rekursiv suchen"
 
 #. i18n: ectx: property (text), widget (QPushButton, usePlaceholders)
 #: src/ui/missingclips_ui.ui:188
-#, fuzzy, kde-format
-#| msgid "Placeholder"
+#, kde-format
 msgid "Use Placeholders"
-msgstr "Platzhalter"
+msgstr "Platzhalter verwenden"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/ui/multiplemarkerdialog_ui.ui:24
@@ -22467,6 +22418,7 @@ msgstr ""
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr ""
+"Aktuelle Voreinstellung als neue benutzerdefinierte Voreinstellung speichern"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
 #: src/ui/renderwidget_ui.ui:265
@@ -22476,10 +22428,9 @@ msgstr "&Favorit"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
 #: src/ui/renderwidget_ui.ui:282
-#, fuzzy, kde-format
-#| msgid "Edit Streams"
+#, kde-format
 msgid "Edit preset"
-msgstr "Streams bearbeiten"
+msgstr "Voreinstellung bearbeiten"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
 #: src/ui/renderwidget_ui.ui:285
@@ -22537,31 +22488,27 @@ msgstr "Hilfslinien als Trenner:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
 #: src/ui/renderwidget_ui.ui:496
-#, fuzzy, kde-format
-#| msgid "Select fill color"
+#, kde-format
 msgid "Render full color range"
-msgstr "Füllfarbe wählen"
+msgstr "Vollständigen Farbbereich rendern"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
 #: src/ui/renderwidget_ui.ui:503
-#, fuzzy, kde-format
-#| msgid "Preview Resolution"
+#, kde-format
 msgid "Render at Preview Resolution"
-msgstr "Vorschauauflösung"
+msgstr "Mit Vorschauauflösung rendern"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
 #: src/ui/renderwidget_ui.ui:510
-#, fuzzy, kde-format
-#| msgid "Proxy Clips"
+#, kde-format
 msgid "Use Proxy Clips"
-msgstr "Proxy-Clips"
+msgstr "Proxy-Clips verwenden"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/renderwidget_ui.ui:517
-#, fuzzy, kde-format
-#| msgid "Rescale"
+#, kde-format
 msgid "Rescale:"
-msgstr "Skalieren"
+msgstr "Skalieren:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
 #: src/ui/renderwidget_ui.ui:524
@@ -22578,31 +22525,27 @@ msgstr "Overlay"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: src/ui/renderwidget_ui.ui:615
-#, fuzzy, kde-format
-#| msgid "Aspect Ratio"
+#, kde-format
 msgid "Aspect Ratio:"
-msgstr "Seitenverhältnis"
+msgstr "Seitenverhältnis:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
 #: src/ui/renderwidget_ui.ui:637
-#, fuzzy, kde-format
-#| msgid "Fade in audio track"
+#, kde-format
 msgid "Separate file for each audio track"
-msgstr "Audiospur einblenden"
+msgstr "Separate Datei für jede Audiospur"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
 #: src/ui/renderwidget_ui.ui:647
-#, fuzzy, kde-format
-#| msgid "Quality"
+#, kde-format
 msgid "Custom Quality"
-msgstr "Qualität"
+msgstr "Eigene Qualitätseinstellungen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/renderwidget_ui.ui:661
-#, fuzzy, kde-format
-#| msgid "Log"
+#, kde-format
 msgid "Low"
-msgstr "Protokoll"
+msgstr "Niedrig"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
 #: src/ui/renderwidget_ui.ui:674
@@ -22612,16 +22555,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
 #: src/ui/renderwidget_ui.ui:693
-#, fuzzy, no-c-format, kde-format
-#| msgid "50%"
+#, no-c-format, kde-format
 msgid "75%"
-msgstr "50  %"
+msgstr "75 %"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/renderwidget_ui.ui:700
 #, kde-format
 msgid "High"
-msgstr ""
+msgstr "Hoch"
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
 #: src/ui/renderwidget_ui.ui:712
@@ -22640,10 +22582,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
 #: src/ui/renderwidget_ui.ui:721
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Speed:"
-msgstr "Geschwindigkeit"
+msgstr "Geschwindigkeit:"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -22688,7 +22629,7 @@ msgstr "Metadaten exportieren"
 #: src/ui/renderwidget_ui.ui:834
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
-msgstr ""
+msgstr "<a href=\"#\">Metadaten bearbeiten</a>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
 #: src/ui/renderwidget_ui.ui:859
@@ -22698,10 +22639,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
 #: src/ui/renderwidget_ui.ui:866
-#, fuzzy, kde-format
-#| msgid "Open browser window after export"
+#, kde-format
 msgid "Open folder after export"
-msgstr "Browserfenster nach dem Export öffnen"
+msgstr "Ordner nach dem Export öffnen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
 #: src/ui/renderwidget_ui.ui:873
