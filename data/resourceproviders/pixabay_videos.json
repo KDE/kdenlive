@@ -29,7 +29,7 @@
                 "width": "width",
                 "height": "height",
                 "downloadUrls": { "key": "videos", "isObject":true, "url":"url", "name":"${&} {width}x{height}"},
-                "imageUrl": "$https://i.vimeocdn.com/video/{picture_id}_100x75.jpg"
+                "imageUrl": "videos.tiny.thumbnail"
             }
         }
     }
