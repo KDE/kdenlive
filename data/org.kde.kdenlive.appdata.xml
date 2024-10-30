@@ -323,6 +323,7 @@
     </ul>
   </description>
   <releases>
+    <release version="24.08.3" date="2024-11-07"/>
     <release version="24.08.2" date="2024-10-10"/>
     <release version="24.08.1" date="2024-09-12"/>
     <release version="24.08.0" date="2024-08-22"/>
