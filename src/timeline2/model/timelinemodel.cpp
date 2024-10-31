@@ -5125,6 +5125,19 @@ bool TimelineModel::isComposition(int id) const
     return m_allCompositions.count(id) > 0;
 }
 
+ItemInfo TimelineModel::getItemInfo(int id) const
+{
+    if (isClip(id)) {
+        return m_allClips.at(id)->getItemInfo();
+    } else if (isComposition(id)) {
+        return m_allCompositions.at(id)->getItemInfo();
+    } else if (isSubTitle(id)) {
+        // TODO
+        // return m_subtitleModel->getItemInfo(id);
+    }
+    return ItemInfo();
+}
+
 bool TimelineModel::isSubTitle(int id) const
 {
     return m_subtitleModel && m_subtitleModel->hasSubtitle(id);

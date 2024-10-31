@@ -298,41 +298,28 @@ class ItemInfo
 {
 public:
     /** startPos is the position where the clip starts on the track */
-    GenTime startPos;
+    int position{-1};
     /** endPos is the duration where the clip ends on the track */
-    GenTime endPos;
+    int endPos{-1};
     /** cropStart is the position where the sub-clip starts, relative to the clip's 0 position */
-    GenTime cropStart;
-    /** cropDuration is the duration of the clip */
-    GenTime cropDuration;
-    /** Track number */
-    int track{0};
+    int cropStart{0};
+    /** playtime is the duration of the clip */
+    int playTime;
+    /** maxDuration is the maximum length of the clip, -1 if no limit */
+    int maxDuration{-1};
+    /** Track id */
+    int trackId{-1};
+    /** Clip id */
+    int itemId{-1};
     ItemInfo() = default;
-    bool isValid() const { return startPos != endPos; }
-    bool contains(GenTime pos) const
+    bool isValid() const { return position != endPos; }
+    bool contains(int pos) const
     {
-        if (startPos == endPos) {
+        if (position == endPos) {
             return true;
         }
-        return (pos <= endPos && pos >= startPos);
+        return (pos <= endPos && pos >= position);
     }
-    bool operator==(const ItemInfo &a) const { return startPos == a.startPos && endPos == a.endPos && track == a.track && cropStart == a.cropStart; }
-};
-
-class TransitionInfo
-{
-public:
-    /** startPos is the position where the clip starts on the track */
-    GenTime startPos;
-    /** endPos is the duration where the clip ends on the track */
-    GenTime endPos;
-    /** the track on which the transition is (b_track)*/
-    int b_track{0};
-    /** the track on which the transition is applied (a_track)*/
-    int a_track{0};
-    /** Does the user request for a special a_track */
-    bool forceTrack{false};
-    TransitionInfo() = default;
 };
 
 class CommentedTime

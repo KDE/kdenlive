@@ -77,6 +77,7 @@ public:
 
     /** @brief Returns an XML representation of the clip with its effects */
     QDomElement toXml(QDomDocument &document);
+    ItemInfo getItemInfo() const override;
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
 

@@ -1433,6 +1433,19 @@ void ClipModel::setOffset(int offset)
     }
 }
 
+ItemInfo ClipModel::getItemInfo() const
+{
+    READ_LOCK();
+    ItemInfo info;
+    info.itemId = m_id;
+    info.position = m_position;
+    info.trackId = m_currentTrackId;
+    info.cropStart = m_producer->get_in();
+    info.playTime = m_producer->get_playtime();
+    info.maxDuration = m_endlessResize ? -1 : m_producer->get_length();
+    return info;
+}
+
 void ClipModel::setGrab(bool grab)
 {
     QWriteLocker locker(&m_lock);

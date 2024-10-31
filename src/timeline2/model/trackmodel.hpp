@@ -48,6 +48,7 @@ public:
     ~TrackModel();
 
     friend class ClipModel;
+    friend class ClipDurationDialog;
     friend class CompositionModel;
     friend class TimelineController;
     friend struct TimelineFunctions;

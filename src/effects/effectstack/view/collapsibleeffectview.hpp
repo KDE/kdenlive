@@ -36,8 +36,6 @@ public:
     void updateTimecodeFormat();
     /** @brief Install event filter so that scrolling with mouse wheel does not change parameter value. */
     bool eventFilter(QObject *o, QEvent *e) override;
-    /** @brief Update effect GUI to reflect parameted changes. */
-    void updateWidget(const ItemInfo &info, const QDomElement &effect);
     /** @brief Returns effect xml. */
     QDomElement effect() const;
     /** @brief Returns effect xml with keyframe offset for saving. */
@@ -88,7 +86,6 @@ public Q_SLOTS:
     /** @brief Restrict an effec to an in/out point region, of full length. */
     void switchInOut(bool checked);
     void slotResetEffect();
-    void importKeyframes(const QString &keyframes);
     void slotActivateEffect(bool active);
     void slotSetTargetEffect(bool active);
     void updateHeight();
@@ -114,7 +111,6 @@ private Q_SLOTS:
     void slotUnGroup();
     /** @brief A sub effect parameter was changed */
     void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
-    void prepareImportClipKeyframes();
     void updateEffectZone();
     void slotHideKeyframes(bool hide);
 
@@ -124,7 +120,6 @@ private:
     KDualAction *m_collapse;
     QList<CollapsibleEffectView *> m_subParamWidgets;
     QDomElement m_effect;
-    ItemInfo m_itemInfo;
     QDomElement m_original_effect;
     QList<QDomElement> m_subEffects;
     QLabel *m_effectInstances{nullptr};

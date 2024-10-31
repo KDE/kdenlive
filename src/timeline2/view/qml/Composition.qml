@@ -285,7 +285,7 @@ Item {
                         proxy.position = compositionRoot.x / timeline.scaleFactor
                     }
                 } else {
-                    timeline.editItemDuration(clipId)
+                    timeline.editItemDuration()
                 }
             }
             onWheel: wheel => zoomByWheel(wheel)

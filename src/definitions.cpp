@@ -42,11 +42,11 @@ RTTR_REGISTRATION
 QDebug operator<<(QDebug qd, const ItemInfo &info)
 {
     qd << "ItemInfo " << &info;
-    qd << "\tTrack" << info.track;
-    qd << "\tStart pos: " << info.startPos.toString();
-    qd << "\tEnd pos: " << info.endPos.toString();
-    qd << "\tCrop start: " << info.cropStart.toString();
-    qd << "\tCrop duration: " << info.cropDuration.toString();
+    qd << "\tTrack" << info.trackId;
+    qd << "\tStart pos: " << info.position;
+    qd << "\tEnd pos: " << info.endPos;
+    qd << "\tCrop start: " << info.cropStart;
+    qd << "\tCrop duration: " << info.playTime;
     return qd.maybeSpace();
 }
 

@@ -4380,9 +4380,9 @@ const QString Bin::slotUrlsDropped(const QList<QUrl> urls, const QModelIndex par
     return id;
 }
 
-void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command)
+void Bin::slotExpandUrl(/*const ItemInfo &info,*/ const QString &url, QUndoCommand *command)
 {
-    Q_UNUSED(info)
+    // Q_UNUSED(info)
     Q_UNUSED(url)
     Q_UNUSED(command)
     // TODO reimplement this
@@ -4538,10 +4538,10 @@ void Bin::renameSubClip(const QString &id, const QString &newName, int in, int o
     Q_EMIT itemUpdated(sub);
 }
 
-void Bin::slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
+void Bin::slotStartFilterJob(/*const ItemInfo &info, */ const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                              QMap<QString, QString> &extraParams)
 {
-    Q_UNUSED(info)
+    // Q_UNUSED(info)
     Q_UNUSED(id)
     Q_UNUSED(filterParams)
     Q_UNUSED(consumerParams)

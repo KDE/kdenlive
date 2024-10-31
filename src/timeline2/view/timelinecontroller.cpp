@@ -3774,54 +3774,27 @@ double TimelineController::fps() const
     return pCore->getCurrentFps();
 }
 
-void TimelineController::editItemDuration(int id)
+void TimelineController::editItemDuration()
 {
-    if (id == -1) {
-        id = m_root->property("mainItemId").toInt();
-        if (id == -1) {
-            std::unordered_set<int> sel = m_model->getCurrentSelection();
-            if (!sel.empty()) {
-                id = *sel.begin();
-            }
-            if (id == -1) {
-                pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
-                return;
-            }
-        }
-    }
-    if (id == -1 || !m_model->isItem(id)) {
-        pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
+    std::unordered_set<int> sel = m_model->getCurrentSelection();
+    if (sel.empty()) {
+        pCore->displayMessage(i18n("No clip selected"), ErrorMessage, 500);
         return;
     }
-    int start = m_model->getItemPosition(id);
-    int in = 0;
-    int duration = m_model->getItemPlaytime(id);
-    int maxLength = -1;
-    bool isComposition = false;
-    if (m_model->isClip(id)) {
-        in = m_model->getClipIn(id);
-        std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(id));
-        if (clip && clip->hasLimitedDuration()) {
-            maxLength = clip->getProducerDuration();
+    std::unordered_set<int> items_list;
+    for (int i : sel) {
+        if (m_model->isGroup(i)) {
+            std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
+            items_list.insert(children.begin(), children.end());
+        } else {
+            items_list.insert(i);
         }
-    } else if (m_model->isComposition(id)) {
-        // nothing to do
-        isComposition = true;
-    } else {
-        pCore->displayMessage(i18n("No item to edit"), ErrorMessage, 500);
-        return;
     }
-    int trackId = m_model->getItemTrackId(id);
-    int maxFrame = qMax(0, start + duration +
-                               (isComposition ? m_model->getTrackById(trackId)->getBlankSizeNearComposition(id, true)
-                                              : m_model->getTrackById(trackId)->getBlankSizeNearClip(id, true)));
-    int minFrame = qMax(0, in - (isComposition ? m_model->getTrackById(trackId)->getBlankSizeNearComposition(id, false)
-                                               : m_model->getTrackById(trackId)->getBlankSizeNearClip(id, false)));
-    int partner = isComposition ? -1 : m_model->getClipSplitPartner(id);
-    bool rippleMode = pCore->window()->getCurrentTimeline()->activeTool() == ToolType::RippleTool;
-    QScopedPointer<ClipDurationDialog> dialog(
-        new ClipDurationDialog(id, start, minFrame, in, in + duration, maxLength, maxFrame, rippleMode, qApp->activeWindow()));
-    if (dialog->exec() == QDialog::Accepted) {
+
+    ClipDurationDialog dialog(m_model, items_list, qApp->activeWindow());
+    if (dialog.exec() == QDialog::Accepted) {
+    }
+    /*
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
         int newPos = dialog->startPos().frames(pCore->getCurrentFps());
@@ -3911,7 +3884,7 @@ void TimelineController::editItemDuration(int id)
         } else {
             undo();
         }
-    }
+    }*/
     Q_EMIT regainFocus();
 }
 

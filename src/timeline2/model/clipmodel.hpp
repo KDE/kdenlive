@@ -100,6 +100,7 @@ public:
     void setMixDuration(int mix);
     int getMixDuration() const;
     int getMixCutPosition() const;
+    ItemInfo getItemInfo() const override;
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
     int assetRow(const QString &assetId, int eid = -1, bool enabledOnly = false) const override;

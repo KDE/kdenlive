@@ -288,6 +288,18 @@ void CompositionModel::setInOut(int in, int out)
     setPosition(in);
 }
 
+ItemInfo CompositionModel::getItemInfo() const
+{
+    READ_LOCK();
+    ItemInfo info;
+    info.itemId = m_id;
+    info.position = m_position;
+    info.trackId = m_currentTrackId;
+    info.cropStart = 0;
+    info.playTime = service()->get_length();
+    return info;
+}
+
 void CompositionModel::setGrab(bool grab)
 {
     QWriteLocker locker(&m_lock);

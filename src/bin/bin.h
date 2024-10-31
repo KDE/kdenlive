@@ -467,7 +467,7 @@ public Q_SLOTS:
     void slotCreateProjectClip();
     void slotEditClipCommand(const QString &id, const QMap<QString, QString> &oldProps, const QMap<QString, QString> &newProps);
     /** @brief Start a filter job requested by a filter applied in timeline */
-    void slotStartFilterJob(const ItemInfo &info, const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
+    void slotStartFilterJob(/*const ItemInfo &info,*/ const QString &id, QMap<QString, QString> &filterParams, QMap<QString, QString> &consumerParams,
                             QMap<QString, QString> &extraParams);
     void slotItemDropped(const QStringList ids, const QModelIndex parent);
     const QString slotUrlsDropped(const QList<QUrl> urls, const QModelIndex parent);
@@ -484,7 +484,7 @@ public Q_SLOTS:
     void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
     void slotAddEffect(std::vector<QString> ids, const QStringList &effectData);
-    void slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command);
+    void slotExpandUrl(/*const ItemInfo &info,*/ const QString &url, QUndoCommand *command);
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>(), bool showCloseButton = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);

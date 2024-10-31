@@ -47,6 +47,9 @@ public:
     std::pair<int, int> getInOut() const;
     virtual int getIn() const;
     virtual int getOut() const;
+    /** @brief returns the item infos (id, in/out, trackId, crop, ...
+     */
+    virtual ItemInfo getItemInfo() const = 0;
 
     /** @brief Does a clip contain this asset in its effectstack */
     virtual int assetRow(const QString &assetId, int eid = -1, bool enabledOnly = false) const;

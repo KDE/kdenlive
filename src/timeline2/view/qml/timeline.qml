@@ -2077,7 +2077,7 @@ Rectangle {
                                             } else if (dragProxy.masterObject.itemType === ProducerType.Animation) {
                                                 timeline.editAnimationClip(dragProxy.draggedItem)
                                             } else {
-                                                timeline.editItemDuration(dragProxy.draggedItem)
+                                                timeline.editItemDuration()
                                             }
                                         }
                                     }

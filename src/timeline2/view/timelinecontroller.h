@@ -92,7 +92,7 @@ public:
     void setRoot(QQuickItem *root);
     /** @brief Edit an item's in/out points with a dialog
      */
-    Q_INVOKABLE void editItemDuration(int itemId = -1);
+    Q_INVOKABLE void editItemDuration();
     /** @brief Edit a title clip with a title widget
      */
     Q_INVOKABLE void editTitleClip(int itemId = -1);

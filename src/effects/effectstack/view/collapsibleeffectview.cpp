@@ -790,17 +790,6 @@ int CollapsibleEffectView::effectIndex() const
     return m_effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
 }
 
-void CollapsibleEffectView::updateWidget(const ItemInfo &info, const QDomElement &effect)
-{
-    Q_UNUSED(info)
-    // cleanup
-    /*
-    delete m_paramWidget;
-    m_paramWidget = nullptr;
-    */
-    m_effect = effect;
-}
-
 void CollapsibleEffectView::updateFrameInfo()
 {
     /*
@@ -873,30 +862,8 @@ void CollapsibleEffectView::dragLeaveEvent(QDragLeaveEvent * /*event*/)
     frame->setStyleSheet(frame->styleSheet());
 }
 
-void CollapsibleEffectView::importKeyframes(const QString &kf)
-{
-    QMap<QString, QString> keyframes;
-    if (kf.contains(QLatin1Char('\n'))) {
-        const QStringList params = kf.split(QLatin1Char('\n'), Qt::SkipEmptyParts);
-        for (const QString &param : params) {
-            keyframes.insert(param.section(QLatin1Char('='), 0, 0), param.section(QLatin1Char('='), 1));
-        }
-    } else {
-        keyframes.insert(kf.section(QLatin1Char('='), 0, 0), kf.section(QLatin1Char('='), 1));
-    }
-    Q_EMIT importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), keyframes);
-}
-
 void CollapsibleEffectView::dropEvent(QDropEvent *event)
 {
-    if (event->mimeData()->hasFormat(QStringLiteral("kdenlive/geometry"))) {
-        if (event->source()->objectName() == QStringLiteral("ParameterContainer")) {
-            return;
-        }
-        QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
-        importKeyframes(itemData);
-        return;
-    }
     frame->setProperty("target", false);
     frame->setStyleSheet(frame->styleSheet());
     const QString effects = QString::fromUtf8(event->mimeData()->data(QStringLiteral("kdenlive/effectslist")));
@@ -966,11 +933,6 @@ void CollapsibleEffectView::setKeyframes(const QString &tag, const QString &keyf
 bool CollapsibleEffectView::isMovable() const
 {
     return m_isMovable;
-}
-
-void CollapsibleEffectView::prepareImportClipKeyframes()
-{
-    Q_EMIT importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), QMap<QString, QString>());
 }
 
 void CollapsibleEffectView::enableView(bool enabled)
