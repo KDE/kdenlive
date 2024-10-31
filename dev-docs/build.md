@@ -6,14 +6,13 @@ Kdenlive is primarily developed on GNU/Linux, but it is also possible to [build 
 
 Currently supported distributions are:
 
-* Ubuntu 22.04 LTS Focal Fossa and derivatives
+* Ubuntu 24.10 Oracular Oriolea and derivatives
 * Arch Linux
 * All platforms fulfilling the requirements described below
 
-Kdenlive is in a transition from Qt5/KF5 to Qt6/KF6. Qt6 is the prefered version, while Qt5 is yet still supported (but deprecated)
+The minimum required dependencies are: Qt >= 6.6.0, KF6 >= 6.0, MLT >= 7.22.0.
 
-For Qt5 the minimum required dependencies are: Qt >= 5.15.2, KF5 >= 5.86, MLT >= 7.14.0.
-For Qt6 the minimum required dependencies are: Qt >= 6.6.0, KF6 >= 6.0, MLT >= 7.14.0.
+Kdenlive droped Qt5 support with version 24.12
 
 ## Build on Linux
 
@@ -68,15 +67,6 @@ kf6-knewstuff-dev kf6-kxmlgui-dev kf6-knotifications-dev kf6-kguiaddons-dev kf6-
 kf6-kiconthemes-dev kf6-solid-dev kf6-kfilemetadata-dev kf6-purpose-dev \
 kf6-kdoctools-dev kf6-kcrash-dev kf6-kdbusaddons-dev kf6-breeze-icon-theme-dev
 
-# DEPRECATED: Qt5 modules and KDE Frameworks 5
-sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev libkf5config-dev \
-libkf5configwidgets-dev libkf5dbusaddons-dev libkf5kio-dev libkf5widgetsaddons-dev \
-libkf5notifyconfig-dev libkf5newstuff-dev libkf5xmlgui-dev libkf5declarative-dev \
-libkf5notifications-dev libkf5guiaddons-dev libkf5textwidgets-dev libkf5purpose-dev \
-libkf5iconthemes-dev libkf5crash-dev libkf5filemetadata-dev libkf5codecs-dev kio \
-kinit qtdeclarative5-dev libqt5svg5-dev qml-module-qtquick-controls libqt5networkauth5-dev \
-qtmultimedia5-dev qtquickcontrols2-5-dev qttools5-dev breeze-icon-theme breeze
-
 # Multimedia stack
 sudo apt install frei0r-plugins ffmpeg
 
@@ -111,8 +101,6 @@ mkdir build
 cd build
 # To build with Qt6, you may also enable other optional modules in this command (-GNinja is optional, to build with the faster Ninja command)
 cmake .. -GNinja -DMOD_QT=OFF -DMOD_QT6=ON -DMOD_GLAXNIMATE=OFF -DMOD_GLAXNIMATE_QT6=ON
-# To build with Qt5 instead use
-cmake .. -GNinja -DMOD_QT=ON -DMOD_GLAXNIMATE=ON -DMOD_QT6=OFF -DMOD_GLAXNIMATE_QT6=OFF
 
 #install (use make instead of ninja if ninja is not used)
 sudo ninja install
@@ -153,11 +141,7 @@ mkdir build && cd build
 # to give root privileges, you need to set KDE_INSTALL_USE_QT_SYS_PATHS to OFF in the line below.
 # -GNinja is optional
 
-# Qt6
 cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF -DQT_MAJOR_VERSION=6
-
-# Qt5 (deprecated alternative to Qt6)
-cmake .. -GNinja -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX -DKDE_INSTALL_USE_QT_SYS_PATHS=ON -DRELEASE_BUILD=OFF -DQT_MAJOR_VERSION=5 -DBUILD_WITH_QT6=OFF
 ```
 
 ```bash
