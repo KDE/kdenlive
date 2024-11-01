@@ -290,8 +290,17 @@ struct requestClipInfo
     bool operator==(const requestClipInfo &a) const { return clipId == a.clipId; }
 };
 
+struct SequenceInfo
+{
+    QString sequenceName;
+    QString sequenceId;
+    QString sequenceDuration;
+    int sequenceFrameDuration{0};
+};
+
 typedef QMap<QString, QString> stringMap;
 typedef QMap<int, QMap<int, QByteArray>> audioByteArray;
+typedef QMap<QUuid, SequenceInfo> sequenceMap;
 using audioShortVector = QVector<qint16>;
 
 class ItemInfo
@@ -360,7 +369,7 @@ private:
 class SubtitleEvent
 {
 public:
-    SubtitleEvent() {};
+    SubtitleEvent(){};
     // Create a subtitle event from a string, and pass the layer & start time through the pointer if needed
     SubtitleEvent(const QString &eventString, const double fps, const double factor = 1., std::pair<int, GenTime> *start = nullptr);
     SubtitleEvent(bool isDialogue, const GenTime &end, const QString &styleName, const QString &name, int marginL, int marginR, int marginV,
@@ -432,7 +441,7 @@ private:
 class SubtitleStyle
 {
 public:
-    SubtitleStyle() {};
+    SubtitleStyle(){};
     SubtitleStyle(QString styleString);
     SubtitleStyle(QString fontName, double fontSize, QColor primaryColour, QColor secondaryColour, QColor outlineColour, QColor backColour, bool bold,
                   bool italic, bool underline, bool strikeOut, double scaleX, double scaleY, double spacing, double angle, int borderStyle, double outline,

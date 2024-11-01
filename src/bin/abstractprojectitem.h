@@ -34,7 +34,7 @@ class AbstractProjectItem : public QObject, public TreeItem
     Q_OBJECT
 
 public:
-    enum PROJECTITEMTYPE { FolderItem, ClipItem, SubClipItem };
+    enum PROJECTITEMTYPE { FolderItem, ClipItem, SubClipItem, SubSequenceItem };
 
     /**
      * @brief Constructor.
@@ -73,7 +73,7 @@ public:
     virtual bool selfSoftDelete(Fun &undo, Fun &redo);
     virtual Fun getAudio_lambda();
     /** @brief Returns the clip's id. */
-    const QString &clipId() const;
+    virtual const QString &clipId(bool withSequence = false) const;
     virtual QPoint zone() const;
 
     // TODO refac : these ref counting are probably deprecated by smart ptrs

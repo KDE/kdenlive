@@ -71,7 +71,7 @@ public:
     void resetConsumer(bool fullReset);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *playZoneFromCursor, QAction *loopZone, QMenu *markerMenu = nullptr,
                    QAction *loopClip = nullptr);
-    const QString activeClipId();
+    const QString activeClipId(bool withSequence = false);
     int position();
     void updateTimecodeFormat();
     void updateMarkers();
@@ -192,6 +192,8 @@ private:
     /** @brief Manager for qml overlay for the QQuickView **/
     QmlManager *m_qmlManager;
     std::shared_ptr<SnapModel> m_snaps;
+    /** @brief If we are displaying a timeline sequence clip from a playlist Bin clip, otherwise null **/
+    QUuid m_activeSequence;
 
     std::shared_ptr<Mlt::Filter> m_splitEffect;
     std::shared_ptr<Mlt::Producer> m_splitProducer;
@@ -291,7 +293,7 @@ public Q_SLOTS:
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod);
     void updateClipProducer(const QString &playlist);
-    void slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in = -1, int out = -1);
+    void slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in = -1, int out = -1, const QUuid &sequenceUuid = QUuid());
     void slotRefreshMonitor(bool visible);
     void slotSeek(int pos);
     void stop() override;

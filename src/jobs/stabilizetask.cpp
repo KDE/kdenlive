@@ -157,7 +157,8 @@ void StabilizeTask::run()
 
     // Start the MLT Process
     QProcess filterProcess;
-    producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("all=1") << QStringLiteral("terminate_on_pause=1");
+    producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("all=1")
+                 << QStringLiteral("terminate_on_pause=1");
     m_jobProcess.reset(new QProcess);
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess.get(), &QProcess::kill, Qt::DirectConnection);

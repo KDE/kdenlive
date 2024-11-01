@@ -468,8 +468,9 @@ ClipPropertiesController::ClipPropertiesController(const QString &clipName, Clip
             pbox->setCheckState(hasProxyClip ? Qt::Checked : Qt::Unchecked);
             bg->setEnabled(pbox->isChecked());
             bg->setToolTip(pxy);
-            lab->setText(hasProxyClip ? m_properties->get(QStringLiteral("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData())
-                                      : QString());
+            lab->setText(hasProxyClip
+                             ? m_properties->get(QStringLiteral("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData())
+                             : QString());
         });
         hlay->addWidget(pbox);
         bg->setEnabled(pbox->checkState() == Qt::Checked);
@@ -1480,6 +1481,14 @@ void ClipPropertiesController::fillProperties()
         int tracks = m_sourceProperties->get_int("kdenlive:sequenceproperties.tracksCount");
         qDebug() << "============\nUPDATING TRACKS CNT: " << tracks << "\n============";
         propertyMap.append({i18n("Tracks:"), QString::number(tracks)});
+    } else if (m_type == ClipType::Playlist) {
+        // The sequence unique identifier
+        QMap<QString, QString> extra = m_controller->m_extraProperties;
+        QMapIterator<QString, QString> ix(extra);
+        while (ix.hasNext()) {
+            ix.next();
+            propertyMap.append({ix.key(), ix.value()});
+        }
     }
 
     qint64 filesize = m_sourceProperties->get_int64("kdenlive:file_size");

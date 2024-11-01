@@ -772,8 +772,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         if (progress < 0) {
             if (m_warnOnCrash) {
                 pCore->displayMessage(i18n("Preview rendering failed, check your parameters. %1Show details...%2",
-                                           QStringLiteral("<a href=\"%1\">").arg(QUrl::toPercentEncoding(file)),
-                                           QStringLiteral("</a>")),
+                                           QStringLiteral("<a href=\"%1\">").arg(QUrl::toPercentEncoding(file)), QStringLiteral("</a>")),
                                       MltError);
             } else {
                 // TODO display info about stopped preview job

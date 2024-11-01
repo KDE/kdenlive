@@ -90,6 +90,7 @@ bool Core::build(LinuxPackageType packageType, bool testMode)
     qRegisterMetaType<QList<QAction *>>("QList<QAction*>");
     qRegisterMetaType<MessageType>("MessageType");
     qRegisterMetaType<stringMap>("stringMap");
+    qRegisterMetaType<sequenceMap>("sequenceMap");
     qRegisterMetaType<audioByteArray>("audioByteArray");
     qRegisterMetaType<QList<ItemInfo>>("QList<ItemInfo>");
     qRegisterMetaType<std::shared_ptr<Mlt::Producer>>("std::shared_ptr<Mlt::Producer>");

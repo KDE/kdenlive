@@ -18,7 +18,10 @@ set(kdenlive_SRCS
   bin/projectfolder.cpp
   bin/projectitemmodel.cpp
   bin/projectsortproxymodel.cpp
+  bin/playlistsubclip.cpp
   bin/projectsubclip.cpp
+  bin/sequenceclip.cpp
+  bin/playlistclip.cpp
   bin/tagwidget.cpp
   PARENT_SCOPE
 )

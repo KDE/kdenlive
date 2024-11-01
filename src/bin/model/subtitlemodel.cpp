@@ -1294,8 +1294,8 @@ int SubtitleModel::saveSubtitleData(const QJsonArray &list, const QString &outFi
             out << '\n';
 
             out << QStringLiteral("[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, "
-                           "Italic, Underline, StrikeOut, "
-                           "ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n");
+                                  "Italic, Underline, StrikeOut, "
+                                  "ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n");
             for (const auto &entry : std::as_const(m_subtitleStyles)) {
                 out << entry.second.toString(entry.first) << '\n';
             }

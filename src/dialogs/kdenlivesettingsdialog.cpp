@@ -264,8 +264,9 @@ void KdenliveSettingsDialog::initProjectPage()
     QWidget *p9 = new QWidget;
     m_configProject.setupUi(p9);
     // Timeline preview
-    QString currentPreviewData =
-        KdenliveSettings::previewparams().isEmpty() ? QString() : QStringLiteral("%1;%2").arg(KdenliveSettings::previewparams(), KdenliveSettings::previewextension());
+    QString currentPreviewData = KdenliveSettings::previewparams().isEmpty()
+                                     ? QString()
+                                     : QStringLiteral("%1;%2").arg(KdenliveSettings::previewparams(), KdenliveSettings::previewextension());
     m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p9, true, currentPreviewData, false);
     m_configProject.preview_profile_box->addWidget(m_tlPreviewProfiles);
     auto *vbox = new QVBoxLayout;

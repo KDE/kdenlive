@@ -790,12 +790,12 @@ void Monitor::buildBackgroundedProducer(int pos)
         Mlt::Tractor trac(pCore->getProjectProfile());
         QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
         std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(*trac.profile(), color.toUtf8().constData()));
-        int maxLength = m_controller->originalProducer()->get_length();
+        int maxLength = m_controller->sequenceFrameDuration(m_activeSequence);
         bg->set("length", maxLength);
         bg->set("out", maxLength - 1);
         bg->set("mlt_image_format", "rgba");
         trac.set_track(*bg.get(), 0);
-        trac.set_track(*m_controller->originalProducer().get(), 1);
+        trac.set_track(*m_controller->sequenceProducer(m_activeSequence).get(), 1);
         QString composite = TransitionsRepository::get()->getCompositingTransition();
         std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
         transition->set("always_active", 1);
@@ -803,7 +803,7 @@ void Monitor::buildBackgroundedProducer(int pos)
         trac.plant_transition(*transition.get(), 0, 1);
         m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
     } else {
-        m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), pos);
+        m_glMonitor->setProducer(m_controller->sequenceProducer(m_activeSequence), isActive(), pos);
     }
 }
 
@@ -1066,7 +1066,8 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                                 if (KdenliveSettings::clip_monitor_fullscreen().isEmpty()) {
                                     KdenliveSettings::setProject_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
                                 } else {
-                                    if (KdenliveSettings::clip_monitor_fullscreen() == QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
+                                    if (KdenliveSettings::clip_monitor_fullscreen() ==
+                                        QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
                                         continue;
                                     }
                                 }
@@ -1074,7 +1075,8 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                                 if (KdenliveSettings::project_monitor_fullscreen().isEmpty()) {
                                     KdenliveSettings::setClip_monitor_fullscreen(QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber()));
                                 } else {
-                                    if (KdenliveSettings::project_monitor_fullscreen() == QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
+                                    if (KdenliveSettings::project_monitor_fullscreen() ==
+                                        QStringLiteral("%1:%2").arg(QString::number(ix), screen->serialNumber())) {
                                         continue;
                                     }
                                 }
@@ -1149,7 +1151,7 @@ void Monitor::mouseReleaseEvent(QMouseEvent *event)
 
 void Monitor::slotStartDrag()
 {
-    if (m_id == Kdenlive::ProjectMonitor || m_controller == nullptr) {
+    if (m_id == Kdenlive::ProjectMonitor || m_controller == nullptr || !m_activeSequence.isNull()) {
         // dragging is only allowed for clip monitor
         return;
     }
@@ -1823,8 +1825,9 @@ void Monitor::updateClipProducer(const QString &playlist)
     m_glMonitor->switchPlay(true);
 }
 
-void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out)
+void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out, const QUuid &sequenceUuid)
 {
+    m_activeSequence = QUuid();
     if (m_controller) {
         m_glMonitor->resetZoneMode();
         // store last audiothumb zoom / position
@@ -1886,13 +1889,14 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     } else {
         pCore->taskManager.displayedClip = m_controller->clipId().toInt();
         m_markerModel = m_controller->getMarkerModel();
+        m_activeSequence = sequenceUuid;
         if (pCore->currentRemap(controller->clipId())) {
             connect(this, &Monitor::seekPosition, this, &Monitor::seekRemap, Qt::UniqueConnection);
         }
         ClipType::ProducerType type = controller->clipType();
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::SlideShow) {
-            m_glMonitor->rootObject()->setProperty("baseThumbPath",
-                                                   QStringLiteral("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid().toString()));
+            m_glMonitor->rootObject()->setProperty(
+                "baseThumbPath", QStringLiteral("image://thumbnail/%1/%2/#").arg(controller->clipId(), pCore->currentDoc()->uuid().toString()));
         } else {
             m_glMonitor->rootObject()->setProperty("baseThumbPath", QString());
         }
@@ -1950,8 +1954,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_timePos->setOffset(m_controller->getRecordTime());
         }
         if (m_controller->statusReady()) {
-            m_timePos->setRange(0, int(m_controller->frameDuration() - 1));
-            m_glMonitor->setRulerInfo(int(m_controller->frameDuration() - 1), controller->getFilteredMarkerModel());
+            int maxDuration = int(m_controller->sequenceFrameDuration(m_activeSequence) - 1);
+            m_timePos->setRange(0, maxDuration);
+            m_glMonitor->setRulerInfo(maxDuration, controller->getFilteredMarkerModel());
             double audioScale = m_controller->getProducerDoubleProperty(QStringLiteral("kdenlive:thumbZoomFactor"));
             if (in == out && in == -1) {
                 // Only apply on bin clip, not sub clips
@@ -2059,9 +2064,14 @@ void Monitor::reloadActiveStream()
     }
 }
 
-const QString Monitor::activeClipId()
+const QString Monitor::activeClipId(bool withSequence)
 {
     if (m_controller) {
+        if (withSequence && !m_activeSequence.isNull()) {
+            QString id = m_controller->clipId();
+            id.append(m_activeSequence.toString());
+            return id;
+        }
         return m_controller->clipId();
     }
     return QString();

@@ -19,11 +19,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "lib/localeHandling.h"
 #include "macros.hpp"
+#include "playlistclip.h"
+#include "playlistsubclip.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectsubclip.h"
+#include "sequenceclip.h"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
 
@@ -229,6 +232,10 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex &index) const
         break;
     case AbstractProjectItem::SubClipItem:
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
+        break;
+    case AbstractProjectItem::SubSequenceItem:
+        // Currently sub sequences can't be inserted into timeline, disable drag
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
         break;
     default:
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
@@ -696,6 +703,41 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
     }
 }
 
+void ProjectItemModel::loadSubSequences(const QString &id, const sequenceMap &dataMap)
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    loadSubSequences(id, dataMap, undo, redo);
+}
+
+void ProjectItemModel::loadSubSequences(const QString &id, const sequenceMap &dataMap, Fun &undo, Fun &redo)
+{
+    if (dataMap.isEmpty()) {
+        return;
+    }
+    QWriteLocker locker(&m_lock);
+    std::shared_ptr<PlaylistClip> clip = std::static_pointer_cast<PlaylistClip>(getClipByBinID(id));
+    if (!clip) {
+        qWarning() << "Clip not loaded";
+        return;
+    }
+    QMapIterator<QUuid, SequenceInfo> ix(dataMap);
+    while (ix.hasNext()) {
+        ix.next();
+        if (clip->isActiveTimeline(ix.key())) {
+            // Don't create subclip for main timeline sequence
+            continue;
+        }
+        QString subId;
+        QMap<QString, QString> seqProperties;
+        seqProperties.insert(QStringLiteral("name"), ix.value().sequenceName);
+        seqProperties.insert(QStringLiteral("uuid"), ix.key().toString());
+        seqProperties.insert(QStringLiteral("type"), QString::number(ClipType::Timeline));
+        requestAddBinSubPlaylistClip(subId, ix.value().sequenceFrameDuration, seqProperties, id, undo, redo);
+    }
+}
+
 std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const QModelIndex &index) const
 {
     READ_LOCK();
@@ -882,8 +924,24 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     }
     Q_ASSERT(isIdFree(id));
     QWriteLocker locker(&m_lock);
-    std::shared_ptr<ProjectClip> new_clip =
-        ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    std::shared_ptr<ProjectClip> new_clip;
+
+    ClipType::ProducerType type = ClipType::Unknown;
+    if (description.hasAttribute(QStringLiteral("type"))) {
+        type = ClipType::ProducerType(description.attribute(QStringLiteral("type")).toInt());
+    } else {
+        const QString resource = Xml::getXmlProperty(description, QStringLiteral("resource"));
+        if (resource.endsWith(QLatin1String(".kdenlive")) || resource.endsWith(QLatin1String(".mlt"))) {
+            type = ClipType::Playlist;
+        }
+    }
+    if (type == ClipType::Timeline) {
+        new_clip = SequenceClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    } else if (type == ClipType::Playlist) {
+        new_clip = PlaylistClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    } else {
+        new_clip = ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
+    }
     locker.unlock();
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
@@ -918,7 +976,27 @@ bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Produ
         }
     }
     Q_ASSERT(isIdFree(id));
-    std::shared_ptr<ProjectClip> new_clip = ProjectClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
+    ClipType::ProducerType type = ClipType::Unknown;
+    QString producerService(producer->parent().get("mlt_service"));
+    if (producerService == QLatin1String("tractor") || producerService == QLatin1String("xml-string")) {
+        Mlt::Properties props(producer->get_properties());
+        if (props.property_exists("kdenlive:producer_type")) {
+            type = (ClipType::ProducerType)props.get_int("kdenlive:producer_type");
+        } else {
+            type = ClipType::Timeline;
+        }
+    } else if (producerService == QLatin1String("xml")) {
+        type = ClipType::Playlist;
+    }
+
+    std::shared_ptr<ProjectClip> new_clip;
+    if (type == ClipType::Timeline) {
+        new_clip = SequenceClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
+    } else if (type == ClipType::Playlist) {
+        new_clip = PlaylistClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
+    } else {
+        new_clip = ProjectClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
+    }
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
         new_clip->importEffects(producer);
@@ -942,12 +1020,44 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     }
     auto clip = getClipByBinID(subId);
     Q_ASSERT(clip->itemType() == AbstractProjectItem::ClipItem);
-    auto tc = pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode());
+    const QString tc = pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode());
     std::shared_ptr<ProjectSubClip> new_clip =
         ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc, zoneProperties);
     bool res = addItem(new_clip, subId, undo, redo);
     return res;
 }
+
+bool ProjectItemModel::requestAddBinSubPlaylistClip(QString &id, int duration, const QMap<QString, QString> &zoneProperties, const QString &parentId, Fun &undo,
+                                                    Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    if (id.isEmpty()) {
+        id = QString::number(getFreeClipId());
+    }
+    Q_ASSERT(isIdFree(id));
+    QString subId = parentId;
+    if (subId.startsWith(QLatin1Char('A')) || subId.startsWith(QLatin1Char('V'))) {
+        subId.remove(0, 1);
+    }
+    auto clip = getClipByBinID(subId);
+    Q_ASSERT(clip->itemType() == AbstractProjectItem::ClipItem);
+    const QString tc = pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(duration, KdenliveSettings::frametimecode());
+
+    std::shared_ptr<PlaylistSubClip> new_clip =
+        PlaylistSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), tc, zoneProperties);
+    bool res = addItem(new_clip, subId, undo, redo);
+    return res;
+}
+
+bool ProjectItemModel::requestAddBinSubPlaylistClip(QString &id, int duration, const QMap<QString, QString> &zoneProperties, const QString &parentId)
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = requestAddBinSubPlaylistClip(id, duration, zoneProperties, parentId, undo, redo);
+    return res;
+}
+
 bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId)
 {
     QWriteLocker locker(&m_lock);

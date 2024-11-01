@@ -101,25 +101,6 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     if (m_clipType == ClipType::Audio) {
         m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else {
-        if (m_clipType == ClipType::Timeline) {
-            // Initialize path for thumbnails playlist
-            m_sequenceUuid = QUuid(m_masterProducer->get("kdenlive:uuid"));
-            if (model->hasSequenceId(m_sequenceUuid)) {
-                // We already have a sequence with this uuid, this is probably a duplicate, update uuid
-                const QUuid prevUuid = m_sequenceUuid;
-                m_sequenceUuid = QUuid::createUuid();
-                m_masterProducer->set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
-                m_masterProducer->parent().set("kdenlive:uuid", m_sequenceUuid.toString().toUtf8().constData());
-                const QString subValue(m_masterProducer->get("kdenlive:sequenceproperties.subtitlesList"));
-
-                if (!subValue.isEmpty()) {
-                    int ix = m_masterProducer->get_int("kdenlive:sequenceproperties.kdenlive:activeSubtitleIndex");
-                    pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("kdenlive:activeSubtitleIndex"), QString::number(ix));
-                    pCore->currentDoc()->duplicateSequenceProperty(m_sequenceUuid, prevUuid, subValue);
-                }
-            }
-            m_sequenceThumbFile.setFileTemplate(QDir::temp().absoluteFilePath(QStringLiteral("thumbs-%1-XXXXXX.mlt").arg(m_binId)));
-        }
         m_thumbnail = thumb;
     }
     // Make sure we have a hash for this clip
@@ -138,7 +119,6 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
-    // Timeline clip thumbs will be generated later after the tractor has been updated
     if (m_clipType != ClipType::Timeline &&
         (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly)) {
         // Generate clip thumbnail
@@ -188,9 +168,6 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     m_markerFilterModel->setSourceModel(m_markerModel.get());
     m_markerFilterModel->setSortRole(MarkerListModel::PosRole);
     m_markerFilterModel->sort(0, Qt::AscendingOrder);
-    if (m_clipType == ClipType::Timeline) {
-        m_sequenceUuid = QUuid(getXmlProperty(description, QStringLiteral("kdenlive:uuid")));
-    }
 
     const QString proxy = getXmlProperty(description, QStringLiteral("kdenlive:proxy"));
     if (proxy.length() > 3) {
@@ -528,19 +505,9 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
     if (tag == QLatin1String("producer") || tag == QLatin1String("chain")) {
         prod = document.documentElement();
     } else {
-        // Check if this is a sequence clip
-        if (m_clipType == ClipType::Timeline) {
-            prod = document.documentElement();
-            prod.setAttribute(QStringLiteral("kdenlive:id"), m_binId);
-            prod.setAttribute(QStringLiteral("kdenlive:producer_type"), ClipType::Timeline);
-            prod.setAttribute(QStringLiteral("kdenlive:uuid"), m_sequenceUuid.toString());
-            prod.setAttribute(QStringLiteral("kdenlive:duration"), QString::number(frameDuration()));
-            prod.setAttribute(QStringLiteral("kdenlive:clipname"), clipName());
-        } else {
-            prod = document.documentElement().firstChildElement(QStringLiteral("chain"));
-            if (prod.isNull()) {
-                prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
-            }
+        prod = document.documentElement().firstChildElement(QStringLiteral("chain"));
+        if (prod.isNull()) {
+            prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
         }
     }
     if (m_clipType != ClipType::Unknown) {
@@ -585,6 +552,8 @@ void ProjectClip::setThumbnail(const QImage &img, int in, int out, bool inCache)
         updateTimelineClips({TimelineModel::ClipThumbRole});
     }
 }
+
+void ProjectClip::setSequenceThumbnail(const QImage &, const QUuid &, bool) {}
 
 bool ProjectClip::hasAudioAndVideo() const
 {
@@ -654,11 +623,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
             KMessageBox::information(QApplication::activeWindow(),
                                      i18n("Image dimension smaller than 8 pixels.\nThis is not correctly supported by our video framework."));
         }
-    } else if (m_clipType == ClipType::Timeline) {
-        if (m_sequenceUuid.isNull()) {
-            m_sequenceUuid = QUuid::createUuid();
-            setProducerProperty(QStringLiteral("kdenlive:uuid"), m_sequenceUuid.toString());
-        }
     }
     m_duration = getStringDuration();
     m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
@@ -713,16 +677,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         // Release audio producers
         m_audioProducers.clear();
         m_videoProducers.clear();
-        if (m_timewarpProducers.size() > 0) {
-            if (m_clipType == ClipType::Timeline) {
-                bool ok;
-                QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
-                if (ok) {
-                    QString resource = sequenceFolder.absoluteFilePath(QStringLiteral("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
-                    QFile::remove(resource);
-                }
-            }
-        }
         m_timewarpProducers.clear();
     }
     Q_EMIT refreshPropertiesPanel();
@@ -848,7 +802,7 @@ const QString ProjectClip::getProxyFromOriginal(QString originalPath)
     return QString();
 }
 
-std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
+std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer(const QUuid &)
 {
     if (m_clipType == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
         return nullptr;
@@ -857,13 +811,6 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
         return nullptr;
     }
     std::unique_ptr<Mlt::Producer> thumbProd;
-    if (m_clipType == ClipType::Timeline || m_clipType == ClipType::Playlist) {
-        QReadLocker lock(&pCore->xmlMutex);
-        // thumbProd.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml-string", m_thumbXml.constData()));
-        thumbProd.reset(masterProducer());
-        m_thumbMutex.unlock();
-        return thumbProd;
-    }
     if (!m_thumbXml.isEmpty()) {
         QReadLocker lock(&pCore->xmlMutex);
         thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), "xml-string", m_thumbXml.constData()));
@@ -873,28 +820,13 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
     if (KdenliveSettings::gpu_accel()) {
         // TODO: when the original producer changes, we must reload this thumb producer
         thumbProd = softClone(ClipController::getPassPropertiesList());
-    } else if (m_clipType == ClipType::Timeline) {
-        if (pCore->currentDoc()->loading) {
-            m_thumbMutex.unlock();
-            return nullptr;
-        }
-        if (!m_sequenceThumbFile.isOpen() && !m_sequenceThumbFile.open()) {
-            // Something went wrong
-            qWarning() << "Cannot write to temporary file: " << m_sequenceThumbFile.fileName();
-            m_thumbMutex.unlock();
-            return nullptr;
-        }
-        cloneProducerToFile(m_sequenceThumbFile.fileName(), true);
-        QReadLocker lock(&pCore->xmlMutex);
-        thumbProd.reset(new Mlt::Producer(pCore->getProjectProfile(), "xml", m_sequenceThumbFile.fileName().toUtf8().constData()));
     } else {
         QString mltService = m_masterProducer->get("mlt_service");
         const QString mltResource = m_masterProducer->get("resource");
         if (mltService == QLatin1String("avformat")) {
             mltService = QStringLiteral("avformat-novalidate");
         }
-        thumbProd.reset(new Mlt::Producer(m_clipType == ClipType::Playlist ? pCore->getProjectProfile() : pCore->thumbProfile(),
-                                          mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+        thumbProd.reset(new Mlt::Producer(pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
     }
     if (thumbProd->is_valid()) {
         Mlt::Properties original(m_masterProducer->get_properties());
@@ -913,16 +845,8 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getThumbProducer()
 void ProjectClip::createDisabledMasterProducer()
 {
     if (!m_disabledProducer) {
-        if (m_clipType == ClipType::Timeline) {
-            // Use dummy placeholder color clip
-            m_disabledProducer = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(pCore->getProjectProfile(), "color", "red"));
-            Mlt::Properties original(m_masterProducer->get_properties());
-            Mlt::Properties target(m_disabledProducer->get_properties());
-            target.pass_list(original, "kdenlive:control_uuid,kdenlive:id,kdenlive:duration,kdenlive:maxduration,length");
-        } else {
-            m_disabledProducer = cloneProducer();
-            m_effectStack->addService(m_disabledProducer);
-        }
+        m_disabledProducer = cloneProducer();
+        m_effectStack->addService(m_disabledProducer);
         m_disabledProducer->set("set.test_audio", 1);
         m_disabledProducer->set("set.test_image", 1);
     }
@@ -1183,17 +1107,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             resource = m_service;
         }
         if (m_clipType == ClipType::Timeline) {
-            // speed effects of sequence clips have to use an external mlt playslist file
-            bool ok;
-            QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
-            if (!ok) {
-                qWarning() << "Cannot write to cache folder: " << sequenceFolder.absolutePath();
-                return nullptr;
-            }
-            resource = sequenceFolder.absoluteFilePath(QStringLiteral("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
-            if (!QFileInfo::exists(resource)) {
-                cloneProducerToFile(resource);
-            }
+            resource = getSequenceResource();
         }
         if (timeremapInfo.enableRemap) {
             Mlt::Chain *chain = new Mlt::Chain(pCore->getProjectProfile(), resource.toUtf8().constData());
@@ -1657,9 +1571,6 @@ const QString ProjectClip::hashForThumbs()
         // Clip is not ready
         return QString();
     }
-    if (m_clipType == ClipType::Timeline) {
-        return m_sequenceUuid.toString();
-    }
     QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
     if (!clipHash.isEmpty() && m_hasMultipleVideoStreams) {
         clipHash.append(m_properties->get("video_index"));
@@ -1721,10 +1632,6 @@ const QString ProjectClip::getFileHash()
         fileData = getProducerProperty(QStringLiteral("resource")).toUtf8();
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
-    case ClipType::Timeline:
-        fileData = m_sequenceUuid.toString().toUtf8();
-        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-        break;
     default:
         QPair<QByteArray, qint64> hashData = calculateHash(clipUrl());
         fileHash = hashData.first;
@@ -1741,7 +1648,7 @@ const QString ProjectClip::getFileHash()
             return QString();
         }
     }
-    QString result = fileHash.toHex();
+    const QString result = fileHash.toHex();
     ClipController::setProducerProperty(QStringLiteral("kdenlive:file_hash"), result);
     return result;
 }
@@ -1939,10 +1846,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                                                                            {AbstractProjectItem::DataName});
         }
         refreshRoles << TimelineModel::NameRole;
-        if (m_clipType == ClipType::Timeline && !m_sequenceUuid.isNull()) {
-            // This is a timeline clip, update tab name
-            Q_EMIT pCore->bin()->updateTabName(m_sequenceUuid, m_name);
-        }
     }
     if (properties.contains(QStringLiteral("kdenlive:description"))) {
         m_description = properties.value(QStringLiteral("kdenlive:description"));
@@ -2507,17 +2410,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
         m_disabledProducer.reset();
         m_audioProducers.clear();
         m_videoProducers.clear();
-        if (m_timewarpProducers.size() > 0 && pCore->window() && pCore->bin()->isEnabled()) {
-            // If the clip is deleted, remove timewarp producers. Don't delete if Bin is disabled because this is when we are closing a project
-            if (m_clipType == ClipType::Timeline) {
-                bool ok;
-                QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
-                if (ok) {
-                    QString resource = sequenceFolder.absoluteFilePath(QStringLiteral("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
-                    QFile::remove(resource);
-                }
-            }
-        }
+        removeSequenceWarpResources();
         m_timewarpProducers.clear();
         return true;
     };
@@ -2629,16 +2522,7 @@ void ProjectClip::reloadTimeline(std::shared_ptr<EffectStackModel> stack)
     // Release audio producers
     m_audioProducers.clear();
     m_videoProducers.clear();
-    if (m_timewarpProducers.size() > 0) {
-        if (m_clipType == ClipType::Timeline) {
-            bool ok;
-            QDir sequenceFolder = pCore->currentDoc()->getCacheDir(CacheTmpWorkFiles, &ok);
-            if (ok) {
-                QString resource = sequenceFolder.absoluteFilePath(QStringLiteral("sequence-%1.mlt").arg(m_sequenceUuid.toString()));
-                QFile::remove(resource);
-            }
-        }
-    }
+    removeSequenceWarpResources();
     m_timewarpProducers.clear();
     Q_EMIT refreshPropertiesPanel();
     replaceInTimeline();
@@ -2762,24 +2646,16 @@ void ProjectClip::updateZones()
 
 int ProjectClip::getThumbFrame() const
 {
-    if (m_clipType == ClipType::Timeline) {
-        return qMax(0, pCore->currentDoc()->getSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame")).toInt());
-    }
     return qMax(0, getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
 }
 
 void ProjectClip::setThumbFrame(int frame)
 {
-    if (clipType() == ClipType::Timeline) {
-        resetSequenceThumbnails();
-        pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame"), frame);
-    } else {
-        setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), frame);
-    }
+    setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), frame);
     ClipLoadTask::start(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), QDomElement(), true, -1, -1, this);
 }
 
-void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
+int ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
 {
     // extract a maximum of 30 frames for bin preview
     if (percent < 0) {
@@ -2790,7 +2666,7 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
                 setThumbnail(thumb, -1, -1);
             }
         }
-        return;
+        return framePos;
     }
     int duration = getFramePlaytime();
     int steps = qCeil(qMax(pCore->getCurrentFps(), double(duration) / 30));
@@ -2807,12 +2683,9 @@ void ProjectClip::getThumbFromPercent(int percent, bool storeFrame)
         }
     }
     if (storeFrame) {
-        if (m_clipType == ClipType::Timeline) {
-            pCore->currentDoc()->setSequenceProperty(m_sequenceUuid, QStringLiteral("thumbnailFrame"), framePos);
-        } else {
-            setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
-        }
+        setProducerProperty(QStringLiteral("kdenlive:thumbnailFrame"), framePos);
     }
+    return framePos;
 }
 
 void ProjectClip::setRating(uint rating)
@@ -3159,16 +3032,8 @@ const QString ProjectClip::baseThumbPath()
     return QStringLiteral("%1/%2/#").arg(m_binId).arg(m_uuid.toString());
 }
 
-bool ProjectClip::canBeDropped(const QUuid &uuid) const
+bool ProjectClip::canBeDropped(const QUuid &) const
 {
-    if (m_sequenceUuid == uuid) {
-        return false;
-    }
-    if (auto ptr = m_model.lock()) {
-        return std::static_pointer_cast<ProjectItemModel>(ptr)->canBeEmbeded(uuid, m_sequenceUuid);
-    } else {
-        qDebug() << "..... ERROR CANNOT LOCK MODEL";
-    }
     return true;
 }
 
@@ -3177,9 +3042,9 @@ const QList<QUuid> ProjectClip::registeredUuids() const
     return m_registeredClipsByUuid.keys();
 }
 
-const QUuid &ProjectClip::getSequenceUuid() const
+const QUuid ProjectClip::getSequenceUuid() const
 {
-    return m_sequenceUuid;
+    return QUuid();
 }
 
 void ProjectClip::updateDescription()
@@ -3216,6 +3081,13 @@ QPixmap ProjectClip::pixmap(int framePosition, int width, int height)
     return QPixmap::fromImage(img /*.scaled(height, width, Qt::KeepAspectRatio)*/);
 }
 
+const QString ProjectClip::getSequenceResource()
+{
+    return QString();
+}
+
+void ProjectClip::removeSequenceWarpResources() {}
+
 std::pair<int, int> ProjectClip::fpsInfo() const
 {
     if (m_clipStatus == FileStatus::StatusReady) {
@@ -3240,4 +3112,9 @@ std::pair<int, int> ProjectClip::fpsInfo() const
 const QString ProjectClip::getControlUuid() const
 {
     return m_controlUuid.toString();
+}
+
+size_t ProjectClip::sequenceFrameDuration(const QUuid &)
+{
+    return frameDuration();
 }

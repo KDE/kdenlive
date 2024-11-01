@@ -101,6 +101,7 @@ public:
     std::shared_ptr<ProjectFolder> getRootFolder() const;
 
     void loadSubClips(const QString &id, const QString &dataMap, Fun &undo, Fun &redo);
+    void loadSubSequences(const QString &id, const sequenceMap &dataMap, Fun &undo, Fun &redo);
 
     /** @brief Convenience method to retrieve a pointer to an element given its index */
     std::shared_ptr<AbstractProjectItem> getBinItemByIndex(const QModelIndex &index) const;
@@ -178,6 +179,8 @@ public:
     */
     bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId, Fun &undo, Fun &redo);
     bool requestAddBinSubClip(QString &id, int in, int out, const QMap<QString, QString> &zoneProperties, const QString &parentId);
+    bool requestAddBinSubPlaylistClip(QString &id, int duration, const QMap<QString, QString> &zoneProperties, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinSubPlaylistClip(QString &id, int duration, const QMap<QString, QString> &zoneProperties, const QString &parentId);
 
     /** @brief Request that a folder's name is changed
        @param clip : pointer to the folder to rename
@@ -293,6 +296,7 @@ public Q_SLOTS:
     @param id is the id of the parent clip
     @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
     void loadSubClips(const QString &id, const QString &clipData, bool logUndo);
+    void loadSubSequences(const QString &id, const sequenceMap &dataMap);
 
 private Q_SLOTS:
     /** @brief Check how many invalid clips we have. */

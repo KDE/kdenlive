@@ -438,8 +438,8 @@ QImage AudioSpectrum::renderHUD(uint)
                 davinci.fillRect(rect, AbstractScopeWidget::penBackground.brush());
                 davinci.setPen(AbstractScopeWidget::penLighter);
                 davinci.drawRect(rect);
-                davinci.drawText(textRect,
-                                 QString(i18n("%1 dB", QStringLiteral("%1").arg(db, 0, 'f', 2)) + '\n' + i18n("%1 kHz", QStringLiteral("%1").arg(freq / 1000, 0, 'f', 2))));
+                davinci.drawText(textRect, QString(i18n("%1 dB", QStringLiteral("%1").arg(db, 0, 'f', 2)) + '\n' +
+                                                   i18n("%1 kHz", QStringLiteral("%1").arg(freq / 1000, 0, 'f', 2))));
             }
         }
 

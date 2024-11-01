@@ -39,6 +39,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mltcontroller/clippropertiescontroller.h"
 #include "monitor/monitor.h"
 #include "monitor/monitormanager.h"
+#include "playlistclip.h"
+#include "playlistsubclip.h"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/guideslist.h"
 #include "project/dialogs/slideshowclip.h"
@@ -165,7 +167,7 @@ public:
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         int decoWidth = 0;
         int mid = 0;
-        if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
+        if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem || type == AbstractProjectItem::SubSequenceItem) {
             mid = int((r1.height() / 2));
             if (opt.decorationSize.height() > 0) {
                 decoWidth = int(r1.height() * pCore->getCurrentDar());
@@ -202,7 +204,7 @@ public:
         if (type == AbstractProjectItem::ClipItem) {
             return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
         }
-        if (type == AbstractProjectItem::SubClipItem) {
+        if (type == AbstractProjectItem::SubClipItem || type == AbstractProjectItem::SubSequenceItem) {
             return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMin(hint.height(), int(option.decorationSize.height() / 1.5))));
         }
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
@@ -237,7 +239,7 @@ public:
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
-            if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
+            if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem || type == AbstractProjectItem::SubSequenceItem) {
                 int decoWidth = 0;
                 FileStatus::ClipStatus clipStatus = FileStatus::ClipStatus(index.data(AbstractProjectItem::ClipStatus).toInt());
                 int cType = index.data(AbstractProjectItem::ClipType).toInt();
@@ -419,7 +421,7 @@ public:
     int getFrame(const QModelIndex &index, int mouseX)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem)) {
+        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem && type != AbstractProjectItem::SubSequenceItem)) {
             return 0;
         }
         if (mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
@@ -627,7 +629,8 @@ public:
     int getFrame(const QModelIndex &index, QPoint pos)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem) || !m_thumbRect.contains(pos)) {
+        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem && type != AbstractProjectItem::SubSequenceItem) ||
+            !m_thumbRect.contains(pos)) {
             return 0;
         }
         return 100 * (pos.x() - m_thumbRect.x()) / m_thumbRect.width();
@@ -1810,7 +1813,7 @@ void Bin::slotReloadClip()
         std::shared_ptr<ProjectClip> currentItem = nullptr;
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             currentItem = std::static_pointer_cast<ProjectClip>(item);
-        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
@@ -2021,7 +2024,7 @@ void Bin::slotReplaceClip()
             } else {
                 qDebug() << "==== FOUND SELECED CLIP: " << currentItem->clipUrl();
             }
-        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
@@ -2138,7 +2141,7 @@ void Bin::slotLocateClip()
         std::shared_ptr<ProjectClip> currentItem = nullptr;
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             currentItem = std::static_pointer_cast<ProjectClip>(item);
-        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
@@ -2256,6 +2259,7 @@ void Bin::slotDuplicateClip()
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
             auto currentItem = std::static_pointer_cast<ProjectSubClip>(item);
+            // TODO: manage sequence subclips
             QPoint clipZone = currentItem->zone();
             QString id;
             m_itemModel->requestAddBinSubClip(id, clipZone.x(), clipZone.y(), {}, currentItem->getMasterClip()->clipId());
@@ -2666,7 +2670,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
     if (id.isValid()) {
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(id));
         if (currentItem) {
-            if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId() == currentItem->clipId()) {
+            if (pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId(true) == currentItem->clipId(true)) {
                 qDebug() << "//// COMPARING BIN CLIP ID - - - - - ALREADY OPENED";
                 return;
             }
@@ -2689,7 +2693,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_tagsWidget->setTagData();
                 m_deleteAction->setText(i18n("Delete Folder"));
                 m_proxyAction->setText(i18n("Proxy Folder"));
-            } else if (itemType == AbstractProjectItem::SubClipItem) {
+            } else if (itemType == AbstractProjectItem::SubClipItem || itemType == AbstractProjectItem::SubSequenceItem) {
                 m_tagsWidget->setTagData(currentItem->tags());
                 auto subClip = std::static_pointer_cast<ProjectSubClip>(currentItem);
                 clip = subClip->getMasterClip();
@@ -2823,7 +2827,7 @@ std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
             } else {
                 ids.push_back(item->clipId());
             }
-        } else if (item->itemType() == AbstractProjectItem::ClipItem) {
+        } else if (item->itemType() == AbstractProjectItem::ClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
             ids.push_back(item->clipId());
         }
     }
@@ -3233,7 +3237,7 @@ void Bin::slotSwitchClipProperties()
         std::shared_ptr<ProjectClip> currentItem = nullptr;
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             currentItem = std::static_pointer_cast<ProjectClip>(item);
-        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem || item->itemType() == AbstractProjectItem::SubSequenceItem) {
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
@@ -3493,9 +3497,9 @@ void Bin::slotOpenCurrent()
     }
 }
 
-void Bin::openProducer(std::shared_ptr<ProjectClip> controller)
+void Bin::openProducer(std::shared_ptr<ProjectClip> controller, const QUuid &sequenceUuid)
 {
-    Q_EMIT openClip(std::move(controller));
+    Q_EMIT openClip(std::move(controller), -1, -1, sequenceUuid);
 }
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller, int in, int out)
@@ -3588,8 +3592,8 @@ void Bin::setupGeneratorMenu()
     if (m_isMainBin) {
         connect(m_itemModel.get(), &ProjectItemModel::resetPlayOrLoopZone, monitor, &Monitor::resetPlayOrLoopZone, Qt::DirectConnection);
     }
-    connect(this, &Bin::openClip, [&, monitor](std::shared_ptr<ProjectClip> clip, int in, int out) {
-        monitor->slotOpenClip(clip, in, out);
+    connect(this, &Bin::openClip, [&, monitor](std::shared_ptr<ProjectClip> clip, int in, int out, const QUuid &uuid) {
+        monitor->slotOpenClip(clip, in, out, uuid);
         if (clip && clip->hasLimitedDuration()) {
             clip->refreshBounds();
         }
@@ -3964,7 +3968,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             Q_EMIT displayBinMessage(i18n("Cannot apply effects on folders"), KMessageWidget::Information);
             return;
         }
-        if (parentItem->itemType() == AbstractProjectItem::SubClipItem) {
+        if (parentItem->itemType() == AbstractProjectItem::SubClipItem || parentItem->itemType() == AbstractProjectItem::SubSequenceItem) {
             // effect only supported on clip items
             parentItem = std::static_pointer_cast<ProjectSubClip>(parentItem)->getMasterClip();
         }
@@ -5232,13 +5236,23 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
         }
         break;
     }
+    case AbstractProjectItem::SubSequenceItem: {
+        auto subClip = std::static_pointer_cast<PlaylistSubClip>(item);
+        std::shared_ptr<PlaylistClip> master = std::static_pointer_cast<PlaylistClip>(subClip->getMasterClip());
+        if (!master || !master->statusReady()) {
+            return;
+        }
+        openProducer(master, subClip->sequenceUuid());
+        break;
+    }
     case AbstractProjectItem::SubClipItem: {
         auto subClip = std::static_pointer_cast<ProjectSubClip>(item);
-        QPoint zone = subClip->zone();
         std::shared_ptr<ProjectClip> master = subClip->getMasterClip();
-        if (master && master->statusReady()) {
-            openProducer(master, zone.x(), zone.y() + 1);
+        if (!master || !master->statusReady()) {
+            return;
         }
+        QPoint zone = subClip->zone();
+        openProducer(master, zone.x(), zone.y() + 1);
         break;
     }
     case AbstractProjectItem::FolderItem:
