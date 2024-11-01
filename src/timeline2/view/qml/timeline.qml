@@ -1584,7 +1584,6 @@ Rectangle {
                             frame = Math.min(spacerMaxPos, frame)
                         }
                         finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping, true)[0]
-                        console.log('MOVING SPACE TO FRAME: ', finalSpacerFrame)
                         if (spacerGuides && finalSpacerFrame > -1) {
                             timeline.spacerMoveGuides(selectedGuides, finalSpacerFrame - lastPos)
                         }

@@ -1473,8 +1473,19 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     if (m_editMode != TimelineMode::NormalEdit) {
         fakeMove = true;
     }
-    int currentPos = fakeMove ? m_allClips[clipId]->getFakePosition() : getClipPosition(clipId);
-    int offset = fakeMove ? getClipPosition(clipId) - currentPos : 0;
+    int currentPos;
+    int offset = 0;
+    if (fakeMove) {
+        currentPos = m_allClips[clipId]->getFakePosition();
+        if (currentPos < 0) {
+            currentPos = getClipPosition(clipId);
+        } else {
+            offset = getClipPosition(clipId) - currentPos;
+        }
+    } else {
+        currentPos = getClipPosition(clipId);
+    }
+
     int sourceTrackId = fakeMove ? m_allClips[clipId]->getFakeTrackId() : getClipTrackId(clipId);
     if (sourceTrackId > -1 && getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(sourceTrackId)->isAudioTrack()) {
         // Trying move on incompatible track type, stay on same track
@@ -1565,7 +1576,6 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     // we check if move is possible
     bool possible = fakeMove ? requestFakeClipMove(clipId, trackId, position, true, false, false)
                              : requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false);
-
     if (possible) {
         TRACE_RES(position);
         if (fakeMove) {

@@ -21,6 +21,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "mainwindow.h"
 #include "monitor/monitor.h"
 #include "project/projectmanager.h"
+#include "snapmodel.hpp"
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -585,6 +586,7 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
             }
         }
         spacerMinPosition = timeline->getItemPosition(firstCid) - spaceDuration;
+        timeline->m_snaps->addPoint(spacerMinPosition);
         spacerMaxPosition = spaceAfterDuration > -1 ? spaceAfterDuration + timeline->getItemPosition(firstCid) : -1;
         return {firstCid, spaceDuration};
     }
@@ -606,6 +608,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     }
 
     // Move group back to original position
+    timeline->m_snaps->removePoint(spacerMinPosition);
     spacerMinPosition = -1;
     spacerMaxPosition = -1;
     int track = timeline->getItemTrackId(itemId);
