@@ -97,8 +97,6 @@ public:
 
     void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) override;
     void setThumbFrame(int frame) override;
-    /** @brief Returns a unique hash identifier used to store clip thumbnails. */
-    // virtual void hash() = 0;
 
     /** @brief Returns this if @param id matches the clip's id or nullptr otherwise. */
     std::shared_ptr<ProjectClip> clip(const QString &id) override;
@@ -148,6 +146,12 @@ public:
     GenTime duration() const;
     size_t frameDuration() const;
 
+    /** @brief The clip hash created from the clip's resource, plus the video stream in case of multi-stream clips. */
+    virtual const QString hashForThumbs();
+    /** @brief Get the frame position used for Bin clip thumbnail
+     */
+    virtual int getThumbFrame() const;
+
     /** @brief Returns the original clip's fps. */
     double getOriginalFps() const;
     /** @brief Returns the original clip's fps as {frame_rate_num, frame_rate_den}. */
@@ -162,13 +166,10 @@ public:
     QPixmap thumbnail(int width, int height);
 
     /** @brief Returns this clip's producer. */
-    std::unique_ptr<Mlt::Producer> getThumbProducer() override;
+    std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &uuid = QUuid()) override;
 
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
-
-    /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
-    void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false);
 
     /** @brief Get an XML property from MLT produced xml. */
     static QString getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue = QString());
@@ -177,8 +178,7 @@ public:
 
     /** @brief The clip hash created from the clip's resource. */
     const QString hash(bool createIfEmpty = true);
-    /** @brief The clip hash created from the clip's resource, plus the video stream in case of multi-stream clips. */
-    const QString hashForThumbs();
+
     /** @brief Callculate a file hash from a path. */
     static const QPair<QByteArray, qint64> calculateHash(const QString &path);
 
@@ -237,10 +237,8 @@ public:
     void updateZones();
     /** @brief Display Bin thumbnail given a percent
      */
-    void getThumbFromPercent(int percent, bool storeFrame = false);
-    /** @brief Get the frame position used for Bin clip thumbnail
-     */
-    int getThumbFrame() const;
+    virtual int getThumbFromPercent(int percent, bool storeFrame = false);
+
     /** @brief Return audio cache for a stream
      */
     const QVector <uint8_t> audioFrameCache(int stream = -1);
@@ -283,10 +281,12 @@ public:
     const QString isReferenced(const QUuid &activeUuid) const;
     const QString baseThumbPath();
     /** @brief Returns false if the clip is or embeds a timeline with uuid. */
-    bool canBeDropped(const QUuid &uuid) const;
+    virtual bool canBeDropped(const QUuid &) const;
     const QList<QUuid> registeredUuids() const;
     /** @brief Get the sequence's unique identifier, empty if not a sequence clip. */
-    const QUuid &getSequenceUuid() const;
+    virtual const QUuid getSequenceUuid() const;
+    /** @brief Set properties on this clip. TODO: should we store all in MLT or use extra m_properties ?. */
+    virtual void setProperties(const QMap<QString, QString> &properties, bool refreshPanel = false);
     void resetSequenceThumbnails();
     /** @brief Returns the clip name (usually file name) */
     QString clipName();
@@ -305,9 +305,24 @@ public:
     bool hasVariableFps();
     /** @brief Get the unique and unmutable uuid for this project clip */
     const QString getControlUuid() const;
+    virtual size_t sequenceFrameDuration(const QUuid &);
 
 protected:
     friend class ClipModel;
+    QMutex m_thumbMutex;
+    /** @brief the following holds a producer for each audio clip in the timeline
+     * keys are the id of the clips in the timeline, values are their values */
+    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_audioProducers;
+    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
+    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
+    std::shared_ptr<Mlt::Producer> m_disabledProducer;
+
+    /** @brief This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled */
+    virtual void createDisabledMasterProducer();
+    virtual const QString getSequenceResource();
+    virtual void removeSequenceWarpResources();
+    /** @brief Generate and store file hash if not available. */
+    virtual const QString getFileHash();
     /** @brief This is a call-back called by a ClipModel when it is created
         @param timeline ptr to the pointer in which this ClipModel is inserted
         @param clipId id of the inserted clip
@@ -336,6 +351,7 @@ public Q_SLOTS:
 
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &, int in, int out, bool inCache = false);
+    virtual void setSequenceThumbnail(const QImage &, const QUuid &uuid, bool inCache = false);
 
     /** @brief A proxy clip is available or disabled, update path and reload */
     void updateProxyProducer(const QString &path);
@@ -358,7 +374,7 @@ public Q_SLOTS:
      *  @param replaceProducer If true, we replace existing producer with this one
      *  @returns true if producer was changed
      * . */
-    bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb = false, bool clearTrackProducers = true);
+    virtual bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool generateThumb = false, bool clearTrackProducers = true);
 
     void importJsonMarkers(const QString &json);
     /** @brief Refresh zones of insertion in timeline. */
@@ -367,32 +383,18 @@ public Q_SLOTS:
     void checkProxy(bool rebuildProxy = false);
 
 private:
-    /** @brief Generate and store file hash if not available. */
-    const QString getFileHash();
     QMutex m_producerMutex;
-    QMutex m_thumbMutex;
     QByteArray m_thumbXml;
     const QString geometryWithOffset(const QString &data, int offset);
     QMap <QString, QByteArray> m_audioLevels;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
     bool m_resetTimelineOccurences;
 
-    /** @brief This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled */
-    void createDisabledMasterProducer();
     QMap<QUuid, QList<int>> m_registeredClipsByUuid;
     QTimer m_boundaryTimer;
 
-    /** @brief the following holds a producer for each audio clip in the timeline
-     * keys are the id of the clips in the timeline, values are their values */
-    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_audioProducers;
-    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_videoProducers;
-    std::unordered_map<int, std::shared_ptr<Mlt::Producer>> m_timewarpProducers;
-    std::shared_ptr<Mlt::Producer> m_disabledProducer;
     // A temporary uuid used to reset thumbnails on producer change
     QUuid m_uuid;
-    // The sequence unique identifier
-    QUuid m_sequenceUuid;
-    QTemporaryFile m_sequenceThumbFile;
     /** @brief Update the clip description from the properties. */
     void updateDescription();
 

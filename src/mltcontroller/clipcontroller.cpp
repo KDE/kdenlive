@@ -179,6 +179,12 @@ const QByteArray ClipController::producerXml(Mlt::Producer producer, bool includ
     if (!producer.is_valid()) {
         return QByteArray();
     }
+    Mlt::Service s(producer.parent());
+    Mlt::Properties retainList(mlt_properties(s.get_data("xml_retain")));
+    if (retainList.is_valid()) {
+        Mlt::Playlist playlist(mlt_playlist(retainList.get_data("main_bin")));
+        producer.set("xml_retain main_bin", playlist.get_service(), 0);
+    }
     c.set("time_format", "frames");
     if (!includeMeta) {
         c.set("no_meta", 1);
@@ -1200,4 +1206,10 @@ bool ClipController::removeMarkerCategories(QList<int> toRemove, const QMap<int,
         }
     }
     return found;
+}
+
+std::shared_ptr<Mlt::Producer> ClipController::sequenceProducer(const QUuid &)
+{
+    QReadLocker lock(&m_producerLock);
+    return m_masterProducer;
 }

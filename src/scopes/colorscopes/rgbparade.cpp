@@ -140,8 +140,8 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
     timer.start();
 
     int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
-    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), devicePixelRatioF(), qimage, RGBParadeGenerator::PaintMode(paintmode), m_aAxis->isChecked(),
-                                                             m_aGradRef->isChecked(), accelerationFactor);
+    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), devicePixelRatioF(), qimage, RGBParadeGenerator::PaintMode(paintmode),
+                                                             m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor);
     Q_EMIT signalScopeRenderingFinished(uint(timer.elapsed()), accelerationFactor);
     return parade;
 }

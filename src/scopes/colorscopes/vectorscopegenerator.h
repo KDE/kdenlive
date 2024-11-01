@@ -23,8 +23,9 @@ public:
     enum ColorSpace { ColorSpace_YUV, ColorSpace_YPbPr };
     enum PaintMode { PaintMode_Green, PaintMode_Green2, PaintMode_Original, PaintMode_Chroma, PaintMode_YUV, PaintMode_Black };
 
-    QImage calculateVectorscope(const QSize &vectorscopeSize, qreal scalingFactor, const QImage &image, const float &gain, const VectorscopeGenerator::PaintMode &paintMode,
-                                const VectorscopeGenerator::ColorSpace &colorSpace, bool, uint accelFactor = 1) const;
+    QImage calculateVectorscope(const QSize &vectorscopeSize, qreal scalingFactor, const QImage &image, const float &gain,
+                                const VectorscopeGenerator::PaintMode &paintMode, const VectorscopeGenerator::ColorSpace &colorSpace, bool,
+                                uint accelFactor = 1) const;
 
     QPoint mapToCircle(const QSize &targetSize, const QPointF &point) const;
     static const double scaling;

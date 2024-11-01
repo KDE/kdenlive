@@ -16,8 +16,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 HistogramGenerator::HistogramGenerator() = default;
 
-QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const int &components, ITURec rec, bool unscaled, bool logScale,
-                                              uint accelFactor) const
+QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const int &components, ITURec rec,
+                                              bool unscaled, bool logScale, uint accelFactor) const
 {
     if (paradeSize.height() <= 0 || paradeSize.width() <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();

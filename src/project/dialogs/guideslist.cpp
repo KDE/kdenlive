@@ -57,7 +57,7 @@ public:
     {
         if (role == Qt::DisplayRole) {
             return QStringLiteral("%1 %2").arg(QIdentityProxyModel::data(index, MarkerListModel::TCRole).toString(),
-                                        QIdentityProxyModel::data(index, role).toString());
+                                               QIdentityProxyModel::data(index, role).toString());
         }
         return sourceModel()->data(mapToSource(index), role);
     }

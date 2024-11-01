@@ -223,13 +223,13 @@ QString Timecode::getStringTimecode(int frames, const double &fps, bool showFram
     seconds = seconds % 60;
     int hours = minutes / 60;
     minutes = minutes % 60;
-    QString text = showFrames
-                       ? QStringLiteral("%1:%2:%3.%4")
-                             .arg(hours, 2, 10, QLatin1Char('0'))
-                             .arg(minutes, 2, 10, QLatin1Char('0'))
-                             .arg(seconds, 2, 10, QLatin1Char('0'))
-                             .arg(frms, fps > 100 ? 3 : 2, 10, QLatin1Char('0'))
-                       : QStringLiteral("%1:%2:%3").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0'));
+    QString text =
+        showFrames ? QStringLiteral("%1:%2:%3.%4")
+                         .arg(hours, 2, 10, QLatin1Char('0'))
+                         .arg(minutes, 2, 10, QLatin1Char('0'))
+                         .arg(seconds, 2, 10, QLatin1Char('0'))
+                         .arg(frms, fps > 100 ? 3 : 2, 10, QLatin1Char('0'))
+                   : QStringLiteral("%1:%2:%3").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0'));
     if (negative) {
         text.prepend('-');
     }

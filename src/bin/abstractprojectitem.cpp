@@ -98,7 +98,7 @@ void AbstractProjectItem::removeRef()
                                                                        {AbstractProjectItem::UsageCount});
 }
 
-const QString &AbstractProjectItem::clipId() const
+const QString &AbstractProjectItem::clipId(bool) const
 {
     return m_binId;
 }

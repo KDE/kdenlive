@@ -35,6 +35,8 @@ class ClipController
 {
 public:
     friend class Bin;
+    friend class ClipPropertiesController;
+    friend class Monitor;
     /**
      * @brief Constructor.
      The constructor is protected because you should call the static Construct instead
@@ -76,10 +78,10 @@ public:
     const QString binId() const;
 
     /** @brief Returns this clip's producer. */
-    virtual std::unique_ptr<Mlt::Producer> getThumbProducer() = 0;
+    virtual std::unique_ptr<Mlt::Producer> getThumbProducer(const QUuid &uuid = QUuid()) = 0;
+    virtual void setThumbFrame(int frame) = 0;
 
     virtual void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false) = 0;
-    virtual void setThumbFrame(int frame) = 0;
 
     /** @brief Rename an audio stream. */
     virtual void renameAudioStream(int id, const QString &name) = 0;
@@ -137,6 +139,8 @@ public:
 
     /** @brief Returns the original master producer. */
     std::shared_ptr<Mlt::Producer> originalProducer();
+    /** @brief Returns a timeline sequence producer if this is a playlist clip */
+    virtual std::shared_ptr<Mlt::Producer> sequenceProducer(const QUuid &);
 
     /** @brief Holds index of currently selected master clip effect. */
     int selectedEffectIndex;
@@ -241,6 +245,8 @@ protected:
     QString m_temporaryUrl;
     /** @brief A unique id identifying this clip, will never change. */
     QUuid m_controlUuid;
+    // Extra properties set by the clip
+    QMap<QString, QString> m_extraProperties;
 
 private:
     /** @brief Temporarily store clip properties until producer is available */

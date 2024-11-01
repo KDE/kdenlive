@@ -22,8 +22,8 @@ WaveformGenerator::WaveformGenerator() = default;
 
 WaveformGenerator::~WaveformGenerator() = default;
 
-QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const qreal scalingFactor, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis, ITURec rec,
-                                            uint accelFactor)
+QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const qreal scalingFactor, const QImage &image, WaveformGenerator::PaintMode paintMode,
+                                            bool drawAxis, ITURec rec, uint accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 

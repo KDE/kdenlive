@@ -211,7 +211,7 @@ public:
     void emitItemUpdated(std::shared_ptr<AbstractProjectItem> item);
 
     /** @brief Open a producer in the clip monitor */
-    void openProducer(std::shared_ptr<ProjectClip> controller);
+    void openProducer(std::shared_ptr<ProjectClip> controller, const QUuid &sequenceUuid = QUuid());
     void openProducer(std::shared_ptr<ProjectClip> controller, int in, int out);
 
     /** @brief Get a clip from it's id */
@@ -643,7 +643,7 @@ Q_SIGNALS:
     void requesteInvalidRemoval(const QString &, const QString &, const QString &);
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);
-    void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1);
+    void openClip(std::shared_ptr<ProjectClip> c, int in = -1, int out = -1, const QUuid sequenceUuid = QUuid());
     /** @brief Fill context menu with occurrences of this clip in timeline. */
     void findInTimeline(const QString &, QList<int> ids = QList<int>());
     void clipNameChanged(int, const QString);

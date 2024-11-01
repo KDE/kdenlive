@@ -160,7 +160,8 @@ void AudioLevelWidget::drawBackground(int channels)
             y = qBound(0, y, newSize.height() - labelHeight);
             if (prevY < 0 || prevY - y > 2) {
                 const QString label = QString::asprintf("%d", gains.at(i));
-                p.drawText(QRectF(m_offset + newWidth, y, (m_pixmap.width() / scalingFactor) - (m_offset + newWidth) - 2, labelHeight), label, QTextOption(Qt::AlignRight));
+                p.drawText(QRectF(m_offset + newWidth, y, (m_pixmap.width() / scalingFactor) - (m_offset + newWidth) - 2, labelHeight), label,
+                           QTextOption(Qt::AlignRight));
                 prevY = qMax(0, y - labelHeight);
             }
         }

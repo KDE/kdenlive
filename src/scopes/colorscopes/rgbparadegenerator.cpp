@@ -30,8 +30,8 @@ struct StructRGB
 
 RGBParadeGenerator::RGBParadeGenerator() = default;
 
-QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const RGBParadeGenerator::PaintMode paintMode, bool drawAxis,
-                                              bool drawGradientRef, uint accelFactor)
+QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal scalingFactor, const QImage &image, const RGBParadeGenerator::PaintMode paintMode,
+                                              bool drawAxis, bool drawGradientRef, uint accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
