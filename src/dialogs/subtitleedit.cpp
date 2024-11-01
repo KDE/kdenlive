@@ -443,9 +443,9 @@ void SubtitleEdit::slotZoomIn()
 {
     qreal fontSize;
     if (m_isSimpleEdit) {
-        fontSize = QFontInfo(simpleSubText->currentFont()).pointSizeF() * 1.2;
+        fontSize = simpleSubText->fontPointSize() * 1.2;
     } else {
-        fontSize = QFontInfo(subText->currentFont()).pointSizeF() * 1.2;
+        fontSize = subText->fontPointSize() * 1.2;
     }
     KdenliveSettings::setSubtitleEditFontSize(fontSize);
     applyFontSize();
@@ -455,9 +455,9 @@ void SubtitleEdit::slotZoomOut()
 {
     qreal fontSize;
     if (m_isSimpleEdit) {
-        fontSize = QFontInfo(simpleSubText->currentFont()).pointSizeF() / 1.2;
+        fontSize = simpleSubText->fontPointSize() / 1.2;
     } else {
-        fontSize = QFontInfo(subText->currentFont()).pointSizeF() / 1.2;
+        fontSize = subText->fontPointSize() / 1.2;
     }
     fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
     KdenliveSettings::setSubtitleEditFontSize(fontSize);
@@ -480,9 +480,10 @@ void SubtitleEdit::applyFontSize()
             simpleSubText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
             simpleSubText->setTextCursor(cursor);
         } else {
-            QTextCursor cursor = subText->textCursor();
             subText->selectAll();
             subText->setFontPointSize(KdenliveSettings::subtitleEditFontSize());
+            QTextCursor cursor = subText->textCursor();
+            cursor.movePosition(QTextCursor::End);
             subText->setTextCursor(cursor);
         }
     }
