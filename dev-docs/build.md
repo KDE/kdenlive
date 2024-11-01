@@ -61,11 +61,12 @@ Or install the dependencies explicitly:
 sudo apt install qt6-base-dev qt6-svg-dev qt6-multimedia-dev qt6-networkauth-dev
 
 # KDE Frameworks 6, based on Qt6
-sudo apt install kf6-karchive-dev kf6-kbookmarks-dev kf6-kcodecs-dev kf6-kcoreaddons-dev \
-kf6-kconfig-dev kf6-kconfigwidgets-dev kf6-kio-dev kf6-kwidgetsaddons-dev kf6-knotifyconfig-dev \
-kf6-knewstuff-dev kf6-kxmlgui-dev kf6-knotifications-dev kf6-kguiaddons-dev kf6-ktextwidgets-dev \
-kf6-kiconthemes-dev kf6-solid-dev kf6-kfilemetadata-dev kf6-purpose-dev \
-kf6-kdoctools-dev kf6-kcrash-dev kf6-kdbusaddons-dev kf6-breeze-icon-theme-dev
+sudo apt install kf6-breeze-icon-theme libkf6archive-dev libkf6bookmarks-dev \
+libkf6codecs-dev libkf6config-dev libkf6configwidgets-dev libkf6coreaddons-dev \
+libkf6crash-dev libkf6dbusaddons-dev libkf6doctools-dev libkf6filemetadata-dev \
+libkf6guiaddons-dev libkf6iconthemes-dev libkf6kio-dev libkf6newstuff-dev \
+libkf6notifications-dev libkf6notifyconfig-dev libkf6purpose-dev \
+libkf6solid-dev libkf6textwidgets-dev libkf6widgetsaddons-dev libkf6xmlgui-dev
 
 # Multimedia stack
 sudo apt install frei0r-plugins ffmpeg
