@@ -540,6 +540,10 @@ void SubtitleEdit::updateSubtitle()
 
 void SubtitleEdit::setActiveSubtitle(int id)
 {
+    if (m_model == nullptr || (m_activeSub == id && id < 0)) {
+        // Nothing to do
+        return;
+    }
     m_activeSub = id;
     buttonApply->setEnabled(false);
     buttonCut->setEnabled(false);
@@ -669,6 +673,7 @@ void SubtitleEdit::setActiveSubtitle(int id)
             scrollLower->setEnabled(false);
             editEffects->setEnabled(true);
         }
+        applyFontSize();
     } else {
         tc_position->setEnabled(false);
         tc_end->setEnabled(false);
@@ -681,7 +686,6 @@ void SubtitleEdit::setActiveSubtitle(int id)
         simpleSubText->clear();
     }
     updateCharInfo();
-    applyFontSize();
 }
 
 void SubtitleEdit::goToPrevious()
