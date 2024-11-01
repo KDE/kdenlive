@@ -2,7 +2,7 @@
 
 ## Supported platforms
 
-Kdenlive is primarily developed on GNU/Linux, but it is also possible to [build Kdenlive on Microsoft Windows and macOS using Craft](#build-craft). For Windows also [other possibilities exist](https://community.kde.org/Kdenlive/Development/WindowsBuild). 
+Kdenlive is primarily developed on GNU/Linux, but it is also possible to [build Kdenlive on Microsoft Windows and macOS using Craft](#build-craft). For Windows also [other possibilities exist](https://community.kde.org/Kdenlive/Development/WindowsBuild).
 
 Currently supported distributions are:
 
@@ -26,7 +26,7 @@ sudo add-apt-repository ppa:kdenlive/kdenlive-master
 sudo apt update
 ```
 
-It is recommended to uninstall the official kdenlive packages to avoid potential conflicts. 
+It is recommended to uninstall the official kdenlive packages to avoid potential conflicts.
 
 ```bash
 sudo apt remove kdenlive kdenlive-data
@@ -58,7 +58,8 @@ Or install the dependencies explicitly:
 
 ```bash
 # Qt6 modules
-sudo apt install qt6-base-dev qt6-svg-dev qt6-multimedia-dev qt6-networkauth-dev
+sudo apt install qt6-base-dev qt6-svg-dev qt6-multimedia-dev qt6-networkauth-dev \
+qml6-module-qtqml-workerscript qml6-module-qtquick-window qml6-module-org-kde-desktop
 
 # KDE Frameworks 6, based on Qt6
 sudo apt install kf6-breeze-icon-theme libkf6archive-dev libkf6bookmarks-dev \
@@ -69,9 +70,9 @@ libkf6notifications-dev libkf6notifyconfig-dev libkf6purpose-dev \
 libkf6solid-dev libkf6textwidgets-dev libkf6widgetsaddons-dev libkf6xmlgui-dev
 
 # Multimedia stack
-sudo apt install frei0r-plugins ffmpeg
+sudo apt install frei0r-plugins ffmpeg mediainfo
 
-# MLT, except if you want to build it manually 
+# MLT, except if you want to build it manually
 sudo apt install libmlt++-dev libmlt-dev melt
 
 # Dependencies for localization
