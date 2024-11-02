@@ -2793,6 +2793,7 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
                     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
                 }
             } else {
+                timeline->m_snaps->removePoint(spacerMinPosition);
                 if (timeline->getSubtitleModel()->isBlankAt(-1, blankStart)) {
                     blankStart = timeline->getSubtitleModel()->getBlankEnd(-1, blankStart) + 1;
                     if (blankStart == 1) {
@@ -2840,6 +2841,7 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
                     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
                 }
             } else {
+                timeline->m_snaps->removePoint(spacerMinPosition);
                 if (timeline->getTrackById_const(trackId)->isBlankAt(blankStart)) {
                     blankStart = timeline->getTrackById_const(trackId)->getBlankEnd(blankStart) + 1;
                 } else {
