@@ -632,8 +632,8 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
         m_translateAction->setEnabled(KdenliveSettings::speechEngine() == QLatin1String("whisper"));
     });
 
-    m_voskConfig = new QAction(i18n("Configure"), this);
-    connect(m_voskConfig, &QAction::triggered, this, [this]() {
+    m_speechConfig = new QAction(i18n("Configure"), this);
+    connect(m_speechConfig, &QAction::triggered, this, [this]() {
         info_message->animatedHide();
         pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech);
     });
@@ -690,38 +690,15 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
             m_tCodeJob->kill();
         }
     });
-    connect(pCore.get(), &Core::voskModelUpdate, this, [&](const QStringList &models) {
-        if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+    connect(pCore.get(), &Core::speechModelUpdate, this, [&](SpeechToTextEngine::EngineType engine, const QStringList &models) {
+        if (engine == SpeechToTextEngine::EngineWhisper) {
+            if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
+                buildWhisperModelsList(models);
+            }
             return;
         }
-        m_modelsMenu->clear();
-        delete m_modelsGroup;
-        m_modelsGroup = new QActionGroup(this);
-        QAction *a = nullptr;
-        for (auto &m : models) {
-            a = m_modelsMenu->addAction(m);
-            a->setData(m);
-            a->setCheckable(true);
-            m_modelsGroup->addAction(a);
-        }
-        if (models.isEmpty()) {
-            showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_voskConfig);
-        } else {
-            bool found = false;
-            QList<QAction *> acts = m_modelsMenu->actions();
-            if (!KdenliveSettings::vosk_text_model().isEmpty() && models.contains(KdenliveSettings::vosk_text_model())) {
-                for (auto &a : acts) {
-                    if (a->data().toString() == KdenliveSettings::vosk_text_model()) {
-                        a->setChecked(true);
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found && !acts.isEmpty()) {
-                QAction *a = acts.first();
-                a->setChecked(true);
-            }
+        if (engine == SpeechToTextEngine::EngineVosk && KdenliveSettings::speechEngine() == QLatin1String("vosk")) {
+            buildVoskModelsList(models);
         }
     });
     connect(m_modelsMenu, &QMenu::triggered, this, [this](QAction *a) {
@@ -872,31 +849,12 @@ void TextBasedEdit::updateEngine()
 {
     delete m_stt;
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
-        m_stt = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
+        m_stt = new SpeechToTextWhisper(this);
         m_modelsMenu->clear();
-        delete m_modelsGroup;
-        m_modelsGroup = new QActionGroup(this);
-        QList<std::pair<QString, QString>> whisperModels = m_stt->whisperModels();
-        QAction *a = nullptr;
-        bool found = false;
-        for (auto &w : whisperModels) {
-            a = m_modelsMenu->addAction(w.first);
-            a->setCheckable(true);
-            a->setData(w.second);
-            m_modelsGroup->addAction(a);
-            if (w.second == KdenliveSettings::whisperModel()) {
-                a->setChecked(true);
-                found = true;
-            }
-        }
-        if (!found) {
-            QList<QAction *> acts = m_modelsMenu->actions();
-            if (!acts.isEmpty()) {
-                acts.first()->setChecked(true);
-            }
-        }
+        const QStringList whisperModels = m_stt->getInstalledModels();
+        buildWhisperModelsList(whisperModels);
         language_box->clear();
-        QMap<QString, QString> languages = m_stt->whisperLanguages();
+        QMap<QString, QString> languages = m_stt->speechLanguages();
         QMapIterator<QString, QString> j(languages);
         while (j.hasNext()) {
             j.next();
@@ -911,8 +869,76 @@ void TextBasedEdit::updateEngine()
     } else {
         // VOSK
         language_box->setVisible(false);
-        m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
-        m_stt->parseVoskDictionaries();
+        m_stt = new SpeechToTextVosk(this);
+        m_stt->getInstalledModels();
+    }
+}
+
+void TextBasedEdit::buildVoskModelsList(const QStringList models)
+{
+    m_modelsMenu->clear();
+    delete m_modelsGroup;
+    m_modelsGroup = new QActionGroup(this);
+    if (models.isEmpty()) {
+        showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_speechConfig);
+        return;
+    }
+    QAction *a = nullptr;
+    for (auto &m : models) {
+        a = m_modelsMenu->addAction(m);
+        a->setData(m);
+        a->setCheckable(true);
+        m_modelsGroup->addAction(a);
+    }
+
+    bool found = false;
+    QList<QAction *> acts = m_modelsMenu->actions();
+    if (!KdenliveSettings::vosk_text_model().isEmpty() && models.contains(KdenliveSettings::vosk_text_model())) {
+        for (auto &a : acts) {
+            if (a->data().toString() == KdenliveSettings::vosk_text_model()) {
+                a->setChecked(true);
+                found = true;
+                break;
+            }
+        }
+    }
+    if (!found && !acts.isEmpty()) {
+        QAction *a = acts.first();
+        a->setChecked(true);
+    }
+}
+
+void TextBasedEdit::buildWhisperModelsList(const QStringList whisperModels)
+{
+    m_modelsMenu->clear();
+    delete m_modelsGroup;
+    m_modelsGroup = new QActionGroup(this);
+    if (whisperModels.isEmpty()) {
+        showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_speechConfig);
+        return;
+    }
+    QAction *a = nullptr;
+    bool found = false;
+    for (auto &w : whisperModels) {
+        if (w.isEmpty()) {
+            continue;
+        }
+        QString modelName = w;
+        modelName[0] = w.at(0).toUpper();
+        a = m_modelsMenu->addAction(modelName);
+        a->setCheckable(true);
+        a->setData(w);
+        m_modelsGroup->addAction(a);
+        if (w == KdenliveSettings::whisperModel()) {
+            a->setChecked(true);
+            found = true;
+        }
+    }
+    if (!found) {
+        QList<QAction *> acts = m_modelsMenu->actions();
+        if (!acts.isEmpty()) {
+            acts.first()->setChecked(true);
+        }
     }
 }
 
@@ -960,7 +986,7 @@ void TextBasedEdit::startRecognition()
     if (KdenliveSettings::speechEngine() == QLatin1String("whisper")) {
         // Whisper engine
         if (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("openai-whisper")}).isEmpty()) {
-            showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_voskConfig);
+            showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_speechConfig);
             return;
         }
         if (m_modelsGroup->checkedAction()) {
@@ -976,7 +1002,7 @@ void TextBasedEdit::startRecognition()
     } else {
         // VOSK engine
         if (!m_stt->checkSetup() || !m_stt->missingDependencies({QStringLiteral("vosk")}).isEmpty()) {
-            showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_voskConfig);
+            showMessage(i18n("Please configure speech to text."), KMessageWidget::Warning, m_speechConfig);
             return;
         }
         // Start python script
@@ -984,10 +1010,10 @@ void TextBasedEdit::startRecognition()
             modelName = m_modelsGroup->checkedAction()->data().toString();
         }
         if (modelName.isEmpty()) {
-            showMessage(i18n("Please install a language model."), KMessageWidget::Warning, m_voskConfig);
+            showMessage(i18n("Please install a language model."), KMessageWidget::Warning, m_speechConfig);
             return;
         }
-        modelDirectory = m_stt->voskModelPath();
+        modelDirectory = m_stt->modelFolder();
     }
     m_binId = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
     std::shared_ptr<AbstractProjectItem> clip = pCore->projectItemModel()->getItemByBinId(m_binId);
@@ -1164,7 +1190,7 @@ void TextBasedEdit::slotProcessSpeechStatus(int, QProcess::ExitStatus status)
     } else if (m_visualEditor->toPlainText().isEmpty()) {
         enableEditActions(false);
         if (m_errorString.contains(QStringLiteral("ModuleNotFoundError"))) {
-            showMessage(i18n("Error, please check the speech to text configuration."), KMessageWidget::Warning, m_voskConfig);
+            showMessage(i18n("Error, please check the speech to text configuration."), KMessageWidget::Warning, m_speechConfig);
         } else {
             showMessage(i18n("No speech detected."), KMessageWidget::Information, m_errorString.isEmpty() ? nullptr : m_logAction);
         }

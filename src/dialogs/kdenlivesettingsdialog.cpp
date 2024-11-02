@@ -19,6 +19,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "profilesdialog.h"
 #include "project/dialogs/guidecategories.h"
 #include "project/dialogs/profilewidget.h"
+#include "pythoninterfaces/dialogs/modeldownloadwidget.h"
+#include "pythoninterfaces/speechtotextvosk.h"
+#include "pythoninterfaces/speechtotextwhisper.h"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
 #include "wizard.h"
@@ -1768,11 +1771,9 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
 
 void KdenliveSettingsDialog::initSpeechPage()
 {
-    m_stt = new SpeechToText(SpeechToText::EngineType::EngineVosk, this);
-    m_sttWhisper = new SpeechToText(SpeechToText::EngineType::EngineWhisper, this);
-    m_configSpeech.whisperInfo->setWordWrap(true);
-    m_configSpeech.whisperInfo->setText(
-        i18n("On first run, Whisper will <b>download the chosen model</b>. After that, processing will happen offline. Cpu processing is very slow."));
+    m_stt = new SpeechToTextVosk(this);
+    m_sttWhisper = new SpeechToTextWhisper(this);
+
     // Python env info label
     PythonDependencyMessage *pythonEnvLabel = new PythonDependencyMessage(this, m_sttWhisper, true);
     m_configEnv.message_layout_2->addWidget(pythonEnvLabel);
@@ -1787,32 +1788,40 @@ void KdenliveSettingsDialog::initSpeechPage()
         QSignalBlocker bk(m_configEnv.kcfg_usePythonVenv);
         m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
     });
+    m_configSpeech.noModelMessage->hide();
     m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
-    connect(m_configSpeech.kcfg_enableSeamless, &QCheckBox::toggled, [this](bool toggled) {
-        m_sttWhisper->buildWhisperDeps(toggled);
-        m_sttWhisper->checkDependencies(true);
-        if (toggled) {
-            m_configSpeech.whisperInfo->setText(
-                i18n("On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After that, translations will happen offline."));
-        } else {
-            m_configSpeech.whisperInfo->setText(
-                i18n("On first run, Whisper will <b>download the chosen model</b>. After that, processing will happen offline. Cpu processing is very slow."));
+    m_downloadModelAction = new QAction(i18n("Download (1.4Gb)"), this);
+    connect(m_downloadModelAction, &QAction::triggered, [this]() {
+        disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog);
+        if (m_sttWhisper->installNewModel(QStringLiteral("turbo"))) {
+            reloadWhisperModels();
         }
+        connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
+    });
+    // Fill models list
+    reloadWhisperModels();
+    const QString seamlessModelScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/seamlessquery.py"));
+    ModelDownloadWidget *modelDownload = new ModelDownloadWidget(m_sttWhisper, seamlessModelScript, {QStringLiteral("task=download")}, this);
+    connect(modelDownload, &ModelDownloadWidget::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
+    connect(modelDownload, &ModelDownloadWidget::jobDone, this, [this](bool success) {
+        KdenliveSettings::setEnableSeamless(success);
+        if (!success) {
+            m_configSpeech.install_seamless->setEnabled(true);
+        }
+        m_configSpeech.install_seamless->setText(i18n("Install multilingual translation"));
+    });
+    m_configSpeech.seamless_layout->addWidget(modelDownload);
+    modelDownload->setVisible(false);
+    connect(m_configSpeech.install_seamless, &QPushButton::clicked, this, [this]() {
+        const QString scriptPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/requirements-seamless.txt"));
+        if (!scriptPath.isEmpty()) {
+            m_sttWhisper->addDependency(scriptPath, QString());
+        }
+        m_configSpeech.install_seamless->setEnabled(false);
+        m_configSpeech.install_seamless->setText(i18n("Installing multilingual data…"));
+        m_sttWhisper->installMissingDependencies();
     });
 
-    // Basic info about model folders
-    const QString whisperModelFolder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
-    if (!whisperModelFolder.isEmpty()) {
-        m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(whisperModelFolder, i18n("Models folder")));
-        m_configSpeech.model_folder_label->setVisible(true);
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(whisperModelFolder));
-        connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size]() {
-            label->setText(KIO::convertSize(job->totalSize()));
-            job->deleteLater();
-        });
-    } else {
-        m_configSpeech.model_folder_label->setVisible(false);
-    }
     QString voskModelFolder = KdenliveSettings::vosk_folder_path();
     if (voskModelFolder.isEmpty()) {
         voskModelFolder = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("speechmodels"), QStandardPaths::LocateDirectory);
@@ -1896,56 +1905,79 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
 
     // Whisper
-    m_configSpeech.combo_wr_device->addItem(i18n("Probing..."));
+    if (KdenliveSettings::whisperInstalledModels().isEmpty()) {
+        m_configSpeech.combo_wr_model->setPlaceholderText(i18n("Probing..."));
+    }
+
+    m_configSpeech.combo_wr_device->setPlaceholderText(i18n("Probing..."));
+    m_configSpeech.combo_wr_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    m_configSpeech.combo_wr_device->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
     m_configSpeech.message_layout_wr->addWidget(msgWhisper);
-    QList<std::pair<QString, QString>> whisperModels = m_sttWhisper->whisperModels();
-    for (auto &w : whisperModels) {
-        m_configSpeech.combo_wr_model->addItem(w.first, w.second);
-    }
-    int ix = m_configSpeech.combo_wr_model->findData(KdenliveSettings::whisperModel());
-    if (ix > -1) {
-        m_configSpeech.combo_wr_model->setCurrentIndex(ix);
-    }
-    QMap<QString, QString> whisperLanguages = m_sttWhisper->whisperLanguages();
+    QMap<QString, QString> whisperLanguages = m_sttWhisper->speechLanguages();
     QMapIterator<QString, QString> j(whisperLanguages);
     while (j.hasNext()) {
         j.next();
         m_configSpeech.combo_wr_lang->addItem(j.key(), j.value());
     }
-    ix = m_configSpeech.combo_wr_lang->findData(KdenliveSettings::whisperLanguage());
+    int ix = m_configSpeech.combo_wr_lang->findData(KdenliveSettings::whisperLanguage());
     if (ix > -1) {
         m_configSpeech.combo_wr_lang->setCurrentIndex(ix);
     }
     m_configSpeech.script_log->hide();
+    m_configSpeech.script_log->setCenterOnScroll(true);
     connect(m_sttWhisper, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
-    connect(m_sttWhisper, &SpeechToText::installFeedback, [this](const QString jobData) {
-        QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);
-        QMetaObject::invokeMethod(m_configSpeech.script_log, "appendPlainText", Q_ARG(QString, jobData));
+    connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
+    connect(m_sttWhisper, &SpeechToText::scriptFinished, [this, modelDownload, msgWhisper](const QStringList &args) {
+        if (args.join(QLatin1Char(' ')).contains("requirements-seamless.txt")) {
+            m_configSpeech.install_seamless->setText(i18n("Downloading multilingual model…"));
+            modelDownload->setVisible(true);
+            modelDownload->startDownload();
+        }
+        QMetaObject::invokeMethod(msgWhisper, "checkAfterInstall", Qt::QueuedConnection);
     });
-    connect(m_sttWhisper, &SpeechToText::scriptFinished, [msgWhisper]() { QMetaObject::invokeMethod(msgWhisper, "checkAfterInstall", Qt::QueuedConnection); });
+    connect(m_configSpeech.downloadButton, &QPushButton::clicked, [this]() {
+        disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog);
+        if (m_sttWhisper->installNewModel()) {
+            reloadWhisperModels();
+        }
+        connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
+    });
+    checkWhisperFolderSize();
 
-    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QStringList jobData) {
-        m_configSpeech.combo_wr_device->clear();
-        for (auto &s : jobData) {
-            if (s.contains(QLatin1Char('#'))) {
-                m_configSpeech.combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
-            } else {
-                m_configSpeech.combo_wr_device->addItem(s.simplified(), s.simplified());
+    connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
+        Q_UNUSED(args);
+        if (scriptName.contains("checkgpu")) {
+            m_configSpeech.combo_wr_device->clear();
+            for (auto &s : jobData) {
+                if (s.contains(QLatin1Char('#'))) {
+                    m_configSpeech.combo_wr_device->addItem(s.section(QLatin1Char('#'), 1).simplified(), s.section(QLatin1Char('#'), 0, 0).simplified());
+                } else {
+                    m_configSpeech.combo_wr_device->addItem(s.simplified(), s.simplified());
+                }
             }
         }
     });
-    connect(m_sttWhisper, &SpeechToText::scriptGpuCheckFinished, [this]() {
-        if (!KdenliveSettings::whisperDevice().isEmpty()) {
-            int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
-            if (ix > -1) {
-                m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+
+    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, [this, modelDownload](const QString &scriptName, const QStringList &args) {
+        qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
+        if (scriptName.contains("checkgpu")) {
+            if (!KdenliveSettings::whisperDevice().isEmpty()) {
+                int ix = m_configSpeech.combo_wr_device->findData(KdenliveSettings::whisperDevice());
+                if (ix > -1) {
+                    m_configSpeech.combo_wr_device->setCurrentIndex(ix);
+                }
+            } else if (m_configSpeech.combo_wr_device->count() > 0) {
+                m_configSpeech.combo_wr_device->setCurrentIndex(0);
             }
-        } else if (m_configSpeech.combo_wr_device->count() > 0) {
-            m_configSpeech.combo_wr_device->setCurrentIndex(0);
         }
     });
-    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() { m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {}); });
+    connect(m_sttWhisper, &SpeechToText::dependenciesAvailable, this, [&]() {
+        // Check if a GPU is available
+        m_configSpeech.whispersettings->setEnabled(true);
+        m_sttWhisper->runConcurrentScript(QStringLiteral("checkgpu.py"), {});
+    });
+    connect(m_sttWhisper, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { m_configSpeech.whispersettings->setEnabled(false); });
 
     // VOSK
     m_configSpeech.vosk_folder->setPlaceholderText(
@@ -1960,10 +1992,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     });
     connect(m_stt, &SpeechToText::dependenciesMissing, this, [&](const QStringList &) { m_configSpeech.speech_info->animatedHide(); });
     connect(m_stt, &SpeechToText::scriptStarted, [this]() { QMetaObject::invokeMethod(m_configSpeech.script_log, "clear"); });
-    connect(m_stt, &SpeechToText::installFeedback, [this](const QString jobData) {
-        QMetaObject::invokeMethod(m_configSpeech.script_log, "show", Qt::QueuedConnection);
-        QMetaObject::invokeMethod(m_configSpeech.script_log, "appendPlainText", Q_ARG(QString, jobData));
-    });
+    connect(m_stt, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
     connect(m_stt, &SpeechToText::scriptFinished, [msgVosk]() { QMetaObject::invokeMethod(msgVosk, "checkAfterInstall", Qt::QueuedConnection); });
 
     m_speechListWidget = new SpeechList(this);
@@ -1998,6 +2027,67 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
+}
+
+void KdenliveSettingsDialog::reloadWhisperModels()
+{
+    m_configSpeech.combo_wr_model->clear();
+    const QStringList models = m_sttWhisper->getInstalledModels();
+    if (models.isEmpty()) {
+        // Show install button
+        m_configSpeech.noModelMessage->setText(i18n("Install a speech model - we recommand <b>turbo</b>"));
+        m_configSpeech.noModelMessage->addAction(m_downloadModelAction);
+        m_configSpeech.noModelMessage->show();
+        return;
+    }
+    m_configSpeech.noModelMessage->hide();
+    for (auto &m : models) {
+        if (m.isEmpty()) {
+            continue;
+        }
+        QString modelName = m;
+        modelName[0] = m.at(0).toUpper();
+        m_configSpeech.combo_wr_model->addItem(modelName, m);
+        qDebug() << ":::: LOADED MODEL: " << modelName << " = " << m;
+    }
+    int ix = m_configSpeech.combo_wr_model->findData(KdenliveSettings::whisperModel());
+    qDebug() << "LOOKING FOR MODEL: " << KdenliveSettings::whisperModel() << " / IX: " << ix;
+
+    if (ix == -1) {
+        ix = 0;
+    }
+    m_configSpeech.combo_wr_model->setCurrentIndex(ix);
+    checkWhisperFolderSize();
+    Q_EMIT pCore->speechModelUpdate(SpeechToTextEngine::EngineWhisper, models);
+}
+
+void KdenliveSettingsDialog::checkWhisperFolderSize()
+{
+    QDir modelsFolder(m_sttWhisper->modelFolder());
+    if (!modelsFolder.exists()) {
+        m_configSpeech.model_folder_label->setVisible(false);
+        m_configSpeech.downloadButton->setText(i18n("Install a model"));
+        return;
+    }
+    m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(modelsFolder.absolutePath(), i18n("Models folder")));
+    m_configSpeech.model_folder_label->setVisible(true);
+    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(modelsFolder.absolutePath()));
+    connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size, button = m_configSpeech.downloadButton]() {
+        label->setText(KIO::convertSize(job->totalSize()));
+        if (job->totalSize() == 0) {
+            button->setText(i18n("Install a model"));
+        } else {
+            button->setText(i18n("Manage models"));
+        }
+        job->deleteLater();
+    });
+}
+
+void KdenliveSettingsDialog::showSpeechLog(const QString &jobData)
+{
+    m_configSpeech.script_log->show();
+    m_configSpeech.script_log->appendPlainText(jobData);
+    m_configSpeech.script_log->ensureCursorVisible();
 }
 
 void KdenliveSettingsDialog::slotCheckSttConfig()
@@ -2131,7 +2221,7 @@ void KdenliveSettingsDialog::processArchive(const QString &archiveFile)
 void KdenliveSettingsDialog::slotParseVoskDictionaries()
 {
     m_speechListWidget->clear();
-    QStringList final = m_stt->parseVoskDictionaries();
+    QStringList final = m_stt->getInstalledModels();
     m_speechListWidget->addItems(final);
     QString voskModelFolder;
     if (!KdenliveSettings::vosk_folder_path().isEmpty()) {
@@ -2157,6 +2247,7 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
     } else {
         m_configSpeech.modelV_folder_label->setVisible(false);
     }
+    Q_EMIT pCore->speechModelUpdate(SpeechToTextEngine::EngineVosk, final);
 }
 
 void KdenliveSettingsDialog::showHelp()

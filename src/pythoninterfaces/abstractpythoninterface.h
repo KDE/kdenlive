@@ -44,13 +44,19 @@ public:
     QString pythonExec() { return KdenliveSettings::pythonPath(); };
     void proposeMaybeUpdate(const QString &dependency, const QString &minVersion);
     bool installDisabled() { return m_disableInstall; };
-    void runConcurrentScript(const QString &script, QStringList args);
+    void runConcurrentScript(const QString &script, QStringList args, bool feedback = false);
     /** @brief Delete the python venv folder. */
     bool removePythonVenv();
     /** @brief Python venv setup in progress. */
     bool installInProcess() const;
     /** @brief Returns true if the optional dependency was found. */
     bool optionalDependencyAvailable(const QString &dependency) const;
+    /** @brief The text that will appear on the install button when a dependency is missing. */
+    virtual const QString installMessage() const;
+    /** @brief Add a special dependency. */
+    void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
+    /** @brief Ensure all dependenciew are installed. */
+    bool installMissingDependencies();
 
     friend class PythonDependencyMessage;
 
@@ -70,12 +76,10 @@ private:
     QStringList m_missing;
     QStringList m_optionalMissing;
     QMap<QString, QString> *m_versions;
-    bool m_disableInstall;
+    bool m_disableInstall{false};
     bool m_dependenciesChecked;
-
-    void installMissingDependencies();
-    QString locateScript(const QString &script);
-    QString runPackageScript(const QString &mode, bool concurrent = false);
+    const QString locateScript(const QString &script);
+    QString runPackageScript(const QString &mode, bool concurrent = false, bool displayFeedback = true);
     int versionToInt(const QString &version);
     /** @brief Create a python virtualenv */
     bool setupVenv();
@@ -86,8 +90,7 @@ private:
 protected:
     QMap<QString, QString> m_dependencies;
     QStringList m_optionalDeps;
-    QMap<QString, QString> *m_scripts;
-    void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
+    QMap<QString, QString> m_scripts;
     void addScript(const QString &script);
     virtual QString featureName() { return {}; };
     bool m_installInProgress{false};
@@ -99,11 +102,11 @@ Q_SIGNALS:
     void dependenciesMissing(const QStringList &messages);
     void dependenciesAvailable();
     void proposeUpdate(const QString &message);
-    void scriptFeedback(const QStringList message);
+    void scriptFeedback(const QString &script, const QStringList args, const QStringList message);
     void installFeedback(const QString &message);
     void gotPythonSize(const QString &message);
-    void scriptGpuCheckFinished();
-    void scriptFinished();
+    void concurrentScriptFinished(const QString &script, const QStringList &args);
+    void scriptFinished(const QStringList &args);
     void scriptStarted();
     void abortScript();
     void venvSetupChanged();

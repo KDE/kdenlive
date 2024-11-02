@@ -454,7 +454,7 @@ Q_SIGNALS:
     /** @brief Opening finished, close splash screen */
     void closeSplash();
     /** @brief Trigger an update of the speech models list */
-    void voskModelUpdate(const QStringList models);
+    void speechModelUpdate(SpeechToTextEngine::EngineType engine, const QStringList models);
     /** @brief Update current effect zone */
     void updateEffectZone(const QPoint p, bool withUndo);
     /** @brief The effect stask is about to be deleted, disconnect everything */

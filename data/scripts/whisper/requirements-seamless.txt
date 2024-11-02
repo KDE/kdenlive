@@ -1,3 +1,4 @@
 sentencepiece
 protobuf
 transformers
+srt

@@ -104,6 +104,8 @@ private Q_SLOTS:
     void doShowSpeechMessage(const QString &message, int messageType);
     /** @brief Check required python dependencies for speech engine */
     void slotCheckSttConfig();
+    /** @brief Display the python job output */
+    void showSpeechLog(const QString &jobData);
     /** @brief fill list of connected monitors */
     void fillMonitorData();
     /** @brief Open external proxies config dialog */
@@ -123,6 +125,7 @@ private:
     KPageWidgetItem *m_pageProject;
     KPageWidgetItem *m_pageColors;
     KPageWidgetItem *m_pageSpeech;
+    QAction *m_downloadModelAction;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
     Ui::ConfigColors_UI m_configColors;
@@ -176,6 +179,10 @@ private:
     void initTranscodePage();
     /** @brief Launch pytonh scripts to check speech engine dependencies */
     void checkSpeechDependencies();
+    /** @brief Check folder size */
+    void checkWhisperFolderSize();
+    /** @brief Refresh the list of available models in combobox */
+    void reloadWhisperModels();
 
 Q_SIGNALS:
     void customChanged();

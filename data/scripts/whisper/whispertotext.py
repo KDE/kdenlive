@@ -12,6 +12,16 @@ import wave
 
 import torch
 import whisper
+from whisper.utils import (
+    exact_div,
+    format_timestamp,
+    get_end,
+    get_writer,
+    make_safe,
+    optional_float,
+    optional_int,
+    str2bool,
+)
 
 # Call this script with the following arguments
 # 1. source av file
@@ -50,7 +60,28 @@ def extract_zone(source, outfile, in_point, out_point):
 
 
 def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
-    model = whisper.load_model(model, device)
+
+    # whisper.load_model checks the model's SHA on each run, so directly load the model
+    #model = whisper.load_model(model, device)
+
+    default = os.path.join(os.path.expanduser("~"), ".cache")
+    download_root = os.path.join(os.getenv("XDG_CACHE_HOME", default), "whisper")
+    url = whisper._MODELS[model]
+    checkpoint_file = os.path.join(download_root, os.path.basename(url))
+    alignment_heads = whisper._ALIGNMENT_HEADS[model]
+    with (
+        open(checkpoint_file, "rb")
+    ) as fp:
+        checkpoint = torch.load(fp, map_location=device)
+    del checkpoint_file
+    dims = whisper.ModelDimensions(**checkpoint["dims"])
+    model = whisper.Whisper(dims)
+    model.load_state_dict(checkpoint["model_state_dict"])
+
+    if alignment_heads is not None:
+        model.set_alignment_heads(alignment_heads)
+
+    loadedModel = model.to(device)
 
     transcribe_kwargs = {
         "task": task,
@@ -59,13 +90,21 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
         'length_penalty': None,
         'suppress_tokens': '-1',
         'condition_on_previous_text':True,
-        'word_timestamps':True
+        'word_timestamps':True,
+        'highlight_words': None,
+        'max_line_count': None,
+        'max_line_width': None,
+        'max_words_per_line': None,
+        'language': None,
+        'fp16': None
     }
     if sys.platform == 'darwin':
         # Set FFmpeg path for whisper
         from os.path import abspath, dirname, join
         os.environ["PATH"] += os.pathsep + abspath(join(dirname(__file__), '../../MacOS/'))
 
+    output_dir = None
+    output_format = None
     if len(extraparams) > 1:
         extraArgs = extraparams.split()
         for x in extraArgs:
@@ -78,7 +117,31 @@ def run_whisper(source, model, device="cpu", task="transcribe", extraparams=""):
     elif avoid_fp16(device):
         transcribe_kwargs["fp16"] = False
 
-    return model.transcribe(source, **transcribe_kwargs)
+    if "output_format" in transcribe_kwargs:
+        output_format = transcribe_kwargs.pop("output_format")
+    if "output_dir" in transcribe_kwargs:
+        output_dir = transcribe_kwargs.pop("output_dir")
+        if output_dir != None:
+            writer = get_writer(output_format, output_dir)
+
+    word_options = [
+        "highlight_words",
+        "max_line_count",
+        "max_line_width",
+        "max_words_per_line",
+    ]
+    print(f"READY TO OURPUT: {output_format} , {output_dir}", file=sys.stdout,flush=True)
+    writer_args = {arg: transcribe_kwargs.pop(arg) for arg in word_options}
+    if writer_args["max_line_count"] != None:
+       writer_args["max_line_count"] = int(writer_args["max_line_count"])
+    if writer_args["max_line_width"] != None:
+       writer_args["max_line_width"] = int(writer_args["max_line_width"])
+
+    result = loadedModel.transcribe(source, **transcribe_kwargs)
+    if output_dir != None:
+        writer(result, source, **writer_args)
+
+    return result
 
 
 def main():

@@ -5,9 +5,10 @@
 
 #pragma once
 
-#include "ui_textbasededit_ui.h"
 #include "definitions.h"
-#include "pythoninterfaces/speechtotext.h"
+#include "pythoninterfaces/speechtotextvosk.h"
+#include "pythoninterfaces/speechtotextwhisper.h"
+#include "ui_textbasededit_ui.h"
 
 #include <QProcess>
 #include <QAction>
@@ -182,7 +183,7 @@ private:
     int m_lastPosition;
     QString m_errorString;
     QAction *m_logAction;
-    QAction *m_voskConfig;
+    QAction *m_speechConfig;
     QAction *m_currentMessageAction{nullptr};
     VideoTextEdit *m_visualEditor;
     QTextDocument m_document;
@@ -197,4 +198,6 @@ private:
     SpeechToText *m_stt;
     void applyFontSize();
     void enableEditActions(bool enable, bool enableStart = true);
+    void buildWhisperModelsList(const QStringList whisperModels);
+    void buildVoskModelsList(const QStringList models);
 };

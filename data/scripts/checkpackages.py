@@ -36,7 +36,10 @@ missing = set()
 
 for arg in sys.argv[1:]:
     if not arg.startswith("--"):
-        required.add(arg.lower())
+        if arg.endswith(".txt"):
+            required.add(arg)
+        else:
+            required.add(arg.lower())
 
 if len(required) == 0:
     print_help()
