@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-02 00:39+0000\n"
+"POT-Creation-Date: 2024-11-03 00:39+0000\n"
 "PO-Revision-Date: 2024-10-25 18:15+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -2844,7 +2844,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr "Zmanjševanje šuma in restavriranje zvoka"
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:116 src/mainwindow.cpp:1453
+#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:1453
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3755,7 +3755,7 @@ msgstr "Shrani učinek"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1457
+#: src/dialogs/kdenlivesettingsdialog.cpp:1460
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -3763,7 +3763,7 @@ msgstr "Vnesite ime prednastavitve"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1457
+#: src/dialogs/kdenlivesettingsdialog.cpp:1460
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Vnesite ime te prednastavitve:"
@@ -5030,13 +5030,13 @@ msgstr ""
 "Ustvari mapo na trenutnem mestu v projektni posodi. Omogoča boljšo "
 "organizacijo izvornih datotek. Mape lahko gnezdite."
 
-#: src/bin/bin.cpp:3772 src/dialogs/speechdialog.cpp:49
-#: src/dialogs/textbasededit.cpp:739 src/monitor/recmanager.cpp:42
+#: src/bin/bin.cpp:3772 src/dialogs/speechdialog.cpp:51
+#: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Pokaži dnevnik"
 
-#: src/bin/bin.cpp:3775 src/dialogs/textbasededit.cpp:740
+#: src/bin/bin.cpp:3775 src/dialogs/textbasededit.cpp:717
 #, kde-format
 msgid "Detailed log"
 msgstr "Podroben dnevnik"
@@ -5839,7 +5839,7 @@ msgstr "Območje %1"
 msgid "Tag %1"
 msgstr "Značka %1"
 
-#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:44
+#: src/bin/tagwidget.cpp:117 src/dialogs/speechdialog.cpp:46
 #: src/dialogs/textbasededit.cpp:635
 #, kde-format
 msgid "Configure"
@@ -6445,7 +6445,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Upravljajte s profili kodiranja"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/kdenlivesettingsdialog.cpp:307
+#: src/dialogs/kdenlivesettingsdialog.cpp:310
 #: src/project/dialogs/archivewidget.cpp:98
 #, kde-format
 msgid "Proxy Clips"
@@ -6528,7 +6528,7 @@ msgstr "Samodejno (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:713
+#: src/dialogs/kdenlivesettingsdialog.cpp:716
 #: src/project/dialogs/projectsettings.cpp:906
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -6700,117 +6700,117 @@ msgstr "Kodiranje znakov zaznano kot %1"
 msgid "Import Subtitle"
 msgstr "Uvozi podnaslov"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:112 src/mainwindow.cpp:4031
+#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:4031
 #, kde-format
 msgid "Timeline"
 msgstr "Časovnica"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:122
+#: src/dialogs/kdenlivesettingsdialog.cpp:125
 #, kde-format
 msgid "Colors and Guides"
 msgstr "Barve in vodila"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:129
+#: src/dialogs/kdenlivesettingsdialog.cpp:132
 #, kde-format
 msgid "Speech To Text"
 msgstr "Govor v besedilo"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:133
+#: src/dialogs/kdenlivesettingsdialog.cpp:136
 #, kde-format
 msgid "Playback"
 msgstr "Predvajanje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:143
+#: src/dialogs/kdenlivesettingsdialog.cpp:146
 #, kde-format
 msgid "Capture"
 msgstr "Zajemi"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMisc)
-#: src/dialogs/kdenlivesettingsdialog.cpp:219
+#: src/dialogs/kdenlivesettingsdialog.cpp:222
 #: src/effects/effectlist/model/effecttreemodel.cpp:61
 #: src/ui/editsubstyle_ui.ui:146
 #, kde-format
 msgid "Misc"
 msgstr "Razno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:243
-#: src/dialogs/kdenlivesettingsdialog.cpp:823
+#: src/dialogs/kdenlivesettingsdialog.cpp:246
+#: src/dialogs/kdenlivesettingsdialog.cpp:826
 #: src/doc/documentvalidator.cpp:2523
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
 msgstr "samodejno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:277
+#: src/dialogs/kdenlivesettingsdialog.cpp:280
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "Izberite privzeti profil (prednastavitev)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:298
+#: src/dialogs/kdenlivesettingsdialog.cpp:301
 #, kde-format
 msgid "Project Defaults"
 msgstr "Privzete vrednosti projekta"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:342
-#: src/dialogs/kdenlivesettingsdialog.cpp:367
+#: src/dialogs/kdenlivesettingsdialog.cpp:345
+#: src/dialogs/kdenlivesettingsdialog.cpp:370
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Uporabi privzeto mapo: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:344
-#: src/dialogs/kdenlivesettingsdialog.cpp:370
-#: src/dialogs/kdenlivesettingsdialog.cpp:1079
-#: src/dialogs/kdenlivesettingsdialog.cpp:1080
-#: src/dialogs/kdenlivesettingsdialog.cpp:1090
-#: src/dialogs/kdenlivesettingsdialog.cpp:1091
+#: src/dialogs/kdenlivesettingsdialog.cpp:347
+#: src/dialogs/kdenlivesettingsdialog.cpp:373
+#: src/dialogs/kdenlivesettingsdialog.cpp:1082
+#: src/dialogs/kdenlivesettingsdialog.cpp:1083
+#: src/dialogs/kdenlivesettingsdialog.cpp:1093
+#: src/dialogs/kdenlivesettingsdialog.cpp:1094
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Vedno uporabi mapo projekta: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:346
-#: src/dialogs/kdenlivesettingsdialog.cpp:372
-#: src/dialogs/kdenlivesettingsdialog.cpp:1086
-#: src/dialogs/kdenlivesettingsdialog.cpp:1087
+#: src/dialogs/kdenlivesettingsdialog.cpp:349
+#: src/dialogs/kdenlivesettingsdialog.cpp:375
+#: src/dialogs/kdenlivesettingsdialog.cpp:1089
+#: src/dialogs/kdenlivesettingsdialog.cpp:1090
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Vedno uporabi mapo dejavnega projekta"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:385
+#: src/dialogs/kdenlivesettingsdialog.cpp:388
 #, kde-format
 msgid "Environment"
 msgstr "Okolje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:421
+#: src/dialogs/kdenlivesettingsdialog.cpp:424
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Na Mac OS X zajem še ni podprt."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:431
+#: src/dialogs/kdenlivesettingsdialog.cpp:434
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 kanal)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:432
+#: src/dialogs/kdenlivesettingsdialog.cpp:435
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Stereo (2 kanala)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:439
+#: src/dialogs/kdenlivesettingsdialog.cpp:442
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:440
+#: src/dialogs/kdenlivesettingsdialog.cpp:443
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:493
+#: src/dialogs/kdenlivesettingsdialog.cpp:496
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:496
+#: src/dialogs/kdenlivesettingsdialog.cpp:499
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -6822,55 +6822,55 @@ msgstr ""
 "dokumentacijo</a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:516 src/dialogs/timeremap.cpp:1583
+#: src/dialogs/kdenlivesettingsdialog.cpp:519 src/dialogs/timeremap.cpp:1583
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Prekodiraj"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:550
+#: src/dialogs/kdenlivesettingsdialog.cpp:553
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "Obdelava z grafično procesno enoto (GPE) zahteva prevedeni MLT z moduloma "
 "Movit in Rtaudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:720
+#: src/dialogs/kdenlivesettingsdialog.cpp:723
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:721
-#: src/dialogs/kdenlivesettingsdialog.cpp:774
+#: src/dialogs/kdenlivesettingsdialog.cpp:724
+#: src/dialogs/kdenlivesettingsdialog.cpp:777
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:722
+#: src/dialogs/kdenlivesettingsdialog.cpp:725
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:723
+#: src/dialogs/kdenlivesettingsdialog.cpp:726
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:725
+#: src/dialogs/kdenlivesettingsdialog.cpp:728
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Ozadnji program esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:726
+#: src/dialogs/kdenlivesettingsdialog.cpp:729
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Ozadnji program ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:738
-#: src/dialogs/kdenlivesettingsdialog.cpp:739
+#: src/dialogs/kdenlivesettingsdialog.cpp:741
+#: src/dialogs/kdenlivesettingsdialog.cpp:742
 #: src/dialogs/managesubtitles.cpp:550 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/subtitlestyleedit.cpp:97 src/mainwindow.cpp:207
 #: src/ui/configproject_ui.ui:48
@@ -6878,63 +6878,63 @@ msgstr "Ozadnji program ARTS"
 msgid "Default"
 msgstr "Privzeto"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:790
+#: src/dialogs/kdenlivesettingsdialog.cpp:793
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:802
+#: src/dialogs/kdenlivesettingsdialog.cpp:805
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:826 src/mainwindow.cpp:346
+#: src/dialogs/kdenlivesettingsdialog.cpp:829 src/mainwindow.cpp:346
 #, kde-format
 msgid "Monitor %1"
 msgstr "Zaslon %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:910
+#: src/dialogs/kdenlivesettingsdialog.cpp:913
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Vnesite pot do programa za urejanje zvoka"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:918
+#: src/dialogs/kdenlivesettingsdialog.cpp:921
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Vnesite pot do programa za urejanje slik"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:926 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:929 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Vnesite pot do programa Glaxnimate"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1009
-#: src/dialogs/kdenlivesettingsdialog.cpp:1027
+#: src/dialogs/kdenlivesettingsdialog.cpp:1012
+#: src/dialogs/kdenlivesettingsdialog.cpp:1030
 #: src/project/dialogs/projectsettings.cpp:538
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Izberite profil za video"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1312
+#: src/dialogs/kdenlivesettingsdialog.cpp:1315
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Za spremembo te nastavitve morate znova zagnati Kdenlive"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1460
+#: src/dialogs/kdenlivesettingsdialog.cpp:1463
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profil s tem imenom že obstaja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1594
+#: src/dialogs/kdenlivesettingsdialog.cpp:1597
 #, kde-format
 msgid "Current settings"
 msgstr "Trenutne nastavitve"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1632
-#: src/dialogs/kdenlivesettingsdialog.cpp:1668
-#: src/dialogs/kdenlivesettingsdialog.cpp:1685
+#: src/dialogs/kdenlivesettingsdialog.cpp:1635
+#: src/dialogs/kdenlivesettingsdialog.cpp:1671
+#: src/dialogs/kdenlivesettingsdialog.cpp:1688
 #: src/mltcontroller/clippropertiescontroller.cpp:562
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -6943,75 +6943,81 @@ msgstr "Trenutne nastavitve"
 msgid "Progressive"
 msgstr "Napredovano"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1775
-#: src/dialogs/kdenlivesettingsdialog.cpp:1799
-#, kde-format
-msgid ""
-"On first run, Whisper will <b>download the chosen model</b>. After that, "
-"processing will happen offline. Cpu processing is very slow."
-msgstr ""
-"Ob prvem zagonu programa bo Whisper <b>prenesel izbrani model</b>. Po tem bo "
-"obdelava potekala brez povezave. Obdelava CPE je zelo počasna."
+#: src/dialogs/kdenlivesettingsdialog.cpp:1793
+#, fuzzy, kde-format
+#| msgid "Download error %1"
+msgid "Download (1.4Gb)"
+msgstr "Napaka pri prenosu %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1796
+#. i18n: ectx: property (text), widget (QPushButton, install_seamless)
+#: src/dialogs/kdenlivesettingsdialog.cpp:1811 src/ui/configspeech_ui.ui:263
+#, fuzzy, kde-format
+#| msgid "Initializing translation model"
+msgid "Install multilingual translation"
+msgstr "Inicializacija prevajalskega modela"
+
+#: src/dialogs/kdenlivesettingsdialog.cpp:1821
 #, kde-format
-msgid ""
-"On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
-"that, translations will happen offline."
+msgid "Installing multilingual data…"
 msgstr ""
-"Ob prvem zagonu bo SeamlessM4T <b>prenesel 9 Gb podatkov modela</b>. Po tem "
-"se bodo prevodi zgodili brez povezave."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1806
-#: src/dialogs/kdenlivesettingsdialog.cpp:1821
-#: src/dialogs/kdenlivesettingsdialog.cpp:2150 src/ui/configspeech_ui.ui:134
-#: src/ui/configspeech_ui.ui:249
+#: src/dialogs/kdenlivesettingsdialog.cpp:1830
+#: src/dialogs/kdenlivesettingsdialog.cpp:2072
+#: src/dialogs/kdenlivesettingsdialog.cpp:2240 src/ui/configspeech_ui.ui:61
+#: src/ui/configspeech_ui.ui:274
 #, kde-format
 msgid "Models folder"
 msgstr "Mapa modelov"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1867
+#: src/dialogs/kdenlivesettingsdialog.cpp:1876
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Nastavitev virtualnega okolja …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1869
+#: src/dialogs/kdenlivesettingsdialog.cpp:1878
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Onemogočanje virtualnega okolja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1886
+#: src/dialogs/kdenlivesettingsdialog.cpp:1895
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "Odstranjevanje mape virtualnega okolja."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1891
+#: src/dialogs/kdenlivesettingsdialog.cpp:1900
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Venv python ni mogoče najti"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1894
+#: src/dialogs/kdenlivesettingsdialog.cpp:1903
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "Odstranitev mape virtualnega okolja je spodletela."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1899
+#: src/dialogs/kdenlivesettingsdialog.cpp:1909
+#: src/dialogs/kdenlivesettingsdialog.cpp:1912
 #, kde-format
 msgid "Probing..."
 msgstr "Sondiranje …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1958
-#: src/dialogs/kdenlivesettingsdialog.cpp:2147
+#: src/dialogs/kdenlivesettingsdialog.cpp:1933
+#, fuzzy, kde-format
+#| msgid "Downloading model…"
+msgid "Downloading multilingual model…"
+msgstr "Prenašanje modela …"
+
+#: src/dialogs/kdenlivesettingsdialog.cpp:1990
+#: src/dialogs/kdenlivesettingsdialog.cpp:2237
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Prosimo, dodajte model govora."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1995
+#: src/dialogs/kdenlivesettingsdialog.cpp:2024
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7020,28 +7026,46 @@ msgstr ""
 "Prenos modelov govora iz: <a href=\"https://alphacephei.com/vosk/models"
 "\">https://alphacephei.com/vosk/models</a>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2025
+#: src/dialogs/kdenlivesettingsdialog.cpp:2038
+#, kde-format
+msgid "Install a speech model - we recommand <b>turbo</b>"
+msgstr ""
+
+#: src/dialogs/kdenlivesettingsdialog.cpp:2069
+#: src/dialogs/kdenlivesettingsdialog.cpp:2078
+#, kde-format
+msgid "Install a model"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, downloadButton)
+#: src/dialogs/kdenlivesettingsdialog.cpp:2080 src/ui/configspeech_ui.ui:194
+#, fuzzy, kde-format
+#| msgid "Edge mode"
+msgid "Manage models"
+msgstr "Način robov"
+
+#: src/dialogs/kdenlivesettingsdialog.cpp:2115
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Vnesite spletni naslov novega slovarja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2031
+#: src/dialogs/kdenlivesettingsdialog.cpp:2121
 #, kde-format
 msgid "Downloading model…"
 msgstr "Prenašanje modela …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2041
+#: src/dialogs/kdenlivesettingsdialog.cpp:2131
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Ne dovoljujemo brisanja map modelov po meri, izvedite to ročno."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2047
-#: src/dialogs/kdenlivesettingsdialog.cpp:2106
+#: src/dialogs/kdenlivesettingsdialog.cpp:2137
+#: src/dialogs/kdenlivesettingsdialog.cpp:2196
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Ni možno dostopati do mape slovarja."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2056
+#: src/dialogs/kdenlivesettingsdialog.cpp:2146
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7050,22 +7074,22 @@ msgstr ""
 "Izbriši mapo:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2080
+#: src/dialogs/kdenlivesettingsdialog.cpp:2170
 #, kde-format
 msgid "Download error"
 msgstr "Napaka pri prenosu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2085
+#: src/dialogs/kdenlivesettingsdialog.cpp:2175
 #, kde-format
 msgid "Download error %1"
 msgstr "Napaka pri prenosu %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2113
+#: src/dialogs/kdenlivesettingsdialog.cpp:2203
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Razširjanje arhiva …"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2120
+#: src/dialogs/kdenlivesettingsdialog.cpp:2210
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nov slovar nameščen."
@@ -7763,575 +7787,645 @@ msgstr "Dodaj trenutnemu projektu"
 msgid "Open Containing Folder"
 msgstr "Odpri vsebujočo mapo"
 
-#: src/dialogs/speechdialog.cpp:43
+#: src/dialogs/speechdialog.cpp:45
 #, kde-format
 msgid "Automatic Subtitling"
 msgstr "Samodejno podnaslavljanje"
 
-#: src/dialogs/speechdialog.cpp:50
+#: src/dialogs/speechdialog.cpp:52
 #, kde-format
 msgid "Speech Recognition log"
 msgstr "Zapisnik razpoznavanja govora"
 
-#: src/dialogs/speechdialog.cpp:106
+#: src/dialogs/speechdialog.cpp:67
 #, kde-format
 msgid "Process"
 msgstr "Obdelovanje"
 
-#: src/dialogs/speechdialog.cpp:144
+#: src/dialogs/speechdialog.cpp:109
 #, kde-format
 msgid "No audio track available for selected clip"
 msgstr "Za izbrani posnetek ni na voljo nobena zvočna steza"
 
-#: src/dialogs/speechdialog.cpp:154
+#: src/dialogs/speechdialog.cpp:119
 #, kde-format
 msgid "Select a clip in timeline to perform analysis"
 msgstr "Izberite posnetek na časovnici za analizo"
 
-#: src/dialogs/speechdialog.cpp:168
+#: src/dialogs/speechdialog.cpp:133
 #, kde-format
 msgid "No audio track found"
 msgstr "Zvočne steze ni možno najti"
 
-#: src/dialogs/speechdialog.cpp:220 src/dialogs/textbasededit.cpp:708
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:883
+#: src/dialogs/textbasededit.cpp:917
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Namestite modele razpoznavanja govora"
 
-#: src/dialogs/speechdialog.cpp:244
-#: src/pythoninterfaces/abstractpythoninterface.cpp:174
+#: src/dialogs/speechdialog.cpp:260
+#: src/pythoninterfaces/abstractpythoninterface.cpp:175
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
 msgstr "Preverjanje namestitve …"
 
-#: src/dialogs/speechdialog.cpp:251
+#: src/dialogs/speechdialog.cpp:267
 #, kde-format
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "Nastavite razpoznavanje govora v besedilo, manjkajoče odvisnosti: %1"
 
-#: src/dialogs/speechdialog.cpp:253 src/dialogs/textbasededit.cpp:963
-#: src/dialogs/textbasededit.cpp:979
+#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:989
+#: src/dialogs/textbasededit.cpp:1005
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Nastavite razpoznavanje govora v besedilo."
 
-#: src/dialogs/speechdialog.cpp:261
+#: src/dialogs/speechdialog.cpp:277
 #, kde-format
 msgid "Starting audio export"
 msgstr "Začetek izvažanja zvoka"
 
-#: src/dialogs/speechdialog.cpp:329
+#: src/dialogs/speechdialog.cpp:342
 #, kde-format
 msgid "Audio export failed"
 msgstr "Izvoz zvoka ni uspel"
 
-#: src/dialogs/speechdialog.cpp:352 src/dialogs/textbasededit.cpp:1000
+#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1026
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Začetek razpoznavanja govora"
 
-#: src/dialogs/speechdialog.cpp:405 src/dialogs/textbasededit.cpp:1163
+#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1189
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Razpoznavanje govora ustavljeno."
 
-#: src/dialogs/speechdialog.cpp:411
+#: src/dialogs/speechdialog.cpp:425
+#, fuzzy, kde-format
+#| msgid "Speech recognition failed"
+msgid "Speech recognition failed."
+msgstr "Razpoznavanje govora ni uspelo"
+
+#: src/dialogs/speechdialog.cpp:432
 #, kde-format
 msgid "Subtitles imported"
 msgstr "Podnaslovi uvoženi"
 
-#: src/dialogs/speechdialog.cpp:414
-#, kde-format
-msgid "Speech recognition failed"
-msgstr "Razpoznavanje govora ni uspelo"
-
-#: src/dialogs/speechdialog.cpp:448
+#: src/dialogs/speechdialog.cpp:464
 #, kde-format
 msgid "Translating text to %1"
 msgstr "Prevajanje besedila v %1 jezik"
 
-#: src/dialogs/speechdialog.cpp:450
+#: src/dialogs/speechdialog.cpp:466
 #, kde-format
 msgid "Initializing translation model"
 msgstr "Inicializacija prevajalskega modela"
 
-#: src/dialogs/speechdialog.cpp:461 src/pythoninterfaces/speechtotext.cpp:86
+#: src/dialogs/speechdialog.cpp:477
+#: src/pythoninterfaces/speechtotextwhisper.cpp:63
 #, kde-format
 msgid "Afrikaans"
 msgstr "afrikanski"
 
-#: src/dialogs/speechdialog.cpp:462 src/pythoninterfaces/speechtotext.cpp:88
+#: src/dialogs/speechdialog.cpp:478
+#: src/pythoninterfaces/speechtotextwhisper.cpp:65
 #, kde-format
 msgid "Amharic"
 msgstr "amharski"
 
-#: src/dialogs/speechdialog.cpp:463 src/pythoninterfaces/speechtotext.cpp:90
+#: src/dialogs/speechdialog.cpp:479
+#: src/pythoninterfaces/speechtotextwhisper.cpp:67
 #, kde-format
 msgid "Armenian"
 msgstr "armenski"
 
-#: src/dialogs/speechdialog.cpp:464 src/pythoninterfaces/speechtotext.cpp:91
+#: src/dialogs/speechdialog.cpp:480
+#: src/pythoninterfaces/speechtotextwhisper.cpp:68
 #, kde-format
 msgid "Assamese"
 msgstr "asamski"
 
-#: src/dialogs/speechdialog.cpp:465 src/pythoninterfaces/speechtotext.cpp:94
+#: src/dialogs/speechdialog.cpp:481
+#: src/pythoninterfaces/speechtotextwhisper.cpp:71
 #, kde-format
 msgid "Basque"
 msgstr "baskovski"
 
-#: src/dialogs/speechdialog.cpp:466 src/pythoninterfaces/speechtotext.cpp:95
+#: src/dialogs/speechdialog.cpp:482
+#: src/pythoninterfaces/speechtotextwhisper.cpp:72
 #, kde-format
 msgid "Belarusian"
 msgstr "beloruski"
 
-#: src/dialogs/speechdialog.cpp:467 src/pythoninterfaces/speechtotext.cpp:96
+#: src/dialogs/speechdialog.cpp:483
+#: src/pythoninterfaces/speechtotextwhisper.cpp:73
 #, kde-format
 msgid "Bengali"
 msgstr "bengalski"
 
-#: src/dialogs/speechdialog.cpp:468 src/pythoninterfaces/speechtotext.cpp:97
+#: src/dialogs/speechdialog.cpp:484
+#: src/pythoninterfaces/speechtotextwhisper.cpp:74
 #, kde-format
 msgid "Bosnian"
 msgstr "bosanski"
 
-#: src/dialogs/speechdialog.cpp:469 src/pythoninterfaces/speechtotext.cpp:99
+#: src/dialogs/speechdialog.cpp:485
+#: src/pythoninterfaces/speechtotextwhisper.cpp:76
 #, kde-format
 msgid "Bulgarian"
 msgstr "bolgarski"
 
-#: src/dialogs/speechdialog.cpp:470 src/pythoninterfaces/speechtotext.cpp:100
+#: src/dialogs/speechdialog.cpp:486
+#: src/pythoninterfaces/speechtotextwhisper.cpp:77
 #, kde-format
 msgid "Burmese"
 msgstr "burmanski"
 
-#: src/dialogs/speechdialog.cpp:471
+#: src/dialogs/speechdialog.cpp:487
 #, kde-format
 msgid "Cantonese"
 msgstr "kantonski"
 
-#: src/dialogs/speechdialog.cpp:472 src/pythoninterfaces/speechtotext.cpp:102
+#: src/dialogs/speechdialog.cpp:488
+#: src/pythoninterfaces/speechtotextwhisper.cpp:79
 #, kde-format
 msgid "Catalan"
 msgstr "katalonski"
 
-#: src/dialogs/speechdialog.cpp:473
+#: src/dialogs/speechdialog.cpp:489
 #, kde-format
 msgid "Cebuano"
 msgstr "cebuanski"
 
-#: src/dialogs/speechdialog.cpp:474
+#: src/dialogs/speechdialog.cpp:490
 #, kde-format
 msgid "Central Kurdish"
 msgstr "kurdski, centralni"
 
-#: src/dialogs/speechdialog.cpp:475 src/pythoninterfaces/speechtotext.cpp:104
+#: src/dialogs/speechdialog.cpp:491
+#: src/pythoninterfaces/speechtotextwhisper.cpp:81
 #, kde-format
 msgid "Croatian"
 msgstr "hrvaški"
 
-#: src/dialogs/speechdialog.cpp:476 src/pythoninterfaces/speechtotext.cpp:105
+#: src/dialogs/speechdialog.cpp:492
+#: src/pythoninterfaces/speechtotextwhisper.cpp:82
 #, kde-format
 msgid "Czech"
 msgstr "češki"
 
-#: src/dialogs/speechdialog.cpp:477 src/pythoninterfaces/speechtotext.cpp:106
+#: src/dialogs/speechdialog.cpp:493
+#: src/pythoninterfaces/speechtotextwhisper.cpp:83
 #, kde-format
 msgid "Danish"
 msgstr "danski"
 
-#: src/dialogs/speechdialog.cpp:478 src/pythoninterfaces/speechtotext.cpp:107
+#: src/dialogs/speechdialog.cpp:494
+#: src/pythoninterfaces/speechtotextwhisper.cpp:84
 #, kde-format
 msgid "Dutch"
 msgstr "nizozemski"
 
-#: src/dialogs/speechdialog.cpp:479
+#: src/dialogs/speechdialog.cpp:495
 #, kde-format
 msgid "Egyptian Arabic"
 msgstr "arabski, egiptovski"
 
-#: src/dialogs/speechdialog.cpp:480 src/pythoninterfaces/speechtotext.cpp:108
+#: src/dialogs/speechdialog.cpp:496
+#: src/pythoninterfaces/speechtotextwhisper.cpp:85
 #, kde-format
 msgid "English"
 msgstr "angleški"
 
-#: src/dialogs/speechdialog.cpp:481 src/pythoninterfaces/speechtotext.cpp:109
+#: src/dialogs/speechdialog.cpp:497
+#: src/pythoninterfaces/speechtotextwhisper.cpp:86
 #, kde-format
 msgid "Estonian"
 msgstr "estonski"
 
-#: src/dialogs/speechdialog.cpp:482 src/pythoninterfaces/speechtotext.cpp:111
+#: src/dialogs/speechdialog.cpp:498
+#: src/pythoninterfaces/speechtotextwhisper.cpp:88
 #, kde-format
 msgid "Finnish"
 msgstr "finski"
 
-#: src/dialogs/speechdialog.cpp:483 src/pythoninterfaces/speechtotext.cpp:113
+#: src/dialogs/speechdialog.cpp:499
+#: src/pythoninterfaces/speechtotextwhisper.cpp:90
 #, kde-format
 msgid "French"
 msgstr "francoski"
 
-#: src/dialogs/speechdialog.cpp:484 src/pythoninterfaces/speechtotext.cpp:114
+#: src/dialogs/speechdialog.cpp:500
+#: src/pythoninterfaces/speechtotextwhisper.cpp:91
 #, kde-format
 msgid "Galician"
 msgstr "galicijski"
 
-#: src/dialogs/speechdialog.cpp:485
+#: src/dialogs/speechdialog.cpp:501
 #, kde-format
 msgid "Ganda"
 msgstr "gandajski"
 
-#: src/dialogs/speechdialog.cpp:486 src/pythoninterfaces/speechtotext.cpp:115
+#: src/dialogs/speechdialog.cpp:502
+#: src/pythoninterfaces/speechtotextwhisper.cpp:92
 #, kde-format
 msgid "Georgian"
 msgstr "gruzijski"
 
-#: src/dialogs/speechdialog.cpp:487 src/pythoninterfaces/speechtotext.cpp:116
+#: src/dialogs/speechdialog.cpp:503
+#: src/pythoninterfaces/speechtotextwhisper.cpp:93
 #, kde-format
 msgid "German"
 msgstr "nemški"
 
-#: src/dialogs/speechdialog.cpp:488 src/pythoninterfaces/speechtotext.cpp:117
+#: src/dialogs/speechdialog.cpp:504
+#: src/pythoninterfaces/speechtotextwhisper.cpp:94
 #, kde-format
 msgid "Greek"
 msgstr "grški"
 
-#: src/dialogs/speechdialog.cpp:489 src/pythoninterfaces/speechtotext.cpp:118
+#: src/dialogs/speechdialog.cpp:505
+#: src/pythoninterfaces/speechtotextwhisper.cpp:95
 #, kde-format
 msgid "Gujarati"
 msgstr "gudžaratski"
 
-#: src/dialogs/speechdialog.cpp:490
+#: src/dialogs/speechdialog.cpp:506
 #, kde-format
 msgid "Halh Mongolian"
 msgstr "mongolski, Haih"
 
-#: src/dialogs/speechdialog.cpp:491 src/pythoninterfaces/speechtotext.cpp:123
+#: src/dialogs/speechdialog.cpp:507
+#: src/pythoninterfaces/speechtotextwhisper.cpp:100
 #, kde-format
 msgid "Hebrew"
 msgstr "hebrejski"
 
-#: src/dialogs/speechdialog.cpp:492 src/pythoninterfaces/speechtotext.cpp:124
+#: src/dialogs/speechdialog.cpp:508
+#: src/pythoninterfaces/speechtotextwhisper.cpp:101
 #, kde-format
 msgid "Hindi"
 msgstr "hindujski"
 
-#: src/dialogs/speechdialog.cpp:493 src/pythoninterfaces/speechtotext.cpp:125
+#: src/dialogs/speechdialog.cpp:509
+#: src/pythoninterfaces/speechtotextwhisper.cpp:102
 #, kde-format
 msgid "Hungarian"
 msgstr "madžarski"
 
-#: src/dialogs/speechdialog.cpp:494 src/pythoninterfaces/speechtotext.cpp:126
+#: src/dialogs/speechdialog.cpp:510
+#: src/pythoninterfaces/speechtotextwhisper.cpp:103
 #, kde-format
 msgid "Icelandic"
 msgstr "islandski"
 
-#: src/dialogs/speechdialog.cpp:495
+#: src/dialogs/speechdialog.cpp:511
 #, kde-format
 msgid "Igbo"
 msgstr "igbojski"
 
-#: src/dialogs/speechdialog.cpp:496 src/pythoninterfaces/speechtotext.cpp:127
+#: src/dialogs/speechdialog.cpp:512
+#: src/pythoninterfaces/speechtotextwhisper.cpp:104
 #, kde-format
 msgid "Indonesian"
 msgstr "indonezijski"
 
-#: src/dialogs/speechdialog.cpp:497
+#: src/dialogs/speechdialog.cpp:513
 #, kde-format
 msgid "Irish"
 msgstr "irski"
 
-#: src/dialogs/speechdialog.cpp:498 src/pythoninterfaces/speechtotext.cpp:128
+#: src/dialogs/speechdialog.cpp:514
+#: src/pythoninterfaces/speechtotextwhisper.cpp:105
 #, kde-format
 msgid "Italian"
 msgstr "italjanski"
 
-#: src/dialogs/speechdialog.cpp:499 src/pythoninterfaces/speechtotext.cpp:129
+#: src/dialogs/speechdialog.cpp:515
+#: src/pythoninterfaces/speechtotextwhisper.cpp:106
 #, kde-format
 msgid "Japanese"
 msgstr "japonski"
 
-#: src/dialogs/speechdialog.cpp:500 src/pythoninterfaces/speechtotext.cpp:130
+#: src/dialogs/speechdialog.cpp:516
+#: src/pythoninterfaces/speechtotextwhisper.cpp:107
 #, kde-format
 msgid "Javanese"
 msgstr "javanski"
 
-#: src/dialogs/speechdialog.cpp:501 src/pythoninterfaces/speechtotext.cpp:131
+#: src/dialogs/speechdialog.cpp:517
+#: src/pythoninterfaces/speechtotextwhisper.cpp:108
 #, kde-format
 msgid "Kannada"
 msgstr "kanareški"
 
-#: src/dialogs/speechdialog.cpp:502 src/pythoninterfaces/speechtotext.cpp:132
+#: src/dialogs/speechdialog.cpp:518
+#: src/pythoninterfaces/speechtotextwhisper.cpp:109
 #, kde-format
 msgid "Kazakh"
 msgstr "kazaški"
 
-#: src/dialogs/speechdialog.cpp:503 src/pythoninterfaces/speechtotext.cpp:133
+#: src/dialogs/speechdialog.cpp:519
+#: src/pythoninterfaces/speechtotextwhisper.cpp:110
 #, kde-format
 msgid "Khmer"
 msgstr "kmerski"
 
-#: src/dialogs/speechdialog.cpp:504 src/pythoninterfaces/speechtotext.cpp:134
+#: src/dialogs/speechdialog.cpp:520
+#: src/pythoninterfaces/speechtotextwhisper.cpp:111
 #, kde-format
 msgid "Korean"
 msgstr "korejski"
 
-#: src/dialogs/speechdialog.cpp:505
+#: src/dialogs/speechdialog.cpp:521
 #, kde-format
 msgid "Kyrgyz"
 msgstr "kirgiški"
 
-#: src/dialogs/speechdialog.cpp:506 src/pythoninterfaces/speechtotext.cpp:135
+#: src/dialogs/speechdialog.cpp:522
+#: src/pythoninterfaces/speechtotextwhisper.cpp:112
 #, kde-format
 msgid "Lao"
 msgstr "laoški"
 
-#: src/dialogs/speechdialog.cpp:507 src/pythoninterfaces/speechtotext.cpp:140
+#: src/dialogs/speechdialog.cpp:523
+#: src/pythoninterfaces/speechtotextwhisper.cpp:117
 #, kde-format
 msgid "Lithuanian"
 msgstr "litvanski"
 
-#: src/dialogs/speechdialog.cpp:508
+#: src/dialogs/speechdialog.cpp:524
 #, kde-format
 msgid "Luo"
 msgstr "luoški"
 
-#: src/dialogs/speechdialog.cpp:509 src/pythoninterfaces/speechtotext.cpp:142
+#: src/dialogs/speechdialog.cpp:525
+#: src/pythoninterfaces/speechtotextwhisper.cpp:119
 #, kde-format
 msgid "Macedonian"
 msgstr "makedonski"
 
-#: src/dialogs/speechdialog.cpp:510
+#: src/dialogs/speechdialog.cpp:526
 #, kde-format
 msgid "Maithili"
 msgstr "maitilski"
 
-#: src/dialogs/speechdialog.cpp:511 src/pythoninterfaces/speechtotext.cpp:145
+#: src/dialogs/speechdialog.cpp:527
+#: src/pythoninterfaces/speechtotextwhisper.cpp:122
 #, kde-format
 msgid "Malayalam"
 msgstr "malajalamski"
 
-#: src/dialogs/speechdialog.cpp:512 src/pythoninterfaces/speechtotext.cpp:146
+#: src/dialogs/speechdialog.cpp:528
+#: src/pythoninterfaces/speechtotextwhisper.cpp:123
 #, kde-format
 msgid "Maltese"
 msgstr "malteški"
 
-#: src/dialogs/speechdialog.cpp:513 src/dialogs/speechdialog.cpp:514
+#: src/dialogs/speechdialog.cpp:529 src/dialogs/speechdialog.cpp:530
 #, kde-format
 msgid "Mandarin Chinese"
 msgstr "kitajski, mandarinski"
 
-#: src/dialogs/speechdialog.cpp:515 src/pythoninterfaces/speechtotext.cpp:148
+#: src/dialogs/speechdialog.cpp:531
+#: src/pythoninterfaces/speechtotextwhisper.cpp:125
 #, kde-format
 msgid "Marathi"
 msgstr "maratski"
 
-#: src/dialogs/speechdialog.cpp:516
+#: src/dialogs/speechdialog.cpp:532
 #, kde-format
 msgid "Meitei"
 msgstr "meitejski"
 
-#: src/dialogs/speechdialog.cpp:517
+#: src/dialogs/speechdialog.cpp:533
 #, kde-format
 msgid "Modern Standard Arabic"
 msgstr "arabski, moderni standardni"
 
-#: src/dialogs/speechdialog.cpp:518
+#: src/dialogs/speechdialog.cpp:534
 #, kde-format
 msgid "Moroccan Arabic"
 msgstr "arabski, maroški"
 
-#: src/dialogs/speechdialog.cpp:519 src/pythoninterfaces/speechtotext.cpp:153
+#: src/dialogs/speechdialog.cpp:535
+#: src/pythoninterfaces/speechtotextwhisper.cpp:130
 #, kde-format
 msgid "Nepali"
 msgstr "nepalski"
 
-#: src/dialogs/speechdialog.cpp:520
+#: src/dialogs/speechdialog.cpp:536
 #, kde-format
 msgid "Nigerian Fulfulde"
 msgstr "fulfuldski, nigerijski"
 
-#: src/dialogs/speechdialog.cpp:521
+#: src/dialogs/speechdialog.cpp:537
 #, kde-format
 msgid "North Azerbaijani"
 msgstr "azerbajdžanski, severni"
 
-#: src/dialogs/speechdialog.cpp:522
+#: src/dialogs/speechdialog.cpp:538
 #, kde-format
 msgid "Northern Uzbek"
 msgstr "uzbeški, severni"
 
-#: src/dialogs/speechdialog.cpp:523
+#: src/dialogs/speechdialog.cpp:539
 #, kde-format
 msgid "Norwegian Bokmål"
 msgstr "norveški, bokmål"
 
-#: src/dialogs/speechdialog.cpp:524
+#: src/dialogs/speechdialog.cpp:540
 #, kde-format
 msgid "Norwegian Nynorsk"
 msgstr "norveški, nynorsk"
 
-#: src/dialogs/speechdialog.cpp:525
+#: src/dialogs/speechdialog.cpp:541
 #, kde-format
 msgid "Nyanja"
 msgstr "njandžski"
 
-#: src/dialogs/speechdialog.cpp:526
+#: src/dialogs/speechdialog.cpp:542
 #, kde-format
 msgid "Odia"
 msgstr "odijski"
 
-#: src/dialogs/speechdialog.cpp:527 src/pythoninterfaces/speechtotext.cpp:160
+#: src/dialogs/speechdialog.cpp:543
+#: src/pythoninterfaces/speechtotextwhisper.cpp:137
 #, kde-format
 msgid "Polish"
 msgstr "poljski"
 
-#: src/dialogs/speechdialog.cpp:528 src/pythoninterfaces/speechtotext.cpp:161
+#: src/dialogs/speechdialog.cpp:544
+#: src/pythoninterfaces/speechtotextwhisper.cpp:138
 #, kde-format
 msgid "Portuguese"
 msgstr "portugalski"
 
-#: src/dialogs/speechdialog.cpp:529 src/pythoninterfaces/speechtotext.cpp:162
+#: src/dialogs/speechdialog.cpp:545
+#: src/pythoninterfaces/speechtotextwhisper.cpp:139
 #, kde-format
 msgid "Punjabi"
 msgstr "pundžabski"
 
-#: src/dialogs/speechdialog.cpp:530 src/pythoninterfaces/speechtotext.cpp:164
+#: src/dialogs/speechdialog.cpp:546
+#: src/pythoninterfaces/speechtotextwhisper.cpp:141
 #, kde-format
 msgid "Romanian"
 msgstr "romunski"
 
-#: src/dialogs/speechdialog.cpp:531 src/pythoninterfaces/speechtotext.cpp:165
+#: src/dialogs/speechdialog.cpp:547
+#: src/pythoninterfaces/speechtotextwhisper.cpp:142
 #, kde-format
 msgid "Russian"
 msgstr "ruski"
 
-#: src/dialogs/speechdialog.cpp:532 src/pythoninterfaces/speechtotext.cpp:167
+#: src/dialogs/speechdialog.cpp:548
+#: src/pythoninterfaces/speechtotextwhisper.cpp:144
 #, kde-format
 msgid "Serbian"
 msgstr "srbski"
 
-#: src/dialogs/speechdialog.cpp:533 src/pythoninterfaces/speechtotext.cpp:168
+#: src/dialogs/speechdialog.cpp:549
+#: src/pythoninterfaces/speechtotextwhisper.cpp:145
 #, kde-format
 msgid "Shona"
 msgstr "šona"
 
-#: src/dialogs/speechdialog.cpp:534 src/pythoninterfaces/speechtotext.cpp:169
+#: src/dialogs/speechdialog.cpp:550
+#: src/pythoninterfaces/speechtotextwhisper.cpp:146
 #, kde-format
 msgid "Sindhi"
 msgstr "sindijski"
 
-#: src/dialogs/speechdialog.cpp:535 src/pythoninterfaces/speechtotext.cpp:172
+#: src/dialogs/speechdialog.cpp:551
+#: src/pythoninterfaces/speechtotextwhisper.cpp:149
 #, kde-format
 msgid "Slovak"
 msgstr "slovaški"
 
-#: src/dialogs/speechdialog.cpp:536 src/pythoninterfaces/speechtotext.cpp:173
+#: src/dialogs/speechdialog.cpp:552
+#: src/pythoninterfaces/speechtotextwhisper.cpp:150
 #, kde-format
 msgid "Slovenian"
 msgstr "slovenski"
 
-#: src/dialogs/speechdialog.cpp:537 src/pythoninterfaces/speechtotext.cpp:174
+#: src/dialogs/speechdialog.cpp:553
+#: src/pythoninterfaces/speechtotextwhisper.cpp:151
 #, kde-format
 msgid "Somali"
 msgstr "somalski"
 
-#: src/dialogs/speechdialog.cpp:538
+#: src/dialogs/speechdialog.cpp:554
 #, kde-format
 msgid "Southern Pashto"
 msgstr "paštunski, južni"
 
-#: src/dialogs/speechdialog.cpp:539 src/pythoninterfaces/speechtotext.cpp:175
+#: src/dialogs/speechdialog.cpp:555
+#: src/pythoninterfaces/speechtotextwhisper.cpp:152
 #, kde-format
 msgid "Spanish"
 msgstr "španski"
 
-#: src/dialogs/speechdialog.cpp:540
+#: src/dialogs/speechdialog.cpp:556
 #, kde-format
 msgid "Standard Latvian"
 msgstr "latvijski, standardni"
 
-#: src/dialogs/speechdialog.cpp:541
+#: src/dialogs/speechdialog.cpp:557
 #, kde-format
 msgid "Standard Malay"
 msgstr "malajski, standardni"
 
-#: src/dialogs/speechdialog.cpp:542 src/pythoninterfaces/speechtotext.cpp:177
+#: src/dialogs/speechdialog.cpp:558
+#: src/pythoninterfaces/speechtotextwhisper.cpp:154
 #, kde-format
 msgid "Swahili"
 msgstr "svahilski"
 
-#: src/dialogs/speechdialog.cpp:543 src/pythoninterfaces/speechtotext.cpp:178
+#: src/dialogs/speechdialog.cpp:559
+#: src/pythoninterfaces/speechtotextwhisper.cpp:155
 #, kde-format
 msgid "Swedish"
 msgstr "švedski"
 
-#: src/dialogs/speechdialog.cpp:544 src/pythoninterfaces/speechtotext.cpp:179
+#: src/dialogs/speechdialog.cpp:560
+#: src/pythoninterfaces/speechtotextwhisper.cpp:156
 #, kde-format
 msgid "Tagalog"
 msgstr "tagaloški"
 
-#: src/dialogs/speechdialog.cpp:545 src/pythoninterfaces/speechtotext.cpp:180
+#: src/dialogs/speechdialog.cpp:561
+#: src/pythoninterfaces/speechtotextwhisper.cpp:157
 #, kde-format
 msgid "Tajik"
 msgstr "tadžiški"
 
-#: src/dialogs/speechdialog.cpp:546 src/pythoninterfaces/speechtotext.cpp:181
+#: src/dialogs/speechdialog.cpp:562
+#: src/pythoninterfaces/speechtotextwhisper.cpp:158
 #, kde-format
 msgid "Tamil"
 msgstr "tamilski"
 
-#: src/dialogs/speechdialog.cpp:547 src/pythoninterfaces/speechtotext.cpp:183
+#: src/dialogs/speechdialog.cpp:563
+#: src/pythoninterfaces/speechtotextwhisper.cpp:160
 #, kde-format
 msgid "Telugu"
 msgstr "teluški"
 
-#: src/dialogs/speechdialog.cpp:548 src/pythoninterfaces/speechtotext.cpp:184
+#: src/dialogs/speechdialog.cpp:564
+#: src/pythoninterfaces/speechtotextwhisper.cpp:161
 #, kde-format
 msgid "Thai"
 msgstr "tajski"
 
-#: src/dialogs/speechdialog.cpp:549 src/pythoninterfaces/speechtotext.cpp:186
+#: src/dialogs/speechdialog.cpp:565
+#: src/pythoninterfaces/speechtotextwhisper.cpp:163
 #, kde-format
 msgid "Turkish"
 msgstr "turški"
 
-#: src/dialogs/speechdialog.cpp:550 src/pythoninterfaces/speechtotext.cpp:188
+#: src/dialogs/speechdialog.cpp:566
+#: src/pythoninterfaces/speechtotextwhisper.cpp:165
 #, kde-format
 msgid "Ukrainian"
 msgstr "ukrajinski"
 
-#: src/dialogs/speechdialog.cpp:551 src/pythoninterfaces/speechtotext.cpp:189
+#: src/dialogs/speechdialog.cpp:567
+#: src/pythoninterfaces/speechtotextwhisper.cpp:166
 #, kde-format
 msgid "Urdu"
 msgstr "urdujski"
 
-#: src/dialogs/speechdialog.cpp:552 src/pythoninterfaces/speechtotext.cpp:192
+#: src/dialogs/speechdialog.cpp:568
+#: src/pythoninterfaces/speechtotextwhisper.cpp:169
 #, kde-format
 msgid "Vietnamese"
 msgstr "vietnamski"
 
-#: src/dialogs/speechdialog.cpp:553 src/pythoninterfaces/speechtotext.cpp:193
+#: src/dialogs/speechdialog.cpp:569
+#: src/pythoninterfaces/speechtotextwhisper.cpp:170
 #, kde-format
 msgid "Welsh"
 msgstr "valižanski"
 
-#: src/dialogs/speechdialog.cpp:554
+#: src/dialogs/speechdialog.cpp:570
 #, kde-format
 msgid "West Central Oromo"
 msgstr "oromski, zahodno osrednji"
 
-#: src/dialogs/speechdialog.cpp:555
+#: src/dialogs/speechdialog.cpp:571
 #, kde-format
 msgid "Western Persian"
 msgstr "perzijski, zahodni"
 
-#: src/dialogs/speechdialog.cpp:556 src/pythoninterfaces/speechtotext.cpp:195
+#: src/dialogs/speechdialog.cpp:572
+#: src/pythoninterfaces/speechtotextwhisper.cpp:172
 #, kde-format
 msgid "Yoruba"
 msgstr "jorubski"
 
-#: src/dialogs/speechdialog.cpp:557
+#: src/dialogs/speechdialog.cpp:573
 #, kde-format
 msgid "Zulu"
 msgstr "zulujski"
@@ -8671,8 +8765,8 @@ msgid "Delete selection"
 msgstr "Izbriši izbrano"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1183 src/dialogs/textbasededit.cpp:1253
-#: src/dialogs/textbasededit.cpp:1277 src/dialogs/textbasededit.cpp:1334
+#: src/dialogs/textbasededit.cpp:1209 src/dialogs/textbasededit.cpp:1279
+#: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1360
 #, kde-format
 msgid "No speech"
 msgstr "Ni govora"
@@ -8724,32 +8818,32 @@ msgstr "Išči v besedilu"
 msgid "Language"
 msgstr "Jezik"
 
-#: src/dialogs/textbasededit.cpp:749
+#: src/dialogs/textbasededit.cpp:726
 #, kde-format
 msgid "Delete selected text"
 msgstr "Briši izbrano besedilo"
 
-#: src/dialogs/textbasededit.cpp:753
+#: src/dialogs/textbasededit.cpp:730
 #, kde-format
 msgid "Add marker for current selection"
 msgstr "Dodaj označevalnik za trenutni izbor"
 
-#: src/dialogs/textbasededit.cpp:757
+#: src/dialogs/textbasededit.cpp:734
 #, kde-format
 msgid "Increase Font Size"
 msgstr "Povečaj pisavo"
 
-#: src/dialogs/textbasededit.cpp:760
+#: src/dialogs/textbasededit.cpp:737
 #, kde-format
 msgid "Decrease Font Size"
 msgstr "Zmanjšaj pisavo"
 
-#: src/dialogs/textbasededit.cpp:764
+#: src/dialogs/textbasededit.cpp:741
 #, kde-format
 msgid "Remove non speech zones"
 msgstr "Odstrani območja brez govora"
 
-#: src/dialogs/textbasededit.cpp:947
+#: src/dialogs/textbasededit.cpp:973
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -8758,80 +8852,80 @@ msgstr ""
 "Izvaja se že ena naloga prepoznavanja. Prekinjena bo v korist novega "
 "opravila. Ali želite nadaljevati?"
 
-#: src/dialogs/textbasededit.cpp:987
+#: src/dialogs/textbasededit.cpp:1013
 #, kde-format
 msgid "Please install a language model."
 msgstr "Namestite model jezika."
 
-#: src/dialogs/textbasededit.cpp:995
+#: src/dialogs/textbasededit.cpp:1021
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Izberi posnetek z zvokom v posodi projekta."
 
-#: src/dialogs/textbasededit.cpp:1041
+#: src/dialogs/textbasededit.cpp:1067
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Izberite posnetek z zvokom za razpoznavanje govora."
 
-#: src/dialogs/textbasededit.cpp:1050 src/dialogs/textbasededit.cpp:1085
-#: src/dialogs/textbasededit.cpp:1134
+#: src/dialogs/textbasededit.cpp:1076 src/dialogs/textbasededit.cpp:1111
+#: src/dialogs/textbasededit.cpp:1160
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Ni možno ustvariti začasne datoteke."
 
-#: src/dialogs/textbasededit.cpp:1055
+#: src/dialogs/textbasededit.cpp:1081
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Ekstrakcija zvoka iz posnetka %1."
 
-#: src/dialogs/textbasededit.cpp:1063
+#: src/dialogs/textbasededit.cpp:1089
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Ekstrakcija zvoka ni uspela."
 
-#: src/dialogs/textbasededit.cpp:1069 src/dialogs/textbasededit.cpp:1118
+#: src/dialogs/textbasededit.cpp:1095 src/dialogs/textbasededit.cpp:1144
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Začenja se razpoznavanje govora na %1."
 
-#: src/dialogs/textbasededit.cpp:1167
+#: src/dialogs/textbasededit.cpp:1193
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Napaka, preverite nastavitev govora v besedilo."
 
-#: src/dialogs/textbasededit.cpp:1169
+#: src/dialogs/textbasededit.cpp:1195
 #, kde-format
 msgid "No speech detected."
 msgstr "Ni zaznanega govora."
 
-#: src/dialogs/textbasededit.cpp:1190
+#: src/dialogs/textbasededit.cpp:1216
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Razpoznavanje govora končano."
 
-#: src/dialogs/textbasededit.cpp:1427
+#: src/dialogs/textbasededit.cpp:1453
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Uredi besedilo posnetka"
 
-#: src/dialogs/textbasededit.cpp:1459 src/dialogs/textbasededit.cpp:1541
+#: src/dialogs/textbasededit.cpp:1485 src/dialogs/textbasededit.cpp:1567
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Ustvari posnetek zaporedja"
 
-#: src/dialogs/textbasededit.cpp:1466 src/dialogs/textbasededit.cpp:1502
+#: src/dialogs/textbasededit.cpp:1492 src/dialogs/textbasededit.cpp:1528
 #, kde-format
 msgid "No text to export"
 msgstr "Ni besedila za izvoz"
 
-#: src/dialogs/textbasededit.cpp:1486
+#: src/dialogs/textbasededit.cpp:1512
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Vnesite pot do seznama predvajanj"
 
-#: src/dialogs/textbasededit.cpp:1634
+#: src/dialogs/textbasededit.cpp:1660
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "V izboru ni možno najti časovne kode"
@@ -15766,7 +15860,7 @@ msgid "Video transcode"
 msgstr "Slikovno prekodiranje"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:65
+#: src/pythoninterfaces/abstractpythoninterface.cpp:665
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Namesti manjkajoče odvisne dele programja"
@@ -15802,23 +15896,23 @@ msgstr "%1 je nastavljen:<br>%2"
 msgid "Check for update"
 msgstr "Preverjanje za posodobitvami"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:99
+#: src/pythoninterfaces/abstractpythoninterface.cpp:100
 #, kde-format
 msgid "Installing modules… this can take a while"
 msgstr "Nameščanje modulov… to lahko traja dlje časa"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:109
+#: src/pythoninterfaces/abstractpythoninterface.cpp:112
 #, kde-format
 msgid "Updating modules…"
 msgstr "Posodabljanje modulov…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:131
+#: src/pythoninterfaces/abstractpythoninterface.cpp:134
 #, kde-format
 msgid "Checking configuration…"
 msgstr "Preverjanje nastavitve…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:207
-#: src/pythoninterfaces/abstractpythoninterface.cpp:276
+#: src/pythoninterfaces/abstractpythoninterface.cpp:208
+#: src/pythoninterfaces/abstractpythoninterface.cpp:277
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -15829,7 +15923,7 @@ msgstr ""
 "Če je že nameščen, preverite, ali je nameščen v mapi, ki se nahaja na "
 "seznamu spremenljivke okolja PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:213
+#: src/pythoninterfaces/abstractpythoninterface.cpp:214
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -15840,23 +15934,23 @@ msgstr ""
 "Če je že nameščen, preverite, ali je nameščen v mapi, ki se nahaja na "
 "seznamu okoljske spremenljivke PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:222
+#: src/pythoninterfaces/abstractpythoninterface.cpp:223
 #, kde-format
 msgid "Using python from %1"
 msgstr "Uporablja se python iz %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:230
+#: src/pythoninterfaces/abstractpythoninterface.cpp:231
 #, kde-format
 msgid "No python venv found"
 msgstr "Venv python ni mogoče najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:243
+#: src/pythoninterfaces/abstractpythoninterface.cpp:244
 #, kde-format
 msgid "Python venv size: %1"
 msgstr "Velikost venv python: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:313
-#: src/pythoninterfaces/abstractpythoninterface.cpp:315
+#: src/pythoninterfaces/abstractpythoninterface.cpp:314
+#: src/pythoninterfaces/abstractpythoninterface.cpp:316
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -15865,87 +15959,70 @@ msgstr ""
 "Navideznega okolja python ni možno ustvariti:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:331
+#: src/pythoninterfaces/abstractpythoninterface.cpp:332
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "Skripta %1 ni možno najti, preverite svojo namestitev."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:385
+#: src/pythoninterfaces/abstractpythoninterface.cpp:386
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "Potreben je modul python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:422
+#: src/pythoninterfaces/abstractpythoninterface.cpp:419
 #, kde-format
 msgid ""
-"Kdenlive can install the missing python modules in a virtual environment "
-"under %1.\n"
-"This way, it won't touch your system libraries."
+"This requires an internet connection and will take several minutes to "
+"download all necessary dependencies. After that all processing will happen "
+"offline."
 msgstr ""
-"Kdenlive lahko manjkajoče module pythona namesti v virtualno okolje pod %1.\n"
-"Tako se ne bo dotaknil vaših sistemskih knjižnic."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
-#, kde-format
-msgid "Python environment"
-msgstr "Okolje python"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:424
-#, kde-format
-msgid "Use virtual environment (recommended)"
-msgstr "Uporabi virtualno okolje (priporočljivo)"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:425
-#, kde-format
-msgid "Use system install"
-msgstr "Uporabi sistemsko namestitev"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:443
-#: src/pythoninterfaces/abstractpythoninterface.cpp:555
+#: src/pythoninterfaces/abstractpythoninterface.cpp:439
+#: src/pythoninterfaces/abstractpythoninterface.cpp:552
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Notranja napaka: seznama odvisnosti ni možno najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:457
+#: src/pythoninterfaces/abstractpythoninterface.cpp:454
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Napaka pri preverjanju različice modula %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:461
+#: src/pythoninterfaces/abstractpythoninterface.cpp:458
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "Potrebna je vsaj različica %1 modula %2, vendar je trenutna različica %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:465
+#: src/pythoninterfaces/abstractpythoninterface.cpp:462
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Razmislite o posodobitvi svoje namestitve."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:482
+#: src/pythoninterfaces/abstractpythoninterface.cpp:479
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Ni podatkov o različici."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:499
+#: src/pythoninterfaces/abstractpythoninterface.cpp:496
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "manjka (neobvezno)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:584
+#: src/pythoninterfaces/abstractpythoninterface.cpp:581
 #, kde-format
 msgid "Python exec not found"
 msgstr "Izvršilne datoteke Python ni mogoče najti"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:586
+#: src/pythoninterfaces/abstractpythoninterface.cpp:583
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Ni bilo mogoče najti skriptne datoteke %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:623
+#: src/pythoninterfaces/abstractpythoninterface.cpp:618
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15966,6 +16043,84 @@ msgstr ""
 "To bo izbrisalo virtualno okolje python iz:<br/> %1<br/>Okolje se bo ponovno "
 "ustvarilo in moduli bodo preneseni, kadar koli boste ponovno omogočili "
 "virtualno okolje python."
+
+#: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:81
+#, fuzzy, kde-format
+#| msgid "Downloading model…"
+msgid ""
+"Error downloading model:\n"
+" %1\n"
+"%2"
+msgstr "Prenašanje modela …"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
+#, fuzzy, kde-format
+#| msgid "Select a zone to play"
+msgid "Select new models to download"
+msgstr "Izberite območje predvajanja"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
+#, kde-format
+msgid "Installing model %1"
+msgstr ""
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
+#, kde-format
+msgid "Checking available models"
+msgstr ""
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
+#, fuzzy, kde-format
+#| msgid "Downloading model…"
+msgid "Downloading"
+msgstr "Prenašanje modela …"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
+#, fuzzy, kde-format
+#| msgid "Downloading model…"
+msgid "Download Model"
+msgstr "Prenašanje modela …"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
+#, fuzzy, kde-format
+#| msgid "Go to download page"
+msgid "Abort downloads"
+msgstr "Pojdi na stran prenosov"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
+#, fuzzy, kde-format
+#| msgid "Paint mode:"
+msgid "Uninstall model"
+msgstr "Način barvanja:"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
+#, kde-format
+msgid "Install model"
+msgstr ""
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
+#, fuzzy, kde-format
+#| msgid "Total size:"
+msgid "Total download size: %1"
+msgstr "Skupna velikost:"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
+#, fuzzy, kde-format
+#| msgid "Checking for missing items…"
+msgid "Checking models integrity…"
+msgstr "Preverjanje manjkajočih elementov …"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
+#, fuzzy, kde-format
+#| msgid "Archiving in progress, do you want to stop it?"
+msgid "A download is in progress, do you want to abort it ?"
+msgstr "Arhiviranje poteka, ali ga želite zaustaviti?"
+
+#: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
+#, fuzzy, kde-format
+#| msgid "Go to download page"
+msgid "Abort download"
+msgstr "Pojdi na stran prenosov"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16064,289 +16219,241 @@ msgstr ""
 "Trenutni projekt ni bil shranjen.\n"
 "Ali želite naložiti uvožen projekt in opustiti najnovejše spremembe?"
 
-#: src/pythoninterfaces/speechtotext.cpp:22
-#, kde-format
-msgid "speech features"
-msgstr "funkcionalnosti govora"
-
-#: src/pythoninterfaces/speechtotext.cpp:23
-#, kde-format
-msgid "automated subtitling"
-msgstr "samodejno podnaslavljanje"
-
-#: src/pythoninterfaces/speechtotext.cpp:55
+#: src/pythoninterfaces/speechtotext.cpp:36
 #, kde-format
 msgid "Speech to text"
 msgstr "Govor v besedilo"
 
-#: src/pythoninterfaces/speechtotext.cpp:70
+#: src/pythoninterfaces/speechtotextvosk.cpp:32
 #, kde-format
-msgctxt "Model file to download, smallest one"
-msgid "Tiny (72MB)"
-msgstr "Droben (72 MB)"
+msgid "speech features"
+msgstr "funkcionalnosti govora"
 
-#: src/pythoninterfaces/speechtotext.cpp:71
+#: src/pythoninterfaces/speechtotextvosk.cpp:33
 #, kde-format
-msgctxt "Model file to download, basic one"
-msgid "Base (140MB)"
-msgstr "Osnovni (140 MB)"
+msgid "automated subtitling"
+msgstr "samodejno podnaslavljanje"
 
-#: src/pythoninterfaces/speechtotext.cpp:72
-#, kde-format
-msgctxt "Model file to download, small one"
-msgid "Small (460MB)"
-msgstr "Majhen (460 MB)"
-
-#: src/pythoninterfaces/speechtotext.cpp:73
-#, kde-format
-msgctxt "Model file to download, medium one"
-msgid "Medium (1.4GB)"
-msgstr "Srednji (1,4 GB)"
-
-#: src/pythoninterfaces/speechtotext.cpp:74
-#, kde-format
-msgctxt "Model file to download, large one"
-msgid "Large (2.9GB)"
-msgstr "Velik (2,9 GB)"
-
-#: src/pythoninterfaces/speechtotext.cpp:75
-#, kde-format
-msgctxt "Model file to download, smallest one"
-msgid "Tiny - English only (39MB)"
-msgstr "Droben - samo angleščina (39 MB)"
-
-#: src/pythoninterfaces/speechtotext.cpp:76
-#, kde-format
-msgctxt "Model file to download, basic one"
-msgid "Base - English only (74MB)"
-msgstr "Osnovni - samo angleščina (74 MB)"
-
-#: src/pythoninterfaces/speechtotext.cpp:77
-#, kde-format
-msgctxt "Model file to download, small one"
-msgid "Small - English only (244MB)"
-msgstr "Majhen - samo angleščina (244 MB)"
-
-#: src/pythoninterfaces/speechtotext.cpp:78
-#, kde-format
-msgctxt "Model file to download, medium one"
-msgid "Medium - English only (1.5GB)"
-msgstr "Srednji - samo angleščina (1,5 GB)"
-
-#: src/pythoninterfaces/speechtotext.cpp:85
+#: src/pythoninterfaces/speechtotextwhisper.cpp:62
 #, kde-format
 msgid "Autodetect"
 msgstr "Samodejno zaznaj"
 
-#: src/pythoninterfaces/speechtotext.cpp:87
+#: src/pythoninterfaces/speechtotextwhisper.cpp:64
 #, kde-format
 msgid "Albanian"
 msgstr "albanski"
 
-#: src/pythoninterfaces/speechtotext.cpp:89
+#: src/pythoninterfaces/speechtotextwhisper.cpp:66
 #, kde-format
 msgid "Arabic"
 msgstr "arabski"
 
-#: src/pythoninterfaces/speechtotext.cpp:92
+#: src/pythoninterfaces/speechtotextwhisper.cpp:69
 #, kde-format
 msgid "Azerbaijani"
 msgstr "azerbajdžanski"
 
-#: src/pythoninterfaces/speechtotext.cpp:93
+#: src/pythoninterfaces/speechtotextwhisper.cpp:70
 #, kde-format
 msgid "Bashkir"
 msgstr "baškirski"
 
-#: src/pythoninterfaces/speechtotext.cpp:98
+#: src/pythoninterfaces/speechtotextwhisper.cpp:75
 #, kde-format
 msgid "Breton"
 msgstr "bretonski"
 
-#: src/pythoninterfaces/speechtotext.cpp:101
+#: src/pythoninterfaces/speechtotextwhisper.cpp:78
 #, kde-format
 msgid "Castilian"
 msgstr "kastiljski"
 
-#: src/pythoninterfaces/speechtotext.cpp:103
+#: src/pythoninterfaces/speechtotextwhisper.cpp:80
 #, kde-format
 msgid "Chinese"
 msgstr "kitajski"
 
-#: src/pythoninterfaces/speechtotext.cpp:110
+#: src/pythoninterfaces/speechtotextwhisper.cpp:87
 #, kde-format
 msgid "Faroese"
 msgstr "ferski"
 
-#: src/pythoninterfaces/speechtotext.cpp:112
+#: src/pythoninterfaces/speechtotextwhisper.cpp:89
 #, kde-format
 msgid "Flemish"
 msgstr "flamski"
 
-#: src/pythoninterfaces/speechtotext.cpp:119
+#: src/pythoninterfaces/speechtotextwhisper.cpp:96
 #, kde-format
 msgid "Haitian"
 msgstr "haitijski"
 
-#: src/pythoninterfaces/speechtotext.cpp:120
+#: src/pythoninterfaces/speechtotextwhisper.cpp:97
 #, kde-format
 msgid "Haitian Creole"
 msgstr "haitski kreolski"
 
-#: src/pythoninterfaces/speechtotext.cpp:121
+#: src/pythoninterfaces/speechtotextwhisper.cpp:98
 #, kde-format
 msgid "Hausa"
 msgstr "havški"
 
-#: src/pythoninterfaces/speechtotext.cpp:122
+#: src/pythoninterfaces/speechtotextwhisper.cpp:99
 #, kde-format
 msgid "Hawaiian"
 msgstr "havajski"
 
-#: src/pythoninterfaces/speechtotext.cpp:136
+#: src/pythoninterfaces/speechtotextwhisper.cpp:113
 #, kde-format
 msgid "Latin"
 msgstr "latinski"
 
-#: src/pythoninterfaces/speechtotext.cpp:137
+#: src/pythoninterfaces/speechtotextwhisper.cpp:114
 #, kde-format
 msgid "Latvian"
 msgstr "latvijski"
 
-#: src/pythoninterfaces/speechtotext.cpp:138
+#: src/pythoninterfaces/speechtotextwhisper.cpp:115
 #, kde-format
 msgid "Letzeburgesch"
 msgstr "luksemburški"
 
-#: src/pythoninterfaces/speechtotext.cpp:139
+#: src/pythoninterfaces/speechtotextwhisper.cpp:116
 #, kde-format
 msgid "Lingala"
 msgstr "lingalski"
 
-#: src/pythoninterfaces/speechtotext.cpp:141
+#: src/pythoninterfaces/speechtotextwhisper.cpp:118
 #, kde-format
 msgid "Luxembourgish"
 msgstr "luksemburški"
 
-#: src/pythoninterfaces/speechtotext.cpp:143
+#: src/pythoninterfaces/speechtotextwhisper.cpp:120
 #, kde-format
 msgid "Malagasy"
 msgstr "malgaški"
 
-#: src/pythoninterfaces/speechtotext.cpp:144
+#: src/pythoninterfaces/speechtotextwhisper.cpp:121
 #, kde-format
 msgid "Malay"
 msgstr "malajski"
 
-#: src/pythoninterfaces/speechtotext.cpp:147
+#: src/pythoninterfaces/speechtotextwhisper.cpp:124
 #, kde-format
 msgid "Maori"
 msgstr "maorski"
 
-#: src/pythoninterfaces/speechtotext.cpp:149
+#: src/pythoninterfaces/speechtotextwhisper.cpp:126
 #, kde-format
 msgid "Moldavian"
 msgstr "moldavski"
 
-#: src/pythoninterfaces/speechtotext.cpp:150
+#: src/pythoninterfaces/speechtotextwhisper.cpp:127
 #, kde-format
 msgid "Moldovan"
 msgstr "moldovski"
 
-#: src/pythoninterfaces/speechtotext.cpp:151
+#: src/pythoninterfaces/speechtotextwhisper.cpp:128
 #, kde-format
 msgid "Mongolian"
 msgstr "mongolski"
 
-#: src/pythoninterfaces/speechtotext.cpp:152
+#: src/pythoninterfaces/speechtotextwhisper.cpp:129
 #, kde-format
 msgid "Myanmar"
 msgstr "mjanmarski"
 
-#: src/pythoninterfaces/speechtotext.cpp:154
+#: src/pythoninterfaces/speechtotextwhisper.cpp:131
 #, kde-format
 msgid "Norwegian"
 msgstr "norveški"
 
-#: src/pythoninterfaces/speechtotext.cpp:155
+#: src/pythoninterfaces/speechtotextwhisper.cpp:132
 #, kde-format
 msgid "Nynorsk"
 msgstr "ninorsk"
 
-#: src/pythoninterfaces/speechtotext.cpp:156
+#: src/pythoninterfaces/speechtotextwhisper.cpp:133
 #, kde-format
 msgid "Occitan"
 msgstr "oksitanski"
 
-#: src/pythoninterfaces/speechtotext.cpp:157
+#: src/pythoninterfaces/speechtotextwhisper.cpp:134
 #, kde-format
 msgid "Panjabi"
 msgstr "pandžabski"
 
-#: src/pythoninterfaces/speechtotext.cpp:158
+#: src/pythoninterfaces/speechtotextwhisper.cpp:135
 #, kde-format
 msgid "Pashto"
 msgstr "paštunski"
 
-#: src/pythoninterfaces/speechtotext.cpp:159
+#: src/pythoninterfaces/speechtotextwhisper.cpp:136
 #, kde-format
 msgid "Persian"
 msgstr "perzijski"
 
-#: src/pythoninterfaces/speechtotext.cpp:163
+#: src/pythoninterfaces/speechtotextwhisper.cpp:140
 #, kde-format
 msgid "Pushto"
 msgstr "puštojski"
 
-#: src/pythoninterfaces/speechtotext.cpp:166
+#: src/pythoninterfaces/speechtotextwhisper.cpp:143
 #, kde-format
 msgid "Sanskrit"
 msgstr "sanskrt"
 
-#: src/pythoninterfaces/speechtotext.cpp:170
+#: src/pythoninterfaces/speechtotextwhisper.cpp:147
 #, kde-format
 msgid "Sinhala"
 msgstr "sinhalski"
 
-#: src/pythoninterfaces/speechtotext.cpp:171
+#: src/pythoninterfaces/speechtotextwhisper.cpp:148
 #, kde-format
 msgid "Sinhalese"
 msgstr "sinhalejski"
 
-#: src/pythoninterfaces/speechtotext.cpp:176
+#: src/pythoninterfaces/speechtotextwhisper.cpp:153
 #, kde-format
 msgid "Sundanese"
 msgstr "sundanejski"
 
-#: src/pythoninterfaces/speechtotext.cpp:182
+#: src/pythoninterfaces/speechtotextwhisper.cpp:159
 #, kde-format
 msgid "Tatar"
 msgstr "tatarski"
 
-#: src/pythoninterfaces/speechtotext.cpp:185
+#: src/pythoninterfaces/speechtotextwhisper.cpp:162
 #, kde-format
 msgid "Tibetan"
 msgstr "tibetanski"
 
-#: src/pythoninterfaces/speechtotext.cpp:187
+#: src/pythoninterfaces/speechtotextwhisper.cpp:164
 #, kde-format
 msgid "Turkmen"
 msgstr "turkmenski"
 
-#: src/pythoninterfaces/speechtotext.cpp:190
+#: src/pythoninterfaces/speechtotextwhisper.cpp:167
 #, kde-format
 msgid "Uzbek"
 msgstr "uzbeški"
 
-#: src/pythoninterfaces/speechtotext.cpp:191
+#: src/pythoninterfaces/speechtotextwhisper.cpp:168
 #, kde-format
 msgid "Valencian"
 msgstr "valencijski"
 
-#: src/pythoninterfaces/speechtotext.cpp:194
+#: src/pythoninterfaces/speechtotextwhisper.cpp:171
 #, kde-format
 msgid "Yiddish"
 msgstr "jidiš"
+
+#: src/pythoninterfaces/speechtotextwhisper.cpp:234
+#, fuzzy, kde-format
+#| msgid "Whisper"
+msgid "Install Whisper"
+msgstr "Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -17258,12 +17365,12 @@ msgstr "Ni možno prilepiti predmetov v časovnico"
 msgid "Paste timeline clips"
 msgstr "Prilepi časovni posnetek"
 
-#: src/timeline2/model/timelinefunctions.cpp:2864
+#: src/timeline2/model/timelinefunctions.cpp:2866
 #, kde-format
 msgid "Remove space on track"
 msgstr "Odstrani praznino s steze"
 
-#: src/timeline2/model/timelinefunctions.cpp:2891
+#: src/timeline2/model/timelinefunctions.cpp:2893
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Izbriši posnetke s steze"
@@ -19763,7 +19870,7 @@ msgstr "Ime zajete datoteke:"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:209
+#: src/ui/configspeech_ui.ui:233
 #, kde-format
 msgid "Device:"
 msgstr "Naprava:"
@@ -20507,95 +20614,78 @@ msgstr "Zunanji zaslon (kartica Blackmagic):"
 msgid "Output device:"
 msgstr "Izhodna naprava:"
 
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:23
-#, kde-format
-msgid "Speech engine"
-msgstr "Pogon za govor"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:30
-#, kde-format
-msgid "VOSK"
-msgstr "VOSK"
-
-#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:37
-#, kde-format
-msgid "Whisper"
-msgstr "Whisper"
-
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configspeech_ui.ui:66
-#, kde-format
-msgid "VOSK Speech Models"
-msgstr "Modeli govora VOSK"
-
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:73
+#: src/ui/configspeech_ui.ui:90
 #, kde-format
 msgid "Custom models folder"
 msgstr "Mapa modelov po meri"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:87
+#: src/ui/configspeech_ui.ui:130
 #, kde-format
 msgid "Add Model"
 msgstr "Dodaj model"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:98
+#: src/ui/configspeech_ui.ui:143
 #, kde-format
 msgid "Remove Model"
 msgstr "Odstrani model"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:189
+#: src/ui/configspeech_ui.ui:182
 #, kde-format
 msgid "Model:"
 msgstr "Model:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:199
+#: src/ui/configspeech_ui.ui:223
 #, kde-format
 msgid "Language:"
 msgstr "Jezik:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:223
+#: src/ui/configspeech_ui.ui:247
 #, kde-format
 msgid "Disable half precision (FP16 )"
 msgstr "Onemogoči polovično natančnost (FP16)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:230
+#: src/ui/configspeech_ui.ui:254
 #, kde-format
 msgid "Translate text to English"
 msgstr "Prevedi besedilo v angleški jezik"
 
-#. i18n: ectx: property (text), widget (KMessageWidget, whisperInfo)
-#: src/ui/configspeech_ui.ui:237
-#, kde-format
-msgid "Whisper processing on cpu is very slow"
-msgstr "Obdelava Whisper je na CPE zelo počasna"
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableSeamless)
-#: src/ui/configspeech_ui.ui:281
-#, kde-format
-msgid "Enable translation through SeamlessM4T"
-msgstr "Omogoči prevajanje prek SeamlessM4T"
-
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:308
+#: src/ui/configspeech_ui.ui:323
 #, kde-format
 msgid "Check speech engine installation"
 msgstr "Preveri namestitev govornega pogona"
 
 #. i18n: ectx: property (text), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:311
+#: src/ui/configspeech_ui.ui:326
 #, kde-format
 msgid "Check configuration"
 msgstr "Preveri nastavitev"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: src/ui/configspeech_ui.ui:370
+#, kde-format
+msgid "Speech engine"
+msgstr "Pogon za govor"
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
+#: src/ui/configspeech_ui.ui:377
+#, kde-format
+msgid "VOS&K"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
+#: src/ui/configspeech_ui.ui:384
+#, fuzzy, kde-format
+#| msgid "Whisper"
+msgid "Wh&isper"
+msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -23369,3 +23459,83 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgid ""
+#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
+#~ "processing will happen offline. Cpu processing is very slow."
+#~ msgstr ""
+#~ "Ob prvem zagonu programa bo Whisper <b>prenesel izbrani model</b>. Po tem "
+#~ "bo obdelava potekala brez povezave. Obdelava CPE je zelo počasna."
+
+#~ msgid ""
+#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
+#~ "that, translations will happen offline."
+#~ msgstr ""
+#~ "Ob prvem zagonu bo SeamlessM4T <b>prenesel 9 Gb podatkov modela</b>. Po "
+#~ "tem se bodo prevodi zgodili brez povezave."
+
+#~ msgid ""
+#~ "Kdenlive can install the missing python modules in a virtual environment "
+#~ "under %1.\n"
+#~ "This way, it won't touch your system libraries."
+#~ msgstr ""
+#~ "Kdenlive lahko manjkajoče module pythona namesti v virtualno okolje pod "
+#~ "%1.\n"
+#~ "Tako se ne bo dotaknil vaših sistemskih knjižnic."
+
+#~ msgid "Python environment"
+#~ msgstr "Okolje python"
+
+#~ msgid "Use virtual environment (recommended)"
+#~ msgstr "Uporabi virtualno okolje (priporočljivo)"
+
+#~ msgid "Use system install"
+#~ msgstr "Uporabi sistemsko namestitev"
+
+#~ msgctxt "Model file to download, smallest one"
+#~ msgid "Tiny (72MB)"
+#~ msgstr "Droben (72 MB)"
+
+#~ msgctxt "Model file to download, basic one"
+#~ msgid "Base (140MB)"
+#~ msgstr "Osnovni (140 MB)"
+
+#~ msgctxt "Model file to download, small one"
+#~ msgid "Small (460MB)"
+#~ msgstr "Majhen (460 MB)"
+
+#~ msgctxt "Model file to download, medium one"
+#~ msgid "Medium (1.4GB)"
+#~ msgstr "Srednji (1,4 GB)"
+
+#~ msgctxt "Model file to download, large one"
+#~ msgid "Large (2.9GB)"
+#~ msgstr "Velik (2,9 GB)"
+
+#~ msgctxt "Model file to download, smallest one"
+#~ msgid "Tiny - English only (39MB)"
+#~ msgstr "Droben - samo angleščina (39 MB)"
+
+#~ msgctxt "Model file to download, basic one"
+#~ msgid "Base - English only (74MB)"
+#~ msgstr "Osnovni - samo angleščina (74 MB)"
+
+#~ msgctxt "Model file to download, small one"
+#~ msgid "Small - English only (244MB)"
+#~ msgstr "Majhen - samo angleščina (244 MB)"
+
+#~ msgctxt "Model file to download, medium one"
+#~ msgid "Medium - English only (1.5GB)"
+#~ msgstr "Srednji - samo angleščina (1,5 GB)"
+
+#~ msgid "VOSK"
+#~ msgstr "VOSK"
+
+#~ msgid "VOSK Speech Models"
+#~ msgstr "Modeli govora VOSK"
+
+#~ msgid "Whisper processing on cpu is very slow"
+#~ msgstr "Obdelava Whisper je na CPE zelo počasna"
+
+#~ msgid "Enable translation through SeamlessM4T"
+#~ msgstr "Omogoči prevajanje prek SeamlessM4T"
