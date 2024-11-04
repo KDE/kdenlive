@@ -2,12 +2,10 @@
    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL */
 #pragma once
 
-#include <QString>
-#include <vector>
-#include <initializer_list>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <KFileFilter>
-#endif
+#include <QString>
+#include <initializer_list>
+#include <vector>
 
 /* @brief This namespace contains methods to query the supported file types and
    create file filters for file pickers.
@@ -50,12 +48,7 @@ namespace FileFilter {
 
         QString toQFilter() const;
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         QList<KFileFilter> toKFilter() const;
-#else
-        QString toKFilter() const;
-#endif
-
         QStringList toExtensionsList() const;
 
     private:

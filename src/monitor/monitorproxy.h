@@ -8,11 +8,7 @@
 #pragma once
 
 #include "definitions.h"
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include "videowidget.h"
-#else // Qt6
-#include "glwidget.h"
-#endif
 #include <QImage>
 #include <QObject>
 #include <QUrl>

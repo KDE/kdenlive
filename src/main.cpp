@@ -42,10 +42,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #endif
 #include <KLocalizedString>
 
-#define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
-#if HAVE_STYLE_MANAGER
 #include <KStyleManager>
-#endif
 
 #include <QApplication>
 #include <QCommandLineOption>
@@ -174,11 +171,7 @@ int main(int argc, char *argv[])
     ExcHndlInit();
 #endif
     // Force QDomDocument to use a deterministic XML attribute order
-#if QT_VERSION >= QT_VERSION_CHECK(6, 2, 0)
     QHashSeed::setDeterministicGlobalSeed();
-#else
-    qSetGlobalQHashSeed(0);
-#endif
 
 #ifdef CRASH_AUTO_TEST
     Logger::init();
@@ -202,10 +195,8 @@ int main(int argc, char *argv[])
     // TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
-// trigger initialisation of proper icon theme
-#if KICONTHEMES_VERSION >= QT_VERSION_CHECK(6, 3, 0)
+    // trigger initialisation of proper icon theme
     KIconTheme::initTheme();
-#endif
 
     QApplication app(argc, argv);
 
@@ -214,10 +205,8 @@ int main(int argc, char *argv[])
         QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     }
 
-#if HAVE_STYLE_MANAGER
     // trigger initialisation of proper application style
     KStyleManager::initStyle();
-#endif
 
     // Try to detect package type
     LinuxPackageType packageType = getPackageType();
@@ -464,12 +453,6 @@ int main(int argc, char *argv[])
     KDBusService programDBusService;
 #endif
 
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
-    bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
-    if (forceBreeze || packageType == LinuxPackageType::AppImage) {
-        QIcon::setThemeName(QStringLiteral("breeze"));
-    }
-#endif
     qApp->processEvents(QEventLoop::AllEvents);
 
 #if defined(KF5_USE_CRASH)

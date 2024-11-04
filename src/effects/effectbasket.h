@@ -21,11 +21,7 @@ public:
     explicit EffectBasket(QWidget *parent);
 
 protected:
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QMimeData *mimeData(const QList<QListWidgetItem *> list) const override;
-#else
     QMimeData *mimeData(const QList<QListWidgetItem *> &list) const override;
-#endif
     void showEvent(QShowEvent *event) override;
 
 public Q_SLOTS:
