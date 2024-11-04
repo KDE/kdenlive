@@ -5568,16 +5568,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "分配新样式到字幕。"
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "波斯语"
+msgstr ""
 
 #: src/bin/playlistclip.cpp:171
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "序列 1"
+msgstr ""
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -6803,17 +6801,15 @@ msgid "Progressive"
 msgstr "逐行扫描"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "下载错误 %1"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1811 src/ui/configspeech_ui.ui:263
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "正在初始化翻译模型"
+msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1821
 #, kde-format
@@ -6865,10 +6861,9 @@ msgid "Probing..."
 msgstr "正在探测..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1933
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "正在下载模型…"
+msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1990
 #: src/dialogs/kdenlivesettingsdialog.cpp:2237
@@ -6898,10 +6893,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2080 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "边缘模式"
+msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2115
 #, kde-format
@@ -7704,10 +7698,9 @@ msgid "Speech recognition aborted."
 msgstr "语音识别已中止。"
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "语音识别失败"
+msgstr ""
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -15665,19 +15658,17 @@ msgstr ""
 "用 Python 虚拟环境时重新创建，并下载所需的模块。"
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:81
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "正在下载模型…"
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "选择要播放的区段"
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
@@ -15690,28 +15681,24 @@ msgid "Checking available models"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "正在下载模型…"
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "正在下载模型…"
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "访问下载页面"
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Uninstall model"
-msgstr "绘制模式："
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
@@ -15719,28 +15706,24 @@ msgid "Install model"
 msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "总大小："
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking for missing items…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "正在检查缺失的项目…"
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "正在进行压缩，您想要停止压缩吗？"
+msgstr ""
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "访问下载页面"
+msgstr ""
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16069,10 +16052,9 @@ msgid "Yiddish"
 msgstr "意第绪语"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr ""
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -17305,12 +17287,12 @@ msgstr "初始化时间轴预览出错"
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
 #, kde-format
 msgid "Editing duration for %1 clips."
-msgstr ""
+msgstr "编辑 %1 条剪辑的持续时间。"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
 #, kde-format
 msgid "Editing in Ripple mode."
-msgstr ""
+msgstr "用波纹模式编辑。"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -18992,7 +18974,7 @@ msgstr "裁剪结尾："
 #: src/ui/clipdurationdialog_ui.ui:101
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "应用持续时间到全部项目"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20218,10 +20200,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22982,82 +22963,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid ""
-#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
-#~ "processing will happen offline. Cpu processing is very slow."
-#~ msgstr ""
-#~ "Whisper 将在首次运行时<b>下载选中的模型</b>。模型下载后将离线处理内容。"
-#~ "CPU 处理将十分缓慢。"
-
-#~ msgid ""
-#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
-#~ "that, translations will happen offline."
-#~ msgstr ""
-#~ "SeamlessM4T 将在首次运行时<b>下载选中的模型</b>。模型下载后将离线进行翻"
-#~ "译。"
-
-#~ msgid ""
-#~ "Kdenlive can install the missing python modules in a virtual environment "
-#~ "under %1.\n"
-#~ "This way, it won't touch your system libraries."
-#~ msgstr ""
-#~ "Kdenlive 可以在 %1 下的虚拟环境中安装缺失的 python 模块。\n"
-#~ "此方式将确保您的系统程序库不受影响。"
-
-#~ msgid "Python environment"
-#~ msgstr "Python 环境"
-
-#~ msgid "Use virtual environment (recommended)"
-#~ msgstr "使用虚拟环境 (推荐)"
-
-#~ msgid "Use system install"
-#~ msgstr "使用系统安装"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny (72MB)"
-#~ msgstr "超小 (72MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base (140MB)"
-#~ msgstr "基本 (140MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small (460MB)"
-#~ msgstr "小 (460MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium (1.4GB)"
-#~ msgstr "中 (1.4GB)"
-
-#~ msgctxt "Model file to download, large one"
-#~ msgid "Large (2.9GB)"
-#~ msgstr "大 (2.9GB)"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny - English only (39MB)"
-#~ msgstr "超小 - 仅英语 (39MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base - English only (74MB)"
-#~ msgstr "基本 - 仅英语 (74MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small - English only (244MB)"
-#~ msgstr "小 - 仅英语 (244MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium - English only (1.5GB)"
-#~ msgstr "中 - 仅英语 (1.5GB)"
-
-#~ msgid "VOSK"
-#~ msgstr "VOSK"
-
-#~ msgid "VOSK Speech Models"
-#~ msgstr "VOSK 语音模型"
-
-#~ msgid "Whisper processing on cpu is very slow"
-#~ msgstr "Whisper 在 CPU 上的处理速度非常缓慢"
-
-#~ msgid "Enable translation through SeamlessM4T"
-#~ msgstr "启用 SeamlessM4T 翻译"

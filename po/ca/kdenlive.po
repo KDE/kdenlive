@@ -5,12 +5,13 @@
 # SPDX-FileCopyrightText: 2012, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Antoni Bella Pérez <antonibella5@yahoo.com>
 # SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Josep M. Ferrer <txemaq@gmail.com>
 # Orestes Mas <orestes@tsc.upc.edu>, 2009, 2011, 2012, 2015.
+# Josep M. Ferrer <txemaq@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-03 00:39+0000\n"
-"PO-Revision-Date: 2024-11-02 10:23+0100\n"
+"PO-Revision-Date: 2024-11-03 10:10+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6977,22 +6978,20 @@ msgid "Progressive"
 msgstr "Progressiu"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Error de baixada %1"
+msgstr "Baixa (1,4GB)"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1811 src/ui/configspeech_ui.ui:263
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "S'està inicialitzant el model de traducció"
+msgstr "Instal·la la traducció multilingüe"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1821
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "S'estan instal·lant les dades multilingües…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7039,10 +7038,9 @@ msgid "Probing..."
 msgstr "S'està explorant..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1933
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "S'està baixant el model…"
+msgstr "S'està baixant el model multilingüe…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1990
 #: src/dialogs/kdenlivesettingsdialog.cpp:2237
@@ -7062,25 +7060,24 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:2038
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Instal·leu un model de veu; recomanem <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2069
 #: src/dialogs/kdenlivesettingsdialog.cpp:2078
 #, kde-format
 msgid "Install a model"
-msgstr ""
+msgstr "Instal·la un model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2080 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Mode de vora"
+msgstr "Gestiona els models"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2115
 #, kde-format
 msgid "Enter url for the new dictionary"
-msgstr "Introduïu un URL per al diccionari nou"
+msgstr "Introduïu un URL al diccionari nou"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2121
 #, kde-format
@@ -7894,10 +7891,9 @@ msgid "Speech recognition aborted."
 msgstr "S'ha interromput el reconeixement de la veu."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Ha fallat el reconeixement de la veu"
+msgstr "Ha fallat el reconeixement de la veu."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -16050,6 +16046,9 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"Això requereix una connexió a Internet i trigarà diversos minuts a "
+"descarregar totes les dependències necessàries. Després d'això, tot el "
+"processament es farà fora de línia."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:439
 #: src/pythoninterfaces/abstractpythoninterface.cpp:552
@@ -16120,82 +16119,75 @@ msgstr ""
 "activar l'entorn virtual del Python."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:81
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "S'està baixant el model…"
+msgstr ""
+"Error en baixar el model:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Seleccioneu una zona per a reproduir"
+msgstr "Seleccioneu models nous a baixar"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
 msgid "Installing model %1"
-msgstr ""
+msgstr "S'està instal·lant el model %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "S'estan comprovant els models disponibles"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "S'està baixant el model…"
+msgstr "Baixada"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "S'està baixant el model…"
+msgstr "Baixada del model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Ves a la pàgina de baixades"
+msgstr "Interromp les baixades"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Mode de pintat:"
+msgstr "Desinstal·la el model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
 msgid "Install model"
-msgstr ""
+msgstr "Instal·la el model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Mida total:"
+msgstr "Mida total de la baixada: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking for missing items…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "S'està comprovant si manquen elements…"
+msgstr "S'està comprovant la integritat dels models…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "S'està arxivant; voleu aturar el procés?"
+msgstr "Hi ha una baixada en curs; la voleu interrompre?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Ves a la pàgina de baixades"
+msgstr "Interromp la baixada"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16527,10 +16519,9 @@ msgid "Yiddish"
 msgstr "Jiddisch"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Instal·la el Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -20782,14 +20773,13 @@ msgstr "Motor de veu"
 #: src/ui/configspeech_ui.ui:377
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
