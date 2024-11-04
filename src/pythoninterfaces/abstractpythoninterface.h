@@ -8,10 +8,11 @@
 #include "kdenlivesettings.h"
 
 #include <KMessageWidget>
-#include <QObject>
-#include <QString>
 #include <QMap>
+#include <QMutex>
+#include <QObject>
 #include <QPair>
+#include <QString>
 
 class KJob;
 
@@ -75,9 +76,10 @@ public Q_SLOTS:
 private:
     QStringList m_missing;
     QStringList m_optionalMissing;
-    QMap<QString, QString> *m_versions;
+    QMap<QString, QString> m_versions;
     bool m_disableInstall{false};
     bool m_dependenciesChecked;
+    QMutex m_versionsMutex;
     const QString locateScript(const QString &script);
     QString runPackageScript(const QString &mode, bool concurrent = false, bool displayFeedback = true);
     int versionToInt(const QString &version);

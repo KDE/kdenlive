@@ -136,9 +136,7 @@ void PythonDependencyMessage::checkAfterInstall()
 }
 
 AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
-    : QObject{parent}
-    , m_versions(new QMap<QString, QString>())
-    //, m_disableInstall(pCore->packageType() == LinuxPackageType::Flatpak)
+    : QObject{parent} //, m_disableInstall(pCore->packageType() == LinuxPackageType::Flatpak)
     , m_dependenciesChecked(false)
     , m_dependencies()
 {
@@ -146,10 +144,7 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
     addScript(QStringLiteral("checkgpu.py"));
 }
 
-AbstractPythonInterface::~AbstractPythonInterface()
-{
-    delete m_versions;
-}
+AbstractPythonInterface::~AbstractPythonInterface() {}
 
 bool AbstractPythonInterface::checkPython(bool useVenv, bool calculateSize, bool forceInstall)
 {
@@ -449,7 +444,7 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
 {
     checkVersions(false);
-    QString currentVersion = m_versions->value(dependency);
+    const QString currentVersion = m_versions.value(dependency);
     if (currentVersion.isEmpty()) {
         Q_EMIT setupError(i18n("Error while checking version of module %1", dependency));
         return;
@@ -482,6 +477,7 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
     }
     QStringList raw = output.split(QStringLiteral("Version: "));
     QStringList versions;
+    QMutexLocker locker(&m_versionsMutex);
     for (int i = 0; i < raw.count() - 1; i++) {
         QString name = raw.at(i);
         int pos = name.indexOf(QStringLiteral("Name:"));
@@ -496,10 +492,11 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
                 version = i18nc("@item:intext indicates a missing dependency", "missing (optional)");
             }
             versions.append(QStringLiteral("<b>%1</b> %2").arg(name, version));
-            if (m_versions->contains(name)) {
-                (*m_versions)[name.toLower()] = version;
+            name = name.toLower();
+            if (m_versions.contains(name)) {
+                m_versions[name] = version;
             } else {
-                m_versions->insert(name.toLower(), version);
+                m_versions.insert(name, version);
             }
         }
     }
