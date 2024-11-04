@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-03 00:39+0000\n"
-"PO-Revision-Date: 2024-11-02 05:19+0200\n"
+"PO-Revision-Date: 2024-11-03 06:01+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -6860,22 +6860,20 @@ msgid "Progressive"
 msgstr "מדורג"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "שגיאת הורדה %1"
+msgstr "הורדה (1.4 ג״ב)"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1811 src/ui/configspeech_ui.ui:263
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "מודל התרגום מופעל"
+msgstr "התקנת תרגום רב־לשוני"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1821
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "מותקנים נתונים רב־לשוניים…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -6922,10 +6920,9 @@ msgid "Probing..."
 msgstr "מתבצע תשאול…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1933
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "הדגם מתקבל…"
+msgstr "הדגם הרב־לשוני מתקבל…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1990
 #: src/dialogs/kdenlivesettingsdialog.cpp:2237
@@ -6945,21 +6942,19 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:2038
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "התקנת מודל דיבור - אנו ממליצים על <b>טורבו/turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2069
 #: src/dialogs/kdenlivesettingsdialog.cpp:2078
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install a model"
-msgstr "מודולים מותקנים"
+msgstr "התקנת מודל"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2080 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "מצב קצוות"
+msgstr "ניהול מודלים"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2115
 #, kde-format
@@ -7778,10 +7773,9 @@ msgid "Speech recognition aborted."
 msgstr "זיהוי קולי בוטל."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "זיהוי הדיבור נכשל"
+msgstr "זיהוי הדיבור נכשל."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -15765,6 +15759,8 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"דורש חיבור לאינטרנט ויארוך מספר דקות להוריד את כל התלויות הנחוצות. לאחר השלב "
+"הזה כל העיבוד יתבצע ללא חיבור לאינטרנט."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:439
 #: src/pythoninterfaces/abstractpythoninterface.cpp:552
@@ -15833,82 +15829,75 @@ msgstr ""
 "הווירטואלית של Python."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:81
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "תיקיית פרוייקט"
+msgstr ""
+"שגיאה בהורדת המודל:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "נא לבחור קטע לנגינה"
+msgstr "נא לבחור מודלים חדשים להורדה"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "מודולים מותקנים"
+msgstr "המודל %1 מותקן"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "המודלים הזמינים נבדקים"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "הדגם מתקבל…"
+msgstr "מתבצעת הורדה"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "הדגם מתקבל…"
+msgstr "הורדת מודל"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "מעבר לעמוד ההורדה"
+msgstr "ביטול הורדות"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "מודולים מותקנים"
+msgstr "הסרת מודל"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "מודולים מותקנים"
+msgstr "התקנת מודל"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "גודל כולל:"
+msgstr "גודל הורדה כולל: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "תצורת התקן"
+msgstr "שלמות המודלים נבדקת…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "מתבצעת העברה לארכיון, לעצור אותה?"
+msgstr "מתבצעת הורדה, לבטל אותה?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "מעבר לעמוד ההורדה"
+msgstr "ביטול הורדה גורף"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16237,10 +16226,9 @@ msgid "Yiddish"
 msgstr "יידיש"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "התקנת Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -20419,14 +20407,13 @@ msgstr "מנוע דיבור"
 #: src/ui/configspeech_ui.ui:377
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)

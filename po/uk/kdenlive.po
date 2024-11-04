@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-03 00:39+0000\n"
-"PO-Revision-Date: 2024-11-02 16:38+0200\n"
+"PO-Revision-Date: 2024-11-03 12:52+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6980,22 +6980,20 @@ msgid "Progressive"
 msgstr "Прогресивне"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Помилка під час отримання %1"
+msgstr "Отримати (1,4 ГБ)"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1811 src/ui/configspeech_ui.ui:263
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Ініціалізуємо модель перекладу"
+msgstr "Встановити багатомовний переклад"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1821
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Встановлення багатомовних даних…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7042,10 +7040,9 @@ msgid "Probing..."
 msgstr "Зондування…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1933
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Отримуємо модель…"
+msgstr "Отримуємо багатомовну модель…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1990
 #: src/dialogs/kdenlivesettingsdialog.cpp:2237
@@ -7065,21 +7062,19 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:2038
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Встановіть модель мовлення — ми рекомендуємо <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2069
 #: src/dialogs/kdenlivesettingsdialog.cpp:2078
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install a model"
-msgstr "Встановлені модулі"
+msgstr "Встановити модель"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2080 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Режим країв"
+msgstr "Керування моделями"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2115
 #, kde-format
@@ -7907,10 +7902,9 @@ msgid "Speech recognition aborted."
 msgstr "Розпізнавання мовлення перервано."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Не вдалося розпізнати текст"
+msgstr "Не вдалося розпізнати текст."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -16090,6 +16084,9 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"Потребує інтернет-з'єднання і триватиме декілька хвилин через отримання усіх "
+"необхідних залежностей. Після цього обробка відбуватиметься без потреби в "
+"інтернет-з'єднанні."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:439
 #: src/pythoninterfaces/abstractpythoninterface.cpp:552
@@ -16160,85 +16157,75 @@ msgstr ""
 "разу, коли ви повторно вмикатимете віртуальне середовище python."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:81
-#, fuzzy, kde-format
-#| msgid "Error Downloading File. Error code: %1"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Помилка під час спроби отримати файл. Код помилки: %1"
+msgstr ""
+"Помилка під час отримання моделі:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Виберіть ділянку для відтворення"
+msgstr "Виберіть нові моделі для отримання"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "Встановлені модулі"
+msgstr "Встановлення моделі %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Пошук доступних моделей"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Отримуємо модель…"
+msgstr "Отримання"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Отримуємо модель…"
+msgstr "Отримати модель"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Перейти до сторінки отримання"
+msgstr "Перервати отримання"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Встановлені модулі"
+msgstr "Вилучити модель"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "Встановлені модулі"
+msgstr "Встановити модель"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Загальний розмір:"
+msgstr "Загальний розмір отриманих даних: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgctxt "@label:textbox"
-#| msgid "Checking modules version…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Перевіряємо версію модулів…"
+msgstr "Перевіряємо цілісність моделей…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Виконується архівування, бажаєте зупинити його?"
+msgstr "Отримуємо дані, хочете перервати отримання?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Перейти до сторінки отримання"
+msgstr "Перервати звантаження"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16569,10 +16556,9 @@ msgid "Yiddish"
 msgstr "ідиш"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Встановити Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -20830,14 +20816,13 @@ msgstr "Рушій синтезу мовлення"
 #: src/ui/configspeech_ui.ui:377
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)

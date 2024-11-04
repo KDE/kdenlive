@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-03 00:39+0000\n"
-"PO-Revision-Date: 2024-10-25 18:15+0200\n"
+"PO-Revision-Date: 2024-11-03 11:02+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -5690,16 +5690,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "Dodelite novi slog podnaslovu."
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "perzijski"
+msgstr "različica"
 
 #: src/bin/playlistclip.cpp:171
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Zaporedje 1"
+msgstr "Število zaporedij"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -6944,22 +6942,20 @@ msgid "Progressive"
 msgstr "Napredovano"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1793
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Napaka pri prenosu %1"
+msgstr "Prenesi (1,4 Gb)"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1811 src/ui/configspeech_ui.ui:263
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Inicializacija prevajalskega modela"
+msgstr "Namesti večjezično prevajanje"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1821
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Nameščanje večjezičnih podatkov ..."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7006,10 +7002,9 @@ msgid "Probing..."
 msgstr "Sondiranje …"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1933
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Prenašanje modela …"
+msgstr "Prejemanje večjezičnega modela ..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1990
 #: src/dialogs/kdenlivesettingsdialog.cpp:2237
@@ -7029,20 +7024,19 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:2038
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Namestite govorni model - priporočamo <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2069
 #: src/dialogs/kdenlivesettingsdialog.cpp:2078
 #, kde-format
 msgid "Install a model"
-msgstr ""
+msgstr "Namestite model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2080 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Način robov"
+msgstr "Upravljanje modelov"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2115
 #, kde-format
@@ -7862,10 +7856,9 @@ msgid "Speech recognition aborted."
 msgstr "Razpoznavanje govora ustavljeno."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Razpoznavanje govora ni uspelo"
+msgstr "Razpoznavanje govora ni uspelo."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -15976,6 +15969,9 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"To zahteva internetno povezavo in traja nekaj minut, da prenesete vse "
+"potrebne pakete, od katerih je paket odvisen. Po tem bo vsa obdelava "
+"potekala brez povezave."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:439
 #: src/pythoninterfaces/abstractpythoninterface.cpp:552
@@ -16045,82 +16041,75 @@ msgstr ""
 "virtualno okolje python."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:81
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Prenašanje modela …"
+msgstr ""
+"Napaka pri prejemu modela:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Izberite območje predvajanja"
+msgstr "Izberite nove modele za prenos"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
 msgid "Installing model %1"
-msgstr ""
+msgstr "Nameščanje modela %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Preverjanje razpoložljivih modelov"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Prenašanje modela …"
+msgstr "Prejemanje"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Prenašanje modela …"
+msgstr "Prenesi model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Pojdi na stran prenosov"
+msgstr "Prekini prenose"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Način barvanja:"
+msgstr "Odstrani model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
 msgid "Install model"
-msgstr ""
+msgstr "Namesti model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Skupna velikost:"
+msgstr "Skupna velikost prenosa: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking for missing items…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Preverjanje manjkajočih elementov …"
+msgstr "Preverjanje celovitosti modelov ..."
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Arhiviranje poteka, ali ga želite zaustaviti?"
+msgstr "Prenos je v teku, ali ga želite prekiniti?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Pojdi na stran prenosov"
+msgstr "Prekini prenos"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16450,10 +16439,9 @@ msgid "Yiddish"
 msgstr "jidiš"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Namesti Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -17711,16 +17699,14 @@ msgid "Error initializing timeline preview"
 msgstr "Napaka pri inicializiranju predogleda časovnice"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "Ekstrakcija zvoka iz posnetka %1."
+msgstr "Trajanje montaže za %1 posnetkov."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Montaža v načinu izrivanja"
+msgstr "Montaža v načinu izrivanja."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -19449,7 +19435,7 @@ msgstr "Konec obreza:"
 #: src/ui/clipdurationdialog_ui.ui:101
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Uveljavi trajanje za vse elemente"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20678,14 +20664,13 @@ msgstr "Pogon za govor"
 #: src/ui/configspeech_ui.ui:377
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:384
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -23459,83 +23444,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid ""
-#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
-#~ "processing will happen offline. Cpu processing is very slow."
-#~ msgstr ""
-#~ "Ob prvem zagonu programa bo Whisper <b>prenesel izbrani model</b>. Po tem "
-#~ "bo obdelava potekala brez povezave. Obdelava CPE je zelo počasna."
-
-#~ msgid ""
-#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
-#~ "that, translations will happen offline."
-#~ msgstr ""
-#~ "Ob prvem zagonu bo SeamlessM4T <b>prenesel 9 Gb podatkov modela</b>. Po "
-#~ "tem se bodo prevodi zgodili brez povezave."
-
-#~ msgid ""
-#~ "Kdenlive can install the missing python modules in a virtual environment "
-#~ "under %1.\n"
-#~ "This way, it won't touch your system libraries."
-#~ msgstr ""
-#~ "Kdenlive lahko manjkajoče module pythona namesti v virtualno okolje pod "
-#~ "%1.\n"
-#~ "Tako se ne bo dotaknil vaših sistemskih knjižnic."
-
-#~ msgid "Python environment"
-#~ msgstr "Okolje python"
-
-#~ msgid "Use virtual environment (recommended)"
-#~ msgstr "Uporabi virtualno okolje (priporočljivo)"
-
-#~ msgid "Use system install"
-#~ msgstr "Uporabi sistemsko namestitev"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny (72MB)"
-#~ msgstr "Droben (72 MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base (140MB)"
-#~ msgstr "Osnovni (140 MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small (460MB)"
-#~ msgstr "Majhen (460 MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium (1.4GB)"
-#~ msgstr "Srednji (1,4 GB)"
-
-#~ msgctxt "Model file to download, large one"
-#~ msgid "Large (2.9GB)"
-#~ msgstr "Velik (2,9 GB)"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny - English only (39MB)"
-#~ msgstr "Droben - samo angleščina (39 MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base - English only (74MB)"
-#~ msgstr "Osnovni - samo angleščina (74 MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small - English only (244MB)"
-#~ msgstr "Majhen - samo angleščina (244 MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium - English only (1.5GB)"
-#~ msgstr "Srednji - samo angleščina (1,5 GB)"
-
-#~ msgid "VOSK"
-#~ msgstr "VOSK"
-
-#~ msgid "VOSK Speech Models"
-#~ msgstr "Modeli govora VOSK"
-
-#~ msgid "Whisper processing on cpu is very slow"
-#~ msgstr "Obdelava Whisper je na CPE zelo počasna"
-
-#~ msgid "Enable translation through SeamlessM4T"
-#~ msgstr "Omogoči prevajanje prek SeamlessM4T"
