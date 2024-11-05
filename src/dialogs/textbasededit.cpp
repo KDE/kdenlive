@@ -870,7 +870,8 @@ void TextBasedEdit::updateEngine()
         // VOSK
         language_box->setVisible(false);
         m_stt = new SpeechToTextVosk(this);
-        m_stt->getInstalledModels();
+        const QStringList voskModels = m_stt->getInstalledModels();
+        buildVoskModelsList(voskModels);
     }
 }
 
@@ -881,8 +882,10 @@ void TextBasedEdit::buildVoskModelsList(const QStringList models)
     m_modelsGroup = new QActionGroup(this);
     if (models.isEmpty()) {
         showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_speechConfig);
+        button_start->setEnabled(false);
         return;
     }
+    button_start->setEnabled(true);
     QAction *a = nullptr;
     for (auto &m : models) {
         a = m_modelsMenu->addAction(m);
@@ -914,9 +917,11 @@ void TextBasedEdit::buildWhisperModelsList(const QStringList whisperModels)
     delete m_modelsGroup;
     m_modelsGroup = new QActionGroup(this);
     if (whisperModels.isEmpty()) {
+        button_start->setEnabled(false);
         showMessage(i18n("Please install speech recognition models"), KMessageWidget::Information, m_speechConfig);
         return;
     }
+    button_start->setEnabled(true);
     QAction *a = nullptr;
     bool found = false;
     for (auto &w : whisperModels) {

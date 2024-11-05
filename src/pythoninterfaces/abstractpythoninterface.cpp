@@ -367,7 +367,7 @@ void AbstractPythonInterface::checkDependencies(bool force, bool async)
     for (auto &m : missingDeps) {
         outputMissing << m.simplified();
     }
-    QStringList deps = parseDependencies(m_dependencies.keys(), true);
+    const QStringList deps = parseDependencies(m_dependencies.keys(), true);
     QStringList messages;
     if (!output.isEmpty()) {
         // We have missing dependencies
@@ -469,43 +469,34 @@ void AbstractPythonInterface::checkVersions(bool signalOnResult)
     if (installDisabled()) {
         return;
     }
-    QString output = runPackageScript(QStringLiteral("--details"), false, false);
-    if (output.isEmpty() || !output.contains(QStringLiteral("Version: "))) {
+    QStringList deps = parseDependencies(m_dependencies.keys(), true);
+    const QStringList output = runPackageScript(QStringLiteral("--details"), false, false).split(QLatin1Char('\n'));
+    QMutexLocker locker(&m_versionsMutex);
+    QStringList versionsText;
+    for (auto &o : output) {
+        if (o.contains(QLatin1String("=="))) {
+            const QString package = o.section(QLatin1String("=="), 0, 0).toLower();
+            if (deps.contains(package)) {
+                QString version = o.section(QLatin1String("=="), 1);
+                if (version == QLatin1String("missing")) {
+                    version = i18nc("@item:intext indicates a missing dependency", "missing (optional)");
+                }
+                m_versions.insert(package, version);
+                versionsText.append(QStringLiteral("<b>%1</b> %2").arg(package, version));
+            }
+        }
+    }
+    if (m_versions.isEmpty()) {
         Q_EMIT setupMessage(i18nc("@label:textbox", "No version information available."), int(KMessageWidget::Warning));
         qDebug() << "::: CHECKING DEPENDENCIES... NO VERSION INFO AVAILABLE";
         return;
     }
-    QStringList raw = output.split(QStringLiteral("Version: "));
-    QStringList versions;
-    QMutexLocker locker(&m_versionsMutex);
-    for (int i = 0; i < raw.count() - 1; i++) {
-        QString name = raw.at(i);
-        int pos = name.indexOf(QStringLiteral("Name:"));
-        if (pos > -1) {
-            if (pos != 0) {
-                name.remove(0, pos);
-            }
-            name = name.simplified().section(QLatin1Char(' '), 1, 1);
-            QString version = raw.at(i + 1);
-            version = version.simplified().section(QLatin1Char(' '), 0, 0);
-            if (version == QLatin1String("missing")) {
-                version = i18nc("@item:intext indicates a missing dependency", "missing (optional)");
-            }
-            versions.append(QStringLiteral("<b>%1</b> %2").arg(name, version));
-            name = name.toLower();
-            if (m_versions.contains(name)) {
-                m_versions[name] = version;
-            } else {
-                m_versions.insert(name, version);
-            }
-        }
-    }
     if (signalOnResult) {
-        Q_EMIT checkVersionsResult(versions);
+        Q_EMIT checkVersionsResult(versionsText);
     }
 }
 
-QStringList AbstractPythonInterface::parseDependencies(QStringList deps, bool split)
+QStringList AbstractPythonInterface::parseDependencies(const QStringList deps, bool split)
 {
     // Extract requirements files
     if (split == false) {
@@ -526,12 +517,16 @@ QStringList AbstractPythonInterface::parseDependencies(QStringList deps, bool sp
         QFile textFile(r);
         if (textFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream textStream(&textFile);
-            while (true) {
+            while (!textStream.atEnd()) {
                 QString line = textStream.readLine();
-                if (line.isNull())
-                    break;
+                if (line.simplified().isEmpty())
+                    continue;
                 else if (!line.startsWith(QLatin1Char('#'))) {
-                    if (line.contains(QLatin1Char('='))) {
+                    if (line.contains(QLatin1Char('>'))) {
+                        line = line.section(QLatin1Char('>'), 0, 0);
+                    } else if (line.contains(QLatin1Char('<'))) {
+                        line = line.section(QLatin1Char('<'), 0, 0);
+                    } else if (line.contains(QLatin1Char('='))) {
                         line = line.section(QLatin1Char('='), 0, 0);
                     }
                     packages.append(line.simplified());

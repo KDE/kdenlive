@@ -404,7 +404,7 @@ void SpeechDialog::slotProcessSpeech()
         // Vosk
         QString modelName = speech_model->currentText();
         connect(m_speechJob.get(), &QProcess::readyReadStandardOutput, this, &SpeechDialog::slotProcessProgress);
-        m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), modelDirectory, modelName, audio, speech});
+        m_speechJob->start(m_stt->pythonExec(), {m_stt->subtitleScript(), modelDirectory, modelName, audio, m_tmpSrtPath});
     }
 }
 
@@ -436,7 +436,7 @@ void SpeechDialog::slotProcessSpeechStatus(int exitCode, QProcess::ExitStatus st
 
 void SpeechDialog::slotProcessProgress()
 {
-    QString saveData = QString::fromUtf8(m_speechJob->readAll());
+    const QString saveData = QString::fromUtf8(m_speechJob->readAll());
     if (saveData.startsWith(QStringLiteral("progress:"))) {
         double prog = saveData.section(QLatin1Char(':'), 1).toInt() * 3.12;
         speech_progress->setValue(static_cast<int>(100 * prog / m_duration));

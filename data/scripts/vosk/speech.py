@@ -69,7 +69,7 @@ def transcribe():
     return subs
 
 subtitle = srt.compose(transcribe())
-#print (subtitle)
+#print (subtitle, flush=True)
 with open(sys.argv[4], 'w',encoding='utf8') as f:
     f.writelines(subtitle)
 f.close()

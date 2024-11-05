@@ -77,7 +77,7 @@ elif '--upgrade' in sys.argv:
     for r in required:
         try:
             if r.endswith(".txt"):
-                subprocess.check_call([python, '-m', 'pip', 'install', '--force-reinstall', '-r', r])
+                subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', '-r', r])
             else:
                 subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', r])
         except:
@@ -86,8 +86,8 @@ elif '--details' in sys.argv:
     # check modules version
     python = sys.executable
     for m in missing:
-        print("Name: ", m, " Version: missing ")
-    subprocess.check_call([python, '-m', 'pip', 'show', *required])
+        print(m, "==missing", file=sys.stdout,flush=True)
+    subprocess.check_call([python, '-m', 'pip', 'freeze'])
 else:
     print_help()
     sys.exit("Error: You need to provide a mode")
