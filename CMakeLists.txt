@@ -231,7 +231,7 @@ elseif(BUILD_FUZZING)
     message(STATUS "Fuzzing build was requested but not enabled because compiler is ${CMAKE_CXX_COMPILER_ID} and not Clang")
 endif()
 
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # pre-commit hook
 include(KDEGitCommitHooks)
