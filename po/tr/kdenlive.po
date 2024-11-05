@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-05 00:39+0000\n"
 "PO-Revision-Date: 2024-11-03 16:36+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -7790,7 +7790,7 @@ msgid "Please install speech recognition models"
 msgstr "Lütfen konuşma tanıma modelleri kurun"
 
 #: src/dialogs/speechdialog.cpp:260
-#: src/pythoninterfaces/abstractpythoninterface.cpp:175
+#: src/pythoninterfaces/abstractpythoninterface.cpp:170
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
@@ -15779,7 +15779,7 @@ msgid "Video transcode"
 msgstr "Video arakodlaması"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:665
+#: src/pythoninterfaces/abstractpythoninterface.cpp:662
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Eksik Bağımlılıkları Kur"
@@ -15830,8 +15830,8 @@ msgstr "Modüller güncelleniyor…"
 msgid "Checking configuration…"
 msgstr "Yapılandırma denetleniyor…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:208
-#: src/pythoninterfaces/abstractpythoninterface.cpp:277
+#: src/pythoninterfaces/abstractpythoninterface.cpp:203
+#: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -15841,7 +15841,7 @@ msgstr ""
 "python3 bulunamıyor, lütfen sisteminize kurun.\n"
 "Kuruluysa kurulum dizininin PATH çevre değişkeninde olduğundan emin olun"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:214
+#: src/pythoninterfaces/abstractpythoninterface.cpp:209
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -15851,23 +15851,23 @@ msgstr ""
 "pip3 bulunamıyor, lütfen sisteminize kurun.\n"
 "Kuruluysa kurulum dizininin PATH çevre değişkeninde olduğundan emin olun"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:223
+#: src/pythoninterfaces/abstractpythoninterface.cpp:218
 #, kde-format
 msgid "Using python from %1"
 msgstr "Python, %1 konumundan kullanılıyor"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:231
+#: src/pythoninterfaces/abstractpythoninterface.cpp:226
 #, kde-format
 msgid "No python venv found"
 msgstr "Hiçbir Python sanal ortamı bulunamadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:244
+#: src/pythoninterfaces/abstractpythoninterface.cpp:239
 #, kde-format
 msgid "Python venv size: %1"
 msgstr "Python sanal ortam boyutu: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:314
-#: src/pythoninterfaces/abstractpythoninterface.cpp:316
+#: src/pythoninterfaces/abstractpythoninterface.cpp:309
+#: src/pythoninterfaces/abstractpythoninterface.cpp:311
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -15876,17 +15876,17 @@ msgstr ""
 "Python sanal ortamı oluşturulamıyor:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:332
+#: src/pythoninterfaces/abstractpythoninterface.cpp:327
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "%1 betiği bulunamadı, kurulumunuzu denetleyin."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:386
+#: src/pythoninterfaces/abstractpythoninterface.cpp:381
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> Python modülü gerekiyor."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:419
+#: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes to "
@@ -15897,51 +15897,51 @@ msgstr ""
 "birkaç dakika sürecektir. Bundan sonra tüm veri işleme çevrimdışı olarak "
 "gerçekleşir."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:439
-#: src/pythoninterfaces/abstractpythoninterface.cpp:552
+#: src/pythoninterfaces/abstractpythoninterface.cpp:434
+#: src/pythoninterfaces/abstractpythoninterface.cpp:549
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "İç hata: Bağımlılık listesi bulunamıyor"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:454
+#: src/pythoninterfaces/abstractpythoninterface.cpp:449
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "%1 modülünün sürümü denetlenirken hata"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:458
+#: src/pythoninterfaces/abstractpythoninterface.cpp:453
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "%2 modülünün en az %1 sürümü gerekiyor; ancak sizin sürümünüz %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:462
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Kurulumunuzu güncellemeyi düşünün."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:479
+#: src/pythoninterfaces/abstractpythoninterface.cpp:474
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Kullanılabilir sürüm bilgisi yok."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
+#: src/pythoninterfaces/abstractpythoninterface.cpp:492
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "eksik (isteğe bağlı)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:581
+#: src/pythoninterfaces/abstractpythoninterface.cpp:578
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python yürütülebiliri bulunamadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:583
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "%1 betik dosyası bulunamadı"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:615
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15952,7 +15952,7 @@ msgstr ""
 "%1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -23372,192 +23372,3 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
-
-#~ msgid ""
-#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
-#~ "processing will happen offline. Cpu processing is very slow."
-#~ msgstr ""
-#~ "İlk çalıştırmada Whisper <b>seçili modeli indirecektir</b>. Bundan sonra "
-#~ "işleme çevrimdışı olarak gerçekleşir. CPU ile işleme pek yavaştır."
-
-#~ msgid ""
-#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
-#~ "that, translations will happen offline."
-#~ msgstr ""
-#~ "SeamlessM4T ilk çalıştırmada <b>9 GB model verisi indirecektir</b>. "
-#~ "Bundan sonra çeviriler çevrimdışı gerçekleşir."
-
-#~ msgid ""
-#~ "Kdenlive can install the missing python modules in a virtual environment "
-#~ "under %1.\n"
-#~ "This way, it won't touch your system libraries."
-#~ msgstr ""
-#~ "Kdenlive eksik Python modüllerini %1 altındaki bir sanal ortama "
-#~ "kurabilir.\n"
-#~ "Böylece sistem kitaplıklarınıza dokunmazlar."
-
-#~ msgid "Python environment"
-#~ msgstr "Python ortamı"
-
-#~ msgid "Use virtual environment (recommended)"
-#~ msgstr "Sanal ortamı kullan (önerilir)"
-
-#~ msgid "Use system install"
-#~ msgstr "Sistem kurulumunu kullan"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny (72MB)"
-#~ msgstr "Ufak (72 MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base (140MB)"
-#~ msgstr "Temel (140 MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small (460MB)"
-#~ msgstr "Küçük (460 MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium (1.4GB)"
-#~ msgstr "Orta (1,4 GB)"
-
-#~ msgctxt "Model file to download, large one"
-#~ msgid "Large (2.9GB)"
-#~ msgstr "Büyük (2,9 GB)"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny - English only (39MB)"
-#~ msgstr "Ufak — Yalnızca İngilizce (39 MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base - English only (74MB)"
-#~ msgstr "Temel — Yalnızca İngilizce (74 MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small - English only (244MB)"
-#~ msgstr "Küçük — Yalnızca İngilizce (244 MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium - English only (1.5GB)"
-#~ msgstr "Orta — Yalnızca İngilizce (1,5 GB)"
-
-#~ msgid "VOSK"
-#~ msgstr "VOSK"
-
-#~ msgid "VOSK Speech Models"
-#~ msgstr "VOSK Konuşma Modelleri"
-
-#~ msgid "Whisper processing on cpu is very slow"
-#~ msgstr "CPU üzerinde Whisper işlemesi pek yavaştır"
-
-#~ msgid "Enable translation through SeamlessM4T"
-#~ msgstr "SeamlessM4T ile çevirmeyi etkinleştir"
-
-#~ msgid "Clear All Tags"
-#~ msgstr "Tüm Künyeleri Temizle"
-
-#~ msgid ""
-#~ "Cannot find python virtualenv, please install it on your system. "
-#~ "Defaulting to system python."
-#~ msgstr ""
-#~ "Python virtualenv bulunamıyor, lütfen onu sisteminize kurun. Öntanımlı "
-#~ "olarak sistem Python’u kullanılıyor."
-
-#~ msgid "Apply effect change to all clips in the group"
-#~ msgstr "Efekt Değişikliğini Gruptaki Tüm Kliplere Uygula"
-
-#, fuzzy
-#~| msgid "Vertical"
-#~ msgid "Veritical"
-#~ msgstr "Dikey"
-
-#~ msgid "Add text"
-#~ msgstr "Metin ekle"
-
-#~ msgctxt "@info:whatsthis"
-#~ msgid ""
-#~ "Toggles a list to adjust font, size, color, outline style, shadow, "
-#~ "position and background."
-#~ msgstr ""
-#~ "Yazıtipini, boyutu, rengi, dış hat biçemini, gölgeyi, konumu ve arka "
-#~ "planı ayarlayabileceğiniz bir listeyi açar/kapatır."
-
-#~ msgid "Bottom Center"
-#~ msgstr "Alt Orta"
-
-#~ msgid "Center Left"
-#~ msgstr "Sol Orta"
-
-#~ msgid "Center Right"
-#~ msgstr "Sağ Orta"
-
-#~ msgid "Top Center"
-#~ msgstr "Üst Orta"
-
-#~ msgid "Subtitle File (*.srt)"
-#~ msgstr "Altyazı dosyası (*.srt)"
-
-#~ msgid "Opaque background"
-#~ msgstr "Mat arka plan"
-
-#~ msgid "Custom Outline Color"
-#~ msgstr "Özel Dış Hat Rengi"
-
-#~ msgid "pt"
-#~ msgstr "nk"
-
-#~ msgid "Custom Font Size"
-#~ msgstr "Özel Yazıtipi Boyutu"
-
-#~ msgid "px"
-#~ msgstr "pks"
-
-#~ msgid "Custom Position"
-#~ msgstr "Özel Konum"
-
-#~ msgid "Custom Font Color"
-#~ msgstr "Özel Yazıtipi Rengi"
-
-#~ msgid "Custom Outline Size"
-#~ msgstr "Özel Dış Hat Boyutu"
-
-#~ msgid "Custom Font"
-#~ msgstr "Özel Yazıtipi"
-
-#~ msgid "Create New"
-#~ msgstr "Yeni Oluştur"
-
-#~ msgid "Speech language"
-#~ msgstr "Konuşma dili"
-
-#~ msgid "Start recognition"
-#~ msgstr "Tanımayı Başlat"
-
-#~ msgid "The <application>%1</application> python module is required for %2."
-#~ msgstr "%2 için <application>%1</application> Python modülü gerekiyor."
-
-#~ msgid "adjust subtitles length"
-#~ msgstr "Altyazı uzunluğunu ayarla"
-
-#~ msgid "machine learning framework"
-#~ msgstr "makine öğrenme çatısı"
-
-#~ msgid "SeamlessM4T translation"
-#~ msgstr "SeamlessM4T çevirisi"
-
-#~ msgid "Volume (keyframable)"
-#~ msgstr "Ses (anahtar kareleştirilebilir)"
-
-#~ msgid "Adjust clip"
-#~ msgstr "Klibi ayarla"
-
-#~ msgid "Param"
-#~ msgstr "Parametre"
-
-#~ msgctxt "x axis position"
-#~ msgid "X"
-#~ msgstr "X"
-
-#~ msgctxt "Frame width"
-#~ msgid "W"
-#~ msgstr "W"
