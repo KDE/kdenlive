@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-05 00:39+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -7971,7 +7971,7 @@ msgid "Please install speech recognition models"
 msgstr "Por favor instale os modelos de reconhecimento de fala"
 
 #: src/dialogs/speechdialog.cpp:260
-#: src/pythoninterfaces/abstractpythoninterface.cpp:175
+#: src/pythoninterfaces/abstractpythoninterface.cpp:170
 #, fuzzy, kde-format
 #| msgid "Checking configuration…"
 msgctxt "@label:textbox"
@@ -16145,7 +16145,7 @@ msgid "Video transcode"
 msgstr "Conversão do vídeo"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:665
+#: src/pythoninterfaces/abstractpythoninterface.cpp:662
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Instalar as dependências em falta"
@@ -16200,8 +16200,8 @@ msgstr "A actualizar os módulos…"
 msgid "Checking configuration…"
 msgstr "A verificar a configuração…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:208
-#: src/pythoninterfaces/abstractpythoninterface.cpp:277
+#: src/pythoninterfaces/abstractpythoninterface.cpp:203
+#: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -16212,7 +16212,7 @@ msgstr ""
 "Se já estiver instalado, verifique se os programas estão instalados numa "
 "pasta indicada na variável de ambiente PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:214
+#: src/pythoninterfaces/abstractpythoninterface.cpp:209
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -16223,25 +16223,25 @@ msgstr ""
 "Se já estiver instalado, verifique se os programas estão instalados numa "
 "pasta indicada na variável de ambiente PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:223
+#: src/pythoninterfaces/abstractpythoninterface.cpp:218
 #, kde-format
 msgid "Using python from %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:231
+#: src/pythoninterfaces/abstractpythoninterface.cpp:226
 #, fuzzy, kde-format
 #| msgctxt "@info"
 #| msgid "No items found."
 msgid "No python venv found"
 msgstr "Nenhuns itens encontrados."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:244
+#: src/pythoninterfaces/abstractpythoninterface.cpp:239
 #, kde-format
 msgid "Python venv size: %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:314
-#: src/pythoninterfaces/abstractpythoninterface.cpp:316
+#: src/pythoninterfaces/abstractpythoninterface.cpp:309
+#: src/pythoninterfaces/abstractpythoninterface.cpp:311
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment."
 msgid ""
@@ -16249,17 +16249,17 @@ msgid ""
 "%1"
 msgstr "Definir a localização do ambiente MLT."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:332
+#: src/pythoninterfaces/abstractpythoninterface.cpp:327
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "O programa %1 não foi encontrado. Verifique a sua instalação."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:386
+#: src/pythoninterfaces/abstractpythoninterface.cpp:381
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "É necessário o módulo de Python <application>%1</application>."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:419
+#: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes to "
@@ -16267,18 +16267,18 @@ msgid ""
 "offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:439
-#: src/pythoninterfaces/abstractpythoninterface.cpp:552
+#: src/pythoninterfaces/abstractpythoninterface.cpp:434
+#: src/pythoninterfaces/abstractpythoninterface.cpp:549
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Erro Interno: Não é possível encontrar a lista de dependências"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:454
+#: src/pythoninterfaces/abstractpythoninterface.cpp:449
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Ocorreu um erro ao verificar a versão do módulo %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:458
+#: src/pythoninterfaces/abstractpythoninterface.cpp:453
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
@@ -16286,37 +16286,37 @@ msgstr ""
 "É necessária pelo menos a versão %1 do módulo %2, mas a sua versão actual é "
 "a %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:462
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Por favor, pense em actualizar a sua configuração."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:479
+#: src/pythoninterfaces/abstractpythoninterface.cpp:474
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Nenhuma informação na área de transferência"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
+#: src/pythoninterfaces/abstractpythoninterface.cpp:492
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Opções de desenho"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:581
+#: src/pythoninterfaces/abstractpythoninterface.cpp:578
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:583
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Não foi possível criar o ficheiro."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:615
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error while running python3 script:\n"
@@ -16329,7 +16329,7 @@ msgstr ""
 "Ocorreu um erro ao executar o programa em Python 3:\n"
 " %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-05 00:39+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -8051,7 +8051,7 @@ msgid "Please install speech recognition models"
 msgstr "Vali üleminek"
 
 #: src/dialogs/speechdialog.cpp:260
-#: src/pythoninterfaces/abstractpythoninterface.cpp:175
+#: src/pythoninterfaces/abstractpythoninterface.cpp:170
 #, fuzzy, kde-format
 #| msgid "Checking system"
 msgctxt "@label:textbox"
@@ -16336,7 +16336,7 @@ msgid "Video transcode"
 msgstr "Videoradu"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:665
+#: src/pythoninterfaces/abstractpythoninterface.cpp:662
 #, kde-format
 msgid "Install missing dependencies"
 msgstr ""
@@ -16391,8 +16391,8 @@ msgstr "Paigaldatud moodulid"
 msgid "Checking configuration…"
 msgstr "Seadistamine..."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:208
-#: src/pythoninterfaces/abstractpythoninterface.cpp:277
+#: src/pythoninterfaces/abstractpythoninterface.cpp:203
+#: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not find \"otioconvert\" script.\n"
@@ -16413,7 +16413,7 @@ msgstr ""
 "ning kontrollida, kas skriptid paigaldati ikka kataloogi, mida loetleb "
 "keskkonnamuutuja PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:214
+#: src/pythoninterfaces/abstractpythoninterface.cpp:209
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not find \"otioconvert\" script.\n"
@@ -16434,25 +16434,25 @@ msgstr ""
 "ning kontrollida, kas skriptid paigaldati ikka kataloogi, mida loetleb "
 "keskkonnamuutuja PATH"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:223
+#: src/pythoninterfaces/abstractpythoninterface.cpp:218
 #, fuzzy, kde-format
 #| msgid "Using MLT version %1"
 msgid "Using python from %1"
 msgstr "MLT versioon: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:231
+#: src/pythoninterfaces/abstractpythoninterface.cpp:226
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgid "No python venv found"
 msgstr "Seeriat ei leitud"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:244
+#: src/pythoninterfaces/abstractpythoninterface.cpp:239
 #, kde-format
 msgid "Python venv size: %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:314
-#: src/pythoninterfaces/abstractpythoninterface.cpp:316
+#: src/pythoninterfaces/abstractpythoninterface.cpp:309
+#: src/pythoninterfaces/abstractpythoninterface.cpp:311
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary directory %1"
 msgid ""
@@ -16460,17 +16460,17 @@ msgid ""
 "%1"
 msgstr "Ajutise kataloogi %1 loomine nurjus"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:332
+#: src/pythoninterfaces/abstractpythoninterface.cpp:327
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:386
+#: src/pythoninterfaces/abstractpythoninterface.cpp:381
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:419
+#: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes to "
@@ -16478,56 +16478,56 @@ msgid ""
 "offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:439
-#: src/pythoninterfaces/abstractpythoninterface.cpp:552
+#: src/pythoninterfaces/abstractpythoninterface.cpp:434
+#: src/pythoninterfaces/abstractpythoninterface.cpp:549
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:454
+#: src/pythoninterfaces/abstractpythoninterface.cpp:449
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:458
+#: src/pythoninterfaces/abstractpythoninterface.cpp:453
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:462
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please consider to update your setup."
 msgstr "Vali üleminek"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:479
+#: src/pythoninterfaces/abstractpythoninterface.cpp:474
 #, fuzzy, kde-format
 #| msgid "No information in clipboard"
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "Lõikepuhvris teavet ei leidu"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
+#: src/pythoninterfaces/abstractpythoninterface.cpp:492
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Kujutamisvalikud"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:581
+#: src/pythoninterfaces/abstractpythoninterface.cpp:578
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgid "Python exec not found"
 msgstr "Seeriat ei leitud"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:583
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Faili loomine nurjus."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:615
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -16535,7 +16535,7 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "

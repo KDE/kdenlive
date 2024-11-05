@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-05 00:39+0000\n"
 "PO-Revision-Date: 2024-11-01 14:02+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -7789,7 +7789,7 @@ msgid "Please install speech recognition models"
 msgstr "Please install speech recognition models"
 
 #: src/dialogs/speechdialog.cpp:260
-#: src/pythoninterfaces/abstractpythoninterface.cpp:175
+#: src/pythoninterfaces/abstractpythoninterface.cpp:170
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
@@ -15728,7 +15728,7 @@ msgid "Video transcode"
 msgstr "Video transcode"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:665
+#: src/pythoninterfaces/abstractpythoninterface.cpp:662
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Install missing dependencies"
@@ -15779,8 +15779,8 @@ msgstr "Updating modules…"
 msgid "Checking configuration…"
 msgstr "Checking configuration…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:208
-#: src/pythoninterfaces/abstractpythoninterface.cpp:277
+#: src/pythoninterfaces/abstractpythoninterface.cpp:203
+#: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -15791,7 +15791,7 @@ msgstr ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:214
+#: src/pythoninterfaces/abstractpythoninterface.cpp:209
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -15802,23 +15802,23 @@ msgstr ""
 "If already installed, check it is installed in a directory listed in PATH "
 "environment variable"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:223
+#: src/pythoninterfaces/abstractpythoninterface.cpp:218
 #, kde-format
 msgid "Using python from %1"
 msgstr "Using python from %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:231
+#: src/pythoninterfaces/abstractpythoninterface.cpp:226
 #, kde-format
 msgid "No python venv found"
 msgstr "No python venv found"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:244
+#: src/pythoninterfaces/abstractpythoninterface.cpp:239
 #, kde-format
 msgid "Python venv size: %1"
 msgstr "Python venv size: %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:314
-#: src/pythoninterfaces/abstractpythoninterface.cpp:316
+#: src/pythoninterfaces/abstractpythoninterface.cpp:309
+#: src/pythoninterfaces/abstractpythoninterface.cpp:311
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -15827,17 +15827,17 @@ msgstr ""
 "Cannot create the python virtual environment:\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:332
+#: src/pythoninterfaces/abstractpythoninterface.cpp:327
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "The %1 script was not found, check your install."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:386
+#: src/pythoninterfaces/abstractpythoninterface.cpp:381
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "The <application>%1</application> python module is required."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:419
+#: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes to "
@@ -15845,52 +15845,52 @@ msgid ""
 "offline."
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:439
-#: src/pythoninterfaces/abstractpythoninterface.cpp:552
+#: src/pythoninterfaces/abstractpythoninterface.cpp:434
+#: src/pythoninterfaces/abstractpythoninterface.cpp:549
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Internal Error: Cannot find dependency list"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:454
+#: src/pythoninterfaces/abstractpythoninterface.cpp:449
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "Error while checking version of module %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:458
+#: src/pythoninterfaces/abstractpythoninterface.cpp:453
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr ""
 "At least version %1 of module %2 is required, but your current version is %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:462
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "Please consider to update your setup."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:479
+#: src/pythoninterfaces/abstractpythoninterface.cpp:474
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "No version information available."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
+#: src/pythoninterfaces/abstractpythoninterface.cpp:492
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "missing (optional)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:581
+#: src/pythoninterfaces/abstractpythoninterface.cpp:578
 #, kde-format
 msgid "Python exec not found"
 msgstr "Python exec not found"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:583
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Failed to find script file %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:615
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15901,7 +15901,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "

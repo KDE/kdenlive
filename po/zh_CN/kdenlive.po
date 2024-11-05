@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-03 00:39+0000\n"
+"POT-Creation-Date: 2024-11-05 00:39+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -5570,12 +5570,12 @@ msgstr "分配新样式到字幕。"
 #: src/bin/playlistclip.cpp:140
 #, kde-format
 msgid "version"
-msgstr ""
+msgstr "版本"
 
 #: src/bin/playlistclip.cpp:171
 #, kde-format
 msgid "Sequence count"
-msgstr ""
+msgstr "序列计数"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -6803,18 +6803,18 @@ msgstr "逐行扫描"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1793
 #, kde-format
 msgid "Download (1.4Gb)"
-msgstr ""
+msgstr "下载 (1.4Gb)"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1811 src/ui/configspeech_ui.ui:263
 #, kde-format
 msgid "Install multilingual translation"
-msgstr ""
+msgstr "安装多语言翻译"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1821
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "正在安装多语言数据…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -6863,7 +6863,7 @@ msgstr "正在探测..."
 #: src/dialogs/kdenlivesettingsdialog.cpp:1933
 #, kde-format
 msgid "Downloading multilingual model…"
-msgstr ""
+msgstr "正在下载多语言模型…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1990
 #: src/dialogs/kdenlivesettingsdialog.cpp:2237
@@ -6883,19 +6883,19 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:2038
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "安装一个语音模型 - 我们推荐使用 <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2069
 #: src/dialogs/kdenlivesettingsdialog.cpp:2078
 #, kde-format
 msgid "Install a model"
-msgstr ""
+msgstr "安装语音模型"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2080 src/ui/configspeech_ui.ui:194
 #, kde-format
 msgid "Manage models"
-msgstr ""
+msgstr "管理语音模型"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2115
 #, kde-format
@@ -7660,7 +7660,7 @@ msgid "Please install speech recognition models"
 msgstr "请安装语音识别模型"
 
 #: src/dialogs/speechdialog.cpp:260
-#: src/pythoninterfaces/abstractpythoninterface.cpp:175
+#: src/pythoninterfaces/abstractpythoninterface.cpp:170
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Checking setup…"
@@ -7700,7 +7700,7 @@ msgstr "语音识别已中止。"
 #: src/dialogs/speechdialog.cpp:425
 #, kde-format
 msgid "Speech recognition failed."
-msgstr ""
+msgstr "语音识别失败。"
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -15477,7 +15477,7 @@ msgid "Video transcode"
 msgstr "视频转码"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:665
+#: src/pythoninterfaces/abstractpythoninterface.cpp:662
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "安装缺失依赖程序"
@@ -15528,8 +15528,8 @@ msgstr "正在更新模块…"
 msgid "Checking configuration…"
 msgstr "正在检查配置…"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:208
-#: src/pythoninterfaces/abstractpythoninterface.cpp:277
+#: src/pythoninterfaces/abstractpythoninterface.cpp:203
+#: src/pythoninterfaces/abstractpythoninterface.cpp:272
 #, kde-format
 msgid ""
 "Cannot find python3, please install it on your system.\n"
@@ -15539,7 +15539,7 @@ msgstr ""
 "无法找到 python3，请在本机系统上安装该软件包。\n"
 "如果已经安装，请检查它是否已经安装到了 PATH 环境变量中包含的目录"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:214
+#: src/pythoninterfaces/abstractpythoninterface.cpp:209
 #, kde-format
 msgid ""
 "Cannot find pip3, please install it on your system.\n"
@@ -15549,23 +15549,23 @@ msgstr ""
 "无法找到 pip3 (python-pip) 程序，请在本机系统上安装该软件包。\n"
 "如果已经安装，请检查它是否已经安装到了 PATH 环境变量中包含的目录"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:223
+#: src/pythoninterfaces/abstractpythoninterface.cpp:218
 #, kde-format
 msgid "Using python from %1"
 msgstr "正在使用来自 %1 的 Python"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:231
+#: src/pythoninterfaces/abstractpythoninterface.cpp:226
 #, kde-format
 msgid "No python venv found"
 msgstr "找不到 python venv"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:244
+#: src/pythoninterfaces/abstractpythoninterface.cpp:239
 #, kde-format
 msgid "Python venv size: %1"
 msgstr "Python venv 大小：%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:314
-#: src/pythoninterfaces/abstractpythoninterface.cpp:316
+#: src/pythoninterfaces/abstractpythoninterface.cpp:309
+#: src/pythoninterfaces/abstractpythoninterface.cpp:311
 #, kde-format
 msgid ""
 "Cannot create the python virtual environment:\n"
@@ -15574,69 +15574,71 @@ msgstr ""
 "无法创建 Python 虚拟环境：\n"
 "%1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:332
+#: src/pythoninterfaces/abstractpythoninterface.cpp:327
 #, kde-format
 msgid "The %1 script was not found, check your install."
 msgstr "无法找到 %1 脚本，请检查软件的安装状态是否正常。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:386
+#: src/pythoninterfaces/abstractpythoninterface.cpp:381
 #, kde-kuit-format
 msgid "The <application>%1</application> python module is required."
 msgstr "<application>%1</application> python 模块是必需的。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:419
+#: src/pythoninterfaces/abstractpythoninterface.cpp:414
 #, kde-format
 msgid ""
 "This requires an internet connection and will take several minutes to "
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"此操作需要连接到互联网，下载必要的依赖程序包将需要几分钟。下载完成后的剩余操"
+"作将离线进行。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:439
-#: src/pythoninterfaces/abstractpythoninterface.cpp:552
+#: src/pythoninterfaces/abstractpythoninterface.cpp:434
+#: src/pythoninterfaces/abstractpythoninterface.cpp:549
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "内部错误：无法找到依赖关系列表"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:454
+#: src/pythoninterfaces/abstractpythoninterface.cpp:449
 #, kde-format
 msgid "Error while checking version of module %1"
 msgstr "检查模块 %1 版本时出错"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:458
+#: src/pythoninterfaces/abstractpythoninterface.cpp:453
 #, kde-format
 msgid ""
 "At least version %1 of module %2 is required, but your current version is %3"
 msgstr "模块 %2 所需的最低版本为 %1，而本机安装的版本是 %3"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:462
+#: src/pythoninterfaces/abstractpythoninterface.cpp:457
 #, kde-format
 msgid "Please consider to update your setup."
 msgstr "请考虑升级本机系统的相关软件。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:479
+#: src/pythoninterfaces/abstractpythoninterface.cpp:474
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No version information available."
 msgstr "没有可用的版本信息。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:496
+#: src/pythoninterfaces/abstractpythoninterface.cpp:492
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "缺少的依赖 (可选)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:581
+#: src/pythoninterfaces/abstractpythoninterface.cpp:578
 #, kde-format
 msgid "Python exec not found"
 msgstr "无法找到 Python exec"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:583
+#: src/pythoninterfaces/abstractpythoninterface.cpp:580
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "无法找到脚本文件 %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:618
+#: src/pythoninterfaces/abstractpythoninterface.cpp:615
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15647,7 +15649,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:645
+#: src/pythoninterfaces/abstractpythoninterface.cpp:642
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
@@ -15664,66 +15666,69 @@ msgid ""
 " %1\n"
 "%2"
 msgstr ""
+"下载语音模型出错：\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
 #, kde-format
 msgid "Select new models to download"
-msgstr ""
+msgstr "选择要下载的新语音模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
 msgid "Installing model %1"
-msgstr ""
+msgstr "正在安装语音模型 %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "正在检查可用的语音模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
 #, kde-format
 msgid "Downloading"
-msgstr ""
+msgstr "正在下载"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
 #, kde-format
 msgid "Download Model"
-msgstr ""
+msgstr "下载语音模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
 #, kde-format
 msgid "Abort downloads"
-msgstr ""
+msgstr "取消下载"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
 #, kde-format
 msgid "Uninstall model"
-msgstr ""
+msgstr "卸载语音模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
 msgid "Install model"
-msgstr ""
+msgstr "安装语音模型"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
 #, kde-format
 msgid "Total download size: %1"
-msgstr ""
+msgstr "总下载大小：%1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
 #, kde-format
 msgid "Checking models integrity…"
-msgstr ""
+msgstr "正在检查语音模型的完整性…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
 #, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr ""
+msgstr "下载正在进行中，您想要取消下载吗？"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
 #, kde-format
 msgid "Abort download"
-msgstr ""
+msgstr "取消下载"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16054,7 +16059,7 @@ msgstr "意第绪语"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
 #, kde-format
 msgid "Install Whisper"
-msgstr ""
+msgstr "安装 Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -20196,13 +20201,13 @@ msgstr "语音引擎"
 #: src/ui/configspeech_ui.ui:377
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:384
 #, kde-format
 msgid "Wh&isper"
-msgstr ""
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
