@@ -72,8 +72,14 @@ elif '--install' in sys.argv and len(sys.argv) > 1:
                 print("failed installing ", m)
 elif '--upgrade' in sys.argv:
     # update modules
-    print("Updating packages: ", required)
+    # print("Updating packages: ", required)
     python = sys.executable
+    upgradable = normalizedInstalled - required
+    for u in upgradable:
+        try:
+            subprocess.check_call([python, '-m', 'pip', 'install', '--upgrade', u])
+        except:
+            print("failed upgrading ", u)
     for r in required:
         try:
             if r.endswith(".txt"):
