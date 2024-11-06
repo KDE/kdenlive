@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:39+0000\n"
+"POT-Creation-Date: 2024-11-06 00:39+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -7881,8 +7881,8 @@ msgstr "Analiz aparmaq üçün vaxt zolağında bir klip seçin"
 msgid "No audio track found"
 msgstr "Səs cığırı tapılmadı"
 
-#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:883
-#: src/dialogs/textbasededit.cpp:917
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:884
+#: src/dialogs/textbasededit.cpp:921
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Lütfən, nitq tanıma modellərini quraşdırın"
@@ -7901,8 +7901,8 @@ msgstr "Ayarlar yoxlanılır…"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "Nitqdən-Mətnə modulunu tənzimləyin"
 
-#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:989
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:994
+#: src/dialogs/textbasededit.cpp:1010
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Nitqdən-Mətnə modulunu tənzimləyin"
@@ -7917,12 +7917,12 @@ msgstr "Səs ixracı başlayır"
 msgid "Audio export failed"
 msgstr "Səs ixracı baş tutmadı"
 
-#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1026
+#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1031
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Nitqin tanınması başladılır"
 
-#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1189
+#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1194
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Nitqin tanınması yarımşıq kəsildi."
@@ -8859,8 +8859,8 @@ msgid "Delete selection"
 msgstr "Seçilmişi silin"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1209 src/dialogs/textbasededit.cpp:1279
-#: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1360
+#: src/dialogs/textbasededit.cpp:1214 src/dialogs/textbasededit.cpp:1284
+#: src/dialogs/textbasededit.cpp:1308 src/dialogs/textbasededit.cpp:1365
 #, kde-format
 msgid "No speech"
 msgstr "Nitq yoxdur"
@@ -8949,7 +8949,7 @@ msgstr "Şrift ölçüsü"
 msgid "Remove non speech zones"
 msgstr "Bütün öncədən baxış sahələrini silin"
 
-#: src/dialogs/textbasededit.cpp:973
+#: src/dialogs/textbasededit.cpp:978
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -8958,82 +8958,82 @@ msgstr ""
 "Başqa nitqin tanınması hal-hazırda işləkdir. Yeni işin başladılması naminə o "
 "ləğv ediləcək. Davam etmək istəyirsiniz?"
 
-#: src/dialogs/textbasededit.cpp:1013
+#: src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Please install a language model."
 msgstr "LÜtfən, dil modelini quraşdırın."
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1026
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Layihə qutusundan bir səsli klip seçin"
 
-#: src/dialogs/textbasededit.cpp:1067
+#: src/dialogs/textbasededit.cpp:1072
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Nitqin tanınması üçün səsli klipi seçin"
 
-#: src/dialogs/textbasededit.cpp:1076 src/dialogs/textbasededit.cpp:1111
-#: src/dialogs/textbasededit.cpp:1160
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1116
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Müvəqqəti fayl yaradıla bilmədi"
 
-#: src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1086
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "%1 üçün audio çıxarılır"
 
-#: src/dialogs/textbasededit.cpp:1089
+#: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Səsin çıxarılması tutmadı."
 
-#: src/dialogs/textbasededit.cpp:1095 src/dialogs/textbasededit.cpp:1144
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1149
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "%1-da nitqin tanınması başlayır."
 
-#: src/dialogs/textbasededit.cpp:1193
+#: src/dialogs/textbasededit.cpp:1198
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Xəta baş verdi. Nitqdən-mətnə modulu ayarlarını yoxlayın."
 
-#: src/dialogs/textbasededit.cpp:1195
+#: src/dialogs/textbasededit.cpp:1200
 #, kde-format
 msgid "No speech detected."
 msgstr "Nitq aşkar edilməsi."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Nitqin tanınması başa çatdı."
 
-#: src/dialogs/textbasededit.cpp:1453
+#: src/dialogs/textbasededit.cpp:1458
 #, fuzzy, kde-format
 #| msgid "Edit clip cut"
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Klip kəsiyinə düzəliş edin"
 
-#: src/dialogs/textbasededit.cpp:1485 src/dialogs/textbasededit.cpp:1567
+#: src/dialogs/textbasededit.cpp:1490 src/dialogs/textbasededit.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Create Sequence Clip"
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Ardıcıl klip yaradın"
 
-#: src/dialogs/textbasededit.cpp:1492 src/dialogs/textbasededit.cpp:1528
+#: src/dialogs/textbasededit.cpp:1497 src/dialogs/textbasededit.cpp:1533
 #, kde-format
 msgid "No text to export"
 msgstr "İxrac ediləcək mətn yoxdur"
 
-#: src/dialogs/textbasededit.cpp:1512
+#: src/dialogs/textbasededit.cpp:1517
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Yeni ifa siyahısı yolunu daxil edin"
 
-#: src/dialogs/textbasededit.cpp:1660
+#: src/dialogs/textbasededit.cpp:1665
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Seçilmişdə vaxt kodu tapılmadı"
@@ -15981,7 +15981,7 @@ msgid "Video transcode"
 msgstr "Görüntünün transkodirovkası"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:662
+#: src/pythoninterfaces/abstractpythoninterface.cpp:657
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Çatışmayan asılılıqları quraşdırın"
@@ -16104,7 +16104,7 @@ msgid ""
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Daxili xəta: Asılılıqlar siyahısı tapılmadı"
@@ -16126,32 +16126,32 @@ msgstr ""
 msgid "Please consider to update your setup."
 msgstr "Quraşdırmanızı yenikləməyi gözdən keçirin."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:474
-#, fuzzy, kde-format
-#| msgid "No information in clipboard"
-msgctxt "@label:textbox"
-msgid "No version information available."
-msgstr "Mübadilə yaddaşında məlumat yoxdur"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:492
+#: src/pythoninterfaces/abstractpythoninterface.cpp:482
 #, fuzzy, kde-format
 #| msgid "Drawing options"
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "Rəam seçimləri"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:578
+#: src/pythoninterfaces/abstractpythoninterface.cpp:490
+#, fuzzy, kde-format
+#| msgid "No information in clipboard"
+msgctxt "@label:textbox"
+msgid "No version information available."
+msgstr "Mübadilə yaddaşında məlumat yoxdur"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
 #, kde-format
 msgid "Python exec not found"
 msgstr ""
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to find script file %1"
 msgstr "Fayl yaradıla bilmədi."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:615
+#: src/pythoninterfaces/abstractpythoninterface.cpp:610
 #, fuzzy, kde-format
 #| msgid ""
 #| "Error while running python3 script:\n"
@@ -16164,7 +16164,7 @@ msgstr ""
 "Python3 skripti işə salındıqda xəta baş verdi:\n"
 " %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:642
+#: src/pythoninterfaces/abstractpythoninterface.cpp:637
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:39+0000\n"
+"POT-Creation-Date: 2024-11-06 00:39+0000\n"
 "PO-Revision-Date: 2024-10-08 18:42+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -7785,8 +7785,8 @@ msgstr "Markera ett klipp i tidslinjen för att utföra analys"
 msgid "No audio track found"
 msgstr "Inget ljudspår hittades"
 
-#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:883
-#: src/dialogs/textbasededit.cpp:917
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:884
+#: src/dialogs/textbasededit.cpp:921
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Installera taligenkänningsmodeller"
@@ -7803,8 +7803,8 @@ msgstr "Kontrollerar inställning…"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "Anpassa tal-till-text, saknade beroenden: %1"
 
-#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:989
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:994
+#: src/dialogs/textbasededit.cpp:1010
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Anpassa tal-till-text."
@@ -7819,12 +7819,12 @@ msgstr "Startar ljudexport"
 msgid "Audio export failed"
 msgstr "Ljudexport misslyckades"
 
-#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1026
+#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1031
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Startar taligenkänning"
 
-#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1189
+#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1194
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Taligenkänning avbröts."
@@ -8740,8 +8740,8 @@ msgid "Delete selection"
 msgstr "Ta bort markering"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1209 src/dialogs/textbasededit.cpp:1279
-#: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1360
+#: src/dialogs/textbasededit.cpp:1214 src/dialogs/textbasededit.cpp:1284
+#: src/dialogs/textbasededit.cpp:1308 src/dialogs/textbasededit.cpp:1365
 #, kde-format
 msgid "No speech"
 msgstr "Inget tal"
@@ -8818,7 +8818,7 @@ msgstr "Minska teckenstorlek"
 msgid "Remove non speech zones"
 msgstr "Ta bort alla zoner utan tal"
 
-#: src/dialogs/textbasededit.cpp:973
+#: src/dialogs/textbasededit.cpp:978
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -8827,80 +8827,80 @@ msgstr ""
 "Ett annat igenkänningsjobb kör redan. Det kommer att avbrytas till förmån "
 "för det nya jobbet. Vill du fortsätta?"
 
-#: src/dialogs/textbasededit.cpp:1013
+#: src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Please install a language model."
 msgstr "Installera en språkmodell."
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1026
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Markera ett klipp med ljud i projektkorgen."
 
-#: src/dialogs/textbasededit.cpp:1067
+#: src/dialogs/textbasededit.cpp:1072
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Markera ett klipp med ljud för taligenkänning."
 
-#: src/dialogs/textbasededit.cpp:1076 src/dialogs/textbasededit.cpp:1111
-#: src/dialogs/textbasededit.cpp:1160
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1116
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Kan inte skapa tillfällig fil."
 
-#: src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1086
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Extraherar ljud för %1."
 
-#: src/dialogs/textbasededit.cpp:1089
+#: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Ljudextrahering misslyckades."
 
-#: src/dialogs/textbasededit.cpp:1095 src/dialogs/textbasededit.cpp:1144
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1149
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Startar taligenkänning på %1."
 
-#: src/dialogs/textbasededit.cpp:1193
+#: src/dialogs/textbasededit.cpp:1198
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Fel, kontrollera inställningen av tal-till-text"
 
-#: src/dialogs/textbasededit.cpp:1195
+#: src/dialogs/textbasededit.cpp:1200
 #, kde-format
 msgid "No speech detected."
 msgstr "Inget tal detekterat."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Taligenkänning klar."
 
-#: src/dialogs/textbasededit.cpp:1453
+#: src/dialogs/textbasededit.cpp:1458
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Redigera klipptext"
 
-#: src/dialogs/textbasededit.cpp:1485 src/dialogs/textbasededit.cpp:1567
+#: src/dialogs/textbasededit.cpp:1490 src/dialogs/textbasededit.cpp:1572
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Skapa sekvensklipp"
 
-#: src/dialogs/textbasededit.cpp:1492 src/dialogs/textbasededit.cpp:1528
+#: src/dialogs/textbasededit.cpp:1497 src/dialogs/textbasededit.cpp:1533
 #, kde-format
 msgid "No text to export"
 msgstr "Ingen text att exportera"
 
-#: src/dialogs/textbasededit.cpp:1512
+#: src/dialogs/textbasededit.cpp:1517
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Ange ny sökväg för spellista"
 
-#: src/dialogs/textbasededit.cpp:1660
+#: src/dialogs/textbasededit.cpp:1665
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Ingen tidskod hittades i markeringen"
@@ -15788,7 +15788,7 @@ msgid "Video transcode"
 msgstr "Video-omkodning"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:662
+#: src/pythoninterfaces/abstractpythoninterface.cpp:657
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Installera saknade beroenden"
@@ -15906,7 +15906,7 @@ msgid ""
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Internt fel: Kan inte hitta beroendelista"
@@ -15928,29 +15928,29 @@ msgstr ""
 msgid "Please consider to update your setup."
 msgstr "Överväg att uppdatera din konfiguration."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:474
-#, kde-format
-msgctxt "@label:textbox"
-msgid "No version information available."
-msgstr "Ingen versionsinformation tillgänglig."
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:492
+#: src/pythoninterfaces/abstractpythoninterface.cpp:482
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "saknas (valfri)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:578
+#: src/pythoninterfaces/abstractpythoninterface.cpp:490
+#, kde-format
+msgctxt "@label:textbox"
+msgid "No version information available."
+msgstr "Ingen versionsinformation tillgänglig."
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
 #, kde-format
 msgid "Python exec not found"
 msgstr "Körbart Python-program hittades inte"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Misslyckades hitta skriptfil %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:615
+#: src/pythoninterfaces/abstractpythoninterface.cpp:610
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15961,7 +15961,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:642
+#: src/pythoninterfaces/abstractpythoninterface.cpp:637
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "

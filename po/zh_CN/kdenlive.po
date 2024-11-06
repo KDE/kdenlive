@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:39+0000\n"
+"POT-Creation-Date: 2024-11-06 00:39+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7653,8 +7653,8 @@ msgstr "在时间轴中选择一段剪辑以进行分析"
 msgid "No audio track found"
 msgstr "未找到音轨"
 
-#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:883
-#: src/dialogs/textbasededit.cpp:917
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:884
+#: src/dialogs/textbasededit.cpp:921
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "请安装语音识别模型"
@@ -7671,8 +7671,8 @@ msgstr "正在检查安装情况…"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "请配置语音转文字功能，缺少依赖软件包：%1"
 
-#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:989
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:994
+#: src/dialogs/textbasededit.cpp:1010
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "请配置语音转文字功能。"
@@ -7687,12 +7687,12 @@ msgstr "开始音频导出"
 msgid "Audio export failed"
 msgstr "音频导出失败"
 
-#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1026
+#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1031
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "开始语音识别"
 
-#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1189
+#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1194
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "语音识别已中止。"
@@ -8587,8 +8587,8 @@ msgid "Delete selection"
 msgstr "删除所选内容"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1209 src/dialogs/textbasededit.cpp:1279
-#: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1360
+#: src/dialogs/textbasededit.cpp:1214 src/dialogs/textbasededit.cpp:1284
+#: src/dialogs/textbasededit.cpp:1308 src/dialogs/textbasededit.cpp:1365
 #, kde-format
 msgid "No speech"
 msgstr "无语音"
@@ -8665,87 +8665,87 @@ msgstr "减少字体大小"
 msgid "Remove non speech zones"
 msgstr "移除非语音区段"
 
-#: src/dialogs/textbasededit.cpp:973
+#: src/dialogs/textbasededit.cpp:978
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
 "the new job. Do you want to proceed?"
 msgstr "另一个识别任务正在运行。程序将中止该任务并执行新的任务。你想要继续吗？"
 
-#: src/dialogs/textbasededit.cpp:1013
+#: src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Please install a language model."
 msgstr "请安装语言模型。"
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1026
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "选择项目素材箱中的带音频剪辑。"
 
-#: src/dialogs/textbasededit.cpp:1067
+#: src/dialogs/textbasededit.cpp:1072
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "选择一段带有音频的剪辑以进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:1076 src/dialogs/textbasededit.cpp:1111
-#: src/dialogs/textbasededit.cpp:1160
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1116
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "无法创建临时文件。"
 
-#: src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1086
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "正在为 %1 提取音频。"
 
-#: src/dialogs/textbasededit.cpp:1089
+#: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Audio extract failed."
 msgstr "音频提取失败。"
 
-#: src/dialogs/textbasededit.cpp:1095 src/dialogs/textbasededit.cpp:1144
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1149
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "正在开始对 %1 进行语音识别。"
 
-#: src/dialogs/textbasededit.cpp:1193
+#: src/dialogs/textbasededit.cpp:1198
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "发生错误，请检查语音转文字功能配置。"
 
-#: src/dialogs/textbasededit.cpp:1195
+#: src/dialogs/textbasededit.cpp:1200
 #, kde-format
 msgid "No speech detected."
 msgstr "未检测到语音。"
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "语音识别已完成。"
 
-#: src/dialogs/textbasededit.cpp:1453
+#: src/dialogs/textbasededit.cpp:1458
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "编辑剪辑文字"
 
-#: src/dialogs/textbasededit.cpp:1485 src/dialogs/textbasededit.cpp:1567
+#: src/dialogs/textbasededit.cpp:1490 src/dialogs/textbasededit.cpp:1572
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "创建序列剪辑"
 
-#: src/dialogs/textbasededit.cpp:1492 src/dialogs/textbasededit.cpp:1528
+#: src/dialogs/textbasededit.cpp:1497 src/dialogs/textbasededit.cpp:1533
 #, kde-format
 msgid "No text to export"
 msgstr "没有可供导出的文字"
 
-#: src/dialogs/textbasededit.cpp:1512
+#: src/dialogs/textbasededit.cpp:1517
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "输入新播放列表路径"
 
-#: src/dialogs/textbasededit.cpp:1660
+#: src/dialogs/textbasededit.cpp:1665
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "未找到所选内容中的时间码"
@@ -15477,7 +15477,7 @@ msgid "Video transcode"
 msgstr "视频转码"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:662
+#: src/pythoninterfaces/abstractpythoninterface.cpp:657
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "安装缺失依赖程序"
@@ -15595,7 +15595,7 @@ msgstr ""
 "作将离线进行。"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "内部错误：无法找到依赖关系列表"
@@ -15616,29 +15616,29 @@ msgstr "模块 %2 所需的最低版本为 %1，而本机安装的版本是 %3"
 msgid "Please consider to update your setup."
 msgstr "请考虑升级本机系统的相关软件。"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:474
-#, kde-format
-msgctxt "@label:textbox"
-msgid "No version information available."
-msgstr "没有可用的版本信息。"
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:492
+#: src/pythoninterfaces/abstractpythoninterface.cpp:482
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "缺少的依赖 (可选)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:578
+#: src/pythoninterfaces/abstractpythoninterface.cpp:490
+#, kde-format
+msgctxt "@label:textbox"
+msgid "No version information available."
+msgstr "没有可用的版本信息。"
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
 #, kde-format
 msgid "Python exec not found"
 msgstr "无法找到 Python exec"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "无法找到脚本文件 %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:615
+#: src/pythoninterfaces/abstractpythoninterface.cpp:610
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15649,7 +15649,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:642
+#: src/pythoninterfaces/abstractpythoninterface.cpp:637
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
