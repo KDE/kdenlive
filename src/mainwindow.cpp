@@ -75,11 +75,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jogshuttle/jogmanager.h"
 #endif
 
-// KStyleManager exists since QT_VERSION_CHECK(6, 3, 0)
-#define HAVE_STYLE_MANAGER __has_include(<KStyleManager>)
-#if HAVE_STYLE_MANAGER
 #include <KStyleManager>
-#endif
 #include <kwidgetsaddons_version.h>
 #include <kxmlgui_version.h>
 
@@ -127,17 +123,6 @@ class Producer;
 QMap<QString, QImage> MainWindow::m_lumacache;
 QMap<QString, QStringList> MainWindow::m_lumaFiles;
 
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
-// determine the default KDE style as defined BY THE USER
-// (as opposed to whatever style KDE considers default)
-static QString defaultStyle(const char *fallback = nullptr)
-{
-    KSharedConfigPtr kdeGlobals = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::NoGlobals);
-    KConfigGroup cg(kdeGlobals, "KDE");
-    return cg.readEntry("widgetStyle", fallback);
-}
-#endif
-
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
     , m_activeTool(ToolType::SelectTool)
@@ -166,63 +151,6 @@ void MainWindow::init(const QString &mltPath)
     actionCollection()->addAction(QStringLiteral("themes_menu"), themeManager->menu());
     connect(themeManager, &ThemeManager::themeChanged, this, &MainWindow::slotThemeChanged);
     Q_EMIT pCore->updatePalette();
-
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
-    if (!KdenliveSettings::widgetstyle().isEmpty() && QString::compare(desktopStyle, KdenliveSettings::widgetstyle(), Qt::CaseInsensitive) != 0) {
-        // User wants a custom widget style, init
-        doChangeStyle();
-    }
-
-    // Widget themes for non KDE users
-    KActionMenu *stylesAction = new KActionMenu(i18n("Style"), this);
-    auto *stylesGroup = new QActionGroup(stylesAction);
-
-    // GTK theme does not work well with Kdenlive, and does not support color theming, so avoid it
-    QStringList availableStyles = QStyleFactory::keys();
-    if (KdenliveSettings::widgetstyle().isEmpty()) {
-        // First run
-        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windows11"), QStringLiteral("windowsvista"), QStringLiteral("Windows"),
-                                          QStringLiteral("macintosh")};
-
-        if (incompatibleStyles.contains(desktopStyle, Qt::CaseInsensitive)) {
-            if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
-                // Auto switch to Breeze theme
-                KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
-                QApplication::setStyle(QStyleFactory::create(QStringLiteral("Breeze")));
-            } else if (availableStyles.contains(QStringLiteral("fusion"), Qt::CaseInsensitive)) {
-                KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
-                QApplication::setStyle(QStyleFactory::create(QStringLiteral("Fusion")));
-            }
-        } else {
-            KdenliveSettings::setWidgetstyle(QStringLiteral("Default"));
-        }
-    }
-    // Styles to hide
-    QStringList hiddenStyles = {QStringLiteral("windowsvista"), QStringLiteral("Windows"), QStringLiteral("macintosh")};
-    for (auto &hide : hiddenStyles) {
-        availableStyles.removeAll(hide);
-    }
-
-    // Add default style action
-    QAction *defaultStyle = new QAction(i18n("Default"), stylesGroup);
-    defaultStyle->setData(QStringLiteral("Default"));
-    defaultStyle->setCheckable(true);
-    stylesAction->addAction(defaultStyle);
-    if (KdenliveSettings::widgetstyle() == QLatin1String("Default") || KdenliveSettings::widgetstyle().isEmpty()) {
-        defaultStyle->setChecked(true);
-    }
-
-    for (const QString &style : std::as_const(availableStyles)) {
-        auto *a = new QAction(style, stylesGroup);
-        a->setCheckable(true);
-        a->setData(style);
-        if (KdenliveSettings::widgetstyle() == style) {
-            a->setChecked(true);
-        }
-        stylesAction->addAction(a);
-    }
-    connect(stylesGroup, &QActionGroup::triggered, this, &MainWindow::slotChangeStyle);
-#endif
 
     // Handle communication with the renderer app
     new RenderServer(this);
@@ -498,7 +426,6 @@ void MainWindow::init(const QString &mltPath)
     // Color and icon theme stuff
     connect(m_commandStack, &QUndoGroup::cleanChanged, m_saveAction, &QAction::setDisabled);
 
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(6, 3, 0)
     QStringList stylesToHide = {
         QStringLiteral("windowsvista"), // recoloring does not work well
         QStringLiteral("Windows"),
@@ -515,17 +442,6 @@ void MainWindow::init(const QString &mltPath)
         }
     }
     addAction(QStringLiteral("styles_menu"), stylesAction);
-#else
-    addAction(QStringLiteral("styles_menu"), stylesAction);
-#endif
-
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
-    QAction *iconAction = new QAction(i18n("Force Breeze Icon Theme"), this);
-    iconAction->setCheckable(true);
-    iconAction->setChecked(KdenliveSettings::force_breeze());
-    addAction(QStringLiteral("force_icon_theme"), iconAction);
-    connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
-#endif
 
     m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
     m_mixerDock->setWhatsThis(xi18nc("@info:whatsthis", "Toggles the audio mixer panel/widget."));
@@ -1188,11 +1104,7 @@ void MainWindow::setupActions()
     sceneMode->addAction(m_overwriteEditTool);
     sceneMode->addAction(m_insertEditTool);
     sceneMode->setCurrentItem(0);
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     connect(sceneMode, &KSelectAction::actionTriggered, this, &MainWindow::slotChangeEdit);
-#else
-    connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
-#endif
     addAction(QStringLiteral("timeline_mode"), sceneMode);
     actionCollection()->setShortcutsConfigurable(sceneMode, false);
 
@@ -4349,17 +4261,6 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     }
 }
 
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
-void MainWindow::slotChangeStyle(QAction *a)
-{
-    QString style = a->data().toString();
-    KdenliveSettings::setWidgetstyle(style);
-    doChangeStyle();
-    // Monitor refresh is necessary
-    raiseMonitor(pCore->monitorManager()->isActive(Kdenlive::ClipMonitor));
-}
-#endif
-
 void MainWindow::raiseMonitor(bool clipMonitor)
 {
     if (clipMonitor) {
@@ -4370,17 +4271,6 @@ void MainWindow::raiseMonitor(bool clipMonitor)
         m_projectMonitorDock->raise();
     }
 }
-
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
-void MainWindow::doChangeStyle()
-{
-    QString newStyle = KdenliveSettings::widgetstyle();
-    if (newStyle.isEmpty() || newStyle == QStringLiteral("Default")) {
-        newStyle = defaultStyle("Breeze");
-    }
-    QApplication::setStyle(QStyleFactory::create(newStyle));
-}
-#endif
 
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 {
@@ -4536,23 +4426,6 @@ void MainWindow::showMenuBar(bool show)
     }
     menuBar()->setVisible(show);
 }
-
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
-void MainWindow::forceIconSet(bool force)
-{
-    KdenliveSettings::setForce_breeze(force);
-    if (force) {
-        // Check current color theme
-        QColor background = qApp->palette().window().color();
-        bool useDarkIcons = background.value() < 100;
-        KdenliveSettings::setUse_dark_breeze(useDarkIcons);
-    }
-    if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply the icon theme change. Restart now?")) ==
-        KMessageBox::Continue) {
-        slotRestart();
-    }
-}
-#endif
 
 TimelineWidget *MainWindow::getCurrentTimeline() const
 {

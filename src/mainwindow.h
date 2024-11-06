@@ -337,11 +337,6 @@ private:
     bool m_themeInitialized{false};
     bool m_isDarkTheme{false};
     EffectBasket *m_effectBasket;
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
-    /** @brief Update widget style. */
-    void doChangeStyle();
-#endif
-
     QProgressDialog *m_loadingDialog;
 
 public Q_SLOTS:
@@ -570,12 +565,6 @@ private Q_SLOTS:
     void triggerKey(QKeyEvent *ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);
-
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(6, 3, 0)
-    /** @brief Update widget style */
-    void slotChangeStyle(QAction *a);
-#endif
-
     /** @brief Create temporary top track to preview an effect */
     void createSplitOverlay(std::shared_ptr<Mlt::Filter> filter);
     void removeSplitOverlay();
@@ -588,10 +577,6 @@ private Q_SLOTS:
     /** @brief Open Cached Data management dialog. */
     void slotManageCache();
     void showMenuBar(bool show);
-#if KICONTHEMES_VERSION < QT_VERSION_CHECK(6, 3, 0)
-    /** @brief Change forced icon theme setting (asks for app restart). */
-    void forceIconSet(bool force);
-#endif
     /** @brief Toggle current project's compositing mode. */
     void slotUpdateCompositing(bool checked);
     /** @brief Set timeline toolbar icon size. */

@@ -8,21 +8,16 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QAudioBuffer>
-#include <QAudioInput>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QAudioRecorder>
-#else
 #include <QAudioDevice>
 #include <QAudioInput>
 #include <QAudioSource>
+#include <QCamera>
+#include <QElapsedTimer>
+#include <QIODevice>
 #include <QMediaCaptureSession>
 #include <QMediaDevices>
 #include <QMediaFormat>
 #include <QMediaRecorder>
-#endif
-#include <QCamera>
-#include <QElapsedTimer>
-#include <QIODevice>
 #include <QMutex>
 #include <QStringList>
 #include <QTimer>
@@ -87,9 +82,7 @@ public:
     void resumeRecording();
     /** @brief Start the real audio capture **/
     int startCapture(bool showCountdown);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     void initializeAudioSetup();
-    #endif
 
 public Q_SLOTS:
     void displayErrorMessage();
@@ -97,13 +90,9 @@ public Q_SLOTS:
     void setAudioVolume();
 
 private:
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    std::unique_ptr<QAudioRecorder> m_audioRecorder;
-#else
     std::unique_ptr<QMediaCaptureSession> m_mediaCapture;
     std::unique_ptr<QMediaRecorder> m_mediaRecorder;
     std::unique_ptr<QAudioSource> m_audioSource;
-#endif
     std::unique_ptr<QAudioInput> m_audioInput;
     QScopedPointer<AudioDevInfo> m_audioInfo;
     QUuid m_recordingSequence;

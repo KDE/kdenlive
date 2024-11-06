@@ -73,11 +73,7 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
             if (!eventList->currentItem()->text(0).contains(i18n("Layer"))) {
                 return;
             }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            int ix = event->pos().y() / eventFileSideBar->sizeHintForRow(0);
-#else
             int ix = event->position().y() / eventFileSideBar->sizeHintForRow(0);
-#endif
             if (ix > eventFileSideBar->count() - 1) {
                 return;
             }
@@ -144,19 +140,11 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
             if (eventList->topLevelItemCount() > 1) {
                 layerMenu->addAction(actionMoveLayer);
             }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            layerMenu->exec(eventFileSideBar->mapToGlobal(event->pos()));
-#else
             layerMenu->exec(eventFileSideBar->mapToGlobal(event->position()).toPoint());
-#endif
         } else if (obj->parent() == styleFileSideBar) {
             bool fromGlobal = styleFileSideBar->currentItem()->data(Qt::UserRole).toInt() == -1;
             bool toGlobal = false;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            int ix = event->pos().y() / styleFileSideBar->sizeHintForRow(0);
-#else
             int ix = event->position().y() / styleFileSideBar->sizeHintForRow(0);
-#endif
             if (ix > styleFileSideBar->count() - 1) {
                 return;
             }
@@ -233,11 +221,7 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
             if (fromGlobal || (styleList->currentItem() && styleList->currentItem()->text(0) != "Default")) {
                 styleMenu->addAction(actionMoveStyle);
             }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            styleMenu->exec(styleFileSideBar->mapToGlobal(event->pos()));
-#else
             styleMenu->exec(styleFileSideBar->mapToGlobal(event->position()).toPoint());
-#endif
         }
     });
 
