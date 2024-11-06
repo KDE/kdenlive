@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>429</width>
-    <height>508</height>
+    <width>404</width>
+    <height>510</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -235,11 +235,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QComboBox" name="combo_wr_device">
-            <property name="sizeAdjustPolicy">
-             <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QComboBox" name="combo_wr_device">
+              <property name="sizeAdjustPolicy">
+               <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KContextualHelpButton" name="whisper_device_info"/>
+            </item>
+           </layout>
           </item>
           <item row="4" column="1">
            <widget class="QCheckBox" name="kcfg_whisperDisableFP16">
@@ -263,6 +270,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                <string>Install multilingual translation</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <widget class="KContextualHelpButton" name="seamless_device_info"/>
             </item>
            </layout>
           </item>
@@ -408,6 +418,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KContextualHelpButton</class>
+   <extends>QToolButton</extends>
+   <header>kcontextualhelpbutton.h</header>
   </customwidget>
   <customwidget>
    <class>KMessageWidget</class>

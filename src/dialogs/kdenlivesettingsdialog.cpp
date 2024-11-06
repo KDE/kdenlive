@@ -1773,6 +1773,10 @@ void KdenliveSettingsDialog::initSpeechPage()
 {
     m_stt = new SpeechToTextVosk(this);
     m_sttWhisper = new SpeechToTextWhisper(this);
+    // Contextual help
+    m_configSpeech.whisper_device_info->setContextualHelpText(i18n("CPU processing is very slow, GPU is recommended for faster processing"));
+    m_configSpeech.seamless_device_info->setContextualHelpText(i18n("Text translation is performed by the SeamlessM4T model. This requires downloading "
+                                                                    "around 10Gb of data. Once installed, all processing will happen offline."));
 
     // Python env info label
     PythonDependencyMessage *pythonEnvLabel = new PythonDependencyMessage(this, m_sttWhisper, true);
@@ -1803,13 +1807,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     const QString seamlessModelScript = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("scripts/whisper/seamlessquery.py"));
     ModelDownloadWidget *modelDownload = new ModelDownloadWidget(m_sttWhisper, seamlessModelScript, {QStringLiteral("task=download")}, this);
     connect(modelDownload, &ModelDownloadWidget::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
-    connect(modelDownload, &ModelDownloadWidget::jobDone, this, [this](bool success) {
-        KdenliveSettings::setEnableSeamless(success);
-        if (!success) {
-            m_configSpeech.install_seamless->setEnabled(true);
-        }
-        m_configSpeech.install_seamless->setText(i18n("Install multilingual translation"));
-    });
+    connect(modelDownload, &ModelDownloadWidget::jobDone, this, &KdenliveSettingsDialog::downloadJobDone, Qt::QueuedConnection);
     m_configSpeech.seamless_layout->addWidget(modelDownload);
     modelDownload->setVisible(false);
     connect(m_configSpeech.install_seamless, &QPushButton::clicked, this, [this]() {
@@ -2027,6 +2025,15 @@ void KdenliveSettingsDialog::initSpeechPage()
     connect(m_configSpeech.button_delete, &QToolButton::clicked, this, &KdenliveSettingsDialog::removeDictionary);
     connect(this, &KdenliveSettingsDialog::parseDictionaries, this, &KdenliveSettingsDialog::slotParseVoskDictionaries);
     slotParseVoskDictionaries();
+}
+
+void KdenliveSettingsDialog::downloadJobDone(bool success)
+{
+    KdenliveSettings::setEnableSeamless(success);
+    if (!success) {
+        m_configSpeech.install_seamless->setEnabled(true);
+    }
+    m_configSpeech.install_seamless->setText(i18n("Install multilingual translation"));
 }
 
 void KdenliveSettingsDialog::reloadWhisperModels()

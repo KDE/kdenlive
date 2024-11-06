@@ -35,7 +35,6 @@ ModelDownloadWidget::ModelDownloadWidget(SpeechToText *engine, const QString &sc
     m_pb = new QProgressBar(this);
     l->addWidget(m_pb);
     m_pb->setRange(0, 0);
-    connect(this, &ModelDownloadWidget::jobSuccess, this, [this]() { m_tb->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok-apply"))); });
 }
 
 ModelDownloadWidget::~ModelDownloadWidget()
@@ -82,6 +81,11 @@ void ModelDownloadWidget::processDownload()
         Q_EMIT jobDone(false);
         return;
     }
-    Q_EMIT jobSuccess(m_scriptPath);
+    QMetaObject::invokeMethod(this, "jobSuccess");
     Q_EMIT jobDone(true);
+}
+
+void ModelDownloadWidget::jobSuccess()
+{
+    m_tb->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok-apply")));
 }

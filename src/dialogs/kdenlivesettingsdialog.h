@@ -112,6 +112,8 @@ private Q_SLOTS:
     void configureExternalProxies();
     /** @brief Open an external browser window */
     void openBrowserUrl(const QString &url);
+    /** @brief A download job is finished  */
+    void downloadJobDone(bool success);
 
 private:
     KPageWidgetItem *m_pageMisc;

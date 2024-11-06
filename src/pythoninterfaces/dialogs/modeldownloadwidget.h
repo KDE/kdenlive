@@ -35,10 +35,10 @@ private:
 
 private Q_SLOTS:
     void processDownload();
+    void jobSuccess();
 
 Q_SIGNALS:
     void abortScript();
     void jobDone(bool success);
-    void jobSuccess(const QString &);
     void installFeedback(const QString &);
 };
