@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:39+0000\n"
+"POT-Creation-Date: 2024-11-06 00:39+0000\n"
 "PO-Revision-Date: 2024-10-20 06:18+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -7860,8 +7860,8 @@ msgstr "Seleziona clip nella linea temporale per eseguire l'analisi"
 msgid "No audio track found"
 msgstr "Non è stata trovata nessuna traccia audio"
 
-#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:883
-#: src/dialogs/textbasededit.cpp:917
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:884
+#: src/dialogs/textbasededit.cpp:921
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Installa i modelli per il riconoscimento vocale"
@@ -7878,8 +7878,8 @@ msgstr "Verifica installazione..."
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "Configura il riconoscimento vocale, dipendenze mancanti: %1"
 
-#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:989
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:994
+#: src/dialogs/textbasededit.cpp:1010
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Configura il riconoscimento vocale."
@@ -7894,12 +7894,12 @@ msgstr "Avvio dell'esportazione audio"
 msgid "Audio export failed"
 msgstr "Esportazione dell'audio non riuscita"
 
-#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1026
+#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1031
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Avvio del riconoscimento vocale"
 
-#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1189
+#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1194
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Riconoscimento vocale interrotto"
@@ -8817,8 +8817,8 @@ msgid "Delete selection"
 msgstr "Elimina colonne"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1209 src/dialogs/textbasededit.cpp:1279
-#: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1360
+#: src/dialogs/textbasededit.cpp:1214 src/dialogs/textbasededit.cpp:1284
+#: src/dialogs/textbasededit.cpp:1308 src/dialogs/textbasededit.cpp:1365
 #, kde-format
 msgid "No speech"
 msgstr "Nessuna voce"
@@ -8895,7 +8895,7 @@ msgstr "Diminuisci dimensione caratteri"
 msgid "Remove non speech zones"
 msgstr "Rimuovi le zone senza parlato"
 
-#: src/dialogs/textbasededit.cpp:973
+#: src/dialogs/textbasededit.cpp:978
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -8904,80 +8904,80 @@ msgstr ""
 "È in corso un altro processo di riconoscimento, che verrà interrotto in "
 "favore del nuovo. Vuoi procedere?"
 
-#: src/dialogs/textbasededit.cpp:1013
+#: src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Please install a language model."
 msgstr "Installa un modello di lingua."
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1026
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Seleziona una clip con audio nel contenitore del progetto."
 
-#: src/dialogs/textbasededit.cpp:1067
+#: src/dialogs/textbasededit.cpp:1072
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Seleziona una clip con audio per il riconoscimento vocale"
 
-#: src/dialogs/textbasededit.cpp:1076 src/dialogs/textbasededit.cpp:1111
-#: src/dialogs/textbasededit.cpp:1160
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1116
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Impossibile creare il file temporaneo."
 
-#: src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1086
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Estrazione dell'audio dalla clip %1."
 
-#: src/dialogs/textbasededit.cpp:1089
+#: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Estrazione dell'audio non riuscita."
 
-#: src/dialogs/textbasededit.cpp:1095 src/dialogs/textbasededit.cpp:1144
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1149
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Avvio del riconoscimento vocale su %1."
 
-#: src/dialogs/textbasededit.cpp:1193
+#: src/dialogs/textbasededit.cpp:1198
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Errore, controlla la configurazione del riconoscimento vocale."
 
-#: src/dialogs/textbasededit.cpp:1195
+#: src/dialogs/textbasededit.cpp:1200
 #, kde-format
 msgid "No speech detected."
 msgstr "Nessuna voce rilevata."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Riconoscimento vocale completato."
 
-#: src/dialogs/textbasededit.cpp:1453
+#: src/dialogs/textbasededit.cpp:1458
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Modifica il testo della clip"
 
-#: src/dialogs/textbasededit.cpp:1485 src/dialogs/textbasededit.cpp:1567
+#: src/dialogs/textbasededit.cpp:1490 src/dialogs/textbasededit.cpp:1572
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Crea una clip di sequenze"
 
-#: src/dialogs/textbasededit.cpp:1492 src/dialogs/textbasededit.cpp:1528
+#: src/dialogs/textbasededit.cpp:1497 src/dialogs/textbasededit.cpp:1533
 #, kde-format
 msgid "No text to export"
 msgstr "Nessun testo da esportare"
 
-#: src/dialogs/textbasededit.cpp:1512
+#: src/dialogs/textbasededit.cpp:1517
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Inserisci il percorso della nuova scaletta"
 
-#: src/dialogs/textbasededit.cpp:1660
+#: src/dialogs/textbasededit.cpp:1665
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Nessun codice temporale nella selezione attuale"
@@ -15969,7 +15969,7 @@ msgid "Video transcode"
 msgstr "Transcodifica video"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:662
+#: src/pythoninterfaces/abstractpythoninterface.cpp:657
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Installa le dipendenze mancanti"
@@ -16088,7 +16088,7 @@ msgid ""
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Errore interno: impossibile trovare l'elenco delle dipendenze"
@@ -16110,29 +16110,29 @@ msgstr ""
 msgid "Please consider to update your setup."
 msgstr "Considera di aggiornare l'installazione."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:474
-#, kde-format
-msgctxt "@label:textbox"
-msgid "No version information available."
-msgstr "Nessuna informazione sulla versione disponibile."
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:492
+#: src/pythoninterfaces/abstractpythoninterface.cpp:482
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "mancante (facoltativo)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:578
+#: src/pythoninterfaces/abstractpythoninterface.cpp:490
+#, kde-format
+msgctxt "@label:textbox"
+msgid "No version information available."
+msgstr "Nessuna informazione sulla versione disponibile."
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
 #, kde-format
 msgid "Python exec not found"
 msgstr "Eseguibile di Python non trovato"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Impossibile trovare il file di script %1"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:615
+#: src/pythoninterfaces/abstractpythoninterface.cpp:610
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -16143,7 +16143,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:642
+#: src/pythoninterfaces/abstractpythoninterface.cpp:637
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "

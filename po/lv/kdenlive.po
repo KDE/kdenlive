@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-05 00:39+0000\n"
+"POT-Creation-Date: 2024-11-06 00:39+0000\n"
 "PO-Revision-Date: 2024-10-14 16:38+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -7787,8 +7787,8 @@ msgstr "Laika joslā atlasiet klipu, lai veiktu tā analīzi"
 msgid "No audio track found"
 msgstr "Nav atrasts audio celiņš"
 
-#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:883
-#: src/dialogs/textbasededit.cpp:917
+#: src/dialogs/speechdialog.cpp:184 src/dialogs/textbasededit.cpp:884
+#: src/dialogs/textbasededit.cpp:921
 #, kde-format
 msgid "Please install speech recognition models"
 msgstr "Instalējiet runas atpazīšanas modeļus"
@@ -7805,8 +7805,8 @@ msgstr "Pārbauda komponentes…"
 msgid "Please configure speech to text, missing dependencies: %1"
 msgstr "Konfigurējiet runas pārvēršanu tekstā, trūkstošās atkarības: %1"
 
-#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:989
-#: src/dialogs/textbasededit.cpp:1005
+#: src/dialogs/speechdialog.cpp:269 src/dialogs/textbasededit.cpp:994
+#: src/dialogs/textbasededit.cpp:1010
 #, kde-format
 msgid "Please configure speech to text."
 msgstr "Konfigurējiet runas pārvēršanu tekstā."
@@ -7821,12 +7821,12 @@ msgstr "Sāk audio eksportu"
 msgid "Audio export failed"
 msgstr "Audio eksports neizdevās"
 
-#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1026
+#: src/dialogs/speechdialog.cpp:365 src/dialogs/textbasededit.cpp:1031
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "Sāk runas atpazīšanu"
 
-#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1189
+#: src/dialogs/speechdialog.cpp:419 src/dialogs/textbasededit.cpp:1194
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "Runas atpazīšana ir atcelta."
@@ -8730,8 +8730,8 @@ msgid "Delete selection"
 msgstr "Dzēst atlasīto"
 
 #: src/dialogs/textbasededit.cpp:313 src/dialogs/textbasededit.cpp:569
-#: src/dialogs/textbasededit.cpp:1209 src/dialogs/textbasededit.cpp:1279
-#: src/dialogs/textbasededit.cpp:1303 src/dialogs/textbasededit.cpp:1360
+#: src/dialogs/textbasededit.cpp:1214 src/dialogs/textbasededit.cpp:1284
+#: src/dialogs/textbasededit.cpp:1308 src/dialogs/textbasededit.cpp:1365
 #, kde-format
 msgid "No speech"
 msgstr "Bez runas"
@@ -8808,7 +8808,7 @@ msgstr "Samazināt fonta izmēru"
 msgid "Remove non speech zones"
 msgstr "Noņemt apgabalus, kuros nerunā"
 
-#: src/dialogs/textbasededit.cpp:973
+#: src/dialogs/textbasededit.cpp:978
 #, kde-format
 msgid ""
 "Another recognition job is already running. It will be aborted in favor of "
@@ -8817,80 +8817,80 @@ msgstr ""
 "Jau darbojas cits atpazīšanas darbs. To atcels, dodot priekšroku jaunajam. "
 "Vai vēlaties turpināt?"
 
-#: src/dialogs/textbasededit.cpp:1013
+#: src/dialogs/textbasededit.cpp:1018
 #, kde-format
 msgid "Please install a language model."
 msgstr "Instalējot valodas modeli."
 
-#: src/dialogs/textbasededit.cpp:1021
+#: src/dialogs/textbasededit.cpp:1026
 #, kde-format
 msgid "Select a clip with audio in Project Bin."
 msgstr "Projekta lādē atlasiet klipu ar audio."
 
-#: src/dialogs/textbasededit.cpp:1067
+#: src/dialogs/textbasededit.cpp:1072
 #, kde-format
 msgid "Select a clip with audio for speech recognition."
 msgstr "Atlasiet klipu ar audio runas atpazīšanai."
 
-#: src/dialogs/textbasededit.cpp:1076 src/dialogs/textbasededit.cpp:1111
-#: src/dialogs/textbasededit.cpp:1160
+#: src/dialogs/textbasededit.cpp:1081 src/dialogs/textbasededit.cpp:1116
+#: src/dialogs/textbasededit.cpp:1165
 #, kde-format
 msgid "Cannot create temporary file."
 msgstr "Nevar izveidot pagaidu datni."
 
-#: src/dialogs/textbasededit.cpp:1081
+#: src/dialogs/textbasededit.cpp:1086
 #, kde-format
 msgid "Extracting audio for %1."
 msgstr "Izvelk „%1“ audio."
 
-#: src/dialogs/textbasededit.cpp:1089
+#: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Audio extract failed."
 msgstr "Audio izvilkšana neizdevās."
 
-#: src/dialogs/textbasededit.cpp:1095 src/dialogs/textbasededit.cpp:1144
+#: src/dialogs/textbasededit.cpp:1100 src/dialogs/textbasededit.cpp:1149
 #, kde-format
 msgid "Starting speech recognition on %1."
 msgstr "Sāk „%1“ runas atpazīšanu."
 
-#: src/dialogs/textbasededit.cpp:1193
+#: src/dialogs/textbasededit.cpp:1198
 #, kde-format
 msgid "Error, please check the speech to text configuration."
 msgstr "Kļūda — pārbaudīt runas pārveidošanas uz tekstu konfigurāciju."
 
-#: src/dialogs/textbasededit.cpp:1195
+#: src/dialogs/textbasededit.cpp:1200
 #, kde-format
 msgid "No speech detected."
 msgstr "Nav atrasta runa."
 
-#: src/dialogs/textbasededit.cpp:1216
+#: src/dialogs/textbasededit.cpp:1221
 #, kde-format
 msgid "Speech recognition finished."
 msgstr "Runas atpazīšana ir pabeigta."
 
-#: src/dialogs/textbasededit.cpp:1453
+#: src/dialogs/textbasededit.cpp:1458
 #, kde-format
 msgctxt "@action"
 msgid "Edit clip text"
 msgstr "Rediģēt klipa tekstu"
 
-#: src/dialogs/textbasededit.cpp:1485 src/dialogs/textbasededit.cpp:1567
+#: src/dialogs/textbasededit.cpp:1490 src/dialogs/textbasededit.cpp:1572
 #, kde-format
 msgctxt "@action"
 msgid "Create sequence clip"
 msgstr "Izveidot sekvences klipu"
 
-#: src/dialogs/textbasededit.cpp:1492 src/dialogs/textbasededit.cpp:1528
+#: src/dialogs/textbasededit.cpp:1497 src/dialogs/textbasededit.cpp:1533
 #, kde-format
 msgid "No text to export"
 msgstr "Nav eksportējama teksta"
 
-#: src/dialogs/textbasededit.cpp:1512
+#: src/dialogs/textbasededit.cpp:1517
 #, kde-format
 msgid "Enter new playlist path"
 msgstr "Ierakstiet ceļu uz jauno repertuāru"
 
-#: src/dialogs/textbasededit.cpp:1660
+#: src/dialogs/textbasededit.cpp:1665
 #, kde-format
 msgid "No timecode found in selection"
 msgstr "Atlasē nav atrasts laika kods"
@@ -15797,7 +15797,7 @@ msgid "Video transcode"
 msgstr "Transkodēt video"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:32
-#: src/pythoninterfaces/abstractpythoninterface.cpp:662
+#: src/pythoninterfaces/abstractpythoninterface.cpp:657
 #, kde-format
 msgid "Install missing dependencies"
 msgstr "Instalēt trūkstošās atkarības"
@@ -15915,7 +15915,7 @@ msgid ""
 msgstr ""
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
-#: src/pythoninterfaces/abstractpythoninterface.cpp:549
+#: src/pythoninterfaces/abstractpythoninterface.cpp:544
 #, kde-format
 msgid "Internal Error: Cannot find dependency list"
 msgstr "Iekšējā kļūda: nevar atrast atkarību sarakstu"
@@ -15937,29 +15937,29 @@ msgstr ""
 msgid "Please consider to update your setup."
 msgstr "Apsveriet komponenšu atjaunināšanu."
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:474
-#, kde-format
-msgctxt "@label:textbox"
-msgid "No version information available."
-msgstr "Nav pieejama informācija par versiju."
-
-#: src/pythoninterfaces/abstractpythoninterface.cpp:492
+#: src/pythoninterfaces/abstractpythoninterface.cpp:482
 #, kde-format
 msgctxt "@item:intext indicates a missing dependency"
 msgid "missing (optional)"
 msgstr "trūkst (nav obligāts)"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:578
+#: src/pythoninterfaces/abstractpythoninterface.cpp:490
+#, kde-format
+msgctxt "@label:textbox"
+msgid "No version information available."
+msgstr "Nav pieejama informācija par versiju."
+
+#: src/pythoninterfaces/abstractpythoninterface.cpp:573
 #, kde-format
 msgid "Python exec not found"
 msgstr "„Python“ izpilddatne nav atrasta"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:580
+#: src/pythoninterfaces/abstractpythoninterface.cpp:575
 #, kde-format
 msgid "Failed to find script file %1"
 msgstr "Neizdevās atrast skripta datni „%1“"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:615
+#: src/pythoninterfaces/abstractpythoninterface.cpp:610
 #, kde-format
 msgid ""
 "Error while running python3 script:\n"
@@ -15970,7 +15970,7 @@ msgstr ""
 " %1\n"
 "%2"
 
-#: src/pythoninterfaces/abstractpythoninterface.cpp:642
+#: src/pythoninterfaces/abstractpythoninterface.cpp:637
 #, kde-format
 msgid ""
 "This will delete the python virtual environment from:<br/><b>%1</b><br/>The "
