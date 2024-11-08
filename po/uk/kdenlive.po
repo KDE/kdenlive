@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-07 00:39+0000\n"
-"PO-Revision-Date: 2024-11-03 12:52+0200\n"
+"PO-Revision-Date: 2024-11-07 17:14+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -6982,6 +6982,8 @@ msgstr "Прогресивне"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"Обробка на процесорі є дуже повільною, рекомендуємо користуватися графічним "
+"процесором для пришвидшення обробки"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
@@ -6990,6 +6992,9 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"Переклад тексту буде виконано за допомогою моделі SeamlessM4T. Це потребує "
+"отримання близько 16 ГБ даних. Після встановлення обробка відбуватиметься в "
+"автономному режимі."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
 #, kde-format
@@ -20475,21 +20480,15 @@ msgstr "Отримати метадані кліпу, створені за до
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ігнорувати структуру підтек"
+msgstr "Ігнорувати структуру підтек при імпортуванні"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Ігнорувати структуру підтек при імпортуванні (імпортувати усі файли до теки "
-"верхнього рівня)"
+msgstr "До теки верхнього рівня буде імпортовано усі файли"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123

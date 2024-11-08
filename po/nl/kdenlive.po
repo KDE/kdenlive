@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-07 00:39+0000\n"
-"PO-Revision-Date: 2024-11-03 14:48+0100\n"
+"PO-Revision-Date: 2024-11-07 12:33+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -6958,6 +6958,8 @@ msgstr "Progressief"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"Verwerken met de CPU is erg langzaam, GPU is aanbevolen voor snellere "
+"verwerking"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
@@ -6966,6 +6968,9 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"Vertalen van tekst wordt gedaan dor het model SeamlessM4T. Dit vereist "
+"downloaden van rond 10 GB aan gegevens. Eenmaal geïnstalleerd, zal alle "
+"verwerking offline gebeuren."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
 #, kde-format
@@ -20327,21 +20332,15 @@ msgstr "Haal de metagegevens van de clip op gemaakt door Magic Lantern"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Submapstructuur negeren"
+msgstr "Submapstructuur negeren bij importeren"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Submapstructuur bij importeren negeren (alle bestanden in hoogste map "
-"importeren)"
+msgstr "Dit zal alle bestanden in een hoogste map importeren"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123

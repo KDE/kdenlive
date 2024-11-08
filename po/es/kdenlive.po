@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-07 00:39+0000\n"
-"PO-Revision-Date: 2024-10-15 03:35-0300\n"
+"PO-Revision-Date: 2024-11-06 19:58-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -576,7 +576,7 @@ msgstr "Intercambiar canales"
 #: data/effects/channelcopy.xml:17
 #, kde-format
 msgid "Swap the two channels instead of duplicating the source channel."
-msgstr "Intercambiar los dos canales, en vez de duplicar el canal original"
+msgstr "Intercambiar los dos canales, en vez de duplicar el canal original."
 
 #: data/effects/charcoal.xml:4
 #, kde-format
@@ -5722,16 +5722,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "Asignar un nuevo estilo a un subtítulo."
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "Persa"
+msgstr "versión"
 
 #: src/bin/playlistclip.cpp:171
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Secuencia 1"
+msgstr "Cantidad de secuencias"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -7000,15 +6998,14 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Error de descarga %1"
+msgstr "Descargar (1,4 Gb)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1819
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Instalar datos multi idiomas…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7055,10 +7052,9 @@ msgid "Probing..."
 msgstr "buscando…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1931
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Descargando modelo…"
+msgstr "Descargando modelo multi idiomas…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1988
 #: src/dialogs/kdenlivesettingsdialog.cpp:2244
@@ -7077,29 +7073,26 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2036 src/ui/configspeech_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Inicializando modelo de traducción"
+msgstr "Instalar traducción multi idiomas"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2045
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Instalar un modelo de voz - se recomienda el <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2076
 #: src/dialogs/kdenlivesettingsdialog.cpp:2085
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install a model"
-msgstr "Módulos instalados"
+msgstr "Instalar un modelo"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2087 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Modo de bordes"
+msgstr "Administrar modelos"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2122
 #, kde-format
@@ -7921,10 +7914,9 @@ msgid "Speech recognition aborted."
 msgstr "Reconocimiento de voz cancelado."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Falló el reconocimiento de voz"
+msgstr "Falló el reconocimiento de voz."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -8814,7 +8806,7 @@ msgstr "Error"
 #: src/dialogs/subtitlestyleedit.cpp:161
 #, kde-format
 msgid "Style name already exists."
-msgstr "El nombre de estilo ya existe"
+msgstr "El nombre de estilo ya existe."
 
 #: src/dialogs/subtitlestyleedit.cpp:166
 #, kde-format
@@ -9457,11 +9449,9 @@ msgid "Transition"
 msgstr "Transición"
 
 #: src/doc/documentchecker.cpp:1865
-#, fuzzy, kde-format
-#| msgid "One removed clip"
-#| msgid_plural "%1 removed clips"
+#, kde-format
 msgid "Unreferenced clip"
-msgstr "Un clip eliminado"
+msgstr "Clip no referenciado"
 
 #: src/doc/documentchecker.cpp:1867
 #, kde-format
@@ -16026,6 +16016,9 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"Esto requerirá una conexión a Internet y necesitará varios minutos para "
+"descargar todas las dependencias necesarias. Luego de esto, todo el "
+"procesamiento ocurrirá fuera de línea."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #: src/pythoninterfaces/abstractpythoninterface.cpp:544
@@ -16096,84 +16089,75 @@ msgstr ""
 "entorno virtual de Python."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Error Downloading File. Error code: %1"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Error al descargar el archivo. Código de error: %1"
+msgstr ""
+"Error al descargar modelo:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Seleccionar una zona de reproducción"
+msgstr "Seleccionar nuevos modelos a ser descargados"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "Módulos instalados"
+msgstr "Instalando el modelo %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Comprobando los modelos disponibles"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Descargando modelo…"
+msgstr "Descargando…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Descargando modelo…"
+msgstr "Descargar modelo"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Ir a página de descargas"
+msgstr "Cancelar descargas"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Módulos instalados"
+msgstr "Desinstalar modelo"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "Módulos instalados"
+msgstr "Instalar modelo"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Tamaño total:"
+msgstr "Tamaño total a descargar: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Comprobando configuración…"
+msgstr "Comprobando integridad de los modelos…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Archivado en proceso, ¿detenerlo?"
+msgstr "Una descarga está en proceso, ¿detenerla?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Ir a página de descargas"
+msgstr "Cancelar descarga"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16505,10 +16489,9 @@ msgid "Yiddish"
 msgstr "Ídish"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Instalar Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -17784,16 +17767,14 @@ msgid "Error initializing timeline preview"
 msgstr "Error al inicializar la previsualización de la línea de tiempo"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "Extrayendo audio del clip %1."
+msgstr "Editando la duración de %1 clips."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Edición en modo Encadenado"
+msgstr "Editando en modo Encadenado."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -19294,7 +19275,7 @@ msgstr "Archivar sólo clips en la línea de tiempo"
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:59
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%p %"
+msgstr "%p%"
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -19531,7 +19512,7 @@ msgstr "Recortar fin:"
 #: src/ui/clipdurationdialog_ui.ui:101
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Aplicar duración a todos los elementos"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20651,7 +20632,7 @@ msgstr "Habilitar"
 #: src/ui/configsdl_ui.ui:21
 #, kde-format
 msgid "Play/pause monitor on mouse click"
-msgstr "Reproducir/pausar al hacer clic sobre el monitor."
+msgstr "Reproducir/pausar al hacer clic sobre el monitor"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/configsdl_ui.ui:35
@@ -20775,14 +20756,13 @@ msgstr "Sistema de reconocimiento de voz"
 #: src/ui/configspeech_ui.ui:387
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
