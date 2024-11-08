@@ -337,7 +337,9 @@ void WheelContainer::mouseReleaseEvent(QMouseEvent *event)
 
 void WheelContainer::resizeEvent(QResizeEvent *event)
 {
-    m_image = QImage(event->size(), QImage::Format_ARGB32_Premultiplied);
+    qreal scalingFactor = devicePixelRatioF();
+    m_image = QImage(event->size() * scalingFactor, QImage::Format_ARGB32_Premultiplied);
+    m_image.setDevicePixelRatio(scalingFactor);
     m_image.fill(Qt::transparent);
     drawWheel();
     drawSlider();
@@ -374,6 +376,8 @@ void WheelContainer::drawWheel()
 {
     int r = wheelSize();
     QImage buffer = m_image;
+    qreal scalingFactor = devicePixelRatioF();
+    buffer.setDevicePixelRatio(scalingFactor);
     buffer.fill(Qt::transparent);
     QPainter painter(&buffer);
     painter.setRenderHint(QPainter::Antialiasing);
@@ -415,6 +419,8 @@ void WheelContainer::drawWheel()
 void WheelContainer::drawSlider()
 {
     QImage buffer = m_image;
+    qreal scalingFactor = devicePixelRatioF();
+    buffer.setDevicePixelRatio(scalingFactor);
     QPainter painter(&buffer);
     painter.setRenderHint(QPainter::Antialiasing);
     int pos = int(wheelSize() + m_unitSize * .2 + 2 * m_sliderBorder);
