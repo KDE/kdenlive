@@ -470,8 +470,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     }
     // Abort clip loading if any
     Q_EMIT pCore->stopProgressTask();
-    qApp->processEvents();
     if (guiConstructed) {
+        qApp->processEvents();
         pCore->window()->disableMulticam();
         pCore->mixer()->unsetModel();
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
@@ -479,7 +479,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         Q_EMIT pCore->window()->clearAssetPanel();
     }
     if (m_project) {
+        qDebug() << ":::::CLOSING PROJECT, DISCARDING TASKS...";
         pCore->taskManager.slotCancelJobs(true);
+        qDebug() << ":::::CLOSING PROJECT, DISCARDING TASKS...DONE";
         if (m_activeTimelineModel) {
             m_activeTimelineModel->m_closing = true;
         }
