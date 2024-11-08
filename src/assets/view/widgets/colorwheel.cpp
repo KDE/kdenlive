@@ -40,7 +40,14 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     m_sliderWidth = int(m_unitSize * 1.2);
     m_sliderBorder = qMax(1, int(m_unitSize * .2));
     setFixedWidth(m_unitSize * 11);
-    setFixedHeight(wheelSize());
+    int wSize = wheelSize();
+    setFixedHeight(wSize);
+    qreal scalingFactor = devicePixelRatioF();
+    m_image = QImage(QSize(m_unitSize * 11, wSize) * scalingFactor, QImage::Format_ARGB32_Premultiplied);
+    m_image.setDevicePixelRatio(scalingFactor);
+    m_image.fill(Qt::transparent);
+    drawWheel();
+    drawSlider();
 }
 
 void WheelContainer::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero)
@@ -89,12 +96,12 @@ void WheelContainer::setBlueColor(double value)
 
 int WheelContainer::wheelSize() const
 {
-    return width() - m_sliderWidth - m_sliderBorder * 3;
+    return m_unitSize * 11 - m_sliderWidth - m_sliderBorder * 3;
 }
 
 int WheelContainer::sliderHeight() const
 {
-    return wheelSize() - 2 * m_sliderBorder;
+    return wheelSize() - 2 * m_margin;
 }
 
 NegQColor WheelContainer::colorForPoint(const QPointF &point)
@@ -143,7 +150,7 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
         return NegQColor::fromHsvF(hue, rad, value);
     }
     if (m_sliderClick) {
-        qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
+        qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_sliderBorder * 2);
         value = qBound(0., value, 1.);
         if (qFuzzyIsNull(m_zeroShift)) {
             // Range is 0 to 1
@@ -335,17 +342,6 @@ void WheelContainer::mouseReleaseEvent(QMouseEvent *event)
     m_isMouseDown = false;
 }
 
-void WheelContainer::resizeEvent(QResizeEvent *event)
-{
-    qreal scalingFactor = devicePixelRatioF();
-    m_image = QImage(event->size() * scalingFactor, QImage::Format_ARGB32_Premultiplied);
-    m_image.setDevicePixelRatio(scalingFactor);
-    m_image.fill(Qt::transparent);
-    drawWheel();
-    drawSlider();
-    update();
-}
-
 const QString WheelContainer::getParamValues() const
 {
     return QString::number(m_color.redF() * m_sizeFactor, 'f', 3) + QLatin1Char(',') + QString::number(m_color.greenF() * m_sizeFactor, 'f', 3) +
@@ -378,7 +374,6 @@ void WheelContainer::drawWheel()
     QImage buffer = m_image;
     qreal scalingFactor = devicePixelRatioF();
     buffer.setDevicePixelRatio(scalingFactor);
-    buffer.fill(Qt::transparent);
     QPainter painter(&buffer);
     painter.setRenderHint(QPainter::Antialiasing);
     QConicalGradient conicalGradient;
@@ -436,7 +431,7 @@ void WheelContainer::drawSlider()
     pen.setWidth(qMax(1, m_sliderBorder / 2));
     painter.setPen(pen);
     painter.setBrush(brush);
-    painter.translate(pos, m_margin + m_sliderBorder);
+    painter.translate(pos, m_margin);
     painter.drawRoundedRect(QRect(0, 0, w, sliderHeight()), w / 3, w / 3);
     m_sliderRegion = QRegion(pos, m_margin + m_sliderBorder, w, sliderHeight() - m_margin);
     painter.end();
@@ -489,10 +484,10 @@ void WheelContainer::drawSliderBar(QPainter &painter)
     int w = int(m_sliderWidth + m_sliderBorder * 2);
     int h = m_sliderBorder * 2;
     QPen pen(Qt::white);
-    pen.setWidth(m_sliderBorder);
+    pen.setWidth(m_sliderBorder * 0.8);
     painter.setPen(pen);
     painter.setBrush(Qt::black);
-    painter.translate(pos + m_sliderBorder, m_margin + value * sliderHeight() - (h / 2) + m_sliderBorder);
+    painter.translate(pos + m_sliderBorder, m_margin + value * (sliderHeight() - h));
     painter.drawRect(0, 0, w, h);
     painter.resetTransform();
 }
@@ -516,7 +511,7 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
     m_wheelName->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_wheelName->setFixedHeight(info.height());
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    hb->addWidget(m_wheelName, 0, 0, 1, -1, Qt::AlignHCenter);
+    hb->addWidget(m_wheelName, 0, 0, 1, -1, Qt::AlignLeft);
     m_container = new WheelContainer(id, name, color, unitSize, this);
     m_redEdit = new QDoubleSpinBox(this);
     m_redEdit->setFrame(QFrame::NoFrame);
