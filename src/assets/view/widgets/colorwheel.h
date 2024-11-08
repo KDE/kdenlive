@@ -21,8 +21,6 @@ class WheelContainer : public QWidget
     Q_OBJECT
 public:
     explicit WheelContainer(QString id, QString name, NegQColor color, int unitSize, QWidget *parent = nullptr);
-    QSize sizeHint() const override;
-    QSize minimumSizeHint() const override;
     NegQColor color() const;
     void setColor(const QList <double> &values);
     void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
@@ -48,7 +46,6 @@ protected:
 
 private:
     QString m_id;
-    QSize m_initialSize;
     QImage m_image;
     bool m_isMouseDown;
     QPointF m_lastPoint;
@@ -90,9 +87,11 @@ public:
     NegQColor color() const;
     void setColor(const QList <double> &values);
     void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
+    QSize sizeHint() const override;
 
 private:
     WheelContainer *m_container;
+    QSize m_initialSize;
     QLabel *m_wheelName;
     QDoubleSpinBox *m_redEdit;
     QDoubleSpinBox *m_greenEdit;

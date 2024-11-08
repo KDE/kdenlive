@@ -15,6 +15,7 @@
 #include <QDoubleSpinBox>
 #include <QFontDatabase>
 #include <QFrame>
+#include <QGridLayout>
 #include <QLabel>
 #include <QVBoxLayout>
 
@@ -36,12 +37,10 @@ WheelContainer::WheelContainer(QString id, QString name, NegQColor color, int un
     , m_sliderFocus(false)
 {
     setMouseTracking(true);
-    m_initialSize = QSize(m_unitSize * 11, m_unitSize * 11);
-    m_sliderWidth = int(m_unitSize * 1.5);
-    m_sliderBorder = m_unitSize * .2;
-    resize(m_initialSize);
-    setMinimumSize(m_initialSize * .4);
-    setMaximumSize(m_initialSize * 1.5);
+    m_sliderWidth = int(m_unitSize * 1.2);
+    m_sliderBorder = qMax(1, int(m_unitSize * .2));
+    setFixedWidth(m_unitSize * 11);
+    setFixedHeight(wheelSize());
 }
 
 void WheelContainer::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero)
@@ -90,12 +89,12 @@ void WheelContainer::setBlueColor(double value)
 
 int WheelContainer::wheelSize() const
 {
-    return qMin(width() - m_sliderWidth, height());
+    return width() - m_sliderWidth - m_sliderBorder * 3;
 }
 
 int WheelContainer::sliderHeight() const
 {
-    return wheelSize() - m_margin * 2 - m_sliderBorder * 2;
+    return wheelSize() - 2 * m_sliderBorder;
 }
 
 NegQColor WheelContainer::colorForPoint(const QPointF &point)
@@ -158,16 +157,6 @@ NegQColor WheelContainer::colorForPoint(const QPointF &point)
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
     return {};
-}
-
-QSize WheelContainer::sizeHint() const
-{
-    return m_initialSize * .8;
-}
-
-QSize WheelContainer::minimumSizeHint() const
-{
-    return m_initialSize * .4;
 }
 
 void WheelContainer::wheelEvent(QWheelEvent *event)
@@ -349,8 +338,7 @@ void WheelContainer::mouseReleaseEvent(QMouseEvent *event)
 void WheelContainer::resizeEvent(QResizeEvent *event)
 {
     m_image = QImage(event->size(), QImage::Format_ARGB32_Premultiplied);
-    m_image.fill(palette().window().color().rgb());
-
+    m_image.fill(Qt::transparent);
     drawWheel();
     drawSlider();
     update();
@@ -386,7 +374,7 @@ void WheelContainer::drawWheel()
 {
     int r = wheelSize();
     QImage buffer = m_image;
-    buffer.fill(0); // transparent
+    buffer.fill(Qt::transparent);
     QPainter painter(&buffer);
     painter.setRenderHint(QPainter::Antialiasing);
     QConicalGradient conicalGradient;
@@ -420,6 +408,7 @@ void WheelContainer::drawWheel()
 
     m_wheelRegion = QRegion(r / 2, r / 2, r - 2 * m_margin, r - 2 * m_margin, QRegion::Ellipse);
     m_wheelRegion.translate(-(r - 2 * m_margin) / 2, -(r - 2 * m_margin) / 2);
+    painter.end();
     m_image = buffer;
 }
 
@@ -428,10 +417,9 @@ void WheelContainer::drawSlider()
     QImage buffer = m_image;
     QPainter painter(&buffer);
     painter.setRenderHint(QPainter::Antialiasing);
-    int pos = int(wheelSize() + m_unitSize * .2 + m_sliderBorder);
-    qreal scale = qreal(pos + m_sliderWidth) / maximumWidth();
-    int w = int(m_sliderWidth * scale - m_unitSize * .2);
-    QLinearGradient gradient(0, 0, w, sliderHeight());
+    int pos = int(wheelSize() + m_unitSize * .2 + 2 * m_sliderBorder);
+    int w = int(m_sliderWidth - m_unitSize * .2 - m_sliderBorder);
+    QLinearGradient gradient(0, 0, 0, sliderHeight());
     NegQColor c = m_color;
     c.setValueF(1);
     gradient.setColorAt(0.0, c.qcolor);
@@ -439,12 +427,13 @@ void WheelContainer::drawSlider()
     gradient.setColorAt(1.0, QColorUtils::complementary(c.qcolor));
     QBrush brush(gradient);
     QPen pen(m_sliderFocus ? QPalette().highlight().color() : Qt::NoPen);
-    pen.setWidth(m_sliderBorder);
+    pen.setWidth(qMax(1, m_sliderBorder / 2));
     painter.setPen(pen);
     painter.setBrush(brush);
     painter.translate(pos, m_margin + m_sliderBorder);
     painter.drawRoundedRect(QRect(0, 0, w, sliderHeight()), w / 3, w / 3);
     m_sliderRegion = QRegion(pos, m_margin + m_sliderBorder, w, sliderHeight() - m_margin);
+    painter.end();
     m_image = buffer;
 }
 
@@ -491,8 +480,7 @@ void WheelContainer::drawSliderBar(QPainter &painter)
         value -= m_zeroShift;
     }
     int pos = wheelSize();
-    qreal scale = qreal(pos + m_sliderWidth) / maximumWidth();
-    int w = int(m_sliderWidth * scale + m_sliderBorder * 2);
+    int w = int(m_sliderWidth + m_sliderBorder * 2);
     int h = m_sliderBorder * 2;
     QPen pen(Qt::white);
     pen.setWidth(m_sliderBorder);
@@ -515,43 +503,56 @@ void WheelContainer::changeColor(const NegQColor &sourceColor, const NegQColor &
 ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent)
     : QWidget(parent)
 {
-    QFontInfo info(font());
-    int unitSize = info.pixelSize();
-    auto *lay = new QVBoxLayout(this);
+    QFontMetrics info(font());
+    int unitSize = info.ascent();
+    auto *hb = new QGridLayout(this);
     m_wheelName = new QLabel(name, this);
     m_wheelName->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    lay->addWidget(m_wheelName);
+    m_wheelName->setFixedHeight(info.height());
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    hb->addWidget(m_wheelName, 0, 0, 1, -1, Qt::AlignHCenter);
     m_container = new WheelContainer(id, name, color, unitSize, this);
-    auto *hb = new QHBoxLayout;
     m_redEdit = new QDoubleSpinBox(this);
-    m_redEdit->setPrefix(i18n("R: "));
     m_redEdit->setFrame(QFrame::NoFrame);
+    m_redEdit->setFixedHeight(m_redEdit->sizeHint().height());
     m_redEdit->setDecimals(3);
     m_redEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     m_redEdit->setFont(m_wheelName->font());
     m_redEdit->setObjectName(QStringLiteral("dragMinimal"));
     m_greenEdit = new QDoubleSpinBox(this);
-    m_greenEdit->setPrefix(i18n("G: "));
     m_greenEdit->setObjectName(QStringLiteral("dragMinimal"));
     m_greenEdit->setFont(m_wheelName->font());
+    m_greenEdit->setFixedHeight(m_redEdit->sizeHint().height());
     m_greenEdit->setDecimals(3);
     m_greenEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     m_blueEdit = new QDoubleSpinBox(this);
-    m_blueEdit->setPrefix(i18n("B: "));
     m_blueEdit->setObjectName(QStringLiteral("dragMinimal"));
     m_blueEdit->setFont(m_wheelName->font());
+    m_blueEdit->setFixedHeight(m_redEdit->sizeHint().height());
     m_blueEdit->setDecimals(3);
     m_blueEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    lay->setContentsMargins(0, 0, 2, 0);
-    lay->setSpacing(0);
-    lay->addWidget(m_container);
-    hb->addWidget(m_redEdit);
-    hb->addWidget(m_greenEdit);
-    hb->addWidget(m_blueEdit);
-    hb->setSpacing(0);
+    hb->addWidget(m_container, 1, 0, 1, -1, Qt::AlignCenter);
+    auto rFrame = new QFrame(this);
+    auto gFrame = new QFrame(this);
+    auto bFrame = new QFrame(this);
+    rFrame->setStyleSheet(QStringLiteral("QFrame { background-color:red; }"));
+    gFrame->setStyleSheet(QStringLiteral("QFrame { background-color:green; }"));
+    bFrame->setStyleSheet(QStringLiteral("QFrame { background-color:blue; }"));
+    int patchHeight = info.ascent();
+    rFrame->setFixedWidth(3);
+    rFrame->setFixedHeight(patchHeight);
+    gFrame->setFixedWidth(3);
+    gFrame->setFixedHeight(patchHeight);
+    bFrame->setFixedWidth(3);
+    bFrame->setFixedHeight(patchHeight);
+    hb->addWidget(rFrame, 2, 0, Qt::AlignVCenter | Qt::AlignRight);
+    hb->addWidget(m_redEdit, 2, 1, Qt::AlignLeft);
+    hb->addWidget(gFrame, 2, 2, Qt::AlignVCenter | Qt::AlignRight);
+    hb->addWidget(m_greenEdit, 2, 3, Qt::AlignLeft);
+    hb->addWidget(bFrame, 2, 4, Qt::AlignVCenter | Qt::AlignRight);
+    hb->addWidget(m_blueEdit, 2, 5, Qt::AlignLeft);
+    hb->setSpacing(2);
     hb->setContentsMargins(0, 0, 0, 0);
-    lay->addLayout(hb);
-    m_container->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     connect(m_container, &WheelContainer::colorChange, this, [&](const NegQColor &sourceCol, const NegQColor &col, bool createUndo) {
         QList<double> vals = m_container->getNiceParamValues();
         m_redEdit->blockSignals(true);
@@ -571,9 +572,8 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
             [&]() { m_container->setGreenColor(m_greenEdit->value()); });
     connect(m_blueEdit, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this,
             [&]() { m_container->setBlueColor(m_blueEdit->value()); });
-    setMinimumHeight(m_wheelName->height() + m_container->minimumHeight() + m_redEdit->height());
-    setMaximumWidth(m_container->maximumWidth());
-    setMinimumWidth(3 * m_redEdit->sizeHint().width());
+    m_initialSize = QSize(m_container->width(), m_container->height() + m_wheelName->height() + m_redEdit->height() + 2);
+    setFixedSize(m_initialSize);
 }
 
 NegQColor ColorWheel::color() const
@@ -611,4 +611,9 @@ void ColorWheel::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero)
     m_redEdit->setSingleStep(.01);
     m_greenEdit->setSingleStep(.01);
     m_blueEdit->setSingleStep(.01);
+}
+
+QSize ColorWheel::sizeHint() const
+{
+    return m_initialSize;
 }

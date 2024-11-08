@@ -111,37 +111,39 @@ QSize FlowLayout::minimumSize() const
 
 int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
 {
-    QMargins mrg = contentsMargins();
-    QRect effectiveRect = rect.adjusted(mrg.left(), mrg.top(), -mrg.right(), -mrg.bottom());
-    if (m_itemList.isEmpty() || effectiveRect.width() <= 0) {
-        return 0;
-    }
+    int left, top, right, bottom;
+    getContentsMargins(&left, &top, &right, &bottom);
+    QRect effectiveRect = rect.adjusted(+left, +top, -right, -bottom);
     int x = effectiveRect.x();
     int y = effectiveRect.y();
-    int itemCount = 0;
-    QWidget *wid = m_itemList.at(0)->widget();
-    QSize min = wid->minimumSize();
-    int columns = qMin(qFloor(double(rect.width()) / min.width()), m_itemList.size());
-    columns = qMax(1, columns);
-    int realWidth = qMin(wid->maximumWidth(), rect.width() / columns - horizontalSpacing());
-    realWidth -= realWidth % 40;
-    realWidth = qMax(realWidth, wid->minimumWidth());
-    int totalHeight = y - rect.y() + mrg.bottom() + qCeil(double(m_itemList.size()) / columns) * (realWidth + verticalSpacing());
-    m_minimumSize = QSize(columns * realWidth, totalHeight);
-    QSize hint = QSize(realWidth, realWidth);
-    if (testOnly) {
-        return totalHeight;
+    int lineHeight = 0;
+    for (QLayoutItem *item : std::as_const(m_itemList)) {
+        const QWidget *wid = item->widget();
+        int spaceX = horizontalSpacing();
+        if (spaceX == -1) {
+            spaceX = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Horizontal);
+        }
+        int spaceY = verticalSpacing();
+        if (spaceY == -1) {
+            spaceY = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Vertical);
+        }
+        int nextX = x + item->sizeHint().width() + spaceX;
+        if (nextX - spaceX > effectiveRect.right() && lineHeight > 0) {
+            x = effectiveRect.x();
+            y = y + lineHeight + spaceY;
+            nextX = x + item->sizeHint().width() + spaceX;
+            lineHeight = 0;
+        }
+
+        if (!testOnly) item->setGeometry(QRect(QPoint(x, y), item->sizeHint()));
+
+        x = nextX;
+        lineHeight = qMax(lineHeight, item->sizeHint().height());
     }
-    for (QLayoutItem *item : m_itemList) {
-        // We consider all items have the same dimensions
-        item->setGeometry(QRect(QPoint(x, y), hint));
-        itemCount++;
-        // qDebug()<<"=== ITEM: "<<itemCount<<", POS: "<<x<<"x"<<y<<", SIZE: "<<hint;
-        x = effectiveRect.x() + (itemCount % columns) * (realWidth + horizontalSpacing());
-        y = effectiveRect.y() + qFloor(double(itemCount) / columns) * (realWidth + verticalSpacing());
-    }
-    return totalHeight;
+    m_minimumSize = QSize(effectiveRect.width(), y + lineHeight + bottom);
+    return y + lineHeight + bottom;
 }
+
 int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
 {
     QObject *parent = this->parent();
