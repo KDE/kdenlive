@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-07 00:39+0000\n"
-"PO-Revision-Date: 2024-11-04 05:02+0100\n"
+"PO-Revision-Date: 2024-11-07 04:05+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -6914,6 +6914,8 @@ msgstr "პროგრესული"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"CPU-ით დამუშავება მეტისმეტად ნელია. უკეთესი წარმადობისთვის რეკომენდებულია "
+"GPU-ის გამოყენება"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
@@ -6922,6 +6924,9 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"ტექსტის თარგმანი SeamlessM4T მოდელით ხდება. ამას, დაახლოებით, 10გბ "
+"მონაცემების გადმოწერა სჭირდება. როცა დააყენებთ, ყველაფერი დანარჩენი "
+"ინტერნეტის გარეშე მოხდება."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
 #, kde-format
@@ -20236,21 +20241,15 @@ msgstr "კლიპის მეტამონაცმების მიღ�
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "ქვესაქაღალდეების სტრუქტურის გამოტოვება"
+msgstr "ქვესაქაღალდეების სტრუქტურის გამოტოვება შემოტანისას"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"შემოტანისას ქვესაქაღალდეების სტრუქტურის იგნორი (ყველა ფაილის ზედა დონის "
-"საქაღალდეში შემოტანა)"
+msgstr "ყველა ფაილის ყველაზე ზედა დონის საქაღალდეში შემოტანა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
