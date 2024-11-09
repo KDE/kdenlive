@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-07 00:39+0000\n"
+"POT-Creation-Date: 2024-11-09 00:39+0000\n"
 "PO-Revision-Date: 2024-11-07 04:05+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -3765,21 +3765,6 @@ msgstr "შეიყვანეთ პრესეტის სახელი:
 msgid "Abort processing"
 msgstr "დამუშავების შეწყვეტა"
 
-#: src/assets/view/widgets/colorwheel.cpp:527
-#, kde-format
-msgid "R: "
-msgstr "წ: "
-
-#: src/assets/view/widgets/colorwheel.cpp:534
-#, kde-format
-msgid "G: "
-msgstr "მ: "
-
-#: src/assets/view/widgets/colorwheel.cpp:540
-#, kde-format
-msgid "B: "
-msgstr "ლ: "
-
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:443
 #, kde-format
 msgid "Move Keyframe"
@@ -4818,8 +4803,8 @@ msgstr "დასაკრავი სია"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2451 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1580
-#: src/project/projectmanager.cpp:1582 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1582
+#: src/project/projectmanager.cpp:1584 src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "მიმდევრობები"
@@ -5904,7 +5889,7 @@ msgstr ""
 "მითითებული პროფილი არასწორია. ჩვენი ნაგულისხმევია პროფილი \"dv_pal\", მაგრამ "
 "მისი შეცვლა ყოველთვის შეგიძლიათ Kdenlive-ის მორგების პანელიდან"
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:825
+#: src/core.cpp:255 src/project/projectmanager.cpp:827
 #, kde-format
 msgid "Loading project…"
 msgstr "პროექტის ჩატვირთვა…"
@@ -6582,7 +6567,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/project/dialogs/archivewidget.cpp:886
 #: src/project/dialogs/archivewidget.cpp:898
 #: src/project/dialogs/archivewidget.cpp:904
-#: src/project/projectmanager.cpp:1880 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1882 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
 #: src/timeline2/view/timelinecontroller.cpp:5122
@@ -6649,7 +6634,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "თუ დარწმუნებული არ ბრძანდებით, სცადეთ :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1770
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1772
 #: src/renderpresets/renderpresetrepository.cpp:310
 #, kde-format
 msgid "Cannot read file %1"
@@ -9550,8 +9535,8 @@ msgstr "პროექტიდან წაიშალა შემდეგ�
 msgid "Invalid file path"
 msgstr "ფაილის არასწორი ბილიკი"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:810
-#: src/project/projectmanager.cpp:852
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:812
+#: src/project/projectmanager.cpp:854
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "დაზიანებული ფაილი ვერ აღვადგინე."
@@ -9631,15 +9616,15 @@ msgstr ""
 "თქვენი პროექტის ფაილი განახლდა უკანასკნელ Kdenlive-ის დოკუმენტის ვერსიამდე, "
 "მაგრამ მარქაფის ასლის, %1, შექმნა ვერ მოხერხდა."
 
-#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1454
-#: src/project/projectmanager.cpp:1490
+#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1456
+#: src/project/projectmanager.cpp:1492
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "პროექტის ბილიკის გადატანის შეცდომა: %1"
 
 #: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2362
 #: src/project/dialogs/archivewidget.cpp:245
-#: src/project/projectmanager.cpp:1711
+#: src/project/projectmanager.cpp:1713
 #, kde-format
 msgid "Untitled"
 msgstr "უსახელო"
@@ -12646,12 +12631,12 @@ msgstr ""
 "ეს ყველა დროებით ფაილს გადაიტანს საქაღალდიდან<br/><b>%1</b>საქაღალდეში <b>"
 "%2</b>,<br/>შემდეგ კი პროექტის ფაილი თავიდან ჩაიტვირთება"
 
-#: src/mainwindow.cpp:2214 src/project/projectmanager.cpp:616
+#: src/mainwindow.cpp:2214 src/project/projectmanager.cpp:618
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "ოპერაციის შესრულება შეუძლებელია. არასწორი დოკუმენტის ID: %1"
 
-#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:622
+#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:624
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ოპერაციის შესრულება შეუძლებელია. სამიზნე საქაღალდე უკვე არსებობს: %1"
@@ -15545,7 +15530,7 @@ msgstr "მარქაფის ფაილის გახსნა…"
 msgid "Save changes to document?"
 msgstr "შევინახო დოკუმენტის ცვლილებები?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1710
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1712
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -15554,17 +15539,17 @@ msgstr ""
 "პროექტი <b>\"%1\"</b> შეიცვალა.\n"
 "გნებავთ ამ ცვლილებების შენახვა??"
 
-#: src/project/projectmanager.cpp:558
+#: src/project/projectmanager.cpp:560
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "პროექტის ფაილის <br><b>%1</B> შენახვა ჩავარდა"
 
-#: src/project/projectmanager.cpp:591
+#: src/project/projectmanager.cpp:593
 #, kde-format
 msgid "Saving successful"
 msgstr "შენახვა წარმატებულია"
 
-#: src/project/projectmanager.cpp:604
+#: src/project/projectmanager.cpp:606
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -15575,38 +15560,38 @@ msgstr ""
 "პროექტის ფაილთან შეინახოთ. ეს დროებით ფაილებს <b>%1</b>-დან <b>%2</b>-ში "
 "გადაიტანს, შემდეგ კი პროექტის ფაილი თავიდან ჩაიტვირთება"
 
-#: src/project/projectmanager.cpp:645
+#: src/project/projectmanager.cpp:647
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "ასლის შენახვა"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "არსებობს ავტოშენახული ფაილი. გნებავთ აღდგენა ახლა?"
 
-#: src/project/projectmanager.cpp:751
+#: src/project/projectmanager.cpp:753
 #, kde-format
 msgid "File Recovery"
 msgstr "ფაილის აღდგენა"
 
-#: src/project/projectmanager.cpp:752 src/project/projectmanager.cpp:840
+#: src/project/projectmanager.cpp:754 src/project/projectmanager.cpp:842
 #, kde-format
 msgid "Recover"
 msgstr "აღდგენა"
 
-#: src/project/projectmanager.cpp:752
+#: src/project/projectmanager.cpp:754
 #, kde-format
 msgid "Do not recover"
 msgstr "არ აღადგინო"
 
-#: src/project/projectmanager.cpp:804
+#: src/project/projectmanager.cpp:806
 #, kde-format
 msgid "Opening file %1"
 msgstr "ფაილის გახსნა: %1"
 
-#: src/project/projectmanager.cpp:839
+#: src/project/projectmanager.cpp:841
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15617,44 +15602,44 @@ msgstr ""
 "%1\n"
 "გავხსნა მარქაფის ფაილი?"
 
-#: src/project/projectmanager.cpp:840 src/project/projectmanager.cpp:1074
+#: src/project/projectmanager.cpp:842 src/project/projectmanager.cpp:1076
 #, kde-format
 msgid "Error opening file"
 msgstr "შეცდომა ფაილის გახსნისას"
 
-#: src/project/projectmanager.cpp:840 src/project/projectmanager.cpp:1075
+#: src/project/projectmanager.cpp:842 src/project/projectmanager.cpp:1077
 #, kde-format
 msgid "Open Backup"
 msgstr "მარქაფის გასნა"
 
-#: src/project/projectmanager.cpp:856
+#: src/project/projectmanager.cpp:858
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "მარქაფი პროექტის ფაილის გახსნა შეუძლებელია."
 
-#: src/project/projectmanager.cpp:871
+#: src/project/projectmanager.cpp:873
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "თქვენი პროექტის ვერსია აწეულია. მარქაფი შემდეგი შენახვისას შეიქმნება"
 
-#: src/project/projectmanager.cpp:873
+#: src/project/projectmanager.cpp:875
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 "თქვენი პროექტი შეიცვალა გახსნისას. მარქაფი შემდეგი შენახვისას შეიქმნება"
 
-#: src/project/projectmanager.cpp:944
+#: src/project/projectmanager.cpp:946
 #, kde-format
 msgid "Loading timeline…"
 msgstr "დროის ხაზის ჩატვირთვა…"
 
-#: src/project/projectmanager.cpp:962
+#: src/project/projectmanager.cpp:964
 #, kde-format
 msgid "Building sequences…"
 msgstr "მიმდევრობების აგება…"
 
-#: src/project/projectmanager.cpp:1101
+#: src/project/projectmanager.cpp:1103
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -15663,7 +15648,7 @@ msgstr ""
 "პროექტის ფაილის გახსნა შეუძლებელია. შეცდომა:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1141
+#: src/project/projectmanager.cpp:1143
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -15672,12 +15657,12 @@ msgstr ""
 "ეს წაშლის ყველა ცვლილებას, რომელიც თქვენს პროექტში ბოლო შენახვის შემდეგ "
 "შეიტანეთ. დარწმუნებული ბრძანდებით, რომ გნებავთ, გააგრძელოთ?"
 
-#: src/project/projectmanager.cpp:1142
+#: src/project/projectmanager.cpp:1144
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "ბოლო შენახულ ვერსიაზე დაბრუნება"
 
-#: src/project/projectmanager.cpp:1228
+#: src/project/projectmanager.cpp:1230
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -15686,24 +15671,24 @@ msgstr ""
 "პროექტის დაზიანებულია. მარქაფი შეუძლებელია. დახურეთ და თავიდან გახსენით "
 "პროექტი, რათა ბოლო ბოლო მარქაფზე აღადგინოთ"
 
-#: src/project/projectmanager.cpp:1432
+#: src/project/projectmanager.cpp:1434
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "პროექტის საქაღალდის გადატანის შეცდომა. კეშის საქაღლდესთან წვდომა აკრძალულია"
 
-#: src/project/projectmanager.cpp:1468
+#: src/project/projectmanager.cpp:1470
 #, kde-format
 msgid "Moving project folder"
 msgstr "პროექტის საქაღალდის გადატანა"
 
-#: src/project/projectmanager.cpp:1559 src/project/projectmanager.cpp:1617
-#: src/project/projectmanager.cpp:1621
+#: src/project/projectmanager.cpp:1561 src/project/projectmanager.cpp:1619
+#: src/project/projectmanager.cpp:1623
 #, kde-format
 msgid "Sequence 1"
 msgstr "მიმდევრობა 1"
 
-#: src/project/projectmanager.cpp:1570
+#: src/project/projectmanager.cpp:1572
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -15711,13 +15696,13 @@ msgstr ""
 "პროექტის ფაილი დაზიანებულია - ტრეკების ჩატვირთვა ჩავარდა. ვცადო მარქაფის "
 "ფაილის პოვნა?"
 
-#: src/project/projectmanager.cpp:1716 src/project/projectmanager.cpp:1721
-#: src/project/projectmanager.cpp:1731 src/project/projectmanager.cpp:1745
+#: src/project/projectmanager.cpp:1718 src/project/projectmanager.cpp:1723
+#: src/project/projectmanager.cpp:1733 src/project/projectmanager.cpp:1747
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "პროექტის პროფილის შეცვლა გაუქმდა"
 
-#: src/project/projectmanager.cpp:1868
+#: src/project/projectmanager.cpp:1870
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -15726,12 +15711,12 @@ msgstr ""
 "გამოტანის ფაილი %1 უკვე არსებობს.\n"
 "გნებავთ, გადააწეროთ თავზე?"
 
-#: src/project/projectmanager.cpp:1890
+#: src/project/projectmanager.cpp:1892
 #, kde-format
 msgid "Project profile changed"
 msgstr "პროექტის პროფილი შეიცვალა"
 
-#: src/project/projectmanager.cpp:1951
+#: src/project/projectmanager.cpp:1953
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15740,17 +15725,17 @@ msgstr ""
 "დროის ხაზი ვერ შევქმენი კლიპიდან:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2033
+#: src/project/projectmanager.cpp:2035
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "მიმდევრობის კლიპის შემოტანა. ეს ფუნქცია ჯერჯერობით ექსპერიმენტულია"
 
-#: src/project/projectmanager.cpp:2222
+#: src/project/projectmanager.cpp:2224
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "აირჩიეთ კლიპი მიმდევრობის შესაქმნელად"
 
-#: src/project/projectmanager.cpp:2260
+#: src/project/projectmanager.cpp:2262
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "მიმდევრობის კლიპის შექმნა"
@@ -23370,6 +23355,15 @@ msgstr "%1მ"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1სთ"
+
+#~ msgid "R: "
+#~ msgstr "წ: "
+
+#~ msgid "G: "
+#~ msgstr "მ: "
+
+#~ msgid "B: "
+#~ msgstr "ლ: "
 
 #~ msgid "Force Breeze Icon Theme"
 #~ msgstr "Breeze ხატულების თემის ნაძალადევი გამოყენება"
