@@ -158,11 +158,12 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
 
 void TimelineWidget::unsetModel()
 {
-    rootContext()->setContextProperty("controller", nullptr);
-    rootContext()->setContextProperty("multitrack", nullptr);
-    rootContext()->setContextProperty("timeline", nullptr);
-    rootContext()->setContextProperty("guidesModel", nullptr);
-    rootContext()->setContextProperty("subtitleModel", nullptr);
+    QList<QQmlContext::PropertyPair> propertyList = {{QStringLiteral("controller"), QVariant()},
+                                                     {QStringLiteral("multitrack"), QVariant()},
+                                                     {QStringLiteral("timeline"), QVariant()},
+                                                     {QStringLiteral("guidesModel"), QVariant()},
+                                                     {QStringLiteral("subtitleModel"), QVariant()}};
+    rootContext()->setContextProperties(propertyList);
     m_sortModel.reset(new QSortFilterProxyModel(this));
     m_proxy->prepareClose();
 }
@@ -179,17 +180,17 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
     m_proxy->setModel(model);
-    rootContext()->setContextProperty("multitrack", m_sortModel.get());
-    rootContext()->setContextProperty("controller", model.get());
-    rootContext()->setContextProperty("timeline", m_proxy);
-    rootContext()->setContextProperty("guidesModel", model->getFilteredGuideModel().get());
-    // Create a unique id for this timeline to prevent thumbnails
-    // leaking from one project to another because of qml's image caching
-    rootContext()->setContextProperty("documentId", model->uuid());
-    rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
-    rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
-    rootContext()->setContextProperty("miniFontSize", QFontInfo(font()).pixelSize());
-    rootContext()->setContextProperty("subtitleModel", model->getSubtitleModel().get());
+    QList<QQmlContext::PropertyPair> propertyList = {{"controller", QVariant::fromValue(model.get())},
+                                                     {"multitrack", QVariant::fromValue(m_sortModel.get())},
+                                                     {"timeline", QVariant::fromValue(m_proxy)},
+                                                     {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
+                                                     {"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())},
+                                                     {"documentId", QVariant::fromValue(model->uuid())},
+                                                     {"audiorec", QVariant::fromValue(pCore->getAudioDevice())},
+                                                     {"clipboard", QVariant::fromValue(new ClipboardProxy(this))},
+                                                     {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())}};
+    rootContext()->setContextProperties(propertyList);
+
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 
