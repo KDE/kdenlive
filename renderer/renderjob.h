@@ -33,7 +33,6 @@ private Q_SLOTS:
     void receivedStderr();
     void slotAbort();
     void slotAbort(const QString &url);
-    void slotCheckProcess(int /*exitCode*/, QProcess::ExitStatus exitStatus);
     void slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exitStatus);
     void receivedSubtitleProgress();
 
@@ -57,9 +56,8 @@ private:
     QString m_subtitleFile;
     bool m_debugMode;
     QString m_temporaryRenderFile;
-    QProcess *m_renderProcess;
-    QProcess *m_subsProcess;
-    QEventLoop m_looper;
+    QProcess m_renderProcess;
+    QProcess m_subsProcess;
     QString m_errorMessage;
     QDateTime m_startTime;
     QStringList m_args;
