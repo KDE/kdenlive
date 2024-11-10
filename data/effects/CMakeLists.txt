@@ -65,6 +65,7 @@ sepia.xml
 shape.xml
 speed.xml
 spot_remover.xml
+strobe.xml
 swapchannels.xml
 timer.xml
 tcolor.xml

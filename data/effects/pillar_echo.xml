@@ -7,7 +7,7 @@
     <parameter type="animatedrect" name="rect" default="adjustcenter" fixed="1" opacity="false">
         <name>Rectangle</name>
     </parameter>
-    <parameter type="constant" name="blur" max="50" min="0" default="4" suffix="%">
+    <parameter type="keyframe" name="blur" max="50" min="0" default="4" suffix="%">
         <name>Blur</name>
     </parameter>
 </effect>

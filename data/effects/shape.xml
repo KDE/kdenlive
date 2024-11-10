@@ -7,7 +7,7 @@
     <parameter type="url" name="resource" filter="Video files (*)">
         <name>Image or video resource</name>
     </parameter>
-    <parameter type="constant" name="mix" max="100" min="0" default="100" suffix="%">
+    <parameter type="keyframe" name="mix" max="100" min="0" default="100" suffix="%">
         <name>Threshold</name>
         <comment>Convert alpha or luma values below this level as opaque and above this level as transparent. This is mostly useful for luma wipe images.</comment>
     </parameter>
