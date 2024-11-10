@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-09 00:39+0000\n"
-"PO-Revision-Date: 2024-11-01 10:05+0100\n"
+"PO-Revision-Date: 2024-11-07 09:29+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -5704,16 +5704,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "Assigna un estil nou a un subtítol."
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "Persa"
+msgstr "versió"
 
 #: src/bin/playlistclip.cpp:171
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Seqüència 1"
+msgstr "Comptador de seqüències"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -6968,6 +6966,8 @@ msgstr "Progressiu"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"El processament de CPU és molt lent, es recomana GPU per a un processament "
+"més ràpid"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
@@ -6976,17 +6976,19 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"La traducció de text es realitza mitjançant el model SeamlessM4T. Açò "
+"requerix baixar al voltant de 10 Gb de dades. Una vegada instal·lat, tot el "
+"processament es farà fora de línia."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "S'ha produït un error de baixada %1"
+msgstr "Baixa (1,4GB)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1819
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "S'estan instal·lant les dades multilingües…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7033,10 +7035,9 @@ msgid "Probing..."
 msgstr "S'està explorant…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1931
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "S'està baixant el model…"
+msgstr "S'està baixant el model multilingüe…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1988
 #: src/dialogs/kdenlivesettingsdialog.cpp:2244
@@ -7055,33 +7056,31 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2036 src/ui/configspeech_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "S'està inicialitzant el model de traducció"
+msgstr "Instal·la la traducció multilingüe"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2045
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Instal·leu un model de veu; recomanem <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2076
 #: src/dialogs/kdenlivesettingsdialog.cpp:2085
 #, kde-format
 msgid "Install a model"
-msgstr ""
+msgstr "Instal·la un model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2087 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Mode de vora"
+msgstr "Gestiona els models"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2122
 #, kde-format
 msgid "Enter url for the new dictionary"
-msgstr "Introduïu un URL per al diccionari nou"
+msgstr "Introduïu un URL cap al diccionari nou"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2128
 #, kde-format
@@ -7895,10 +7894,9 @@ msgid "Speech recognition aborted."
 msgstr "S'ha interromput el reconeixement de la veu."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "No s'ha pogut fer el reconeixement de la veu"
+msgstr "No s'ha pogut fer el reconeixement de la veu."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -16030,6 +16028,9 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"Açò requerix una connexió amb Internet i tardarà diversos minuts a "
+"descarregar totes les dependències necessàries. Després d'açò, tot el "
+"processament es farà fora de línia."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #: src/pythoninterfaces/abstractpythoninterface.cpp:544
@@ -16101,82 +16102,75 @@ msgstr ""
 "activar l'entorn virtual de Python."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "S'està baixant el model…"
+msgstr ""
+"S'ha produït un error en baixar el model:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Seleccioneu una zona per a reproduir"
+msgstr "Seleccioneu models nous a baixar"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
 #, kde-format
 msgid "Installing model %1"
-msgstr ""
+msgstr "S'està instal·lant el model %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "S'estan comprovant els models disponibles"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "S'està baixant el model…"
+msgstr "Baixada"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "S'està baixant el model…"
+msgstr "Baixada del model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Ves fins a la pàgina de baixades"
+msgstr "Interromp les baixades"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Paint mode:"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Mode de pintat:"
+msgstr "Desinstal·la el model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
 #, kde-format
 msgid "Install model"
-msgstr ""
+msgstr "Instal·la el model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Mida total:"
+msgstr "Mida total de la baixada: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking for missing items…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "S'està comprovant si falten elements…"
+msgstr "S'està comprovant la integritat dels models…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "S'està arxivant; voleu parar el procés?"
+msgstr "Hi ha una baixada en curs; la voleu interrompre?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Ves fins a la pàgina de baixades"
+msgstr "Interromp la baixada"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16509,10 +16503,9 @@ msgid "Yiddish"
 msgstr "Jiddisch"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Instal·la Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -20429,21 +20422,15 @@ msgstr "Obtín les metadades creades amb «Magic Lantern»"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ignora l'estructura de subcarpetes"
+msgstr "Ignora l'estructura de subcarpetes en importar"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Ignora l'estructura de subcarpetes en la importació (importa tots els "
-"fitxers cap a dins de la carpeta de nivell més alt)"
+msgstr "Ignora importarà tots els fitxers a la carpeta de nivell més alt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -20772,14 +20759,13 @@ msgstr "Motor de veu"
 #: src/ui/configspeech_ui.ui:387
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -23569,103 +23555,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "R: "
-#~ msgstr "R: "
-
-#~ msgid "G: "
-#~ msgstr "G: "
-
-#~ msgid "B: "
-#~ msgstr "B: "
-
-#~ msgid "Force Breeze Icon Theme"
-#~ msgstr "Força el tema d'icones Brisa"
-
-#~ msgid ""
-#~ "Kdenlive needs to be restarted to apply the icon theme change. Restart "
-#~ "now?"
-#~ msgstr ""
-#~ "Cal reiniciar Kdenlive per a aplicar el canvi del tema d'icones. Voleu "
-#~ "reiniciar-lo ara?"
-
-#~ msgid ""
-#~ "On first run, Whisper will <b>download the chosen model</b>. After that, "
-#~ "processing will happen offline. Cpu processing is very slow."
-#~ msgstr ""
-#~ "En la primera execució, Whisper <b>baixarà el model escollit</b>. Després "
-#~ "d'açò, el processament es produirà fora de línia. El processament de CPU "
-#~ "és molt lent."
-
-#~ msgid ""
-#~ "On first run, SeamlessM4T will <b>download 9Gb of model data</b>. After "
-#~ "that, translations will happen offline."
-#~ msgstr ""
-#~ "En la primera execució, SeamlessM4T <b>baixarà 9 GB de dades del model</"
-#~ "b>. Després d'açò, les traduccions es faran fora de línia."
-
-#~ msgid ""
-#~ "Kdenlive can install the missing python modules in a virtual environment "
-#~ "under %1.\n"
-#~ "This way, it won't touch your system libraries."
-#~ msgstr ""
-#~ "Kdenlive pot instal·lar els mòduls de Python que falten en un entorn "
-#~ "virtual en %1.\n"
-#~ "D'esta manera, no modificarà les biblioteques del sistema."
-
-#~ msgid "Python environment"
-#~ msgstr "Entorn de Python"
-
-#~ msgid "Use virtual environment (recommended)"
-#~ msgstr "Utilitza l'entorn virtual (recomanat)"
-
-#~ msgid "Use system install"
-#~ msgstr "Utilitza la instal·lació del sistema"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny (72MB)"
-#~ msgstr "Minúscula (72 MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base (140MB)"
-#~ msgstr "Base (140 MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small (460MB)"
-#~ msgstr "Xicoteta (460 MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium (1.4GB)"
-#~ msgstr "Mitjana (1,4 GB)"
-
-#~ msgctxt "Model file to download, large one"
-#~ msgid "Large (2.9GB)"
-#~ msgstr "Gran (2,9 GB)"
-
-#~ msgctxt "Model file to download, smallest one"
-#~ msgid "Tiny - English only (39MB)"
-#~ msgstr "Minúscula - Només anglés (39 MB)"
-
-#~ msgctxt "Model file to download, basic one"
-#~ msgid "Base - English only (74MB)"
-#~ msgstr "Base - Només anglés (74 MB)"
-
-#~ msgctxt "Model file to download, small one"
-#~ msgid "Small - English only (244MB)"
-#~ msgstr "Xicoteta - Només anglés (244 MB)"
-
-#~ msgctxt "Model file to download, medium one"
-#~ msgid "Medium - English only (1.5GB)"
-#~ msgstr "Mitjana - Només anglés (1,5 GB)"
-
-#~ msgid "VOSK"
-#~ msgstr "VOSK"
-
-#~ msgid "VOSK Speech Models"
-#~ msgstr "Models de veu VOSK"
-
-#~ msgid "Whisper processing on cpu is very slow"
-#~ msgstr "El procés de Whisper a la CPU és molt lent"
-
-#~ msgid "Enable translation through SeamlessM4T"
-#~ msgstr "Activa la traducció mitjançant SeamlessM4T"

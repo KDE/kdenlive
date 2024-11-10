@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-09 00:39+0000\n"
-"PO-Revision-Date: 2024-11-03 11:02+0100\n"
+"PO-Revision-Date: 2024-11-08 21:30+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -6929,6 +6929,7 @@ msgstr "Napredovano"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"Obdelava s CPE je zelo počasna, GPE je priporočljiva za hitrejšo obdelavo"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
@@ -6937,6 +6938,8 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"Prevajanje besedil izvaja model SeamlessM4T. To zahteva prenos približno 10 "
+"GB podatkov. Po namestitvi bo vsa obdelava potekala brez povezave."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
 #, kde-format
@@ -20310,20 +20313,15 @@ msgstr "Pridobi metapodatke posnetka, ki jih je ustvaril Magic Lantern"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Prezri strukturo podmape"
+msgstr "Prezri strukturo podmap ob uvozu"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Prezri strukturo podmap pri uvozu (uvoz vseh datotek v mapo vrhnje ravni)"
+msgstr "S tem boste vse datoteke uvozili v mapo na najvišji ravni"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -23446,13 +23444,3 @@ msgstr "%1u"
 
 #~ msgid "B: "
 #~ msgstr "B: "
-
-#~ msgid "Force Breeze Icon Theme"
-#~ msgstr "Vsili temo ikon Sapica"
-
-#~ msgid ""
-#~ "Kdenlive needs to be restarted to apply the icon theme change. Restart "
-#~ "now?"
-#~ msgstr ""
-#~ "Za spremembo teme ikon morate znova zagnati Kdenlive. Ali želite ponovni "
-#~ "zagon zdaj?"
