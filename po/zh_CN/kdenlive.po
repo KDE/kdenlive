@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/kdenlive/kdenlive.pot\n"
-"X-Crowdin-File-ID: 49324\n"
+"X-Crowdin-File: /kf6-stable/messages/kdenlive/kdenlive.pot\n"
+"X-Crowdin-File-ID: 49586\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -22961,12 +22961,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "R: "
-#~ msgstr "红："
-
-#~ msgid "G: "
-#~ msgstr "绿："
-
-#~ msgid "B: "
-#~ msgstr "蓝："
