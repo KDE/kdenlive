@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 02:30+0000\n"
+"POT-Creation-Date: 2024-11-11 02:39+0000\n"
 "PO-Revision-Date: 2024-11-07 21:27+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -18161,7 +18161,7 @@ msgstr "הוספת אפקט…"
 msgid "Insert a composition..."
 msgstr "הוספת תרכובת…"
 
-#: src/timeline2/view/timelinewidget.cpp:326
+#: src/timeline2/view/timelinewidget.cpp:327
 #, kde-format
 msgid "No available stream"
 msgstr "אין תזרים זמין"

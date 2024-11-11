@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 02:30+0000\n"
+"POT-Creation-Date: 2024-11-11 02:39+0000\n"
 "PO-Revision-Date: 2021-06-03 18:11+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -19189,7 +19189,7 @@ msgstr "Reinițializează efectul"
 msgid "Insert a composition..."
 msgstr "Compozit"
 
-#: src/timeline2/view/timelinewidget.cpp:326
+#: src/timeline2/view/timelinewidget.cpp:327
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"

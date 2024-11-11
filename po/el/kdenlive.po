@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 02:30+0000\n"
+"POT-Creation-Date: 2024-11-11 02:39+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -18939,7 +18939,7 @@ msgstr "Επαναφορά εφέ"
 msgid "Insert a composition..."
 msgstr "Σύνθεση"
 
-#: src/timeline2/view/timelinewidget.cpp:326
+#: src/timeline2/view/timelinewidget.cpp:327
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"

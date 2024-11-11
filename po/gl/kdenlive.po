@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 02:30+0000\n"
+"POT-Creation-Date: 2024-11-11 02:39+0000\n"
 "PO-Revision-Date: 2024-10-07 01:33+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -18462,7 +18462,7 @@ msgstr "Inserir un efecto…"
 msgid "Insert a composition..."
 msgstr "Inserir unha composición…"
 
-#: src/timeline2/view/timelinewidget.cpp:326
+#: src/timeline2/view/timelinewidget.cpp:327
 #, kde-format
 msgid "No available stream"
 msgstr "Non hai ningún fluxo dispoñíbel"

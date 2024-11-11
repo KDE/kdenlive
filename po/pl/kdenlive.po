@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 02:30+0000\n"
-"PO-Revision-Date: 2024-10-26 12:44+0200\n"
+"POT-Creation-Date: 2024-11-11 02:39+0000\n"
+"PO-Revision-Date: 2024-11-10 15:28+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5668,16 +5668,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "Przypisz nowy styl do napisu."
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "Perski"
+msgstr "wersja"
 
 #: src/bin/playlistclip.cpp:171
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Szereg 1"
+msgstr "Liczba w szeregu"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -6925,7 +6923,7 @@ msgstr "Bez przeplotu"
 #: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
-msgstr ""
+msgstr "Przetwarzanie na CPU jest bardzo wolne, stąd zalecane jest użycie GPU"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
@@ -6934,17 +6932,19 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"Tłumaczenie jest wykonywane przez model SeamlessM4T. Wymaga to pobrania "
+"około 10Gb danych. Po ich wgraniu, całe przetwarzanie będzie następowało bez "
+"udziału sieci."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Błąd pobierania %1"
+msgstr "Pobierz (1.4Gb)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1819
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Wgraj dane wielojęzyczne…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -6991,10 +6991,9 @@ msgid "Probing..."
 msgstr "Próba..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1931
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Pobieranie modelu…"
+msgstr "Pobieranie wielojęzycznego modelu…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1988
 #: src/dialogs/kdenlivesettingsdialog.cpp:2244
@@ -7013,29 +7012,26 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2036 src/ui/configspeech_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Przygotowywanie modelu tłumaczenia"
+msgstr "Wgraj wielojęzyczne tłumaczenie"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2045
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Wgraj model mowy - zalecamy <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2076
 #: src/dialogs/kdenlivesettingsdialog.cpp:2085
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install a model"
-msgstr "Wgrane moduły"
+msgstr "Wgraj model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2087 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Tryb krawędzi"
+msgstr "Zarządzaj modelami"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2122
 #, kde-format
@@ -7857,10 +7853,9 @@ msgid "Speech recognition aborted."
 msgstr "Przerwano rozpoznawanie mowy."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Nie udało się rozpoznać mowy"
+msgstr "Nie udało się rozpoznać mowy."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -15941,6 +15936,9 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"Wymaga to połączenia internetowego, a pobranie wszystkich wymaganych "
+"zależności może zająć kilka minut. Po ich wgraniu, całe przetwarzanie będzie "
+"następowało bez udziału sieci."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #: src/pythoninterfaces/abstractpythoninterface.cpp:544
@@ -16010,84 +16008,75 @@ msgstr ""
 "ponownie je włączyć."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Error Downloading File. Error code: %1"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Błąd pobierania pliku. Kod błędu: %1"
+msgstr ""
+"Błąd podczas pobierania modelu:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Wybierz zakres do odtworzenia"
+msgstr "Wybierz nowe modele do pobrania"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "Wgrane moduły"
+msgstr "Wgrywanie modelu %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Sprawdzanie dostępnych modeli"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Pobieranie modelu…"
+msgstr "Pobieranie"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Pobieranie modelu…"
+msgstr "Pobierz model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Przejdź do strony pobierania"
+msgstr "Przerwij pobieranie"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Wgrane moduły"
+msgstr "Usuń model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "Wgrane moduły"
+msgstr "Wgraj model"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Rozmiar łącznie:"
+msgstr "Łącznie do pobrania: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Sprawdzanie ustawień…"
+msgstr "Sprawdzanie spójności modeli…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Archiwizowanie w trakcie, czy chcesz je zatrzymać?"
+msgstr "Pobieranie w trakcie, czy chcesz je przerwać?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Przejdź do strony pobierania"
+msgstr "Przerwij pobieranie"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16418,10 +16407,9 @@ msgid "Yiddish"
 msgstr "Jidysz"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Szept"
+msgstr "Wgraj Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -17693,16 +17681,14 @@ msgid "Error initializing timeline preview"
 msgstr "Nie udało się przygotować podglądu osi czasu"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "Wydobywanie dźwięku dla %1."
+msgstr "Zmienianie czasu trwania dla %1 wycinków."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Edytowanie w trybie zafalowania"
+msgstr "Edytowanie w trybie zafalowania."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -18417,7 +18403,7 @@ msgstr "Wstaw efekt…"
 msgid "Insert a composition..."
 msgstr "Wstaw element składu…"
 
-#: src/timeline2/view/timelinewidget.cpp:326
+#: src/timeline2/view/timelinewidget.cpp:327
 #, kde-format
 msgid "No available stream"
 msgstr "Brak strumieni"
@@ -19438,7 +19424,7 @@ msgstr "Koniec przycięcia:"
 #: src/ui/clipdurationdialog_ui.ui:101
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Zastosuj czas trwania do wszystkich rzeczy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20337,21 +20323,15 @@ msgstr "Uzyskaj metadane wycinka przy użyciu Magicznej Latarni"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Pomiń strukturę podkatalogów"
+msgstr "Pomiń strukturę podkatalogu przy importowaniu"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Pomiń strukturę podkatalogów podczas importowania (zaimportuj wszystkie "
-"pliki do szczytowego katalogu)"
+msgstr "Zaimportuj to wszystkie pliki do szczytowego katalogu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -20679,14 +20659,13 @@ msgstr "Silnik mowy"
 #: src/ui/configspeech_ui.ui:387
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Szept"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)

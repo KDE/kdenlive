@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 02:30+0000\n"
+"POT-Creation-Date: 2024-11-11 02:39+0000\n"
 "PO-Revision-Date: 2024-10-21 13:23+0200\n"
 "Last-Translator: R. Arp <rarp@7bps.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -18530,7 +18530,7 @@ msgstr "Einen Effekt einfügen ..."
 msgid "Insert a composition..."
 msgstr "Einen Übergang einfügen ..."
 
-#: src/timeline2/view/timelinewidget.cpp:326
+#: src/timeline2/view/timelinewidget.cpp:327
 #, kde-format
 msgid "No available stream"
 msgstr "Kein verfügbarer Stream"
