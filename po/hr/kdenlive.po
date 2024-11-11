@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 00:39+0000\n"
+"POT-Creation-Date: 2024-11-11 00:39+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -611,8 +611,8 @@ msgstr "Mix"
 #: data/effects/charcoal.xml:20 data/effects/mask_start_rotoscoping.xml:20
 #: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
 #: data/effects/rotoscoping.xml:17 data/effects/shape.xml:19
-#: data/transitions/luma.xml:20 data/transitions/region.xml:33
-#: data/transitions/wipe.xml:14
+#: data/effects/strobe.xml:8 data/transitions/luma.xml:20
+#: data/transitions/region.xml:33 data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
 msgstr "Preokreni"
@@ -2170,6 +2170,36 @@ msgstr ""
 #, kde-format
 msgid "Defines the rectangle of the area that will be removed."
 msgstr ""
+
+#: data/effects/strobe.xml:4
+#, fuzzy, kde-format
+msgid "Alpha strobing"
+msgstr "Sve trake"
+
+#: data/effects/strobe.xml:5
+#, kde-format
+msgid ""
+"Strobes the alpha channel to 0. Many other filters overwrite the alpha "
+"channel, in that case this needs to be last."
+msgstr ""
+
+#: data/effects/strobe.xml:9
+#, kde-format
+msgid "Whether to invert which frames are on and which is off"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
+#: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
+#: src/ui/multiplemarkerdialog_ui.ui:44
+#, fuzzy, kde-format
+#| msgid "Interlaced"
+msgid "Interval"
+msgstr "Interlaced"
+
+#: data/effects/strobe.xml:13
+#, fuzzy, kde-format
+msgid "Duration of strobe"
+msgstr "Trajanje"
 
 #: data/effects/swapchannels.xml:5
 #, fuzzy, kde-format
@@ -22365,13 +22395,6 @@ msgstr "Dodaj oznaku"
 msgid "Count"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
-#: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, fuzzy, kde-format
-#| msgid "Interlaced"
-msgid "Interval"
-msgstr "Interlaced"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
 #, kde-format
@@ -25830,10 +25853,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Pr trace"
 #~ msgstr "Umetni traku"
-
-#, fuzzy
-#~ msgid "Alpha trace"
-#~ msgstr "Sve trake"
 
 #, fuzzy
 #~ msgid "Display average"

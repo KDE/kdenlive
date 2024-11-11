@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 00:39+0000\n"
+"POT-Creation-Date: 2024-11-11 00:39+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -603,8 +603,8 @@ msgstr "Keverés"
 #: data/effects/charcoal.xml:20 data/effects/mask_start_rotoscoping.xml:20
 #: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
 #: data/effects/rotoscoping.xml:17 data/effects/shape.xml:19
-#: data/transitions/luma.xml:20 data/transitions/region.xml:33
-#: data/transitions/wipe.xml:14
+#: data/effects/strobe.xml:8 data/transitions/luma.xml:20
+#: data/transitions/region.xml:33 data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
 msgstr "Invertálás"
@@ -2163,6 +2163,37 @@ msgstr ""
 #, kde-format
 msgid "Defines the rectangle of the area that will be removed."
 msgstr ""
+
+#: data/effects/strobe.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha gradient"
+msgid "Alpha strobing"
+msgstr "Alfa színátmenet"
+
+#: data/effects/strobe.xml:5
+#, kde-format
+msgid ""
+"Strobes the alpha channel to 0. Many other filters overwrite the alpha "
+"channel, in that case this needs to be last."
+msgstr ""
+
+#: data/effects/strobe.xml:9
+#, kde-format
+msgid "Whether to invert which frames are on and which is off"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
+#: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
+#: src/ui/multiplemarkerdialog_ui.ui:44
+#, kde-format
+msgid "Interval"
+msgstr "Lépésköz"
+
+#: data/effects/strobe.xml:13
+#, fuzzy, kde-format
+#| msgid "Duration: "
+msgid "Duration of strobe"
+msgstr "Időtartam:"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -23139,12 +23170,6 @@ msgstr "Klipjelölők hozzáadása"
 msgid "Count"
 msgstr "Visszaszámlálás"
 
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
-#: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, kde-format
-msgid "Interval"
-msgstr "Lépésköz"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
 #, kde-format
@@ -26459,9 +26484,6 @@ msgstr "%1 ó"
 
 #~ msgid "Shrink/Grow/Blur amount"
 #~ msgstr "Zsugorítás/nagyítás/elmosás mértéke"
-
-#~ msgid "Alpha gradient"
-#~ msgstr "Alfa színátmenet"
 
 #~ msgid "Fill the alpha channel with a specified gradient"
 #~ msgstr "Alfa-csatorna kitöltése a megadott színátmenettel"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 00:39+0000\n"
+"POT-Creation-Date: 2024-11-11 00:39+0000\n"
 "PO-Revision-Date: 2024-11-08 14:54+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -604,8 +604,8 @@ msgstr "Mix"
 #: data/effects/charcoal.xml:20 data/effects/mask_start_rotoscoping.xml:20
 #: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
 #: data/effects/rotoscoping.xml:17 data/effects/shape.xml:19
-#: data/transitions/luma.xml:20 data/transitions/region.xml:33
-#: data/transitions/wipe.xml:14
+#: data/effects/strobe.xml:8 data/transitions/luma.xml:20
+#: data/transitions/region.xml:33 data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
 msgstr "Invert"
@@ -2160,6 +2160,37 @@ msgstr ""
 #, kde-format
 msgid "Defines the rectangle of the area that will be removed."
 msgstr "Defines the rectangle of the area that will be removed."
+
+#: data/effects/strobe.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha gradient"
+msgid "Alpha strobing"
+msgstr "Alpha gradient"
+
+#: data/effects/strobe.xml:5
+#, kde-format
+msgid ""
+"Strobes the alpha channel to 0. Many other filters overwrite the alpha "
+"channel, in that case this needs to be last."
+msgstr ""
+
+#: data/effects/strobe.xml:9
+#, kde-format
+msgid "Whether to invert which frames are on and which is off"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
+#: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
+#: src/ui/multiplemarkerdialog_ui.ui:44
+#, kde-format
+msgid "Interval"
+msgstr "Interval"
+
+#: data/effects/strobe.xml:13
+#, fuzzy, kde-format
+#| msgid "Duration: %1 sec"
+msgid "Duration of strobe"
+msgstr "Duration: %1 sec"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -21751,12 +21782,6 @@ msgstr "Add multiple markers"
 msgid "Count"
 msgstr "Count"
 
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
-#: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, kde-format
-msgid "Interval"
-msgstr "Interval"
-
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
 #, kde-format
@@ -25008,9 +25033,6 @@ msgstr "%1h"
 
 #~ msgid "Shrink/Grow/Blur amount"
 #~ msgstr "Shrink/Grow/Blur amount"
-
-#~ msgid "Alpha gradient"
-#~ msgstr "Alpha gradient"
 
 #~ msgid "Fill the alpha channel with a specified gradient"
 #~ msgstr "Fill the alpha channel with a specified gradient"

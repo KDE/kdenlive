@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 00:39+0000\n"
+"POT-Creation-Date: 2024-11-11 00:39+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -594,8 +594,8 @@ msgstr "混合"
 #: data/effects/charcoal.xml:20 data/effects/mask_start_rotoscoping.xml:20
 #: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
 #: data/effects/rotoscoping.xml:17 data/effects/shape.xml:19
-#: data/transitions/luma.xml:20 data/transitions/region.xml:33
-#: data/transitions/wipe.xml:14
+#: data/effects/strobe.xml:8 data/transitions/luma.xml:20
+#: data/transitions/region.xml:33 data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
 msgstr "反相"
@@ -2124,6 +2124,37 @@ msgstr ""
 #, kde-format
 msgid "Defines the rectangle of the area that will be removed."
 msgstr "指定需要移除的矩形区域。"
+
+#: data/effects/strobe.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha Operation"
+msgid "Alpha strobing"
+msgstr "透明度通道操作"
+
+#: data/effects/strobe.xml:5
+#, kde-format
+msgid ""
+"Strobes the alpha channel to 0. Many other filters overwrite the alpha "
+"channel, in that case this needs to be last."
+msgstr ""
+
+#: data/effects/strobe.xml:9
+#, kde-format
+msgid "Whether to invert which frames are on and which is off"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
+#: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
+#: src/ui/multiplemarkerdialog_ui.ui:44
+#, kde-format
+msgid "Interval"
+msgstr "间隔"
+
+#: data/effects/strobe.xml:13
+#, fuzzy, kde-format
+#| msgid "Duration: %1 sec"
+msgid "Duration of strobe"
+msgstr "持续时间：%1 秒"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -21444,12 +21475,6 @@ msgstr "添加多个标记"
 #, kde-format
 msgid "Count"
 msgstr "数量"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
-#: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, kde-format
-msgid "Interval"
-msgstr "间隔"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160

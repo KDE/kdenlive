@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-09 00:39+0000\n"
+"POT-Creation-Date: 2024-11-11 00:39+0000\n"
 "PO-Revision-Date: 2024-11-08 19:33+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -604,8 +604,8 @@ msgstr "Karıştır"
 #: data/effects/charcoal.xml:20 data/effects/mask_start_rotoscoping.xml:20
 #: data/effects/mask_start_shape.xml:22 data/effects/mirror.xml:12
 #: data/effects/rotoscoping.xml:17 data/effects/shape.xml:19
-#: data/transitions/luma.xml:20 data/transitions/region.xml:33
-#: data/transitions/wipe.xml:14
+#: data/effects/strobe.xml:8 data/transitions/luma.xml:20
+#: data/transitions/region.xml:33 data/transitions/wipe.xml:14
 #, kde-format
 msgid "Invert"
 msgstr "Tersine çevir"
@@ -2166,6 +2166,37 @@ msgstr ""
 #, kde-format
 msgid "Defines the rectangle of the area that will be removed."
 msgstr "Kaldırılacak olan alanın dörtgenini tanımlar."
+
+#: data/effects/strobe.xml:4
+#, fuzzy, kde-format
+#| msgid "Alpha Operation"
+msgid "Alpha strobing"
+msgstr "Alpha İşlemi"
+
+#: data/effects/strobe.xml:5
+#, kde-format
+msgid ""
+"Strobes the alpha channel to 0. Many other filters overwrite the alpha "
+"channel, in that case this needs to be last."
+msgstr ""
+
+#: data/effects/strobe.xml:9
+#, kde-format
+msgid "Whether to invert which frames are on and which is off"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
+#: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
+#: src/ui/multiplemarkerdialog_ui.ui:44
+#, kde-format
+msgid "Interval"
+msgstr "Aralık"
+
+#: data/effects/strobe.xml:13
+#, fuzzy, kde-format
+#| msgid "Duration: %1 sec"
+msgid "Duration of strobe"
+msgstr "Süre: %1 saniye"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -21836,12 +21867,6 @@ msgstr "Birden çok imleyici ekle"
 #, kde-format
 msgid "Count"
 msgstr "Sayım"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
-#: src/ui/markerdialog_ui.ui:136 src/ui/multiplemarkerdialog_ui.ui:44
-#, kde-format
-msgid "Interval"
-msgstr "Aralık"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_thumb)
 #: src/ui/markerdialog_ui.ui:160
