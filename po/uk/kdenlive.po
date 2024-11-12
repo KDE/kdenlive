@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 00:39+0000\n"
-"PO-Revision-Date: 2024-11-07 17:14+0200\n"
+"PO-Revision-Date: 2024-11-11 17:56+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2185,10 +2185,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "Визначає прямокутник області, яку буде вилучено."
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha gradient"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "α-градієнт"
+msgstr "Стробоскопія альфа-каналу"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2196,11 +2195,13 @@ msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"Стробоскопія альфа-каналу до 0. Перезапис альфа-каналу виконується багатьма "
+"іншими фільтрами, тому цей фільтр має бути останнім у ланцюжку."
 
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
-msgstr ""
+msgstr "Чи слід інвертувати вмикання і вимикання кадрів"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
@@ -2210,10 +2211,9 @@ msgid "Interval"
 msgstr "Інтервал"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "Тривалість: %1 с"
+msgstr "Тривалість стробоскопії"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format

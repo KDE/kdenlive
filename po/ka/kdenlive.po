@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 00:39+0000\n"
-"PO-Revision-Date: 2024-11-07 04:05+0100\n"
+"PO-Revision-Date: 2024-11-11 04:25+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2165,10 +2165,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "აღწერს მართკუთხედს, რომელიც წაიშლება."
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "ალფა ოპერაცია"
+msgstr "ალფა არხის ციმციმი"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2176,11 +2175,13 @@ msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"ალფა არხის ციმციმის 0-ზე დაყენება. ბევრი სხვა ფილტრი თავზე აწერს ალფა არხს "
+"და ამ შემთხვევაში ის ბოლო უნდა იყოს."
 
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
-msgstr ""
+msgstr "ინვერსია, რომელი კადრებია ჩართული და რომელი გამორთული"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
@@ -2190,10 +2191,9 @@ msgid "Interval"
 msgstr "ინტერვალი"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "ხანგრძლივობა: %1 წმ"
+msgstr "ციმციმის ხანგრძლივობა"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format

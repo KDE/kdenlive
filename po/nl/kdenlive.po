@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 00:39+0000\n"
-"PO-Revision-Date: 2024-11-07 12:33+0100\n"
+"PO-Revision-Date: 2024-11-11 11:07+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -2182,10 +2182,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "Definieert de rechthoek van het gebied dat verwijderd zal worden."
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha gradient"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "Alfa-gradiënt"
+msgstr "Alfa-strobing"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2193,11 +2192,13 @@ msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"Strobes het alfa-kanaal naar 0. Vele andere filters overschrijven het alfa-"
+"kanaal, in dat geval moet dit als laatste."
 
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
-msgstr ""
+msgstr "Of welke frames inverteren aan zijn en welke uit zijn"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
@@ -2207,10 +2208,9 @@ msgid "Interval"
 msgstr "Interval"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "Tijdsduur: %1 sec."
+msgstr "Tijdsduur van de strobe"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format

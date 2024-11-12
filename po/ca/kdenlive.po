@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 00:39+0000\n"
-"PO-Revision-Date: 2024-11-07 09:29+0100\n"
+"PO-Revision-Date: 2024-11-11 09:32+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2184,10 +2184,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "Defineix el rectangle de l'àrea que s'eliminarà."
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "Operació d'alfa"
+msgstr "Estroboscopi d'alfa"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2195,11 +2194,14 @@ msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"Efecte estroboscòpic del canal alfa a 0. Molts altres filtres sobreescriuen "
+"el canal alfa, en aquest cas, cal que sigui el darrer."
 
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
 msgstr ""
+"Si s'ha d'invertir quins fotogrames estan activats i quins estan desactivats"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
@@ -2209,10 +2211,9 @@ msgid "Interval"
 msgstr "Interval"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "Durada: %1 s"
+msgstr "Durada de l'estroboscopi"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format

@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 00:39+0000\n"
-"PO-Revision-Date: 2024-10-26 21:43+0200\n"
+"PO-Revision-Date: 2024-11-11 07:31+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2200,10 +2200,9 @@ msgid "Interval"
 msgstr "Bitartea"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "Iraupena: %1 seg"
+msgstr "Estroboaren iraupena"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
@@ -5705,16 +5704,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "Esleitu estilo berri bat azpidatziari."
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "Persiera"
+msgstr "bertsioa"
 
 #: src/bin/playlistclip.cpp:171
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "1 sekuentzia"
+msgstr "Sekuentzia kopurua"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -6965,6 +6962,8 @@ msgstr "Mailakakoa"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"PUZaren prozesamendua oso motela da, azkarrago prozesatzeko GPU gomendatzen "
+"da"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
@@ -6973,17 +6972,19 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"Testuaren itzulpena SeamlessM4T ereduaren bidez gauzatzen da. Horrek 10Gb "
+"datu zama-jaistea eskatzen du. Behin instalatuta, prozesatze osoa lerroz "
+"kanpo gertatzen da."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Jaitsieraren %1 errorea"
+msgstr "Zama-jaitsi (1,4Gb)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1819
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Datu eleaniztunak instalatzen..."
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7030,10 +7031,9 @@ msgid "Probing..."
 msgstr "Probatzen..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1931
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Eredua jaisten…"
+msgstr "Eredu eleaniztuna zama-jaisten…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1988
 #: src/dialogs/kdenlivesettingsdialog.cpp:2244
@@ -7052,29 +7052,26 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2036 src/ui/configspeech_ui.ui:270
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Itzulpen eredua hasieratzen"
+msgstr "Instalatu itzulpen eleaniztuna"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2045
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Instalatu hizketa eredu bat - <b>turbo</b> gomendatzen dugu"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2076
 #: src/dialogs/kdenlivesettingsdialog.cpp:2085
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install a model"
-msgstr "Instalatutako moduluak"
+msgstr "Instalatutako eredu bat"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2087 src/ui/configspeech_ui.ui:194
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Ertz modua"
+msgstr "Kudeatu ereduak"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2122
 #, kde-format
@@ -7894,10 +7891,9 @@ msgid "Speech recognition aborted."
 msgstr "Hizketaren ezagutzea bertan-behera gelditu da."
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Hizketaren ezagutzak huts egin du"
+msgstr "Hizketa-ezagutzak huts egin du."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -15976,6 +15972,9 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"Horretarako Interneterako konexio bat behar da, eta beharrezko mendekotasun "
+"guztiak zama-jaisteko minutu batzuk beharko dituzu. Horren ondoren "
+"prozesamendu osoa lerroz kanpo gertatuko da."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #: src/pythoninterfaces/abstractpythoninterface.cpp:544
@@ -16046,84 +16045,75 @@ msgstr ""
 "ingurune birtuala birgaitzen duzunean."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Error Downloading File. Error code: %1"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Errorea fitxategia zama-jaistean. Errorearen kodea: %1"
+msgstr ""
+"Errorea eredua zama-jaistean:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Hautatu eskualdea erreprodukziorako"
+msgstr "Hautatu zama-jaitsi beharreko eredu berriak"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "Instalatutako moduluak"
+msgstr "%1 eredua instalatzea"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Eredu erabilgarriak egiaztatzea"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Eredua jaisten…"
+msgstr "Zama-jaistea"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Eredua jaisten…"
+msgstr "Eredua zama-jaistea"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Joan deskargaren orrira"
+msgstr "Utzi zama-jaisteak bertan behera"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Instalatutako moduluak"
+msgstr "Desinstalatu eredua"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "Instalatutako moduluak"
+msgstr "Instalatu eredua"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Tamaina osoa:"
+msgstr "Zama-jaitsitakoaren tamaina osoa: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Konfigurazioa egiaztatzen…"
+msgstr "Ereduaren osotasuna egiaztatzen…"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Artxibatzea burutzen, gelditu nahi duzu?"
+msgstr "Zama-jaitsiera bat martxan dago, bertan behera utzi nahi duzu?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Joan deskargaren orrira"
+msgstr "Utzi zama-jaitsiera bertan behera"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -16455,10 +16445,9 @@ msgid "Yiddish"
 msgstr "Yiddish"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:234
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Instalatu Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -17715,16 +17704,14 @@ msgid "Error initializing timeline preview"
 msgstr "Errorea denbora-lerroaren aurreikuspena hasieratzean"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "%1erako audioa erauzten."
+msgstr "%1 klipen iraupena editatzea."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Izurdura moduan editatzea"
+msgstr "Izurdura moduan editatzea."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -19458,7 +19445,7 @@ msgstr "Bukaera moztu:"
 #: src/ui/clipdurationdialog_ui.ui:101
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Aplikatu iraupena elementu guztiei"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -20356,21 +20343,15 @@ msgstr "Lortu Magic Lantern-ek sortutako meta-datuak"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ez ikusi azpikarpeten egitura"
+msgstr "Ezikusi azpikarpeten egitura inportatzean"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Inportatzean azpi-karpeten estruktura ez-ikusi (Inportatu fitxategi guztiak "
-"goi mailako karpetan)"
+msgstr "Horrek fitxategi guztiak goi-mailako karpetara inportatuko ditu"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -20698,14 +20679,13 @@ msgstr "Hizketaren motorra"
 #: src/ui/configspeech_ui.ui:387
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:394
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)

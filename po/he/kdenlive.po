@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 00:39+0000\n"
-"PO-Revision-Date: 2024-11-07 21:27+0200\n"
+"PO-Revision-Date: 2024-11-11 03:34+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -2137,10 +2137,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "מגדיר את המרובע של האזור להסרה."
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha gradient"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "גרדינט אלפא"
+msgstr "הבזקת שקיפות מחזורית"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2148,11 +2147,13 @@ msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"הגדרת הבזקת ערוץ השקיפות המחזורית ל־0. מסננים נוספים רבים דורסים את ערוץ "
+"השקיפות, במקרה שכזה הוא צריך להיות האחרון."
 
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
-msgstr ""
+msgstr "האם להפוך אילו תמוניות פעילות ואילו כבויות"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
@@ -2162,10 +2163,9 @@ msgid "Interval"
 msgstr "הפרש"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "משך: %1 שניות"
+msgstr "משך ההבזקה המחזורית"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format

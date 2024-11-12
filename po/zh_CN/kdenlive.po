@@ -2126,10 +2126,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "指定需要移除的矩形区域。"
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha Operation"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "透明度通道操作"
+msgstr ""
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2151,10 +2150,9 @@ msgid "Interval"
 msgstr "间隔"
 
 #: data/effects/strobe.xml:13
-#, fuzzy, kde-format
-#| msgid "Duration: %1 sec"
+#, kde-format
 msgid "Duration of strobe"
-msgstr "持续时间：%1 秒"
+msgstr ""
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
