@@ -2128,7 +2128,7 @@ msgstr "指定需要移除的矩形区域。"
 #: data/effects/strobe.xml:4
 #, kde-format
 msgid "Alpha strobing"
-msgstr ""
+msgstr "Alpha strobing - 透明度选通脉冲"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2136,11 +2136,13 @@ msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"将透明度通道选通至 0。某些其他过滤器会覆盖透明度通道，如果您使用了这样的过滤"
+"器，本效果必须放在效果堆栈的最后。"
 
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
-msgstr ""
+msgstr "是否反转某个帧的开关状态"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
@@ -2152,7 +2154,7 @@ msgstr "间隔"
 #: data/effects/strobe.xml:13
 #, kde-format
 msgid "Duration of strobe"
-msgstr ""
+msgstr "选通脉冲时长"
 
 #: data/effects/swapchannels.xml:5
 #, kde-format
