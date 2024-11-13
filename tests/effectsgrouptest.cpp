@@ -74,7 +74,12 @@ TEST_CASE("Effects groups", "[Effects]")
     auto effectState = [&](int cid, const QString &paramName, const QString value) {
         auto clipModel1 = timeline->getClipEffectStackModel(cid);
         std::shared_ptr<AssetParameterModel> model = clipModel1->getAssetModelById(anEffect);
-        REQUIRE(model->getParamFromName(paramName) == value);
+        const QString currentVal = model->getParamFromName(paramName).toString();
+        if (currentVal.contains(QLatin1Char('='))) {
+            REQUIRE(currentVal.section(QLatin1Char('='), 1) == value);
+        } else {
+            REQUIRE(currentVal == value);
+        }
     };
     SECTION("Add an effect to grouped clips")
     {
