@@ -44,7 +44,6 @@
         <file alias="EffectSlider.qml">effects/effectstack/view/qml/EffectSlider.qml</file>
         <file alias="LiftGammaGain.qml">effects/effectstack/view/qml/LiftGammaGain.qml</file>
         <file alias="kdenlivemonitortrimming.qml">monitor/view/kdenlivemonitortrimming.qml</file>
-        <file>timeline2/view/qml/blanktimeline.qml</file>
     </qresource>
     <qresource prefix="/data">
         <file alias="included_effects.txt">../data/included_effects.txt</file>
