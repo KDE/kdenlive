@@ -1,5 +1,5 @@
 <!--
-    SPDX-FileCopyrightText: 2021-2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
+    SPDX-FileCopyrightText: 2021-2022 Julius Künzel <julius.kuenzel@kde.org>
     SPDX-FileCopyrightText: 2015-2023 Jean-Baptiste Mardelle <jb@kdenlive.org>
     SPDX-License-Identifier: CC0-1.0
 -->

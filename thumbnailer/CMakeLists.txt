@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-2-Clause
-# SPDX-FileCopyrightText: Nicolas Fella <nicolas.fella@gmx.de>, Jean-Baptiste Mardelle <jb@kdenlive.org>, Julius Künzel <jk.kdedev@smartlab.uber.space>
+# SPDX-FileCopyrightText: Nicolas Fella <nicolas.fella@gmx.de>, Jean-Baptiste Mardelle <jb@kdenlive.org>, Julius Künzel <julius.kuenzel@kde.org>
 
 kcoreaddons_add_plugin(mltpreview INSTALL_NAMESPACE "kf${QT_MAJOR_VERSION}/thumbcreator")
 

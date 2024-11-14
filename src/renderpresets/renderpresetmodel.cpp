@@ -1,6 +1,6 @@
 /*
    SPDX-FileCopyrightText: 2017 Nicolas Carion
-   SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
+   SPDX-FileCopyrightText: 2022 Julius Künzel <julius.kuenzel@kde.org>
    SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    This file is part of Kdenlive. See www.kdenlive.org.
 */

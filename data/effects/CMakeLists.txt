@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-2-Clause
-# SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org>, Julius Künzel <jk.kdedev@smartlab.uber.space>, Massimo Stella <maxstar@tin.it>
+# SPDX-FileCopyrightText: Jean-Baptiste Mardelle <jb@kdenlive.org>, Julius Künzel <julius.kuenzel@kde.org>, Massimo Stella <maxstar@tin.it>
 
 INSTALL (FILES 
 

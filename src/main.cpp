@@ -258,12 +258,12 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
     // active developers with major involvement
     aboutData.addAuthor(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite (2019)"), QStringLiteral("french.ebook.lover@gmail.com"));
-    aboutData.addAuthor(i18n("Julius Künzel"), i18n("Feature development, packaging, bug fixing"), QStringLiteral("jk.kdedev@smartlab.uber.space"));
+    aboutData.addAuthor(i18n("Julius Künzel"), i18n("Feature development, packaging, bug fixing"), QStringLiteral("julius.kuenzel@kde.org"));
     aboutData.addAuthor(i18n("Vincent Pinon"), i18n("KF5 port, Windows cross-build, packaging, bug fixing"), QStringLiteral("vpinon@kde.org"));
     // other active developers (alphabetical)
     aboutData.addAuthor(i18n("Dan Dennedy"), i18n("MLT maintainer, Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
     aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), QStringLiteral("simon.eu@gmail.com"));
-    aboutData.addAuthor(i18n("Eric Jiang"), i18n("Bug fixing and test improvements"), QStringLiteral("jk.kdedev@smartlab.uber.space"));
+    aboutData.addAuthor(i18n("Eric Jiang"), i18n("Bug fixing and test improvements"), QStringLiteral("erjiang@alumni.iu.edu"));
     // non active developers with major improvement (alphabetical)
     aboutData.addAuthor(i18n("Jason Wood"), i18n("Original KDE 3 version author (not active anymore)"), QStringLiteral("jasonwood@blueyonder.co.uk"));
     // non developers (alphabetical)

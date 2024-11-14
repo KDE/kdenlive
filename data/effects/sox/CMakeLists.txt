@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-2-Clause
-# SPDX-FileCopyrightText: Julius Künzel <jk.kdedev@smartlab.uber.space>
+# SPDX-FileCopyrightText: Julius Künzel <julius.kuenzel@kde.org>
 
 INSTALL (FILES 
 
