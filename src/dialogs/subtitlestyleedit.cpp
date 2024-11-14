@@ -7,16 +7,18 @@
 #include "bin/model/subtitlemodel.hpp"
 #include "definitions.h"
 #include "doc/kthumb.h"
+#include <QColorDialog>
+#include <QFontDatabase>
+#include <QFontDialog>
 #include <QMessageBox>
 #include <mlt++/MltFilter.h>
 #include <mlt++/MltProfile.h>
-#include <qcolordialog.h>
-#include <qfontdialog.h>
 
 SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
     : QDialog(parent)
 {
     setupUi(this);
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
@@ -113,21 +115,18 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
     connect(comboAlignment, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SubtitleStyleEdit::updateProperties);
     connect(editPreview, &QLineEdit::textChanged, this, &SubtitleStyleEdit::updateProperties);
 
-    labelPreview->hide();
     preview->hide();
     editPreview->hide();
     horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
     setMaximumSize(QSize(0, 0));
 
     connect(buttonPreview, &QPushButton::clicked, this, [this]() {
-        if (labelPreview->isVisible()) {
-            labelPreview->hide();
+        if (preview->isVisible()) {
             preview->hide();
             editPreview->hide();
             buttonPreview->setText(i18n("Show Preview >>>"));
             horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
         } else {
-            labelPreview->show();
             preview->show();
             editPreview->show();
             buttonPreview->setText(i18n("<<< Hide Preview"));
