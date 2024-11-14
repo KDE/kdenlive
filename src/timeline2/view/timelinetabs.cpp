@@ -25,6 +25,7 @@
 #include <QMenu>
 #include <QPainter>
 #include <QQmlContext>
+#include <QQmlEngine>
 
 TimelineContainer::TimelineContainer(QWidget *parent)
     : QWidget(parent)
@@ -218,13 +219,12 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     Fun redo = [this, ix, uuid]() {
         pCore->projectManager()->closeTimeline(uuid, false, false);
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
+        removeTab(ix);
         timeline->blockSignals(true);
-        timeline->setSource(QUrl());
         if (timeline == m_activeTimeline) {
             pCore->window()->disconnectTimeline(timeline);
             disconnectTimeline(timeline);
         }
-        timeline->unsetModel();
         if (m_activeTimeline == timeline) {
             m_activeTimeline = nullptr;
         }
@@ -241,31 +241,21 @@ TimelineWidget *TimelineTabs::getCurrentTimeline() const
     return m_activeTimeline;
 }
 
-void TimelineTabs::closeTimelines()
-{
-    for (int i = 0; i < count(); i++) {
-        static_cast<TimelineWidget *>(widget(i))->unsetModel();
-    }
-}
-
 void TimelineTabs::closeTimelineTab(const QUuid uuid)
 {
     QMutexLocker lk(&m_lock);
     int currentCount = count();
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
+    bool closing = pCore->currentDoc()->closing;
     for (int i = 0; i < currentCount; i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
         if (uuid == timeline->getUuid()) {
-            timeline->blockSignals(true);
-            timeline->setSource(QUrl());
+            removeTab(i);
             timeline->blockSignals(true);
             if (timeline == m_activeTimeline) {
                 Q_EMIT showSubtitle(-1);
-                pCore->window()->disconnectTimeline(timeline);
+                pCore->window()->disconnectTimeline(timeline, closing);
                 disconnectTimeline(timeline);
-            }
-            timeline->unsetModel();
-            if (m_activeTimeline == timeline) {
                 m_activeTimeline = nullptr;
             }
             delete timeline;
@@ -278,7 +268,10 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid)
         }
     }
     lk.unlock();
-    connectCurrent(currentIndex());
+    if (closing) {
+        // We are closing document, no need to reconnect
+        return;
+    }
     connect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
 }
 
@@ -306,12 +299,17 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::addTimelineEffect, m_activeTimeline->controller(),
             &TimelineController::addEffectToCurrentClip);
     timeline->rootContext()->setContextProperty("proxy", pCore->monitorManager()->projectMonitor()->getControllerProxy());
+    QQmlEngine::setObjectOwnership(pCore->monitorManager()->projectMonitor()->getControllerProxy(), QQmlEngine::CppOwnership);
     Q_EMIT timeline->controller()->selectionChanged();
+    timeline->setEnabled(true);
+    timeline->setMouseTracking(true);
 }
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 {
-    timeline->rootContext()->setContextProperty("proxy", nullptr);
+    timeline->rootContext()->setContextProperty("proxy", QVariant());
+    timeline->setMouseTracking(false);
+    timeline->setEnabled(false);
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
     disconnect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
     disconnect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);

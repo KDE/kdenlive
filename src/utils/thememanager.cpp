@@ -7,8 +7,6 @@
 // Qt includes
 
 #include "thememanager.h"
-#include "kdenlive_debug.h"
-#include "kdenlivesettings.h"
 
 #include <QFileInfo>
 #include <QMenu>

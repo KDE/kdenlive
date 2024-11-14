@@ -519,7 +519,7 @@ public:
     bool positionIsInItem(int id);
     /** @brief Returns the number of tracks (audioTrakcs, videoTracks)
      */
-    QPair<int, int> getAvTracksCount() const;
+    Q_INVOKABLE QPair<int, int> getAvTracksCount() const;
     /** @brief Request monitor refresh if item (clip or composition) is under timeline cursor
      */
     void refreshItem(int id);
@@ -806,7 +806,6 @@ private:
     void connectPreviewManager();
 
 Q_SIGNALS:
-    void selected(Mlt::Producer *producer);
     void selectionChanged();
     void selectedMixChanged();
     void frameFormatChanged();

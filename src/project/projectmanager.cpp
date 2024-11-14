@@ -471,11 +471,12 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     // Abort clip loading if any
     Q_EMIT pCore->stopProgressTask();
     if (guiConstructed) {
+        // Clear clip monitor and guides list
+        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
         qApp->processEvents();
         pCore->window()->disableMulticam();
         pCore->mixer()->unsetModel();
         pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
-        pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
         Q_EMIT pCore->window()->clearAssetPanel();
     }
     if (m_project) {
@@ -490,17 +491,14 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
         m_project->commandStack()->clear();
         pCore->cleanup();
+        m_activeTimelineModel.reset();
         if (guiConstructed) {
             pCore->monitorManager()->clipMonitor()->getControllerProxy()->documentClosed();
             const QList<QUuid> uuids = m_project->getTimelinesUuids();
             for (auto &uid : uuids) {
-                pCore->window()->closeTimelineTab(uid);
-                pCore->window()->resetSubtitles(uid);
+                pCore->window()->closeTimelineTab(uid, true);
                 m_project->closeTimeline(uid, true);
             }
-            // Ensure we don't have stuck references to timelinemodel
-            qDebug() << "TIMELINEMODEL COUNTS: " << m_activeTimelineModel.use_count();
-            Q_ASSERT(m_activeTimelineModel.use_count() <= 1);
         } else {
             // Close all timelines
             const QList<QUuid> uuids = m_project->getTimelinesUuids();
@@ -509,7 +507,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             }
         }
     }
-    m_activeTimelineModel.reset();
     // Release model shared pointers
     if (guiConstructed) {
         pCore->window()->cleanBins();
@@ -1599,9 +1596,6 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
         pCore->guidesList()->setModel(m_project->getGuideModel(m_project->activeUuid), m_project->getFilteredGuideModel(m_project->activeUuid));
     }
     m_project->loadSequenceGroupsAndGuides(uuid);
-    if (documentTimeline) {
-        documentTimeline->loadMarkerModel();
-    }
     timelineModel->setUndoStack(m_project->commandStack());
 
     // Reset locale to C to ensure numbers are serialised correctly
@@ -2167,7 +2161,7 @@ bool ProjectManager::closeTimeline(const QUuid &uuid, bool onDeletion, bool clea
         // triggered when deleting bin clip, also close timeline tab
         pCore->projectItemModel()->removeReferencedClips(uuid, true);
         if (pCore->window()) {
-            pCore->window()->closeTimelineTab(uuid);
+            pCore->window()->closeTimelineTab(uuid, false);
         }
     } else {
         if (!m_project->closing && !onDeletion) {
@@ -2266,7 +2260,7 @@ void ProjectManager::updateSequenceProducer(const QUuid &uuid, std::shared_ptr<M
 {
     // On timeline close, update the stored sequence producer
     std::shared_ptr<Mlt::Tractor> trac(new Mlt::Tractor(prod->parent()));
-    qDebug() << "====== STORING SEQUENCE " << uuid << " WITH TKS: " << trac->count();
+    qDebug() << "====== STORING SEQUENCE " << uuid << " WITH TKS: " << trac->count() << "\n\n______________________";
     pCore->projectItemModel()->storeSequence(uuid.toString(), trac);
 }
 

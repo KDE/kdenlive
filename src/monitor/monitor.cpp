@@ -1828,6 +1828,10 @@ void Monitor::updateClipProducer(const QString &playlist)
 void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out, const QUuid &sequenceUuid)
 {
     m_activeSequence = QUuid();
+    if (controller != nullptr && pCore->currentDoc() && pCore->currentDoc()->closing) {
+        // Don't display a clip if we are closing
+        return;
+    }
     if (m_controller) {
         m_glMonitor->resetZoneMode();
         // store last audiothumb zoom / position

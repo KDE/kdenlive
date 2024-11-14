@@ -146,7 +146,6 @@ void PlaylistClip::parsePlaylistProps()
             }
         }
         int max = playlist.count();
-        int sequenceCount = 0;
         m_sequences.clear();
         for (int i = 0; i < max; i++) {
             QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
@@ -156,7 +155,6 @@ void PlaylistClip::parsePlaylistProps()
             if (prod->parent().type() == mlt_service_tractor_type) {
                 if (prod->parent().property_exists("kdenlive:uuid")) {
                     // Load sequence properties
-                    sequenceCount++;
                     SequenceInfo info;
                     Mlt::Properties props(prod->parent());
                     const QUuid sequenceUuid(props.get("kdenlive:uuid"));
@@ -406,7 +404,7 @@ std::shared_ptr<PlaylistSubClip> PlaylistClip::getSubSequence(const QUuid &uuid)
     return nullptr;
 }
 
-void PlaylistClip::setSequenceThumbnail(const QImage &img, const QUuid &uuid, bool inCache)
+void PlaylistClip::setSequenceThumbnail(const QImage &img, const QUuid &uuid, bool /*inCache*/)
 {
     if (img.isNull()) {
         return;

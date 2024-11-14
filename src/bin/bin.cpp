@@ -1482,7 +1482,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     connect(pCore.get(), &Core::updatePalette, this, &Bin::slotUpdatePalette);
     connect(m_itemModel.get(), &QAbstractItemModel::rowsInserted, this, &Bin::updateClipsCount);
     connect(m_itemModel.get(), &QAbstractItemModel::rowsRemoved, this, &Bin::updateClipsCount);
-    connect(this, SIGNAL(displayBinMessage(QString, KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString, KMessageWidget::MessageType)));
+    connect(this, &Bin::displayBinMessage, this, &Bin::doDisplaySimpleMessage);
     wheelAccumulatedDelta = 0;
     setupMenu();
 }
@@ -3733,6 +3733,11 @@ void Bin::setupMenu()
 const QString Bin::getDocumentProperty(const QString &key)
 {
     return m_doc->getDocumentProperty(key);
+}
+
+void Bin::doDisplaySimpleMessage(const QString &text, KMessageWidget::MessageType type)
+{
+    doDisplayMessage(text, type);
 }
 
 void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions, bool showCloseButton,

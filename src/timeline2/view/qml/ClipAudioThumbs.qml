@@ -91,7 +91,7 @@ Row {
             channels: clipRoot.audioChannels
             binId: clipRoot.binId
             audioStream: clipRoot.audioStream
-            isFirstChunk: index + waveform.offset == 0
+            isFirstChunk: (index + waveform.offset) == 0
             isOpaque: true
             scaleFactor: waveform.timeScale
             format: timeline.audioThumbFormat
