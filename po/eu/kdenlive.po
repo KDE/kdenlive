@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 00:39+0000\n"
-"PO-Revision-Date: 2024-11-11 07:31+0100\n"
+"PO-Revision-Date: 2024-11-13 16:58+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -2175,10 +2175,9 @@ msgid "Defines the rectangle of the area that will be removed."
 msgstr "Ezabatuko den laukizuzenaren area zehazten du."
 
 #: data/effects/strobe.xml:4
-#, fuzzy, kde-format
-#| msgid "Alpha gradient"
+#, kde-format
 msgid "Alpha strobing"
-msgstr "Alfa gradientea"
+msgstr "Alfari estroboa"
 
 #: data/effects/strobe.xml:5
 #, kde-format
@@ -2186,11 +2185,14 @@ msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"Alfa kanalaren estroboa 0an ipintzen du. Beste iragazki askok alfa kanala "
+"gainidazten dute, kasu horretan hau azkena izan behar da."
 
 #: data/effects/strobe.xml:9
 #, kde-format
 msgid "Whether to invert which frames are on and which is off"
 msgstr ""
+"Piztuta eta itzalita dauden fotogramak alderantzikatu behar diren edo ez"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136

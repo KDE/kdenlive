@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-11 00:39+0000\n"
-"PO-Revision-Date: 2024-10-07 01:33+0200\n"
+"PO-Revision-Date: 2024-11-13 21:47+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -764,10 +764,9 @@ msgid "Up"
 msgstr "Subir"
 
 #: data/effects/dance.xml:35
-#, fuzzy, kde-format
-#| msgid "&Download"
+#, kde-format
 msgid "Down"
-msgstr "&Descargar"
+msgstr "Baixar"
 
 #: data/effects/dance.xml:38
 #, kde-format
