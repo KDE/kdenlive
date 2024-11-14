@@ -21,7 +21,6 @@
 #include "profiles/profilemodel.hpp"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
-#include "timelinecontroller.h"
 #include "timelinewidget.h"
 #include "utils/clipboardproxy.hpp"
 
@@ -40,19 +39,14 @@ const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 
 
 TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     : QQuickWidget(parent)
+    , timelineController(this)
     , m_uuid(uuid)
 {
     engine()->addImageProvider(QStringLiteral("icon"), new KQuickIconProvider);
     engine()->rootContext()->setContextObject(new KLocalizedContext(this));
     setClearColor(palette().window().color());
-    setMouseTracking(true);
     registerTimelineItems();
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
-    m_proxy = new TimelineController(this);
-    connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
-    connect(m_proxy, &TimelineController::ungrabHack, this, &TimelineWidget::slotUngrabHack);
-    connect(m_proxy, &TimelineController::regainFocus, this, &TimelineWidget::regainFocus, Qt::DirectConnection);
-    connect(m_proxy, &TimelineController::stopAudioRecord, this, &TimelineWidget::stopAudioRecord, Qt::DirectConnection);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
     setVisible(false);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -60,12 +54,21 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
     m_favEffects = new QMenu(i18n("Insert an effect..."), this);
     m_favCompositions = new QMenu(i18n("Insert a composition..."), this);
     installEventFilter(this);
+    connect(&timelineController, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
+    connect(&timelineController, &TimelineController::ungrabHack, this, &TimelineWidget::slotUngrabHack);
+    connect(&timelineController, &TimelineController::regainFocus, this, &TimelineWidget::regainFocus, Qt::DirectConnection);
+    connect(&timelineController, &TimelineController::stopAudioRecord, this, &TimelineWidget::stopAudioRecord, Qt::DirectConnection);
     m_targetsMenu = new QMenu(this);
 }
 
 TimelineWidget::~TimelineWidget()
 {
-    delete m_proxy;
+    timelineController.prepareClose();
+    QList<QQmlContext::PropertyPair> propertyList = {{QStringLiteral("multitrack"), QVariant()},  {QStringLiteral("timeline"), QVariant()},
+                                                     {QStringLiteral("guidesModel"), QVariant()}, {QStringLiteral("subtitleModel"), QVariant()},
+                                                     {QStringLiteral("controller"), QVariant()},  {QStringLiteral("audiorec"), QVariant()}};
+    rootContext()->setContextProperties(propertyList);
+    setSource(QUrl());
 }
 
 void TimelineWidget::updateEffectFavorites()
@@ -96,7 +99,7 @@ const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &item
 {
     QMap<QString, QString> sortedItems;
     for (const QString &effect : items) {
-        sortedItems.insert(m_proxy->getAssetName(effect, isTransition), effect);
+        sortedItems.insert(timelineController.getAssetName(effect, isTransition), effect);
     }
     return sortedItems;
 }
@@ -136,11 +139,11 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_editGuideAcion = editGuideAction;
     updateEffectFavorites();
     updateTransitionFavorites();
-    connect(m_favEffects, &QMenu::triggered, this, [&](QAction *ac) { m_proxy->addEffectToClip(ac->data().toString()); });
-    connect(m_favCompositions, &QMenu::triggered, this, [&](QAction *ac) { m_proxy->addCompositionToClip(ac->data().toString()); });
-    connect(m_guideMenu, &QMenu::triggered, this, [&](QAction *ac) { m_proxy->setPosition(ac->data().toInt()); });
+    connect(m_favEffects, &QMenu::triggered, this, [&](QAction *ac) { timelineController.addEffectToClip(ac->data().toString()); });
+    connect(m_favCompositions, &QMenu::triggered, this, [&](QAction *ac) { timelineController.addCompositionToClip(ac->data().toString()); });
+    connect(m_guideMenu, &QMenu::triggered, this, [&](QAction *ac) { timelineController.setPosition(ac->data().toInt()); });
     connect(m_thumbsMenu, &QMenu::triggered, this,
-            [&](QAction *ac) { m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString()); });
+            [&](QAction *ac) { timelineController.setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString()); });
     // Fix qml focus issue
     connect(m_headerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
@@ -156,18 +159,6 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_timelineMenu->addMenu(m_favCompositions);
 }
 
-void TimelineWidget::unsetModel()
-{
-    QList<QQmlContext::PropertyPair> propertyList = {{QStringLiteral("controller"), QVariant()},
-                                                     {QStringLiteral("multitrack"), QVariant()},
-                                                     {QStringLiteral("timeline"), QVariant()},
-                                                     {QStringLiteral("guidesModel"), QVariant()},
-                                                     {QStringLiteral("subtitleModel"), QVariant()}};
-    rootContext()->setContextProperties(propertyList);
-    m_sortModel.reset(new QSortFilterProxyModel(this));
-    m_proxy->prepareClose();
-}
-
 const QUuid &TimelineWidget::getUuid() const
 {
     return m_uuid;
@@ -176,32 +167,36 @@ const QUuid &TimelineWidget::getUuid() const
 void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)
 {
     loading = true;
+    Q_ASSERT(model != nullptr);
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
-    m_proxy->setModel(model);
+    timelineController.setModel(model);
+    m_audioRec = pCore->getAudioDevice();
     QList<QQmlContext::PropertyPair> propertyList = {{"controller", QVariant::fromValue(model.get())},
                                                      {"multitrack", QVariant::fromValue(m_sortModel.get())},
-                                                     {"timeline", QVariant::fromValue(m_proxy)},
+                                                     {"timeline", QVariant::fromValue(&timelineController)},
                                                      {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
-                                                     {"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())},
                                                      {"documentId", QVariant::fromValue(model->uuid())},
-                                                     {"audiorec", QVariant::fromValue(pCore->getAudioDevice())},
+                                                     {"audiorec", QVariant::fromValue(m_audioRec)},
                                                      {"clipboard", QVariant::fromValue(new ClipboardProxy(this))},
-                                                     {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())}};
+                                                     {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
+                                                     {"proxy", QVariant()}};
+    if (model->getSubtitleModel()) {
+        propertyList.append({"subtitleModel", QVariant::fromValue(model->getSubtitleModel().get())});
+    } else {
+        propertyList.append({"subtitleModel", QVariant()});
+    }
     rootContext()->setContextProperties(propertyList);
-
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
-
-    rootContext()->setContextProperty("proxy", nullptr);
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     connect(rootObject(), SIGNAL(mousePosChanged(int)), this, SLOT(emitMousePos(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
-    connect(m_proxy, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
+    connect(&timelineController, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
     rootObject()->setProperty("dar", pCore->getCurrentDar());
     connect(rootObject(), SIGNAL(showClipMenu(int)), this, SLOT(showClipMenu(int)));
     connect(rootObject(), SIGNAL(showMixMenu(int)), this, SLOT(showMixMenu(int)));
@@ -211,22 +206,15 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(showHeaderMenu()), this, SLOT(showHeaderMenu()));
     connect(rootObject(), SIGNAL(showTargetMenu(int)), this, SLOT(showTargetMenu(int)));
     connect(rootObject(), SIGNAL(showSubtitleClipMenu()), this, SLOT(showSubtitleClipMenu()));
-    m_proxy->setRoot(rootObject());
+    timelineController.setRoot(rootObject());
     setVisible(true);
     loading = false;
-    m_proxy->checkDuration();
+    timelineController.checkDuration();
 }
 
 void TimelineWidget::emitMousePos(int offset)
 {
-    pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / m_proxy->scaleFactor()));
-}
-
-void TimelineWidget::loadMarkerModel()
-{
-    if (m_proxy) {
-        rootContext()->setContextProperty("guidesModel", m_proxy->getModel()->getFilteredGuideModel().get());
-    }
+    pCore->window()->slotUpdateMousePosition(int((offset + mapFromGlobal(QCursor::pos()).x()) / timelineController.scaleFactor()));
 }
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
@@ -278,7 +266,7 @@ void TimelineWidget::showCompositionMenu()
 
 void TimelineWidget::showHeaderMenu()
 {
-    bool isAudio = m_proxy->isActiveTrackAudio();
+    bool isAudio = timelineController.isActiveTrackAudio();
     QList<QAction *> menuActions = m_headerMenu->actions();
     QList<QAction *> audioActions;
     QStringList allowedActions = {QLatin1String("show_track_record"), QLatin1String("separate_channels"), QLatin1String("normalize_channels")};
@@ -289,7 +277,7 @@ void TimelineWidget::showHeaderMenu()
     }
     if (!isAudio) {
         // Video track
-        int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
+        int currentThumbs = timelineController.getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
         QList<QAction *> actions = m_thumbsMenu->actions();
         for (QAction *ac : std::as_const(actions)) {
             if (ac->data().toInt() == currentThumbs) {
@@ -307,7 +295,7 @@ void TimelineWidget::showHeaderMenu()
         for (auto ac : std::as_const(audioActions)) {
             ac->setVisible(true);
             if (ac->data().toString() == QLatin1String("show_track_record")) {
-                ac->setChecked(m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);
+                ac->setChecked(timelineController.getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);
             }
         }
     }
@@ -319,11 +307,11 @@ void TimelineWidget::showTargetMenu(int tid)
     int currentTargetStream;
     if (tid == -1) {
         // Called through shortcut
-        tid = m_proxy->activeTrack();
+        tid = timelineController.activeTrack();
         if (tid == -1) {
             return;
         }
-        if (m_proxy->clipTargets() < 2 || !model()->isAudioTrack(tid)) {
+        if (timelineController.clipTargets() < 2 || !model()->isAudioTrack(tid)) {
             pCore->displayMessage(i18n("No available stream"), MessageType::ErrorMessage);
             return;
         }
@@ -331,7 +319,7 @@ void TimelineWidget::showTargetMenu(int tid)
         QMetaObject::invokeMethod(rootObject(), "getActiveTrackStreamPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
         m_clickPos = mapToGlobal(QPoint(5, y())) + QPoint(0, returnedValue.toInt());
     }
-    QMap<int, QString> possibleTargets = m_proxy->getCurrentTargets(tid, currentTargetStream);
+    QMap<int, QString> possibleTargets = timelineController.getCurrentTargets(tid, currentTargetStream);
     m_targetsMenu->clear();
     if (m_targetsGroup) {
         delete m_targetsGroup;
@@ -350,7 +338,7 @@ void TimelineWidget::showTargetMenu(int tid)
     }
     connect(m_targetsGroup, &QActionGroup::triggered, this, [this, tid](QAction *action) {
         int targetStream = action->data().toInt();
-        m_proxy->assignAudioTarget(tid, targetStream);
+        timelineController.assignAudioTarget(tid, targetStream);
     });
     if (m_targetsMenu->isEmpty() || possibleTargets.isEmpty()) {
         m_headerMenu->popup(m_clickPos);
@@ -405,7 +393,7 @@ void TimelineWidget::showSubtitleClipMenu()
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
 {
     double pixelScale = QFontMetrics(font()).maxWidth() * 2;
-    m_proxy->setScaleFactorOnMouse(pixelScale / comboScale[value], zoomOnMouse);
+    timelineController.setScaleFactorOnMouse(pixelScale / comboScale[value], zoomOnMouse);
 }
 
 void TimelineWidget::slotCenterView()
@@ -416,7 +404,7 @@ void TimelineWidget::slotCenterView()
 void TimelineWidget::slotFitZoom()
 {
     QVariant returnedValue;
-    double prevScale = m_proxy->scaleFactor();
+    double prevScale = timelineController.scaleFactor();
     QMetaObject::invokeMethod(rootObject(), "fitZoom", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
     double scale = returnedValue.toDouble();
     QMetaObject::invokeMethod(rootObject(), "scrollPos", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
@@ -429,35 +417,35 @@ void TimelineWidget::slotFitZoom()
         m_scrollPos = scrollPos;
         scrollPos = 0;
     }
-    m_proxy->setScaleFactorOnMouse(scale, false);
+    timelineController.setScaleFactorOnMouse(scale, false);
     // Update zoom slider
-    Q_EMIT m_proxy->updateZoom(scale);
+    Q_EMIT timelineController.updateZoom(scale);
     QMetaObject::invokeMethod(rootObject(), "goToStart", Q_ARG(QVariant, scrollPos));
 }
 
 Mlt::Tractor *TimelineWidget::tractor()
 {
-    return m_proxy->tractor();
+    return timelineController.tractor();
 }
 
 TimelineController *TimelineWidget::controller()
 {
-    return m_proxy;
+    return &timelineController;
 }
 
 std::shared_ptr<TimelineItemModel> TimelineWidget::model()
 {
-    return m_proxy->getModel();
+    return timelineController.getModel();
 }
 
 void TimelineWidget::zoneUpdated(const QPoint &zone)
 {
-    m_proxy->setZone(zone, false);
+    timelineController.setZone(zone, false);
 }
 
 void TimelineWidget::zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &newZone)
 {
-    m_proxy->updateZone(oldZone, newZone);
+    timelineController.updateZone(oldZone, newZone);
 }
 
 void TimelineWidget::setTool(ToolType::ProjectTool tool)
@@ -472,7 +460,7 @@ ToolType::ProjectTool TimelineWidget::activeTool()
 
 QPair<int, int> TimelineWidget::getAvTracksCount() const
 {
-    return m_proxy->getAvTracksCount();
+    return timelineController.getAvTracksCount();
 }
 
 void TimelineWidget::slotUngrabHack()
@@ -542,7 +530,7 @@ void TimelineWidget::stopAudioRecord()
 void TimelineWidget::focusInEvent(QFocusEvent *event)
 {
     QQuickWidget::focusInEvent(event);
-    if (!m_proxy->grabIsActive()) {
+    if (!timelineController.grabIsActive()) {
         QTimer::singleShot(250, rootObject(), SLOT(forceActiveFocus()));
     }
 }
@@ -582,7 +570,7 @@ void TimelineWidget::regainFocus()
 
 bool TimelineWidget::hasSubtitles() const
 {
-    return m_proxy->getModel()->hasSubtitleModel();
+    return timelineController.getModel()->hasSubtitleModel();
 }
 
 void TimelineWidget::connectSubtitleModel(bool firstConnect)
@@ -596,6 +584,7 @@ void TimelineWidget::connectSubtitleModel(bool firstConnect)
         rootObject()->setProperty("showSubtitles", KdenliveSettings::showSubtitles());
         if (firstConnect) {
             rootContext()->setContextProperty("subtitleModel", model()->getSubtitleModel().get());
+            QQmlEngine::setObjectOwnership(model()->getSubtitleModel().get(), QQmlEngine::CppOwnership);
         }
     }
 }

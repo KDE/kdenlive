@@ -45,7 +45,9 @@ ProfileModel::ProfileModel(const QString &path)
         f.close();
     }
     m_profile = std::make_unique<Mlt::Profile>(path.toUtf8().constData());
-    m_description = QString(qstrdup(m_profile->description()));
+    const char *desc = qstrdup(m_profile->description());
+    m_description = QString(desc);
+    delete[] desc;
 }
 
 bool ProfileModel::is_valid() const
@@ -55,7 +57,7 @@ bool ProfileModel::is_valid() const
 
 QString ProfileModel::description() const
 {
-    return QString(qstrdup(m_profile->description()));
+    return m_description;
 }
 
 int ProfileModel::frame_rate_num() const
@@ -199,7 +201,7 @@ ProfileParam::ProfileParam(ProfileInfo *p)
 
 ProfileParam::ProfileParam(ProfileParam *p)
     : m_path(qstrdup(p->path().toUtf8().constData()))
-    , m_description(qstrdup(p->description().toUtf8().constData()))
+    , m_description(p->description())
     , m_frame_rate_num(p->frame_rate_num())
     , m_frame_rate_den(p->frame_rate_den())
     , m_width(p->width())

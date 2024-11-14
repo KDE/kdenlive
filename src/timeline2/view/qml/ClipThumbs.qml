@@ -8,7 +8,6 @@ import QtQuick.Controls 2.15
 import QtQml.Models 2.15
 import com.enums 1.0
 
-
 Row {
     id: thumbRow
     anchors.fill: parent

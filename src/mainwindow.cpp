@@ -4450,9 +4450,12 @@ bool MainWindow::hasTimeline() const
     return m_timelineTabs != nullptr;
 }
 
-void MainWindow::closeTimelineTab(const QUuid uuid)
+void MainWindow::closeTimelineTab(const QUuid uuid, bool onDeletion)
 {
     m_timelineTabs->closeTimelineTab(uuid);
+    if (onDeletion) {
+        resetSubtitles(uuid);
+    }
 }
 
 const QStringList MainWindow::openedSequences() const
@@ -5145,7 +5148,6 @@ void MainWindow::connectTimeline()
     }
     // Display timeline guides in the guides list
     pCore->guidesList()->setModel(project->getGuideModel(uuid), project->getFilteredGuideModel(uuid));
-
     if (m_renderWidget) {
         slotCheckRenderStatus();
         m_renderWidget->setGuides(project->getGuideModel(uuid));
@@ -5154,7 +5156,7 @@ void MainWindow::connectTimeline()
     }
 }
 
-void MainWindow::disconnectTimeline(TimelineWidget *timeline)
+void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
 {
     // Save current tab timeline position
     if (pCore->currentDoc()) {
@@ -5162,8 +5164,10 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline)
         //  disconnect(pCore->currentDoc(), &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
         // qDebug()<<"=== SETTING POSITION  FOR DOC: "<<pCore->currentDoc()->position<<" / "<<pCore->currentDoc()->uuid;
     }
-    // Ensure the active timeline has an transparent black background for embedded compositing
-    timeline->model()->makeTransparentBg(true);
+    if (!onClose) {
+        // Ensure the active timeline has an transparent black background for embedded compositing
+        timeline->model()->makeTransparentBg(true);
+    }
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
     disconnect(m_projectMonitor, &Monitor::multitrackView, timeline->controller(), &TimelineController::slotMultitrackView);
     disconnect(m_projectMonitor, &Monitor::activateTrack, timeline->controller(), &TimelineController::activateTrackAndSelect);

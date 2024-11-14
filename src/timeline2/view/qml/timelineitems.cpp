@@ -342,18 +342,18 @@ private:
     QColor m_bgColor;
     QColor m_color;
     QColor m_color2;
-    bool m_format;
+    bool m_format{false};
     bool m_repaint;
-    bool m_normalize;
+    bool m_normalize{false};
     int m_channels;
     int m_precisionFactor;
-    int m_stream;
+    int m_stream{0};
     double m_scale;
     double m_speed;
     double m_audioMax;
-    bool m_firstChunk;
-    bool m_opaquePaint;
-    int m_index;
+    bool m_firstChunk{false};
+    bool m_opaquePaint{false};
+    int m_index{0};
 };
 
 class TimelineRecWaveform : public QQuickPaintedItem

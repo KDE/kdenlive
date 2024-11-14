@@ -19,7 +19,7 @@ public:
     SpeechToTextVosk(QObject *parent = nullptr);
     QString runSubtitleScript(QString modelDirectory, QString language, QString audio, QString speech);
     QString subtitleScript() override;
-    const QString modelFolder() override;
+    const QString modelFolder(bool mainFolder = true) override;
     QString speechScript() override;
     QString voskModelPath();
     const QStringList getInstalledModels() override;

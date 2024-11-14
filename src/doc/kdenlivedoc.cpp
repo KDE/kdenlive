@@ -2303,6 +2303,9 @@ void KdenliveDoc::closeTimeline(const QUuid uuid, bool onDeletion)
         // Clear all sequence properties
         m_sequenceProperties.remove(uuid);
         auto model = m_timelines.take(uuid);
+        // Ensure we don't have stuck references to timelinemodel
+        qDebug() << "CLOSING TIMELINE: " << uuid << ", INSTANCES: " << model.use_count();
+        Q_ASSERT(model.use_count() <= 1);
         model->prepareClose(!closing);
         model.reset();
     } else {

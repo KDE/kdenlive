@@ -479,6 +479,7 @@ public Q_SLOTS:
     void slotExpandUrl(/*const ItemInfo &info,*/ const QString &url, QUndoCommand *command);
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
+    void doDisplaySimpleMessage(const QString &text, KMessageWidget::MessageType type);
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>(), bool showCloseButton = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString logInfo);
     /** @brief Select a clip in the Bin from its id. */

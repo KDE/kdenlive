@@ -250,7 +250,7 @@ public:
     bool isMediaCapturing() const;
     /** @brief True if we are currently displaying the record countdown */
     bool captureShowsCountDown() const;
-    MediaCapture *getAudioDevice();
+    std::shared_ptr<MediaCapture> getAudioDevice();
     /** @brief Returns configured folder for audio capture storage */
     QString getProjectCaptureFolderName();
     /** @brief Returns a timeline clip's bin id */
@@ -384,7 +384,7 @@ private:
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
     void checkProfileValidity();
-    std::unique_ptr<MediaCapture> m_capture;
+    std::shared_ptr<MediaCapture> m_capture;
     QUrl m_mediaCaptureFile;
     void resetThumbProfile();
 

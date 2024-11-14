@@ -65,7 +65,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <fcntl.h>
 
 #ifdef USE_JOGSHUTTLE
-#include "jogshuttle/jogaction.h"
 #include "jogshuttle/jogshuttleconfig.h"
 #include <QStandardPaths>
 #include <linux/input.h>
@@ -1837,7 +1836,9 @@ void KdenliveSettingsDialog::initSpeechPage()
     }
     connect(m_configSpeech.modelV_folder_label, &QLabel::linkActivated,
             [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
-    connect(m_configSpeech.model_folder_label, &QLabel::linkActivated,
+    connect(m_configSpeech.whisper_folder_label, &QLabel::linkActivated,
+            [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
+    connect(m_configSpeech.seamless_folder_label, &QLabel::linkActivated,
             [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
     QButtonGroup *speechEngineSelection = new QButtonGroup(this);
     speechEngineSelection->addButton(m_configSpeech.engine_vosk);
@@ -1957,7 +1958,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
     });
 
-    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, [this, modelDownload](const QString &scriptName, const QStringList &args) {
+    connect(m_sttWhisper, &SpeechToText::concurrentScriptFinished, [this](const QString &scriptName, const QStringList &args) {
         qDebug() << "=========================\n\nCONCURRENT JOB FINISHED: " << scriptName << " / " << args << "\n\n================";
         if (scriptName.contains("checkgpu")) {
             if (!KdenliveSettings::whisperDevice().isEmpty()) {
@@ -2070,24 +2071,38 @@ void KdenliveSettingsDialog::reloadWhisperModels()
 
 void KdenliveSettingsDialog::checkWhisperFolderSize()
 {
-    QDir modelsFolder(m_sttWhisper->modelFolder());
-    if (!modelsFolder.exists()) {
-        m_configSpeech.model_folder_label->setVisible(false);
+    const QString folder = m_sttWhisper->modelFolder();
+    QDir modelsFolder(folder);
+    if (folder.isEmpty() || !modelsFolder.exists()) {
+        m_configSpeech.whisper_folder_label->setVisible(false);
         m_configSpeech.downloadButton->setText(i18n("Install a model"));
-        return;
+    } else {
+        m_configSpeech.whisper_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(modelsFolder.absolutePath(), QStringLiteral("Whisper")));
+        m_configSpeech.whisper_folder_label->setVisible(true);
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(modelsFolder.absolutePath()));
+        connect(job, &KJob::result, this, [job, label = m_configSpeech.whisper_model_size, button = m_configSpeech.downloadButton]() {
+            label->setText(KIO::convertSize(job->totalSize()));
+            if (job->totalSize() == 0) {
+                button->setText(i18n("Install a model"));
+            } else {
+                button->setText(i18n("Manage models"));
+            }
+            job->deleteLater();
+        });
     }
-    m_configSpeech.model_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(modelsFolder.absolutePath(), i18n("Models folder")));
-    m_configSpeech.model_folder_label->setVisible(true);
-    KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(modelsFolder.absolutePath()));
-    connect(job, &KJob::result, this, [job, label = m_configSpeech.model_size, button = m_configSpeech.downloadButton]() {
-        label->setText(KIO::convertSize(job->totalSize()));
-        if (job->totalSize() == 0) {
-            button->setText(i18n("Install a model"));
-        } else {
-            button->setText(i18n("Manage models"));
-        }
-        job->deleteLater();
-    });
+    const QString folder2 = m_sttWhisper->modelFolder(false);
+    QDir seamlessFolder(folder2);
+    if (folder2.isEmpty() || !seamlessFolder.exists()) {
+        m_configSpeech.seamless_folder_label->setVisible(false);
+    } else {
+        m_configSpeech.seamless_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(seamlessFolder.absolutePath(), QStringLiteral("Seamless")));
+        m_configSpeech.seamless_folder_label->setVisible(true);
+        KIO::DirectorySizeJob *jobSeamless = KIO::directorySize(QUrl::fromLocalFile(seamlessFolder.absolutePath()));
+        connect(jobSeamless, &KJob::result, this, [jobSeamless, label = m_configSpeech.seamless_folder_size]() {
+            label->setText(KIO::convertSize(jobSeamless->totalSize()));
+            jobSeamless->deleteLater();
+        });
+    }
 }
 
 void KdenliveSettingsDialog::showSpeechLog(const QString &jobData)

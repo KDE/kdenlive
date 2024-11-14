@@ -191,11 +191,17 @@ bool SpeechToTextWhisper::installNewModel(const QString &modelName)
     return installedNew;
 }
 
-const QString SpeechToTextWhisper::modelFolder()
+const QString SpeechToTextWhisper::modelFolder(bool mainFolder)
 {
-    QString folder = KdenliveSettings::whisperModelFolder();
-    if (folder.isEmpty() || !QFileInfo::exists(folder)) {
-        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
+    QString folder;
+    if (mainFolder) {
+        folder = KdenliveSettings::whisperModelFolder();
+        if (folder.isEmpty() || !QFileInfo::exists(folder)) {
+            folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
+        }
+    } else {
+        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("huggingface/hub/models--facebook--seamless-m4t-v2-large"),
+                                        QStandardPaths::LocateDirectory);
     }
     if (folder.isEmpty() || !QFileInfo::exists(folder)) {
         // No folder found for whisper models

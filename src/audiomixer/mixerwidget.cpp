@@ -511,7 +511,7 @@ void MixerWidget::updateMonitorState()
     QSignalBlocker bk(m_volumeSpin);
     QSignalBlocker bk2(m_volumeSlider);
     if (m_monitor && m_monitor->isChecked()) {
-        connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
+        connect(pCore->getAudioDevice().get(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         if (m_balanceSlider) {
             m_balanceSlider->setEnabled(false);
             m_balanceSpin->setEnabled(false);
@@ -521,7 +521,7 @@ void MixerWidget::updateMonitorState()
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
         m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume() * 100);
     } else {
-        disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
+        disconnect(pCore->getAudioDevice().get(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         if (m_balanceSlider) {
             m_balanceSlider->setEnabled(true);
             m_balanceSpin->setEnabled(true);

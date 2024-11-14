@@ -23,7 +23,7 @@ public:
     virtual QString subtitleScript();
     virtual QString speechScript();
     virtual QMap<QString, QString> speechLanguages();
-    virtual const QString modelFolder() = 0;
+    virtual const QString modelFolder(bool mainFolder = true) = 0;
     virtual const QStringList getInstalledModels() = 0;
     virtual bool installNewModel(const QString &modelName = QString()) = 0;
 

@@ -4,7 +4,6 @@
 */
 
 #include "timelinecontroller.h"
-#include "../model/timelinefunctions.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
@@ -18,9 +17,7 @@
 #include "core.h"
 #include "dialogs/importsubtitle.h"
 #include "dialogs/managesubtitles.h"
-#include "dialogs/spacerdialog.h"
 #include "dialogs/speechdialog.h"
-#include "dialogs/speeddialog.h"
 #include "dialogs/timeremap.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
@@ -30,15 +27,18 @@
 #include "lib/audio/audioEnvelope.h"
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
-#include "previewmanager.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/snapmodel.hpp"
+#include "timeline2/model/timelinefunctions.hpp"
 #include "timeline2/model/trackmodel.hpp"
 #include "timeline2/view/dialogs/clipdurationdialog.h"
+#include "timeline2/view/dialogs/spacerdialog.h"
+#include "timeline2/view/dialogs/speeddialog.h"
 #include "timeline2/view/dialogs/trackdialog.h"
+#include "timeline2/view/previewmanager.h"
 #include "timeline2/view/timelinewidget.h"
 #include "transitions/transitionsrepository.hpp"
 
@@ -94,7 +94,7 @@ void TimelineController::prepareClose()
     disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
     m_ready = false;
     m_root = nullptr;
-    // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
+    //  Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
     m_model->resetPreviewManager();
     m_model.reset();
 }
@@ -420,7 +420,7 @@ bool TimelineController::selectCurrentItem(KdenliveObjectType type, bool select,
 
 QList<int> TimelineController::selection() const
 {
-    if (!m_root) return QList<int>();
+    if (!m_root || !m_model) return QList<int>();
     std::unordered_set<int> sel = m_model->getCurrentSelection();
     QList<int> items;
     for (int id : sel) {
@@ -431,7 +431,7 @@ QList<int> TimelineController::selection() const
 
 int TimelineController::selectedMix() const
 {
-    return m_model->m_selectedMix;
+    return m_model ? m_model->m_selectedMix : -1;
 }
 
 void TimelineController::selectItems(const QList<int> &ids)
@@ -1046,7 +1046,7 @@ void TimelineController::gotoNextGuide()
     int pos = pCore->getMonitorPosition();
     double fps = pCore->getCurrentFps();
     int guidePos = 0;
-    for (auto &guide : guides) {
+    for (auto &guide : std::as_const(guides)) {
         guidePos = guide.time().frames(fps);
         if (std::find(canceled.begin(), canceled.end(), guidePos) != canceled.end()) {
             continue;
@@ -1068,7 +1068,7 @@ void TimelineController::gotoPreviousGuide()
         double fps = pCore->getCurrentFps();
         int lastGuidePos = 0;
         int guidePos = 0;
-        for (auto &guide : guides) {
+        for (auto &guide : std::as_const(guides)) {
             guidePos = guide.time().frames(fps);
             if (std::find(canceled.begin(), canceled.end(), guidePos) != canceled.end()) {
                 continue;
@@ -2611,7 +2611,7 @@ void TimelineController::connectPreviewManager()
 
 bool TimelineController::hasPreviewTrack() const
 {
-    return (m_model->hasTimelinePreview() && (m_model->previewManager()->hasOverlayTrack() || m_model->previewManager()->hasPreviewTrack()));
+    return (m_model && m_model->hasTimelinePreview() && (m_model->previewManager()->hasOverlayTrack() || m_model->previewManager()->hasPreviewTrack()));
 }
 
 void TimelineController::disablePreview(bool disable)
@@ -3812,7 +3812,7 @@ void TimelineController::focusTimelineSequence(int id)
         if (local_redo()) {
             Fun local_undo = [uuid]() {
                 if (pCore->projectManager()->closeTimeline(uuid)) {
-                    pCore->window()->closeTimelineTab(uuid);
+                    pCore->window()->closeTimelineTab(uuid, false);
                 }
                 return true;
             };
@@ -5165,7 +5165,7 @@ void TimelineController::switchSubtitleDisable()
 
 bool TimelineController::subtitlesDisabled() const
 {
-    if (m_model->hasSubtitleModel()) {
+    if (m_model && m_model->hasSubtitleModel()) {
         return m_model->getSubtitleModel()->isDisabled();
     }
     return false;
@@ -5173,7 +5173,7 @@ bool TimelineController::subtitlesDisabled() const
 
 void TimelineController::switchSubtitleLock()
 {
-    if (m_model->hasSubtitleModel()) {
+    if (m_model && m_model->hasSubtitleModel()) {
         auto subtitleModel = m_model->getSubtitleModel();
         bool locked = subtitleModel->isLocked();
         Fun local_switch = [this, subtitleModel]() {
@@ -5187,7 +5187,7 @@ void TimelineController::switchSubtitleLock()
 }
 bool TimelineController::subtitlesLocked() const
 {
-    if (m_model->hasSubtitleModel()) {
+    if (m_model && m_model->hasSubtitleModel()) {
         return m_model->getSubtitleModel()->isLocked();
     }
     return false;
@@ -5342,6 +5342,9 @@ void TimelineController::autofitTrackHeight(int timelineHeight, int collapsedHei
 QVariantList TimelineController::subtitlesList() const
 {
     QVariantList result;
+    if (m_model == nullptr) {
+        return result;
+    }
     auto subtitleModel = m_model->getSubtitleModel();
     if (subtitleModel) {
         QMap<std::pair<int, QString>, QString> currentSubs = subtitleModel->getSubtitlesList();
@@ -5363,7 +5366,7 @@ QVariantList TimelineController::subtitlesList() const
 
 int TimelineController::getMaxSubLayer() const
 {
-    if (m_model->hasSubtitleModel()) return m_model->getSubtitleModel()->getMaxLayer();
+    if (m_model && m_model->hasSubtitleModel()) return m_model->getSubtitleModel()->getMaxLayer();
     return 0;
 }
 

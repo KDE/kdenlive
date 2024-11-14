@@ -138,7 +138,7 @@ public:
     /** @brief Returns a pointer to the timeline with @uuid */
     TimelineWidget *getTimeline(const QUuid uuid) const;
     void getSequenceProperties(const QUuid &uuid, QMap<QString, QString> &props);
-    void closeTimelineTab(const QUuid uuid);
+    void closeTimelineTab(const QUuid uuid, bool onDeletion);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;
 
@@ -199,7 +199,7 @@ public:
     /** @brief Bring a timeline tab in front. Returns false if no tab exists for this timeline. */
     bool raiseTimeline(const QUuid &uuid);
     void connectTimeline();
-    void disconnectTimeline(TimelineWidget *timeline);
+    void disconnectTimeline(TimelineWidget *timeline, bool onClose = false);
     static QProcessEnvironment getCleanEnvironement();
     ObjectId effectStackOwner();
 

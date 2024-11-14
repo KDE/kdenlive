@@ -9,6 +9,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import com.enums 1.0
 
+
 Item {
     id: rulerRoot
     // The standard width for labels. Depends on format used (frame number or full timecode)

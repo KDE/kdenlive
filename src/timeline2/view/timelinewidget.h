@@ -6,12 +6,13 @@
 #pragma once
 
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "timelinecontroller.h"
 #include <QQuickWidget>
 
 class ThumbnailProvider;
-class TimelineController;
 class QSortFilterProxyModel;
 class MonitorProxy;
+class MediaCapture;
 class QMenu;
 class QActionGroup;
 
@@ -43,7 +44,6 @@ public:
     void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     bool loading;
     void connectSubtitleModel(bool firstConnect);
-    void unsetModel();
     const QUuid &getUuid() const;
     bool hasSubtitles() const;
 
@@ -87,7 +87,7 @@ private Q_SLOTS:
     void emitMousePos(int offset);
 
 private:
-    TimelineController *m_proxy;
+    TimelineController timelineController;
     QMenu *m_timelineClipMenu;
     QMenu *m_timelineMixMenu;
     QMenu *m_timelineCompositionMenu;
@@ -112,6 +112,7 @@ private:
     const QMap<QString, QString> sortedItems(const QStringList &items, bool isTransition);
     QPoint m_clickPos;
     QUuid m_uuid;
+    std::shared_ptr<MediaCapture> m_audioRec;
 
 Q_SIGNALS:
     void focusProjectMonitor();

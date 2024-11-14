@@ -86,7 +86,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QWidget *parent)
     QAction *allEffects = new QAction(this);
     allEffects->setIcon(QIcon::fromTheme(QStringLiteral("show-all-effects")));
     allEffects->setToolTip(m_isEffect ? i18n("Main effects") : i18n("Main compositions"));
-    connect(allEffects, &QAction::triggered, this, [this]() { setFilterType(QStringLiteral()); });
+    connect(allEffects, &QAction::triggered, this, [this]() { setFilterType(QLatin1String()); });
     m_toolbar->addAction(allEffects);
     if (m_isEffect) {
         QAction *videoEffects = new QAction(this);
@@ -430,5 +430,5 @@ const QString AssetListWidget::buildLink(const QString id, AssetListType::AssetT
     } else {
         prefix = QStringLiteral("other");
     }
-    return QStringLiteral("https://docs.kdenlive.org/%1/%2").arg(prefix).arg(id);
+    return QStringLiteral("https://docs.kdenlive.org/%1/%2").arg(prefix, id);
 }

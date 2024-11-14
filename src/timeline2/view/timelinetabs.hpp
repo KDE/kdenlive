@@ -43,8 +43,6 @@ public:
     /** @brief Activate a timeline tab by uuid */
     bool raiseTimeline(const QUuid &uuid);
     void disconnectTimeline(TimelineWidget *timeline);
-    /** @brief Do some closing stuff on timelinewidgets */
-    void closeTimelines();
     /** @brief Store timeline menus */
     void setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu,
                          QMenu *thumbsMenu, QMenu *subtitleClipMenu);
