@@ -52,6 +52,7 @@ frei0r_glow.xml
 frei0r_hqdn3d.xml
 frei0r_hueshift0r.xml
 frei0r_iirblur.xml
+frei0r_kaleid0sc0pe.xml
 frei0r_keyspillm0pup.xml
 frei0r_lenscorrection.xml
 frei0r_letterb0xed.xml
@@ -63,6 +64,7 @@ frei0r_medians.xml
 frei0r_nervous.xml
 frei0r_nosync0r.xml
 frei0r_pixeliz0r.xml
+frei0r_pixs0r.xml
 frei0r_pr0be.xml
 frei0r_pr0file.xml
 frei0r_primaries.xml

@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="gpsgraphic" id="gpsgraphic">
+    <name>GPS Graphic</name>
+    <description>Overlay GPS-related graphics onto the video.</description>
+    <author>Daniel F</author>
+    <parameter type="url" name="resource" filter="GPS files (*.gpx *.tcx)">
+        <name>GPS File</name>
+    	<comment>The fullpath of file containing location (GPS) data. Supported extensions: .gpx, .tcx.</comment>
+    </parameter>
+    <parameter type="constant" name="time_offset" max="86400" min="-86400" default="0">
+        <name>Time offset in seconds</name>
+    	<comment><![CDATA[An offset (in seconds) to be added to the video file to match it to the GPS track.<br>
+    	Most of the time this will at least need to be set to the timezone difference between the 2 files plus some seconds if the video recording device isn't precisely set to correct time. GPS time is always exact and in UTC. Use positive values if GPS is ahead of video and negative otherwise.]]></comment>
+    </parameter>
+    <parameter type="constant" name="smoothing_value" max="10" min="0" default="5">
+        <name>Smoothing level</name>
+    	<comment><![CDATA[How many GPS points to smooth in order to eliminate GPS errors.<br>
+    	A value of 1 does not smooth locations, it only calculates the extra fields (speed, distance, etc), it also interpolates missing values for heart rate and altitude.]]></comment>
+    </parameter>
+    <parameter type="constant" name="speed_multiplier" min="0" max="30" decimals="2" default="1">
+        <name>Speed multiplier</name>
+        <comment><![CDATA[If the video file is a timelapse (or slow motion), use this value to set the speed up/slow down ratio.<br>
+        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage.]]></comment>
+    </parameter>
+    <parameter type="list" name="graph_data_source" paramlist="0;1;2;3" default="0">
+    	<paramlistdisplay>GPS location/track,Altitude,Heart rate,Speed</paramlistdisplay>
+    	<name>Graph data source</name>
+    	<comment>What data from the GPS file is used for drawing</comment>
+    </parameter>
+    <parameter type="list" name="graph_type" paramlist="0;1;2">
+    	<paramlistdisplay>Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto the map/graph centered on current location,Draw speedometer</paramlistdisplay>
+    	<name>Graph type</name>
+    	<comment><![CDATA[<b>Speedometer</b> is available for all data sources but recommended only for speed; for the map type it represents the "percentage done" from trimmed start - end).<br>
+Note: for type 1 (zoom and center, aka "follow the dot"):<br>
+* crop values are only valid as a percentage and only the bottom (resp left) values
+will be taken into consideration as both values (ie: bottom/top) will need to be equal to
+keep the dot centered)<br>
+* if data source is not GPS location, the centering will only be done for horizontal axis
+(time), vertical axis crop will behave just like for the basic 2D map line (it will statically keep
+the same min/max limit allowing the Now dot to move up and down).]]></comment>
+    </parameter>
+    <parameter type="constant" name="trim_start_p" min="0" max="100" default="0">
+    	<name>Trim start (%)</name>
+    	<comment><![CDATA[Trim data from the start of the GPS file (as a percentage of total). <br>
+    	Note: both <em>Trim start</em> and <em>Trim end</em> are computed from the total file, so trimming 50% start and 50% end will result in trimming the entire file.]]></comment>
+    </parameter>
+    <parameter type="constant" name="trim_end_p" min="0" max="100" default="0">
+    	<name>Trim end (%)</name>
+    	<comment><![CDATA[Trim data from the end of the gps file (as a percentage of total). <br>
+    	Note: both <em>Trim start</em> and <em>Trim end</em> are computed from the total file, so trimming 50% start and 50% end will result in trimming the entire file.]]></comment>
+    </parameter>
+    <parameter type="list" name="crop_mode_h" default="0" paramlist="0;1">
+    	<paramlistdisplay>Percentage from min..max,Absolute value</paramlistdisplay>
+    	<name>Crop mode horizontal</name>
+    	<comment><![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop right</em> values.<br>
+    	Note: for the horizontal type, absolute values are the longitude (for the location
+source type) and time (in milliseconds since epoch) for the rest of the data source types)]]></comment>
+    </parameter>
+    <parameter type="constant" name="crop_left_p" min="-1000" max="1000" default="0">
+    	<name>Crop left</name>
+    	<comment><![CDATA[Crops data from the left side of the graph (effectively zooming in). <br>
+    	The value is interpreted either as a percentage of total or an absolute value depending on crop_mode_h. In percentage mode, the values are not restricted to 0-100 to allow for "zoom out" behaviour (ie: cropping -50 left will add an extra half of the total horizontal distance). Values over 100 (in % mode) will effectively not display anything. If <em>Graph Type<em> is set to <b>Speedometer</b>, all crop left/right values are ignored.]]></comment>
+    </parameter>
+    <parameter type="constant" name="crop_right_p" min="-1000" max="1000" default="0">
+    	<name>Crop right</name>
+    	<comment><![CDATA[Same as <em>Crop left</em> but for the right side, and percentage type is interpreted as an inverse percentage (ie: 100 = do not crop anything). Values under 0 will effectively not display anything.]]></comment>
+    </parameter>
+    <parameter type="list" name="crop_mode_v" default="0" paramlist="0;1">
+    	<paramlistdisplay>Percentage from min..max,Absolute value</paramlistdisplay>
+    	<name>Crop mode vertical</name>
+    	<comment><![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</em> values.<br/>
+    	With an absolute value, it can zoom in to between 100 and 150m of altitude to show
+small changes in altitude between those 2 values better.<br/>
+Note: for the vertical type, absolute values are latitude degrees (for the location
+source type) and altitude, heart rate, speed for the others interpreted as the <em>Legend unit</em>
+type where applicable (ie: a value of 10 for altitude will be considered meters by default
+but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
+    </parameter>
+    <parameter type="constant" name="crop_bot_p" min="-1000" max="1000" default="0">
+    	<name>Crop bottom</name>
+    	<comment><![CDATA[Crops data from the bottom side of the graph (effectively zooming in). <br>
+    	The value is interpreted either as a percentage of total or an absolute value depending on crop_mode_v. In percentage mode the values are not restricted to 0-100 to allow for "zoom out" behaviour (ie: cropping -50 bot will add an extra half of the total vertical distance to the bottom). Values over 100 (in % mode) will effectively not display anything. If <em>Graph type</em> is <b>Speedometer<b>, this will set the minimum needle position which will clamp all values that are lower.]]></comment>
+    </parameter>
+    <parameter type="constant" name="crop_top_p" min="-1000" max="1000" default="0">
+    	<name>Crop right</name>
+    	<comment><![CDATA[Same as <em>Crop bottom</em> but for the top side, and percentage type is interpreted as an inverse percentage (ie: 100 = do not crop anything).<br>
+    	Values under 0 will effectively not display anything.]]></comment>
+    </parameter>
+    <parameter type="list" name="color_style" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12">
+    	<paramlistdisplay>One color,Two colors,Solid past - thin future,Solid future - thin past,Vertical gradient,Horizontal gradient,Color by duration,Color by altitude,Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by grade (max 90 degrees),Color by grade (max 20 degrees)</paramlistdisplay>
+    	<name>Graph color style</name>
+    	<comment>See the documentation about the various styles available</comment>
+    </parameter>
+    <parameter type="fixedcolor" name="color.1" default="#ff00aaff">
+    	<name>Color 1</name>
+    	<comment>Sets the color #1 for the graph line</comment>
+    </parameter>
+    <parameter type="fixedcolor" name="color.2" default="#ff00e000">
+    	<name>Color 2</name>
+    	<comment>Sets the color #2 for the graph line</comment>
+    </parameter>
+    <parameter type="fixedcolor" name="color.3" default="#ffffff00">
+    	<name>Color 3</name>
+    	<comment>Sets the color #3 for the graph line</comment>
+    </parameter>
+    <parameter type="fixedcolor" name="color.4" default="#ffff8c00">
+    	<name>Color 4</name>
+    	<comment>Sets the color #4 for the graph line</comment>
+    </parameter>
+    <parameter type="fixedcolor" name="color.5" default="#ffff0000">
+    	<name>Color 5</name>
+    	<comment>Sets the color #5 for the graph line</comment>
+    </parameter>
+    <parameter type="bool" name="show_now_dot" min="0" max="1" default="0">
+    	<name>Show Now dot</name>
+    	<comment><![CDATA[Enable it to draw a disc at the current location/time over the graph line.<br>
+    	If graph type is speedometer, this affects the needle.]]></comment>
+    </parameter>
+    <parameter type="fixedcolor" name="now_dot_color" default="white">
+    	<name>Now dot color</name>
+    	<comment>Sets the color for the Now dot</comment>
+    </parameter>
+    <parameter type="bool" name="show_now_text" min="0" max="1" default="0">
+    	<name>Show Now text</name>
+    	<comment><![CDATA[Enable it to draw the current value in big white bold letters on the bottom right side of the rect.<br>
+    	The <em>Legend unit</em> value will be appended at the end and it will be used as the current unit (if a valid unit is found ie: kilometers if "km" is found anywhere in the <em>Legend unit</em> string).]]></comment>
+    </parameter>
+    <parameter type="constant" name="angle" min="0" max="360" default="0" decimals="3">
+    	<name>Rotation</name>
+    	<comment>Rotate the entire graph rectangle. For speedometer type the text stays horizontal.</comment>
+    </parameter>
+    <parameter type="constant" name="thickness" min="1" max="100" default="5">
+    	<name>Line Thickness (px)</name>
+    	<comment>Sets the thickness of the line graph in pixels.</comment>
+    </parameter>
+    <parameter type="bool" name="show_grid" min="0" max="1" default="0">
+    	<name>Draw legend</name>
+    	<comment><![CDATA[If enabled it will draw 5 horizontal (and vertical for map type) <br>
+    	lines with small values each corresponding to the current data source value at 0%, 25%, 50%, 75% and 100% of current graph shown, affected by the <em>Legend unit</em> type if applicable, and with the string appended to the value. For speedometer type this shows division values (but without appending unit).]]></comment>
+    </parameter>
+    <parameter type="keywords" name="legend_unit" default="m" paramlist="m;meter;km;kilometer;mi;mile;ft;feet;nm;nautical;ms;m/ss;meter;km/h;mi/h;ft/s;kn;nm/h;knots;mmin;m/min;ftmin;ft/min">
+        <name>Legend unit</name>
+        <paramlistdisplay>m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,mmin,m/min,ftmin,ft/min</paramlistdisplay>
+        <comment><![CDATA[Sets the unit to be used for displaying values of type altitude and speed.<br>
+        Default is meters and km/h respectively. The unit is matched anywhere in the string so extra spaces can be used to tweak displaying.]]></comment>
+    </parameter>
+    <parameter type="bool" name="draw_individual_dots" min="0" max="1" default="0">
+    	<name>Show dots only</name>
+    	<comment><![CDATA[If enabled, the graph will be drawn using individual dots instead of lines.<br>
+    	This will effectively show the individual data points as affected by smoothing (ie: for location data it will display each GPS fix if smoothing is 1) and can either be used as a cool effect when zoomed in enough or to debug unexpected line jumps.]]></comment>
+    </parameter>
+    <parameter type="rect" name="rect" default="0 0 100% 100%" fixed="0">
+        <name>Graph rectangle</name>
+        <comment><![CDATA[Defines the rectangle that the graph should be drawn in.<br>
+        Format is: "X Y W H". X, Y, W, H are assumed to be pixel units unless they have the suffix '%'.]]></comment>
+    </parameter>
+    <parameter type="url" name="bg_img_path" filter="Image files (*.png *.jpg *.webp *.jpeg)">
+        <name>Background image</name>
+      	<comment><![CDATA[If a valid image file is selected, it will be used as a background for the rectangle area.<br>
+      	Paths starting with the "!" character are ignored. TIP: use a map image to add context to the GPS track.]]></comment>
+    </parameter>
+    <parameter type="constant" name="bg_scale_w" min="0" max="200" default="100" factor="100">
+    	<name>Background scale</name>
+    	<comment><![CDATA[Scale the background image (relative to center) to match it to the above GPS track.<br>
+    	Values smaller than 100 zoom into the image, values larger than 100 zoom out. 0 hides it.]]></comment>
+    </parameter>
+    <parameter type="constant" name="bg_opacity" min="0" max="100" default="100" factor="100">
+    	<name>Background opacity</name>
+    	<comment><![CDATA[Sets the opacity for the background image]]></comment>
+    </parameter>
+    <parameter type="fixed" name="gps_start_text">
+    	<name>GPS start time</name>
+    	<comment>Date and time of the first valid GPS point.</comment>
+    </parameter>
+    <parameter type="fixed" name="video_start_text">
+    	<name>Video start time</name>
+    	<comment>Date and time of the video file.</comment>
+    </parameter>
+    <parameter type="fixed" name="auto_gps_offset_start">
+    	<name>Auto offset start</name>
+    	<comment>Provides a helper offset to guarantee start of video file syncs with the start of GPS file. Correctly sets the offset if video file and GPS recording was started at the same time.</comment>
+    </parameter>
+    <parameter type="fixed" name="auto_gps_offset_now">
+    	<name>Auto offset now</name>
+    	<comment>Provides a helper offset to sync the first GPS point to current video time (it is updated every second). Correctly sets the offset if you video record the moment GPS starts.</comment>
+    </parameter>
+    <parameter type="fixed" name="map_coords_hint">
+    	<name>Map hint</name>
+    	<comment>Returns the middle lat, lon coordinates of the gps file.</comment>
+    </parameter>
+</effect>

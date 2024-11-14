@@ -8,10 +8,10 @@
         <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV,Alpha</paramlistdisplay>
         <name>Planes</name>
     </parameter>
-    <parameter type="constant" name="av.scale" default="25" min="0" max="250" factor="1">
+    <parameter type="animated" name="av.scale" default="25" min="0" max="250" factor="1">
         <name>Scale</name>
     </parameter>
-    <parameter type="constant" name="av.delta" default="-255" min="-300" max="300" decimals="2">
+    <parameter type="animated" name="av.delta" default="-255" min="-300" max="300" decimals="2">
         <name>Delta</name>
     </parameter>
 </effect>
