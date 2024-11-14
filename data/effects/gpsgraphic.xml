@@ -28,7 +28,7 @@
     	<name>Graph data source</name>
     	<comment>What data from the GPS file is used for drawing</comment>
     </parameter>
-    <parameter type="list" name="graph_type" paramlist="0;1;2">
+    <parameter type="list" name="graph_type" paramlist="0;1;2" default="0">
     	<paramlistdisplay>Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto the map/graph centered on current location,Draw speedometer</paramlistdisplay>
     	<name>Graph type</name>
     	<comment><![CDATA[<b>Speedometer</b> is available for all data sources but recommended only for speed; for the map type it represents the "percentage done" from trimmed start - end).<br>
@@ -45,7 +45,7 @@ the same min/max limit allowing the Now dot to move up and down).]]></comment>
     	<comment><![CDATA[Trim data from the start of the GPS file (as a percentage of total). <br>
     	Note: both <em>Trim start</em> and <em>Trim end</em> are computed from the total file, so trimming 50% start and 50% end will result in trimming the entire file.]]></comment>
     </parameter>
-    <parameter type="constant" name="trim_end_p" min="0" max="100" default="0">
+    <parameter type="constant" name="trim_end_p" min="0" max="100" default="100">
     	<name>Trim end (%)</name>
     	<comment><![CDATA[Trim data from the end of the gps file (as a percentage of total). <br>
     	Note: both <em>Trim start</em> and <em>Trim end</em> are computed from the total file, so trimming 50% start and 50% end will result in trimming the entire file.]]></comment>
@@ -62,7 +62,7 @@ source type) and time (in milliseconds since epoch) for the rest of the data sou
     	<comment><![CDATA[Crops data from the left side of the graph (effectively zooming in). <br>
     	The value is interpreted either as a percentage of total or an absolute value depending on crop_mode_h. In percentage mode, the values are not restricted to 0-100 to allow for "zoom out" behaviour (ie: cropping -50 left will add an extra half of the total horizontal distance). Values over 100 (in % mode) will effectively not display anything. If <em>Graph Type<em> is set to <b>Speedometer</b>, all crop left/right values are ignored.]]></comment>
     </parameter>
-    <parameter type="constant" name="crop_right_p" min="-1000" max="1000" default="0">
+    <parameter type="constant" name="crop_right_p" min="-1000" max="1000" default="100">
     	<name>Crop right</name>
     	<comment><![CDATA[Same as <em>Crop left</em> but for the right side, and percentage type is interpreted as an inverse percentage (ie: 100 = do not crop anything). Values under 0 will effectively not display anything.]]></comment>
     </parameter>
@@ -82,7 +82,7 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     	<comment><![CDATA[Crops data from the bottom side of the graph (effectively zooming in). <br>
     	The value is interpreted either as a percentage of total or an absolute value depending on crop_mode_v. In percentage mode the values are not restricted to 0-100 to allow for "zoom out" behaviour (ie: cropping -50 bot will add an extra half of the total vertical distance to the bottom). Values over 100 (in % mode) will effectively not display anything. If <em>Graph type</em> is <b>Speedometer<b>, this will set the minimum needle position which will clamp all values that are lower.]]></comment>
     </parameter>
-    <parameter type="constant" name="crop_top_p" min="-1000" max="1000" default="0">
+    <parameter type="constant" name="crop_top_p" min="-1000" max="1000" default="100">
     	<name>Crop right</name>
     	<comment><![CDATA[Same as <em>Crop bottom</em> but for the top side, and percentage type is interpreted as an inverse percentage (ie: 100 = do not crop anything).<br>
     	Values under 0 will effectively not display anything.]]></comment>
@@ -112,7 +112,7 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     	<name>Color 5</name>
     	<comment>Sets the color #5 for the graph line</comment>
     </parameter>
-    <parameter type="bool" name="show_now_dot" min="0" max="1" default="0">
+    <parameter type="bool" name="show_now_dot" min="0" max="1" default="1">
     	<name>Show Now dot</name>
     	<comment><![CDATA[Enable it to draw a disc at the current location/time over the graph line.<br>
     	If graph type is speedometer, this affects the needle.]]></comment>
@@ -150,7 +150,7 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     	<comment><![CDATA[If enabled, the graph will be drawn using individual dots instead of lines.<br>
     	This will effectively show the individual data points as affected by smoothing (ie: for location data it will display each GPS fix if smoothing is 1) and can either be used as a cool effect when zoomed in enough or to debug unexpected line jumps.]]></comment>
     </parameter>
-    <parameter type="rect" name="rect" default="0 0 100% 100%" fixed="0">
+    <parameter type="animatedrect" name="rect" default="0 0 %width %height" fixed="0">
         <name>Graph rectangle</name>
         <comment><![CDATA[Defines the rectangle that the graph should be drawn in.<br>
         Format is: "X Y W H". X, Y, W, H are assumed to be pixel units unless they have the suffix '%'.]]></comment>
