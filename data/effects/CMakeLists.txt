@@ -31,6 +31,7 @@ freeze.xml
 gain.xml
 gamma.xml
 gpstext.xml
+gpsgraphic.xml
 grain.xml
 greyscale.xml
 invert.xml

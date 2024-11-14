@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect tag="frei0r.pixs0r" id="frei0r.pixs0r">
+    <name>Pixs0r</name>
+    <description>Glitch image shifting rows to and fro.</description>
+    <author>Gephex crew</author>
+    <parameter type="animated" name="shift_intensity" default="0.010" min="0" max="100" factor="100" decimals="1">
+        <name>Shift intensity</name>
+        <comment>Agressiveness of row/column shifting</comment>
+    </parameter>
+    <parameter type="animated" name="block_height" default="0" min="0" max="1000" decimals="0">
+        <name>Block height</name>
+        <comment>Height of each block whose shift is invariant (0 = random)</comment>
+    </parameter>
+    <parameter type="animated" name="block_height_min" default="0.009" min="0" max="1000" factor="1000" decimals="0">
+        <name>Minimum block height</name>
+        <comment><![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the minimum block height.]]></comment>
+    </parameter>
+    <parameter type="animated" name="block_height_max" default="0.099" min="0" max="1000" factor="1000" decimals="0">
+        <name>Maximum block height</name>
+        <comment><![CDATA[If <em>Block height</em> is 0 (random), <br>this determines the maximum block height.]]></comment>
+    </parameter>
+</effect>
