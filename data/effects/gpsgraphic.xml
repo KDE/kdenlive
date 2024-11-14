@@ -57,12 +57,12 @@ the same min/max limit allowing the Now dot to move up and down).]]></comment>
     	Note: for the horizontal type, absolute values are the longitude (for the location
 source type) and time (in milliseconds since epoch) for the rest of the data source types)]]></comment>
     </parameter>
-    <parameter type="constant" name="crop_left_p" min="-1000" max="1000" default="0">
+    <parameter type="constant" name="crop_left_p" min="-200" max="200" default="0">
     	<name>Crop left</name>
     	<comment><![CDATA[Crops data from the left side of the graph (effectively zooming in). <br>
     	The value is interpreted either as a percentage of total or an absolute value depending on crop_mode_h. In percentage mode, the values are not restricted to 0-100 to allow for "zoom out" behaviour (ie: cropping -50 left will add an extra half of the total horizontal distance). Values over 100 (in % mode) will effectively not display anything. If <em>Graph Type<em> is set to <b>Speedometer</b>, all crop left/right values are ignored.]]></comment>
     </parameter>
-    <parameter type="constant" name="crop_right_p" min="-1000" max="1000" default="100">
+    <parameter type="constant" name="crop_right_p" min="-200" max="200" default="100">
     	<name>Crop right</name>
     	<comment><![CDATA[Same as <em>Crop left</em> but for the right side, and percentage type is interpreted as an inverse percentage (ie: 100 = do not crop anything). Values under 0 will effectively not display anything.]]></comment>
     </parameter>
@@ -77,12 +77,12 @@ source type) and altitude, heart rate, speed for the others interpreted as the <
 type where applicable (ie: a value of 10 for altitude will be considered meters by default
 but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     </parameter>
-    <parameter type="constant" name="crop_bot_p" min="-1000" max="1000" default="0">
+    <parameter type="constant" name="crop_bot_p" min="-200" max="200" default="0">
     	<name>Crop bottom</name>
     	<comment><![CDATA[Crops data from the bottom side of the graph (effectively zooming in). <br>
     	The value is interpreted either as a percentage of total or an absolute value depending on crop_mode_v. In percentage mode the values are not restricted to 0-100 to allow for "zoom out" behaviour (ie: cropping -50 bot will add an extra half of the total vertical distance to the bottom). Values over 100 (in % mode) will effectively not display anything. If <em>Graph type</em> is <b>Speedometer<b>, this will set the minimum needle position which will clamp all values that are lower.]]></comment>
     </parameter>
-    <parameter type="constant" name="crop_top_p" min="-1000" max="1000" default="100">
+    <parameter type="constant" name="crop_top_p" min="-200" max="200" default="100">
     	<name>Crop right</name>
     	<comment><![CDATA[Same as <em>Crop bottom</em> but for the top side, and percentage type is interpreted as an inverse percentage (ie: 100 = do not crop anything).<br>
     	Values under 0 will effectively not display anything.]]></comment>
@@ -150,7 +150,7 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     	<comment><![CDATA[If enabled, the graph will be drawn using individual dots instead of lines.<br>
     	This will effectively show the individual data points as affected by smoothing (ie: for location data it will display each GPS fix if smoothing is 1) and can either be used as a cool effect when zoomed in enough or to debug unexpected line jumps.]]></comment>
     </parameter>
-    <parameter type="animatedrect" name="rect" default="0 0 %width %height" fixed="0">
+    <parameter type="animatedrect" name="rect" default="0 0 %width %height" fixed="0" opacity="false">
         <name>Graph rectangle</name>
         <comment><![CDATA[Defines the rectangle that the graph should be drawn in.<br>
         Format is: "X Y W H". X, Y, W, H are assumed to be pixel units unless they have the suffix '%'.]]></comment>
@@ -187,6 +187,6 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     </parameter>
     <parameter type="fixed" name="map_coords_hint">
     	<name>Map hint</name>
-    	<comment>Returns the middle lat, lon coordinates of the gps file.</comment>
+    	<comment>Returns the middle latitude and longitude coordinates of the gps file.</comment>
     </parameter>
 </effect>
