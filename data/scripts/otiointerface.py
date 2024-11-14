@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-FileCopyrightText: 2019 Vincent Pinon <vpinon@kde.org>
-# SPDX-FileCopyrightText: 2022 Julius Künzel <jk.kdedev@smartlab.uber.space>
+# SPDX-FileCopyrightText: 2022 Julius Künzel <julius.kuenzel@kde.org>
 # SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 import sys

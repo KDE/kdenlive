@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: BSD-2-Clause
-# SPDX-FileCopyrightText: Julius Künzel <jk.kdedev@smartlab.uber.space>, Jean-Baptiste Mardelle <jb@kdenlive.org>, Alberto Villa <avilla@FreeBSD.org>, Albert Astals Cid <aacid@kde.org>, Vincent Pinon <vpinon@kde.org>, Laurent Montel <montel@kde.org>, Vincent Pinon <vincent.pinon@asygn.com>, Nicolas Carion <french.ebook.lover@gmail.com>
+# SPDX-FileCopyrightText: Julius Künzel <julius.kuenzel@kde.org>, Jean-Baptiste Mardelle <jb@kdenlive.org>, Alberto Villa <avilla@FreeBSD.org>, Albert Astals Cid <aacid@kde.org>, Vincent Pinon <vpinon@kde.org>, Laurent Montel <montel@kde.org>, Vincent Pinon <vincent.pinon@asygn.com>, Nicolas Carion <french.ebook.lover@gmail.com>
 
 cmake_minimum_required(VERSION 3.16)
 
