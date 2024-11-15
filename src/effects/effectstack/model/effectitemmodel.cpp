@@ -284,7 +284,7 @@ bool EffectItemModel::keyframesHiddenUnset() const
 
 bool EffectItemModel::hasForcedInOut() const
 {
-    return filter().get_int("kdenlive:force_in_out") == 1;
+    return filter().get_int("kdenlive:force_in_out") == 1 && filter().get_int("out") > 0;
 }
 
 bool EffectItemModel::isAudio() const
