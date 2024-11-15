@@ -1826,11 +1826,21 @@ void KdenliveSettingsDialog::initSpeechPage()
     if (!voskModelFolder.isEmpty()) {
         m_configSpeech.modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
         m_configSpeech.modelV_folder_label->setVisible(true);
+#if defined(Q_OS_WIN)
+        // KIO::directorySize doesn't work on Windows
+        KIO::filesize_t totalSize = 0;
+        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
+        for (const auto &dirEntry : QDirListing(voskModelFolder, flags)) {
+            totalSize += dirEntry.size();
+        }
+        m_configSpeech.modelV_size->setText(KIO::convertSize(totalSize));
+#else
         KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
         connect(job, &KJob::result, this, [job, label = m_configSpeech.modelV_size]() {
             label->setText(KIO::convertSize(job->totalSize()));
             job->deleteLater();
         });
+#endif
     } else {
         m_configSpeech.modelV_folder_label->setVisible(false);
     }
@@ -2286,11 +2296,21 @@ void KdenliveSettingsDialog::slotParseVoskDictionaries()
     if (!voskModelFolder.isEmpty()) {
         m_configSpeech.modelV_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(voskModelFolder, i18n("Models folder")));
         m_configSpeech.modelV_folder_label->setVisible(true);
+#if defined(Q_OS_WIN)
+        // KIO::directorySize doesn't work on Windows
+        KIO::filesize_t totalSize = 0;
+        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
+        for (const auto &dirEntry : QDirListing(voskModelFolder, flags)) {
+            totalSize += dirEntry.size();
+        }
+        m_configSpeech.modelV_size->setText(KIO::convertSize(totalSize));
+#else
         KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(voskModelFolder));
         connect(job, &KJob::result, this, [job, label = m_configSpeech.modelV_size]() {
             label->setText(KIO::convertSize(job->totalSize()));
             job->deleteLater();
         });
+#endif
     } else {
         m_configSpeech.modelV_folder_label->setVisible(false);
     }
