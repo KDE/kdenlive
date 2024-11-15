@@ -183,7 +183,7 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
     </parameter>
     <parameter type="fixed" name="auto_gps_offset_now">
     	<name>Auto offset now</name>
-    	<comment>Provides a helper offset to sync the first GPS point to current video time (it is updated every second). Correctly sets the offset if you video record the moment GPS starts.</comment>
+    	<comment>Provides a helper offset to sync the first GPS point to current video time (it is updated every second). Correctly sets the offset if your video record the moment GPS starts.</comment>
     </parameter>
     <parameter type="fixed" name="map_coords_hint">
     	<name>Map hint</name>
