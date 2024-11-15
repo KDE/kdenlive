@@ -159,10 +159,12 @@ Item {
         }
         onEntered: {
             // Show clip name
-            labelContainer.opacity = 1
-            contextMenu.opacity = 1
-            if (!clipNameLabel.hovered) {
-                showAnimate.restart()
+            if (labelContainer.opacity == 0) {
+                labelContainer.opacity = 1
+                contextMenu.opacity = 1
+                if (!clipNameLabel.hovered) {
+                    showAnimate.restart()
+                }
             }
             controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
         }
@@ -342,6 +344,16 @@ Item {
                     acceptedButtons: Qt.LeftButton
                     hoverEnabled: true
                     propagateComposedEvents: true
+                    onEntered: {
+                        // Show clip name
+                        if (labelContainer.opacity == 0) {
+                            labelContainer.opacity = 1
+                            contextMenu.opacity = 1
+                            if (!clipNameLabel.hovered) {
+                                showAnimate.restart()
+                            }
+                        }
+                    }
                     onPressed: {
                         if (audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
                             mouse.accepted = false
