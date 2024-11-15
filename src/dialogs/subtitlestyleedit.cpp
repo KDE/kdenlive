@@ -118,7 +118,7 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
     preview->hide();
     editPreview->hide();
     horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    setMaximumSize(QSize(0, 0));
+    // setMaximumSize(QSize(0, 0));
 
     connect(buttonPreview, &QPushButton::clicked, this, [this]() {
         if (preview->isVisible()) {
@@ -126,7 +126,9 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
             editPreview->hide();
             buttonPreview->setText(i18n("Show Preview >>>"));
             horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
+            setBaseSize(m_lastSize);
         } else {
+            m_lastSize = baseSize();
             preview->show();
             editPreview->show();
             buttonPreview->setText(i18n("<<< Hide Preview"));
