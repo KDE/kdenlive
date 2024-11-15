@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-11 02:39+0000\n"
+"POT-Creation-Date: 2024-11-15 02:31+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -78,6 +78,7 @@ msgid "Segment,Bar"
 msgstr ""
 
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
+#: data/effects/gpsgraphic.xml:33
 #, fuzzy, kde-format
 msgid "Graph type"
 msgstr "Vrsta slike"
@@ -135,10 +136,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
-#: data/effects/audiowaveform.xml:16 src/ui/editsubstyle_ui.ui:461
-#: src/ui/gradientedit_ui.ui:100 src/ui/managesubtitles_ui.ui:434
+#: data/effects/audiowaveform.xml:16 src/ui/gradientedit_ui.ui:100
+#: src/ui/managesubtitles_ui.ui:434
 #, fuzzy, kde-format
 #| msgid "UV angle"
 msgid "Angle"
@@ -681,7 +681,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:525
-#: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configmisc_ui.ui:138
+#: src/dialogs/subtitlestyleedit.cpp:106 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
 msgstr ""
@@ -689,16 +689,15 @@ msgstr ""
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #. i18n: ectx: property (text), widget (QLabel, labelMarginL)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:108
 #: src/ui/configmisc_ui.ui:148 src/ui/editsub_ui.ui:427
-#: src/ui/editsubstyle_ui.ui:413
 #, kde-format
 msgid "Left"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:507
-#: src/dialogs/subtitlestyleedit.cpp:110 src/ui/configmisc_ui.ui:143
+#: src/dialogs/subtitlestyleedit.cpp:112 src/ui/configmisc_ui.ui:143
 #, fuzzy, kde-format
 msgid "Bottom"
 msgstr "Dno prvo"
@@ -706,9 +705,8 @@ msgstr "Dno prvo"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:110
 #: src/ui/configmisc_ui.ui:153 src/ui/editsub_ui.ui:458
-#: src/ui/editsubstyle_ui.ui:173
 #, fuzzy, kde-format
 msgid "Right"
 msgstr "Svijetli"
@@ -904,11 +902,10 @@ msgid "Vertical Alignment"
 msgstr "Bez poravnanja"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#. i18n: ectx: property (text), widget (QLabel, labelPrimaryColor)
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:921 src/ui/editsubstyle_ui.ui:255
-#: src/ui/managesubtitles_ui.ui:216 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/managesubtitles_ui.ui:216
+#: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Tekst"
@@ -1081,6 +1078,565 @@ msgstr ""
 msgid "Gamma"
 msgstr ""
 
+#: data/effects/gpsgraphic.xml:4
+#, fuzzy, kde-format
+#| msgid "GraphView"
+msgid "GPS Graphic"
+msgstr "GraphView"
+
+#: data/effects/gpsgraphic.xml:5
+#, kde-format
+msgid "Overlay GPS-related graphics onto the video."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgid "GPS File"
+msgstr "Sve datoteke"
+
+#: data/effects/gpsgraphic.xml:9
+#, kde-format
+msgid ""
+"The fullpath of file containing location (GPS) data. Supported extensions: ."
+"gpx, .tcx."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
+#, kde-format
+msgid "Time offset in seconds"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:14
+#, kde-format
+msgid ""
+"<![CDATA[An offset (in seconds) to be added to the video file to match it to "
+"the GPS track.<br>\n"
+"    \tMost of the time this will at least need to be set to the timezone "
+"difference between the 2 files plus some seconds if the video recording "
+"device isn't precisely set to correct time. GPS time is always exact and in "
+"UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
+#, fuzzy, kde-format
+#| msgid "Resize transition end"
+msgid "Smoothing level"
+msgstr "Promjeniti kraj tranzicije"
+
+#: data/effects/gpsgraphic.xml:19
+#, kde-format
+msgid ""
+"<![CDATA[How many GPS points to smooth in order to eliminate GPS errors."
+"<br>\n"
+"    \tA value of 1 does not smooth locations, it only calculates the extra "
+"fields (speed, distance, etc), it also interpolates missing values for heart "
+"rate and altitude.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:22
+#, fuzzy, kde-format
+#| msgid "Add clip markers"
+msgid "Speed multiplier"
+msgstr "Dodaj oznake isječka"
+
+#: data/effects/gpsgraphic.xml:24
+#, kde-format
+msgid ""
+"<![CDATA[If the video file is a timelapse (or slow motion), use this value "
+"to set the speed up/slow down ratio.<br>\n"
+"        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
+"footage.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:27
+#, kde-format
+msgid "GPS location/track,Altitude,Heart rate,Speed"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:28
+#, kde-format
+msgid "Graph data source"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:29
+#, kde-format
+msgid "What data from the GPS file is used for drawing"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:32
+#, kde-format
+msgid ""
+"Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
+"the map/graph centered on current location,Draw speedometer"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:41
+#, kde-format
+msgid ""
+"<![CDATA[<b>Speedometer</b> is available for all data sources but "
+"recommended only for speed; for the map type it represents the \"percentage "
+"done\" from trimmed start - end).<br>\n"
+"Note: for type 1 (zoom and center, aka \"follow the dot\"):<br>\n"
+"* crop values are only valid as a percentage and only the bottom (resp left) "
+"values\n"
+"will be taken into consideration as both values (ie: bottom/top) will need "
+"to be equal to\n"
+"keep the dot centered)<br>\n"
+"* if data source is not GPS location, the centering will only be done for "
+"horizontal axis\n"
+"(time), vertical axis crop will behave just like for the basic 2D map line "
+"(it will statically keep\n"
+"the same min/max limit allowing the Now dot to move up and down).]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:44
+#, no-c-format, kde-format
+msgid "Trim start (%)"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:46
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Trim data from the start of the GPS file (as a percentage of "
+"total). <br>\n"
+"    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
+"the total file, so trimming 50% start and 50% end will result in trimming "
+"the entire file.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:49
+#, no-c-format, kde-format
+msgid "Trim end (%)"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:51
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Trim data from the end of the gps file (as a percentage of total). "
+"<br>\n"
+"    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
+"the total file, so trimming 50% start and 50% end will result in trimming "
+"the entire file.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
+#, kde-format
+msgid "Percentage from min..max,Absolute value"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:55
+#, fuzzy, kde-format
+#| msgid "Center horizontally"
+msgid "Crop mode horizontal"
+msgstr "Centriraj horizontalno"
+
+#: data/effects/gpsgraphic.xml:58
+#, kde-format
+msgid ""
+"<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop right</"
+"em> values.<br>\n"
+"    \tNote: for the horizontal type, absolute values are the longitude (for "
+"the location\n"
+"source type) and time (in milliseconds since epoch) for the rest of the data "
+"source types)]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:61
+#, fuzzy, kde-format
+msgid "Crop left"
+msgstr "Lijevo poravnanje"
+
+#: data/effects/gpsgraphic.xml:63
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Crops data from the left side of the graph (effectively zooming "
+"in). <br>\n"
+"    \tThe value is interpreted either as a percentage of total or an "
+"absolute value depending on crop_mode_h. In percentage mode, the values are "
+"not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
+"-50 left will add an extra half of the total horizontal distance). Values "
+"over 100 (in % mode) will effectively not display anything. If <em>Graph "
+"Type<em> is set to <b>Speedometer</b>, all crop left/right values are "
+"ignored.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:66
+#, fuzzy, kde-format
+#| msgid "Copyright"
+msgid "Crop right"
+msgstr "Autorska prava"
+
+#: data/effects/gpsgraphic.xml:67
+#, kde-format
+msgid ""
+"<![CDATA[Same as <em>Crop left</em> but for the right side, and percentage "
+"type is interpreted as an inverse percentage (ie: 100 = do not crop "
+"anything). Values under 0 will effectively not display anything.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:71
+#, fuzzy, kde-format
+#| msgid "Center vertically"
+msgid "Crop mode vertical"
+msgstr "Centriraj vertikalno"
+
+#: data/effects/gpsgraphic.xml:78
+#, kde-format
+msgid ""
+"<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</"
+"em> values.<br/>\n"
+"    \tWith an absolute value, it can zoom in to between 100 and 150m of "
+"altitude to show\n"
+"small changes in altitude between those 2 values better.<br/>\n"
+"Note: for the vertical type, absolute values are latitude degrees (for the "
+"location\n"
+"source type) and altitude, heart rate, speed for the others interpreted as "
+"the <em>Legend unit</em>\n"
+"type where applicable (ie: a value of 10 for altitude will be considered "
+"meters by default\n"
+"but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:81
+#, fuzzy, kde-format
+msgid "Crop bottom"
+msgstr "Svrstaj dno"
+
+#: data/effects/gpsgraphic.xml:83
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Crops data from the bottom side of the graph (effectively zooming "
+"in). <br>\n"
+"    \tThe value is interpreted either as a percentage of total or an "
+"absolute value depending on crop_mode_v. In percentage mode the values are "
+"not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
+"-50 bot will add an extra half of the total vertical distance to the "
+"bottom). Values over 100 (in % mode) will effectively not display anything. "
+"If <em>Graph type</em> is <b>Speedometer<b>, this will set the minimum "
+"needle position which will clamp all values that are lower.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:86
+#, fuzzy, kde-format
+msgid "Crop top"
+msgstr "Lijevo poravnanje"
+
+#: data/effects/gpsgraphic.xml:88
+#, kde-format
+msgid ""
+"<![CDATA[Same as <em>Crop bottom</em> but for the top side, and percentage "
+"type is interpreted as an inverse percentage (ie: 100 = do not crop "
+"anything).<br>\n"
+"    \tValues under 0 will effectively not display anything.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:91
+#, kde-format
+msgid ""
+"One color,Two colors,Solid past - thin future,Solid future - thin past,"
+"Vertical gradient,Horizontal gradient,Color by duration,Color by altitude,"
+"Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
+"grade (max 90 degrees),Color by grade (max 20 degrees)"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:92
+#, fuzzy, kde-format
+msgid "Graph color style"
+msgstr "Vrsta slike"
+
+#: data/effects/gpsgraphic.xml:93
+#, kde-format
+msgid "See the documentation about the various styles available"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
+#, fuzzy, kde-format
+msgid "Color 1"
+msgstr "Boja"
+
+#: data/effects/gpsgraphic.xml:97
+#, kde-format
+msgid "Sets the color #1 for the graph line"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
+#, fuzzy, kde-format
+msgid "Color 2"
+msgstr "Boja"
+
+#: data/effects/gpsgraphic.xml:101
+#, kde-format
+msgid "Sets the color #2 for the graph line"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:104
+#, fuzzy, kde-format
+msgid "Color 3"
+msgstr "Boja"
+
+#: data/effects/gpsgraphic.xml:105
+#, kde-format
+msgid "Sets the color #3 for the graph line"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:108
+#, fuzzy, kde-format
+msgid "Color 4"
+msgstr "Boja"
+
+#: data/effects/gpsgraphic.xml:109
+#, kde-format
+msgid "Sets the color #4 for the graph line"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:112
+#, fuzzy, kde-format
+msgid "Color 5"
+msgstr "Boja"
+
+#: data/effects/gpsgraphic.xml:113
+#, kde-format
+msgid "Sets the color #5 for the graph line"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:116
+#, fuzzy, kde-format
+#| msgid "Show/Hide options"
+msgid "Show Now dot"
+msgstr "Pokaži/sakrij opcije"
+
+#: data/effects/gpsgraphic.xml:118
+#, kde-format
+msgid ""
+"<![CDATA[Enable it to draw a disc at the current location/time over the "
+"graph line.<br>\n"
+"    \tIf graph type is speedometer, this affects the needle.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:121
+#, fuzzy, kde-format
+#| msgid "Border color"
+msgid "Now dot color"
+msgstr "Boja granice"
+
+#: data/effects/gpsgraphic.xml:122
+#, kde-format
+msgid "Sets the color for the Now dot"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:125
+#, fuzzy, kde-format
+#| msgid "Show/Hide options"
+msgid "Show Now text"
+msgstr "Pokaži/sakrij opcije"
+
+#: data/effects/gpsgraphic.xml:127
+#, kde-format
+msgid ""
+"<![CDATA[Enable it to draw the current value in big white bold letters on "
+"the bottom right side of the rect.<br>\n"
+"    \tThe <em>Legend unit</em> value will be appended at the end and it will "
+"be used as the current unit (if a valid unit is found ie: kilometers if \"km"
+"\" is found anywhere in the <em>Legend unit</em> string).]]>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelAngle)
+#: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
+#: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
+#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:449
+#, fuzzy, kde-format
+#| msgid "Motion"
+msgid "Rotation"
+msgstr "Pokret"
+
+#: data/effects/gpsgraphic.xml:131
+#, kde-format
+msgid ""
+"Rotate the entire graph rectangle. For speedometer type the text stays "
+"horizontal."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:134
+#, kde-format
+msgid "Line Thickness (px)"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:135
+#, kde-format
+msgid "Sets the thickness of the line graph in pixels."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:138
+#, fuzzy, kde-format
+#| msgid "Draw grid"
+msgid "Draw legend"
+msgstr "Crtaj mrežu"
+
+#: data/effects/gpsgraphic.xml:140
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[If enabled it will draw 5 horizontal (and vertical for map type) "
+"<br>\n"
+"    \tlines with small values each corresponding to the current data source "
+"value at 0%, 25%, 50%, 75% and 100% of current graph shown, affected by the "
+"<em>Legend unit</em> type if applicable, and with the string appended to the "
+"value. For speedometer type this shows division values (but without "
+"appending unit).]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:143
+#, kde-format
+msgid "Legend unit"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:144
+#, kde-format
+msgid ""
+"m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/"
+"h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
+"mmin,m/min,ftmin,ft/min"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:146
+#, kde-format
+msgid ""
+"<![CDATA[Sets the unit to be used for displaying values of type altitude and "
+"speed.<br>\n"
+"        Default is meters and km/h respectively. The unit is matched "
+"anywhere in the string so extra spaces can be used to tweak displaying.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:149
+#, fuzzy, kde-format
+#| msgid "Move transition"
+msgid "Show dots only"
+msgstr "Pomjeri prijelaz"
+
+#: data/effects/gpsgraphic.xml:151
+#, kde-format
+msgid ""
+"<![CDATA[If enabled, the graph will be drawn using individual dots instead "
+"of lines.<br>\n"
+"    \tThis will effectively show the individual data points as affected by "
+"smoothing (ie: for location data it will display each GPS fix if smoothing "
+"is 1) and can either be used as a cool effect when zoomed in enough or to "
+"debug unexpected line jumps.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:154
+#, fuzzy, kde-format
+msgid "Graph rectangle"
+msgstr "Dodaj pravougaonik"
+
+#: data/effects/gpsgraphic.xml:156
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Defines the rectangle that the graph should be drawn in.<br>\n"
+"        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
+"unless they have the suffix '%'.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:159
+#, fuzzy, kde-format
+msgid "Background image"
+msgstr "Providnost pozadine"
+
+#: data/effects/gpsgraphic.xml:161
+#, kde-format
+msgid ""
+"<![CDATA[If a valid image file is selected, it will be used as a background "
+"for the rectangle area.<br>\n"
+"      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
+"image to add context to the GPS track.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:164
+#, fuzzy, kde-format
+#| msgid "Background"
+msgid "Background scale"
+msgstr "Pozadina"
+
+#: data/effects/gpsgraphic.xml:166
+#, kde-format
+msgid ""
+"<![CDATA[Scale the background image (relative to center) to match it to the "
+"above GPS track.<br>\n"
+"    \tValues smaller than 100 zoom into the image, values larger than 100 "
+"zoom out. 0 hides it.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
+#, kde-format
+msgid "Background opacity"
+msgstr "Providnost pozadine"
+
+#: data/effects/gpsgraphic.xml:170
+#, kde-format
+msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:173
+#, fuzzy, kde-format
+#| msgid "Processing data analysis"
+msgid "GPS start time"
+msgstr "Obrada podataka dobivenih analizom"
+
+#: data/effects/gpsgraphic.xml:174
+#, kde-format
+msgid "Date and time of the first valid GPS point."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:177
+#, fuzzy, kde-format
+#| msgid "Video stream %1"
+msgid "Video start time"
+msgstr "Video slijed %1"
+
+#: data/effects/gpsgraphic.xml:178
+#, kde-format
+msgid "Date and time of the video file."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:181
+#, fuzzy, kde-format
+#| msgid "Go to Project Start"
+msgid "Auto offset start"
+msgstr "Idi na početak projekta"
+
+#: data/effects/gpsgraphic.xml:182
+#, kde-format
+msgid ""
+"Provides a helper offset to guarantee start of video file syncs with the "
+"start of GPS file. Correctly sets the offset if video file and GPS recording "
+"was started at the same time."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:185
+#, kde-format
+msgid "Auto offset now"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:186
+#, kde-format
+msgid ""
+"Provides a helper offset to sync the first GPS point to current video time "
+"(it is updated every second). Correctly sets the offset if you video record "
+"the moment GPS starts."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:189
+#, kde-format
+msgid "Map hint"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:190
+#, kde-format
+msgid "Returns the middle latitude and longitude coordinates of the gps file."
+msgstr ""
+
 #: data/effects/gpstext.xml:4
 #, fuzzy, kde-format
 #| msgid "Text"
@@ -1101,23 +1657,6 @@ msgid ""
 "altitude loss so far,distance travelled uphill so far,distance travelled "
 "downhill so far,distance travelled on flat area so far"
 msgstr ""
-
-#: data/effects/gpstext.xml:12
-#, fuzzy, kde-format
-#| msgid "All Files"
-msgid "GPS File"
-msgstr "Sve datoteke"
-
-#: data/effects/gpstext.xml:15
-#, kde-format
-msgid "Time offset in seconds"
-msgstr ""
-
-#: data/effects/gpstext.xml:18
-#, fuzzy, kde-format
-#| msgid "Resize transition end"
-msgid "Smoothing level"
-msgstr "Promjeniti kraj tranzicije"
 
 #: data/effects/gpstext.xml:21
 #, fuzzy, kde-format
@@ -1808,14 +2347,6 @@ msgstr "Dekodiraj"
 #, fuzzy, kde-format
 msgid "Position, scale and opacity."
 msgstr "Paniraj i uvećaj"
-
-#: data/effects/qtblend.xml:12 data/effects/qtblend.xml:40
-#: data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405
-#, fuzzy, kde-format
-#| msgid "Motion"
-msgid "Rotation"
-msgstr "Pokret"
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:27
 #: data/transitions/qtblend.xml:14
@@ -2603,7 +3134,6 @@ msgstr "Centriraj horizontalno"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
-#: src/ui/editsubstyle_ui.ui:163
 #, kde-format
 msgid "Vertical"
 msgstr ""
@@ -2806,7 +3336,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:1365
+#: src/dialogs/kdenlivesettingsdialog.cpp:118 src/mainwindow.cpp:1365
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3181,7 +3711,7 @@ msgstr "Trajanje (sekunde)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
-#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:61
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:387
 #, kde-format
 msgid "Font"
 msgstr "Font"
@@ -3777,7 +4307,7 @@ msgstr "Sačuvaj efekat"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1460
+#: src/dialogs/kdenlivesettingsdialog.cpp:1459
 #, fuzzy, kde-format
 #| msgid "Enter sequence name"
 msgctxt "@title:window"
@@ -3786,7 +4316,7 @@ msgstr "Unesi ime sekvence"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1460
+#: src/dialogs/kdenlivesettingsdialog.cpp:1459
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -3851,7 +4381,7 @@ msgstr "Poravnaj sredinu"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:107
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:109
 #: src/transitions/view/mixstackview.cpp:47
 #, fuzzy, kde-format
 #| msgid "Countdown"
@@ -4443,10 +4973,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:322
-#: src/ui/editsubstyle_ui.ui:49 src/ui/managesubtitles_ui.ui:66
-#: src/ui/managesubtitles_ui.ui:349
+#: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Naziv"
@@ -4763,7 +5291,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Učitavanje isječaka"
 
-#: src/bin/bin.cpp:2107 src/bin/bin.cpp:5820 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2107 src/bin/bin.cpp:5825 src/bin/clipcreator.cpp:324
 #, fuzzy, kde-format
 #| msgid "Add clip"
 #| msgid_plural "Add clips"
@@ -4904,8 +5432,8 @@ msgstr "Snimak liste izvođenja"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2451 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1582
-#: src/project/projectmanager.cpp:1584 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1579
+#: src/project/projectmanager.cpp:1581 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -4922,10 +5450,8 @@ msgstr "Naslov"
 msgid "Title Template"
 msgstr "Šablon"
 
-#. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/bin/bin.cpp:2463 src/layoutmanagement.cpp:36
 #: src/mltcontroller/clippropertiescontroller.cpp:352
-#: src/ui/editsubstyle_ui.ui:80
 #, kde-format
 msgid "Color"
 msgstr "Boja"
@@ -5109,32 +5635,32 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3772 src/dialogs/speechdialog.cpp:51
+#: src/bin/bin.cpp:3777 src/dialogs/speechdialog.cpp:51
 #: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Prikaži dnevnik"
 
-#: src/bin/bin.cpp:3775 src/dialogs/textbasededit.cpp:717
+#: src/bin/bin.cpp:3780 src/dialogs/textbasededit.cpp:717
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Detailed log"
 msgstr "Detalji"
 
-#: src/bin/bin.cpp:3835 src/bin/bin.cpp:3868
+#: src/bin/bin.cpp:3840 src/bin/bin.cpp:3873
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Napravi novu sekvencu"
 
-#: src/bin/bin.cpp:3838 src/bin/bin.cpp:3841 src/bin/bin.cpp:3871
+#: src/bin/bin.cpp:3843 src/bin/bin.cpp:3846 src/bin/bin.cpp:3876
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence %1"
 msgstr "Ime sekvence"
 
-#: src/bin/bin.cpp:3902
+#: src/bin/bin.cpp:3907
 #, fuzzy, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
@@ -5142,50 +5668,50 @@ msgstr[0] "Pomjeri snimke"
 msgstr[1] "Pomjeri snimke"
 msgstr[2] "Pomjeri snimke"
 
-#: src/bin/bin.cpp:3944
+#: src/bin/bin.cpp:3949
 #, fuzzy, kde-format
 msgid "No valid clip to insert"
 msgstr "Nije moguće naći snimak za preradu filtera %1"
 
-#: src/bin/bin.cpp:3957 src/timeline2/view/timelinecontroller.cpp:1534
+#: src/bin/bin.cpp:3962 src/timeline2/view/timelinecontroller.cpp:1534
 #: src/timeline2/view/timelinecontroller.cpp:3422
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
 msgstr "Odabrati snimak ako želite primijeniti efekt"
 
-#: src/bin/bin.cpp:3968
+#: src/bin/bin.cpp:3973
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot apply effects on folders"
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/bin/bin.cpp:3996 src/effects/effectstack/model/effectstackmodel.cpp:653
+#: src/bin/bin.cpp:4001 src/effects/effectstack/model/effectstackmodel.cpp:653
 #: src/effects/effectstack/model/effectstackmodel.cpp:659
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/bin/bin.cpp:4034 src/effects/effectstack/model/effectstackmodel.cpp:614
+#: src/bin/bin.cpp:4039 src/effects/effectstack/model/effectstackmodel.cpp:614
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
 msgstr "Zalijepi efekte"
 
-#: src/bin/bin.cpp:4071 src/bin/bin.cpp:4078
+#: src/bin/bin.cpp:4076 src/bin/bin.cpp:4083
 #, fuzzy, kde-format
 #| msgid "Select a clip to save"
 msgid "Select a clip to add a tag"
 msgstr "Selektuj isječak da ga sčuvate"
 
-#: src/bin/bin.cpp:4217
+#: src/bin/bin.cpp:4222
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "Uredi trajanje"
 
-#: src/bin/bin.cpp:4540 src/bin/projectclip.cpp:186
+#: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
 #: src/bin/projectclip.cpp:1995 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
@@ -5194,12 +5720,12 @@ msgstr "Uredi trajanje"
 msgid "Unnamed"
 msgstr "Ime datoteke"
 
-#: src/bin/bin.cpp:4604
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4616
+#: src/bin/bin.cpp:4621
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -5208,12 +5734,12 @@ msgstr ""
 "Molimo vas da odaberete standardnu aplikaciju za otvaranje slika u dijalogu "
 "Podešenja"
 
-#: src/bin/bin.cpp:4621
+#: src/bin/bin.cpp:4626
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4633
+#: src/bin/bin.cpp:4638
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -5223,7 +5749,7 @@ msgstr ""
 "Molimo vas da odaberete standardnu aplikaciju za otvaranje zvučnih "
 "dokumenata u dijalogu Podešenja"
 
-#: src/bin/bin.cpp:4643 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4648 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -5232,12 +5758,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Ne mogu otvoriti datoteku %1"
 
-#: src/bin/bin.cpp:4823 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4828 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4833
+#: src/bin/bin.cpp:4838
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5246,108 +5772,108 @@ msgstr ""
 "Obrađujete eksterni isječak naziva (%1). Da li želite spasiti promjene na "
 "imenovanoj datoteci ili da spasite samo izmjene na ovom projektu?"
 
-#: src/bin/bin.cpp:4836 src/titler/titlewidget.cpp:2263
+#: src/bin/bin.cpp:4841 src/titler/titlewidget.cpp:2263
 #, kde-format
 msgid "Save Title"
 msgstr "Sačuvaj naslov"
 
-#: src/bin/bin.cpp:4836
+#: src/bin/bin.cpp:4841
 #, kde-format
 msgid "Save to title file"
 msgstr "Sačuvaj naziv dokumenta"
 
-#: src/bin/bin.cpp:4837
+#: src/bin/bin.cpp:4842
 #, kde-format
 msgid "Save in project only"
 msgstr "Spasi samo u projekat"
 
-#: src/bin/bin.cpp:4860 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4865 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Naslov snimka"
 
-#: src/bin/bin.cpp:4910
+#: src/bin/bin.cpp:4915
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Okvir je nevažeći, uklonit će se iz projekta."
 
-#: src/bin/bin.cpp:4914
+#: src/bin/bin.cpp:4919
 #, kde-format
 msgid "Invalid clip"
 msgstr "Neispravan snimak"
 
-#: src/bin/bin.cpp:5028
+#: src/bin/bin.cpp:5033
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Enable proxies"
 msgstr "Izbriši proxies"
 
-#: src/bin/bin.cpp:5028
+#: src/bin/bin.cpp:5033
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Disable proxies"
 msgstr "Izbriši proxies"
 
-#: src/bin/bin.cpp:5202
+#: src/bin/bin.cpp:5207
 #, fuzzy, kde-format
 #| msgid "Rebuild Group"
 msgid "Rebuild proxies"
 msgstr "Ponovo izgradi Grupu"
 
-#: src/bin/bin.cpp:5437
+#: src/bin/bin.cpp:5442
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Projektne datoteke"
 
-#: src/bin/bin.cpp:5453
+#: src/bin/bin.cpp:5458
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "Dodaj traku"
 
-#: src/bin/bin.cpp:5455
+#: src/bin/bin.cpp:5460
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "Uredi vodic"
 
-#: src/bin/bin.cpp:5470
+#: src/bin/bin.cpp:5475
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5474
+#: src/bin/bin.cpp:5479
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5486 src/mainwindow.cpp:2706
+#: src/bin/bin.cpp:5491 src/mainwindow.cpp:2706
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Nije moguće pronaći snimak za dodavanje markera"
 
-#: src/bin/bin.cpp:5580
+#: src/bin/bin.cpp:5585
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not find master clip"
 msgstr "Dodavanje isječaka"
 
-#: src/bin/bin.cpp:5842
+#: src/bin/bin.cpp:5847
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5844
+#: src/bin/bin.cpp:5849
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5911 src/bin/bin.cpp:5988
+#: src/bin/bin.cpp:5916 src/bin/bin.cpp:5993
 #, fuzzy, kde-format
 #| msgid ""
 #| "Additional streams for clip\n"
@@ -5364,12 +5890,12 @@ msgstr[2] ""
 "Dodatni slijedovi za snimak\n"
 " %1"
 
-#: src/bin/bin.cpp:5932
+#: src/bin/bin.cpp:5937
 #, kde-format
 msgid "Import selected clips"
 msgstr "Uvezi odabrane snimke"
 
-#: src/bin/bin.cpp:5934
+#: src/bin/bin.cpp:5939
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -5378,55 +5904,55 @@ msgstr ""
 "Dodatni slijedovi za snimak\n"
 " %1"
 
-#: src/bin/bin.cpp:5947 src/mltcontroller/clippropertiescontroller.cpp:669
+#: src/bin/bin.cpp:5952 src/mltcontroller/clippropertiescontroller.cpp:669
 #, kde-format
 msgid "Video stream %1"
 msgstr "Video slijed %1"
 
-#: src/bin/bin.cpp:5962
+#: src/bin/bin.cpp:5967
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Zvučni slijed %1"
 
-#: src/bin/bin.cpp:6015
+#: src/bin/bin.cpp:6020
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Remove clip markers"
 msgstr "Izbriši obilježivač"
 
-#: src/bin/bin.cpp:6162
+#: src/bin/bin.cpp:6167
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6163
+#: src/bin/bin.cpp:6168
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Sačuvaj DVD projekat"
 
-#: src/bin/bin.cpp:6164
+#: src/bin/bin.cpp:6169
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Dekodiranje"
 
-#: src/bin/bin.cpp:6313 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6318 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Izbriši efekat"
 
-#: src/bin/bin.cpp:6378 src/mainwindow.cpp:319
+#: src/bin/bin.cpp:6383 src/mainwindow.cpp:319
 #, fuzzy, kde-format
 msgid "Project Bin"
 msgstr "Projektne datoteke"
 
-#: src/bin/bin.cpp:6381 src/bin/bin.cpp:6384 src/mainwindow.cpp:4810
+#: src/bin/bin.cpp:6386 src/bin/bin.cpp:6389 src/mainwindow.cpp:4813
 #, fuzzy, kde-format
 msgid "Project Bin %1"
 msgstr "Projektne datoteke"
@@ -5842,7 +6368,7 @@ msgstr ""
 msgid "version"
 msgstr "Trajanje: "
 
-#: src/bin/playlistclip.cpp:171
+#: src/bin/playlistclip.cpp:169
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence count"
@@ -6083,7 +6609,7 @@ msgid ""
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:827
+#: src/core.cpp:255 src/project/projectmanager.cpp:824
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -6604,7 +7130,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Profili upravljačkog kodiranja"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/kdenlivesettingsdialog.cpp:310
+#: src/dialogs/kdenlivesettingsdialog.cpp:309
 #: src/project/dialogs/archivewidget.cpp:98
 #, fuzzy, kde-format
 #| msgid "Proxy Clip"
@@ -6691,7 +7217,7 @@ msgstr "Automatski"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:716
+#: src/dialogs/kdenlivesettingsdialog.cpp:715
 #: src/project/dialogs/projectsettings.cpp:906
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -6773,7 +7299,7 @@ msgstr "Učitaj markere"
 #: src/project/dialogs/archivewidget.cpp:886
 #: src/project/dialogs/archivewidget.cpp:898
 #: src/project/dialogs/archivewidget.cpp:904
-#: src/project/projectmanager.cpp:1882 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1876 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
 #: src/timeline2/view/timelinecontroller.cpp:5122
@@ -6842,7 +7368,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1772
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1766
 #: src/renderpresets/renderpresetrepository.cpp:310
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -6866,123 +7392,121 @@ msgstr "Dekodiranje tema"
 msgid "Import Subtitle"
 msgstr "Učitaj markere"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3943
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3943
 #, kde-format
 msgid "Timeline"
 msgstr "Vremenska osa"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:125
+#: src/dialogs/kdenlivesettingsdialog.cpp:124
 #, fuzzy, kde-format
 #| msgid "Color Space"
 msgid "Colors and Guides"
 msgstr "Opseg boja"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:132
+#: src/dialogs/kdenlivesettingsdialog.cpp:131
 #, kde-format
 msgid "Speech To Text"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:136
+#: src/dialogs/kdenlivesettingsdialog.cpp:135
 #, kde-format
 msgid "Playback"
 msgstr "Reprodukcija"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:146
+#: src/dialogs/kdenlivesettingsdialog.cpp:145
 #, kde-format
 msgid "Capture"
 msgstr "Uhvati"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMisc)
-#: src/dialogs/kdenlivesettingsdialog.cpp:222
+#: src/dialogs/kdenlivesettingsdialog.cpp:221
 #: src/effects/effectlist/model/effecttreemodel.cpp:61
-#: src/ui/editsubstyle_ui.ui:146
 #, kde-format
 msgid "Misc"
 msgstr "Razno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:246
-#: src/dialogs/kdenlivesettingsdialog.cpp:826
+#: src/dialogs/kdenlivesettingsdialog.cpp:245
+#: src/dialogs/kdenlivesettingsdialog.cpp:825
 #: src/doc/documentvalidator.cpp:2523
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:280
+#: src/dialogs/kdenlivesettingsdialog.cpp:279
 #, fuzzy, kde-format
 #| msgid "Select default video player"
 msgid "Select the Default Profile (preset)"
 msgstr "Odaberi standardni program za Video reprodukciju"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:301
+#: src/dialogs/kdenlivesettingsdialog.cpp:300
 #, kde-format
 msgid "Project Defaults"
 msgstr "Podrazumjevana podešenja projekta"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:345
-#: src/dialogs/kdenlivesettingsdialog.cpp:370
+#: src/dialogs/kdenlivesettingsdialog.cpp:344
+#: src/dialogs/kdenlivesettingsdialog.cpp:369
 #, fuzzy, kde-format
 #| msgid "Default folders"
 msgid "Use default folder: %1"
 msgstr "Zadani folderi"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:347
-#: src/dialogs/kdenlivesettingsdialog.cpp:373
+#: src/dialogs/kdenlivesettingsdialog.cpp:346
+#: src/dialogs/kdenlivesettingsdialog.cpp:372
+#: src/dialogs/kdenlivesettingsdialog.cpp:1081
 #: src/dialogs/kdenlivesettingsdialog.cpp:1082
-#: src/dialogs/kdenlivesettingsdialog.cpp:1083
+#: src/dialogs/kdenlivesettingsdialog.cpp:1092
 #: src/dialogs/kdenlivesettingsdialog.cpp:1093
-#: src/dialogs/kdenlivesettingsdialog.cpp:1094
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
 msgstr "Koristi projekat mape"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:349
-#: src/dialogs/kdenlivesettingsdialog.cpp:375
+#: src/dialogs/kdenlivesettingsdialog.cpp:348
+#: src/dialogs/kdenlivesettingsdialog.cpp:374
+#: src/dialogs/kdenlivesettingsdialog.cpp:1088
 #: src/dialogs/kdenlivesettingsdialog.cpp:1089
-#: src/dialogs/kdenlivesettingsdialog.cpp:1090
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
 msgstr "Koristi projekat mape"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:388
+#: src/dialogs/kdenlivesettingsdialog.cpp:387
 #, kde-format
 msgid "Environment"
 msgstr "Okruženje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:424
+#: src/dialogs/kdenlivesettingsdialog.cpp:423
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Hvatanje nije još dostupno na Mac OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:434
+#: src/dialogs/kdenlivesettingsdialog.cpp:433
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Mono (1 channel)"
 msgstr "Zvučni kanali"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:435
+#: src/dialogs/kdenlivesettingsdialog.cpp:434
 #, fuzzy, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Zvučni kanali"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:442
+#: src/dialogs/kdenlivesettingsdialog.cpp:441
 #, kde-format
 msgid "44100 Hz"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:443
+#: src/dialogs/kdenlivesettingsdialog.cpp:442
 #, kde-format
 msgid "48000 Hz"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:496
+#: src/dialogs/kdenlivesettingsdialog.cpp:495
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:499
+#: src/dialogs/kdenlivesettingsdialog.cpp:498
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -6991,88 +7515,88 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:519 src/dialogs/timeremap.cpp:1583
+#: src/dialogs/kdenlivesettingsdialog.cpp:518 src/dialogs/timeremap.cpp:1583
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Dekodiraj"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:553
+#: src/dialogs/kdenlivesettingsdialog.cpp:552
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:723
+#: src/dialogs/kdenlivesettingsdialog.cpp:722
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:724
-#: src/dialogs/kdenlivesettingsdialog.cpp:777
+#: src/dialogs/kdenlivesettingsdialog.cpp:723
+#: src/dialogs/kdenlivesettingsdialog.cpp:776
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:725
+#: src/dialogs/kdenlivesettingsdialog.cpp:724
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:726
+#: src/dialogs/kdenlivesettingsdialog.cpp:725
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:728
+#: src/dialogs/kdenlivesettingsdialog.cpp:727
 #, fuzzy, kde-format
 #| msgid "Esound daemon"
 msgid "Esound Daemon"
 msgstr "Esound daemon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:729
+#: src/dialogs/kdenlivesettingsdialog.cpp:728
 #, fuzzy, kde-format
 #| msgid "ARTS daemon"
 msgid "ARTS Daemon"
 msgstr "ARTS daemon"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
+#: src/dialogs/kdenlivesettingsdialog.cpp:740
 #: src/dialogs/kdenlivesettingsdialog.cpp:741
-#: src/dialogs/kdenlivesettingsdialog.cpp:742
 #: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/subtitlestyleedit.cpp:97 src/ui/configproject_ui.ui:48
+#: src/dialogs/subtitlestyleedit.cpp:99 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Podrazumijevano"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:793
+#: src/dialogs/kdenlivesettingsdialog.cpp:792
 #, kde-format
 msgid "SDL"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:805
+#: src/dialogs/kdenlivesettingsdialog.cpp:804
 #, fuzzy, kde-format
 #| msgid "Audio"
 msgid "RtAudio"
 msgstr "Zvuk"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:829 src/mainwindow.cpp:274
+#: src/dialogs/kdenlivesettingsdialog.cpp:828 src/mainwindow.cpp:274
 #, fuzzy, kde-format
 msgid "Monitor %1"
 msgstr "Isječak monitora"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:913
+#: src/dialogs/kdenlivesettingsdialog.cpp:912
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:921
+#: src/dialogs/kdenlivesettingsdialog.cpp:920
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:929 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:928 src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
 #| msgid ""
 #| "Failed to start the capture application:\n"
@@ -7082,34 +7606,34 @@ msgstr ""
 "Neuspješno pokretanje aplikacije za hvatanje isječaka:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1012
-#: src/dialogs/kdenlivesettingsdialog.cpp:1030
+#: src/dialogs/kdenlivesettingsdialog.cpp:1011
+#: src/dialogs/kdenlivesettingsdialog.cpp:1029
 #: src/project/dialogs/projectsettings.cpp:538
 #, fuzzy, kde-format
 #| msgid "Please set your default video profile"
 msgid "Please select a video profile"
 msgstr "Molimo vas da odaberete standardni video profil"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1315
+#: src/dialogs/kdenlivesettingsdialog.cpp:1314
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1463
+#: src/dialogs/kdenlivesettingsdialog.cpp:1462
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Profil sa tim imenom već postoji"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1597
+#: src/dialogs/kdenlivesettingsdialog.cpp:1596
 #, kde-format
 msgid "Current settings"
 msgstr "Trenutna podešavanja"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1635
-#: src/dialogs/kdenlivesettingsdialog.cpp:1671
-#: src/dialogs/kdenlivesettingsdialog.cpp:1688
+#: src/dialogs/kdenlivesettingsdialog.cpp:1634
+#: src/dialogs/kdenlivesettingsdialog.cpp:1670
+#: src/dialogs/kdenlivesettingsdialog.cpp:1687
 #: src/mltcontroller/clippropertiescontroller.cpp:562
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -7118,12 +7642,12 @@ msgstr "Trenutna podešavanja"
 msgid "Progressive"
 msgstr "Progresivno"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1777
+#: src/dialogs/kdenlivesettingsdialog.cpp:1776
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1778
+#: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
 msgid ""
 "Text translation is performed by the SeamlessM4T model. This requires "
@@ -7131,79 +7655,78 @@ msgid ""
 "offline."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1797
+#: src/dialogs/kdenlivesettingsdialog.cpp:1796
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download (1.4Gb)"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1819
+#: src/dialogs/kdenlivesettingsdialog.cpp:1818
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1828
-#: src/dialogs/kdenlivesettingsdialog.cpp:2079
-#: src/dialogs/kdenlivesettingsdialog.cpp:2247 src/ui/configspeech_ui.ui:61
-#: src/ui/configspeech_ui.ui:284
+#: src/dialogs/kdenlivesettingsdialog.cpp:1827
+#: src/dialogs/kdenlivesettingsdialog.cpp:2262 src/ui/configspeech_ui.ui:99
+#: src/ui/configspeech_ui.ui:322
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Models folder"
 msgstr "Koristi projekat mape"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1874
+#: src/dialogs/kdenlivesettingsdialog.cpp:1875
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Setting up virtual environment…"
 msgstr "Postavi put za MLT okruženje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1876
+#: src/dialogs/kdenlivesettingsdialog.cpp:1877
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1893
+#: src/dialogs/kdenlivesettingsdialog.cpp:1894
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "Postavi put za MLT okruženje"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1898
+#: src/dialogs/kdenlivesettingsdialog.cpp:1899
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Sekvenca nije pronađena"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1901
+#: src/dialogs/kdenlivesettingsdialog.cpp:1902
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1907
-#: src/dialogs/kdenlivesettingsdialog.cpp:1910
+#: src/dialogs/kdenlivesettingsdialog.cpp:1908
+#: src/dialogs/kdenlivesettingsdialog.cpp:1911
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1931
+#: src/dialogs/kdenlivesettingsdialog.cpp:1932
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading multilingual model…"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1988
-#: src/dialogs/kdenlivesettingsdialog.cpp:2244
+#: src/dialogs/kdenlivesettingsdialog.cpp:1989
+#: src/dialogs/kdenlivesettingsdialog.cpp:2259
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "Odaberi prijelaz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2022
+#: src/dialogs/kdenlivesettingsdialog.cpp:2023
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7211,54 +7734,54 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2036 src/ui/configspeech_ui.ui:270
+#: src/dialogs/kdenlivesettingsdialog.cpp:2037 src/ui/configspeech_ui.ui:308
 #, fuzzy, kde-format
 #| msgid "Invalid transition"
 msgid "Install multilingual translation"
 msgstr "Pogrešan prelaz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2045
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2076
-#: src/dialogs/kdenlivesettingsdialog.cpp:2085
+#: src/dialogs/kdenlivesettingsdialog.cpp:2078
+#: src/dialogs/kdenlivesettingsdialog.cpp:2086
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install a model"
 msgstr "Instalirani moduli"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2087 src/ui/configspeech_ui.ui:194
+#: src/dialogs/kdenlivesettingsdialog.cpp:2088 src/ui/configspeech_ui.ui:232
 #, fuzzy, kde-format
 msgid "Manage models"
 msgstr "Prepoznavanje ivica"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2122
+#: src/dialogs/kdenlivesettingsdialog.cpp:2137
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2128
+#: src/dialogs/kdenlivesettingsdialog.cpp:2143
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2138
+#: src/dialogs/kdenlivesettingsdialog.cpp:2153
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2144
-#: src/dialogs/kdenlivesettingsdialog.cpp:2203
+#: src/dialogs/kdenlivesettingsdialog.cpp:2159
+#: src/dialogs/kdenlivesettingsdialog.cpp:2218
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "Nije moguće dodavanje video efekta na snimak"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2153
+#: src/dialogs/kdenlivesettingsdialog.cpp:2168
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -7266,25 +7789,25 @@ msgid ""
 "%1"
 msgstr "Obriši datoteku"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2177
+#: src/dialogs/kdenlivesettingsdialog.cpp:2192
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2182
+#: src/dialogs/kdenlivesettingsdialog.cpp:2197
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Skini nove obrise..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2210
+#: src/dialogs/kdenlivesettingsdialog.cpp:2225
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Raspakujem..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2217
+#: src/dialogs/kdenlivesettingsdialog.cpp:2232
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -7393,24 +7916,24 @@ msgstr ""
 msgid " events"
 msgstr ""
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:111
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom Left"
 msgstr "Dno prvo"
 
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:113
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom Right"
 msgstr "Dno prvo"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:103
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:105
 #, fuzzy, kde-format
 msgid "Top Left"
 msgstr "Lijevo poravnanje"
 
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:105
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:107
 #, fuzzy, kde-format
 #| msgid "Copyright"
 msgid "Top Right"
@@ -7421,7 +7944,7 @@ msgstr "Autorska prava"
 msgid "Box as Border"
 msgstr "Širina granice"
 
-#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:99
+#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:101
 #, fuzzy, kde-format
 #| msgid "Shadow"
 msgid "Box as Shadow"
@@ -8964,57 +9487,57 @@ msgstr "Položaj"
 msgid "Y:"
 msgstr "Y"
 
-#: src/dialogs/subtitlestyleedit.cpp:45
+#: src/dialogs/subtitlestyleedit.cpp:47
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select font"
 msgstr "Alat za biranje"
 
-#: src/dialogs/subtitlestyleedit.cpp:46
+#: src/dialogs/subtitlestyleedit.cpp:48
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:98
+#: src/dialogs/subtitlestyleedit.cpp:100
 #, fuzzy, kde-format
 #| msgid "Outline"
 msgid "Box as Outline"
 msgstr "Kontura"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
+#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:145
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Show Preview >>>"
 msgstr "bez naslova"
 
-#: src/dialogs/subtitlestyleedit.cpp:133
+#: src/dialogs/subtitlestyleedit.cpp:132
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "<<< Hide Preview"
 msgstr "bez naslova"
 
-#: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
-#: src/dialogs/subtitlestyleedit.cpp:171
+#: src/dialogs/subtitlestyleedit.cpp:160 src/dialogs/subtitlestyleedit.cpp:165
+#: src/dialogs/subtitlestyleedit.cpp:170
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, fuzzy, kde-format
 #| msgid "error"
 msgid "Error"
 msgstr "greška"
 
-#: src/dialogs/subtitlestyleedit.cpp:161
+#: src/dialogs/subtitlestyleedit.cpp:160
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Style name already exists."
 msgstr "Profil već postoji"
 
-#: src/dialogs/subtitlestyleedit.cpp:166
+#: src/dialogs/subtitlestyleedit.cpp:165
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:171
+#: src/dialogs/subtitlestyleedit.cpp:170
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr ""
@@ -9864,8 +10387,8 @@ msgstr "Slijedeći efekti su uvezeni iz projekta:"
 msgid "Invalid file path"
 msgstr "Neispravan snimak"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:812
-#: src/project/projectmanager.cpp:854
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:809
+#: src/project/projectmanager.cpp:851
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -9952,16 +10475,16 @@ msgstr ""
 "Vaša projekt datoteka je nadograđena do najnovije Kdenlive dokument verzije, "
 "ali nije bio u mogućnosti da kreira sigurnosnu kopiju %1."
 
-#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1456
-#: src/project/projectmanager.cpp:1492
+#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1453
+#: src/project/projectmanager.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
 msgstr "Datoteka projekta: %1"
 
-#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2362
+#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2366
 #: src/project/dialogs/archivewidget.cpp:245
-#: src/project/projectmanager.cpp:1713
+#: src/project/projectmanager.cpp:1707
 #, kde-format
 msgid "Untitled"
 msgstr "Bez naslova"
@@ -10089,13 +10612,13 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2405 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Crvena"
 
-#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2406 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10103,24 +10626,24 @@ msgstr "Crvena"
 msgid "Green"
 msgstr "Zelena"
 
-#: src/doc/kdenlivedoc.cpp:2403 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2407 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Plava"
 
-#: src/doc/kdenlivedoc.cpp:2404 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2408 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Žuta"
 
-#: src/doc/kdenlivedoc.cpp:2405
+#: src/doc/kdenlivedoc.cpp:2409
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2742 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2746 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -13196,13 +13719,13 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2214 src/project/projectmanager.cpp:618
+#: src/mainwindow.cpp:2214 src/project/projectmanager.cpp:615
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Nemoguće koristiti razmak u zaključanom snimku"
 
-#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:624
+#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:621
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, target directory already exists: %1"
@@ -13519,37 +14042,37 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Sakrij okvir"
 
-#: src/mainwindow.cpp:4679 src/timeline2/view/timelinecontroller.cpp:5080
+#: src/mainwindow.cpp:4682 src/timeline2/view/timelinecontroller.cpp:5080
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "Bez vodiča za vrijeme pokazivača"
 
-#: src/mainwindow.cpp:4966
+#: src/mainwindow.cpp:4969
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:4969
+#: src/mainwindow.cpp:4972
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Konfiguracija uređaja"
 
-#: src/mainwindow.cpp:4972
+#: src/mainwindow.cpp:4975
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:4975
+#: src/mainwindow.cpp:4978
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5018
+#: src/mainwindow.cpp:5021
 #, fuzzy, kde-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -13768,7 +14291,7 @@ msgid "Audio streams"
 msgstr "Zvučni slijed %1"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:745
-#: src/monitor/monitor.cpp:1926
+#: src/monitor/monitor.cpp:1930
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -14273,7 +14796,7 @@ msgstr "Sačuvaj obilježivač"
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1911 src/monitor/monitor.cpp:2044
+#: src/monitor/monitor.cpp:1915 src/monitor/monitor.cpp:2048
 #, fuzzy, kde-format
 #| msgid "Audio stream %1"
 msgid "%1 audio stream"
@@ -14282,38 +14805,38 @@ msgstr[0] "Zvučni slijed %1"
 msgstr[1] "Zvučni slijed %1"
 msgstr[2] "Zvučni slijed %1"
 
-#: src/monitor/monitor.cpp:2375
+#: src/monitor/monitor.cpp:2379
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2417 src/monitor/monitor.cpp:2474
+#: src/monitor/monitor.cpp:2421 src/monitor/monitor.cpp:2478
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2437
+#: src/monitor/monitor.cpp:2441
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "Snimak nema markere"
 
-#: src/monitor/monitor.cpp:2439
+#: src/monitor/monitor.cpp:2443
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Odabrati snimak ako želite primijeniti efekt"
 
-#: src/monitor/monitor.cpp:2481
+#: src/monitor/monitor.cpp:2485
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2527
+#: src/monitor/monitor.cpp:2531
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -14463,9 +14986,7 @@ msgid "Go to Zone End"
 msgstr "Idi na kraj zone"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
-#. i18n: ectx: property (text), widget (QLabel, labelPreview)
-#: src/monitor/recmanager.cpp:34 src/ui/editsubstyle_ui.ui:438
-#: src/ui/resourcewidget_ui.ui:251
+#: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
 #, kde-format
 msgid "Preview"
 msgstr "Pregled"
@@ -15054,7 +15575,7 @@ msgstr ""
 msgid " interlaced"
 msgstr "Isprepleteno"
 
-#: src/profiles/profilemodel.cpp:168
+#: src/profiles/profilemodel.cpp:170
 #, kde-format
 msgid "The project profile is invalid (%1x%2), it was adjusted to %3x%4."
 msgstr ""
@@ -16201,7 +16722,7 @@ msgstr "Otvori rezernu kopiju"
 msgid "Save changes to document?"
 msgstr "Sačuvaj promjene dokumenta?"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1712
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1706
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -16210,18 +16731,18 @@ msgstr ""
 "Projekat <b>\"%1\"</b> je izmjenjen.\n"
 "Da li želite spasiti imjene?"
 
-#: src/project/projectmanager.cpp:560
+#: src/project/projectmanager.cpp:557
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:593
+#: src/project/projectmanager.cpp:590
 #, fuzzy, kde-format
 #| msgid "Waiting to process clip"
 msgid "Saving successful"
 msgstr "Čekanje da procesiram isječak"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:603
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -16229,41 +16750,41 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:647
+#: src/project/projectmanager.cpp:644
 #, fuzzy, kde-format
 #| msgid "Save to"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Spremiti"
 
-#: src/project/projectmanager.cpp:753
+#: src/project/projectmanager.cpp:750
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Postoje automatski spašeni fajlovi. Da li želite da ih obnovite sada?"
 
-#: src/project/projectmanager.cpp:753
+#: src/project/projectmanager.cpp:750
 #, kde-format
 msgid "File Recovery"
 msgstr "Obnavljanje Fajla"
 
-#: src/project/projectmanager.cpp:754 src/project/projectmanager.cpp:842
+#: src/project/projectmanager.cpp:751 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Recover"
 msgstr "Obnovi"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:751
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "Ne obnavljaj"
 
-#: src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:803
 #, kde-format
 msgid "Opening file %1"
 msgstr "Otvaranje fajla %1"
 
-#: src/project/projectmanager.cpp:841
+#: src/project/projectmanager.cpp:838
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -16274,46 +16795,46 @@ msgstr ""
 "%1\n"
 "Da li želite otvoriti rezervnu kopiju?"
 
-#: src/project/projectmanager.cpp:842 src/project/projectmanager.cpp:1076
+#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1073
 #, kde-format
 msgid "Error opening file"
 msgstr "Greška pri otvaranju datoteke"
 
-#: src/project/projectmanager.cpp:842 src/project/projectmanager.cpp:1077
+#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1074
 #, kde-format
 msgid "Open Backup"
 msgstr "Otvori rezervnu kopiju"
 
-#: src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:855
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Ne mogu otvoriti projektnu datoteku %1"
 
-#: src/project/projectmanager.cpp:873
+#: src/project/projectmanager.cpp:870
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:875
+#: src/project/projectmanager.cpp:872
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:946
+#: src/project/projectmanager.cpp:943
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Loading timeline…"
 msgstr "Skini nove obrise..."
 
-#: src/project/projectmanager.cpp:964
+#: src/project/projectmanager.cpp:961
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Building sequences…"
 msgstr "Prikaži sekvencu"
 
-#: src/project/projectmanager.cpp:1103
+#: src/project/projectmanager.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -16321,7 +16842,7 @@ msgid ""
 "%1\n"
 msgstr "Ne mogu otvoriti projektnu datoteku %1"
 
-#: src/project/projectmanager.cpp:1143
+#: src/project/projectmanager.cpp:1140
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -16330,51 +16851,51 @@ msgstr ""
 "Ovo će poništiti sve promjene koje ste napravili nakon što ste posljednji "
 "put sačuvali vaš projekat. Jeste li sigurni da želite nastaviti?"
 
-#: src/project/projectmanager.cpp:1144
+#: src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Vrati na posljednju sačuvanu verziju"
 
-#: src/project/projectmanager.cpp:1230
+#: src/project/projectmanager.cpp:1227
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1434
+#: src/project/projectmanager.cpp:1431
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Datoteka projekta: %1"
 
-#: src/project/projectmanager.cpp:1470
+#: src/project/projectmanager.cpp:1467
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Koristi projekat mape"
 
-#: src/project/projectmanager.cpp:1561 src/project/projectmanager.cpp:1619
-#: src/project/projectmanager.cpp:1623
+#: src/project/projectmanager.cpp:1558 src/project/projectmanager.cpp:1613
+#: src/project/projectmanager.cpp:1617
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Ime sekvence"
 
-#: src/project/projectmanager.cpp:1572
+#: src/project/projectmanager.cpp:1569
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1718 src/project/projectmanager.cpp:1723
-#: src/project/projectmanager.cpp:1733 src/project/projectmanager.cpp:1747
+#: src/project/projectmanager.cpp:1712 src/project/projectmanager.cpp:1717
+#: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1741
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Profil projekta: %1"
 
-#: src/project/projectmanager.cpp:1870
+#: src/project/projectmanager.cpp:1864
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -16382,13 +16903,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Izlazni dokument već postoji. Da li želite pisati preko?"
 
-#: src/project/projectmanager.cpp:1892
+#: src/project/projectmanager.cpp:1886
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Profil projekta: %1"
 
-#: src/project/projectmanager.cpp:1953
+#: src/project/projectmanager.cpp:1947
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -16396,18 +16917,18 @@ msgid ""
 "%1"
 msgstr "Ne može se kreirati potrošač %1."
 
-#: src/project/projectmanager.cpp:2035
+#: src/project/projectmanager.cpp:2029
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2224
+#: src/project/projectmanager.cpp:2218
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Odabrati snimak ako želite primijeniti efekt"
 
-#: src/project/projectmanager.cpp:2262
+#: src/project/projectmanager.cpp:2256
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -17022,7 +17543,7 @@ msgstr ""
 msgid "Yiddish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotextwhisper.cpp:234
+#: src/pythoninterfaces/speechtotextwhisper.cpp:240
 #, kde-format
 msgid "Install Whisper"
 msgstr ""
@@ -19076,28 +19597,28 @@ msgstr "Otključaj traku"
 msgid "Lock subtitle track"
 msgstr "bez naslova"
 
-#: src/timeline2/view/timelinecontroller.cpp:5349
-#: src/timeline2/view/timelinecontroller.cpp:5358
+#: src/timeline2/view/timelinecontroller.cpp:5352
+#: src/timeline2/view/timelinecontroller.cpp:5361
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "bez naslova"
 
-#: src/timeline2/view/timelinecontroller.cpp:5360
+#: src/timeline2/view/timelinecontroller.cpp:5363
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "bez naslova"
 
-#: src/timeline2/view/timelinetabs.cpp:50
+#: src/timeline2/view/timelinetabs.cpp:51
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Add Timeline Sequence"
 msgstr "Prikaži sekvencu"
 
-#: src/timeline2/view/timelinetabs.cpp:52
+#: src/timeline2/view/timelinetabs.cpp:53
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -19110,25 +19631,25 @@ msgstr ""
 msgid "Close %1"
 msgstr "Zatvori"
 
-#: src/timeline2/view/timelinetabs.cpp:425
+#: src/timeline2/view/timelinetabs.cpp:423
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Rename Sequence"
 msgstr "Sekvenca slike"
 
-#: src/timeline2/view/timelinewidget.cpp:60
+#: src/timeline2/view/timelinewidget.cpp:54
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Insert an effect..."
 msgstr "Restartuj efekat"
 
-#: src/timeline2/view/timelinewidget.cpp:61
+#: src/timeline2/view/timelinewidget.cpp:55
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert a composition..."
 msgstr "Smjesa"
 
-#: src/timeline2/view/timelinewidget.cpp:327
+#: src/timeline2/view/timelinewidget.cpp:315
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"
@@ -19329,11 +19850,6 @@ msgstr "Prilagodi uvećanje"
 #, kde-format
 msgid "Select background color"
 msgstr "Odaberi boju pozadine"
-
-#: src/titler/titlewidget.cpp:366
-#, kde-format
-msgid "Background opacity"
-msgstr "Providnost pozadine"
 
 #: src/titler/titlewidget.cpp:367
 #, kde-format
@@ -19874,9 +20390,10 @@ msgstr "Desno poravnanje"
 msgid "Position:"
 msgstr " Pozicija:"
 
+#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/titlewidget_ui.ui:1413
+#: src/ui/editsubstyle_ui.ui:364 src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Pozadina"
@@ -20680,7 +21197,7 @@ msgstr "Uhvati ime datoteke"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:233
+#: src/ui/configspeech_ui.ui:271
 #, fuzzy, kde-format
 #| msgid "Device"
 msgid "Device:"
@@ -21482,82 +21999,94 @@ msgstr "Koristi vanjski prikaz (Blackmagic kartica)"
 msgid "Output device:"
 msgstr "Izlazni uređaj"
 
-#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Use project folder"
-msgid "Custom models folder"
-msgstr "Koristi projekat mape"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:130
-#, fuzzy, kde-format
-#| msgid "Add folder"
-msgid "Add Model"
-msgstr "Dodaj folder"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:143
-#, fuzzy, kde-format
-msgid "Remove Model"
-msgstr "Preimenuj folder"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:182
-#, fuzzy, kde-format
-msgid "Model:"
-msgstr "Boja"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:223
-#, kde-format
-msgid "Language:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:254
-#, kde-format
-msgid "Disable half precision (FP16 )"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Template text clip"
-msgid "Translate text to English"
-msgstr "Uzorak tekstualnog isječka"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:333
-#, kde-format
-msgid "Check speech engine installation"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:336
-#, fuzzy, kde-format
-#| msgid "Device configuration"
-msgid "Check configuration"
-msgstr "Konfiguracija uređaja"
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:380
+#: src/ui/configspeech_ui.ui:45
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech engine"
 msgstr "Odaberi prijelaz"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:387
+#: src/ui/configspeech_ui.ui:52
 #, kde-format
 msgid "VOS&K"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:394
+#: src/ui/configspeech_ui.ui:59
 #, kde-format
 msgid "Wh&isper"
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
+#: src/ui/configspeech_ui.ui:128
+#, fuzzy, kde-format
+#| msgid "Use project folder"
+msgid "Custom models folder"
+msgstr "Koristi projekat mape"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_add)
+#: src/ui/configspeech_ui.ui:168
+#, fuzzy, kde-format
+#| msgid "Add folder"
+msgid "Add Model"
+msgstr "Dodaj folder"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_delete)
+#: src/ui/configspeech_ui.ui:181
+#, fuzzy, kde-format
+msgid "Remove Model"
+msgstr "Preimenuj folder"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configspeech_ui.ui:220
+#, fuzzy, kde-format
+msgid "Model:"
+msgstr "Boja"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/configspeech_ui.ui:261
+#, kde-format
+msgid "Language:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
+#: src/ui/configspeech_ui.ui:292
+#, kde-format
+msgid "Disable half precision (FP16 )"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
+#: src/ui/configspeech_ui.ui:299
+#, fuzzy, kde-format
+#| msgid "Template text clip"
+msgid "Translate text to English"
+msgstr "Uzorak tekstualnog isječka"
+
+#. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
+#: src/ui/configspeech_ui.ui:342
+#, kde-format
+msgid "Whisper"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
+#: src/ui/configspeech_ui.ui:373
+#, kde-format
+msgid "Seamless"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:428
+#, kde-format
+msgid "Check speech engine installation"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:431
+#, fuzzy, kde-format
+#| msgid "Device configuration"
+msgid "Check configuration"
+msgstr "Konfiguracija uređaja"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -22187,102 +22716,122 @@ msgid "Subtitle Style Editor"
 msgstr "bez naslova"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
+#: src/ui/editsubstyle_ui.ui:47 src/ui/managesubtitles_ui.ui:409
+#, kde-format
+msgid "Shadow"
+msgstr "Sjenka"
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
+#: src/ui/editsubstyle_ui.ui:81
+#, fuzzy, kde-format
+msgid "Vertical margin"
+msgstr "Bez poravnanja"
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
+#: src/ui/editsubstyle_ui.ui:101
+#, kde-format
+msgid "Left margin"
+msgstr ""
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/editsubstyle_ui.ui:121
+#, kde-format
+msgid ""
+"The secondary color might be used in case of subtitle collision to help "
+"distinguish both subtitles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
+#: src/ui/editsubstyle_ui.ui:152 src/ui/managesubtitles_ui.ui:404
+#, kde-format
+msgid "Outline"
+msgstr "Kontura"
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
+#: src/ui/editsubstyle_ui.ui:172
+#, kde-format
+msgid "Right margin"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsubstyle_ui.ui:93 src/ui/managesubtitles_ui.ui:364
+#: src/ui/editsubstyle_ui.ui:190 src/ui/managesubtitles_ui.ui:364
 #, fuzzy, kde-format
 #| msgctxt "Font style"
 #| msgid "Bold"
 msgid "Bold"
 msgstr "Podebljano"
 
-#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
-#: src/ui/editsubstyle_ui.ui:103
-#, fuzzy, kde-format
-#| msgid " second"
-#| msgid_plural " seconds"
-msgid "Secondary"
-msgstr " sek"
-
-#. i18n: ectx: property (text), widget (QLabel, labelMargin)
-#: src/ui/editsubstyle_ui.ui:134
-#, kde-format
-msgid "Margin"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
-#: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align center"
-msgid "Alignment"
-msgstr "Poravnaj sredinu"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
-#, kde-format
-msgid "Underline"
-msgstr "Podvuci"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelShadow)
-#. i18n: ectx: property (text), widget (QLabel, labelBackColor)
-#: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
-#: src/ui/managesubtitles_ui.ui:409
-#, kde-format
-msgid "Shadow"
-msgstr "Sjenka"
-
-#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
-#: src/ui/editsubstyle_ui.ui:265
-#, fuzzy, kde-format
-msgid "BorderStyle"
-msgstr "Širina granice"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
-#. i18n: ectx: property (text), widget (QLabel, labelOutline)
-#: src/ui/editsubstyle_ui.ui:350 src/ui/editsubstyle_ui.ui:484
-#: src/ui/managesubtitles_ui.ui:404
-#, kde-format
-msgid "Outline"
-msgstr "Kontura"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
-#: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
-#, fuzzy, kde-format
-msgid "ScaleX"
-msgstr "Razmjera"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelScaleY)
-#: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
-#, fuzzy, kde-format
-msgid "ScaleY"
-msgstr "Razmjera"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
-#: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
-#, kde-format
-msgid "StrikeOut"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsubstyle_ui.ui:510 src/ui/managesubtitles_ui.ui:369
+#: src/ui/editsubstyle_ui.ui:209 src/ui/managesubtitles_ui.ui:369
 #, kde-format
 msgid "Italic"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
-#: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
+#. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
+#: src/ui/editsubstyle_ui.ui:222 src/ui/managesubtitles_ui.ui:374
+#, kde-format
+msgid "Underline"
+msgstr "Podvuci"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
+#: src/ui/editsubstyle_ui.ui:235 src/ui/managesubtitles_ui.ui:379
+#, kde-format
+msgid "StrikeOut"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
+#: src/ui/editsubstyle_ui.ui:274
 #, fuzzy, kde-format
-#| msgid "Spacer tool"
-msgid "Spacing"
-msgstr "Spacer alat"
+msgid "Scale X"
+msgstr "Razmjera"
+
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsubstyle_ui.ui:284
+#, fuzzy, kde-format
+#| msgid "File name"
+msgid "Style name"
+msgstr "Naziv datoteke"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
+#: src/ui/editsubstyle_ui.ui:307 src/ui/managesubtitles_ui.ui:414
+#, fuzzy, kde-format
+#| msgid "Align center"
+msgid "Alignment"
+msgstr "Poravnaj sredinu"
+
+#. i18n: ectx: property (text), widget (QLabel, labelColor)
+#: src/ui/editsubstyle_ui.ui:327
+#, fuzzy, kde-format
+msgid "Text color"
+msgstr "Odredište"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:337
+#, fuzzy, kde-format
+#| msgid "Interpolation"
+msgid "Character spacing"
+msgstr "Interpolacija"
+
+#. i18n: ectx: property (text), widget (QLabel, labelScaleY)
+#: src/ui/editsubstyle_ui.ui:377
+#, fuzzy, kde-format
+msgid "Scale Y"
+msgstr "Razmjera"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:408
+#, fuzzy, kde-format
+#| msgid " second"
+#| msgid_plural " seconds"
+msgid "Secondary"
+msgstr " sek"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -22366,18 +22915,6 @@ msgstr "Uvezi odabrane snimke"
 #| msgid "FFmpeg parameters"
 msgid "FFmpeg Chapters"
 msgstr "FFmpeg parametri"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/gradientedit_ui.ui:24
-#, fuzzy, kde-format
-msgid "Color 2"
-msgstr "Boja"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/gradientedit_ui.ui:123
-#, fuzzy, kde-format
-msgid "Color 1"
-msgstr "Boja"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:49
@@ -22847,6 +23384,25 @@ msgstr "Kontura"
 #, fuzzy, kde-format
 msgid "BackColor"
 msgstr "Boja popunjavanja"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:419
+#, fuzzy, kde-format
+msgid "ScaleX"
+msgstr "Razmjera"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:424
+#, fuzzy, kde-format
+msgid "ScaleY"
+msgstr "Razmjera"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:429
+#, fuzzy, kde-format
+#| msgid "Spacer tool"
+msgid "Spacing"
+msgstr "Spacer alat"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
@@ -24544,6 +25100,10 @@ msgid "%1h"
 msgstr ""
 
 #, fuzzy
+#~ msgid "BorderStyle"
+#~ msgstr "Širina granice"
+
+#, fuzzy
 #~| msgid "Environment"
 #~ msgid "Python environment"
 #~ msgstr "Okruženje"
@@ -24934,9 +25494,6 @@ msgstr ""
 #~ msgid "Captured files"
 #~ msgstr "Spremljene datoteke"
 
-#~ msgid "File name"
-#~ msgstr "Naziv datoteke"
-
 #, fuzzy
 #~| msgid "Size"
 #~ msgctxt "Filesize"
@@ -25128,9 +25685,6 @@ msgstr ""
 #~| msgid "create new points"
 #~ msgid "Create new points."
 #~ msgstr "kreiraj nove tačke"
-
-#~ msgid "GraphView"
-#~ msgstr "GraphView"
 
 #~ msgid "Not connected"
 #~ msgstr "Nije povezan"
@@ -26146,18 +26700,6 @@ msgstr ""
 #~ msgstr "Odgovarati širini"
 
 #, fuzzy
-#~ msgid "Color 3"
-#~ msgstr "Boja"
-
-#, fuzzy
-#~ msgid "Color 4"
-#~ msgstr "Boja"
-
-#, fuzzy
-#~ msgid "Color 5"
-#~ msgstr "Boja"
-
-#, fuzzy
 #~ msgid "X axis"
 #~ msgstr "Crtanje osa"
 
@@ -26210,10 +26752,6 @@ msgstr ""
 #~ msgstr "Boja granice"
 
 #, fuzzy
-#~ msgid "Target color"
-#~ msgstr "Odredište"
-
-#, fuzzy
 #~ msgid "Mask type"
 #~ msgstr "Vrsta slike"
 
@@ -26256,10 +26794,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Difference Threshold"
 #~ msgstr "Prag"
-
-#, fuzzy
-#~ msgid "Background Weight"
-#~ msgstr "Providnost pozadine"
 
 #, fuzzy
 #~ msgid "Nonlinear dimming"
@@ -26365,15 +26899,6 @@ msgstr ""
 #~ msgctxt "Saturation Effect Name"
 #~ msgid "Saturation"
 #~ msgstr "HSV zasićenje"
-
-#, fuzzy
-#~ msgid "Crop left"
-#~ msgstr "Lijevo poravnanje"
-
-#, fuzzy
-#~| msgid "Copyright"
-#~ msgid "Crop right"
-#~ msgstr "Autorska prava"
 
 #, fuzzy
 #~ msgid "Interlaced black lines"
@@ -28444,9 +28969,6 @@ msgstr ""
 
 #~ msgid "Fill color"
 #~ msgstr "Boja popunjavanja"
-
-#~ msgid "Border color"
-#~ msgstr "Boja granice"
 
 #, fuzzy
 #~ msgid "Clip right"

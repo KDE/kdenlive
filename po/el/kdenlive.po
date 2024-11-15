@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-11 02:39+0000\n"
+"POT-Creation-Date: 2024-11-15 02:31+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -74,6 +74,7 @@ msgid "Segment,Bar"
 msgstr ""
 
 #: data/effects/audiolevelgraph.xml:9 data/effects/audiospectrum.xml:10
+#: data/effects/gpsgraphic.xml:33
 #, fuzzy, kde-format
 #| msgid "Mask type"
 msgid "Graph type"
@@ -135,10 +136,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/audiolevelgraph.xml:33 data/effects/audiospectrum.xml:26
-#: data/effects/audiowaveform.xml:16 src/ui/editsubstyle_ui.ui:461
-#: src/ui/gradientedit_ui.ui:100 src/ui/managesubtitles_ui.ui:434
+#: data/effects/audiowaveform.xml:16 src/ui/gradientedit_ui.ui:100
+#: src/ui/managesubtitles_ui.ui:434
 #, fuzzy, kde-format
 #| msgid "UV angle"
 msgid "Angle"
@@ -685,7 +685,7 @@ msgstr "Κόψιμο των άκρων ενός κλιπ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:525
-#: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configmisc_ui.ui:138
+#: src/dialogs/subtitlestyleedit.cpp:106 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
 msgstr "Κορυφή"
@@ -693,16 +693,15 @@ msgstr "Κορυφή"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #. i18n: ectx: property (text), widget (QLabel, labelMarginL)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:108
 #: src/ui/configmisc_ui.ui:148 src/ui/editsub_ui.ui:427
-#: src/ui/editsubstyle_ui.ui:413
 #, kde-format
 msgid "Left"
 msgstr "Αριστερά"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:507
-#: src/dialogs/subtitlestyleedit.cpp:110 src/ui/configmisc_ui.ui:143
+#: src/dialogs/subtitlestyleedit.cpp:112 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
 msgstr "Βάση"
@@ -710,9 +709,8 @@ msgstr "Βάση"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:110
 #: src/ui/configmisc_ui.ui:153 src/ui/editsub_ui.ui:458
-#: src/ui/editsubstyle_ui.ui:173
 #, kde-format
 msgid "Right"
 msgstr "Δεξιά"
@@ -910,11 +908,10 @@ msgid "Vertical Alignment"
 msgstr "Κατακόρυφη στοίχιση"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
-#. i18n: ectx: property (text), widget (QLabel, labelPrimaryColor)
 #. i18n: ectx: property (title), widget (QGroupBox, text_box)
 #: data/effects/dynamictext.xml:43 data/effects/gpstext.xml:8
-#: src/titler/graphicsscenerectmove.cpp:921 src/ui/editsubstyle_ui.ui:255
-#: src/ui/managesubtitles_ui.ui:216 src/ui/templateclip_ui.ui:38
+#: src/titler/graphicsscenerectmove.cpp:921 src/ui/managesubtitles_ui.ui:216
+#: src/ui/templateclip_ui.ui:38
 #, kde-format
 msgid "Text"
 msgstr "Κείμενο"
@@ -1087,6 +1084,570 @@ msgstr "Τροποποίηση της τιμής γάμμα του χρώματ�
 msgid "Gamma"
 msgstr "Γάμμα"
 
+#: data/effects/gpsgraphic.xml:4
+#, fuzzy, kde-format
+#| msgid "GraphView"
+msgid "GPS Graphic"
+msgstr "GraphView"
+
+#: data/effects/gpsgraphic.xml:5
+#, kde-format
+msgid "Overlay GPS-related graphics onto the video."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgid "GPS File"
+msgstr "Όλα τα αρχεία"
+
+#: data/effects/gpsgraphic.xml:9
+#, kde-format
+msgid ""
+"The fullpath of file containing location (GPS) data. Supported extensions: ."
+"gpx, .tcx."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
+#, kde-format
+msgid "Time offset in seconds"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:14
+#, kde-format
+msgid ""
+"<![CDATA[An offset (in seconds) to be added to the video file to match it to "
+"the GPS track.<br>\n"
+"    \tMost of the time this will at least need to be set to the timezone "
+"difference between the 2 files plus some seconds if the video recording "
+"device isn't precisely set to correct time. GPS time is always exact and in "
+"UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
+#, fuzzy, kde-format
+#| msgid "smooth"
+msgid "Smoothing level"
+msgstr "ομαλό"
+
+#: data/effects/gpsgraphic.xml:19
+#, kde-format
+msgid ""
+"<![CDATA[How many GPS points to smooth in order to eliminate GPS errors."
+"<br>\n"
+"    \tA value of 1 does not smooth locations, it only calculates the extra "
+"fields (speed, distance, etc), it also interpolates missing values for heart "
+"rate and altitude.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:22
+#, fuzzy, kde-format
+#| msgid "Add clip markers"
+msgid "Speed multiplier"
+msgstr "Προσθήκη δεικτών κλιπ"
+
+#: data/effects/gpsgraphic.xml:24
+#, kde-format
+msgid ""
+"<![CDATA[If the video file is a timelapse (or slow motion), use this value "
+"to set the speed up/slow down ratio.<br>\n"
+"        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
+"footage.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:27
+#, kde-format
+msgid "GPS location/track,Altitude,Heart rate,Speed"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:28
+#, kde-format
+msgid "Graph data source"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:29
+#, kde-format
+msgid "What data from the GPS file is used for drawing"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:32
+#, kde-format
+msgid ""
+"Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
+"the map/graph centered on current location,Draw speedometer"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:41
+#, kde-format
+msgid ""
+"<![CDATA[<b>Speedometer</b> is available for all data sources but "
+"recommended only for speed; for the map type it represents the \"percentage "
+"done\" from trimmed start - end).<br>\n"
+"Note: for type 1 (zoom and center, aka \"follow the dot\"):<br>\n"
+"* crop values are only valid as a percentage and only the bottom (resp left) "
+"values\n"
+"will be taken into consideration as both values (ie: bottom/top) will need "
+"to be equal to\n"
+"keep the dot centered)<br>\n"
+"* if data source is not GPS location, the centering will only be done for "
+"horizontal axis\n"
+"(time), vertical axis crop will behave just like for the basic 2D map line "
+"(it will statically keep\n"
+"the same min/max limit allowing the Now dot to move up and down).]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:44
+#, no-c-format, kde-format
+msgid "Trim start (%)"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:46
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Trim data from the start of the GPS file (as a percentage of "
+"total). <br>\n"
+"    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
+"the total file, so trimming 50% start and 50% end will result in trimming "
+"the entire file.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:49
+#, no-c-format, kde-format
+msgid "Trim end (%)"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:51
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Trim data from the end of the gps file (as a percentage of total). "
+"<br>\n"
+"    \tNote: both <em>Trim start</em> and <em>Trim end</em> are computed from "
+"the total file, so trimming 50% start and 50% end will result in trimming "
+"the entire file.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
+#, kde-format
+msgid "Percentage from min..max,Absolute value"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:55
+#, fuzzy, kde-format
+#| msgid "Center horizontally"
+msgid "Crop mode horizontal"
+msgstr "Οριζόντιο κεντράρισμα"
+
+#: data/effects/gpsgraphic.xml:58
+#, kde-format
+msgid ""
+"<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop right</"
+"em> values.<br>\n"
+"    \tNote: for the horizontal type, absolute values are the longitude (for "
+"the location\n"
+"source type) and time (in milliseconds since epoch) for the rest of the data "
+"source types)]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:61
+#, fuzzy, kde-format
+#| msgid "Clip left"
+msgid "Crop left"
+msgstr "Περικοπή αριστερά"
+
+#: data/effects/gpsgraphic.xml:63
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Crops data from the left side of the graph (effectively zooming "
+"in). <br>\n"
+"    \tThe value is interpreted either as a percentage of total or an "
+"absolute value depending on crop_mode_h. In percentage mode, the values are "
+"not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
+"-50 left will add an extra half of the total horizontal distance). Values "
+"over 100 (in % mode) will effectively not display anything. If <em>Graph "
+"Type<em> is set to <b>Speedometer</b>, all crop left/right values are "
+"ignored.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:66
+#, fuzzy, kde-format
+#| msgid "Copyright"
+msgid "Crop right"
+msgstr "Πνευματικά δικαιώματα"
+
+#: data/effects/gpsgraphic.xml:67
+#, kde-format
+msgid ""
+"<![CDATA[Same as <em>Crop left</em> but for the right side, and percentage "
+"type is interpreted as an inverse percentage (ie: 100 = do not crop "
+"anything). Values under 0 will effectively not display anything.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:71
+#, fuzzy, kde-format
+#| msgid "Center vertically"
+msgid "Crop mode vertical"
+msgstr "Κατακόρυφο κεντράρισμα"
+
+#: data/effects/gpsgraphic.xml:78
+#, kde-format
+msgid ""
+"<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</"
+"em> values.<br/>\n"
+"    \tWith an absolute value, it can zoom in to between 100 and 150m of "
+"altitude to show\n"
+"small changes in altitude between those 2 values better.<br/>\n"
+"Note: for the vertical type, absolute values are latitude degrees (for the "
+"location\n"
+"source type) and altitude, heart rate, speed for the others interpreted as "
+"the <em>Legend unit</em>\n"
+"type where applicable (ie: a value of 10 for altitude will be considered "
+"meters by default\n"
+"but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:81
+#, fuzzy, kde-format
+#| msgid "Clip bottom"
+msgid "Crop bottom"
+msgstr "Περικοπή κάτω"
+
+#: data/effects/gpsgraphic.xml:83
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Crops data from the bottom side of the graph (effectively zooming "
+"in). <br>\n"
+"    \tThe value is interpreted either as a percentage of total or an "
+"absolute value depending on crop_mode_v. In percentage mode the values are "
+"not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
+"-50 bot will add an extra half of the total vertical distance to the "
+"bottom). Values over 100 (in % mode) will effectively not display anything. "
+"If <em>Graph type</em> is <b>Speedometer<b>, this will set the minimum "
+"needle position which will clamp all values that are lower.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:86
+#, fuzzy, kde-format
+#| msgid "Clip left"
+msgid "Crop top"
+msgstr "Περικοπή αριστερά"
+
+#: data/effects/gpsgraphic.xml:88
+#, kde-format
+msgid ""
+"<![CDATA[Same as <em>Crop bottom</em> but for the top side, and percentage "
+"type is interpreted as an inverse percentage (ie: 100 = do not crop "
+"anything).<br>\n"
+"    \tValues under 0 will effectively not display anything.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:91
+#, kde-format
+msgid ""
+"One color,Two colors,Solid past - thin future,Solid future - thin past,"
+"Vertical gradient,Horizontal gradient,Color by duration,Color by altitude,"
+"Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
+"grade (max 90 degrees),Color by grade (max 20 degrees)"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:92
+#, fuzzy, kde-format
+#| msgid "Mask type"
+msgid "Graph color style"
+msgstr "Τύπος μάσκας"
+
+#: data/effects/gpsgraphic.xml:93
+#, kde-format
+msgid "See the documentation about the various styles available"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
+#, kde-format
+msgid "Color 1"
+msgstr "Χρώμα 1"
+
+#: data/effects/gpsgraphic.xml:97
+#, kde-format
+msgid "Sets the color #1 for the graph line"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
+#, kde-format
+msgid "Color 2"
+msgstr "Χρώμα 2"
+
+#: data/effects/gpsgraphic.xml:101
+#, kde-format
+msgid "Sets the color #2 for the graph line"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:104
+#, kde-format
+msgid "Color 3"
+msgstr "Χρώμα 3"
+
+#: data/effects/gpsgraphic.xml:105
+#, kde-format
+msgid "Sets the color #3 for the graph line"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:108
+#, kde-format
+msgid "Color 4"
+msgstr "Χρώμα 4"
+
+#: data/effects/gpsgraphic.xml:109
+#, kde-format
+msgid "Sets the color #4 for the graph line"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:112
+#, kde-format
+msgid "Color 5"
+msgstr "Χρώμα 5"
+
+#: data/effects/gpsgraphic.xml:113
+#, kde-format
+msgid "Sets the color #5 for the graph line"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:116
+#, fuzzy, kde-format
+#| msgid "Show/Hide options"
+msgid "Show Now dot"
+msgstr "Εμφάνιση/απόκρυψη επιλογών"
+
+#: data/effects/gpsgraphic.xml:118
+#, kde-format
+msgid ""
+"<![CDATA[Enable it to draw a disc at the current location/time over the "
+"graph line.<br>\n"
+"    \tIf graph type is speedometer, this affects the needle.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:121
+#, fuzzy, kde-format
+#| msgid "Border color"
+msgid "Now dot color"
+msgstr "Χρώμα περιγράμματος"
+
+#: data/effects/gpsgraphic.xml:122
+#, fuzzy, kde-format
+#| msgid "Set the shape color of the second detected face."
+msgid "Sets the color for the Now dot"
+msgstr "Καθορισμός χρώματος σχήματος του δεύτερου ανιχνευθέντος προσώπου."
+
+#: data/effects/gpsgraphic.xml:125
+#, fuzzy, kde-format
+#| msgid "Show/Hide options"
+msgid "Show Now text"
+msgstr "Εμφάνιση/απόκρυψη επιλογών"
+
+#: data/effects/gpsgraphic.xml:127
+#, kde-format
+msgid ""
+"<![CDATA[Enable it to draw the current value in big white bold letters on "
+"the bottom right side of the rect.<br>\n"
+"    \tThe <em>Legend unit</em> value will be appended at the end and it will "
+"be used as the current unit (if a valid unit is found ie: kilometers if \"km"
+"\" is found anywhere in the <em>Legend unit</em> string).]]>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelAngle)
+#: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
+#: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
+#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:449
+#, kde-format
+msgid "Rotation"
+msgstr "Περιστροφή"
+
+#: data/effects/gpsgraphic.xml:131
+#, kde-format
+msgid ""
+"Rotate the entire graph rectangle. For speedometer type the text stays "
+"horizontal."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:134
+#, kde-format
+msgid "Line Thickness (px)"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:135
+#, kde-format
+msgid "Sets the thickness of the line graph in pixels."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:138
+#, fuzzy, kde-format
+#| msgid "Draw grid"
+msgid "Draw legend"
+msgstr "Σχεδίαση πλέγματος"
+
+#: data/effects/gpsgraphic.xml:140
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[If enabled it will draw 5 horizontal (and vertical for map type) "
+"<br>\n"
+"    \tlines with small values each corresponding to the current data source "
+"value at 0%, 25%, 50%, 75% and 100% of current graph shown, affected by the "
+"<em>Legend unit</em> type if applicable, and with the string appended to the "
+"value. For speedometer type this shows division values (but without "
+"appending unit).]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:143
+#, kde-format
+msgid "Legend unit"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:144
+#, kde-format
+msgid ""
+"m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/"
+"h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
+"mmin,m/min,ftmin,ft/min"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:146
+#, kde-format
+msgid ""
+"<![CDATA[Sets the unit to be used for displaying values of type altitude and "
+"speed.<br>\n"
+"        Default is meters and km/h respectively. The unit is matched "
+"anywhere in the string so extra spaces can be used to tweak displaying.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:149
+#, fuzzy, kde-format
+#| msgid "Move transition"
+msgid "Show dots only"
+msgstr "Μετακίνηση μετάβασης"
+
+#: data/effects/gpsgraphic.xml:151
+#, kde-format
+msgid ""
+"<![CDATA[If enabled, the graph will be drawn using individual dots instead "
+"of lines.<br>\n"
+"    \tThis will effectively show the individual data points as affected by "
+"smoothing (ie: for location data it will display each GPS fix if smoothing "
+"is 1) and can either be used as a cool effect when zoomed in enough or to "
+"debug unexpected line jumps.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:154
+#, fuzzy, kde-format
+#| msgid "Rectangle"
+msgid "Graph rectangle"
+msgstr "Ορθογώνιο"
+
+#: data/effects/gpsgraphic.xml:156
+#, no-c-format, kde-format
+msgid ""
+"<![CDATA[Defines the rectangle that the graph should be drawn in.<br>\n"
+"        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
+"unless they have the suffix '%'.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:159
+#, fuzzy, kde-format
+#| msgid "Background Weight"
+msgid "Background image"
+msgstr "Βάρος φόντου"
+
+#: data/effects/gpsgraphic.xml:161
+#, kde-format
+msgid ""
+"<![CDATA[If a valid image file is selected, it will be used as a background "
+"for the rectangle area.<br>\n"
+"      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
+"image to add context to the GPS track.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:164
+#, fuzzy, kde-format
+#| msgid "Background"
+msgid "Background scale"
+msgstr "Φόντο"
+
+#: data/effects/gpsgraphic.xml:166
+#, kde-format
+msgid ""
+"<![CDATA[Scale the background image (relative to center) to match it to the "
+"above GPS track.<br>\n"
+"    \tValues smaller than 100 zoom into the image, values larger than 100 "
+"zoom out. 0 hides it.]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
+#, kde-format
+msgid "Background opacity"
+msgstr "Αδιαφάνεια φόντου"
+
+#: data/effects/gpsgraphic.xml:170
+#, kde-format
+msgid "<![CDATA[Sets the opacity for the background image]]>"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:173
+#, fuzzy, kde-format
+msgid "GPS start time"
+msgstr "Αποκωδικοποίηση νημάτων"
+
+#: data/effects/gpsgraphic.xml:174
+#, kde-format
+msgid "Date and time of the first valid GPS point."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:177
+#, fuzzy, kde-format
+msgid "Video start time"
+msgstr "Κομμάτι βίντεο"
+
+#: data/effects/gpsgraphic.xml:178
+#, kde-format
+msgid "Date and time of the video file."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:181
+#, fuzzy, kde-format
+#| msgid "Go to Project Start"
+msgid "Auto offset start"
+msgstr "Μετάβαση στην αρχή του έργου"
+
+#: data/effects/gpsgraphic.xml:182
+#, kde-format
+msgid ""
+"Provides a helper offset to guarantee start of video file syncs with the "
+"start of GPS file. Correctly sets the offset if video file and GPS recording "
+"was started at the same time."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:185
+#, kde-format
+msgid "Auto offset now"
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:186
+#, kde-format
+msgid ""
+"Provides a helper offset to sync the first GPS point to current video time "
+"(it is updated every second). Correctly sets the offset if you video record "
+"the moment GPS starts."
+msgstr ""
+
+#: data/effects/gpsgraphic.xml:189
+#, fuzzy, kde-format
+#| msgid "Map white to"
+msgid "Map hint"
+msgstr "Αντιστοίχηση λευκού σε"
+
+#: data/effects/gpsgraphic.xml:190
+#, kde-format
+msgid "Returns the middle latitude and longitude coordinates of the gps file."
+msgstr ""
+
 #: data/effects/gpstext.xml:4
 #, kde-format
 msgid "GPS Text"
@@ -1106,23 +1667,6 @@ msgid ""
 "altitude loss so far,distance travelled uphill so far,distance travelled "
 "downhill so far,distance travelled on flat area so far"
 msgstr ""
-
-#: data/effects/gpstext.xml:12
-#, fuzzy, kde-format
-#| msgid "All Files"
-msgid "GPS File"
-msgstr "Όλα τα αρχεία"
-
-#: data/effects/gpstext.xml:15
-#, kde-format
-msgid "Time offset in seconds"
-msgstr ""
-
-#: data/effects/gpstext.xml:18
-#, fuzzy, kde-format
-#| msgid "smooth"
-msgid "Smoothing level"
-msgstr "ομαλό"
 
 #: data/effects/gpstext.xml:21
 #, fuzzy, kde-format
@@ -1814,13 +2358,6 @@ msgstr "Μετατροπή"
 #| msgid "Pan and Zoom"
 msgid "Position, scale and opacity."
 msgstr "Μετακίνηση και εστίαση"
-
-#: data/effects/qtblend.xml:12 data/effects/qtblend.xml:40
-#: data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405
-#, kde-format
-msgid "Rotation"
-msgstr "Περιστροφή"
 
 #: data/effects/qtblend.xml:15 data/effects/qtblend.xml:27
 #: data/transitions/qtblend.xml:14
@@ -2620,7 +3157,6 @@ msgstr "Οριζόντια"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
-#: src/ui/editsubstyle_ui.ui:163
 #, kde-format
 msgid "Vertical"
 msgstr "Κατακόρυφη"
@@ -2827,7 +3363,7 @@ msgid "Noise Reduction and Audio Restoration"
 msgstr ""
 
 #: data/kdenliveeffectscategory.rc:88
-#: src/dialogs/kdenlivesettingsdialog.cpp:119 src/mainwindow.cpp:1365
+#: src/dialogs/kdenlivesettingsdialog.cpp:118 src/mainwindow.cpp:1365
 #: src/scopes/colorscopes/vectorscope.cpp:71
 #, kde-format
 msgid "Tools"
@@ -3204,7 +3740,7 @@ msgstr "Διάρκεια (δευτερόλεπτα)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
-#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:61
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:387
 #, kde-format
 msgid "Font"
 msgstr "Γραμματοσειρά"
@@ -3792,7 +4328,7 @@ msgstr "Αποθήκευση εφέ"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1460
+#: src/dialogs/kdenlivesettingsdialog.cpp:1459
 #, fuzzy, kde-format
 #| msgid "Enter sequence name"
 msgctxt "@title:window"
@@ -3801,7 +4337,7 @@ msgstr "Εισάγετε όνομα ακολουθίας"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1460
+#: src/dialogs/kdenlivesettingsdialog.cpp:1459
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr ""
@@ -3867,7 +4403,7 @@ msgstr "Κατακόρυφη στοίχιση"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:107
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:109
 #: src/transitions/view/mixstackview.cpp:47
 #, fuzzy, kde-format
 #| msgid "Countdown"
@@ -4452,10 +4988,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:322
-#: src/ui/editsubstyle_ui.ui:49 src/ui/managesubtitles_ui.ui:66
-#: src/ui/managesubtitles_ui.ui:349
+#: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Όνομα"
@@ -4772,7 +5306,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Προστίθενται κλιπ"
 
-#: src/bin/bin.cpp:2107 src/bin/bin.cpp:5820 src/bin/clipcreator.cpp:324
+#: src/bin/bin.cpp:2107 src/bin/bin.cpp:5825 src/bin/clipcreator.cpp:324
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
@@ -4907,8 +5441,8 @@ msgstr "Κλιπ λίστας αναπαραγωγής"
 #. i18n: ectx: Menu (sequences)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2451 src/bin/clipcreator.cpp:238 src/bin/clipcreator.cpp:240
-#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1582
-#: src/project/projectmanager.cpp:1584 src/ui/managecache_ui.ui:192
+#: src/kdenliveui.rc:42 src/project/projectmanager.cpp:1579
+#: src/project/projectmanager.cpp:1581 src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequences"
@@ -4925,10 +5459,8 @@ msgstr "Τίτλος"
 msgid "Title Template"
 msgstr "Πρότυπο"
 
-#. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/bin/bin.cpp:2463 src/layoutmanagement.cpp:36
 #: src/mltcontroller/clippropertiescontroller.cpp:352
-#: src/ui/editsubstyle_ui.ui:80
 #, kde-format
 msgid "Color"
 msgstr "Χρώμα"
@@ -5108,81 +5640,81 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:3772 src/dialogs/speechdialog.cpp:51
+#: src/bin/bin.cpp:3777 src/dialogs/speechdialog.cpp:51
 #: src/dialogs/textbasededit.cpp:716 src/monitor/recmanager.cpp:42
 #, kde-format
 msgid "Show log"
 msgstr "Προβολή καταγραφής"
 
-#: src/bin/bin.cpp:3775 src/dialogs/textbasededit.cpp:717
+#: src/bin/bin.cpp:3780 src/dialogs/textbasededit.cpp:717
 #, fuzzy, kde-format
 #| msgid "Details"
 msgid "Detailed log"
 msgstr "Λεπτομέρειες"
 
-#: src/bin/bin.cpp:3835 src/bin/bin.cpp:3868
+#: src/bin/bin.cpp:3840 src/bin/bin.cpp:3873
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/bin/bin.cpp:3838 src/bin/bin.cpp:3841 src/bin/bin.cpp:3871
+#: src/bin/bin.cpp:3843 src/bin/bin.cpp:3846 src/bin/bin.cpp:3876
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence %1"
 msgstr "Όνομα ακολουθίας"
 
-#: src/bin/bin.cpp:3902
+#: src/bin/bin.cpp:3907
 #, fuzzy, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Μετακίνηση κλιπ"
 msgstr[1] "Μετακίνηση κλιπ"
 
-#: src/bin/bin.cpp:3944
+#: src/bin/bin.cpp:3949
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to edit"
 msgid "No valid clip to insert"
 msgstr "Αδυναμία εύρεσης κλιπ προς επεξεργασία"
 
-#: src/bin/bin.cpp:3957 src/timeline2/view/timelinecontroller.cpp:1534
+#: src/bin/bin.cpp:3962 src/timeline2/view/timelinecontroller.cpp:1534
 #: src/timeline2/view/timelinecontroller.cpp:3422
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
-#: src/bin/bin.cpp:3968
+#: src/bin/bin.cpp:3973
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot apply effects on folders"
 msgstr "Αδυναμία προσθήκης εφέ βίντεο σε αυτό το κλιπ"
 
-#: src/bin/bin.cpp:3996 src/effects/effectstack/model/effectstackmodel.cpp:653
+#: src/bin/bin.cpp:4001 src/effects/effectstack/model/effectstackmodel.cpp:653
 #: src/effects/effectstack/model/effectstackmodel.cpp:659
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect to clip"
 msgstr "Αδυναμία προσθήκης εφέ βίντεο σε αυτό το κλιπ"
 
-#: src/bin/bin.cpp:4034 src/effects/effectstack/model/effectstackmodel.cpp:614
+#: src/bin/bin.cpp:4039 src/effects/effectstack/model/effectstackmodel.cpp:614
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Paste effect"
 msgstr "Επικόλληση εφέ"
 
-#: src/bin/bin.cpp:4071 src/bin/bin.cpp:4078
+#: src/bin/bin.cpp:4076 src/bin/bin.cpp:4083
 #, fuzzy, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Επιλογή κλιπ προς διαγραφή"
 
-#: src/bin/bin.cpp:4217
+#: src/bin/bin.cpp:4222
 #, fuzzy, kde-format
 #| msgid "Edit Duration"
 msgid "Edit Tags"
 msgstr "Τροποποίηση διάρκειας"
 
-#: src/bin/bin.cpp:4540 src/bin/projectclip.cpp:186
+#: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
 #: src/bin/projectclip.cpp:1995 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
@@ -5191,12 +5723,12 @@ msgstr "Τροποποίηση διάρκειας"
 msgid "Unnamed"
 msgstr "Όνομα αρχείου"
 
-#: src/bin/bin.cpp:4604
+#: src/bin/bin.cpp:4609
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4616
+#: src/bin/bin.cpp:4621
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
@@ -5204,12 +5736,12 @@ msgid "Please set a default application to open image files"
 msgstr ""
 "Παρακαλώ ορίσετε στον διάλογο ρυθμίσεων μία εφαρμογή για το άνοιγμα εικόνων"
 
-#: src/bin/bin.cpp:4621
+#: src/bin/bin.cpp:4626
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:4633
+#: src/bin/bin.cpp:4638
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -5219,7 +5751,7 @@ msgstr ""
 "Παρακαλώ ορίσετε στον διάλογο ρυθμίσεων μία εφαρμογή για το άνοιγμα αρχείων "
 "ήχου"
 
-#: src/bin/bin.cpp:4643 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
+#: src/bin/bin.cpp:4648 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
 #: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
@@ -5228,12 +5760,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Αδυναμία ανοίγματος αρχείου"
 
-#: src/bin/bin.cpp:4823 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4828 src/dialogs/profilesdialog.cpp:212
 #, kde-format
 msgid "(copy)"
 msgstr ""
 
-#: src/bin/bin.cpp:4833
+#: src/bin/bin.cpp:4838
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -5242,175 +5774,175 @@ msgstr ""
 "Επεξεργάζεστε έναν εξωτερικό τίτλο κλιπ (%1). Θέλετε να αποθηκεύσετε τις "
 "αλλαγές σας στον τίτλο αρχείου ή να τις αποθηκεύσετε για το έργο αυτό μόνο;"
 
-#: src/bin/bin.cpp:4836 src/titler/titlewidget.cpp:2263
+#: src/bin/bin.cpp:4841 src/titler/titlewidget.cpp:2263
 #, kde-format
 msgid "Save Title"
 msgstr "Αποθήκευση τίτλου"
 
-#: src/bin/bin.cpp:4836
+#: src/bin/bin.cpp:4841
 #, kde-format
 msgid "Save to title file"
 msgstr "Αποθήκευση σε τίτλο αρχείου"
 
-#: src/bin/bin.cpp:4837
+#: src/bin/bin.cpp:4842
 #, kde-format
 msgid "Save in project only"
 msgstr "Αποθήκευση στο έργο μόνο"
 
-#: src/bin/bin.cpp:4860 src/dialogs/clipcreationdialog.cpp:328
+#: src/bin/bin.cpp:4865 src/dialogs/clipcreationdialog.cpp:328
 #, kde-format
 msgid "Title clip"
 msgstr "Κλιπ τίτλου"
 
-#: src/bin/bin.cpp:4910
+#: src/bin/bin.cpp:4915
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Το κλιπ δεν είναι έγκυρο, θα αφαιρεθεί από το έργο."
 
-#: src/bin/bin.cpp:4914
+#: src/bin/bin.cpp:4919
 #, kde-format
 msgid "Invalid clip"
 msgstr "Μη έγκυρο κλιπ"
 
-#: src/bin/bin.cpp:5028
+#: src/bin/bin.cpp:5033
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Enable proxies"
 msgstr "Διαγραφή διαμεσολαβητών"
 
-#: src/bin/bin.cpp:5028
+#: src/bin/bin.cpp:5033
 #, fuzzy, kde-format
 #| msgid "Delete proxies"
 msgid "Disable proxies"
 msgstr "Διαγραφή διαμεσολαβητών"
 
-#: src/bin/bin.cpp:5202
+#: src/bin/bin.cpp:5207
 #, fuzzy, kde-format
 #| msgid "Rebuild Group"
 msgid "Rebuild proxies"
 msgstr "Ανασυγκρότηση ομάδας"
 
-#: src/bin/bin.cpp:5437
+#: src/bin/bin.cpp:5442
 #, fuzzy, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Έργο"
 
-#: src/bin/bin.cpp:5453
+#: src/bin/bin.cpp:5458
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tracks"
 msgstr "Προσθήκη κομματιού"
 
-#: src/bin/bin.cpp:5455
+#: src/bin/bin.cpp:5460
 #, fuzzy, kde-format
 #| msgid "Edit Guide"
 msgid "Edit Streams"
 msgstr "Επεξεργασία οδηγού"
 
-#: src/bin/bin.cpp:5470
+#: src/bin/bin.cpp:5475
 #, kde-format
 msgid "Don't ask again"
 msgstr ""
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:5474
+#: src/bin/bin.cpp:5479
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:5486 src/mainwindow.cpp:2706
+#: src/bin/bin.cpp:5491 src/mainwindow.cpp:2706
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Αδύνατη η εύρεση κλιπ για την προσθήκη δείκτη"
 
-#: src/bin/bin.cpp:5580
+#: src/bin/bin.cpp:5585
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not find master clip"
 msgstr "Προστίθενται κλιπ"
 
-#: src/bin/bin.cpp:5842
+#: src/bin/bin.cpp:5847
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:5844
+#: src/bin/bin.cpp:5849
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:5911 src/bin/bin.cpp:5988
+#: src/bin/bin.cpp:5916 src/bin/bin.cpp:5993
 #, fuzzy, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Προσθήκη μετάβασης στο κλιπ"
 msgstr[1] "Προσθήκη μετάβασης στο κλιπ"
 
-#: src/bin/bin.cpp:5932
+#: src/bin/bin.cpp:5937
 #, fuzzy, kde-format
 msgid "Import selected clips"
 msgstr "Διαγραφή του επιλεγμένου κλιπ"
 
-#: src/bin/bin.cpp:5934
+#: src/bin/bin.cpp:5939
 #, fuzzy, kde-format
 msgid ""
 "Additional streams for clip\n"
 " %1"
 msgstr "Προσθήκη μετάβασης στο κλιπ"
 
-#: src/bin/bin.cpp:5947 src/mltcontroller/clippropertiescontroller.cpp:669
+#: src/bin/bin.cpp:5952 src/mltcontroller/clippropertiescontroller.cpp:669
 #, fuzzy, kde-format
 msgid "Video stream %1"
 msgstr "Κομμάτι βίντεο"
 
-#: src/bin/bin.cpp:5962
+#: src/bin/bin.cpp:5967
 #, fuzzy, kde-format
 msgid "Audio stream %1"
 msgstr "Ηχητικό κομμάτι"
 
-#: src/bin/bin.cpp:6015
+#: src/bin/bin.cpp:6020
 #, fuzzy, kde-format
 #| msgid "Delete marker"
 msgid "Remove clip markers"
 msgstr "Διαγραφή δείκτη"
 
-#: src/bin/bin.cpp:6162
+#: src/bin/bin.cpp:6167
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6163
+#: src/bin/bin.cpp:6168
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Αποθήκευση έργου DVD"
 
-#: src/bin/bin.cpp:6164
+#: src/bin/bin.cpp:6169
 #, fuzzy, kde-format
 #| msgid "Transcoding"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Μετατροπή"
 
-#: src/bin/bin.cpp:6313 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6318 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effect %1"
 msgstr "Διαγραφή εφέ"
 
-#: src/bin/bin.cpp:6378 src/mainwindow.cpp:319
+#: src/bin/bin.cpp:6383 src/mainwindow.cpp:319
 #, fuzzy, kde-format
 msgid "Project Bin"
 msgstr "Έργο"
 
-#: src/bin/bin.cpp:6381 src/bin/bin.cpp:6384 src/mainwindow.cpp:4810
+#: src/bin/bin.cpp:6386 src/bin/bin.cpp:6389 src/mainwindow.cpp:4813
 #, fuzzy, kde-format
 msgid "Project Bin %1"
 msgstr "Έργο"
@@ -5818,7 +6350,7 @@ msgstr ""
 msgid "version"
 msgstr "Λειτουργία 1"
 
-#: src/bin/playlistclip.cpp:171
+#: src/bin/playlistclip.cpp:169
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence count"
@@ -6056,7 +6588,7 @@ msgid ""
 "can change this from Kdenlive's settings panel"
 msgstr ""
 
-#: src/core.cpp:255 src/project/projectmanager.cpp:827
+#: src/core.cpp:255 src/project/projectmanager.cpp:824
 #, kde-format
 msgid "Loading project…"
 msgstr "Φόρτωση έργου…"
@@ -6583,7 +7115,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Διαχείριση κωδικοποιημένων προφίλ"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/kdenlivesettingsdialog.cpp:310
+#: src/dialogs/kdenlivesettingsdialog.cpp:309
 #: src/project/dialogs/archivewidget.cpp:98
 #, fuzzy, kde-format
 #| msgid "Proxy Clip"
@@ -6667,7 +7199,7 @@ msgstr "Αυτόματο"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:716
+#: src/dialogs/kdenlivesettingsdialog.cpp:715
 #: src/project/dialogs/projectsettings.cpp:906
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -6747,7 +7279,7 @@ msgstr "Προσθήκη δείκτη"
 #: src/project/dialogs/archivewidget.cpp:886
 #: src/project/dialogs/archivewidget.cpp:898
 #: src/project/dialogs/archivewidget.cpp:904
-#: src/project/projectmanager.cpp:1882 src/render/renderrequest.cpp:313
+#: src/project/projectmanager.cpp:1876 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
 #: src/timeline2/view/timelinecontroller.cpp:5122
@@ -6817,7 +7349,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:46 src/dialogs/importsubtitle.cpp:79
-#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1772
+#: src/project/dialogs/guideslist.cpp:179 src/project/projectmanager.cpp:1766
 #: src/renderpresets/renderpresetrepository.cpp:310
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
@@ -6840,126 +7372,124 @@ msgstr "Αποκωδικοποίηση νημάτων"
 msgid "Import Subtitle"
 msgstr "Προσθήκη δείκτη"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:115 src/mainwindow.cpp:3943
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3943
 #, kde-format
 msgid "Timeline"
 msgstr "Χρονοδιάγραμμα"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:125
+#: src/dialogs/kdenlivesettingsdialog.cpp:124
 #, fuzzy, kde-format
 #| msgid "Color Space"
 msgid "Colors and Guides"
 msgstr "Χρωματικός χώρος"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:132
+#: src/dialogs/kdenlivesettingsdialog.cpp:131
 #, kde-format
 msgid "Speech To Text"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:136
+#: src/dialogs/kdenlivesettingsdialog.cpp:135
 #, kde-format
 msgid "Playback"
 msgstr "Αναπαραγωγή"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:146
+#: src/dialogs/kdenlivesettingsdialog.cpp:145
 #, kde-format
 msgid "Capture"
 msgstr "Σύλληψη"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMisc)
-#: src/dialogs/kdenlivesettingsdialog.cpp:222
+#: src/dialogs/kdenlivesettingsdialog.cpp:221
 #: src/effects/effectlist/model/effecttreemodel.cpp:61
-#: src/ui/editsubstyle_ui.ui:146
 #, kde-format
 msgid "Misc"
 msgstr "Διάφορα"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:246
-#: src/dialogs/kdenlivesettingsdialog.cpp:826
+#: src/dialogs/kdenlivesettingsdialog.cpp:245
+#: src/dialogs/kdenlivesettingsdialog.cpp:825
 #: src/doc/documentvalidator.cpp:2523
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:280
+#: src/dialogs/kdenlivesettingsdialog.cpp:279
 #, fuzzy, kde-format
 #| msgid "Please set your default video profile"
 msgid "Select the Default Profile (preset)"
 msgstr "Παρακαλώ ορίσετε το προεπιλεγμένο προφίλ βίντεο"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:301
+#: src/dialogs/kdenlivesettingsdialog.cpp:300
 #, kde-format
 msgid "Project Defaults"
 msgstr "Προεπιλογές του έργου"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:345
-#: src/dialogs/kdenlivesettingsdialog.cpp:370
+#: src/dialogs/kdenlivesettingsdialog.cpp:344
+#: src/dialogs/kdenlivesettingsdialog.cpp:369
 #, fuzzy, kde-format
 #| msgid "Default folders"
 msgid "Use default folder: %1"
 msgstr "Προκαθορισμένοι φάκελοι"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:347
-#: src/dialogs/kdenlivesettingsdialog.cpp:373
+#: src/dialogs/kdenlivesettingsdialog.cpp:346
+#: src/dialogs/kdenlivesettingsdialog.cpp:372
+#: src/dialogs/kdenlivesettingsdialog.cpp:1081
 #: src/dialogs/kdenlivesettingsdialog.cpp:1082
-#: src/dialogs/kdenlivesettingsdialog.cpp:1083
+#: src/dialogs/kdenlivesettingsdialog.cpp:1092
 #: src/dialogs/kdenlivesettingsdialog.cpp:1093
-#: src/dialogs/kdenlivesettingsdialog.cpp:1094
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
 msgstr "Χρήση φακέλου έργου"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:349
-#: src/dialogs/kdenlivesettingsdialog.cpp:375
+#: src/dialogs/kdenlivesettingsdialog.cpp:348
+#: src/dialogs/kdenlivesettingsdialog.cpp:374
+#: src/dialogs/kdenlivesettingsdialog.cpp:1088
 #: src/dialogs/kdenlivesettingsdialog.cpp:1089
-#: src/dialogs/kdenlivesettingsdialog.cpp:1090
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
 msgstr "Χρήση φακέλου έργου"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:388
+#: src/dialogs/kdenlivesettingsdialog.cpp:387
 #, kde-format
 msgid "Environment"
 msgstr "Περιβάλλον"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:424
+#: src/dialogs/kdenlivesettingsdialog.cpp:423
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Η δυνατότητα καταγραφής δεν είναι ακόμα διαθέσιμη για το OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:434
+#: src/dialogs/kdenlivesettingsdialog.cpp:433
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Mono (1 channel)"
 msgstr "Κανάλια ήχου"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:435
+#: src/dialogs/kdenlivesettingsdialog.cpp:434
 #, fuzzy, kde-format
 #| msgid "Swap channels"
 msgid "Stereo (2 channels)"
 msgstr "Εναλλαγή καναλιών"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:442
+#: src/dialogs/kdenlivesettingsdialog.cpp:441
 #, fuzzy, kde-format
 #| msgid "100 Hz"
 msgid "44100 Hz"
 msgstr "100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:443
+#: src/dialogs/kdenlivesettingsdialog.cpp:442
 #, fuzzy, kde-format
 #| msgid "5000 Hz"
 msgid "48000 Hz"
 msgstr "5000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:496
+#: src/dialogs/kdenlivesettingsdialog.cpp:495
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:499
+#: src/dialogs/kdenlivesettingsdialog.cpp:498
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -6968,118 +7498,118 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:519 src/dialogs/timeremap.cpp:1583
+#: src/dialogs/kdenlivesettingsdialog.cpp:518 src/dialogs/timeremap.cpp:1583
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Μετατροπή"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:553
+#: src/dialogs/kdenlivesettingsdialog.cpp:552
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:723
+#: src/dialogs/kdenlivesettingsdialog.cpp:722
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:724
-#: src/dialogs/kdenlivesettingsdialog.cpp:777
+#: src/dialogs/kdenlivesettingsdialog.cpp:723
+#: src/dialogs/kdenlivesettingsdialog.cpp:776
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:725
+#: src/dialogs/kdenlivesettingsdialog.cpp:724
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:726
+#: src/dialogs/kdenlivesettingsdialog.cpp:725
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:728
+#: src/dialogs/kdenlivesettingsdialog.cpp:727
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Δαίμονας Esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:729
+#: src/dialogs/kdenlivesettingsdialog.cpp:728
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Δαίμονας ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
+#: src/dialogs/kdenlivesettingsdialog.cpp:740
 #: src/dialogs/kdenlivesettingsdialog.cpp:741
-#: src/dialogs/kdenlivesettingsdialog.cpp:742
 #: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/subtitlestyleedit.cpp:97 src/ui/configproject_ui.ui:48
+#: src/dialogs/subtitlestyleedit.cpp:99 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Προεπιλεγμένο"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:793
+#: src/dialogs/kdenlivesettingsdialog.cpp:792
 #, kde-format
 msgid "SDL"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:805
+#: src/dialogs/kdenlivesettingsdialog.cpp:804
 #, fuzzy, kde-format
 #| msgid "Audio"
 msgid "RtAudio"
 msgstr "Ήχος"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:829 src/mainwindow.cpp:274
+#: src/dialogs/kdenlivesettingsdialog.cpp:828 src/mainwindow.cpp:274
 #, kde-format
 msgid "Monitor %1"
 msgstr "Επισκόπηση %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:913
+#: src/dialogs/kdenlivesettingsdialog.cpp:912
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:921
+#: src/dialogs/kdenlivesettingsdialog.cpp:920
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:929 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:928 src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Αποτυχία έναρξης σύλληψης"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1012
-#: src/dialogs/kdenlivesettingsdialog.cpp:1030
+#: src/dialogs/kdenlivesettingsdialog.cpp:1011
+#: src/dialogs/kdenlivesettingsdialog.cpp:1029
 #: src/project/dialogs/projectsettings.cpp:538
 #, fuzzy, kde-format
 #| msgid "Please set your default video profile"
 msgid "Please select a video profile"
 msgstr "Παρακαλώ ορίσετε το προεπιλεγμένο προφίλ βίντεο"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1315
+#: src/dialogs/kdenlivesettingsdialog.cpp:1314
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1463
+#: src/dialogs/kdenlivesettingsdialog.cpp:1462
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Προφίλ με αυτό το όνομα υπάρχει ήδη"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1597
+#: src/dialogs/kdenlivesettingsdialog.cpp:1596
 #, kde-format
 msgid "Current settings"
 msgstr "Τρέχουσες ρυθμίσεις"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1635
-#: src/dialogs/kdenlivesettingsdialog.cpp:1671
-#: src/dialogs/kdenlivesettingsdialog.cpp:1688
+#: src/dialogs/kdenlivesettingsdialog.cpp:1634
+#: src/dialogs/kdenlivesettingsdialog.cpp:1670
+#: src/dialogs/kdenlivesettingsdialog.cpp:1687
 #: src/mltcontroller/clippropertiescontroller.cpp:562
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -7088,12 +7618,12 @@ msgstr "Τρέχουσες ρυθμίσεις"
 msgid "Progressive"
 msgstr "Προοδευτικό"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1777
+#: src/dialogs/kdenlivesettingsdialog.cpp:1776
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1778
+#: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
 msgid ""
 "Text translation is performed by the SeamlessM4T model. This requires "
@@ -7101,79 +7631,78 @@ msgid ""
 "offline."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1797
+#: src/dialogs/kdenlivesettingsdialog.cpp:1796
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download (1.4Gb)"
 msgstr "Λήψη νέων wipes..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1819
+#: src/dialogs/kdenlivesettingsdialog.cpp:1818
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1828
-#: src/dialogs/kdenlivesettingsdialog.cpp:2079
-#: src/dialogs/kdenlivesettingsdialog.cpp:2247 src/ui/configspeech_ui.ui:61
-#: src/ui/configspeech_ui.ui:284
+#: src/dialogs/kdenlivesettingsdialog.cpp:1827
+#: src/dialogs/kdenlivesettingsdialog.cpp:2262 src/ui/configspeech_ui.ui:99
+#: src/ui/configspeech_ui.ui:322
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Models folder"
 msgstr "Χρήση φακέλου έργου"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1874
+#: src/dialogs/kdenlivesettingsdialog.cpp:1875
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Setting up virtual environment…"
 msgstr "Ορίσετε τη διαδρομή για το περιβάλλον MLT"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1876
+#: src/dialogs/kdenlivesettingsdialog.cpp:1877
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1893
+#: src/dialogs/kdenlivesettingsdialog.cpp:1894
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "Ορίσετε τη διαδρομή για το περιβάλλον MLT"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1898
+#: src/dialogs/kdenlivesettingsdialog.cpp:1899
 #, fuzzy, kde-format
 #| msgid "Sequence not found"
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Η ακολουθία δε βρέθηκε"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1901
+#: src/dialogs/kdenlivesettingsdialog.cpp:1902
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1907
-#: src/dialogs/kdenlivesettingsdialog.cpp:1910
+#: src/dialogs/kdenlivesettingsdialog.cpp:1908
+#: src/dialogs/kdenlivesettingsdialog.cpp:1911
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1931
+#: src/dialogs/kdenlivesettingsdialog.cpp:1932
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading multilingual model…"
 msgstr "Λήψη νέων wipes..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1988
-#: src/dialogs/kdenlivesettingsdialog.cpp:2244
+#: src/dialogs/kdenlivesettingsdialog.cpp:1989
+#: src/dialogs/kdenlivesettingsdialog.cpp:2259
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "Επιλογή μετάβασης"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2022
+#: src/dialogs/kdenlivesettingsdialog.cpp:2023
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7181,55 +7710,55 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2036 src/ui/configspeech_ui.ui:270
+#: src/dialogs/kdenlivesettingsdialog.cpp:2037 src/ui/configspeech_ui.ui:308
 #, fuzzy, kde-format
 #| msgid "Invalid transition"
 msgid "Install multilingual translation"
 msgstr "Μη έγκυρη μετάβαση"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2045
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2076
-#: src/dialogs/kdenlivesettingsdialog.cpp:2085
+#: src/dialogs/kdenlivesettingsdialog.cpp:2078
+#: src/dialogs/kdenlivesettingsdialog.cpp:2086
 #, fuzzy, kde-format
 #| msgid "Installed modules"
 msgid "Install a model"
 msgstr "Εγκατεστημένα αρθρώματα"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2087 src/ui/configspeech_ui.ui:194
+#: src/dialogs/kdenlivesettingsdialog.cpp:2088 src/ui/configspeech_ui.ui:232
 #, fuzzy, kde-format
 #| msgid "Edge mode"
 msgid "Manage models"
 msgstr "Λειτουργία ακμών"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2122
+#: src/dialogs/kdenlivesettingsdialog.cpp:2137
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2128
+#: src/dialogs/kdenlivesettingsdialog.cpp:2143
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "Λήψη νέων wipes..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2138
+#: src/dialogs/kdenlivesettingsdialog.cpp:2153
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2144
-#: src/dialogs/kdenlivesettingsdialog.cpp:2203
+#: src/dialogs/kdenlivesettingsdialog.cpp:2159
+#: src/dialogs/kdenlivesettingsdialog.cpp:2218
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "Αδυναμία προσθήκης εφέ βίντεο σε αυτό το κλιπ"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2153
+#: src/dialogs/kdenlivesettingsdialog.cpp:2168
 #, fuzzy, kde-format
 #| msgid "Delete folder"
 msgid ""
@@ -7237,25 +7766,25 @@ msgid ""
 "%1"
 msgstr "Διαγραφή φακέλου"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2177
+#: src/dialogs/kdenlivesettingsdialog.cpp:2192
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error"
 msgstr "Λήψη νέων wipes..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2182
+#: src/dialogs/kdenlivesettingsdialog.cpp:2197
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Download error %1"
 msgstr "Λήψη νέων wipes..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2210
+#: src/dialogs/kdenlivesettingsdialog.cpp:2225
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "Εξαγωγή..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2217
+#: src/dialogs/kdenlivesettingsdialog.cpp:2232
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -7364,25 +7893,25 @@ msgstr ""
 msgid " events"
 msgstr ""
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:111
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom Left"
 msgstr "Η βάση πρώτα"
 
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:113
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom Right"
 msgstr "Η βάση πρώτα"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:103
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:105
 #, fuzzy, kde-format
 #| msgid "Clip left"
 msgid "Top Left"
 msgstr "Περικοπή αριστερά"
 
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:105
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:107
 #, fuzzy, kde-format
 #| msgid "Copyright"
 msgid "Top Right"
@@ -7394,7 +7923,7 @@ msgstr "Πνευματικά δικαιώματα"
 msgid "Box as Border"
 msgstr "Πλάτος περιγράμματος"
 
-#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:99
+#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:101
 #, fuzzy, kde-format
 #| msgid "Shadow"
 msgid "Box as Shadow"
@@ -8935,56 +9464,56 @@ msgstr "Θέση Υ"
 msgid "Y:"
 msgstr "Y:"
 
-#: src/dialogs/subtitlestyleedit.cpp:45
+#: src/dialogs/subtitlestyleedit.cpp:47
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select font"
 msgstr "Εργαλείο επιλογής"
 
-#: src/dialogs/subtitlestyleedit.cpp:46
+#: src/dialogs/subtitlestyleedit.cpp:48
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:98
+#: src/dialogs/subtitlestyleedit.cpp:100
 #, fuzzy, kde-format
 #| msgid "Outline"
 msgid "Box as Outline"
 msgstr "Περίγραμμα"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:37
+#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:145
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Show Preview >>>"
 msgstr "Χωρίς τίτλο"
 
-#: src/dialogs/subtitlestyleedit.cpp:133
+#: src/dialogs/subtitlestyleedit.cpp:132
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "<<< Hide Preview"
 msgstr "Χωρίς τίτλο"
 
-#: src/dialogs/subtitlestyleedit.cpp:161 src/dialogs/subtitlestyleedit.cpp:166
-#: src/dialogs/subtitlestyleedit.cpp:171
+#: src/dialogs/subtitlestyleedit.cpp:160 src/dialogs/subtitlestyleedit.cpp:165
+#: src/dialogs/subtitlestyleedit.cpp:170
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: src/dialogs/subtitlestyleedit.cpp:161
+#: src/dialogs/subtitlestyleedit.cpp:160
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Style name already exists."
 msgstr "Το προφίλ αυτό υπάρχει ήδη"
 
-#: src/dialogs/subtitlestyleedit.cpp:166
+#: src/dialogs/subtitlestyleedit.cpp:165
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:171
+#: src/dialogs/subtitlestyleedit.cpp:170
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr ""
@@ -9819,8 +10348,8 @@ msgstr "Τα ακόλουθα εφέ εισήχθησαν από το έργο:"
 msgid "Invalid file path"
 msgstr "Μη έγκυρο κλιπ"
 
-#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:812
-#: src/project/projectmanager.cpp:854
+#: src/doc/kdenlivedoc.cpp:207 src/project/projectmanager.cpp:809
+#: src/project/projectmanager.cpp:851
 #, fuzzy, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Αδυναμία ανοίγματος του αρχείου %1 του έργου"
@@ -9906,16 +10435,16 @@ msgstr ""
 "Το αρχείο του έργου σας αναβαθμίστηκε στην τελευταία έκδοση εγγράφων του "
 "Kdenlive, όμως δεν κατέστη δυνατή η δημιουργία του εφεδρικού αντιγράφου %1."
 
-#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1456
-#: src/project/projectmanager.cpp:1492
+#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1453
+#: src/project/projectmanager.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder: %1"
 msgstr "Φάκελος έργου: %1"
 
-#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2362
+#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2366
 #: src/project/dialogs/archivewidget.cpp:245
-#: src/project/projectmanager.cpp:1713
+#: src/project/projectmanager.cpp:1707
 #, kde-format
 msgid "Untitled"
 msgstr "Χωρίς τίτλο"
@@ -10039,13 +10568,13 @@ msgid ""
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2401 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2405 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Κόκκινο"
 
-#: src/doc/kdenlivedoc.cpp:2402 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2406 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10053,24 +10582,24 @@ msgstr "Κόκκινο"
 msgid "Green"
 msgstr "Πράσινο"
 
-#: src/doc/kdenlivedoc.cpp:2403 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2407 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Μπλε"
 
-#: src/doc/kdenlivedoc.cpp:2404 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2408 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Κίτρινο"
 
-#: src/doc/kdenlivedoc.cpp:2405
+#: src/doc/kdenlivedoc.cpp:2409
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2742 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2746 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -13095,14 +13624,14 @@ msgid ""
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2214 src/project/projectmanager.cpp:618
+#: src/mainwindow.cpp:2214 src/project/projectmanager.cpp:615
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 "Αδυναμία χρήσης του εργαλείου κενού διαστήματος σε ένα κλειδωμένο κομμάτι"
 
-#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:624
+#: src/mainwindow.cpp:2219 src/project/projectmanager.cpp:621
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation, target directory already exists: %1"
@@ -13420,37 +13949,37 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Απόκρυψη καρέ"
 
-#: src/mainwindow.cpp:4679 src/timeline2/view/timelinecontroller.cpp:5080
+#: src/mainwindow.cpp:4682 src/timeline2/view/timelinecontroller.cpp:5080
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
 msgstr "Δεν υπάρχει οδηγός στην χρονική στιγμή του δρομέα"
 
-#: src/mainwindow.cpp:4966
+#: src/mainwindow.cpp:4969
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:4969
+#: src/mainwindow.cpp:4972
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Διαμόρφωση συσκευών"
 
-#: src/mainwindow.cpp:4972
+#: src/mainwindow.cpp:4975
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:4975
+#: src/mainwindow.cpp:4978
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5018
+#: src/mainwindow.cpp:5021
 #, fuzzy, kde-format
 #| msgid "Delete selected clip"
 #| msgid_plural "Delete selected clips"
@@ -13665,7 +14194,7 @@ msgid "Audio streams"
 msgstr "Ηχητικό κομμάτι"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:745
-#: src/monitor/monitor.cpp:1926
+#: src/monitor/monitor.cpp:1930
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -14150,45 +14679,45 @@ msgstr "Αποθήκευση εικόνας"
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1911 src/monitor/monitor.cpp:2044
+#: src/monitor/monitor.cpp:1915 src/monitor/monitor.cpp:2048
 #, fuzzy, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "Ηχητικό κομμάτι"
 msgstr[1] "Ηχητικό κομμάτι"
 
-#: src/monitor/monitor.cpp:2375
+#: src/monitor/monitor.cpp:2379
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2417 src/monitor/monitor.cpp:2474
+#: src/monitor/monitor.cpp:2421 src/monitor/monitor.cpp:2478
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2437
+#: src/monitor/monitor.cpp:2441
 #, fuzzy, kde-format
 #| msgid "Clip has no markers"
 msgid "Clip has no effects"
 msgstr "Το κλιπ δεν περιέχει δείκτες"
 
-#: src/monitor/monitor.cpp:2439
+#: src/monitor/monitor.cpp:2443
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip in project bin to compare effect"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
-#: src/monitor/monitor.cpp:2481
+#: src/monitor/monitor.cpp:2485
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2527
+#: src/monitor/monitor.cpp:2531
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -14338,9 +14867,7 @@ msgid "Go to Zone End"
 msgstr "Μετάβαση στο τέλος της ζώνης"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_preview)
-#. i18n: ectx: property (text), widget (QLabel, labelPreview)
-#: src/monitor/recmanager.cpp:34 src/ui/editsubstyle_ui.ui:438
-#: src/ui/resourcewidget_ui.ui:251
+#: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
 #, kde-format
 msgid "Preview"
 msgstr "Προεπισκόπηση"
@@ -14921,7 +15448,7 @@ msgstr ""
 msgid " interlaced"
 msgstr " πεπλεγμένo"
 
-#: src/profiles/profilemodel.cpp:168
+#: src/profiles/profilemodel.cpp:170
 #, kde-format
 msgid "The project profile is invalid (%1x%2), it was adjusted to %3x%4."
 msgstr ""
@@ -16019,7 +16546,7 @@ msgstr "Άνοιγμα εφεδρικού αρχείου…"
 msgid "Save changes to document?"
 msgstr "Αποθήκευση αλλαγών στο έγγραφο;"
 
-#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1712
+#: src/project/projectmanager.cpp:444 src/project/projectmanager.cpp:1706
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -16028,17 +16555,17 @@ msgstr ""
 "Το έργο <b>\"%1\"</b> έχει τροποποιηθεί.\n"
 "Επιθυμείτε την αποθήκευση των αλλαγών σας;"
 
-#: src/project/projectmanager.cpp:560
+#: src/project/projectmanager.cpp:557
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:593
+#: src/project/projectmanager.cpp:590
 #, fuzzy, kde-format
 msgid "Saving successful"
 msgstr "Αναμονή - επεξεργασία κλιπ"
 
-#: src/project/projectmanager.cpp:606
+#: src/project/projectmanager.cpp:603
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -16046,42 +16573,42 @@ msgid ""
 "files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded"
 msgstr ""
 
-#: src/project/projectmanager.cpp:647
+#: src/project/projectmanager.cpp:644
 #, fuzzy, kde-format
 #| msgid "Save to"
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Αποθήκευση σε"
 
-#: src/project/projectmanager.cpp:753
+#: src/project/projectmanager.cpp:750
 #, fuzzy, kde-format
 #| msgid "Auto-saved files exist. Do you want to recover them now?"
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr ""
 "Υπάρχουν αυτόματα αποθηκευμένα αρχεία. Επιθυμείτε να τα ανακτήσετε τώρα;"
 
-#: src/project/projectmanager.cpp:753
+#: src/project/projectmanager.cpp:750
 #, kde-format
 msgid "File Recovery"
 msgstr "Ανάκτηση αρχείου"
 
-#: src/project/projectmanager.cpp:754 src/project/projectmanager.cpp:842
+#: src/project/projectmanager.cpp:751 src/project/projectmanager.cpp:839
 #, kde-format
 msgid "Recover"
 msgstr "Ανάκτηση"
 
-#: src/project/projectmanager.cpp:754
+#: src/project/projectmanager.cpp:751
 #, fuzzy, kde-format
 #| msgid "Don't recover"
 msgid "Do not recover"
 msgstr "Να μην γίνει ανάκτηση"
 
-#: src/project/projectmanager.cpp:806
+#: src/project/projectmanager.cpp:803
 #, kde-format
 msgid "Opening file %1"
 msgstr "Άνοιγμα του αρχείου %1"
 
-#: src/project/projectmanager.cpp:841
+#: src/project/projectmanager.cpp:838
 #, fuzzy, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -16092,46 +16619,46 @@ msgstr ""
 "%1\n"
 "Θέλετε να ανοίξετε ένα εφεδρικό αρχείο;"
 
-#: src/project/projectmanager.cpp:842 src/project/projectmanager.cpp:1076
+#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1073
 #, kde-format
 msgid "Error opening file"
 msgstr "Σφάλμα στο άνοιγμα του αρχείου"
 
-#: src/project/projectmanager.cpp:842 src/project/projectmanager.cpp:1077
+#: src/project/projectmanager.cpp:839 src/project/projectmanager.cpp:1074
 #, kde-format
 msgid "Open Backup"
 msgstr "Άνοιγμα εφεδρικού"
 
-#: src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:855
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "Αδυναμία ανοίγματος του αρχείου %1 του έργου"
 
-#: src/project/projectmanager.cpp:873
+#: src/project/projectmanager.cpp:870
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:875
+#: src/project/projectmanager.cpp:872
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr ""
 
-#: src/project/projectmanager.cpp:946
+#: src/project/projectmanager.cpp:943
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Loading timeline…"
 msgstr "Λήψη νέων wipes..."
 
-#: src/project/projectmanager.cpp:964
+#: src/project/projectmanager.cpp:961
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Building sequences…"
 msgstr "Προεπισκόπηση ακολουθίας"
 
-#: src/project/projectmanager.cpp:1103
+#: src/project/projectmanager.cpp:1100
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -16139,7 +16666,7 @@ msgid ""
 "%1\n"
 msgstr "Αδυναμία ανοίγματος του αρχείου %1 του έργου"
 
-#: src/project/projectmanager.cpp:1143
+#: src/project/projectmanager.cpp:1140
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -16148,51 +16675,51 @@ msgstr ""
 "Θα διαγραφούν οι αλλαγές μετά την τελευταία αποθήκευση του έργου σας. Είστε "
 "σίγουρος ότι επιθυμείτε να συνεχίσετε;"
 
-#: src/project/projectmanager.cpp:1144
+#: src/project/projectmanager.cpp:1141
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Επαναφορά στην τελευταία αποθηκευμένη έκδοση"
 
-#: src/project/projectmanager.cpp:1230
+#: src/project/projectmanager.cpp:1227
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1434
+#: src/project/projectmanager.cpp:1431
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Φάκελος έργου: %1"
 
-#: src/project/projectmanager.cpp:1470
+#: src/project/projectmanager.cpp:1467
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Moving project folder"
 msgstr "Χρήση φακέλου έργου"
 
-#: src/project/projectmanager.cpp:1561 src/project/projectmanager.cpp:1619
-#: src/project/projectmanager.cpp:1623
+#: src/project/projectmanager.cpp:1558 src/project/projectmanager.cpp:1613
+#: src/project/projectmanager.cpp:1617
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence 1"
 msgstr "Όνομα ακολουθίας"
 
-#: src/project/projectmanager.cpp:1572
+#: src/project/projectmanager.cpp:1569
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 
-#: src/project/projectmanager.cpp:1718 src/project/projectmanager.cpp:1723
-#: src/project/projectmanager.cpp:1733 src/project/projectmanager.cpp:1747
+#: src/project/projectmanager.cpp:1712 src/project/projectmanager.cpp:1717
+#: src/project/projectmanager.cpp:1727 src/project/projectmanager.cpp:1741
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile change aborted"
 msgstr "Προφίλ έργου: %1"
 
-#: src/project/projectmanager.cpp:1870
+#: src/project/projectmanager.cpp:1864
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
@@ -16200,13 +16727,13 @@ msgid ""
 "Do you want to overwrite it?"
 msgstr "Το αρχείο υπάρχει ήδη. Επιθυμείτε την αντικατάστασή του;"
 
-#: src/project/projectmanager.cpp:1892
+#: src/project/projectmanager.cpp:1886
 #, fuzzy, kde-format
 #| msgid "Project profile: %1"
 msgid "Project profile changed"
 msgstr "Προφίλ έργου: %1"
 
-#: src/project/projectmanager.cpp:1953
+#: src/project/projectmanager.cpp:1947
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid ""
@@ -16214,18 +16741,18 @@ msgid ""
 "%1"
 msgstr "Αδυναμία δημιουργίας καταναλωτή %1."
 
-#: src/project/projectmanager.cpp:2035
+#: src/project/projectmanager.cpp:2029
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2224
+#: src/project/projectmanager.cpp:2218
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to create sequence"
 msgstr "Επιλέξετε ένα κλιπ για την εφαρμογή ενός εφέ"
 
-#: src/project/projectmanager.cpp:2262
+#: src/project/projectmanager.cpp:2256
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Create Sequence Clip"
@@ -16840,7 +17367,7 @@ msgstr ""
 msgid "Yiddish"
 msgstr ""
 
-#: src/pythoninterfaces/speechtotextwhisper.cpp:234
+#: src/pythoninterfaces/speechtotextwhisper.cpp:240
 #, kde-format
 msgid "Install Whisper"
 msgstr ""
@@ -18887,28 +19414,28 @@ msgstr "Ξεκλείδωμα κομματιού"
 msgid "Lock subtitle track"
 msgstr "Χωρίς τίτλο"
 
-#: src/timeline2/view/timelinecontroller.cpp:5349
-#: src/timeline2/view/timelinecontroller.cpp:5358
+#: src/timeline2/view/timelinecontroller.cpp:5352
+#: src/timeline2/view/timelinecontroller.cpp:5361
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Χωρίς τίτλο"
 
-#: src/timeline2/view/timelinecontroller.cpp:5360
+#: src/timeline2/view/timelinecontroller.cpp:5363
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "Χωρίς τίτλο"
 
-#: src/timeline2/view/timelinetabs.cpp:50
+#: src/timeline2/view/timelinetabs.cpp:51
 #, fuzzy, kde-format
 #| msgid "Preview sequence"
 msgid "Add Timeline Sequence"
 msgstr "Προεπισκόπηση ακολουθίας"
 
-#: src/timeline2/view/timelinetabs.cpp:52
+#: src/timeline2/view/timelinetabs.cpp:53
 #, kde-format
 msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
@@ -18921,25 +19448,25 @@ msgstr ""
 msgid "Close %1"
 msgstr "Κλείσιμο"
 
-#: src/timeline2/view/timelinetabs.cpp:425
+#: src/timeline2/view/timelinetabs.cpp:423
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Rename Sequence"
 msgstr "Ακολουθία εικόνων"
 
-#: src/timeline2/view/timelinewidget.cpp:60
+#: src/timeline2/view/timelinewidget.cpp:54
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Insert an effect..."
 msgstr "Επαναφορά εφέ"
 
-#: src/timeline2/view/timelinewidget.cpp:61
+#: src/timeline2/view/timelinewidget.cpp:55
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Insert a composition..."
 msgstr "Σύνθεση"
 
-#: src/timeline2/view/timelinewidget.cpp:327
+#: src/timeline2/view/timelinewidget.cpp:315
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "No available stream"
@@ -19137,11 +19664,6 @@ msgstr "Προσαρμοσμένη εστίαση"
 #, kde-format
 msgid "Select background color"
 msgstr "Επιλογή χρώματος φόντου"
-
-#: src/titler/titlewidget.cpp:366
-#, kde-format
-msgid "Background opacity"
-msgstr "Αδιαφάνεια φόντου"
 
 #: src/titler/titlewidget.cpp:367
 #, kde-format
@@ -19681,9 +20203,10 @@ msgstr "Στοίχιση δεξιά"
 msgid "Position:"
 msgstr "Θέση:"
 
+#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/titlewidget_ui.ui:1413
+#: src/ui/editsubstyle_ui.ui:364 src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Φόντο"
@@ -20467,7 +20990,7 @@ msgstr "Όνομα αρχείου σύλληψης:"
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_33)
 #: src/ui/configcapture_ui.ui:539 src/ui/configjogshuttle_ui.ui:106
-#: src/ui/configspeech_ui.ui:233
+#: src/ui/configspeech_ui.ui:271
 #, kde-format
 msgid "Device:"
 msgstr "Συσκευή:"
@@ -21253,83 +21776,95 @@ msgstr "Χρήση εξωτερικής προβολής (κάρτα Blackmagic)
 msgid "Output device:"
 msgstr "Συσκευή εξόδου:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
-#: src/ui/configspeech_ui.ui:90
-#, fuzzy, kde-format
-#| msgid "Use project folder"
-msgid "Custom models folder"
-msgstr "Χρήση φακέλου έργου"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_add)
-#: src/ui/configspeech_ui.ui:130
-#, fuzzy, kde-format
-#| msgid "Add folder"
-msgid "Add Model"
-msgstr "Προσθήκη φακέλου"
-
-#. i18n: ectx: property (text), widget (QPushButton, button_delete)
-#: src/ui/configspeech_ui.ui:143
-#, fuzzy, kde-format
-msgid "Remove Model"
-msgstr "Μετονομασία φακέλου"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configspeech_ui.ui:182
-#, fuzzy, kde-format
-#| msgid "Mode"
-msgid "Model:"
-msgstr "Λειτουργία"
-
-#. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configspeech_ui.ui:223
-#, kde-format
-msgid "Language:"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
-#: src/ui/configspeech_ui.ui:254
-#, kde-format
-msgid "Disable half precision (FP16 )"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
-#: src/ui/configspeech_ui.ui:261
-#, fuzzy, kde-format
-#| msgid "Template text clip"
-msgid "Translate text to English"
-msgstr "Πρότυπο κλιπ κειμένου"
-
-#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:333
-#, kde-format
-msgid "Check speech engine installation"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QPushButton, check_config)
-#: src/ui/configspeech_ui.ui:336
-#, fuzzy, kde-format
-#| msgid "Device configuration"
-msgid "Check configuration"
-msgstr "Διαμόρφωση συσκευών"
-
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configspeech_ui.ui:380
+#: src/ui/configspeech_ui.ui:45
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech engine"
 msgstr "Επιλογή μετάβασης"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_vosk)
-#: src/ui/configspeech_ui.ui:387
+#: src/ui/configspeech_ui.ui:52
 #, kde-format
 msgid "VOS&K"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
-#: src/ui/configspeech_ui.ui:394
+#: src/ui/configspeech_ui.ui:59
 #, kde-format
 msgid "Wh&isper"
 msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
+#: src/ui/configspeech_ui.ui:128
+#, fuzzy, kde-format
+#| msgid "Use project folder"
+msgid "Custom models folder"
+msgstr "Χρήση φακέλου έργου"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_add)
+#: src/ui/configspeech_ui.ui:168
+#, fuzzy, kde-format
+#| msgid "Add folder"
+msgid "Add Model"
+msgstr "Προσθήκη φακέλου"
+
+#. i18n: ectx: property (text), widget (QPushButton, button_delete)
+#: src/ui/configspeech_ui.ui:181
+#, fuzzy, kde-format
+msgid "Remove Model"
+msgstr "Μετονομασία φακέλου"
+
+#. i18n: ectx: property (text), widget (QLabel, label_3)
+#: src/ui/configspeech_ui.ui:220
+#, fuzzy, kde-format
+#| msgid "Mode"
+msgid "Model:"
+msgstr "Λειτουργία"
+
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/configspeech_ui.ui:261
+#, kde-format
+msgid "Language:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperDisableFP16)
+#: src/ui/configspeech_ui.ui:292
+#, kde-format
+msgid "Disable half precision (FP16 )"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_whisperTranslate)
+#: src/ui/configspeech_ui.ui:299
+#, fuzzy, kde-format
+#| msgid "Template text clip"
+msgid "Translate text to English"
+msgstr "Πρότυπο κλιπ κειμένου"
+
+#. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
+#: src/ui/configspeech_ui.ui:342
+#, kde-format
+msgid "Whisper"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
+#: src/ui/configspeech_ui.ui:373
+#, kde-format
+msgid "Seamless"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:428
+#, kde-format
+msgid "Check speech engine installation"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QPushButton, check_config)
+#: src/ui/configspeech_ui.ui:431
+#, fuzzy, kde-format
+#| msgid "Device configuration"
+msgid "Check configuration"
+msgstr "Διαμόρφωση συσκευών"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_thumbnails)
@@ -21951,104 +22486,125 @@ msgid "Subtitle Style Editor"
 msgstr "Χωρίς τίτλο"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsubstyle_ui.ui:93 src/ui/managesubtitles_ui.ui:364
-#, kde-format
-msgid "Bold"
-msgstr "Έντονο"
-
-#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
-#: src/ui/editsubstyle_ui.ui:103
-#, fuzzy, kde-format
-#| msgid " second"
-#| msgid_plural " seconds"
-msgid "Secondary"
-msgstr " δευτερόλεπτο"
-
-#. i18n: ectx: property (text), widget (QLabel, labelMargin)
-#: src/ui/editsubstyle_ui.ui:134
-#, kde-format
-msgid "Margin"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
-#: src/ui/editsubstyle_ui.ui:195 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align center"
-msgid "Alignment"
-msgstr "Στοίχιση στο κέντρο"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: src/ui/editsubstyle_ui.ui:211 src/ui/managesubtitles_ui.ui:374
-#, kde-format
-msgid "Underline"
-msgstr "Υπογράμμιση"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelShadow)
-#. i18n: ectx: property (text), widget (QLabel, labelBackColor)
-#: src/ui/editsubstyle_ui.ui:218 src/ui/editsubstyle_ui.ui:403
-#: src/ui/managesubtitles_ui.ui:409
+#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
+#: src/ui/editsubstyle_ui.ui:47 src/ui/managesubtitles_ui.ui:409
 #, kde-format
 msgid "Shadow"
 msgstr "Σκίαση"
 
-#. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
-#: src/ui/editsubstyle_ui.ui:265
+#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
+#: src/ui/editsubstyle_ui.ui:81
 #, fuzzy, kde-format
-#| msgid "Border Width"
-msgid "BorderStyle"
-msgstr "Πλάτος περιγράμματος"
+#| msgid "Vertical center"
+msgid "Vertical margin"
+msgstr "Κατακόρυφη στοίχιση"
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
+#: src/ui/editsubstyle_ui.ui:101
+#, kde-format
+msgid "Left margin"
+msgstr ""
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/editsubstyle_ui.ui:121
+#, kde-format
+msgid ""
+"The secondary color might be used in case of subtitle collision to help "
+"distinguish both subtitles"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelOutlineColor)
-#. i18n: ectx: property (text), widget (QLabel, labelOutline)
-#: src/ui/editsubstyle_ui.ui:350 src/ui/editsubstyle_ui.ui:484
-#: src/ui/managesubtitles_ui.ui:404
+#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
+#: src/ui/editsubstyle_ui.ui:152 src/ui/managesubtitles_ui.ui:404
 #, kde-format
 msgid "Outline"
 msgstr "Περίγραμμα"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
-#: src/ui/editsubstyle_ui.ui:370 src/ui/managesubtitles_ui.ui:419
-#, fuzzy, kde-format
-#| msgid "Scale X"
-msgid "ScaleX"
-msgstr "Κλίμακα X"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelScaleY)
-#: src/ui/editsubstyle_ui.ui:380 src/ui/managesubtitles_ui.ui:424
-#, fuzzy, kde-format
-#| msgid "Scale Y"
-msgid "ScaleY"
-msgstr "Κλίμακα Y"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
-#: src/ui/editsubstyle_ui.ui:454 src/ui/managesubtitles_ui.ui:379
+#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
+#: src/ui/editsubstyle_ui.ui:172
 #, kde-format
-msgid "StrikeOut"
+msgid "Right margin"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkBold)
+#: src/ui/editsubstyle_ui.ui:190 src/ui/managesubtitles_ui.ui:364
+#, kde-format
+msgid "Bold"
+msgstr "Έντονο"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsubstyle_ui.ui:510 src/ui/managesubtitles_ui.ui:369
+#: src/ui/editsubstyle_ui.ui:209 src/ui/managesubtitles_ui.ui:369
 #, fuzzy, kde-format
 #| msgid "Antialias"
 msgid "Italic"
 msgstr "Eξομάλυνση"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
-#: src/ui/editsubstyle_ui.ui:530 src/ui/managesubtitles_ui.ui:429
+#. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
+#: src/ui/editsubstyle_ui.ui:222 src/ui/managesubtitles_ui.ui:374
+#, kde-format
+msgid "Underline"
+msgstr "Υπογράμμιση"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
+#: src/ui/editsubstyle_ui.ui:235 src/ui/managesubtitles_ui.ui:379
+#, kde-format
+msgid "StrikeOut"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
+#: src/ui/editsubstyle_ui.ui:274
 #, fuzzy, kde-format
-#| msgid "Spacer tool"
-msgid "Spacing"
-msgstr "Εργαλείο κενού διαστήματος"
+#| msgid "Scale X"
+msgid "Scale X"
+msgstr "Κλίμακα X"
+
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsubstyle_ui.ui:284
+#, fuzzy, kde-format
+#| msgid "File name"
+msgid "Style name"
+msgstr "Όνομα αρχείου"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
+#: src/ui/editsubstyle_ui.ui:307 src/ui/managesubtitles_ui.ui:414
+#, fuzzy, kde-format
+#| msgid "Align center"
+msgid "Alignment"
+msgstr "Στοίχιση στο κέντρο"
+
+#. i18n: ectx: property (text), widget (QLabel, labelColor)
+#: src/ui/editsubstyle_ui.ui:327
+#, fuzzy, kde-format
+#| msgid "Target color"
+msgid "Text color"
+msgstr "Χρώμα προορισμός"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:337
+#, fuzzy, kde-format
+#| msgid "Interpolation"
+msgid "Character spacing"
+msgstr "Παρεμβολή"
+
+#. i18n: ectx: property (text), widget (QLabel, labelScaleY)
+#: src/ui/editsubstyle_ui.ui:377
+#, fuzzy, kde-format
+#| msgid "Scale Y"
+msgid "Scale Y"
+msgstr "Κλίμακα Y"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:408
+#, fuzzy, kde-format
+#| msgid " second"
+#| msgid_plural " seconds"
+msgid "Secondary"
+msgstr " δευτερόλεπτο"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -22130,18 +22686,6 @@ msgstr "Διαγραφή του επιλεγμένου κλιπ"
 #| msgid "FFmpeg parameters"
 msgid "FFmpeg Chapters"
 msgstr "Παράμετροι FFmpeg"
-
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/gradientedit_ui.ui:24
-#, kde-format
-msgid "Color 2"
-msgstr "Χρώμα 2"
-
-#. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/gradientedit_ui.ui:123
-#, kde-format
-msgid "Color 1"
-msgstr "Χρώμα 1"
 
 #. i18n: ectx: property (text), widget (QPushButton, guide_delete)
 #: src/ui/guidecategories_ui.ui:49
@@ -22610,6 +23154,27 @@ msgstr "Χρώμα περιγράμματος"
 #| msgid "Black color"
 msgid "BackColor"
 msgstr "Μαύρο χρώμα"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:419
+#, fuzzy, kde-format
+#| msgid "Scale X"
+msgid "ScaleX"
+msgstr "Κλίμακα X"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:424
+#, fuzzy, kde-format
+#| msgid "Scale Y"
+msgid "ScaleY"
+msgstr "Κλίμακα Y"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#: src/ui/managesubtitles_ui.ui:429
+#, fuzzy, kde-format
+#| msgid "Spacer tool"
+msgid "Spacing"
+msgstr "Εργαλείο κενού διαστήματος"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:439
@@ -24271,6 +24836,11 @@ msgid "%1h"
 msgstr ""
 
 #, fuzzy
+#~| msgid "Border Width"
+#~ msgid "BorderStyle"
+#~ msgstr "Πλάτος περιγράμματος"
+
+#, fuzzy
 #~| msgid "Environment"
 #~ msgid "Python environment"
 #~ msgstr "Περιβάλλον"
@@ -24651,9 +25221,6 @@ msgstr ""
 #~ msgid "Captured files"
 #~ msgstr "Αρχεία σύλληψης"
 
-#~ msgid "File name"
-#~ msgstr "Όνομα αρχείου"
-
 #, fuzzy
 #~| msgid "Size"
 #~ msgctxt "Filesize"
@@ -24845,9 +25412,6 @@ msgstr ""
 #~| msgid "create new points"
 #~ msgid "Create new points."
 #~ msgstr "δημιουργία νέων σημείων"
-
-#~ msgid "GraphView"
-#~ msgstr "GraphView"
 
 #~ msgid "Not connected"
 #~ msgstr "Δίχως σύνδεση"
@@ -25897,11 +26461,6 @@ msgstr ""
 #~ msgstr "Ορθογώνιο παράθυρο"
 
 #, fuzzy
-#~| msgid "Vertical center"
-#~ msgid "Vertical Start"
-#~ msgstr "Κατακόρυφη στοίχιση"
-
-#, fuzzy
 #~| msgid "Vertical"
 #~ msgid "Vertical End"
 #~ msgstr "Κατακόρυφη"
@@ -26461,23 +27020,11 @@ msgstr ""
 #~ msgid "Set the shape color of the first detected face."
 #~ msgstr "Καθορισμός χρώματος σχήματος του πρώτου ανιχνευθέντος προσώπου."
 
-#~ msgid "Set the shape color of the second detected face."
-#~ msgstr "Καθορισμός χρώματος σχήματος του δεύτερου ανιχνευθέντος προσώπου."
-
-#~ msgid "Color 3"
-#~ msgstr "Χρώμα 3"
-
 #~ msgid "Set the shape color of the third detected face."
 #~ msgstr "Καθορισμός χρώματος σχήματος του τρίτου ανιχνευθέντος προσώπου."
 
-#~ msgid "Color 4"
-#~ msgstr "Χρώμα 4"
-
 #~ msgid "Set the shape color of the fourth detected face."
 #~ msgstr "Καθορισμός χρώματος σχήματος του τέταρτου ανιχνευθέντος προσώπου."
-
-#~ msgid "Color 5"
-#~ msgstr "Χρώμα 5"
 
 #~ msgid "Set the shape color of the fifth detected face."
 #~ msgstr "Καθορισμός χρώματος σχήματος του πέμπτου ανιχνευθέντος προσώπου."
@@ -26556,9 +27103,6 @@ msgstr ""
 
 #~ msgid "Key color"
 #~ msgstr "Χρώμα κλειδί"
-
-#~ msgid "Target color"
-#~ msgstr "Χρώμα προορισμός"
 
 #~ msgid "Mask type"
 #~ msgstr "Τύπος μάσκας"
@@ -26643,9 +27187,6 @@ msgstr ""
 
 #~ msgid "Sensitivity"
 #~ msgstr "Ευαισθησία"
-
-#~ msgid "Background Weight"
-#~ msgstr "Βάρος φόντου"
 
 #~ msgid "α"
 #~ msgstr "α"
@@ -26831,16 +27372,6 @@ msgstr ""
 #~ msgid "Scales, Tilts and Crops an Image"
 #~ msgstr "Μεγεθύνει, δίνει κλίση και περικόπτει μία εικόνα"
 
-#, fuzzy
-#~| msgid "Clip left"
-#~ msgid "Crop left"
-#~ msgstr "Περικοπή αριστερά"
-
-#, fuzzy
-#~| msgid "Copyright"
-#~ msgid "Crop right"
-#~ msgstr "Πνευματικά δικαιώματα"
-
 #~ msgid "Tilt X"
 #~ msgstr "Κλίση X"
 
@@ -26993,9 +27524,6 @@ msgstr ""
 
 #~ msgid "Map black to"
 #~ msgstr "Αντιστοίχηση μαύρου σε"
-
-#~ msgid "Map white to"
-#~ msgstr "Αντιστοίχηση λευκού σε"
 
 #~ msgid "Tint amount"
 #~ msgstr "Ποσό χρωματισμού"
@@ -28969,9 +29497,6 @@ msgstr ""
 
 #~ msgid "Fill color"
 #~ msgstr "Χρώμα γεμίσματος"
-
-#~ msgid "Border color"
-#~ msgstr "Χρώμα περιγράμματος"
 
 #~ msgid "Clip right"
 #~ msgstr "Περικοπή δεξιά"
