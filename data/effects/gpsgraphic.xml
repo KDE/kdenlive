@@ -60,7 +60,7 @@ source type) and time (in milliseconds since epoch) for the rest of the data sou
     <parameter type="constant" name="crop_left_p" min="-200" max="200" default="0">
     	<name>Crop left</name>
     	<comment><![CDATA[Crops data from the left side of the graph (effectively zooming in). <br>
-    	The value is interpreted either as a percentage of total or an absolute value depending on crop_mode_h. In percentage mode, the values are not restricted to 0-100 to allow for "zoom out" behaviour (ie: cropping -50 left will add an extra half of the total horizontal distance). Values over 100 (in % mode) will effectively not display anything. If <em>Graph Type<em> is set to <b>Speedometer</b>, all crop left/right values are ignored.]]></comment>
+    	The value is interpreted either as a percentage of total or an absolute value depending on crop_mode_h. In percentage mode, the values are not restricted to 0-100 to allow for "zoom out" behaviour (ie: cropping -50 left will add an extra half of the total horizontal distance). Values over 100 (in % mode) will effectively not display anything. If <em>Graph Type</em> is set to <b>Speedometer</b>, all crop left/right values are ignored.]]></comment>
     </parameter>
     <parameter type="constant" name="crop_right_p" min="-200" max="200" default="100">
     	<name>Crop right</name>
