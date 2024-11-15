@@ -348,12 +348,12 @@
     <release version="24.02.0" date="2024-02-28"/>
     <release version="23.08.5" date="2024-02-15"/>
   </releases>
-  <url type="homepage">https://kdenlive.org/</url>
+  <url type="homepage">https://kdenlive.org/?mtm_campaign=appstream_data&amp;mtm_kwd=homepage</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?product=kdenlive</url>
-  <url type="help">https://docs.kdenlive.org</url>
+  <url type="help">https://docs.kdenlive.org/?mtm_campaign=appstream_data&amp;mtm_kwd=help</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
-  <url type="contact">https://kdenlive.org/contact/</url>
-  <url type="contribute">https://kdenlive.org/developers-welcome/</url>
+  <url type="contact">https://kdenlive.org/contact/?mtm_campaign=appstream_data&amp;mtm_kwd=contact</url>
+  <url type="contribute">https://kdenlive.org/developers-welcome/?mtm_campaign=appstream_data&amp;mtm_kwd=contribute</url>
   <url type="translate">https://l10n.kde.org/</url>
   <url type="vcs-browser">https://invent.kde.org/multimedia/kdenlive</url>
   <screenshots>

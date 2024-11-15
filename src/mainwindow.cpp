@@ -4967,8 +4967,10 @@ void MainWindow::checkMaxCacheSize()
                         if (days > 180) {
                             // Propose update
                             QAction *updateAction = new QAction(i18n("Go to download page"), this);
-                            connect(updateAction, &QAction::triggered, this,
-                                    []() { QDesktopServices::openUrl(QUrl(QStringLiteral("https://kdenlive.org/download"))); });
+                            connect(updateAction, &QAction::triggered, this, []() {
+                                QDesktopServices::openUrl(
+                                    QUrl(QStringLiteral("https://kdenlive.org/download?mtm_campaign=kdenlive_inapp&mtm_kwd=update_reminder")));
+                            });
                             QAction *abortAction = new QAction(i18n("Never check again"), this);
                             connect(abortAction, &QAction::triggered, this, []() { KdenliveSettings::setCheckForUpdate(false); });
                             if (days > 360) {
@@ -5238,10 +5240,10 @@ void MainWindow::appHelpActivated()
         QString openPath = QStandardPaths::findExecutable(QStringLiteral("xdg-open"));
         qDebug() << "------------\nFOUND OPEN PATH: " << openPath;
         process.setProgram(openPath.isEmpty() ? QStringLiteral("xdg-open") : openPath);
-        process.setArguments({QStringLiteral("https://docs.kdenlive.org")});
+        process.setArguments({QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action")});
         process.startDetached();
     } else {
-        QDesktopServices::openUrl(QUrl(QStringLiteral("https://docs.kdenlive.org")));
+        QDesktopServices::openUrl(QUrl(QStringLiteral("https://docs.kdenlive.org?mtm_campaign=kdenlive_inapp&mtm_kwd=help_action")));
     }
 }
 

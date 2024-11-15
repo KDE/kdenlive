@@ -680,12 +680,14 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
-    auto *job = new KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")));
+    auto *job = new KIO::OpenUrlJob(
+        QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html?mtm_campaign=kdenlive_inapp&mtm_kwd=welcome_wizard")));
     job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
     // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
     // exist in both classes
     job->start();
-    //KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html")), QStringLiteral("text/html"));
+    // KIO::OpenUrlJob(QUrl(QStringLiteral("https://docs.kdenlive.org/troubleshooting/installation_troubleshooting.html?mtm_campaign=kdenlive_inapp&mtm_kwd=welcome_wizard")),
+    // QStringLiteral("text/html"));
 }
 
 bool Wizard::checkHwEncoder(const QString &name, const QStringList &args, const QTemporaryFile &file)

@@ -430,5 +430,5 @@ const QString AssetListWidget::buildLink(const QString id, AssetListType::AssetT
     } else {
         prefix = QStringLiteral("other");
     }
-    return QStringLiteral("https://docs.kdenlive.org/%1/%2").arg(prefix, id);
+    return QStringLiteral("https://docs.kdenlive.org/%1/%2?mtm_campaign=inapp_asset_link&mtm_kwd=%1").arg(prefix, id, id);
 }
