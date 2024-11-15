@@ -197,10 +197,10 @@ const QString SpeechToTextWhisper::modelFolder(bool mainFolder)
     if (mainFolder) {
         folder = KdenliveSettings::whisperModelFolder();
         if (folder.isEmpty() || !QFileInfo::exists(folder)) {
-            folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("whisper"), QStandardPaths::LocateDirectory);
+            folder = QStandardPaths::locate(QStandardPaths::HomeLocation, QStringLiteral("/.cache/whisper"), QStandardPaths::LocateDirectory);
         }
     } else {
-        folder = QStandardPaths::locate(QStandardPaths::GenericCacheLocation, QStringLiteral("huggingface/hub/models--facebook--seamless-m4t-v2-large"),
+        folder = QStandardPaths::locate(QStandardPaths::HomeLocation, QStringLiteral("/.cache/huggingface/hub/models--facebook--seamless-m4t-v2-large"),
                                         QStandardPaths::LocateDirectory);
     }
     if (folder.isEmpty() || !QFileInfo::exists(folder)) {
