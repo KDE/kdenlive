@@ -833,7 +833,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             }
         } else {
             // Not a fade effect, check for keyframes
-            bool hasZone = effect->filter().get_int("kdenlive:force_in_out") == 1;
+            bool hasZone = effect->filter().get_int("kdenlive:force_in_out") == 1 && effect->filter().get_int("out");
             std::shared_ptr<KeyframeModelList> keyframes = effect->getKeyframeModel();
             if (keyframes != nullptr) {
                 // Effect has keyframes, update these
@@ -1409,7 +1409,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             effectEnabled = filter->get_int("disable") == 0;
-            bool forcedInOut = filter->get_int("kdenlive:force_in_out") == 1;
+            bool forcedInOut = filter->get_int("kdenlive:force_in_out") == 1 && filter->get_int("out") > 0;
             if (disabledStack && filter->get_int("kdenlive:bin-disabled") == 0) {
                 disabledStack = false;
             }
@@ -1426,6 +1426,8 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             // The MLT filter already exists, use it directly to create the effect
+            int filterIn = filter->get_in();
+            int filterOut = filter->get_out();
             std::shared_ptr<EffectItemModel> effect;
             if (alreadyExist) {
                 // effect is already plugged in the service
@@ -1460,8 +1462,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             effect->prepareKeyframes(clipIn, clipOut);
             if (redo()) {
                 if (forcedInOut) {
-                    effect->filter().set("in", filter->get_in());
-                    effect->filter().set("out", filter->get_out());
+                    effect->filter().set_in_and_out(filterIn, filterOut);
                 } else if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
                     m_fadeIns.insert(effect->getId());
                     if (effect->filter().get_int("in") != clipIn) {

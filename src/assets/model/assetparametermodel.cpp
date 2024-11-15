@@ -529,7 +529,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         case ParentInRole:
             return pCore->getItemIn(m_ownerId);
         case ParentDurationRole:
-            if (m_asset->get_int("kdenlive:force_in_out") == 1) {
+            if (m_asset->get_int("kdenlive:force_in_out") == 1 && m_asset->get_int("out") > 0) {
                 // Zone effect, return effect length
                 return m_asset->get_int("out") - m_asset->get_int("in");
             }
