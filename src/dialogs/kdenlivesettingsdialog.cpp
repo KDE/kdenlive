@@ -1942,7 +1942,6 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
         connect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog, Qt::QueuedConnection);
     });
-    checkWhisperFolderSize();
 
     connect(m_sttWhisper, &SpeechToText::scriptFeedback, [this](const QString &scriptName, const QStringList args, const QStringList jobData) {
         Q_UNUSED(args);
@@ -2077,9 +2076,24 @@ void KdenliveSettingsDialog::checkWhisperFolderSize()
         m_configSpeech.whisper_folder_label->setVisible(false);
         m_configSpeech.downloadButton->setText(i18n("Install a model"));
     } else {
-        m_configSpeech.whisper_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(modelsFolder.absolutePath(), QStringLiteral("Whisper")));
+        const QString path = modelsFolder.absolutePath();
+        m_configSpeech.whisper_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(path, QStringLiteral("Whisper")));
         m_configSpeech.whisper_folder_label->setVisible(true);
-        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(modelsFolder.absolutePath()));
+#if defined(Q_OS_WIN)
+        // KIO::directorySize doesn't work on Windows
+        KIO::filesize_t totalSize = 0;
+        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
+        for (const auto &dirEntry : QDirListing(path, flags)) {
+            totalSize += dirEntry.size();
+        }
+        m_configSpeech.whisper_model_size->setText(KIO::convertSize(totalSize));
+        if (totalSize == 0) {
+            m_configSpeech.downloadButton->setText(i18n("Install a model"));
+        } else {
+            m_configSpeech.downloadButton->setText(i18n("Manage models"));
+        }
+#else
+        KIO::DirectorySizeJob *job = KIO::directorySize(QUrl::fromLocalFile(path));
         connect(job, &KJob::result, this, [job, label = m_configSpeech.whisper_model_size, button = m_configSpeech.downloadButton]() {
             label->setText(KIO::convertSize(job->totalSize()));
             if (job->totalSize() == 0) {
@@ -2089,6 +2103,7 @@ void KdenliveSettingsDialog::checkWhisperFolderSize()
             }
             job->deleteLater();
         });
+#endif
     }
     const QString folder2 = m_sttWhisper->modelFolder(false);
     QDir seamlessFolder(folder2);
@@ -2097,11 +2112,21 @@ void KdenliveSettingsDialog::checkWhisperFolderSize()
     } else {
         m_configSpeech.seamless_folder_label->setText(QStringLiteral("<a href=\"%1\">%2</a>").arg(seamlessFolder.absolutePath(), QStringLiteral("Seamless")));
         m_configSpeech.seamless_folder_label->setVisible(true);
+#if defined(Q_OS_WIN)
+        // KIO::directorySize doesn't work on Windows
+        KIO::filesize_t totalSize = 0;
+        const auto flags = QDirListing::IteratorFlag::FilesOnly | QDirListing::IteratorFlag::Recursive;
+        for (const auto &dirEntry : QDirListing(seamlessFolder.absolutePath(), flags)) {
+            totalSize += dirEntry.size();
+        }
+        m_configSpeech.seamless_folder_label->setText(KIO::convertSize(totalSize));
+#else
         KIO::DirectorySizeJob *jobSeamless = KIO::directorySize(QUrl::fromLocalFile(seamlessFolder.absolutePath()));
         connect(jobSeamless, &KJob::result, this, [jobSeamless, label = m_configSpeech.seamless_folder_size]() {
             label->setText(KIO::convertSize(jobSeamless->totalSize()));
             jobSeamless->deleteLater();
         });
+#endif
     }
 }
 
