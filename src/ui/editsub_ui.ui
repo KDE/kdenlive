@@ -10,8 +10,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>509</width>
-    <height>468</height>
+    <width>339</width>
+    <height>474</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,19 +21,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    </sizepolicy>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="1" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Orientation::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item row="0" column="0" colspan="4">
     <widget class="QFrame" name="frame_position">
      <property name="frameShape">
@@ -74,42 +61,129 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item row="0" column="6">
-           <widget class="QSpinBox" name="subLayer">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::ClickFocus</enum>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
-            </property>
-            <property name="inputMethodHints">
-             <set>Qt::InputMethodHint::ImhDigitsOnly</set>
-            </property>
-            <property name="frame">
-             <bool>false</bool>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_duration">
+            <property name="text">
+             <string>Duration:</string>
             </property>
             <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignCenter</set>
-            </property>
-            <property name="prefix">
-             <string>S</string>
-            </property>
-            <property name="maximum">
-             <number>20</number>
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="9" column="2" colspan="2">
+          <item row="1" column="0" colspan="6">
+           <widget class="SubtitleTextEdit" name="subText">
+            <property name="inputMethodHints">
+             <set>Qt::InputMethodHint::ImhNone</set>
+            </property>
+            <property name="tabChangesFocus">
+             <bool>true</bool>
+            </property>
+            <property name="acceptRichText">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2" colspan="2">
+           <widget class="TimecodeDisplay" name="tc_duration"/>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_position">
+            <property name="text">
+             <string>Position:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="6">
+           <widget class="KTextEdit" name="simpleSubText"/>
+          </item>
+          <item row="7" column="1">
+           <widget class="QToolButton" name="buttonLock">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="lock"/>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QToolButton" name="buttonEditStyle">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="edit-entry"/>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2" colspan="2">
+           <widget class="TimecodeDisplay" name="tc_end"/>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="label_end">
+            <property name="text">
+             <string>End:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QToolButton" name="buttonIn">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="zone-in"/>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_style">
+            <property name="text">
+             <string>Style:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2" colspan="2">
            <widget class="TimecodeDisplay" name="tc_position"/>
           </item>
-          <item row="0" column="0" colspan="3">
-           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0,0,0,0">
+          <item row="6" column="1">
+           <widget class="QToolButton" name="buttonOut">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset theme="zone-out"/>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0" colspan="6">
+           <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,0,0,0,0,0,0,0,0">
             <property name="rightMargin">
              <number>0</number>
             </property>
@@ -186,52 +260,77 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               </property>
              </widget>
             </item>
+            <item>
+             <spacer name="horizontalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="subLayer">
+              <property name="focusPolicy">
+               <enum>Qt::FocusPolicy::ClickFocus</enum>
+              </property>
+              <property name="inputMethodHints">
+               <set>Qt::InputMethodHint::ImhDigitsOnly</set>
+              </property>
+              <property name="frame">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+              <property name="prefix">
+               <string>S</string>
+              </property>
+              <property name="maximum">
+               <number>20</number>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
-          <item row="2" column="0" colspan="7">
-           <widget class="SubtitleTextEdit" name="subText">
-            <property name="inputMethodHints">
-             <set>Qt::InputMethodHint::ImhNone</set>
-            </property>
-            <property name="tabChangesFocus">
-             <bool>true</bool>
-            </property>
-            <property name="acceptRichText">
-             <bool>false</bool>
-            </property>
-           </widget>
+          <item row="3" column="0" colspan="6">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="char_count">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="subMenu">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset theme="application-menu"/>
+              </property>
+              <property name="popupMode">
+               <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
-          <item row="8" column="0">
-           <widget class="QLabel" name="label_style">
-            <property name="text">
-             <string>Style:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="4" colspan="2">
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="8" column="1">
-           <widget class="QToolButton" name="buttonEditStyle">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="edit-entry"/>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="2">
+          <item row="4" column="2" colspan="3">
            <widget class="QComboBox" name="comboStyle">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -247,106 +346,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </property>
            </widget>
           </item>
-          <item row="10" column="0">
-           <widget class="QLabel" name="label_end">
-            <property name="text">
-             <string>End:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="1">
-           <widget class="QToolButton" name="buttonIn">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="zone-in"/>
-            </property>
-           </widget>
-          </item>
-          <item row="9" column="0">
-           <widget class="QLabel" name="label_position">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Position:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0" colspan="7">
-           <widget class="KTextEdit" name="simpleSubText"/>
-          </item>
-          <item row="4" column="6" alignment="Qt::AlignmentFlag::AlignRight">
-           <widget class="QToolButton" name="subMenu">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="application-menu"/>
-            </property>
-            <property name="popupMode">
-             <enum>QToolButton::ToolButtonPopupMode::InstantPopup</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0" colspan="6">
-           <widget class="QLabel" name="char_count">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="1">
-           <widget class="QToolButton" name="buttonLock">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="lock"/>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="2" colspan="2">
-           <widget class="TimecodeDisplay" name="tc_duration"/>
-          </item>
-          <item row="10" column="1">
-           <widget class="QToolButton" name="buttonOut">
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset theme="zone-out"/>
-            </property>
-           </widget>
-          </item>
-          <item row="11" column="0">
-           <widget class="QLabel" name="label_duration">
-            <property name="text">
-             <string>Duration:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="10" column="2" colspan="2">
-           <widget class="TimecodeDisplay" name="tc_end"/>
-          </item>
-          <item row="8" column="4">
-           <spacer name="horizontalSpacer_3">
+          <item row="5" column="5">
+           <spacer name="horizontalSpacer_2">
             <property name="orientation">
              <enum>Qt::Orientation::Horizontal</enum>
             </property>
@@ -378,7 +379,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>336</width>
+               <width>308</width>
                <height>489</height>
               </rect>
              </property>
@@ -389,13 +390,39 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
               <property name="topMargin">
                <number>0</number>
               </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
               <property name="bottomMargin">
                <number>0</number>
               </property>
-              <property name="horizontalSpacing">
-               <number>0</number>
-              </property>
-              <item row="12" column="3">
+              <item row="0" column="3">
+               <widget class="QComboBox" name="scrollDirection"/>
+              </item>
+              <item row="2" column="0" colspan="3">
+               <widget class="QLabel" name="labelMarginL">
+                <property name="text">
+                 <string>Left margin</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QSpinBox" name="marginL">
+                <property name="minimum">
+                 <number>-999999999</number>
+                </property>
+                <property name="maximum">
+                 <number>999999999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="3">
+               <widget class="QLineEdit" name="editName"/>
+              </item>
+              <item row="6" column="3">
                <widget class="QSpinBox" name="scrollSpeed">
                 <property name="minimum">
                  <number>1</number>
@@ -408,92 +435,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </widget>
               </item>
-              <item row="16" column="3">
-               <widget class="QSpinBox" name="scrollLower">
-                <property name="minimum">
-                 <number>-99999</number>
-                </property>
-                <property name="maximum">
-                 <number>99999</number>
-                </property>
-                <property name="value">
-                 <number>1080</number>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="1">
-               <widget class="QLabel" name="labelMarginL">
-                <property name="text">
-                 <string>Left</string>
-                </property>
-               </widget>
-              </item>
-              <item row="18" column="0">
-               <widget class="QLabel" name="labelEffects">
-                <property name="text">
-                 <string>Effects</string>
-                </property>
-               </widget>
-              </item>
-              <item row="9" column="1">
-               <widget class="QLabel" name="labelMarginV">
-                <property name="text">
-                 <string>Vertical</string>
-                </property>
-               </widget>
-              </item>
-              <item row="10" column="0">
-               <widget class="QCheckBox" name="checkScroll">
-                <property name="layoutDirection">
-                 <enum>Qt::LayoutDirection::LeftToRight</enum>
-                </property>
-                <property name="text">
-                 <string>Scroll</string>
-                </property>
-               </widget>
-              </item>
-              <item row="8" column="1">
-               <widget class="QLabel" name="labelMarginR">
-                <property name="text">
-                 <string>Right</string>
-                </property>
-               </widget>
-              </item>
-              <item row="14" column="1">
-               <widget class="QLabel" name="labelScrollUpper">
-                <property name="text">
-                 <string>Upper Bound</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="labelMargin">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Margin&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1" colspan="3">
-               <widget class="QLineEdit" name="editName"/>
-              </item>
-              <item row="6" column="3">
-               <widget class="QSpinBox" name="marginL">
-                <property name="minimum">
-                 <number>-999999999</number>
-                </property>
-                <property name="maximum">
-                 <number>999999999</number>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QLabel" name="labelName">
-                <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                </property>
-               </widget>
-              </item>
-              <item row="9" column="3">
+              <item row="4" column="3">
                <widget class="QSpinBox" name="marginV">
                 <property name="minimum">
                  <number>-999999999</number>
@@ -503,17 +445,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </widget>
               </item>
-              <item row="8" column="3">
-               <widget class="QSpinBox" name="marginR">
-                <property name="minimum">
-                 <number>-999999999</number>
-                </property>
-                <property name="value">
-                 <number>0</number>
-                </property>
-               </widget>
-              </item>
-              <item row="14" column="3">
+              <item row="7" column="3">
                <widget class="QSpinBox" name="scrollUpper">
                 <property name="minimum">
                  <number>-99999</number>
@@ -526,14 +458,84 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </widget>
               </item>
-              <item row="19" column="0" colspan="6">
+              <item row="3" column="0" colspan="3">
+               <widget class="QLabel" name="labelMarginR">
+                <property name="text">
+                 <string>Right margin</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="3">
+               <widget class="QSpinBox" name="scrollLower">
+                <property name="minimum">
+                 <number>-99999</number>
+                </property>
+                <property name="maximum">
+                 <number>99999</number>
+                </property>
+                <property name="value">
+                 <number>1080</number>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0" colspan="3">
+               <widget class="QLabel" name="labelScrollUpper">
+                <property name="text">
+                 <string>Upper Bound</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="3">
+               <widget class="QSpinBox" name="marginR">
+                <property name="minimum">
+                 <number>-999999999</number>
+                </property>
+                <property name="value">
+                 <number>0</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0" colspan="3">
+               <widget class="QLabel" name="labelMarginV">
+                <property name="text">
+                 <string>Vertical margin</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="11" column="0" colspan="4">
+               <widget class="QLabel" name="labelEffects">
+                <property name="text">
+                 <string>Effects</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0" colspan="3">
+               <widget class="QLabel" name="labelScrollSpeed">
+                <property name="text">
+                 <string>Speed</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="12" column="0" colspan="4">
                <widget class="KTextEdit" name="editEffects">
                 <property name="inputMethodHints">
                  <set>Qt::InputMethodHint::ImhNone</set>
                 </property>
                </widget>
               </item>
-              <item row="20" column="0">
+              <item row="13" column="0">
                <spacer name="verticalSpacer">
                 <property name="orientation">
                  <enum>Qt::Orientation::Vertical</enum>
@@ -546,47 +548,40 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </property>
                </spacer>
               </item>
-              <item row="10" column="1">
-               <widget class="QLabel" name="labelScrollDirection">
+              <item row="8" column="0" colspan="3">
+               <widget class="QLabel" name="lavelScrollLower">
                 <property name="text">
-                 <string>Direction</string>
+                 <string>Lower Bound</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
                 </property>
                </widget>
               </item>
-              <item row="10" column="3">
-               <widget class="QComboBox" name="scrollDirection"/>
-              </item>
-              <item row="6" column="2">
-               <spacer name="horizontalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="12" column="1">
-               <widget class="QLabel" name="labelScrollSpeed">
-                <property name="text">
-                 <string>Speed</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
+              <item row="10" column="0" colspan="3">
                <widget class="QCheckBox" name="checkComment">
                 <property name="text">
                  <string>Comment</string>
                 </property>
                </widget>
               </item>
-              <item row="16" column="1">
-               <widget class="QLabel" name="lavelScrollLower">
+              <item row="0" column="0" colspan="3">
+               <widget class="QCheckBox" name="checkScroll">
+                <property name="layoutDirection">
+                 <enum>Qt::LayoutDirection::LeftToRight</enum>
+                </property>
                 <property name="text">
-                 <string>Lower Bound</string>
+                 <string>Scroll</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0" colspan="3">
+               <widget class="QLabel" name="labelName">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Name&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
                 </property>
                </widget>
               </item>
@@ -601,7 +596,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="1" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QToolButton" name="buttonPrev">
@@ -666,17 +661,30 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonDelete">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset theme="edit-delete"/>
+       </property>
+      </widget>
+     </item>
     </layout>
-   </item>
-   <item row="1" column="3">
-    <widget class="QToolButton" name="buttonDelete">
-     <property name="text">
-      <string>...</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-delete"/>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
@@ -697,6 +705,44 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <header>widgets/subtitletextedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>buttonBold</tabstop>
+  <tabstop>buttonItalic</tabstop>
+  <tabstop>buttonUnderline</tabstop>
+  <tabstop>buttonStrikeout</tabstop>
+  <tabstop>buttonFont</tabstop>
+  <tabstop>buttonResetStyle</tabstop>
+  <tabstop>buttonMoreTags</tabstop>
+  <tabstop>subText</tabstop>
+  <tabstop>simpleSubText</tabstop>
+  <tabstop>subMenu</tabstop>
+  <tabstop>buttonEditStyle</tabstop>
+  <tabstop>comboStyle</tabstop>
+  <tabstop>buttonIn</tabstop>
+  <tabstop>tc_position</tabstop>
+  <tabstop>buttonOut</tabstop>
+  <tabstop>tc_end</tabstop>
+  <tabstop>buttonLock</tabstop>
+  <tabstop>tc_duration</tabstop>
+  <tabstop>buttonPrev</tabstop>
+  <tabstop>buttonNext</tabstop>
+  <tabstop>buttonAdd</tabstop>
+  <tabstop>buttonCut</tabstop>
+  <tabstop>buttonApply</tabstop>
+  <tabstop>buttonMoreOption</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>scrollDirection</tabstop>
+  <tabstop>marginL</tabstop>
+  <tabstop>marginR</tabstop>
+  <tabstop>marginV</tabstop>
+  <tabstop>scrollSpeed</tabstop>
+  <tabstop>scrollUpper</tabstop>
+  <tabstop>scrollLower</tabstop>
+  <tabstop>editName</tabstop>
+  <tabstop>checkComment</tabstop>
+  <tabstop>editEffects</tabstop>
+  <tabstop>checkScroll</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

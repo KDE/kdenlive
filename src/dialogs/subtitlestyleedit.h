@@ -30,13 +30,12 @@ private:
     int m_width = 1920;
     int m_height = 1080;
     QString m_previewPath;
-
-    void setProperties(const SubtitleStyle &style, const QString &styleName, const int previewWidth, const int previewHeight, const QString previewPath,
-                       bool *ok);
-    void updateProperties();
-
+    QSize m_lastSize;
     std::unique_ptr<Mlt::Profile> m_previewProfile;
     std::unique_ptr<Mlt::Producer> m_previewProducer;
     std::unique_ptr<Mlt::Filter> m_previewFilter;
     QFile m_previewFile;
+    void setProperties(const SubtitleStyle &style, const QString &styleName, const int previewWidth, const int previewHeight, const QString previewPath,
+                       bool *ok);
+    void updateProperties();
 };
