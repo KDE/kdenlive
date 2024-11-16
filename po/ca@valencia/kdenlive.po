@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-15 00:39+0000\n"
+"POT-Creation-Date: 2024-11-16 00:40+0000\n"
 "PO-Revision-Date: 2024-11-11 09:32+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -692,10 +692,9 @@ msgid "Top"
 msgstr "Dalt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:108
-#: src/ui/configmisc_ui.ui:148 src/ui/editsub_ui.ui:427
+#: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
 msgstr "Esquerra"
@@ -708,10 +707,9 @@ msgid "Bottom"
 msgstr "Baix"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:110
-#: src/ui/configmisc_ui.ui:153 src/ui/editsub_ui.ui:458
+#: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
 msgstr "Dreta"
@@ -1267,7 +1265,7 @@ msgid ""
 "not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
 "-50 left will add an extra half of the total horizontal distance). Values "
 "over 100 (in % mode) will effectively not display anything. If <em>Graph "
-"Type<em> is set to <b>Speedometer</b>, all crop left/right values are "
+"Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
 
@@ -1324,7 +1322,7 @@ msgid ""
 "not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
 "-50 bot will add an extra half of the total vertical distance to the "
 "bottom). Values over 100 (in % mode) will effectively not display anything. "
-"If <em>Graph type</em> is <b>Speedometer<b>, this will set the minimum "
+"If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
 
@@ -1463,7 +1461,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:449
+#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:309
 #, kde-format
 msgid "Rotation"
 msgstr "Rotació"
@@ -1644,7 +1642,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "Provides a helper offset to sync the first GPS point to current video time "
-"(it is updated every second). Correctly sets the offset if you video record "
+"(it is updated every second). Correctly sets the offset if your video record "
 "the moment GPS starts."
 msgstr ""
 
@@ -2698,7 +2696,7 @@ msgstr "Crea un canal alfa (transparència) basat en un altre recurs"
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
 #: src/timeline2/view/qml/Track.qml:50 src/ui/clipspeed_ui.ui:36
-#: src/ui/editsub_ui.ui:575
+#: src/ui/editsub_ui.ui:524
 #, kde-format
 msgid "Speed"
 msgstr "Velocitat"
@@ -2887,9 +2885,7 @@ msgstr ""
 "«desplaçament» en lloc de 00:00:00.000. Quan la direcció siga «avant»,\n"
 "el temporitzador comptarà començant des del «desplaçament».]]>"
 
-#. i18n: ectx: property (text), widget (QLabel, labelScrollDirection)
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
-#: src/ui/editsub_ui.ui:552
 #, kde-format
 msgid "Direction"
 msgstr "Direcció"
@@ -3243,8 +3239,7 @@ msgstr "Amplitud de l'ona"
 msgid "Horizontal"
 msgstr "Horitzontal"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: data/effects/wave.xml:23
 #, kde-format
 msgid "Vertical"
 msgstr "Vertical"
@@ -3812,7 +3807,7 @@ msgstr "Duració (segons)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
-#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:387
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:279
 #, kde-format
 msgid "Font"
 msgstr "Lletra"
@@ -4360,7 +4355,7 @@ msgstr "Guarda l'efecte"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1459
+#: src/dialogs/kdenlivesettingsdialog.cpp:1460
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -4368,7 +4363,7 @@ msgstr "Introduïu el nom dels valors predefinits"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1459
+#: src/dialogs/kdenlivesettingsdialog.cpp:1460
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Introduïu el nom d'estos valors predefinits:"
@@ -6009,9 +6004,8 @@ msgstr[1] "Afegir clips"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:294
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:34
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:341
-#: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
-#: src/ui/titlewidget_ui.ui:630
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
+#: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:630
 #, kde-format
 msgid "Duration:"
 msgstr "Duració:"
@@ -7116,7 +7110,7 @@ msgstr "Automàtic (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:715
+#: src/dialogs/kdenlivesettingsdialog.cpp:716
 #: src/project/dialogs/projectsettings.cpp:906
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -7324,7 +7318,7 @@ msgid "Misc"
 msgstr "Miscel·lània"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:245
-#: src/dialogs/kdenlivesettingsdialog.cpp:825
+#: src/dialogs/kdenlivesettingsdialog.cpp:826
 #: src/doc/documentvalidator.cpp:2523
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
@@ -7349,18 +7343,18 @@ msgstr "Utilitza la carpeta predeterminada: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:346
 #: src/dialogs/kdenlivesettingsdialog.cpp:372
-#: src/dialogs/kdenlivesettingsdialog.cpp:1081
 #: src/dialogs/kdenlivesettingsdialog.cpp:1082
-#: src/dialogs/kdenlivesettingsdialog.cpp:1092
+#: src/dialogs/kdenlivesettingsdialog.cpp:1083
 #: src/dialogs/kdenlivesettingsdialog.cpp:1093
+#: src/dialogs/kdenlivesettingsdialog.cpp:1094
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Utilitza sempre la carpeta del projecte: %1"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:348
 #: src/dialogs/kdenlivesettingsdialog.cpp:374
-#: src/dialogs/kdenlivesettingsdialog.cpp:1088
 #: src/dialogs/kdenlivesettingsdialog.cpp:1089
+#: src/dialogs/kdenlivesettingsdialog.cpp:1090
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Utilitza sempre la carpeta activa del projecte"
@@ -7400,130 +7394,135 @@ msgstr "48000 Hz"
 msgid "JogShuttle"
 msgstr "Jog Shuttle"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:498
-#, kde-format
+#: src/dialogs/kdenlivesettingsdialog.cpp:497
+#, fuzzy, kde-format
+#| msgid ""
+#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
+#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
+#| "documentation</a>."
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
-"user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
-"documentation</a>."
+"user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
+"a>."
 msgstr ""
 "Per a la configuració de dispositius, vegeu la <a href=\"https://docs."
 "kdenlive.org/user_interface/menu/settings_menu/configure_kdenlive."
 "html#windows\">nostra documentació</a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:518 src/dialogs/timeremap.cpp:1583
+#: src/dialogs/kdenlivesettingsdialog.cpp:519 src/dialogs/timeremap.cpp:1583
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Transcodifica"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:552
+#: src/dialogs/kdenlivesettingsdialog.cpp:553
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "El processament de la GPU necessita que MLT estiga compilat amb els mòduls "
 "Movit i Rtaudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:722
+#: src/dialogs/kdenlivesettingsdialog.cpp:723
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:723
-#: src/dialogs/kdenlivesettingsdialog.cpp:776
+#: src/dialogs/kdenlivesettingsdialog.cpp:724
+#: src/dialogs/kdenlivesettingsdialog.cpp:777
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:724
+#: src/dialogs/kdenlivesettingsdialog.cpp:725
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:725
+#: src/dialogs/kdenlivesettingsdialog.cpp:726
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:727
+#: src/dialogs/kdenlivesettingsdialog.cpp:728
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Dimoni Esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:728
+#: src/dialogs/kdenlivesettingsdialog.cpp:729
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Dimoni ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:740
 #: src/dialogs/kdenlivesettingsdialog.cpp:741
+#: src/dialogs/kdenlivesettingsdialog.cpp:742
 #: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/subtitlestyleedit.cpp:99 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Predeterminat"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:792
+#: src/dialogs/kdenlivesettingsdialog.cpp:793
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:804
+#: src/dialogs/kdenlivesettingsdialog.cpp:805
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:828 src/mainwindow.cpp:274
+#: src/dialogs/kdenlivesettingsdialog.cpp:829 src/mainwindow.cpp:274
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:912
+#: src/dialogs/kdenlivesettingsdialog.cpp:913
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Introduïu el camí cap a l'aplicació d'edició d'àudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:920
+#: src/dialogs/kdenlivesettingsdialog.cpp:921
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Introduïu el camí cap a l'aplicació d'edició d'imatges"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:928 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:929 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Introduïu el camí cap a l'aplicació Glaxnimate"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1011
-#: src/dialogs/kdenlivesettingsdialog.cpp:1029
+#: src/dialogs/kdenlivesettingsdialog.cpp:1012
+#: src/dialogs/kdenlivesettingsdialog.cpp:1030
 #: src/project/dialogs/projectsettings.cpp:538
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Seleccioneu un perfil de vídeo"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1314
+#: src/dialogs/kdenlivesettingsdialog.cpp:1315
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Cal reiniciar Kdenlive per a canviar esta opció"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1462
+#: src/dialogs/kdenlivesettingsdialog.cpp:1463
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Ja existix un perfil amb este nom"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1596
+#: src/dialogs/kdenlivesettingsdialog.cpp:1597
 #, kde-format
 msgid "Current settings"
 msgstr "Paràmetres actuals"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1634
-#: src/dialogs/kdenlivesettingsdialog.cpp:1670
-#: src/dialogs/kdenlivesettingsdialog.cpp:1687
+#: src/dialogs/kdenlivesettingsdialog.cpp:1635
+#: src/dialogs/kdenlivesettingsdialog.cpp:1671
+#: src/dialogs/kdenlivesettingsdialog.cpp:1688
 #: src/mltcontroller/clippropertiescontroller.cpp:562
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -7532,14 +7531,14 @@ msgstr "Paràmetres actuals"
 msgid "Progressive"
 msgstr "Progressiu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1776
+#: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
 "El processament de CPU és molt lent, es recomana GPU per a un processament "
 "més ràpid"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1777
+#: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
 msgid ""
 "Text translation is performed by the SeamlessM4T model. This requires "
@@ -7550,71 +7549,71 @@ msgstr ""
 "requerix baixar al voltant de 10 Gb de dades. Una vegada instal·lat, tot el "
 "processament es farà fora de línia."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1796
+#: src/dialogs/kdenlivesettingsdialog.cpp:1797
 #, kde-format
 msgid "Download (1.4Gb)"
 msgstr "Baixa (1,4GB)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1818
+#: src/dialogs/kdenlivesettingsdialog.cpp:1819
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr "S'estan instal·lant les dades multilingües…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1827
-#: src/dialogs/kdenlivesettingsdialog.cpp:2262 src/ui/configspeech_ui.ui:99
+#: src/dialogs/kdenlivesettingsdialog.cpp:1828
+#: src/dialogs/kdenlivesettingsdialog.cpp:2298 src/ui/configspeech_ui.ui:99
 #: src/ui/configspeech_ui.ui:322
 #, kde-format
 msgid "Models folder"
 msgstr "Carpeta de models"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1875
+#: src/dialogs/kdenlivesettingsdialog.cpp:1886
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Establix un entorn virtual…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1877
+#: src/dialogs/kdenlivesettingsdialog.cpp:1888
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Deshabilita l'entorn virtual"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1894
+#: src/dialogs/kdenlivesettingsdialog.cpp:1905
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "S'elimina la carpeta de l'entorn virtual."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1899
+#: src/dialogs/kdenlivesettingsdialog.cpp:1910
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "No s'ha trobat «venv» de Python"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1902
+#: src/dialogs/kdenlivesettingsdialog.cpp:1913
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "No s'ha pogut eliminar la carpeta de l'entorn virtual."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1908
-#: src/dialogs/kdenlivesettingsdialog.cpp:1911
+#: src/dialogs/kdenlivesettingsdialog.cpp:1919
+#: src/dialogs/kdenlivesettingsdialog.cpp:1922
 #, kde-format
 msgid "Probing..."
 msgstr "S'està explorant…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1932
+#: src/dialogs/kdenlivesettingsdialog.cpp:1943
 #, kde-format
 msgid "Downloading multilingual model…"
 msgstr "S'està baixant el model multilingüe…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1989
-#: src/dialogs/kdenlivesettingsdialog.cpp:2259
+#: src/dialogs/kdenlivesettingsdialog.cpp:1999
+#: src/dialogs/kdenlivesettingsdialog.cpp:2295
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Per favor, afegiu un model de veu."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2023
+#: src/dialogs/kdenlivesettingsdialog.cpp:2033
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7624,52 +7623,54 @@ msgstr ""
 "\">https://alphacephei.com/vosk/models</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2037 src/ui/configspeech_ui.ui:308
+#: src/dialogs/kdenlivesettingsdialog.cpp:2047 src/ui/configspeech_ui.ui:308
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Instal·la la traducció multilingüe"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2056
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
 msgstr "Instal·leu un model de veu; recomanem <b>turbo</b>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2078
-#: src/dialogs/kdenlivesettingsdialog.cpp:2086
+#: src/dialogs/kdenlivesettingsdialog.cpp:2088
+#: src/dialogs/kdenlivesettingsdialog.cpp:2102
+#: src/dialogs/kdenlivesettingsdialog.cpp:2111
 #, kde-format
 msgid "Install a model"
 msgstr "Instal·la un model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2088 src/ui/configspeech_ui.ui:232
+#: src/dialogs/kdenlivesettingsdialog.cpp:2104
+#: src/dialogs/kdenlivesettingsdialog.cpp:2113 src/ui/configspeech_ui.ui:232
 #, kde-format
 msgid "Manage models"
 msgstr "Gestiona els models"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2137
+#: src/dialogs/kdenlivesettingsdialog.cpp:2173
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Introduïu un URL cap al diccionari nou"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2143
+#: src/dialogs/kdenlivesettingsdialog.cpp:2179
 #, kde-format
 msgid "Downloading model…"
 msgstr "S'està baixant el model…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2153
+#: src/dialogs/kdenlivesettingsdialog.cpp:2189
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "No permetem eliminar els models de carpetes personalitzades, feu-ho "
 "manualment."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2159
-#: src/dialogs/kdenlivesettingsdialog.cpp:2218
+#: src/dialogs/kdenlivesettingsdialog.cpp:2195
+#: src/dialogs/kdenlivesettingsdialog.cpp:2254
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "No s'ha pogut accedir a la carpeta del diccionari."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2168
+#: src/dialogs/kdenlivesettingsdialog.cpp:2204
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7678,22 +7679,22 @@ msgstr ""
 "Suprimix la carpeta:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2192
+#: src/dialogs/kdenlivesettingsdialog.cpp:2228
 #, kde-format
 msgid "Download error"
 msgstr "S'ha produït un error de baixada"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2197
+#: src/dialogs/kdenlivesettingsdialog.cpp:2233
 #, kde-format
 msgid "Download error %1"
 msgstr "S'ha produït un error de baixada %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2225
+#: src/dialogs/kdenlivesettingsdialog.cpp:2261
 #, kde-format
 msgid "Extracting archive…"
 msgstr "S'està extraent l'arxiu…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2232
+#: src/dialogs/kdenlivesettingsdialog.cpp:2268
 #, kde-format
 msgid "New dictionary installed."
 msgstr "S'ha instal·lat un diccionari nou."
@@ -9336,34 +9337,34 @@ msgid "Box as Outline"
 msgstr "Quadro com a contorn"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:145
+#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:353
 #, kde-format
 msgid "Show Preview >>>"
 msgstr "Mostra la vista prèvia >>>"
 
-#: src/dialogs/subtitlestyleedit.cpp:132
+#: src/dialogs/subtitlestyleedit.cpp:134
 #, kde-format
 msgid "<<< Hide Preview"
 msgstr "<<< Oculta la vista prèvia"
 
-#: src/dialogs/subtitlestyleedit.cpp:160 src/dialogs/subtitlestyleedit.cpp:165
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:162 src/dialogs/subtitlestyleedit.cpp:167
+#: src/dialogs/subtitlestyleedit.cpp:172
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
 msgid "Error"
 msgstr "S'ha produït un error"
 
-#: src/dialogs/subtitlestyleedit.cpp:160
+#: src/dialogs/subtitlestyleedit.cpp:162
 #, kde-format
 msgid "Style name already exists."
 msgstr "El nom d'estil ja existix."
 
-#: src/dialogs/subtitlestyleedit.cpp:165
+#: src/dialogs/subtitlestyleedit.cpp:167
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr "El nom d'estil no pot estar buit."
 
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:172
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr "El nom d'estil no pot contindre «,»."
@@ -9843,12 +9844,12 @@ msgstr ""
 msgid "Fatal Error"
 msgstr "Error fatal"
 
-#: src/dialogs/wizard.cpp:834
+#: src/dialogs/wizard.cpp:836
 #, kde-format
 msgid "No hardware encoders found."
 msgstr "No s'ha trobat cap codificador per maquinari."
 
-#: src/dialogs/wizard.cpp:836
+#: src/dialogs/wizard.cpp:838
 #, kde-format
 msgid "hardware encoders found and enabled (%1)."
 msgstr "S'han trobat i activat els codificadors per maquinari (%1)."
@@ -11337,7 +11338,7 @@ msgstr "Edició"
 
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
 #: src/layoutmanagement.cpp:35 src/mainwindow.cpp:411 src/mainwindow.cpp:483
-#: src/ui/editsub_ui.ui:434
+#: src/ui/editsub_ui.ui:517
 #, kde-format
 msgid "Effects"
 msgstr "Efectes"
@@ -13653,12 +13654,12 @@ msgstr "No s'ha trobat cap subtítol en el projecte actual"
 msgid "Go to download page"
 msgstr "Ves fins a la pàgina de baixades"
 
-#: src/mainwindow.cpp:4972
+#: src/mainwindow.cpp:4974
 #, kde-format
 msgid "Never check again"
 msgstr "No ho tornes a comprovar mai més"
 
-#: src/mainwindow.cpp:4975
+#: src/mainwindow.cpp:4977
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -13667,7 +13668,7 @@ msgstr ""
 "Esta versió de Kdenlive té més d'un any d'antiguitat, us animem completament "
 "que l'actualitzeu"
 
-#: src/mainwindow.cpp:4978
+#: src/mainwindow.cpp:4980
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
@@ -13675,7 +13676,7 @@ msgstr ""
 "Esta versió de Kdenlive té més de 6 mesos d'antiguitat, us animem que "
 "l'actualitzeu"
 
-#: src/mainwindow.cpp:5021
+#: src/mainwindow.cpp:5023
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Comprovació de la mida de les dades en la memòria cau"
@@ -14666,7 +14667,7 @@ msgstr "Reduïx"
 msgid "Move Toolbar"
 msgstr "Barra d'eines de moviments"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:167
+#: src/monitor/view/kdenliveclipmonitor.qml:169
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14681,30 +14682,30 @@ msgstr ""
 "les <shortcut>fletxes del teclat</shortcut> per a buscar, utilitzeu la "
 "<shortcut>roda + Ctrl</shortcut> per a fer zoom"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:525
+#: src/monitor/view/kdenliveclipmonitor.qml:537
 #: src/monitor/view/kdenlivemonitor.qml:199
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:558
+#: src/monitor/view/kdenliveclipmonitor.qml:570
 #, kde-format
 msgid "In/Out Point"
 msgstr "Punt d'entrada/eixida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:558
+#: src/monitor/view/kdenliveclipmonitor.qml:570
 #: src/monitor/view/kdenlivemonitor.qml:232
 #, kde-format
 msgid "In Point"
 msgstr "Punt d'entrada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:580
+#: src/monitor/view/kdenliveclipmonitor.qml:592
 #: src/monitor/view/kdenlivemonitor.qml:249
 #, kde-format
 msgid "Out Point"
 msgstr "Punt d'eixida"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:747
+#: src/monitor/view/kdenliveclipmonitor.qml:759
 #, kde-format
 msgid "Terminate Job"
 msgstr "Finalitza el treball"
@@ -19733,7 +19734,7 @@ msgstr "Alinea a la dreta"
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:94
-#: src/ui/editsub_ui.ui:276
+#: src/ui/editsub_ui.ui:93
 #, kde-format
 msgid "Position:"
 msgstr "Posició:"
@@ -19741,7 +19742,7 @@ msgstr "Posició:"
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:364 src/ui/titlewidget_ui.ui:1413
+#: src/ui/editsubstyle_ui.ui:423 src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Fons"
@@ -19953,16 +19954,16 @@ msgstr "Suprimix el punt actual."
 #. i18n: ectx: property (text), widget (QToolButton, delPreview)
 #. i18n: ectx: property (text), widget (QToolButton, help_cached)
 #. i18n: ectx: property (text), widget (QToolButton, linkResoultion)
+#. i18n: ectx: property (text), widget (QToolButton, buttonLock)
+#. i18n: ectx: property (text), widget (QToolButton, buttonEditStyle)
+#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonBold)
 #. i18n: ectx: property (text), widget (QToolButton, buttonUnderline)
 #. i18n: ectx: property (text), widget (QToolButton, buttonStrikeout)
 #. i18n: ectx: property (text), widget (QToolButton, buttonFont)
 #. i18n: ectx: property (text), widget (QToolButton, buttonResetStyle)
-#. i18n: ectx: property (text), widget (QToolButton, buttonEditStyle)
-#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
 #. i18n: ectx: property (text), widget (QToolButton, subMenu)
-#. i18n: ectx: property (text), widget (QToolButton, buttonLock)
-#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonPrev)
 #. i18n: ectx: property (text), widget (QToolButton, buttonNext)
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
@@ -19986,12 +19987,12 @@ msgstr "Suprimix el punt actual."
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:129 src/ui/editsub_ui.ui:139
-#: src/ui/editsub_ui.ui:149 src/ui/editsub_ui.ui:159 src/ui/editsub_ui.ui:169
-#: src/ui/editsub_ui.ui:227 src/ui/editsub_ui.ui:260 src/ui/editsub_ui.ui:292
-#: src/ui/editsub_ui.ui:315 src/ui/editsub_ui.ui:331 src/ui/editsub_ui.ui:609
-#: src/ui/editsub_ui.ui:619 src/ui/editsub_ui.ui:629 src/ui/editsub_ui.ui:639
-#: src/ui/editsub_ui.ui:649 src/ui/editsub_ui.ui:659 src/ui/editsub_ui.ui:674
+#: src/ui/editsub_ui.ui:106 src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:142
+#: src/ui/editsub_ui.ui:165 src/ui/editsub_ui.ui:193 src/ui/editsub_ui.ui:203
+#: src/ui/editsub_ui.ui:213 src/ui/editsub_ui.ui:223 src/ui/editsub_ui.ui:233
+#: src/ui/editsub_ui.ui:243 src/ui/editsub_ui.ui:321 src/ui/editsub_ui.ui:604
+#: src/ui/editsub_ui.ui:614 src/ui/editsub_ui.ui:624 src/ui/editsub_ui.ui:634
+#: src/ui/editsub_ui.ui:644 src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
@@ -21873,185 +21874,179 @@ msgstr ""
 msgid "Enable manual editing"
 msgstr "Activa l'edició manual"
 
-#. i18n: ectx: property (text), widget (QToolButton, button_save)
-#. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
-#: src/ui/editsub_ui.ui:101 src/ui/profiledialog_ui.ui:380
-#, kde-format
-msgid "S"
-msgstr "S"
-
-#. i18n: ectx: property (text), widget (QLabel, label_style)
-#: src/ui/editsub_ui.ui:207
-#, kde-format
-msgid "Style:"
-msgstr "Estil:"
-
 #. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:253
+#: src/ui/editsub_ui.ui:132
 #, kde-format
 msgid "End:"
 msgstr "Final:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
-#: src/ui/editsub_ui.ui:451
+#. i18n: ectx: property (text), widget (QLabel, label_style)
+#: src/ui/editsub_ui.ui:152
 #, kde-format
-msgid "Scroll"
-msgstr "Desplaçament"
+msgid "Style:"
+msgstr "Estil:"
+
+#. i18n: ectx: property (text), widget (QToolButton, button_save)
+#. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
+#: src/ui/editsub_ui.ui:291 src/ui/profiledialog_ui.ui:380
+#, kde-format
+msgid "S"
+msgstr "S"
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
+#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:252
+#, kde-format
+msgid "Left margin"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
+#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:90
+#, kde-format
+msgid "Right margin"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
-#: src/ui/editsub_ui.ui:465
+#: src/ui/editsub_ui.ui:487
 #, kde-format
 msgid "Upper Bound"
 msgstr "Límit superior"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMargin)
-#: src/ui/editsub_ui.ui:472
-#, kde-format
-msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr "<html><head/><body><p>Marge</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsub_ui.ui:492
-#, kde-format
-msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr "<html><head/><body><p>Nom</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
-#. i18n: ectx: property (text), widget (QCheckBox, checkComment)
-#: src/ui/editsub_ui.ui:582 src/ui/markerdialog_ui.ui:66
-#: src/ui/multiplemarkerdialog_ui.ui:34
-#, kde-format
-msgid "Comment"
-msgstr "Comentari"
-
-#. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
-#: src/ui/editsub_ui.ui:589
-#, kde-format
-msgid "Lower Bound"
-msgstr "Límit inferior"
-
-#. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
-#: src/ui/editsubstyle_ui.ui:24
-#, kde-format
-msgid "Subtitle Style Editor"
-msgstr "Editor d'estil de subtítols"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
-#: src/ui/editsubstyle_ui.ui:47 src/ui/managesubtitles_ui.ui:409
-#, kde-format
-msgid "Shadow"
-msgstr "Ombra"
-
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:81
+#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:80
 #, fuzzy, kde-format
 #| msgid "Vertical Flip"
 msgid "Vertical margin"
 msgstr "Inversió vertical"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
-#: src/ui/editsubstyle_ui.ui:101
+#. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
+#: src/ui/editsub_ui.ui:554
 #, kde-format
-msgid "Left margin"
-msgstr ""
+msgid "Lower Bound"
+msgstr "Límit inferior"
 
-#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/editsubstyle_ui.ui:121
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
+#. i18n: ectx: property (text), widget (QCheckBox, checkComment)
+#: src/ui/editsub_ui.ui:564 src/ui/markerdialog_ui.ui:66
+#: src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
-msgid ""
-"The secondary color might be used in case of subtitle collision to help "
-"distinguish both subtitles"
-msgstr ""
+msgid "Comment"
+msgstr "Comentari"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
+#: src/ui/editsub_ui.ui:574
+#, kde-format
+msgid "Scroll"
+msgstr "Desplaçament"
+
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsub_ui.ui:581
+#, kde-format
+msgid "<html><head/><body><p>Name</p></body></html>"
+msgstr "<html><head/><body><p>Nom</p></body></html>"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
+#: src/ui/editsubstyle_ui.ui:10
+#, kde-format
+msgid "Subtitle Style Editor"
+msgstr "Editor d'estil de subtítols"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:26
+#, fuzzy, kde-format
+#| msgid "Letter spacing:"
+msgid "Character spacing"
+msgstr "Espaiat de les lletres:"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: src/ui/editsubstyle_ui.ui:152 src/ui/managesubtitles_ui.ui:404
+#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
+#: src/ui/editsubstyle_ui.ui:39 src/ui/managesubtitles_ui.ui:409
 #, kde-format
-msgid "Outline"
-msgstr "Contorn"
+msgid "Shadow"
+msgstr "Ombra"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
-#: src/ui/editsubstyle_ui.ui:172
-#, kde-format
-msgid "Right margin"
-msgstr ""
+#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
+#: src/ui/editsubstyle_ui.ui:70
+#, fuzzy, kde-format
+#| msgid "ScaleX"
+msgid "Scale X"
+msgstr "Escala X"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsubstyle_ui.ui:190 src/ui/managesubtitles_ui.ui:364
+#: src/ui/editsubstyle_ui.ui:115 src/ui/managesubtitles_ui.ui:364
 #, kde-format
 msgid "Bold"
 msgstr "Negreta"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsubstyle_ui.ui:209 src/ui/managesubtitles_ui.ui:369
+#: src/ui/editsubstyle_ui.ui:134 src/ui/managesubtitles_ui.ui:369
 #, kde-format
 msgid "Italic"
 msgstr "Cursiva"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: src/ui/editsubstyle_ui.ui:222 src/ui/managesubtitles_ui.ui:374
+#: src/ui/editsubstyle_ui.ui:147 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
 msgstr "Subratllat"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
-#: src/ui/editsubstyle_ui.ui:235 src/ui/managesubtitles_ui.ui:379
+#: src/ui/editsubstyle_ui.ui:160 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
 msgstr "Ratllat"
 
-#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
-#: src/ui/editsubstyle_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "ScaleX"
-msgid "Scale X"
-msgstr "Escala X"
-
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsubstyle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Folder name"
-msgid "Style name"
-msgstr "Nom de la carpeta"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
-#: src/ui/editsubstyle_ui.ui:307 src/ui/managesubtitles_ui.ui:414
-#, kde-format
-msgid "Alignment"
-msgstr "Alineació"
-
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
-#: src/ui/editsubstyle_ui.ui:327
+#: src/ui/editsubstyle_ui.ui:225
 #, fuzzy, kde-format
 #| msgid "Text clips"
 msgid "Text color"
 msgstr "Clips de text"
 
-#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
-#: src/ui/editsubstyle_ui.ui:337
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
+#: src/ui/editsubstyle_ui.ui:286 src/ui/managesubtitles_ui.ui:404
+#, kde-format
+msgid "Outline"
+msgstr "Contorn"
+
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsubstyle_ui.ui:326
 #, fuzzy, kde-format
-#| msgid "Letter spacing:"
-msgid "Character spacing"
-msgstr "Espaiat de les lletres:"
+#| msgid "Folder name"
+msgid "Style name"
+msgstr "Nom de la carpeta"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/editsubstyle_ui.ui:346
+#, kde-format
+msgid ""
+"The secondary color might be used in case of subtitle collision to help "
+"distinguish both subtitles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:360
+#, kde-format
+msgid "Secondary"
+msgstr "Secundari"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
+#: src/ui/editsubstyle_ui.ui:386 src/ui/managesubtitles_ui.ui:414
+#, kde-format
+msgid "Alignment"
+msgstr "Alineació"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
-#: src/ui/editsubstyle_ui.ui:377
+#: src/ui/editsubstyle_ui.ui:413
 #, fuzzy, kde-format
 #| msgid "ScaleY"
 msgid "Scale Y"
 msgstr "Escala Y"
-
-#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
-#: src/ui/editsubstyle_ui.ui:408
-#, kde-format
-msgid "Secondary"
-msgstr "Secundari"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -24156,6 +24151,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "<html><head/><body><p>Margin</p></body></html>"
+#~ msgstr "<html><head/><body><p>Marge</p></body></html>"
 
 #~ msgid "Margin"
 #~ msgstr "Marge"
