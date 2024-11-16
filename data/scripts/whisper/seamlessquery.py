@@ -6,7 +6,6 @@ import os
 import re
 import subprocess
 import sys
-import requests
 from transformers import AutoProcessor, SeamlessM4Tv2Model
 
 def main(**kwargs):
