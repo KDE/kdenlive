@@ -5,6 +5,7 @@
 
 #include "subtitlestyleedit.h"
 #include "bin/model/subtitlemodel.hpp"
+#include "core.h"
 #include "definitions.h"
 #include "doc/kthumb.h"
 #include <QColorDialog>
@@ -118,7 +119,12 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
     preview->hide();
     editPreview->hide();
     horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
-    // setMaximumSize(QSize(0, 0));
+    preview->setFixedHeight(height() * 0.6);
+    const QSize frameSize = pCore->getCurrentFrameDisplaySize();
+    preview->setFixedWidth(preview->height() * frameSize.width() / frameSize.height());
+    preview->setScaledContents(true);
+    m_lastSize = minimumSize();
+    resize(m_lastSize);
 
     connect(buttonPreview, &QPushButton::clicked, this, [this]() {
         if (preview->isVisible()) {
@@ -126,9 +132,11 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
             editPreview->hide();
             buttonPreview->setText(i18n("Show Preview >>>"));
             horizontalSpacer->changeSize(0, 0, QSizePolicy::Fixed, QSizePolicy::Fixed);
-            setBaseSize(m_lastSize);
+            resize(m_lastSize);
+            setFixedSize(m_lastSize);
         } else {
-            m_lastSize = baseSize();
+            m_lastSize = size();
+            setFixedSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
             preview->show();
             editPreview->show();
             buttonPreview->setText(i18n("<<< Hide Preview"));
