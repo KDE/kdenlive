@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-15 02:31+0000\n"
-"PO-Revision-Date: 2024-11-08 19:33+0300\n"
+"POT-Creation-Date: 2024-11-16 02:36+0000\n"
+"PO-Revision-Date: 2024-11-15 21:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -684,10 +684,9 @@ msgid "Top"
 msgstr "Üst"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:108
-#: src/ui/configmisc_ui.ui:148 src/ui/editsub_ui.ui:427
+#: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
 msgstr "Sol"
@@ -700,10 +699,9 @@ msgid "Bottom"
 msgstr "Alt"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:110
-#: src/ui/configmisc_ui.ui:153 src/ui/editsub_ui.ui:458
+#: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
 msgstr "Sağ"
@@ -1082,13 +1080,12 @@ msgstr "Gama"
 #: data/effects/gpsgraphic.xml:4
 #, kde-format
 msgid "GPS Graphic"
-msgstr ""
+msgstr "GPS Grafiği"
 
 #: data/effects/gpsgraphic.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr "Video üzerine GPS ile ilgili metin koyun."
+msgstr "Video üzerine GPS ile ilgili grafikler koyun."
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1101,6 +1098,8 @@ msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
 msgstr ""
+"Konum (GPS) verisini içeren dosyanın tam yolu. Desteklenen uzantılar: .gpx. ."
+"tcx."
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1117,6 +1116,12 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[GPS iziyle eşleştirmek için video dosyasına eklenecek bir ofset "
+"(saniye türünden).<br>\n"
+"    \tÇoğu zaman, video kayıt aygıtı tam olarak doğru saate ayarlanmamışsa "
+"bunun en azından 2 dosya arasındaki saat dilimi farkına artı birkaç saniyeye "
+"ayarlanması gerekecektir. GPS zamanı her zaman tamdır ve UTC türündendir. "
+"GPS videodan öndeyse pozitif, aksi takdirde negatif değerler kullanın.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1257,7 +1262,7 @@ msgid ""
 "not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
 "-50 left will add an extra half of the total horizontal distance). Values "
 "over 100 (in % mode) will effectively not display anything. If <em>Graph "
-"Type<em> is set to <b>Speedometer</b>, all crop left/right values are "
+"Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
 
@@ -1314,7 +1319,7 @@ msgid ""
 "not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
 "-50 bot will add an extra half of the total vertical distance to the "
 "bottom). Values over 100 (in % mode) will effectively not display anything. "
-"If <em>Graph type</em> is <b>Speedometer<b>, this will set the minimum "
+"If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
 
@@ -1453,7 +1458,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:449
+#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:309
 #, kde-format
 msgid "Rotation"
 msgstr "Döndürme"
@@ -2682,7 +2687,7 @@ msgstr "Başka bir kaynağa göre bir alfa kanalı (saydamlık) oluşturun"
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
 #: src/timeline2/view/qml/Track.qml:50 src/ui/clipspeed_ui.ui:36
-#: src/ui/editsub_ui.ui:575
+#: src/ui/editsub_ui.ui:524
 #, kde-format
 msgid "Speed"
 msgstr "Hız"
@@ -2833,9 +2838,7 @@ msgstr ""
 "yapacaktır.\n"
 "Yön yukarı olduğunda, sayaç “ofset”ten başlayarak saymaya başlar.]]>"
 
-#. i18n: ectx: property (text), widget (QLabel, labelScrollDirection)
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
-#: src/ui/editsub_ui.ui:552
 #, kde-format
 msgid "Direction"
 msgstr "Yön"
@@ -3187,8 +3190,7 @@ msgstr "Dalga Genliği"
 msgid "Horizontal"
 msgstr "Yatay"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: data/effects/wave.xml:23
 #, kde-format
 msgid "Vertical"
 msgstr "Dikey"
@@ -3751,7 +3753,7 @@ msgstr "Süre (saniye)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
-#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:387
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:279
 #, kde-format
 msgid "Font"
 msgstr "Yazıtipi"
@@ -5934,9 +5936,8 @@ msgstr[1] "Klipleri ekle"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:294
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:34
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:341
-#: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
-#: src/ui/titlewidget_ui.ui:630
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
+#: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:630
 #, kde-format
 msgid "Duration:"
 msgstr "Süre:"
@@ -7473,58 +7474,58 @@ msgstr "Çok dilli model kuruluyor…"
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1827
-#: src/dialogs/kdenlivesettingsdialog.cpp:2262 src/ui/configspeech_ui.ui:99
+#: src/dialogs/kdenlivesettingsdialog.cpp:2297 src/ui/configspeech_ui.ui:99
 #: src/ui/configspeech_ui.ui:322
 #, kde-format
 msgid "Models folder"
 msgstr "Modeller klasörü"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1875
+#: src/dialogs/kdenlivesettingsdialog.cpp:1885
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Sanal ortam ayarlanıyor…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1877
+#: src/dialogs/kdenlivesettingsdialog.cpp:1887
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Sanal ortam devre dışı bırakılıyor"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1894
+#: src/dialogs/kdenlivesettingsdialog.cpp:1904
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "Sanal ortam klasörü kaldırılıyor."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1899
+#: src/dialogs/kdenlivesettingsdialog.cpp:1909
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Hiçbir Python sanal ortamı bulunamadı"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1902
+#: src/dialogs/kdenlivesettingsdialog.cpp:1912
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "Sanal ortam klasörü kaldırılamadı."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1908
-#: src/dialogs/kdenlivesettingsdialog.cpp:1911
+#: src/dialogs/kdenlivesettingsdialog.cpp:1918
+#: src/dialogs/kdenlivesettingsdialog.cpp:1921
 #, kde-format
 msgid "Probing..."
 msgstr "Taranıyor…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1932
+#: src/dialogs/kdenlivesettingsdialog.cpp:1942
 #, kde-format
 msgid "Downloading multilingual model…"
 msgstr "Çok dilli model indiriliyor…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1989
-#: src/dialogs/kdenlivesettingsdialog.cpp:2259
+#: src/dialogs/kdenlivesettingsdialog.cpp:1998
+#: src/dialogs/kdenlivesettingsdialog.cpp:2294
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Lütfen bir konuşma modeli kurun."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2023
+#: src/dialogs/kdenlivesettingsdialog.cpp:2032
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7534,50 +7535,52 @@ msgstr ""
 "alphacephei.com/vosk/models</a> adresinden indirin"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2037 src/ui/configspeech_ui.ui:308
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046 src/ui/configspeech_ui.ui:308
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Çok Dilli Çeviri Kur"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
 msgstr "Bir konuşma modeli kurun; <b>turbo</b> kullanmanız önerilir."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2078
-#: src/dialogs/kdenlivesettingsdialog.cpp:2086
+#: src/dialogs/kdenlivesettingsdialog.cpp:2087
+#: src/dialogs/kdenlivesettingsdialog.cpp:2101
+#: src/dialogs/kdenlivesettingsdialog.cpp:2110
 #, kde-format
 msgid "Install a model"
 msgstr "Bir Model Kur"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2088 src/ui/configspeech_ui.ui:232
+#: src/dialogs/kdenlivesettingsdialog.cpp:2103
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112 src/ui/configspeech_ui.ui:232
 #, kde-format
 msgid "Manage models"
 msgstr "Modelleri Yönet"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2137
+#: src/dialogs/kdenlivesettingsdialog.cpp:2172
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Yeni sözlük için URL girin"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2143
+#: src/dialogs/kdenlivesettingsdialog.cpp:2178
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model indiriliyor…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2153
+#: src/dialogs/kdenlivesettingsdialog.cpp:2188
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr "Özel klasör modellerini silmeye izin vermiyoruz, lütfen elle yapın."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2159
-#: src/dialogs/kdenlivesettingsdialog.cpp:2218
+#: src/dialogs/kdenlivesettingsdialog.cpp:2194
+#: src/dialogs/kdenlivesettingsdialog.cpp:2253
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Sözlük klasörüne erişilemiyor."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2168
+#: src/dialogs/kdenlivesettingsdialog.cpp:2203
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7586,22 +7589,22 @@ msgstr ""
 "Klasörü sil:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2192
+#: src/dialogs/kdenlivesettingsdialog.cpp:2227
 #, kde-format
 msgid "Download error"
 msgstr "İndirme hatası"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2197
+#: src/dialogs/kdenlivesettingsdialog.cpp:2232
 #, kde-format
 msgid "Download error %1"
 msgstr "İndirme hatası %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2225
+#: src/dialogs/kdenlivesettingsdialog.cpp:2260
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Arşiv çıkarılıyor…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2232
+#: src/dialogs/kdenlivesettingsdialog.cpp:2267
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Yeni sözlük kuruldu."
@@ -9231,34 +9234,34 @@ msgid "Box as Outline"
 msgstr "Dış Hat Olarak Kutu"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:145
+#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:353
 #, kde-format
 msgid "Show Preview >>>"
 msgstr "Önizlemeyi Göster >>>"
 
-#: src/dialogs/subtitlestyleedit.cpp:132
+#: src/dialogs/subtitlestyleedit.cpp:134
 #, kde-format
 msgid "<<< Hide Preview"
 msgstr "<<< Önizlemeyi Gizle"
 
-#: src/dialogs/subtitlestyleedit.cpp:160 src/dialogs/subtitlestyleedit.cpp:165
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:162 src/dialogs/subtitlestyleedit.cpp:167
+#: src/dialogs/subtitlestyleedit.cpp:172
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
 msgid "Error"
 msgstr "Hata"
 
-#: src/dialogs/subtitlestyleedit.cpp:160
+#: src/dialogs/subtitlestyleedit.cpp:162
 #, kde-format
 msgid "Style name already exists."
 msgstr "Biçem adı halihazırda var."
 
-#: src/dialogs/subtitlestyleedit.cpp:165
+#: src/dialogs/subtitlestyleedit.cpp:167
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr "Biçem adı boş olamaz."
 
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:172
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr "Biçem adı “,” içeremez."
@@ -11207,7 +11210,7 @@ msgstr "Düzenleme"
 
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
 #: src/layoutmanagement.cpp:35 src/mainwindow.cpp:411 src/mainwindow.cpp:483
-#: src/ui/editsub_ui.ui:434
+#: src/ui/editsub_ui.ui:517
 #, kde-format
 msgid "Effects"
 msgstr "Efektler"
@@ -14512,7 +14515,7 @@ msgstr "Uzaklaştır"
 msgid "Move Toolbar"
 msgstr "Araç Çubuğunu Taşı"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:167
+#: src/monitor/view/kdenliveclipmonitor.qml:169
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -14527,30 +14530,30 @@ msgstr ""
 "<shortcut>ok düğmelerini</shortcut> kullanın, yakınlaştırmak için "
 "<shortcut>Kontrol+fare tekerleği</shortcut> kullanın"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:525
+#: src/monitor/view/kdenliveclipmonitor.qml:537
 #: src/monitor/view/kdenlivemonitor.qml:199
 #, kde-format
 msgid "%1fps"
 msgstr "%1 FPS"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:558
+#: src/monitor/view/kdenliveclipmonitor.qml:570
 #, kde-format
 msgid "In/Out Point"
 msgstr "Giriş/Çıkış Noktası"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:558
+#: src/monitor/view/kdenliveclipmonitor.qml:570
 #: src/monitor/view/kdenlivemonitor.qml:232
 #, kde-format
 msgid "In Point"
 msgstr "Noktada"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:580
+#: src/monitor/view/kdenliveclipmonitor.qml:592
 #: src/monitor/view/kdenlivemonitor.qml:249
 #, kde-format
 msgid "Out Point"
 msgstr "Çıkış noktası"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:747
+#: src/monitor/view/kdenliveclipmonitor.qml:759
 #, kde-format
 msgid "Terminate Job"
 msgstr "İşi Sonlandır"
@@ -19516,7 +19519,7 @@ msgstr "Sağa hizala"
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:94
-#: src/ui/editsub_ui.ui:276
+#: src/ui/editsub_ui.ui:93
 #, kde-format
 msgid "Position:"
 msgstr "Konum:"
@@ -19524,7 +19527,7 @@ msgstr "Konum:"
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:364 src/ui/titlewidget_ui.ui:1413
+#: src/ui/editsubstyle_ui.ui:423 src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Arka Plan"
@@ -19736,16 +19739,16 @@ msgstr "Geçerli noktayı silin."
 #. i18n: ectx: property (text), widget (QToolButton, delPreview)
 #. i18n: ectx: property (text), widget (QToolButton, help_cached)
 #. i18n: ectx: property (text), widget (QToolButton, linkResoultion)
+#. i18n: ectx: property (text), widget (QToolButton, buttonLock)
+#. i18n: ectx: property (text), widget (QToolButton, buttonEditStyle)
+#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonBold)
 #. i18n: ectx: property (text), widget (QToolButton, buttonUnderline)
 #. i18n: ectx: property (text), widget (QToolButton, buttonStrikeout)
 #. i18n: ectx: property (text), widget (QToolButton, buttonFont)
 #. i18n: ectx: property (text), widget (QToolButton, buttonResetStyle)
-#. i18n: ectx: property (text), widget (QToolButton, buttonEditStyle)
-#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
 #. i18n: ectx: property (text), widget (QToolButton, subMenu)
-#. i18n: ectx: property (text), widget (QToolButton, buttonLock)
-#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonPrev)
 #. i18n: ectx: property (text), widget (QToolButton, buttonNext)
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
@@ -19769,12 +19772,12 @@ msgstr "Geçerli noktayı silin."
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:129 src/ui/editsub_ui.ui:139
-#: src/ui/editsub_ui.ui:149 src/ui/editsub_ui.ui:159 src/ui/editsub_ui.ui:169
-#: src/ui/editsub_ui.ui:227 src/ui/editsub_ui.ui:260 src/ui/editsub_ui.ui:292
-#: src/ui/editsub_ui.ui:315 src/ui/editsub_ui.ui:331 src/ui/editsub_ui.ui:609
-#: src/ui/editsub_ui.ui:619 src/ui/editsub_ui.ui:629 src/ui/editsub_ui.ui:639
-#: src/ui/editsub_ui.ui:649 src/ui/editsub_ui.ui:659 src/ui/editsub_ui.ui:674
+#: src/ui/editsub_ui.ui:106 src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:142
+#: src/ui/editsub_ui.ui:165 src/ui/editsub_ui.ui:193 src/ui/editsub_ui.ui:203
+#: src/ui/editsub_ui.ui:213 src/ui/editsub_ui.ui:223 src/ui/editsub_ui.ui:233
+#: src/ui/editsub_ui.ui:243 src/ui/editsub_ui.ui:321 src/ui/editsub_ui.ui:604
+#: src/ui/editsub_ui.ui:614 src/ui/editsub_ui.ui:624 src/ui/editsub_ui.ui:634
+#: src/ui/editsub_ui.ui:644 src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
@@ -21651,185 +21654,179 @@ msgstr ""
 msgid "Enable manual editing"
 msgstr "El ile düzenlemeyi etkinleştir"
 
-#. i18n: ectx: property (text), widget (QToolButton, button_save)
-#. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
-#: src/ui/editsub_ui.ui:101 src/ui/profiledialog_ui.ui:380
-#, kde-format
-msgid "S"
-msgstr "S"
-
-#. i18n: ectx: property (text), widget (QLabel, label_style)
-#: src/ui/editsub_ui.ui:207
-#, kde-format
-msgid "Style:"
-msgstr "Biçem:"
-
 #. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:253
+#: src/ui/editsub_ui.ui:132
 #, kde-format
 msgid "End:"
 msgstr "Bitiş:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
-#: src/ui/editsub_ui.ui:451
+#. i18n: ectx: property (text), widget (QLabel, label_style)
+#: src/ui/editsub_ui.ui:152
 #, kde-format
-msgid "Scroll"
-msgstr "Sar"
+msgid "Style:"
+msgstr "Biçem:"
+
+#. i18n: ectx: property (text), widget (QToolButton, button_save)
+#. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
+#: src/ui/editsub_ui.ui:291 src/ui/profiledialog_ui.ui:380
+#, kde-format
+msgid "S"
+msgstr "S"
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
+#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:252
+#, kde-format
+msgid "Left margin"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
+#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:90
+#, kde-format
+msgid "Right margin"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
-#: src/ui/editsub_ui.ui:465
+#: src/ui/editsub_ui.ui:487
 #, kde-format
 msgid "Upper Bound"
 msgstr "Yukarı sınır"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMargin)
-#: src/ui/editsub_ui.ui:472
-#, kde-format
-msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr "<html><head/><body><p>Kenar boşluğu</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsub_ui.ui:492
-#, kde-format
-msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr "<html><head/><body><p>Ad</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
-#. i18n: ectx: property (text), widget (QCheckBox, checkComment)
-#: src/ui/editsub_ui.ui:582 src/ui/markerdialog_ui.ui:66
-#: src/ui/multiplemarkerdialog_ui.ui:34
-#, kde-format
-msgid "Comment"
-msgstr "Açıklama"
-
-#. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
-#: src/ui/editsub_ui.ui:589
-#, kde-format
-msgid "Lower Bound"
-msgstr "Aşağı sınır"
-
-#. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
-#: src/ui/editsubstyle_ui.ui:24
-#, kde-format
-msgid "Subtitle Style Editor"
-msgstr "Altyazı Biçemi Düzenleyicisi"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
-#: src/ui/editsubstyle_ui.ui:47 src/ui/managesubtitles_ui.ui:409
-#, kde-format
-msgid "Shadow"
-msgstr "Gölge"
-
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:81
+#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:80
 #, fuzzy, kde-format
 #| msgid "Vertical Flip"
 msgid "Vertical margin"
 msgstr "Dikey Ters Çevir"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
-#: src/ui/editsubstyle_ui.ui:101
+#. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
+#: src/ui/editsub_ui.ui:554
 #, kde-format
-msgid "Left margin"
-msgstr ""
+msgid "Lower Bound"
+msgstr "Aşağı sınır"
 
-#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/editsubstyle_ui.ui:121
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
+#. i18n: ectx: property (text), widget (QCheckBox, checkComment)
+#: src/ui/editsub_ui.ui:564 src/ui/markerdialog_ui.ui:66
+#: src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
-msgid ""
-"The secondary color might be used in case of subtitle collision to help "
-"distinguish both subtitles"
-msgstr ""
+msgid "Comment"
+msgstr "Açıklama"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
+#: src/ui/editsub_ui.ui:574
+#, kde-format
+msgid "Scroll"
+msgstr "Sar"
+
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsub_ui.ui:581
+#, kde-format
+msgid "<html><head/><body><p>Name</p></body></html>"
+msgstr "<html><head/><body><p>Ad</p></body></html>"
+
+#. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
+#: src/ui/editsubstyle_ui.ui:10
+#, kde-format
+msgid "Subtitle Style Editor"
+msgstr "Altyazı Biçemi Düzenleyicisi"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:26
+#, fuzzy, kde-format
+#| msgid "Letter spacing:"
+msgid "Character spacing"
+msgstr "Harf boşluklandırması:"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: src/ui/editsubstyle_ui.ui:152 src/ui/managesubtitles_ui.ui:404
+#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
+#: src/ui/editsubstyle_ui.ui:39 src/ui/managesubtitles_ui.ui:409
 #, kde-format
-msgid "Outline"
-msgstr "Dış hat"
+msgid "Shadow"
+msgstr "Gölge"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
-#: src/ui/editsubstyle_ui.ui:172
-#, kde-format
-msgid "Right margin"
-msgstr ""
+#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
+#: src/ui/editsubstyle_ui.ui:70
+#, fuzzy, kde-format
+#| msgid "ScaleX"
+msgid "Scale X"
+msgstr "X ölçeği"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsubstyle_ui.ui:190 src/ui/managesubtitles_ui.ui:364
+#: src/ui/editsubstyle_ui.ui:115 src/ui/managesubtitles_ui.ui:364
 #, kde-format
 msgid "Bold"
 msgstr "Kalın"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsubstyle_ui.ui:209 src/ui/managesubtitles_ui.ui:369
+#: src/ui/editsubstyle_ui.ui:134 src/ui/managesubtitles_ui.ui:369
 #, kde-format
 msgid "Italic"
 msgstr "Yatık"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: src/ui/editsubstyle_ui.ui:222 src/ui/managesubtitles_ui.ui:374
+#: src/ui/editsubstyle_ui.ui:147 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
 msgstr "Altı çizili"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
-#: src/ui/editsubstyle_ui.ui:235 src/ui/managesubtitles_ui.ui:379
+#: src/ui/editsubstyle_ui.ui:160 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
 msgstr "Üzeri çizili"
 
-#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
-#: src/ui/editsubstyle_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "ScaleX"
-msgid "Scale X"
-msgstr "X ölçeği"
-
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsubstyle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Folder name"
-msgid "Style name"
-msgstr "Klasör adı"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
-#: src/ui/editsubstyle_ui.ui:307 src/ui/managesubtitles_ui.ui:414
-#, kde-format
-msgid "Alignment"
-msgstr "Hizalama"
-
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
-#: src/ui/editsubstyle_ui.ui:327
+#: src/ui/editsubstyle_ui.ui:225
 #, fuzzy, kde-format
 #| msgid "Text clips"
 msgid "Text color"
 msgstr "Metin klipleri"
 
-#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
-#: src/ui/editsubstyle_ui.ui:337
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
+#: src/ui/editsubstyle_ui.ui:286 src/ui/managesubtitles_ui.ui:404
+#, kde-format
+msgid "Outline"
+msgstr "Dış hat"
+
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsubstyle_ui.ui:326
 #, fuzzy, kde-format
-#| msgid "Letter spacing:"
-msgid "Character spacing"
-msgstr "Harf boşluklandırması:"
+#| msgid "Folder name"
+msgid "Style name"
+msgstr "Klasör adı"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/editsubstyle_ui.ui:346
+#, kde-format
+msgid ""
+"The secondary color might be used in case of subtitle collision to help "
+"distinguish both subtitles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:360
+#, kde-format
+msgid "Secondary"
+msgstr "İkincil"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
+#: src/ui/editsubstyle_ui.ui:386 src/ui/managesubtitles_ui.ui:414
+#, kde-format
+msgid "Alignment"
+msgstr "Hizalama"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
-#: src/ui/editsubstyle_ui.ui:377
+#: src/ui/editsubstyle_ui.ui:413
 #, fuzzy, kde-format
 #| msgid "ScaleY"
 msgid "Scale Y"
 msgstr "Y ölçeği"
-
-#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
-#: src/ui/editsubstyle_ui.ui:408
-#, kde-format
-msgid "Secondary"
-msgstr "İkincil"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -23938,6 +23935,9 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
+
+#~ msgid "<html><head/><body><p>Margin</p></body></html>"
+#~ msgstr "<html><head/><body><p>Kenar boşluğu</p></body></html>"
 
 #~ msgid "Margin"
 #~ msgstr "Kenar boşluğu"

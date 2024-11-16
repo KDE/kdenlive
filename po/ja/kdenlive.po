@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-15 02:31+0000\n"
+"POT-Creation-Date: 2024-11-16 02:36+0000\n"
 "PO-Revision-Date: 2024-05-04 21:55+0900\n"
 "Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -674,10 +674,9 @@ msgid "Top"
 msgstr "上"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
 #: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:108
-#: src/ui/configmisc_ui.ui:148 src/ui/editsub_ui.ui:427
+#: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
 msgstr "左"
@@ -690,10 +689,9 @@ msgid "Bottom"
 msgstr "下"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
-#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
 #: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:110
-#: src/ui/configmisc_ui.ui:153 src/ui/editsub_ui.ui:458
+#: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
 msgstr "右"
@@ -1245,7 +1243,7 @@ msgid ""
 "not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
 "-50 left will add an extra half of the total horizontal distance). Values "
 "over 100 (in % mode) will effectively not display anything. If <em>Graph "
-"Type<em> is set to <b>Speedometer</b>, all crop left/right values are "
+"Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
 
@@ -1302,7 +1300,7 @@ msgid ""
 "not restricted to 0-100 to allow for \"zoom out\" behaviour (ie: cropping "
 "-50 bot will add an extra half of the total vertical distance to the "
 "bottom). Values over 100 (in % mode) will effectively not display anything. "
-"If <em>Graph type</em> is <b>Speedometer<b>, this will set the minimum "
+"If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
 
@@ -1440,7 +1438,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:449
+#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:309
 #, kde-format
 msgid "Rotation"
 msgstr "回転"
@@ -2630,7 +2628,7 @@ msgstr ""
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/wave.xml:17
 #: src/effects/effectstack/view/qml/BuiltStack.qml:34
 #: src/timeline2/view/qml/Track.qml:50 src/ui/clipspeed_ui.ui:36
-#: src/ui/editsub_ui.ui:575
+#: src/ui/editsub_ui.ui:524
 #, kde-format
 msgid "Speed"
 msgstr "速度"
@@ -2772,9 +2770,7 @@ msgid ""
 "\".]]>"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, labelScrollDirection)
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
-#: src/ui/editsub_ui.ui:552
 #, kde-format
 msgid "Direction"
 msgstr "方向"
@@ -3139,8 +3135,7 @@ msgstr "振幅"
 msgid "Horizontal"
 msgstr "水平方向"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: data/effects/wave.xml:23 src/ui/editsub_ui.ui:441
+#: data/effects/wave.xml:23
 #, kde-format
 msgid "Vertical"
 msgstr "垂直方向"
@@ -3708,7 +3703,7 @@ msgstr "長さ (秒)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
-#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:387
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:279
 #, kde-format
 msgid "Font"
 msgstr "フォント"
@@ -5955,9 +5950,8 @@ msgstr[0] "クリップの追加"
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:294
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:34
-#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:341
-#: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
-#: src/ui/titlewidget_ui.ui:630
+#: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
+#: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:630
 #, kde-format
 msgid "Duration:"
 msgstr "長さ:"
@@ -7555,64 +7549,64 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
 #: src/dialogs/kdenlivesettingsdialog.cpp:1827
-#: src/dialogs/kdenlivesettingsdialog.cpp:2262 src/ui/configspeech_ui.ui:99
+#: src/dialogs/kdenlivesettingsdialog.cpp:2297 src/ui/configspeech_ui.ui:99
 #: src/ui/configspeech_ui.ui:322
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Models folder"
 msgstr "プロジェクトフォルダの使用"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1875
+#: src/dialogs/kdenlivesettingsdialog.cpp:1885
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgid "Setting up virtual environment…"
 msgstr "MLT 環境のパス設定"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1877
+#: src/dialogs/kdenlivesettingsdialog.cpp:1887
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1894
+#: src/dialogs/kdenlivesettingsdialog.cpp:1904
 #, fuzzy, kde-format
 #| msgid "Set the path for MLT environment"
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "MLT 環境のパス設定"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1899
+#: src/dialogs/kdenlivesettingsdialog.cpp:1909
 #, fuzzy, kde-format
 #| msgid "No image found"
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "画像が見つかりません"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1902
+#: src/dialogs/kdenlivesettingsdialog.cpp:1912
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1908
-#: src/dialogs/kdenlivesettingsdialog.cpp:1911
+#: src/dialogs/kdenlivesettingsdialog.cpp:1918
+#: src/dialogs/kdenlivesettingsdialog.cpp:1921
 #, kde-format
 msgid "Probing..."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1932
+#: src/dialogs/kdenlivesettingsdialog.cpp:1942
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading multilingual model…"
 msgstr "新しいワイプのダウンロード(D)..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1989
-#: src/dialogs/kdenlivesettingsdialog.cpp:2259
+#: src/dialogs/kdenlivesettingsdialog.cpp:1998
+#: src/dialogs/kdenlivesettingsdialog.cpp:2294
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Please add a speech model."
 msgstr "遷移効果の選択(E)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2023
+#: src/dialogs/kdenlivesettingsdialog.cpp:2032
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7620,53 +7614,55 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2037 src/ui/configspeech_ui.ui:308
+#: src/dialogs/kdenlivesettingsdialog.cpp:2046 src/ui/configspeech_ui.ui:308
 #, kde-format
 msgid "Install multilingual translation"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2046
+#: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2078
-#: src/dialogs/kdenlivesettingsdialog.cpp:2086
+#: src/dialogs/kdenlivesettingsdialog.cpp:2087
+#: src/dialogs/kdenlivesettingsdialog.cpp:2101
+#: src/dialogs/kdenlivesettingsdialog.cpp:2110
 #, kde-format
 msgid "Install a model"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2088 src/ui/configspeech_ui.ui:232
+#: src/dialogs/kdenlivesettingsdialog.cpp:2103
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112 src/ui/configspeech_ui.ui:232
 #, fuzzy, kde-format
 #| msgid "Edge mode"
 msgid "Manage models"
 msgstr "輪郭モード"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2137
+#: src/dialogs/kdenlivesettingsdialog.cpp:2172
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2143
+#: src/dialogs/kdenlivesettingsdialog.cpp:2178
 #, fuzzy, kde-format
 #| msgid "Download New Wipes..."
 msgid "Downloading model…"
 msgstr "新しいワイプのダウンロード(D)..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2153
+#: src/dialogs/kdenlivesettingsdialog.cpp:2188
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2159
-#: src/dialogs/kdenlivesettingsdialog.cpp:2218
+#: src/dialogs/kdenlivesettingsdialog.cpp:2194
+#: src/dialogs/kdenlivesettingsdialog.cpp:2253
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot access dictionary folder."
 msgstr "このクリップにはビデオ効果を追加できません"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2168
+#: src/dialogs/kdenlivesettingsdialog.cpp:2203
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7675,23 +7671,23 @@ msgstr ""
 "フォルダの削除:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2192
+#: src/dialogs/kdenlivesettingsdialog.cpp:2227
 #, kde-format
 msgid "Download error"
 msgstr "ダウンロードエラー"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2197
+#: src/dialogs/kdenlivesettingsdialog.cpp:2232
 #, kde-format
 msgid "Download error %1"
 msgstr "ダウンロードエラー %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2225
+#: src/dialogs/kdenlivesettingsdialog.cpp:2260
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting archive…"
 msgstr "出力しています..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2232
+#: src/dialogs/kdenlivesettingsdialog.cpp:2267
 #, kde-format
 msgid "New dictionary installed."
 msgstr ""
@@ -9389,37 +9385,37 @@ msgid "Box as Outline"
 msgstr "輪郭:"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:145
+#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:353
 #, fuzzy, kde-format
 #| msgid "Stop Preview Render"
 msgid "Show Preview >>>"
 msgstr "プレビューのレンダリングを停止"
 
-#: src/dialogs/subtitlestyleedit.cpp:132
+#: src/dialogs/subtitlestyleedit.cpp:134
 #, fuzzy, kde-format
 #| msgid "Timeline Preview"
 msgid "<<< Hide Preview"
 msgstr "タイムラインのプレビュー"
 
-#: src/dialogs/subtitlestyleedit.cpp:160 src/dialogs/subtitlestyleedit.cpp:165
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:162 src/dialogs/subtitlestyleedit.cpp:167
+#: src/dialogs/subtitlestyleedit.cpp:172
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
 msgid "Error"
 msgstr "エラー"
 
-#: src/dialogs/subtitlestyleedit.cpp:160
+#: src/dialogs/subtitlestyleedit.cpp:162
 #, fuzzy, kde-format
 #| msgid "Profile already exists"
 msgid "Style name already exists."
 msgstr "プロファイルは既に存在しています"
 
-#: src/dialogs/subtitlestyleedit.cpp:165
+#: src/dialogs/subtitlestyleedit.cpp:167
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:170
+#: src/dialogs/subtitlestyleedit.cpp:172
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr ""
@@ -11503,7 +11499,7 @@ msgstr "編集"
 
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
 #: src/layoutmanagement.cpp:35 src/mainwindow.cpp:411 src/mainwindow.cpp:483
-#: src/ui/editsub_ui.ui:434
+#: src/ui/editsub_ui.ui:517
 #, kde-format
 msgid "Effects"
 msgstr "効果"
@@ -14938,7 +14934,7 @@ msgstr "縮小"
 msgid "Move Toolbar"
 msgstr "タイムライン(I)"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:167
+#: src/monitor/view/kdenliveclipmonitor.qml:169
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<b>Click</b> to play, <b>Double click</b> for fullscreen, <b>Hover right</"
@@ -14955,30 +14951,30 @@ msgstr ""
 "バー</b>でツールバー、<b>ホイール</b>または<b>矢印</b>でシーク、<b>Ctrl + ホ"
 "イール</b>でズーム"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:525
+#: src/monitor/view/kdenliveclipmonitor.qml:537
 #: src/monitor/view/kdenlivemonitor.qml:199
 #, kde-format
 msgid "%1fps"
 msgstr "%1fps"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:558
+#: src/monitor/view/kdenliveclipmonitor.qml:570
 #, kde-format
 msgid "In/Out Point"
 msgstr "イン/アウト・ポイント"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:558
+#: src/monitor/view/kdenliveclipmonitor.qml:570
 #: src/monitor/view/kdenlivemonitor.qml:232
 #, kde-format
 msgid "In Point"
 msgstr "イン・ポイント"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:580
+#: src/monitor/view/kdenliveclipmonitor.qml:592
 #: src/monitor/view/kdenlivemonitor.qml:249
 #, kde-format
 msgid "Out Point"
 msgstr "アウト・ポイント"
 
-#: src/monitor/view/kdenliveclipmonitor.qml:747
+#: src/monitor/view/kdenliveclipmonitor.qml:759
 #, fuzzy, kde-format
 #| msgid "Remove Job"
 msgid "Terminate Job"
@@ -20154,7 +20150,7 @@ msgstr "右寄せ"
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
 #: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:94
-#: src/ui/editsub_ui.ui:276
+#: src/ui/editsub_ui.ui:93
 #, kde-format
 msgid "Position:"
 msgstr "位置:"
@@ -20162,7 +20158,7 @@ msgstr "位置:"
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:364 src/ui/titlewidget_ui.ui:1413
+#: src/ui/editsubstyle_ui.ui:423 src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "背景"
@@ -20378,16 +20374,16 @@ msgstr "現在のボタンの削除"
 #. i18n: ectx: property (text), widget (QToolButton, delPreview)
 #. i18n: ectx: property (text), widget (QToolButton, help_cached)
 #. i18n: ectx: property (text), widget (QToolButton, linkResoultion)
+#. i18n: ectx: property (text), widget (QToolButton, buttonLock)
+#. i18n: ectx: property (text), widget (QToolButton, buttonEditStyle)
+#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
+#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonBold)
 #. i18n: ectx: property (text), widget (QToolButton, buttonUnderline)
 #. i18n: ectx: property (text), widget (QToolButton, buttonStrikeout)
 #. i18n: ectx: property (text), widget (QToolButton, buttonFont)
 #. i18n: ectx: property (text), widget (QToolButton, buttonResetStyle)
-#. i18n: ectx: property (text), widget (QToolButton, buttonEditStyle)
-#. i18n: ectx: property (text), widget (QToolButton, buttonIn)
 #. i18n: ectx: property (text), widget (QToolButton, subMenu)
-#. i18n: ectx: property (text), widget (QToolButton, buttonLock)
-#. i18n: ectx: property (text), widget (QToolButton, buttonOut)
 #. i18n: ectx: property (text), widget (QToolButton, buttonPrev)
 #. i18n: ectx: property (text), widget (QToolButton, buttonNext)
 #. i18n: ectx: property (text), widget (QToolButton, buttonAdd)
@@ -20411,12 +20407,12 @@ msgstr "現在のボタンの削除"
 #: src/ui/configsdl_ui.ui:171 src/ui/customcamcorderproxy_ui.ui:97
 #: src/ui/customcamcorderproxy_ui.ui:111 src/ui/customcamcorderproxy_ui.ui:138
 #: src/ui/cutjobdialog_ui.ui:84 src/ui/editrenderpreset_ui.ui:470
-#: src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:129 src/ui/editsub_ui.ui:139
-#: src/ui/editsub_ui.ui:149 src/ui/editsub_ui.ui:159 src/ui/editsub_ui.ui:169
-#: src/ui/editsub_ui.ui:227 src/ui/editsub_ui.ui:260 src/ui/editsub_ui.ui:292
-#: src/ui/editsub_ui.ui:315 src/ui/editsub_ui.ui:331 src/ui/editsub_ui.ui:609
-#: src/ui/editsub_ui.ui:619 src/ui/editsub_ui.ui:629 src/ui/editsub_ui.ui:639
-#: src/ui/editsub_ui.ui:649 src/ui/editsub_ui.ui:659 src/ui/editsub_ui.ui:674
+#: src/ui/editsub_ui.ui:106 src/ui/editsub_ui.ui:119 src/ui/editsub_ui.ui:142
+#: src/ui/editsub_ui.ui:165 src/ui/editsub_ui.ui:193 src/ui/editsub_ui.ui:203
+#: src/ui/editsub_ui.ui:213 src/ui/editsub_ui.ui:223 src/ui/editsub_ui.ui:233
+#: src/ui/editsub_ui.ui:243 src/ui/editsub_ui.ui:321 src/ui/editsub_ui.ui:604
+#: src/ui/editsub_ui.ui:614 src/ui/editsub_ui.ui:624 src/ui/editsub_ui.ui:634
+#: src/ui/editsub_ui.ui:644 src/ui/editsub_ui.ui:654 src/ui/editsub_ui.ui:680
 #: src/ui/exportguidesdialog_ui.ui:78 src/ui/exportguidesdialog_ui.ui:98
 #: src/ui/gradientedit_ui.ui:130 src/ui/gradientedit_ui.ui:150
 #: src/ui/guideslist_ui.ui:23 src/ui/guideslist_ui.ui:40
@@ -22335,134 +22331,126 @@ msgstr ""
 msgid "Enable manual editing"
 msgstr "手動編集を有効化"
 
-#. i18n: ectx: property (text), widget (QToolButton, button_save)
-#. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
-#: src/ui/editsub_ui.ui:101 src/ui/profiledialog_ui.ui:380
+#. i18n: ectx: property (text), widget (QLabel, label_end)
+#: src/ui/editsub_ui.ui:132
 #, kde-format
-msgid "S"
-msgstr "S"
+msgid "End:"
+msgstr "終了:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_style)
-#: src/ui/editsub_ui.ui:207
+#: src/ui/editsub_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Style"
 msgid "Style:"
 msgstr "スタイル"
 
-#. i18n: ectx: property (text), widget (QLabel, label_end)
-#: src/ui/editsub_ui.ui:253
+#. i18n: ectx: property (text), widget (QToolButton, button_save)
+#. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
+#: src/ui/editsub_ui.ui:291 src/ui/profiledialog_ui.ui:380
 #, kde-format
-msgid "End:"
-msgstr "終了:"
+msgid "S"
+msgstr "S"
 
-#. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
-#: src/ui/editsub_ui.ui:451
-#, fuzzy, kde-format
-#| msgid "Rolling"
-msgid "Scroll"
-msgstr "ローリング"
+#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
+#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:252
+#, kde-format
+msgid "Left margin"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
+#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:90
+#, kde-format
+msgid "Right margin"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
-#: src/ui/editsub_ui.ui:465
+#: src/ui/editsub_ui.ui:487
 #, fuzzy, kde-format
 #| msgid "Fields per second"
 msgid "Upper Bound"
 msgstr "毎秒フィールド数"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMargin)
-#: src/ui/editsub_ui.ui:472
-#, kde-format
-msgid "<html><head/><body><p>Margin</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsub_ui.ui:492
-#, kde-format
-msgid "<html><head/><body><p>Name</p></body></html>"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
-#. i18n: ectx: property (text), widget (QCheckBox, checkComment)
-#: src/ui/editsub_ui.ui:582 src/ui/markerdialog_ui.ui:66
-#: src/ui/multiplemarkerdialog_ui.ui:34
-#, kde-format
-msgid "Comment"
-msgstr "コメント"
-
-#. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
-#: src/ui/editsub_ui.ui:589
-#, fuzzy, kde-format
-#| msgid "Lower object"
-msgid "Lower Bound"
-msgstr "オブジェクトを下げる"
-
-#. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
-#: src/ui/editsubstyle_ui.ui:24
-#, fuzzy, kde-format
-#| msgid "Subtitle file:"
-msgid "Subtitle Style Editor"
-msgstr "字幕ファイル:"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
-#: src/ui/editsubstyle_ui.ui:47 src/ui/managesubtitles_ui.ui:409
-#, fuzzy, kde-format
-#| msgid "Custom"
-msgid "Shadow"
-msgstr "カスタム"
-
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsubstyle_ui.ui:81
+#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:80
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical margin"
 msgstr "垂直方向"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginL)
-#: src/ui/editsubstyle_ui.ui:101
+#. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
+#: src/ui/editsub_ui.ui:554
+#, fuzzy, kde-format
+#| msgid "Lower object"
+msgid "Lower Bound"
+msgstr "オブジェクトを下げる"
+
+#. i18n: ectx: property (text), widget (QLabel, clip_filesize_3)
+#. i18n: ectx: property (text), widget (QCheckBox, checkComment)
+#: src/ui/editsub_ui.ui:564 src/ui/markerdialog_ui.ui:66
+#: src/ui/multiplemarkerdialog_ui.ui:34
 #, kde-format
-msgid "Left margin"
+msgid "Comment"
+msgstr "コメント"
+
+#. i18n: ectx: property (text), widget (QCheckBox, checkScroll)
+#: src/ui/editsub_ui.ui:574
+#, fuzzy, kde-format
+#| msgid "Rolling"
+msgid "Scroll"
+msgstr "ローリング"
+
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsub_ui.ui:581
+#, kde-format
+msgid "<html><head/><body><p>Name</p></body></html>"
 msgstr ""
 
-#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/editsubstyle_ui.ui:121
-#, kde-format
-msgid ""
-"The secondary color might be used in case of subtitle collision to help "
-"distinguish both subtitles"
-msgstr ""
+#. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
+#: src/ui/editsubstyle_ui.ui:10
+#, fuzzy, kde-format
+#| msgid "Subtitle file:"
+msgid "Subtitle Style Editor"
+msgstr "字幕ファイル:"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:26
+#, fuzzy, kde-format
+#| msgid "Letter spacing:"
+msgid "Character spacing"
+msgstr "文字間隔:"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: src/ui/editsubstyle_ui.ui:152 src/ui/managesubtitles_ui.ui:404
+#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
+#: src/ui/editsubstyle_ui.ui:39 src/ui/managesubtitles_ui.ui:409
 #, fuzzy, kde-format
-#| msgid "Outline:"
-msgid "Outline"
-msgstr "輪郭:"
+#| msgid "Custom"
+msgid "Shadow"
+msgstr "カスタム"
 
-#. i18n: ectx: property (text), widget (QLabel, labelMarginR)
-#: src/ui/editsubstyle_ui.ui:172
-#, kde-format
-msgid "Right margin"
-msgstr ""
+#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
+#: src/ui/editsubstyle_ui.ui:70
+#, fuzzy, kde-format
+#| msgid "Scale"
+msgid "Scale X"
+msgstr "スケール"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsubstyle_ui.ui:190 src/ui/managesubtitles_ui.ui:364
+#: src/ui/editsubstyle_ui.ui:115 src/ui/managesubtitles_ui.ui:364
 #, kde-format
 msgid "Bold"
 msgstr "ボールド"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsubstyle_ui.ui:209 src/ui/managesubtitles_ui.ui:369
+#: src/ui/editsubstyle_ui.ui:134 src/ui/managesubtitles_ui.ui:369
 #, kde-format
 msgid "Italic"
 msgstr "イタリック"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: src/ui/editsubstyle_ui.ui:222 src/ui/managesubtitles_ui.ui:374
+#: src/ui/editsubstyle_ui.ui:147 src/ui/managesubtitles_ui.ui:374
 #, fuzzy, kde-format
 #| msgid "Reverb time"
 msgid "Underline"
@@ -22470,59 +22458,61 @@ msgstr "反響時間"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
-#: src/ui/editsubstyle_ui.ui:235 src/ui/managesubtitles_ui.ui:379
+#: src/ui/editsubstyle_ui.ui:160 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
-#: src/ui/editsubstyle_ui.ui:274
-#, fuzzy, kde-format
-#| msgid "Scale"
-msgid "Scale X"
-msgstr "スケール"
-
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsubstyle_ui.ui:284
-#, fuzzy, kde-format
-#| msgid "Folder name"
-msgid "Style name"
-msgstr "フォルダー名"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
-#: src/ui/editsubstyle_ui.ui:307 src/ui/managesubtitles_ui.ui:414
-#, fuzzy, kde-format
-#| msgid "Align left"
-msgid "Alignment"
-msgstr "左寄せ"
-
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
-#: src/ui/editsubstyle_ui.ui:327
+#: src/ui/editsubstyle_ui.ui:225
 #, fuzzy, kde-format
 #| msgid "Text clips"
 msgid "Text color"
 msgstr "テキストクリップ"
 
-#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
-#: src/ui/editsubstyle_ui.ui:337
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
+#: src/ui/editsubstyle_ui.ui:286 src/ui/managesubtitles_ui.ui:404
 #, fuzzy, kde-format
-#| msgid "Letter spacing:"
-msgid "Character spacing"
-msgstr "文字間隔:"
+#| msgid "Outline:"
+msgid "Outline"
+msgstr "輪郭:"
+
+#. i18n: ectx: property (text), widget (QLabel, labelName)
+#: src/ui/editsubstyle_ui.ui:326
+#, fuzzy, kde-format
+#| msgid "Folder name"
+msgid "Style name"
+msgstr "フォルダー名"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/editsubstyle_ui.ui:346
+#, kde-format
+msgid ""
+"The secondary color might be used in case of subtitle collision to help "
+"distinguish both subtitles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:360
+#, kde-format
+msgid "Secondary"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelAlignment)
+#: src/ui/editsubstyle_ui.ui:386 src/ui/managesubtitles_ui.ui:414
+#, fuzzy, kde-format
+#| msgid "Align left"
+msgid "Alignment"
+msgstr "左寄せ"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
-#: src/ui/editsubstyle_ui.ui:377
+#: src/ui/editsubstyle_ui.ui:413
 #, fuzzy, kde-format
 #| msgid "Scale"
 msgid "Scale Y"
 msgstr "スケール"
-
-#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
-#: src/ui/editsubstyle_ui.ui:408
-#, kde-format
-msgid "Secondary"
-msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
