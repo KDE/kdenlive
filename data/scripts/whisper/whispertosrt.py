@@ -80,6 +80,7 @@ def main(source, model, **kwargs):
         import srt
         processor = AutoProcessor.from_pretrained("facebook/seamless-m4t-v2-large")
         seamlessmodel = SeamlessM4Tv2Model.from_pretrained("facebook/seamless-m4t-v2-large")
+        loadedSeamlessModel = seamlessmodel.to(device)
 
         # Seamless
         subs = []
@@ -94,7 +95,7 @@ def main(source, model, **kwargs):
             progress = int(100*i / subCount)
             print(f"{progress}%| translating", file=sys.stdout,flush=True)
             text_inputs = processor(text, src_lang=kwargs['seamless_source'], return_tensors="pt").to(device)
-            output_tokens = seamlessmodel.generate(**text_inputs, tgt_lang=kwargs['seamless_target'], generate_speech=False)
+            output_tokens = loadedSeamlessModel.generate(**text_inputs, tgt_lang=kwargs['seamless_target'], generate_speech=False)
             translated_text_from_text = processor.decode(output_tokens[0].tolist()[0], skip_special_tokens=True)
             sub = srt.Subtitle(index=len(subs), content=translated_text_from_text, start=datetime.timedelta(seconds=start_time), end=datetime.timedelta(seconds=end_time))
             subs.append(sub)
