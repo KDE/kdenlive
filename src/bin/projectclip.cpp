@@ -625,7 +625,15 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gene
         }
     }
     m_duration = getStringDuration();
-    m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
+    if (m_clipType == ClipType::Timeline) {
+        if (currentStatus == FileStatus::StatusMissing) {
+            // Sequence is invalid, leave as is
+        } else {
+            m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
+        }
+    } else {
+        m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
+    }
     locker.unlock();
     if (m_clipStatus != currentStatus) {
         updateRoles << AbstractProjectItem::ClipStatus << AbstractProjectItem::IconOverlay;

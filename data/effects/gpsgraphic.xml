@@ -160,12 +160,12 @@ but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]></comment>
       	<comment><![CDATA[If a valid image file is selected, it will be used as a background for the rectangle area.<br>
       	Paths starting with the "!" character are ignored. TIP: use a map image to add context to the GPS track.]]></comment>
     </parameter>
-    <parameter type="constant" name="bg_scale_w" min="0" max="200" default="100" factor="100">
+    <parameter type="constant" name="bg_scale_w" min="0" max="200" default="1" factor="100">
     	<name>Background scale</name>
     	<comment><![CDATA[Scale the background image (relative to center) to match it to the above GPS track.<br>
     	Values smaller than 100 zoom into the image, values larger than 100 zoom out. 0 hides it.]]></comment>
     </parameter>
-    <parameter type="constant" name="bg_opacity" min="0" max="100" default="100" factor="100">
+    <parameter type="constant" name="bg_opacity" min="0" max="100" default="1" factor="100">
     	<name>Background opacity</name>
     	<comment><![CDATA[Sets the opacity for the background image]]></comment>
     </parameter>

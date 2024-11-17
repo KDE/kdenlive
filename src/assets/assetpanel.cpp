@@ -208,13 +208,9 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     clear();
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_switchAction->setVisible(true);
-    m_titleAction->setVisible(false);
-    m_applyEffectGroups->menuAction()->setVisible(false);
-    m_assetTitle->clear();
     m_transitionWidget->setVisible(true);
     m_compositionHelpLink->setVisible(true);
     m_timelineButton->setVisible(true);
-    m_enableStackButton->setVisible(false);
     QSize s = pCore->getCompositionSizeOnTrack(id);
     m_transitionWidget->setModel(transitionModel, s, true);
 }
@@ -240,13 +236,7 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
     clear();
     // There is only 1 audio composition, so hide switch combobox
     m_switchAction->setVisible(transitionModel->getAssetId() != QLatin1String("mix"));
-    m_titleAction->setVisible(false);
-    m_assetTitle->clear();
     m_mixWidget->setVisible(true);
-    m_compositionHelpLink->setVisible(false);
-    m_timelineButton->setVisible(false);
-    m_applyEffectGroups->menuAction()->setVisible(false);
-    m_enableStackButton->setVisible(false);
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_mixWidget->setModel(transitionModel, QSize(), true);
 }
@@ -255,11 +245,6 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
 {
     if (effectsModel == nullptr) {
         // Item is not ready
-        m_splitButton->setVisible(false);
-        m_enableStackButton->setVisible(false);
-        m_saveEffectStack->setVisible(false);
-        m_switchBuiltStack->setVisible(false);
-        m_applyEffectGroups->menuAction()->setVisible(false);
         clear();
         return;
     }
@@ -317,7 +302,6 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
             m_splitButton->setEnabled(!m_effectStackWidget->isEmpty());
         });
     }
-    m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(enableKeyframes);
     m_timelineButton->setActive(showKeyframes);
     m_effectStackWidget->setVisible(true);
@@ -353,6 +337,7 @@ void AssetPanel::clear()
         m_splitButton->setActive(false);
         processSplitEffect(false);
     }
+    m_titleAction->setVisible(false);
     m_switchAction->setVisible(false);
     m_transitionWidget->setVisible(false);
     m_transitionWidget->unsetModel();
@@ -364,7 +349,8 @@ void AssetPanel::clear()
     m_switchBuiltStack->setVisible(false);
     m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(false);
-    m_switchBuiltStack->setVisible(false);
+    m_enableStackButton->setVisible(false);
+    m_applyEffectGroups->menuAction()->setVisible(false);
     m_effectStackWidget->unsetModel();
     m_assetTitle->clear();
 }
