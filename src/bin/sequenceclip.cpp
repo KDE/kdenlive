@@ -159,7 +159,8 @@ bool SequenceClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool gen
 
 std::unique_ptr<Mlt::Producer> SequenceClip::getThumbProducer(const QUuid &)
 {
-    if (m_clipType == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting) {
+    if (m_clipType == ClipType::Unknown || m_masterProducer == nullptr || m_clipStatus == FileStatus::StatusWaiting ||
+        m_clipStatus == FileStatus::StatusMissing) {
         return nullptr;
     }
     if (!m_thumbMutex.tryLock()) {

@@ -6101,6 +6101,17 @@ void Bin::updateSequenceAVType(const QUuid &uuid, int tracksCount)
 {
     const QString bId = m_itemModel->getSequenceId(uuid);
     if (!bId.isEmpty()) {
+        if (tracksCount == 0) {
+            // Mark clip as invalid
+            std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bId);
+            if (sequenceClip) {
+                sequenceClip->setClipStatus(FileStatus::StatusMissing);
+            }
+        }
+        if (pCore->currentDoc()->getSequenceProperty(uuid, "tracksCount").toInt() == tracksCount) {
+            // Nothing changed
+            return;
+        }
         std::shared_ptr<ProjectClip> sequenceClip = getBinClip(bId);
         if (sequenceClip) {
             sequenceClip->refreshTracksState(tracksCount);
