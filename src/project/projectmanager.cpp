@@ -1927,6 +1927,9 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
     // Disable autosave while creating timelines
     m_autoSaveTimer.stop();
     std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
+    if (clip->clipStatus() == FileStatus::StatusMissing) {
+        return false;
+    }
     std::unique_ptr<Mlt::Producer> xmlProd = nullptr;
     // Check if a tractor for this playlist already exists in the main timeline
     std::shared_ptr<Mlt::Tractor> tc = pCore->projectItemModel()->getExtraTimeline(uuid.toString());
