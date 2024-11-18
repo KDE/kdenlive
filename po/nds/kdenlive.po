@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-16 02:36+0000\n"
+"POT-Creation-Date: 2024-11-18 02:38+0000\n"
 "PO-Revision-Date: 2011-11-16 15:57+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -703,7 +703,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:525
-#: src/dialogs/subtitlestyleedit.cpp:106 src/ui/configmisc_ui.ui:138
+#: src/dialogs/subtitlestyleedit.cpp:107 src/ui/configmisc_ui.ui:138
 #, fuzzy, kde-format
 #| msgid "Tool"
 msgid "Top"
@@ -711,7 +711,7 @@ msgstr "Warktüüch"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
@@ -719,14 +719,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:507
-#: src/dialogs/subtitlestyleedit.cpp:112 src/ui/configmisc_ui.ui:143
+#: src/dialogs/subtitlestyleedit.cpp:113 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, fuzzy, kde-format
 #| msgid "Brighten"
@@ -1494,7 +1494,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:309
+#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:189
 #, fuzzy, kde-format
 #| msgid "Position"
 msgid "Rotation"
@@ -3808,7 +3808,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
-#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:279
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:75
 #, kde-format
 msgid "Font"
 msgstr "Schriftoort"
@@ -4085,24 +4085,24 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:282
+#: src/assets/assetpanel.cpp:267
 #, fuzzy, kde-format
 #| msgid "Effects"
 msgid "%1 effects"
 msgstr "Effekten"
 
-#: src/assets/assetpanel.cpp:287 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:272 src/jobs/customjobtask.cpp:73
 #, fuzzy, kde-format
 #| msgid "Parameters"
 msgid "%1 parameters"
 msgstr "Parameters"
 
-#: src/assets/assetpanel.cpp:291
+#: src/assets/assetpanel.cpp:276
 #, kde-format
 msgid "Track %1 effects"
 msgstr ""
 
-#: src/assets/assetpanel.cpp:296
+#: src/assets/assetpanel.cpp:281
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Bin %1 effects"
@@ -4477,7 +4477,7 @@ msgstr "Pielrecht in de Merrn"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, fuzzy, kde-format
 #| msgid "Center horizontally"
@@ -5779,7 +5779,7 @@ msgid "Edit Tags"
 msgstr "Vöransichten wiesen"
 
 #: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:1995 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2003 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, fuzzy, kde-format
@@ -5968,40 +5968,40 @@ msgstr "Klangkanaals"
 msgid "Remove clip markers"
 msgstr "Orner wegdoon"
 
-#: src/bin/bin.cpp:6167
+#: src/bin/bin.cpp:6178
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6168
+#: src/bin/bin.cpp:6179
 #, fuzzy, kde-format
 #| msgid "Save Profile"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Profil sekern"
 
-#: src/bin/bin.cpp:6169
+#: src/bin/bin.cpp:6180
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Ümkoderen"
 
-#: src/bin/bin.cpp:6318 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6329 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Delete effect %1"
 msgstr "Keen Effekt"
 
-#: src/bin/bin.cpp:6383 src/mainwindow.cpp:319
+#: src/bin/bin.cpp:6394 src/mainwindow.cpp:319
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin"
 msgstr "Projekt"
 
-#: src/bin/bin.cpp:6386 src/bin/bin.cpp:6389 src/mainwindow.cpp:4813
+#: src/bin/bin.cpp:6397 src/bin/bin.cpp:6400 src/mainwindow.cpp:4813
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project Bin %1"
@@ -6432,20 +6432,20 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:905
+#: src/bin/projectclip.cpp:913
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1146 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1154 src/jobs/cliploadtask.cpp:269
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Invalid"
 msgstr "Profil sekern"
 
-#: src/bin/projectclip.cpp:1375 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1383 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, fuzzy, kde-format
@@ -6453,19 +6453,19 @@ msgstr "Profil sekern"
 msgid "File already exists"
 msgstr "Dateiverwiedern:"
 
-#: src/bin/projectclip.cpp:2587
+#: src/bin/projectclip.cpp:2595
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Adjust timeline clips"
 msgstr "Profil bewerken"
 
-#: src/bin/projectclip.cpp:2823
+#: src/bin/projectclip.cpp:2831
 #, fuzzy, kde-format
 #| msgid "Enable Stretch"
 msgid "Add stream effect"
 msgstr "Utwiedern anmaken"
 
-#: src/bin/projectclip.cpp:2848
+#: src/bin/projectclip.cpp:2856
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Remove stream effect"
@@ -7614,7 +7614,7 @@ msgstr "ARTS-Dämoon"
 #: src/dialogs/kdenlivesettingsdialog.cpp:740
 #: src/dialogs/kdenlivesettingsdialog.cpp:741
 #: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/subtitlestyleedit.cpp:99 src/ui/configproject_ui.ui:48
+#: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Standard"
@@ -7959,25 +7959,25 @@ msgstr ""
 msgid " events"
 msgstr ""
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:112
 #, fuzzy, kde-format
 #| msgid "Align bottom"
 msgid "Bottom Left"
 msgstr "Nerrn utrichten"
 
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:113
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:114
 #, fuzzy, kde-format
 #| msgid "Align bottom"
 msgid "Bottom Right"
 msgstr "Nerrn utrichten"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:105
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:106
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Top Left"
 msgstr "Linkerhand utrichten"
 
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:107
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:108
 #, fuzzy, kde-format
 #| msgid "Align right"
 msgid "Top Right"
@@ -7989,7 +7989,7 @@ msgstr "Rechterhand utrichten"
 msgid "Box as Border"
 msgstr "Randbreed"
 
-#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:101
+#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:102
 #, fuzzy, kde-format
 #| msgid "Project Tree"
 msgid "Box as Shadow"
@@ -9506,56 +9506,56 @@ msgstr "Y-Positschoon"
 msgid "Y:"
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:47
+#: src/dialogs/subtitlestyleedit.cpp:48
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select font"
 msgstr "Utsöök-Warktüüch"
 
-#: src/dialogs/subtitlestyleedit.cpp:48
+#: src/dialogs/subtitlestyleedit.cpp:49
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:100
+#: src/dialogs/subtitlestyleedit.cpp:101
 #, fuzzy, kde-format
 #| msgid "Outline"
 msgid "Box as Outline"
 msgstr "Ümreet"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:353
+#: src/dialogs/subtitlestyleedit.cpp:133 src/ui/editsubstyle_ui.ui:316
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Show Preview >>>"
 msgstr "ahn Titel"
 
-#: src/dialogs/subtitlestyleedit.cpp:134
+#: src/dialogs/subtitlestyleedit.cpp:142
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "<<< Hide Preview"
 msgstr "ahn Titel"
 
-#: src/dialogs/subtitlestyleedit.cpp:162 src/dialogs/subtitlestyleedit.cpp:167
-#: src/dialogs/subtitlestyleedit.cpp:172
+#: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
+#: src/dialogs/subtitlestyleedit.cpp:180
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
 msgid "Error"
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:162
+#: src/dialogs/subtitlestyleedit.cpp:170
 #, fuzzy, kde-format
 #| msgid "File extension:"
 msgid "Style name already exists."
 msgstr "Dateiverwiedern:"
 
-#: src/dialogs/subtitlestyleedit.cpp:167
+#: src/dialogs/subtitlestyleedit.cpp:175
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr ""
 
-#: src/dialogs/subtitlestyleedit.cpp:172
+#: src/dialogs/subtitlestyleedit.cpp:180
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr ""
@@ -16694,7 +16694,7 @@ msgstr ""
 msgid "Project profile changed"
 msgstr "Projektboom"
 
-#: src/project/projectmanager.cpp:1947
+#: src/project/projectmanager.cpp:1950
 #, fuzzy, kde-format
 #| msgid "Opening file %1"
 msgid ""
@@ -16702,18 +16702,18 @@ msgid ""
 "%1"
 msgstr "Datei \"%1\" warrt opmaakt"
 
-#: src/project/projectmanager.cpp:2029
+#: src/project/projectmanager.cpp:2032
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2218
+#: src/project/projectmanager.cpp:2221
 #, fuzzy, kde-format
 #| msgid "Selection tool"
 msgid "Select a clip to create sequence"
 msgstr "Utsöök-Warktüüch"
 
-#: src/project/projectmanager.cpp:2256
+#: src/project/projectmanager.cpp:2259
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Create Sequence Clip"
@@ -19983,7 +19983,7 @@ msgstr "Positschoon"
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:423 src/ui/titlewidget_ui.ui:1413
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:1413
 #, fuzzy, kde-format
 #| msgid "Show background"
 msgid "Background"
@@ -22252,13 +22252,13 @@ msgid "S"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginL)
-#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:252
+#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
-#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:90
+#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
 msgstr ""
@@ -22271,7 +22271,7 @@ msgid "Upper Bound"
 msgstr "Profil opfrischen"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:80
+#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
 #, fuzzy, kde-format
 #| msgid "Vertical center"
 msgid "Vertical margin"
@@ -22306,36 +22306,73 @@ msgid "<html><head/><body><p>Name</p></body></html>"
 msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
-#: src/ui/editsubstyle_ui.ui:10
+#: src/ui/editsubstyle_ui.ui:18
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Subtitle Style Editor"
 msgstr "ahn Titel"
 
-#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
+#, fuzzy, kde-format
+#| msgid "Profile name"
+msgid "Style name"
+msgstr "Profilnaam"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:121
+#, fuzzy, kde-format
+#| msgid " second"
+#| msgid_plural " seconds"
+msgid "Secondary"
+msgstr " Sekunn"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/editsubstyle_ui.ui:131
+#, kde-format
+msgid ""
+"The secondary color might be used in case of subtitle collision to help "
+"distinguish both subtitles"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:209
 #, fuzzy, kde-format
 msgid "Character spacing"
 msgstr "Interpolater"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
-#: src/ui/editsubstyle_ui.ui:39 src/ui/managesubtitles_ui.ui:409
-#, fuzzy, kde-format
-#| msgid "Project Tree"
-msgid "Shadow"
-msgstr "Projektboom"
-
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
-#: src/ui/editsubstyle_ui.ui:70
+#: src/ui/editsubstyle_ui.ui:279
 #, fuzzy, kde-format
 #| msgid "Scaling"
 msgid "Scale X"
 msgstr "Grött topassen"
 
+#. i18n: ectx: property (text), widget (QLabel, labelColor)
+#: src/ui/editsubstyle_ui.ui:340
+#, fuzzy, kde-format
+#| msgid "Fill color"
+msgid "Text color"
+msgstr "Füllklöör"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
+#: src/ui/editsubstyle_ui.ui:350 src/ui/managesubtitles_ui.ui:404
+#, kde-format
+msgid "Outline"
+msgstr "Ümreet"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
+#: src/ui/editsubstyle_ui.ui:360 src/ui/managesubtitles_ui.ui:409
+#, fuzzy, kde-format
+#| msgid "Project Tree"
+msgid "Shadow"
+msgstr "Projektboom"
+
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsubstyle_ui.ui:115 src/ui/managesubtitles_ui.ui:364
+#: src/ui/editsubstyle_ui.ui:378 src/ui/managesubtitles_ui.ui:364
 #, fuzzy, kde-format
 #| msgctxt "Font style"
 #| msgid "Bold"
@@ -22344,7 +22381,7 @@ msgstr "Fett"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsubstyle_ui.ui:134 src/ui/managesubtitles_ui.ui:369
+#: src/ui/editsubstyle_ui.ui:397 src/ui/managesubtitles_ui.ui:369
 #, fuzzy, kde-format
 #| msgid "Antialias"
 msgid "Italic"
@@ -22352,7 +22389,7 @@ msgstr "Kantstreken"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: src/ui/editsubstyle_ui.ui:147 src/ui/managesubtitles_ui.ui:374
+#: src/ui/editsubstyle_ui.ui:410 src/ui/managesubtitles_ui.ui:374
 #, fuzzy, kde-format
 #| msgid "Source Color"
 msgid "Underline"
@@ -22360,58 +22397,21 @@ msgstr "Bornklöör"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
-#: src/ui/editsubstyle_ui.ui:160 src/ui/managesubtitles_ui.ui:379
+#: src/ui/editsubstyle_ui.ui:423 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QLabel, labelColor)
-#: src/ui/editsubstyle_ui.ui:225
-#, fuzzy, kde-format
-#| msgid "Fill color"
-msgid "Text color"
-msgstr "Füllklöör"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: src/ui/editsubstyle_ui.ui:286 src/ui/managesubtitles_ui.ui:404
-#, kde-format
-msgid "Outline"
-msgstr "Ümreet"
-
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsubstyle_ui.ui:326
-#, fuzzy, kde-format
-#| msgid "Profile name"
-msgid "Style name"
-msgstr "Profilnaam"
-
-#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/editsubstyle_ui.ui:346
-#, kde-format
-msgid ""
-"The secondary color might be used in case of subtitle collision to help "
-"distinguish both subtitles"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
-#: src/ui/editsubstyle_ui.ui:360
-#, fuzzy, kde-format
-#| msgid " second"
-#| msgid_plural " seconds"
-msgid "Secondary"
-msgstr " Sekunn"
-
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
-#: src/ui/editsubstyle_ui.ui:386 src/ui/managesubtitles_ui.ui:414
+#: src/ui/editsubstyle_ui.ui:455 src/ui/managesubtitles_ui.ui:414
 #, fuzzy, kde-format
 #| msgid "Align center"
 msgid "Alignment"
 msgstr "Merrn utricht"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
-#: src/ui/editsubstyle_ui.ui:413
+#: src/ui/editsubstyle_ui.ui:465
 #, fuzzy, kde-format
 #| msgid "Scaling"
 msgid "Scale Y"
