@@ -775,6 +775,10 @@ const QSize ClipController::getFrameSize() const
     if (height == 0) {
         height = m_properties->get_int("height");
     }
+    double sar = m_properties->get_double("meta.media.aspect_ratio");
+    if (sar > 0.) {
+        width *= sar;
+    }
     return QSize(width, height);
 }
 
