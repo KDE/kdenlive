@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-16 00:40+0000\n"
-"PO-Revision-Date: 2024-11-15 22:24+0100\n"
+"POT-Creation-Date: 2024-11-18 00:39+0000\n"
+"PO-Revision-Date: 2024-11-16 13:28+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -683,14 +683,14 @@ msgstr "Moztu klip baten ertzak"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:525
-#: src/dialogs/subtitlestyleedit.cpp:106 src/ui/configmisc_ui.ui:138
+#: src/dialogs/subtitlestyleedit.cpp:107 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
 msgstr "Goian"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
@@ -698,14 +698,14 @@ msgstr "Ezkerrean"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:507
-#: src/dialogs/subtitlestyleedit.cpp:112 src/ui/configmisc_ui.ui:143
+#: src/dialogs/subtitlestyleedit.cpp:113 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
 msgstr "Behean"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
@@ -1135,6 +1135,10 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[GPS erroreak ezabatzeko zenbat puntu leundu behar diren.<br>\n"
+"    \t1eko balioak ez ditu kokalekuak leuntzen, eremu gehigarriak (abiadura, "
+"distantzia, etab.), bihotz-maiztasunaren eta garaieraren balioak ere "
+"interpolatzen ditu.]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -1171,6 +1175,9 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"2Dko oinarrizko mapa-lerroa (kokalekurako) edo 1Dko grafikoa denborarekiko "
+"(besteak),Zooma gerturatu mapan/grafikoan uneko kokalekuan zentratuta,"
+"Marraztu abiadura-neurgailua"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1224,7 +1231,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Ehunekoa min-tik...max-ra,Balio absolutua"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1337,6 +1344,12 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"Kolore bat,Bi kolore,Iragan solidoa - etorkizun mehea,Etorkizun solidoa - "
+"iragan mehea,Gradiente bertikala,Gradiente horizontala,Kolorea iraupenaren "
+"arabera,Kolorea garaieraren arabera,Kolorea bihotz-maiztasunaren arabera,"
+"Kolorea abiaduraren arabera,Kolorea abiaduraren arabera (max 100km/h),"
+"Kolorea graduaren arabera (max 90 gradu), Kolorea graduaren arabera (max 20 "
+"gradu)"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -1357,7 +1370,7 @@ msgstr "1 kolorea"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "Grafikoaren lerrorako 1 zk. kolorea ezartzen du"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1368,7 +1381,7 @@ msgstr "2 kolorea"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "Grafikoaren lerrorako 2 zk. kolorea ezartzen du"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -1378,7 +1391,7 @@ msgstr "3 kolorea"
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "Grafikoaren lerrorako 3 zk. kolorea ezartzen du"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -1388,7 +1401,7 @@ msgstr "4 kolorea"
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "Grafikoaren lerrorako 4 zk. kolorea ezartzen du"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -1398,13 +1411,12 @@ msgstr "5 kolorea"
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "Grafikoaren lerrorako 5 zk. kolorea ezartzen du"
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show more options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "Erakutsi aukera gehiago"
+msgstr "Erakutsi Orain puntua"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1413,24 +1425,24 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[Gaitu ezazu, grafikoaren lerroan, uneko kokalekuan/denboran disko "
+"bat marrazteko.<br>\n"
+"    \tGrafiko mota abiadura-neurgailu bada, horrek orratzari eragiten dio.]]>"
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Now dot color"
-msgstr "Kolore so&lidoa:"
+msgstr "Orain puntuaren kolorea"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
-#| msgid "Set the shape color of the second detected face."
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "Ezarri bigarrenik antzemandako aurpegiaren formaren kolorea."
+msgstr "Orain puntuaren kolorea ezartzen du"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "Hizketatik testura"
+msgstr "Erakutsi Orain testua"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1445,7 +1457,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:309
+#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:189
 #, kde-format
 msgid "Rotation"
 msgstr "Errotazioa"
@@ -1456,6 +1468,8 @@ msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Biratu grafikoaren laukizuzen osoa. Abiadura-neurgailu motarekin testua "
+"horizontalean gelditzen da."
 
 #: data/effects/gpsgraphic.xml:134
 #, kde-format
@@ -1508,12 +1522,16 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Garaiera eta abiadura motako balioak azaltzeko erabilitako unitatea "
+"ezartzen du.<br>\n"
+"        Lehenetsiak metro eta km/h dira hurrenez-hurren. Unitatea katean "
+"edozein lekutan joan daiteke, hori dela eta, zuriune gehigarriak erabil "
+"daitezke azaldu beharrekoa doitzeko.]]>"
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "Bistaratu trantsizio bakarrik"
+msgstr "Puntuak bakarrik erakutsi"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1527,10 +1545,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "Laukizuzena"
+msgstr "Grafikoaren laukizuzena"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1539,6 +1556,9 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[Grafikoa marrazteko laukizuzena definitzen du.<br>\n"
+"        Formatua da: \"X Y W H\". '%' atzizkia izan ezean, X, Y, W, H pixel "
+"unitateak direla jotzen da.]]>"
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
@@ -1553,6 +1573,10 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[Irudi baliodun bat hautatzen bada, laukizuzenaren azaleran atzeko-"
+"planoko irudi gisa erabiliko da.<br>\n"
+"      \t\"!\" karakterearekin hasten diren bide-izenei ezikusi egiten zaie: "
+"erabili mapa-irudi bat GPS arrastoari testuingurua gehitzeko.]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
@@ -1589,10 +1613,9 @@ msgid "Date and time of the first valid GPS point."
 msgstr "Aurreneko GPS puntu baliodunaren data eta ordua."
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "Bideo-korrontea"
+msgstr "Bideoaren hasierako ordua"
 
 #: data/effects/gpsgraphic.xml:178
 #, kde-format
@@ -1600,10 +1623,9 @@ msgid "Date and time of the video file."
 msgstr "Bideo-fitxategiaren data eta ordua."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Joan proiektuaren hasierara"
+msgstr "Jatorri-aldaketa hasiera automatikoa"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1616,7 +1638,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Jatorri-aldaketa automatikoa orain"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1627,15 +1649,15 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map white to"
+#, kde-format
 msgid "Map hint"
-msgstr "Mapatu zuria honetara"
+msgstr "Maparen aholkua"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
 msgstr ""
+"GPS fitxategiaren erdiko latitude eta longitude koordinatuak itzultzen ditu."
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -3776,7 +3798,7 @@ msgstr "Iraupena (segunduak)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
-#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:279
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:75
 #, kde-format
 msgid "Font"
 msgstr "Letra-tipoa"
@@ -4035,22 +4057,22 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Denbora-lerroan klipeko gako-fotogramak azaltzea txandakatzen du"
 
-#: src/assets/assetpanel.cpp:282
+#: src/assets/assetpanel.cpp:267
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 efektu"
 
-#: src/assets/assetpanel.cpp:287 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:272 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parametro"
 
-#: src/assets/assetpanel.cpp:291
+#: src/assets/assetpanel.cpp:276
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 pistaren efektuak"
 
-#: src/assets/assetpanel.cpp:296
+#: src/assets/assetpanel.cpp:281
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Ontziko %1 efektuak"
@@ -4387,7 +4409,7 @@ msgstr "Ezkerrean erdian"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -5638,7 +5660,7 @@ msgid "Edit Tags"
 msgstr "Editatu Etiketak"
 
 #: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:1995 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2003 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, kde-format
@@ -5821,37 +5843,37 @@ msgstr "%1 audio korrontea"
 msgid "Remove clip markers"
 msgstr "Kendu klip-markatzaileak"
 
-#: src/bin/bin.cpp:6167
+#: src/bin/bin.cpp:6178
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 "Transkodetze eragiketa aurretik proiektua gordetzea gomendatzen dizugu."
 
-#: src/bin/bin.cpp:6168
+#: src/bin/bin.cpp:6179
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Gorde proiektua"
 
-#: src/bin/bin.cpp:6169
+#: src/bin/bin.cpp:6180
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transkodetu gorde gabe"
 
-#: src/bin/bin.cpp:6318 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6329 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Ezabatu %1 efektua"
 
-#: src/bin/bin.cpp:6383 src/mainwindow.cpp:319
+#: src/bin/bin.cpp:6394 src/mainwindow.cpp:319
 #, kde-format
 msgid "Project Bin"
 msgstr "Proiektu-ontzia"
 
-#: src/bin/bin.cpp:6386 src/bin/bin.cpp:6389 src/mainwindow.cpp:4813
+#: src/bin/bin.cpp:6397 src/bin/bin.cpp:6400 src/mainwindow.cpp:4813
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proiektu-ontzia %1"
@@ -6255,7 +6277,7 @@ msgstr ""
 "Irudiaren tamaina 8 pixel baino txikiagoa d.\n"
 "Egoera hau ez da bateragarria gure bideo euskarriarekin."
 
-#: src/bin/projectclip.cpp:905
+#: src/bin/projectclip.cpp:913
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6264,29 +6286,29 @@ msgstr ""
 "Ezin dira metadatuak erauzi %1\n"
 "%2-tik"
 
-#: src/bin/projectclip.cpp:1146 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1154 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Baliogabea"
 
-#: src/bin/projectclip.cpp:1375 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1383 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "Fitxategia badago lehendik ere"
 
-#: src/bin/projectclip.cpp:2587
+#: src/bin/projectclip.cpp:2595
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Doitu denbora-lerroko klipak"
 
-#: src/bin/projectclip.cpp:2823
+#: src/bin/projectclip.cpp:2831
 #, kde-format
 msgid "Add stream effect"
 msgstr "Gehitu korronte efektua"
 
-#: src/bin/projectclip.cpp:2848
+#: src/bin/projectclip.cpp:2856
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Ezabatu korronte efektua"
@@ -7348,11 +7370,7 @@ msgid "JogShuttle"
 msgstr "Jog/Shuttle"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:497
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
@@ -7360,7 +7378,8 @@ msgid ""
 "a>."
 msgstr ""
 "Gailua konfiguratzeko begiratu <a href=\"https://docs.kdenlive.org/"
-"user_interface/menu/settings_menu/configure_kdenlive.html#windows\">gure "
+"user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">gure "
 "dokumentazioa</a>."
 
 #. i18n: ectx: Menu (transcoders)
@@ -7413,7 +7432,7 @@ msgstr "ARTS daimona"
 #: src/dialogs/kdenlivesettingsdialog.cpp:741
 #: src/dialogs/kdenlivesettingsdialog.cpp:742
 #: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/subtitlestyleedit.cpp:99 src/ui/configproject_ui.ui:48
+#: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Lehenetsia"
@@ -7749,22 +7768,22 @@ msgstr " gertaera"
 msgid " events"
 msgstr " gertaerak"
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Bottom Left"
 msgstr "Behean Ezkerrean"
 
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:113
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:114
 #, kde-format
 msgid "Bottom Right"
 msgstr "Behean Eskuinean"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:105
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Top Left"
 msgstr "Goian Ezkerrean"
 
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:107
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:108
 #, kde-format
 msgid "Top Right"
 msgstr "Goian Eskuinean"
@@ -7774,7 +7793,7 @@ msgstr "Goian Eskuinean"
 msgid "Box as Border"
 msgstr "Kutxa Ertz gisa"
 
-#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:101
+#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:102
 #, kde-format
 msgid "Box as Shadow"
 msgstr "Kutxa Itzal gisa"
@@ -9269,12 +9288,12 @@ msgstr "Ezarri Y kokapena"
 msgid "Y:"
 msgstr "Y:"
 
-#: src/dialogs/subtitlestyleedit.cpp:47
+#: src/dialogs/subtitlestyleedit.cpp:48
 #, kde-format
 msgid "Select font"
 msgstr "Hautatu letra-tipoa"
 
-#: src/dialogs/subtitlestyleedit.cpp:48
+#: src/dialogs/subtitlestyleedit.cpp:49
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
@@ -9282,40 +9301,40 @@ msgstr ""
 "Ireki letra-tipoa hautatzeko eta bere propietateak ezartzeko elkarrizketa-"
 "koadro bat."
 
-#: src/dialogs/subtitlestyleedit.cpp:100
+#: src/dialogs/subtitlestyleedit.cpp:101
 #, kde-format
 msgid "Box as Outline"
 msgstr "Kutxa Ingerada gisa"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:353
+#: src/dialogs/subtitlestyleedit.cpp:133 src/ui/editsubstyle_ui.ui:316
 #, kde-format
 msgid "Show Preview >>>"
 msgstr "Erakutsi aurreikuspegia >>>"
 
-#: src/dialogs/subtitlestyleedit.cpp:134
+#: src/dialogs/subtitlestyleedit.cpp:142
 #, kde-format
 msgid "<<< Hide Preview"
 msgstr "<<< Ezkutatu aurreikuspegia"
 
-#: src/dialogs/subtitlestyleedit.cpp:162 src/dialogs/subtitlestyleedit.cpp:167
-#: src/dialogs/subtitlestyleedit.cpp:172
+#: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
+#: src/dialogs/subtitlestyleedit.cpp:180
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
 msgid "Error"
 msgstr "Errorea"
 
-#: src/dialogs/subtitlestyleedit.cpp:162
+#: src/dialogs/subtitlestyleedit.cpp:170
 #, kde-format
 msgid "Style name already exists."
 msgstr "Estilo-izena lehendik dago."
 
-#: src/dialogs/subtitlestyleedit.cpp:167
+#: src/dialogs/subtitlestyleedit.cpp:175
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr "Estilo-izena ezin da hutsik egon."
 
-#: src/dialogs/subtitlestyleedit.cpp:172
+#: src/dialogs/subtitlestyleedit.cpp:180
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr "Estilo-izenak ezin du ',' izan."
@@ -16345,7 +16364,7 @@ msgstr ""
 msgid "Project profile changed"
 msgstr "Proiektuaren profila aldatu da"
 
-#: src/project/projectmanager.cpp:1947
+#: src/project/projectmanager.cpp:1950
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -16354,17 +16373,17 @@ msgstr ""
 "Klip honetatik ezin da denbora-lerro bat sortu:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2029
+#: src/project/projectmanager.cpp:2032
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Sekuentzia-klip bat inportatzen, une honetan egoera esperimentalean"
 
-#: src/project/projectmanager.cpp:2218
+#: src/project/projectmanager.cpp:2221
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Hautatu klip bat sortzeko sekuentzia"
 
-#: src/project/projectmanager.cpp:2256
+#: src/project/projectmanager.cpp:2259
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sortu sekuentzia-klipa"
@@ -19618,7 +19637,7 @@ msgstr "Posizioa:"
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:423 src/ui/titlewidget_ui.ui:1413
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "Atzeko planoa"
@@ -21768,13 +21787,13 @@ msgid "S"
 msgstr "S"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginL)
-#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:252
+#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
 msgstr "Ezkerreko marjina"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
-#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:90
+#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
 msgstr "Eskuineko marjina"
@@ -21786,7 +21805,7 @@ msgid "Upper Bound"
 msgstr "Goiko muga"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:80
+#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
 #, kde-format
 msgid "Vertical margin"
 msgstr "Marjina bertikala"
@@ -21818,101 +21837,102 @@ msgid "<html><head/><body><p>Name</p></body></html>"
 msgstr "<html><head/><body><p>Izena</p></body></html>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
-#: src/ui/editsubstyle_ui.ui:10
+#: src/ui/editsubstyle_ui.ui:18
 #, kde-format
 msgid "Subtitle Style Editor"
 msgstr "Azpidatzi-estilo editorea"
 
-#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
-msgid "Character spacing"
-msgstr "Karaktereen artea Letra-tartea:"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
-#: src/ui/editsubstyle_ui.ui:39 src/ui/managesubtitles_ui.ui:409
 #, kde-format
-msgid "Shadow"
-msgstr "Itzala"
+msgid "Style name"
+msgstr "Estiloaren izena"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:121
+#, kde-format
+msgid "Secondary"
+msgstr "Bigarren mailakoa"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/editsubstyle_ui.ui:131
+#, kde-format
+msgid ""
+"The secondary color might be used in case of subtitle collision to help "
+"distinguish both subtitles"
+msgstr ""
+"Bigarren mailako kolorea azpidatzien talka ematen denean bi azpidatziak "
+"ezberdintzen laguntzeko erabil liteke"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:209
+#, kde-format
+msgid "Character spacing"
+msgstr "Karaktereen arteko tartea"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
-#: src/ui/editsubstyle_ui.ui:70
+#: src/ui/editsubstyle_ui.ui:279
 #, kde-format
 msgid "Scale X"
 msgstr "X eskala"
 
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsubstyle_ui.ui:115 src/ui/managesubtitles_ui.ui:364
-#, kde-format
-msgid "Bold"
-msgstr "Lodia"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsubstyle_ui.ui:134 src/ui/managesubtitles_ui.ui:369
-#, kde-format
-msgid "Italic"
-msgstr "Etzana"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: src/ui/editsubstyle_ui.ui:147 src/ui/managesubtitles_ui.ui:374
-#, kde-format
-msgid "Underline"
-msgstr "Azpimarra"
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
-#: src/ui/editsubstyle_ui.ui:160 src/ui/managesubtitles_ui.ui:379
-#, kde-format
-msgid "StrikeOut"
-msgstr "Marratua"
-
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
-#: src/ui/editsubstyle_ui.ui:225
+#: src/ui/editsubstyle_ui.ui:340
 #, kde-format
 msgid "Text color"
 msgstr "Testuaren kolorea"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: src/ui/editsubstyle_ui.ui:286 src/ui/managesubtitles_ui.ui:404
+#: src/ui/editsubstyle_ui.ui:350 src/ui/managesubtitles_ui.ui:404
 #, kde-format
 msgid "Outline"
 msgstr "Ingerada"
 
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsubstyle_ui.ui:326
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_3)
+#: src/ui/editsubstyle_ui.ui:360 src/ui/managesubtitles_ui.ui:409
 #, kde-format
-msgid "Style name"
-msgstr "Estiloaren izena"
+msgid "Shadow"
+msgstr "Itzala"
 
-#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/editsubstyle_ui.ui:346
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkBold)
+#: src/ui/editsubstyle_ui.ui:378 src/ui/managesubtitles_ui.ui:364
 #, kde-format
-msgid ""
-"The secondary color might be used in case of subtitle collision to help "
-"distinguish both subtitles"
-msgstr ""
+msgid "Bold"
+msgstr "Lodia"
 
-#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
-#: src/ui/editsubstyle_ui.ui:360
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
+#: src/ui/editsubstyle_ui.ui:397 src/ui/managesubtitles_ui.ui:369
 #, kde-format
-msgid "Secondary"
-msgstr "Bigarren mailakoa"
+msgid "Italic"
+msgstr "Etzana"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
+#: src/ui/editsubstyle_ui.ui:410 src/ui/managesubtitles_ui.ui:374
+#, kde-format
+msgid "Underline"
+msgstr "Azpimarra"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
+#: src/ui/editsubstyle_ui.ui:423 src/ui/managesubtitles_ui.ui:379
+#, kde-format
+msgid "StrikeOut"
+msgstr "Marratua"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
-#: src/ui/editsubstyle_ui.ui:386 src/ui/managesubtitles_ui.ui:414
+#: src/ui/editsubstyle_ui.ui:455 src/ui/managesubtitles_ui.ui:414
 #, kde-format
 msgid "Alignment"
 msgstr "Lerrokatzea"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
-#: src/ui/editsubstyle_ui.ui:413
+#: src/ui/editsubstyle_ui.ui:465
 #, kde-format
 msgid "Scale Y"
 msgstr "Y eskala"

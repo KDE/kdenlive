@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-16 00:40+0000\n"
+"POT-Creation-Date: 2024-11-18 00:39+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -668,14 +668,14 @@ msgstr "裁切剪辑的边缘"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:525
-#: src/dialogs/subtitlestyleedit.cpp:106 src/ui/configmisc_ui.ui:138
+#: src/dialogs/subtitlestyleedit.cpp:107 src/ui/configmisc_ui.ui:138
 #, kde-format
 msgid "Top"
 msgstr "顶部"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
-#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:108
+#: src/dialogs/managesubtitles.cpp:513 src/dialogs/subtitlestyleedit.cpp:109
 #: src/ui/configmisc_ui.ui:148
 #, kde-format
 msgid "Left"
@@ -683,14 +683,14 @@ msgstr "左侧"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:14 src/dialogs/managesubtitles.cpp:507
-#: src/dialogs/subtitlestyleedit.cpp:112 src/ui/configmisc_ui.ui:143
+#: src/dialogs/subtitlestyleedit.cpp:113 src/ui/configmisc_ui.ui:143
 #, kde-format
 msgid "Bottom"
 msgstr "底部"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
-#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:519 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:153
 #, kde-format
 msgid "Right"
@@ -1064,12 +1064,12 @@ msgstr "伽玛值"
 #: data/effects/gpsgraphic.xml:4
 #, kde-format
 msgid "GPS Graphic"
-msgstr ""
+msgstr "GPS 图形"
 
 #: data/effects/gpsgraphic.xml:5
 #, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr ""
+msgstr "叠加 GPS 相关图形到视频中。"
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1081,7 +1081,7 @@ msgstr "GPS 文件"
 msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
-msgstr ""
+msgstr "包含位置 (GPS) 数据的完整路径。支持扩展名：.gpx, .tcx。"
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1098,6 +1098,10 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[将视频文件与 GPS 轨迹匹配时需要添加的偏移量 (以秒为单位)。<br>\n"
+"    \t通常情况下，如果视频录制设备未被精确设置为正确时间，至少需要将此设置为"
+"两个文件之间的时区差加上一定秒数。GPS 时间总是精确的，并且以UTC (协调世界时) "
+"表示。如果 GPS 时间比视频时间早，则使用正值；否则使用负值。]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1113,11 +1117,14 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[允许平滑多少个 GPS 点以消除 GPS 误差。<br>\n"
+"    \t此值为 1 时将不会平滑位置数据，它只会计算额外的字段 (速度、距离等)，并"
+"通过插值填写缺失的心率和海拔数值。]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
 msgid "Speed multiplier"
-msgstr ""
+msgstr "速度倍率"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1127,21 +1134,24 @@ msgid ""
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[如果视频文件是缩时摄影 (或慢动作视频)，请使用此值设置加速/减速倍率。"
+"<br>\n"
+"        示例值：30 倍缩时视频设为 30，4 倍慢动作视频设为 0.25。]]>"
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "GPS 位置/轨迹,海拔,心率,速度"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "图表数据源"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "要使用 GPS 文件中的哪些数据绘制地图"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1149,6 +1159,8 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"基本 2D 地图线 (用于位置) 或者 1D 图表每次 (其他),放大到以当前位置为中心的地"
+"图/图表,绘制速度计"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1168,11 +1180,19 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>速度计</b> 可用于所有数据源，但仅推荐用于速度；对于地图类型，它代"
+"表从裁切后的起点到终点之间的“完成百分比”。<br>\n"
+"注意：对于类型 1 (缩放并居中，即“跟随点”)：<br>\n"
+"* 裁剪值仅作为百分比有效，仅考虑底部 (或左侧) 的值，因为两个值 (即底部和顶"
+"部) 必须相等以使该点居中。<br>\n"
+"* 如果数据源不是 GPS 位置，则仅对水平轴 (时间) 进行居中处理，垂直轴裁剪将与基"
+"本的 2D 地图线行为相同 (它将静态地保持相同的最小/最大限制，允许当前点上下移"
+"动)。]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "裁剪起点 (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1183,11 +1203,14 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[从 GPS 文件的开头裁剪数据 (以总长度的百分比表示)。<br>\n"
+"    \t注意：<em>裁剪起点</em> 和 <em>裁剪终点</em> 都是基于整个文件的长度百分"
+"比计算的，如果起点和终点各裁剪 50% 将导致整个文件都被裁剪。]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "裁剪终点 (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1198,16 +1221,19 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[从 GPS 文件的结尾裁剪数据 (以总长度的百分比表示)。<br>\n"
+"    \t注意：<em>裁剪起点</em> 和 <em>裁剪终点</em> 都是基于整个文件的长度百分"
+"比计算的，如果起点和终点各裁剪 50% 将导致整个文件都被裁剪。]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "最小至最大值的百分比,绝对值"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
 msgid "Crop mode horizontal"
-msgstr ""
+msgstr "水平裁剪模式"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1219,11 +1245,15 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[用于确定如何解析 <em>裁剪左侧</em> 和 <em>裁剪右侧</em> 的数值。"
+"<br>\n"
+"    \t注意：对于水平类型，绝对值是位置经度 (对于位置来源类型)，对于其他数据来"
+"源类型则是时间 (自历元以来的微秒数)]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
 msgid "Crop left"
-msgstr ""
+msgstr "裁剪左侧"
 
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
@@ -1238,11 +1268,16 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[从图表左侧裁剪数据 (相当于放大)。<br>\n"
+"    \t此数值根据水平裁剪模式可以解析为整体的百分比或者绝对值。在百分比模式"
+"下，数值并不限于 0-100 区间以允许“缩小”行为 (例如裁剪左侧 -50 将添加一半长度"
+"的总水平距离)。数值超过 100 (百分比模式) 时将不显示任何内容。如果 <em>图表类"
+"型</em> 设置为 <b>速度计</b>，所有裁剪左侧/右侧的数值将被忽略。]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
 msgid "Crop right"
-msgstr ""
+msgstr "裁剪右侧"
 
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
@@ -1251,11 +1286,13 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[与 <em>裁剪左侧</em> 相同，但应用在右侧，且百分比类型被解析为相反的"
+"百分数 (例如：100 = 不裁剪任何内容)。数值低于 0 时将不显示任何内容。]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
 msgid "Crop mode vertical"
-msgstr ""
+msgstr "垂直裁剪模式"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1273,11 +1310,18 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[用于确定如何解析 <em>裁剪底部</em> 和 <em>裁剪顶部</em> 的数值。<br/"
+">\n"
+"    \t使用绝对值时，此值可以放大到 100 到 150m 之间的海拔以更清晰地显示此区间"
+"数值的微小变化。<br/>\n"
+"注意：对于垂直类型，绝对值是纬度 (对于位置来源类型)，对于其他类型则是海拔、心"
+"率、速度，按照对应的 <em>图例单位</em> 进行解析 (例如：海拔为 10 的数值将默认"
+"被视作 10 米，但如果更改 <em>图例单位</em> 为英尺，它将表示 10 英尺)。]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
 msgid "Crop bottom"
-msgstr ""
+msgstr "裁剪底部"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1292,11 +1336,17 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[从图表底部裁剪数据 (相当于放大)。<br>\n"
+"    \t此数值根据垂直裁剪模式可以解析为整体的百分比或者绝对值。在百分比模式"
+"下，数值并不限于 0-100 区间以允许“缩小”行为 (例如裁剪底部 -50 将在底部添加一"
+"半长度的总水平距离)。数值超过 100 (百分比模式) 时将不显示任何内容。如果 <em>"
+"图表类型</em> 设置为 <b>速度计</b>，此数值将设置最小指针位置，并截断所有低于"
+"它的数值。]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
 msgid "Crop top"
-msgstr ""
+msgstr "裁剪顶部"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1306,6 +1356,9 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[与 <em>裁剪左侧</em> 相同，但应用在顶部，且百分比类型被解析为相反的"
+"百分数 (例如：100 = 不裁剪任何内容)。<br>\n"
+"    \t数值低于 0 时将不显示任何内容。]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1315,16 +1368,19 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"单色,双色,过去实色 - 未来减淡,未来实色 - 过去减淡,垂直渐变,水平渐变,颜色按持"
+"续时间变化,颜色按海拔变化,颜色按心率变化,颜色按速度变化,颜色按速度变化 (最大 "
+"100km/h),颜色按坡度变化 (最大 90 度),颜色按坡度变化 (最大 20 度)"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
 msgid "Graph color style"
-msgstr ""
+msgstr "图表颜色样式"
 
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "请参照文档以了解可用的各种样式"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1335,7 +1391,7 @@ msgstr "颜色 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "设置图表线条的颜色 1"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1346,42 +1402,42 @@ msgstr "颜色 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "设置图表线条的颜色 2"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
 msgid "Color 3"
-msgstr ""
+msgstr "颜色 3"
 
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "设置图表线条的颜色 3"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
 msgid "Color 4"
-msgstr ""
+msgstr "颜色 4"
 
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "设置图表线条的颜色 4"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
 msgid "Color 5"
-msgstr ""
+msgstr "颜色 5"
 
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "设置图表线条的颜色 5"
 
 #: data/effects/gpsgraphic.xml:116
 #, kde-format
 msgid "Show Now dot"
-msgstr ""
+msgstr "显示当前点"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1390,21 +1446,23 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[启用此项将在当前位置/时间的图表线条上绘制一个圆盘。<br>\n"
+"    \t如果图表类型设置为速度计，此值将影响指针。]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, kde-format
 msgid "Now dot color"
-msgstr ""
+msgstr "当前点颜色"
 
 #: data/effects/gpsgraphic.xml:122
 #, kde-format
 msgid "Sets the color for the Now dot"
-msgstr ""
+msgstr "设置当前点的颜色"
 
 #: data/effects/gpsgraphic.xml:125
 #, kde-format
 msgid "Show Now text"
-msgstr ""
+msgstr "显示当前点文字"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1415,11 +1473,14 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[启用此项将使用白色加粗大字体在矩形的右下角绘制当前值。<br>\n"
+"    \t<em>图例单位</em> 数值将被附加在数值后方，且被用作当前单位 (如果找到有"
+"效单位，例如在 <em>图例单位</em> 字符串中找到了“km”则使用千米)。]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
 #: data/effects/qtblend.xml:40 data/transitions/qtblend.xml:11
-#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:309
+#: src/assets/view/widgets/keyframeimport.cpp:405 src/ui/editsubstyle_ui.ui:189
 #, kde-format
 msgid "Rotation"
 msgstr "旋转"
@@ -1429,22 +1490,22 @@ msgstr "旋转"
 msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
-msgstr ""
+msgstr "旋转整个图表的矩形框。对于速度计类型，文字将保持水平。"
 
 #: data/effects/gpsgraphic.xml:134
 #, kde-format
 msgid "Line Thickness (px)"
-msgstr ""
+msgstr "线条粗细 (像素)"
 
 #: data/effects/gpsgraphic.xml:135
 #, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr ""
+msgstr "设置图表线条的粗细，以像素为单位。"
 
 #: data/effects/gpsgraphic.xml:138
 #, kde-format
 msgid "Draw legend"
-msgstr ""
+msgstr "绘制图例"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1457,11 +1518,15 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[如果启用此项将绘制 5 条水平线 (地图类型则是垂直线) <br>\n"
+"    \t这些线带有小数值，对应当前数据的来源数值在当前显示的图表的 0%、25%、"
+"50%、75% 和 100%，这些数值受 <em>图例单位</em> 类型影响 (如果可用)，并将其单"
+"位字符串附加在数值之后。对于速度计类型这将显示细分数值 (但不附加单位)。]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "图例单位"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1470,6 +1535,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,米,km,千米,mi,英里,ft,英尺,nm,海里,ms,米/秒,米每秒,km,千米/小时,千米每小时,"
+"mi,英里/小时,英里每小时,ft,英尺/秒,英尺每秒,kn,海里/小时,节,mmin,米/分钟,"
+"ftmin,英尺/分钟"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1479,11 +1547,14 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[设置用于显示海拔和速度值的单位。<br>\n"
+"        默认值分别是米和千米/小时。单位可以在字符串的任意位置进行匹配，因此可"
+"以使用额外的空格来调整显示效果。]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
 msgid "Show dots only"
-msgstr ""
+msgstr "仅显示点"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1495,11 +1566,15 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[如果启用，图表将使用独立的点绘制而不是用线条绘制。<br>\n"
+"    \t这将有效地反映每个数据点受到平滑处理的影响 (例如：对于位置数据，如果平"
+"滑度为 1，则会显示每个 GPS 定位点)。它既可以在放大到一定程度时作为一种酷炫的"
+"效果，也可以用于调试意外的线条跳跃问题。]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
 msgid "Graph rectangle"
-msgstr ""
+msgstr "图表矩形框"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1508,11 +1583,14 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[定义图表要在其中绘制的矩形框。<br>\n"
+"        格式：X Y 宽 高。X、Y、宽、高的默认单位为像素，除非它们带有“%”后"
+"缀。]]>"
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
 msgid "Background image"
-msgstr ""
+msgstr "背景图像"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1522,11 +1600,14 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[如果选择了有效的图像，它将被用作矩形区域的背景。<br>\n"
+"      \t以“!”字符开头的路径将被忽略。提示：您可以使用一张地图的图像来为 GPS "
+"轨迹增加背景信息。]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
 msgid "Background scale"
-msgstr ""
+msgstr "背景缩放"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1536,6 +1617,8 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[缩放背景图像 (相对于中心)，使其与上方的 GPS 轨迹匹配。<br>\n"
+"    \t数值小于 100 时将放大图像，大于 100 时将缩小图像。0 将隐藏图像。]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1545,32 +1628,32 @@ msgstr "背景不透明度"
 #: data/effects/gpsgraphic.xml:170
 #, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr ""
+msgstr "<![CDATA[设置背景图像的不透明度]]>"
 
 #: data/effects/gpsgraphic.xml:173
 #, kde-format
 msgid "GPS start time"
-msgstr ""
+msgstr "GPS 开始时间"
 
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "第一个有效 GPS 点的日期和时间。"
 
 #: data/effects/gpsgraphic.xml:177
 #, kde-format
 msgid "Video start time"
-msgstr ""
+msgstr "视频开始时间"
 
 #: data/effects/gpsgraphic.xml:178
 #, kde-format
 msgid "Date and time of the video file."
-msgstr ""
+msgstr "视频文件的日期和时间。"
 
 #: data/effects/gpsgraphic.xml:181
 #, kde-format
 msgid "Auto offset start"
-msgstr ""
+msgstr "自动偏移起点"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1579,11 +1662,13 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"提供一个辅助偏移量，以确保视频文件与 GPS 文件的起始位置同步。如果视频文件和 "
+"GPS 记录是在同一时间开始的，则正确设置偏移量。"
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "自动偏移当前点"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1592,16 +1677,18 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if your video record "
 "the moment GPS starts."
 msgstr ""
+"提供一个辅助偏移量，用于将第一个 GPS 点同步到当前视频时间 (每秒更新一次)。如"
+"果在 GPS 开始记录视频也同时开始录制，则正确设置偏移量。"
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
 msgid "Map hint"
-msgstr ""
+msgstr "地图提示"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
-msgstr ""
+msgstr "返回 GPS 文件的中间纬度和经度坐标。"
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -3691,7 +3778,7 @@ msgstr "持续时间 (秒)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
-#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:279
+#: plugins/sampleplugin/countdown_ui.ui:50 src/ui/editsubstyle_ui.ui:75
 #, kde-format
 msgid "Font"
 msgstr "字体"
@@ -3944,22 +4031,22 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "显示/隐藏时间轴上剪辑中的关键帧"
 
-#: src/assets/assetpanel.cpp:282
+#: src/assets/assetpanel.cpp:267
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 效果"
 
-#: src/assets/assetpanel.cpp:287 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:272 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 参数"
 
-#: src/assets/assetpanel.cpp:291
+#: src/assets/assetpanel.cpp:276
 #, kde-format
 msgid "Track %1 effects"
 msgstr "轨道 %1 效果"
 
-#: src/assets/assetpanel.cpp:296
+#: src/assets/assetpanel.cpp:281
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "项目素材箱 %1 效果"
@@ -4295,7 +4382,7 @@ msgstr "左侧中央"
 
 #: src/assets/view/widgets/keyframeimport.cpp:229
 #: src/assets/view/widgets/keyframeimport.cpp:239
-#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:109
+#: src/dialogs/managesubtitles.cpp:516 src/dialogs/subtitlestyleedit.cpp:110
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -5508,7 +5595,7 @@ msgid "Edit Tags"
 msgstr "编辑标签"
 
 #: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:1995 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2003 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, kde-format
@@ -5688,36 +5775,36 @@ msgstr "音频流 %1"
 msgid "Remove clip markers"
 msgstr "移除剪辑标记"
 
-#: src/bin/bin.cpp:6167
+#: src/bin/bin.cpp:6178
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "我们建议您在进行转码操作之前保存项目"
 
-#: src/bin/bin.cpp:6168
+#: src/bin/bin.cpp:6179
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "保存项目"
 
-#: src/bin/bin.cpp:6169
+#: src/bin/bin.cpp:6180
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "转码但不保存"
 
-#: src/bin/bin.cpp:6318 src/effects/effectstack/model/effectstackmodel.cpp:193
+#: src/bin/bin.cpp:6329 src/effects/effectstack/model/effectstackmodel.cpp:193
 #: src/timeline2/model/timelineitemmodel.cpp:1133
 #, kde-format
 msgid "Delete effect %1"
 msgstr "删除效果 %1"
 
-#: src/bin/bin.cpp:6383 src/mainwindow.cpp:319
+#: src/bin/bin.cpp:6394 src/mainwindow.cpp:319
 #, kde-format
 msgid "Project Bin"
 msgstr "项目素材箱"
 
-#: src/bin/bin.cpp:6386 src/bin/bin.cpp:6389 src/mainwindow.cpp:4813
+#: src/bin/bin.cpp:6397 src/bin/bin.cpp:6400 src/mainwindow.cpp:4813
 #, kde-format
 msgid "Project Bin %1"
 msgstr "项目素材箱 %1"
@@ -6119,7 +6206,7 @@ msgstr ""
 "图像尺寸小于 8 像素。\n"
 "视频程序框架尚不能正确支持此类图像。"
 
-#: src/bin/projectclip.cpp:905
+#: src/bin/projectclip.cpp:913
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6128,29 +6215,29 @@ msgstr ""
 "无法从 %1 提取元数据\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1146 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1154 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "无效"
 
-#: src/bin/projectclip.cpp:1375 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1383 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "文件已存在"
 
-#: src/bin/projectclip.cpp:2587
+#: src/bin/projectclip.cpp:2595
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "调整时间轴剪辑"
 
-#: src/bin/projectclip.cpp:2823
+#: src/bin/projectclip.cpp:2831
 #, kde-format
 msgid "Add stream effect"
 msgstr "添加流效果"
 
-#: src/bin/projectclip.cpp:2848
+#: src/bin/projectclip.cpp:2856
 #, kde-format
 msgid "Remove stream effect"
 msgstr "移除流效果"
@@ -7191,11 +7278,7 @@ msgid "JogShuttle"
 msgstr "飞梭旋钮"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:497
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
@@ -7203,7 +7286,8 @@ msgid ""
 "a>."
 msgstr ""
 "设备的配置方法参考 <a href=\"https://docs.kdenlive.org/user_interface/menu/"
-"settings_menu/configure_kdenlive.html#windows\">Kdenlive 文档</a>。"
+"settings_menu/configure_kdenlive.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">Kdenlive 文档</a>。"
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:519 src/dialogs/timeremap.cpp:1583
@@ -7254,7 +7338,7 @@ msgstr "ARTS 守护进程"
 #: src/dialogs/kdenlivesettingsdialog.cpp:741
 #: src/dialogs/kdenlivesettingsdialog.cpp:742
 #: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
-#: src/dialogs/subtitlestyleedit.cpp:99 src/ui/configproject_ui.ui:48
+#: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "默认"
@@ -7585,22 +7669,22 @@ msgstr " 事件"
 msgid " events"
 msgstr " 事件"
 
-#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:504 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Bottom Left"
 msgstr "左下"
 
-#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:113
+#: src/dialogs/managesubtitles.cpp:510 src/dialogs/subtitlestyleedit.cpp:114
 #, kde-format
 msgid "Bottom Right"
 msgstr "右下"
 
-#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:105
+#: src/dialogs/managesubtitles.cpp:522 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Top Left"
 msgstr "左上"
 
-#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:107
+#: src/dialogs/managesubtitles.cpp:528 src/dialogs/subtitlestyleedit.cpp:108
 #, kde-format
 msgid "Top Right"
 msgstr "右上"
@@ -7610,7 +7694,7 @@ msgstr "右上"
 msgid "Box as Border"
 msgstr "外框作为边框"
 
-#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:101
+#: src/dialogs/managesubtitles.cpp:540 src/dialogs/subtitlestyleedit.cpp:102
 #, kde-format
 msgid "Box as Shadow"
 msgstr "外框作为阴影"
@@ -9072,51 +9156,51 @@ msgstr "设置位置 Y"
 msgid "Y:"
 msgstr "Y："
 
-#: src/dialogs/subtitlestyleedit.cpp:47
+#: src/dialogs/subtitlestyleedit.cpp:48
 #, kde-format
 msgid "Select font"
 msgstr "选择字体"
 
-#: src/dialogs/subtitlestyleedit.cpp:48
+#: src/dialogs/subtitlestyleedit.cpp:49
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Open a font dialog to select a font and set its properties."
 msgstr "打开字体对话框以选择字体并设置其属性。"
 
-#: src/dialogs/subtitlestyleedit.cpp:100
+#: src/dialogs/subtitlestyleedit.cpp:101
 #, kde-format
 msgid "Box as Outline"
 msgstr "外框作为轮廓"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonPreview)
-#: src/dialogs/subtitlestyleedit.cpp:127 src/ui/editsubstyle_ui.ui:353
+#: src/dialogs/subtitlestyleedit.cpp:133 src/ui/editsubstyle_ui.ui:316
 #, kde-format
 msgid "Show Preview >>>"
 msgstr "显示预览 >>>"
 
-#: src/dialogs/subtitlestyleedit.cpp:134
+#: src/dialogs/subtitlestyleedit.cpp:142
 #, kde-format
 msgid "<<< Hide Preview"
 msgstr "<<< 隐藏预览"
 
-#: src/dialogs/subtitlestyleedit.cpp:162 src/dialogs/subtitlestyleedit.cpp:167
-#: src/dialogs/subtitlestyleedit.cpp:172
+#: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
+#: src/dialogs/subtitlestyleedit.cpp:180
 #: src/effects/effectlist/model/effecttreemodel.cpp:270
 #, kde-format
 msgid "Error"
 msgstr "错误"
 
-#: src/dialogs/subtitlestyleedit.cpp:162
+#: src/dialogs/subtitlestyleedit.cpp:170
 #, kde-format
 msgid "Style name already exists."
 msgstr "样式名称已存在。"
 
-#: src/dialogs/subtitlestyleedit.cpp:167
+#: src/dialogs/subtitlestyleedit.cpp:175
 #, kde-format
 msgid "Style name cannot be empty."
 msgstr "样式名称不能为空。"
 
-#: src/dialogs/subtitlestyleedit.cpp:172
+#: src/dialogs/subtitlestyleedit.cpp:180
 #, kde-format
 msgid "Style name cannot contain ','."
 msgstr "样式名称不能包含“,”。"
@@ -15963,7 +16047,7 @@ msgstr ""
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:1947
+#: src/project/projectmanager.cpp:1950
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -15972,17 +16056,17 @@ msgstr ""
 "无法从此剪辑创建时间轴：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2029
+#: src/project/projectmanager.cpp:2032
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "导入一个序列剪辑，此功能目前仍在实验阶段。"
 
-#: src/project/projectmanager.cpp:2218
+#: src/project/projectmanager.cpp:2221
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "选择一个剪辑以创建序列"
 
-#: src/project/projectmanager.cpp:2256
+#: src/project/projectmanager.cpp:2259
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "创建序列剪辑"
@@ -19156,7 +19240,7 @@ msgstr "位置："
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_background)
 #: src/transitions/view/transitionstackview.cpp:49
-#: src/ui/editsubstyle_ui.ui:423 src/ui/titlewidget_ui.ui:1413
+#: src/ui/editsubstyle_ui.ui:173 src/ui/titlewidget_ui.ui:1413
 #, kde-format
 msgid "Background"
 msgstr "背景"
@@ -20729,7 +20813,7 @@ msgstr "Whisper"
 #: src/ui/configspeech_ui.ui:373
 #, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "无缝"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428
@@ -21283,16 +21367,16 @@ msgid "S"
 msgstr "S"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginL)
-#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:252
+#: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
-msgstr ""
+msgstr "左边距"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
-#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:90
+#: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
-msgstr ""
+msgstr "右边距"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:487
@@ -21301,10 +21385,10 @@ msgid "Upper Bound"
 msgstr "上边界"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
-#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:80
+#: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
 #, kde-format
 msgid "Vertical margin"
-msgstr ""
+msgstr "垂直边距"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
@@ -21333,103 +21417,103 @@ msgid "<html><head/><body><p>Name</p></body></html>"
 msgstr "<html><head/><body><p>名称</p></body></html>"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, SubtitleStyleEdit_UI)
-#: src/ui/editsubstyle_ui.ui:10
+#: src/ui/editsubstyle_ui.ui:18
 #, kde-format
 msgid "Subtitle Style Editor"
 msgstr "字幕样式编辑器"
 
-#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
 #, kde-format
+msgid "Style name"
+msgstr "样式名称"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
+#: src/ui/editsubstyle_ui.ui:121
+#, kde-format
+msgid "Secondary"
+msgstr "次要"
+
+#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
+#: src/ui/editsubstyle_ui.ui:131
+#, kde-format
+msgid ""
+"The secondary color might be used in case of subtitle collision to help "
+"distinguish both subtitles"
+msgstr "如果出现字幕重叠的情况，次要颜色可以被用于帮助区分两条字幕。"
+
+#. i18n: ectx: property (text), widget (QLabel, labelSpacing)
+#: src/ui/editsubstyle_ui.ui:209
+#, kde-format
 msgid "Character spacing"
-msgstr ""
+msgstr "字符间距"
+
+#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
+#: src/ui/editsubstyle_ui.ui:279
+#, kde-format
+msgid "Scale X"
+msgstr "缩放 X"
+
+#. i18n: ectx: property (text), widget (QLabel, labelColor)
+#: src/ui/editsubstyle_ui.ui:340
+#, kde-format
+msgid "Text color"
+msgstr "文字颜色"
+
+#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
+#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
+#: src/ui/editsubstyle_ui.ui:350 src/ui/managesubtitles_ui.ui:404
+#, kde-format
+msgid "Outline"
+msgstr "轮廓"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_3)
-#: src/ui/editsubstyle_ui.ui:39 src/ui/managesubtitles_ui.ui:409
+#: src/ui/editsubstyle_ui.ui:360 src/ui/managesubtitles_ui.ui:409
 #, kde-format
 msgid "Shadow"
 msgstr "阴影"
 
-#. i18n: ectx: property (text), widget (QLabel, labelScaleX)
-#: src/ui/editsubstyle_ui.ui:70
-#, kde-format
-msgid "Scale X"
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkBold)
-#: src/ui/editsubstyle_ui.ui:115 src/ui/managesubtitles_ui.ui:364
+#: src/ui/editsubstyle_ui.ui:378 src/ui/managesubtitles_ui.ui:364
 #, kde-format
 msgid "Bold"
 msgstr "粗体 (Bold)"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkItalic)
-#: src/ui/editsubstyle_ui.ui:134 src/ui/managesubtitles_ui.ui:369
+#: src/ui/editsubstyle_ui.ui:397 src/ui/managesubtitles_ui.ui:369
 #, kde-format
 msgid "Italic"
 msgstr "斜体 (Italic)"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkUnderline)
-#: src/ui/editsubstyle_ui.ui:147 src/ui/managesubtitles_ui.ui:374
+#: src/ui/editsubstyle_ui.ui:410 src/ui/managesubtitles_ui.ui:374
 #, kde-format
 msgid "Underline"
 msgstr "下划线"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QCheckBox, checkStrikeOut)
-#: src/ui/editsubstyle_ui.ui:160 src/ui/managesubtitles_ui.ui:379
+#: src/ui/editsubstyle_ui.ui:423 src/ui/managesubtitles_ui.ui:379
 #, kde-format
 msgid "StrikeOut"
 msgstr "删除线"
 
-#. i18n: ectx: property (text), widget (QLabel, labelColor)
-#: src/ui/editsubstyle_ui.ui:225
-#, kde-format
-msgid "Text color"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#. i18n: ectx: property (text), widget (QLabel, labelColor_2)
-#: src/ui/editsubstyle_ui.ui:286 src/ui/managesubtitles_ui.ui:404
-#, kde-format
-msgid "Outline"
-msgstr "轮廓"
-
-#. i18n: ectx: property (text), widget (QLabel, labelName)
-#: src/ui/editsubstyle_ui.ui:326
-#, kde-format
-msgid "Style name"
-msgstr ""
-
-#. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/editsubstyle_ui.ui:346
-#, kde-format
-msgid ""
-"The secondary color might be used in case of subtitle collision to help "
-"distinguish both subtitles"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
-#: src/ui/editsubstyle_ui.ui:360
-#, kde-format
-msgid "Secondary"
-msgstr "次要"
-
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelAlignment)
-#: src/ui/editsubstyle_ui.ui:386 src/ui/managesubtitles_ui.ui:414
+#: src/ui/editsubstyle_ui.ui:455 src/ui/managesubtitles_ui.ui:414
 #, kde-format
 msgid "Alignment"
 msgstr "对齐"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
-#: src/ui/editsubstyle_ui.ui:413
+#: src/ui/editsubstyle_ui.ui:465
 #, kde-format
 msgid "Scale Y"
-msgstr ""
+msgstr "缩放 Y"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -23521,6 +23605,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid "<html><head/><body><p>Margin</p></body></html>"
-#~ msgstr "<html><head/><body><p>边距</p></body></html>"
