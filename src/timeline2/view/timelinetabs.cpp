@@ -307,9 +307,9 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 {
-    timeline->rootContext()->setContextProperty("proxy", QVariant());
-    timeline->setMouseTracking(false);
     timeline->setEnabled(false);
+    timeline->setMouseTracking(false);
+    timeline->rootContext()->setContextProperty("proxy", QVariant());
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
     disconnect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
     disconnect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);

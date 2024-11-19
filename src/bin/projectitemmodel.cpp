@@ -38,6 +38,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonObject>
 #include <QMimeData>
 #include <QProgressDialog>
+#include <QStorageInfo>
 #include <QTemporaryFile>
 
 #include <mlt++/Mlt.h>
@@ -1866,6 +1867,16 @@ void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipIte
         QFileInfo check_file(clipItem->clipUrl());
         // check if file exists and if yes: Is it really a file and no directory?
         if ((check_file.exists() && check_file.isFile()) || clipItem->clipStatus() == FileStatus::StatusMissing) {
+#ifdef Q_OS_WIN
+            // On Windows, monitoring a file on a non existing drive crashes.
+            QStorageInfo storage(check_file.absoluteDir());
+            if (storage.isValid() && storage.isReady()) {
+                m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
+            }
+#else
+            m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
+#endif
+
             m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
         }
     }

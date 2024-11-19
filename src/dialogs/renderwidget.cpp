@@ -1381,6 +1381,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     } else {
         delete item;
     }
+    m_view.clean_up->setEnabled(true);
     slotCheckJob();
     checkRenderStatus();
 }
