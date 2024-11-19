@@ -63,6 +63,7 @@ TimelineWidget::TimelineWidget(const QUuid uuid, QWidget *parent)
 
 TimelineWidget::~TimelineWidget()
 {
+    rootObject()->blockSignals(true);
     timelineController.prepareClose();
     QList<QQmlContext::PropertyPair> propertyList = {{QStringLiteral("multitrack"), QVariant()},  {QStringLiteral("timeline"), QVariant()},
                                                      {QStringLiteral("guidesModel"), QVariant()}, {QStringLiteral("subtitleModel"), QVariant()},
@@ -226,9 +227,11 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 
 void TimelineWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    QVariant returnedValue;
-    QMetaObject::invokeMethod(rootObject(), "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
-    emitMousePos(returnedValue.toInt());
+    if (isEnabled()) {
+        QVariant returnedValue;
+        QMetaObject::invokeMethod(rootObject(), "getMouseOffset", Qt::DirectConnection, Q_RETURN_ARG(QVariant, returnedValue));
+        emitMousePos(returnedValue.toInt());
+    }
     QQuickWidget::mouseMoveEvent(event);
 }
 
