@@ -3,13 +3,13 @@
 #
 # SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 # Volkan Gezer <volkangezer@gmail.com>, 2015, 2017, 2021.
-# Emir SARI <emir_sari@icloud.com>, 2023.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-18 00:39+0000\n"
-"PO-Revision-Date: 2024-11-17 13:00+0300\n"
+"PO-Revision-Date: 2024-11-18 15:15+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1204,6 +1204,19 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>Hızölçer</b>, tüm veri kaynakları için kullanılabilirdir; ancak "
+"yalnızca hız için tavsiye edilir; harita türü için kırpılmış başlangıç/bitiş "
+"için “tamamlanan yüzdeyi” belirtir.<br>\n"
+"Not: 1. tür için (yakınlaştır ve ortala; yani “noktayı takip et”):<br>\n"
+"* Kırpılma değerleri yalnızca bir yüzde olarak geçerlidir ve noktayı\n"
+"ortada tutmak için yalnızca alt değer her iki değer olarak (alt/üst)\n"
+"değerlendirilecektir.<br>\n"
+"* Veri kaynağı GPS konumu değilse merkezleme yalnızca yatay eksen (zaman)\n"
+"için yapılacaktır, dikey eksen kırpma temel 2B harita çizgisi gibi "
+"davranacaktır\n"
+"(Şimdi noktasının yukarı ve aşağı hareket etmesine izin veren aynı en düşük/"
+"yüksek\n"
+"sınırını durağan olarak koruyacaktır).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
@@ -1219,6 +1232,11 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[GPS dosyasının başlangıcından itibaren verileri kırpın (toplamın "
+"yüzdesi olarak).<br>\n"
+"    \tNot: Hem <em>Kırpma başlangıcı</em> hem de <em>Kırpma bitişi</em> "
+"toplam dosyadan hesaplanır, bu nedenle %​50 başlangıç ve %​50 sonu kırpmak tüm "
+"dosyayı kırpmakla sonuçlanacaktır.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
@@ -1234,11 +1252,16 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[GPS dosyasının bitişinden itibaren verileri kırpın (toplamın "
+"yüzdesi olarak).<br>\n"
+"    \tNot: Hem <em>Kırpma başlangıcı</em> hem de <em>Kırpma bitişi</em> "
+"toplam dosyadan hesaplanır, bu nedenle %​50 başlangıç ve %​50 sonu kırpmak tüm "
+"dosyayı kırpmakla sonuçlanacaktır.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "En düşük..En yüksek yüzdesi, Mutlak değer"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1255,6 +1278,11 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[<em>Soldan kırp</em> ve <em>Sağdan kırp</em> değerlerinin nasıl "
+"yorumlanacağına karar verir.<br>\n"
+"    \tNot: Yatay tür için mutlak değerler boylam (çığırdan bu yana geçen\n"
+"milisaniye) ve diğer veri kaynağı türleri için zamandır (milisaniye "
+"cinsinden).]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -1274,6 +1302,15 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[Crops data from the left side of the graph (effectively zooming "
+"in). <br>\n"
+"    \tDeğer, crop_mode_h’ye bağlı olarak ya toplamın yüzdesi ya da mutlak "
+"değer olarak yorumlanır. Yüzde kipinde, “uzaklaştırma” davranışına izin "
+"vermek için değerler 0–100 ile sınırlandırılmaz (yani: −50 sola kırpma, "
+"toplam yatay uzaklığın fazladan yarısını ekleyecektir). 100’ün üzerindeki "
+"değerler (% kipinde) etkin bir şekilde hiçbir şey göstermeyecektir. "
+"<em>Grafik Türü</em> <b>Hızölçer</b> olarak ayarlanırsa tüm sola/sağa kırpma "
+"değerleri yok sayılır.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -1287,6 +1324,9 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Same as <em>Soldan kırp</em> değerinin aynısıdır ve yüzde değeri "
+"ters bir yüzde olarak algılanır (yani: 100 = bir şeyi kırpma). 0’ın "
+"altındaki değerler etkin bir şekilde hiçbir şey göstermeyecektir.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
@@ -1309,6 +1349,19 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[<em>Alttan kırp</em> ve <em>Üstten kırp</em> değerlerinin nasıl "
+"yorumlanacağına karar verir.<br/>\n"
+"    \tMutlak bir değerle, bu 2 değer arasındaki yükseklikteki küçük "
+"değişiklikleri daha iyi göstermek için 100 ila 150 metre irtifaya "
+"yakınlaştırabilir.<br/>\n"
+"Not: Dikey tür için mutlak değerler enlem dereceleridir (konum kaynağı türü "
+"için) ve\n"
+"diğerleri için yükseklik, kalp atış hızı, hız uygulanabilir olduğunda "
+"<em>Gösterge birimi</em>\n"
+"türü olarak yorumlanır (yani: yükseklik için 10 değeri öntanımlı olarak "
+"metre olarak kabul edilir;\n"
+"ancak <em>Gösterge birimi</em> ayak olarak değiştirilirse 10 ayak anlamına "
+"gelecektir).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
@@ -1328,6 +1381,15 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[Grafiğin alt tarafından veriyi kırpar (etkin bir şekilde "
+"yakınlaştırır).<br>\n"
+"    \tDeğer, crop_mode_v’ye bağlı olarak toplamın yüzdesi veya mutlak değer "
+"olarak yorumlanır. Yüzde kipinde değerler, “uzaklaştırma” davranışına izin "
+"vermek için 0–100 ile sınırlandırılmaz (yani: −50 alttan kırpmak, alt kısma "
+"toplam dikey uzaklığın fazladan yarısını ekleyecektir). 100’ün üzerindeki "
+"değerler (% kipinde) etkin bir şekilde hiçbir şey göstermeyecektir. "
+"<em>Grafik türü</em> <b>Hızölçer</b> ise bu, daha düşük olan tüm değerleri "
+"sıkıştıracak en düşük iğne konumunu ayarlayacaktır.]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
@@ -1342,6 +1404,9 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Same as <em>Soldan kırp</em> değerinin aynısıdır ve yüzde değeri "
+"ters bir yüzde olarak algılanır (yani: 100 = bir şeyi kırpma)..<br>\n"
+"    0’ın altındaki değerler etkin bir şekilde hiçbir şey göstermeyecektir.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1351,6 +1416,10 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"Tek renk,İki renk,Düz geçmiş - ince gelecek,Düz gelecek - ince geçmiş,Dikey "
+"gradyan,Yatay gradyan,Süreye göre renk,Yüksekliğe göre renk,Kalp atış hızına "
+"göre renk,Hıza göre renk,Hıza göre renk (maks. 100km/sa),Eğime göre renk "
+"(maks. 90 derece),Eğime göre renk (maks. 20 derece)"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -1426,6 +1495,9 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[Grafik çizgisi üzerinde geçerli konum/zamanda bir disk çizmek için "
+"etkinleştirin.<br>\n"
+"    \tGrafik türü hızölçer ise bu, iğneyi etkiler.]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, kde-format
@@ -1451,6 +1523,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[Geçerli değeri dikdörtgenin sağ alt tarafına büyük beyaz kalın "
+"harflerle çizmek için etkinleştirin.<br>\n"
+"    \t<em>Gösterge birimi</em> değeri sonuna eklenecek ve geçerli birim "
+"olarak kullanılacaktır (geçerli bir birim bulunursa; örneğin, <em>Gösterge "
+"birimi</em> dizisinin herhangi bir yerinde “km” bulunursa kilometre).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1466,24 +1543,22 @@ msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Tüm grafik dikdörtgenini döndürün. Hızölçer türü için metin yatay kalır."
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Çizgi Kalınlığı"
+msgstr "Çizgi Kalınlığı (pks)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "Çubuk veya bölütlerin kalınlığı."
+msgstr "Çizgi grafiğin kalınlığını piksel türünden ayarlar."
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "Izgara çiz"
+msgstr "Gösterge çiz"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1496,11 +1571,18 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[If enabled it will draw 5 horizontal (and vertical for map "
+"type)<br>\n"
+"    \tHer biri geçerli grafiğin %​0, %​25, %​50, %​75 ve %​100’ünde var olan veri "
+"kaynağı değerine karşılık gelen küçük değerlere sahip satırlar, varsa "
+"<em>Gösterge birimi</em> türünden etkilenir ve dizi değerine eklenir. "
+"Hızölçer türü için bu, bölüm değerlerini gösterir (ancak birim "
+"eklenmeden).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Gösterge birimi"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1509,6 +1591,10 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,meter,metre,km,kilometer,kilometre,mi,mile,mil,ft,feet,ay,ayak,nm,nautical,"
+"dm,ms,m/s,saniye başına metre,km,km/h,km/sa,saat başına kilometre,mi,mi/h,mi/"
+"sa,saat başına mil,ft,ft/s,ay/s,saniye başına ayak, saniye başına feet,kn,nm/"
+"h,dm/sa,nm/sa,knots,not,mmin,m/dak,ftmin,aydak,ft/min,ay/dak"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1518,12 +1604,16 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Yükseklik ve hız türü değerlerini görüntülemek için kullanılacak "
+"birimi ayarlar.<br>\n"
+"        Öntanımlı değer sırasıyla metre ve km/saattir. Birim dizinin "
+"herhangi bir yerinde eşleştirilir, bu nedenle görüntülemeyi ayarlamak için "
+"fazladan boşluklar kullanılabilir.]]>"
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "Yalnızca geçişleri göster"
+msgstr "Yalnızca noktaları göster"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1535,12 +1625,18 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[Etkinleştirilirse grafik, çizgiler yerine tek tek noktalar "
+"kullanılarak çizilecektir.<br>\n"
+"    \tBu, yumuşatmadan etkilenen tek tek veri noktalarını etkili bir şekilde "
+"gösterecektir (yani: Konum verileri için yumuşatma 1 ise her GPS "
+"düzeltmesini gösterecektir) ve yeterince yakınlaştırıldığında harika bir "
+"efekt olarak veya beklenmedik satır atlamalarında hata ayıklamak için "
+"kullanılabilir.]]>"
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "Dikdörtgen"
+msgstr "Grafik dikdörtgeni"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1549,12 +1645,14 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[Grafiğin çizilmesi gereken dikdörtgeni tanımlar.<br>\n"
+"        Biçim şöyledir: “X Y W H”. X, Y, W, H’nin “%” son ekine sahip "
+"olmadıkları sürece piksel birimleri olduğu varsayılır.]]>"
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background image"
-msgstr "Arka Plan"
+msgstr "Arka plan görseli"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1564,12 +1662,15 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[Geçerli bir görsel dosyası seçilirse dikdörtgen alanı için arka "
+"plan olarak kullanılır.<br>\n"
+"      \t“!” karakteri ile başlayan yollar yok sayılır. İPUCU: GPS izine "
+"bağlam eklemek için bir harita görseli kullanın.]]>"
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "Arka Plan"
+msgstr "Arka plan ölçeği"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1579,6 +1680,10 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[Yukarıdaki GPS iziyle eşleştirmek için arka plan görselini "
+"ölçeklendirin (merkeze göre).<br>\n"
+"    \t100’den küçük değerler görseli yakınlaştırır, 100’den büyük değerler "
+"uzaklaştırır. 0 gizler].]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1588,36 +1693,32 @@ msgstr "Arka plan matlığı"
 #: data/effects/gpsgraphic.xml:170
 #, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr ""
+msgstr "<![CDATA[Arka plan görseli için matlığı ayarlar.]]>"
 
 #: data/effects/gpsgraphic.xml:173
-#, fuzzy, kde-format
-#| msgid "GPS processing start time"
+#, kde-format
 msgid "GPS start time"
-msgstr "Başlangıç zamanı GPS ile işleniyor"
+msgstr "GPS başlangıç zamanı"
 
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "İlk geçerli GPS noktasının tarihi ve zamanı."
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "Video akışı"
+msgstr "Video başlangıcı zamanı"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "Video üzerine bir sayaç koy"
+msgstr "Video dosyasının tarihi ve zamanı."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Proje Başlangıcına Git"
+msgstr "Başlangıcı kendiliğinden ofsetle"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1626,11 +1727,14 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Video dosyasının başlangıcının GPS dosyasının başlangıcı ile eşzamanlı "
+"olmasını sağlamak için bir yardımcı ofset sağlar. Video dosyası ve GPS kaydı "
+"aynı anda başlatılmışsa ofseti doğru şekilde ayarlar."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Şimdiyi kendiliğinden ofsetle"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1639,17 +1743,19 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if your video record "
 "the moment GPS starts."
 msgstr ""
+"İlk GPS noktasını geçerli video zamanıyla eşzamanlamak için bir yardımcı "
+"ofset sağlar (her saniye güncellenir). Videonuz GPS başladığı anda "
+"kaydedilirse ofseti doğru şekilde ayarlar."
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map "
+#, kde-format
 msgid "Map hint"
-msgstr "Harita "
+msgstr "Harita ipucu"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
-msgstr ""
+msgstr "GPS dosyasının orta enlem ve boylam koordinatlarını döndürür."
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -3845,7 +3951,7 @@ msgstr "Bilgiyi Düzenle…"
 #: src/assets/assetlist/view/assetlistwidget.cpp:76
 #, kde-format
 msgid "Export XML…"
-msgstr "XML Dışa Aktar…"
+msgstr "XML Olarak Dışa Aktar…"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:88
 #, kde-format
@@ -4992,7 +5098,7 @@ msgstr "Derecelendirme"
 #: src/bin/bin.cpp:1306
 #, kde-format
 msgid "Disable Bin Effects"
-msgstr "Bin Efekti devre dışı bırak"
+msgstr "Kova Efektlerini Devre Dışı Bırak"
 
 #: src/bin/bin.cpp:1314
 #, kde-format
@@ -7090,7 +7196,7 @@ msgstr ""
 #: src/dialogs/exportguidesdialog.cpp:38
 #, kde-format
 msgid "Export guides"
-msgstr "Kılavuzları dışa aktar"
+msgstr "Kılavuzları Dışa Aktar"
 
 #: src/dialogs/exportguidesdialog.cpp:46
 #, kde-format
@@ -9524,7 +9630,7 @@ msgstr "Zaman yeniden eşlemleme anahtar karelerini düzenle"
 #, kde-format
 msgctxt "@title:window"
 msgid "Welcome to Kdenlive"
-msgstr "Kdenlive’e hoş geldiniz"
+msgstr "Kdenlive’e Hoş Geldiniz"
 
 #: src/dialogs/wizard.cpp:71
 #, kde-format
@@ -10202,7 +10308,7 @@ msgstr "Başlıksız"
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
-msgstr "Şablon Yolunu Girin"
+msgstr "Şablon Yolunu Gir"
 
 #: src/doc/kdenlivedoc.cpp:1326
 #, kde-format
@@ -10712,7 +10818,7 @@ msgstr "Bir efekt seçilmedi."
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
-msgstr "Geçerli efekt yığınını kaydet"
+msgstr "Geçerli Efekt Yığınını Kaydet"
 
 #: src/effects/effectstack/view/effectstackview.cpp:739
 #, kde-format
@@ -12396,7 +12502,7 @@ msgstr "Klipleri Arakodla…"
 #: src/mainwindow.cpp:1438
 #, kde-format
 msgid "OpenTimelineIO E&xport…"
-msgstr "OpenTimelineIO Dışa &Aktar…"
+msgstr "OpenTimelineIO Olarak Dışa &Aktar…"
 
 #: src/mainwindow.cpp:1441
 #, kde-format
@@ -13604,7 +13710,7 @@ msgstr "Veri kümelerini siler."
 #: src/mltcontroller/clippropertiescontroller.cpp:263
 #, kde-format
 msgid "Export analysis…"
-msgstr "Çözümlemeyi dışa aktar…"
+msgstr "Çözümlemeyi Dışa Aktar…"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:264
 #, kde-kuit-format
@@ -14221,7 +14327,7 @@ msgstr "Görseli Kaydet"
 #: src/monitor/monitor.cpp:1296
 #, kde-format
 msgid "Export image using source resolution"
-msgstr "Kaynak çözünürlüğünü kullanarak görüntüyü Dışa Aktar"
+msgstr "Kaynak çözünürlüğünü kullanarak görüntüyü dışa aktar"
 
 #: src/monitor/monitor.cpp:1915 src/monitor/monitor.cpp:2048
 #, kde-format
@@ -14345,7 +14451,7 @@ msgstr "Çoklu İz İşlemi Gerçekleştir"
 #: src/monitor/monitormanager.cpp:571
 #, kde-format
 msgid "Show/Hide edit mode"
-msgstr "Düzenleme kipini göster/gizle"
+msgstr "Düzenleme Kipini Göster/Gizle"
 
 #: src/monitor/monitormanager.cpp:572
 #, kde-kuit-format
@@ -15007,7 +15113,7 @@ msgstr " geçmeli"
 #: src/profiles/profilemodel.cpp:170
 #, kde-format
 msgid "The project profile is invalid (%1x%2), it was adjusted to %3x%4."
-msgstr "Proje profili geçersiz (%1x %2), %3x %4 olarak ayarlandı."
+msgstr "Proje profili geçersiz (%1 × %2), %3 × %4 olarak ayarlandı."
 
 #: src/profiles/tree/profiletreemodel.cpp:46
 #, kde-format
@@ -17353,7 +17459,7 @@ msgstr "YPbPr"
 #: src/scopes/colorscopes/vectorscope.cpp:73
 #, kde-format
 msgid "Export background"
-msgstr "Arka planı dışa aktar"
+msgstr "Arka Planı Dışa Aktar"
 
 #: src/scopes/colorscopes/vectorscope.cpp:77
 #, kde-format
@@ -18787,7 +18893,7 @@ msgstr[1] "İzler Ekle"
 #: src/timeline2/view/timelinecontroller.cpp:5087
 #, kde-format
 msgid "Export subtitle file"
-msgstr "Altyazı dosyasını dışa aktar"
+msgstr "Altyazı Dosyasını Dışa Aktar"
 
 #: src/timeline2/view/timelinecontroller.cpp:5088
 #, kde-format
@@ -22686,7 +22792,7 @@ msgstr "Proje dosyaları:"
 #: src/ui/projectsettings_ui.ui:687
 #, kde-format
 msgid "Plain Text Export..."
-msgstr "Düz Metin Dışa Aktar…"
+msgstr "Düz Metin Olarak Dışa Aktar…"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
 #: src/ui/projectsettings_ui.ui:708
@@ -23956,31 +24062,3 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
-
-#~ msgid "<html><head/><body><p>Margin</p></body></html>"
-#~ msgstr "<html><head/><body><p>Kenar boşluğu</p></body></html>"
-
-#~ msgid "Margin"
-#~ msgstr "Kenar boşluğu"
-
-#~ msgid "BorderStyle"
-#~ msgstr "Kenarlık biçemi"
-
-#~ msgid "R: "
-#~ msgstr "K: "
-
-#~ msgid "G: "
-#~ msgstr "Y "
-
-#~ msgid "B: "
-#~ msgstr "M "
-
-#~ msgid "Force Breeze Icon Theme"
-#~ msgstr "Esinti Simgelerini Kullanmayı Zorla"
-
-#~ msgid ""
-#~ "Kdenlive needs to be restarted to apply the icon theme change. Restart "
-#~ "now?"
-#~ msgstr ""
-#~ "Simge teması değişikliğini uygulamak için Kdenlive yeniden "
-#~ "başlatılmalıdır. Şimdi yeniden başlatılsın mı?"
