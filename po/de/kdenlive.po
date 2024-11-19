@@ -1281,7 +1281,8 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:66
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Crop right"
 msgid "Crop right"
 msgstr "Rechts anschneiden"
 
@@ -21342,8 +21343,7 @@ msgstr "Text nach Englisch übersetzen"
 
 #. i18n: ectx: property (text), widget (QLabel, whisper_folder_label)
 #: src/ui/configspeech_ui.ui:342
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Whisper"
 msgstr "Whisper"
 

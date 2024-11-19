@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-18 02:38+0000\n"
-"PO-Revision-Date: 2024-11-07 21:27+0200\n"
+"PO-Revision-Date: 2024-11-18 08:14+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 24.08.1\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1104,6 +1104,12 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[היסט (בשניות) שיתווסף לקובץ הווידאו כדי שיתואם מול מסלול ה־GPS."
+"<br>\n"
+"    \tבדרך כלל יש להגדיר את זה לפחות להפרש אזורי הזמן בין שני הקבצים בתוספת "
+"כמה שניות אם מכשיר ההקלטה לא מוגדר לשעה הנכונה בדיוק. שעון ה־GPS הוא תמיד "
+"מדויק וב־UTC. יש להשתמש בערכים שליליים אם ה־GPS מקדים את הווידאו וערכים "
+"שליליים במקרה ההפוך.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1119,6 +1125,9 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[כמה נקודות GPS להחליק כדי להימנע משגיאות GPS.<br>\n"
+"    \tערך של 1 לא מחליק מקומות, הוא רק מחשב את השדות הנוספים (מהירות, מרחק, "
+"ועוד), הוא גם משלב בהסקה ערכים חסרים של דופק וגובה.]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, fuzzy, kde-format
@@ -1148,7 +1157,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "באילו נתונים מקובץ ה־GPS להשתמש לציור"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1156,6 +1165,8 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"קו מפה דו־ממדי בסיסי (למיקום) או תרשים חד־ממדי לפי זמן (אחרים),התקרבות "
+"למפה/תרשים עם המיקום הנוכחי ממורכז,ציור מד־אוץ"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1453,10 +1464,9 @@ msgid "Line Thickness (px)"
 msgstr "עובי קו"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "עובי העמודה או המקטעים."
+msgstr "הגדרת עובי הקו בתרשים בפיקסלים."
 
 #: data/effects/gpsgraphic.xml:138
 #, fuzzy, kde-format
@@ -1516,10 +1526,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "מרובע"
+msgstr "מרובע בתרשים"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1586,16 +1595,14 @@ msgid "Video start time"
 msgstr "תזרים וידאו"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "הוספת שעון תזמון על גבי הסרטון"
+msgstr "תאריך ושעה של קובץ הווידאו."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "מעבר לתחילת המיזם"
+msgstr "היסט אוטומטי בהתחלה"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1619,10 +1626,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map white to"
+#, kde-format
 msgid "Map hint"
-msgstr "מפה לבן ל"
+msgstr "רמז מפה"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
@@ -21495,10 +21501,9 @@ msgstr "גבול עליון"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
-#, fuzzy, kde-format
-#| msgid "Vertical center"
+#, kde-format
 msgid "Vertical margin"
-msgstr "מרכז אנכי"
+msgstr "שול אנכי"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
