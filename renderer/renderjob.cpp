@@ -34,8 +34,10 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
     , m_dualpass(false)
     , m_subtitleFile(subtitleFile)
     , m_debugMode(debugMode)
+    , m_renderProcess(&m_looper)
 {
     m_renderProcess.setReadChannel(QProcess::StandardError);
+    connect(&m_renderProcess, &QProcess::finished, this, &RenderJob::slotIsOver);
 
     // Disable VDPAU so that rendering will work even if there is a Kdenlive instance using VDPAU
     qputenv("MLT_NO_VDPAU", "1");
@@ -202,14 +204,13 @@ void RenderJob::start()
             m_kdenlivesocket->write(QJsonDocument(method).toJson());
             m_kdenlivesocket->flush();
         });
-        connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, [this]() {
-            QByteArray msg = m_kdenlivesocket->readAll();
-            if (msg == "abort") {
-                slotAbort();
-            }
-        });
         QString servername = QStringLiteral("org.kde.kdenlive-%1").arg(m_pid);
         m_kdenlivesocket->connectToServer(servername);
+        if (m_kdenlivesocket->waitForConnected(1000)) {
+        } else {
+            qDebug() << "==== RENDER SOCKET NOT CONNECTED";
+        }
+        connect(m_kdenlivesocket, &QLocalSocket::readyRead, this, &RenderJob::gotMessage);
     }
     // Because of the logging, we connect to stderr in all cases.
     connect(&m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
@@ -221,25 +222,25 @@ void RenderJob::start()
         m_logstream << "Using MLT APPDIR: " << qgetenv("MLT_APPDIR") << "\n";
     }
     m_logstream.flush();
-    m_renderProcess.waitForFinished(-1);
-    slotIsOver(m_renderProcess.exitStatus());
+    m_looper.exec();
 }
 
-void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
+void RenderJob::gotMessage()
 {
-    if (!isWritable) {
-        QString error = tr("Cannot write to %1, check permissions.").arg(m_dest);
-        sendFinish(-2, error);
-        // assumes kdialog installed!!
-        QProcess::startDetached(QStringLiteral("kdialog"), {QStringLiteral("--error"), error});
-        m_logstream << error << "\n";
-        Q_EMIT renderingFinished();
-        // qApp->quit();
+    if (m_kdenlivesocket) {
+        const QByteArray msg = m_kdenlivesocket->readAll();
+        if (msg == "abort") {
+            slotAbort();
+        }
     }
+}
+
+void RenderJob::slotIsOver(int exitCode, QProcess::ExitStatus status)
+{
     if (m_erase) {
         QFile(m_scenelist).remove();
     }
-    if (status == QProcess::CrashExit || m_renderProcess.error() != QProcess::UnknownError || m_renderProcess.exitCode() != 0) {
+    if (status == QProcess::CrashExit || m_renderProcess.error() != QProcess::UnknownError || exitCode != 0) {
         // rendering crashed
         sendFinish(-2, m_errorMessage);
         QStringList args;
@@ -250,7 +251,6 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         args << QStringLiteral("--error") << error;
         m_logstream << error << "\n";
         QProcess::startDetached(QStringLiteral("kdialog"), args);
-        Q_EMIT renderingFinished();
     } else {
         m_logstream << "Rendering of " << m_dest << " finished"
                     << "\n";
@@ -285,6 +285,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         }
     }
     Q_EMIT renderingFinished();
+    m_looper.quit();
 }
 
 void RenderJob::receivedSubtitleProgress()
@@ -336,4 +337,5 @@ void RenderJob::slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exit
     }
     QFile::remove(m_subtitleFile);
     Q_EMIT renderingFinished();
+    m_looper.quit();
 }

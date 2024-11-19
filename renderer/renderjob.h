@@ -29,18 +29,21 @@ public Q_SLOTS:
     void start();
 
 private Q_SLOTS:
-    void slotIsOver(QProcess::ExitStatus status, bool isWritable = true);
+    void slotIsOver(int exitCode, QProcess::ExitStatus status);
     void receivedStderr();
     void slotAbort();
     void slotAbort(const QString &url);
     void slotCheckSubtitleProcess(int exitCode, QProcess::ExitStatus exitStatus);
     void receivedSubtitleProgress();
+    void gotMessage();
 
 private:
     QString m_scenelist;
     QString m_dest;
     int m_progress;
     QString m_prog;
+    QEventLoop m_looper;
+
     QLocalSocket* m_kdenlivesocket;
     QTimer m_connectTimer;
     /** @brief Used to create a temporary file for logging. */
