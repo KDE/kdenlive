@@ -23,7 +23,7 @@ RenderServer::RenderServer(QObject *parent)
         pCore->displayMessage(i18n("Can't open communication with render job %1", servername), ErrorMessage);
         qWarning() << "Render server failed to listen on " << servername;
     }
-    connect(pCore->window(), &MainWindow::abortRenderJob, this, &RenderServer::abortJob);
+    connect(pCore->window(), &MainWindow::abortRenderJob, this, &RenderServer::abortJob, Qt::QueuedConnection);
     connect(this, &RenderServer::setRenderingProgress, pCore->window(), &MainWindow::setRenderingProgress);
     connect(this, &RenderServer::setRenderingFinished, pCore->window(), &MainWindow::setRenderingFinished);
 }
@@ -38,7 +38,7 @@ void RenderServer::jobConnected()
 
 void RenderServer::jobSent()
 {
-    QLocalSocket *socket = reinterpret_cast<QLocalSocket *>(sender());
+    QLocalSocket *socket = qobject_cast<QLocalSocket *>(sender());
     QTextStream text(socket);
     QString block, line;
     while (text.readLineInto(&line)) {
