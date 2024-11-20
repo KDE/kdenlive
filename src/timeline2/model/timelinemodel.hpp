@@ -424,6 +424,8 @@ public:
     Q_INVOKABLE int getPreviousBlank(int trackId, int pos);
     /** @brief return the next blank frame on a track */
     Q_INVOKABLE int getNextBlank(int trackId, int pos);
+    Q_INVOKABLE int getPreviousDirectNeighbor(int clipId);
+    Q_INVOKABLE int getNextDirectNeighbor(int clipId);
     int cutSubtitle(int layer, int position, Fun &undo, Fun &redo);
     bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, int trackId, int position, bool updateView,
                         bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);

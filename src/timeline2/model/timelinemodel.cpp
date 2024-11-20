@@ -724,6 +724,25 @@ int TimelineModel::getNextBlank(int trackId, int pos)
     return getTrackById_const(trackId)->getNextBlankStart(pos, false);
 }
 
+int TimelineModel::getPreviousDirectNeighbor(int clipId)
+{
+    if (!isClip(clipId)) {
+        return -1;
+    }
+    std::shared_ptr<ClipModel> clip = getClipPtr(clipId);
+    int neighbor = getTrackById_const(clip->getCurrentTrackId())->getClipByPosition(clip->getPosition() - 1);
+    return neighbor;
+}
+
+int TimelineModel::getNextDirectNeighbor(int clipId)
+{
+    if (!isClip(clipId)) {
+        return -1;
+    }
+    std::shared_ptr<ClipModel> clip = getClipPtr(clipId);
+    return getTrackById_const(clip->getCurrentTrackId())->getClipByPosition(clip->getPosition() + clip->getPlaytime());
+}
+
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove,
                                     Fun &undo, Fun &redo, bool revertMove, bool groupMove, const QMap<int, int> &moving_clips,
                                     std::pair<MixInfo, MixInfo> mixData)
