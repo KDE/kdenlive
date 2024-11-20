@@ -1857,6 +1857,8 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     } else if (controller == nullptr) {
         // Nothing to do
         pCore->taskManager.displayedClip = -1;
+        m_displayedUuid = QUuid();
+        m_dirty = false;
         return;
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
@@ -1892,6 +1894,15 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         return;
     } else {
         pCore->taskManager.displayedClip = m_controller->clipId().toInt();
+        if (m_controller->clipType() == ClipType::Timeline) {
+            if (m_displayedUuid != m_controller->getSequenceUuid()) {
+                m_dirty = false;
+                m_displayedUuid = m_controller->getSequenceUuid();
+            }
+        } else {
+            m_dirty = false;
+            m_displayedUuid = QUuid();
+        }
         m_markerModel = m_controller->getMarkerModel();
         m_activeSequence = sequenceUuid;
         if (pCore->currentRemap(controller->clipId())) {
@@ -2797,7 +2808,7 @@ void Monitor::updateTimelineProducer()
                               Q_ARG(int, position));
 }
 
-void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
+void Monitor::setProducer(const QUuid uuid, std::shared_ptr<Mlt::Producer> producer, int pos)
 {
     if (locked) {
         if (pos > -1) {
@@ -2810,6 +2821,10 @@ void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
         m_markerModel = pCore->currentDoc()->getGuideModel(pCore->currentTimelineId());
     } else {
         m_markerModel.reset();
+    }
+    if (m_displayedUuid != uuid) {
+        m_dirty = false;
+        m_displayedUuid = uuid;
     }
     m_glMonitor->setProducer(std::move(producer), isActive(), pos);
 }
@@ -2970,4 +2985,18 @@ void Monitor::extractFrame(const QString &path)
 const QStringList Monitor::getGPUInfo()
 {
     return m_glMonitor->getGPUInfo();
+}
+
+void Monitor::markDirty(const QUuid uuid)
+{
+    if (m_displayedUuid == uuid && !uuid.isNull()) {
+        m_dirty = true;
+    } else {
+        m_dirty = false;
+    }
+}
+
+bool Monitor::isDirty() const
+{
+    return m_dirty;
 }

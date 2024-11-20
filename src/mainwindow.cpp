@@ -5176,7 +5176,7 @@ void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
     disconnect(pCore->library(), &LibraryWidget::saveTimelineSelection, timeline->controller(), &TimelineController::saveTimelineSelection);
     timeline->controller()->clipActions = QList<QAction *>();
     disconnect(pCore.get(), &Core::processDragEnd, timeline, &TimelineWidget::endDrag);
-    pCore->monitorManager()->projectMonitor()->setProducer(nullptr, -2);
+    pCore->monitorManager()->projectMonitor()->setProducer(QUuid(), nullptr, -2);
     // Audio record actions
     disconnect(pCore.get(), &Core::recordAudio, timeline->controller(), &TimelineController::switchRecording);
 }

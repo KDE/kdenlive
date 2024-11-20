@@ -292,7 +292,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     if (pCore->monitorManager()) {
         Q_EMIT pCore->monitorManager()->updatePreviewScaling();
         pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
-        pCore->monitorManager()->projectMonitor()->setProducer(m_activeTimelineModel->producer(), 0);
+        pCore->monitorManager()->projectMonitor()->setProducer(m_activeTimelineModel->uuid(), m_activeTimelineModel->producer(), 0);
         const QUuid uuid = m_project->activeUuid;
         pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
     }
@@ -476,7 +476,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         qApp->processEvents();
         pCore->window()->disableMulticam();
         pCore->mixer()->unsetModel();
-        pCore->monitorManager()->projectMonitor()->setProducer(nullptr);
+        pCore->monitorManager()->projectMonitor()->setProducer(QUuid(), nullptr);
         Q_EMIT pCore->window()->clearAssetPanel();
     }
     if (m_project) {
@@ -1052,7 +1052,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         // Now load active sequence in project monitor
         pCore->monitorManager()->projectMonitor()->locked = false;
         int position = m_project->getSequenceProperty(activeUuid, QStringLiteral("position"), QString::number(0)).toInt();
-        pCore->monitorManager()->projectMonitor()->setProducer(m_activeTimelineModel->producer(), position);
+        pCore->monitorManager()->projectMonitor()->setProducer(m_activeTimelineModel->uuid(), m_activeTimelineModel->producer(), position);
         const QUuid uuid = m_project->activeUuid;
         pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_activeTimelineModel->duration() - 1, m_project->getFilteredGuideModel(uuid));
     }
