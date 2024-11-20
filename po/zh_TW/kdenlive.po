@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-18 00:39+0000\n"
+"POT-Creation-Date: 2024-11-20 00:39+0000\n"
 "PO-Revision-Date: 2024-10-19 19:56+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -918,7 +918,7 @@ msgstr "從黑色背景淡入為視訊"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:171
-#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:337
+#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:338
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/ui/clipdurationdialog_ui.ui:18
@@ -4853,25 +4853,25 @@ msgstr "排序依據"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:322
+#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:323
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "名稱"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:326
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "日期"
 
-#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:328
+#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:329
 #, kde-format
 msgid "Description"
 msgstr "描述"
 
-#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:332
 #, kde-format
 msgid "Type"
 msgstr "類別"
@@ -4881,7 +4881,7 @@ msgstr "類別"
 msgid "Insert Order"
 msgstr "插入順序"
 
-#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:343
+#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:344
 #, kde-format
 msgid "Rating"
 msgstr "評分"
@@ -5523,7 +5523,7 @@ msgid "Edit Tags"
 msgstr "編輯標籤"
 
 #: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:2003 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2004 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, kde-format
@@ -6135,7 +6135,7 @@ msgstr ""
 "圖片大小小於 8 像素。\n"
 "我們的影片函式庫目前無法正確支援它。"
 
-#: src/bin/projectclip.cpp:913
+#: src/bin/projectclip.cpp:914
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6144,29 +6144,29 @@ msgstr ""
 "無法從 %1 提取描述資訊\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1154 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1155 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "無效"
 
-#: src/bin/projectclip.cpp:1383 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1384 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "檔案已經存在"
 
-#: src/bin/projectclip.cpp:2595
+#: src/bin/projectclip.cpp:2596
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "調整時間軸素材"
 
-#: src/bin/projectclip.cpp:2831
+#: src/bin/projectclip.cpp:2832
 #, kde-format
 msgid "Add stream effect"
 msgstr "新增串流效果"
 
-#: src/bin/projectclip.cpp:2856
+#: src/bin/projectclip.cpp:2857
 #, kde-format
 msgid "Remove stream effect"
 msgstr "移除串流效果"
@@ -6177,22 +6177,22 @@ msgid "%1 clip"
 msgid_plural "%1 clips"
 msgstr[0] "%1 個素材"
 
-#: src/bin/projectitemmodel.cpp:334
+#: src/bin/projectitemmodel.cpp:335
 #, kde-format
 msgid "Tag"
 msgstr "標籤"
 
-#: src/bin/projectitemmodel.cpp:340
+#: src/bin/projectitemmodel.cpp:341
 #, kde-format
 msgid "Id"
 msgstr "ID"
 
-#: src/bin/projectitemmodel.cpp:346
+#: src/bin/projectitemmodel.cpp:347
 #, kde-format
 msgid "Usage"
 msgstr "用量"
 
-#: src/bin/projectitemmodel.cpp:349 src/doc/documentchecker.cpp:1839
+#: src/bin/projectitemmodel.cpp:350 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -6200,42 +6200,42 @@ msgstr "用量"
 msgid "Unknown"
 msgstr "未知"
 
-#: src/bin/projectitemmodel.cpp:656
+#: src/bin/projectitemmodel.cpp:657
 #, kde-format
 msgid "Add sub clips"
 msgstr "新增子素材"
 
-#: src/bin/projectitemmodel.cpp:691
+#: src/bin/projectitemmodel.cpp:692
 #, kde-format
 msgid "Zone"
 msgstr "區段"
 
-#: src/bin/projectitemmodel.cpp:961
+#: src/bin/projectitemmodel.cpp:962
 #, kde-format
 msgid "Add bin clip"
 msgstr "新增素材庫素材"
 
-#: src/bin/projectitemmodel.cpp:1079
+#: src/bin/projectitemmodel.cpp:1080
 #, kde-format
 msgid "Add a sub clip"
 msgstr "新增子素材"
 
-#: src/bin/projectitemmodel.cpp:1120
+#: src/bin/projectitemmodel.cpp:1121
 #, kde-format
 msgid "Rename Folder"
 msgstr "重新命名資料夾"
 
-#: src/bin/projectitemmodel.cpp:1164 src/mainwindow.cpp:1419
+#: src/bin/projectitemmodel.cpp:1165 src/mainwindow.cpp:1419
 #, kde-format
 msgid "Clean Project"
 msgstr "清理專案"
 
-#: src/bin/projectitemmodel.cpp:1392
+#: src/bin/projectitemmodel.cpp:1393
 #, kde-format
 msgid "Reading project clips…"
 msgstr "讀取專案素材中…"
 
-#: src/bin/projectitemmodel.cpp:1500
+#: src/bin/projectitemmodel.cpp:1501
 #, kde-format
 msgid "Loading project clips…"
 msgstr "載入專案素材中…"
@@ -6994,8 +6994,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "匯出參照線資料"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1729
-#: src/dialogs/renderwidget.cpp:1753 src/doc/kdenlivedoc.cpp:760
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
+#: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
@@ -7807,7 +7807,7 @@ msgid ""
 msgstr ""
 "以下參數不會有效果，因為它們被同用途的使用者介面選項覆寫了：<icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1558
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1559
 #, kde-format
 msgid "Waiting…"
 msgstr "請稍候…"
@@ -8010,7 +8010,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "轉換編碼"
 
-#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1532
+#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
 #: src/project/dialogs/archivewidget.cpp:892
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -8030,7 +8030,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "嘗試進行算繪時發生以下錯誤"
 
-#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1545
+#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1546
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -8039,7 +8039,7 @@ msgstr ""
 "目前有個正在寫入檔案的作業：<br/><b>%1</b><br/> 如果您想要覆寫它，請中止這項"
 "作業…"
 
-#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1546
+#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1547
 #, kde-format
 msgid "Already running"
 msgstr "正在執行"
@@ -8123,44 +8123,44 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 的算繪已崩潰</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1417 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1418 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "中止工作"
 
-#: src/dialogs/renderwidget.cpp:1420
+#: src/dialogs/renderwidget.cpp:1421
 #, kde-format
 msgid "Remove Job"
 msgstr "移除工作"
 
-#: src/dialogs/renderwidget.cpp:1813
+#: src/dialogs/renderwidget.cpp:1814
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "請將素材加入時間軸後再進行算繪"
 
-#: src/dialogs/renderwidget.cpp:1818
+#: src/dialogs/renderwidget.cpp:1819
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "輸出檔案長度：%1"
 
-#: src/dialogs/renderwidget.cpp:1822
+#: src/dialogs/renderwidget.cpp:1823
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>專案中使用了 %1 個遺失的素材。</b>"
 
-#: src/dialogs/renderwidget.cpp:1824
+#: src/dialogs/renderwidget.cpp:1825
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "%1 個遺失素材（未使用）。"
 
-#: src/dialogs/renderwidget.cpp:1826
+#: src/dialogs/renderwidget.cpp:1827
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 個遺失的素材（<b>有 %2 已在專案中使用</b>）。"
 
-#: src/dialogs/renderwidget.cpp:1908
+#: src/dialogs/renderwidget.cpp:1909
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -8169,12 +8169,12 @@ msgstr ""
 "編碼速度參數：\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1928
+#: src/dialogs/renderwidget.cpp:1929
 #, kde-format
 msgid "Add to Current Project"
 msgstr "加入目前專案"
 
-#: src/dialogs/renderwidget.cpp:1931 src/library/librarywidget.cpp:248
+#: src/dialogs/renderwidget.cpp:1932 src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "開啟包含資料夾"
@@ -18513,7 +18513,7 @@ msgstr "插入效果..."
 msgid "Insert a composition..."
 msgstr "插入合成方案…"
 
-#: src/timeline2/view/timelinewidget.cpp:315
+#: src/timeline2/view/timelinewidget.cpp:318
 #, kde-format
 msgid "No available stream"
 msgstr "沒有可用的串流"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-18 00:39+0000\n"
+"POT-Creation-Date: 2024-11-20 00:39+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -945,7 +945,7 @@ msgstr "Videó előtűnése feketéből"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:171
-#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:337
+#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:338
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/ui/clipdurationdialog_ui.ui:18
@@ -5080,25 +5080,25 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:322
+#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:323
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Név"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:326
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Dátum"
 
-#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:328
+#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:329
 #, kde-format
 msgid "Description"
 msgstr "Leírás"
 
-#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:332
 #, kde-format
 msgid "Type"
 msgstr "Típus"
@@ -5109,7 +5109,7 @@ msgstr "Típus"
 msgid "Insert Order"
 msgstr "Beszúrás üzemmód"
 
-#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:343
+#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:344
 #, kde-format
 msgid "Rating"
 msgstr "Besorolás"
@@ -5823,7 +5823,7 @@ msgid "Edit Tags"
 msgstr "Időtartam szerkesztése"
 
 #: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:2003 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2004 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, fuzzy, kde-format
@@ -6515,20 +6515,20 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:913
+#: src/bin/projectclip.cpp:914
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1154 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1155 src/jobs/cliploadtask.cpp:269
 #, fuzzy, kde-format
 #| msgid "Invalid clip"
 msgid "Invalid"
 msgstr "Érvénytelen klip"
 
-#: src/bin/projectclip.cpp:1383 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1384 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, fuzzy, kde-format
@@ -6536,20 +6536,20 @@ msgstr "Érvénytelen klip"
 msgid "File already exists"
 msgstr "A profil már létezik"
 
-#: src/bin/projectclip.cpp:2595
+#: src/bin/projectclip.cpp:2596
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Idővonal klip törlése"
 
-#: src/bin/projectclip.cpp:2831
+#: src/bin/projectclip.cpp:2832
 #, fuzzy, kde-format
 #| msgid "Add new effect"
 msgid "Add stream effect"
 msgstr "Videó effektus hozzáadása"
 
-#: src/bin/projectclip.cpp:2856
+#: src/bin/projectclip.cpp:2857
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Remove stream effect"
@@ -6564,24 +6564,24 @@ msgid_plural "%1 clips"
 msgstr[0] "(%1 klip)"
 msgstr[1] "(%1 klip)"
 
-#: src/bin/projectitemmodel.cpp:334
+#: src/bin/projectitemmodel.cpp:335
 #, fuzzy, kde-format
 #| msgid "Target"
 msgid "Tag"
 msgstr "Cél"
 
-#: src/bin/projectitemmodel.cpp:340
+#: src/bin/projectitemmodel.cpp:341
 #, fuzzy, kde-format
 #| msgid "I"
 msgid "Id"
 msgstr "I"
 
-#: src/bin/projectitemmodel.cpp:346
+#: src/bin/projectitemmodel.cpp:347
 #, kde-format
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:349 src/doc/documentchecker.cpp:1839
+#: src/bin/projectitemmodel.cpp:350 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -6589,47 +6589,47 @@ msgstr ""
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/bin/projectitemmodel.cpp:656
+#: src/bin/projectitemmodel.cpp:657
 #, fuzzy, kde-format
 #| msgid "Add Clip"
 msgid "Add sub clips"
 msgstr "Klip hozzáadása"
 
-#: src/bin/projectitemmodel.cpp:691
+#: src/bin/projectitemmodel.cpp:692
 #, fuzzy, kde-format
 #| msgid "Zone end: %1"
 msgid "Zone"
 msgstr "Zóna vége: %1"
 
-#: src/bin/projectitemmodel.cpp:961
+#: src/bin/projectitemmodel.cpp:962
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Add bin clip"
 msgstr "Klipek hozzáadása"
 
-#: src/bin/projectitemmodel.cpp:1079
+#: src/bin/projectitemmodel.cpp:1080
 #, fuzzy, kde-format
 #| msgid "Add Clip"
 msgid "Add a sub clip"
 msgstr "Klip hozzáadása"
 
-#: src/bin/projectitemmodel.cpp:1120
+#: src/bin/projectitemmodel.cpp:1121
 #, kde-format
 msgid "Rename Folder"
 msgstr "Mappa átnevezése"
 
-#: src/bin/projectitemmodel.cpp:1164 src/mainwindow.cpp:1419
+#: src/bin/projectitemmodel.cpp:1165 src/mainwindow.cpp:1419
 #, kde-format
 msgid "Clean Project"
 msgstr "Projekt tisztítása"
 
-#: src/bin/projectitemmodel.cpp:1392
+#: src/bin/projectitemmodel.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Reading project clips…"
 msgstr "Projekt betöltése"
 
-#: src/bin/projectitemmodel.cpp:1500
+#: src/bin/projectitemmodel.cpp:1501
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project clips…"
@@ -7425,8 +7425,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Jelölők betöltése"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1729
-#: src/dialogs/renderwidget.cpp:1753 src/doc/kdenlivedoc.cpp:760
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
+#: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
@@ -8292,7 +8292,7 @@ msgid ""
 "overwritten by the equivalent user interface options: <icode>%1</icode>"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1558
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1559
 #, fuzzy, kde-format
 #| msgid "Waiting..."
 msgid "Waiting…"
@@ -8520,7 +8520,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Átkódolás"
 
-#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1532
+#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
 #: src/project/dialogs/archivewidget.cpp:892
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -8540,7 +8540,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1545
+#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1546
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -8552,7 +8552,7 @@ msgstr ""
 "Már van feladat a következő fájl írásához:<br />„<b>%1</b>”<br />Szakítsa "
 "meg a feladatot, ha felül kívánja írni a fájlt…"
 
-#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1546
+#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1547
 #, kde-format
 msgid "Already running"
 msgstr "A program már fut."
@@ -8643,29 +8643,29 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1 leképezése összeomlott</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1417 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1418 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Feladat megszakítása"
 
-#: src/dialogs/renderwidget.cpp:1420
+#: src/dialogs/renderwidget.cpp:1421
 #, kde-format
 msgid "Remove Job"
 msgstr "Feladat eltávolítása"
 
-#: src/dialogs/renderwidget.cpp:1813
+#: src/dialogs/renderwidget.cpp:1814
 #, fuzzy, kde-format
 #| msgid "Add clip to timeline"
 msgid "Add clips in timeline before rendering"
 msgstr "Klip hozzáadása az idővonalhoz"
 
-#: src/dialogs/renderwidget.cpp:1818
+#: src/dialogs/renderwidget.cpp:1819
 #, fuzzy, kde-format
 #| msgid "Rendering %1"
 msgid "Rendered File Length: %1"
 msgstr "%1 leképzése"
 
-#: src/dialogs/renderwidget.cpp:1822
+#: src/dialogs/renderwidget.cpp:1823
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -8674,7 +8674,7 @@ msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "%1 hiányzó klipje van a projektben."
 msgstr[1] "%1 hiányzó klipje van a projektben."
 
-#: src/dialogs/renderwidget.cpp:1824
+#: src/dialogs/renderwidget.cpp:1825
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip (unused)."
@@ -8682,14 +8682,14 @@ msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Hiányzó klipek ellenőrzése"
 msgstr[1] "Hiányzó klipek ellenőrzése"
 
-#: src/dialogs/renderwidget.cpp:1826
+#: src/dialogs/renderwidget.cpp:1827
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 hiányzó klipje van a projektben."
 
-#: src/dialogs/renderwidget.cpp:1908
+#: src/dialogs/renderwidget.cpp:1909
 #, fuzzy, kde-format
 #| msgid "FFmpeg parameters"
 msgid ""
@@ -8697,13 +8697,13 @@ msgid ""
 "%1"
 msgstr "FFmpeg paraméterek"
 
-#: src/dialogs/renderwidget.cpp:1928
+#: src/dialogs/renderwidget.cpp:1929
 #, fuzzy, kde-format
 #| msgid "Add to project"
 msgid "Add to Current Project"
 msgstr "Hozzáadás a projekthez"
 
-#: src/dialogs/renderwidget.cpp:1931 src/library/librarywidget.cpp:248
+#: src/dialogs/renderwidget.cpp:1932 src/library/librarywidget.cpp:248
 #, fuzzy, kde-format
 #| msgid "Destination folder"
 msgid "Open Containing Folder"
@@ -19863,7 +19863,7 @@ msgstr "Effektus eltávolítás"
 msgid "Insert a composition..."
 msgstr "Kompozit"
 
-#: src/timeline2/view/timelinewidget.cpp:315
+#: src/timeline2/view/timelinewidget.cpp:318
 #, fuzzy, kde-format
 #| msgid "Razor all tracks"
 msgid "No available stream"

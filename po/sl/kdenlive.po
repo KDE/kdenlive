@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-18 00:39+0000\n"
-"PO-Revision-Date: 2024-11-08 21:30+0100\n"
+"POT-Creation-Date: 2024-11-20 00:39+0000\n"
+"PO-Revision-Date: 2024-11-18 22:07+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -942,7 +942,7 @@ msgstr "Odtemnitev slike"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:171
-#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:337
+#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:338
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/ui/clipdurationdialog_ui.ui:18
@@ -1083,7 +1083,7 @@ msgstr "Gama"
 #: data/effects/gpsgraphic.xml:4
 #, kde-format
 msgid "GPS Graphic"
-msgstr ""
+msgstr "Grafika GPS"
 
 #: data/effects/gpsgraphic.xml:5
 #, fuzzy, kde-format
@@ -1102,6 +1102,8 @@ msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
 msgstr ""
+"Polna pot datoteke, ki vsebuje podatke o lokaciji (GPS). Podprte "
+"razširitve: .gpx, .tcx."
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1109,7 +1111,7 @@ msgid "Time offset in seconds"
 msgstr "Časovni zamik v sekundah"
 
 #: data/effects/gpsgraphic.xml:14
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[An offset (in seconds) to be added to the video file to match it to "
 "the GPS track.<br>\n"
@@ -1118,6 +1120,12 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[An offset (in seconds) to be added to the video file to match it to "
+"the GPS track.<br>Večino časa bo to treba vsaj nastaviti na razliko v "
+"časovnem pasu med 2 datotekama in nekaj sekund, če naprava za snemanje "
+"videoposnetkov ni natančno nastavljena na pravilen čas. GPS čas je vedno "
+"natančen in v UTC. Uporabite pozitivne vrednosti, če je GPS pred "
+"videoposnetkom, v nasprotnem primeru pa negativen.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1125,7 +1133,7 @@ msgid "Smoothing level"
 msgstr "Raven glajenja"
 
 #: data/effects/gpsgraphic.xml:19
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[How many GPS points to smooth in order to eliminate GPS errors."
 "<br>\n"
@@ -1133,46 +1141,55 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[How many GPS points to smooth in order to eliminate GPS errors."
+"<br>Vrednost 1 ne zgladi lokacij, izračuna le dodatna polja (hitrost, "
+"razdalja itd.), Interpolira tudi manjkajoče vrednosti za srčni utrip in "
+"nadmorsko višino.]]>"
 
 #: data/effects/gpsgraphic.xml:22
-#, fuzzy, kde-format
-#| msgid "Add multiple markers"
+#, kde-format
 msgid "Speed multiplier"
-msgstr "Dodaj več označevalnikov"
+msgstr "Multiplikator hitrosti"
 
 #: data/effects/gpsgraphic.xml:24
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[If the video file is a timelapse (or slow motion), use this value "
 "to set the speed up/slow down ratio.<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[If the video file is a timelapse (or slow motion), use this value "
+"to set the speed up/slow down ratio.<br>Vzorčne vrednosti: 30 za 30-kratni "
+"časovni zamik, 0,25 za 4-kratne počasne posnetke.]]>"
 
 #: data/effects/gpsgraphic.xml:27
-#, kde-format
+#, fuzzy, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "GPS lokacija/sled,Nadmorska višina,Srčni utrip,Hitrost"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "Vir podatkov grafa"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "Kateri podatki iz datoteke GPS se uporabljajo za risanje"
 
 #: data/effects/gpsgraphic.xml:32
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"Osnovna črta 2D zemljevida (za lokacijo) ali 1D graf na čas (drugi), "
+"povečava zemljevida / grafa s središčem na trenutno lokacijo, narišite "
+"merilnik hitrosti"
 
 #: data/effects/gpsgraphic.xml:41
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[<b>Speedometer</b> is available for all data sources but "
 "recommended only for speed; for the map type it represents the \"percentage "
@@ -1189,14 +1206,28 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>Merilnik hitrosti je na voljo za vse vire podatkov, vendar je "
+"priporočljiv samo za hitrost; za tip zemljevida predstavlja \"odstotek "
+"opravljenega\" od obrezanega začetka do konca).<br>Opomba: za tip 1 "
+"(povečava in središče, znano tudi kot »sledi piki«):<br>* vrednosti "
+"obrezovanja veljajo samo v odstotkih in samo spodnje (oziroma leve) "
+"vrednosti\n"
+"se bo upoštevalo, saj bosta morali biti obe vrednosti (tj. spodaj/zgoraj) "
+"enaki\n"
+"bodite piko na sredini)<br>* če vir podatkov ni lokacija GPS, bo centriranje "
+"opravljeno samo za vodoravno os\n"
+"(čas), se bo obrezovanje navpične osi obnašalo enako kot pri osnovni črti 2D "
+"zemljevida (statično se bo ohranilo\n"
+"enaka min/max omejitev, ki omogoča, da se točka zdaj premika navzgor in "
+"navzdol).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "Začetek obrezovanja (%)"
 
 #: data/effects/gpsgraphic.xml:46
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<![CDATA[Trim data from the start of the GPS file (as a percentage of "
 "total). <br>\n"
@@ -1204,14 +1235,18 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Trim data from the start of the GPS file (as a percentage of "
+"total). <br>Opomba: <em>tako Trim start</em> kot <em>Trim end</em> sta "
+"izračunana iz celotne datoteke, tako da bo obrezovanje 50% start in 50nd% "
+"epovzročilo obrezovanje celotne datoteke.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "Konec obrezovanja (%)"
 
 #: data/effects/gpsgraphic.xml:51
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<![CDATA[Trim data from the end of the gps file (as a percentage of total). "
 "<br>\n"
@@ -1219,11 +1254,15 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Trim data from the end of the gps file (as a percentage of total). "
+"<br>Opomba: <em>tako Trim start</em> kot <em>Trim end</em> sta izračunana iz "
+"celotne datoteke, tako da bo obrezovanje 50% start in 50nd% epovzročilo "
+"obrezovanje celotne datoteke.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
-#, kde-format
+#, fuzzy, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Odstotek od min. max,Absolutna vrednost"
 
 #: data/effects/gpsgraphic.xml:55
 #, fuzzy, kde-format
@@ -1232,7 +1271,7 @@ msgid "Crop mode horizontal"
 msgstr "Usredini vodoravno"
 
 #: data/effects/gpsgraphic.xml:58
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Decides how to interpret the <em>Crop left</em> and <em>Crop right</"
 "em> values.<br>\n"
@@ -1241,15 +1280,19 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[Decides how to interpret the <em>Vrednosti Obrezuj levo in "
+"<em>Obrezuj desno</em>.<br>Opomba: za vodoravni tip so absolutne vrednosti "
+"zemljepisna dolžina (za lokacijo\n"
+"vrsta vira) in čas (v milisekundah od obdobja) za preostale vrste virov "
+"podatkov)]]>"
 
 #: data/effects/gpsgraphic.xml:61
-#, fuzzy, kde-format
-#| msgid "Top left"
+#, kde-format
 msgid "Crop left"
-msgstr "Levo zgoraj"
+msgstr "Obreži levo"
 
 #: data/effects/gpsgraphic.xml:63
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<![CDATA[Crops data from the left side of the graph (effectively zooming "
 "in). <br>\n"
@@ -1261,20 +1304,30 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[Crops data from the left side of the graph (effectively zooming "
+"in). <br>Vrednost se razlaga kot odstotek skupne ali absolutne vrednosti, "
+"odvisno od crop_mode_h. V odstotnem načinu vrednosti niso omejene na 0-100, "
+"da se omogoči \"pomanjšanje\" vedenje (tj. Obrezovanje -50 levo bo dodalo "
+"dodatno polovico skupne vodoravne razdalje). Vrednosti nad 100 (v načinu %) "
+"dejansko ne bodo prikazale ničesar. Če je <em>Vrsta grafa</em> nastavljena "
+"na <b>Merilnik hitrosti</b>, se vse vrednosti obrezovanja levo/desno "
+"prezrejo.]]>"
 
 #: data/effects/gpsgraphic.xml:66
-#, fuzzy, kde-format
-#| msgid "Top right"
+#, kde-format
 msgid "Crop right"
-msgstr "Desno zgoraj"
+msgstr "Obreži desno"
 
 #: data/effects/gpsgraphic.xml:67
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Same as <em>Crop left</em> but for the right side, and percentage "
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Same as <em>Obrežite levo, vendar za desno stran, in tip odstotka "
+"se razlaga kot obratni odstotek (tj.: 100 = ne obrezujte ničesar). Vrednosti "
+"pod 0 dejansko ne bodo prikazale ničesar.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, fuzzy, kde-format
@@ -1283,7 +1336,7 @@ msgid "Crop mode vertical"
 msgstr "Usredini navpično"
 
 #: data/effects/gpsgraphic.xml:78
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Decides how to interpret the <em>Crop bottom</em> and <em>Crop top</"
 "em> values.<br/>\n"
@@ -1298,6 +1351,18 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[Decides how to interpret the <em>Obrezuj najnižje in <em>najvišje</"
+"em> vrednosti.<br/>Z absolutno vrednostjo lahko poveča med 100 in 150 m "
+"nadmorske višine, da prikaže\n"
+"majhne spremembe nadmorske višine med tema 2 vrednostma boljše.<br/>Opomba: "
+"za navpično vrsto so absolutne vrednosti stopinje zemljepisne širine (za "
+"lokacijo\n"
+"vrsta vira) in nadmorska višina, srčni utrip, hitrost za druge, ki se "
+"razlagajo kot <em>enota Legenda</em>\n"
+"vrsta, kadar je to primerno (tj. vrednost 10 za nadmorsko višino se privzeto "
+"šteje za metre\n"
+"če pa spremenite <em>enoto Legende</em> v noge, bo to pomenilo 10 "
+"čevljev).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, fuzzy, kde-format
@@ -1306,7 +1371,7 @@ msgid "Crop bottom"
 msgstr "Od zgoraj navzdol"
 
 #: data/effects/gpsgraphic.xml:83
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<![CDATA[Crops data from the bottom side of the graph (effectively zooming "
 "in). <br>\n"
@@ -1318,6 +1383,14 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[Crops data from the bottom side of the graph (effectively zooming "
+"in). <br>Vrednost se razlaga kot odstotek skupne ali absolutne vrednosti, "
+"odvisno od crop_mode_v. V odstotnem načinu vrednosti niso omejene na 0-100, "
+"da se omogoči \"pomanjšanje\" vedenje (npr.: obrezovanje -50 bot bo dodalo "
+"dodatno polovico skupne navpične razdalje do dna). Vrednosti nad 100 (v "
+"načinu %) dejansko ne bodo prikazale ničesar. Če je <em>vrsta grafa</em> "
+"<b>Merilnik hitrosti</b>, bo to nastavilo najmanjši položaj igle, ki bo "
+"pritrdil vse vrednosti, ki so nižje.]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, fuzzy, kde-format
@@ -1326,33 +1399,40 @@ msgid "Crop top"
 msgstr "Obreži za polnjenje"
 
 #: data/effects/gpsgraphic.xml:88
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Same as <em>Crop bottom</em> but for the top side, and percentage "
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Same as <em>Obrezujte dno, vendar za zgornjo stran, in tip odstotka "
+"se razlaga kot obratni odstotek (tj.: 100 = ne obrežite ničesar)."
+"<br>Vrednosti pod 0 dejansko ne bodo prikazale ničesar.]]>"
 
 #: data/effects/gpsgraphic.xml:91
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "One color,Two colors,Solid past - thin future,Solid future - thin past,"
 "Vertical gradient,Horizontal gradient,Color by duration,Color by altitude,"
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"Ena barva, dve barvi, trdna preteklost - tanka prihodnost, trdna prihodnost "
+"- tanka preteklost, navpični gradient, vodoravni gradient, barva po "
+"trajanju, barva po nadmorski višini, barva po srčnem utripu, barva po "
+"hitrosti, barva po hitrosti (največ 100 km / h), barva po stopnji (največ 90 "
+"stopinj), barva po stopnji (največ 20 stopinj)"
 
 #: data/effects/gpsgraphic.xml:92
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Graph color style"
-msgstr "Vrsta grafikona"
+msgstr "Barvni slog grafa"
 
 #: data/effects/gpsgraphic.xml:93
-#, kde-format
+#, fuzzy, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "Oglejte si dokumentacijo o različnih slogih, ki so na voljo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1363,7 +1443,7 @@ msgstr "Barva 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "Nastavi barvo #1 za črto grafa"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1374,40 +1454,37 @@ msgstr "Barva 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "Nastavi barvo #2 za črto grafa"
 
 #: data/effects/gpsgraphic.xml:104
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 3"
-msgstr "Barva 2"
+msgstr "Barva 3"
 
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "Nastavi barvo #3 za črto grafa"
 
 #: data/effects/gpsgraphic.xml:108
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 4"
-msgstr "Barva 2"
+msgstr "Barva 4"
 
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "Nastavi barvo #4 za črto grafa"
 
 #: data/effects/gpsgraphic.xml:112
-#, fuzzy, kde-format
-#| msgid "Color 2"
+#, kde-format
 msgid "Color 5"
-msgstr "Barva 2"
+msgstr "Barva 5"
 
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "Nastavi barvo #5 za črto grafa"
 
 #: data/effects/gpsgraphic.xml:116
 #, fuzzy, kde-format
@@ -1416,12 +1493,14 @@ msgid "Show Now dot"
 msgstr "Pokaži več možnosti"
 
 #: data/effects/gpsgraphic.xml:118
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Enable it to draw a disc at the current location/time over the "
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[Enable it to draw a disc at the current location/time over the "
+"graph line.<br>Če je tip grafa merilnik hitrosti, to vpliva na iglo.]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, fuzzy, kde-format
@@ -1442,7 +1521,7 @@ msgid "Show Now text"
 msgstr "Govor v besedilo"
 
 #: data/effects/gpsgraphic.xml:127
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Enable it to draw the current value in big white bold letters on "
 "the bottom right side of the rect.<br>\n"
@@ -1450,6 +1529,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[Enable it to draw the current value in big white bold letters on "
+"the bottom right side of the rect.<br>Vrednost <em>enote legende</em> bo "
+"dodana na koncu in bo uporabljena kot trenutna enota (če je najdena veljavna "
+"enota, tj.: kilometri, če je \"km\" najden kjerkoli v nizu <em>enote "
+"legende</em> ).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1460,11 +1544,13 @@ msgid "Rotation"
 msgstr "Vrtenje"
 
 #: data/effects/gpsgraphic.xml:131
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Zasukajte celoten pravokotnik grafa. Pri tipkanju s merilnikom hitrosti "
+"besedilo ostane vodoravno."
 
 #: data/effects/gpsgraphic.xml:134
 #, fuzzy, kde-format
@@ -1485,7 +1571,7 @@ msgid "Draw legend"
 msgstr "Izriši mrežo"
 
 #: data/effects/gpsgraphic.xml:140
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<![CDATA[If enabled it will draw 5 horizontal (and vertical for map type) "
 "<br>\n"
@@ -1495,28 +1581,40 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[If enabled it will draw 5 horizontal (and vertical for map type) "
+"<br>vrstice z majhnimi vrednostmi, od katerih vsaka ustreza trenutni "
+"vrednosti vira podatkov pri 0 %, 25 %, 50 %, 75% and 100% of trenutni graf, "
+"na katerega vpliva vrsta <em>enote Legenda</em> , če je primerno, in z "
+"nizom, dodanim vrednosti. Za tip merilnika hitrosti to prikazuje vrednosti "
+"delitve (vendar brez dodajanja enote).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Enota legende"
 
 #: data/effects/gpsgraphic.xml:144
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "m,meter,km,kilometer,mi,mile,ft,feet,nm,nautical,ms,m/s,meter per sec,km,km/"
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m, meter, km, kilometer, mi, milja, ft, čevlji, nm, navtični, ms, m / s, "
+"meter na sekundo, km, km / h, kilometer na uro, mi, mi/h, milja na uro, ft, "
+"ft / s, čevlje na sekundo, kn, nm / h, vozli, mmin, m / min, ftmin, ft / min"
 
 #: data/effects/gpsgraphic.xml:146
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Sets the unit to be used for displaying values of type altitude and "
 "speed.<br>\n"
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Sets the unit to be used for displaying values of type altitude and "
+"speed.<br>Privzeto so metri oziroma km / h. Enota se ujema kjerkoli v nizu, "
+"tako da se lahko dodatni presledki uporabijo za prilagoditev prikaza.]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, fuzzy, kde-format
@@ -1525,7 +1623,7 @@ msgid "Show dots only"
 msgstr "Pokaži le prehode"
 
 #: data/effects/gpsgraphic.xml:151
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[If enabled, the graph will be drawn using individual dots instead "
 "of lines.<br>\n"
@@ -1534,6 +1632,11 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[If enabled, the graph will be drawn using individual dots instead "
+"of lines.<br>To bo učinkovito prikazalo posamezne podatkovne točke, na "
+"katere vpliva glajenje (tj. Za podatke o lokaciji bo prikazal vsak popravek "
+"GPS, če je glajenje 1) in se lahko uporabi kot kul učinek, ko je dovolj "
+"povečan, ali za odpravljanje nepričakovanih skokov črt.]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, fuzzy, kde-format
@@ -1542,27 +1645,32 @@ msgid "Graph rectangle"
 msgstr "Pravokotnik"
 
 #: data/effects/gpsgraphic.xml:156
-#, no-c-format, kde-format
+#, fuzzy, no-c-format, kde-format
 msgid ""
 "<![CDATA[Defines the rectangle that the graph should be drawn in.<br>\n"
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[Defines the rectangle that the graph should be drawn in.<br>Oblika "
+"je: \"X Y W H\". X, Y, W, H se štejejo za enote slikovnih pik, razen če "
+"imajo pripono '%'.]]>"
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background image"
-msgstr "Ozadje"
+msgstr "Slika ozadja"
 
 #: data/effects/gpsgraphic.xml:161
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[If a valid image file is selected, it will be used as a background "
 "for the rectangle area.<br>\n"
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[If a valid image file is selected, it will be used as a background "
+"for the rectangle area.<br>Poti, ki se začnejo z znakom »!«, se prezrejo. "
+"NASVET: uporabite sliko zemljevida, da dodate kontekst GPS sledi.]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, fuzzy, kde-format
@@ -1571,13 +1679,16 @@ msgid "Background scale"
 msgstr "Ozadje"
 
 #: data/effects/gpsgraphic.xml:166
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[Scale the background image (relative to center) to match it to the "
 "above GPS track.<br>\n"
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[Scale the background image (relative to center) to match it to the "
+"above GPS track.<br>Vrednosti, manjše od 100, povečajo sliko, vrednosti "
+"večje od 100 pomanjšajo. 0 ga skriva.]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1585,9 +1696,9 @@ msgid "Background opacity"
 msgstr "Prekrivnost ozadja"
 
 #: data/effects/gpsgraphic.xml:170
-#, kde-format
+#, fuzzy, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr ""
+msgstr "<![CDATA[Nastavi prosojnost slike ozadja]]>"
 
 #: data/effects/gpsgraphic.xml:173
 #, fuzzy, kde-format
@@ -1596,9 +1707,9 @@ msgid "GPS start time"
 msgstr "Začetni čas obdelave GPS"
 
 #: data/effects/gpsgraphic.xml:174
-#, kde-format
+#, fuzzy, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "Datum in čas prve veljavne točke GPS."
 
 #: data/effects/gpsgraphic.xml:177
 #, fuzzy, kde-format
@@ -1619,25 +1730,31 @@ msgid "Auto offset start"
 msgstr "Pojdi na začetek projekta"
 
 #: data/effects/gpsgraphic.xml:182
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Provides a helper offset to guarantee start of video file syncs with the "
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Zagotavlja pomožni odmik, ki zagotavlja začetek sinhronizacije video datotek "
+"z začetkom datoteke GPS. Pravilno nastavi odmik, če sta se video datoteka in "
+"snemanje GPS začela hkrati."
 
 #: data/effects/gpsgraphic.xml:185
-#, kde-format
+#, fuzzy, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Samodejni odmik zdaj"
 
 #: data/effects/gpsgraphic.xml:186
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Provides a helper offset to sync the first GPS point to current video time "
 "(it is updated every second). Correctly sets the offset if your video record "
 "the moment GPS starts."
 msgstr ""
+"Zagotavlja pomočnik za sinhronizacijo prve točke GPS s trenutnim časom videa "
+"(posodablja se vsako sekundo). Pravilno nastavi odmik, če videoposnetek "
+"snema trenutek, ko se zažene GPS."
 
 #: data/effects/gpsgraphic.xml:189
 #, fuzzy, kde-format
@@ -1646,9 +1763,9 @@ msgid "Map hint"
 msgstr "Preslikaj "
 
 #: data/effects/gpsgraphic.xml:190
-#, kde-format
+#, fuzzy, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
-msgstr ""
+msgstr "Vrne koordinate srednje zemljepisne širine in dolžine datoteke gps."
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -2718,16 +2835,18 @@ msgid "Alpha strobing"
 msgstr "Opravilo kanala alfa"
 
 #: data/effects/strobe.xml:5
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "Strobes the alpha channel to 0. Many other filters overwrite the alpha "
 "channel, in that case this needs to be last."
 msgstr ""
+"Izmenično izklaplja alfa-kanal na 0. Številni drugi filtri prepišejo alfa-"
+"kanal, v tem primeru mora biti ta nastavitev zadnja (|strobe|)."
 
 #: data/effects/strobe.xml:9
-#, kde-format
+#, fuzzy, kde-format
 msgid "Whether to invert which frames are on and which is off"
-msgstr ""
+msgstr "Ali obrniti, kateri okvirji so vklopljeni in kateri izklopljeni"
 
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_4)
 #: data/effects/strobe.xml:12 src/ui/markerdialog_ui.ui:136
@@ -4955,25 +5074,25 @@ msgstr "Uredi po"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:322
+#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:323
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Ime"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:326
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Datum"
 
-#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:328
+#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:329
 #, kde-format
 msgid "Description"
 msgstr "Opis"
 
-#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:332
 #, kde-format
 msgid "Type"
 msgstr "Vrsta"
@@ -4983,7 +5102,7 @@ msgstr "Vrsta"
 msgid "Insert Order"
 msgstr "Vrstni red vstavljanja"
 
-#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:343
+#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:344
 #, kde-format
 msgid "Rating"
 msgstr "Ocena"
@@ -5650,7 +5769,7 @@ msgid "Edit Tags"
 msgstr "Uredi značke"
 
 #: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:2003 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2004 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, kde-format
@@ -6269,7 +6388,7 @@ msgstr ""
 "Dimenzije slike so manjše od 8 točk.\n"
 "Okvir video orodij tako majhnih sličic ne podpira pravilno."
 
-#: src/bin/projectclip.cpp:913
+#: src/bin/projectclip.cpp:914
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6278,29 +6397,29 @@ msgstr ""
 "Ni možno izvleči metapodatkov iz %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1154 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1155 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Neveljaven"
 
-#: src/bin/projectclip.cpp:1383 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1384 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "Datoteka že obstaja"
 
-#: src/bin/projectclip.cpp:2595
+#: src/bin/projectclip.cpp:2596
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "Prilagodi posnetke na časovnici"
 
-#: src/bin/projectclip.cpp:2831
+#: src/bin/projectclip.cpp:2832
 #, kde-format
 msgid "Add stream effect"
 msgstr "Dodaj tokovni učinek"
 
-#: src/bin/projectclip.cpp:2856
+#: src/bin/projectclip.cpp:2857
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Odstrani tokovni učinek"
@@ -6314,22 +6433,22 @@ msgstr[1] "%1 posnetek"
 msgstr[2] "%1 posnetka"
 msgstr[3] "%1 posnetki"
 
-#: src/bin/projectitemmodel.cpp:334
+#: src/bin/projectitemmodel.cpp:335
 #, kde-format
 msgid "Tag"
 msgstr "Značka"
 
-#: src/bin/projectitemmodel.cpp:340
+#: src/bin/projectitemmodel.cpp:341
 #, kde-format
 msgid "Id"
 msgstr "Id"
 
-#: src/bin/projectitemmodel.cpp:346
+#: src/bin/projectitemmodel.cpp:347
 #, kde-format
 msgid "Usage"
 msgstr "Uporaba"
 
-#: src/bin/projectitemmodel.cpp:349 src/doc/documentchecker.cpp:1839
+#: src/bin/projectitemmodel.cpp:350 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -6337,42 +6456,42 @@ msgstr "Uporaba"
 msgid "Unknown"
 msgstr "Neznano"
 
-#: src/bin/projectitemmodel.cpp:656
+#: src/bin/projectitemmodel.cpp:657
 #, kde-format
 msgid "Add sub clips"
 msgstr "Dodaj podposnetke"
 
-#: src/bin/projectitemmodel.cpp:691
+#: src/bin/projectitemmodel.cpp:692
 #, kde-format
 msgid "Zone"
 msgstr "Območje"
 
-#: src/bin/projectitemmodel.cpp:961
+#: src/bin/projectitemmodel.cpp:962
 #, kde-format
 msgid "Add bin clip"
 msgstr "Dodaj posnetek iz posode"
 
-#: src/bin/projectitemmodel.cpp:1079
+#: src/bin/projectitemmodel.cpp:1080
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Dodaj podposnetek"
 
-#: src/bin/projectitemmodel.cpp:1120
+#: src/bin/projectitemmodel.cpp:1121
 #, kde-format
 msgid "Rename Folder"
 msgstr "Preimenuj mapo"
 
-#: src/bin/projectitemmodel.cpp:1164 src/mainwindow.cpp:1419
+#: src/bin/projectitemmodel.cpp:1165 src/mainwindow.cpp:1419
 #, kde-format
 msgid "Clean Project"
 msgstr "Počisti projekt"
 
-#: src/bin/projectitemmodel.cpp:1392
+#: src/bin/projectitemmodel.cpp:1393
 #, kde-format
 msgid "Reading project clips…"
 msgstr "Branje posnetkov projekta …"
 
-#: src/bin/projectitemmodel.cpp:1500
+#: src/bin/projectitemmodel.cpp:1501
 #, kde-format
 msgid "Loading project clips…"
 msgstr "Nalaganje posnetkov projekta …"
@@ -7146,8 +7265,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Izvozi podatke vodil"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1729
-#: src/dialogs/renderwidget.cpp:1753 src/doc/kdenlivedoc.cpp:760
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
+#: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
@@ -7964,7 +8083,7 @@ msgstr ""
 "Naslednji parametri ne bodo imeli učinka, ker jih bodo prepisale enakovredne "
 "možnosti uporabniškega vmesnika: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1558
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1559
 #, kde-format
 msgid "Waiting…"
 msgstr "Čakanje …"
@@ -8171,7 +8290,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Prekodiraj"
 
-#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1532
+#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
 #: src/project/dialogs/archivewidget.cpp:892
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -8191,7 +8310,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "Pri poskusu izrisa je prišlo do naslednjih napak"
 
-#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1545
+#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1546
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -8200,7 +8319,7 @@ msgstr ""
 "Posel pisanja v datoteko že obstaja:<br /><b>%1</b><br />Prekinite ta posel, "
 "če jo želite prepisati…"
 
-#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1546
+#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1547
 #, kde-format
 msgid "Already running"
 msgstr "Že teče"
@@ -8288,27 +8407,27 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Izrisovanje %1 se je sesulo</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1417 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1418 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Prekini posel"
 
-#: src/dialogs/renderwidget.cpp:1420
+#: src/dialogs/renderwidget.cpp:1421
 #, kde-format
 msgid "Remove Job"
 msgstr "Odstrani posel"
 
-#: src/dialogs/renderwidget.cpp:1813
+#: src/dialogs/renderwidget.cpp:1814
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Pred izrisovanjem dodaj posnetke s časovnice"
 
-#: src/dialogs/renderwidget.cpp:1818
+#: src/dialogs/renderwidget.cpp:1819
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Trajanje izrisane datoteke: %1"
 
-#: src/dialogs/renderwidget.cpp:1822
+#: src/dialogs/renderwidget.cpp:1823
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -8317,7 +8436,7 @@ msgstr[1] "<b>Manjka %1 v projektu uporabljen posnetek.</b>"
 msgstr[2] "<b>Manjkata %1 v projektu uporabljena posnetka.</b>"
 msgstr[3] "<b>Manjkajo %1 v projektu uporabljeni posnetki.</b>"
 
-#: src/dialogs/renderwidget.cpp:1824
+#: src/dialogs/renderwidget.cpp:1825
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -8326,12 +8445,12 @@ msgstr[1] "%1 manjkajoč posnetek (neuporabljen)."
 msgstr[2] "%1 manjkajoča posnetka (neuporabljena)."
 msgstr[3] "%1 manjkajoči posnetki (neuporabljeni)."
 
-#: src/dialogs/renderwidget.cpp:1826
+#: src/dialogs/renderwidget.cpp:1827
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 manjkajočih posnetkov (<b>v projektu jih je uporabljenih %2</b>)."
 
-#: src/dialogs/renderwidget.cpp:1908
+#: src/dialogs/renderwidget.cpp:1909
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -8340,12 +8459,12 @@ msgstr ""
 "Parametri hitrosti kodeka:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1928
+#: src/dialogs/renderwidget.cpp:1929
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Dodaj trenutnemu projektu"
 
-#: src/dialogs/renderwidget.cpp:1931 src/library/librarywidget.cpp:248
+#: src/dialogs/renderwidget.cpp:1932 src/library/librarywidget.cpp:248
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Odpri vsebujočo mapo"
@@ -18970,7 +19089,7 @@ msgstr "Vstavi učinek …"
 msgid "Insert a composition..."
 msgstr "Vstavi sestavo …"
 
-#: src/timeline2/view/timelinewidget.cpp:315
+#: src/timeline2/view/timelinewidget.cpp:318
 #, kde-format
 msgid "No available stream"
 msgstr "Ni razpoložljivega toka"
@@ -21217,9 +21336,9 @@ msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
 #: src/ui/configspeech_ui.ui:373
-#, kde-format
+#, fuzzy, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Brezšivno"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428
@@ -21783,13 +21902,13 @@ msgstr "S"
 #: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
-msgstr ""
+msgstr "Levi rob"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
-msgstr ""
+msgstr "Desni rob"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:487
@@ -21838,10 +21957,9 @@ msgstr "Urejevalnik slogov podnaslovov"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "Folder name"
+#, kde-format
 msgid "Style name"
-msgstr "Ime mape"
+msgstr "Ime sloga"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -21851,32 +21969,31 @@ msgstr "Drugotna"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/editsubstyle_ui.ui:131
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
+"Sekundarna barva se lahko uporabi v primeru trčenja podnapisov, da se lažje "
+"razlikuje med obema podnapisoma"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
+#, kde-format
 msgid "Character spacing"
-msgstr "Razmik med črkami:"
+msgstr "Razmik med znaki"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "ScaleX"
+#, kde-format
 msgid "Scale X"
-msgstr "Merilo X"
+msgstr "Sprememba merila X"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Text clips"
+#, kde-format
 msgid "Text color"
-msgstr "Besedilni posnetki"
+msgstr "Barva besedila"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -21929,10 +22046,9 @@ msgstr "Poravnava"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "ScaleY"
+#, kde-format
 msgid "Scale Y"
-msgstr "Merilo Y"
+msgstr "Sprememba merila Y"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27
@@ -24030,21 +24146,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
-
-#~ msgid "<html><head/><body><p>Margin</p></body></html>"
-#~ msgstr "<html><head/><body><p>Rob</p></body></html>"
-
-#~ msgid "Margin"
-#~ msgstr "Rob"
-
-#~ msgid "BorderStyle"
-#~ msgstr "Slog obrobe"
-
-#~ msgid "R: "
-#~ msgstr "R: "
-
-#~ msgid "G: "
-#~ msgstr "G: "
-
-#~ msgid "B: "
-#~ msgstr "B: "
