@@ -308,10 +308,10 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+        enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool || root.activeTool === ProjectTool.RollTool
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+        hoverEnabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool || root.activeTool === ProjectTool.RollTool
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: mouse => {
             root.autoScrolling = false
@@ -696,6 +696,11 @@ Rectangle {
                         return true
                     }
 
+                    let hasDirectNeighbor = controller.getPreviousDirectNeighbor(clipRoot.clipId) > -1
+                    if (root.activeTool === ProjectTool.RollTool && hasDirectNeighbor) {
+                        return true
+                    }
+
                     return false
                 }
                 enabled: !isLocked && (pressed || (container.handleVisible && (mixArea.enabled || clipRoot.mixDuration == 0))) && clipRoot.clipId == dragProxy.draggedItem
@@ -814,6 +819,7 @@ Rectangle {
                     visible: trimInMouseArea.pressed || (
                                  (root.activeTool === ProjectTool.SelectTool
                                   || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                                  || (root.activeTool === ProjectTool.RollTool && controller.getPreviousDirectNeighbor(clipRoot.clipId) > -1)
                                   ) && !mouseArea.drag.active && parent.enabled)
 
                     /*ToolTip {
@@ -843,7 +849,8 @@ Rectangle {
                 width: root.baseUnit / 2
                 hoverEnabled: true
                 visible: enabled && (root.activeTool === ProjectTool.SelectTool
-                                     || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0))
+                                     || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                                     || (root.activeTool === ProjectTool.RollTool && controller.getNextDirectNeighbor(clipRoot.clipId) > -1))
                 enabled: !isLocked && (pressed || container.handleVisible) && clipRoot.clipId == dragProxy.draggedItem
                 property bool shiftTrim: false
                 property bool controlTrim: false
@@ -959,6 +966,7 @@ Rectangle {
                     visible: trimOutMouseArea.pressed || (
                                  (root.activeTool === ProjectTool.SelectTool
                                   || (root.activeTool === ProjectTool.RippleTool && clipRoot.mixDuration <= 0)
+                                  || (root.activeTool === ProjectTool.RollTool && controller.getNextDirectNeighbor(clipRoot.clipId) > -1)
                                  ) && !mouseArea.drag.active && parent.enabled)
                 }
             }

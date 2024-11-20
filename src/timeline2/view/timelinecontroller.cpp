@@ -2337,6 +2337,10 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
         return true;
     }
 
+    if (pCore->activeTool() == ToolType::RollTool) {
+        return false;
+    }
+
     if (pCore->activeTool() == ToolType::SlipTool && !slipProcessSelection(mainClipId, addToSelection)) {
         return false;
     }

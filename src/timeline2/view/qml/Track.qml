@@ -60,6 +60,9 @@ Item{
             new_duration = timeline.requestItemRippleResize(clip.clipId, newDuration, right, false, root.snapping, shiftTrim)
             timeline.requestStartTrimmingMode(clip.clipId, false, right);
             timeline.ripplePosChanged(new_duration, right);
+        } else if (root.activeTool === ProjectTool.RollTool) {
+            new_duration = controller.requestItemRollResize(clip.clipId, newDuration, right, false, root.snapping, shiftTrim)
+            console.log("new_duration after roll " + new_duration)
         } else {
             new_duration = controller.requestItemResize(clip.clipId, newDuration, right, false, root.snapping, shiftTrim)
         }
@@ -91,14 +94,19 @@ Item{
     function trimedClip(clip, shiftTrim, controlTrim, right) {
         //bubbleHelp.hide()
         timeline.showToolTip();
-        if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/) || controlTrim) {
+        if (shiftTrim || (root.groupTrimData == undefined/*TODO > */ || root.activeTool === ProjectTool.RippleTool /* < TODO*/ || root.activeTool === ProjectTool.RollTool) || controlTrim) {
             // We only resize one element
+
+            // resize back to original size...
             if (root.activeTool === ProjectTool.RippleTool) {
                 timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
+            } else if (root.activeTool === ProjectTool.RollTool) {
+                controller.requestItemRollResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
             } else {
                 controller.requestItemResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
             }
 
+            // ... and apply the final undo-logged resize operation
             if (root.activeTool === ProjectTool.SelectTool && controlTrim) {
                 // Update speed
                 speedController.visible = false
@@ -108,6 +116,9 @@ Item{
                 if (root.activeTool === ProjectTool.RippleTool) {
                     timeline.requestItemRippleResize(clip.clipId, clip.lastValidDuration, right, true, 0, shiftTrim)
                     timeline.requestEndTrimmingMode();
+                } else if (root.activeTool === ProjectTool.RollTool) {
+                    console.log("Roll resize " + clip.lastValidDuration)
+                    controller.requestItemRollResize(clip.clipId, clip.lastValidDuration, right, true, 0, shiftTrim)
                 } else {
                     controller.requestItemResize(clip.clipId, clip.lastValidDuration, right, true, 0, shiftTrim)
                 }

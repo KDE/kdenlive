@@ -1892,7 +1892,7 @@ Rectangle {
                                         }
                                         return tracksArea.cursorShape
                                     }
-                                    enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool
+                                    enabled: root.activeTool === ProjectTool.SelectTool || root.activeTool === ProjectTool.RippleTool || root.activeTool === ProjectTool.RollTool
                                     onPressed: mouse => {
                                         if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
                                             mouse.accepted = false
@@ -1937,7 +1937,7 @@ Rectangle {
                                                     dragProxy.isComposition = tentativeClip.isComposition
                                                     dragProxy.verticalOffset = tentativeClip.isComposition ? tentativeClip.displayHeight : 0
                                                 } else {
-                                                    console.log('item not found')
+                                                    console.log('item not found B')
                                                     clickAccepted = false
                                                     mouse.accepted = false
                                                     dragProxy.draggedItem = -1
