@@ -601,6 +601,9 @@ public:
      */
     Q_INVOKABLE int requestItemResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
 
+    Q_INVOKABLE int requestItemRollResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+
+
     /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int &size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 

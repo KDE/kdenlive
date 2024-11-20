@@ -2034,3 +2034,498 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
 
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
+
+TEST_CASE("Advanced trimming operations: Roll", "[TrimmingRoll]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+
+    // Here we do some trickery to enable testing.
+    KdenliveDoc document(undoStack, {0, 2});
+    pCore->projectManager()->testSetDocument(&document);
+    QDateTime documentDate = QDateTime::currentDateTime();
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+    auto timeline = document.getTimeline(document.uuid());
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binId2 = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel);
+
+    int tid1 = timeline->getTrackIndexFromPosition(0);
+    int tid2 = timeline->getTrackIndexFromPosition(1);
+
+    int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid3 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid4 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid5 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+    int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+
+    KdenliveTests::makeFiniteClipEnd(timeline, cid1);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid2);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid3);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid4);
+    KdenliveTests::makeFiniteClipEnd(timeline, cid5);
+
+    // ripple resize a fullsized clip longer should not to anything
+    SECTION("Roll resize fullsized clips")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 5 + l1));
+        int l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 5 + l1 + l2 + 5));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid1) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid1) == cid2);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid2) == cid1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid2) == -1);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid3) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid3) == -1);
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 - 1);
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 5 + l1 + l2 + 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
+        };
+        state();
+    }
+
+    SECTION("Roll resize clips (right, shorter)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+        timeline->requestItemResize(cid1, l1 - 5, true);
+        l1 = timeline->getClipPlaytime(cid1);
+
+        int l2 = timeline->getClipPlaytime(cid2);
+        timeline->requestItemResize(cid2, l2 - 5, false);
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 5 + l1));
+        l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 5 + l1 + l2 + 5));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid1) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid1) == cid2);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid2) == cid1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid2) == -1);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid3) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid3) == -1);
+
+        auto stateA1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+        auto stateA2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 5 + l1 + l2 + 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
+        };
+        stateA1();
+        stateA2();
+
+        auto stateB = [&]() {
+            int shift = 3;
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - shift);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1 - shift);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 + shift);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid1, l1 - 3, true) == l1 - 3);
+        stateB();
+        stateA2();
+
+        auto stateC = [&]() {
+            int shift = 5;
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - shift);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1 - shift);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 + shift);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid1, l1 - 5, true) == l1 - 5);
+        stateC();
+        stateA2();
+
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid1, l1 + 10, false) == -1);
+        stateC();
+        stateA2();
+
+        undoStack->undo();
+        stateB();
+        stateA2();
+
+        undoStack->undo();
+        stateA1();
+        stateA2();
+
+        undoStack->redo();
+        stateB();
+        stateA2();
+
+        undoStack->redo();
+        stateC();
+        stateA2();
+    }
+
+    SECTION("Roll resize clips (right, longer)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+        timeline->requestItemResize(cid1, l1 - 5, true);
+        l1 = timeline->getClipPlaytime(cid1);
+
+        int l2 = timeline->getClipPlaytime(cid2);
+        timeline->requestItemResize(cid2, l2 - 5, false);
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 5 + l1));
+        l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 5 + l1 + l2 + 5));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid1) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid1) == cid2);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid2) == cid1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid2) == -1);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid3) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid3) == -1);
+
+        auto stateA1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+        auto stateA2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 5 + l1 + l2 + 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
+        };
+        stateA1();
+        stateA2();
+
+        auto stateB = [&]() {
+            int shift = -3;
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - shift);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1 - shift);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 + shift);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid1, l1 + 3, true) == l1 + 3);
+        stateB();
+        stateA2();
+
+        auto stateC = [&]() {
+            int shift = -5;
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - shift);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1 - shift);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 + shift);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid1, l1 + 5, true) == l1 + 5);
+        stateC();
+        stateA2();
+
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid1, l1 - 10, false) == -1);
+        stateC();
+        stateA2();
+
+        undoStack->undo();
+        stateB();
+        stateA2();
+
+        undoStack->undo();
+        stateA1();
+        stateA2();
+
+        undoStack->redo();
+        stateB();
+        stateA2();
+
+        undoStack->redo();
+        stateC();
+        stateA2();
+    }
+
+    SECTION("Roll resize clips (left, shorter)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+        timeline->requestItemResize(cid1, l1 - 5, true);
+        l1 = timeline->getClipPlaytime(cid1);
+
+        int l2 = timeline->getClipPlaytime(cid2);
+        timeline->requestItemResize(cid2, l2 - 5, false);
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 5 + l1));
+        l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 5 + l1 + l2 + 5));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid1) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid1) == cid2);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid2) == cid1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid2) == -1);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid3) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid3) == -1);
+
+        auto stateA1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+        auto stateA2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 5 + l1 + l2 + 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
+        };
+        stateA1();
+        stateA2();
+
+        auto stateB = [&]() {
+            int shift = -3;
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - shift);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1 - shift);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 + shift);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid2, l2 - 3, false) == l2 - 3);
+        stateB();
+        stateA2();
+
+        auto stateC = [&]() {
+            int shift = -5;
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - shift);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1 - shift);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 + shift);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid2, l2 - 5, false) == l2 - 5);
+        stateC();
+        stateA2();
+
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid2, l2 + 30, false) == -1);
+        stateC();
+        stateA2();
+
+        undoStack->undo();
+        stateB();
+        stateA2();
+
+        undoStack->undo();
+        stateA1();
+        stateA2();
+
+        undoStack->redo();
+        stateB();
+        stateA2();
+
+        undoStack->redo();
+        stateC();
+        stateA2();
+    }
+
+    SECTION("Roll resize clips (left, longer)")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+        timeline->requestItemResize(cid1, l1 - 5, true);
+        l1 = timeline->getClipPlaytime(cid1);
+
+        int l2 = timeline->getClipPlaytime(cid2);
+        timeline->requestItemResize(cid2, l2 - 5, false);
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 5 + l1));
+        l2 = timeline->getClipPlaytime(cid2);
+
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 5 + l1 + l2 + 5));
+        int l3 = timeline->getClipPlaytime(cid3);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid1) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid1) == cid2);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid2) == cid1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid2) == -1);
+
+        REQUIRE(timeline->getPreviousDirectNeighbor(cid3) == -1);
+        REQUIRE(timeline->getNextDirectNeighbor(cid3) == -1);
+
+        auto stateA1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+        auto stateA2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid3) == l3);
+            REQUIRE(timeline->getClipPosition(cid3) == 5 + l1 + l2 + 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid3)->getOut() == l3 - 1);
+        };
+        stateA1();
+        stateA2();
+
+        auto stateB = [&]() {
+            int shift = 3;
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - shift);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1 - shift);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 + shift);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid2, l2 + 3, false) == l2 + 3);
+        stateB();
+        stateA2();
+
+        auto stateC = [&]() {
+            int shift = 5;
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid1) == l1 - shift);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getIn() == 0);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid1)->getOut() == l1 - 1 - shift);
+
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cid2) == l2 + shift);
+            REQUIRE(timeline->getClipPosition(cid2) == 5 + l1 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getIn() == 5 - shift);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid2)->getOut() == l2 + 5 - 1);
+        };
+
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid2, l2 + 5, false) == l2 + 5);
+        stateC();
+        stateA2();
+
+        REQUIRE(timeline->requestItemRollResize(/*timeline,*/ cid2, l2 - 30, false) == -1);
+        stateC();
+        stateA2();
+
+        undoStack->undo();
+        stateB();
+        stateA2();
+
+        undoStack->undo();
+        stateA1();
+        stateA2();
+
+        undoStack->redo();
+        stateB();
+        stateA2();
+
+        undoStack->redo();
+        stateC();
+        stateA2();
+    }
+
+    pCore->projectManager()->closeCurrentDocument(false, false);
+}

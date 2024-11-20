@@ -3999,6 +3999,50 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     return res;
 }
 
+int TimelineModel::requestItemRollResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
+{
+    int neighbor = -1;
+    if (right) {
+        neighbor = getNextDirectNeighbor(itemId);
+    } else {
+        neighbor = getPreviousDirectNeighbor(itemId);
+    }
+    if (neighbor < 0) {
+        return -1;
+    }
+    int neighborSize = getItemPlaytime(neighbor);
+    int offset = getItemPlaytime(itemId) - size;
+    neighborSize += offset;
+
+    if ((!m_singleSelectionMode && !allowSingleResize) && m_groups->isInGroup(itemId)) {
+        return -1;
+    }
+
+    bool res = false;
+
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    if (offset > 0) {
+        res = requestItemResize(itemId, size, right, logUndo, undo, redo);
+        if (!res) { return -1; };
+        res = requestItemResize(neighbor, neighborSize, !right, logUndo, undo, redo);
+        if (!res) { undo(); };
+    } else {
+        res = requestItemResize(neighbor, neighborSize, !right, logUndo, undo, redo);
+        if (!res) { return -1; };
+        res = requestItemResize(itemId, size, right, logUndo, undo, redo);
+        if (!res) { undo(); };
+    }
+
+    if (!res) { return -1; };
+
+    if (logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Roll resize clips"))
+    }
+    return size;
+}
+
 bool TimelineModel::requestItemResize(int itemId, int &size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
 {
     Q_UNUSED(blockUndo)
