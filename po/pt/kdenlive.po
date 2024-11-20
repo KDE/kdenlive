@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-18 02:38+0000\n"
+"POT-Creation-Date: 2024-11-20 02:32+0000\n"
 "PO-Revision-Date: 2023-07-14 22:01+0100\n"
 "Last-Translator: Jose Jorge <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
@@ -1043,7 +1043,7 @@ msgstr "Desvanecimento do vídeo a partir do preto"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:55 src/assets/view/widgets/keyframeimport.cpp:171
-#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:337
+#: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:338
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
 #: src/ui/clipdurationdialog_ui.ui:18
@@ -5044,25 +5044,25 @@ msgstr "Ordenar Por"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:322
+#: src/bin/bin.cpp:1258 src/bin/projectitemmodel.cpp:323
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Nome"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:325
+#: src/bin/bin.cpp:1262 src/bin/projectitemmodel.cpp:326
 #: src/project/dialogs/projectsettings.cpp:248 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Data"
 
-#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:328
+#: src/bin/bin.cpp:1266 src/bin/projectitemmodel.cpp:329
 #, kde-format
 msgid "Description"
 msgstr "Descrição"
 
-#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1270 src/bin/projectitemmodel.cpp:332
 #, kde-format
 msgid "Type"
 msgstr "Tipo"
@@ -5072,7 +5072,7 @@ msgstr "Tipo"
 msgid "Insert Order"
 msgstr "Inserir a Ordem"
 
-#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:343
+#: src/bin/bin.cpp:1282 src/bin/projectitemmodel.cpp:344
 #, kde-format
 msgid "Rating"
 msgstr "Classificação"
@@ -5736,7 +5736,7 @@ msgid "Edit Tags"
 msgstr "Editar as Marcas"
 
 #: src/bin/bin.cpp:4545 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:2003 src/onlineresources/resourcewidget.cpp:269
+#: src/bin/projectclip.cpp:2004 src/onlineresources/resourcewidget.cpp:269
 #: src/onlineresources/resourcewidget.cpp:598
 #: src/onlineresources/resourcewidget.cpp:613
 #, kde-format
@@ -6369,7 +6369,7 @@ msgstr ""
 "A dimensão da imagem é inferior a 8 pixels.\n"
 "Isto não é suportado correctamente na nossa plataforma de vídeo."
 
-#: src/bin/projectclip.cpp:913
+#: src/bin/projectclip.cpp:914
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6378,30 +6378,30 @@ msgstr ""
 "Não é possível extrair os meta-dados de %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1154 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1155 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "Inválido"
 
-#: src/bin/projectclip.cpp:1383 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1384 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "O ficheiro já existe"
 
-#: src/bin/projectclip.cpp:2595
+#: src/bin/projectclip.cpp:2596
 #, fuzzy, kde-format
 #| msgid "Paste timeline clips"
 msgid "Adjust timeline clips"
 msgstr "Colar os 'clips' da linha temporal"
 
-#: src/bin/projectclip.cpp:2831
+#: src/bin/projectclip.cpp:2832
 #, kde-format
 msgid "Add stream effect"
 msgstr "Adicionar um efeito à sequência"
 
-#: src/bin/projectclip.cpp:2856
+#: src/bin/projectclip.cpp:2857
 #, kde-format
 msgid "Remove stream effect"
 msgstr "Remover o efeito da sequência"
@@ -6413,22 +6413,22 @@ msgid_plural "%1 clips"
 msgstr[0] "%1 'clip'"
 msgstr[1] "%1 'clips'"
 
-#: src/bin/projectitemmodel.cpp:334
+#: src/bin/projectitemmodel.cpp:335
 #, kde-format
 msgid "Tag"
 msgstr "Marca"
 
-#: src/bin/projectitemmodel.cpp:340
+#: src/bin/projectitemmodel.cpp:341
 #, kde-format
 msgid "Id"
 msgstr "Id"
 
-#: src/bin/projectitemmodel.cpp:346
+#: src/bin/projectitemmodel.cpp:347
 #, kde-format
 msgid "Usage"
 msgstr "Utilização"
 
-#: src/bin/projectitemmodel.cpp:349 src/doc/documentchecker.cpp:1839
+#: src/bin/projectitemmodel.cpp:350 src/doc/documentchecker.cpp:1839
 #: src/doc/documentchecker.cpp:1869 src/doc/documentchecker.cpp:1889
 #: src/mltcontroller/clipcontroller.cpp:516 src/profiles/profileinfo.cpp:75
 #: src/profiles/profilerepository.cpp:117
@@ -6436,43 +6436,43 @@ msgstr "Utilização"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: src/bin/projectitemmodel.cpp:656
+#: src/bin/projectitemmodel.cpp:657
 #, kde-format
 msgid "Add sub clips"
 msgstr "Adicionar os 'sub-clips'"
 
-#: src/bin/projectitemmodel.cpp:691
+#: src/bin/projectitemmodel.cpp:692
 #, kde-format
 msgid "Zone"
 msgstr "Zona"
 
-#: src/bin/projectitemmodel.cpp:961
+#: src/bin/projectitemmodel.cpp:962
 #, kde-format
 msgid "Add bin clip"
 msgstr "Adicionar um 'clip' do grupo"
 
-#: src/bin/projectitemmodel.cpp:1079
+#: src/bin/projectitemmodel.cpp:1080
 #, kde-format
 msgid "Add a sub clip"
 msgstr "Adicionar um 'sub-clip'"
 
-#: src/bin/projectitemmodel.cpp:1120
+#: src/bin/projectitemmodel.cpp:1121
 #, kde-format
 msgid "Rename Folder"
 msgstr "Mudar o Nome da Pasta"
 
-#: src/bin/projectitemmodel.cpp:1164 src/mainwindow.cpp:1419
+#: src/bin/projectitemmodel.cpp:1165 src/mainwindow.cpp:1419
 #, kde-format
 msgid "Clean Project"
 msgstr "Limpar o Projecto"
 
-#: src/bin/projectitemmodel.cpp:1392
+#: src/bin/projectitemmodel.cpp:1393
 #, fuzzy, kde-format
 #| msgid "Loading project clips…"
 msgid "Reading project clips…"
 msgstr "A carregar os 'clips' do projecto…"
 
-#: src/bin/projectitemmodel.cpp:1500
+#: src/bin/projectitemmodel.cpp:1501
 #, kde-format
 msgid "Loading project clips…"
 msgstr "A carregar os 'clips' do projecto…"
@@ -7234,8 +7234,8 @@ msgctxt "@title:window"
 msgid "Export Guides Data"
 msgstr "Exportar os Dados das Guias"
 
-#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1729
-#: src/dialogs/renderwidget.cpp:1753 src/doc/kdenlivedoc.cpp:760
+#: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
+#: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
 #: src/effects/effectlist/model/effecttreemodel.cpp:290
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
@@ -8065,7 +8065,7 @@ msgstr ""
 "Os seguintes parâmetros não terão qualquer efeito, porque serão substituídos "
 "pelas opções equivalentes da interface do utilizador: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1558
+#: src/dialogs/renderwidget.cpp:105 src/dialogs/renderwidget.cpp:1559
 #, kde-format
 msgid "Waiting…"
 msgstr "À espera…"
@@ -8280,7 +8280,7 @@ msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Codificação"
 
-#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1532
+#: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
 #: src/project/dialogs/archivewidget.cpp:892
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
@@ -8301,7 +8301,7 @@ msgstr ""
 msgid "The following errors occurred while trying to render"
 msgstr "Ocorreram os seguintes erros ao tentar gerar o ficheiro"
 
-#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1545
+#: src/dialogs/renderwidget.cpp:786 src/dialogs/renderwidget.cpp:1546
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -8310,7 +8310,7 @@ msgstr ""
 "Já existe uma tarefa a gravar o ficheiro:<br /><b>%1</b><br />Interrompa a "
 "tarefa se não o quiser sobrepor…"
 
-#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1546
+#: src/dialogs/renderwidget.cpp:787 src/dialogs/renderwidget.cpp:1547
 #, kde-format
 msgid "Already running"
 msgstr "Já em execução"
@@ -8397,29 +8397,29 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>A rasterização do %1 estoirou</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1417 src/ui/renderwidget_ui.ui:904
+#: src/dialogs/renderwidget.cpp:1418 src/ui/renderwidget_ui.ui:904
 #, kde-format
 msgid "Abort Job"
 msgstr "Interromper a Tarefa"
 
-#: src/dialogs/renderwidget.cpp:1420
+#: src/dialogs/renderwidget.cpp:1421
 #, kde-format
 msgid "Remove Job"
 msgstr "Remover a Tarefa"
 
-#: src/dialogs/renderwidget.cpp:1813
+#: src/dialogs/renderwidget.cpp:1814
 #, fuzzy, kde-format
 #| msgid "Add a clip to timeline before rendering"
 msgid "Add clips in timeline before rendering"
 msgstr "Adicionar um 'clip' à linha temporal antes do desenho"
 
-#: src/dialogs/renderwidget.cpp:1818
+#: src/dialogs/renderwidget.cpp:1819
 #, fuzzy, kde-format
 #| msgid "Render Duration: %1"
 msgid "Rendered File Length: %1"
 msgstr "Duração do Desenho: %1"
 
-#: src/dialogs/renderwidget.cpp:1822
+#: src/dialogs/renderwidget.cpp:1823
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -8428,7 +8428,7 @@ msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "Falta %1 'clip' no seu projecto."
 msgstr[1] "Faltam %1 'clips' no seu projecto."
 
-#: src/dialogs/renderwidget.cpp:1824
+#: src/dialogs/renderwidget.cpp:1825
 #, fuzzy, kde-format
 #| msgid "Missing source clip"
 msgid "One missing clip (unused)."
@@ -8436,14 +8436,14 @@ msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Falta o 'clip' original"
 msgstr[1] "Falta o 'clip' original"
 
-#: src/dialogs/renderwidget.cpp:1826
+#: src/dialogs/renderwidget.cpp:1827
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "Falta %1 'clip' no seu projecto."
 
-#: src/dialogs/renderwidget.cpp:1908
+#: src/dialogs/renderwidget.cpp:1909
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -8452,13 +8452,13 @@ msgstr ""
 "Parâmetros de velocidade do codificador:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:1928
+#: src/dialogs/renderwidget.cpp:1929
 #, fuzzy, kde-format
 #| msgid "Add to current project"
 msgid "Add to Current Project"
 msgstr "Adicionar ao projecto actual"
 
-#: src/dialogs/renderwidget.cpp:1931 src/library/librarywidget.cpp:248
+#: src/dialogs/renderwidget.cpp:1932 src/library/librarywidget.cpp:248
 #, fuzzy, kde-format
 #| msgid "Destination folder"
 msgid "Open Containing Folder"
@@ -19266,7 +19266,7 @@ msgstr "Inserir um efeito..."
 msgid "Insert a composition..."
 msgstr "Inserir uma composição..."
 
-#: src/timeline2/view/timelinewidget.cpp:315
+#: src/timeline2/view/timelinewidget.cpp:318
 #, kde-format
 msgid "No available stream"
 msgstr "Nenhuma sequência disponível"
