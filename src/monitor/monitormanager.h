@@ -117,6 +117,8 @@ public Q_SLOTS:
     /** @brief Stop multitrack operation */
     void slotStopMultiTrackMode();
     void slotPerformMultiTrackMode();
+    /** @brief Indicates the monitor needs a refresh on next activation */
+    void markMonitorDirty(Kdenlive::MonitorId name, const QUuid uuid);
 
 private Q_SLOTS:
     /** @brief Set MLT's consumer deinterlace method */

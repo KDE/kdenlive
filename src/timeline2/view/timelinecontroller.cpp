@@ -2504,7 +2504,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
     }
     trac.seek(mainClip->getIn());
 
-    pCore->monitorManager()->projectMonitor()->setProducer(std::make_shared<Mlt::Producer>(trac), -2);
+    pCore->monitorManager()->projectMonitor()->setProducer(m_model->uuid(), std::make_shared<Mlt::Producer>(trac), -2);
     pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(true);
 
     switch (pCore->activeTool()) {
@@ -2527,7 +2527,7 @@ bool TimelineController::requestStartTrimmingMode(int mainClipId, bool addToSele
 void TimelineController::requestEndTrimmingMode()
 {
     if (pCore->monitorManager()->isTrimming()) {
-        pCore->monitorManager()->projectMonitor()->setProducer(pCore->window()->getCurrentTimeline()->model()->producer(), 0);
+        pCore->monitorManager()->projectMonitor()->setProducer(m_model->uuid(), m_model->producer(), 0);
         pCore->monitorManager()->projectMonitor()->slotSwitchTrimming(false);
     }
 }

@@ -48,26 +48,27 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
 
     connect(this, &LumaLiftGainParam::liftChanged, [this, indexes](const NegQColor &sourceColor, const NegQColor &color, bool createUndo) {
         QList<QModelIndex> ixes{indexes.value(QStringLiteral("lift_r")), indexes.value(QStringLiteral("lift_g")), indexes.value(QStringLiteral("lift_b"))};
-        QStringList sourceValues{QString::number(sourceColor.redF() * 2 - 1, 'f'), QString::number(sourceColor.greenF() * 2 - 1, 'f'),
-                                 QString::number(sourceColor.blueF() * 2 - 1, 'f')};
-        QStringList values{QString::number(color.redF() * 2 - 1, 'f'), QString::number(color.greenF() * 2 - 1, 'f'),
-                           QString::number(color.blueF() * 2 - 1, 'f')};
+        const QStringList sourceValues{QString::number(sourceColor.redF() * 2 - 1, 'f'), QString::number(sourceColor.greenF() * 2 - 1, 'f'),
+                                       QString::number(sourceColor.blueF() * 2 - 1, 'f')};
+        const QStringList values{QString::number(color.redF() * 2 - 1, 'f'), QString::number(color.greenF() * 2 - 1, 'f'),
+                                 QString::number(color.blueF() * 2 - 1, 'f')};
+        qDebug() << "EMMITING LIF TVAL CHANGES: " << values;
         Q_EMIT valuesChanged(ixes, sourceValues, values, createUndo);
     });
     connect(this, &LumaLiftGainParam::gammaChanged, [this, indexes](const NegQColor &sourceColor, const NegQColor &color, bool createUndo) {
         QList<QModelIndex> ixes{indexes.value(QStringLiteral("gamma_r")), indexes.value(QStringLiteral("gamma_g")), indexes.value(QStringLiteral("gamma_b"))};
-        QStringList sourceValues{QString::number(sourceColor.redF() * GAMMA_FACTOR, 'f'), QString::number(sourceColor.greenF() * GAMMA_FACTOR, 'f'),
-                                 QString::number(sourceColor.blueF() * GAMMA_FACTOR, 'f')};
-        QStringList values{QString::number(color.redF() * GAMMA_FACTOR, 'f'), QString::number(color.greenF() * GAMMA_FACTOR, 'f'),
-                           QString::number(color.blueF() * GAMMA_FACTOR, 'f')};
+        const QStringList sourceValues{QString::number(sourceColor.redF() * GAMMA_FACTOR, 'f'), QString::number(sourceColor.greenF() * GAMMA_FACTOR, 'f'),
+                                       QString::number(sourceColor.blueF() * GAMMA_FACTOR, 'f')};
+        const QStringList values{QString::number(color.redF() * GAMMA_FACTOR, 'f'), QString::number(color.greenF() * GAMMA_FACTOR, 'f'),
+                                 QString::number(color.blueF() * GAMMA_FACTOR, 'f')};
         Q_EMIT valuesChanged(ixes, sourceValues, values, createUndo);
     });
     connect(this, &LumaLiftGainParam::gainChanged, [this, indexes](const NegQColor &sourceColor, const NegQColor &color, bool createUndo) {
         QList<QModelIndex> ixes{indexes.value(QStringLiteral("gain_r")), indexes.value(QStringLiteral("gain_g")), indexes.value(QStringLiteral("gain_b"))};
-        QStringList sourceValues{QString::number(sourceColor.redF() * GAIN_FACTOR, 'f'), QString::number(sourceColor.greenF() * GAIN_FACTOR, 'f'),
-                                 QString::number(sourceColor.blueF() * GAIN_FACTOR, 'f')};
-        QStringList values{QString::number(color.redF() * GAIN_FACTOR, 'f'), QString::number(color.greenF() * GAIN_FACTOR, 'f'),
-                           QString::number(color.blueF() * GAIN_FACTOR, 'f')};
+        const QStringList sourceValues{QString::number(sourceColor.redF() * GAIN_FACTOR, 'f'), QString::number(sourceColor.greenF() * GAIN_FACTOR, 'f'),
+                                       QString::number(sourceColor.blueF() * GAIN_FACTOR, 'f')};
+        const QStringList values{QString::number(color.redF() * GAIN_FACTOR, 'f'), QString::number(color.greenF() * GAIN_FACTOR, 'f'),
+                                 QString::number(color.blueF() * GAIN_FACTOR, 'f')};
         Q_EMIT valuesChanged(ixes, sourceValues, values, createUndo);
     });
 }

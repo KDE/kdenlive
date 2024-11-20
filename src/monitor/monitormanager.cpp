@@ -205,6 +205,11 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
             m_projectMonitor->displayAudioMonitor(false);
             m_clipMonitor->displayAudioMonitor(true);
+            if (m_clipMonitor->isDirty()) {
+                // refresh
+                m_clipMonitor->markDirty(QUuid());
+                m_clipMonitor->refreshMonitor(true);
+            }
         } else if (name == Kdenlive::ProjectMonitor) {
             // Set guides list to show guides
             m_projectMonitor->updateGuidesList();
@@ -225,6 +230,11 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
             Q_EMIT updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
             m_clipMonitor->displayAudioMonitor(false);
             m_projectMonitor->displayAudioMonitor(true);
+            if (m_projectMonitor->isDirty()) {
+                // refresh
+                m_projectMonitor->markDirty(QUuid());
+                m_projectMonitor->refreshMonitor(true);
+            }
         }
     }
     Q_EMIT checkColorScopes();
@@ -856,5 +866,14 @@ void MonitorManager::updateGrid()
     }
     if (m_clipMonitor) {
         Q_EMIT m_clipMonitor->getControllerProxy()->gridChanged();
+    }
+}
+
+void MonitorManager::markMonitorDirty(Kdenlive::MonitorId name, const QUuid uuid)
+{
+    if (name == Kdenlive::ClipMonitor) {
+        m_clipMonitor->markDirty(uuid);
+    } else {
+        m_projectMonitor->markDirty(uuid);
     }
 }

@@ -913,19 +913,13 @@ void Core::refreshProjectItem(const ObjectId &id)
         break;
     case KdenliveObjectType::Master:
         if (m_monitorManager->isActive(Kdenlive::ProjectMonitor)) {
-            if (m_monitorManager->clipMonitorVisible()) {
-                m_monitorManager->activateMonitor(Kdenlive::ClipMonitor, false);
-                m_monitorManager->refreshClipMonitor(true);
-            }
             if (m_monitorManager->projectMonitorVisible()) {
                 m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor, false);
                 m_monitorManager->refreshProjectMonitor(true);
             }
+            m_monitorManager->markMonitorDirty(Kdenlive::ClipMonitor, id.uuid);
         } else {
-            if (m_monitorManager->projectMonitorVisible()) {
-                m_monitorManager->activateMonitor(Kdenlive::ProjectMonitor, false);
-                m_monitorManager->refreshProjectMonitor(true);
-            }
+            m_monitorManager->markMonitorDirty(Kdenlive::ProjectMonitor, id.uuid);
             if (m_monitorManager->clipMonitorVisible()) {
                 m_monitorManager->activateMonitor(Kdenlive::ClipMonitor, false);
                 m_monitorManager->refreshClipMonitor(true);

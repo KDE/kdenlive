@@ -163,6 +163,10 @@ public:
     void extractFrame(const QString &path);
     /** @brief Returns some infos about the GPU */
     const QStringList getGPUInfo();
+    /** @brief Set a flag to tell if the monitor will need a refresh on next activation */
+    void markDirty(const QUuid uuid);
+    /** @brief If true, the monitor will need a refresh on next activation */
+    bool isDirty() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -248,6 +252,8 @@ private:
     /** To easily get them when creating the right click menu */
     QAction *m_markIn;
     QAction *m_markOut;
+    QUuid m_displayedUuid;
+    bool m_dirty{false};
 
 private Q_SLOTS:
     void slotSetThumbFrame();
@@ -287,7 +293,7 @@ private Q_SLOTS:
 
 public Q_SLOTS:
     void updateTimelineProducer();
-    void setProducer(std::shared_ptr<Mlt::Producer> producer, int pos = -1);
+    void setProducer(const QUuid, std::shared_ptr<Mlt::Producer> producer, int pos = -1);
     void slotSetScreen(int screenIndex);
     void slotPreviewResource(const QString &path, const QString &title);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
