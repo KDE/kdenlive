@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-20 02:32+0000\n"
+"POT-Creation-Date: 2024-11-21 02:27+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6631,12 +6631,12 @@ msgstr "Clock Top - 时钟扫描 (顶部)"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "您的项目编码方案无效，导出可能失败。"
 
-#: src/core.cpp:1014
+#: src/core.cpp:1008
 #, kde-format
 msgid "Loading clips"
 msgstr "加载剪辑"
 
-#: src/core.cpp:1788
+#: src/core.cpp:1782
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -6646,7 +6646,7 @@ msgstr ""
 "这将打开浏览器以显示 Kdenlive 的在线文档，网址如下：\n"
 " %1"
 
-#: src/core.cpp:1789
+#: src/core.cpp:1783
 #, kde-format
 msgid "Open Browser"
 msgstr "打开浏览器"
@@ -7870,12 +7870,12 @@ msgstr "导出已中止"
 msgid "Nearest (fast)"
 msgstr "最近邻 (最快)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:598
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:608
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "双线性 (一般画质)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:599
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "双立方 (较好画质)"
@@ -7900,17 +7900,17 @@ msgstr "垂直 (9:16)"
 msgid "Square (1:1)"
 msgstr "正方形 (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:579
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:589
 #, kde-format
 msgid "One Field (fast)"
 msgstr "单场 (快速)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:580
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:590
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "线性混合 (快速)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:581
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:591
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - 仅时域滤波 (较好画质)"
@@ -13533,7 +13533,7 @@ msgid "Audio streams"
 msgstr "音频流"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:745
-#: src/monitor/monitor.cpp:1930
+#: src/monitor/monitor.cpp:1941
 #, kde-format
 msgid "Merge all streams"
 msgstr "合并所有流"
@@ -13829,34 +13829,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:640
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:650
 #, kde-format
 msgid "Set Zone In"
 msgstr "设置区段入点"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:644
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:654
 #, kde-format
 msgid "Set Zone Out"
 msgstr "设置区段出点"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:524
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:534
 #, kde-format
 msgid "Rewind"
 msgstr "快退"
 
 #: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
-#: src/monitor/monitormanager.cpp:499
+#: src/monitor/monitormanager.cpp:509
 #, kde-format
 msgid "Play"
 msgstr "播放"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:499
-#: src/monitor/monitormanager.cpp:505
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:509
+#: src/monitor/monitormanager.cpp:515
 #, kde-format
 msgid "Pause"
 msgstr "暂停"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:537
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Forward"
 msgstr "快进"
@@ -13992,18 +13992,18 @@ msgstr "保存图像"
 msgid "Export image using source resolution"
 msgstr "按来源分辨率导出图像"
 
-#: src/monitor/monitor.cpp:1915 src/monitor/monitor.cpp:2048
+#: src/monitor/monitor.cpp:1926 src/monitor/monitor.cpp:2059
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 个音频流"
 
-#: src/monitor/monitor.cpp:2379
+#: src/monitor/monitor.cpp:2390
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "无法初始化Movit 的 GLSL 管理器，请禁用 Movit"
 
-#: src/monitor/monitor.cpp:2421 src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14011,17 +14011,17 @@ msgid ""
 msgstr ""
 "该功能需要透明度渐变 (alphagrad) 滤镜，请安装 frei0r 并重新启动 Kdenlive"
 
-#: src/monitor/monitor.cpp:2441
+#: src/monitor/monitor.cpp:2452
 #, kde-format
 msgid "Clip has no effects"
 msgstr "剪辑没有使用效果"
 
-#: src/monitor/monitor.cpp:2443
+#: src/monitor/monitor.cpp:2454
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "选择项目素材箱中的一段剪辑来比较效果"
 
-#: src/monitor/monitor.cpp:2485
+#: src/monitor/monitor.cpp:2496
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14029,7 +14029,7 @@ msgid ""
 msgstr ""
 "该功能需要 Cairo 混合 (cairoblend) 滤镜，请安装 frei0r 并重新启动 Kdenlive"
 
-#: src/monitor/monitor.cpp:2531
+#: src/monitor/monitor.cpp:2542
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "启用监视器编辑模式以编辑效果"
@@ -14041,132 +14041,132 @@ msgid ""
 "timeline?"
 msgstr "您想要<a href=\"#clipmonitor\">显示剪辑监视器</a>到视图时间轴吗？"
 
-#: src/monitor/monitormanager.cpp:220
+#: src/monitor/monitormanager.cpp:225
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
 "view timeline?"
 msgstr "您想要<a href=\"#projectmonitor\">显示项目监视器</a>到视图时间轴吗？"
 
-#: src/monitor/monitormanager.cpp:509
+#: src/monitor/monitormanager.cpp:519
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "切换监视器全屏模式"
 
-#: src/monitor/monitormanager.cpp:514
+#: src/monitor/monitormanager.cpp:524
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "放大监视器"
 
-#: src/monitor/monitormanager.cpp:519
+#: src/monitor/monitormanager.cpp:529
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "缩小监视器"
 
-#: src/monitor/monitormanager.cpp:528
+#: src/monitor/monitormanager.cpp:538
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "后退 1 帧"
 
-#: src/monitor/monitormanager.cpp:532
+#: src/monitor/monitormanager.cpp:542
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "后退 1 秒"
 
-#: src/monitor/monitormanager.cpp:541
+#: src/monitor/monitormanager.cpp:551
 #, kde-format
 msgid "Go to Project Start"
 msgstr "跳转到项目开头"
 
-#: src/monitor/monitormanager.cpp:545
+#: src/monitor/monitormanager.cpp:555
 #, kde-format
 msgid "Go to Project End"
 msgstr "跳转到项目结尾"
 
-#: src/monitor/monitormanager.cpp:549
+#: src/monitor/monitormanager.cpp:559
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "前进 1 帧"
 
-#: src/monitor/monitormanager.cpp:553
+#: src/monitor/monitormanager.cpp:563
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "前进 1 秒"
 
-#: src/monitor/monitormanager.cpp:558
+#: src/monitor/monitormanager.cpp:568
 #, kde-format
 msgid "Multitrack View"
 msgstr "多轨道视图"
 
-#: src/monitor/monitormanager.cpp:567
+#: src/monitor/monitormanager.cpp:577
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "执行多轨操作"
 
-#: src/monitor/monitormanager.cpp:571
+#: src/monitor/monitormanager.cpp:581
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "显示/隐藏编辑模式"
 
-#: src/monitor/monitormanager.cpp:572
+#: src/monitor/monitormanager.cpp:582
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "进入/退出编辑模式 (和显示/隐藏对象操作手柄)。"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:578 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:588 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "去隔行扫描"
 
-#: src/monitor/monitormanager.cpp:582
+#: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF - 时域 + 空间滤波 (最佳画质)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:596 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:606 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "插值方式"
 
-#: src/monitor/monitormanager.cpp:597
+#: src/monitor/monitormanager.cpp:607
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "最近邻 (快速)"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:610
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "Hyper/Lanczos (最佳画质)"
 
-#: src/monitor/monitormanager.cpp:614
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "Progressive playback"
 msgstr "渐进播放"
 
-#: src/monitor/monitormanager.cpp:620
+#: src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "音频拖动"
 
-#: src/monitor/monitormanager.cpp:626
+#: src/monitor/monitormanager.cpp:636
 #, kde-format
 msgid "Mute Monitor"
 msgstr "监视器静音"
 
-#: src/monitor/monitormanager.cpp:626
+#: src/monitor/monitormanager.cpp:636
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "监视器解除静音"
 
-#: src/monitor/monitormanager.cpp:632
+#: src/monitor/monitormanager.cpp:642
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "跳转到区段开头"
 
-#: src/monitor/monitormanager.cpp:636
+#: src/monitor/monitormanager.cpp:646
 #, kde-format
 msgid "Go to Zone End"
 msgstr "跳转到区段结尾"

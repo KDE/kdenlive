@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-20 02:32+0000\n"
+"POT-Creation-Date: 2024-11-21 02:27+0000\n"
 "PO-Revision-Date: 2013-03-28 14:37+0530\n"
 "Last-Translator: Chetan Khona <chetan@kompkin.com>\n"
 "Language-Team: Marathi <kde-i18n-doc@kde.org>\n"
@@ -6679,12 +6679,12 @@ msgstr ""
 msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 
-#: src/core.cpp:1014
+#: src/core.cpp:1008
 #, kde-format
 msgid "Loading clips"
 msgstr ""
 
-#: src/core.cpp:1788
+#: src/core.cpp:1782
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -6692,7 +6692,7 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:1789
+#: src/core.cpp:1783
 #, fuzzy, kde-format
 msgid "Open Browser"
 msgstr "संचयीका काढून टाका (&D)"
@@ -7918,12 +7918,12 @@ msgstr ""
 msgid "Nearest (fast)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:598
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:608
 #, kde-format
 msgid "Bilinear (good)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:599
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "Bicubic (better)"
 msgstr ""
@@ -7948,17 +7948,17 @@ msgstr "उभे"
 msgid "Square (1:1)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:579
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:589
 #, kde-format
 msgid "One Field (fast)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:580
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:590
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:581
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:591
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr ""
@@ -13663,7 +13663,7 @@ msgid "Audio streams"
 msgstr "बिटदर"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:745
-#: src/monitor/monitor.cpp:1930
+#: src/monitor/monitor.cpp:1941
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -13975,34 +13975,34 @@ msgstr ""
 msgid "1:1"
 msgstr "x"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:640
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:650
 #, kde-format
 msgid "Set Zone In"
 msgstr ""
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:644
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:654
 #, kde-format
 msgid "Set Zone Out"
 msgstr ""
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:524
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:534
 #, kde-format
 msgid "Rewind"
 msgstr ""
 
 #: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
-#: src/monitor/monitormanager.cpp:499
+#: src/monitor/monitormanager.cpp:509
 #, fuzzy, kde-format
 msgid "Play"
 msgstr "सुरु करा"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:499
-#: src/monitor/monitormanager.cpp:505
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:509
+#: src/monitor/monitormanager.cpp:515
 #, fuzzy, kde-format
 msgid "Pause"
 msgstr "स्तब्ध करा"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:537
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Forward"
 msgstr "पुढे"
@@ -14144,7 +14144,7 @@ msgstr "प्रतिमा"
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1915 src/monitor/monitor.cpp:2048
+#: src/monitor/monitor.cpp:1926 src/monitor/monitor.cpp:2059
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "%1 audio stream"
@@ -14152,36 +14152,36 @@ msgid_plural "%1 audio streams"
 msgstr[0] "बिटदर"
 msgstr[1] "बिटदर"
 
-#: src/monitor/monitor.cpp:2379
+#: src/monitor/monitor.cpp:2390
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2421 src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2441
+#: src/monitor/monitor.cpp:2452
 #, fuzzy, kde-format
 msgid "Clip has no effects"
 msgstr "परिणाम :"
 
-#: src/monitor/monitor.cpp:2443
+#: src/monitor/monitor.cpp:2454
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2485
+#: src/monitor/monitor.cpp:2496
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2531
+#: src/monitor/monitor.cpp:2542
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -14193,138 +14193,138 @@ msgid ""
 "timeline?"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:220
+#: src/monitor/monitormanager.cpp:225
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
 "view timeline?"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:509
+#: src/monitor/monitormanager.cpp:519
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:514
+#: src/monitor/monitormanager.cpp:524
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Zoom In Monitor"
 msgstr "संयोजना"
 
-#: src/monitor/monitormanager.cpp:519
+#: src/monitor/monitormanager.cpp:529
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Zoom Out Monitor"
 msgstr "संयोजना"
 
-#: src/monitor/monitormanager.cpp:528
+#: src/monitor/monitormanager.cpp:538
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:532
+#: src/monitor/monitormanager.cpp:542
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:541
+#: src/monitor/monitormanager.cpp:551
 #, kde-format
 msgid "Go to Project Start"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:545
+#: src/monitor/monitormanager.cpp:555
 #, kde-format
 msgid "Go to Project End"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:549
+#: src/monitor/monitormanager.cpp:559
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:553
+#: src/monitor/monitormanager.cpp:563
 #, kde-format
 msgid "Forward 1 Second"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:558
+#: src/monitor/monitormanager.cpp:568
 #, fuzzy, kde-format
 #| msgid "Split view"
 msgid "Multitrack View"
 msgstr "विभाजित दृश्य पद्धती"
 
-#: src/monitor/monitormanager.cpp:567
+#: src/monitor/monitormanager.cpp:577
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:571
+#: src/monitor/monitormanager.cpp:581
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:572
+#: src/monitor/monitormanager.cpp:582
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:578 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:588 src/ui/renderwidget_ui.ui:608
 #, fuzzy, kde-format
 #| msgid "Interface"
 msgid "Deinterlacer"
 msgstr "दुवा"
 
-#: src/monitor/monitormanager.cpp:582
+#: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:596 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:606 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:597
+#: src/monitor/monitormanager.cpp:607
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:610
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:614
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "Progressive playback"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:620
+#: src/monitor/monitormanager.cpp:630
 #, fuzzy, kde-format
 #| msgid "Bitrate"
 msgid "Audio Scrubbing"
 msgstr "बिटदर"
 
-#: src/monitor/monitormanager.cpp:626
+#: src/monitor/monitormanager.cpp:636
 #, fuzzy, kde-format
 msgid "Mute Monitor"
 msgstr "मॉनिटर %1"
 
-#: src/monitor/monitormanager.cpp:626
+#: src/monitor/monitormanager.cpp:636
 #, fuzzy, kde-format
 #| msgid "Settings"
 msgid "Unmute Monitor"
 msgstr "संयोजना"
 
-#: src/monitor/monitormanager.cpp:632
+#: src/monitor/monitormanager.cpp:642
 #, kde-format
 msgid "Go to Zone Start"
 msgstr ""
 
-#: src/monitor/monitormanager.cpp:636
+#: src/monitor/monitormanager.cpp:646
 #, kde-format
 msgid "Go to Zone End"
 msgstr ""
