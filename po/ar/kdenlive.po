@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-20 00:39+0000\n"
+"POT-Creation-Date: 2024-11-21 00:40+0000\n"
 "PO-Revision-Date: 2024-10-10 08:38+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -6686,12 +6686,12 @@ msgstr "قمة ساعة"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "ملف تعريف مشروعك غير صالح، قد يفشل التصيير."
 
-#: src/core.cpp:1014
+#: src/core.cpp:1008
 #, kde-format
 msgid "Loading clips"
 msgstr "يحمّل المقاطع"
 
-#: src/core.cpp:1788
+#: src/core.cpp:1782
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -6701,7 +6701,7 @@ msgstr ""
 "سيفتح هذا المتصفح ليعرض توثيقات كدينلايف على الشابكة على العنوان التالي:\n"
 " %1"
 
-#: src/core.cpp:1789
+#: src/core.cpp:1783
 #, kde-format
 msgid "Open Browser"
 msgstr "افتح المتصفّح"
@@ -7945,12 +7945,12 @@ msgstr "أُجهض التّصيير"
 msgid "Nearest (fast)"
 msgstr "الأقرب (سريع)"
 
-#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:598
+#: src/dialogs/renderwidget.cpp:210 src/monitor/monitormanager.cpp:608
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "خطي ثنائي (جيد)"
 
-#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:599
+#: src/dialogs/renderwidget.cpp:211 src/monitor/monitormanager.cpp:609
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "تكعيبي مزدوج (أفضل)"
@@ -7975,17 +7975,17 @@ msgstr "عمودي (9:16)"
 msgid "Square (1:1)"
 msgstr "مربع (1:1)"
 
-#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:579
+#: src/dialogs/renderwidget.cpp:228 src/monitor/monitormanager.cpp:589
 #, kde-format
 msgid "One Field (fast)"
 msgstr "حقل واحد (سريع)"
 
-#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:580
+#: src/dialogs/renderwidget.cpp:229 src/monitor/monitormanager.cpp:590
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "خلط خطي (سريع)"
 
-#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:581
+#: src/dialogs/renderwidget.cpp:230 src/monitor/monitormanager.cpp:591
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF-الزمانيه فقط (جيد)"
@@ -13705,7 +13705,7 @@ msgid "Audio streams"
 msgstr "التدفقات الصوتية"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:745
-#: src/monitor/monitor.cpp:1930
+#: src/monitor/monitor.cpp:1941
 #, kde-format
 msgid "Merge all streams"
 msgstr "ادمج كل التدفقات"
@@ -14001,34 +14001,34 @@ msgstr ""
 msgid "1:1"
 msgstr "1:1"
 
-#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:640
+#: src/monitor/monitor.cpp:374 src/monitor/monitormanager.cpp:650
 #, kde-format
 msgid "Set Zone In"
 msgstr "عيين التكبير"
 
-#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:644
+#: src/monitor/monitor.cpp:375 src/monitor/monitormanager.cpp:654
 #, kde-format
 msgid "Set Zone Out"
 msgstr "عيين التصغير"
 
-#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:524
+#: src/monitor/monitor.cpp:387 src/monitor/monitormanager.cpp:534
 #, kde-format
 msgid "Rewind"
 msgstr "رجوع"
 
 #: src/monitor/monitor.cpp:392 src/monitor/monitor.cpp:395
-#: src/monitor/monitormanager.cpp:499
+#: src/monitor/monitormanager.cpp:509
 #, kde-format
 msgid "Play"
 msgstr "شغّل"
 
-#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:499
-#: src/monitor/monitormanager.cpp:505
+#: src/monitor/monitor.cpp:395 src/monitor/monitormanager.cpp:509
+#: src/monitor/monitormanager.cpp:515
 #, kde-format
 msgid "Pause"
 msgstr "ألبث"
 
-#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:537
+#: src/monitor/monitor.cpp:415 src/monitor/monitormanager.cpp:547
 #, kde-format
 msgid "Forward"
 msgstr "تقدّم"
@@ -14164,7 +14164,7 @@ msgstr "احفظ الصّورة"
 msgid "Export image using source resolution"
 msgstr "صدر الصورة باستعمال دقة المصدر"
 
-#: src/monitor/monitor.cpp:1915 src/monitor/monitor.cpp:2048
+#: src/monitor/monitor.cpp:1926 src/monitor/monitor.cpp:2059
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -14175,12 +14175,12 @@ msgstr[3] "%1 دفق صوتية"
 msgstr[4] "%1 دفق صوتية"
 msgstr[5] "%1 دفق صوتية"
 
-#: src/monitor/monitor.cpp:2379
+#: src/monitor/monitor.cpp:2390
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "لا يمكن بدء مدير GLSL لـMovit ، الرجاء تعطيل Movit"
 
-#: src/monitor/monitor.cpp:2421 src/monitor/monitor.cpp:2478
+#: src/monitor/monitor.cpp:2432 src/monitor/monitor.cpp:2489
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14188,17 +14188,17 @@ msgid ""
 msgstr ""
 "مطلوب مرشح alphagrad لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
-#: src/monitor/monitor.cpp:2441
+#: src/monitor/monitor.cpp:2452
 #, kde-format
 msgid "Clip has no effects"
 msgstr "المقطع لا يحوي تأثيرات"
 
-#: src/monitor/monitor.cpp:2443
+#: src/monitor/monitor.cpp:2454
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "اختر مقطع في سلة المشروع لتقاران التأثير"
 
-#: src/monitor/monitor.cpp:2485
+#: src/monitor/monitor.cpp:2496
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14206,7 +14206,7 @@ msgid ""
 msgstr ""
 "مطلوب مرشح cairoblend لتلك الميزة ، يرجى تثبيت frei0r وإعادة تشغيل كدنلايف"
 
-#: src/monitor/monitor.cpp:2531
+#: src/monitor/monitor.cpp:2542
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "مكّن نمط التحرير في الشاشة لتحرر التأثير"
@@ -14219,7 +14219,7 @@ msgid ""
 msgstr ""
 "هل تريد <a href=\"#clipmonitor\"> إظهار مراقبة المقطع </a> لعرض الخط الزمني؟"
 
-#: src/monitor/monitormanager.cpp:220
+#: src/monitor/monitormanager.cpp:225
 #, kde-format
 msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
@@ -14228,125 +14228,125 @@ msgstr ""
 "هل تريد <a href=\"#projectmonitor\"> إظهار مراقبة المشروع </a> لعرض الخط "
 "الزمني؟"
 
-#: src/monitor/monitormanager.cpp:509
+#: src/monitor/monitormanager.cpp:519
 #, kde-format
 msgid "Switch Monitor Fullscreen"
 msgstr "بدّل بين ملء الشّاشة"
 
-#: src/monitor/monitormanager.cpp:514
+#: src/monitor/monitormanager.cpp:524
 #, kde-format
 msgid "Zoom In Monitor"
 msgstr "قرّب الشاشة"
 
-#: src/monitor/monitormanager.cpp:519
+#: src/monitor/monitormanager.cpp:529
 #, kde-format
 msgid "Zoom Out Monitor"
 msgstr "بعّد الشاشة"
 
-#: src/monitor/monitormanager.cpp:528
+#: src/monitor/monitormanager.cpp:538
 #, kde-format
 msgid "Rewind 1 Frame"
 msgstr "ارجع إطار واحد"
 
-#: src/monitor/monitormanager.cpp:532
+#: src/monitor/monitormanager.cpp:542
 #, kde-format
 msgid "Rewind 1 Second"
 msgstr "ارجع ثانية واحدة"
 
-#: src/monitor/monitormanager.cpp:541
+#: src/monitor/monitormanager.cpp:551
 #, kde-format
 msgid "Go to Project Start"
 msgstr "انتقل إلى بداية المشروع"
 
-#: src/monitor/monitormanager.cpp:545
+#: src/monitor/monitormanager.cpp:555
 #, kde-format
 msgid "Go to Project End"
 msgstr "انتقل إلى نهاية المشروع"
 
-#: src/monitor/monitormanager.cpp:549
+#: src/monitor/monitormanager.cpp:559
 #, kde-format
 msgid "Forward 1 Frame"
 msgstr "قدّم إطار واحد"
 
-#: src/monitor/monitormanager.cpp:553
+#: src/monitor/monitormanager.cpp:563
 #, kde-format
 msgid "Forward 1 Second"
 msgstr "قدّم ثانية واحدة"
 
-#: src/monitor/monitormanager.cpp:558
+#: src/monitor/monitormanager.cpp:568
 #, kde-format
 msgid "Multitrack View"
 msgstr "عرض متعدد المسارات"
 
-#: src/monitor/monitormanager.cpp:567
+#: src/monitor/monitormanager.cpp:577
 #, kde-format
 msgid "Perform Multitrack Operation"
 msgstr "نفذ عملية متعددة المسارات"
 
-#: src/monitor/monitormanager.cpp:571
+#: src/monitor/monitormanager.cpp:581
 #, kde-format
 msgid "Show/Hide edit mode"
 msgstr "أظهر/أخفِ وضع التّحرير"
 
-#: src/monitor/monitormanager.cpp:572
+#: src/monitor/monitormanager.cpp:582
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles edit mode (and the display of the object handles)."
 msgstr "تظهر/تخفي نمط التحرير (وتعرض مقابض الكائنات)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:578 src/ui/renderwidget_ui.ui:608
+#: src/monitor/monitormanager.cpp:588 src/ui/renderwidget_ui.ui:608
 #, kde-format
 msgid "Deinterlacer"
 msgstr "التشابك"
 
-#: src/monitor/monitormanager.cpp:582
+#: src/monitor/monitormanager.cpp:592
 #, kde-format
 msgid "YADIF - temporal + spacial (best)"
 msgstr "YADIF -الزماني + الخاص (الأفضل)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/monitor/monitormanager.cpp:596 src/ui/renderwidget_ui.ui:598
+#: src/monitor/monitormanager.cpp:606 src/ui/renderwidget_ui.ui:598
 #, kde-format
 msgid "Interpolation"
 msgstr "الاستيفاء"
 
-#: src/monitor/monitormanager.cpp:597
+#: src/monitor/monitormanager.cpp:607
 #, kde-format
 msgid "Nearest Neighbor (fast)"
 msgstr "أقرب جار (سريع)"
 
-#: src/monitor/monitormanager.cpp:600
+#: src/monitor/monitormanager.cpp:610
 #, kde-format
 msgid "Hyper/Lanczos (best)"
 msgstr "فائق/لنكوزس (الأفضل)"
 
-#: src/monitor/monitormanager.cpp:614
+#: src/monitor/monitormanager.cpp:624
 #, kde-format
 msgid "Progressive playback"
 msgstr "تشغيل متتالي"
 
-#: src/monitor/monitormanager.cpp:620
+#: src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Audio Scrubbing"
 msgstr "تنقية الصوت"
 
-#: src/monitor/monitormanager.cpp:626
+#: src/monitor/monitormanager.cpp:636
 #, kde-format
 msgid "Mute Monitor"
 msgstr "اكتم الشّاشة"
 
-#: src/monitor/monitormanager.cpp:626
+#: src/monitor/monitormanager.cpp:636
 #, kde-format
 msgid "Unmute Monitor"
 msgstr "ألغ كتم الشّاشة"
 
-#: src/monitor/monitormanager.cpp:632
+#: src/monitor/monitormanager.cpp:642
 #, kde-format
 msgid "Go to Zone Start"
 msgstr "انتقل إلى بداية المنطقة"
 
-#: src/monitor/monitormanager.cpp:636
+#: src/monitor/monitormanager.cpp:646
 #, kde-format
 msgid "Go to Zone End"
 msgstr "انتقل إلى نهاية المنطقة"
