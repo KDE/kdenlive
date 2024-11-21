@@ -217,19 +217,22 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
     }
     m_tasksListLock.lockForWrite();
     m_blockUpdates = true;
+    qDebug() << "ZZZZZZZZZZZZZZZZZZZZZZZ\n\nSTARTING TASKMANAGER CLOSURE, ACTIVE THREADS: " << m_taskPool.activeThreadCount() << "\n\nZZZZZZZZZZZZZZZZZZZZZZZ";
 
     for (const auto &task : m_taskList) {
         int ix = task.second.size() - 1;
+        qDebug() << "::: CLOSING TASKS : " << task.second.size();
         while (ix >= 0) {
             AbstractTask *t = task.second.at(ix);
             AbstractTask::JOBTYPE taskType = t->m_type;
-            if (exceptions.contains(taskType) || t->isCanceled() || t->m_progress == 100) {
+            if (exceptions.contains(taskType)) {
                 ix--;
                 continue;
             }
             if (taskType != AbstractTask::TRANSCODEJOB && taskType != AbstractTask::PROXYJOB) {
                 if (m_taskPool.tryTake(t)) {
                     // Task was not started yet, we can simply delete
+                    qDebug() << "** DELETED  1 TASK from task pool: " << taskType;
                     delete t;
                     ix--;
                     continue;
@@ -237,6 +240,7 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
             } else {
                 if (m_transcodePool.tryTake(t)) {
                     // Task was not started yet, we can simply delete
+                    qDebug() << "** DELETED  1 TASK from transcode pool: " << taskType;
                     delete t;
                     ix--;
                     continue;
@@ -244,21 +248,33 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
             }
             if (m_taskList.find(task.first) != m_taskList.end()) {
                 // If so, then just add ourselves to be notified upon completion.
+                qDebug() << "** CLOSING 1 TASK : " << taskType;
                 t->cancelJob();
                 t->m_runMutex.lock();
                 t->m_runMutex.unlock();
                 t->deleteLater();
+                qDebug() << "** CLOSING 1 TASK DONE : " << taskType;
             }
             ix--;
         }
     }
+    m_tasksListLock.unlock();
+    qDebug() << "====== 1....";
     if (exceptions.isEmpty()) {
-        m_taskPool.waitForDone();
-        m_transcodePool.waitForDone();
         m_taskList.clear();
         m_taskPool.clear();
+        qDebug() << "====== 2....";
+        if (!m_taskPool.waitForDone(5000)) {
+            qDebug() << "====== FAILED TO TERMINATE ALL TASKS. Currently alive: " << m_taskPool.activeThreadCount();
+            Q_ASSERT(false);
+        }
+        if (!m_transcodePool.waitForDone(5000)) {
+            qDebug() << "====== FAILED TO TERMINATE ALL TRANSCODE TASKS. Currently alive: " << m_transcodePool.activeThreadCount();
+            Q_ASSERT(false);
+        }
+        qDebug() << "====== 3....";
     }
-    m_tasksListLock.unlock();
+    qDebug() << "****************\n\nFINAL CLOSURE STEP: " << m_taskPool.activeThreadCount() << "\n\n*********************";
     // Set jobs count
     Q_EMIT jobCount(0);
     if (!leaveBlocked) {

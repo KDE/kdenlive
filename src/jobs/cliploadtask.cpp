@@ -309,9 +309,7 @@ void ClipLoadTask::run()
             }
             generateThumbnail(binClip, binClip->sequenceProducer(m_sequenceUuid));
         }
-        if (m_isCanceled.loadAcquire() == 1 || pCore->taskManager.isBlocked()) {
-            abort();
-        }
+        m_progress = 100;
         return;
     }
     Q_EMIT pCore->projectItemModel()->resetPlayOrLoopZone(QString::number(m_owner.itemId));
