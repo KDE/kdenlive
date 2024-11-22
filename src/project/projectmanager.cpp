@@ -513,7 +513,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         delete m_project;
         m_project = nullptr;
     } else {
-        pCore->projectItemModel()->clean();
+        pCore->projectItemModel()->clean(true);
         m_project = nullptr;
     }
     mlt_service_cache_set_size(nullptr, "producer_avformat", 0);

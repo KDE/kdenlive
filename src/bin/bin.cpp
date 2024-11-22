@@ -1497,7 +1497,7 @@ Bin::~Bin()
         setEnabled(false);
         m_propertiesPanel = nullptr;
         abortOperations();
-        m_itemModel->clean();
+        m_itemModel->clean(true);
     } else {
         blockSignals(true);
         setEnabled(false);
@@ -2282,7 +2282,7 @@ void Bin::cleanDocument()
     Q_EMIT requestShowClipProperties(nullptr);
 
     // Cleanup previous project
-    m_itemModel->clean(false);
+    m_itemModel->clean();
     if (m_propertiesPanel) {
         m_propertiesPanel->setProperty("clipId", QString());
         for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {

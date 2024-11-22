@@ -11,7 +11,6 @@
 TEST_CASE("Regression")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
@@ -80,7 +79,6 @@ TEST_CASE("Regression")
 TEST_CASE("Regression2")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
 
     // Here we do some trickery to enable testing.
@@ -579,7 +577,6 @@ TEST_CASE("FuzzBug1")
 TEST_CASE("FuzzBug2")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -671,7 +668,6 @@ TEST_CASE("FuzzBug2")
 TEST_CASE("FuzzBug3")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -729,7 +725,6 @@ TEST_CASE("FuzzBug3")
 TEST_CASE("FuzzBug4")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -813,7 +808,6 @@ TEST_CASE("FuzzBug4")
 TEST_CASE("FuzzBug5")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -1022,7 +1016,6 @@ TEST_CASE("FuzzBug5")
 TEST_CASE("FuzzBug6")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -1119,7 +1112,6 @@ TEST_CASE("FuzzBug6")
 TEST_CASE("FuzzBug7")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -1290,7 +1282,6 @@ TEST_CASE("FuzzBug7")
 TEST_CASE("FuzzBug8")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -1361,7 +1352,6 @@ TEST_CASE("FuzzBug8")
 TEST_CASE("FuzzBug9")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -1423,7 +1413,6 @@ TEST_CASE("FuzzBug9")
 TEST_CASE("FuzzBug10")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
@@ -1479,7 +1468,6 @@ TEST_CASE("FuzzBug10")
 TEST_CASE("FuzzBug11")
 {
     auto binModel = pCore->projectItemModel();
-    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     KdenliveTests::resetNextId();
     {
