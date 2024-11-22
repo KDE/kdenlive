@@ -2215,8 +2215,7 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
         return;
     }
     if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
-        root->setProperty("centerPointsTypes", types);
-        root->setProperty("centerPoints", list);
+        QMetaObject::invokeMethod(root, "updatePoints", Q_ARG(QVariant, types), Q_ARG(const QVariant, list));
     }
     if (!r.isEmpty()) {
         root->setProperty("framesize", r);

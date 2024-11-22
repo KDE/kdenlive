@@ -151,8 +151,18 @@ Item {
     }
 
     function checkDefined() {
-        root.isDefined = root.centerPointsTypes.length > 0
-        canvas.requestPaint()
+        if (root.isDefined != root.centerPointsTypes.length > 0) {
+            root.isDefined = root.centerPointsTypes.length > 0
+            canvas.requestPaint()
+        }
+    }
+
+    function updatePoints(types, points) {
+        if (global.pressed) {
+            return
+        }
+        root.centerPointsTypes = types
+        root.centerPoints = points
     }
 
     Item {

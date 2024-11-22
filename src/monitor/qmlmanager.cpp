@@ -137,7 +137,7 @@ void QmlManager::effectPolygonChanged()
     if (!m_view->rootObject()) {
         return;
     }
-    QVariantList points = m_view->rootObject()->property("centerPoints").toList();
+    const QVariantList points = m_view->rootObject()->property("centerPoints").toList();
     Q_EMIT effectPointsChanged(points);
 }
 
