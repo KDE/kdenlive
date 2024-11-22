@@ -89,7 +89,7 @@ public:
     QStringList getEnclosingFolderInfo(const QModelIndex &index) const;
 
     /** @brief Deletes all element and start a fresh model */
-    void clean();
+    void clean(bool quit = true);
 
     /** @brief Returns the id of all the clips (excluding folders) */
     std::vector<QString> getAllClipIds() const;
