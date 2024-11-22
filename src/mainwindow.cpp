@@ -3567,22 +3567,7 @@ void MainWindow::slotClipInProjectTree()
     if (!ids.isEmpty()) {
         const QString binId = getCurrentTimeline()->controller()->getClipBinId(ids.constFirst());
         // If we have multiple bins, check first if a visible bin contains it
-        bool binFound = false;
-        if (binCount() > 1) {
-            for (auto &bin : m_binWidgets) {
-                if (bin->isVisible() && !bin->visibleRegion().isEmpty()) {
-                    // Check if clip is a child of this bin
-                    if (bin->containsId(binId)) {
-                        binFound = true;
-                        bin->setFocus();
-                        raiseBin();
-                    }
-                }
-            }
-        }
-        if (!binFound) {
-            raiseBin();
-        }
+        raiseBin();
         ObjectId id(KdenliveObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
