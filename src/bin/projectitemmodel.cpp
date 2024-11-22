@@ -1877,8 +1877,6 @@ void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipIte
 #else
             m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
 #endif
-
-            m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
         }
     }
 }
