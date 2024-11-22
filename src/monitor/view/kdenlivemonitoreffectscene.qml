@@ -52,6 +52,14 @@ Item {
     signal effectChanged()
     signal centersChanged()
 
+    function updatePoints(types, points) {
+      if (global.pressed) {
+        return
+      }
+      root.centerPointsTypes = types
+      root.centerPoints = points
+    }
+
     function getSnappedPos(position) {
       if (!controller.showGrid) {
         return position

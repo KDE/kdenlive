@@ -449,7 +449,7 @@ const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
 
 void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, QModelIndex paramIndex)
 {
-    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
+    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update; // << ", VAL: " << paramValue;
     if (!paramIndex.isValid()) {
         paramIndex = index(m_rows.indexOf(name), 0);
     }

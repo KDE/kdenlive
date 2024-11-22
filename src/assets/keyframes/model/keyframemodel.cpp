@@ -91,7 +91,7 @@ void KeyframeModel::setup()
 
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo)
 {
-    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()) << value << notify;
+    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()); // << value << notify;
     QWriteLocker locker(&m_lock);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -1244,7 +1244,7 @@ void KeyframeModel::sendModification()
 {
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
-        QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+        const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
         if (AssetParameterModel::isAnimated(m_paramType)) {
             m_lastData = getAnimProperty();
             ptr->setParameter(name, m_lastData, false, m_index);
