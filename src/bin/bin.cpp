@@ -3141,6 +3141,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
         if (item->childCount() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
             m_itemView->setRootIndex(ix);
             parentWidget()->setWindowTitle(item->name());
+            m_upAction->setVisible(true);
             m_upAction->setEnabled(true);
             return;
         }
@@ -3149,6 +3150,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
             // Double click a folder in secondary bin will set it as bin root
             m_itemView->setRootIndex(ix);
             parentWidget()->setWindowTitle(item->name());
+            m_upAction->setVisible(true);
             m_upAction->setEnabled(true);
             return;
         }
@@ -3470,6 +3472,9 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
     const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
     // Ensure parent folder is expanded
     if (m_listType == BinTreeView) {
+        if (m_itemView->rootIndex() != QModelIndex()) {
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(ix.parent()));
+        }
         // Make sure parent folder is expanded
         auto *view = static_cast<QTreeView *>(m_itemView);
         view->expand(m_proxyModel->mapFromSource(ix.parent()));
