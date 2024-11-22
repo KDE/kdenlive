@@ -1523,6 +1523,10 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
             all_pos.push_back(m.first);
         }
     }
+    if (all_pos.empty()) {
+        // Nothing to delete
+        return false;
+    }
     std::sort(all_pos.begin(), all_pos.end());
     int kfrCount = int(m_keyframeList.size());
     // Remove deleted keyframes from selection
