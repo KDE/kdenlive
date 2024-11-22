@@ -2282,7 +2282,7 @@ void Bin::cleanDocument()
     Q_EMIT requestShowClipProperties(nullptr);
 
     // Cleanup previous project
-    m_itemModel->clean();
+    m_itemModel->clean(false);
     if (m_propertiesPanel) {
         m_propertiesPanel->setProperty("clipId", QString());
         for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {

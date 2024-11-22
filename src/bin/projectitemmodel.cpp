@@ -604,7 +604,7 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
     return folderInfo;
 }
 
-void ProjectItemModel::clean()
+void ProjectItemModel::clean(bool quit)
 {
     QWriteLocker locker(&m_lock);
     closing = true;
@@ -612,8 +612,6 @@ void ProjectItemModel::clean()
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     toDelete.reserve(size_t(rootItem->childCount()));
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        qDebug() << "... FOUND CLIP: " << std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i))->clipId() << " = "
-                 << std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i))->name();
         toDelete.push_back(std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i)));
     }
     Fun undo = []() { return true; };
@@ -621,12 +619,15 @@ void ProjectItemModel::clean()
     for (const auto &child : toDelete) {
         requestBinClipDeletion(child, undo, redo);
     }
+    toDelete.clear();
     Q_ASSERT(rootItem->childCount() == 0);
     closing = false;
-    m_nextId = 1;
-    m_uuid = QUuid::createUuid();
-    m_sequenceFolderId = -1;
-    buildPlaylist(m_uuid);
+    if (!quit) {
+        m_nextId = 1;
+        m_uuid = QUuid::createUuid();
+        m_sequenceFolderId = -1;
+        buildPlaylist(m_uuid);
+    }
     ThumbnailCache::get()->clearCache();
 }
 
