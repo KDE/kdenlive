@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-21 00:40+0000\n"
+"POT-Creation-Date: 2024-11-22 00:40+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -5670,7 +5670,7 @@ msgid "Please set a default application to open audio files"
 msgstr "설정 대화 상자에서 오디오 파일을 열 기본 프로그램을 설정하십시오"
 
 #: src/bin/bin.cpp:4648 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
-#: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
+#: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
@@ -10978,17 +10978,17 @@ msgstr "동영상 축소판"
 msgid "Loading clip"
 msgstr "클립 불러오는 중"
 
-#: src/jobs/cliploadtask.cpp:512
+#: src/jobs/cliploadtask.cpp:510
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:704
+#: src/jobs/cliploadtask.cpp:702
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:733
+#: src/jobs/cliploadtask.cpp:731
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""

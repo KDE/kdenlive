@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-21 00:40+0000\n"
+"POT-Creation-Date: 2024-11-22 00:40+0000\n"
 "PO-Revision-Date: 2024-11-18 20:22+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -5595,7 +5595,7 @@ msgid "Please set a default application to open audio files"
 msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי שמע"
 
 #: src/bin/bin.cpp:4648 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
-#: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
+#: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
@@ -10713,17 +10713,17 @@ msgstr "תמונות ממוזערות של הווידאו"
 msgid "Loading clip"
 msgstr "סרטון נטען"
 
-#: src/jobs/cliploadtask.cpp:512
+#: src/jobs/cliploadtask.cpp:510
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr "אי אפשר לקבוע את משך הקובץ <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:704
+#: src/jobs/cliploadtask.cpp:702
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr "אי אפשר לחתור בקובץ <b>%1</b>."
 
-#: src/jobs/cliploadtask.cpp:733
+#: src/jobs/cliploadtask.cpp:731
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr "לקובץ <b>%1</b> יש קצב תמוניות משתנה."

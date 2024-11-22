@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-21 00:40+0000\n"
+"POT-Creation-Date: 2024-11-22 00:40+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -5861,7 +5861,7 @@ msgstr ""
 "amellyel a hangfájlokat kívánja megnyitni"
 
 #: src/bin/bin.cpp:4648 src/core.cpp:321 src/doc/kdenlivedoc.cpp:169
-#: src/jobs/cliploadtask.cpp:484 src/jobs/filtertask.cpp:93
+#: src/jobs/cliploadtask.cpp:482 src/jobs/filtertask.cpp:93
 #: src/jobs/filtertask.cpp:130 src/layoutmanagement.cpp:465
 #: src/layoutmanagement.cpp:526 src/profiles/profilerepository.cpp:173
 #: src/renderpresets/renderpresetrepository.cpp:371
@@ -11321,17 +11321,17 @@ msgstr "Bélyegképek"
 msgid "Loading clip"
 msgstr "Klipek betöltése"
 
-#: src/jobs/cliploadtask.cpp:512
+#: src/jobs/cliploadtask.cpp:510
 #, kde-format
 msgid "Duration of file <b>%1</b> cannot be determined."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:704
+#: src/jobs/cliploadtask.cpp:702
 #, kde-format
 msgid "File <b>%1</b> is not seekable."
 msgstr ""
 
-#: src/jobs/cliploadtask.cpp:733
+#: src/jobs/cliploadtask.cpp:731
 #, kde-format
 msgid "File <b>%1</b> has a variable frame rate."
 msgstr ""
