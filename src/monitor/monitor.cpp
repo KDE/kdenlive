@@ -198,7 +198,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(this, &Monitor::blockSceneChange, m_qmlManager, &QmlManager::blockSceneChange);
-    connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
+    connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged, Qt::QueuedConnection);
     connect(m_qmlManager, &QmlManager::activateTrack, this, [&](int ix) { Q_EMIT activateTrack(ix, false); });
 
     glayout->addWidget(m_glMonitor, 0, 0);
@@ -2230,43 +2230,6 @@ void Monitor::setEffectSceneProperty(const QString &name, const QVariant &value)
         return;
     }
     root->setProperty(name.toUtf8().constData(), value);
-}
-
-QRect Monitor::effectRect() const
-{
-    QQuickItem *root = m_glMonitor->rootObject();
-    if (!root) {
-        return {};
-    }
-    return root->property("framesize").toRect();
-}
-
-QVariantList Monitor::effectPolygon() const
-{
-    QQuickItem *root = m_glMonitor->rootObject();
-    if (!root) {
-        return QVariantList();
-    }
-    return root->property("centerPoints").toList();
-}
-
-QVariantList Monitor::effectRoto() const
-{
-    QQuickItem *root = m_glMonitor->rootObject();
-    if (!root) {
-        return QVariantList();
-    }
-    QVariantList points = root->property("centerPoints").toList();
-    QVariantList controlPoints = root->property("centerPointsTypes").toList();
-    // rotoscoping effect needs a list of
-    QVariantList mix;
-    mix.reserve(points.count() * 3);
-    for (int i = 0; i < points.count(); i++) {
-        mix << controlPoints.at(2 * i);
-        mix << points.at(i);
-        mix << controlPoints.at(2 * i + 1);
-    }
-    return mix;
 }
 
 void Monitor::setEffectKeyframe(bool enable, bool outside)

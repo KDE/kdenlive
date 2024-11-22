@@ -96,9 +96,6 @@ public:
     void setEffectSceneProperty(const QString &name, const QVariant &value);
     /** @brief Returns effective display size */
     QSize profileSize() const;
-    QRect effectRect() const;
-    QVariantList effectPolygon() const;
-    QVariantList effectRoto() const;
     void setEffectKeyframe(bool enable, bool outside);
     void sendFrameForAnalysis(bool analyse);
     void updateAudioForAnalysis();
