@@ -1700,7 +1700,7 @@ void MainWindow::setupActions()
     splitAudio->setEnabled(false);
 
     QAction *extractClip = addAction(QStringLiteral("extract_clip"), i18n("Extract Clip"), this, SLOT(slotExtractClip()),
-                                     QIcon::fromTheme(QStringLiteral("timeline-extract")), QKeySequence(), clipActionCategory);
+                                     QIcon::fromTheme(QStringLiteral("timeline-extract")), QKeySequence(Qt::SHIFT | Qt::Key_Delete), clipActionCategory);
     extractClip->setData('C');
     extractClip->setEnabled(false);
 
