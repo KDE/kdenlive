@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-23 02:27+0000\n"
-"PO-Revision-Date: 2024-11-16 13:28+0100\n"
+"PO-Revision-Date: 2024-11-23 14:19+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -679,7 +679,7 @@ msgstr "Ertz-mozketa"
 #: data/effects/crop.xml:5
 #, kde-format
 msgid "Trim the edges of a clip"
-msgstr "Moztu klip baten ertzak"
+msgstr "Kimatu klip baten ertzak"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:8 src/dialogs/managesubtitles.cpp:525
@@ -1108,7 +1108,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
 msgid "Time offset in seconds"
-msgstr "Denboraren jatorri-aldaketa segundutan"
+msgstr "Denboraren desplazamendua segundotan"
 
 #: data/effects/gpsgraphic.xml:14
 #, kde-format
@@ -1120,6 +1120,13 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[GPS arrastoarekin bat etortzeko bideo-fitxategiari gehitu beharreko "
+"desplazamendu bat (segundotan).<br>\n"
+"    \tGehienetan, hori 2 fitxategien arteko ordu-eremuen arteko "
+"diferentziara ezarri beharko da gutxienez, segundo batzuk gehituta bideoa "
+"grabatzeko gailua ordu egokian ezarrita ez badago. GPS denbora beti zehatza "
+"da eta UTCan emana. Erabili balio positiboak GPS bideoaren aurretik badago "
+"eta negatiboa bestela.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1153,6 +1160,10 @@ msgid ""
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[Bideo-fitxategia «timelapse» (edo kamera geldoa) bada, erabili "
+"balio hau abiadura azkartzeko/geldotzeko proportzioa ezartzeko.<br>\n"
+"        Laginen balioak: 30, 30x «timelapse» metrajerako, 0,25, 4x kamera "
+"geldoko metrajerako.]]>"
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
@@ -1175,8 +1186,8 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
-"2Dko oinarrizko mapa-lerroa (kokalekurako) edo 1Dko grafikoa denborarekiko "
-"(besteak),Zooma gerturatu mapan/grafikoan uneko kokalekuan zentratuta,"
+"2Dko oinarrizko mapa-lerroa (kokalekurako) edo 1Dko denborarekiko grafikoa  "
+"(besteak),Zooma mapan/grafikoan uneko kokalekuan zentratuta gerturatu,"
 "Marraztu abiadura-neurgailua"
 
 #: data/effects/gpsgraphic.xml:41
@@ -1197,11 +1208,27 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>Abiadura-neurgailua</b> datu-sorburu guztietarako erabilgarri "
+"dago, abiadurarako bakarrik gomendatzen da ordea; ordezkatzen duen mapa "
+"motarako \"egindako ehunekoa\" irudikatzen du, kimatutako hasieratik- "
+"bukaeratik).<br>\n"
+"Oharra: 1 motarako (zooma eta erdiratu, \"puntuari jarraitu\" gisa ere "
+"ezaguna:<br>\n"
+"* mozketa balioak ehuneko gisa baino ez dute balio eta beheko balioak "
+"bakarrik\n"
+"hartuko dira kontuan, puntua erdiratuta mantentzeko bi balioak (adib: "
+"behekoa/goikoa)\n"
+"berdinak izan behar baitira.<br>\n"
+"* datuen sorburua GPS kokapena ez bada, erdiratzea ardatz horizontalean "
+"bakarrik egingo da\n"
+"(denbora), ardatz bertikalaren mozketa 2Dko oinarrizko mapa-lerrorako bezala "
+"jokatuko du (min/max muga bera estatikoki mantenduko du Orain puntuari\n"
+"goraka eta beheraka mugitzen utziz).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr "Moztu hasiera (%)"
+msgstr "Kimatze hasiera (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1212,11 +1239,16 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Kimatu datuak GPS fitxategiaren hasieratik (osoaren ehuneko gisa). "
+"<br>\n"
+"    \tOharra: biak, <em>Kimatze hasiera</em> eta <em>Kimatze bukaera</em> "
+"fitxategi osoarekiko kalkulatzen dira, beraz, hasieratik % 50, eta "
+"bukaeratik % 50 kimatuta, fitxategi osoa kimatuko du.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr "Moztu bukaera (%)"
+msgstr "Kimatze bukaera (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1227,6 +1259,11 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Kimatu datuak GPS fitxategiaren bukaeratik (osoaren ehuneko gisa). "
+"<br>\n"
+"    \tOharra: biak, <em>Kimatze hasiera</em> eta <em>Kimatze bukaera</em> "
+"fitxategi osoarekiko kalkulatzen dira, beraz, hasieratik % 50, eta "
+"bukaeratik % 50 kimatuta, fitxategi osoa kimatuko du.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
@@ -1248,6 +1285,12 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[<em>Motu ezkerretik</em> eta <em>Moztu eskuinetik</em> balioak nola "
+"interpretatu erabakitzen du.<br>\n"
+"    \tOharra: Mota horizontalerako, balio absolutuak, longitudea (kokaleku "
+"sorburu-motarako),\n"
+"eta denbora (garaitik, milisegundotan) gainerako datu-sorburu motetarako, "
+"dira)]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -1267,6 +1310,15 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[Grafikoaren ezker aldeko datuak mozten ditu (zooma gerturatuz)."
+"<br>\n"
+"    \tBalioa, crop_mode_h arabera, osoaren ehuneko gisa edo balio absolutu "
+"gisa interpretatzen da. Ehuneko moduan, \"Zooma urruntze\" jokabidea "
+"baimentzeko, balioak ez dira 0-100 tartera mugatzen (adib: ezkerrerantz -50 "
+"moztuta, distantzia horizontal osoaren erdi gehigarri bat gehituko du). "
+"100etik gorako balioek (% moduan) ez dute ezer azaltzea eragingo. "
+"<em>Grafiko mota</em> <b>abiadura-neurgailua</b> gisa ezarrita badago, "
+"ezkerretik/eskuinetik mozteko balio guztiei ezikusi egingo zaie.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -1280,6 +1332,9 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[<em>Moztu ezkerretik</em> bezala baina eskuin alderako, eta ehuneko "
+"mota alderantzizko ehuneko gisa interpretatzen da (adib: 100 = ez moztu "
+"ezer). 0 azpiko balioek ez dute ezer azaltzea eragingo.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
@@ -1302,6 +1357,19 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[<em>Moztu behetik</em> eta <em>Moztu goitik</em> balioak nola "
+"interpretatu erabakitzen du.<br/>\n"
+"    \tBalio absolutu batekin, zooma garaieran 100 eta 150m artean gerturatu "
+"dezake,\n"
+"2 balio horien arteko garaiera aldaketa txikiak hobeto erakusteko.<br/>\n"
+"Oharra: Mota bertikalerako, balio absolutuak latitude graduak (kokaleku "
+"sorburu\n"
+"motarako) eta garaiera dira, bihotz-maiztasuna, abiadura, besteetarako, "
+"aplikagarria denean,\n"
+"<em>Legendaren unitatea</em> bezala interpretatua (adib: 10 balioa "
+"garaieran, era lehenetsian\n"
+"metro gisa hartuko dira, baina <em>Legendaren unitatea</em> oinetara aldatuz "
+"gero 10 oin adieraziko du).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
@@ -1321,6 +1389,15 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[Grafikoaren behe aldeko datuak mozten ditu (zooma gerturatuz).<br>\n"
+"    \tBalioa, crop_mode_v arabera, osoaren ehuneko gisa edo balio absolutu "
+"gisa interpretatzen da. Ehuneko moduan, \"Zooma urruntze\" jokabidea "
+"baimentzeko, balioak ez dira 0-100 tartera mugatzen (adib: beherantz -50 "
+"moztuta, beherako distantzia bertikal osoaren erdi gehigarri bat gehituko "
+"du). 100etik gorako balioek (% moduan) ez dute ezer azaltzea eragingo. "
+"<em>Grafiko mota</em> <b>abiadura-neurgailua</b> bada, horrek orratzaren "
+"kokapen minimoa ezarriko du, baxuagoak diren balio guztiak finkatuko "
+"dituelarik.]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
@@ -1335,6 +1412,10 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[<em>Moztu behetik</em> bezala baina goiko alderako, eta ehuneko "
+"mota alderantzizko ehuneko gisa interpretatzen da (adib: 100 = ez moztu "
+"ezer).<br>\n"
+"    \t0 azpiko balioek ez dute ezer azaltzea eragingo.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1453,6 +1534,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[Gaitu ezazu uneko balioa zuzenaren behe-eskuin aldean letra handi "
+"zuri lodiekin marrazteko.<br>\n"
+"    \t<em>Legenda unitatea</em> balioa bukaeran erantsiko da eta uneko "
+"unitate gisa erabiliko da (balizko unitate bat aurkitzen bada, adib: "
+"kilometro \"km\" <em>Legenda unitatea</em> katean nonbait aurkitzen bada.]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1497,6 +1583,13 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[Gaituta badago, 5 lerro horizontal (eta bertikal mapa motaren "
+"arabera),<br>\n"
+"    \tbalio txikiekin, marraztuko ditu, bakoitza, erakusten ari den "
+"grafikoari dagozkion datu-sorburuaren % 0, % 25, % 50, % 75 eta % 100 "
+"balioei dagozkionak, <em>Legendaren unitate</em> motaren arabera hala "
+"badagokio, eta katea balioari erantsita. Abiadura-neurgailu motarako, honek "
+"banaketa balioak (unitatea erantsi gabe) erakusten ditu.]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
@@ -1543,6 +1636,12 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[Gaituta badago, grafikoa lerroekin egin ordez banakako puntuak  "
+"erabiliz marraztuko da.<br>\n"
+"    \tHorrek, leuntzeak eragindako banakako datu-puntuak erakutsiko ditu "
+"(adib: kokapen datuetarako GPS zuzenketa bakoitza azalduko du leuntzea  1 "
+"bada) eta efektu atsegin gisa erabili daiteke zooma nahikoa gerturatzean edo "
+"lerroan ustekabeko jauziak arazteko.]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
@@ -1591,6 +1690,11 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[Eskalatu atzeko planoko irudia (erdiarekiko erlatibo) gaineko GPS "
+"arrastoarekin bat etorrarazteko.<br>\n"
+"    \t100 baino txikiagoak diren balioek irudiaren zooma gerturatzen dute, "
+"100 baino handiagoak diren balioek zooma urruntzen dute. 0k ezkutatu egiten "
+"du.]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1625,7 +1729,7 @@ msgstr "Bideo-fitxategiaren data eta ordua."
 #: data/effects/gpsgraphic.xml:181
 #, kde-format
 msgid "Auto offset start"
-msgstr "Jatorri-aldaketa hasiera automatikoa"
+msgstr "Desplazamendu automatikoaren hasiera"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1634,11 +1738,15 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Bideo fitxategiaren hasiera GPS fitxategiaren hasierarekin sinkronizatzen "
+"dela ziurtatzeko desplazamendu lagungarri bat ematen du. Bideo-fitxategia "
+"eta GPS grabaketa aldi berean hasi baziren desplazamendua behar bezala "
+"ezartzen du."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr "Jatorri-aldaketa automatikoa orain"
+msgstr "Desplazamendu automatikoa orain"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1647,6 +1755,10 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if you video record "
 "the moment GPS starts."
 msgstr ""
+"GPSaren aurreneko puntua bideoaren uneko denborarekin sinkronizatzeko "
+"desplazamendu lagungarri bat ematen du (segundoero eguneratzen da). GPS "
+"hasten den unea bideoz grabatzen baduzu, desplazamendua behar bezala "
+"ezartzen du."
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
@@ -2843,9 +2955,9 @@ msgid ""
 "\".]]>"
 msgstr ""
 "<![CDATA[Tenporizadorearen balioari gehitu beharreko jatorri aldaketa.\n"
-"Noranzkoa \"behera\" denean, tenporizadoreak \"jatorri aldaketara\" "
-"zenbatuko du 00:00:00.000 baliora egin ordez.\n"
-"Norazkoa \"gora\" denean, tenporizadoreak zenbaketa \"jatorri aldaketatik\" "
+"Noranzkoa \"behera\" denean, tenporizadoreak \"desplazamendua\" zenbatuko du "
+"00:00:00.000 baliora egin ordez.\n"
+"Norazkoa \"gora\" denean, tenporizadoreak zenbaketa \"desplazapendutik\" "
 "abiatuko du..]]>"
 
 #: data/effects/timer.xml:66 data/transitions/slide.xml:8
@@ -3762,7 +3874,7 @@ msgstr "Gorde hemen"
 #: plugins/sampleplugin/countdown_ui.ui:33
 #, kde-format
 msgid "Duration (seconds)"
-msgstr "Iraupena (segunduak)"
+msgstr "Iraupena (segundoak)"
 
 #. i18n: ectx: property (text), widget (QLabel, font_label)
 #. i18n: ectx: property (text), widget (QLabel, labelFont)
@@ -4341,7 +4453,7 @@ msgstr "Inportatzeko datuak:"
 #: src/assets/view/widgets/keyframeimport.cpp:177
 #, kde-format
 msgid "Time offset:"
-msgstr "Denboraren jatorri-aldaketa:"
+msgstr "Denboraren desplazamendua:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:191
 #: src/assets/view/widgets/keyframeimport.cpp:414
@@ -4422,12 +4534,12 @@ msgstr " hona "
 #: src/assets/view/widgets/keyframeimport.cpp:324
 #, kde-format
 msgid "Horizontal offset:"
-msgstr "Jatorri-aldaketa horizontala:"
+msgstr "Desplazamendu horizontala:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:325
 #, kde-format
 msgid "Vertical offset:"
-msgstr "Jatorri-aldaketa bertikala:"
+msgstr "Desplazamendu bertikala:"
 
 #: src/assets/view/widgets/keyframeimport.cpp:329
 #: src/assets/view/widgets/keyframeimport.cpp:463
@@ -4473,7 +4585,7 @@ msgstr "Alderantzikatutako posizioa"
 #: src/assets/view/widgets/keyframeimport.cpp:422
 #, kde-format
 msgid "Offset Position"
-msgstr "Jatorri-aldaketaren posizioa"
+msgstr "Desplazamendu posizioa"
 
 #: src/assets/view/widgets/keyframeimport.cpp:423
 #, kde-format
@@ -14688,7 +14800,7 @@ msgid ""
 "to first / last frame"
 msgstr ""
 "<shortcut>Gurpiltxoa</shortcut> edo <shortcut>geziak</shortcut> fotograma 1 "
-"mugitzeko, <shortcut>Maius</shortcut> segundu 1 mugitzeko,  <shortcut>Alt</"
+"mugitzeko, <shortcut>Maius</shortcut> segundo 1 mugitzeko,  <shortcut>Alt</"
 "shortcut> markatzailera mugitzeko, <shortcut>Home</shortcut> / "
 "<shortcut>End</shortcut> lehenengo/azkeneko fotogramara joateko"
 
@@ -18498,7 +18610,7 @@ msgstr "<b>Klik bikoitza</b> azpidatzia gehitzeko"
 #: src/timeline2/view/qml/timeline.qml:2013
 #, kde-format
 msgid "Offset: %1, Position: %2"
-msgstr "Sarrera:%1, Posizioa: %2"
+msgstr "Desplazamendua:%1, Posizioa: %2"
 
 #: src/timeline2/view/qml/timeline.qml:2172
 #: src/timeline2/view/qml/timeline.qml:2181
@@ -21190,7 +21302,7 @@ msgstr "Whisper"
 #: src/ui/configspeech_ui.ui:373
 #, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Seamless"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428

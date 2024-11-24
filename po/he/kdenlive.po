@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-23 02:27+0000\n"
-"PO-Revision-Date: 2024-11-22 23:00+0200\n"
+"PO-Revision-Date: 2024-11-23 14:33+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1425,6 +1425,8 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[יש להפעיל כדי לצייר טבעת במקום הנוכחי על גבי קו התרשים.<br>\n"
+"    \tאם סוג התרשים הוא מד־אוץ, ההגדרה תשפיע על המחט.]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, fuzzy, kde-format
@@ -1453,6 +1455,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[יש להפעיל כדי לצייר את הערך הנוכחי באותיות לבנות גדולות בצד השמאלי "
+"של המרובע.<br>\n"
+"    \tערך <em>יחידת המקרא</em> יתווסף בסוף והוא ישמש בתור היחידה הנוכחית (אם "
+"נמצאה יחידה תקינה, כלומר: קילומטרים אם „ק״מ” נמצא איפשהו במחרוזת <em>יחידת "
+"המקרא</em>).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12

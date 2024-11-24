@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-23 02:27+0000\n"
-"PO-Revision-Date: 2024-11-21 10:15+0100\n"
+"PO-Revision-Date: 2024-11-23 14:35+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1170,6 +1170,8 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"Osnovna črta 2D-zemljevida (za lokacijo) ali 1D-graf na čas (drugi),Povečaj "
+"zemljevid/graf s središčem na trenutni lokaciji,Nariši merilnik hitrosti"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1223,7 +1225,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Odstotek od min..maks,Absolutna vrednost"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1336,6 +1338,11 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"Ena barva,Dve barvi,Trdna preteklost - tanka prihodnost,Trdna prihodnost - "
+"tanka preteklost,Navpični preliv,Vodoravni preliv,Barva po trajanju,Barva po "
+"nadmorski višini,Barva po srčnem utripu,Varva po hitrosti,Barva po hitrosti "
+"(največ 100 km/h),Barva po stopnji (največ 90 stopinj),Barva po stopnji "
+"(največ 20 stopinj)"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -1345,7 +1352,7 @@ msgstr "Barvni slog grafa"
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "Oglejte si dokumentacijo o različnih slogih, ki so na voljo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1400,10 +1407,9 @@ msgid "Sets the color #5 for the graph line"
 msgstr "Nastavi barvo #5 za črto grafa"
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show more options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "Pokaži več možnosti"
+msgstr "Pokaži piko »zdaj«"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1414,22 +1420,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Now dot color"
-msgstr "Po&lna barva:"
+msgstr "Barva pike »zdaj«"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "Barva valovne oblike."
+msgstr "Nastavi barvo za piko »Zdaj«"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "Govor v besedilo"
+msgstr "Pokaži besedilo »Zdaj«"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1497,6 +1500,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,meter,km,kilometer,mi,milja,ft,čevlji,nm,navtičnih,ms,m/s,meter na sekundo,"
+"km,km/h,kilometer na uro,mi,mi/h,milja na uro,ft,ft/s,čevljev na sekundo,kn,"
+"nm/h,vozli,mmin,m/min,ftmin,ft/min"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1590,16 +1596,14 @@ msgid "Video start time"
 msgstr "Čas začetka videoposnetka"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "Čez videoposnetek prikažite časovnik"
+msgstr "Datum in čas videodatoteke."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Pojdi na začetek projekta"
+msgstr "Začetek samodejnega zamika"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1608,11 +1612,14 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Zagotavlja pomožni zamik, ki zagotavlja začetek sinhronizacije video datotek "
+"z začetkom datoteke GPS. Pravilno nastavi zamik, če sta se videodatoteka in "
+"posnetek GPS začela hkrati."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Samodejni zamik zdaj"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1621,6 +1628,9 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if you video record "
 "the moment GPS starts."
 msgstr ""
+"Zagotavlja pomožni zamik za sinhronizacijo prve točke GPS s trenutnim časom "
+"videa (posodablja se vsako sekundo). Pravilno nastavi uamik, če "
+"videoposnetek posname trenutek, ko se zažene GPS."
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
@@ -21162,9 +21172,9 @@ msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
 #: src/ui/configspeech_ui.ui:373
-#, kde-format
+#, fuzzy, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Brezšivno/Neopazno"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428
