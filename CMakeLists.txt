@@ -145,6 +145,9 @@ pkg_check_modules(LIBAV REQUIRED IMPORTED_TARGET
     libavutil
 )
 
+# OpenTimelineIO
+find_package(OTIO REQUIRED)
+
 # Windows
 include(CheckIncludeFiles)
 check_include_files(malloc.h HAVE_MALLOC_H)

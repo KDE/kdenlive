@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QEvent>
 #include <QImage>
 #include <QMap>
+#include <QProcessEnvironment>
 #include <QProgressDialog>
 #include <QShortcut>
 #include <QString>
@@ -36,7 +37,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "jobs/abstracttask.h"
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
-#include "pythoninterfaces/otioconvertions.h"
+#include "otio/otioexport.h"
+#include "otio/otioimport.h"
 #include "statusbarmessagelabel.h"
 #include "utils/gentime.h"
 
@@ -234,7 +236,8 @@ private:
     /** @brief Rebuild the dock menu according to existing dock widgets. */
     void updateDockMenu();
 
-    OtioConvertions m_otioConvertions;
+    OtioExport *m_otioExport{nullptr};
+    OtioImport *m_otioImport{nullptr};
     KColorSchemeManager *m_colorschemes;
     ScopeManager *m_scopesManager{nullptr};
 

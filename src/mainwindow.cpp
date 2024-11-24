@@ -1445,10 +1445,12 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips…"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
     QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("OpenTimelineIO E&xport…"), this);
-    connect(exportAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotExportProject);
+    m_otioExport = new OtioExport(this);
+    connect(exportAction, &QAction::triggered, m_otioExport, &OtioExport::slotExportProject);
     addAction(QStringLiteral("export_project"), exportAction);
     QAction *importAction = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("OpenTimelineIO &Import…"), this);
-    connect(importAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotImportProject);
+    m_otioImport = new OtioImport(this);
+    connect(importAction, &QAction::triggered, m_otioImport, &OtioImport::slotImportProject);
     addAction(QStringLiteral("import_project"), importAction);
 
     addAction(QStringLiteral("archive_project"), i18n("Archive Project…"), this, SLOT(slotArchiveProject()),
