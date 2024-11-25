@@ -274,10 +274,9 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
         }
         qDebug() << "====== 3....";
     }
-    qDebug() << "****************\n\nFINAL CLOSURE STEP: " << m_taskPool.activeThreadCount() << "\n\n*********************";
-    // Set jobs count
-    Q_EMIT jobCount(0);
     if (!leaveBlocked) {
+        // Set jobs count
+        Q_EMIT jobCount(0);
         m_blockUpdates = false;
     }
 }
