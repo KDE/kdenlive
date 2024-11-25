@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-23 02:27+0000\n"
-"PO-Revision-Date: 2024-11-23 14:35+0100\n"
+"PO-Revision-Date: 2024-11-24 08:59+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -1119,6 +1119,13 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[Zamik (v sekundah), ki bo dodan video datoteki, da se ujema s stezo "
+"GPS.<br>\n"
+"    \tVečino časa bo to treba vsaj nastaviti na razliko v časovnem pasu med "
+"datotekama in dodati nekaj sekund, če naprava za snemanje videoposnetkov ni "
+"natančno nastavljena na pravilen čas. Čas GPS je vedno natančen in v UTC. "
+"Uporabite pozitivne vrednosti, če je GPS pred videoposnetkom, v nasprotnem "
+"primeru pa negativen.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1134,6 +1141,11 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[Koliko točk GPS je potrebno gladiti, da se odstranijo napake GPS?"
+"<br>\n"
+"    \tVrednost 1 ne zgladi lokacij, izračuna le dodatna polja (hitrost, "
+"razdalja itn.), interpolira tudi manjkajoče vrednosti za srčni utrip in "
+"nadmorsko višino.]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -1148,6 +1160,11 @@ msgid ""
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[Če je video datoteka posneta v časovnih presledkih (ali z "
+"upočasnjenim gibanjem), uporabite to vrednost za nastavitev razmerje "
+"pohitritve/upočasnitve.<br>\n"
+"    \tVzorčne vrednosti: 30 za 30-kratne časovne presledke, 0,25 za 4-kratno "
+"upočasnjene posnetke.]]>"
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
@@ -1191,6 +1208,21 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>Merilnik hitrosti je na voljo za vse vire podatkov, vendar je "
+"priporočljiv samo za hitrost; za vrsto zemljevida predstavlja »odstotek "
+"opravljenega« od obrezanega začetka do konca).<br>\n"
+"Opomba: za vrsto 1 (povečava in središče, znano tudi kot »sledi piki«):<br>\n"
+"* vrednosti obrezovanja veljajo samo v odstotkih in samo spodnje (oziroma "
+"leve) vrednosti\n"
+"se bo upoštevalo, saj bosta morali biti obe vrednosti (tj. spodaj/zgoraj) "
+"enaki\n"
+"za ohrajanje pike na sredini)<br>\n"
+"* če vir podatkov ni lokacija GPS, bo centriranje opravljeno samo za "
+"vodoravno os\n"
+"(čas), obrezovanje navpične osi se bo vedlo enako kot pri osnovni črti 2D-"
+"zemljevida (statično bo\n"
+"ohranilo enako min/maks omejitev, ki omogoča, da se pika zdaj premika "
+"navzgor in navzdol).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
@@ -1206,6 +1238,10 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Obreže podatke od začetka datoteke GPS (kot odstotek celote). <br>\n"
+"    \tOpomba: tako<em>Obreži na začetku</em> kot <em>Obreži na koncu</em> "
+"sta izračunana glede na celotno datoteko, tako da bo obrezovanje 50 % "
+"začetka in 50 % konca povzročilo obrezovanje celotne datoteke.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
@@ -1221,6 +1257,10 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Obreže podatke od konca datoteke GPS (kot odstotek celote). <br>\n"
+"    \tOpomba: tako<em>Obreži na začetku</em> kot <em>Obreži na koncu</em> "
+"sta izračunana glede na celotno datoteko, tako da bo obrezovanje 50 % "
+"začetka in 50 % konca povzročilo obrezovanje celotne datoteke.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
@@ -1242,6 +1282,12 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[Določa, kako tolmačiti vrednosti <em>Obreži levo</em> in <em>Obreži "
+"desno</em>.<br>\n"
+"    \tOpomba: za vodoravno vrsto so absolutne vrednosti zemljepisna dolžina "
+"(za lokacijo\n"
+"vrsta vira) in čas (v milisekundah od obdobja) za preostale vrste virov "
+"podatkov)]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -1261,6 +1307,14 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[Obreže podatke z leve strani grafa (dejansko približanje). <br>\n"
+"    \tVrednost se razlaga kot odstotek skupne ali absolutne vrednosti, "
+"odvisno od crop_mode_h. V odstotnem načinu vrednosti niso omejene na 0-100, "
+"da se omogoči »pomanjšanje« (tj. obrezovanje -50 levo bo dodalo dodatno "
+"polovico skupne vodoravne razdalje). Vrednosti nad 100 (v načinu %) dejansko "
+"ne bodo prikazale ničesar. Če je <em>Vrsta grafa</em> nastavljena na "
+"<b>Merilnik hitrosti</b>, se vse vrednosti obrezovanja levo/desno "
+"prezrejo.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -1274,6 +1328,9 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Enako kot <em>Obreži levo</em>, vendar za desno stran, in vrsta "
+"odstotka se tolmači kot obratni odstotek (tj.: 100 = ne obreži ničesar). "
+"Vrednosti pod 0 dejansko ne prikaže ničesar.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
@@ -1296,6 +1353,19 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[Določa, kako tolmačiti vrednosti <em>Obreži na dnu</em> in "
+"<em>Obreži na vrhu</em>.<br/>\n"
+"    \tZ absolutno vrednostjo lahko poveča med 100 in 150 m nadmorske višine, "
+"da bolje prikaže\n"
+"majhne spremembe nadmorske višine med tema dvema vrednostma.<br/>\n"
+"Opomba: za navpično vrsto se absolutne vrednosti stopinje zemljepisne širine "
+"(za lokacijo\n"
+"vrsta vira) in nadm. višina, srčni utrip, hitrost za druge tolmačijo kot "
+"vrsta<em>enota Legende</em>,\n"
+"kadar je to primerno (tj. vrednost 10 za nadmorsko višino se privzeto šteje "
+"za metre,\n"
+"če pa spremenite <em>enoto Legende</em> v čevlje, bo to pomenilo 10 "
+"čevljev).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
@@ -1315,6 +1385,15 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[Obreže podatke od spodnje strani grafa (dejansko približanje). "
+"<br>\n"
+"    \tVrednost se razlaga kot odstotek skupne ali absolutne vrednosti, "
+"odvisno od crop_mode_v. V odstotnem načinu vrednosti niso omejene na 0-100, "
+"da se omogoči »pomanjšanje« (npr.: obrezovanje -50 bot bo dodalo dodatno "
+"polovico skupne navpične razdalje do dna). Vrednosti nad 100 (v načinu %) "
+"dejansko ne bodo prikazale ničesar. Če je <em>vrsta grafa</em> <b>Merilnik "
+"hitrosti</b>, bo to nastavilo najmanjši položaj igle, ki bo pridržal vse "
+"vrednosti, ki so nižje.]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
@@ -1329,6 +1408,10 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Enako kot <em>Obreži na dnu</em>, vendar za vrhnjo stran, in "
+"odstotkovna vrsta se razlaga kot obratni odstotek (tj.: 100 = ne obreži "
+"ničesar).<br>\n"
+"    \tVrednosti pod 0 dejansko ne bodo prikazale ničesar.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1418,6 +1501,9 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[Omogočite, da nariše krog na trenutni lokaciji/času prek črte grafa."
+"<br>\n"
+"    \tČe je vrsta grafa merilnik hitrosti, to vpliva na iglo.]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, kde-format
@@ -1443,6 +1529,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[Omogočite, da nariše trenutno vrednost v velikih belih krepkih "
+"črkah na desni spodnji strani pravokotnika.<br>\n"
+"    \tVrednost <em>enote legende</em> bo dodana na koncu in bo uporabljena "
+"kot trenutna enota (če je najdena veljavna enota, tj.: kilometri, če je »km« "
+"najden kjerkoli v nizu <em>enote legende</em> ).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1487,6 +1578,13 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[Če je omogočeno, nariše pet vodoravnih (in navpičnih za vrsto "
+"zemljevida) <br>\n"
+"    \\črt z majhnimi vrednostmi, od katerih vsaka ustreza trenutni vrednosti "
+"vira podatkov pri 0 %, 25 %, 50 %, 75% inn 100% trenutnega grafa, na "
+"katerega vpliva vrsta <em>enot legende</em> , če je primerno, in z nizom, "
+"dodanim vrednosti. Za vrsto merilnika hitrosti to prikazuje vrednosti "
+"deljenja (vendar brez dodajanja enote).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
@@ -1512,6 +1610,10 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Določa enoto, ki se uporablja za prikaz vrednosti vrste višine in "
+"hitrosti.<br>\n"
+"    \tPrivzeto so to metri oziroma km/h. Enota se ujema kjerkoli v nizu, "
+"tako da se lahko uporabijo dodatni presledki za prilagoditev prikaza.]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -1528,6 +1630,12 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[Če je omogočeno, bo grafikon narisan s posameznimi pikami namesto "
+"črtami.<br>\n"
+"    \tTo bo učinkovito prikazalo posamezne podatkovne točke, na katere "
+"vpliva glajenje (tj. za podatke o lokaciji bo prikazan vsak popravek GPS, če "
+"je glajenje 1) in se lahko uporabi kot lep učinek, ko je dovolj približan, "
+"ali za odpravljanje nepričakovanih skokov črt.]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
@@ -1541,6 +1649,9 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[Določa pravokotnik, v katerem naj bo narisan graf.<br>\n"
+"    \tOblika je: »X Y Š V«. X, Y, Š, V so praviloma v enotah slikovnih točk, "
+"razen če imajo pripono »%«.]]>"
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
@@ -1555,6 +1666,10 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[Če je izbrana veljavna slikovna datoteka, bo uporabljena kot ozadje "
+"za pravokotno področje.<br>\n"
+"    \tPoti, ki se začnejo z znakom »!«, so prezrte. NASVET: uporabite sliko "
+"zemljevida, da dodate kontekst sledi GPS.]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
@@ -1569,6 +1684,10 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[Spremeni merilo slike ozadja (relativno na središče), da se ujema z "
+"zgornjo stezo GPS.<br>\n"
+"    \tVrednosti, manjše od 100, povečajo sliko, vrednosti, večje od 100, jo "
+"pomanjšajo. 0 jo skrije.]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -21172,9 +21291,9 @@ msgstr "Whisper"
 
 #. i18n: ectx: property (text), widget (QLabel, seamless_folder_label)
 #: src/ui/configspeech_ui.ui:373
-#, fuzzy, kde-format
+#, kde-format
 msgid "Seamless"
-msgstr "Brezšivno/Neopazno"
+msgstr "Seamless"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428
