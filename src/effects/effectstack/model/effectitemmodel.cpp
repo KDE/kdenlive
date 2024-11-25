@@ -370,10 +370,10 @@ void EffectItemModel::setEffectStackEnabled(bool enabled)
 
 bool EffectItemModel::isBuiltIn() const
 {
-    return KdenliveSettings::enableBuiltInEffects() && m_builtIn;
+    return m_builtIn;
 }
 
 bool EffectItemModel::isHiddenBuiltIn() const
 {
-    return KdenliveSettings::enableBuiltInEffects() && m_asset->get_int("kdenlive:hiddenbuiltin") == 1;
+    return m_asset->get_int("kdenlive:hiddenbuiltin") == 1;
 }

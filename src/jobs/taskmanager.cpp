@@ -259,9 +259,9 @@ void TaskManager::slotCancelJobs(bool leaveBlocked, const QVector<AbstractTask::
         m_taskPool.clear();
     }
     m_tasksListLock.unlock();
-    // Set jobs count
-    Q_EMIT jobCount(0);
     if (!leaveBlocked) {
+        // Set jobs count
+        Q_EMIT jobCount(0);
         m_blockUpdates = false;
     }
 }
