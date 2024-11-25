@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-23 00:40+0000\n"
-"PO-Revision-Date: 2024-11-23 14:33+0200\n"
+"PO-Revision-Date: 2024-11-24 08:22+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1331,6 +1331,9 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[כמו <em>חיתוך מלמטה</em> אבל לחלק העליון, וסוג האחוזים מפוענח כאחוז "
+"הפוך (כלומר: 100 = לא לחתוך כלום).<br>\n"
+"    \tערכים קטנים מאפס 0 בפועל לא יציגו שום דבר.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1560,6 +1563,9 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[אם נבחר קובץ תמונה תקני, הוא ישמש כרקע לאזור המרובע.<br>\n"
+"      \tנתיבים שמתחילים בתו „!” זוכים להתעלמות. עצה: אפשר להשתמש בתמונת מפה "
+"כדי להוסיף הקשר למסלול ה־GPS/נווטן.]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
