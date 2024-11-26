@@ -107,11 +107,16 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
             }
         } else if (type == ClipType::Video) {
             if (!currentParams.endsWith(QLatin1String(";video"))) {
+                // Check current HW accel
+                HWENCODINGFMT fmt = formatForProfile(currentParams);
                 // Switch to video only profile
                 QMapIterator<QString, QString> i(m_encodeParams);
                 while (i.hasNext()) {
                     i.next();
                     if (i.value().endsWith(QLatin1String(";video"))) {
+                        if (!profileMatches(i.value(), fmt)) {
+                            continue;
+                        }
                         int ix = encodingprofiles->findText(i.key());
                         if (ix > -1) {
                             encodingprofiles->setCurrentIndex(ix);
@@ -124,11 +129,16 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
     } else {
         if ((type != ClipType::Video && currentParams.endsWith(QLatin1String(";video"))) ||
             (type != ClipType::Audio && currentParams.endsWith(QLatin1String(";audio")))) {
+            // Check current HW accel
+            HWENCODINGFMT fmt = formatForProfile(currentParams);
             // Switch back to an AV profile
             QMapIterator<QString, QString> i(m_encodeParams);
             while (i.hasNext()) {
                 i.next();
                 if (i.value().endsWith(QLatin1String(";av"))) {
+                    if (!profileMatches(i.value(), fmt)) {
+                        continue;
+                    }
                     int ix = encodingprofiles->findText(i.key());
                     if (ix > -1) {
                         encodingprofiles->setCurrentIndex(ix);
@@ -138,6 +148,31 @@ void TranscodeSeek::addUrl(const QString &file, const QString &id, const QString
             }
         }
     }
+}
+
+bool TranscodeSeek::profileMatches(const QString &profileString, HWENCODINGFMT fmt)
+{
+    if (fmt == HWENCODINGFMT::Nvidia && !profileString.contains(QLatin1String("h264_nvenc"))) {
+        return false;
+    }
+    if (fmt == HWENCODINGFMT::Vaapi && !profileString.contains(QLatin1String("h264_vaapi"))) {
+        return false;
+    }
+    if (fmt == HWENCODINGFMT::None && (profileString.contains(QLatin1String("h264_vaapi")) || profileString.contains(QLatin1String("h264_nvenc")))) {
+        return false;
+    }
+    return true;
+}
+
+TranscodeSeek::HWENCODINGFMT TranscodeSeek::formatForProfile(const QString &profileString)
+{
+    HWENCODINGFMT fmt = HWENCODINGFMT::None;
+    if (profileString.contains(QLatin1String("h264_nvenc"))) {
+        fmt = HWENCODINGFMT::Nvidia;
+    } else if (profileString.contains(QLatin1String("h264_vaapi"))) {
+        fmt = HWENCODINGFMT::Vaapi;
+    }
+    return fmt;
 }
 
 QMap<QString, QStringList> TranscodeSeek::ids() const
