@@ -24,7 +24,7 @@ AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, co
     } else if (TransitionsRepository::get()->exists(id)) {
         setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1", TransitionsRepository::get()->getName(id))));
     }
-    m_oldValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
+    QVariant oldValue = m_model->data(index, AssetParameterModel::ValueRole).toString();
 }
 
 void AssetCommand::undo()
@@ -155,8 +155,6 @@ AssetKeyframeCommand::AssetKeyframeCommand(const std::shared_ptr<AssetParameterM
                                            QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
-    , m_index(index)
-    , m_value(std::move(value))
     , m_pos(pos)
     , m_updateView(false)
     , m_stamp(QTime::currentTime())
@@ -168,18 +166,27 @@ AssetKeyframeCommand::AssetKeyframeCommand(const std::shared_ptr<AssetParameterM
     } else if (TransitionsRepository::get()->exists(id)) {
         setText(QStringLiteral("%1 %2").arg(QTime::currentTime().toString("hh:mm")).arg(i18n("Edit %1 keyframe", TransitionsRepository::get()->getName(id))));
     }
-    m_oldValue = m_model->getKeyframeModel()->getKeyModel(m_index)->getInterpolatedValue(m_pos);
+    const QVariant oldValue = m_model->getKeyframeModel()->getKeyModel(index)->getInterpolatedValue(m_pos);
+    m_indexedValues.insert(index, {oldValue, std::move(value)});
 }
 
 void AssetKeyframeCommand::undo()
 {
-    m_model->getKeyframeModel()->getKeyModel(m_index)->directUpdateKeyframe(m_pos, m_oldValue);
+    QMapIterator<QPersistentModelIndex, std::pair<QVariant, QVariant>> i(m_indexedValues);
+    while (i.hasNext()) {
+        i.next();
+        m_model->getKeyframeModel()->getKeyModel(i.key())->directUpdateKeyframe(m_pos, i.value().first);
+    }
     QUndoCommand::undo();
 }
 // virtual
 void AssetKeyframeCommand::redo()
 {
-    m_model->getKeyframeModel()->getKeyModel(m_index)->directUpdateKeyframe(m_pos, m_value);
+    QMapIterator<QPersistentModelIndex, std::pair<QVariant, QVariant>> i(m_indexedValues);
+    while (i.hasNext()) {
+        i.next();
+        m_model->getKeyframeModel()->getKeyModel(i.key())->directUpdateKeyframe(m_pos, i.value().second);
+    }
     m_updateView = true;
     QUndoCommand::redo();
 }
@@ -192,11 +199,19 @@ int AssetKeyframeCommand::id() const
 // virtual
 bool AssetKeyframeCommand::mergeWith(const QUndoCommand *other)
 {
-    if (other->id() != id() || static_cast<const AssetKeyframeCommand *>(other)->m_index != m_index ||
+    if (other->id() != id() || static_cast<const AssetKeyframeCommand *>(other)->m_pos != m_pos ||
         m_stamp.msecsTo(static_cast<const AssetKeyframeCommand *>(other)->m_stamp) > 1000) {
         return false;
     }
-    m_value = static_cast<const AssetKeyframeCommand *>(other)->m_value;
+    QMapIterator<QPersistentModelIndex, std::pair<QVariant, QVariant>> i(static_cast<const AssetKeyframeCommand *>(other)->m_indexedValues);
+    while (i.hasNext()) {
+        i.next();
+        if (m_indexedValues.contains(i.key())) {
+            m_indexedValues[i.key()] = {m_indexedValues.value(i.key()).first, i.value().second};
+        } else {
+            m_indexedValues.insert(i.key(), i.value());
+        }
+    }
     m_stamp = static_cast<const AssetKeyframeCommand *>(other)->m_stamp;
     return true;
 }
