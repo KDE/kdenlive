@@ -1263,6 +1263,8 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                     if (currentEffectPos != target) {
                         ms->move_filter(currentEffectPos, target);
                         if (!effectItem->isHiddenBuiltIn()) {
+                            // Get position in Kdenlive's effect stack
+                            target -= firstEffectPos;
                             rootItem->moveChild(target, effectItem);
                         }
                     }

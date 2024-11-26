@@ -417,7 +417,7 @@ void EffectStackView::changeEnabledState()
 
 void EffectStackView::loadEffects()
 {
-    // QMutexLocker lock(&m_mutex);
+    QMutexLocker lock(&m_mutex);
     m_model->plugBuiltinEffects();
     int max = m_model->rowCount();
     int active = 0;
@@ -425,6 +425,7 @@ void EffectStackView::loadEffects()
         active = qBound(0, m_model->getActiveEffect(), max - 1);
     } else if (max == 0) {
         // blank stack
+        lock.unlock();
         ObjectId item = m_model->getOwnerId();
         pCore->getMonitor(item.type == KdenliveObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
             ->slotShowEffectScene(MonitorSceneDefault);
@@ -493,6 +494,7 @@ void EffectStackView::loadEffects()
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
     }
+    lock.unlock();
     if (!hasLift) {
         updateTreeHeight();
     }

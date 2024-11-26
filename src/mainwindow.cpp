@@ -3563,47 +3563,48 @@ void MainWindow::focusTimeline()
 
 void MainWindow::slotClipInProjectTree()
 {
-    QList<int> ids = getCurrentTimeline()->controller()->selection();
-    if (!ids.isEmpty()) {
-        const QString binId = getCurrentTimeline()->controller()->getClipBinId(ids.constFirst());
-        // If we have multiple bins, check first if a visible bin contains it
-        raiseBin();
-        ObjectId id(KdenliveObjectType::TimelineClip, ids.constFirst(), pCore->currentTimelineId());
-        int start = pCore->getItemIn(id);
-        int duration = pCore->getItemDuration(id);
-        int pos = m_projectMonitor->position();
-        int itemPos = pCore->getItemPosition(id);
-        bool containsPos = (pos >= itemPos && pos < itemPos + duration);
-        double speed = pCore->getClipSpeed(id);
-        if (containsPos) {
-            pos -= itemPos - start;
-        }
-        if (!qFuzzyCompare(speed, 1.)) {
-            if (speed > 0.) {
-                // clip has a speed effect, adjust zone
-                start = qRound(start * speed);
-                duration = qRound(duration * speed);
+    int cid = getCurrentTimeline()->controller()->getMainSelectedClip();
+    if (cid == -1) {
+        return;
+    }
+    const QString binId = getCurrentTimeline()->controller()->getClipBinId(cid);
+    // If we have multiple bins, check first if a visible bin contains it
+    raiseBin();
+    ObjectId id(KdenliveObjectType::TimelineClip, cid, pCore->currentTimelineId());
+    int start = pCore->getItemIn(id);
+    int duration = pCore->getItemDuration(id);
+    int pos = m_projectMonitor->position();
+    int itemPos = pCore->getItemPosition(id);
+    bool containsPos = (pos >= itemPos && pos < itemPos + duration);
+    double speed = pCore->getClipSpeed(id);
+    if (containsPos) {
+        pos -= itemPos - start;
+    }
+    if (!qFuzzyCompare(speed, 1.)) {
+        if (speed > 0.) {
+            // clip has a speed effect, adjust zone
+            start = qRound(start * speed);
+            duration = qRound(duration * speed);
+            if (containsPos) {
+                pos = qRound(pos * speed);
+            }
+        } else if (speed < 0.) {
+            int max = getCurrentTimeline()->controller()->clipMaxDuration(id.itemId);
+            if (max > 0) {
+                int invertedPos = itemPos + duration - m_projectMonitor->position();
+                start = qRound((max - (start + duration)) * -speed);
+                duration = qRound(duration * -speed);
                 if (containsPos) {
-                    pos = qRound(pos * speed);
-                }
-            } else if (speed < 0.) {
-                int max = getCurrentTimeline()->controller()->clipMaxDuration(id.itemId);
-                if (max > 0) {
-                    int invertedPos = itemPos + duration - m_projectMonitor->position();
-                    start = qRound((max - (start + duration)) * -speed);
-                    duration = qRound(duration * -speed);
-                    if (containsPos) {
-                        pos = start + qRound(invertedPos * -speed);
-                    }
+                    pos = start + qRound(invertedPos * -speed);
                 }
             }
         }
-        QPoint zone(start, start + duration - 1);
-        if (!containsPos) {
-            pos = start;
-        }
-        activeBin()->selectClipById(binId, pos, zone, true);
     }
+    QPoint zone(start, start + duration - 1);
+    if (!containsPos) {
+        pos = start;
+    }
+    activeBin()->selectClipById(binId, pos, zone, true);
 }
 
 void MainWindow::slotSelectClipInTimeline()
