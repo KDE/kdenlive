@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-23 02:27+0000\n"
-"PO-Revision-Date: 2024-11-24 09:16+0100\n"
+"PO-Revision-Date: 2024-11-25 18:20+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -1176,6 +1176,9 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"Grundläggande tvådimensionell kartlinje (för plats) eller endimensionellt "
+"diagram per tid (andra). Zooma in på kartan/diagrammet centrerad på aktuell "
+"plats, Rita hastighetsmätare."
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1195,6 +1198,20 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>Hastighetsmätare</b> är tillgänglig för alla datakällor men "
+"rekommenderas endast för hastighet; för karttypen representerar den "
+"\"procent avklarat\" från trimmad start - slut).<br>\n"
+"Observera: För typ 1 (zoom och centrera, som också kallas \"följ punkten\"):"
+"<br>\n"
+"* är beskärningsvärden endast giltiga som en procentandel och endast de "
+"nedre (respektive vänstra) värdena\n"
+"beaktas eftersom båda värdena (dvs. övre/nedre) måste vara lika\n"
+"för att hålla punkten centrerad)<br>\n"
+"* görs centreringen endast  för horisontell axel om datakällan inte är en "
+"GPS-position\n"
+"(tid), vertikal axelbeskärning beter sig precis som för den grundläggande "
+"tvådimensionella kartlinjen (den behåller statiskt\n"
+"samma min/max-gräns som gör att Nu-punkten kan flyttas uppåt och neråt).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
@@ -1210,6 +1227,11 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Trimma data från början av GPS-filen (som en procentandel av det "
+"totala värdet). <br>\n"
+"    \tObservera: både <em>Trimningsstart</em> och <em>Trimningsslut</em> "
+"beräknas från den totala filen så att trimma 50 % start och 50 % slut "
+"resulterar i att hela filen trimmas.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
@@ -1225,11 +1247,16 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Trimma data från slutet av GPS-filen (som en procentandel av det "
+"totala värdet). <br>\n"
+"    \tObservera: Både <em>Trimningsstart</em> och <em>Trimningsslut</em> "
+"beräknas från den totala filen så att trimma 50 % start och 50 % slut "
+"resulterar i att hela filen trimmas.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Procentvärde från min..max,Absolutvärde"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1246,6 +1273,12 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[Bestämmer hur värdena <em>Beskär vänster<em> och <em>Beskär höger</"
+"em> ska tolkas.<br>\n"
+"    \tObservera: För den horisontella typen är absolutvärden longituden (för "
+"platsens\n"
+"källtyp) och tiden (i millisekunder sedan epoken) för resten av "
+"källtyperna)]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -1265,6 +1298,15 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[Beskär data från den vänstra sidan av diagrammet (motsvarar att "
+"zooma in). <br>\n"
+"    \tVärdet tolkas antingen som en procentandel av det totala eller ett "
+"absolutvärde beroende på Beskärningsläge horisontellt. I procentläge är "
+"värdena inte begränsade till 0-100 för att tillåta \"zooma ut\" beteende "
+"(dvs. beskärning -50 vänster lägger till en extra halva av det totala "
+"horisontella avståndet). Värden över 100 (i %-läge) visar i praktiken "
+"ingenting. Om <em>Diagramtyp</em> är <b>hastighetsmätare</b> ignoreras alla "
+"beskärningsvärden för vänster/höger.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -1278,6 +1320,9 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Samma som <em>Beskär vänster</em> men för höger sida och procenttyp "
+"tolkas som en omvänd procentsats (dvs. 100 = beskär ingenting). Värden under "
+"0 visar i praktiken ingenting.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
@@ -1300,6 +1345,17 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[Bestämmer hur värdena <em>Beskär över</em> och <em>Beskär under</"
+"em> ska tolkas.<br/>\n"
+"    \tMed ett absolut värde kan det zooma in till mellan 100 och 150 m höjd "
+"för att visa\n"
+"små förändringar i höjd mellan de två värdena bättre.<br/>\n"
+"Observera: för den vertikala typen är absoluta värden latitudgrader (för "
+"platsens\n"
+"källtyp) och höjd, puls, hastighet för de andra tolkade enligt typ av "
+"<em>Förklaringsenhet</em>\n"
+"när tillämpligt (dvs: ett värde på 10 för höjd betraktas normalt som meter\n"
+"men om man ändrar <em>Förklaringsenhet</em> till fot betyder det 10 fot).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
@@ -1319,6 +1375,15 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[Beskär data från diagrammets undersida (motsvarar att zooma in). "
+"<br>\n"
+"    \tVärdet tolkas antingen som en procentandel av det totala eller ett "
+"absolutvärde beroende på Beskärningsläge vertikalt. I procentläge är värdena "
+"inte begränsade till 0-100 för att tillåta \"zooma ut\" beteende (dvs. "
+"beskära -50 lägger till en extra halva av det totala vertikala avståndet "
+"till botten). Värden över 100 (i %-läge) visar i praktiken ingenting. Om "
+"<em>Diagramtyp</em> är hastighetsmätare, ställer det in den lägsta "
+"mätarpositionen som klipper alla värden som är lägre.]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
@@ -1333,6 +1398,9 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Samma som <em>Beskär under</em> men för översidan och procenttyp "
+"tolkas som en omvänd procentsats (dvs. 100 = beskär ingenting).<br>\n"
+"    \tVärden under 0 visar i praktiken ingenting.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1342,6 +1410,11 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"En färg, Två färger, Heldragen i förfluten tid - tunn i framtid, Heldragen i "
+"framtid - tunn i förfluten tid, Vertikal toning, Horisontell toning, Färg "
+"efter längd, Färg efter höjd, Färg efter puls, Färg efter hastighet, Färg "
+"efter hastighet (max 100 km/t) ,Färg enligt riktning (max 90 grader), Färg "
+"enligt riktning (max 20 grader)"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -1351,7 +1424,7 @@ msgstr "Diagrammets färgstil"
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "Se dokumentationen om de olika stilarna som finns tillgängliga"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1362,7 +1435,7 @@ msgstr "Färg 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "Ställer in färg nr. 1 för diagramlinjen"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1373,7 +1446,7 @@ msgstr "Färg 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "Ställer in färg nr. 2 för diagramlinjen"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -1383,7 +1456,7 @@ msgstr "Färg 3"
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "Ställer in färg nr. 3 för diagramlinjen"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -1393,7 +1466,7 @@ msgstr "Färg 4"
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "Ställer in färg nr. 4 för diagramlinjen"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -1403,7 +1476,7 @@ msgstr "Färg 5"
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "Ställer in färg nr. 5 för diagramlinjen"
 
 #: data/effects/gpsgraphic.xml:116
 #, kde-format
@@ -1417,16 +1490,19 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[Aktivera det för att rita en skiva vid aktuell plats/tid över "
+"diagramlinjen.<br>\n"
+"    \tOm diagramtypen är hastighetsmätare påverkar det visaren.]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, kde-format
 msgid "Now dot color"
-msgstr ""
+msgstr "Nu-punktens färg"
 
 #: data/effects/gpsgraphic.xml:122
 #, kde-format
 msgid "Sets the color for the Now dot"
-msgstr ""
+msgstr "Ställer in färgen på nu-punkten"
 
 #: data/effects/gpsgraphic.xml:125
 #, kde-format
@@ -1442,6 +1518,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[Aktivera för att rita det aktuella värdet med stora vita bokstäver "
+"med fetstil längst ner till höger om rektangeln. <br>\n"
+"    \tVärdet på <em>Förklaringsenhet</em> läggs till i slutet och används "
+"som aktuell enhet (om en giltig enhet hittas, t.ex. kilometer om \"km\" "
+"finns någonstans i strängen <em>Förklaringsenhet</em>).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1457,6 +1538,8 @@ msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Rotera hela diagramrektangeln. För hastighetsmätartyp förblir texten "
+"horisontell."
 
 #: data/effects/gpsgraphic.xml:134
 #, kde-format
@@ -1484,11 +1567,18 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[Om aktiverat kommer ritar det 5 horisontella (och vertikala för "
+"karttypen) <br>\n"
+"    \tlinjer med små värden som vart och ett motsvarar den aktuella "
+"datakällans värde vid 0 %, 25 %, 50 %, 75 % och 100 % av det aktuella "
+"diagrammet som visas, påverkade av typens <em>Förklaringsenhet</em> om "
+"tillämpligt, och med strängen tillagd till värdet. För hastighetsmätartyp "
+"visar det delvärden (men utan att lägga till enhet).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Förklaringsenhet"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1497,6 +1587,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,meter,km,kilometer,mi,mile,ft,fot,nm,sjömil,ms,m/s,meter per sek,km,km/h,"
+"kilometer i timmen,mi,mi/t,mile i timmen,ft,ft/s,fot per sek,kn,nm/t,knop,"
+"mmin,m/min,ftmin,ft/min"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1506,6 +1599,11 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Ställer in enheten som ska användas för att visa värden för typens "
+"höjd och hastighet.<br>\n"
+"        Standardvärdet är meter respektive km/t. Enheten matchas var som "
+"helst i strängen så extra mellanslag kan användas för att justera "
+"visningen.]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -1522,11 +1620,17 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[Om aktiverat ritas diagrammet med individuella punkter istället för "
+"linjer.<br>\n"
+"    \tDet visar de individuella datapunkterna som påverkas av utjämning "
+"(dvs: för platsdata visar den varje GPS-fix om utjämningen är 1) och kan "
+"antingen användas som en häftig effekt när det zoomas in tillräckligt eller "
+"för att felsöka oväntade radhopp.]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
 msgid "Graph rectangle"
-msgstr ""
+msgstr "Diagramrektangel"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1535,6 +1639,9 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[Definierar rektangeln som diagrammet ska ritas i.<br>\n"
+"        Formatet är: \"X Y B H\". X, Y, B, H antas vara bildpunktsenheter om "
+"de inte har suffixet '%'.]]>"
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
@@ -1549,6 +1656,10 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[Om en giltig bildfil väljs kommer den att användas som bakgrund för "
+"rektangelområdet.<br>\n"
+"      \tSökvägar som börjar med tecknet \"!\" ignoreras. Tips: använd en "
+"kartbild för att lägga till sammanhang till GPS-spåret.]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
@@ -1563,6 +1674,10 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[Skala bakgrundsbilden (i förhållande till mitten) för att matcha "
+"den med GPS-spåret ovan.<br>\n"
+"    \tVärden mindre än 100 zoomar in i bilden, värden större än 100 zoomar "
+"ut. 0 döljer den.]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1572,7 +1687,7 @@ msgstr "Bakgrundens ogenomskinlighet"
 #: data/effects/gpsgraphic.xml:170
 #, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr ""
+msgstr "<![CDATA[Ställer in ogenomskinligheten för bakgrundsbilden]]>"
 
 #: data/effects/gpsgraphic.xml:173
 #, kde-format
@@ -1582,7 +1697,7 @@ msgstr "GPS-starttid"
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "Datum och tid för den första giltiga GPS-punkten."
 
 #: data/effects/gpsgraphic.xml:177
 #, kde-format
@@ -1597,7 +1712,7 @@ msgstr "Videofilens datum och tid."
 #: data/effects/gpsgraphic.xml:181
 #, kde-format
 msgid "Auto offset start"
-msgstr ""
+msgstr "Automatisk position start"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1606,11 +1721,14 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Tillhandahåller en hjälpposition för att garantera start av videofilens "
+"synkronisering med GPS-filens början. Ställer in positionen korrekt om "
+"videofilen och GPS-inspelningen startade samtidigt."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Automatisk position nu"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -1619,16 +1737,19 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if you video record "
 "the moment GPS starts."
 msgstr ""
+"Tillhandahåller en hjälpposition för att synkronisera den första GPS-punkten "
+"till aktuell videotid (den uppdateras varje sekund). Ställer in positionen "
+"korrekt om man spelar in video när GPS startas."
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
 msgid "Map hint"
-msgstr ""
+msgstr "Karttips"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
-msgstr ""
+msgstr "Returnerar GPS-filens mellersta latitud- och longitudkoordinater."
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -6181,7 +6302,7 @@ msgstr "version"
 #: src/bin/playlistclip.cpp:169
 #, kde-format
 msgid "Sequence count"
-msgstr ""
+msgstr "Sekvensräkning"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -7422,6 +7543,8 @@ msgstr "Progressiv"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"Processorbearbetning är mycket långsam, Grafikprocessor rekommenderas för "
+"snabbare bearbetning"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1777
 #, kde-format
@@ -7430,16 +7553,19 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"Textöversättning utförs av modellen SeamlessM4T. Det kräver nerladdning av "
+"cirka 10 GB data. När den har installerats sker all bearbetning i nedkopplat "
+"läge."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1796
 #, kde-format
 msgid "Download (1.4Gb)"
-msgstr ""
+msgstr "Nerladdning (1,4 GB)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1818
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Installerar flerspråksdata…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7487,7 +7613,7 @@ msgstr "Sonderar..."
 #: src/dialogs/kdenlivesettingsdialog.cpp:1942
 #, kde-format
 msgid "Downloading multilingual model…"
-msgstr ""
+msgstr "Laddar ner flerspråksmodell…"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1998
 #: src/dialogs/kdenlivesettingsdialog.cpp:2294
@@ -7508,26 +7634,26 @@ msgstr ""
 #: src/dialogs/kdenlivesettingsdialog.cpp:2046 src/ui/configspeech_ui.ui:308
 #, kde-format
 msgid "Install multilingual translation"
-msgstr ""
+msgstr "Installera flerspråksöversättning"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2055
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Installera en talmodell. Vi rekommenderar <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2087
 #: src/dialogs/kdenlivesettingsdialog.cpp:2101
 #: src/dialogs/kdenlivesettingsdialog.cpp:2110
 #, kde-format
 msgid "Install a model"
-msgstr ""
+msgstr "Installera en modell"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2103
 #: src/dialogs/kdenlivesettingsdialog.cpp:2112 src/ui/configspeech_ui.ui:232
 #, kde-format
 msgid "Manage models"
-msgstr ""
+msgstr "Hantera modeller"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2172
 #, kde-format
