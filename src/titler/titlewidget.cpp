@@ -3056,7 +3056,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     textOutlineColor->setColor(color);
                     textOutlineColor->blockSignals(false);
                 }
-                if (!i->data(TitleDocument::Gradient).isNull()) {
+                if (!i->data(TitleDocument::Gradient).toString().isNull()) {
                     gradients_combo->blockSignals(true);
                     gradient_color->setChecked(true);
                     QString gradientData = i->data(TitleDocument::Gradient).toString();
@@ -3292,6 +3292,10 @@ void TitleWidget::slotEditGradient()
         gradients_rect_combo->clear();
         int ix = 0;
         while (i != gradMap.constEnd()) {
+            if (i.value().isEmpty()) {
+                // Don't allow empty gradients
+                continue;
+            }
             group.writeEntry(i.key(), i.value());
             gradients_combo->addItem(icons.at(ix), i.key(), i.value());
             gradients_rect_combo->addItem(icons.at(ix), i.key(), i.value());
@@ -3347,6 +3351,10 @@ void TitleWidget::loadGradients()
     QMapIterator<QString, QString> k(values);
     while (k.hasNext()) {
         k.next();
+        if (k.value().isEmpty()) {
+            // Don't allow empty gradients
+            continue;
+        }
         QPixmap pix(30, 30);
         pix.fill(Qt::transparent);
         QLinearGradient gr = GradientWidget::gradientFromString(k.value(), pix.width(), pix.height());
