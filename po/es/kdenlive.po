@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-23 02:27+0000\n"
-"PO-Revision-Date: 2024-11-23 01:18+0100\n"
+"PO-Revision-Date: 2024-11-25 01:54+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1767,6 +1767,9 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if you video record "
 "the moment GPS starts."
 msgstr ""
+"Proporciona un desfase auxiliar para sincronizar el primer punto GPS con el "
+"tiempo de video actual (se actualiza cada segundo). Establece correctamente "
+"el desfase si se graba el video en el momento en que se inicia el GPS."
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
