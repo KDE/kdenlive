@@ -74,9 +74,7 @@ public:
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
-    QPersistentModelIndex m_index;
-    QVariant m_value;
-    QVariant m_oldValue;
+    QMap<QPersistentModelIndex, std::pair<QVariant, QVariant>> m_indexedValues;
     GenTime m_pos;
     bool m_updateView;
     QTime m_stamp;

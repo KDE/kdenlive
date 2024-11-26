@@ -163,6 +163,7 @@ Item {
         }
         root.centerPointsTypes = types
         root.centerPoints = points
+        canvas.requestPaint()
     }
 
     Item {

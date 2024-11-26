@@ -48,7 +48,6 @@ Item {
     property int requestedKeyFrame: 0
     property var centerPoints: []
     property var centerPointsTypes: []
-    onCenterPointsChanged: canvas.requestPaint()
     signal effectChanged()
     signal centersChanged()
 
@@ -58,6 +57,7 @@ Item {
       }
       root.centerPointsTypes = types
       root.centerPoints = points
+      canvas.requestPaint()
     }
 
     function getSnappedPos(position) {

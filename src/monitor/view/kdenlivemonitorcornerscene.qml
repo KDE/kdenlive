@@ -45,8 +45,15 @@ Item {
     property double frameSize: 10
     property double timeScale: 1
     property var centerPoints: []
-    onCenterPointsChanged: canvas.requestPaint()
     signal effectPolygonChanged()
+
+    function updatePoints(types, points) {
+        if (global.pressed) {
+            return
+        }
+        root.centerPoints = points
+        canvas.requestPaint()
+    }
 
     function updateClickCapture() {
         root.captureRightClick = false
