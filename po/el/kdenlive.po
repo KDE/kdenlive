@@ -22558,8 +22558,7 @@ msgstr "Παρεμβολή"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "Scale X"
+#, kde-format
 msgid "Scale X"
 msgstr "Κλίμακα X"
 
@@ -22623,8 +22622,7 @@ msgstr "Στοίχιση στο κέντρο"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "Scale Y"
+#, kde-format
 msgid "Scale Y"
 msgstr "Κλίμακα Y"
 

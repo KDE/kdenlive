@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-23 00:40+0000\n"
-"PO-Revision-Date: 2024-11-24 08:22+0200\n"
+"PO-Revision-Date: 2024-11-25 22:18+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1244,6 +1244,10 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[החלטה איך לפענח את הערכים <em>חיתוך משמאל</em> ו<em>חיתוך מימין</"
+"em>.<br>\n"
+"    \tנא לשים לב: לסוג האופקי, ערכים מוחלטים הם האורך (לסוג מקור מקום)\n"
+"והזמן (במילישניות מאז Epoch) לשאר סוגי מקורות הנתונים)]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -1263,6 +1267,12 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[חיתוך נתונים מהצד השמאלי של התרשים (בפועל מקרב). <br>\n"
+"    \tהערך מפוענח כאחוז מסך הכול או ערך מוחלט כתלות ב־crop_mode_h. במצב "
+"אחוזים, הערכים לא מוגבלים ל־0‏-100 כדי לאפשר התנהגות „התרחקות” (כלומר: חיתוך "
+"של -50 משמאל יוסיף עוד חצי מהמרחק האופקי הכולל). ערכים מעל 100 (במצב אחוזים) "
+"לא יציג כלום בפועל. אם <em>סוג התרשים</em> מוגדר ל<b>מד־אוץ</b>, כל ערכי "
+"חיתוך שמאל/ימין נפסחים.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -1276,6 +1286,8 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[כמו <em>חיתוך משמאל</em> אבל לצד הימני, וסוג האחוזים מפוענח כאחוזים "
+"הפוכים (כלומר: 100 = לא לחתוך כלום). ערכים מתחת ל־100 לא יציגו כלום בפועל.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
