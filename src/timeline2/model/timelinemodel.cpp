@@ -141,7 +141,7 @@ TimelineModel::TimelineModel(const QUuid &uuid, std::weak_ptr<DocUndoStack> undo
         // This is not the main tractor
         m_tractor->set("id", uuid.toString().toUtf8().constData());
     }
-
+    m_guidesFilterModel.reset(new MarkerSortModel(this));
     TRACE_CONSTR(this);
 }
 
@@ -210,7 +210,6 @@ void TimelineModel::setMarkerModel(std::shared_ptr<MarkerListModel> markerModel)
     }
     m_guidesModel = markerModel;
     m_guidesModel->registerSnapModel(std::static_pointer_cast<SnapInterface>(m_snaps));
-    m_guidesFilterModel.reset(new MarkerSortModel(this));
     m_guidesFilterModel->setSourceModel(m_guidesModel.get());
     m_guidesFilterModel->setSortRole(MarkerListModel::PosRole);
     m_guidesFilterModel->sort(0, Qt::AscendingOrder);
