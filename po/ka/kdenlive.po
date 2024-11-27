@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-23 02:27+0000\n"
+"POT-Creation-Date: 2024-11-27 02:31+0000\n"
 "PO-Revision-Date: 2024-11-07 04:05+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -4227,13 +4227,13 @@ msgstr "ძირითადი კადრის მნიშვნელო�
 msgid "Edit %1"
 msgstr "%1-ის ჩასწორება"
 
-#: src/assets/model/assetcommand.cpp:166 src/assets/model/assetcommand.cpp:169
-#: src/assets/model/assetcommand.cpp:216 src/assets/model/assetcommand.cpp:218
+#: src/assets/model/assetcommand.cpp:164 src/assets/model/assetcommand.cpp:167
+#: src/assets/model/assetcommand.cpp:231 src/assets/model/assetcommand.cpp:233
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "%1 ძირითადი კადრის ჩასწორება"
 
-#: src/assets/model/assetcommand.cpp:274 src/assets/model/assetcommand.cpp:276
+#: src/assets/model/assetcommand.cpp:289 src/assets/model/assetcommand.cpp:291
 #, kde-format
 msgid "Update %1"
 msgstr "%1-ის განახლება"
@@ -5374,7 +5374,7 @@ msgid "Create bin folder"
 msgstr "კალათის საქაღალდის შექმნა"
 
 #: src/bin/bin.cpp:2687 src/bin/bin.cpp:2700 src/bin/bin.cpp:3694
-#: src/timeline2/model/timelinemodel.cpp:2164
+#: src/timeline2/model/timelinemodel.cpp:2163
 #, kde-format
 msgid "Delete Clip"
 msgstr "კლიპის წაშლა"
@@ -5811,7 +5811,7 @@ msgstr "ეფექტის წაშლა: %1"
 msgid "Project Bin"
 msgstr "პროექტის კალათა"
 
-#: src/bin/bin.cpp:6402 src/bin/bin.cpp:6405 src/mainwindow.cpp:4798
+#: src/bin/bin.cpp:6402 src/bin/bin.cpp:6405 src/mainwindow.cpp:4799
 #, kde-format
 msgid "Project Bin %1"
 msgstr "პროექტის კალათა %1"
@@ -6123,20 +6123,20 @@ msgid "Cut clip"
 msgstr "კლიპის ამოჭრა"
 
 #: src/bin/model/subtitlemodel.cpp:852 src/bin/model/subtitlemodel.cpp:1625
-#: src/timeline2/model/timelinemodel.cpp:3975
+#: src/timeline2/model/timelinemodel.cpp:3974
 #, kde-format
 msgid "Resize subtitle"
 msgstr "სუბტიტრის ზომის შეცვლა"
 
 #: src/bin/model/subtitlemodel.cpp:1050
-#: src/timeline2/model/timelinemodel.cpp:1350
+#: src/timeline2/model/timelinemodel.cpp:1349
 #, kde-format
 msgid "Move subtitle"
 msgstr "სუბტიტრის გადატანა"
 
 #: src/bin/model/subtitlemodel.cpp:1220
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:605
-#: src/effects/effectstack/view/effectstackview.cpp:772
+#: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
 #: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:370
 #, kde-format
@@ -7094,7 +7094,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/effects/effectlist/model/effecttreemodel.cpp:303
 #: src/effects/effectsrepository.cpp:419
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:681
-#: src/effects/effectstack/view/effectstackview.cpp:807
+#: src/effects/effectstack/view/effectstackview.cpp:809
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
@@ -7189,7 +7189,7 @@ msgstr "კოდირება დადგენილია, როგორ
 msgid "Import Subtitle"
 msgstr "სუბტიტრების შემოტანა"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3928
+#: src/dialogs/kdenlivesettingsdialog.cpp:114 src/mainwindow.cpp:3929
 #, kde-format
 msgid "Timeline"
 msgstr "თაიმლაინი"
@@ -10415,14 +10415,14 @@ msgstr "ეფექტის კოპირება"
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:534
 #: src/effects/effectstack/model/effectstackmodel.cpp:639
-#: src/effects/effectstack/model/effectstackmodel.cpp:1425
+#: src/effects/effectstack/model/effectstackmodel.cpp:1427
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "ეფექტს %1 ორჯერ ვერ დაამატებთ."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
-#: src/timeline2/model/timelinemodel.cpp:5085
+#: src/timeline2/model/timelinemodel.cpp:5084
 #, kde-format
 msgid "Add effect %1"
 msgstr "ეფექტის დამატება: %1"
@@ -10652,47 +10652,47 @@ msgstr "ვერტიკალური გადაბრუნება"
 msgid "Flip"
 msgstr "გადაბრუნება"
 
-#: src/effects/effectstack/view/effectstackview.cpp:689
+#: src/effects/effectstack/view/effectstackview.cpp:691
 #: src/timeline2/view/timelinecontroller.cpp:3276
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "ეფექტების სტეკის ჩართვა"
 
-#: src/effects/effectstack/view/effectstackview.cpp:689
+#: src/effects/effectstack/view/effectstackview.cpp:691
 #: src/timeline2/view/timelinecontroller.cpp:3276
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "ეფექტების სტეკის გამორთვა"
 
-#: src/effects/effectstack/view/effectstackview.cpp:728
+#: src/effects/effectstack/view/effectstackview.cpp:730
 #, kde-format
 msgid "No effect selected."
 msgstr "ეფექტი არჩეული არაა."
 
-#: src/effects/effectstack/view/effectstackview.cpp:734
+#: src/effects/effectstack/view/effectstackview.cpp:736
 #, kde-format
 msgctxt "@title:window"
 msgid "Save current Effect Stack"
 msgstr "მიმდინარე ეფექტის სტეკის შენახვა"
 
-#: src/effects/effectstack/view/effectstackview.cpp:739
+#: src/effects/effectstack/view/effectstackview.cpp:741
 #, kde-format
 msgid "Name for saved stack:"
 msgstr "სახელი შენახული სტეკისთვის:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/effects/effectstack/view/effectstackview.cpp:740
+#: src/effects/effectstack/view/effectstackview.cpp:742
 #: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
 #, kde-format
 msgid "Description:"
 msgstr "აღწერა:"
 
-#: src/effects/effectstack/view/effectstackview.cpp:753
+#: src/effects/effectstack/view/effectstackview.cpp:755
 #, kde-format
 msgid "No name provided, effect stack not saved."
 msgstr "სახელი მითითებული არაა. ეფექტის სტეკი შენახული არ იქნება."
 
-#: src/effects/effectstack/view/effectstackview.cpp:760
+#: src/effects/effectstack/view/effectstackview.cpp:762
 #, kde-format
 msgid ""
 "No description provided. \n"
@@ -11050,13 +11050,13 @@ msgid "Add Markers by Category"
 msgstr "სანიშნების დამატება კატეგორიით"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:93 src/mainwindow.cpp:3823
+#: src/kdenliveui.rc:93 src/mainwindow.cpp:3824
 #, kde-format
 msgid "Extract Audio"
 msgstr "აუდიოს გამოღება"
 
 #. i18n: ectx: Menu (clip_actions)
-#: src/kdenliveui.rc:96 src/mainwindow.cpp:3797
+#: src/kdenliveui.rc:96 src/mainwindow.cpp:3798
 #, kde-format
 msgid "Clip Jobs"
 msgstr "კლიპის დავალებები"
@@ -13021,7 +13021,7 @@ msgstr "სუბტიტრის ფაილის შემოტანა�
 msgid "Export Subtitle File…"
 msgstr "სუბტიტრის ფაილის გატანა…"
 
-#: src/mainwindow.cpp:1910 src/timeline2/model/timelinemodel.cpp:2168
+#: src/mainwindow.cpp:1910 src/timeline2/model/timelinemodel.cpp:2167
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "სუბტიტრების წაშლა"
@@ -13383,94 +13383,94 @@ msgstr ""
 msgid "Insert"
 msgstr "ჩასმა"
 
-#: src/mainwindow.cpp:3713 src/mainwindow.cpp:3715
+#: src/mainwindow.cpp:3714 src/mainwindow.cpp:3716
 #, kde-format
 msgid "Scopes"
 msgstr "ფარგლები"
 
-#: src/mainwindow.cpp:3720
+#: src/mainwindow.cpp:3721
 #, kde-format
 msgid "Project Bins"
 msgstr "პროექტის კალათები"
 
-#: src/mainwindow.cpp:3816
+#: src/mainwindow.cpp:3817
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "კლიპის დავალებების მორგება…"
 
-#: src/mainwindow.cpp:3822
+#: src/mainwindow.cpp:3823
 #, kde-format
 msgid "Transcoders"
 msgstr "გადამკოდირებლები"
 
-#: src/mainwindow.cpp:3882
+#: src/mainwindow.cpp:3883
 #, kde-format
 msgid "-merged"
 msgstr "-merged"
 
-#: src/mainwindow.cpp:3885
+#: src/mainwindow.cpp:3886
 #, kde-format
 msgid "-stream-%1"
 msgstr "-stream-%1"
 
-#: src/mainwindow.cpp:3927
+#: src/mainwindow.cpp:3928
 #, kde-format
 msgid "Interface"
 msgstr "ინტერფეისი"
 
-#: src/mainwindow.cpp:3949
+#: src/mainwindow.cpp:3950
 #, kde-format
 msgid "Raise %1"
 msgstr "%1-ის აწევა"
 
-#: src/mainwindow.cpp:4016
+#: src/mainwindow.cpp:4017
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "გადასაკოდირებელი ფაილები"
 
-#: src/mainwindow.cpp:4148
+#: src/mainwindow.cpp:4149
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "დასაარქივებლად პროექტის ფაილის შენახვა შეუძლებელია."
 
-#: src/mainwindow.cpp:4154
+#: src/mainwindow.cpp:4155
 #, kde-format
 msgid "Archiving project"
 msgstr "პროექტის დაარქივება"
 
-#: src/mainwindow.cpp:4294
+#: src/mainwindow.cpp:4295
 #, kde-format
 msgid "Icon Size"
 msgstr "ხატულების ზომა"
 
-#: src/mainwindow.cpp:4298
+#: src/mainwindow.cpp:4299
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ნაგულისხმები"
 
-#: src/mainwindow.cpp:4319 src/mainwindow.cpp:4347
+#: src/mainwindow.cpp:4320 src/mainwindow.cpp:4348
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "პატარა (%1x%2)"
 
-#: src/mainwindow.cpp:4321 src/mainwindow.cpp:4349
+#: src/mainwindow.cpp:4322 src/mainwindow.cpp:4350
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "საშუალო (%1x%2)"
 
-#: src/mainwindow.cpp:4323 src/mainwindow.cpp:4351
+#: src/mainwindow.cpp:4324 src/mainwindow.cpp:4352
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "მოზრდილი (%1x%2)"
 
-#: src/mainwindow.cpp:4325 src/mainwindow.cpp:4353
+#: src/mainwindow.cpp:4326 src/mainwindow.cpp:4354
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ვეება (%1x%2)"
 
-#: src/mainwindow.cpp:4409
+#: src/mainwindow.cpp:4410
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -13478,27 +13478,27 @@ msgid ""
 msgstr ""
 "ეს მენიუს ზოლს მთლიანად დამალავს. მისი ჩვენება Ctrl+M ღილაკებით შეგიძლიათ."
 
-#: src/mainwindow.cpp:4409
+#: src/mainwindow.cpp:4410
 #, kde-format
 msgid "Hide menu bar"
 msgstr "მენიუს ზოლის დამალვა"
 
-#: src/mainwindow.cpp:4667 src/timeline2/view/timelinecontroller.cpp:5080
+#: src/mainwindow.cpp:4668 src/timeline2/view/timelinecontroller.cpp:5080
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "მიმდინარე პროექტში სუბტიტრები არაა"
 
-#: src/mainwindow.cpp:4954
+#: src/mainwindow.cpp:4955
 #, kde-format
 msgid "Go to download page"
 msgstr "გადმოწერის გვერდზე გადასვლა"
 
-#: src/mainwindow.cpp:4957
+#: src/mainwindow.cpp:4958
 #, kde-format
 msgid "Never check again"
 msgstr "აღარასდროს შეამოწმო"
 
-#: src/mainwindow.cpp:4960
+#: src/mainwindow.cpp:4961
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -13506,13 +13506,13 @@ msgid ""
 msgstr ""
 "თქვენი Kdenlive-ის ვერსია 1 წელზე ძველია. დაჟინებით გირჩევთ, ასწიოთ ვერსია"
 
-#: src/mainwindow.cpp:4963
+#: src/mainwindow.cpp:4964
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "თქვენი Kdenlive-ის ვერსია 6 თვეზე ძველია. გირჩევთ, განახლდეთ"
 
-#: src/mainwindow.cpp:5006
+#: src/mainwindow.cpp:5007
 #, kde-format
 msgid "Checking cached data size"
 msgstr "დაკეშილი მონაცემების შემოწმება"
@@ -14592,7 +14592,7 @@ msgstr ""
 "<shortcut>Shift სახელურის გადათრევა</shortcut> ცენტრზე დაფუძნებული ზომის "
 "შეცვლისთვის"
 
-#: src/monitor/view/kdenlivemonitorrotoscene.qml:430
+#: src/monitor/view/kdenlivemonitorrotoscene.qml:431
 #, kde-format
 msgid ""
 "Click to add points,\n"
@@ -17793,7 +17793,7 @@ msgid "Delete clips on track"
 msgstr "ტრეკზე კლიპები წაშლა"
 
 #: src/timeline2/model/timelineitemmodel.cpp:150
-#: src/timeline2/model/timelinemodel.cpp:4666
+#: src/timeline2/model/timelinemodel.cpp:4665
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -17848,140 +17848,140 @@ msgstr "კლიპი ჩანაცვლდა: %1. მეტისმე�
 msgid "Replace clip"
 msgstr "კლიპის ჩანაცვლება"
 
-#: src/timeline2/model/timelinemodel.cpp:979
-#: src/timeline2/model/timelinemodel.cpp:1196
+#: src/timeline2/model/timelinemodel.cpp:978
+#: src/timeline2/model/timelinemodel.cpp:1195
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "აირჩიეთ კლიპი შერევის გადასატარებლად"
 
-#: src/timeline2/model/timelinemodel.cpp:1194
+#: src/timeline2/model/timelinemodel.cpp:1193
 #, kde-format
 msgid "start"
 msgstr "დაწყება"
 
-#: src/timeline2/model/timelinemodel.cpp:1194
+#: src/timeline2/model/timelinemodel.cpp:1193
 #, kde-format
 msgid "end"
 msgstr "დასასრული"
 
-#: src/timeline2/model/timelinemodel.cpp:1194
+#: src/timeline2/model/timelinemodel.cpp:1193
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "არასაკმარისი კადრები კლიპთან %1 შერევისთვის"
 
-#: src/timeline2/model/timelinemodel.cpp:1200
+#: src/timeline2/model/timelinemodel.cpp:1199
 #, kde-format
 msgid "Create mix"
 msgstr "შეერთების შექმნა"
 
-#: src/timeline2/model/timelinemodel.cpp:1275
-#: src/timeline2/model/timelinemodel.cpp:1310
+#: src/timeline2/model/timelinemodel.cpp:1274
+#: src/timeline2/model/timelinemodel.cpp:1309
 #, kde-format
 msgid "Move clip"
 msgstr "კლიპის გადატანა"
 
-#: src/timeline2/model/timelinemodel.cpp:1841
-#: src/timeline2/model/timelinemodel.cpp:1931
-#: src/timeline2/model/timelinemodel.cpp:1954
-#: src/timeline2/model/timelinemodel.cpp:1977
+#: src/timeline2/model/timelinemodel.cpp:1840
+#: src/timeline2/model/timelinemodel.cpp:1930
+#: src/timeline2/model/timelinemodel.cpp:1953
+#: src/timeline2/model/timelinemodel.cpp:1976
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "ჩასმის ოპერაციისთვის ხელმისაწვდომი ტრეკის გარეშე"
 
-#: src/timeline2/model/timelinemodel.cpp:1846
+#: src/timeline2/model/timelinemodel.cpp:1845
 #, kde-format
 msgid "Insert Clip"
 msgstr "კლიპის ჩასმა"
 
-#: src/timeline2/model/timelinemodel.cpp:1899
+#: src/timeline2/model/timelinemodel.cpp:1898
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "მიმდევრობას, რომელიც თავის თავს შეიცავს, ვერ ჩასვამთ"
 
-#: src/timeline2/model/timelinemodel.cpp:1947
-#: src/timeline2/model/timelinemodel.cpp:1969
+#: src/timeline2/model/timelinemodel.cpp:1946
+#: src/timeline2/model/timelinemodel.cpp:1968
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "არასაკმარისი აუდიობილიკები ყველა ნაკადისთვის (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2053
+#: src/timeline2/model/timelinemodel.cpp:2052
 #, kde-format
 msgid "No available track for split operation"
 msgstr "ხელმიუწვდომელი ტრეკი გაყოფის ოპერაციისთვის"
 
-#: src/timeline2/model/timelinemodel.cpp:2090
+#: src/timeline2/model/timelinemodel.cpp:2089
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "ხმის გაყოფა ჩავარდა: შესაბამისი ტრეკის გარეშე"
 
-#: src/timeline2/model/timelinemodel.cpp:2098
+#: src/timeline2/model/timelinemodel.cpp:2097
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "ხმის გაყოფა ჩავარდა: აუდიოკლიპის შექმნა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:2161
+#: src/timeline2/model/timelinemodel.cpp:2160
 #, kde-format
 msgid "Remove group"
 msgstr "ჯგუფის წაშლა"
 
-#: src/timeline2/model/timelinemodel.cpp:2166
+#: src/timeline2/model/timelinemodel.cpp:2165
 #, kde-format
 msgid "Delete Composition"
 msgstr "კომპოზიციის წაშლა"
 
-#: src/timeline2/model/timelinemodel.cpp:2406
-#: src/timeline2/model/timelinemodel.cpp:2696
+#: src/timeline2/model/timelinemodel.cpp:2405
+#: src/timeline2/model/timelinemodel.cpp:2695
 #: src/timeline2/view/timelinecontroller.cpp:4236
 #, kde-format
 msgid "Move group"
 msgstr "ჯგუფის გადაადგილება"
 
-#: src/timeline2/model/timelinemodel.cpp:3390
+#: src/timeline2/model/timelinemodel.cpp:3389
 #, kde-format
 msgid "Resize group"
 msgstr "ჯგუფის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:3514
+#: src/timeline2/model/timelinemodel.cpp:3513
 #, kde-format
 msgid "Resize clip speed"
 msgstr "კლიპის სიჩქარის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:3673
+#: src/timeline2/model/timelinemodel.cpp:3672
 #, kde-format
 msgid "Remove mix"
 msgstr "შეერთების წაშლა"
 
-#: src/timeline2/model/timelinemodel.cpp:3675
+#: src/timeline2/model/timelinemodel.cpp:3674
 #, kde-format
 msgid "Removing mix failed"
 msgstr "შეერთების წაშლა ჩავარდა"
 
-#: src/timeline2/model/timelinemodel.cpp:3971
+#: src/timeline2/model/timelinemodel.cpp:3970
 #, kde-format
 msgid "Resize clip"
 msgstr "კლიპის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:3973
+#: src/timeline2/model/timelinemodel.cpp:3972
 #, kde-format
 msgid "Resize composition"
 msgstr "კომპოზიციის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:4292
+#: src/timeline2/model/timelinemodel.cpp:4291
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "კლიპის ზომის შეცვლა მისი წანაცვლებით"
 
-#: src/timeline2/model/timelinemodel.cpp:4294
+#: src/timeline2/model/timelinemodel.cpp:4293
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "კომპოზიციის ზომის შეცვლა მისი წანაცვლებით"
 
-#: src/timeline2/model/timelinemodel.cpp:4296
+#: src/timeline2/model/timelinemodel.cpp:4295
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "სუბტიტრის ზომის შეცვლა მისი წანაცვლებით"
 
-#: src/timeline2/model/timelinemodel.cpp:4439
+#: src/timeline2/model/timelinemodel.cpp:4438
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -17989,137 +17989,137 @@ msgid_plural "Slip clips"
 msgstr[0] "კლიპის გადახვევა"
 msgstr[1] "კლიპების გადახვევა"
 
-#: src/timeline2/model/timelinemodel.cpp:4474
+#: src/timeline2/model/timelinemodel.cpp:4473
 #, kde-format
 msgid "Slip clip"
 msgstr "კლიპის გადახვევა"
 
-#: src/timeline2/model/timelinemodel.cpp:4509
+#: src/timeline2/model/timelinemodel.cpp:4508
 #, kde-format
 msgid "Group clips"
 msgstr "კლიპების დაჯგუფება"
 
-#: src/timeline2/model/timelinemodel.cpp:4594
-#: src/timeline2/model/timelinemodel.cpp:4610
+#: src/timeline2/model/timelinemodel.cpp:4593
+#: src/timeline2/model/timelinemodel.cpp:4609
 #, kde-format
 msgid "Ungroup clips"
 msgstr "კლიპების განჯგუფება"
 
-#: src/timeline2/model/timelinemodel.cpp:4775
+#: src/timeline2/model/timelinemodel.cpp:4774
 #: src/timeline2/view/timelinecontroller.cpp:945
 #, kde-format
 msgid "Delete Track"
 msgstr "ტრეკის წაშლა"
 
-#: src/timeline2/model/timelinemodel.cpp:4785
+#: src/timeline2/model/timelinemodel.cpp:4784
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "დროის ხაზიდან უკანასკნელი ტრეკის წაშლა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:5010
+#: src/timeline2/model/timelinemodel.cpp:5009
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "ძირითად ტრეკს ეფექტს %1 ვერ დაამატებთ"
 
-#: src/timeline2/model/timelinemodel.cpp:5017
+#: src/timeline2/model/timelinemodel.cpp:5016
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "მონიშნულ ტრეკს ეფექტს %1 ვერ დაამატებთ"
 
-#: src/timeline2/model/timelinemodel.cpp:5038
+#: src/timeline2/model/timelinemodel.cpp:5037
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "ეფექტს ძირითად ტრეკში ვერ ჩასვამთ"
 
-#: src/timeline2/model/timelinemodel.cpp:5044
+#: src/timeline2/model/timelinemodel.cpp:5043
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "ეფექტს მონიშნულ ტრეკში ვერ ჩასვამთ"
 
-#: src/timeline2/model/timelinemodel.cpp:5088
+#: src/timeline2/model/timelinemodel.cpp:5087
 #: src/timeline2/view/timelinecontroller.cpp:1522
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "ეფექტის %1 დამატება მონიშნულ კლიპზე შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:5112
+#: src/timeline2/model/timelinemodel.cpp:5111
 #, kde-format
 msgid "Adjust Fade"
 msgstr "მინავლების გასწორება"
 
-#: src/timeline2/model/timelinemodel.cpp:5437
+#: src/timeline2/model/timelinemodel.cpp:5436
 #, kde-format
 msgid "Insert Composition"
 msgstr "კომპოზიციის ჩასმა"
 
-#: src/timeline2/model/timelinemodel.cpp:5658
+#: src/timeline2/model/timelinemodel.cpp:5657
 #, kde-format
 msgid "Move composition"
 msgstr "კომპოზიციის გადატანა"
 
-#: src/timeline2/model/timelinemodel.cpp:6326
+#: src/timeline2/model/timelinemodel.cpp:6325
 #, kde-format
 msgid "Enable time remap"
 msgstr "დროის თავიდან ასახვის ჩართვა"
 
-#: src/timeline2/model/timelinemodel.cpp:6400
+#: src/timeline2/model/timelinemodel.cpp:6399
 #, kde-format
 msgid "Change speed failed"
 msgstr "სიჩქარის შეცვლა ჩავარდა"
 
-#: src/timeline2/model/timelinemodel.cpp:6410
+#: src/timeline2/model/timelinemodel.cpp:6409
 #, kde-format
 msgid "Change clip speed"
 msgstr "კლიპის სიჩქარის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:6859
+#: src/timeline2/model/timelinemodel.cpp:6858
 #: src/timeline2/view/qml/timeline.qml:1209
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "ბილიკის ჩაკეტვა"
 
-#: src/timeline2/model/timelinemodel.cpp:6864
+#: src/timeline2/model/timelinemodel.cpp:6863
 #: src/timeline2/view/qml/timeline.qml:1209
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "ბილიკის გახსნა"
 
-#: src/timeline2/model/timelinemodel.cpp:6898
-#: src/timeline2/model/timelinemodel.cpp:6960
+#: src/timeline2/model/timelinemodel.cpp:6897
+#: src/timeline2/model/timelinemodel.cpp:6959
 #, kde-format
 msgid "Change composition"
 msgstr "კომპოზიციის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:6912
+#: src/timeline2/model/timelinemodel.cpp:6911
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "ოპერაციის გადატარება დაჯგუფებულ კომპოზიციაზე შეუძლებელია. ჯერ განაჯგუფეთ"
 
-#: src/timeline2/model/timelinemodel.cpp:7107
-#: src/timeline2/model/timelinemodel.cpp:7144
-#: src/timeline2/model/timelinemodel.cpp:7177
-#: src/timeline2/model/timelinemodel.cpp:7258
+#: src/timeline2/model/timelinemodel.cpp:7106
+#: src/timeline2/model/timelinemodel.cpp:7143
+#: src/timeline2/model/timelinemodel.cpp:7176
+#: src/timeline2/model/timelinemodel.cpp:7257
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "შერევის ზომის შეცვლა 1 კადრზე ნაკლებისთვის შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:7118
-#: src/timeline2/model/timelinemodel.cpp:7152
-#: src/timeline2/model/timelinemodel.cpp:7196
-#: src/timeline2/model/timelinemodel.cpp:7282
+#: src/timeline2/model/timelinemodel.cpp:7117
+#: src/timeline2/model/timelinemodel.cpp:7151
+#: src/timeline2/model/timelinemodel.cpp:7195
+#: src/timeline2/model/timelinemodel.cpp:7281
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "შერევის ზომის შეცვლა შეუძლებელია"
 
-#: src/timeline2/model/timelinemodel.cpp:7296
+#: src/timeline2/model/timelinemodel.cpp:7295
 #, kde-format
 msgid "Resize mix"
 msgstr "შერევის ზომის შეცვლა"
 
-#: src/timeline2/model/timelinemodel.cpp:7416
+#: src/timeline2/model/timelinemodel.cpp:7415
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "დროის ხაზის მინიატურის ინიციალიზაციის შეცდომა"
@@ -18847,7 +18847,7 @@ msgid "No available stream"
 msgstr "ხელმისაწვდომი ნაკადის გარეშე"
 
 #: src/titler/gradientwidget.cpp:142 src/titler/gradientwidget.cpp:145
-#: src/titler/titlewidget.cpp:3312 src/titler/titlewidget.cpp:3315
+#: src/titler/titlewidget.cpp:3316 src/titler/titlewidget.cpp:3319
 #, kde-format
 msgid "Gradient %1"
 msgstr "გრადიენტი %1"
@@ -19218,7 +19218,7 @@ msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "გადახედვის ხედის დასრულება"
 
-#: src/titler/titlewidget.cpp:3345
+#: src/titler/titlewidget.cpp:3349
 #, kde-format
 msgid "Gradient"
 msgstr "გრადაცია"
