@@ -119,7 +119,8 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
-    if (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly) {
+    if (m_clipType != ClipType::Timeline &&
+        (m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxyOnly)) {
         // Generate clip thumbnail
         ObjectId oid(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
         ClipLoadTask::start(oid, QDomElement(), true, -1, -1, this);
