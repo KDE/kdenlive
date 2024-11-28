@@ -175,12 +175,32 @@ void TimelineController::restoreTargetTracks()
     setTargetTracks(m_hasVideoTarget, m_model->m_binAudioTargets);
 }
 
+void TimelineController::keepAudioTargets(bool keep)
+{
+    m_targetTrackInfo.keep = keep;
+    if (!keep) {
+        if (!m_targetTrackInfo.needsToBeApplied) {
+            // restore already applied, abort
+            return;
+        }
+        setTargetTracks(m_targetTrackInfo.hasVideo, m_targetTrackInfo.audioTargets);
+    }
+}
+
 void TimelineController::setTargetTracks(bool hasVideo, const QMap<int, QString> &audioTargets)
 {
     if (m_model->isLoading) {
         // Timeline is still being build
         return;
     }
+    if (m_targetTrackInfo.keep) {
+        // Wer are gradding a clip, don't update timeline target tracks
+        m_targetTrackInfo.needsToBeApplied = true;
+        m_targetTrackInfo.hasVideo = hasVideo;
+        m_targetTrackInfo.audioTargets = audioTargets;
+        return;
+    }
+    m_targetTrackInfo.needsToBeApplied = false;
     int videoTrack = -1;
     m_model->m_binAudioTargets = audioTargets;
     QMap<int, int> audioTracks;

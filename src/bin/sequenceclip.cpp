@@ -75,6 +75,7 @@ SequenceClip::SequenceClip(const QString &id, const QIcon &thumb, const std::sha
 {
     // Initialize path for thumbnails playlist
     m_sequenceUuid = QUuid(m_masterProducer->get("kdenlive:uuid"));
+    m_clipType = ClipType::Timeline;
     if (model->hasSequenceId(m_sequenceUuid)) {
         // We already have a sequence with this uuid, this is probably a duplicate, update uuid
         const QUuid prevUuid = m_sequenceUuid;

@@ -22,6 +22,7 @@ public:
     explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
     void fillList(const QString &selectedProfile = QString());
     bool profileTreeChanged() const;
+    static int gcd(int a, int b);
 
 protected:
     void closeEvent(QCloseEvent *event) override;
