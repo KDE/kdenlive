@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-27 00:40+0000\n"
-"PO-Revision-Date: 2024-11-25 22:18+0200\n"
+"PO-Revision-Date: 2024-11-25 23:00+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1532,6 +1532,9 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[הגדרת היחידה לשימוש להצגת ערכים של גובה ומהירות.<br>\n"
+"        ברירת המחדל היא מטרים וקמ״ש בהתאמה. היחידה נתפסת בכל מקוםבמחרוזת כך "
+"שניתן להשתמש ברווחים נוספים כדי לשפר את ההצגה.]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -1561,6 +1564,9 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[הגדרת המרובע שבו יצויר התרשים.<br>\n"
+"        התבנית היא: „X Y W H”. כאשר X, Y, W, H הן בפיקסלים אלא אם כן יש להם "
+"את הסיומת ‚%’.]]>"
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
@@ -1635,6 +1641,8 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"אספקת היסט סיוע כדי להבטיח שתחילת קובץ הסרטון תסונכרן עם התחלת קובץ ה־"
+"GPS/נווטן. ההיסט יוגדר כראוי אם קובץ הווידאו והקלטת ה־GPS החלו באותו הזמן."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
@@ -1648,6 +1656,8 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if your video record "
 "the moment GPS starts."
 msgstr ""
+"אספקת היסט סיוע לסנכרון נקודת ה־GPS/נווטן הראשונה לזמן הנוכחי בסרטון (מתעדכן "
+"כל שנייה). ההיסט יוגדר כראוי אם הווידאו החל בהקלטה ברגע שה־GPS התחיל לתעד."
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
