@@ -65,6 +65,7 @@ Rectangle {
 
     function endBinDrag() {
         clipDropArea.processDrop()
+        timeline.keepAudioTargets(false)
     }
 
     function startAudioRecord(tid) {
@@ -846,6 +847,7 @@ Rectangle {
                 // We are re-entering drop zone with another drag operation, ensure the previous drop operation is complete
                 processDrop()
             }
+            timeline.keepAudioTargets(true)
             lastDragPos = Qt.point(drag.x, drag.y)
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 var yOffset = 0

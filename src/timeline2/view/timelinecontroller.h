@@ -86,6 +86,14 @@ class TimelineController : public QObject
 public:
     TimelineController(QObject *parent);
     ~TimelineController() override;
+
+    struct TargetTracksData
+    {
+        bool keep{false};
+        bool needsToBeApplied{false};
+        bool hasVideo{false};
+        QMap<int, QString> audioTargets;
+    };
     /** @brief Sets the model that this widgets displays */
     void setModel(std::shared_ptr<TimelineItemModel> model);
     std::shared_ptr<TimelineItemModel> getModel() const;
@@ -172,6 +180,7 @@ public:
      */
     Q_INVOKABLE QVariantList audioTarget() const;
     Q_INVOKABLE QVariantList lastAudioTarget() const;
+    Q_INVOKABLE void keepAudioTargets(bool keep);
     Q_INVOKABLE const QString audioTargetName(int tid) const;
     Q_INVOKABLE int videoTarget() const;
     Q_INVOKABLE int hasAudioTarget() const;
@@ -776,6 +785,7 @@ private:
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};
     int m_lastVideoTarget {-1};
+    TargetTracksData m_targetTrackInfo;
     /** @brief The last combination of audio targets in the form: {timeline track id, bin stream index} */
     QMap <int, int> m_lastAudioTarget;
     bool m_videoTargetActive {true};
