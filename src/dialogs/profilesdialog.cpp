@@ -43,6 +43,23 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     connectDialog();
 }
 
+int ProfilesDialog::gcd(int a, int b)
+{
+
+    // Everything divides 0
+    if (a == 0) return b;
+    if (b == 0) return a;
+
+    // If both numbers are equal
+    if (a == b) return a;
+
+    // If a is greater
+    if (a > b) return gcd(a - b, b);
+
+    // If b is greater
+    return gcd(a, b - a);
+}
+
 void ProfilesDialog::connectDialog()
 {
     connect(m_view.profiles_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
@@ -51,12 +68,9 @@ void ProfilesDialog::connectDialog()
     connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
     connect(m_view.button_delete, &QAbstractButton::clicked, this, &ProfilesDialog::slotDeleteProfile);
     connect(m_view.button_default, &QAbstractButton::clicked, this, &ProfilesDialog::slotSetDefaultProfile);
-
     connect(m_view.description, &QLineEdit::textChanged, this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.frame_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.frame_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.aspect_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.aspect_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.display_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.display_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.scanning, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ProfilesDialog::slotProfileEdited);
@@ -140,6 +154,16 @@ void ProfilesDialog::slotScanningChanged(int ix)
 void ProfilesDialog::slotProfileEdited()
 {
     m_profileIsModified = true;
+    // Calculate pixel aspect ratio
+    int par_num = m_view.display_num->value() * m_view.size_h->value();
+    int par_den = m_view.display_den->value() * m_view.size_w->value();
+    int num = gcd(par_num, par_den);
+    if (num > 0) {
+        par_num /= num;
+        par_den /= num;
+    }
+    m_view.aspect_num->setText(QString::number(par_num));
+    m_view.aspect_den->setText(QString::number(par_den));
 }
 
 void ProfilesDialog::fillList(const QString &selectedProfile)
@@ -276,8 +300,8 @@ void ProfilesDialog::saveProfile(const QString &path)
     profile->m_height = m_view.size_h->value();
     profile->m_progressive = m_view.scanning->currentIndex() == 1;
     profile->m_bottom_field_first = m_view.field_order->currentIndex() == 1;
-    profile->m_sample_aspect_num = m_view.aspect_num->value();
-    profile->m_sample_aspect_den = m_view.aspect_den->value();
+    profile->m_sample_aspect_num = m_view.aspect_num->text().toInt();
+    profile->m_sample_aspect_den = m_view.aspect_den->text().toInt();
     profile->m_display_aspect_num = m_view.display_num->value();
     profile->m_display_aspect_den = m_view.display_den->value();
     profile->m_colorspace = m_view.colorspace->itemData(m_view.colorspace->currentIndex()).toInt();
@@ -321,8 +345,8 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
     m_view.description->setText(curProfile->description());
     m_view.size_w->setValue(curProfile->width());
     m_view.size_h->setValue(curProfile->height());
-    m_view.aspect_num->setValue(curProfile->sample_aspect_num());
-    m_view.aspect_den->setValue(curProfile->sample_aspect_den());
+    m_view.aspect_num->setText(QString::number(curProfile->sample_aspect_num()));
+    m_view.aspect_den->setText(QString::number(curProfile->sample_aspect_den()));
     m_view.display_num->setValue(curProfile->display_aspect_num());
     m_view.display_den->setValue(curProfile->display_aspect_den());
     m_view.frame_num->setValue(curProfile->frame_rate_num());

@@ -11,7 +11,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     <x>0</x>
     <y>0</y>
     <width>594</width>
-    <height>639</height>
+    <height>690</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,8 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <string>C</string>
      </property>
      <property name="icon">
-      <iconset theme="document-new">
-       <normaloff>.</normaloff>.</iconset>
+      <iconset theme="document-new"/>
      </property>
     </widget>
    </item>
@@ -51,8 +50,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <string>D</string>
      </property>
      <property name="icon">
-      <iconset theme="delete">
-       <normaloff>.</normaloff>.</iconset>
+      <iconset theme="delete"/>
      </property>
     </widget>
    </item>
@@ -62,23 +60,29 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
       <string>Properties</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="4" column="3">
-       <widget class="QSpinBox" name="aspect_den">
-        <property name="minimum">
-         <number>1</number>
+      <item row="13" column="0" colspan="2">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Vertical</enum>
         </property>
-        <property name="maximum">
-         <number>10000</number>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>105</width>
+          <height>17</height>
+         </size>
         </property>
-       </widget>
+       </spacer>
       </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="size_w">
-        <property name="minimum">
-         <number>1</number>
+      <item row="9" column="1" colspan="3">
+       <widget class="KComboBox" name="colorspace"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Description:</string>
         </property>
-        <property name="maximum">
-         <number>10000</number>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -92,53 +96,28 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="3" column="3">
-       <widget class="QLabel" name="fields">
+      <item row="10" column="1" colspan="3">
+       <widget class="QComboBox" name="scanning">
+        <item>
+         <property name="text">
+          <string>Interlaced</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Progressive</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="aspect_num">
         <property name="text">
-         <string notr="true">interl: 2*fps</string>
+         <string notr="true">1</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_dar">
-        <property name="text">
-         <string>Display aspect ratio:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Frame rate:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" colspan="3">
-       <widget class="QLineEdit" name="description"/>
-      </item>
-      <item row="7" column="1" colspan="3">
-       <widget class="KComboBox" name="colorspace"/>
-      </item>
-      <item row="5" column="2">
-       <widget class="QLabel" name="label_8">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>/</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1" colspan="3">
+      <item row="11" column="1" colspan="3">
        <widget class="QComboBox" name="field_order">
         <item>
          <property name="text">
@@ -152,41 +131,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </item>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="QSpinBox" name="display_num">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>10000</number>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="label_scanning">
-        <property name="text">
-         <string>Scanning:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_4">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>/</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="aspect_num">
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="size_w">
         <property name="minimum">
          <number>1</number>
         </property>
@@ -208,41 +154,74 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>Description:</string>
+         <string>Size:</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item row="8" column="1" colspan="3">
-       <widget class="QComboBox" name="scanning">
-        <item>
-         <property name="text">
-          <string>Interlaced</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Progressive</string>
-         </property>
-        </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_8">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>/</string>
+        </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="frame_num">
-        <property name="minimum">
-         <number>1</number>
+      <item row="12" column="1" colspan="3">
+       <widget class="KMessageWidget" name="effect_warning">
+        <property name="text">
+         <string>The &quot;avfilter.fieldorder&quot; effect is internally used to set the field order, but the effect was not found.
+This feature will not work as expected.</string>
         </property>
-        <property name="maximum">
-         <number>500000</number>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+        <property name="closeButtonVisible">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QLabel" name="label_scanning">
+        <property name="text">
+         <string>Scanning:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
       <item row="5" column="3">
+       <widget class="QLabel" name="fields">
+        <property name="frameShape">
+         <enum>QFrame::Shape::NoFrame</enum>
+        </property>
+        <property name="text">
+         <string notr="true">interl: 2*fps</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_field_order">
+        <property name="text">
+         <string>Field order:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
        <widget class="QSpinBox" name="display_den">
         <property name="minimum">
          <number>1</number>
@@ -252,60 +231,44 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="11" column="0" colspan="2">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>105</width>
-          <height>17</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_9">
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_11">
         <property name="text">
-         <string>Pixel aspect ratio:</string>
+         <string>Fields per second:</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_12">
-        <property name="text">
-         <string>Colorspace:</string>
+      <item row="4" column="3">
+       <widget class="QSpinBox" name="frame_den">
+        <property name="minimum">
+         <number>1</number>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Size:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <property name="maximum">
+         <number>10000</number>
         </property>
        </widget>
       </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="label_field_order">
-        <property name="text">
-         <string>Field order:</string>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="display_num">
+        <property name="minimum">
+         <number>1</number>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <property name="maximum">
+         <number>10000</number>
         </property>
        </widget>
       </item>
-      <item row="4" column="2">
+      <item row="3" column="3">
+       <widget class="QLabel" name="aspect_den">
+        <property name="text">
+         <string>1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
        <widget class="QLabel" name="label_7">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
@@ -318,37 +281,69 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
         </property>
        </widget>
       </item>
-      <item row="2" column="3">
-       <widget class="QSpinBox" name="frame_den">
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Frame rate:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_dar">
+        <property name="text">
+         <string>Display aspect ratio:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>/</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1" colspan="3">
+       <widget class="QLineEdit" name="description"/>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Colorspace:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QSpinBox" name="frame_num">
         <property name="minimum">
          <number>1</number>
         </property>
         <property name="maximum">
-         <number>10000</number>
+         <number>500000</number>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_11">
+       <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Fields per second:</string>
+         <string>Pixel aspect ratio:</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1" colspan="3">
-       <widget class="KMessageWidget" name="effect_warning">
-        <property name="text" stdset="0">
-         <string>The &quot;avfilter.fieldorder&quot; effect is internally used to set the field order, but the effect was not found.
-This feature will not work as expected.</string>
-        </property>
-        <property name="wordWrap" stdset="0">
-         <bool>true</bool>
-        </property>
-        <property name="closeButtonVisible" stdset="0">
-         <bool>false</bool>
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>
@@ -358,7 +353,7 @@ This feature will not work as expected.</string>
    <item row="0" column="3">
     <spacer name="horizontalSpacer">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -380,15 +375,14 @@ This feature will not work as expected.</string>
       <string>S</string>
      </property>
      <property name="icon">
-      <iconset theme="document-save">
-       <normaloff>.</normaloff>.</iconset>
+      <iconset theme="document-save"/>
      </property>
     </widget>
    </item>
    <item row="3" column="3" colspan="2">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -401,10 +395,10 @@ This feature will not work as expected.</string>
    <item row="3" column="5" colspan="3">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
+      <set>QDialogButtonBox::StandardButton::Close</set>
      </property>
     </widget>
    </item>
@@ -420,7 +414,7 @@ This feature will not work as expected.</string>
    </item>
    <item row="2" column="0" colspan="8">
     <widget class="KMessageWidget" name="info_message">
-     <property name="wordWrap" stdset="0">
+     <property name="wordWrap">
       <bool>true</bool>
      </property>
     </widget>
@@ -429,15 +423,15 @@ This feature will not work as expected.</string>
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -448,12 +442,10 @@ This feature will not work as expected.</string>
   <tabstop>description</tabstop>
   <tabstop>size_w</tabstop>
   <tabstop>size_h</tabstop>
-  <tabstop>frame_num</tabstop>
-  <tabstop>frame_den</tabstop>
-  <tabstop>aspect_num</tabstop>
-  <tabstop>aspect_den</tabstop>
   <tabstop>display_num</tabstop>
   <tabstop>display_den</tabstop>
+  <tabstop>frame_num</tabstop>
+  <tabstop>frame_den</tabstop>
   <tabstop>colorspace</tabstop>
   <tabstop>scanning</tabstop>
   <tabstop>field_order</tabstop>
