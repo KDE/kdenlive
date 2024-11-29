@@ -499,4 +499,6 @@ Q_SIGNALS:
     void saveGuideCategories();
     /** @brief When creating a backup file, also save a thumbnail of current timeline */
     void saveTimelinePreview(const QString &path);
+    /** Enable the built in transform effect for current item */
+    void enableBuildInTransform();
 };

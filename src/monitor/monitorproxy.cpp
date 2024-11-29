@@ -40,6 +40,13 @@ MonitorProxy::MonitorProxy(VideoWidget *parent)
         connect(pCore->bin(), &Bin::clipNameChanged, this, &MonitorProxy::updateClipName);
     }
     m_showGrid = KdenliveSettings::showMonitorGrid();
+    m_builtinEffectsEnabled = KdenliveSettings::enableBuiltInEffects();
+}
+
+void MonitorProxy::buildInEffectsChanged()
+{
+    m_builtinEffectsEnabled = KdenliveSettings::enableBuiltInEffects();
+    Q_EMIT builtinEffectsEnabledChanged();
 }
 
 void MonitorProxy::switchGrid()

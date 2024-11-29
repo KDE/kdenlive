@@ -39,6 +39,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int clipBounds MEMBER m_boundsCount NOTIFY clipBoundsChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
     Q_PROPERTY(bool showGrid MEMBER m_showGrid NOTIFY showGridChanged)
+    Q_PROPERTY(bool builtinEffectsEnabled MEMBER m_builtinEffectsEnabled NOTIFY builtinEffectsEnabledChanged)
     Q_PROPERTY(int gridH READ gridH NOTIFY gridChanged)
     Q_PROPERTY(int gridV READ gridV NOTIFY gridChanged)
     Q_PROPERTY(double speed MEMBER m_speed NOTIFY speedChanged)
@@ -140,6 +141,7 @@ public:
     void setCursorPosition(int pos);
     void setJobsProgress(const ObjectId &owner, const QStringList &jobNames, const QList<int> &jobProgress, const QStringList &jobUuids);
     void clearJobsProgress();
+    void buildInEffectsChanged();
 
 Q_SIGNALS:
     void positionChanged(int);
@@ -155,6 +157,7 @@ Q_SIGNALS:
     void triggerAction(const QString &name);
     void overlayTypeChanged();
     void showGridChanged();
+    void builtinEffectsEnabledChanged();
     void gridChanged();
     void addRemoveKeyframe();
     /** @brief Seek to an effect keyframe
@@ -184,6 +187,8 @@ Q_SIGNALS:
     void lastClipsChanged();
     /** @brief Switch to another clip at the same time position that uses the same effect scene*/
     void switchFocusClip();
+    /** @brief Enable build-in transform effect*/
+    void enableTransform();
 
 private:
     VideoWidget *q;
@@ -197,6 +202,7 @@ private:
     QList <int> m_audioChannels;
     QString m_markerComment;
     QColor m_markerColor;
+    bool m_builtinEffectsEnabled{false};
     QString m_clipName;
     QString m_clipStream;
     int m_clipType;

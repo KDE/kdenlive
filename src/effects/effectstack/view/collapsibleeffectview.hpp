@@ -113,6 +113,7 @@ private Q_SLOTS:
     void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
     void updateEffectZone();
     void slotHideKeyframes(bool hide);
+    void enableAndExpand();
 
 private:
     AssetParameterView *m_view;

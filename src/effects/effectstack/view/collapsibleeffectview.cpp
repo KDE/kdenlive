@@ -290,6 +290,9 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         presetButton->setEnabled(m_model->isAssetEnabled());
         // frame->hide();
         decoframe->setProperty("class", "builtin");
+        if (effectId == QLatin1String("qtblend")) {
+            connect(pCore.get(), &Core::enableBuildInTransform, this, &CollapsibleEffectView::enableAndExpand, Qt::QueuedConnection);
+        }
     }
 
     connect(m_view, &AssetParameterView::saveEffect, this, [this]() { slotSaveEffect(); });
@@ -1134,4 +1137,14 @@ QPixmap CollapsibleEffectView::getDragPixmap() const
 const QString CollapsibleEffectView::getAssetId() const
 {
     return m_model->getAssetId();
+}
+
+void CollapsibleEffectView::enableAndExpand()
+{
+    if (m_enabledButton->isActive()) {
+        m_enabledButton->setActive(false);
+        slotDisable(false);
+    }
+    m_collapse->setActive(false);
+    Q_EMIT activateEffect(m_model->row());
 }

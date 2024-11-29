@@ -476,6 +476,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZoneWithUndo, this, &Monitor::zoneUpdatedWithUndo);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::switchFocusClip, this,
                 []() { pCore->window()->getCurrentTimeline()->controller()->switchFocusClip(); });
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::enableTransform, this, [&]() {
+            // We need to perform an async operation since it will delete the caller qml button
+            auto controller = pCore->window()->getCurrentTimeline()->controller();
+            QMetaObject::invokeMethod(controller, "enableBuildInTransform", Qt::QueuedConnection);
+        });
     } else if (id == Kdenlive::ClipMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateClipZone);
     }

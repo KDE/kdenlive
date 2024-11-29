@@ -572,6 +572,8 @@ public:
      */
     bool compositionAutoTrack(int cid) const;
     const QString getClipBinId(int clipId) const;
+    /** @brief Move timeline cursor position to an item's start position.
+     */
     void focusItem(int itemId);
     /** @brief Create and display a split clip view to compare effect
      */
@@ -751,6 +753,8 @@ public Q_SLOTS:
     void subtitlesMenuActivated(int ix);
     /** @brief Select a clip in the next track that has the same effect as current clip. */
     void switchFocusClip();
+    /** @brief Enable build in transform in selected clip. */
+    void enableBuildInTransform();
     /** @brief Open the Subtitle Manager */
     void showSubtitleManager(int page = 0);
 

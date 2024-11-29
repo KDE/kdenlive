@@ -5541,6 +5541,29 @@ void TimelineController::switchFocusClip()
     }
 }
 
+void TimelineController::enableBuildInTransform()
+{
+    int track = m_model->getTopVideoTrackIndex();
+    while (m_model->isTrack(track)) {
+        if (m_model->getTrackById_const(track)->isAudioTrack()) {
+            // No other available track to check
+            return;
+        }
+        int nextClip = m_model->getTrackById_const(track)->getClipByPosition(pCore->getMonitorPosition());
+        if (nextClip > -1) {
+            std::shared_ptr<ClipModel> clip2 = m_model->getClipPtr(nextClip);
+            m_model->requestSetSelection({nextClip});
+            showAsset(nextClip);
+            pCore->enableBuildInTransform();
+            return;
+        }
+        track = m_model->getPreviousVideoTrackIndex(track);
+        if (track == 0) {
+            return;
+        }
+    }
+}
+
 void TimelineController::showSubtitleManager(int page)
 {
     int currentIx = pCore->currentDoc()->getSequenceProperty(m_model->uuid(), QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();

@@ -2071,7 +2071,7 @@ void EffectStackModel::appendVideoBuildInEffects()
         std::shared_ptr<EffectItemModel> effect = EffectItemModel::construct(QStringLiteral("qtblend"), shared_from_this(), false);
         effect->prepareKeyframes();
         effect->filter().set("disable", 1);
-        effect->filter().set("kdenlive:kfrhidden", 1);
+        // effect->filter().set("kdenlive:kfrhidden", 1);
         effect->filter().set("kdenlive:collapsed", 1);
         effect->setBuiltIn();
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);

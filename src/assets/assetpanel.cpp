@@ -13,6 +13,7 @@
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "monitor/monitor.h"
+#include "monitor/monitorproxy.h"
 #include "transitions/transitionsrepository.hpp"
 #include "transitions/view/mixstackview.hpp"
 #include "transitions/view/transitionstackview.hpp"
@@ -84,6 +85,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchBuiltStack->setChecked(KdenliveSettings::enableBuiltInEffects());
     connect(m_switchBuiltStack, &QAction::triggered, this, [this](bool enable) {
         KdenliveSettings::setEnableBuiltInEffects(enable);
+        pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->buildInEffectsChanged();
         if (m_effectStackWidget) {
             ObjectId owner = m_effectStackWidget->stackOwner();
             pCore->clearAssetPanel(-1);

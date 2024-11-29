@@ -3,10 +3,10 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
-import QtQuick.Controls 2.15
-import QtQuick.Window 2.15
-import Kdenlive.Controls 1.0
-import QtQuick 2.15
+import QtQuick.Controls
+import QtQuick.Window
+import Kdenlive.Controls
+import QtQuick
 
 Item {
     id: root
@@ -131,6 +131,7 @@ Item {
     Item {
         height: root.height - controller.rulerHeight
         width: root.width
+        id: monitorArea
         Item {
             id: frame
             objectName: "referenceframe"
@@ -140,7 +141,7 @@ Item {
             y: root.center.y - height / 2 - root.offsety;
 
             Loader {
-                anchors.fill: parent
+                anchors.fill: frame
                 source: {
                     switch(root.overlayType)
                     {
@@ -161,12 +162,12 @@ Item {
             }
             Loader {
                 id: countDownLoader
-                anchors.fill: parent
+                anchors.fill: frame
             }
         }
         Item {
             id: monitorOverlay
-            anchors.fill: parent
+            anchors.fill: monitorArea
 
             Label {
                 id: timecode
@@ -181,8 +182,8 @@ Item {
                 text: controller.timecode
                 visible: root.showTimecode
                 anchors {
-                    right: parent.right
-                    bottom: parent.bottom
+                    right: monitorOverlay.right
+                    bottom: monitorOverlay.bottom
                     bottomMargin: root.zoomOffset
                 }
             }
@@ -280,6 +281,23 @@ Item {
                 color: "#000"
                 padding: 0
                 maximumLength: 25
+            }
+        }
+        MonitorToolButton {
+            anchors.top: monitorArea.top
+            anchors.left: monitorArea.left
+            anchors.topMargin: 10
+            anchors.leftMargin: 10
+            hoverEnabled: true
+            width: 2.4 * fontMetrics.font.pixelSize
+            height: width
+            objectName: "enableTransform"
+            iconName: "transform-crop"
+            toolTipText: i18nc("@tooltip Transform, a tool to resize", "Transform")
+            checkable: false
+            visible: controller.builtinEffectsEnabled && (barOverArea.containsMouse || hovered)
+            onClicked: {
+                controller.enableTransform()
             }
         }
     }

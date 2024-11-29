@@ -26,7 +26,7 @@ ToolButton {
         root.captureRightClick = true
     }
     onReleased: {
-        root.updateClickCapture()
+        root.captureRightClick = false
     }
     ToolTip {
         visible: parent.hovered
