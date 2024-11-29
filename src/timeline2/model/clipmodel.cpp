@@ -743,18 +743,18 @@ bool ClipModel::addEffect(const QString &effectId)
     return true;
 }
 
-bool ClipModel::addEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo)
+std::pair<bool, bool> ClipModel::addEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (EffectsRepository::get()->isAudioEffect(effectId)) {
         if (m_currentState == PlaylistState::VideoOnly) {
-            return false;
+            return {false, false};
         }
     } else if (m_currentState == PlaylistState::AudioOnly) {
-        return false;
+        return {false, false};
     }
     if (EffectsRepository::get()->isTextEffect(effectId) && m_clipType != ClipType::Text) {
-        return false;
+        return {false, false};
     }
     return m_effectStack->appendEffectWithUndo(effectId, undo, redo);
 }

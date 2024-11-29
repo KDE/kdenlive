@@ -5074,9 +5074,13 @@ QVariantList TimelineModel::addClipEffect(int clipId, const QString &effectId, b
     Fun redo = []() { return true; };
     for (auto &s : items) {
         if (isClip(s)) {
-            if (m_allClips.at(s)->addEffectWithUndo(effectId, undo, redo)) {
+            std::pair<bool, bool> results = m_allClips.at(s)->addEffectWithUndo(effectId, undo, redo);
+            if (results.first) {
                 result = true;
                 affectedClips << s;
+            } else if (results.second) {
+                // An error message was already displayed
+                notify = false;
             }
         }
     }

@@ -226,7 +226,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
         if (dragRow < m_model->rowCount()) {
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            bool result = m_model->appendEffectWithUndo(effectId, undo, redo);
+            bool result = m_model->appendEffectWithUndo(effectId, undo, redo).first;
             if (result) {
                 added = true;
                 m_model->moveEffectWithUndo(dragRow, m_model->getEffectStackRow(m_model->rowCount() - 1), undo, redo);

@@ -616,7 +616,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     return res;
 }
 
-bool EffectStackModel::appendEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo)
+std::pair<bool, bool> EffectStackModel::appendEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo)
 {
     return doAppendEffect(effectId, true, {}, undo, redo);
 }
@@ -625,25 +625,30 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent, s
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = doAppendEffect(effectId, makeCurrent, params, undo, redo);
+    bool result = doAppendEffect(effectId, makeCurrent, params, undo, redo).first;
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
     }
     return result;
 }
 
-bool EffectStackModel::doAppendEffect(const QString &effectId, bool makeCurrent, stringMap params, Fun &undo, Fun &redo)
+std::pair<bool, bool> EffectStackModel::doAppendEffect(const QString &effectId, bool makeCurrent, stringMap params, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
+    if ((m_ownerId.type == KdenliveObjectType::TimelineClip || m_ownerId.type == KdenliveObjectType::TimelineTrack) && pCore->window() &&
+        pCore->window()->effectIsMasterOnly(effectId)) {
+        pCore->displayMessage(i18n("Effect %1 can only be added to master", EffectsRepository::get()->getName(effectId)), ErrorMessage);
+        return {false, true};
+    }
     if (m_ownerId.type == KdenliveObjectType::TimelineClip && EffectsRepository::get()->isUnique(effectId) && hasFilter(effectId)) {
         pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), ErrorMessage);
-        return false;
+        return {false, true};
     }
     std::unordered_set<int> previousFadeIn = m_fadeIns;
     std::unordered_set<int> previousFadeOut = m_fadeOuts;
     if (EffectsRepository::get()->isGroup(effectId)) {
         QDomElement doc = EffectsRepository::get()->getXml(effectId);
-        return copyXmlEffect(doc);
+        return {copyXmlEffect(doc), false};
     }
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
     PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
@@ -651,13 +656,13 @@ bool EffectStackModel::doAppendEffect(const QString &effectId, bool makeCurrent,
         if (effect->isAudio()) {
             // Cannot add effect to this clip
             pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
-            return false;
+            return {false, true};
         }
     } else if (state == PlaylistState::AudioOnly) {
         if (!effect->isAudio()) {
             // Cannot add effect to this clip
             pCore->displayMessage(i18n("Cannot add effect to clip"), ErrorMessage);
-            return false;
+            return {false, true};
         }
     }
     QMapIterator<QString, QString> i(params);
@@ -734,7 +739,7 @@ bool EffectStackModel::doAppendEffect(const QString &effectId, bool makeCurrent,
     } else if (makeCurrent) {
         setActiveEffect(currentActive);
     }
-    return res;
+    return {res, false};
 }
 
 bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, int offset, Fun &undo, Fun &redo,

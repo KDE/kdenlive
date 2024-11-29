@@ -4037,7 +4037,7 @@ bool Bin::doPasteEffect(std::vector<QString> ids, const QStringList &effectData)
         }
     } else {
         for (auto &id : ids) {
-            res = res && m_itemModel->getClipByBinID(id)->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo);
+            res = res && m_itemModel->getClipByBinID(id)->getEffectStack()->appendEffectWithUndo(effectData.constFirst(), undo, redo).first;
         }
     }
     if (res) {

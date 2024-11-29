@@ -5243,6 +5243,14 @@ ObjectId MainWindow::effectStackOwner()
     return m_assetPanel->effectStackOwner();
 }
 
+bool MainWindow::effectIsMasterOnly(const QString &assetId) const
+{
+    if (m_effectList2) {
+        return m_effectList2->isMasterOnly(assetId);
+    }
+    return false;
+}
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif

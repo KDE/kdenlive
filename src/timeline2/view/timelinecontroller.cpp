@@ -1537,10 +1537,7 @@ void TimelineController::addAsset(const QVariantMap &data)
     if (!selection.empty()) {
         QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
         QVariantList effectSelection = m_model->addClipEffect(*selection.begin(), effect, false);
-        if (effectSelection.isEmpty()) {
-            QString effectName = EffectsRepository::get()->getName(effect);
-            pCore->displayMessage(i18n("Cannot add effect %1 to selected clip", effectName), ErrorMessage, 500);
-        } else if (KdenliveSettings::seekonaddeffect() && effectSelection.count() == 1) {
+        if (KdenliveSettings::seekonaddeffect() && effectSelection.count() == 1) {
             // Move timeline cursor inside clip if it is not
             int cid = effectSelection.first().toInt();
             int in = m_model->getClipPosition(cid);

@@ -34,6 +34,7 @@ public:
     void reloadTemplates() override;
     void editCustomAsset(const QModelIndex &index) override;
     void exportCustomEffect(const QModelIndex &index) override;
+    bool isMasterOnly(const QString &assetId) const;
 
 public Q_SLOTS:
     void reloadCustomEffect(const QString &path) override;

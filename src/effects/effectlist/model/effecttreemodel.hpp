@@ -26,10 +26,12 @@ public:
     void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) override;
     void setFavorite(const QModelIndex &index, bool favorite, bool isEffect) override;
     void deleteEffect(const QModelIndex &index) override;
+    bool isMasterOnly(const QString &assetId) const;
     void editCustomAsset(const QString &newName, const QString &newDescription, const QModelIndex &index) override;
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
 protected:
     std::shared_ptr<TreeItem> m_customCategory;
     std::shared_ptr<TreeItem> m_templateCategory;
+    QStringList m_masterOnlyEffects;
 };

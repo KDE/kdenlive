@@ -44,7 +44,7 @@ protected:
 public:
     /** @brief Add an effect at the bottom of the stack */
     bool appendEffect(const QString &effectId, bool makeCurrent = false, stringMap params = {});
-    bool appendEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo);
+    std::pair<bool, bool> appendEffectWithUndo(const QString &effectId, Fun &undo, Fun &redo);
     /** @brief Copy an existing effect and append it at the bottom of the stack
      */
     bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo = true);
@@ -202,7 +202,7 @@ private:
      *          in the producer, so we shouldn't plant them again. Setting this value to
      *          true will prevent planting in the producer */
     bool m_loadingExisting;
-    bool doAppendEffect(const QString &effectId, bool makeCurrent, stringMap params, Fun &undo, Fun &redo);
+    std::pair<bool, bool> doAppendEffect(const QString &effectId, bool makeCurrent, stringMap params, Fun &undo, Fun &redo);
 
 private Q_SLOTS:
     /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change

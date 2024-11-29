@@ -148,3 +148,8 @@ void EffectListWidget::exportCustomEffect(const QModelIndex &index)
         }
     }
 }
+
+bool EffectListWidget::isMasterOnly(const QString &assetId) const
+{
+    return static_cast<EffectTreeModel *>(m_model.get())->isMasterOnly(assetId);
+}

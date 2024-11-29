@@ -56,6 +56,9 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             for (const QString &effect : std::as_const(list)) {
                 effectCategory[effect] = groupItem;
             }
+            if (groups.at(i).toElement().attribute(QStringLiteral("category")) == QLatin1String("master")) {
+                self->m_masterOnlyEffects = list;
+            }
         }
         // We also create "Misc", "Audio" and "Custom" categories
         miscCategory = self->rootItem->appendChild(QList<QVariant>{i18n("Misc"), QStringLiteral("root")});
@@ -107,6 +110,11 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         targetCategory->appendChild(data);
     }
     return self;
+}
+
+bool EffectTreeModel::isMasterOnly(const QString &assetId) const
+{
+    return m_masterOnlyEffects.contains(assetId);
 }
 
 void EffectTreeModel::reloadEffectFromIndex(const QModelIndex &index)

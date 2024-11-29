@@ -202,6 +202,7 @@ public:
     void disconnectTimeline(TimelineWidget *timeline, bool onClose = false);
     static QProcessEnvironment getCleanEnvironement();
     ObjectId effectStackOwner();
+    bool effectIsMasterOnly(const QString &assetId) const;
 
 protected:
     /** @brief Closes the window.
