@@ -80,7 +80,7 @@ public:
     static bool isAudioType(AssetListType::AssetType type);
     /** @brief Return the https link to our documentation
      */
-    static const QString buildLink(const QString id, AssetListType::AssetType type);
+    static const QString buildLink(const QString &id, AssetListType::AssetType type);
 
 private:
     QToolBar *m_toolbar;
