@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-27 02:31+0000\n"
+"POT-Creation-Date: 2024-11-29 02:36+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -3085,7 +3085,7 @@ msgstr "ακτίνα"
 
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:207
+#: data/effects/vignette.xml:14 src/ui/profiledialog_ui.ui:153
 #: src/ui/renderwidget_ui.ui:549
 #, kde-format
 msgid "x"
@@ -4798,7 +4798,7 @@ msgid ""
 "R:"
 msgstr ""
 
-#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1006
+#: src/audiomixer/mixermanager.cpp:220 src/timeline2/view/qml/timeline.qml:1008
 #, kde-format
 msgid "Master"
 msgstr ""
@@ -5672,8 +5672,8 @@ msgstr[1] "Μετακίνηση κλιπ"
 msgid "No valid clip to insert"
 msgstr "Αδυναμία εύρεσης κλιπ προς επεξεργασία"
 
-#: src/bin/bin.cpp:3967 src/timeline2/view/timelinecontroller.cpp:1534
-#: src/timeline2/view/timelinecontroller.cpp:3422
+#: src/bin/bin.cpp:3967 src/timeline2/view/timelinecontroller.cpp:1554
+#: src/timeline2/view/timelinecontroller.cpp:3442
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to apply an effect"
@@ -5755,7 +5755,7 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Αδυναμία ανοίγματος αρχείου"
 
-#: src/bin/bin.cpp:4833 src/dialogs/profilesdialog.cpp:212
+#: src/bin/bin.cpp:4833 src/dialogs/profilesdialog.cpp:236
 #, kde-format
 msgid "(copy)"
 msgstr ""
@@ -6198,7 +6198,7 @@ msgstr "Διαγραφή όλων των δεικτών"
 
 #: src/bin/model/markerlistmodel.cpp:870 src/bin/model/markerlistmodel.cpp:908
 #: src/bin/model/markerlistmodel.cpp:933
-#: src/timeline2/view/timelinecontroller.cpp:1499
+#: src/timeline2/view/timelinecontroller.cpp:1519
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No guide found at current position"
@@ -6570,7 +6570,7 @@ msgid "Select Default Profile"
 msgstr "Προκαθορισμένο προφίλ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:222 src/ui/profiledialog_ui.ui:38
+#: src/core.cpp:222 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Προφίλ:"
@@ -7276,8 +7276,8 @@ msgstr "Προσθήκη δείκτη"
 #: src/project/projectmanager.cpp:1876 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
-#: src/timeline2/view/timelinecontroller.cpp:5122
-#: src/timeline2/view/timelinecontroller.cpp:5127
+#: src/timeline2/view/timelinecontroller.cpp:5142
+#: src/timeline2/view/timelinecontroller.cpp:5147
 #: src/titler/titlewidget.cpp:2276
 #, kde-format
 msgid "Cannot write to file %1"
@@ -7607,7 +7607,7 @@ msgstr "Τρέχουσες ρυθμίσεις"
 #: src/mltcontroller/clippropertiescontroller.cpp:562
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
-#: src/ui/profiledialog_ui.ui:230
+#: src/ui/profiledialog_ui.ui:108
 #, kde-format
 msgid "Progressive"
 msgstr "Προοδευτικό"
@@ -7957,27 +7957,27 @@ msgid ""
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:110
+#: src/dialogs/profilesdialog.cpp:124
 #, kde-format
 msgid "Profile width must be a multiple of 2. It was adjusted to %1"
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:125
+#: src/dialogs/profilesdialog.cpp:139
 #, kde-format
 msgid "Profile height must be a multiple of 2. It was adjusted to %1"
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:198
+#: src/dialogs/profilesdialog.cpp:222
 #, kde-format
 msgid "The custom profile was modified, do you want to save it?"
 msgstr "Το προσαρμοσμένο προφίλ τροποποιήθηκε, επιθυμείτε να το αποθηκεύσετε;"
 
-#: src/dialogs/profilesdialog.cpp:219
+#: src/dialogs/profilesdialog.cpp:243
 #, kde-format
 msgid "Save your profile before setting it to default"
 msgstr ""
 
-#: src/dialogs/profilesdialog.cpp:244
+#: src/dialogs/profilesdialog.cpp:268
 #, kde-format
 msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
@@ -7987,7 +7987,7 @@ msgstr ""
 "MLT, παρακαλώ επιλέξτε μια διαφορετική περιγραφή για το προσαρμοσμένο προφίλ "
 "σας."
 
-#: src/dialogs/profilesdialog.cpp:315
+#: src/dialogs/profilesdialog.cpp:339
 #, kde-format
 msgid ""
 "The profile of the current project cannot be edited while the project is "
@@ -10951,7 +10951,7 @@ msgid "Flip"
 msgstr ""
 
 #: src/effects/effectstack/view/effectstackview.cpp:691
-#: src/timeline2/view/timelinecontroller.cpp:3276
+#: src/timeline2/view/timelinecontroller.cpp:3296
 #, fuzzy, kde-format
 #| msgid "Enable effect"
 #| msgid_plural "Enable effects"
@@ -10959,7 +10959,7 @@ msgid "Enable Effect Stack"
 msgstr "Ενεργοποίηση εφέ"
 
 #: src/effects/effectstack/view/effectstackview.cpp:691
-#: src/timeline2/view/timelinecontroller.cpp:3276
+#: src/timeline2/view/timelinecontroller.cpp:3296
 #, fuzzy, kde-format
 #| msgid "Disable effect"
 #| msgid_plural "Disable effects"
@@ -10987,7 +10987,7 @@ msgstr "Όνομα αποθηκευμένου εφέ: "
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: src/effects/effectstack/view/effectstackview.cpp:742
-#: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:214
+#: src/ui/configtranscode_ui.ui:56 src/ui/profiledialog_ui.ui:82
 #, kde-format
 msgid "Description:"
 msgstr "Περιγραφή:"
@@ -12402,7 +12402,7 @@ msgstr "Εκκίνησή τους τώρα"
 msgid "Delete them"
 msgstr "Διαγραφή τους"
 
-#: src/mainwindow.cpp:1032 src/timeline2/view/timelinecontroller.cpp:2148
+#: src/mainwindow.cpp:1032 src/timeline2/view/timelinecontroller.cpp:2168
 #, fuzzy, kde-format
 #| msgid "Select a clip if you want to apply an effect"
 msgid "Select a clip to compare effect"
@@ -13341,7 +13341,7 @@ msgstr "Εισαγωγή κομματιού…"
 msgid "Fit all Tracks in View"
 msgstr "με το κομμάτι"
 
-#: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4849
+#: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4869
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Master effects"
@@ -13686,11 +13686,11 @@ msgstr "Δε βρέθηκε δείκτης στη χρονική στιγμή τ
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:2773 src/timeline2/view/timelinecontroller.cpp:1311
-#: src/timeline2/view/timelinecontroller.cpp:1319
-#: src/timeline2/view/timelinecontroller.cpp:1340
-#: src/timeline2/view/timelinecontroller.cpp:1380
-#: src/timeline2/view/timelinecontroller.cpp:1406
+#: src/mainwindow.cpp:2773 src/timeline2/view/timelinecontroller.cpp:1331
+#: src/timeline2/view/timelinecontroller.cpp:1339
+#: src/timeline2/view/timelinecontroller.cpp:1360
+#: src/timeline2/view/timelinecontroller.cpp:1400
+#: src/timeline2/view/timelinecontroller.cpp:1426
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to add marker"
 msgid "Cannot find clip to edit marker"
@@ -13703,7 +13703,7 @@ msgid "Marker category does not exist"
 msgstr "Κατηγορία"
 
 #: src/mainwindow.cpp:3009 src/timeline2/model/timelinefunctions.cpp:787
-#: src/timeline2/view/timelinecontroller.cpp:3136
+#: src/timeline2/view/timelinecontroller.cpp:3156
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite zone"
@@ -13711,7 +13711,7 @@ msgstr "Λειτουργία αντικατάστασης"
 
 #: src/mainwindow.cpp:3011 src/mainwindow.cpp:3030
 #: src/timeline2/model/timelinefunctions.cpp:789
-#: src/timeline2/view/timelinecontroller.cpp:3138
+#: src/timeline2/view/timelinecontroller.cpp:3158
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert zone"
@@ -13724,7 +13724,7 @@ msgid "No clip selected in project bin"
 msgstr "Καμία αντιγραφή κλιπ"
 
 #: src/mainwindow.cpp:3028 src/timeline2/model/timelinefunctions.cpp:787
-#: src/timeline2/view/timelinecontroller.cpp:3136
+#: src/timeline2/view/timelinecontroller.cpp:3156
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Insert zone"
@@ -13945,7 +13945,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Απόκρυψη καρέ"
 
-#: src/mainwindow.cpp:4668 src/timeline2/view/timelinecontroller.cpp:5080
+#: src/mainwindow.cpp:4668 src/timeline2/view/timelinecontroller.cpp:5100
 #, fuzzy, kde-format
 #| msgid "No guide at cursor time"
 msgid "No subtitles in current project"
@@ -14104,7 +14104,7 @@ msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 #: src/mltcontroller/clippropertiescontroller.cpp:1420
 #: src/mltcontroller/clippropertiescontroller.cpp:1425
 #: src/ui/configcapture_ui.ui:122 src/ui/configcapture_ui.ui:419
-#: src/ui/profiledialog_ui.ui:115
+#: src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
 msgstr "Συχνότητα καρέ:"
@@ -14114,7 +14114,7 @@ msgstr "Συχνότητα καρέ:"
 #: src/mltcontroller/clippropertiescontroller.cpp:553
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:38 src/ui/editrenderpreset_ui.ui:509
-#: src/ui/profiledialog_ui.ui:168
+#: src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
 msgstr "Σάρωση:"
@@ -14125,14 +14125,14 @@ msgstr "Σάρωση:"
 #: src/mltcontroller/clippropertiescontroller.cpp:561
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:109 src/ui/configcapture_ui.ui:178
-#: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:225
+#: src/ui/editrenderpreset_ui.ui:215 src/ui/profiledialog_ui.ui:103
 #, kde-format
 msgid "Interlaced"
 msgstr "Πεπλεγμένo"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
 #: src/mltcontroller/clippropertiescontroller.cpp:579
-#: src/ui/profiledialog_ui.ui:301
+#: src/ui/profiledialog_ui.ui:217
 #, fuzzy, kde-format
 msgid "Field order:"
 msgstr "Επιβολή συχνότητας καρέ"
@@ -14206,9 +14206,10 @@ msgstr "Κανονικό"
 msgid "Copy channel:"
 msgstr "Κανάλι"
 
+#. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:901
-#: src/ui/projectsettings_ui.ui:574
+#: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:574
 #, kde-format
 msgid "1"
 msgstr "1"
@@ -14279,7 +14280,7 @@ msgstr ""
 #. i18n: ectx: property (title), widget (QGroupBox, properties)
 #. i18n: ectx: attribute (title), widget (QWidget, tab_properties)
 #: src/mltcontroller/clippropertiescontroller.cpp:1078
-#: src/ui/profiledialog_ui.ui:62 src/ui/titlewidget_ui.ui:660
+#: src/ui/profiledialog_ui.ui:60 src/ui/titlewidget_ui.ui:660
 #, kde-format
 msgid "Properties"
 msgstr "Ιδιότητες"
@@ -14365,7 +14366,7 @@ msgstr "Κομμάτι βίντεο"
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #. i18n: ectx: property (text), widget (QLabel, label_23)
 #: src/mltcontroller/clippropertiescontroller.cpp:1447
-#: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:271
+#: src/ui/configcapture_ui.ui:136 src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
 msgstr "Αναλογία διαστάσεων εικονοστοιχείων:"
@@ -14378,7 +14379,7 @@ msgstr "Τύπος εικονοστοιχείου:"
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #. i18n: ectx: property (text), widget (QLabel, label_32)
 #: src/mltcontroller/clippropertiescontroller.cpp:1452
-#: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:281
+#: src/ui/configcapture_ui.ui:164 src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Χρωματικός χώρος:"
@@ -14578,7 +14579,7 @@ msgstr "Μέγεθος καρέ"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:446 src/scopes/colorscopes/vectorscope.cpp:50
-#: src/timeline2/view/timelinecontroller.cpp:262 src/ui/titlewidget_ui.ui:125
+#: src/timeline2/view/timelinecontroller.cpp:282 src/ui/titlewidget_ui.ui:125
 #, kde-format
 msgid "Black"
 msgstr "Μαύρο"
@@ -14651,7 +14652,7 @@ msgid "Your screen resolution is not sufficient for this action"
 msgstr "Πρέπει να επιλέξετε μία μετάβαση για αυτήν την ενέργεια"
 
 #: src/monitor/monitor.cpp:899 src/monitor/monitor.cpp:930
-#: src/timeline2/view/timelinecontroller.cpp:1797
+#: src/timeline2/view/timelinecontroller.cpp:1817
 #, fuzzy, kde-format
 #| msgid "Set Zone In"
 msgid "Set Zone"
@@ -18084,27 +18085,27 @@ msgid "Cut all clips"
 msgstr "Διαίρεση κλιπ"
 
 #: src/timeline2/model/timelinefunctions.cpp:681
-#: src/timeline2/view/timelinecontroller.cpp:1470
+#: src/timeline2/view/timelinecontroller.cpp:1490
 #, kde-format
 msgid "Insert space"
 msgstr "Εισαγωγή κενού διαστήματος"
 
 #: src/timeline2/model/timelinefunctions.cpp:683
-#: src/timeline2/view/timelinecontroller.cpp:1472
+#: src/timeline2/view/timelinecontroller.cpp:1492
 #, kde-format
 msgid "Remove space"
 msgstr "Αφαίρεση κενού διαστήματος"
 
 #: src/timeline2/model/timelinefunctions.cpp:752
-#: src/timeline2/view/timelinecontroller.cpp:2942
+#: src/timeline2/view/timelinecontroller.cpp:2962
 #, fuzzy, kde-format
 #| msgid "Lift: Red"
 msgid "Lift zone"
 msgstr "Ανύψωση: κόκκινο"
 
 #: src/timeline2/model/timelinefunctions.cpp:752
-#: src/timeline2/view/timelinecontroller.cpp:710
-#: src/timeline2/view/timelinecontroller.cpp:2942
+#: src/timeline2/view/timelinecontroller.cpp:730
+#: src/timeline2/view/timelinecontroller.cpp:2962
 #, kde-format
 msgid "Extract zone"
 msgstr "Εξαγωγή ζώνης"
@@ -18115,27 +18116,27 @@ msgid "Please activate a track by clicking on a track's label"
 msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:947
-#: src/timeline2/view/timelinecontroller.cpp:1209
-#: src/timeline2/view/timelinecontroller.cpp:1289
-#: src/timeline2/view/timelinecontroller.cpp:1299
-#: src/timeline2/view/timelinecontroller.cpp:1328
-#: src/timeline2/view/timelinecontroller.cpp:1368
-#: src/timeline2/view/timelinecontroller.cpp:1394
-#: src/timeline2/view/timelinecontroller.cpp:1419
-#: src/timeline2/view/timelinecontroller.cpp:2311
-#: src/timeline2/view/timelinecontroller.cpp:2960
-#: src/timeline2/view/timelinecontroller.cpp:3025
-#: src/timeline2/view/timelinecontroller.cpp:3239
-#: src/timeline2/view/timelinecontroller.cpp:3284
-#: src/timeline2/view/timelinecontroller.cpp:3333
-#: src/timeline2/view/timelinecontroller.cpp:3362
-#: src/timeline2/view/timelinecontroller.cpp:3667
-#: src/timeline2/view/timelinecontroller.cpp:3682
-#: src/timeline2/view/timelinecontroller.cpp:3707
-#: src/timeline2/view/timelinecontroller.cpp:3722
-#: src/timeline2/view/timelinecontroller.cpp:3781
-#: src/timeline2/view/timelinecontroller.cpp:3834
-#: src/timeline2/view/timelinecontroller.cpp:3858
+#: src/timeline2/view/timelinecontroller.cpp:1229
+#: src/timeline2/view/timelinecontroller.cpp:1309
+#: src/timeline2/view/timelinecontroller.cpp:1319
+#: src/timeline2/view/timelinecontroller.cpp:1348
+#: src/timeline2/view/timelinecontroller.cpp:1388
+#: src/timeline2/view/timelinecontroller.cpp:1414
+#: src/timeline2/view/timelinecontroller.cpp:1439
+#: src/timeline2/view/timelinecontroller.cpp:2331
+#: src/timeline2/view/timelinecontroller.cpp:2980
+#: src/timeline2/view/timelinecontroller.cpp:3045
+#: src/timeline2/view/timelinecontroller.cpp:3259
+#: src/timeline2/view/timelinecontroller.cpp:3304
+#: src/timeline2/view/timelinecontroller.cpp:3353
+#: src/timeline2/view/timelinecontroller.cpp:3382
+#: src/timeline2/view/timelinecontroller.cpp:3687
+#: src/timeline2/view/timelinecontroller.cpp:3702
+#: src/timeline2/view/timelinecontroller.cpp:3727
+#: src/timeline2/view/timelinecontroller.cpp:3742
+#: src/timeline2/view/timelinecontroller.cpp:3801
+#: src/timeline2/view/timelinecontroller.cpp:3854
+#: src/timeline2/view/timelinecontroller.cpp:3878
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip selected"
@@ -18150,7 +18151,7 @@ msgstr "Αδυναμία μετακίνησης του εφέ"
 #: src/timeline2/model/timelinefunctions.cpp:1113
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1124
-#: src/timeline2/view/timelinecontroller.cpp:3999
+#: src/timeline2/view/timelinecontroller.cpp:4019
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Enable clip"
@@ -18159,7 +18160,7 @@ msgstr "Κλιπ τίτλου"
 #: src/timeline2/model/timelinefunctions.cpp:1113
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1124
-#: src/timeline2/view/timelinecontroller.cpp:3999
+#: src/timeline2/view/timelinecontroller.cpp:4019
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Disable clip"
@@ -18475,7 +18476,7 @@ msgstr "Σύνθεση"
 
 #: src/timeline2/model/timelinemodel.cpp:2405
 #: src/timeline2/model/timelinemodel.cpp:2695
-#: src/timeline2/view/timelinecontroller.cpp:4236
+#: src/timeline2/view/timelinecontroller.cpp:4256
 #, kde-format
 msgid "Move group"
 msgstr "Μετακίνηση ομάδας"
@@ -18559,7 +18560,7 @@ msgid "Ungroup clips"
 msgstr "Αναίρεση ομαδοποίησης αντικειμένων"
 
 #: src/timeline2/model/timelinemodel.cpp:4774
-#: src/timeline2/view/timelinecontroller.cpp:945
+#: src/timeline2/view/timelinecontroller.cpp:965
 #, kde-format
 msgid "Delete Track"
 msgstr "Διαγραφή κομματιού"
@@ -18595,7 +18596,7 @@ msgid "Cannot paste effect to selected track"
 msgstr "Αδυναμία επικόλλησης του κλιπ στην επιλεγμένη θέση"
 
 #: src/timeline2/model/timelinemodel.cpp:5087
-#: src/timeline2/view/timelinecontroller.cpp:1522
+#: src/timeline2/view/timelinecontroller.cpp:1542
 #, fuzzy, kde-format
 #| msgid "Cannot add a video effect to this clip"
 msgid "Cannot add effect %1 to selected clip"
@@ -18638,14 +18639,14 @@ msgid "Change clip speed"
 msgstr "Τροποποίηση τύπου κλιπ"
 
 #: src/timeline2/model/timelinemodel.cpp:6858
-#: src/timeline2/view/qml/timeline.qml:1209
+#: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Κλείδωμα κομματιού"
 
 #: src/timeline2/model/timelinemodel.cpp:6863
-#: src/timeline2/view/qml/timeline.qml:1209
+#: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
@@ -18802,7 +18803,7 @@ msgid "Stop"
 msgstr "Διακοπή"
 
 #: src/timeline2/view/qml/AudioLevels.qml:25
-#: src/timeline2/view/qml/timeline.qml:2183
+#: src/timeline2/view/qml/timeline.qml:2185
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
@@ -18953,25 +18954,25 @@ msgstr ""
 msgid "<b>Double click</b> to edit text"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1000
+#: src/timeline2/view/qml/timeline.qml:1002
 #, fuzzy, kde-format
 #| msgid "Show all profiles"
 msgid "Show master effects"
 msgstr "Εμφάνιση όλων των προφίλ"
 
-#: src/timeline2/view/qml/timeline.qml:1143
+#: src/timeline2/view/qml/timeline.qml:1145
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Click to see details"
 msgstr "Χρήση φακέλου έργου"
 
-#: src/timeline2/view/qml/timeline.qml:1165
+#: src/timeline2/view/qml/timeline.qml:1167
 #, fuzzy, kde-format
 #| msgid "Select Transition"
 msgid "Speech recognition"
 msgstr "Επιλογή μετάβασης"
 
-#: src/timeline2/view/qml/timeline.qml:1185
+#: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, fuzzy, kde-format
 #| msgid "Show log"
@@ -18979,32 +18980,32 @@ msgid "Show"
 msgstr "Προβολή καταγραφής"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_grab_hide_mouse)
-#: src/timeline2/view/qml/timeline.qml:1185
+#: src/timeline2/view/qml/timeline.qml:1187
 #: src/timeline2/view/qml/TrackHead.qml:471 src/ui/configcapture_ui.ui:405
 #, kde-format
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/timeline.qml:1846
+#: src/timeline2/view/qml/timeline.qml:1848
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Κάντε κλικ για να προσθέσετε μία μετάβαση."
 
-#: src/timeline2/view/qml/timeline.qml:2013
+#: src/timeline2/view/qml/timeline.qml:2015
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Θέση: %1"
 
-#: src/timeline2/view/qml/timeline.qml:2172
-#: src/timeline2/view/qml/timeline.qml:2181
+#: src/timeline2/view/qml/timeline.qml:2174
+#: src/timeline2/view/qml/timeline.qml:2183
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Εγγραφή"
 
-#: src/timeline2/view/qml/timeline.qml:2275
+#: src/timeline2/view/qml/timeline.qml:2277
 #, kde-format
 msgid "Multicam In"
 msgstr ""
@@ -19089,282 +19090,282 @@ msgstr "Σίγαση"
 msgid "Edit track name"
 msgstr "Ανίχνευση ποντικιού"
 
-#: src/timeline2/view/timelinecontroller.cpp:259
+#: src/timeline2/view/timelinecontroller.cpp:279
 #, kde-format
 msgid "unknown"
 msgstr "άγνωστο"
 
-#: src/timeline2/view/timelinecontroller.cpp:341
+#: src/timeline2/view/timelinecontroller.cpp:361
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Hide Track"
 msgstr "Προσθήκη κομματιού"
 
-#: src/timeline2/view/timelinecontroller.cpp:341
+#: src/timeline2/view/timelinecontroller.cpp:361
 #, fuzzy, kde-format
 #| msgid "Title clip"
 msgid "Enable Track"
 msgstr "Κλιπ τίτλου"
 
-#: src/timeline2/view/timelinecontroller.cpp:404
+#: src/timeline2/view/timelinecontroller.cpp:424
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:594
+#: src/timeline2/view/timelinecontroller.cpp:614
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:656
-#: src/timeline2/view/timelinecontroller.cpp:1090
-#: src/timeline2/view/timelinecontroller.cpp:1107
-#: src/timeline2/view/timelinecontroller.cpp:1138
-#: src/timeline2/view/timelinecontroller.cpp:1218
+#: src/timeline2/view/timelinecontroller.cpp:676
+#: src/timeline2/view/timelinecontroller.cpp:1110
+#: src/timeline2/view/timelinecontroller.cpp:1127
+#: src/timeline2/view/timelinecontroller.cpp:1158
+#: src/timeline2/view/timelinecontroller.cpp:1238
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Cannot perform operation while dragging in timeline"
 msgstr ""
 "Αδυναμία χρήσης του εργαλείου κενού διαστήματος σε ένα κλειδωμένο κομμάτι"
 
-#: src/timeline2/view/timelinecontroller.cpp:922
-#: src/timeline2/view/timelinecontroller.cpp:5010
+#: src/timeline2/view/timelinecontroller.cpp:942
+#: src/timeline2/view/timelinecontroller.cpp:5030
 #, fuzzy, kde-format
 #| msgid "Insert mode"
 msgid "Could not insert track"
 msgstr "Λειτουργία εισαγωγής"
 
-#: src/timeline2/view/timelinecontroller.cpp:945
+#: src/timeline2/view/timelinecontroller.cpp:965
 #, fuzzy, kde-format
 #| msgid "Delete Track"
 msgid "Delete Tracks"
 msgstr "Διαγραφή κομματιού"
 
-#: src/timeline2/view/timelinecontroller.cpp:958
+#: src/timeline2/view/timelinecontroller.cpp:978
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:1095
+#: src/timeline2/view/timelinecontroller.cpp:1115
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:1507
+#: src/timeline2/view/timelinecontroller.cpp:1527
 #, kde-format
 msgid "guide"
 msgstr "οδηγός"
 
-#: src/timeline2/view/timelinecontroller.cpp:1674
+#: src/timeline2/view/timelinecontroller.cpp:1694
 #, fuzzy, kde-format
 #| msgid "Lock track"
 msgid "No active track"
 msgstr "Κλείδωμα κομματιού"
 
-#: src/timeline2/view/timelinecontroller.cpp:1758
+#: src/timeline2/view/timelinecontroller.cpp:1778
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "No item selected in timeline"
 msgstr "Αδυναμία εισαγωγής του κλιπ στο χρονοδιάγραμμα"
 
-#: src/timeline2/view/timelinecontroller.cpp:1896
+#: src/timeline2/view/timelinecontroller.cpp:1916
 #, fuzzy, kde-format
 #| msgid "No clip copied"
 msgid "No clip to cut"
 msgstr "Καμία αντιγραφή κλιπ"
 
-#: src/timeline2/view/timelinecontroller.cpp:2230
+#: src/timeline2/view/timelinecontroller.cpp:2250
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2318
+#: src/timeline2/view/timelinecontroller.cpp:2338
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:2719
+#: src/timeline2/view/timelinecontroller.cpp:2739
 #, fuzzy, kde-format
 #| msgid "No clip found"
 msgid "No clips found to insert space"
 msgstr "Δε βρέθηκε κλιπ"
 
-#: src/timeline2/view/timelinecontroller.cpp:2736
+#: src/timeline2/view/timelinecontroller.cpp:2756
 #, fuzzy, kde-format
 #| msgid "Cannot move transition"
 msgid "Cannot remove space at given position"
 msgstr "Αδυναμία μετακίνησης της μετάβασης"
 
-#: src/timeline2/view/timelinecontroller.cpp:2750
+#: src/timeline2/view/timelinecontroller.cpp:2770
 #, fuzzy, kde-format
 #| msgid "Cannot move transition"
 msgid "Cannot remove all spaces"
 msgstr "Αδυναμία μετακίνησης της μετάβασης"
 
-#: src/timeline2/view/timelinecontroller.cpp:2764
+#: src/timeline2/view/timelinecontroller.cpp:2784
 #, fuzzy, kde-format
 msgid "Cannot remove all clips"
 msgstr "Αλλαγή μεγέθους κλιπ"
 
-#: src/timeline2/view/timelinecontroller.cpp:2799
-#: src/timeline2/view/timelinecontroller.cpp:2804
-#: src/timeline2/view/timelinecontroller.cpp:2826
+#: src/timeline2/view/timelinecontroller.cpp:2819
+#: src/timeline2/view/timelinecontroller.cpp:2824
+#: src/timeline2/view/timelinecontroller.cpp:2846
 #, fuzzy, kde-format
 #| msgid "Align item to left"
 msgid "No item to edit"
 msgstr "Στοίχιση του αντικειμένου αριστερά"
 
-#: src/timeline2/view/timelinecontroller.cpp:2916
-#: src/timeline2/view/timelinecontroller.cpp:5275
+#: src/timeline2/view/timelinecontroller.cpp:2936
+#: src/timeline2/view/timelinecontroller.cpp:5295
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3181
+#: src/timeline2/view/timelinecontroller.cpp:3201
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3251
+#: src/timeline2/view/timelinecontroller.cpp:3271
 #, fuzzy, kde-format
 #| msgid "Composite"
 msgid "Select a favorite composition"
 msgstr "Σύνθεση"
 
-#: src/timeline2/view/timelinecontroller.cpp:3312
+#: src/timeline2/view/timelinecontroller.cpp:3332
 #, fuzzy, kde-format
 #| msgid "Select a clip before copying"
 msgid "No clip found to perform AV split operation"
 msgstr "Επιλέξτε ένα κλιπ πριν την αντιγραφή"
 
-#: src/timeline2/view/timelinecontroller.cpp:3346
-#: src/timeline2/view/timelinecontroller.cpp:3409
+#: src/timeline2/view/timelinecontroller.cpp:3366
+#: src/timeline2/view/timelinecontroller.cpp:3429
 #, fuzzy, kde-format
 #| msgid "Cannot move clip to position %1"
 msgid "Cannot move clip to frame %1."
 msgstr "Αδυναμία μετακίνησης του κλιπ στη θέση %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:3367
+#: src/timeline2/view/timelinecontroller.cpp:3387
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3531
+#: src/timeline2/view/timelinecontroller.cpp:3551
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3690
+#: src/timeline2/view/timelinecontroller.cpp:3710
 #, fuzzy, kde-format
 #| msgid "Delete effect"
 msgid "Delete effects"
 msgstr "Διαγραφή εφέ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3728
-#: src/timeline2/view/timelinecontroller.cpp:3734
-#: src/timeline2/view/timelinecontroller.cpp:3740
+#: src/timeline2/view/timelinecontroller.cpp:3748
+#: src/timeline2/view/timelinecontroller.cpp:3754
+#: src/timeline2/view/timelinecontroller.cpp:3760
 #, fuzzy, kde-format
 #| msgid "No keyframe data found in clip"
 msgid "No information in clipboard"
 msgstr "Δε βρέθηκαν δεδομένα keyframe στο κλιπ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3765
+#: src/timeline2/view/timelinecontroller.cpp:3785
 #, kde-format
 msgid "Paste effects"
 msgstr "Επικόλληση εφέ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3767
+#: src/timeline2/view/timelinecontroller.cpp:3787
 #, fuzzy, kde-format
 #| msgid "Cannot paste selected clips"
 msgid "Cannot paste effect on selected clip"
 msgstr "Αδυναμία επικόλλησης των επιλεγμένων κλιπ"
 
-#: src/timeline2/view/timelinecontroller.cpp:3819
+#: src/timeline2/view/timelinecontroller.cpp:3839
 #, fuzzy, kde-format
 #| msgid "Create New Sequence"
 msgid "Open sequence"
 msgstr "Δημιουργία νέας ακολουθίας"
 
-#: src/timeline2/view/timelinecontroller.cpp:3841
+#: src/timeline2/view/timelinecontroller.cpp:3861
 #, fuzzy, kde-format
 #| msgid "Template title clip"
 msgid "Item is not a title clip"
 msgstr "Πρότυπο κλιπ τίτλου"
 
-#: src/timeline2/view/timelinecontroller.cpp:3940
+#: src/timeline2/view/timelinecontroller.cpp:3960
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:3994
+#: src/timeline2/view/timelinecontroller.cpp:4014
 #, fuzzy, kde-format
 #| msgid "Restore Backup File"
 msgid "Restore video"
 msgstr "Επαναφορά εφεδρικού αρχείου"
 
-#: src/timeline2/view/timelinecontroller.cpp:3994
+#: src/timeline2/view/timelinecontroller.cpp:4014
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "Restore audio"
 msgstr "Εξαγωγή σε"
 
-#: src/timeline2/view/timelinecontroller.cpp:4215
+#: src/timeline2/view/timelinecontroller.cpp:4235
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move item"
 msgstr "Μετακίνηση οδηγού"
 
-#: src/timeline2/view/timelinecontroller.cpp:4706
+#: src/timeline2/view/timelinecontroller.cpp:4726
 #, fuzzy, kde-format
 #| msgid "Cannot use spacer in a locked track"
 msgid "Impossible to capture on a locked track"
 msgstr ""
 "Αδυναμία χρήσης του εργαλείου κενού διαστήματος σε ένα κλειδωμένο κομμάτι"
 
-#: src/timeline2/view/timelinecontroller.cpp:4717
+#: src/timeline2/view/timelinecontroller.cpp:4737
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
 "clips after the current position or choose a different track"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4808
+#: src/timeline2/view/timelinecontroller.cpp:4828
 #, fuzzy, kde-format
 #| msgid "Extract to"
 msgid "Record audio"
 msgstr "Εξαγωγή σε"
 
-#: src/timeline2/view/timelinecontroller.cpp:4950
+#: src/timeline2/view/timelinecontroller.cpp:4970
 #, fuzzy, kde-format
 #| msgid "Edit Clip"
 msgid "Expand clip"
 msgstr "Επεξεργασία κλιπ"
 
-#: src/timeline2/view/timelinecontroller.cpp:4953
+#: src/timeline2/view/timelinecontroller.cpp:4973
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not expand clip"
 msgstr "Προστίθενται κλιπ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5008
+#: src/timeline2/view/timelinecontroller.cpp:5028
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Εισαγωγή κομματιού"
 msgstr[1] "Εισαγωγή κομματιών"
 
-#: src/timeline2/view/timelinecontroller.cpp:5087
+#: src/timeline2/view/timelinecontroller.cpp:5107
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Export subtitle file"
 msgstr "Προσθήκη οδηγού"
 
-#: src/timeline2/view/timelinecontroller.cpp:5088
+#: src/timeline2/view/timelinecontroller.cpp:5108
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5102
+#: src/timeline2/view/timelinecontroller.cpp:5122
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -19373,52 +19374,52 @@ msgid ""
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5107
+#: src/timeline2/view/timelinecontroller.cpp:5127
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Warning"
 msgstr "Σάρωση"
 
-#: src/timeline2/view/timelinecontroller.cpp:5145
+#: src/timeline2/view/timelinecontroller.cpp:5165
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5182
 #, fuzzy, kde-format
 #| msgid "Show Title Bars"
 msgid "Show subtitle track"
 msgstr "Προβολή γραμμών τίτλων"
 
-#: src/timeline2/view/timelinecontroller.cpp:5162
+#: src/timeline2/view/timelinecontroller.cpp:5182
 #, fuzzy, kde-format
 #| msgid "Delete clip"
 msgid "Hide subtitle track"
 msgstr "Διαγραφή κλιπ"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5205
 #, fuzzy, kde-format
 #| msgid "Unlock track"
 msgid "Unlock subtitle track"
 msgstr "Ξεκλείδωμα κομματιού"
 
-#: src/timeline2/view/timelinecontroller.cpp:5185
+#: src/timeline2/view/timelinecontroller.cpp:5205
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Lock subtitle track"
 msgstr "Χωρίς τίτλο"
 
-#: src/timeline2/view/timelinecontroller.cpp:5352
-#: src/timeline2/view/timelinecontroller.cpp:5361
+#: src/timeline2/view/timelinecontroller.cpp:5372
+#: src/timeline2/view/timelinecontroller.cpp:5381
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Χωρίς τίτλο"
 
-#: src/timeline2/view/timelinecontroller.cpp:5363
+#: src/timeline2/view/timelinecontroller.cpp:5383
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox"
@@ -20853,7 +20854,7 @@ msgstr "Μορφή σύλληψης"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/configcapture_ui.ui:108 src/ui/profiledialog_ui.ui:291
+#: src/ui/configcapture_ui.ui:108 src/ui/profiledialog_ui.ui:160
 #, kde-format
 msgid "Size:"
 msgstr "Μέγεθος:"
@@ -20878,7 +20879,7 @@ msgstr "59/54"
 
 #. i18n: ectx: property (text), widget (QLabel, label_dar)
 #. i18n: ectx: property (text), widget (QLabel, label_31)
-#: src/ui/configcapture_ui.ui:150 src/ui/profiledialog_ui.ui:105
+#: src/ui/configcapture_ui.ui:150 src/ui/profiledialog_ui.ui:297
 #, kde-format
 msgid "Display aspect ratio:"
 msgstr "Αναλογία διαστάσεων οθόνης:"
@@ -22104,7 +22105,7 @@ msgstr "Προσθήκη νέου αρχείου βίντεο"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_delete)
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_remove)
-#: src/ui/customcamcorderproxy_ui.ui:108 src/ui/profiledialog_ui.ui:48
+#: src/ui/customcamcorderproxy_ui.ui:108 src/ui/profiledialog_ui.ui:47
 #, kde-format
 msgid "Delete profile"
 msgstr "Διαγραφή προφίλ"
@@ -22183,7 +22184,7 @@ msgstr "Αναλογία διαστάσεων εικονοστοιχείων:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
-#: src/ui/editrenderpreset_ui.ui:277 src/ui/profiledialog_ui.ui:150
+#: src/ui/editrenderpreset_ui.ui:277 src/ui/profiledialog_ui.ui:129
 #, fuzzy, kde-format
 #| msgid "Bottom first"
 msgid "Bottom Field First"
@@ -22191,7 +22192,7 @@ msgstr "Η βάση πρώτα"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, field_order)
 #. i18n: ectx: property (text), item, widget (QComboBox, fieldOrderCombo)
-#: src/ui/editrenderpreset_ui.ui:282 src/ui/profiledialog_ui.ui:145
+#: src/ui/editrenderpreset_ui.ui:282 src/ui/profiledialog_ui.ui:124
 #, fuzzy, kde-format
 #| msgid "Top first"
 msgid "Top Field First"
@@ -22428,7 +22429,7 @@ msgstr "Σταθεροποίηση"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_save)
 #. i18n: ectx: property (prefix), widget (QSpinBox, subLayer)
-#: src/ui/editsub_ui.ui:291 src/ui/profiledialog_ui.ui:380
+#: src/ui/editsub_ui.ui:291 src/ui/profiledialog_ui.ui:375
 #, kde-format
 msgid "S"
 msgstr "S"
@@ -23327,28 +23328,22 @@ msgid "C"
 msgstr "C"
 
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
-#: src/ui/profiledialog_ui.ui:51
+#: src/ui/profiledialog_ui.ui:50
 #, kde-format
 msgid "D"
 msgstr "D"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/profiledialog_ui.ui:137 src/ui/profiledialog_ui.ui:184
-#: src/ui/profiledialog_ui.ui:317
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: src/ui/profiledialog_ui.ui:176 src/ui/profiledialog_ui.ui:280
+#: src/ui/profiledialog_ui.ui:313
 #, kde-format
 msgid "/"
 msgstr "/"
 
-#. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/profiledialog_ui.ui:334
-#, kde-format
-msgid "Fields per second:"
-msgstr "Πεδία ανά δευτερόλεπτο:"
-
 #. i18n: ectx: property (text), widget (KMessageWidget, effect_warning)
-#: src/ui/profiledialog_ui.ui:345
+#: src/ui/profiledialog_ui.ui:184
 #, kde-format
 msgid ""
 "The \"avfilter.fieldorder\" effect is internally used to set the field "
@@ -23356,14 +23351,20 @@ msgid ""
 "This feature will not work as expected."
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QLabel, label_11)
+#: src/ui/profiledialog_ui.ui:237
+#, kde-format
+msgid "Fields per second:"
+msgstr "Πεδία ανά δευτερόλεπτο:"
+
 #. i18n: ectx: property (toolTip), widget (QToolButton, button_save)
-#: src/ui/profiledialog_ui.ui:377
+#: src/ui/profiledialog_ui.ui:372
 #, kde-format
 msgid "Save profile"
 msgstr "Αποθήκευση προφίλ"
 
 #. i18n: ectx: property (text), widget (QPushButton, button_default)
-#: src/ui/profiledialog_ui.ui:417
+#: src/ui/profiledialog_ui.ui:411
 #, kde-format
 msgid "Use as default"
 msgstr "Χρήση ως προεπιλογή"
