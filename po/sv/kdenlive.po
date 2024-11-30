@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-11-29 00:40+0000\n"
+"POT-Creation-Date: 2024-11-30 00:39+0000\n"
 "PO-Revision-Date: 2024-11-25 18:41+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -3582,7 +3582,7 @@ msgstr "Kalvinsticksprogram"
 
 #: data/kdenliveeffectscategory.rc:138
 #: src/effects/effectlist/model/effectfilter.cpp:89
-#: src/effects/effectlist/model/effecttreemodel.cpp:97
+#: src/effects/effectlist/model/effecttreemodel.cpp:100
 #, kde-format
 msgid "Deprecated"
 msgstr "Föråldrad"
@@ -4023,17 +4023,17 @@ msgctxt "@info:tooltip"
 msgid "Online documentation"
 msgstr "Dokumentation på nätet"
 
-#: src/assets/assetpanel.cpp:69
+#: src/assets/assetpanel.cpp:70
 #, kde-format
 msgid "Change composition type"
 msgstr "Ändra kompositionstyp"
 
-#: src/assets/assetpanel.cpp:79
+#: src/assets/assetpanel.cpp:80
 #, kde-format
 msgid "Enable Builtin Effects"
 msgstr "Inaktivera inbyggda effekter"
 
-#: src/assets/assetpanel.cpp:81
+#: src/assets/assetpanel.cpp:82
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4045,17 +4045,17 @@ msgstr ""
 "Transformera, Volym) till alla klipp för bekvämlighet. Effekterna är "
 "inaktiverade och används bara om en parameter ändras."
 
-#: src/assets/assetpanel.cpp:101
+#: src/assets/assetpanel.cpp:103
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "Använd endast för effekter med samma värde"
 
-#: src/assets/assetpanel.cpp:107
+#: src/assets/assetpanel.cpp:109
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Utför effektändring på alla klipp i gruppen…"
 
-#: src/assets/assetpanel.cpp:109
+#: src/assets/assetpanel.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4067,29 +4067,29 @@ msgstr ""
 "samma effekt också parametrarna justerade. Om en effekt tas bort görs det i "
 "alla klipp i gruppen."
 
-#: src/assets/assetpanel.cpp:119
+#: src/assets/assetpanel.cpp:121
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Spara effektstapel…"
 
-#: src/assets/assetpanel.cpp:120
+#: src/assets/assetpanel.cpp:122
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
 msgstr ""
 "Sparar hela effektstapeln som en XML-fil för användning i andra projekt."
 
-#: src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:127
 #, kde-format
 msgid "Normal view"
 msgstr "Normal vy"
 
-#: src/assets/assetpanel.cpp:125 src/assets/assetpanel.cpp:129
+#: src/assets/assetpanel.cpp:127 src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Compare effect"
 msgstr "Jämför effekt"
 
-#: src/assets/assetpanel.cpp:132
+#: src/assets/assetpanel.cpp:134
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4100,17 +4100,17 @@ msgstr ""
 "klippskärmen: till vänster visas klippet med effekt, till höger visas "
 "klippet utan effekt."
 
-#: src/assets/assetpanel.cpp:137
+#: src/assets/assetpanel.cpp:139
 #, kde-format
 msgid "Effects disabled"
 msgstr "Effekter inaktiverade"
 
-#: src/assets/assetpanel.cpp:137
+#: src/assets/assetpanel.cpp:139
 #, kde-format
 msgid "Effects enabled"
 msgstr "Effekter aktiverade"
 
-#: src/assets/assetpanel.cpp:140
+#: src/assets/assetpanel.cpp:142
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4120,43 +4120,43 @@ msgstr ""
 "Aktiverar eller inaktiverar effektstapeln. Användbart för att se skillnad "
 "mellan original och redigerad eller för att öka snabbspolningshastighet."
 
-#: src/assets/assetpanel.cpp:147
+#: src/assets/assetpanel.cpp:149
 #, kde-format
 msgid "Open composition documentation in browser"
 msgstr "Öppna kompositionstdokumentation i webbläsare"
 
-#: src/assets/assetpanel.cpp:151
+#: src/assets/assetpanel.cpp:153
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Visa nyckelbilder i tidslinje"
 
-#: src/assets/assetpanel.cpp:151
+#: src/assets/assetpanel.cpp:153
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Dölj nyckelbilder i tidslinje"
 
-#: src/assets/assetpanel.cpp:152
+#: src/assets/assetpanel.cpp:154
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Visar eller döljer nyckelbilder för klippet i tidslinjen"
 
-#: src/assets/assetpanel.cpp:267
+#: src/assets/assetpanel.cpp:269
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 effekter"
 
-#: src/assets/assetpanel.cpp:272 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parametrar"
 
-#: src/assets/assetpanel.cpp:276
+#: src/assets/assetpanel.cpp:278
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Spår %1 effekter"
 
-#: src/assets/assetpanel.cpp:281
+#: src/assets/assetpanel.cpp:283
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Korg %1 effekter"
@@ -5452,7 +5452,7 @@ msgstr "Tysta video"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2435 src/effects/effectlist/model/effecttreemodel.cpp:62
+#: src/bin/bin.cpp:2435 src/effects/effectlist/model/effecttreemodel.cpp:65
 #: src/layoutmanagement.cpp:34 src/lib/audio/audioStreamInfo.cpp:24
 #: src/monitor/recmanager.cpp:46 src/onlineresources/resourcewidget.cpp:588
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:533
@@ -5707,8 +5707,8 @@ msgstr[1] "Flytta klipp"
 msgid "No valid clip to insert"
 msgstr "Inget giltigt klipp att infoga"
 
-#: src/bin/bin.cpp:3967 src/timeline2/view/timelinecontroller.cpp:1554
-#: src/timeline2/view/timelinecontroller.cpp:3442
+#: src/bin/bin.cpp:3967 src/timeline2/view/timelinecontroller.cpp:1551
+#: src/timeline2/view/timelinecontroller.cpp:3439
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Markera ett klipp för att verkställa en effekt"
@@ -5718,8 +5718,8 @@ msgstr "Markera ett klipp för att verkställa en effekt"
 msgid "Cannot apply effects on folders"
 msgstr "Kan inte utföra effekter för kataloger"
 
-#: src/bin/bin.cpp:4006 src/effects/effectstack/model/effectstackmodel.cpp:653
-#: src/effects/effectstack/model/effectstackmodel.cpp:659
+#: src/bin/bin.cpp:4006 src/effects/effectstack/model/effectstackmodel.cpp:658
+#: src/effects/effectstack/model/effectstackmodel.cpp:664
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan inte lägga till effekt i klippet"
@@ -6095,7 +6095,7 @@ msgstr "Importera fil vid dubbelklick"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:582
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6276,10 +6276,10 @@ msgid "Move subtitle"
 msgstr "Flytta textning"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:605
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:608
 #: src/effects/effectstack/view/effectstackview.cpp:774
-#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:868
-#: src/project/dialogs/archivewidget.cpp:878 src/render/renderrequest.cpp:370
+#: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
+#: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:370
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -7232,22 +7232,22 @@ msgstr "Exportera flaggdata"
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
 #: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
-#: src/effects/effectlist/model/effecttreemodel.cpp:290
-#: src/effects/effectlist/model/effecttreemodel.cpp:303
+#: src/effects/effectlist/model/effecttreemodel.cpp:298
+#: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:681
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:684
 #: src/effects/effectstack/view/effectstackview.cpp:809
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
 #: src/project/dialogs/archivewidget.cpp:703
-#: src/project/dialogs/archivewidget.cpp:886
-#: src/project/dialogs/archivewidget.cpp:898
-#: src/project/dialogs/archivewidget.cpp:904
+#: src/project/dialogs/archivewidget.cpp:887
+#: src/project/dialogs/archivewidget.cpp:899
+#: src/project/dialogs/archivewidget.cpp:905
 #: src/project/projectmanager.cpp:1876 src/render/renderrequest.cpp:313
 #: src/renderpresets/renderpresetrepository.cpp:377
 #: src/renderpresets/renderpresetrepository.cpp:433
-#: src/timeline2/view/timelinecontroller.cpp:5142
-#: src/timeline2/view/timelinecontroller.cpp:5147
+#: src/timeline2/view/timelinecontroller.cpp:5139
+#: src/timeline2/view/timelinecontroller.cpp:5144
 #: src/titler/titlewidget.cpp:2276
 #, kde-format
 msgid "Cannot write to file %1"
@@ -7357,7 +7357,7 @@ msgid "Capture"
 msgstr "Lagra"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:221
-#: src/effects/effectlist/model/effecttreemodel.cpp:61
+#: src/effects/effectlist/model/effecttreemodel.cpp:64
 #, kde-format
 msgid "Misc"
 msgstr "Diverse"
@@ -8255,7 +8255,7 @@ msgid "Transcode"
 msgstr "Omkoda"
 
 #: src/dialogs/renderwidget.cpp:698 src/dialogs/renderwidget.cpp:1533
-#: src/project/dialogs/archivewidget.cpp:892
+#: src/project/dialogs/archivewidget.cpp:893
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Utdatafilen finns redan. Vill du skriva över den?"
@@ -8303,7 +8303,7 @@ msgstr "Ljud utan videospår"
 msgid "Rendering <i>%1</i> started"
 msgstr "Återgivning <i>%1</i> startad"
 
-#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1277
+#: src/dialogs/renderwidget.cpp:937 src/monitor/monitor.cpp:1282
 #, kde-format
 msgid "untitled"
 msgstr "namnlös"
@@ -9385,7 +9385,7 @@ msgstr "<<< Dölj förhandsgranskning"
 
 #: src/dialogs/subtitlestyleedit.cpp:170 src/dialogs/subtitlestyleedit.cpp:175
 #: src/dialogs/subtitlestyleedit.cpp:180
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:278
 #, kde-format
 msgid "Error"
 msgstr "Fel"
@@ -9644,9 +9644,8 @@ msgid "Using MLT %1"
 msgstr "Använder  MLT %1"
 
 #: src/dialogs/wizard.cpp:82 src/project/cliptranscode.cpp:192
-#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:613
-#: src/project/dialogs/archivewidget.cpp:789
-#: src/project/dialogs/archivewidget.cpp:1213
+#: src/project/cliptranscode.cpp:224 src/project/dialogs/archivewidget.cpp:789
+#: src/project/dialogs/archivewidget.cpp:1214
 #, kde-format
 msgid "Abort"
 msgstr "Avbryt"
@@ -9676,9 +9675,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:132 src/project/cliptranscode.cpp:268
-#: src/project/dialogs/archivewidget.cpp:810
-#: src/project/dialogs/archivewidget.cpp:1192 src/ui/renderwidget_ui.ui:363
-#: src/ui/renderwidget_ui.ui:947 src/ui/renderwidget_ui.ui:1105
+#: src/ui/renderwidget_ui.ui:363 src/ui/renderwidget_ui.ui:947
+#: src/ui/renderwidget_ui.ui:1105
 #, kde-format
 msgid "Close"
 msgstr "Stäng"
@@ -10480,23 +10478,23 @@ msgstr "Visa titelrader"
 msgid "Legacy"
 msgstr "Föråldrat"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:63
+#: src/effects/effectlist/model/effecttreemodel.cpp:66
 #: src/profiles/tree/profiletreemodel.cpp:56
 #, kde-format
 msgid "Custom"
 msgstr "Anpassad"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:64
+#: src/effects/effectlist/model/effecttreemodel.cpp:67
 #, kde-format
 msgid "Templates"
 msgstr "Mallar"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:98
+#: src/effects/effectlist/model/effecttreemodel.cpp:101
 #, kde-format
 msgid " - deprecated"
 msgstr " - föråldrad"
 
-#: src/effects/effectlist/model/effecttreemodel.cpp:270
+#: src/effects/effectlist/model/effecttreemodel.cpp:278
 #, kde-format
 msgid ""
 "Effect name %1 already exists.\n"
@@ -10561,20 +10559,26 @@ msgstr "Kopiera effekt"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:534
-#: src/effects/effectstack/model/effectstackmodel.cpp:639
-#: src/effects/effectstack/model/effectstackmodel.cpp:1427
+#: src/effects/effectstack/model/effectstackmodel.cpp:644
+#: src/effects/effectstack/model/effectstackmodel.cpp:1432
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Effekten %1 kan inte läggas till två gånger."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
-#: src/timeline2/model/timelinemodel.cpp:5084
+#: src/timeline2/model/timelinemodel.cpp:5088
 #, kde-format
 msgid "Add effect %1"
 msgstr "Lägg till effekt %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1182
+#: src/effects/effectstack/model/effectstackmodel.cpp:640
+#, fuzzy, kde-format
+#| msgid "Effect %1 cannot be added twice."
+msgid "Effect %1 can only be added to master"
+msgstr "Effekten %1 kan inte läggas till två gånger."
+
+#: src/effects/effectstack/model/effectstackmodel.cpp:1187
 #, kde-format
 msgid "Move effect %1"
 msgstr "Flytta effekt %1"
@@ -10748,12 +10752,12 @@ msgstr ""
 "Visar en lista med avancerade alternativ för att hantera förinställningar "
 "för effekten."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:349
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:352
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instanser av effekten i gruppen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:515
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10764,28 +10768,28 @@ msgstr ""
 "för att kopiera den. Håll ner <b>Alt</b> och dra för att kopiera det till "
 "ett enda objekt i en grupp."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:542
 #, kde-format
 msgid "Disable %1"
 msgstr "Inaktivera %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:539
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:542
 #, kde-format
 msgid "Enable %1"
 msgstr "Aktivera %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:575
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Spara effekt"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:580
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
 #, kde-format
 msgid "Comments:"
 msgstr "Kommentarer:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:596
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Inget namn angivet, effekt har inte sparats."
@@ -10806,13 +10810,13 @@ msgid "Flip"
 msgstr "Vänd"
 
 #: src/effects/effectstack/view/effectstackview.cpp:691
-#: src/timeline2/view/timelinecontroller.cpp:3296
+#: src/timeline2/view/timelinecontroller.cpp:3293
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Aktivera effektstapel"
 
 #: src/effects/effectstack/view/effectstackview.cpp:691
-#: src/timeline2/view/timelinecontroller.cpp:3296
+#: src/timeline2/view/timelinecontroller.cpp:3293
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Inaktivera effektstapel"
@@ -12159,7 +12163,7 @@ msgstr "Starta dem nu"
 msgid "Delete them"
 msgstr "Ta bort dem"
 
-#: src/mainwindow.cpp:1032 src/timeline2/view/timelinecontroller.cpp:2168
+#: src/mainwindow.cpp:1032 src/timeline2/view/timelinecontroller.cpp:2165
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Markera ett klipp för att jämföra effekt"
@@ -13063,7 +13067,7 @@ msgstr "Infoga spår…"
 msgid "Fit all Tracks in View"
 msgstr "Anpassa alla spår till visningen"
 
-#: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4869
+#: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4866
 #, kde-format
 msgid "Master effects"
 msgstr "Mastereffekter"
@@ -13397,14 +13401,14 @@ msgid "Marker category does not exist"
 msgstr "Markörkategorin finns inte"
 
 #: src/mainwindow.cpp:3009 src/timeline2/model/timelinefunctions.cpp:787
-#: src/timeline2/view/timelinecontroller.cpp:3156
+#: src/timeline2/view/timelinecontroller.cpp:3153
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Skriv över zon"
 
 #: src/mainwindow.cpp:3011 src/mainwindow.cpp:3030
 #: src/timeline2/model/timelinefunctions.cpp:789
-#: src/timeline2/view/timelinecontroller.cpp:3158
+#: src/timeline2/view/timelinecontroller.cpp:3155
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Kunde inte infoga zon"
@@ -13415,7 +13419,7 @@ msgid "No clip selected in project bin"
 msgstr "Inget klipp valt i projektkorg"
 
 #: src/mainwindow.cpp:3028 src/timeline2/model/timelinefunctions.cpp:787
-#: src/timeline2/view/timelinecontroller.cpp:3156
+#: src/timeline2/view/timelinecontroller.cpp:3153
 #, kde-format
 msgid "Insert zone"
 msgstr "Infoga zon"
@@ -13641,7 +13645,7 @@ msgstr ""
 msgid "Hide menu bar"
 msgstr "Dölj menyrad"
 
-#: src/mainwindow.cpp:4668 src/timeline2/view/timelinecontroller.cpp:5100
+#: src/mainwindow.cpp:4668 src/timeline2/view/timelinecontroller.cpp:5097
 #, kde-format
 msgid "No subtitles in current project"
 msgstr "Ingen textning i nuvarande projekt"
@@ -13867,7 +13871,7 @@ msgid "Audio streams"
 msgstr "Ljudströmmar"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:745
-#: src/monitor/monitor.cpp:1941
+#: src/monitor/monitor.cpp:1946
 #, kde-format
 msgid "Merge all streams"
 msgstr "Sammanfoga alla strömmar"
@@ -14258,93 +14262,93 @@ msgstr "Vit"
 msgid "Pink"
 msgstr "Rosa"
 
-#: src/monitor/monitor.cpp:513
+#: src/monitor/monitor.cpp:518
 #, kde-format
 msgid "-5"
 msgstr "-5"
 
-#: src/monitor/monitor.cpp:519
+#: src/monitor/monitor.cpp:524
 #, kde-format
 msgid "-1"
 msgstr "-1"
 
-#: src/monitor/monitor.cpp:525
+#: src/monitor/monitor.cpp:530
 #, kde-format
 msgid "+1"
 msgstr "+1"
 
-#: src/monitor/monitor.cpp:531
+#: src/monitor/monitor.cpp:536
 #, kde-format
 msgid "+5"
 msgstr "+5"
 
 #. i18n("Save zone"), this, SLOT(slotSaveZone()));
-#: src/monitor/monitor.cpp:677
+#: src/monitor/monitor.cpp:682
 #, kde-format
 msgid "Extract Zone"
 msgstr "Extrahera zon"
 
-#: src/monitor/monitor.cpp:690
+#: src/monitor/monitor.cpp:695
 #, kde-format
 msgid "Set current image as thumbnail"
 msgstr "Använd aktuell bild som miniatyrbild"
 
-#: src/monitor/monitor.cpp:697
+#: src/monitor/monitor.cpp:702
 #, kde-format
 msgid "Always show audio thumbnails"
 msgstr "Visa alltid ljudminiatyrer"
 
-#: src/monitor/monitor.cpp:714
+#: src/monitor/monitor.cpp:719
 #, kde-format
 msgid "Show Audio Levels"
 msgstr "Visa ljudnivåer"
 
-#: src/monitor/monitor.cpp:721
+#: src/monitor/monitor.cpp:726
 #, kde-format
 msgid "Show Source Timecode"
 msgstr "Visa källans tidskod"
 
-#: src/monitor/monitor.cpp:758
+#: src/monitor/monitor.cpp:763
 #, kde-format
 msgid "Your screen resolution is not sufficient for this action"
 msgstr "Skärmupplösningen är inte tillräcklig för åtgärden"
 
-#: src/monitor/monitor.cpp:899 src/monitor/monitor.cpp:930
-#: src/timeline2/view/timelinecontroller.cpp:1817
+#: src/monitor/monitor.cpp:904 src/monitor/monitor.cpp:935
+#: src/timeline2/view/timelinecontroller.cpp:1814
 #, kde-format
 msgid "Set Zone"
 msgstr "Ange zon"
 
-#: src/monitor/monitor.cpp:1289
+#: src/monitor/monitor.cpp:1294
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Spara bild i projekt"
 
-#: src/monitor/monitor.cpp:1289
+#: src/monitor/monitor.cpp:1294
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Spara bild"
 
-#: src/monitor/monitor.cpp:1296
+#: src/monitor/monitor.cpp:1301
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Exportera bild med användning av källupplösning"
 
-#: src/monitor/monitor.cpp:1926 src/monitor/monitor.cpp:2059
+#: src/monitor/monitor.cpp:1931 src/monitor/monitor.cpp:2064
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
 msgstr[0] "%1 ljudström"
 msgstr[1] "%1 ljudströmmar"
 
-#: src/monitor/monitor.cpp:2352
+#: src/monitor/monitor.cpp:2357
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Kan inte initiera GLSL-hanteraren i Movit, inaktivera Movit"
 
-#: src/monitor/monitor.cpp:2394 src/monitor/monitor.cpp:2451
+#: src/monitor/monitor.cpp:2399 src/monitor/monitor.cpp:2456
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14353,17 +14357,17 @@ msgstr ""
 "Filtret alphagrad krävs för funktionen, installera frei0r och starta om "
 "Kdenlive"
 
-#: src/monitor/monitor.cpp:2414
+#: src/monitor/monitor.cpp:2419
 #, kde-format
 msgid "Clip has no effects"
 msgstr "Klipp har inga effekter"
 
-#: src/monitor/monitor.cpp:2416
+#: src/monitor/monitor.cpp:2421
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Markera ett klipp i projektkorgen för att jämföra effekt"
 
-#: src/monitor/monitor.cpp:2458
+#: src/monitor/monitor.cpp:2463
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14372,7 +14376,7 @@ msgstr ""
 "Övertoningen Kairoblandning krävs för funktionen, installera frei0r och "
 "starta om Kdenlive"
 
-#: src/monitor/monitor.cpp:2504
+#: src/monitor/monitor.cpp:2509
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Aktivera redigeringsläge på bildskärm för att redigera effekt"
@@ -14668,7 +14672,7 @@ msgstr ""
 "för att söka, <shortcut>Ctrl mushjul</shortcut> för att zooma"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:537
-#: src/monitor/view/kdenlivemonitor.qml:199
+#: src/monitor/view/kdenlivemonitor.qml:200
 #, kde-format
 msgid "%1fps"
 msgstr "%1 bilder/s"
@@ -14679,13 +14683,13 @@ msgid "In/Out Point"
 msgstr "In-utpunkt"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:570
-#: src/monitor/view/kdenlivemonitor.qml:232
+#: src/monitor/view/kdenlivemonitor.qml:233
 #, kde-format
 msgid "In Point"
 msgstr "Inpunkt"
 
 #: src/monitor/view/kdenliveclipmonitor.qml:592
-#: src/monitor/view/kdenlivemonitor.qml:249
+#: src/monitor/view/kdenlivemonitor.qml:250
 #, kde-format
 msgid "Out Point"
 msgstr "Utpunkt"
@@ -14704,6 +14708,13 @@ msgstr ""
 "<b>Klicka</b> för att spela upp, <b>Dubbelklicka</b> för fullskärm, <b>Håll "
 "på höger sida</b> för verktygsrad, <b>Mushjul</b> eller <b>pilar</b> för att "
 "söka, <b>Ctrl mushjul</b> för att zooma"
+
+#: src/monitor/view/kdenlivemonitor.qml:296
+#, fuzzy, kde-format
+#| msgid "Transform"
+msgctxt "@tooltip Transform, a tool to resize"
+msgid "Transform"
+msgstr "Transformera"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -15257,8 +15268,8 @@ msgstr[0] "Det finns %1 saknat klipp i projektet."
 msgstr[1] "Det finns %1 saknade klipp i projektet."
 
 #: src/project/dialogs/archivewidget.cpp:241
-#: src/project/dialogs/archivewidget.cpp:1354
-#: src/project/dialogs/archivewidget.cpp:1419
+#: src/project/dialogs/archivewidget.cpp:1355
+#: src/project/dialogs/archivewidget.cpp:1420
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -15266,8 +15277,8 @@ msgstr[0] "(%1 objekt)"
 msgstr[1] "(%1 objekt)"
 
 #: src/project/dialogs/archivewidget.cpp:247
-#: src/project/dialogs/archivewidget.cpp:1357
-#: src/project/dialogs/archivewidget.cpp:1422
+#: src/project/dialogs/archivewidget.cpp:1358
+#: src/project/dialogs/archivewidget.cpp:1423
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -15369,7 +15380,7 @@ msgstr "Arkiverar…"
 #: src/project/dialogs/archivewidget.cpp:656
 #: src/project/dialogs/archivewidget.cpp:694
 #: src/project/dialogs/archivewidget.cpp:781
-#: src/project/dialogs/archivewidget.cpp:1210
+#: src/project/dialogs/archivewidget.cpp:1211
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Kan inte skapa katalogen %1"
@@ -15381,7 +15392,7 @@ msgid "Copying %1"
 msgstr "Kopierar %1"
 
 #: src/project/dialogs/archivewidget.cpp:687
-#: src/project/dialogs/archivewidget.cpp:857
+#: src/project/dialogs/archivewidget.cpp:858
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Kan inte skapa tillfällig fil"
@@ -15396,22 +15407,22 @@ msgstr "Projekt arkiverades med lyckat resultat."
 msgid "There was an error while copying the files: %1"
 msgstr "Ett fel uppstod vid kopiering av filerna: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1127
+#: src/project/dialogs/archivewidget.cpp:1128
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Kan inte öppna arkivfilen %1"
 
-#: src/project/dialogs/archivewidget.cpp:1144
+#: src/project/dialogs/archivewidget.cpp:1145
 #, kde-format
 msgid "Archiving %1"
 msgstr "Arkiverar %1"
 
-#: src/project/dialogs/archivewidget.cpp:1150
+#: src/project/dialogs/archivewidget.cpp:1151
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "Kan inte kopiera filen %1 till %2."
 
-#: src/project/dialogs/archivewidget.cpp:1180
+#: src/project/dialogs/archivewidget.cpp:1181
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -15420,27 +15431,27 @@ msgstr ""
 "Projekt arkiverades med lyckat resultat.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:1184
 #, kde-format
 msgid "Unknown Error"
 msgstr "Okänt fel"
 
-#: src/project/dialogs/archivewidget.cpp:1183
+#: src/project/dialogs/archivewidget.cpp:1184
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Ett fel uppstod vid arkivering av projektet: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1212
+#: src/project/dialogs/archivewidget.cpp:1213
 #, kde-format
 msgid "Extracting…"
 msgstr "Extraherar…"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1275
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Kan inte öppna projektfil %1"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1275
 #, kde-format
 msgid "Cannot open file"
 msgstr "Kan inte öppna fil"
@@ -17737,14 +17748,14 @@ msgid "Remove space"
 msgstr "Ta bort mellanrum"
 
 #: src/timeline2/model/timelinefunctions.cpp:752
-#: src/timeline2/view/timelinecontroller.cpp:2962
+#: src/timeline2/view/timelinecontroller.cpp:2959
 #, kde-format
 msgid "Lift zone"
 msgstr "Lyft zon"
 
 #: src/timeline2/model/timelinefunctions.cpp:752
 #: src/timeline2/view/timelinecontroller.cpp:730
-#: src/timeline2/view/timelinecontroller.cpp:2962
+#: src/timeline2/view/timelinecontroller.cpp:2959
 #, kde-format
 msgid "Extract zone"
 msgstr "Extrahera zon"
@@ -17762,20 +17773,20 @@ msgstr "Aktivera ett spår genom att klicka på ett spårs etikett"
 #: src/timeline2/view/timelinecontroller.cpp:1388
 #: src/timeline2/view/timelinecontroller.cpp:1414
 #: src/timeline2/view/timelinecontroller.cpp:1439
-#: src/timeline2/view/timelinecontroller.cpp:2331
-#: src/timeline2/view/timelinecontroller.cpp:2980
-#: src/timeline2/view/timelinecontroller.cpp:3045
-#: src/timeline2/view/timelinecontroller.cpp:3259
-#: src/timeline2/view/timelinecontroller.cpp:3304
-#: src/timeline2/view/timelinecontroller.cpp:3353
-#: src/timeline2/view/timelinecontroller.cpp:3382
-#: src/timeline2/view/timelinecontroller.cpp:3687
-#: src/timeline2/view/timelinecontroller.cpp:3702
-#: src/timeline2/view/timelinecontroller.cpp:3727
-#: src/timeline2/view/timelinecontroller.cpp:3742
-#: src/timeline2/view/timelinecontroller.cpp:3801
-#: src/timeline2/view/timelinecontroller.cpp:3854
-#: src/timeline2/view/timelinecontroller.cpp:3878
+#: src/timeline2/view/timelinecontroller.cpp:2328
+#: src/timeline2/view/timelinecontroller.cpp:2977
+#: src/timeline2/view/timelinecontroller.cpp:3042
+#: src/timeline2/view/timelinecontroller.cpp:3256
+#: src/timeline2/view/timelinecontroller.cpp:3301
+#: src/timeline2/view/timelinecontroller.cpp:3350
+#: src/timeline2/view/timelinecontroller.cpp:3379
+#: src/timeline2/view/timelinecontroller.cpp:3684
+#: src/timeline2/view/timelinecontroller.cpp:3699
+#: src/timeline2/view/timelinecontroller.cpp:3724
+#: src/timeline2/view/timelinecontroller.cpp:3739
+#: src/timeline2/view/timelinecontroller.cpp:3798
+#: src/timeline2/view/timelinecontroller.cpp:3851
+#: src/timeline2/view/timelinecontroller.cpp:3875
 #, kde-format
 msgid "No clip selected"
 msgstr "Ingen profil markerad"
@@ -17788,7 +17799,7 @@ msgstr "Kan inte flytta markerad grupp"
 #: src/timeline2/model/timelinefunctions.cpp:1113
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1124
-#: src/timeline2/view/timelinecontroller.cpp:4019
+#: src/timeline2/view/timelinecontroller.cpp:4016
 #, kde-format
 msgid "Enable clip"
 msgstr "Aktivera klipp"
@@ -17796,7 +17807,7 @@ msgstr "Aktivera klipp"
 #: src/timeline2/model/timelinefunctions.cpp:1113
 #: src/timeline2/model/timelinefunctions.cpp:1117
 #: src/timeline2/model/timelinefunctions.cpp:1124
-#: src/timeline2/view/timelinecontroller.cpp:4019
+#: src/timeline2/view/timelinecontroller.cpp:4016
 #, kde-format
 msgid "Disable clip"
 msgstr "Inaktivera klipp"
@@ -18084,7 +18095,7 @@ msgstr "Ta bort komposition"
 
 #: src/timeline2/model/timelinemodel.cpp:2405
 #: src/timeline2/model/timelinemodel.cpp:2695
-#: src/timeline2/view/timelinecontroller.cpp:4256
+#: src/timeline2/view/timelinecontroller.cpp:4253
 #, kde-format
 msgid "Move group"
 msgstr "Flytta grupp"
@@ -18189,89 +18200,88 @@ msgstr "Kan inte klistra in effekt i masterspår"
 msgid "Cannot paste effect to selected track"
 msgstr "Kan inte klistra in effekt i markerat spår"
 
-#: src/timeline2/model/timelinemodel.cpp:5087
-#: src/timeline2/view/timelinecontroller.cpp:1542
+#: src/timeline2/model/timelinemodel.cpp:5091
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Kan inte lägga till effekt %1 i markerat klipp"
 
-#: src/timeline2/model/timelinemodel.cpp:5111
+#: src/timeline2/model/timelinemodel.cpp:5115
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Justera borttoning"
 
-#: src/timeline2/model/timelinemodel.cpp:5436
+#: src/timeline2/model/timelinemodel.cpp:5440
 #, kde-format
 msgid "Insert Composition"
 msgstr "Infoga komposition"
 
-#: src/timeline2/model/timelinemodel.cpp:5657
+#: src/timeline2/model/timelinemodel.cpp:5661
 #, kde-format
 msgid "Move composition"
 msgstr "Flytta komposition"
 
-#: src/timeline2/model/timelinemodel.cpp:6325
+#: src/timeline2/model/timelinemodel.cpp:6329
 #, kde-format
 msgid "Enable time remap"
 msgstr "Aktivera tidsombildning"
 
-#: src/timeline2/model/timelinemodel.cpp:6399
+#: src/timeline2/model/timelinemodel.cpp:6403
 #, kde-format
 msgid "Change speed failed"
 msgstr "Misslyckades ändra hastighet"
 
-#: src/timeline2/model/timelinemodel.cpp:6409
+#: src/timeline2/model/timelinemodel.cpp:6413
 #, kde-format
 msgid "Change clip speed"
 msgstr "Ändra klipphastighet"
 
-#: src/timeline2/model/timelinemodel.cpp:6858
+#: src/timeline2/model/timelinemodel.cpp:6862
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Lock track"
 msgstr "Lås spår"
 
-#: src/timeline2/model/timelinemodel.cpp:6863
+#: src/timeline2/model/timelinemodel.cpp:6867
 #: src/timeline2/view/qml/timeline.qml:1211
 #: src/timeline2/view/qml/TrackHead.qml:505
 #, kde-format
 msgid "Unlock track"
 msgstr "Lås upp spår"
 
-#: src/timeline2/model/timelinemodel.cpp:6897
-#: src/timeline2/model/timelinemodel.cpp:6959
+#: src/timeline2/model/timelinemodel.cpp:6901
+#: src/timeline2/model/timelinemodel.cpp:6963
 #, kde-format
 msgid "Change composition"
 msgstr "Ändra komposition"
 
-#: src/timeline2/model/timelinemodel.cpp:6911
+#: src/timeline2/model/timelinemodel.cpp:6915
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr "Kan inte använda grupperad komposition, dela upp den"
 
-#: src/timeline2/model/timelinemodel.cpp:7106
-#: src/timeline2/model/timelinemodel.cpp:7143
-#: src/timeline2/model/timelinemodel.cpp:7176
-#: src/timeline2/model/timelinemodel.cpp:7257
+#: src/timeline2/model/timelinemodel.cpp:7110
+#: src/timeline2/model/timelinemodel.cpp:7147
+#: src/timeline2/model/timelinemodel.cpp:7180
+#: src/timeline2/model/timelinemodel.cpp:7261
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Kan inte ändra storlek på blandning till mindre än 1 bildruta"
 
-#: src/timeline2/model/timelinemodel.cpp:7117
-#: src/timeline2/model/timelinemodel.cpp:7151
-#: src/timeline2/model/timelinemodel.cpp:7195
-#: src/timeline2/model/timelinemodel.cpp:7281
+#: src/timeline2/model/timelinemodel.cpp:7121
+#: src/timeline2/model/timelinemodel.cpp:7155
+#: src/timeline2/model/timelinemodel.cpp:7199
+#: src/timeline2/model/timelinemodel.cpp:7285
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Kan inte ändra storlek på blandning"
 
-#: src/timeline2/model/timelinemodel.cpp:7295
+#: src/timeline2/model/timelinemodel.cpp:7299
 #, kde-format
 msgid "Resize mix"
 msgstr "Ändra blandningsstorlek"
 
-#: src/timeline2/model/timelinemodel.cpp:7415
+#: src/timeline2/model/timelinemodel.cpp:7419
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Fel vid initiering av tidslinjeförhandsgranskning"
@@ -18685,7 +18695,7 @@ msgid "Cannot perform operation while dragging in timeline"
 msgstr "Kan inte utföra åtgärden medan drag i tidslinjen pågår"
 
 #: src/timeline2/view/timelinecontroller.cpp:942
-#: src/timeline2/view/timelinecontroller.cpp:5030
+#: src/timeline2/view/timelinecontroller.cpp:5027
 #, kde-format
 msgid "Could not insert track"
 msgstr "Kunde inte infoga spår"
@@ -18710,153 +18720,153 @@ msgstr "Markera åtminstone två objekt att gruppera"
 msgid "guide"
 msgstr "flagga"
 
-#: src/timeline2/view/timelinecontroller.cpp:1694
+#: src/timeline2/view/timelinecontroller.cpp:1691
 #, kde-format
 msgid "No active track"
 msgstr "Inget aktivt spår"
 
-#: src/timeline2/view/timelinecontroller.cpp:1778
+#: src/timeline2/view/timelinecontroller.cpp:1775
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "Inga objekt markerade i tidslinjen"
 
-#: src/timeline2/view/timelinecontroller.cpp:1916
+#: src/timeline2/view/timelinecontroller.cpp:1913
 #, kde-format
 msgid "No clip to cut"
 msgstr "Inget klipp att skära"
 
-#: src/timeline2/view/timelinecontroller.cpp:2250
+#: src/timeline2/view/timelinecontroller.cpp:2247
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "In:%1, Ut:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2338
+#: src/timeline2/view/timelinecontroller.cpp:2335
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr "Glidning kan bara utföras för video, ljud eller animeringsklipp"
 
-#: src/timeline2/view/timelinecontroller.cpp:2739
+#: src/timeline2/view/timelinecontroller.cpp:2736
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "Inga klipp hittades för att infoga mellanrum"
 
-#: src/timeline2/view/timelinecontroller.cpp:2756
+#: src/timeline2/view/timelinecontroller.cpp:2753
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "Kan inte ta bort mellanrum på angiven position"
 
-#: src/timeline2/view/timelinecontroller.cpp:2770
+#: src/timeline2/view/timelinecontroller.cpp:2767
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "Kan inte ta bort alla mellanrum"
 
-#: src/timeline2/view/timelinecontroller.cpp:2784
+#: src/timeline2/view/timelinecontroller.cpp:2781
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "Kan inte ta bort alla klipp"
 
-#: src/timeline2/view/timelinecontroller.cpp:2819
-#: src/timeline2/view/timelinecontroller.cpp:2824
-#: src/timeline2/view/timelinecontroller.cpp:2846
+#: src/timeline2/view/timelinecontroller.cpp:2816
+#: src/timeline2/view/timelinecontroller.cpp:2821
+#: src/timeline2/view/timelinecontroller.cpp:2843
 #, kde-format
 msgid "No item to edit"
 msgstr "Inget objekt att redigera"
 
-#: src/timeline2/view/timelinecontroller.cpp:2936
-#: src/timeline2/view/timelinecontroller.cpp:5295
+#: src/timeline2/view/timelinecontroller.cpp:2933
+#: src/timeline2/view/timelinecontroller.cpp:5292
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "Aktivera ett spår för åtgärden genom att klicka på dess etikett"
 
-#: src/timeline2/view/timelinecontroller.cpp:3201
+#: src/timeline2/view/timelinecontroller.cpp:3198
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr "Välj ett målspår genom att klicka på ett spårs målzon"
 
-#: src/timeline2/view/timelinecontroller.cpp:3271
+#: src/timeline2/view/timelinecontroller.cpp:3268
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Välj en favoritkomposition"
 
-#: src/timeline2/view/timelinecontroller.cpp:3332
+#: src/timeline2/view/timelinecontroller.cpp:3329
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr "Inget klipp hittades för att utföra audiovisuell delningsåtgärd"
 
-#: src/timeline2/view/timelinecontroller.cpp:3366
-#: src/timeline2/view/timelinecontroller.cpp:3429
+#: src/timeline2/view/timelinecontroller.cpp:3363
+#: src/timeline2/view/timelinecontroller.cpp:3426
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "Kan inte flytta klipp till bildruta %1."
 
-#: src/timeline2/view/timelinecontroller.cpp:3387
+#: src/timeline2/view/timelinecontroller.cpp:3384
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Ställ in ljudreferens innan justeringsförsök"
 
-#: src/timeline2/view/timelinecontroller.cpp:3551
+#: src/timeline2/view/timelinecontroller.cpp:3548
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr "Alla strömmar redan tilldelade, välj först bort ett annat ljudmål"
 
-#: src/timeline2/view/timelinecontroller.cpp:3710
+#: src/timeline2/view/timelinecontroller.cpp:3707
 #, kde-format
 msgid "Delete effects"
 msgstr "Ta bort effekter"
 
-#: src/timeline2/view/timelinecontroller.cpp:3748
-#: src/timeline2/view/timelinecontroller.cpp:3754
-#: src/timeline2/view/timelinecontroller.cpp:3760
+#: src/timeline2/view/timelinecontroller.cpp:3745
+#: src/timeline2/view/timelinecontroller.cpp:3751
+#: src/timeline2/view/timelinecontroller.cpp:3757
 #, kde-format
 msgid "No information in clipboard"
 msgstr "Ingen information på klippbordet"
 
-#: src/timeline2/view/timelinecontroller.cpp:3785
+#: src/timeline2/view/timelinecontroller.cpp:3782
 #, kde-format
 msgid "Paste effects"
 msgstr "Klistra in effekter"
 
-#: src/timeline2/view/timelinecontroller.cpp:3787
+#: src/timeline2/view/timelinecontroller.cpp:3784
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "Kan inte klistra in effekt i markerat klipp"
 
-#: src/timeline2/view/timelinecontroller.cpp:3839
+#: src/timeline2/view/timelinecontroller.cpp:3836
 #, kde-format
 msgid "Open sequence"
 msgstr "Öppna sekvens"
 
-#: src/timeline2/view/timelinecontroller.cpp:3861
+#: src/timeline2/view/timelinecontroller.cpp:3858
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "Objektet är inte ett titelklipp"
 
-#: src/timeline2/view/timelinecontroller.cpp:3960
+#: src/timeline2/view/timelinecontroller.cpp:3957
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 objekt markerade (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4014
+#: src/timeline2/view/timelinecontroller.cpp:4011
 #, kde-format
 msgid "Restore video"
 msgstr "Återställ video"
 
-#: src/timeline2/view/timelinecontroller.cpp:4014
+#: src/timeline2/view/timelinecontroller.cpp:4011
 #, kde-format
 msgid "Restore audio"
 msgstr "Återställ ljud"
 
-#: src/timeline2/view/timelinecontroller.cpp:4235
+#: src/timeline2/view/timelinecontroller.cpp:4232
 #, kde-format
 msgid "Move item"
 msgstr "Flytta objekt"
 
-#: src/timeline2/view/timelinecontroller.cpp:4726
+#: src/timeline2/view/timelinecontroller.cpp:4723
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "Omöjligt att spela in med ett låst spår"
 
-#: src/timeline2/view/timelinecontroller.cpp:4737
+#: src/timeline2/view/timelinecontroller.cpp:4734
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -18865,39 +18875,39 @@ msgstr ""
 "Omöjligt att spela in här: Inspelningen skulle kunna överskrida klipp. Ta "
 "bort klipp efter aktuell position eller välj ett annat spår."
 
-#: src/timeline2/view/timelinecontroller.cpp:4828
+#: src/timeline2/view/timelinecontroller.cpp:4825
 #, kde-format
 msgid "Record audio"
 msgstr "Spela in ljud"
 
-#: src/timeline2/view/timelinecontroller.cpp:4970
+#: src/timeline2/view/timelinecontroller.cpp:4967
 #, kde-format
 msgid "Expand clip"
 msgstr "Expandera klipp"
 
-#: src/timeline2/view/timelinecontroller.cpp:4973
+#: src/timeline2/view/timelinecontroller.cpp:4970
 #, kde-format
 msgid "Could not expand clip"
 msgstr "Kunde inte expandera klipp"
 
-#: src/timeline2/view/timelinecontroller.cpp:5028
+#: src/timeline2/view/timelinecontroller.cpp:5025
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Infoga spår"
 msgstr[1] "Infoga spår"
 
-#: src/timeline2/view/timelinecontroller.cpp:5107
+#: src/timeline2/view/timelinecontroller.cpp:5104
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Exportera textningsfil"
 
-#: src/timeline2/view/timelinecontroller.cpp:5108
+#: src/timeline2/view/timelinecontroller.cpp:5105
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr "Sub Station Alpha v4.00+ fil (*.ass);;SubRip-textningsfil (*.srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5122
+#: src/timeline2/view/timelinecontroller.cpp:5119
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -18910,12 +18920,12 @@ msgstr ""
 "från det lägsta lagret. Det kan leda till att vissa texter går förlorade i "
 "den exporterade filen. Vill du fortsätta?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5127
+#: src/timeline2/view/timelinecontroller.cpp:5124
 #, kde-format
 msgid "Warning"
 msgstr "Varning"
 
-#: src/timeline2/view/timelinecontroller.cpp:5165
+#: src/timeline2/view/timelinecontroller.cpp:5162
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -18924,34 +18934,34 @@ msgstr ""
 "Filtret avfilter.subtitles krävs, men hittades inte. Textningsfunktionen "
 "fungerar troligtvis inte som förväntat."
 
-#: src/timeline2/view/timelinecontroller.cpp:5182
+#: src/timeline2/view/timelinecontroller.cpp:5179
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Visa textningsspår"
 
-#: src/timeline2/view/timelinecontroller.cpp:5182
+#: src/timeline2/view/timelinecontroller.cpp:5179
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Dölj textningsspår"
 
-#: src/timeline2/view/timelinecontroller.cpp:5205
+#: src/timeline2/view/timelinecontroller.cpp:5202
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Lås upp textningsspår"
 
-#: src/timeline2/view/timelinecontroller.cpp:5205
+#: src/timeline2/view/timelinecontroller.cpp:5202
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Lås textningsspår"
 
-#: src/timeline2/view/timelinecontroller.cpp:5372
-#: src/timeline2/view/timelinecontroller.cpp:5381
+#: src/timeline2/view/timelinecontroller.cpp:5369
+#: src/timeline2/view/timelinecontroller.cpp:5378
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Textning"
 
-#: src/timeline2/view/timelinecontroller.cpp:5383
+#: src/timeline2/view/timelinecontroller.cpp:5380
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
