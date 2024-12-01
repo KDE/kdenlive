@@ -10331,10 +10331,9 @@ msgid "Add effect %1"
 msgstr "添加效果 %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:640
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "效果 %1 不能被添加两次。"
+msgstr ""
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1187
 #, kde-format
@@ -14395,8 +14394,7 @@ msgstr ""
 "或<b>方向键</b>时移，<b>Ctrl+鼠标滚轮</b>缩放视图"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transform - 变形"

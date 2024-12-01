@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-30 00:39+0000\n"
-"PO-Revision-Date: 2024-11-23 14:19+0100\n"
+"PO-Revision-Date: 2024-11-30 08:26+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -5008,7 +5008,7 @@ msgstr "Audio-pistarako efektuen pila irekitzen du."
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr "Audio-maisuarentzako efektu-pila irekitzen du."
+msgstr "Audio-maisuaren efektu-pila irekitzen du."
 
 #: src/bin/bin.cpp:700 src/bin/bin.cpp:858
 #, kde-format
@@ -5907,7 +5907,7 @@ msgstr "Ezin izan da klipa aurkitu markatzailea gehitzeko"
 #: src/bin/bin.cpp:5590
 #, kde-format
 msgid "Could not find master clip"
-msgstr "Ezin da klip maisua aurkitu"
+msgstr "Ezin du klip maisua aurkitu"
 
 #: src/bin/bin.cpp:5852
 #, kde-format
@@ -10628,10 +10628,9 @@ msgid "Add effect %1"
 msgstr "Gehitu %1 efektua"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:640
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "%1 efektua ezin da bitan gehitu."
+msgstr "%1 efektua maisuari baino ezin zaio gehitu"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1187
 #, kde-format
@@ -13128,7 +13127,7 @@ msgstr "Doitu ikuspegiko pista guztiak"
 #: src/mainwindow.cpp:1836 src/timeline2/view/timelinecontroller.cpp:4866
 #, kde-format
 msgid "Master effects"
-msgstr "Maisuaren efektuak"
+msgstr "Maisu-efektuak"
 
 #: src/mainwindow.cpp:1843
 #, kde-format
@@ -14773,8 +14772,7 @@ msgstr ""
 "<b>geziak</b> bilatzeko, <b>Ctrl gurpiltxoa</b> zoom egiteko"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Eraldatu"
@@ -18265,7 +18263,7 @@ msgstr "Ezin izan da denbora-lerroko azken pista ezabatu"
 #: src/timeline2/model/timelinemodel.cpp:5009
 #, kde-format
 msgid "Cannot add effect %1 to master track"
-msgstr "Ezin da %1 efektua gehitu pista maisuan"
+msgstr "Maisu-pistari ezin zaio %1 efektua gehitu"
 
 #: src/timeline2/model/timelinemodel.cpp:5016
 #, kde-format
@@ -18275,7 +18273,7 @@ msgstr "Ezin da %1 efektua gehitu hautatutako pistan"
 #: src/timeline2/model/timelinemodel.cpp:5037
 #, kde-format
 msgid "Cannot paste effect to master track"
-msgstr "Ezin da efektua itsatsi pista maisuan"
+msgstr "Pista nagusiari ezin zaio efektua itsatsi"
 
 #: src/timeline2/model/timelinemodel.cpp:5043
 #, kde-format
@@ -18622,7 +18620,7 @@ msgstr "<b>Klik bikoitza</b> testua editatzeko"
 #: src/timeline2/view/qml/timeline.qml:1002
 #, kde-format
 msgid "Show master effects"
-msgstr "Bistaratu Maisuaren efektuak"
+msgstr "Erakutsi maisu-efektuak"
 
 #: src/timeline2/view/qml/timeline.qml:1145
 #, kde-format

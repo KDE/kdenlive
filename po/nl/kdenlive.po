@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-30 00:39+0000\n"
-"PO-Revision-Date: 2024-11-16 10:50+0100\n"
+"PO-Revision-Date: 2024-11-30 13:45+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -10635,10 +10635,9 @@ msgid "Add effect %1"
 msgstr "Voeg effect %1 toe"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:640
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
+msgstr "Effect %1 kan alleen aan master worden toegevoegd"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1187
 #, kde-format
@@ -14781,8 +14780,7 @@ msgstr ""
 "te zoeken, <b>Ctrl wiel</b> om te zoomen"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Transformeren"
