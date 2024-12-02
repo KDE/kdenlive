@@ -58,6 +58,7 @@
   <summary xml:lang="eo">Videoredaktilo</summary>
   <summary xml:lang="es">Editor de video</summary>
   <summary xml:lang="eu">Bideo editorea</summary>
+  <summary xml:lang="fi">Videomuokkain</summary>
   <summary xml:lang="fr">Éditeur vidéo</summary>
   <summary xml:lang="gl">Editor de vídeo.</summary>
   <summary xml:lang="he">עורך וידאו</summary>
@@ -85,6 +86,7 @@
     <p xml:lang="eo">Kdenlive estas videoredakta aplikaĵo kun subteno por multaj audaĵaj kaj vidaĵaj formatoj. Ĝi ofertas altnivelajn redaktajn funkciojn, diversajn efektojn kaj transirojn, kolorkorektado, aŭda postproduktado kaj subtitolaj iloj. Aldone, ĝi provizas la flekseblecon por redoni en preskaŭ ajna formato de via elekto.</p>
     <p xml:lang="es">Kdenlive es una aplicación de edición de video con soporte para una variedad de formatos de audio y video. Ofrece características avanzadas de edición, múltiples efectos y transiciones, corrección de color, posproducción de audio y herramientas de subtitulado. Adicionalmente, permite la exportación a prácticamente cualquier formato de audio y video existente.</p>
     <p xml:lang="eu">Kdenlive, audio- eta bideo-formatu askorako euskarria duen bideoa editatzeko tresna bat da. Edizio-funtzio aurreratuak eskaintzen ditu, efektu eta trantsizio ezberdinak, kolore-zuzenketa, audio post-produkzioa eta azpidatzietarako tresnak. Gainera, aukeratzen duzun ia edozein formatutan errendatzeko malgutasuna ematen du.</p>
+    <p xml:lang="fi">Kdenlive on videomuokkaussovellus, joka tukee monia ääni- ja videomuotoja. Se työkalut tarjoavat edistyneet muokkausominaisuudet, joukon tehosteita ja siirtymiä, värinkorjauksen, äänen jälkituotannon sekä tekstityksen. Lisäksi se tarjoaa joustoa hahmontaa tuloksen lähes mihin tahansa haluamaasi muotoon.</p>
     <p xml:lang="fr">Kdenlive est une application de montage vidéo prenant en charge de nombreux formats audio et vidéo. Il offre des fonctionnalités d'édition avancées, une variété d'effets et de transitions, une correction des couleurs, une post-production audio et des outils de sous-titrage. En outre, il offre la flexibilité de faire un rendu dans pratiquement n'importe quel format de votre choix.</p>
     <p xml:lang="gl">Kdenlive é unha aplicación de edición de vídeo para moitos formatos de son e de vídeo. Fornece funcionalidades avanzadas de edición, varios efectos e transicións, corrección de cor, post-produción de son e ferramentas de subtítulos. Ademais, fornece a flexibilidade de renderizar en calquera formato da súa escolla.</p>
     <p xml:lang="he">Kdenlive הוא יישום לעריכת וידאו עם תמיכה במגוון סוגים של וידאו ושמע. הוא מציע יכולות עריכה מתקדמות, שלל אפקטים ומעברונים, תיקון צבע, הפקת פוסט של שמע וכלי כתוביות. בנוסף, הוא מספק את הגמישות לעבד לכמעט כל סוג אפשרי שיש לבחירתך.</p>
@@ -150,6 +152,7 @@
       <li xml:lang="eo">Ingitaj Sinsekvoj</li>
       <li xml:lang="es">Secuencias anidadas</li>
       <li xml:lang="eu">Habiaratutako sekuentziak</li>
+      <li xml:lang="fi">Sisäkkäiset sekvenssit</li>
       <li xml:lang="fr">Séquences imbriquées</li>
       <li xml:lang="gl">Secuencias aniñadas.</li>
       <li xml:lang="he">רצפים מקוננים</li>
@@ -175,6 +178,7 @@
       <li xml:lang="eo">Agordeblaj interfaco kaj ŝparvojoj</li>
       <li xml:lang="es">Interfaz y atajos de teclado configurables</li>
       <li xml:lang="eu">Interfaze eta lasterbide konfiguragarriak</li>
+      <li xml:lang="fi">Mukautettava käyttöliittymä ja pikanäppäimet</li>
       <li xml:lang="fr">Interface et raccourcis configurables</li>
       <li xml:lang="gl">Interface e atallos configurábeis.</li>
       <li xml:lang="he">ממשק וקיצורי דרך גמישים</li>
@@ -276,6 +280,7 @@
       <li xml:lang="eo">Moviĝospurado</li>
       <li xml:lang="es">Rastreo de movimiento</li>
       <li xml:lang="eu">Higiduraren jarraipena</li>
+      <li xml:lang="fi">Liikkeen jäljitys</li>
       <li xml:lang="fr">Suivi de déplacement</li>
       <li xml:lang="gl">Seguimento de movemento.</li>
       <li xml:lang="he">מעקב אחר תנועה</li>
@@ -302,6 +307,7 @@
       <li xml:lang="eo">AI-pelitaj iloj</li>
       <li xml:lang="es">Herramientas potenciadas mediante IA</li>
       <li xml:lang="eu">AAk bultzatutako tresnak</li>
+      <li xml:lang="fi">Tekoälytehosteiset työkalut</li>
       <li xml:lang="fr">Outils alimentés par l'intelligence artificielle</li>
       <li xml:lang="gl">Ferramentas que usan intelixencia artificial.</li>
       <li xml:lang="he">כלים מחוזקי בינה מלאכותית</li>
@@ -367,6 +373,7 @@
       <caption xml:lang="eo">Malhela etoso</caption>
       <caption xml:lang="es">Tema oscuro</caption>
       <caption xml:lang="eu">Gai iluna</caption>
+      <caption xml:lang="fi">Tumma teema</caption>
       <caption xml:lang="fr">Thème sombre</caption>
       <caption xml:lang="gl">Tema escuro.</caption>
       <caption xml:lang="he">ערכת צבעים כהה</caption>
@@ -396,6 +403,7 @@
       <caption xml:lang="eo">Defaŭlta interfaco</caption>
       <caption xml:lang="es">Interfaz estándar</caption>
       <caption xml:lang="eu">Interfaze lehenetsia</caption>
+      <caption xml:lang="fi">Oletuskäyttöliittymä</caption>
       <caption xml:lang="fr">Interface par défaut</caption>
       <caption xml:lang="gl">Interface predeterminada.</caption>
       <caption xml:lang="he">ממשק ברירת מחדל</caption>
@@ -426,6 +434,7 @@
       <caption xml:lang="eo">Kolorkorektado</caption>
       <caption xml:lang="es">Corrección de color</caption>
       <caption xml:lang="eu">Kolore zuzenketa</caption>
+      <caption xml:lang="fi">Värinkorjaus</caption>
       <caption xml:lang="fr">Correction de couleurs</caption>
       <caption xml:lang="gl">Corrección de cor.</caption>
       <caption xml:lang="he">תיקון צבע</caption>
@@ -455,6 +464,7 @@
       <caption xml:lang="eo">Agordebla interfaco</caption>
       <caption xml:lang="es">Interfaz configurable</caption>
       <caption xml:lang="eu">Interfaze konfiguragarria</caption>
+      <caption xml:lang="fi">Mukautettava käyttöliittymä</caption>
       <caption xml:lang="fr">Interface configurable</caption>
       <caption xml:lang="gl">Interface configurábel.</caption>
       <caption xml:lang="he">ממשק גמיש</caption>
@@ -484,6 +494,7 @@
       <caption xml:lang="eo">Titolado</caption>
       <caption xml:lang="es">Titulación</caption>
       <caption xml:lang="eu">Tituluak ipintzea</caption>
+      <caption xml:lang="fi">Väliotsikot</caption>
       <caption xml:lang="fr">Titrage</caption>
       <caption xml:lang="gl">Titulación.</caption>
       <caption xml:lang="he">מתן כותרות</caption>
