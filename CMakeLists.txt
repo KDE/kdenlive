@@ -53,6 +53,23 @@ if (NOT DEFINED QT_MAJOR_VERSION)
     set(QT_MAJOR_VERSION 6)
 endif()
 
+# OpenTimelineIO
+#
+# Note that this needs to come before the KDECompilerSettings. OTIO is not
+# compatible with some of the KDE compiler flags, specifically:
+# "-fno-operator-names" and "-fno-exceptions".
+#
+# todo: Use CMake's FetchContent to include OpenTimelineIO until a system
+# package is available.
+include(FetchContent)
+set(OTIO_SHARED_LIBS OFF)
+FetchContent_Declare(
+    OTIO
+    GIT_REPOSITORY https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git
+    GIT_TAG v0.17.0)
+FetchContent_MakeAvailable(OTIO)
+include_directories(${otio_SOURCE_DIR}/src)
+
 ## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(ECMInstallIcons)
