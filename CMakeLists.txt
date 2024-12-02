@@ -56,8 +56,7 @@ endif()
 # OpenTimelineIO
 #
 # Note that this needs to come before the KDECompilerSettings. OTIO is not
-# compatible with some of the KDE compiler flags, specifically:
-# "-fno-operator-names" and "-fno-exceptions".
+# compatible with the KDE compiler flag "-fno-operator-names".
 #
 # todo: Use CMake's FetchContent to include OpenTimelineIO until a system
 # package is available.
@@ -87,6 +86,10 @@ remove_definitions(-DQT_NO_CAST_FROM_ASCII) # Defined in KDECompilerSettings, bu
 if(NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-variadic-macros")
 endif()
+# Enable exceptions for OTIO and dependencies.
+kde_target_enable_exceptions(opentime PUBLIC)
+kde_target_enable_exceptions(opentimelineio PUBLIC)
+kde_target_enable_exceptions(Imath PUBLIC)
 
 # KDE Frameworks
 if (NOT DEFINED KF_MAJOR)
