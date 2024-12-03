@@ -26,7 +26,7 @@ public:
     /** @brief Reloads all the providers from the disk */
     void refresh(bool fullRefresh = true); // TODO: change to false
 
-    QVector<QPair<QString, QString>> getAllProviers() const;
+    const QVector<QPair<QString, QString>> getAllProviers() const;
     std::unique_ptr<ProviderModel> &getProvider(const QString &path);
 
 protected:

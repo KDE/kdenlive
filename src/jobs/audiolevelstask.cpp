@@ -24,9 +24,6 @@
 #include <QTime>
 #include <QVariantList>
 
-static QList<AudioLevelsTask *> tasksList;
-static QMutex tasksListMutex;
-
 static void deleteQVariantList(QVector<uint8_t> *list)
 {
     delete list;

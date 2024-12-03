@@ -69,7 +69,7 @@ void ProvidersRepository::refresh(bool fullRefresh)
     }
 }
 
-QVector<QPair<QString, QString>> ProvidersRepository::getAllProviers() const
+const QVector<QPair<QString, QString>> ProvidersRepository::getAllProviers() const
 {
     QReadLocker locker(&m_mutex);
 

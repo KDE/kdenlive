@@ -11,13 +11,13 @@
 
 #include <KJob>
 #include <QListWidgetItem>
+#include <QMutex>
 #include <QNetworkReply>
 #include <QProcess>
 #include <QSlider>
 #include <QTemporaryFile>
 #include <QUrl>
 #include <QWidget>
-#include <QtNetworkAuth>
 
 const int imageRole = Qt::UserRole;
 const int urlRole = Qt::UserRole + 1;

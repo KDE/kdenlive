@@ -382,12 +382,12 @@ QUrl ProviderModel::getSearchUrl(const QString &searchText, const int page)
 {
 
     QUrl url(m_apiroot);
-    const QJsonObject req = m_search["req"].toObject();
+    const QJsonObject req = m_search.value("req").toObject();
     QUrlQuery query;
-    url.setPath(url.path().append(req["path"].toString()));
-
-    for (const auto param : req["params"].toArray()) {
-        query.addQueryItem(param.toObject()["key"].toString(), replacePlaceholders(param.toObject()["value"].toString(), searchText, page));
+    url.setPath(url.path().append(req.value("path").toString()));
+    const QJsonArray array = req.value("params").toArray();
+    for (const auto &param : array) {
+        query.addQueryItem(param.toObject().value("key").toString(), replacePlaceholders(param.toObject().value("value").toString(), searchText, page));
     }
     url.setQuery(query);
 

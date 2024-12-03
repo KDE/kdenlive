@@ -33,7 +33,7 @@ QVariant RotoHelper::getSpline(const QVariant &value, const QSize frame)
         bPoints << b;
     }
     QList<QVariant> vlist;
-    for (const BPoint &point : bPoints) {
+    for (const BPoint &point : std::as_const(bPoints)) {
         QList<QVariant> pl;
         for (int i = 0; i < 3; ++i) {
             pl << QVariant(QList<QVariant>() << QVariant(point[i].x() / frame.width()) << QVariant(point[i].y() / frame.height()));
@@ -72,7 +72,7 @@ QList<BPoint> RotoHelper::getPoints(const QVariant &value, const QSize frame)
         data.removeFirst();
     }
 
-    for (const QVariant &bpoint : data) {
+    for (const QVariant &bpoint : std::as_const(data)) {
         QList<QVariant> l = bpoint.toList();
         BPoint p;
         for (int i = 0; i < 3; ++i) {

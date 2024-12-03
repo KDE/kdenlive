@@ -23,8 +23,9 @@
 #include <QIcon>
 #include <QInputDialog>
 #include <QMenu>
+#include <QTimer>
 #include <QToolBar>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 
 ResourceWidget::ResourceWidget(QWidget *parent)
     : QWidget(parent)

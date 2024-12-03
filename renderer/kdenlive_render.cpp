@@ -239,7 +239,7 @@ int main(int argc, char **argv)
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out, subtitleFile, debugMode, &app);
         QObject::connect(rJob, &RenderJob::renderingFinished, rJob, [&]() {
             rJob->deleteLater();
-            app.quit();
+            qApp->quit();
         });
         // app.setQuitOnLastWindowClosed(false);
         QMetaObject::invokeMethod(rJob, "start", Qt::QueuedConnection);

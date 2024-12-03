@@ -26,10 +26,4 @@ public:
     bool installNewModel(const QString &modelName = QString()) override;
     QMap<QString, QString> speechLanguages() override;
     const QString installMessage() const override;
-
-public Q_SLOTS:
-
-Q_SIGNALS:
-    void subtitleProgressUpdate(int);
-    void subtitleFinished(int exitCode, QProcess::ExitStatus exitStatus);
 };

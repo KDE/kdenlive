@@ -25,10 +25,4 @@ public:
     const QStringList getInstalledModels() override;
     bool installNewModel(const QString &modelName = QString()) override;
     QMap<QString, QString> whisperLanguages();
-
-public Q_SLOTS:
-
-Q_SIGNALS:
-    void subtitleProgressUpdate(int);
-    void subtitleFinished(int exitCode, QProcess::ExitStatus exitStatus);
 };

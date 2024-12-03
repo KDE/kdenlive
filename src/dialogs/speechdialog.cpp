@@ -44,12 +44,13 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     logOutput->setVisible(false);
     setWindowTitle(i18n("Automatic Subtitling"));
     m_speechConfig = new QAction(i18n("Configure"), this);
-    connect(m_speechConfig, &QAction::triggered, [this]() {
+    connect(m_speechConfig, &QAction::triggered, this, [this]() {
         pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech);
         close();
     });
     m_logAction = new QAction(i18n("Show log"), this);
-    connect(m_logAction, &QAction::triggered, [&]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Speech Recognition log"), m_errorLog); });
+    connect(m_logAction, &QAction::triggered, this,
+            [this]() { KMessageBox::detailedError(QApplication::activeWindow(), i18n("Speech Recognition log"), m_errorLog); });
     maxChars->setValue(KdenliveSettings::whisperMaxChars());
     check_maxchars->setChecked(KdenliveSettings::cutWhisperMaxChars());
 
@@ -72,7 +73,7 @@ SpeechDialog::SpeechDialog(std::shared_ptr<TimelineItemModel> timeline, QPoint z
     buttonGroup->addButton(timeline_zone, 2);
     buttonGroup->addButton(timeline_track, 3);
     buttonGroup->addButton(timeline_clips, 4);
-    connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked),
+    connect(buttonGroup, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this,
             [=, selectedTrack = tid, sourceZone = zone, bg = buttonGroup](QAbstractButton *button) {
                 if (speech_info->messageType() == KMessageWidget::Information) {
                     speech_info->animatedHide();
@@ -203,7 +204,7 @@ void SpeechDialog::buildSpeechModelsList(SpeechToTextEngine::EngineType engine, 
         }
         translate_seamless->setEnabled(KdenliveSettings::enableSeamless());
         translate_seamless->setChecked(KdenliveSettings::srtSeamlessTranslate());
-        connect(translate_seamless, &QCheckBox::toggled, [this](bool toggled) {
+        connect(translate_seamless, &QCheckBox::toggled, this, [this](bool toggled) {
             translate_box->setVisible(!toggled);
             seamless_in->setVisible(toggled);
             seamless_out->setVisible(toggled);

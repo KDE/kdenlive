@@ -330,6 +330,7 @@ QVariantMap AssetListWidget::getMimeData(const QString &assetId) const
 
 void AssetListWidget::activate(const QModelIndex &ix)
 {
+
     if (!ix.isValid()) {
         return;
     }

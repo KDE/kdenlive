@@ -627,7 +627,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     button_config->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     connect(m_translateAction, &QAction::triggered, [](bool enabled) { KdenliveSettings::setWhisperTranslate(enabled); });
     connect(configAction, &QAction::triggered, []() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech); });
-    connect(menu, &QMenu::aboutToShow, [this]() {
+    connect(menu, &QMenu::aboutToShow, this, [this]() {
         m_translateAction->setChecked(KdenliveSettings::whisperTranslate());
         m_translateAction->setEnabled(KdenliveSettings::speechEngine() == QLatin1String("whisper"));
     });
@@ -1345,7 +1345,7 @@ void TextBasedEdit::slotProcessSpeech()
             bool textFound = false;
             QPair<double, double> sentenceZone;
             if (obj["result"].isArray()) {
-                QJsonArray obj2 = obj["result"].toArray();
+                const QJsonArray obj2 = obj.value("result").toArray();
 
                 // Get start time for first word
                 QJsonValue val = obj2.first();

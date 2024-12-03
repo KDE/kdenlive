@@ -8,11 +8,13 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QOAuth2AuthorizationCodeFlow>
+#include <QOAuthHttpServerReplyHandler>
 #include <QObject>
 #include <QPixmap>
 #include <QTemporaryFile>
-#include <QtNetworkAuth>
 
 struct ResourceItemInfo
 {

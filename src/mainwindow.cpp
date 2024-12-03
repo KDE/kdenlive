@@ -102,6 +102,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KConfigGroup>
 #include <QAction>
 #include <QClipboard>
+#include <QCollator>
 #include <QDesktopServices>
 #include <QDialogButtonBox>
 #include <QFileDialog>

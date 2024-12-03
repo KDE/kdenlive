@@ -524,7 +524,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             break;
         }
     } else {
-        qDebug() << "UNKNOWN DATA requested " << index << roleNames()[role];
+        qDebug() << "UNKNOWN DATA requested " << index << roleNames().value(role);
     }
     return QVariant();
 }
