@@ -88,8 +88,6 @@ public:
     bool sendFrameForAnalysis;
     /** @brief delete and rebuild consumer, for example when external display is switched */
     void resetConsumer(bool fullReset);
-    void lockMonitor();
-    void releaseMonitor();
     int droppedFrames() const;
     void resetDrops();
     bool checkFrameNumber(int pos, bool isPlaying);

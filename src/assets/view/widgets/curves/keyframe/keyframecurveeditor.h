@@ -24,7 +24,6 @@ class KeyframeCurveEditor : public AbstractCurveWidget<CubicBezierSpline>
 Q_SIGNALS:
     void atKeyframe(bool isKeyframe, bool singleKeyframe);
     void seekToPos(int pos);
-    void modified();
     void activateEffect();
 
 public:

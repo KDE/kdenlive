@@ -105,7 +105,7 @@ bool DocumentChecker::resolveProblemsWithGUI()
     }
 
     bool onlySilent = true;
-    for (auto item : m_items) {
+    for (auto &item : std::as_const(m_items)) {
         if (item.status != MissingStatus::Fixed || item.type != MissingType::AssetFile) {
             // we don't need to warn about automatic asset file fixes
             onlySilent = false;
@@ -137,7 +137,7 @@ bool DocumentChecker::resolveProblemsWithGUI()
 
     Q_EMIT pCore->loadingMessageNewStage(i18n("Applying fixes…"), taskCount);
 
-    for (auto item : items) {
+    for (auto &item : std::as_const(items)) {
         fixMissingItem(item, producers, chains, trans, filters);
         Q_EMIT pCore->loadingMessageIncrease();
         qApp->processEvents();
@@ -1086,8 +1086,8 @@ QString DocumentChecker::fixLutFile(const QString &file)
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "luts", QStandardPaths::LocateDirectory);
-    for (auto res : resList) {
+    const QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "luts", QStandardPaths::LocateDirectory);
+    for (auto &res : resList) {
         if (!res.isEmpty()) {
             searchPath.setPath(res);
             result.setFile(searchPath, fname);
@@ -1129,8 +1129,8 @@ QString DocumentChecker::fixLumaPath(const QString &file)
         return result.filePath();
     }
     // Try in Kdenlive's standard KDE path
-    QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
-    for (auto res : resList) {
+    const QStringList resList = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, "lumas", QStandardPaths::LocateDirectory);
+    for (auto &res : resList) {
         if (!res.isEmpty()) {
             searchPath.setPath(res);
             if (file.contains(QStringLiteral("/PAL"))) {
@@ -1914,7 +1914,7 @@ QStringList DocumentChecker::getInfoMessages()
 
 bool DocumentChecker::itemsContain(MissingType type, const QString &path, MissingStatus status)
 {
-    for (auto item : m_items) {
+    for (auto &item : std::as_const(m_items)) {
         if (item.status != status) {
             continue;
         }
@@ -1972,7 +1972,7 @@ bool DocumentChecker::isSequenceWithSpeedEffect(const QDomElement &producer)
 QMap<DocumentChecker::MissingType, int> DocumentChecker::getCheckResults()
 {
     QMap<DocumentChecker::MissingType, int> missingResults;
-    for (auto item : m_items) {
+    for (auto &item : std::as_const(m_items)) {
         if (missingResults.contains(item.type)) {
             missingResults[item.type] = missingResults.value(item.type) + 1;
         } else {

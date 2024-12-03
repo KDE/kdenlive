@@ -501,8 +501,6 @@ static void onThreadCreate(mlt_properties owner, VideoWidget *self, mlt_event_da
     if (threadData) {
         auto renderThread = (RenderThread *)threadData->thread;
         self->createThread(&renderThread, threadData->function, threadData->data);
-        // TODO: useless ?
-        // self->lockMonitor();
     }
 }
 
@@ -541,16 +539,6 @@ static void onThreadStarted(mlt_properties owner, VideoWidget *self, mlt_event_d
 {
     Q_UNUSED(owner)
     self->startGlsl();
-}
-
-void VideoWidget::releaseMonitor()
-{
-    Q_EMIT lockMonitor(false);
-}
-
-void VideoWidget::lockMonitor()
-{
-    Q_EMIT lockMonitor(true);
 }
 
 void VideoWidget::stopGlsl()

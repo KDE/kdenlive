@@ -121,8 +121,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), this);
     QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles;
-    for (auto it = KeyframeModel::getKeyframeTypes().cbegin(); it != KeyframeModel::getKeyframeTypes().cend();
-         it++) { // Order is fixed due to the nature of <map>
+    const auto cmap = KeyframeModel::getKeyframeTypes();
+    for (auto it = cmap.cbegin(); it != cmap.cend(); it++) { // Order is fixed due to the nature of <map>
         QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), this);
         tmp->setData(int(it.key()));
         tmp->setCheckable(true);
@@ -460,7 +460,7 @@ void KeyframeWidget::slotSetPosition(int pos, bool update)
         m_time->setValue(pos);
     }
     m_keyframeview->slotSetPosition(pos, true);
-    for (auto i : m_curveeditorview) {
+    for (auto &i : std::as_const(m_curveeditorview)) {
         i->slotSetPosition(pos, true);
     }
     slotAtKeyframe(m_keyframes->hasKeyframe(pos + pCore->getItemIn(m_keyframes->getOwnerId())), m_keyframes->singleKeyframe());
@@ -716,7 +716,7 @@ void KeyframeWidget::slotInitMonitor(bool active, bool)
         m_keyframeview->initKeyframePos();
         connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
     }
-    for (auto i : m_curveeditorview) {
+    for (auto &i : std::as_const(m_curveeditorview)) {
         connect(monitor, &Monitor::updateScene, i, &KeyframeCurveEditor::slotModelChanged, Qt::UniqueConnection);
     }
     if (m_monitorHelper) {
@@ -905,8 +905,8 @@ void KeyframeWidget::slotPasteKeyframeFromClipBoard()
         auto paramName = m_model->data(ix, AssetParameterModel::NameRole).toString();
         if (storedValues.contains(paramName)) {
             KeyframeModel *km = m_keyframes->getKeyModel(ix);
-            QMap<int, QVariant> values = storedValues.value(paramName);
-            int offset = values.keys().first();
+            const QMap<int, QVariant> values = storedValues.value(paramName);
+            int offset = values.firstKey();
             QMapIterator<int, QVariant> i(values);
             while (i.hasNext()) {
                 i.next();
@@ -1091,7 +1091,7 @@ void KeyframeWidget::slotSeekToPos(int pos)
     } else {
         m_time->setValue(qMax(0, pos - in));
         m_keyframeview->slotSetPosition(pos, true);
-        for (auto i : m_curveeditorview) {
+        for (auto &i : std::as_const(m_curveeditorview)) {
             i->slotSetPosition(pos, true);
         }
     }

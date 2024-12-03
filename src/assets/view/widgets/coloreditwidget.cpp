@@ -28,7 +28,7 @@ ColorEditWidget::ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QMo
     layout->addWidget(m_choosecolor, 1);
 
     // Q_EMIT the signal of the base class when appropriate
-    connect(m_choosecolor, &ChooseColorWidget::modified, [this](const QColor &) { Q_EMIT valueChanged(m_index, getColor(), true); });
+    connect(m_choosecolor, &ChooseColorWidget::modified, this, [this](const QColor &) { Q_EMIT valueChanged(m_index, getColor(), true); });
     connect(m_choosecolor, &ChooseColorWidget::disableCurrentFilter, this, &AbstractParamWidget::disableCurrentFilter);
     // setup comment
     setToolTip(comment);
