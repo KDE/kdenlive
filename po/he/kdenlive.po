@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-30 02:29+0000\n"
-"PO-Revision-Date: 2024-11-29 11:12+0200\n"
+"PO-Revision-Date: 2024-12-01 09:39+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1334,6 +1334,12 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[חיתוך הנתונים מתחתית התרשים (בפועל זאת התקרבות). <br>\n"
+"    \tהערך מפוענח כאחוז מסך הכול או ערך מוחלט כתלות ב־crop_mode_v. במצב אחוז "
+"הערכים לא מוגבלים ל־0-100 כדי לאפשר התנהגות „התרחקות” (כלומר: חיתוך ‎-50 גם "
+"יוסיף עוד חצי מסך כל המרחק האנכי לתחתית. ערכים מעל 100 (במצב %) לא יציג כלום "
+"בפועל. אם <em>סוג התרשים</em> הוא <b>מד אוץ</b>, זה יגדיר את מקום הנעץ הקטן "
+"ביותר שיקבץ תחתיו את כל הערכים הקטנים ממנו.]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, fuzzy, kde-format
@@ -1489,7 +1495,7 @@ msgstr "הטיה"
 msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
-msgstr ""
+msgstr "הטיית כל המרובע של התרשים. במצב מד אוץ הטקסט נשאר אופקי."
 
 #: data/effects/gpsgraphic.xml:134
 #, fuzzy, kde-format

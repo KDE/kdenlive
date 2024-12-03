@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-30 02:29+0000\n"
-"PO-Revision-Date: 2024-11-17 13:00+0300\n"
+"PO-Revision-Date: 2024-12-02 19:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -10403,7 +10403,7 @@ msgstr "Efekti kopyala"
 #: src/effects/effectstack/model/effectstackmodel.cpp:1427
 #, kde-format
 msgid "Effect %1 cannot be added twice."
-msgstr "%1 etkisi iki kez eklenemiyor."
+msgstr "%1 efekti iki kez eklenemez."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235

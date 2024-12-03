@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-30 02:29+0000\n"
-"PO-Revision-Date: 2024-10-19 19:56+0900\n"
+"PO-Revision-Date: 2024-12-02 17:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /usr/share/locale/zh_TW/LC_MESSAGES\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1319,15 +1319,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:92
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Graph color style"
-msgstr "圖表類型"
+msgstr "圖表色彩風格"
 
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "可用的各種風格的資訊請見說明文件"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1338,7 +1337,7 @@ msgstr "色彩 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "設定圖表線條的色彩 #1"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1349,43 +1348,42 @@ msgstr "色彩 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "設定圖表線條的色彩 #2"
 
 #: data/effects/gpsgraphic.xml:104
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color 3"
-msgstr "色彩 1"
+msgstr "色彩 3"
 
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "設定圖表線條的色彩 #3"
 
 #: data/effects/gpsgraphic.xml:108
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color 4"
-msgstr "色彩 1"
+msgstr "色彩 4"
 
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "設定圖表線條的色彩 #4"
 
 #: data/effects/gpsgraphic.xml:112
-#, fuzzy, kde-format
+#, kde-format
 msgid "Color 5"
-msgstr "色彩 1"
+msgstr "色彩 5"
 
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "設定圖表線條的色彩 #5"
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show more options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "顯示更多選項"
+msgstr "顯示「現在」的點"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1396,22 +1394,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Now dot color"
-msgstr "純色(&L)："
+msgstr "「現在」點色彩"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "頻譜的色彩。"
+msgstr "設定「現在」點的色彩"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "語音轉文字"
+msgstr "顯示「現在」的文字"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1439,22 +1434,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "線條粗細"
+msgstr "線條粗細 (px)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "長條或片段的粗細。"
+msgstr "設定線條圖的厚度，單位為像素。"
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "繪製格線"
+msgstr "繪製圖例"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1471,7 +1463,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "圖例單位"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1491,10 +1483,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "只顯示轉場特效"
+msgstr "只顯示點"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1508,10 +1499,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "矩形"
+msgstr "圖表矩形"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1584,10 +1574,9 @@ msgid "Date and time of the video file."
 msgstr "附加一個計時器在影片上方"
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "跳到專案起點"
+msgstr ""
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
