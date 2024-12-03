@@ -258,8 +258,18 @@ void RenderJob::slotIsOver(int exitCode, QProcess::ExitStatus status)
         if (m_dualpass) {
             deleteLater();
         } else {
-            if (!m_debugMode && QFile::exists(m_dest)) {
-                m_logfile.remove();
+            int error = -1;
+            QString errorMessage;
+            if (QFile::exists(m_dest)) {
+                if (!m_debugMode) {
+                    m_logfile.remove();
+                }
+            } else {
+                // Rendering finished but missing file
+                error = -2;
+                errorMessage = m_errorMessage;
+                errorMessage.append(QLatin1Char('\n'));
+                errorMessage.append(tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest));
             }
             if (!m_subtitleFile.isEmpty()) {
                 // Embed subtitles
@@ -281,7 +291,7 @@ void RenderJob::slotIsOver(int exitCode, QProcess::ExitStatus status)
                     return;
                 }
             }
-            sendFinish(-1, QString());
+            sendFinish(error, errorMessage);
         }
     }
     Q_EMIT renderingFinished();
