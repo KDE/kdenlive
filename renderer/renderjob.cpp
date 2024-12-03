@@ -267,7 +267,9 @@ void RenderJob::slotIsOver(int exitCode, QProcess::ExitStatus status)
             } else {
                 // Rendering finished but missing file
                 error = -2;
-                errorMessage = tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
+                errorMessage = m_errorMessage;
+                errorMessage.append(QLatin1Char('\n'));
+                errorMessage.append(tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest));
             }
             if (!m_subtitleFile.isEmpty()) {
                 // Embed subtitles
