@@ -1695,9 +1695,11 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
         return nullptr;
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
-    std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
-    if (listModel) {
-        return listModel->getKeyModel();
+    if (sourceEffect->isAssetEnabled()) {
+        std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+        if (listModel) {
+            return listModel->getKeyModel();
+        }
     }
     return nullptr;
 }
