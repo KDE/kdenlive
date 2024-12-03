@@ -11,15 +11,15 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-30 00:39+0000\n"
-"PO-Revision-Date: 2024-10-20 06:18+0200\n"
-"Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
+"PO-Revision-Date: 2024-12-02 16:30+0100\n"
+"Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1089,16 +1089,14 @@ msgid "Gamma"
 msgstr "Gamma"
 
 #: data/effects/gpsgraphic.xml:4
-#, fuzzy, kde-format
-#| msgid "GraphView"
+#, kde-format
 msgid "GPS Graphic"
-msgstr "GraphView"
+msgstr "Grafico GPS"
 
 #: data/effects/gpsgraphic.xml:5
-#, fuzzy, kde-format
-#| msgid "Overlay GPS-related text onto the video."
+#, kde-format
 msgid "Overlay GPS-related graphics onto the video."
-msgstr "Sovrapponi il testo relativo al GPS sul video."
+msgstr "Sovrapponi il grafico relativo al GPS sul video."
 
 #: data/effects/gpsgraphic.xml:8 data/effects/gpstext.xml:12
 #, kde-format
@@ -1111,6 +1109,8 @@ msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
 msgstr ""
+"Il percorso completo del file contenente i dati sulla posizione (GPS) Le "
+"estensioni supportate sono: .gpx e .tcx."
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1144,10 +1144,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:22
-#, fuzzy, kde-format
-#| msgid "Add multiple markers"
+#, kde-format
 msgid "Speed multiplier"
-msgstr "Aggiungi marcatori multipli"
+msgstr "Moltiplicatore di velocità"
 
 #: data/effects/gpsgraphic.xml:24
 #, kde-format
@@ -1232,7 +1231,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "Percentuale da min..max,Valore assoluto"
 
 #: data/effects/gpsgraphic.xml:55
 #, fuzzy, kde-format
@@ -1351,15 +1350,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:92
-#, fuzzy, kde-format
-#| msgid "Graph type"
+#, kde-format
 msgid "Graph color style"
-msgstr "Tipo di grafico"
+msgstr "Stile del colore del grafico"
 
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "Vedi la documentazione sui vari stili disponibili"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1370,7 +1368,7 @@ msgstr "Colore 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "Imposta il colore numero 1 della linea del grafico"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1381,7 +1379,7 @@ msgstr "Colore 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "Imposta il colore numero 2 della linea del grafico"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -1391,7 +1389,7 @@ msgstr "Colore 3"
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "Imposta il colore numero 3 della linea del grafico"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -1401,7 +1399,7 @@ msgstr "Colore 4"
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "Imposta il colore numero 4 della linea del grafico"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -1411,7 +1409,7 @@ msgstr "Colore 5"
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "Imposta il colore numero 5 della linea del grafico"
 
 #: data/effects/gpsgraphic.xml:116
 #, fuzzy, kde-format
@@ -1426,6 +1424,9 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[Abilitalo per disegnare un disco sulla posizione del grafico nella "
+"posizione o nell'orario corrente.<br>\n"
+"    \tSe il tipo di grafico è tachimetro, questo influisce sull'ago.]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, fuzzy, kde-format
@@ -1469,24 +1470,23 @@ msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
 msgstr ""
+"Ruota l'intero rettangolo del grafico. Per il tipo tachimetro, il testo "
+"rimane orizzontale."
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Spessore della linea"
+msgstr "Spessore della linea (px)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "Lo spessore della barra o dei segmenti."
+msgstr "Imposta lo spessore in pixel della linea del grafico."
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "Disegna griglia"
+msgstr "Mostra legenda"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1503,7 +1503,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
 msgid "Legend unit"
-msgstr ""
+msgstr "Unità leggenda"
 
 #: data/effects/gpsgraphic.xml:144
 #, kde-format
@@ -1523,10 +1523,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "Mostra solo le transizioni"
+msgstr "Mostra solo i punti"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1540,10 +1539,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:154
-#, fuzzy, kde-format
-#| msgid "Rectangle"
+#, kde-format
 msgid "Graph rectangle"
-msgstr "Rettangolo"
+msgstr "Rettangolo del grafico"
 
 #: data/effects/gpsgraphic.xml:156
 #, no-c-format, kde-format
@@ -1552,12 +1550,15 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[Definisce il rettangolo nel quale dovrebbe essere disegnato il "
+"grafico.<br>\n"
+"        Il formato è: \"X Y L H\". X, Y, L, H sono in unità pixel, a meno "
+"che non abbiano il suffisso «%».]]>"
 
 #: data/effects/gpsgraphic.xml:159
-#, fuzzy, kde-format
-#| msgid "Background Weight"
+#, kde-format
 msgid "Background image"
-msgstr "Peso dello sfondo"
+msgstr "Immagine di sfondo"
 
 #: data/effects/gpsgraphic.xml:161
 #, kde-format
@@ -1567,6 +1568,11 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[Se viene selezionata un'immagine valida, questa verrà usata come "
+"sfondo per l'area del rettangolo.<br>\n"
+"      \tI percorsi che iniziano col carattere «!» verranno ignorati. "
+"SUGGERIMENTO: usa un'immagine di una mappa per aggiungere un contesto alla "
+"traccia GPS.]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, fuzzy, kde-format
@@ -1591,18 +1597,17 @@ msgstr "Opacità dello sfondo"
 #: data/effects/gpsgraphic.xml:170
 #, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr ""
+msgstr "<![CDATA[Imposta l'opacità dell'immagine di sfondo]]>"
 
 #: data/effects/gpsgraphic.xml:173
-#, fuzzy, kde-format
-#| msgid "GPS processing start time"
+#, kde-format
 msgid "GPS start time"
-msgstr "Tempo iniziale di elaborazione GPS"
+msgstr "Ora di inizio GPS"
 
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "Data e ora del primo punto GPS valido."
 
 #: data/effects/gpsgraphic.xml:177
 #, fuzzy, kde-format
@@ -1611,10 +1616,9 @@ msgid "Video start time"
 msgstr "Flusso video"
 
 #: data/effects/gpsgraphic.xml:178
-#, fuzzy, kde-format
-#| msgid "Overlay a timer onto the video"
+#, kde-format
 msgid "Date and time of the video file."
-msgstr "Sovrapponi un timer sul video"
+msgstr "Ora e data del file video."
 
 #: data/effects/gpsgraphic.xml:181
 #, fuzzy, kde-format
@@ -1629,6 +1633,10 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"Fornisce uno scostamento di aiuto per garantire che l'inizio del video sia "
+"sincronizzato con quello del file GPS. Imposta correttamente lo scostamento "
+"se il file video e la registrazione GPS sono stati registrati "
+"contemporaneamente."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
@@ -1642,17 +1650,21 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if your video record "
 "the moment GPS starts."
 msgstr ""
+"Fornisce uno scostamento di aiuto per sincronizzare il primo punto GPS "
+"all'orario del video corrente (viene aggiornato ogni secondo). Imposta "
+"correttamente lo scostamento se la registrazione del video inizia nello "
+"stesso istante del GPS."
 
 #: data/effects/gpsgraphic.xml:189
-#, fuzzy, kde-format
-#| msgid "Map white to"
+#, kde-format
 msgid "Map hint"
-msgstr "Associa il bianco a"
+msgstr "Suggerimento di associazione"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
 msgstr ""
+"Restituisce le coordinate mediane di latitudine e longitudine del file GPS."
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -6265,16 +6277,14 @@ msgid "Assign a new style to a subtitle."
 msgstr "Assegna un nuovo stile a un sottotitolo."
 
 #: src/bin/playlistclip.cpp:140
-#, fuzzy, kde-format
-#| msgid "Persian"
+#, kde-format
 msgid "version"
-msgstr "Persiano"
+msgstr "versione"
 
 #: src/bin/playlistclip.cpp:169
-#, fuzzy, kde-format
-#| msgid "Sequence 1"
+#, kde-format
 msgid "Sequence count"
-msgstr "Sequenza 1"
+msgstr "Conteggio sequenza"
 
 #: src/bin/projectclip.cpp:244
 #, kde-format
@@ -7391,20 +7401,17 @@ msgid "JogShuttle"
 msgstr "JogShuttle"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:497
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "user_interface/menu/settings_menu/configure_kdenlive.html#windows\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
 "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our documentation</"
 "a>."
 msgstr ""
-"Per la configurazione del dispositivo vedi <a href=\"https://docs.kdenlive."
-"org/user_interface/menu/settings_menu/configure_kdenlive.html#windows\">la "
-"nostra documentazione</a>."
+"Per la configurazione del dispositivo, vedi <a href=\"https://docs.kdenlive."
+"org/user_interface/menu/settings_menu/configure_kdenlive.html#windows?"
+"mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">la nostra "
+"documentazione</a>."
 
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/kdenlivesettingsdialog.cpp:519 src/dialogs/timeremap.cpp:1583
@@ -7532,6 +7539,7 @@ msgstr "Progressivo"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"L'elaborazione nella CPU è molto lenta; è raccomandata quella nella GPU"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1778
 #, kde-format
@@ -7540,17 +7548,19 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"La traduzione del testo viene eseguita dal modello SeamlessM4T, che richiede "
+"lo scaricamento di circa 10Gb di dati. Una volta installato, tutte le "
+"elaborazioni verranno eseguite non in linea."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1797
-#, fuzzy, kde-format
-#| msgid "Download error %1"
+#, kde-format
 msgid "Download (1.4Gb)"
-msgstr "Errore nello scaricamento %1"
+msgstr "Scarica (1.4Gb)"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1819
 #, kde-format
 msgid "Installing multilingual data…"
-msgstr ""
+msgstr "Installazione dei dati multi lingua…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
@@ -7596,10 +7606,9 @@ msgid "Probing..."
 msgstr "Verifica..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1943
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading multilingual model…"
-msgstr "Scaricamento del modello..."
+msgstr "Scaricamento modello multi lingua..."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1999
 #: src/dialogs/kdenlivesettingsdialog.cpp:2295
@@ -7618,31 +7627,28 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2047 src/ui/configspeech_ui.ui:308
-#, fuzzy, kde-format
-#| msgid "Initializing translation model"
+#, kde-format
 msgid "Install multilingual translation"
-msgstr "Inizializzazione del modello di traduzione"
+msgstr "Installa traduzione multi lingua"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2056
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
-msgstr ""
+msgstr "Installa un modello vocale - ti raccomandiamo <b>turbo</b>"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2088
 #: src/dialogs/kdenlivesettingsdialog.cpp:2102
 #: src/dialogs/kdenlivesettingsdialog.cpp:2111
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install a model"
-msgstr "Moduli installati"
+msgstr "Installa un modello"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
 #: src/dialogs/kdenlivesettingsdialog.cpp:2104
 #: src/dialogs/kdenlivesettingsdialog.cpp:2113 src/ui/configspeech_ui.ui:232
-#, fuzzy, kde-format
-#| msgid "Edge mode"
+#, kde-format
 msgid "Manage models"
-msgstr "Modalità bordo"
+msgstr "Gestisci i modelli"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:2173
 #, kde-format
@@ -8467,10 +8473,9 @@ msgid "Speech recognition aborted."
 msgstr "Riconoscimento vocale interrotto"
 
 #: src/dialogs/speechdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "Speech recognition failed"
+#, kde-format
 msgid "Speech recognition failed."
-msgstr "Riconoscimento vocale non riuscito"
+msgstr "Riconoscimento vocale non riuscito."
 
 #: src/dialogs/speechdialog.cpp:432
 #, kde-format
@@ -10015,11 +10020,9 @@ msgid "Transition"
 msgstr "Transizione"
 
 #: src/doc/documentchecker.cpp:1865
-#, fuzzy, kde-format
-#| msgid "One removed clip"
-#| msgid_plural "%1 removed clips"
+#, kde-format
 msgid "Unreferenced clip"
-msgstr "Una clip rimossa"
+msgstr "Clip senza riferimenti"
 
 #: src/doc/documentchecker.cpp:1867
 #, kde-format
@@ -10565,10 +10568,9 @@ msgid "Add effect %1"
 msgstr "Aggiungi effetto %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:640
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "L'effetto %1 non può essere aggiunto due volte."
+msgstr "L'effetto %1 può essere aggiunto solo al principale"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1187
 #, kde-format
@@ -14748,8 +14750,7 @@ msgstr ""
 "ingrandire"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "Trasforma"
@@ -16639,6 +16640,9 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"Questo richiede una connessione a Internet, inoltre saranno necessari "
+"diversi minuti per scaricare tutte le dipendenze necessarie. Dopo di ciò, "
+"l'elaborazione avverrà non in linea."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #: src/pythoninterfaces/abstractpythoninterface.cpp:544
@@ -16708,84 +16712,75 @@ msgstr ""
 "verrà abilitato di nuovo."
 
 #: src/pythoninterfaces/dialogs/modeldownloadwidget.cpp:80
-#, fuzzy, kde-format
-#| msgid "Error Downloading File. Error code: %1"
+#, kde-format
 msgid ""
 "Error downloading model:\n"
 " %1\n"
 "%2"
-msgstr "Errore nello scaricamento del file. Codice di errore: %1"
+msgstr ""
+"Errore nello scaricamento del modello:\n"
+" %1\n"
+"%2"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:40
-#, fuzzy, kde-format
-#| msgid "Select a zone to play"
+#, kde-format
 msgid "Select new models to download"
-msgstr "Seleziona una zona da riprodurre"
+msgstr "Seleziona nuovi modelli da scaricare"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:42
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Installing model %1"
-msgstr "Moduli installati"
+msgstr "Installazione del modello %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "Verifica dei modelli disponibili"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Downloading"
-msgstr "Scaricamento del modello..."
+msgstr "Scaricamento"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:62
-#, fuzzy, kde-format
-#| msgid "Downloading model…"
+#, kde-format
 msgid "Download Model"
-msgstr "Scaricamento del modello..."
+msgstr "Scarica modello"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:124
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort downloads"
-msgstr "Vai alla pagina degli scaricamenti"
+msgstr "Interrompi gli scaricamenti"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:129
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Uninstall model"
-msgstr "Moduli installati"
+msgstr "Disinstalla modello"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:132
-#, fuzzy, kde-format
-#| msgid "Installed modules"
+#, kde-format
 msgid "Install model"
-msgstr "Moduli installati"
+msgstr "Installa modello"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:215
-#, fuzzy, kde-format
-#| msgid "Total size:"
+#, kde-format
 msgid "Total download size: %1"
-msgstr "Dimensione totale:"
+msgstr "Dimensione totale di scaricamento: %1"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:294
-#, fuzzy, kde-format
-#| msgid "Checking configuration…"
+#, kde-format
 msgid "Checking models integrity…"
-msgstr "Controllo della configurazione…"
+msgstr "Verifica dell'integrità dei modelli..."
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Archiving in progress, do you want to stop it?"
+#, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Archiviazione in corso, la vuoi interrompere?"
+msgstr "È in corso uno scaricamento, la vuoi interrompere?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:365
-#, fuzzy, kde-format
-#| msgid "Go to download page"
+#, kde-format
 msgid "Abort download"
-msgstr "Vai alla pagina degli scaricamenti"
+msgstr "Interrompi scaricamento"
 
 #: src/pythoninterfaces/otioconvertions.cpp:23
 #, kde-format
@@ -17118,10 +17113,9 @@ msgid "Yiddish"
 msgstr "Yiddish"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:240
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Install Whisper"
-msgstr "Whisper"
+msgstr "Installa Whisper"
 
 #: src/render/renderrequest.cpp:142
 #, kde-format
@@ -18400,16 +18394,14 @@ msgid "Error initializing timeline preview"
 msgstr "Errore nell'inizializzazione dell'anteprima nella linea temporale"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Extracting audio for %1."
+#, kde-format
 msgid "Editing duration for %1 clips."
-msgstr "Estrazione dell'audio dalla clip %1."
+msgstr "Durata di modifica per %1 clip."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode"
+#, kde-format
 msgid "Editing in Ripple mode."
-msgstr "Montaggio in modalità con scarto"
+msgstr "Montaggio in modalità con scarto."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -20150,7 +20142,7 @@ msgstr "Fine del ritaglio:"
 #: src/ui/clipdurationdialog_ui.ui:101
 #, kde-format
 msgid "Apply duration to all items"
-msgstr ""
+msgstr "Applica durata a tutti gli elementi"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -21050,21 +21042,15 @@ msgstr "Ottieni i metadati della clip con la Lanterna magica"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ignoresubdirstructure)
 #: src/ui/configmisc_ui.ui:100
-#, fuzzy, kde-format
-#| msgid "Ignore subfolder structure"
+#, kde-format
 msgid "Ignore subfolder structure on import"
-msgstr "Ignora struttura delle sottocartelle"
+msgstr "All'importazione, ignora struttura delle sottocartelle"
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
 #: src/ui/configmisc_ui.ui:107
-#, fuzzy, kde-format
-#| msgid ""
-#| "Ignore subfolder structure on import (import all files into toplevel "
-#| "folder)"
+#, kde-format
 msgid "This will import all files into a toplevel folder"
-msgstr ""
-"Ignora la struttura delle sottocartelle nelle importazioni (importa tutti i "
-"file nella cartella di livello massimo)"
+msgstr "Quest'azione importa tutti i file nella cartella di livello massimo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_disable_effect_parameters)
 #: src/ui/configmisc_ui.ui:123
@@ -21338,14 +21324,13 @@ msgstr "Motore vocale"
 #: src/ui/configspeech_ui.ui:52
 #, kde-format
 msgid "VOS&K"
-msgstr ""
+msgstr "VOS&K"
 
 #. i18n: ectx: property (text), widget (QRadioButton, engine_whisper)
 #: src/ui/configspeech_ui.ui:59
-#, fuzzy, kde-format
-#| msgid "Whisper"
+#, kde-format
 msgid "Wh&isper"
-msgstr "Whisper"
+msgstr "Wh&isper"
 
 #. i18n: ectx: property (text), widget (QCheckBox, custom_vosk_folder)
 #: src/ui/configspeech_ui.ui:128
@@ -21969,13 +21954,13 @@ msgstr "S"
 #: src/ui/editsub_ui.ui:405 src/ui/editsubstyle_ui.ui:229
 #, kde-format
 msgid "Left margin"
-msgstr ""
+msgstr "Margine sinistro"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginR)
 #: src/ui/editsub_ui.ui:464 src/ui/editsubstyle_ui.ui:445
 #, kde-format
 msgid "Right margin"
-msgstr ""
+msgstr "Margine destro"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScrollUpper)
 #: src/ui/editsub_ui.ui:487
@@ -21985,10 +21970,9 @@ msgstr "Limite superiore"
 
 #. i18n: ectx: property (text), widget (QLabel, labelMarginV)
 #: src/ui/editsub_ui.ui:507 src/ui/editsubstyle_ui.ui:259
-#, fuzzy, kde-format
-#| msgid "Vertical Start"
+#, kde-format
 msgid "Vertical margin"
-msgstr "Inizio verticale"
+msgstr "Margine verticale"
 
 #. i18n: ectx: property (text), widget (QLabel, lavelScrollLower)
 #: src/ui/editsub_ui.ui:554
@@ -22024,10 +22008,9 @@ msgstr "Editor dello stile dei sottotitoli"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
-#, fuzzy, kde-format
-#| msgid "File name"
+#, kde-format
 msgid "Style name"
-msgstr "Nome del file"
+msgstr "Nome dello stile"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSecondaryColor)
 #: src/ui/editsubstyle_ui.ui:121
@@ -22042,27 +22025,26 @@ msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
+"Il colore secondario potrebbe essere usato in caso di collisione fra i "
+"sottotitoli, per aiutare a riconoscerli entrambi"
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
 #: src/ui/editsubstyle_ui.ui:209
-#, fuzzy, kde-format
-#| msgid "Letter spacing:"
+#, kde-format
 msgid "Character spacing"
-msgstr "Spaziatura del carattere:"
+msgstr "Spaziatura del carattere"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleX)
 #: src/ui/editsubstyle_ui.ui:279
-#, fuzzy, kde-format
-#| msgid "ScaleX"
+#, kde-format
 msgid "Scale X"
-msgstr "ScalaX"
+msgstr "Scala X"
 
 #. i18n: ectx: property (text), widget (QLabel, labelColor)
 #: src/ui/editsubstyle_ui.ui:340
-#, fuzzy, kde-format
-#| msgid "Target color"
+#, kde-format
 msgid "Text color"
-msgstr "Colore di destinazione"
+msgstr "Colore testo"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #. i18n: ectx: property (text), widget (QLabel, labelColor_2)
@@ -22115,10 +22097,9 @@ msgstr "Allineamento"
 
 #. i18n: ectx: property (text), widget (QLabel, labelScaleY)
 #: src/ui/editsubstyle_ui.ui:465
-#, fuzzy, kde-format
-#| msgid "ScaleY"
+#, kde-format
 msgid "Scale Y"
-msgstr "ScalaY"
+msgstr "Scala Y"
 
 #. i18n: ectx: property (placeholderText), widget (QPlainTextEdit, generatedContent)
 #: src/ui/exportguidesdialog_ui.ui:27

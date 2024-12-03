@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-11-30 00:39+0000\n"
-"PO-Revision-Date: 2024-11-18 15:15+0300\n"
+"PO-Revision-Date: 2024-12-02 19:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -10556,7 +10556,7 @@ msgstr "Efekti kopyala"
 #: src/effects/effectstack/model/effectstackmodel.cpp:1432
 #, kde-format
 msgid "Effect %1 cannot be added twice."
-msgstr "%1 etkisi iki kez eklenemiyor."
+msgstr "%1 efekti iki kez eklenemez."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:630
 #: src/effects/effectstack/view/effectstackview.cpp:235
@@ -10566,10 +10566,9 @@ msgid "Add effect %1"
 msgstr "%1 efekti ekle"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:640
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "%1 etkisi iki kez eklenemiyor."
+msgstr "%1 efekti yalnızca ana ize eklenebilir."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1187
 #, kde-format
@@ -14712,11 +14711,10 @@ msgstr ""
 "oklar </b>, yakınlaştırmak için <b> Kontrol tekerleği </b>"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
-msgstr "Dönüştür"
+msgstr "Dönüşüm"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
