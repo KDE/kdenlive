@@ -253,6 +253,9 @@ void KdenliveSettingsDialog::initMiscPage()
             m_configMisc.preferredcomposite->setCurrentIndex(ix);
         }
     }
+    m_configMisc.kcfg_enableBuiltInEffects->setWhatsThis(xi18nc(
+        "@info:whatsthis", "When enabled, this will add basic effects (Flip, Transform, Volume) to all clips for convenience. These effects are disabled "
+                           "and will only be applied if you change a parameter."));
     connect(m_configMisc.preferredcomposite, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() {
         if (m_configMisc.preferredcomposite->currentText() != KdenliveSettings::preferredcomposite()) {
             KdenliveSettings::setPreferredcomposite(m_configMisc.preferredcomposite->currentText());
@@ -1083,6 +1086,11 @@ void KdenliveSettingsDialog::updateSettings()
                                                                i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
         }
+    }
+
+    if (m_configMisc.kcfg_enableBuiltInEffects->isChecked() != KdenliveSettings::enableBuiltInEffects()) {
+        KdenliveSettings::setEnableBuiltInEffects(m_configMisc.kcfg_enableBuiltInEffects->isChecked());
+        pCore->window()->reloadAssetPanel();
     }
 
     if (m_configProject.kcfg_customprojectfolder->isChecked() != KdenliveSettings::customprojectfolder()) {

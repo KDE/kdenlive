@@ -83,7 +83,6 @@ protected:
     EffectStackView *m_effectStackWidget;
 
 private:
-    QAction *m_switchBuiltStack;
     QAction *m_compositionHelpLink;
     QMenu *m_applyEffectGroups;
     QAction *m_saveEffectStack;
