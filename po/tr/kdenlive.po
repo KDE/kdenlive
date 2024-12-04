@@ -1463,22 +1463,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:134
-#, fuzzy, kde-format
-#| msgid "Line Thickness"
+#, kde-format
 msgid "Line Thickness (px)"
-msgstr "Çizgi Kalınlığı"
+msgstr "Çizgi Kalınlığı (pks)"
 
 #: data/effects/gpsgraphic.xml:135
-#, fuzzy, kde-format
-#| msgid "The thickness of the bar or segments."
+#, kde-format
 msgid "Sets the thickness of the line graph in pixels."
-msgstr "Çubuk veya bölütlerin kalınlığı."
+msgstr "Çizgi grafiğin kalınlığını piksel türünden ayarlar."
 
 #: data/effects/gpsgraphic.xml:138
-#, fuzzy, kde-format
-#| msgid "Draw grid"
+#, kde-format
 msgid "Draw legend"
-msgstr "Izgara çiz"
+msgstr "Gösterge çiz"
 
 #: data/effects/gpsgraphic.xml:140
 #, no-c-format, kde-format
@@ -1515,10 +1512,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:149
-#, fuzzy, kde-format
-#| msgid "Show transitions only"
+#, kde-format
 msgid "Show dots only"
-msgstr "Yalnızca geçişleri göster"
+msgstr "Yalnızca noktaları göster"
 
 #: data/effects/gpsgraphic.xml:151
 #, kde-format
@@ -1559,10 +1555,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "Arka Plan"
+msgstr "Arka plan ölçeği"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -23914,31 +23909,3 @@ msgstr "%1 dk"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 sa"
-
-#~ msgid "<html><head/><body><p>Margin</p></body></html>"
-#~ msgstr "<html><head/><body><p>Kenar boşluğu</p></body></html>"
-
-#~ msgid "Margin"
-#~ msgstr "Kenar boşluğu"
-
-#~ msgid "BorderStyle"
-#~ msgstr "Kenarlık biçemi"
-
-#~ msgid "R: "
-#~ msgstr "K: "
-
-#~ msgid "G: "
-#~ msgstr "Y "
-
-#~ msgid "B: "
-#~ msgstr "M "
-
-#~ msgid "Force Breeze Icon Theme"
-#~ msgstr "Esinti Simgelerini Kullanmayı Zorla"
-
-#~ msgid ""
-#~ "Kdenlive needs to be restarted to apply the icon theme change. Restart "
-#~ "now?"
-#~ msgstr ""
-#~ "Simge teması değişikliğini uygulamak için Kdenlive yeniden "
-#~ "başlatılmalıdır. Şimdi yeniden başlatılsın mı?"
