@@ -7180,10 +7180,8 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                 int deltaLeft = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - cutPos;
                 int deltaRight = cutPos - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
 
-                if (deltaRight) {
-                    if (!requestItemResize(cid, updatedDurationRight, false, true, undo, redo)) {
-                        qDebug() << ":::: ERROR RESIZING CID1\n\nAAAAAAAAAAAAAAAAAAAA";
-                    }
+                if (!requestItemResize(cid, updatedDurationRight, false, true, undo, redo)) {
+                    qDebug() << ":::: ERROR RESIZING CID1\n\nAAAAAAAAAAAAAAAAAAAA";
                 }
                 if (deltaLeft > 0) {
                     if (!requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo)) {
