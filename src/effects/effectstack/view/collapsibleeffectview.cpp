@@ -221,7 +221,8 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     } else {
         zoneFrame->setFixedHeight(0);
     }
-    inOutButton->setVisible(m_model->getOwnerId().type != KdenliveObjectType::TimelineClip && !m_model->isBuiltIn());
+    bool displayBuiltInEffect = KdenliveSettings::enableBuiltInEffects() && m_model->isBuiltIn();
+    inOutButton->setVisible(m_model->getOwnerId().type != KdenliveObjectType::TimelineClip && !displayBuiltInEffect);
     connect(m_inPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_outPos, &TimecodeDisplay::timeCodeEditingFinished, this, &CollapsibleEffectView::updateEffectZone);
     connect(m_inOutButton, &QAction::triggered, this, &CollapsibleEffectView::switchInOut);
@@ -268,7 +269,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         m_keyframesButton->setActive(true);
     }
     // Presets
-    if (!m_model->isBuiltIn()) {
+    if (!displayBuiltInEffect) {
         presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
         presetButton->setMenu(m_view->presetMenu());
         presetButton->setToolTip(i18n("Presets"));
@@ -296,7 +297,7 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectUp);
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
-    if (m_model->isBuiltIn()) {
+    if (displayBuiltInEffect) {
         buttonUp->hide();
         buttonDown->hide();
         buttonDel->hide();
