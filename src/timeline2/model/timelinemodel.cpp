@@ -1140,7 +1140,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
                     mixInfo.spaces.first = mixInfo.spaces.first == -1 ? spaceAfterMix : qMin(mixInfo.spaces.first, spaceAfterMix);
                 }
             }
-            if (mixInfo.spaces.first > -1 && mixInfo.spaces.second > -1 && (mixInfo.spaces.first + mixInfo.spaces.second < 3)) {
+            if (mixInfo.spaces.first > -1 && mixInfo.spaces.second > -1 && (mixInfo.spaces.first + mixInfo.spaces.second < 1)) {
                 noSpaceInClip = 2;
                 continue;
             }
@@ -1176,7 +1176,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
                     mixInfo.spaces.first = mixInfo.spaces.first == -1 ? spaceAfterMix : qMin(mixInfo.spaces.first, spaceAfterMix);
                 }
             }
-            if (mixInfo.spaces.first > -1 && mixInfo.spaces.second > -1 && (mixInfo.spaces.first + mixInfo.spaces.second < 3)) {
+            if (mixInfo.spaces.first > -1 && mixInfo.spaces.second > -1 && (mixInfo.spaces.first + mixInfo.spaces.second < 1)) {
                 noSpaceInClip = 1;
                 continue;
             }
