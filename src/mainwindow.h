@@ -203,6 +203,7 @@ public:
     static QProcessEnvironment getCleanEnvironement();
     ObjectId effectStackOwner();
     bool effectIsMasterOnly(const QString &assetId) const;
+    void reloadAssetPanel();
 
 protected:
     /** @brief Closes the window.

@@ -5252,6 +5252,16 @@ bool MainWindow::effectIsMasterOnly(const QString &assetId) const
     return false;
 }
 
+void MainWindow::reloadAssetPanel()
+{
+    ObjectId owner = m_assetPanel->effectStackOwner();
+    if (owner.type == KdenliveObjectType::NoItem) {
+        return;
+    }
+    m_assetPanel->clearAssetPanel(-1);
+    pCore->showEffectStackFromId(owner);
+}
+
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif

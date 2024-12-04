@@ -174,7 +174,7 @@ void EffectStackView::dragMoveEvent(QDragMoveEvent *event)
         }
     }
     if (dragRow > -1 && event->source() == this) {
-        QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
+        const QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
         int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
         if (dragRow == oldRow || dragRow == oldRow + 1) {
             // Don't drag on itself
@@ -215,7 +215,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
     }
     QString effectId = event->mimeData()->data(QStringLiteral("kdenlive/effect"));
     if (event->source() == this) {
-        QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
+        const QString sourceData = event->mimeData()->data(QStringLiteral("kdenlive/effectsource"));
         int oldRow = sourceData.section(QLatin1Char(','), 2, 2).toInt();
         if (dragRow == oldRow || dragRow > m_model->rowCount()) {
             return;
@@ -566,7 +566,7 @@ void EffectStackView::startDrag(const QPixmap pix, const QString assetId, Object
         dragData << QStringLiteral("0");
     }
 
-    QByteArray effectSource = dragData.join(QLatin1Char(',')).toLatin1();
+    const QByteArray effectSource = dragData.join(QLatin1Char(',')).toLatin1();
     mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
     // Assign ownership of the QMimeData object to the QDrag object.
     drag->setMimeData(mime);

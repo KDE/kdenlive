@@ -1140,7 +1140,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
                     mixInfo.spaces.first = mixInfo.spaces.first == -1 ? spaceAfterMix : qMin(mixInfo.spaces.first, spaceAfterMix);
                 }
             }
-            if (mixInfo.spaces.first > -1 && mixInfo.spaces.second > -1 && (mixInfo.spaces.first + mixInfo.spaces.second < 3)) {
+            if (mixInfo.spaces.first > -1 && mixInfo.spaces.second > -1 && (mixInfo.spaces.first + mixInfo.spaces.second < 1)) {
                 noSpaceInClip = 2;
                 continue;
             }
@@ -1176,7 +1176,7 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
                     mixInfo.spaces.first = mixInfo.spaces.first == -1 ? spaceAfterMix : qMin(mixInfo.spaces.first, spaceAfterMix);
                 }
             }
-            if (mixInfo.spaces.first > -1 && mixInfo.spaces.second > -1 && (mixInfo.spaces.first + mixInfo.spaces.second < 3)) {
+            if (mixInfo.spaces.first > -1 && mixInfo.spaces.second > -1 && (mixInfo.spaces.first + mixInfo.spaces.second < 1)) {
                 noSpaceInClip = 1;
                 continue;
             }
@@ -7184,10 +7184,8 @@ void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, 
                 int deltaLeft = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - cutPos;
                 int deltaRight = cutPos - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
 
-                if (deltaRight) {
-                    if (!requestItemResize(cid, updatedDurationRight, false, true, undo, redo)) {
-                        qDebug() << ":::: ERROR RESIZING CID1\n\nAAAAAAAAAAAAAAAAAAAA";
-                    }
+                if (!requestItemResize(cid, updatedDurationRight, false, true, undo, redo)) {
+                    qDebug() << ":::: ERROR RESIZING CID1\n\nAAAAAAAAAAAAAAAAAAAA";
                 }
                 if (deltaLeft > 0) {
                     if (!requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo)) {

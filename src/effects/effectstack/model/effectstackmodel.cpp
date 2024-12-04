@@ -352,7 +352,7 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
         sub.setAttribute(QStringLiteral("in"), filterIn);
         sub.setAttribute(QStringLiteral("out"), filterOut);
     }
-    QStringList passProps{QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed")};
+    QStringList passProps{QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed"), QStringLiteral("kdenlive:builtin")};
     for (const QString &param : passProps) {
         int paramVal = sourceEffect->filter().get_int(param.toUtf8().constData());
         if (paramVal > 0) {
@@ -395,8 +395,42 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         if (Xml::hasXmlProperty(node, QLatin1String("disable"))) {
             effectEnabled = Xml::getXmlProperty(node, QLatin1String("disable")).toInt() != 1;
         }
-        if (!effectEnabled && !KdenliveSettings::enableBuiltInEffects() && Xml::getXmlProperty(node, QLatin1String("kdenlive:builtin")).toInt() == 1) {
-            continue;
+        if (Xml::getXmlProperty(node, QLatin1String("kdenlive:builtin")).toInt() == 1) {
+            if (!effectEnabled && !KdenliveSettings::enableBuiltInEffects()) {
+                continue;
+            }
+            // We are pasting a built in effect. Don't do a real paste, but copy the parameters to the existing effect
+            // get all properties
+            QDomNodeList props = node.elementsByTagName(QStringLiteral("property"));
+            QVector<QPair<QString, QVariant>> effectProps;
+            for (int j = 0; j < props.count(); ++j) {
+                QDomElement prop = props.item(j).toElement();
+                effectProps.append({prop.attribute(QStringLiteral("name")), prop.firstChild().nodeValue()});
+            }
+            if (effectProps.isEmpty()) {
+                // Effect without params, drop
+                continue;
+            }
+            //  Get current buildin effect
+            const std::shared_ptr<AssetParameterModel> model = getAssetModelById(effectId);
+            if (model) {
+                // Apply
+                QVector<QPair<QString, QVariant>> oldEffectProps = model->getAllParameters();
+                Fun local_redo = [model, values = effectProps]() {
+                    model->setParameters(values);
+                    return true;
+                };
+                Fun local_undo = [model, values = oldEffectProps]() {
+                    model->setParameters(values);
+                    return true;
+                };
+                effectAdded = true;
+                local_redo();
+                std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(model);
+                UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+                sourceEffect->markEnabled(true, undo, redo);
+                continue;
+            }
         }
         auto effect = EffectItemModel::construct(effectId, shared_from_this(), effectEnabled);
         const QString in = node.attribute(QStringLiteral("in"));

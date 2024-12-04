@@ -76,28 +76,6 @@ AssetPanel::AssetPanel(QWidget *parent)
     empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     buttonToolbar->addWidget(empty);
 
-    m_switchBuiltStack = new QAction(QIcon::fromTheme(QStringLiteral("adjustlevels")), QString(), this);
-    m_switchBuiltStack->setToolTip(i18n("Enable Builtin Effects"));
-    m_switchBuiltStack->setWhatsThis(xi18nc(
-        "@info:whatsthis", "When enabled, this will add basic effects (Flip, Transform, Volume) to all clips for convenience. These effects are disabled "
-                           "and will only be applied if you change a parameter."));
-    m_switchBuiltStack->setCheckable(true);
-    m_switchBuiltStack->setChecked(KdenliveSettings::enableBuiltInEffects());
-    connect(m_switchBuiltStack, &QAction::triggered, this, [this](bool enable) {
-        KdenliveSettings::setEnableBuiltInEffects(enable);
-        pCore->getMonitor(Kdenlive::ProjectMonitor)->getControllerProxy()->buildInEffectsChanged();
-        if (m_effectStackWidget) {
-            ObjectId owner = m_effectStackWidget->stackOwner();
-            pCore->clearAssetPanel(-1);
-            m_effectStackWidget->unsetModel();
-            pCore->showEffectStackFromId(owner);
-        } else {
-            pCore->clearAssetPanel(-1);
-        }
-    });
-    buttonToolbar->addAction(m_switchBuiltStack);
-    m_switchBuiltStack->setVisible(false);
-
     m_applyEffectGroups = new QMenu(this);
     m_applyEffectGroups->setIcon(QIcon::fromTheme(QStringLiteral("link")));
     QAction *applyToSameOnly = new QAction(i18n("Apply only to effects with same value"), this);
@@ -292,7 +270,6 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_applyEffectGroups->menuAction()->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_saveEffectStack->setVisible(true);
-    m_switchBuiltStack->setVisible(true);
     m_enableStackButton->setVisible(id.type != KdenliveObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
@@ -313,7 +290,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
 void AssetPanel::clearAssetPanel(int itemId)
 {
     if (itemId == -1) {
-        // closing project, reset panel
+        // reset panel
         clear();
         return;
     }
@@ -348,7 +325,6 @@ void AssetPanel::clear()
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
     m_saveEffectStack->setVisible(false);
-    m_switchBuiltStack->setVisible(false);
     m_compositionHelpLink->setVisible(false);
     m_timelineButton->setVisible(false);
     m_enableStackButton->setVisible(false);

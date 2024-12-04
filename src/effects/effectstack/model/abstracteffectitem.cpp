@@ -30,6 +30,7 @@ void AbstractEffectItem::markEnabled(bool enabled, Fun &undo, Fun &redo)
         setAssetEnabled(enabled);
         return true;
     };
+    local_redo();
     PUSH_LAMBDA(local_undo, undo);
     PUSH_LAMBDA(local_redo, redo);
 }
