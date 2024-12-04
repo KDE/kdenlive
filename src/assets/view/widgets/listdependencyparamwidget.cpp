@@ -28,7 +28,16 @@ ListDependencyParamWidget::ListDependencyParamWidget(std::shared_ptr<AssetParame
     setToolTip(comment);
     m_infoMessage->hide();
     connect(m_infoMessage, &KMessageWidget::linkActivated, this, [this](const QString &contents) {
-        auto *job = new KIO::OpenUrlJob(QUrl(contents));
+        const QUrl linkUrl(contents);
+        if (linkUrl.isLocalFile()) {
+            // Ensure folder or file exists
+            QFileInfo info(linkUrl.toLocalFile());
+            if (!info.exists()) {
+                QDir paramFolder(linkUrl.toLocalFile());
+                paramFolder.mkpath(QStringLiteral("."));
+            }
+        }
+        auto *job = new KIO::OpenUrlJob(linkUrl);
         job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
         // methods like setRunExecutables, setSuggestedFilename, setEnableExternalBrowser, setFollowRedirections
         // exist in both classes
