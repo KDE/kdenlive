@@ -2930,6 +2930,7 @@ void Monitor::focusTimecode()
 
 void Monitor::startCountDown()
 {
+    loadQmlScene(MonitorSceneDefault);
     QQuickItem *root = m_glMonitor->rootObject();
     if (root) {
         QMetaObject::invokeMethod(root, "startCountdown");
