@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-04 00:39+0000\n"
+"POT-Creation-Date: 2024-12-05 00:39+0000\n"
 "PO-Revision-Date: 2024-11-30 13:45+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -4056,35 +4056,17 @@ msgstr "Online documentatie"
 msgid "Change composition type"
 msgstr "Compositietype wijzigen"
 
-#: src/assets/assetpanel.cpp:80
-#, kde-format
-msgid "Enable Builtin Effects"
-msgstr "Ingebouwde effecten inschakelen"
-
-#: src/assets/assetpanel.cpp:82
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"When enabled, this will add basic effects (Flip, Transform, Volume) to all "
-"clips for convenience. These effects are disabled and will only be applied "
-"if you change a parameter."
-msgstr ""
-"Indien ingeschakeld zal dit basiseffecten toevoegen (spiegelen, "
-"transformeren, volume) aan alle clips voor het gemak toevoegen. Deze "
-"effecten zijn uitgeschakeld en zullen alleen toegepast worden als u een "
-"parameter wijzigt."
-
-#: src/assets/assetpanel.cpp:103
+#: src/assets/assetpanel.cpp:81
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "Alleen toepassen op effecten met dezelfde waarde"
 
-#: src/assets/assetpanel.cpp:109
+#: src/assets/assetpanel.cpp:87
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Wijziging in effect toepassen op alle clips in de groep…"
 
-#: src/assets/assetpanel.cpp:111
+#: src/assets/assetpanel.cpp:89
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4096,12 +4078,12 @@ msgstr ""
 "groep, die hetzelfde effect hebben, de parameters ook aangepast hebben. Een "
 "effect verwijderen zal het in alle clips in de groep verwijderen."
 
-#: src/assets/assetpanel.cpp:121
+#: src/assets/assetpanel.cpp:99
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Effectenstapel opslaan…"
 
-#: src/assets/assetpanel.cpp:122
+#: src/assets/assetpanel.cpp:100
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -4109,17 +4091,17 @@ msgstr ""
 "De gehele effectenstapel als een XML-bestand opslaan voor gebruik in andere "
 "projecten."
 
-#: src/assets/assetpanel.cpp:127
+#: src/assets/assetpanel.cpp:105
 #, kde-format
 msgid "Normal view"
 msgstr "Normaal overzicht"
 
-#: src/assets/assetpanel.cpp:127 src/assets/assetpanel.cpp:131
+#: src/assets/assetpanel.cpp:105 src/assets/assetpanel.cpp:109
 #, kde-format
 msgid "Compare effect"
 msgstr "Effect vergelijken"
 
-#: src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4129,17 +4111,17 @@ msgstr ""
 "Zet de gesplitste weergave aan of uit in het project en/of clipmonitor: "
 "links wordt de clip met effect getoond, rechts de clip zonder effect."
 
-#: src/assets/assetpanel.cpp:139
+#: src/assets/assetpanel.cpp:117
 #, kde-format
 msgid "Effects disabled"
 msgstr "Effecten uitgeschakeld"
 
-#: src/assets/assetpanel.cpp:139
+#: src/assets/assetpanel.cpp:117
 #, kde-format
 msgid "Effects enabled"
 msgstr "Effecten ingeschakeld"
 
-#: src/assets/assetpanel.cpp:142
+#: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4149,43 +4131,43 @@ msgstr ""
 "Schakelt de effectstapel in of uit. Nuttig om het verschil te zien tussen "
 "het origineel en bewerkte of schoonmaken versnellen."
 
-#: src/assets/assetpanel.cpp:149
+#: src/assets/assetpanel.cpp:127
 #, kde-format
 msgid "Open composition documentation in browser"
 msgstr "Documentatie over samenstellen in browser openen"
 
-#: src/assets/assetpanel.cpp:153
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Keyframes tonen in tijdsbalk"
 
-#: src/assets/assetpanel.cpp:153
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Keyframes verbergen in tijdsbalk"
 
-#: src/assets/assetpanel.cpp:154
+#: src/assets/assetpanel.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Schakelt het tonen van keyframes om in de clip op de tijdlijn"
 
-#: src/assets/assetpanel.cpp:269
+#: src/assets/assetpanel.cpp:247
 #, kde-format
 msgid "%1 effects"
 msgstr "%1 effecten"
 
-#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:252 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "%1 parameters"
 
-#: src/assets/assetpanel.cpp:278
+#: src/assets/assetpanel.cpp:256
 #, kde-format
 msgid "Track %1 effects"
 msgstr "%1 effecten volgen"
 
-#: src/assets/assetpanel.cpp:283
+#: src/assets/assetpanel.cpp:261
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Bin-%1 effecten"
@@ -4420,7 +4402,7 @@ msgid "Failed to load preset %1"
 msgstr "Voorinstelling %1 laden is mislukt"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:280
 #, kde-format
 msgid "Reset Effect"
 msgstr "Effect resetten"
@@ -4454,7 +4436,7 @@ msgstr "Effect opslaan"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1462
+#: src/dialogs/kdenlivesettingsdialog.cpp:1470
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -4462,7 +4444,7 @@ msgstr "Naam voor-instelling invoeren"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1462
+#: src/dialogs/kdenlivesettingsdialog.cpp:1470
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "De naam van deze voor-instelling invoeren:"
@@ -4865,7 +4847,7 @@ msgstr[1] "Keyframe verwijderen"
 msgid "<Select a Keyword>"
 msgstr "<Selecteer een sleutelwoord>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:159
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:168
 #: src/assets/view/widgets/listparamwidget.cpp:97
 #: src/assets/view/widgets/urllistparamwidget.cpp:137
 #, kde-format
@@ -5753,13 +5735,13 @@ msgstr "Selecteer een clip om een effect toe te passen"
 msgid "Cannot apply effects on folders"
 msgstr "Kan effecten niet toepassen aan mappen"
 
-#: src/bin/bin.cpp:4006 src/effects/effectstack/model/effectstackmodel.cpp:658
-#: src/effects/effectstack/model/effectstackmodel.cpp:664
+#: src/bin/bin.cpp:4006 src/effects/effectstack/model/effectstackmodel.cpp:692
+#: src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Kan effect niet toevoegen aan clip"
 
-#: src/bin/bin.cpp:4044 src/effects/effectstack/model/effectstackmodel.cpp:614
+#: src/bin/bin.cpp:4044 src/effects/effectstack/model/effectstackmodel.cpp:648
 #, kde-format
 msgid "Paste effect"
 msgstr "Effect plakken"
@@ -6135,7 +6117,7 @@ msgstr "Bestand importeren bij dubbelklikken"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:582
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6316,7 +6298,7 @@ msgid "Move subtitle"
 msgstr "Ondertitel verplaatsen"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:608
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
 #: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:370
@@ -7126,7 +7108,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Codeer profielen beheren"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/kdenlivesettingsdialog.cpp:311
+#: src/dialogs/kdenlivesettingsdialog.cpp:314
 #: src/project/dialogs/archivewidget.cpp:98
 #, kde-format
 msgid "Proxy Clips"
@@ -7208,7 +7190,7 @@ msgstr "Automatisch (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:718
+#: src/dialogs/kdenlivesettingsdialog.cpp:721
 #: src/project/dialogs/projectsettings.cpp:906
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -7285,7 +7267,7 @@ msgstr "Hulplijngegevens exporteren"
 #: src/effects/effectlist/model/effecttreemodel.cpp:298
 #: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:684
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:685
 #: src/effects/effectstack/view/effectstackview.cpp:809
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -7413,83 +7395,96 @@ msgid "Misc"
 msgstr "Diversen"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:245
-#: src/dialogs/kdenlivesettingsdialog.cpp:828
+#: src/dialogs/kdenlivesettingsdialog.cpp:831
 #: src/doc/documentvalidator.cpp:2523
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
 msgstr "automatisch"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:281
+#: src/dialogs/kdenlivesettingsdialog.cpp:257
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When enabled, this will add basic effects (Flip, Transform, Volume) to all "
+"clips for convenience. These effects are disabled and will only be applied "
+"if you change a parameter."
+msgstr ""
+"Indien ingeschakeld zal dit basiseffecten toevoegen (spiegelen, "
+"transformeren, volume) aan alle clips voor het gemak toevoegen. Deze "
+"effecten zijn uitgeschakeld en zullen alleen toegepast worden als u een "
+"parameter wijzigt."
+
+#: src/dialogs/kdenlivesettingsdialog.cpp:284
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "Het standaard profiel selecteren (voorinstelling)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:302
+#: src/dialogs/kdenlivesettingsdialog.cpp:305
 #, kde-format
 msgid "Project Defaults"
 msgstr "Standaard project instellingen"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:346
-#: src/dialogs/kdenlivesettingsdialog.cpp:371
+#: src/dialogs/kdenlivesettingsdialog.cpp:349
+#: src/dialogs/kdenlivesettingsdialog.cpp:374
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Standaard map gebruiken: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:348
-#: src/dialogs/kdenlivesettingsdialog.cpp:374
-#: src/dialogs/kdenlivesettingsdialog.cpp:1084
-#: src/dialogs/kdenlivesettingsdialog.cpp:1085
-#: src/dialogs/kdenlivesettingsdialog.cpp:1095
-#: src/dialogs/kdenlivesettingsdialog.cpp:1096
+#: src/dialogs/kdenlivesettingsdialog.cpp:351
+#: src/dialogs/kdenlivesettingsdialog.cpp:377
+#: src/dialogs/kdenlivesettingsdialog.cpp:1087
+#: src/dialogs/kdenlivesettingsdialog.cpp:1088
+#: src/dialogs/kdenlivesettingsdialog.cpp:1103
+#: src/dialogs/kdenlivesettingsdialog.cpp:1104
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Altijd projectmap gebruiken: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:376
-#: src/dialogs/kdenlivesettingsdialog.cpp:1091
-#: src/dialogs/kdenlivesettingsdialog.cpp:1092
+#: src/dialogs/kdenlivesettingsdialog.cpp:353
+#: src/dialogs/kdenlivesettingsdialog.cpp:379
+#: src/dialogs/kdenlivesettingsdialog.cpp:1099
+#: src/dialogs/kdenlivesettingsdialog.cpp:1100
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Altijd actieve projectmap gebruiken"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:389
+#: src/dialogs/kdenlivesettingsdialog.cpp:392
 #, kde-format
 msgid "Environment"
 msgstr "Omgeving"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:425
+#: src/dialogs/kdenlivesettingsdialog.cpp:428
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Opnemen is nu nog niet beschikbaar in Mac OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:435
+#: src/dialogs/kdenlivesettingsdialog.cpp:438
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 kanaal)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:436
+#: src/dialogs/kdenlivesettingsdialog.cpp:439
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Stereo (2 kanalen)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:443
+#: src/dialogs/kdenlivesettingsdialog.cpp:446
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:444
+#: src/dialogs/kdenlivesettingsdialog.cpp:447
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:497
+#: src/dialogs/kdenlivesettingsdialog.cpp:500
 #, kde-format
 msgid "JogShuttle"
 msgstr "JogShuttle"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:499
+#: src/dialogs/kdenlivesettingsdialog.cpp:502
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -7503,117 +7498,117 @@ msgstr ""
 "a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:521 src/dialogs/timeremap.cpp:1583
+#: src/dialogs/kdenlivesettingsdialog.cpp:524 src/dialogs/timeremap.cpp:1583
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Codering overzetten"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:555
+#: src/dialogs/kdenlivesettingsdialog.cpp:558
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "Bewerken met GPU heeft MLT nodig gecompileerd met Movit en Rtaudio modulen"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:725
+#: src/dialogs/kdenlivesettingsdialog.cpp:728
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:726
-#: src/dialogs/kdenlivesettingsdialog.cpp:779
+#: src/dialogs/kdenlivesettingsdialog.cpp:729
+#: src/dialogs/kdenlivesettingsdialog.cpp:782
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:727
+#: src/dialogs/kdenlivesettingsdialog.cpp:730
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:728
+#: src/dialogs/kdenlivesettingsdialog.cpp:731
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:730
+#: src/dialogs/kdenlivesettingsdialog.cpp:733
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Esound-daemon"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:731
+#: src/dialogs/kdenlivesettingsdialog.cpp:734
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "ARTS-daemon"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:743
-#: src/dialogs/kdenlivesettingsdialog.cpp:744
+#: src/dialogs/kdenlivesettingsdialog.cpp:746
+#: src/dialogs/kdenlivesettingsdialog.cpp:747
 #: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Standaard"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:795
+#: src/dialogs/kdenlivesettingsdialog.cpp:798
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:807
+#: src/dialogs/kdenlivesettingsdialog.cpp:810
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:831 src/mainwindow.cpp:275
+#: src/dialogs/kdenlivesettingsdialog.cpp:834 src/mainwindow.cpp:275
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:915
+#: src/dialogs/kdenlivesettingsdialog.cpp:918
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Pad naar de toepassing voor audio bewerken invoeren"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:923
+#: src/dialogs/kdenlivesettingsdialog.cpp:926
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Pad naar de toepassing voor afbeeldingen bewerken invoeren"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:931 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:934 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Pad naar de toepassing Glaxnimate invoeren"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1014
-#: src/dialogs/kdenlivesettingsdialog.cpp:1032
+#: src/dialogs/kdenlivesettingsdialog.cpp:1017
+#: src/dialogs/kdenlivesettingsdialog.cpp:1035
 #: src/project/dialogs/projectsettings.cpp:538
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Selecteer een videoprofiel"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1317
+#: src/dialogs/kdenlivesettingsdialog.cpp:1325
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Kdenlive moet opnieuw gestart worden om deze instelling te wijzigen"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1465
+#: src/dialogs/kdenlivesettingsdialog.cpp:1473
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Een profiel met deze naam bestaat al"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1599
+#: src/dialogs/kdenlivesettingsdialog.cpp:1607
 #, kde-format
 msgid "Current settings"
 msgstr "Huidige instellingen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1637
-#: src/dialogs/kdenlivesettingsdialog.cpp:1673
-#: src/dialogs/kdenlivesettingsdialog.cpp:1690
+#: src/dialogs/kdenlivesettingsdialog.cpp:1645
+#: src/dialogs/kdenlivesettingsdialog.cpp:1681
+#: src/dialogs/kdenlivesettingsdialog.cpp:1698
 #: src/mltcontroller/clippropertiescontroller.cpp:562
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -7622,14 +7617,14 @@ msgstr "Huidige instellingen"
 msgid "Progressive"
 msgstr "Progressief"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1779
+#: src/dialogs/kdenlivesettingsdialog.cpp:1787
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
 "Verwerken met de CPU is erg langzaam, GPU is aanbevolen voor snellere "
 "verwerking"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1780
+#: src/dialogs/kdenlivesettingsdialog.cpp:1788
 #, kde-format
 msgid ""
 "Text translation is performed by the SeamlessM4T model. This requires "
@@ -7640,71 +7635,71 @@ msgstr ""
 "downloaden van rond 10 GB aan gegevens. Eenmaal geïnstalleerd, zal alle "
 "verwerking offline gebeuren."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1799
+#: src/dialogs/kdenlivesettingsdialog.cpp:1807
 #, kde-format
 msgid "Download (1.4Gb)"
 msgstr "Download (1,4Gb)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1821
+#: src/dialogs/kdenlivesettingsdialog.cpp:1829
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr "Gegevens voor meerdere talen installeren…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1830
-#: src/dialogs/kdenlivesettingsdialog.cpp:2300 src/ui/configspeech_ui.ui:99
+#: src/dialogs/kdenlivesettingsdialog.cpp:1838
+#: src/dialogs/kdenlivesettingsdialog.cpp:2308 src/ui/configspeech_ui.ui:99
 #: src/ui/configspeech_ui.ui:322
 #, kde-format
 msgid "Models folder"
 msgstr "Modellenmap"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1888
+#: src/dialogs/kdenlivesettingsdialog.cpp:1896
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Virtuele omgeving opzetten…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1890
+#: src/dialogs/kdenlivesettingsdialog.cpp:1898
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Virtuele omgeving uitschakelen"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1907
+#: src/dialogs/kdenlivesettingsdialog.cpp:1915
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "De map met de virtuele omgeving verwijderen."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1912
+#: src/dialogs/kdenlivesettingsdialog.cpp:1920
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "Geen python venv gevonden"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1915
+#: src/dialogs/kdenlivesettingsdialog.cpp:1923
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "Verwijderen van de virtuele omgevingsmap is mislukt."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1921
-#: src/dialogs/kdenlivesettingsdialog.cpp:1924
+#: src/dialogs/kdenlivesettingsdialog.cpp:1929
+#: src/dialogs/kdenlivesettingsdialog.cpp:1932
 #, kde-format
 msgid "Probing..."
 msgstr "Aftasten..."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1945
+#: src/dialogs/kdenlivesettingsdialog.cpp:1953
 #, kde-format
 msgid "Downloading multilingual model…"
 msgstr "Model voor meerdere talen wordt gedownload…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2001
-#: src/dialogs/kdenlivesettingsdialog.cpp:2297
+#: src/dialogs/kdenlivesettingsdialog.cpp:2009
+#: src/dialogs/kdenlivesettingsdialog.cpp:2305
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Een spraakmodel toevoegen."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2035
+#: src/dialogs/kdenlivesettingsdialog.cpp:2043
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7714,54 +7709,54 @@ msgstr ""
 "\">https://alphacephei.com/vosk/models</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2049 src/ui/configspeech_ui.ui:308
+#: src/dialogs/kdenlivesettingsdialog.cpp:2057 src/ui/configspeech_ui.ui:308
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Vertaling van meerdere talen installeren"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2058
+#: src/dialogs/kdenlivesettingsdialog.cpp:2066
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
 msgstr "Een spraakmodel installeren- we bevelen <b>turbo</b> aan"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2090
-#: src/dialogs/kdenlivesettingsdialog.cpp:2104
-#: src/dialogs/kdenlivesettingsdialog.cpp:2113
+#: src/dialogs/kdenlivesettingsdialog.cpp:2098
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112
+#: src/dialogs/kdenlivesettingsdialog.cpp:2121
 #, kde-format
 msgid "Install a model"
 msgstr "Een model installeren"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2106
-#: src/dialogs/kdenlivesettingsdialog.cpp:2115 src/ui/configspeech_ui.ui:232
+#: src/dialogs/kdenlivesettingsdialog.cpp:2114
+#: src/dialogs/kdenlivesettingsdialog.cpp:2123 src/ui/configspeech_ui.ui:232
 #, kde-format
 msgid "Manage models"
 msgstr "Modellen beheren"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2175
+#: src/dialogs/kdenlivesettingsdialog.cpp:2183
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Url voor het nieuwe woordenboek invoeren"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2181
+#: src/dialogs/kdenlivesettingsdialog.cpp:2189
 #, kde-format
 msgid "Downloading model…"
 msgstr "Model wordt gedownload…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2191
+#: src/dialogs/kdenlivesettingsdialog.cpp:2199
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "Verwijderen van aangepaste mapmodellen zijn niet toegestaan, doe dat "
 "handmatig."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2197
-#: src/dialogs/kdenlivesettingsdialog.cpp:2256
+#: src/dialogs/kdenlivesettingsdialog.cpp:2205
+#: src/dialogs/kdenlivesettingsdialog.cpp:2264
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "Geen toegang tot woordenboekmap."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2206
+#: src/dialogs/kdenlivesettingsdialog.cpp:2214
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7770,22 +7765,22 @@ msgstr ""
 "Map verwijderen:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2230
+#: src/dialogs/kdenlivesettingsdialog.cpp:2238
 #, kde-format
 msgid "Download error"
 msgstr "Fout bij downloaden"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2235
+#: src/dialogs/kdenlivesettingsdialog.cpp:2243
 #, kde-format
 msgid "Download error %1"
 msgstr "Fout bij downloaden %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2263
+#: src/dialogs/kdenlivesettingsdialog.cpp:2271
 #, kde-format
 msgid "Extracting archive…"
 msgstr "Archief wordt uitgepakt…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2270
+#: src/dialogs/kdenlivesettingsdialog.cpp:2278
 #, kde-format
 msgid "New dictionary installed."
 msgstr "Nieuw woordenboek geïnstalleerd."
@@ -10620,26 +10615,26 @@ msgid "Copy effect"
 msgstr "Effect kopiëren"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
-#: src/effects/effectstack/model/effectstackmodel.cpp:534
-#: src/effects/effectstack/model/effectstackmodel.cpp:644
-#: src/effects/effectstack/model/effectstackmodel.cpp:1432
+#: src/effects/effectstack/model/effectstackmodel.cpp:568
+#: src/effects/effectstack/model/effectstackmodel.cpp:678
+#: src/effects/effectstack/model/effectstackmodel.cpp:1466
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Effect %1 kan niet tweemaal worden toegevoegd."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:630
+#: src/effects/effectstack/model/effectstackmodel.cpp:664
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5088
 #, kde-format
 msgid "Add effect %1"
 msgstr "Voeg effect %1 toe"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:640
+#: src/effects/effectstack/model/effectstackmodel.cpp:674
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "Effect %1 kan alleen aan master worden toegevoegd"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1187
+#: src/effects/effectstack/model/effectstackmodel.cpp:1221
 #, kde-format
 msgid "Move effect %1"
 msgstr "Effect %1 verplaatsen"
@@ -10796,13 +10791,13 @@ msgstr "Schakelt het tonen van de effectzone om."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Voorinstellingen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:276
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -10810,12 +10805,12 @@ msgstr ""
 "Opent een lijst met geavanceerde opties om voorinstellingen voor het effect "
 "te beheren."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:352
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:353
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 exemplaren van dit effect in de groep"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:519
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10826,28 +10821,28 @@ msgstr ""
 "het te kopiëren. <b>Alt slepen</b> om het te kopiëren naar een enkel item in "
 "een groep."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:542
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
 #, kde-format
 msgid "Disable %1"
 msgstr "%1 uitschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:542
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
 #, kde-format
 msgid "Enable %1"
 msgstr "%1 inschakelen"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Effect opslaan"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
 #, kde-format
 msgid "Comments:"
 msgstr "Opmerkingen:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:600
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "Geen naam gegeven, effect niet opgeslagen."
@@ -18351,25 +18346,25 @@ msgstr ""
 #: src/timeline2/model/timelinemodel.cpp:7110
 #: src/timeline2/model/timelinemodel.cpp:7147
 #: src/timeline2/model/timelinemodel.cpp:7180
-#: src/timeline2/model/timelinemodel.cpp:7261
+#: src/timeline2/model/timelinemodel.cpp:7259
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "Kan mix niet van grootte wijzigen tot kleiner dan 1 frame"
 
 #: src/timeline2/model/timelinemodel.cpp:7121
 #: src/timeline2/model/timelinemodel.cpp:7155
-#: src/timeline2/model/timelinemodel.cpp:7199
-#: src/timeline2/model/timelinemodel.cpp:7285
+#: src/timeline2/model/timelinemodel.cpp:7197
+#: src/timeline2/model/timelinemodel.cpp:7283
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Kan mix niet van grootte veranderen"
 
-#: src/timeline2/model/timelinemodel.cpp:7299
+#: src/timeline2/model/timelinemodel.cpp:7297
 #, kde-format
 msgid "Resize mix"
 msgstr "Grootte wijzigen van mix"
 
-#: src/timeline2/model/timelinemodel.cpp:7419
+#: src/timeline2/model/timelinemodel.cpp:7417
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Fout bij initialiseren van tijdlijnvoorbeeldweergave"
@@ -21085,6 +21080,12 @@ msgstr "Mengingen:"
 #, kde-format
 msgid "Subtitles:"
 msgstr "Ondertitels:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
+#: src/ui/configmisc_ui.ui:280
+#, kde-format
+msgid "Enable Builtin Effects"
+msgstr "Ingebouwde effecten inschakelen"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21

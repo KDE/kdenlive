@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-04 00:39+0000\n"
+"POT-Creation-Date: 2024-12-05 00:39+0000\n"
 "PO-Revision-Date: 2024-11-30 09:46+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -4078,34 +4078,17 @@ msgstr "Documentació en línia"
 msgid "Change composition type"
 msgstr "Canvia el tipus de composició"
 
-#: src/assets/assetpanel.cpp:80
-#, kde-format
-msgid "Enable Builtin Effects"
-msgstr "Activa els efectes integrats"
-
-#: src/assets/assetpanel.cpp:82
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid ""
-"When enabled, this will add basic effects (Flip, Transform, Volume) to all "
-"clips for convenience. These effects are disabled and will only be applied "
-"if you change a parameter."
-msgstr ""
-"Quan es marca, açò afegirà efectes bàsics (Inversió, Transformació, Volum) a "
-"tots els clips per a més comoditat. Estos efectes estan desactivats i només "
-"s'aplicaran si canvieu un paràmetre."
-
-#: src/assets/assetpanel.cpp:103
+#: src/assets/assetpanel.cpp:81
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "Aplica només als efectes amb el mateix valor"
 
-#: src/assets/assetpanel.cpp:109
+#: src/assets/assetpanel.cpp:87
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Aplica el canvi de l'efecte a tots els clips del grup…"
 
-#: src/assets/assetpanel.cpp:111
+#: src/assets/assetpanel.cpp:89
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4117,12 +4100,12 @@ msgstr ""
 "tinguen el mateix efecte també s'ajustaran els seus paràmetres. Si suprimiu "
 "un efecte, se suprimirà en tots els clips del grup."
 
-#: src/assets/assetpanel.cpp:121
+#: src/assets/assetpanel.cpp:99
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Guarda la pila d'efectes…"
 
-#: src/assets/assetpanel.cpp:122
+#: src/assets/assetpanel.cpp:100
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -4130,17 +4113,17 @@ msgstr ""
 "Guarda tota la pila d'efectes com un fitxer en XML per a utilitzar-lo en "
 "altres projectes."
 
-#: src/assets/assetpanel.cpp:127
+#: src/assets/assetpanel.cpp:105
 #, kde-format
 msgid "Normal view"
 msgstr "Visualització normal"
 
-#: src/assets/assetpanel.cpp:127 src/assets/assetpanel.cpp:131
+#: src/assets/assetpanel.cpp:105 src/assets/assetpanel.cpp:109
 #, kde-format
 msgid "Compare effect"
 msgstr "Compara un efecte"
 
-#: src/assets/assetpanel.cpp:134
+#: src/assets/assetpanel.cpp:112
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4150,17 +4133,17 @@ msgstr ""
 "Activa o desactiva la vista dividida en el projecte o el monitor de clips: a "
 "l'esquerra es mostra el clip amb l'efecte, a la dreta el clip sense l'efecte."
 
-#: src/assets/assetpanel.cpp:139
+#: src/assets/assetpanel.cpp:117
 #, kde-format
 msgid "Effects disabled"
 msgstr "Efectes desactivats"
 
-#: src/assets/assetpanel.cpp:139
+#: src/assets/assetpanel.cpp:117
 #, kde-format
 msgid "Effects enabled"
 msgstr "Efectes activats"
 
-#: src/assets/assetpanel.cpp:142
+#: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4170,44 +4153,44 @@ msgstr ""
 "Canvia l'activació o desactivació de la pila d'efectes. És útil per a veure "
 "la diferència entre l'original i l'editada o per a accelerar el rastreig."
 
-#: src/assets/assetpanel.cpp:149
+#: src/assets/assetpanel.cpp:127
 #, kde-format
 msgid "Open composition documentation in browser"
 msgstr "Obri la documentació de la composició al navegador"
 
-#: src/assets/assetpanel.cpp:153
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Mostra els fotogrames clau en la línia de temps"
 
-#: src/assets/assetpanel.cpp:153
+#: src/assets/assetpanel.cpp:131
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Oculta els fotogrames clau en la línia de temps"
 
-#: src/assets/assetpanel.cpp:154
+#: src/assets/assetpanel.cpp:132
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr ""
 "Canvia la visualització dels fotogrames clau en el clip en la línia de temps"
 
-#: src/assets/assetpanel.cpp:269
+#: src/assets/assetpanel.cpp:247
 #, kde-format
 msgid "%1 effects"
 msgstr "Efectes de %1"
 
-#: src/assets/assetpanel.cpp:274 src/jobs/customjobtask.cpp:73
+#: src/assets/assetpanel.cpp:252 src/jobs/customjobtask.cpp:73
 #, kde-format
 msgid "%1 parameters"
 msgstr "Paràmetres de %1"
 
-#: src/assets/assetpanel.cpp:278
+#: src/assets/assetpanel.cpp:256
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Efectes de la pista %1"
 
-#: src/assets/assetpanel.cpp:283
+#: src/assets/assetpanel.cpp:261
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Safata d'efectes de %1"
@@ -4444,7 +4427,7 @@ msgid "Failed to load preset %1"
 msgstr "No s'ha pogut carregar la predefinició %1"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:279
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:280
 #, kde-format
 msgid "Reset Effect"
 msgstr "Reinicialitza l'efecte"
@@ -4478,7 +4461,7 @@ msgstr "Guarda l'efecte"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/kdenlivesettingsdialog.cpp:1462
+#: src/dialogs/kdenlivesettingsdialog.cpp:1470
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Preset Name"
@@ -4486,7 +4469,7 @@ msgstr "Introduïu el nom dels valors predefinits"
 
 #: src/assets/view/assetparameterview.cpp:356
 #: src/dialogs/customcamcorderdialog.cpp:133
-#: src/dialogs/kdenlivesettingsdialog.cpp:1462
+#: src/dialogs/kdenlivesettingsdialog.cpp:1470
 #, kde-format
 msgid "Enter the name of this preset:"
 msgstr "Introduïu el nom d'estos valors predefinits:"
@@ -4890,7 +4873,7 @@ msgstr[1] "Elimina els fotogrames clau"
 msgid "<Select a Keyword>"
 msgstr "<seleccioneu una paraula clau>"
 
-#: src/assets/view/widgets/listdependencyparamwidget.cpp:159
+#: src/assets/view/widgets/listdependencyparamwidget.cpp:168
 #: src/assets/view/widgets/listparamwidget.cpp:97
 #: src/assets/view/widgets/urllistparamwidget.cpp:137
 #, kde-format
@@ -5781,13 +5764,13 @@ msgstr "Seleccioneu un clip per a aplicar-hi un efecte"
 msgid "Cannot apply effects on folders"
 msgstr "No es poden aplicar efectes en les carpetes"
 
-#: src/bin/bin.cpp:4006 src/effects/effectstack/model/effectstackmodel.cpp:658
-#: src/effects/effectstack/model/effectstackmodel.cpp:664
+#: src/bin/bin.cpp:4006 src/effects/effectstack/model/effectstackmodel.cpp:692
+#: src/effects/effectstack/model/effectstackmodel.cpp:698
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "No s'ha pogut afegir un efecte al clip"
 
-#: src/bin/bin.cpp:4044 src/effects/effectstack/model/effectstackmodel.cpp:614
+#: src/bin/bin.cpp:4044 src/effects/effectstack/model/effectstackmodel.cpp:648
 #, kde-format
 msgid "Paste effect"
 msgstr "Apega l'efecte"
@@ -6161,7 +6144,7 @@ msgstr "Importa el fitxer en fer doble clic"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:582
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6343,7 +6326,7 @@ msgid "Move subtitle"
 msgstr "Mou els subtítols"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:608
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
 #: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:370
@@ -7150,7 +7133,7 @@ msgid "Manage Encoding Profiles"
 msgstr "Administra els perfils de codificació"
 
 #: src/dialogs/encodingprofilesdialog.cpp:52
-#: src/dialogs/kdenlivesettingsdialog.cpp:311
+#: src/dialogs/kdenlivesettingsdialog.cpp:314
 #: src/project/dialogs/archivewidget.cpp:98
 #, kde-format
 msgid "Proxy Clips"
@@ -7233,7 +7216,7 @@ msgstr "Automàtic (%1)"
 
 #: src/dialogs/encodingprofilesdialog.cpp:261
 #: src/dialogs/encodingprofilesdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:718
+#: src/dialogs/kdenlivesettingsdialog.cpp:721
 #: src/project/dialogs/projectsettings.cpp:906
 #: src/transitions/view/transitionstackview.cpp:40
 #, kde-format
@@ -7311,7 +7294,7 @@ msgstr "Exporteu les dades de les guies"
 #: src/effects/effectlist/model/effecttreemodel.cpp:298
 #: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:684
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:685
 #: src/effects/effectstack/view/effectstackview.cpp:809
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -7441,83 +7424,95 @@ msgid "Misc"
 msgstr "Miscel·lània"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:245
-#: src/dialogs/kdenlivesettingsdialog.cpp:828
+#: src/dialogs/kdenlivesettingsdialog.cpp:831
 #: src/doc/documentvalidator.cpp:2523
 #: src/transitions/transitionsrepository.cpp:188
 #, kde-format
 msgid "auto"
 msgstr "Automàtic"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:281
+#: src/dialogs/kdenlivesettingsdialog.cpp:257
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When enabled, this will add basic effects (Flip, Transform, Volume) to all "
+"clips for convenience. These effects are disabled and will only be applied "
+"if you change a parameter."
+msgstr ""
+"Quan es marca, açò afegirà efectes bàsics (Inversió, Transformació, Volum) a "
+"tots els clips per a més comoditat. Estos efectes estan desactivats i només "
+"s'aplicaran si canvieu un paràmetre."
+
+#: src/dialogs/kdenlivesettingsdialog.cpp:284
 #, kde-format
 msgid "Select the Default Profile (preset)"
 msgstr "Selecciona el perfil predeterminat (predefinit)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:302
+#: src/dialogs/kdenlivesettingsdialog.cpp:305
 #, kde-format
 msgid "Project Defaults"
 msgstr "Valors predeterminats del projecte"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:346
-#: src/dialogs/kdenlivesettingsdialog.cpp:371
+#: src/dialogs/kdenlivesettingsdialog.cpp:349
+#: src/dialogs/kdenlivesettingsdialog.cpp:374
 #, kde-format
 msgid "Use default folder: %1"
 msgstr "Utilitza la carpeta predeterminada: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:348
-#: src/dialogs/kdenlivesettingsdialog.cpp:374
-#: src/dialogs/kdenlivesettingsdialog.cpp:1084
-#: src/dialogs/kdenlivesettingsdialog.cpp:1085
-#: src/dialogs/kdenlivesettingsdialog.cpp:1095
-#: src/dialogs/kdenlivesettingsdialog.cpp:1096
+#: src/dialogs/kdenlivesettingsdialog.cpp:351
+#: src/dialogs/kdenlivesettingsdialog.cpp:377
+#: src/dialogs/kdenlivesettingsdialog.cpp:1087
+#: src/dialogs/kdenlivesettingsdialog.cpp:1088
+#: src/dialogs/kdenlivesettingsdialog.cpp:1103
+#: src/dialogs/kdenlivesettingsdialog.cpp:1104
 #, kde-format
 msgid "Always use project folder: %1"
 msgstr "Utilitza sempre la carpeta del projecte: %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:350
-#: src/dialogs/kdenlivesettingsdialog.cpp:376
-#: src/dialogs/kdenlivesettingsdialog.cpp:1091
-#: src/dialogs/kdenlivesettingsdialog.cpp:1092
+#: src/dialogs/kdenlivesettingsdialog.cpp:353
+#: src/dialogs/kdenlivesettingsdialog.cpp:379
+#: src/dialogs/kdenlivesettingsdialog.cpp:1099
+#: src/dialogs/kdenlivesettingsdialog.cpp:1100
 #, kde-format
 msgid "Always use active project folder"
 msgstr "Utilitza sempre la carpeta activa del projecte"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:389
+#: src/dialogs/kdenlivesettingsdialog.cpp:392
 #, kde-format
 msgid "Environment"
 msgstr "Entorn"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:425
+#: src/dialogs/kdenlivesettingsdialog.cpp:428
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "La captura encara no està disponible en Mac OS X."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:435
+#: src/dialogs/kdenlivesettingsdialog.cpp:438
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "Mono (1 canal)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:436
+#: src/dialogs/kdenlivesettingsdialog.cpp:439
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "Estèreo (2 canals)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:443
+#: src/dialogs/kdenlivesettingsdialog.cpp:446
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:444
+#: src/dialogs/kdenlivesettingsdialog.cpp:447
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:497
+#: src/dialogs/kdenlivesettingsdialog.cpp:500
 #, kde-format
 msgid "JogShuttle"
 msgstr "Jog Shuttle"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:499
+#: src/dialogs/kdenlivesettingsdialog.cpp:502
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -7531,118 +7526,118 @@ msgstr ""
 "\">nostra documentació</a>."
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/kdenlivesettingsdialog.cpp:521 src/dialogs/timeremap.cpp:1583
+#: src/dialogs/kdenlivesettingsdialog.cpp:524 src/dialogs/timeremap.cpp:1583
 #: src/kdenliveui.rc:100 src/mltcontroller/clippropertiescontroller.cpp:1044
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
 msgstr "Transcodifica"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:555
+#: src/dialogs/kdenlivesettingsdialog.cpp:558
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "El processament de la GPU necessita que MLT estiga compilat amb els mòduls "
 "Movit i Rtaudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:725
+#: src/dialogs/kdenlivesettingsdialog.cpp:728
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:726
-#: src/dialogs/kdenlivesettingsdialog.cpp:779
+#: src/dialogs/kdenlivesettingsdialog.cpp:729
+#: src/dialogs/kdenlivesettingsdialog.cpp:782
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:727
+#: src/dialogs/kdenlivesettingsdialog.cpp:730
 #, kde-format
 msgid "PipeWire"
 msgstr "PipeWire"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:728
+#: src/dialogs/kdenlivesettingsdialog.cpp:731
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/kdenlivesettingsdialog.cpp:730
+#: src/dialogs/kdenlivesettingsdialog.cpp:733
 #, kde-format
 msgid "Esound Daemon"
 msgstr "Dimoni Esound"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:731
+#: src/dialogs/kdenlivesettingsdialog.cpp:734
 #, kde-format
 msgid "ARTS Daemon"
 msgstr "Dimoni ARTS"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/kdenlivesettingsdialog.cpp:743
-#: src/dialogs/kdenlivesettingsdialog.cpp:744
+#: src/dialogs/kdenlivesettingsdialog.cpp:746
+#: src/dialogs/kdenlivesettingsdialog.cpp:747
 #: src/dialogs/managesubtitles.cpp:534 src/dialogs/renderwidget.cpp:221
 #: src/dialogs/subtitlestyleedit.cpp:100 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "Predeterminat"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:795
+#: src/dialogs/kdenlivesettingsdialog.cpp:798
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:807
+#: src/dialogs/kdenlivesettingsdialog.cpp:810
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:831 src/mainwindow.cpp:275
+#: src/dialogs/kdenlivesettingsdialog.cpp:834 src/mainwindow.cpp:275
 #, kde-format
 msgid "Monitor %1"
 msgstr "Monitor %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:915
+#: src/dialogs/kdenlivesettingsdialog.cpp:918
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr "Introduïu el camí cap a l'aplicació d'edició d'àudio"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:923
+#: src/dialogs/kdenlivesettingsdialog.cpp:926
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr "Introduïu el camí cap a l'aplicació d'edició d'imatges"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:931 src/glaxnimatelauncher.cpp:30
+#: src/dialogs/kdenlivesettingsdialog.cpp:934 src/glaxnimatelauncher.cpp:30
 #, kde-format
 msgid "Enter path to the Glaxnimate application"
 msgstr "Introduïu el camí cap a l'aplicació Glaxnimate"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1014
-#: src/dialogs/kdenlivesettingsdialog.cpp:1032
+#: src/dialogs/kdenlivesettingsdialog.cpp:1017
+#: src/dialogs/kdenlivesettingsdialog.cpp:1035
 #: src/project/dialogs/projectsettings.cpp:538
 #, kde-format
 msgid "Please select a video profile"
 msgstr "Seleccioneu un perfil de vídeo"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1317
+#: src/dialogs/kdenlivesettingsdialog.cpp:1325
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "Cal reiniciar Kdenlive per a canviar esta opció"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1465
+#: src/dialogs/kdenlivesettingsdialog.cpp:1473
 #, kde-format
 msgid "A profile with that name already exists"
 msgstr "Ja existix un perfil amb este nom"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1599
+#: src/dialogs/kdenlivesettingsdialog.cpp:1607
 #, kde-format
 msgid "Current settings"
 msgstr "Paràmetres actuals"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1637
-#: src/dialogs/kdenlivesettingsdialog.cpp:1673
-#: src/dialogs/kdenlivesettingsdialog.cpp:1690
+#: src/dialogs/kdenlivesettingsdialog.cpp:1645
+#: src/dialogs/kdenlivesettingsdialog.cpp:1681
+#: src/dialogs/kdenlivesettingsdialog.cpp:1698
 #: src/mltcontroller/clippropertiescontroller.cpp:562
 #: src/mltcontroller/clippropertiescontroller.cpp:1435
 #: src/project/dialogs/profilewidget.cpp:110 src/ui/editrenderpreset_ui.ui:220
@@ -7651,14 +7646,14 @@ msgstr "Paràmetres actuals"
 msgid "Progressive"
 msgstr "Progressiu"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1779
+#: src/dialogs/kdenlivesettingsdialog.cpp:1787
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
 "El processament de CPU és molt lent, es recomana GPU per a un processament "
 "més ràpid"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1780
+#: src/dialogs/kdenlivesettingsdialog.cpp:1788
 #, kde-format
 msgid ""
 "Text translation is performed by the SeamlessM4T model. This requires "
@@ -7669,71 +7664,71 @@ msgstr ""
 "requerix baixar al voltant de 10 Gb de dades. Una vegada instal·lat, tot el "
 "processament es farà fora de línia."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1799
+#: src/dialogs/kdenlivesettingsdialog.cpp:1807
 #, kde-format
 msgid "Download (1.4Gb)"
 msgstr "Baixa (1,4GB)"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1821
+#: src/dialogs/kdenlivesettingsdialog.cpp:1829
 #, kde-format
 msgid "Installing multilingual data…"
 msgstr "S'estan instal·lant les dades multilingües…"
 
 #. i18n: ectx: property (text), widget (QLabel, modelV_folder_label)
 #. i18n: ectx: property (text), widget (QLabel, model_folder_label)
-#: src/dialogs/kdenlivesettingsdialog.cpp:1830
-#: src/dialogs/kdenlivesettingsdialog.cpp:2300 src/ui/configspeech_ui.ui:99
+#: src/dialogs/kdenlivesettingsdialog.cpp:1838
+#: src/dialogs/kdenlivesettingsdialog.cpp:2308 src/ui/configspeech_ui.ui:99
 #: src/ui/configspeech_ui.ui:322
 #, kde-format
 msgid "Models folder"
 msgstr "Carpeta de models"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1888
+#: src/dialogs/kdenlivesettingsdialog.cpp:1896
 #, kde-format
 msgid "Setting up virtual environment…"
 msgstr "Establix un entorn virtual…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1890
+#: src/dialogs/kdenlivesettingsdialog.cpp:1898
 #, kde-format
 msgid "Disabling virtual environment"
 msgstr "Deshabilita l'entorn virtual"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1907
+#: src/dialogs/kdenlivesettingsdialog.cpp:1915
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Removing the virtual environment folder."
 msgstr "S'elimina la carpeta de l'entorn virtual."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1912
+#: src/dialogs/kdenlivesettingsdialog.cpp:1920
 #, kde-format
 msgctxt "@label:textbox"
 msgid "No python venv found"
 msgstr "No s'ha trobat «venv» de Python"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1915
+#: src/dialogs/kdenlivesettingsdialog.cpp:1923
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Failed to remove the virtual environment folder."
 msgstr "No s'ha pogut eliminar la carpeta de l'entorn virtual."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1921
-#: src/dialogs/kdenlivesettingsdialog.cpp:1924
+#: src/dialogs/kdenlivesettingsdialog.cpp:1929
+#: src/dialogs/kdenlivesettingsdialog.cpp:1932
 #, kde-format
 msgid "Probing..."
 msgstr "S'està explorant…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:1945
+#: src/dialogs/kdenlivesettingsdialog.cpp:1953
 #, kde-format
 msgid "Downloading multilingual model…"
 msgstr "S'està baixant el model multilingüe…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2001
-#: src/dialogs/kdenlivesettingsdialog.cpp:2297
+#: src/dialogs/kdenlivesettingsdialog.cpp:2009
+#: src/dialogs/kdenlivesettingsdialog.cpp:2305
 #, kde-format
 msgid "Please add a speech model."
 msgstr "Per favor, afegiu un model de veu."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2035
+#: src/dialogs/kdenlivesettingsdialog.cpp:2043
 #, kde-format
 msgid ""
 "Download speech models from: <a href=\"https://alphacephei.com/vosk/models"
@@ -7743,54 +7738,54 @@ msgstr ""
 "\">https://alphacephei.com/vosk/models</a>"
 
 #. i18n: ectx: property (text), widget (QPushButton, install_seamless)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2049 src/ui/configspeech_ui.ui:308
+#: src/dialogs/kdenlivesettingsdialog.cpp:2057 src/ui/configspeech_ui.ui:308
 #, kde-format
 msgid "Install multilingual translation"
 msgstr "Instal·la la traducció multilingüe"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2058
+#: src/dialogs/kdenlivesettingsdialog.cpp:2066
 #, kde-format
 msgid "Install a speech model - we recommand <b>turbo</b>"
 msgstr "Instal·leu un model de veu; recomanem <b>turbo</b>"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2090
-#: src/dialogs/kdenlivesettingsdialog.cpp:2104
-#: src/dialogs/kdenlivesettingsdialog.cpp:2113
+#: src/dialogs/kdenlivesettingsdialog.cpp:2098
+#: src/dialogs/kdenlivesettingsdialog.cpp:2112
+#: src/dialogs/kdenlivesettingsdialog.cpp:2121
 #, kde-format
 msgid "Install a model"
 msgstr "Instal·la un model"
 
 #. i18n: ectx: property (text), widget (QPushButton, downloadButton)
-#: src/dialogs/kdenlivesettingsdialog.cpp:2106
-#: src/dialogs/kdenlivesettingsdialog.cpp:2115 src/ui/configspeech_ui.ui:232
+#: src/dialogs/kdenlivesettingsdialog.cpp:2114
+#: src/dialogs/kdenlivesettingsdialog.cpp:2123 src/ui/configspeech_ui.ui:232
 #, kde-format
 msgid "Manage models"
 msgstr "Gestiona els models"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2175
+#: src/dialogs/kdenlivesettingsdialog.cpp:2183
 #, kde-format
 msgid "Enter url for the new dictionary"
 msgstr "Introduïu un URL cap al diccionari nou"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2181
+#: src/dialogs/kdenlivesettingsdialog.cpp:2189
 #, kde-format
 msgid "Downloading model…"
 msgstr "S'està baixant el model…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2191
+#: src/dialogs/kdenlivesettingsdialog.cpp:2199
 #, kde-format
 msgid "We do not allow deleting custom folder models, please do it manually."
 msgstr ""
 "No permetem eliminar els models de carpetes personalitzades, feu-ho "
 "manualment."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2197
-#: src/dialogs/kdenlivesettingsdialog.cpp:2256
+#: src/dialogs/kdenlivesettingsdialog.cpp:2205
+#: src/dialogs/kdenlivesettingsdialog.cpp:2264
 #, kde-format
 msgid "Cannot access dictionary folder."
 msgstr "No s'ha pogut accedir a la carpeta del diccionari."
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2206
+#: src/dialogs/kdenlivesettingsdialog.cpp:2214
 #, kde-format
 msgid ""
 "Delete folder:\n"
@@ -7799,22 +7794,22 @@ msgstr ""
 "Suprimix la carpeta:\n"
 "%1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2230
+#: src/dialogs/kdenlivesettingsdialog.cpp:2238
 #, kde-format
 msgid "Download error"
 msgstr "S'ha produït un error de baixada"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2235
+#: src/dialogs/kdenlivesettingsdialog.cpp:2243
 #, kde-format
 msgid "Download error %1"
 msgstr "S'ha produït un error de baixada %1"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2263
+#: src/dialogs/kdenlivesettingsdialog.cpp:2271
 #, kde-format
 msgid "Extracting archive…"
 msgstr "S'està extraent l'arxiu…"
 
-#: src/dialogs/kdenlivesettingsdialog.cpp:2270
+#: src/dialogs/kdenlivesettingsdialog.cpp:2278
 #, kde-format
 msgid "New dictionary installed."
 msgstr "S'ha instal·lat un diccionari nou."
@@ -10654,26 +10649,26 @@ msgid "Copy effect"
 msgstr "Copia l'efecte"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
-#: src/effects/effectstack/model/effectstackmodel.cpp:534
-#: src/effects/effectstack/model/effectstackmodel.cpp:644
-#: src/effects/effectstack/model/effectstackmodel.cpp:1432
+#: src/effects/effectstack/model/effectstackmodel.cpp:568
+#: src/effects/effectstack/model/effectstackmodel.cpp:678
+#: src/effects/effectstack/model/effectstackmodel.cpp:1466
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "No es pot afegir l'efecte %1 dues vegades."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:630
+#: src/effects/effectstack/model/effectstackmodel.cpp:664
 #: src/effects/effectstack/view/effectstackview.cpp:235
 #: src/timeline2/model/timelinemodel.cpp:5088
 #, kde-format
 msgid "Add effect %1"
 msgstr "Afig l'efecte %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:640
+#: src/effects/effectstack/model/effectstackmodel.cpp:674
 #, kde-format
 msgid "Effect %1 can only be added to master"
 msgstr "L'efecte %1 només es pot afegir al mestre"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1187
+#: src/effects/effectstack/model/effectstackmodel.cpp:1221
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mou l'efecte %1"
@@ -10837,13 +10832,13 @@ msgstr "Canvia la visualització de la zona d'efectes."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:274
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "Valors predefinits"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:276
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
@@ -10851,12 +10846,12 @@ msgstr ""
 "Obri una llista d'opcions avançades per a gestionar els valors predefinits "
 "de l'efecte."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:352
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:353
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 instàncies d'este efecte en el grup"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:518
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:519
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10867,28 +10862,28 @@ msgstr ""
 "clip de projecte per a copiar-lo. <b>Arrossegueu + Alt</b> per a copiar-lo a "
 "un element individual d'un grup."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:542
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
 #, kde-format
 msgid "Disable %1"
 msgstr "Desactiva %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:542
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
 #, kde-format
 msgid "Enable %1"
 msgstr "Activa %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:578
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "Guarda l'efecte"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
 #, kde-format
 msgid "Comments:"
 msgstr "Comentaris:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:599
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:600
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "No s'ha proporcionat cap nom, l'efecte no s'ha guardat."
@@ -18454,25 +18449,25 @@ msgstr "No es pot operar amb una composició agrupada, desagrupeu-la"
 #: src/timeline2/model/timelinemodel.cpp:7110
 #: src/timeline2/model/timelinemodel.cpp:7147
 #: src/timeline2/model/timelinemodel.cpp:7180
-#: src/timeline2/model/timelinemodel.cpp:7261
+#: src/timeline2/model/timelinemodel.cpp:7259
 #, kde-format
 msgid "Cannot resize mix to less than 1 frame"
 msgstr "No s'ha pogut redimensionar la mescla a menys d'1 fotograma"
 
 #: src/timeline2/model/timelinemodel.cpp:7121
 #: src/timeline2/model/timelinemodel.cpp:7155
-#: src/timeline2/model/timelinemodel.cpp:7199
-#: src/timeline2/model/timelinemodel.cpp:7285
+#: src/timeline2/model/timelinemodel.cpp:7197
+#: src/timeline2/model/timelinemodel.cpp:7283
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "No s'ha pogut redimensionar la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:7299
+#: src/timeline2/model/timelinemodel.cpp:7297
 #, kde-format
 msgid "Resize mix"
 msgstr "Redimensiona la mescla"
 
-#: src/timeline2/model/timelinemodel.cpp:7419
+#: src/timeline2/model/timelinemodel.cpp:7417
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr ""
@@ -21196,6 +21191,12 @@ msgstr "Mescles:"
 #, kde-format
 msgid "Subtitles:"
 msgstr "Subtítols:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableBuiltInEffects)
+#: src/ui/configmisc_ui.ui:280
+#, kde-format
+msgid "Enable Builtin Effects"
+msgstr "Activa els efectes integrats"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:21
