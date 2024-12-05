@@ -832,6 +832,22 @@ QString KdenliveDoc::projectDataFolder(const QString &newPath) const
     return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
 }
 
+const QString KdenliveDoc::extractFrameFolder(const QString &proposedPath) const
+{
+    if (m_projectFolder.isEmpty() || m_url.isEmpty()) {
+        return proposedPath;
+    }
+    // Check if the proposed path is inside our project folder
+    const QString projectPath = QFileInfo(m_url.toLocalFile()).absolutePath();
+    if (m_projectFolder == (projectPath + QStringLiteral("/cachefiles"))) {
+        // Save all files in project folder
+        if (!proposedPath.startsWith(projectPath)) {
+            return projectPath;
+        }
+    }
+    return proposedPath;
+}
+
 QString KdenliveDoc::projectCaptureFolder() const
 {
     if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::capturefolder().isEmpty()) {

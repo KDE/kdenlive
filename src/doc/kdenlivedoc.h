@@ -154,6 +154,8 @@ public:
      * @param newPath If the project file is being moved, this is the new location.
      */
     QString projectRenderFolder(const QString &newPath = QString()) const;
+    /** @brief Returns the folder used to store extracted frames (empty if not project folder specified) */
+    const QString extractFrameFolder(const QString &proposedPath) const;
     /** @brief Returns the folder used to store captures (audio record tracks, etc) */
     QString projectCaptureFolder() const;
     void setZoom(const QUuid &uuid, int horizontal, int vertical = -1);
