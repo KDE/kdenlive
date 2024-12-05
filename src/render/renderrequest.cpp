@@ -363,6 +363,9 @@ QString RenderRequest::generatePlaylistFile()
     if (!ok) {
         return {};
     }
+    if (filename.contains(QLatin1Char('?'))) {
+        filename.replace(QLatin1Char('?'), QLatin1Char('_'));
+    }
     if (!filename.endsWith(fileExtension)) {
         filename.append(fileExtension);
     }
