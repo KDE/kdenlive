@@ -1281,6 +1281,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     }
 
     QString framesFolder = KRecentDirs::dir(QStringLiteral(":KdenliveFramesFolder"));
+    framesFolder = pCore->currentDoc()->extractFrameFolder(framesFolder);
     if (framesFolder.isEmpty()) {
         framesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     }
