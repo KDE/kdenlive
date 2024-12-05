@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 
+#include <QImageReader>
 #include <QProcess>
 #include <QTemporaryFile>
 #include <QThread>
@@ -67,7 +68,8 @@ void ProxyTask::run()
     m_progress = 0;
     bool result = false;
     QString source = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
-    int exif = binClip->getProducerIntProperty(QStringLiteral("_exif_orientation"));
+    bool disable_exif = binClip->getProducerIntProperty(QStringLiteral("disable_exif")) == 1;
+
     if (type == ClipType::Playlist || type == ClipType::SlideShow) {
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
@@ -188,7 +190,9 @@ void ProxyTask::run()
     } else if (type == ClipType::Image) {
         m_isFfmpegJob = false;
         // Image proxy
-        QImage i(source);
+        QImageReader imgReader(source);
+        imgReader.setAutoTransform(!disable_exif);
+        QImage i = imgReader.read();
         if (i.isNull()) {
             result = false;
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(QString, i18n("Cannot load image %1.", source)),
@@ -207,41 +211,7 @@ void ProxyTask::run()
             } else {
                 proxy = i.scaledToHeight(KdenliveSettings::proxyimagesize());
             }
-            if (exif > 1) {
-                // Rotate image according to exif data
-                QImage processed;
-                QTransform matrix;
-
-                switch (exif) {
-                case 2:
-                    matrix.scale(-1, 1);
-                    break;
-                case 3:
-                    matrix.rotate(180);
-                    break;
-                case 4:
-                    matrix.scale(1, -1);
-                    break;
-                case 5:
-                    matrix.rotate(270);
-                    matrix.scale(-1, 1);
-                    break;
-                case 6:
-                    matrix.rotate(90);
-                    break;
-                case 7:
-                    matrix.rotate(90);
-                    matrix.scale(-1, 1);
-                    break;
-                case 8:
-                    matrix.rotate(270);
-                    break;
-                }
-                processed = proxy.transformed(matrix);
-                processed.save(dest);
-            } else {
-                proxy.save(dest);
-            }
+            proxy.save(dest);
             result = true;
         } else {
             // Image is too small to be proxied
