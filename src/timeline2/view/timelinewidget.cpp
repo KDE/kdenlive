@@ -179,7 +179,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
                                                      {"timeline", QVariant::fromValue(&timelineController)},
                                                      {"guidesModel", QVariant::fromValue(model->getFilteredGuideModel().get())},
                                                      {"documentId", QVariant::fromValue(model->uuid())},
-                                                     {"audiorec", QVariant::fromValue(m_audioRec)},
+                                                     {"audiorec", QVariant::fromValue(m_audioRec.get())},
                                                      {"clipboard", QVariant::fromValue(new ClipboardProxy(this))},
                                                      {"miniFontSize", QVariant::fromValue(QFontInfo(font()).pixelSize())},
                                                      {"proxy", QVariant()}};
