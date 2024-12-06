@@ -57,9 +57,6 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
     buttonDown->setToolTip(i18n("Move effect down"));
     buttonDown->setWhatsThis(xi18nc(
         "@info:whatsthis", "Moves the effect below the one right below it. Effects are handled sequentially from top to bottom so sequence is important."));
-    buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
-    buttonDel->setToolTip(i18n("Delete effect"));
-    buttonDel->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the effect from the effect stack."));
 
     if (effectId == QLatin1String("speed")) {
         // Speed effect is a "pseudo" effect, cannot be moved
@@ -269,16 +266,22 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
         m_keyframesButton->setActive(true);
     }
     // Presets
-    if (!displayBuiltInEffect) {
-        presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
-        presetButton->setMenu(m_view->presetMenu());
-        presetButton->setToolTip(i18n("Presets"));
-        presetButton->setWhatsThis(xi18nc("@info:whatsthis", "Opens a list of advanced options to manage presets for the effect."));
-    } else {
-        // Add reset button
-        presetButton->setIcon(QIcon::fromTheme(QStringLiteral("edit-reset")));
-        presetButton->setToolTip(i18n("Reset Effect"));
-        connect(presetButton, &QToolButton::clicked, this, &CollapsibleEffectView::slotResetEffect);
+    presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
+    presetButton->setMenu(m_view->presetMenu());
+    presetButton->setToolTip(i18n("Presets"));
+    presetButton->setWhatsThis(xi18nc("@info:whatsthis", "Opens a list of advanced options to manage presets for the effect."));
+
+    connect(m_view, &AssetParameterView::saveEffect, this, [this]() { slotSaveEffect(); });
+    connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectUp);
+    connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
+    if (displayBuiltInEffect) {
+        buttonUp->hide();
+        buttonDown->hide();
+        // On builtin effects, delete button becomes a reset button
+        buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("edit-reset")));
+        buttonDel->setToolTip(i18n("Reset Effect"));
+        connect(buttonDel, &QToolButton::clicked, this, &CollapsibleEffectView::slotResetEffect);
+        buttonDel->setEnabled(m_model->isAssetEnabled());
         connect(m_model.get(), &AssetParameterModel::enabledChange, this, [this](bool enable) {
             presetButton->setEnabled(enable);
             if (m_model->isAssetEnabled() != enable) {
@@ -288,19 +291,13 @@ CollapsibleEffectView::CollapsibleEffectView(const QString &effectName, const st
             // Update asset names
             Q_EMIT effectNamesUpdated();
         });
-        presetButton->setEnabled(m_model->isAssetEnabled());
         // frame->hide();
         decoframe->setProperty("class", "builtin");
-    }
-
-    connect(m_view, &AssetParameterView::saveEffect, this, [this]() { slotSaveEffect(); });
-    connect(buttonUp, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectUp);
-    connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
-    connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
-    if (displayBuiltInEffect) {
-        buttonUp->hide();
-        buttonDown->hide();
-        buttonDel->hide();
+    } else {
+        buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
+        buttonDel->setToolTip(i18n("Delete effect"));
+        buttonDel->setWhatsThis(xi18nc("@info:whatsthis", "Deletes the effect from the effect stack."));
+        connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
     }
 
     for (QSpinBox *sp : findChildren<QSpinBox *>()) {
