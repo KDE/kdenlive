@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-05 00:39+0000\n"
+"POT-Creation-Date: 2024-12-06 00:40+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -6405,7 +6405,7 @@ msgstr "Teideal"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:609
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
-#: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:370
+#: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -7061,7 +7061,7 @@ msgstr "Teideal"
 msgid "Create Text clip"
 msgstr "Cruthaigh Grúpa"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1179
+#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1195
 #, kde-format
 msgid "Template title clip"
 msgstr ""
@@ -7388,7 +7388,7 @@ msgstr "Luchtaigh marcóirí"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
-#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
+#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
 #: src/effects/effectlist/model/effecttreemodel.cpp:298
 #: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
@@ -10541,64 +10541,64 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1453
+#: src/doc/kdenlivedoc.cpp:930 src/project/projectmanager.cpp:1453
 #: src/project/projectmanager.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Error opening file"
 msgid "Error moving project folder: %1"
 msgstr "Earráid agus comhad á oscailt"
 
-#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2366
+#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2382
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1707
 #, kde-format
 msgid "Untitled"
 msgstr "Gan Teideal"
 
-#: src/doc/kdenlivedoc.cpp:1165
+#: src/doc/kdenlivedoc.cpp:1181
 #, fuzzy, kde-format
 #| msgid "Template"
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "Teimpléad"
 
-#: src/doc/kdenlivedoc.cpp:1326
+#: src/doc/kdenlivedoc.cpp:1342
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1359 src/doc/kdenlivedoc.cpp:1373
+#: src/doc/kdenlivedoc.cpp:1375 src/doc/kdenlivedoc.cpp:1389
 #, kde-format
 msgid "Project Folder"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1417 src/doc/kdenlivedoc.cpp:1434
+#: src/doc/kdenlivedoc.cpp:1433 src/doc/kdenlivedoc.cpp:1450
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
 "%1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1589
+#: src/doc/kdenlivedoc.cpp:1605
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/kdenlivedoc.cpp:1591
+#: src/doc/kdenlivedoc.cpp:1607
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/doc/kdenlivedoc.cpp:1635 src/doc/kdenlivedoc.cpp:1693
+#: src/doc/kdenlivedoc.cpp:1651 src/doc/kdenlivedoc.cpp:1709
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1848
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -10606,80 +10606,80 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1927
+#: src/doc/kdenlivedoc.cpp:1943
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1945
+#: src/doc/kdenlivedoc.cpp:1961
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1947
+#: src/doc/kdenlivedoc.cpp:1963
 #, fuzzy, kde-format
 #| msgid "Project Files"
 msgid "Change default project profile"
 msgstr "Comhaid an Tionscadail"
 
-#: src/doc/kdenlivedoc.cpp:1947
+#: src/doc/kdenlivedoc.cpp:1963
 #, kde-format
 msgid "Change default to %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1964
 #, fuzzy, kde-format
 #| msgid "Delete Profile"
 msgid "Keep current default %1"
 msgstr "Scrios an Phróifíl"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1964
 #, kde-format
 msgid "Ask me later"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1968
+#: src/doc/kdenlivedoc.cpp:1984
 #, kde-format
 msgid "Switch"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1970 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:1986 src/ui/titlewidget_ui.ui:189
 #, fuzzy, kde-format
 #| msgid "Cancel job"
 #| msgid_plural "Cancel jobs"
 msgid "Cancel"
 msgstr "Cealaigh an jab"
 
-#: src/doc/kdenlivedoc.cpp:1972
+#: src/doc/kdenlivedoc.cpp:1988
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Cuir rian leis"
 
-#: src/doc/kdenlivedoc.cpp:1977
+#: src/doc/kdenlivedoc.cpp:1993
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1981
+#: src/doc/kdenlivedoc.cpp:1997
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2405 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2421 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "Dearg"
 
-#: src/doc/kdenlivedoc.cpp:2406 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2422 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10687,24 +10687,24 @@ msgstr "Dearg"
 msgid "Green"
 msgstr "Uaine"
 
-#: src/doc/kdenlivedoc.cpp:2407 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2423 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "Gorm"
 
-#: src/doc/kdenlivedoc.cpp:2408 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2424 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "Buí"
 
-#: src/doc/kdenlivedoc.cpp:2409
+#: src/doc/kdenlivedoc.cpp:2425
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2746 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2762 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -11334,29 +11334,29 @@ msgstr "Ní féidir comhad %1 a scríobh"
 msgid "Failed to filter source."
 msgstr ""
 
-#: src/jobs/proxytask.cpp:29
+#: src/jobs/proxytask.cpp:30
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Creating proxy"
 msgstr "Ní féidir an comhad a oscailt"
 
-#: src/jobs/proxytask.cpp:194
+#: src/jobs/proxytask.cpp:198
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "Ní féidir íomhá %1 a luchtú."
 
-#: src/jobs/proxytask.cpp:248
+#: src/jobs/proxytask.cpp:218
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr ""
 
-#: src/jobs/proxytask.cpp:256 src/jobs/transcodetask.cpp:180
+#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:180
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 
-#: src/jobs/proxytask.cpp:396 src/jobs/proxytask.cpp:409
+#: src/jobs/proxytask.cpp:366 src/jobs/proxytask.cpp:379
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr ""
@@ -14297,7 +14297,7 @@ msgid "Audio streams"
 msgstr "Cuir rian leis"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:745
-#: src/monitor/monitor.cpp:1946
+#: src/monitor/monitor.cpp:1947
 #, kde-format
 msgid "Merge all streams"
 msgstr ""
@@ -14771,26 +14771,26 @@ msgstr ""
 msgid "Set Zone"
 msgstr "Sábháil go"
 
-#: src/monitor/monitor.cpp:1294
+#: src/monitor/monitor.cpp:1295
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Sábháil marcóirí"
 
-#: src/monitor/monitor.cpp:1294
+#: src/monitor/monitor.cpp:1295
 #, fuzzy, kde-format
 #| msgid "Save markers"
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Sábháil marcóirí"
 
-#: src/monitor/monitor.cpp:1301
+#: src/monitor/monitor.cpp:1302
 #, kde-format
 msgid "Export image using source resolution"
 msgstr ""
 
-#: src/monitor/monitor.cpp:1931 src/monitor/monitor.cpp:2064
+#: src/monitor/monitor.cpp:1932 src/monitor/monitor.cpp:2065
 #, fuzzy, kde-format
 #| msgid "Add track"
 msgid "%1 audio stream"
@@ -14801,37 +14801,37 @@ msgstr[2] "Cuir rian leis"
 msgstr[3] "Cuir rian leis"
 msgstr[4] "Cuir rian leis"
 
-#: src/monitor/monitor.cpp:2357
+#: src/monitor/monitor.cpp:2358
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2399 src/monitor/monitor.cpp:2456
+#: src/monitor/monitor.cpp:2400 src/monitor/monitor.cpp:2457
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
 "restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2419
+#: src/monitor/monitor.cpp:2420
 #, fuzzy, kde-format
 #| msgid "Save Effect"
 msgid "Clip has no effects"
 msgstr "Sábháil an Mhaisíocht"
 
-#: src/monitor/monitor.cpp:2421
+#: src/monitor/monitor.cpp:2422
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2463
+#: src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
 "frei0r and restart Kdenlive"
 msgstr ""
 
-#: src/monitor/monitor.cpp:2509
+#: src/monitor/monitor.cpp:2510
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr ""
@@ -17530,7 +17530,7 @@ msgstr ""
 msgid "Select a name for this rendering."
 msgstr ""
 
-#: src/render/renderrequest.cpp:459
+#: src/render/renderrequest.cpp:462
 #, kde-format
 msgid "begin"
 msgstr ""

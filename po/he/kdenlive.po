@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-05 00:39+0000\n"
-"PO-Revision-Date: 2024-12-01 09:39+0200\n"
+"POT-Creation-Date: 2024-12-06 00:40+0000\n"
+"PO-Revision-Date: 2024-12-05 08:48+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1562,6 +1562,10 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[אם האפשרות פעילה, התרשים יצויר בנקודות נפרדות במקום בקווים..<br>\n"
+"    \tבפועל, נקודות הנתונים הבודדים תוצגנה בהתאם לאיך שמשפיעה עליהם ההחלקה "
+"(כלומר: לנתוני מקום יוצג כל קיבוע GPS אם ההחלקה היא 1)ויכול לשמש כאפקט מגניב "
+"בעת תקריב קרוב מספיק או כדי לנסות לפענח קפיצות מוזרות בקווים.]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
@@ -6154,7 +6158,7 @@ msgstr "העברת כתובית"
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:609
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
-#: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:370
+#: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -6772,7 +6776,7 @@ msgstr "סרטון טקסט"
 msgid "Create Text clip"
 msgstr "יצירת סרטון טקסט"
 
-#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1179
+#: src/dialogs/clipcreationdialog.cpp:340 src/doc/kdenlivedoc.cpp:1195
 #, kde-format
 msgid "Template title clip"
 msgstr "תבנית סרטון כותר"
@@ -7101,7 +7105,7 @@ msgstr "ייצוא נתוני קווים מנחים"
 
 #: src/dialogs/exportguidesdialog.cpp:81 src/dialogs/renderwidget.cpp:1730
 #: src/dialogs/renderwidget.cpp:1754 src/doc/kdenlivedoc.cpp:760
-#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1319
+#: src/doc/kdenlivedoc.cpp:768 src/doc/kdenlivedoc.cpp:1335
 #: src/effects/effectlist/model/effecttreemodel.cpp:298
 #: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
@@ -10144,36 +10148,36 @@ msgstr ""
 "קובץ המיזם שלך שודרג לגרסת המסמך העדכנית ביותר של Kdenlive, אבל יצירת עותק "
 "הגיבוי %1 לא מצליחה."
 
-#: src/doc/kdenlivedoc.cpp:914 src/project/projectmanager.cpp:1453
+#: src/doc/kdenlivedoc.cpp:930 src/project/projectmanager.cpp:1453
 #: src/project/projectmanager.cpp:1489
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "שגיאה בהעברת תיקיית המיזם: %1"
 
-#: src/doc/kdenlivedoc.cpp:1104 src/doc/kdenlivedoc.cpp:2366
+#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2382
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1707
 #, kde-format
 msgid "Untitled"
 msgstr "ללא כותרת"
 
-#: src/doc/kdenlivedoc.cpp:1165
+#: src/doc/kdenlivedoc.cpp:1181
 #, kde-format
 msgctxt "@title:window"
 msgid "Enter Template Path"
 msgstr "נא למלא נתיב תבנית"
 
-#: src/doc/kdenlivedoc.cpp:1326
+#: src/doc/kdenlivedoc.cpp:1342
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "האפקטים הבאים יובאו מהמיזם:"
 
-#: src/doc/kdenlivedoc.cpp:1359 src/doc/kdenlivedoc.cpp:1373
+#: src/doc/kdenlivedoc.cpp:1375 src/doc/kdenlivedoc.cpp:1389
 #, kde-format
 msgid "Project Folder"
 msgstr "תיקיית מיזם"
 
-#: src/doc/kdenlivedoc.cpp:1417 src/doc/kdenlivedoc.cpp:1434
+#: src/doc/kdenlivedoc.cpp:1433 src/doc/kdenlivedoc.cpp:1450
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -10182,7 +10186,7 @@ msgstr ""
 "לא ניתן ליצור עותק לגיבוי:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1589
+#: src/doc/kdenlivedoc.cpp:1605
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -10191,7 +10195,7 @@ msgstr[1] "הוספת סרטוני תיווך"
 msgstr[2] "הוספת סרטוני תיווך"
 msgstr[3] "הוספת סרטוני תיווך"
 
-#: src/doc/kdenlivedoc.cpp:1591
+#: src/doc/kdenlivedoc.cpp:1607
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -10200,12 +10204,12 @@ msgstr[1] "הסרת סרטוני תיווך"
 msgstr[2] "הסרת סרטוני תיווך"
 msgstr[3] "הסרת סרטוני תיווך"
 
-#: src/doc/kdenlivedoc.cpp:1635 src/doc/kdenlivedoc.cpp:1693
+#: src/doc/kdenlivedoc.cpp:1651 src/doc/kdenlivedoc.cpp:1709
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "סוג הסרטון לא תומך בתיווך"
 
-#: src/doc/kdenlivedoc.cpp:1832
+#: src/doc/kdenlivedoc.cpp:1848
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -10215,12 +10219,12 @@ msgstr ""
 "המיזם משתמש בקצב תמוניות חריג (%1), זה עלול לגרום לגלישת סרטונים והיסט "
 "תמוניות."
 
-#: src/doc/kdenlivedoc.cpp:1927
+#: src/doc/kdenlivedoc.cpp:1943
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "אזהרה: קצב תמוניות חריג, יותאם למספר השלם הקרוב ביותר. "
 
-#: src/doc/kdenlivedoc.cpp:1945
+#: src/doc/kdenlivedoc.cpp:1961
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -10229,43 +10233,43 @@ msgstr ""
 "פרופיל ברירת המחדל של המיזם שלך הוא %1, אך פרופיל הסרטון שלך (%2) הוא %3.\n"
 "לשנות את פרופיל ברירת המחדל למיזמים עתידיים?"
 
-#: src/doc/kdenlivedoc.cpp:1947
+#: src/doc/kdenlivedoc.cpp:1963
 #, kde-format
 msgid "Change default project profile"
 msgstr "החלפת פרופיל ברירת המחדל של המיזם"
 
-#: src/doc/kdenlivedoc.cpp:1947
+#: src/doc/kdenlivedoc.cpp:1963
 #, kde-format
 msgid "Change default to %1"
 msgstr "החלפת התיקייה לתיקייה %1"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1964
 #, kde-format
 msgid "Keep current default %1"
 msgstr "להשאיר את ברירת המחדל הנוכחית %1"
 
-#: src/doc/kdenlivedoc.cpp:1948
+#: src/doc/kdenlivedoc.cpp:1964
 #, kde-format
 msgid "Ask me later"
 msgstr "לשאול אותי מאוחר יותר"
 
-#: src/doc/kdenlivedoc.cpp:1968
+#: src/doc/kdenlivedoc.cpp:1984
 #, kde-format
 msgid "Switch"
 msgstr "החלפה"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1970 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:1986 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "ביטול"
 
-#: src/doc/kdenlivedoc.cpp:1972
+#: src/doc/kdenlivedoc.cpp:1988
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "החלפה לפרופיל סרטון (%1) %2?"
 
-#: src/doc/kdenlivedoc.cpp:1977
+#: src/doc/kdenlivedoc.cpp:1993
 #, kde-format
 msgid ""
 "\n"
@@ -10274,7 +10278,7 @@ msgstr ""
 "\n"
 "קצב התמוניות של הפרופיל הותאם מהמקור %1"
 
-#: src/doc/kdenlivedoc.cpp:1981
+#: src/doc/kdenlivedoc.cpp:1997
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -10283,13 +10287,13 @@ msgstr ""
 "לא נמצא פרופיל לסרטון שלך %1.\n"
 "ליצור ולעבור לפרופיל החדש (%2×%3, %4 תמוניות לשנייה)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2405 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2421 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "אדום"
 
-#: src/doc/kdenlivedoc.cpp:2406 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2422 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10297,24 +10301,24 @@ msgstr "אדום"
 msgid "Green"
 msgstr "ירוק"
 
-#: src/doc/kdenlivedoc.cpp:2407 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2423 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "כחול"
 
-#: src/doc/kdenlivedoc.cpp:2408 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2424 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "צהוב"
 
-#: src/doc/kdenlivedoc.cpp:2409
+#: src/doc/kdenlivedoc.cpp:2425
 #, kde-format
 msgid "Cyan"
 msgstr "ציאן"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2746 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2762 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10425,10 +10429,9 @@ msgid "Add effect %1"
 msgstr "הוספת אפקט %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:674
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "אי אפשר להוסיף את האפקט %1 פעמיים."
+msgstr "את האפקט %1 אפשר להוסיף רק לראשי"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1221
 #, kde-format
@@ -10895,28 +10898,28 @@ msgstr "לא ניתן ליצור מסנן %1"
 msgid "Failed to filter source."
 msgstr "סינון המקור נכשל."
 
-#: src/jobs/proxytask.cpp:29
+#: src/jobs/proxytask.cpp:30
 #, kde-format
 msgid "Creating proxy"
 msgstr "נוצר תיווך"
 
-#: src/jobs/proxytask.cpp:194
+#: src/jobs/proxytask.cpp:198
 #, kde-format
 msgid "Cannot load image %1."
 msgstr "לא ניתן לטעון את התמונה %1."
 
-#: src/jobs/proxytask.cpp:248
+#: src/jobs/proxytask.cpp:218
 #, kde-format
 msgid "Image too small to be proxied."
 msgstr "התמונה קטנה לתיווך."
 
-#: src/jobs/proxytask.cpp:256 src/jobs/transcodetask.cpp:180
+#: src/jobs/proxytask.cpp:226 src/jobs/transcodetask.cpp:180
 #: src/project/cliptranscode.cpp:121
 #, kde-format
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg לא נמצא, נא להגדיר נתיב בסביבת ההגדרות של Kdenlive"
 
-#: src/jobs/proxytask.cpp:396 src/jobs/proxytask.cpp:409
+#: src/jobs/proxytask.cpp:366 src/jobs/proxytask.cpp:379
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "יצירת סרטון תיווך נכשלה."
@@ -13680,7 +13683,7 @@ msgid "Audio streams"
 msgstr "תזרימי שמע"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:745
-#: src/monitor/monitor.cpp:1946
+#: src/monitor/monitor.cpp:1947
 #, kde-format
 msgid "Merge all streams"
 msgstr "מיזוג כל התזרימים"
@@ -14125,24 +14128,24 @@ msgstr "רזולוציית המסך שלך לא מספיקה לפעולה הזא
 msgid "Set Zone"
 msgstr "הגדרת קטע"
 
-#: src/monitor/monitor.cpp:1294
+#: src/monitor/monitor.cpp:1295
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "שמירת תמונה למיזם"
 
-#: src/monitor/monitor.cpp:1294
+#: src/monitor/monitor.cpp:1295
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "שמירת תמונה"
 
-#: src/monitor/monitor.cpp:1301
+#: src/monitor/monitor.cpp:1302
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "ייצוא תמונה באמצעות רזולוציית המקור"
 
-#: src/monitor/monitor.cpp:1931 src/monitor/monitor.cpp:2064
+#: src/monitor/monitor.cpp:1932 src/monitor/monitor.cpp:2065
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -14151,12 +14154,12 @@ msgstr[1] "שני תזרימי שמע"
 msgstr[2] "%1 תזרימי שמע"
 msgstr[3] "%1 תזרימי שמע"
 
-#: src/monitor/monitor.cpp:2357
+#: src/monitor/monitor.cpp:2358
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "לא ניתן להפעיל את מנהל ה־GLSL של Movit, נא להשבית את Movit"
 
-#: src/monitor/monitor.cpp:2399 src/monitor/monitor.cpp:2456
+#: src/monitor/monitor.cpp:2400 src/monitor/monitor.cpp:2457
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -14164,17 +14167,17 @@ msgid ""
 msgstr ""
 "מסנן alphagrad נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive מחדש"
 
-#: src/monitor/monitor.cpp:2419
+#: src/monitor/monitor.cpp:2420
 #, kde-format
 msgid "Clip has no effects"
 msgstr "אין אפקטים על הסרטון"
 
-#: src/monitor/monitor.cpp:2421
+#: src/monitor/monitor.cpp:2422
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "נא לבחור סרטון מסל המיזם כדי להשוות אפקטים"
 
-#: src/monitor/monitor.cpp:2463
+#: src/monitor/monitor.cpp:2464
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -14183,7 +14186,7 @@ msgstr ""
 "מעברון cairoblend נחוץ ליכולת הזאת, נא להתקין את frei0r ולהפעיל את Kdenlive "
 "מחדש"
 
-#: src/monitor/monitor.cpp:2509
+#: src/monitor/monitor.cpp:2510
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "יש להפעיל מצב עריכה בצג כדי לערוך אפקט"
@@ -14512,8 +14515,7 @@ msgstr ""
 "כלים, <b>גלגלת </b> או <b>חץ</b> לחיפוש, <b>Ctrl גלגלת</b> לתקריב"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
 msgstr "התמרה"
@@ -16870,7 +16872,7 @@ msgstr "התיצוג מעוכב"
 msgid "Select a name for this rendering."
 msgstr "נא לבחור שם לתיצוג הזה."
 
-#: src/render/renderrequest.cpp:459
+#: src/render/renderrequest.cpp:462
 #, kde-format
 msgid "begin"
 msgstr "התחלה"
@@ -23456,8 +23458,7 @@ msgstr "מ&דרג:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #: src/ui/titlewidget_ui.ui:1020
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Sol&id color:"
 msgstr "צבע &אחיד:"
 
@@ -23481,8 +23482,7 @@ msgstr "מצב הרחבה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
 #: src/ui/titlewidget_ui.ui:1081
-#, fuzzy, kde-format
-#| msgid "By &char"
+#, kde-format
 msgid "B&y char"
 msgstr "לפי &תו"
 
