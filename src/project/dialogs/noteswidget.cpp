@@ -215,6 +215,17 @@ void NotesWidget::createMarkers()
     }
 }
 
+void NotesWidget::switchMarkDownEditing(bool enable)
+{
+    if (enable) {
+        const QString text = toMarkdown();
+        setPlainText(text);
+    } else {
+        const QString text = toPlainText();
+        setMarkdown(text);
+    }
+}
+
 void NotesWidget::addProjectNote()
 {
     if (!textCursor().atBlockStart()) {
@@ -239,25 +250,41 @@ void NotesWidget::addTextNote(const QString &text)
 void NotesWidget::insertFromMimeData(const QMimeData *source)
 {
     QString pastedText = source->text();
-    bool enforceHtml = false;
+    bool enforceMarkDown = false;
     // Check for timecodes
     QStringList words = pastedText.split(QLatin1Char(' '));
     for (const QString &w : std::as_const(words)) {
         if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
             // This is probably a timecode
             int frames = pCore->timecode().getFrameCount(w);
-            if (frames > 0) {
-                pastedText.replace(w, QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + w + QStringLiteral("</a> "));
-                enforceHtml = true;
+            if (frames == 0) {
+                // Check if that is a correct timecode like 00:00:00
+                QString simplified = w;
+                simplified.remove(QLatin1Char(':'));
+                simplified.remove(QLatin1Char('0'));
+                simplified.remove(QLatin1Char('.'));
+                if (simplified.simplified().isEmpty()) {
+                    // Ok, we really have a zero timecode
+                    pastedText.replace(w, QStringLiteral("[%1](%2)").arg(w).arg(QString::number(0)));
+                    enforceMarkDown = true;
+                }
+            } else if (frames > 0) {
+                pastedText.replace(w, QStringLiteral("[%1](%2)").arg(w).arg(QString::number(frames)));
+                enforceMarkDown = true;
             }
         }
     }
-    if (enforceHtml || Qt::mightBeRichText(pastedText)) {
-        pastedText.replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
-        insertHtml(pastedText);
+
+    if (enforceMarkDown) {
+        textCursor().insertMarkdown(pastedText);
     } else {
         insertPlainText(pastedText);
     }
+}
+
+void NotesWidget::insertMarkDown(const QString &md)
+{
+    textCursor().insertMarkdown(md);
 }
 
 bool NotesWidget::event(QEvent *event)

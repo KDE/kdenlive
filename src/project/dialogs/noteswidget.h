@@ -24,6 +24,7 @@ public:
      * @param text the text
     */
     void addTextNote(const QString &text);
+    void insertMarkDown(const QString &md);
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
@@ -35,6 +36,7 @@ protected:
 public Q_SLOTS:
     void createMarkers();
     void assignProjectNote();
+    void switchMarkDownEditing(bool enable);
 
 private:
     void createMarker(const QStringList &anchors);

@@ -56,6 +56,14 @@ void NotesPlugin::setProject(KdenliveDoc *document)
             xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
         connect(a, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
         m_tb->addAction(a);
+        QWidget *empty = new QWidget();
+        empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        m_tb->addWidget(empty);
+        a = new QAction(QIcon::fromTheme(QStringLiteral("format-text-code")), i18n("Edit Markdown source code"));
+        a->setCheckable(true);
+        a->setWhatsThis(xi18nc("@info:whatsthis", "Enable or disable markdown editing."));
+        connect(a, &QAction::triggered, m_widget, &NotesWidget::switchMarkDownEditing);
+        m_tb->addAction(a);
     }
 }
 
@@ -78,7 +86,7 @@ void NotesPlugin::slotInsertTimecode()
         }
         const QString clipName = pCore->bin()->getBinClipName(binId);
         const QString uuid = pCore->projectItemModel()->getBinClipUuid(binId);
-        m_widget->insertHtml(QStringLiteral("<a href=\"%1#%2\">%3:%4</a> ").arg(uuid, QString::number(frames), clipName, position));
+        m_widget->insertMarkDown(QStringLiteral("[%3:%4](%1#%2)&nbsp;").arg(uuid, QString::number(frames), clipName, position));
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
@@ -86,11 +94,11 @@ void NotesPlugin::slotInsertTimecode()
         const QUuid uuid = pCore->currentTimelineId();
         if (currentTrackInfo.first != -1) {
             // Insert timeline position with track reference
-            m_widget->insertHtml(
-                QStringLiteral("<a href=\"%1!%2?%3\">%4 %5</a> ")
+            m_widget->insertMarkDown(
+                QStringLiteral("[%4 %5](%1!%2?%3)&nbsp;")
                     .arg(uuid.toString(), QString::number(frames), QString::number(currentTrackInfo.first), currentTrackInfo.second, position));
         } else {
-            m_widget->insertHtml(QStringLiteral("<a href=\"%1!%2\">%3</a> ").arg(uuid.toString(), QString::number(frames), position));
+            m_widget->insertMarkDown(QStringLiteral("[%3](%1!%2)&nbsp;").arg(uuid.toString(), QString::number(frames), position));
         }
     }
 }
