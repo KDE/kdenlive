@@ -74,15 +74,17 @@ Item{
             if (right) {
                 let delta = clip.originalDuration - new_duration
                 s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
-                    .arg(s)
+                    .arg(delta)
                     .arg(i18n("Duration"))
                     .arg(timeline.simplifiedTC(new_duration))
             } else {
                 let delta = new_duration - clip.originalDuration
-                s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
-                    .arg(s)
+                s = '%1%2, %3:%4, %5:%6'.arg((delta <= 0)? '+' : '-')
+                    .arg(delta)
                     .arg(i18n("In"))
                     .arg(timeline.simplifiedTC(clip.inPoint))
+                    .arg(i18n("Duration"))
+                    .arg(timeline.simplifiedTC(new_duration))
             }
             timeline.showToolTip(s);
         }
