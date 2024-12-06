@@ -1595,8 +1595,39 @@ QMap<QString, QString> KdenliveDoc::proxyClipsById(const QStringList &ids, bool 
 
 void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList, bool force, QUndoCommand *masterCommand)
 {
+    QList<std::shared_ptr<ProjectClip>> clipsWithAlpha;
     if (clipList.isEmpty()) {
         clipList = pCore->bin()->selectedClips();
+        // Check if there is a clip with alpha in the list
+        for (auto &c : clipList) {
+            ClipType::ProducerType t = c->clipType();
+            if ((t == ClipType::Video || t == ClipType::AV) && c->statusReady() && c->hasAlpha()) {
+                clipsWithAlpha << c;
+            }
+        }
+        if (!clipsWithAlpha.isEmpty() && pCore->window()) {
+            if (clipList.size() == clipsWithAlpha.size()) {
+                if (KMessageBox::warningContinueCancel(pCore->window(), i18np("This clip has an alpha channel. Proxying is not recommended.",
+                                                                              "These clips have an alpha channel. Proxying is not recommended.",
+                                                                              clipsWithAlpha.size())) != KMessageBox::Continue) {
+                    return;
+                }
+            } else {
+                KMessageBox::ButtonCode answer = KMessageBox::warningTwoActionsCancel(
+                    pCore->window(),
+                    i18np("You have a clip with an alpha channel. Proxying it is not recommended.",
+                          "You have %1 clips with an alpha channel. Proxying these is not recommended.", clipsWithAlpha.size()),
+                    {}, KGuiItem(i18n("Proxy all clips")), KGuiItem(i18n("Proxy clips without alpha only")));
+                if (answer == KMessageBox::Cancel) {
+                    return;
+                }
+                if (answer == KMessageBox::SecondaryAction) {
+                    for (auto &c : clipsWithAlpha) {
+                        clipList.removeAll(c);
+                    }
+                }
+            }
+        }
     }
     bool hasParent = true;
     if (masterCommand == nullptr) {
@@ -1687,7 +1718,9 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                     }
                 }
                 if (path.isEmpty()) {
-                    path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image ? QStringLiteral(".png") : extension));
+                    path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image            ? QStringLiteral(".png")
+                                                                : clipsWithAlpha.contains(item) ? QStringLiteral(".mkv")
+                                                                                                : extension));
                 }
                 newProps.insert(QStringLiteral("kdenlive:proxy"), path);
                 // We need to insert empty proxy so that undo will work

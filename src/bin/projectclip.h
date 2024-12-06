@@ -306,6 +306,8 @@ public:
     /** @brief Get the unique and unmutable uuid for this project clip */
     const QString getControlUuid() const;
     virtual size_t sequenceFrameDuration(const QUuid &);
+    /** @brief returns true if an avformat producer has an alpha channel */
+    bool hasAlpha();
 
 protected:
     friend class ClipModel;

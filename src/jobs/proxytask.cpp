@@ -243,7 +243,12 @@ void ProxyTask::run()
             parameters << QStringLiteral("-map") << QStringLiteral("0:v") << QStringLiteral("-map") << QStringLiteral("1:a");
             parameters << QStringLiteral("-c:v") << QStringLiteral("copy") << dest;
         } else {
-            QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+            QString proxyParams;
+            if (binClip->hasAlpha()) {
+                proxyParams = QStringLiteral("-f mov -vcodec ffv1 -pix_fmt bgra");
+            } else {
+                proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+            }
             if (proxyParams.isEmpty()) {
                 // Automatic setting, decide based on hw support
                 proxyParams = pCore->currentDoc()->getAutoProxyProfile();

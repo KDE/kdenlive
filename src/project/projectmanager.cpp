@@ -834,7 +834,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
     KdenliveDoc *doc = nullptr;
     if (!openResult.isSuccessful() && !openResult.isAborted()) {
         if (!isBackup) {
-            int answer = KMessageBox::warningTwoActionsCancel(
+            KMessageBox::ButtonCode answer = KMessageBox::warningTwoActionsCancel(
                 pCore->window(), i18n("Cannot open the project file. Error:\n%1\nDo you want to open a backup file?", openResult.getError()),
                 i18n("Error opening file"), KGuiItem(i18n("Open Backup")), KGuiItem(i18n("Recover")));
             if (answer == KMessageBox::PrimaryAction) { // Open Backup

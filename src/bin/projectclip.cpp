@@ -710,19 +710,21 @@ void ProjectClip::checkProxy(bool rebuildProxy)
     if (rebuildProxy ||
         (!m_usesProxy && pCore->currentDoc()->useProxy() && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1)) {
         // automatic proxy generation enabled
-        if (m_clipType == ClipType::Image && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() == 1) {
-            if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyimageminsize() &&
+        if (m_clipType == ClipType::Image) {
+            if (pCore->currentDoc()->autoGenerateImageProxy(getProducerIntProperty(QStringLiteral("meta.media.width"))) &&
                 getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
                 clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
-        } else if ((rebuildProxy || pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1) &&
-                   (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
-            if (m_hasVideo && (rebuildProxy || getProducerIntProperty(QStringLiteral("meta.media.width")) >=
-                                                   pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyminsize")).toInt())) {
-                clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
+        } else if ((m_clipType == ClipType::AV || m_clipType == ClipType::Video) &&
+                   (rebuildProxy || getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String())) {
+            if (m_hasVideo && (rebuildProxy || pCore->currentDoc()->autoGenerateProxy(getProducerIntProperty(QStringLiteral("meta.media.width"))))) {
+                if (!hasAlpha()) {
+                    clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
+                } else {
+                    qDebug() << ":::::: VIDEO WITH ALPHA; SKIP PROXY GENERATION....";
+                }
             }
-        } else if (m_clipType == ClipType::Playlist &&
-                   pCore->getCurrentFrameDisplaySize().width() >= pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyminsize")).toInt() &&
+        } else if (m_clipType == ClipType::Playlist && pCore->currentDoc()->autoGenerateProxy(pCore->getCurrentFrameDisplaySize().width()) &&
                    getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
             clipToProxy = std::static_pointer_cast<ProjectClip>(shared_from_this());
         }
@@ -3128,4 +3130,22 @@ const QString ProjectClip::getControlUuid() const
 size_t ProjectClip::sequenceFrameDuration(const QUuid &)
 {
     return frameDuration();
+}
+
+bool ProjectClip::hasAlpha()
+{
+    const QStringList alphaFormats = {QLatin1String("argb"), QLatin1String("abgr"), QLatin1String("bgra"), QLatin1String("rgba"),
+                                      QLatin1String("gbra"), QLatin1String("yuva"), QLatin1String("ya"),   QLatin1String("yuva")};
+    int vindex = m_properties->get_int("video_index");
+    const QString codecInfo = QStringLiteral("meta.media.%1.codec.pix_fmt").arg(vindex);
+    const QString selected = getProducerProperty(codecInfo);
+    if (selected.isEmpty()) {
+        return false;
+    }
+    for (auto &f : alphaFormats) {
+        if (selected.startsWith(f)) {
+            return true;
+        }
+    }
+    return false;
 }

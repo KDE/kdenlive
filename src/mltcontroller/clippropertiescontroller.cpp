@@ -1403,8 +1403,8 @@ void ClipPropertiesController::fillProperties()
 
         if (vindex > -1) {
             // We have a video stream
-            QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(vindex);
-            QString streamInfo = QStringLiteral("meta.media.%1.stream.").arg(vindex);
+            const QString codecInfo = QStringLiteral("meta.media.%1.codec.").arg(vindex);
+            const QString streamInfo = QStringLiteral("meta.media.%1.stream.").arg(vindex);
             QString property = codecInfo + QStringLiteral("long_name");
             QString codec = m_sourceProperties->get(property.toUtf8().constData());
             if (!codec.isEmpty()) {
