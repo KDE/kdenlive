@@ -48,7 +48,7 @@
   <profile name="Alpha MOV" extension="mov" 
    args="f=mov vcodec=qtrle mlt_image_format=rgba pix_fmt=argb"/>
   <profile name="FFmpeg FFV1" extension="mkv"
-   args="f=mov vcodec=ffv1 mlt_image_format=rgba pix_fmt=argb"/>
+   args="f=mov vcodec=ffv1 mlt_image_format=rgba pix_fmt=bgra"/>
  </group>
  <group name="Old-TV definition (DVD...)" renderer="avformat" type="av">
   <profile name="VOB (DVD)" extension="vob"
