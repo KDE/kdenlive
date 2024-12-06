@@ -10,46 +10,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>234</width>
-    <height>244</height>
+    <width>467</width>
+    <height>302</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Duration</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <widget class="TimecodeDisplay" name="m_pos"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="crop_label">
-     <property name="text">
-      <string>Crop start:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="duration_label">
-     <property name="text">
-      <string>Duration:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="TimecodeDisplay" name="m_cropEnd">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="end_label">
-     <property name="text">
-      <string>Crop end:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="2">
+   <item row="9" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
@@ -59,13 +28,41 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </widget>
    </item>
+   <item row="5" column="0" colspan="2">
+    <widget class="QCheckBox" name="duration_for_all">
+     <property name="text">
+      <string>Apply duration to all items</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="crop_label">
+     <property name="text">
+      <string>Crop start:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="position_label">
+     <property name="text">
+      <string>Position:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="2">
+    <widget class="KMessageWidget" name="mode_info">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="closeButtonVisible">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="1">
     <widget class="TimecodeDisplay" name="m_dur"/>
    </item>
-   <item row="1" column="1">
-    <widget class="TimecodeDisplay" name="m_cropStart"/>
-   </item>
-   <item row="6" column="0" colspan="2">
+   <item row="7" column="0" colspan="2">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Orientation::Vertical</enum>
@@ -78,27 +75,37 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </property>
     </spacer>
    </item>
-   <item row="7" column="0" colspan="2">
-    <widget class="KMessageWidget" name="mode_info">
-     <property name="wordWrap">
+   <item row="0" column="1">
+    <widget class="TimecodeDisplay" name="m_pos"/>
+   </item>
+   <item row="4" column="1">
+    <widget class="TimecodeDisplay" name="m_cropEnd">
+     <property name="enabled">
       <bool>true</bool>
      </property>
-     <property name="closeButtonVisible">
-      <bool>false</bool>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="duration_label">
+     <property name="text">
+      <string>Duration:</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="position_label">
+   <item row="4" column="0">
+    <widget class="QLabel" name="end_label">
      <property name="text">
-      <string>Position:</string>
+      <string>Crop end:</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QCheckBox" name="duration_for_all">
+   <item row="1" column="1">
+    <widget class="TimecodeDisplay" name="m_cropStart"/>
+   </item>
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="ripple_resize">
      <property name="text">
-      <string>Apply duration to all items</string>
+      <string>Ripple resize</string>
      </property>
     </widget>
    </item>
@@ -106,15 +113,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TimecodeDisplay</class>
-   <extends>QAbstractSpinBox</extends>
-   <header>widgets/timecodedisplay.h</header>
-  </customwidget>
-  <customwidget>
    <class>KMessageWidget</class>
    <extends>QFrame</extends>
    <header>kmessagewidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TimecodeDisplay</class>
+   <extends>QAbstractSpinBox</extends>
+   <header>widgets/timecodedisplay.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

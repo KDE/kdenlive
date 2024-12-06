@@ -998,6 +998,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="rippleResize" type="Bool">
+      <label>Enable Ripple edit when changing multiple clips duration.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="lockedGuides" type="Bool">
       <label>Lock guides on spacer movements (insert/remove space).</label>
       <default>true</default>

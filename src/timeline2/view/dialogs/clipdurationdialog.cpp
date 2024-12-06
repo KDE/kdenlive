@@ -110,18 +110,40 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
 
     bool rippleMode = pCore->activeTool() == ToolType::RippleTool;
 
-    QStringList infoMessageStrings;
     if (clipIds.size() > 1 && !groupedSameClip) {
-        infoMessageStrings << i18n("Editing duration for %1 clips.", clipIds.size());
+        m_infoMessageStrings << i18n("Editing duration for %1 clips.", clipIds.size());
+        duration_for_all->setChecked(true);
+        if (rippleMode) {
+            ripple_resize->setVisible(false);
+        } else {
+            if (KdenliveSettings::rippleResize()) {
+                ripple_resize->setChecked(true);
+                m_infoMessageStrings << i18n("Resizing in Ripple mode.");
+            }
+            connect(ripple_resize, &QCheckBox::checkStateChanged, this, [this](Qt::CheckState state) {
+                bool rippleMode = state == Qt::CheckState::Checked;
+                KdenliveSettings::setRippleResize(rippleMode);
+                if (rippleMode) {
+                    if (!m_infoMessageStrings.contains(i18n("Resizing in Ripple mode."))) {
+                        m_infoMessageStrings << i18n("Resizing in Ripple mode.");
+                    }
+                } else {
+                    m_infoMessageStrings.removeAll(i18n("Resizing in Ripple mode."));
+                }
+                mode_info->setText(m_infoMessageStrings.join(QLatin1Char('\n')));
+            });
+        }
     } else {
         duration_for_all->setVisible(false);
+        ripple_resize->setVisible(false);
     }
     if (rippleMode) {
-        infoMessageStrings << i18n("Editing in Ripple mode.");
+        m_infoMessageStrings << i18n("Resizing in Ripple mode.");
+        ripple_resize->setVisible(false);
     }
 
-    if (!infoMessageStrings.isEmpty()) {
-        mode_info->setText(infoMessageStrings.join(QLatin1Char(' ')));
+    if (!m_infoMessageStrings.isEmpty()) {
+        mode_info->setText(m_infoMessageStrings.join(QLatin1Char('\n')));
     } else {
         mode_info->setVisible(false);
     }
@@ -169,7 +191,7 @@ void ClipDurationDialog::accept()
             moveFirst = true;
         }
     }
-    bool rippleMode = pCore->activeTool() == ToolType::RippleTool;
+    bool rippleMode = pCore->activeTool() == ToolType::RippleTool || ripple_resize->isChecked();
     std::unordered_set<int> sel = m_model->getCurrentSelection();
     QList<int> sortedSelection;
     for (auto &s : sel) {
