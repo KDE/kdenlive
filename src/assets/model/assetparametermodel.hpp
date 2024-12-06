@@ -159,8 +159,9 @@ public:
     /** @brief Returns a json definition of the effect with all param values
      *  @param selection only export keyframes matching the selected index, or all keyframes if empty
      *  @param includeFixed if true, also export the fixed (non user editable) parameters for this effect
+     *  @param percentageExport if true, the animated rect parameters will be exported in percentage instead of pixel value
      */
-    QJsonDocument toJson(QVector<int> selection = {}, bool includeFixed = true) const;
+    QJsonDocument toJson(QVector<int> selection = {}, bool includeFixed = true, bool percentageExport = false) const;
     /** @brief Returns the interpolated value at the given position with all param values as json*/
     QJsonDocument valueAsJson(int pos, bool includeFixed = true) const;
 
@@ -276,6 +277,9 @@ protected:
      *  building an effect in the constructor, so that we don't call shared_from_this
      */
     void internalSetParameter(const QString name, const QString paramValue, const QModelIndex &paramIndex = QModelIndex());
+    /** @brief Convert an animated geometry param to percentages
+     */
+    const QString animationToPercentage(const QString &inputValue) const;
 
 Q_SIGNALS:
     void modelChanged();

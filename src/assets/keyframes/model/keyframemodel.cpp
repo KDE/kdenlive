@@ -969,6 +969,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
 
     qDebug() << "Found" << anim.key_count() << ", OUT: " << out << ", animation properties: " << prop;
     bool useDefaultType = !prop.contains(QLatin1Char('='));
+    mlt_profile profile = (mlt_profile)mlt_prop.get_data("_profile");
     for (int i = 0; i < anim.key_count(); ++i) {
         int frame;
         mlt_keyframe_type type;
@@ -980,11 +981,19 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
         QVariant value;
         switch (m_paramType) {
         case ParamType::AnimatedRect: {
+            const QString rect_str(mlt_prop.get("key"));
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+            if (rect_str.contains(QLatin1Char('%'))) {
+                rect.x *= profile->width;
+                rect.w *= profile->width;
+                rect.y *= profile->height;
+                rect.h *= profile->height;
+            }
             if (useOpacity) {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o, 0, 'f'));
+                value = QVariant(
+                    QStringLiteral("%1 %2 %3 %4 %5").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)).arg(rect.o, 0, 'f'));
             } else {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h));
+                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
             }
             break;
         }
@@ -1036,6 +1045,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     (void)mlt_prop.anim_get_int("key", 0, 0);
 
     Mlt::Animation anim = mlt_prop.get_animation("key");
+    mlt_profile profile = (mlt_profile)mlt_prop.get_data("_profile");
 
     qDebug() << "Found" << anim.key_count() << "animation properties";
     for (int i = 0; i < anim.key_count(); ++i) {
@@ -1049,11 +1059,19 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         QVariant value;
         switch (m_paramType) {
         case ParamType::AnimatedRect: {
+            const QString rect_str(mlt_prop.get("key"));
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+            if (rect_str.contains(QLatin1Char('%'))) {
+                rect.x *= profile->width;
+                rect.w *= profile->width;
+                rect.y *= profile->height;
+                rect.h *= profile->height;
+            }
             if (useOpacity) {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(QString::number(rect.o, 'f')));
+                value = QVariant(
+                    QStringLiteral("%1 %2 %3 %4 %5").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)).arg(rect.o, 0, 'f'));
             } else {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h));
+                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
             }
             break;
         }

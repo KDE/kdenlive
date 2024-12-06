@@ -1031,7 +1031,64 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
     return res;
 }
 
-QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFixed) const
+const QString AssetParameterModel::animationToPercentage(const QString &inputValue) const
+{
+    // Convert values to percents
+    QStringList percentageResults;
+    const QStringList values = inputValue.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+    const QSize profileSize = pCore->getCurrentFrameSize();
+    QStringList percentageValues;
+    bool conversionSuccess = false;
+    for (auto v : values) {
+        QString percentValue;
+        if (v.contains(QLatin1Char('='))) {
+            percentValue = v.section(QLatin1Char('='), 0, 0);
+            percentValue.append(QLatin1Char('='));
+            v = v.section(QLatin1Char('='), 1);
+        }
+        const QStringList params = v.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+        bool ok = false;
+        if (params.size() < 4) {
+            // unexpected input, abort conversion
+            conversionSuccess = false;
+            break;
+        }
+        int x = params.at(0).simplified().toInt(&ok);
+        if (!ok) {
+            conversionSuccess = false;
+            break;
+        }
+        int y = params.at(1).simplified().toInt(&ok);
+        if (!ok) {
+            conversionSuccess = false;
+            break;
+        }
+        int w = params.at(2).simplified().toInt(&ok);
+        if (!ok) {
+            conversionSuccess = false;
+            break;
+        }
+        int h = params.at(3).simplified().toInt(&ok);
+        if (!ok) {
+            conversionSuccess = false;
+            break;
+        }
+        conversionSuccess = true;
+        QStringList percentParams = {QStringLiteral("%1%").arg(100. * x / profileSize.width()), QStringLiteral("%1%").arg(100. * y / profileSize.height()),
+                                     QStringLiteral("%1%").arg(100. * w / profileSize.width()), QStringLiteral("%1%").arg(100. * h / profileSize.height())};
+        if (params.size() > 4) {
+            percentParams << params.at(4);
+        }
+        percentValue.append(percentParams.join(QLatin1Char(' ')));
+        percentageResults << percentValue;
+    }
+    if (!percentageResults.isEmpty() && conversionSuccess) {
+        return percentageResults.join(QLatin1Char(';'));
+    }
+    return QString();
+}
+
+QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFixed, bool percentageExport) const
 {
     QJsonArray list;
     if (selection == (QVector<int>() << -1)) {
@@ -1042,9 +1099,19 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
             QJsonObject currentParam;
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
-            currentParam.insert(QLatin1String("value"),
-                                fixed.second.typeId() == QMetaType::Double ? QJsonValue(fixed.second.toDouble()) : QJsonValue(fixed.second.toString()));
-            int type = data(ix, AssetParameterModel::TypeRole).toInt();
+            ParamType type = data(ix, AssetParameterModel::TypeRole).value<ParamType>();
+            if (percentageExport && type == ParamType::AnimatedRect) {
+                // Convert values to percents
+                const QString percentVal = animationToPercentage(fixed.second.toString());
+                if (percentVal.isEmpty()) {
+                    currentParam.insert(QLatin1String("value"), QJsonValue(fixed.second.toString()));
+                } else {
+                    currentParam.insert(QLatin1String("value"), QJsonValue(percentVal));
+                }
+            } else {
+                currentParam.insert(QLatin1String("value"),
+                                    fixed.second.typeId() == QMetaType::Double ? QJsonValue(fixed.second.toDouble()) : QJsonValue(fixed.second.toString()));
+            }
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
             double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
@@ -1054,7 +1121,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
                 min /= factor;
                 max /= factor;
             }
-            currentParam.insert(QLatin1String("type"), QJsonValue(type));
+            currentParam.insert(QLatin1String("type"), QJsonValue(int(type)));
             currentParam.insert(QLatin1String("min"), QJsonValue(min));
             currentParam.insert(QLatin1String("max"), QJsonValue(max));
             currentParam.insert(QLatin1String("in"), QJsonValue(in));
@@ -1093,6 +1160,14 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
             currentParam.insert(QLatin1String("value"), QJsonValue(param.second.value.toDouble()));
         } else {
             QString resultValue = param.second.value.toString();
+            ParamType type = data(ix, AssetParameterModel::TypeRole).value<ParamType>();
+            if (percentageExport && type == ParamType::AnimatedRect) {
+                // Convert values to percents
+                const QString percentVal = animationToPercentage(resultValue);
+                if (!percentVal.isEmpty()) {
+                    resultValue = percentVal;
+                }
+            }
             if (selection.isEmpty()) {
                 currentParam.insert(QLatin1String("value"), QJsonValue(resultValue));
             } else {
@@ -1148,7 +1223,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
         currentParam.insert(QLatin1String("opacity"), QJsonValue(opacity));
         list.push_back(currentParam);
     }
-    if (!(x.isEmpty() || y.isEmpty() || w.isEmpty() || h.isEmpty())) {
+    if (!x.isEmpty() && !y.isEmpty() && !w.isEmpty() && !h.isEmpty()) {
         QJsonObject currentParam;
         currentParam.insert(QLatin1String("name"), QStringLiteral("rect"));
         int size = x.split(";").length();
@@ -1338,7 +1413,7 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
 {
     QJsonObject object;
     QJsonArray array;
-    QJsonDocument doc = toJson();
+    QJsonDocument doc = toJson({}, true, true);
     QFile loadFile(presetFile);
     if (loadFile.exists()) {
         if (loadFile.open(QIODevice::ReadOnly)) {
@@ -1412,7 +1487,6 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
         QByteArray saveData = loadFile.readAll();
         QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
         if (loadDoc.isObject() && loadDoc.object().contains(presetName)) {
-            qDebug() << "..........\n..........\nLOADING OBJECT JSON";
             QJsonValue val = loadDoc.object().value(presetName);
             if (val.isObject()) {
                 QVariantMap map = val.toObject().toVariantMap();
