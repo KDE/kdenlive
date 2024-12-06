@@ -253,6 +253,7 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
         }
     }
     if (enforceHtml || Qt::mightBeRichText(pastedText)) {
+        pastedText.replace(QLatin1Char('\n'), QStringLiteral("<br/>"));
         insertHtml(pastedText);
     } else {
         insertPlainText(pastedText);
