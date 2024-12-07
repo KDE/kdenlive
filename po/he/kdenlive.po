@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:40+0000\n"
+"POT-Creation-Date: 2024-12-07 00:40+0000\n"
 "PO-Revision-Date: 2024-12-05 08:48+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -930,7 +930,7 @@ msgstr "עמעום וידאו משחור"
 #: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:338
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
-#: src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "משך"
@@ -4165,17 +4165,17 @@ msgstr "עדכון תמונית מפתח"
 msgid "Delete all keyframes"
 msgstr "מחיקת כל תמוניות המפתח"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1078
+#: src/assets/keyframes/model/keyframemodel.cpp:1096
 #, kde-format
 msgid "effect"
 msgstr "אפקט"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1087
+#: src/assets/keyframes/model/keyframemodel.cpp:1105
 #, kde-format
 msgid "Reset %1"
 msgstr "איפוס %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1350
+#: src/assets/keyframes/model/keyframemodel.cpp:1368
 #, kde-format
 msgid "Reset effect"
 msgstr "איפוס אפקט"
@@ -4186,7 +4186,7 @@ msgid "Delete keyframes"
 msgstr "מחיקת תמוניות מפתח"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:729
-#: src/assets/model/assetparametermodel.cpp:1473
+#: src/assets/model/assetparametermodel.cpp:1547
 #, kde-format
 msgid "Update effect"
 msgstr "עדכון אפקט"
@@ -4263,20 +4263,20 @@ msgstr "עריכת תמונית מפתח %1"
 msgid "Update %1"
 msgstr "עדכון %1"
 
-#: src/assets/model/assetparametermodel.cpp:1323
-#: src/assets/model/assetparametermodel.cpp:1370
+#: src/assets/model/assetparametermodel.cpp:1398
+#: src/assets/model/assetparametermodel.cpp:1445
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "לא ניתן לפתוח את קובץ הערכה %1"
 
-#: src/assets/model/assetparametermodel.cpp:1447
+#: src/assets/model/assetparametermodel.cpp:1521
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "טעינת הערכה %1 נכשלה"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:280
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:282
 #, kde-format
 msgid "Reset Effect"
 msgstr "איפוס אפקט"
@@ -5616,7 +5616,7 @@ msgid "Edit Tags"
 msgstr "עריכת תגיות"
 
 #: src/bin/bin.cpp:4550 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:2006 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2008 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -5903,7 +5903,7 @@ msgstr "הסרטונים הבאים כבר נוספו למיזם. לשכפל א�
 msgid "Duplicate"
 msgstr "שכפול"
 
-#: src/bin/clipcreator.cpp:539
+#: src/bin/clipcreator.cpp:540
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -5915,7 +5915,7 @@ msgstr ""
 "יעוגן למקום אחר.\n"
 "כנראה שעדיף להעתיק אותו לכונן הקשיח שלך תחילה. להוסיף אותו בכל זאת?"
 
-#: src/bin/clipcreator.cpp:543
+#: src/bin/clipcreator.cpp:544
 #, kde-format
 msgid "Removable device"
 msgstr "התקן נתיק"
@@ -5939,7 +5939,7 @@ msgstr[3] "הוספת סרטונים"
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:294
-#: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:34
+#: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
 #: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:628
 #, kde-format
@@ -5974,7 +5974,7 @@ msgstr "ייבוא קובץ בלחיצה כפולה"
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:580
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6155,7 +6155,7 @@ msgid "Move subtitle"
 msgstr "העברת כתובית"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:606
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
 #: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
@@ -6234,7 +6234,7 @@ msgstr ""
 "ממדי התמונה קטנים מ־8 פיקסלים.\n"
 "תשתית הווידאו שלנו לא תומכת בזה כראוי."
 
-#: src/bin/projectclip.cpp:916
+#: src/bin/projectclip.cpp:918
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6243,29 +6243,29 @@ msgstr ""
 "לא ניתן לחלץ את נתוני העל מתוך %1\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1157 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1159 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "שגוי"
 
-#: src/bin/projectclip.cpp:1386 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1388 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "הקובץ כבר קיים"
 
-#: src/bin/projectclip.cpp:2598
+#: src/bin/projectclip.cpp:2600
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "כיוון סרטונים בציר הזמן"
 
-#: src/bin/projectclip.cpp:2834
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Add stream effect"
 msgstr "הוספת אפקט תזרים"
 
-#: src/bin/projectclip.cpp:2859
+#: src/bin/projectclip.cpp:2861
 #, kde-format
 msgid "Remove stream effect"
 msgstr "הסרת אפקט תזרים"
@@ -7109,7 +7109,7 @@ msgstr "ייצוא נתוני קווים מנחים"
 #: src/effects/effectlist/model/effecttreemodel.cpp:298
 #: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:685
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:682
 #: src/effects/effectstack/view/effectstackview.cpp:809
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -10154,7 +10154,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "שגיאה בהעברת תיקיית המיזם: %1"
 
-#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2382
+#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2415
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1707
 #, kde-format
@@ -10186,7 +10186,37 @@ msgstr ""
 "לא ניתן ליצור עותק לגיבוי:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1605
+#: src/doc/kdenlivedoc.cpp:1610
+#, kde-format
+msgid "This clip has an alpha channel. Proxying is not recommended."
+msgid_plural "These clips have an alpha channel. Proxying is not recommended."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/doc/kdenlivedoc.cpp:1618
+#, kde-format
+msgid "You have a clip with an alpha channel. Proxying it is not recommended."
+msgid_plural ""
+"You have %1 clips with an alpha channel. Proxying these is not recommended."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/doc/kdenlivedoc.cpp:1620
+#, fuzzy, kde-format
+#| msgid "Proxy clips"
+msgid "Proxy all clips"
+msgstr "סרטוני תיווך"
+
+#: src/doc/kdenlivedoc.cpp:1620
+#, kde-format
+msgid "Proxy clips without alpha only"
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
@@ -10195,7 +10225,7 @@ msgstr[1] "הוספת סרטוני תיווך"
 msgstr[2] "הוספת סרטוני תיווך"
 msgstr[3] "הוספת סרטוני תיווך"
 
-#: src/doc/kdenlivedoc.cpp:1607
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
@@ -10204,12 +10234,12 @@ msgstr[1] "הסרת סרטוני תיווך"
 msgstr[2] "הסרת סרטוני תיווך"
 msgstr[3] "הסרת סרטוני תיווך"
 
-#: src/doc/kdenlivedoc.cpp:1651 src/doc/kdenlivedoc.cpp:1709
+#: src/doc/kdenlivedoc.cpp:1682 src/doc/kdenlivedoc.cpp:1742
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "סוג הסרטון לא תומך בתיווך"
 
-#: src/doc/kdenlivedoc.cpp:1848
+#: src/doc/kdenlivedoc.cpp:1881
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -10219,12 +10249,12 @@ msgstr ""
 "המיזם משתמש בקצב תמוניות חריג (%1), זה עלול לגרום לגלישת סרטונים והיסט "
 "תמוניות."
 
-#: src/doc/kdenlivedoc.cpp:1943
+#: src/doc/kdenlivedoc.cpp:1976
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "אזהרה: קצב תמוניות חריג, יותאם למספר השלם הקרוב ביותר. "
 
-#: src/doc/kdenlivedoc.cpp:1961
+#: src/doc/kdenlivedoc.cpp:1994
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -10233,43 +10263,43 @@ msgstr ""
 "פרופיל ברירת המחדל של המיזם שלך הוא %1, אך פרופיל הסרטון שלך (%2) הוא %3.\n"
 "לשנות את פרופיל ברירת המחדל למיזמים עתידיים?"
 
-#: src/doc/kdenlivedoc.cpp:1963
+#: src/doc/kdenlivedoc.cpp:1996
 #, kde-format
 msgid "Change default project profile"
 msgstr "החלפת פרופיל ברירת המחדל של המיזם"
 
-#: src/doc/kdenlivedoc.cpp:1963
+#: src/doc/kdenlivedoc.cpp:1996
 #, kde-format
 msgid "Change default to %1"
 msgstr "החלפת התיקייה לתיקייה %1"
 
-#: src/doc/kdenlivedoc.cpp:1964
+#: src/doc/kdenlivedoc.cpp:1997
 #, kde-format
 msgid "Keep current default %1"
 msgstr "להשאיר את ברירת המחדל הנוכחית %1"
 
-#: src/doc/kdenlivedoc.cpp:1964
+#: src/doc/kdenlivedoc.cpp:1997
 #, kde-format
 msgid "Ask me later"
 msgstr "לשאול אותי מאוחר יותר"
 
-#: src/doc/kdenlivedoc.cpp:1984
+#: src/doc/kdenlivedoc.cpp:2017
 #, kde-format
 msgid "Switch"
 msgstr "החלפה"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1986 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2019 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "ביטול"
 
-#: src/doc/kdenlivedoc.cpp:1988
+#: src/doc/kdenlivedoc.cpp:2021
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "החלפה לפרופיל סרטון (%1) %2?"
 
-#: src/doc/kdenlivedoc.cpp:1993
+#: src/doc/kdenlivedoc.cpp:2026
 #, kde-format
 msgid ""
 "\n"
@@ -10278,7 +10308,7 @@ msgstr ""
 "\n"
 "קצב התמוניות של הפרופיל הותאם מהמקור %1"
 
-#: src/doc/kdenlivedoc.cpp:1997
+#: src/doc/kdenlivedoc.cpp:2030
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -10287,13 +10317,13 @@ msgstr ""
 "לא נמצא פרופיל לסרטון שלך %1.\n"
 "ליצור ולעבור לפרופיל החדש (%2×%3, %4 תמוניות לשנייה)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2421 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2454 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "אדום"
 
-#: src/doc/kdenlivedoc.cpp:2422 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2455 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10301,24 +10331,24 @@ msgstr "אדום"
 msgid "Green"
 msgstr "ירוק"
 
-#: src/doc/kdenlivedoc.cpp:2423 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2456 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "כחול"
 
-#: src/doc/kdenlivedoc.cpp:2424 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2457 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "צהוב"
 
-#: src/doc/kdenlivedoc.cpp:2425
+#: src/doc/kdenlivedoc.cpp:2458
 #, kde-format
 msgid "Cyan"
 msgstr "ציאן"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2762 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2795 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10468,118 +10498,107 @@ msgstr ""
 "מוריד את האפקט מקום אחד למטה. האפקטים מטופלים באופן סדרתי מלמעלה למטרה כך "
 "שרצף זה חשוב."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
-#, kde-format
-msgid "Delete effect"
-msgstr "מחיקת אפקט"
-
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Deletes the effect from the effect stack."
-msgstr "מוחק את האפקט מערימת האפקטים."
-
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
 #, kde-format
 msgid "Collapse Effect"
 msgstr "צמצום אפקט"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
 #, kde-format
 msgid "Expand Effect"
 msgstr "הרחבת אפקט"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:81
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:78
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "פתיחת תיעוד האפקט בדפדפן"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:105
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "הפעלת תמוניות מפתח"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "הסתרת תמוניות מפתח"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
 msgid "Show Keyframes"
 msgstr "הצגת תמוניות מפתח"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "הופך את תצוגת תמוניות המפתח לפעילה."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:116
 #, kde-format
 msgid "Disable Effect"
 msgstr "השבתת אפקט"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:116
 #, kde-format
 msgid "Enable Effect"
 msgstr "הפעלת אפקט"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr "משבית את האפקט. שימושי כדי להשוות הגדרות לפני ואחרי."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr "מפעיל את האפקט. שימושי כדי להשוות הגדרות לפני ואחרי."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:150
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:147
 #, kde-format
 msgid "Create Group"
 msgstr "יצירת קבוצה"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:157
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:154
 #, kde-format
 msgid "In:"
 msgstr "פנימה:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:160
 #, kde-format
 msgid "Set zone in"
 msgstr "הגדרת קטע פנימה"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:164
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "מגדיר את מקום התמונית/ראש הנגינה כתחילת הקטע."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
 #, kde-format
 msgid "Out:"
 msgstr "יציאה:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, kde-format
 msgid "Set zone out"
 msgstr "הגדרת קטע החוצה"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "מגדיר את מקום התמונית/ראש הנגינה כסוף הקטע."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:209
 #, kde-format
 msgid "Use effect zone"
 msgstr "להשתמש בקטע אפקט"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:213
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:210
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -10587,24 +10606,35 @@ msgstr "מחליף את תצוגת קטע האפקט."
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:271
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "ערכות"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:276
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr "פותח רשימה של אפשרויות מתקדמות לניהול ערכות מוגדרות לאפקט."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:353
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:301
+#, kde-format
+msgid "Delete effect"
+msgstr "מחיקת אפקט"
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Deletes the effect from the effect stack."
+msgstr "מוחק את האפקט מערימת האפקטים."
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:350
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "%1 מופעים של האפקטי הזה בקבוצה"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:519
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10614,28 +10644,28 @@ msgstr ""
 "<b>גרירת</b> אפקט לסרטון אחר בציר הזמן, רצועה או סרטון מיזם תעתיק אותו. "
 "<b>Alt גרירה</b> כדי להעתיק אותו לפריט יחיד בקבוצה."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:540
 #, kde-format
 msgid "Disable %1"
 msgstr "השבתת %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:540
 #, kde-format
 msgid "Enable %1"
 msgstr "הפעלת %1"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "שמירת אפקט"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:581
 #, kde-format
 msgid "Comments:"
 msgstr "הערות:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:600
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:597
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "לא סופק שם, האפקט לא נשמר."
@@ -10919,7 +10949,7 @@ msgstr "התמונה קטנה לתיווך."
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg לא נמצא, נא להגדיר נתיב בסביבת ההגדרות של Kdenlive"
 
-#: src/jobs/proxytask.cpp:366 src/jobs/proxytask.cpp:379
+#: src/jobs/proxytask.cpp:371 src/jobs/proxytask.cpp:384
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "יצירת סרטון תיווך נכשלה."
@@ -18072,17 +18102,22 @@ msgstr "שינוי גודל ערבוב"
 msgid "Error initializing timeline preview"
 msgstr "שגיאה בהתחלת תצוגה מקדימה לציר הזמן"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
 #, kde-format
 msgid "Editing duration for %1 clips."
 msgstr "משך הזמן של %1 פריטים נערך."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, kde-format
-msgid "Editing in Ripple mode."
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#, fuzzy, kde-format
+#| msgid "Editing in Ripple mode."
+msgid "Resizing in Ripple mode."
 msgstr "מתבצעת עריכה במצב אדווה."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
 msgid "Edit item"
 msgstr "עריכת פריט"
@@ -18369,12 +18404,12 @@ msgstr "הקלטה"
 msgid "Multicam In"
 msgstr "ריבוי מצלמות נכנס"
 
-#: src/timeline2/view/qml/Track.qml:457 src/timeline2/view/qml/Track.qml:475
+#: src/timeline2/view/qml/Track.qml:459 src/timeline2/view/qml/Track.qml:477
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, משך = %3"
 
-#: src/timeline2/view/qml/Track.qml:499
+#: src/timeline2/view/qml/Track.qml:501
 #, kde-format
 msgid "Adjusting speed"
 msgstr "כוונון מהירות"
@@ -19430,7 +19465,7 @@ msgstr "יישור לימין"
 
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
-#: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:94
+#: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:48
 #: src/ui/editsub_ui.ui:93
 #, kde-format
 msgid "Position:"
@@ -19763,23 +19798,30 @@ msgstr "מגדיל את מספר השורות ברשת.<br />אחרי 8 שורו
 msgid "Show handles for all points or only for the selected one."
 msgstr "הצגת ידיות לכל הנקודות או רק לזו שנבחרה."
 
+#. i18n: ectx: property (text), widget (QCheckBox, duration_for_all)
+#: src/ui/clipdurationdialog_ui.ui:34
+#, kde-format
+msgid "Apply duration to all items"
+msgstr "החלת משך הזמן לכל הפריטים"
+
 #. i18n: ectx: property (text), widget (QLabel, crop_label)
-#: src/ui/clipdurationdialog_ui.ui:27
+#: src/ui/clipdurationdialog_ui.ui:41
 #, kde-format
 msgid "Crop start:"
 msgstr "תחילת חיתוך:"
 
 #. i18n: ectx: property (text), widget (QLabel, end_label)
-#: src/ui/clipdurationdialog_ui.ui:48
+#: src/ui/clipdurationdialog_ui.ui:98
 #, kde-format
 msgid "Crop end:"
 msgstr "סוף החיתוך:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, duration_for_all)
-#: src/ui/clipdurationdialog_ui.ui:101
-#, kde-format
-msgid "Apply duration to all items"
-msgstr "החלת משך הזמן לכל הפריטים"
+#. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
+#: src/ui/clipdurationdialog_ui.ui:108
+#, fuzzy, kde-format
+#| msgid "Ripple resize clip"
+msgid "Ripple resize"
+msgstr "שינוי גודל סרטון באדווה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

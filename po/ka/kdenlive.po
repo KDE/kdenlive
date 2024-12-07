@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:40+0000\n"
+"POT-Creation-Date: 2024-12-07 00:40+0000\n"
 "PO-Revision-Date: 2024-12-04 03:24+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -942,7 +942,7 @@ msgstr "ვიდეოს გამოჩენა სიშავიდან"
 #: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:338
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
-#: src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "ხანგრძლოვობა"
@@ -4256,17 +4256,17 @@ msgstr "ძირითადი კადრის განახლება"
 msgid "Delete all keyframes"
 msgstr "ყვლა საკვანძო კადრის წაშლა"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1078
+#: src/assets/keyframes/model/keyframemodel.cpp:1096
 #, kde-format
 msgid "effect"
 msgstr "ეფექტი"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1087
+#: src/assets/keyframes/model/keyframemodel.cpp:1105
 #, kde-format
 msgid "Reset %1"
 msgstr "%1-ის ჩამოყრა"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1350
+#: src/assets/keyframes/model/keyframemodel.cpp:1368
 #, kde-format
 msgid "Reset effect"
 msgstr "ეფექტის ჩამოყრა"
@@ -4277,7 +4277,7 @@ msgid "Delete keyframes"
 msgstr "საკვანძო კადრების წაშლა"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:729
-#: src/assets/model/assetparametermodel.cpp:1473
+#: src/assets/model/assetparametermodel.cpp:1547
 #, kde-format
 msgid "Update effect"
 msgstr "ეფექტის განახლება"
@@ -4352,20 +4352,20 @@ msgstr "%1 ძირითადი კადრის ჩასწორებ�
 msgid "Update %1"
 msgstr "%1-ის განახლება"
 
-#: src/assets/model/assetparametermodel.cpp:1323
-#: src/assets/model/assetparametermodel.cpp:1370
+#: src/assets/model/assetparametermodel.cpp:1398
+#: src/assets/model/assetparametermodel.cpp:1445
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "ვერ გავხსენი პრესეტის ფაილი %1"
 
-#: src/assets/model/assetparametermodel.cpp:1447
+#: src/assets/model/assetparametermodel.cpp:1521
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
 msgstr "პრესეტის %1 ჩატვირთვა ჩავარდა"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:280
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:282
 #, kde-format
 msgid "Reset Effect"
 msgstr "ეფექტის ჩამოყრა"
@@ -5713,7 +5713,7 @@ msgid "Edit Tags"
 msgstr "ჭდეების ჩასწორება"
 
 #: src/bin/bin.cpp:4550 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:2006 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2008 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -5999,7 +5999,7 @@ msgstr "შემდეგი კლიპები პროექტში უ
 msgid "Duplicate"
 msgstr "დუბლირება"
 
-#: src/bin/clipcreator.cpp:539
+#: src/bin/clipcreator.cpp:540
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -6011,7 +6011,7 @@ msgstr ""
 "არ იქნება, თუ მოწყობილობას მოხსნით, ან სხვა ადგილას მიამაგრებთ.\n"
 "შეიძლება, მისი ჯერ მყარ დისკზე კოპირე კარგი იდეა იყოს. მაინც დაამატებთ?"
 
-#: src/bin/clipcreator.cpp:543
+#: src/bin/clipcreator.cpp:544
 #, kde-format
 msgid "Removable device"
 msgstr "მოხსნადი მოწყობილობა"
@@ -6033,7 +6033,7 @@ msgstr[1] "კლიპების დამატება"
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:294
-#: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:34
+#: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
 #: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:628
 #, kde-format
@@ -6068,7 +6068,7 @@ msgstr "ფაილის შემოტანა ორმაგი დაწ
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:580
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, kde-format
@@ -6249,7 +6249,7 @@ msgid "Move subtitle"
 msgstr "სუბტიტრის გადატანა"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:606
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
 #: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
@@ -6328,7 +6328,7 @@ msgstr ""
 "გამოსახულების განზომილება 8 პიქსელზე ნაკლებია.\n"
 "ეს ჩვენი ვიდეოს დამუშავების ძრავის მიერ მხარდაჭერილი არაა."
 
-#: src/bin/projectclip.cpp:916
+#: src/bin/projectclip.cpp:918
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
@@ -6337,29 +6337,29 @@ msgstr ""
 "%1-დან მეტამონაცემების გამოღება შეუძლებელია\n"
 "%2"
 
-#: src/bin/projectclip.cpp:1157 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1159 src/jobs/cliploadtask.cpp:269
 #, kde-format
 msgid "Invalid"
 msgstr "არასწორი"
 
-#: src/bin/projectclip.cpp:1386 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1388 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, kde-format
 msgid "File already exists"
 msgstr "ფაილი უკვე არსებობს"
 
-#: src/bin/projectclip.cpp:2598
+#: src/bin/projectclip.cpp:2600
 #, kde-format
 msgid "Adjust timeline clips"
 msgstr "დროის ხაზის კლიპების გასწორება"
 
-#: src/bin/projectclip.cpp:2834
+#: src/bin/projectclip.cpp:2836
 #, kde-format
 msgid "Add stream effect"
 msgstr "ნაკადის ეფექტის დამატება"
 
-#: src/bin/projectclip.cpp:2859
+#: src/bin/projectclip.cpp:2861
 #, kde-format
 msgid "Remove stream effect"
 msgstr "ნაკადის ეფექტის წაშლა"
@@ -7207,7 +7207,7 @@ msgstr "მიმმართველის მონაცემების �
 #: src/effects/effectlist/model/effecttreemodel.cpp:298
 #: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:685
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:682
 #: src/effects/effectstack/view/effectstackview.cpp:809
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -10281,7 +10281,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "პროექტის ბილიკის გადატანის შეცდომა: %1"
 
-#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2382
+#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2415
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1707
 #, kde-format
@@ -10313,26 +10313,52 @@ msgstr ""
 "მარქაფის ასლის შექმნა შეუძლებელია:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1605
+#: src/doc/kdenlivedoc.cpp:1610
+#, kde-format
+msgid "This clip has an alpha channel. Proxying is not recommended."
+msgid_plural "These clips have an alpha channel. Proxying is not recommended."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/doc/kdenlivedoc.cpp:1618
+#, kde-format
+msgid "You have a clip with an alpha channel. Proxying it is not recommended."
+msgid_plural ""
+"You have %1 clips with an alpha channel. Proxying these is not recommended."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/doc/kdenlivedoc.cpp:1620
+#, fuzzy, kde-format
+#| msgid "Proxy clips"
+msgid "Proxy all clips"
+msgstr "პროქსი კლიპები"
+
+#: src/doc/kdenlivedoc.cpp:1620
+#, kde-format
+msgid "Proxy clips without alpha only"
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "პროქსი კლიპის დამატება"
 msgstr[1] "პროქსი კლიპების დამატება"
 
-#: src/doc/kdenlivedoc.cpp:1607
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "პროქსი კლიპის წაშლა"
 msgstr[1] "პროქსი კლიპების წაშლა"
 
-#: src/doc/kdenlivedoc.cpp:1651 src/doc/kdenlivedoc.cpp:1709
+#: src/doc/kdenlivedoc.cpp:1682 src/doc/kdenlivedoc.cpp:1742
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "კლიპის ტიპს პროქსიების მხარდაჭერა არ აქვს"
 
-#: src/doc/kdenlivedoc.cpp:1848
+#: src/doc/kdenlivedoc.cpp:1881
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -10342,14 +10368,14 @@ msgstr ""
 "პროექტი იყენებს არასტანდარტულ კადრების სიხშირეს (%1). ეს არასწორად დალაგებულ "
 "კლიპებს და კადრის წანაცვლებებს გამოიწვევს."
 
-#: src/doc/kdenlivedoc.cpp:1943
+#: src/doc/kdenlivedoc.cpp:1976
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "გაფრთხილება: არასტანდარტული კადრი/წმ სიხშირე. დამრგვალება უახლოეს მთელ "
 "რიცხვამდე. "
 
-#: src/doc/kdenlivedoc.cpp:1961
+#: src/doc/kdenlivedoc.cpp:1994
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -10358,43 +10384,43 @@ msgstr ""
 "თქვენი ნაგულისხმევი პროექტის პროფილია %1, თქვენი კლიპის პროფილი (%2) კი %3.\n"
 "გნებავთ შეცვალოთ ნაგულისხმევი პროფილი მომავალი პროექტებისთვის?"
 
-#: src/doc/kdenlivedoc.cpp:1963
+#: src/doc/kdenlivedoc.cpp:1996
 #, kde-format
 msgid "Change default project profile"
 msgstr "ნაგულისხმევი პროექტის პროფილის შეცვლა"
 
-#: src/doc/kdenlivedoc.cpp:1963
+#: src/doc/kdenlivedoc.cpp:1996
 #, kde-format
 msgid "Change default to %1"
 msgstr "ნაგულისხმევის შეცვლა %1-ზე"
 
-#: src/doc/kdenlivedoc.cpp:1964
+#: src/doc/kdenlivedoc.cpp:1997
 #, kde-format
 msgid "Keep current default %1"
 msgstr "მიმდინარე ნაგულისხმევის %1-ზე დატოვება"
 
-#: src/doc/kdenlivedoc.cpp:1964
+#: src/doc/kdenlivedoc.cpp:1997
 #, kde-format
 msgid "Ask me later"
 msgstr "მოგვიანებით მკითხე"
 
-#: src/doc/kdenlivedoc.cpp:1984
+#: src/doc/kdenlivedoc.cpp:2017
 #, kde-format
 msgid "Switch"
 msgstr "გადართვა"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1986 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2019 src/ui/titlewidget_ui.ui:189
 #, kde-format
 msgid "Cancel"
 msgstr "გაუქმენა"
 
-#: src/doc/kdenlivedoc.cpp:1988
+#: src/doc/kdenlivedoc.cpp:2021
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "გადავრთო კლიპის (%1) პროფილზე %2?"
 
-#: src/doc/kdenlivedoc.cpp:1993
+#: src/doc/kdenlivedoc.cpp:2026
 #, kde-format
 msgid ""
 "\n"
@@ -10403,7 +10429,7 @@ msgstr ""
 "\n"
 "პროფილის კადრი/წმ გასწორდა ორიგინალიდან %1"
 
-#: src/doc/kdenlivedoc.cpp:1997
+#: src/doc/kdenlivedoc.cpp:2030
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -10412,13 +10438,13 @@ msgstr ""
 "თქვენი კლიპისთვის %1 პროფილი ვერ ვიპოვე.\n"
 "შევქმნა და გადავერთო ახალ პროფილზე (%2x%3,%4კადრი/წმ)?%5"
 
-#: src/doc/kdenlivedoc.cpp:2421 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2454 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "წითელი"
 
-#: src/doc/kdenlivedoc.cpp:2422 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2455 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10426,24 +10452,24 @@ msgstr "წითელი"
 msgid "Green"
 msgstr "მწვანე"
 
-#: src/doc/kdenlivedoc.cpp:2423 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2456 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "ლურჯი"
 
-#: src/doc/kdenlivedoc.cpp:2424 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2457 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "ყვითელი"
 
-#: src/doc/kdenlivedoc.cpp:2425
+#: src/doc/kdenlivedoc.cpp:2458
 #, kde-format
 msgid "Cyan"
 msgstr "ცისფერი"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2762 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2795 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10593,120 +10619,109 @@ msgstr ""
 "კადრის ზუსტად ერთი საფეხურით დაბლა ჩამოტანა. ეფექტები რიგრიგობით, ზემოდან "
 "ქვემოთ გამოიყენება, ასე რომ მიმდევრობა მნიშვნელოვანია."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
-#, kde-format
-msgid "Delete effect"
-msgstr "ეფექტის წაშლა"
-
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Deletes the effect from the effect stack."
-msgstr "წაშლის ეფექტს ეფექტების სტეკიდან."
-
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
 #, kde-format
 msgid "Collapse Effect"
 msgstr "ეფექტის ჩაკეცვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
 #, kde-format
 msgid "Expand Effect"
 msgstr "ეფექტის ამოკეცვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:81
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:78
 #, kde-format
 msgid "Open effect documentation in browser"
 msgstr "ეფექტის დოკუმენტაციის გახსნა ბრაუზერში"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:105
 #, kde-format
 msgid "Enable Keyframes"
 msgstr "საკვანძო კადრების ჩართვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
 msgid "Hide Keyframes"
 msgstr "კადრების დამალვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, kde-format
 msgid "Show Keyframes"
 msgstr "კადრების ჩვენება"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr "საკვანძო კადრის სახაზავის ჩვენების ჩართვა."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:116
 #, kde-format
 msgid "Disable Effect"
 msgstr "ეფექტის გამორთვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:116
 #, kde-format
 msgid "Enable Effect"
 msgstr "ეფექტის ჩართვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 "გათიშავს ეფექტს. სასარგებლოა მანამდე და შემდეგ პარამეტრების შედარებისას."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 "ჩართავს ეფექტს. სასარგებლოა მანამდე და შემდეგ პარამეტრების შედარებისას."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:150
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:147
 #, kde-format
 msgid "Create Group"
 msgstr "ჯგუფის შექმნა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:157
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:154
 #, kde-format
 msgid "In:"
 msgstr "შეყვანა:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:160
 #, kde-format
 msgid "Set zone in"
 msgstr "ზონის შესვლის დაყენება"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:164
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr "მიმდინარე კადრის/დაკვრის ადგილის ზონის დასაწყისზე დაყენება."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
 #, kde-format
 msgid "Out:"
 msgstr "გამოტანა:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, kde-format
 msgid "Set zone out"
 msgstr "ზონის გამოსვლის დაყენება"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr "მიმდინარე კადრის/დაკვრის ადგილის ზონის ბოლოზე დაყენება."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:209
 #, kde-format
 msgid "Use effect zone"
 msgstr "ეფექტის ზონის გამოყენება"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:213
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:210
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -10714,24 +10729,35 @@ msgstr "ეფექტის ზონის ჩვენების გად
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:271
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, kde-format
 msgid "Presets"
 msgstr "პრესეტები"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:276
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr "გახსნის დამატებით პარამეტრებს ეფექტისთვის პრესეტების სამართავად."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:353
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:301
+#, kde-format
+msgid "Delete effect"
+msgstr "ეფექტის წაშლა"
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Deletes the effect from the effect stack."
+msgstr "წაშლის ეფექტს ეფექტების სტეკიდან."
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:350
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr "ამ ეფექტის %1 ასლი ამ ჯგუფში"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:519
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10742,28 +10768,28 @@ msgstr ""
 "რომ დააკოპიროთ ის. <b>გადათრევა ღილაკით Alt</b> ერთი ელემენტის ჯგუფში "
 "დასაკოპირებლად."
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:540
 #, kde-format
 msgid "Disable %1"
 msgstr "%1-ის გამორთვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:540
 #, kde-format
 msgid "Enable %1"
 msgstr "%1-ის ჩართვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "ეფექტის შენახვა"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:581
 #, kde-format
 msgid "Comments:"
 msgstr "კომენტარები:"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:600
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:597
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr "სახელი მითითებული არაა. ეფექტი შენახული არ იქნება."
@@ -11048,7 +11074,7 @@ msgstr "პროქსის შესაქმნელად გამოს�
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg ვერ ვპოვე. დააყენეთ ბილიკი Kdenlive-ის პარამეტრებში 'გარემო'"
 
-#: src/jobs/proxytask.cpp:366 src/jobs/proxytask.cpp:379
+#: src/jobs/proxytask.cpp:371 src/jobs/proxytask.cpp:384
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "პროქსი კლიპის შექმნა ჩავარდა."
@@ -18261,17 +18287,22 @@ msgstr "შერევის ზომის შეცვლა"
 msgid "Error initializing timeline preview"
 msgstr "დროის ხაზის მინიატურის ინიციალიზაციის შეცდომა"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
 #, kde-format
 msgid "Editing duration for %1 clips."
 msgstr "ხანგრძლივობის ჩასწორება %1 კლიპისთვის."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
-#, kde-format
-msgid "Editing in Ripple mode."
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#, fuzzy, kde-format
+#| msgid "Editing in Ripple mode."
+msgid "Resizing in Ripple mode."
 msgstr "ჩასწორება ჭავლის რეჟიმში."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
 msgid "Edit item"
 msgstr "ჩანაწერის ჩასწორება"
@@ -18560,12 +18591,12 @@ msgstr "ჩაწერა"
 msgid "Multicam In"
 msgstr "მრავალკამერიანი შეყვანა"
 
-#: src/timeline2/view/qml/Track.qml:457 src/timeline2/view/qml/Track.qml:475
+#: src/timeline2/view/qml/Track.qml:459 src/timeline2/view/qml/Track.qml:477
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, ხანგრძლივობა = %3"
 
-#: src/timeline2/view/qml/Track.qml:499
+#: src/timeline2/view/qml/Track.qml:501
 #, kde-format
 msgid "Adjusting speed"
 msgstr "სიჩქარის გასწორება"
@@ -19638,7 +19669,7 @@ msgstr "მარჯვნივ სწორება"
 
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
-#: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:94
+#: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:48
 #: src/ui/editsub_ui.ui:93
 #, kde-format
 msgid "Position:"
@@ -19976,23 +20007,30 @@ msgid "Show handles for all points or only for the selected one."
 msgstr ""
 "კონტროლის ელემენტების ჩვენება ყველა წერტილისთვის თუ, მხოლოდ, მონიშნულისთვის."
 
+#. i18n: ectx: property (text), widget (QCheckBox, duration_for_all)
+#: src/ui/clipdurationdialog_ui.ui:34
+#, kde-format
+msgid "Apply duration to all items"
+msgstr "ხანგრძლივობის გადატარება ყველა ელემენტზე"
+
 #. i18n: ectx: property (text), widget (QLabel, crop_label)
-#: src/ui/clipdurationdialog_ui.ui:27
+#: src/ui/clipdurationdialog_ui.ui:41
 #, kde-format
 msgid "Crop start:"
 msgstr "ამოჭრის დასაწყისი:"
 
 #. i18n: ectx: property (text), widget (QLabel, end_label)
-#: src/ui/clipdurationdialog_ui.ui:48
+#: src/ui/clipdurationdialog_ui.ui:98
 #, kde-format
 msgid "Crop end:"
 msgstr "ამოჭრის დასასრული:"
 
-#. i18n: ectx: property (text), widget (QCheckBox, duration_for_all)
-#: src/ui/clipdurationdialog_ui.ui:101
-#, kde-format
-msgid "Apply duration to all items"
-msgstr "ხანგრძლივობის გადატარება ყველა ელემენტზე"
+#. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
+#: src/ui/clipdurationdialog_ui.ui:108
+#, fuzzy, kde-format
+#| msgid "Ripple resize clip"
+msgid "Ripple resize"
+msgstr "კლიპის ზომის შეცვლა მისი წანაცვლებით"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

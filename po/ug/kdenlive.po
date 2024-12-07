@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-06 00:40+0000\n"
+"POT-Creation-Date: 2024-12-07 00:40+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -959,7 +959,7 @@ msgstr ""
 #: src/bin/bin.cpp:1274 src/bin/projectitemmodel.cpp:338
 #: src/timeline2/view/dialogs/speeddialog.cpp:55
 #: src/timeline2/view/qml/Track.qml:52 src/timeline2/view/qml/Track.qml:78
-#: src/ui/clipdurationdialog_ui.ui:18
+#: src/timeline2/view/qml/Track.qml:86 src/ui/clipdurationdialog_ui.ui:18
 #, kde-format
 msgid "Duration"
 msgstr "ۋاقتى"
@@ -4230,18 +4230,18 @@ msgstr " كاندۇك"
 msgid "Delete all keyframes"
 msgstr "كاندۇك ئۆچۈر"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1078
+#: src/assets/keyframes/model/keyframemodel.cpp:1096
 #, kde-format
 msgid "effect"
 msgstr "ئۈنۈم"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1087
+#: src/assets/keyframes/model/keyframemodel.cpp:1105
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Reset %1"
 msgstr "ئەسلىگە قايتۇرۇش"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1350
+#: src/assets/keyframes/model/keyframemodel.cpp:1368
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Reset effect"
@@ -4254,7 +4254,7 @@ msgid "Delete keyframes"
 msgstr "كاندۇك ئۆچۈر"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:729
-#: src/assets/model/assetparametermodel.cpp:1473
+#: src/assets/model/assetparametermodel.cpp:1547
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Update effect"
@@ -4340,14 +4340,14 @@ msgstr " كاندۇك"
 msgid "Update %1"
 msgstr ""
 
-#: src/assets/model/assetparametermodel.cpp:1323
-#: src/assets/model/assetparametermodel.cpp:1370
+#: src/assets/model/assetparametermodel.cpp:1398
+#: src/assets/model/assetparametermodel.cpp:1445
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgid "Cannot open preset file %1"
 msgstr "ھۆججەت ئاچالمىدى"
 
-#: src/assets/model/assetparametermodel.cpp:1447
+#: src/assets/model/assetparametermodel.cpp:1521
 #, fuzzy, kde-format
 #| msgid "Cannot open file"
 msgctxt "@info:status"
@@ -4355,7 +4355,7 @@ msgid "Failed to load preset %1"
 msgstr "ھۆججەت ئاچالمىدى"
 
 #: src/assets/view/assetparameterview.cpp:54
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:280
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:282
 #, kde-format
 msgid "Reset Effect"
 msgstr ""
@@ -5760,7 +5760,7 @@ msgid "Edit Tags"
 msgstr "thumbnails نى كۆرسەتسۇن"
 
 #: src/bin/bin.cpp:4550 src/bin/projectclip.cpp:186
-#: src/bin/projectclip.cpp:2006 src/onlineresources/resourcewidget.cpp:270
+#: src/bin/projectclip.cpp:2008 src/onlineresources/resourcewidget.cpp:270
 #: src/onlineresources/resourcewidget.cpp:599
 #: src/onlineresources/resourcewidget.cpp:614
 #, kde-format
@@ -6062,7 +6062,7 @@ msgstr ""
 msgid "Duplicate"
 msgstr "ئۈنسىز"
 
-#: src/bin/clipcreator.cpp:539
+#: src/bin/clipcreator.cpp:540
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -6071,7 +6071,7 @@ msgid ""
 "anyways?"
 msgstr ""
 
-#: src/bin/clipcreator.cpp:543
+#: src/bin/clipcreator.cpp:544
 #, fuzzy, kde-format
 #| msgid "Video device"
 msgid "Removable device"
@@ -6094,7 +6094,7 @@ msgstr[0] ""
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:57
 #: src/mltcontroller/clippropertiescontroller.cpp:294
-#: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:34
+#: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:67 src/ui/qtextclip_ui.ui:198
 #: src/ui/spacerdialog_ui.ui:37 src/ui/titlewidget_ui.ui:628
 #, kde-format
@@ -6130,7 +6130,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/bin/mediabrowser.cpp:184
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:583
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:580
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
 #, fuzzy, kde-format
@@ -6324,7 +6324,7 @@ msgid "Move subtitle"
 msgstr "ئىلغۇچ"
 
 #: src/bin/model/subtitlemodel.cpp:1220
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:609
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:606
 #: src/effects/effectstack/view/effectstackview.cpp:774
 #: src/project/cliptranscode.cpp:152 src/project/dialogs/archivewidget.cpp:869
 #: src/project/dialogs/archivewidget.cpp:879 src/render/renderrequest.cpp:373
@@ -6408,20 +6408,20 @@ msgid ""
 "This is not correctly supported by our video framework."
 msgstr ""
 
-#: src/bin/projectclip.cpp:916
+#: src/bin/projectclip.cpp:918
 #, kde-format
 msgid ""
 "Cannot extract metadata from %1\n"
 "%2"
 msgstr ""
 
-#: src/bin/projectclip.cpp:1157 src/jobs/cliploadtask.cpp:269
+#: src/bin/projectclip.cpp:1159 src/jobs/cliploadtask.cpp:269
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Invalid"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/bin/projectclip.cpp:1386 src/dialogs/clipcreationdialog.cpp:130
+#: src/bin/projectclip.cpp:1388 src/dialogs/clipcreationdialog.cpp:130
 #: src/jobs/cuttask.cpp:173 src/jobs/speedtask.cpp:120
 #: src/timeline2/model/timelinefunctions.cpp:1494
 #, fuzzy, kde-format
@@ -6429,19 +6429,19 @@ msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 msgid "File already exists"
 msgstr "ھۆججەت چوڭلۇقى"
 
-#: src/bin/projectclip.cpp:2598
+#: src/bin/projectclip.cpp:2600
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Adjust timeline clips"
 msgstr "ئۈنسىز"
 
-#: src/bin/projectclip.cpp:2834
+#: src/bin/projectclip.cpp:2836
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Add stream effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/bin/projectclip.cpp:2859
+#: src/bin/projectclip.cpp:2861
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Remove stream effect"
@@ -7308,7 +7308,7 @@ msgstr "ئىمپورت قىل"
 #: src/effects/effectlist/model/effecttreemodel.cpp:298
 #: src/effects/effectlist/model/effecttreemodel.cpp:311
 #: src/effects/effectsrepository.cpp:419
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:685
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:682
 #: src/effects/effectstack/view/effectstackview.cpp:809
 #: src/profiles/profilerepository.cpp:190
 #: src/project/dialogs/archivewidget.cpp:699
@@ -10418,7 +10418,7 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "ھۆججەت ئېچىش خاتالىقى"
 
-#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2382
+#: src/doc/kdenlivedoc.cpp:1120 src/doc/kdenlivedoc.cpp:2415
 #: src/project/dialogs/archivewidget.cpp:245
 #: src/project/projectmanager.cpp:1707
 #, kde-format
@@ -10449,24 +10449,48 @@ msgid ""
 "%1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1605
+#: src/doc/kdenlivedoc.cpp:1610
+#, kde-format
+msgid "This clip has an alpha channel. Proxying is not recommended."
+msgid_plural "These clips have an alpha channel. Proxying is not recommended."
+msgstr[0] ""
+
+#: src/doc/kdenlivedoc.cpp:1618
+#, kde-format
+msgid "You have a clip with an alpha channel. Proxying it is not recommended."
+msgid_plural ""
+"You have %1 clips with an alpha channel. Proxying these is not recommended."
+msgstr[0] ""
+
+#: src/doc/kdenlivedoc.cpp:1620
+#, fuzzy, kde-format
+#| msgid "Folder"
+msgid "Proxy all clips"
+msgstr "قىسقۇچ"
+
+#: src/doc/kdenlivedoc.cpp:1620
+#, kde-format
+msgid "Proxy clips without alpha only"
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] ""
 
-#: src/doc/kdenlivedoc.cpp:1607
+#: src/doc/kdenlivedoc.cpp:1638
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] ""
 
-#: src/doc/kdenlivedoc.cpp:1651 src/doc/kdenlivedoc.cpp:1709
+#: src/doc/kdenlivedoc.cpp:1682 src/doc/kdenlivedoc.cpp:1742
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1848
+#: src/doc/kdenlivedoc.cpp:1881
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -10474,77 +10498,77 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1943
+#: src/doc/kdenlivedoc.cpp:1976
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1961
+#: src/doc/kdenlivedoc.cpp:1994
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1963
+#: src/doc/kdenlivedoc.cpp:1996
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Change default project profile"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/doc/kdenlivedoc.cpp:1963
+#: src/doc/kdenlivedoc.cpp:1996
 #, kde-format
 msgid "Change default to %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1964
+#: src/doc/kdenlivedoc.cpp:1997
 #, kde-format
 msgid "Keep current default %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1964
+#: src/doc/kdenlivedoc.cpp:1997
 #, kde-format
 msgid "Ask me later"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1984
+#: src/doc/kdenlivedoc.cpp:2017
 #, kde-format
 msgid "Switch"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:1986 src/ui/titlewidget_ui.ui:189
+#: src/doc/kdenlivedoc.cpp:2019 src/ui/titlewidget_ui.ui:189
 #, fuzzy, kde-format
 #| msgid "Balance"
 msgid "Cancel"
 msgstr "تەڭپۇڭ"
 
-#: src/doc/kdenlivedoc.cpp:1988
+#: src/doc/kdenlivedoc.cpp:2021
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1993
+#: src/doc/kdenlivedoc.cpp:2026
 #, kde-format
 msgid ""
 "\n"
 "Profile fps adjusted from original %1"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1997
+#: src/doc/kdenlivedoc.cpp:2030
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
 "Create and switch to new profile (%2x%3, %4fps)?%5"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2421 src/scopes/colorscopes/colorplaneexport.cpp:231
+#: src/doc/kdenlivedoc.cpp:2454 src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
 msgid "Red"
 msgstr "قىزىل"
 
-#: src/doc/kdenlivedoc.cpp:2422 src/scopes/colorscopes/colorplaneexport.cpp:232
+#: src/doc/kdenlivedoc.cpp:2455 src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:49
 #: src/scopes/colorscopes/waveform.cpp:34
@@ -10552,24 +10576,24 @@ msgstr "قىزىل"
 msgid "Green"
 msgstr "يېشىل"
 
-#: src/doc/kdenlivedoc.cpp:2423 src/scopes/colorscopes/colorplaneexport.cpp:233
+#: src/doc/kdenlivedoc.cpp:2456 src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
 msgid "Blue"
 msgstr "كۆك"
 
-#: src/doc/kdenlivedoc.cpp:2424 src/scopes/colorscopes/waveform.cpp:32
+#: src/doc/kdenlivedoc.cpp:2457 src/scopes/colorscopes/waveform.cpp:32
 #, kde-format
 msgid "Yellow"
 msgstr "سېرىق"
 
-#: src/doc/kdenlivedoc.cpp:2425
+#: src/doc/kdenlivedoc.cpp:2458
 #, kde-format
 msgid "Cyan"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:2762 src/ui/markerdialog_ui.ui:59
+#: src/doc/kdenlivedoc.cpp:2795 src/ui/markerdialog_ui.ui:59
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -10723,130 +10747,119 @@ msgid ""
 "sequentially from top to bottom so sequence is important."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:61
-#, kde-format
-msgid "Delete effect"
-msgstr ""
-
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:62
-#, kde-kuit-format
-msgctxt "@info:whatsthis"
-msgid "Deletes the effect from the effect stack."
-msgstr ""
-
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Collapse Effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:75
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:72
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Expand Effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:81
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:78
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgid "Open effect documentation in browser"
 msgstr "ئاچىدىغان پۈتۈك"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:105
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Enable Keyframes"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Hide Keyframes"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:110
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:107
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Show Keyframes"
 msgstr " كاندۇك"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:111
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:108
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Turns the display of the keyframe ruler on."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:116
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable Effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:119
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:116
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable Effect"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:120
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:117
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Disables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:121
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:118
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Enables the effect. Useful to compare before and after settings."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:150
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:147
 #, kde-format
 msgid "Create Group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:157
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:154
 #, fuzzy, kde-format
 #| msgid "In"
 msgid "In:"
 msgstr "ئىچى"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:163
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:160
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Set zone in"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:164
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:161
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as start of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:169
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:166
 #, kde-format
 msgid "Out:"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:175
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:172
 #, fuzzy, kde-format
 #| msgid "Save profile"
 msgid "Set zone out"
 msgstr "سەپلىمە ھۆججەتنى ساقلايدۇ"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:176
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:173
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Sets the current frame/playhead position as end of the zone."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:212
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:209
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "Use effect zone"
 msgstr "ئۈنۈم"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:213
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:210
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of the effect zone."
@@ -10854,25 +10867,36 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, formatLabel)
 #. i18n: ectx: property (toolTip), widget (QToolButton, preset_button)
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:275
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:271
 #: src/ui/clipstabilize_ui.ui:54 src/ui/renderwidget_ui.ui:172
 #, fuzzy, kde-format
 #| msgid "Reset"
 msgid "Presets"
 msgstr "ئەسلىگە قايتۇرۇش"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:276
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:272
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a list of advanced options to manage presets for the effect."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:353
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:301
+#, kde-format
+msgid "Delete effect"
+msgstr ""
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:302
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "Deletes the effect from the effect stack."
+msgstr ""
+
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:350
 #, kde-format
 msgid "%1 instances of this effect in the group"
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:519
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:516
 #, kde-format
 msgctxt "@info:status"
 msgid ""
@@ -10880,32 +10904,32 @@ msgid ""
 "it. <b>Alt Drag</b> to copy it to a single item in a group."
 msgstr ""
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:540
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Disable %1"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:543
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:540
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Enable %1"
 msgstr "ئۈنۈم يوق"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:579
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:576
 #, fuzzy, kde-format
 #| msgid "Favorites"
 msgctxt "@title:window"
 msgid "Save Effect"
 msgstr "يىغقۇچ"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:584
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:581
 #, fuzzy, kde-format
 #| msgid "Comment"
 msgid "Comments:"
 msgstr "ئىزاھات"
 
-#: src/effects/effectstack/view/collapsibleeffectview.cpp:600
+#: src/effects/effectstack/view/collapsibleeffectview.cpp:597
 #, kde-format
 msgid "No name provided, effect not saved."
 msgstr ""
@@ -11213,7 +11237,7 @@ msgstr ""
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr ""
 
-#: src/jobs/proxytask.cpp:366 src/jobs/proxytask.cpp:379
+#: src/jobs/proxytask.cpp:371 src/jobs/proxytask.cpp:384
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr ""
@@ -18573,19 +18597,23 @@ msgstr "چوڭلۇقىنى ئۆزگەرت"
 msgid "Error initializing timeline preview"
 msgstr "ۋاقىت سىزىقى"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:115
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
 #, fuzzy, kde-format
 #| msgid "Show thumbnails"
 msgid "Editing duration for %1 clips."
 msgstr "thumbnails نى كۆرسەتسۇن"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:120
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
 #, fuzzy, kde-format
 #| msgid "View Mode"
-msgid "Editing in Ripple mode."
+msgid "Resizing in Ripple mode."
 msgstr "كۆرۈنۈش ھالىتى"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, fuzzy, kde-format
 #| msgid "Edit profile"
 msgid "Edit item"
@@ -18887,13 +18915,13 @@ msgstr "خاتىرە"
 msgid "Multicam In"
 msgstr ""
 
-#: src/timeline2/view/qml/Track.qml:457 src/timeline2/view/qml/Track.qml:475
+#: src/timeline2/view/qml/Track.qml:459 src/timeline2/view/qml/Track.qml:477
 #, fuzzy, kde-format
 #| msgid " Duration:"
 msgid "%1%2, Duration = %3"
 msgstr " ۋاقتى:"
 
-#: src/timeline2/view/qml/Track.qml:499
+#: src/timeline2/view/qml/Track.qml:501
 #, fuzzy, kde-format
 #| msgid "Mute"
 msgid "Adjusting speed"
@@ -19939,7 +19967,7 @@ msgstr "ئوڭغا توغرىلا"
 
 #. i18n: ectx: property (text), widget (QLabel, position_label)
 #. i18n: ectx: property (text), widget (QLabel, label_position)
-#: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:94
+#: src/transitions/view/mixstackview.cpp:89 src/ui/clipdurationdialog_ui.ui:48
 #: src/ui/editsub_ui.ui:93
 #, fuzzy, kde-format
 #| msgid "Position"
@@ -20286,25 +20314,32 @@ msgstr ""
 msgid "Show handles for all points or only for the selected one."
 msgstr ""
 
+#. i18n: ectx: property (text), widget (QCheckBox, duration_for_all)
+#: src/ui/clipdurationdialog_ui.ui:34
+#, kde-format
+msgid "Apply duration to all items"
+msgstr ""
+
 #. i18n: ectx: property (text), widget (QLabel, crop_label)
-#: src/ui/clipdurationdialog_ui.ui:27
+#: src/ui/clipdurationdialog_ui.ui:41
 #, fuzzy, kde-format
 #| msgid "Copyright"
 msgid "Crop start:"
 msgstr "نەشر ھوقۇقى"
 
 #. i18n: ectx: property (text), widget (QLabel, end_label)
-#: src/ui/clipdurationdialog_ui.ui:48
+#: src/ui/clipdurationdialog_ui.ui:98
 #, fuzzy, kde-format
 #| msgid "Align left"
 msgid "Crop end:"
 msgstr "سولغا توغرىلا"
 
-#. i18n: ectx: property (text), widget (QCheckBox, duration_for_all)
-#: src/ui/clipdurationdialog_ui.ui:101
-#, kde-format
-msgid "Apply duration to all items"
-msgstr ""
+#. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
+#: src/ui/clipdurationdialog_ui.ui:108
+#, fuzzy, kde-format
+#| msgid "Target"
+msgid "Ripple resize"
+msgstr "نىشان"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
