@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-06 02:30+0000\n"
-"PO-Revision-Date: 2024-11-30 07:41+0400\n"
+"PO-Revision-Date: 2024-12-05 09:15+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1066,7 +1066,7 @@ msgstr "غاما"
 #: data/effects/gpsgraphic.xml:4
 #, kde-format
 msgid "GPS Graphic"
-msgstr "صور جي بي اس"
+msgstr "رسم جي بي اس"
 
 #: data/effects/gpsgraphic.xml:5
 #, kde-format
@@ -1084,6 +1084,8 @@ msgid ""
 "The fullpath of file containing location (GPS) data. Supported extensions: ."
 "gpx, .tcx."
 msgstr ""
+"المسار الكامل للملف الذي يحتوي على بيانات الموقع (GPS). الامتدادات "
+"المدعومة: .gpx، .tcx."
 
 #: data/effects/gpsgraphic.xml:12 data/effects/gpstext.xml:15
 #, kde-format
@@ -1100,6 +1102,13 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[ إزاحة (بالثواني) يجب إضافتها إلى ملف الفيديو لمطابقته مع مسار نظام "
+"تحديد المواقع العالمي (GPS).<br>\n"
+"\tفي أغلب الأحيان، يجب ضبط هذا على الأقل على فارق المنطقة الزمنية بين "
+"الملفين بالإضافة إلى بضع ثوانٍ إذا لم يُضبط جهاز تسجيل الفيديو بدقة على الوقت "
+"الصحيح. يكون وقت نظام تحديد المواقع العالمي  دائمًا دقيقًا وبالتوقيت العالمي "
+"المنسق (يو تي سي). استخدم قيمًا موجبة إذا كان نظام تحديد المواقع العالمي "
+"متقدمًا على الفيديو وقيمًا سالبة بخلاف ذلك.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1115,6 +1124,10 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[كم عدد نقاط نظام تحديد المواقع العالمي (GPS) التي يجب تحسينها "
+"للتخلص من أخطاء نظام تحديد المواقع العالمي (GPS).<br>\n"
+"\tالقيمة 1 لا تعمل على تسهيل المواقع، فهي تحسب فقط الحقول الإضافية (السرعة، "
+"المسافة، إلخ)، كما أنها تستكمل القيم المفقودة لمعدل ضربات القلب والارتفاع.]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -1129,21 +1142,25 @@ msgid ""
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[إذا كان ملف الفيديو عبارة عن تصوير فاصل زمني (أو حركة بطيئة)، "
+"فاستخدم هذه القيمة لتعيين نسبة التسريع/الإبطاء.<br>\n"
+"قيم العينة: 30 لتصوير فاصل زمني بسرعة 30x، و0.25 لتصوير فاصل زمني بسرعة "
+"4x.]]>"
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "موقع/مسار تحديد المواقع العالمي، الارتفاع، معدل ضربات القلب، السرعة"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "مصدر بيانات الرسم"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "ما هي البيانات من ملف تحديد المواقع العالمي المستخدمة للرسم؟"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1151,6 +1168,9 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"خط خريطة أساسي ثنائي الأبعاد (للموقع) أو رسم بياني أحادي الأبعاد لكل مرة "
+"(آخرون)، قم بتكبير الخريطة/الرسم البياني المتمركز حول الموقع الحالي، ارسم "
+"عداد السرعة"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1170,11 +1190,24 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>عداد السرعة</b> متاح لجميع مصادر البيانات ولكنه موصى به فقط "
+"للسرعة؛ بالنسبة لنوع الخريطة، فإنه يمثل \"النسبة المئوية المنجزة\" من "
+"البداية المقصوصة إلى النهاية).<br>\n"
+"ملاحظة: بالنسبة للنوع 1 (التكبير والمركز، أو \"متابعة النقطة\"):<br>\n"
+"* قيم الاقتطاع صالحة فقط كنسبة مئوية وسيتم أخذ القيم السفلية (أو اليسرى) "
+"فقط\n"
+"في الاعتبار حيث يجب أن تكون القيمتان (أي: السفلي/العلوي) متساويتين\n"
+"للحفاظ على النقطة في المنتصف)<br>\n"
+"* إذا لم يكن مصدر البيانات هو ملف نظام تحديد المواقع العالمية، فسيتم إجراء "
+"التمركز فقط للمحور الأفقي\n"
+"(الوقت)، وسوف يتصرف اقتطاع المحور الرأسي تمامًا كما هو الحال بالنسبة لخط "
+"الخريطة ثنائي الأبعاد الأساسي (سيحافظ بشكل ثابت على\n"
+"نفس الحد الأدنى/الأقصى مما يسمح للنقطة الحالية بالتحرك لأعلى ولأسفل).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "بداية القص (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1185,11 +1218,15 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[قص البيانات من بداية ملف GPS (كنسبة مئوية من الإجمالي). <br>\n"
+"\tملاحظة: يتم حساب كل من <em>بداية القص</em> و<em>نهاية القص</em> من الملف "
+"الإجمالي، لذا فإن قص 50% من البداية و50% من النهاية سيؤدي إلى قص الملف "
+"بالكامل.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "نهاية القص (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1200,11 +1237,16 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[قص البيانات من نهاية ملف نظام تحديد المواقع العالمي (كنسبة مئوية من "
+"الإجمالي). <br>\n"
+"\tملاحظة: يتم حساب كل من <em>بداية القص</em> و<em>نهاية القص</em> من الملف "
+"الإجمالي، لذا فإن قص 50% من البداية و50% من النهاية سيؤدي إلى قص الملف "
+"بالكامل.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
 msgid "Percentage from min..max,Absolute value"
-msgstr ""
+msgstr "النسبة المئوية من الحد الأدنى إلى الحد الأقصى والقيمة المطلقة"
 
 #: data/effects/gpsgraphic.xml:55
 #, kde-format
@@ -1221,6 +1263,10 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[يقرر كيفية تفسير قيم <em>اقتطاع لليسار</em> و<em>اقتطاع لليمين</em>."
+"<br>\n"
+"\tملاحظة: بالنسبة للنوع الأفقي، القيم المطلقة هي خط الطول (لنوع مصدر الموقع) "
+"والوقت (بالمللي ثانية منذ الفترة) لبقية أنواع مصادر البيانات)]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
@@ -1240,6 +1286,14 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[اقتطاع البيانات من الجانب الأيسر للرسم البياني (تكبير الصورة "
+"فعليًا). <br>\n"
+"\tيتم تفسير القيمة إما كنسبة مئوية من الإجمالي أو كقيمة مطلقة وفقًا لوضع "
+"crop_mode_h. في وضع النسبة المئوية، لا تقتصر القيم على 0-100 للسماح بسلوك "
+"\"التصغير\" (على سبيل المثال: الاقتطاع بمقدار -50 يسارًا سيضيف نصف المسافة "
+"الأفقية الإجمالية). القيم التي تزيد عن 100 (في وضع النسبة المئوية) لن تعرض "
+"أي شيء فعليًا. إذا تم تعيين <em>نوع الرسم البياني</em> على <b>عداد السرعة</"
+"b>، فسيتم تجاهل جميع قيم الاقتطاع إلى اليسار/اليمين.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
@@ -1253,6 +1307,9 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[نفس الأمر <em>اقتطع يسارًا</em> ولكن للجانب الأيمن، ويتم تفسير نوع "
+"النسبة المئوية كنسبة مئوية عكسية (أي: 100 = عدم قص أي شيء). القيم الأقل من 0 "
+"لن تعرض أي شيء فعليًا.]]>"
 
 #: data/effects/gpsgraphic.xml:71
 #, kde-format
@@ -1275,11 +1332,21 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[يقرر كيفية تفسير قيم <em>Crop bottom</em> و<em>Crop top</em>.<br/>\n"
+"\tباستخدام قيمة مطلقة، يمكن تكبير الصورة إلى ما بين 100 و150 مترًا من "
+"الارتفاع لإظهار\n"
+"التغييرات الصغيرة في الارتفاع بين هاتين القيمتين بشكل أفضل.<br/>\n"
+"ملاحظة: بالنسبة للنوع الرأسي، تكون القيم المطلقة عبارة عن درجات العرض "
+"(بالنسبة لنوع مصدر الموقع) والارتفاع ومعدل ضربات القلب والسرعة بالنسبة للقيم "
+"الأخرى التي يتم تفسيرها على أنهانوع <em>إيضاح</em>\n"
+"حيثما ينطبق ذلك (على سبيل المثال: سيتم اعتبار القيمة 10 للارتفاع أمتارًا "
+"افتراضيًا\n"
+"ولكن إذا تم تغيير <em>وحدة الإيضاح</em> إلى أقدام، فهذا يعني 10 أقدام).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
 msgid "Crop bottom"
-msgstr "اقتطع الأسفل"
+msgstr "اقتطع الجزء الأسفل"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1294,11 +1361,20 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[تقطتع البيانات من الجانب السفلي للرسم البياني (تكبير الصورة فعليًا). "
+"<br>\n"
+"\tتفسر القيمة إما كنسبة مئوية من الإجمالي أو كقيمة مطلقة وفقًا لوضع "
+"crop_mode_v. في وضع النسبة المئوية، لا تقتصر القيم على 0-100 للسماح بسلوك "
+"\"التصغير\" (على سبيل المثال: سيؤدي اقتطاع -50 بوت إلى إضافة نصف إضافي من "
+"إجمالي المسافة الرأسية إلى الأسفل).القيم التي تزيد عن 100 (في وضع النسبة "
+"المئوية) لن تعرض أي شيء فعليًا. إذا كان <em>نوع الرسم البياني</em> هو <b>عداد "
+"السرعة</b>، فسيؤدي هذا إلى تعيين موضع الإبرة الأدنى الذي سيثبت جميع القيم "
+"الأقل.]]>"
 
 #: data/effects/gpsgraphic.xml:86
 #, kde-format
 msgid "Crop top"
-msgstr "ملابس علوية قصيرة"
+msgstr "اقتطع الجزء الأعلى"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1308,6 +1384,9 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[نفس <em>اقتطع الجزء السفلي</em> ولكن للجانب العلوي، ويتم تفسير نوع "
+"النسبة المئوية كنسبة مئوية عكسية (أي: 100 = عدم قص أي شيء).<br>\n"
+"\tالقيم الأقل من 0 لن تعرض أي شيء فعليًا.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1317,6 +1396,10 @@ msgid ""
 "Color by heart rate,Color by Speed,Color by Speed (max 100km/h),Color by "
 "grade (max 90 degrees),Color by grade (max 20 degrees)"
 msgstr ""
+"لون واحد، لونان، ماضٍ متماسك - مستقبل رقيق، مستقبل متماسك - ماضٍ رقيق، تدرج "
+"عمودي، تدرج أفقي، لون حسب المدة، لون حسب الارتفاع، لون حسب معدل ضربات القلب، "
+"لون حسب السرعة، لون حسب السرعة (100 كم/ساعة كحد أقصى)، لون حسب الدرجة (90 "
+"درجة كحد أقصى)، لون حسب الدرجة (20 درجة كحد أقصى)"
 
 #: data/effects/gpsgraphic.xml:92
 #, kde-format
@@ -1326,7 +1409,7 @@ msgstr "طراز لون الرسم"
 #: data/effects/gpsgraphic.xml:93
 #, kde-format
 msgid "See the documentation about the various styles available"
-msgstr ""
+msgstr "راجع الوثائق المتعلقة بالطرز المختلفة المتاحة"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: data/effects/gpsgraphic.xml:96 src/ui/gradientedit_ui.ui:123
@@ -1337,7 +1420,7 @@ msgstr "لون 1"
 #: data/effects/gpsgraphic.xml:97
 #, kde-format
 msgid "Sets the color #1 for the graph line"
-msgstr ""
+msgstr "يضبط اللون رقم 1 لخط الرسم البياني"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: data/effects/gpsgraphic.xml:100 src/ui/gradientedit_ui.ui:24
@@ -1348,7 +1431,7 @@ msgstr "لون 2"
 #: data/effects/gpsgraphic.xml:101
 #, kde-format
 msgid "Sets the color #2 for the graph line"
-msgstr ""
+msgstr "يضبط اللون رقم 2 لخط الرسم البياني"
 
 #: data/effects/gpsgraphic.xml:104
 #, kde-format
@@ -1358,7 +1441,7 @@ msgstr "لون 3"
 #: data/effects/gpsgraphic.xml:105
 #, kde-format
 msgid "Sets the color #3 for the graph line"
-msgstr ""
+msgstr "يضبط اللون رقم 3 لخط الرسم البياني"
 
 #: data/effects/gpsgraphic.xml:108
 #, kde-format
@@ -1368,7 +1451,7 @@ msgstr "لون 4"
 #: data/effects/gpsgraphic.xml:109
 #, kde-format
 msgid "Sets the color #4 for the graph line"
-msgstr ""
+msgstr "يضبط اللون رقم 4 لخط الرسم البياني"
 
 #: data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -1378,7 +1461,7 @@ msgstr "لون 5"
 #: data/effects/gpsgraphic.xml:113
 #, kde-format
 msgid "Sets the color #5 for the graph line"
-msgstr ""
+msgstr "يضبط اللون رقم 5 لخط الرسم البياني"
 
 #: data/effects/gpsgraphic.xml:116
 #, kde-format
@@ -1392,11 +1475,13 @@ msgid ""
 "graph line.<br>\n"
 "    \tIf graph type is speedometer, this affects the needle.]]>"
 msgstr ""
+"<![CDATA[تمكينه لرسم قرص في الموقع/الوقت الحالي فوق خط الرسم البياني.<br>\n"
+"\tإذا كان نوع الرسم البياني هو عداد السرعة، فإن هذا يؤثر على الإبرة.]]>"
 
 #: data/effects/gpsgraphic.xml:121
 #, kde-format
 msgid "Now dot color"
-msgstr "لون نقط الحالي"
+msgstr "لون نقطة الحالي"
 
 #: data/effects/gpsgraphic.xml:122
 #, kde-format
@@ -1417,6 +1502,11 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[تمكينه لرسم القيمة الحالية بأحرف كبيرة بيضاء وغامقة على الجانب "
+"الأيمن السفلي من المستطيل.<br>\n"
+"\tسيتم إلحاق قيمة <em>وحدة الأسطورة</em> في النهاية وسيتم استخدامها كوحدة "
+"حالية (إذا تم العثور على وحدة صالحة، أي: كيلومترات إذا تم العثور على \"كم\" "
+"في أي مكان في سلسلة <em>وحدة الأسطورة</em>).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1431,7 +1521,7 @@ msgstr "التّدوير"
 msgid ""
 "Rotate the entire graph rectangle. For speedometer type the text stays "
 "horizontal."
-msgstr ""
+msgstr "دوّر مستطيل الرسم بأكمله. بالنسبة لنوع عداد السرعة، يظل النص أفقيًا."
 
 #: data/effects/gpsgraphic.xml:134
 #, kde-format
@@ -1459,6 +1549,11 @@ msgid ""
 "value. For speedometer type this shows division values (but without "
 "appending unit).]]>"
 msgstr ""
+"<![CDATA[في حالة تمكينه، سيتم رسم 5 أفقيًا (وعموديًا لنوع الخريطة) <br>\n"
+"\tالأسطر ذات قيم صغيرة تتوافق كل منها مع قيمة مصدر البيانات الحالية عند 0%، "
+"و25%، و50%، و75%، و100% من الرسم البياني الحالي الموضح، وتتأثر بنوع <em>وحدة "
+"الإيضاح</em> إذا كان ذلك ممكنًا، و مع السلسلة الملحقة بالقيمة. بالنسبة لنوع "
+"عداد السرعة، يعرض هذا قيم القسمة (ولكن بدون إضافة وحدة).]]>"
 
 #: data/effects/gpsgraphic.xml:143
 #, kde-format
@@ -1472,6 +1567,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"م، متر، كم، كيلومتر، ميل، قدم، قدم، ميل بحري، ملي ثانية، م/ث، متر في "
+"الثانية، كم، كم/س، كيلومتر في الساعة، ميل، ميل/س، ميل في الساعة، قدم، قدم/ث، "
+"قدم في الثانية، عقدة، ميل/دقيقة، متر/دقيقة، قدم/دقيقة، قدم/دقيقة"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1481,6 +1579,11 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[يحدد الوحدة التي سيتم استخدامها لعرض قيم من نوع الارتفاع والسرعة."
+"<br>\n"
+"القيمة الافتراضية هي الأمتار والكيلومتر/الساعة على التوالي. يتم مطابقة "
+"الوحدة في أي مكان في السلسلة حتى يمكن استخدام المسافات الإضافية لتعديل "
+"العرض.]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -1497,6 +1600,12 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[إذا تم تمكينه،سيرسم الرسم البياني باستخدام نقاط فردية بدلاً من "
+"الخطوط.<br>\n"
+"\tسيعرض هذا بشكل فعال نقاط البيانات الفردية المتأثرة بالتنعيم (على سبيل "
+"المثال: بالنسبة لبيانات الموقع، سيتم عرض كل إصلاح جي بي اس إذا كان التنعيم "
+"1) ويمكن استخدامه إما كتأثير رائع عند التكبير بدرجة كافية أو لتصحيح أخطاء "
+"قفزات الخطوط غير المتوقعة.]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
@@ -1510,6 +1619,9 @@ msgid ""
 "        Format is: \"X Y W H\". X, Y, W, H are assumed to be pixel units "
 "unless they have the suffix '%'.]]>"
 msgstr ""
+"<![CDATA[يحدد المستطيل الذي يجب رسم الرسم البياني فيه.<br>\n"
+"التنسيق هو: \"X Y W H\". يُفترض أن تكون وحدات X وY وW وH وحدات بكسلما لم يكن "
+"لها اللاحقة '%'.]]>"
 
 #: data/effects/gpsgraphic.xml:159
 #, kde-format
@@ -1524,6 +1636,9 @@ msgid ""
 "      \tPaths starting with the \"!\" character are ignored. TIP: use a map "
 "image to add context to the GPS track.]]>"
 msgstr ""
+"<![CDATA[إذا حُدد ملف صورة صالح، فسيتم استخدامه كخلفية لمنطقة المستطيل.<br>\n"
+"\tيتم تجاهل المسارات التي تبدأ بعلامة \"!\". تلميح: استخدم صورة خريطة لإضافة "
+"سياق إلى مسار GPS.]]>"
 
 #: data/effects/gpsgraphic.xml:164
 #, kde-format
@@ -1538,6 +1653,10 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[تغيير حجم صورة الخلفية (بالنسبة إلى المركز) لتتناسب مع مسار جي بي "
+"اس أعلاه.<br>\n"
+"\tالقيم الأصغر من 100 تعمل على تكبير الصورة، والقيم الأكبر من 100 تعمل على "
+"تصغيرها. 0 تعمل على إخفائها.]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1547,7 +1666,7 @@ msgstr "شفافيّة الخلفيّة"
 #: data/effects/gpsgraphic.xml:170
 #, kde-format
 msgid "<![CDATA[Sets the opacity for the background image]]>"
-msgstr ""
+msgstr "<![CDATA[تعيين تعتيم صورة الخلفية]]>"
 
 #: data/effects/gpsgraphic.xml:173
 #, kde-format
@@ -1557,7 +1676,7 @@ msgstr "وقت بدء جي بي اس"
 #: data/effects/gpsgraphic.xml:174
 #, kde-format
 msgid "Date and time of the first valid GPS point."
-msgstr ""
+msgstr "تاريخ ووقت أول نقطة جي بي اس صالحة."
 
 #: data/effects/gpsgraphic.xml:177
 #, kde-format
@@ -1581,6 +1700,8 @@ msgid ""
 "start of GPS file. Correctly sets the offset if video file and GPS recording "
 "was started at the same time."
 msgstr ""
+"يوفر إزاحة مساعدة لضمان بدء مزامنة ملف الفيديو مع بداية ملف جي بي اس. يضبط "
+"الإزاحة بشكل صحيح إذا تم بدء ملف الفيديو وتسجيل جي بي اس في نفس الوقت."
 
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
@@ -1594,16 +1715,19 @@ msgid ""
 "(it is updated every second). Correctly sets the offset if you video record "
 "the moment GPS starts."
 msgstr ""
+"يوفر إزاحة مساعدة لمزامنة أول نقطة جي بي اس مع وقت الفيديو الحالي (يتم "
+"تحديثها كل ثانية). يتم ضبط الإزاحة بشكل صحيح إذا كان تسجيل الفيديو الخاص بك "
+"في لحظة بدء تشغيل جي بي اس."
 
 #: data/effects/gpsgraphic.xml:189
 #, kde-format
 msgid "Map hint"
-msgstr "تلمية الخريطة"
+msgstr "تلميحة الخريطة"
 
 #: data/effects/gpsgraphic.xml:190
 #, kde-format
 msgid "Returns the middle latitude and longitude coordinates of the gps file."
-msgstr ""
+msgstr "إرجاع إحداثيات خطوط العرض والطول الوسطى لملف جي بي اس."
 
 #: data/effects/gpstext.xml:4
 #, kde-format
@@ -7378,6 +7502,8 @@ msgstr "متتالي"
 #, kde-format
 msgid "CPU processing is very slow, GPU is recommended for faster processing"
 msgstr ""
+"معالجة وحدة المعالجة المركزية بطيئة جدًا، يوصى باستخدام وحدة معالجة الرسومات "
+"للحصول على معالجة أسرع"
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1787
 #, kde-format
@@ -7386,6 +7512,8 @@ msgid ""
 "downloading around 10Gb of data. Once installed, all processing will happen "
 "offline."
 msgstr ""
+"تترجم النصوص بواسطة نموذج SeamlessM4T. ويتطلب هذا تنزيل حوالي 10 غيغابايت من "
+"البيانات. وبمجرد التثبيت، ستنفذ جميع عمليات المعالجة دون اتصال بالإنترنت."
 
 #: src/dialogs/kdenlivesettingsdialog.cpp:1806
 #, kde-format
@@ -16316,6 +16444,8 @@ msgid ""
 "download all necessary dependencies. After that all processing will happen "
 "offline."
 msgstr ""
+"يتطلب هذا اتصالاً بالإنترنت وسيستغرق تنزيل جميع التبعيات الضرورية عدة دقائق. "
+"بعد ذلك، ستنفذ جميع عمليات المعالجة دون اتصال بالإنترنت."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:434
 #: src/pythoninterfaces/abstractpythoninterface.cpp:544
@@ -16406,7 +16536,7 @@ msgstr "يثبّت نموذج %1"
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:51
 #, kde-format
 msgid "Checking available models"
-msgstr ""
+msgstr "يتحقق من النماذج المتوفرة"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:55
 #, kde-format
