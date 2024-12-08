@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-06 02:30+0000\n"
-"PO-Revision-Date: 2024-12-05 08:48+0200\n"
+"PO-Revision-Date: 2024-12-06 15:39+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1172,7 +1172,7 @@ msgstr ""
 "למפה/תרשים עם המיקום הנוכחי ממורכז,ציור מד־אוץ"
 
 #: data/effects/gpsgraphic.xml:41
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[<b>Speedometer</b> is available for all data sources but "
 "recommended only for speed; for the map type it represents the \"percentage "
@@ -1189,6 +1189,20 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>מד אוץ</b> זמין לכל מקורות הנתונים אבל מומלץ רק למהירות, "
+"recommended only for speed; for the map type it represents the \"percentage "
+"done\" from trimmed start - end).<br>\n"
+"Note: for type 1 (zoom and center, aka \"follow the dot\"):<br>\n"
+"* crop values are only valid as a percentage and only the bottom (resp left) "
+"values\n"
+"will be taken into consideration as both values (ie: bottom/top) will need "
+"to be equal to\n"
+"keep the dot centered)<br>\n"
+"* if data source is not GPS location, the centering will only be done for "
+"horizontal axis\n"
+"(time), vertical axis crop will behave just like for the basic 2D map line "
+"(it will statically keep\n"
+"the same min/max limit allowing the Now dot to move up and down).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
@@ -1314,6 +1328,14 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[מחליט איך לפענח את ערכי<em>חיתוך מלמטה</em> ו<em>חיתוך מלמעלה</em>."
+"<br/>\n"
+"    \tעם ערך מוחלט, אפשר להתקרב לגובה של בין 100 ל־150 מטר כדי להציג שינויים "
+"קטנים בגובה בין שני הערכים האלה בצורה טובה יותר.<br/>\n"
+"לשימת ליבך: לסוג האנכי, ערכים מוחלטים עם מעולה קו גובה (לסוג מקור המקום)\n"
+"וגובה, דופק ומהירות לאחרים שמפוענחים בתור סוג <em>יחידת מקרא</em>\n"
+"איפה שנחוץ (למשל: ערך של גובה 10 ייחשב למטרים כברירת מחדל אבל <em>יחידת "
+"המקרא</em> לרגל אז זה יהיה 10 מטרים).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, fuzzy, kde-format
