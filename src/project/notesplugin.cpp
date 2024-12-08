@@ -58,9 +58,12 @@ void NotesPlugin::setProject(KdenliveDoc *document)
         m_tb->addAction(a);
         m_tb->addSeparator();
         a = new QAction(QIcon::fromTheme(QStringLiteral("format-text-bold")), i18n("Bold"));
-        a->setWhatsThis(
-            xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
+        a->setWhatsThis(xi18nc("@info:whatsthis", "Make selected text bold."));
         connect(a, &QAction::triggered, m_widget, &NotesWidget::switchBoldText);
+        m_tb->addAction(a);
+        a = new QAction(QIcon::fromTheme(QStringLiteral("format-font-size-more")), i18n("Header"));
+        a->setWhatsThis(xi18nc("@info:whatsthis", "Switch header format"));
+        connect(a, &QAction::triggered, m_widget, &NotesWidget::switchHeaderText);
         m_tb->addAction(a);
 
         QWidget *empty = new QWidget();

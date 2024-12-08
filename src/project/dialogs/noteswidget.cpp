@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QTextDocumentFragment>
 #include <QToolTip>
 #include <QUuid>
 
@@ -331,7 +332,21 @@ void NotesWidget::switchBoldText()
 
 void NotesWidget::switchHeaderText()
 {
-    // TODO
+    QTextCursor cur = textCursor();
+    cur.select(QTextCursor::LineUnderCursor);
+    QString currentText = cur.selection().toMarkdown();
+    if (currentText.startsWith(QStringLiteral("# "))) {
+        // Already a header, clear
+        cur.removeSelectedText();
+        cur.setCharFormat(QTextCharFormat());
+        currentText.remove(0, 2);
+        cur.insertMarkdown(currentText);
+    } else {
+        currentText.prepend(QStringLiteral("# "));
+        cur.removeSelectedText();
+        cur.insertMarkdown(currentText);
+    }
+    setTextCursor(cur);
 }
 
 bool NotesWidget::event(QEvent *event)
