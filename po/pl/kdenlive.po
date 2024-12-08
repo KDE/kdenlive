@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-11-30 09:08+0100\n"
+"PO-Revision-Date: 2024-12-07 12:28+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -10367,9 +10367,9 @@ msgstr ""
 #, kde-format
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Wycinek zawiera kanał alfa. Pośredniczenie nie jest zalecane."
+msgstr[1] "Te wycinki zawierają kanał alfa. Pośredniczenie nie jest zalecane."
+msgstr[2] "Te wycinki zawierają kanał alfa. Pośredniczenie nie jest zalecane."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
@@ -10377,19 +10377,21 @@ msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
 msgstr[0] ""
+"Masz wycinek zawierający kanał alfa. Pośredniczenie nie jest zalecane."
 msgstr[1] ""
+"Masz %1 wycinki zawierające kanał alfa. Pośredniczenie nie jest zalecane."
 msgstr[2] ""
+"Masz %1 wycinków zawierających kanał alfa. Pośredniczenie nie jest zalecane."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Wycinki pośrednie"
+msgstr "Pośredniczenie wszystkich wycinków"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Pośredniczenie tylko wycinków bez kanału alfa"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -10635,10 +10637,9 @@ msgid "Add effect %1"
 msgstr "Dodaj efekt %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:674
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "Nie można dodać dwukrotnie efektu %1"
+msgstr "Efek %1 można dodać tylko do głównej ścieżki"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1221
 #, kde-format
@@ -14779,11 +14780,10 @@ msgstr ""
 "powiększa"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
-msgstr "Przekształcenie"
+msgstr "Przekształć"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -18405,10 +18405,9 @@ msgstr "Zmienianie czasu trwania dla %1 wycinków."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Edytowanie w trybie zafalowania."
+msgstr "Zmiana rozmiaru w trybie zafalowania."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20144,10 +20143,9 @@ msgstr "Koniec przycięcia:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Wycinek zmiany rozmiaru zafalowania"
+msgstr "Zmiana rozmiaru zafalowania"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -23839,10 +23837,9 @@ msgstr "&Gradient:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #: src/ui/titlewidget_ui.ui:1020
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Sol&id color:"
-msgstr "Jedno&lity kolor:"
+msgstr "Jednol&ity kolor:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, typewriterBox)
 #: src/ui/titlewidget_ui.ui:1050
@@ -23864,8 +23861,7 @@ msgstr "Tryb rozszerzania"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
 #: src/ui/titlewidget_ui.ui:1081
-#, fuzzy, kde-format
-#| msgid "By &char"
+#, kde-format
 msgid "B&y char"
 msgstr "Wg &znaku"
 

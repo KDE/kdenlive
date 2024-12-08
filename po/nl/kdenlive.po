@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-06 11:18+0100\n"
+"PO-Revision-Date: 2024-12-07 12:05+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -10394,7 +10394,9 @@ msgstr ""
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
 msgstr[0] ""
+"Deze clip heeft een alfa-kanaal. Proxy gebruiken wordt niet aanbevolen."
 msgstr[1] ""
+"Deze clips hebben een alfa-kanaal. Proxy gebruiken wordt niet aanbevolen."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
@@ -10402,18 +10404,19 @@ msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
 msgstr[0] ""
+"U hebt een clip heeft een alfa-kanaal. Proxy gebruiken wordt niet aanbevolen."
 msgstr[1] ""
+"U hebt %1 clips met een alfa-kanaal. Proxy gebruiken wordt niet aanbevolen."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Proxy-clips"
+msgstr "Bij alle clips proxy gebruiken"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Alleen proxy gebruiken bij clips zonder alfa"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -18405,10 +18408,9 @@ msgstr "Tijdsduur voor %1 clips bewerken."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "In modus Ripple bewerken."
+msgstr "In modus Ripple grootte wijzigen."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20135,10 +20137,9 @@ msgstr "Einde van bijsnijden:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Rimpel clip verschalen"
+msgstr "Ripple grootte wijzigen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

@@ -10105,10 +10105,9 @@ msgid_plural ""
 msgstr[0] ""
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "代理剪辑"
+msgstr ""
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
@@ -17932,10 +17931,9 @@ msgstr "编辑 %1 条剪辑的持续时间。"
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "用波纹模式编辑。"
+msgstr ""
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -19617,10 +19615,9 @@ msgstr "裁剪结尾："
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "波纹调整剪辑大小"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

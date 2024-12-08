@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-05 08:48+0200\n"
+"PO-Revision-Date: 2024-12-07 11:19+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1170,7 +1170,7 @@ msgstr ""
 "למפה/תרשים עם המיקום הנוכחי ממורכז,ציור מד־אוץ"
 
 #: data/effects/gpsgraphic.xml:41
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "<![CDATA[<b>Speedometer</b> is available for all data sources but "
 "recommended only for speed; for the map type it represents the \"percentage "
@@ -1187,6 +1187,20 @@ msgid ""
 "(it will statically keep\n"
 "the same min/max limit allowing the Now dot to move up and down).]]>"
 msgstr ""
+"<![CDATA[<b>מד אוץ</b> זמין לכל מקורות הנתונים אבל מומלץ רק למהירות, "
+"recommended only for speed; for the map type it represents the \"percentage "
+"done\" from trimmed start - end).<br>\n"
+"Note: for type 1 (zoom and center, aka \"follow the dot\"):<br>\n"
+"* crop values are only valid as a percentage and only the bottom (resp left) "
+"values\n"
+"will be taken into consideration as both values (ie: bottom/top) will need "
+"to be equal to\n"
+"keep the dot centered)<br>\n"
+"* if data source is not GPS location, the centering will only be done for "
+"horizontal axis\n"
+"(time), vertical axis crop will behave just like for the basic 2D map line "
+"(it will statically keep\n"
+"the same min/max limit allowing the Now dot to move up and down).]]>"
 
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
@@ -1310,6 +1324,14 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[מחליט איך לפענח את ערכי<em>חיתוך מלמטה</em> ו<em>חיתוך מלמעלה</em>."
+"<br/>\n"
+"    \tעם ערך מוחלט, אפשר להתקרב לגובה של בין 100 ל־150 מטר כדי להציג שינויים "
+"קטנים בגובה בין שני הערכים האלה בצורה טובה יותר.<br/>\n"
+"לשימת ליבך: לסוג האנכי, ערכים מוחלטים עם מעולה קו גובה (לסוג מקור המקום)\n"
+"וגובה, דופק ומהירות לאחרים שמפוענחים בתור סוג <em>יחידת מקרא</em>\n"
+"איפה שנחוץ (למשל: ערך של גובה 10 ייחשב למטרים כברירת מחדל אבל <em>יחידת "
+"המקרא</em> לרגל אז זה יהיה 10 מטרים).]]>"
 
 #: data/effects/gpsgraphic.xml:81
 #, kde-format
@@ -10190,31 +10212,30 @@ msgstr ""
 #, kde-format
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "לסרטון הזה יש ערוץ שקיפות. לא מומלץ לבצע תיווך."
+msgstr[1] "לסרטונים האלה יש ערוץ שקיפות. לא מומלץ לבצע תיווך."
+msgstr[2] "לסרטונים האלה יש ערוץ שקיפות. לא מומלץ לבצע תיווך."
+msgstr[3] "לסרטונים האלה יש ערוץ שקיפות. לא מומלץ לבצע תיווך."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "יש לך סרטון עם ערוץ שקיפות. לא מומלץ לבצע על גביו תיווך."
+msgstr[1] "יש לך שני סרטונים עם ערוץ שקיפות. לא מומלץ לבצע על גביהם תיווך."
+msgstr[2] "יש לך %1 סרטונים עם ערוץ שקיפות. לא מומלץ לבצע על גביהם תיווך."
+msgstr[3] "יש לך %1 סרטונים עם ערוץ שקיפות. לא מומלץ לבצע על גביהם תיווך."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "סרטוני תיווך"
+msgstr "תיווך על כל הסרטונים"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "סרטוני תיווך בלי שקיפות בלבד"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -18112,10 +18133,9 @@ msgstr "משך הזמן של %1 פריטים נערך."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "מתבצעת עריכה במצב אדווה."
+msgstr "מתבצע שינוי גודל במצב אדווה."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -19818,10 +19838,9 @@ msgstr "סוף החיתוך:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "שינוי גודל סרטון באדווה"
+msgstr "שינוי גודל בתצורת אדווה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

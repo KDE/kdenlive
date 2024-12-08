@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-04 03:24+0100\n"
+"PO-Revision-Date: 2024-12-07 05:45+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -10317,27 +10317,26 @@ msgstr ""
 #, kde-format
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "ამ კლიპს აქვს ალფა არხი. დაპროქსვა რეკომენდებული არაა."
+msgstr[1] "ამ კლიპს აქვს ალფა არხი. დაპროქსვა რეკომენდებული არაა."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "გაქვთ კლიპი ალფა არხით. დაპროქსვა რეკომენდებული არაა."
+msgstr[1] "გაქვთ %1 კლიპი ალფა არხით. დაპროქსვა რეკომენდებული არაა."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "პროქსი კლიპები"
+msgstr "ყველა კლიპის დაპროქსვა"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "მხოლოდ, ალფა არხის არმქონე კლიპების დაპროქსვა"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -18297,10 +18296,9 @@ msgstr "ხანგრძლივობის ჩასწორება %1 �
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "ჩასწორება ჭავლის რეჟიმში."
+msgstr "ზომის შეცვლა ჭავლის რეჟიმში."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20027,10 +20025,9 @@ msgstr "ამოჭრის დასასრული:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "კლიპის ზომის შეცვლა მისი წანაცვლებით"
+msgstr " ზომის შეცვლა წანაცვლებით"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-04 09:28+0100\n"
+"PO-Revision-Date: 2024-12-07 10:06+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -10429,8 +10429,9 @@ msgstr ""
 #, kde-format
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
+msgstr[0] "Aquest clip té un canal alfa. No es recomana fer-lo intermediari."
 msgstr[1] ""
+"Aquests clips tenen un canal alfa. No es recomana fer-los intermediaris."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
@@ -10438,18 +10439,19 @@ msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
 msgstr[0] ""
+"Teniu un clip amb un canal alfa. No es recomana fer-lo intermediari."
 msgstr[1] ""
+"Teniu %1 clips amb un canal alfa. No es recomana fer-los intermediaris."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Clips intermediaris"
+msgstr "Fes intermediaris tots els clips"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Només fes intermediaris els clips sense canal alfa"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -18505,10 +18507,9 @@ msgstr "S'està editant la durada de %1 clips."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Edició en el mode d'onada."
+msgstr "Redimensiona en mode d'onada."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20244,10 +20245,9 @@ msgstr "Final de l'escapçat:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Redimensiona en onada el clip"
+msgstr "Redimensiona en onada"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

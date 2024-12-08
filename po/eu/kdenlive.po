@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-04 06:59+0100\n"
+"PO-Revision-Date: 2024-12-07 18:42+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -10387,7 +10387,9 @@ msgstr ""
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
 msgstr[0] ""
+"Klip honek alfa kanal bat du. Ez da gomendatzen ordezkari gisa erabiltzea."
 msgstr[1] ""
+"Klip hauek alfa kanal bat dute. Ez da gomendatzen ordezkari gisa erabiltzea."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
@@ -10395,18 +10397,21 @@ msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
 msgstr[0] ""
+"Alfa kanal bat duen klip bat duzu. Ez da gomendatzen ordezkari gisa "
+"erabiltzea."
 msgstr[1] ""
+"Alfa kanal bat duten %1 klip dituzu. Ez da gomendatzen ordezkari gisa "
+"erabiltzea."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Klip-ordezkariak"
+msgstr "Klip denak ordezkari egin"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Alfarik ez duten klipak bakarrik ordezkari egin"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -18398,10 +18403,9 @@ msgstr "%1 klipen iraupena editatzea."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Izurdura moduan editatzea."
+msgstr "Izurdura moduan neurria aldatzea."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20135,10 +20139,9 @@ msgstr "Bukaera moztu:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Izurdurarekin kliparen neurria aldatzea"
+msgstr "Izurduran neurri-aldatu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-04 08:26+0200\n"
+"PO-Revision-Date: 2024-12-07 19:38+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -10447,9 +10447,13 @@ msgstr ""
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
 msgstr[0] ""
+"У цих кліпах є альфа-канал. Не рекомендуємо створення проксі-кліпів."
 msgstr[1] ""
+"У цих кліпах є альфа-канал. Не рекомендуємо створення проксі-кліпів."
 msgstr[2] ""
+"У цих кліпах є альфа-канал. Не рекомендуємо створення проксі-кліпів."
 msgstr[3] ""
+"У цьому кліпі є альфа-канал. Не рекомендуємо створення проксі-кліпів."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
@@ -10457,20 +10461,23 @@ msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
 msgstr[0] ""
+"У вас є %1 кліп із альфа-каналом. Не рекомендуємо створення проксі-кліпів."
 msgstr[1] ""
+"У вас є %1 кліпи із альфа-каналом. Не рекомендуємо створення проксі-кліпів."
 msgstr[2] ""
+"У вас є %1 кліпів із альфа-каналом. Не рекомендуємо створення проксі-кліпів."
 msgstr[3] ""
+"У вас є кліп із альфа-каналом. Не рекомендуємо створення проксі-кліпів."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Проміжні кліпи"
+msgstr "Проміжні кліпи для усього"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Проміжні кліпи лише для кліпів без альфи"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -18540,10 +18547,9 @@ msgstr "Змінюємо тривалість для %1 кліпів."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Редагування у режимі брижів."
+msgstr "Зміна розмірів у режимі брижів."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20285,10 +20291,9 @@ msgstr "Обрізати кінець:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Змінити розміри кліпу з брижами"
+msgstr "Змінити розмірів брижами"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24

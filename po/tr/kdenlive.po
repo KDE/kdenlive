@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-04 18:13+0300\n"
+"PO-Revision-Date: 2024-12-07 13:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -10326,27 +10326,26 @@ msgstr ""
 #, kde-format
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Klibin bir alfa kanalı var. Vekillemek önerilmez."
+msgstr[1] "Bu kliplerin bir alfa kanalı var. Vekillemek önerilmez."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Alfa kanalı olan bir klibiniz var. Onu vekillemek önerilmez."
+msgstr[1] "Alfa kanalı olan %1 klibiniz var. Onları vekillemek önerilmez."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Vekil klipler"
+msgstr "Tüm klipleri vekille"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Yalnızca alfasız klipleri vekille"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -18316,10 +18315,9 @@ msgstr "%1 klip için süre düzenleniyor."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Dalgacık kipinde düzenleniyor."
+msgstr "Dalgacık kipinde yeniden boyutlanıyor."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20050,10 +20048,9 @@ msgstr "Kırpma bitişi:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Klibi dalgacık ile yeniden boyutlandır"
+msgstr "Dalgacıklı yeniden boyutlandır"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
