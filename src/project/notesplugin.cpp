@@ -56,14 +56,21 @@ void NotesPlugin::setProject(KdenliveDoc *document)
             xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
         connect(a, &QAction::triggered, m_widget, &NotesWidget::createMarkers);
         m_tb->addAction(a);
+        m_tb->addSeparator();
+        a = new QAction(QIcon::fromTheme(QStringLiteral("format-text-bold")), i18n("Bold"));
+        a->setWhatsThis(
+            xi18nc("@info:whatsthis", "Creates markers in the timeline from the selected timecodes (doesn’t matter if other text is selected too)."));
+        connect(a, &QAction::triggered, m_widget, &NotesWidget::switchBoldText);
+        m_tb->addAction(a);
+
         QWidget *empty = new QWidget();
         empty->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
         m_tb->addWidget(empty);
-        a = new QAction(QIcon::fromTheme(QStringLiteral("format-text-code")), i18n("Edit Markdown source code"));
-        a->setCheckable(true);
-        a->setWhatsThis(xi18nc("@info:whatsthis", "Enable or disable markdown editing."));
-        connect(a, &QAction::triggered, m_widget, &NotesWidget::switchMarkDownEditing);
-        m_tb->addAction(a);
+        m_markDownEdit = new QAction(QIcon::fromTheme(QStringLiteral("format-text-code")), i18n("Edit Markdown source code"));
+        m_markDownEdit->setCheckable(true);
+        m_markDownEdit->setWhatsThis(xi18nc("@info:whatsthis", "Enable or disable markdown editing."));
+        connect(m_markDownEdit, &QAction::triggered, m_widget, &NotesWidget::switchMarkDownEditing);
+        m_tb->addAction(m_markDownEdit);
     }
 }
 
@@ -71,6 +78,16 @@ void NotesPlugin::showDock()
 {
     m_notesDock->show();
     m_notesDock->raise();
+}
+
+void NotesPlugin::loadNotes(QString text)
+{
+    m_widget->clear();
+    if (m_markDownEdit->isChecked()) {
+        m_markDownEdit->trigger();
+    }
+    text.replace(QStringLiteral("\n\n\n"), QStringLiteral("\n<br />\n\n"));
+    m_widget->setMarkdown(text);
 }
 
 void NotesPlugin::slotInsertTimecode()
@@ -156,7 +173,7 @@ void NotesPlugin::slotReAssign(const QStringList &anchors, const QList<QPoint> &
 
 void NotesPlugin::slotInsertText(const QString &text)
 {
-    m_widget->insertHtml(text);
+    m_widget->insertMarkDown(text);
 }
 
 NotesWidget *NotesPlugin::widget()

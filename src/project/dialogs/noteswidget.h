@@ -25,6 +25,8 @@ public:
     */
     void addTextNote(const QString &text);
     void insertMarkDown(const QString &md);
+    void switchBoldText();
+    void switchHeaderText();
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;

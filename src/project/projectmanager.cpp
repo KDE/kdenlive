@@ -1280,7 +1280,7 @@ void ProjectManager::setDocumentNotes(QString &notes, QStringList deprecatedBinI
                 notes = notes.replace(pattern, replacement);
             }
         }
-        m_notesPlugin->widget()->setHtml(notes);
+        m_notesPlugin->loadNotes(notes);
     }
 }
 
@@ -1290,7 +1290,7 @@ QString ProjectManager::documentNotes() const
     if (text.isEmpty()) {
         return QString();
     }
-    return m_notesPlugin->widget()->toHtml();
+    return m_notesPlugin->widget()->toMarkdown();
 }
 
 void ProjectManager::slotAddProjectNote()

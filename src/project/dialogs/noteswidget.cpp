@@ -22,6 +22,7 @@ NotesWidget::NotesWidget(QWidget *parent)
     : QTextEdit(parent)
 {
     setMouseTracking(true);
+    // setAcceptRichText(true);
 }
 
 NotesWidget::~NotesWidget() = default;
@@ -218,10 +219,25 @@ void NotesWidget::createMarkers()
 void NotesWidget::switchMarkDownEditing(bool enable)
 {
     if (enable) {
-        const QString text = toMarkdown();
+        QString text = toMarkdown();
+        clear();
+        QTextCursor cursor = textCursor();
+        cursor.select(QTextCursor::Document);
+        cursor.setCharFormat(QTextCharFormat());
+        cursor.clearSelection();
+        setTextCursor(cursor);
+        // setAcceptRichText(false);
         setPlainText(text);
     } else {
-        const QString text = toPlainText();
+        QString text = toPlainText();
+        text.replace(QStringLiteral("\n\n\n"), QStringLiteral("\n<br/>\n\n"));
+        clear();
+        QTextCursor cursor = textCursor();
+        cursor.select(QTextCursor::Document);
+        cursor.setCharFormat(QTextCharFormat());
+        cursor.clearSelection();
+        setTextCursor(cursor);
+        // setAcceptRichText(true);
         setMarkdown(text);
     }
 }
@@ -285,6 +301,37 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
 void NotesWidget::insertMarkDown(const QString &md)
 {
     textCursor().insertMarkdown(md);
+}
+
+void NotesWidget::switchBoldText()
+{
+    QTextCursor cur = textCursor();
+    int nCurPos = cur.position();
+    if (!cur.hasSelection()) {
+        cur.select(QTextCursor::WordUnderCursor);
+    } else {
+        int startPos = cur.selectionStart();
+        int endPos = cur.selectionEnd();
+        cur.setPosition(endPos, QTextCursor::MoveAnchor);
+        cur.movePosition(QTextCursor::EndOfWord, QTextCursor::MoveAnchor);
+        cur.setPosition(startPos, QTextCursor::QTextCursor::KeepAnchor);
+        // Get current text style
+        cur.movePosition(QTextCursor::StartOfWord, QTextCursor::KeepAnchor);
+    }
+    QTextCharFormat format;
+    if (cur.charFormat().font().bold()) {
+        format.setFontWeight(QFont::Normal);
+    } else {
+        format.setFontWeight(QFont::Bold);
+    }
+    cur.mergeCharFormat(format);
+    cur.setPosition(nCurPos);
+    setTextCursor(cur);
+}
+
+void NotesWidget::switchHeaderText()
+{
+    // TODO
 }
 
 bool NotesWidget::event(QEvent *event)

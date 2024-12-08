@@ -12,6 +12,7 @@ class KdenliveDoc;
 class ProjectManager;
 class QDockWidget;
 class QToolBar;
+class QAction;
 
 /** @class NotesPlugin
     @brief Handles connection of NotesWidget
@@ -27,6 +28,7 @@ public:
     NotesWidget *widget();
     void clear();
     void showDock();
+    void loadNotes(QString text);
 
 private Q_SLOTS:
     void setProject(KdenliveDoc *document);
@@ -41,4 +43,5 @@ private:
     NotesWidget *m_widget;
     QDockWidget *m_notesDock;
     QToolBar *m_tb;
+    QAction *m_markDownEdit;
 };
