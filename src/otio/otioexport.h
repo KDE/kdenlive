@@ -24,7 +24,7 @@ public:
     OtioExport(QObject *parent);
 
 public Q_SLOTS:
-    void slotExportProject();
+    void slotExport();
 
 private:
     void exportTimeline(const std::shared_ptr<TimelineItemModel> &, const QString &path);

@@ -9,6 +9,10 @@
 
 #include <QObject>
 
+#include <opentimelineio/timeline.h>
+
+class TimelineItemModel;
+
 class OtioImport : public QObject
 {
     Q_OBJECT
@@ -17,7 +21,8 @@ public:
     OtioImport(QObject *parent);
 
 public Q_SLOTS:
-    void slotImportProject();
+    void slotImport();
 
 private:
+    void importTimeline(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &, std::shared_ptr<TimelineItemModel>);
 };

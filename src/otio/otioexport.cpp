@@ -26,17 +26,20 @@ OtioExport::OtioExport(QObject *parent)
 {
 }
 
-void OtioExport::slotExportProject()
+void OtioExport::slotExport()
 {
-    const QString path = QFileDialog::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(), i18n("*.otio"));
-    if (path.isNull()) {
+    // Get the file name.
+    const QString fileName =
+        QFileDialog::getSaveFileName(pCore->window(), i18n("OpenTimelineIO Export"), pCore->currentDoc()->projectDataFolder(), i18n("*.otio"));
+    if (fileName.isNull()) {
         return;
     }
 
-    exportTimeline(pCore->currentDoc()->getTimeline(pCore->currentTimelineId()), path);
+    // Export the timeline.
+    exportTimeline(pCore->currentDoc()->getTimeline(pCore->currentTimelineId()), fileName);
 }
 
-void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeline, const QString &path)
+void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeline, const QString &fileName)
 {
     // Create the OTIO timeline.
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline(new OTIO_NS::Timeline);
@@ -50,17 +53,15 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
     }
 
     // Write the OTIO timeline to disk.
-    otioTimeline->to_json_file(path.toStdString());
+    otioTimeline->to_json_file(fileName.toStdString());
 }
 
 void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline, const QModelIndex &trackModelIndex,
                              OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &otioTimeline)
 {
-    const int trackId = trackModelIndex.internalId();
-    // qDebug() << "track:" << timeline->getTrackFullName(trackId);
-
     // Create the OTIO track.
     std::string trackKind = OTIO_NS::Track::Kind::video;
+    const int trackId = trackModelIndex.internalId();
     if (timeline->isAudioTrack(trackId)) {
         trackKind = OTIO_NS::Track::Kind::audio;
     } else if (timeline->isSubtitleTrack(trackId)) {
@@ -86,14 +87,11 @@ void OtioExport::exportTrack(const std::shared_ptr<TimelineItemModel> &timeline,
 
 void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &otioTrack)
 {
-    // qDebug() << "clip:" << timeline->getClipName(clipId);
-
     // Create the OTIO media reference.
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::MediaReference> otioMediaReference;
     const QString clipBinId = timeline->getClipBinId(clipId);
     if (std::shared_ptr<ProjectClip> projectClip = pCore->projectItemModel()->getClipByBinID(clipBinId)) {
         if (projectClip->hasUrl()) {
-            // qDebug() << "    url:" << projectClip->url();
             const double mediaFps = projectClip->getOriginalFps();
             otioMediaReference = new OTIO_NS::ExternalReference(
                 projectClip->url().toStdString(),
@@ -103,7 +101,6 @@ void OtioExport::exportClip(const std::shared_ptr<TimelineItemModel> &timeline, 
 
     // Create the OTIO clip.
     const std::pair<int, int> clipInOut = timeline->getClipInOut(clipId);
-    // qDebug() << "    range:" << clipInOut.first << clipInOut.second;
     const double fps = projectFps();
     OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> otioClip(
         new OTIO_NS::Clip(timeline->getClipName(clipId).toStdString(), otioMediaReference.value,
