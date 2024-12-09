@@ -1381,7 +1381,8 @@ msgid "Sets the color #2 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:104
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Color 3"
 msgid "Color 3"
 msgstr "Warna 3"
 
@@ -1391,7 +1392,8 @@ msgid "Sets the color #3 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:108
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Color 4"
 msgid "Color 4"
 msgstr "Warna 4"
 
@@ -1401,7 +1403,8 @@ msgid "Sets the color #4 for the graph line"
 msgstr ""
 
 #: data/effects/gpsgraphic.xml:112
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Color 5"
 msgid "Color 5"
 msgstr "Warna 5"
 
