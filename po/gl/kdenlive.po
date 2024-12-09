@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-07 19:10+0100\n"
+"PO-Revision-Date: 2024-12-08 15:20+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1606,9 +1606,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
-"m,metro,km,quilómetro,kilómetro,mi,milla,ft,pe,pé,nm,náutica,ms,m/s,metro "
-"por segundo,km,km/h,quilómetro por hora,mi,mi/h,milla por hora,ft,ft/s,pés "
-"por segundo,kn,nm/h,nós,mmin,m/min,ftmin,ft/min"
+"m,metro,km,quilómetro,mi,milla,ft,pe,pé,nm,náutica,ms,m/s,metro por segundo,"
+"km,km/h,quilómetro por hora,mi,mi/h,milla por hora,ft,ft/s,pés por segundo,"
+"kn,nm/h,nós,mmin,m/min,ftmin,ft/min"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -2006,6 +2006,7 @@ msgstr ""
 msgid "Alpha shapes (Mask)"
 msgstr "Formas alfa (máscara)"
 
+# skip-rule: rag-gl-aplicación
 #: data/effects/mask_start_frei0r_alphaspot.xml:5
 #, kde-format
 msgid ""
@@ -2089,6 +2090,7 @@ msgstr "Operación"
 msgid "Secondary Color Correction Area Selection (Mask)"
 msgstr "Selección de zona de corrección de cor secundaria (máscara)"
 
+# skip-rule: rag-gl-aplicación
 #: data/effects/mask_start_frei0r_select0r.xml:5
 #, kde-format
 msgid ""
@@ -2174,6 +2176,7 @@ msgstr "Suavizar"
 msgid "Rotoscoping (Mask)"
 msgstr "Rotoscopia (máscara)"
 
+# skip-rule: rag-gl-aplicación
 #: data/effects/mask_start_rotoscoping.xml:5
 #, kde-format
 msgid ""
@@ -2229,6 +2232,7 @@ msgstr "Pases da pluma"
 msgid "Shape Alpha (Mask)"
 msgstr "Formar unha alfa (máscara)"
 
+# skip-rule: rag-gl-aplicación
 #: data/effects/mask_start_shape.xml:5
 #, kde-format
 msgid ""
@@ -6055,7 +6059,7 @@ msgstr ""
 "O fragmento <b>%1</b><br /> está nun dispositivo extraíbel, non estará "
 "dispoñíbel cando se extraia o dispositivo ou se monte nunha posición "
 "distinta.\n"
-"Cómpre que o copie primeiro no disco duro. Quere engadilo de todos xeitos?"
+"Cómpre que o copie primeiro no disco duro. Quere engadilo de todos os xeitos?"
 
 #: src/bin/clipcreator.cpp:544
 #, kde-format
@@ -12558,7 +12562,7 @@ msgstr "DirectX (ANGLE)"
 #: src/mainwindow.cpp:1400
 #, kde-format
 msgid "Software OpenGL"
-msgstr "OpenGL por software"
+msgstr "OpenGL lóxico"
 
 #: src/mainwindow.cpp:1410
 #, kde-format

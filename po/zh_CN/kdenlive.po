@@ -10095,24 +10095,24 @@ msgstr ""
 #, kde-format
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
-msgstr[0] ""
+msgstr[0] "这些剪辑包含透明度通道。不推荐进行代理剪辑。"
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
 msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
-msgstr[0] ""
+msgstr[0] "您有 %1 个剪辑包含透明度通道。不推荐进行代理剪辑。"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy all clips"
-msgstr ""
+msgstr "代理全部剪辑"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "仅代理无透明度通道的剪辑"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -17933,7 +17933,7 @@ msgstr "编辑 %1 条剪辑的持续时间。"
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
 #, kde-format
 msgid "Resizing in Ripple mode."
-msgstr ""
+msgstr "用波纹模式调整大小。"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -19617,7 +19617,7 @@ msgstr "裁剪结尾："
 #: src/ui/clipdurationdialog_ui.ui:108
 #, kde-format
 msgid "Ripple resize"
-msgstr ""
+msgstr "波纹调整大小"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
