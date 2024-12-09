@@ -104,8 +104,12 @@ bool QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root = m_view->rootObject();
         break;
     default:
-        m_view->setSource(
-            QUrl(id == Kdenlive::ClipMonitor ? QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml") : QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
+        if (id == Kdenlive::ClipMonitor) {
+            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenliveclipmonitor.qml")));
+            QObject::connect(root, SIGNAL(addControlPoint(double, double, bool)), this, SIGNAL(addControlPoint(double, double, bool)), Qt::UniqueConnection);
+        } else {
+            m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitor.qml")));
+        }
         root = m_view->rootObject();
         root->setProperty("profile", QPoint(profile.width(), profile.height()));
         root->setProperty("scalex", scalex);

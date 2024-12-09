@@ -287,6 +287,7 @@ private Q_SLOTS:
     void checkDrops();
     /** @brief En/Disable the show record timecode feature in clip monitor */
     void slotSwitchRecTimecode(bool enable);
+    void addControlPoint(double x, double y, bool exclude);
 
 public Q_SLOTS:
     void updateTimelineProducer();
@@ -399,4 +400,5 @@ Q_SIGNALS:
     void autoKeyframeChanged();
     void zoneDurationChanged();
     void blockSceneChange(bool);
+    void addMonitorControlPoint(int xPos, int yPos, bool exclude);
 };

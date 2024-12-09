@@ -296,6 +296,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             }
         });
 
+        connect(m_qmlManager, &QmlManager::addControlPoint, this, &Monitor::addControlPoint, Qt::QueuedConnection);
+
         m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
         m_toolbar->addSeparator();
         m_streamsButton = new QToolButton(this);
@@ -2969,4 +2971,12 @@ void Monitor::markDirty(const QUuid uuid)
 bool Monitor::isDirty() const
 {
     return m_dirty;
+}
+
+void Monitor::addControlPoint(double x, double y, bool exclude)
+{
+    QSize fSize = pCore->getCurrentFrameDisplaySize();
+    int xPos = qRound(x * fSize.width());
+    int yPos = qRound(y * fSize.height());
+    Q_EMIT addMonitorControlPoint(xPos, yPos, exclude);
 }

@@ -46,4 +46,5 @@ Q_SIGNALS:
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
     void activateTrack(int);
+    void addControlPoint(double x, double y, bool exclude);
 };
