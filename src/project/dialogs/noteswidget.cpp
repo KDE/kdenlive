@@ -267,7 +267,7 @@ void NotesWidget::addTextNote(const QString &text)
 void NotesWidget::insertFromMimeData(const QMimeData *source)
 {
     QString pastedText = source->text();
-    bool enforceMarkDown = false;
+    bool enforceMarkDown = pastedText.contains(QLatin1String("# "));
     // Check for timecodes
     QStringList words = pastedText.split(QLatin1Char(' '));
     for (const QString &w : std::as_const(words)) {
@@ -333,20 +333,20 @@ void NotesWidget::switchBoldText()
 void NotesWidget::switchHeaderText()
 {
     QTextCursor cur = textCursor();
+    cur.movePosition(QTextCursor::StartOfLine, QTextCursor::MoveAnchor);
     cur.select(QTextCursor::LineUnderCursor);
     QString currentText = cur.selection().toMarkdown();
     if (currentText.startsWith(QStringLiteral("# "))) {
         // Already a header, clear
-        cur.removeSelectedText();
         cur.setCharFormat(QTextCharFormat());
         currentText.remove(0, 2);
-        cur.insertMarkdown(currentText);
     } else {
+        cur.setCharFormat(QTextCharFormat());
         currentText.prepend(QStringLiteral("# "));
-        cur.removeSelectedText();
-        cur.insertMarkdown(currentText);
     }
+    cur.removeSelectedText();
     setTextCursor(cur);
+    insertMarkDown(currentText);
 }
 
 bool NotesWidget::event(QEvent *event)
