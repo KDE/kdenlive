@@ -46,7 +46,17 @@ void OtioExport::exportTimeline(const std::shared_ptr<TimelineItemModel> &timeli
 
     // Export the tracks.
     //
+    // TODO: The recommendation was to traverse the tracks using
+    // TimelineModel::getTrackById_const(), but that function is protected?
+    // For now we traverse the tracks by using the QAbstractItemModel
+    // functions.
+    //
     // TODO: Tracks are in reverse order?
+    //
+    // for (int trackId : timeline->getAllTracksIds())
+    //{
+    //    std::shared_ptr<TrackModel> track = timeline->getTrackById(trackId);
+    //}
     for (int track = timeline->rowCount() - 1; track >= 0; --track) {
         const QModelIndex trackModelIndex = timeline->index(track);
         exportTrack(timeline, trackModelIndex, otioTimeline);
