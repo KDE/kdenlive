@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-11-22 00:08-0300\n"
+"PO-Revision-Date: 2024-12-09 15:11-0300\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -10439,7 +10439,9 @@ msgstr ""
 msgid "This clip has an alpha channel. Proxying is not recommended."
 msgid_plural "These clips have an alpha channel. Proxying is not recommended."
 msgstr[0] ""
+"Este clip contiene canal alfa. No se recomienda generarle un reemplazo."
 msgstr[1] ""
+"Estos clips contienen canal alfa. No se recomienda generarles reemplazos."
 
 #: src/doc/kdenlivedoc.cpp:1618
 #, kde-format
@@ -10447,18 +10449,19 @@ msgid "You have a clip with an alpha channel. Proxying it is not recommended."
 msgid_plural ""
 "You have %1 clips with an alpha channel. Proxying these is not recommended."
 msgstr[0] ""
+"Existe un clip con canal alfa. No se recomienda generarle un reemplazo."
 msgstr[1] ""
+"Existen %1 clips con canal alfa. No se recomienda generarles reemplazos."
 
 #: src/doc/kdenlivedoc.cpp:1620
-#, fuzzy, kde-format
-#| msgid "Proxy clips"
+#, kde-format
 msgid "Proxy all clips"
-msgstr "Clips de reemplazo"
+msgstr "Reemplazar todos los clips"
 
 #: src/doc/kdenlivedoc.cpp:1620
 #, kde-format
 msgid "Proxy clips without alpha only"
-msgstr ""
+msgstr "Reemplazar sólo clips sin canal alfa"
 
 #: src/doc/kdenlivedoc.cpp:1636
 #, kde-format
@@ -10702,10 +10705,9 @@ msgid "Add effect %1"
 msgstr "Agregar efecto %1"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:674
-#, fuzzy, kde-format
-#| msgid "Effect %1 cannot be added twice."
+#, kde-format
 msgid "Effect %1 can only be added to master"
-msgstr "El efecto %1 no puede ser agregado dos veces."
+msgstr "El efecto %1 sólo puede ser agregado a la pista maestra"
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:1221
 #, kde-format
@@ -14866,11 +14868,10 @@ msgstr ""
 "<b>flechas</b> para saltar, <b>Ctrl+rueda</b> para ampliar"
 
 #: src/monitor/view/kdenlivemonitor.qml:296
-#, fuzzy, kde-format
-#| msgid "Transform"
+#, kde-format
 msgctxt "@tooltip Transform, a tool to resize"
 msgid "Transform"
-msgstr "Transformación"
+msgstr "Transformar"
 
 #: src/monitor/view/kdenlivemonitoreffectscene.qml:301
 #, kde-kuit-format
@@ -18492,10 +18493,9 @@ msgstr "Editando la duración de %1 clips."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
-#, fuzzy, kde-format
-#| msgid "Editing in Ripple mode."
+#, kde-format
 msgid "Resizing in Ripple mode."
-msgstr "Editando en modo Encadenado."
+msgstr "Redimensionando en modo Encadenado."
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:312
 #, kde-format
@@ -20233,10 +20233,9 @@ msgstr "Recortar fin:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ripple_resize)
 #: src/ui/clipdurationdialog_ui.ui:108
-#, fuzzy, kde-format
-#| msgid "Ripple resize clip"
+#, kde-format
 msgid "Ripple resize"
-msgstr "Redimensionar clip encadenado"
+msgstr "Redimensionar encadenado"
 
 #. i18n: ectx: property (title), widget (QGroupBox, param_box)
 #: src/ui/clipjobmanager_ui.ui:24
@@ -23935,10 +23934,9 @@ msgstr "&Gradiente:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, plain_color)
 #: src/ui/titlewidget_ui.ui:1020
-#, fuzzy, kde-format
-#| msgid "So&lid color:"
+#, kde-format
 msgid "Sol&id color:"
-msgstr "Color p&leno:"
+msgstr "Color pl&eno:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, typewriterBox)
 #: src/ui/titlewidget_ui.ui:1050
@@ -23960,8 +23958,7 @@ msgstr "Modo de expansión"
 
 #. i18n: ectx: property (text), widget (QRadioButton, tw_rd_char)
 #: src/ui/titlewidget_ui.ui:1081
-#, fuzzy, kde-format
-#| msgid "By &char"
+#, kde-format
 msgid "B&y char"
 msgstr "Por &caracter"
 
