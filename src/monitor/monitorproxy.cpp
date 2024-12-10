@@ -38,6 +38,7 @@ MonitorProxy::MonitorProxy(VideoWidget *parent)
 {
     if (q->m_id == int(Kdenlive::ClipMonitor)) {
         connect(pCore->bin(), &Bin::clipNameChanged, this, &MonitorProxy::updateClipName);
+        m_previewOverlay = QUrl::fromLocalFile("/tmp/preview.png");
     }
     m_showGrid = KdenliveSettings::showMonitorGrid();
     m_builtinEffectsEnabled = KdenliveSettings::enableBuiltInEffects();
@@ -69,6 +70,14 @@ int MonitorProxy::gridV() const
 int MonitorProxy::getPosition() const
 {
     return m_position;
+}
+
+QUrl MonitorProxy::previewOverlay()
+{
+    QUrl url = m_previewOverlay;
+    m_switchFlag = !m_switchFlag;
+    url.setQuery(m_switchFlag ? QStringLiteral("1") : QStringLiteral("2"));
+    return url;
 }
 
 void MonitorProxy::updateClipName(int id, const QString newName)

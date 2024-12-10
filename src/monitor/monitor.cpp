@@ -30,6 +30,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "openglvideowidget.h"
 #endif
 
+#include "assets/keyframes/model/automask/automaskhelper.hpp"
 #include "bin/model/markersortmodel.h"
 #include "monitormanager.h"
 #include "monitorproxy.h"
@@ -1871,6 +1872,10 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
+    if (m_controller) {
+        AutomaskHelper *am = new AutomaskHelper(this, m_controller, this);
+        connect(m_qmlManager, &QmlManager::generatePreview, am, &AutomaskHelper::generatePreview, Qt::QueuedConnection);
+    }
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
@@ -2975,7 +2980,14 @@ bool Monitor::isDirty() const
 
 void Monitor::addControlPoint(double x, double y, bool exclude)
 {
-    QSize fSize = pCore->getCurrentFrameDisplaySize();
+    // Ensure source frame were extracted
+    qDebug() << ":::::: EXPORTING CURRENT FRAMES....";
+    QDir dir(QStringLiteral("/tmp/src-frames"));
+    if (!dir.exists()) {
+        dir.mkpath(QStringLiteral("."));
+        m_controller->exportFrames(dir);
+    }
+    QSize fSize = m_controller->frameSize();
     int xPos = qRound(x * fSize.width());
     int yPos = qRound(y * fSize.height());
     Q_EMIT addMonitorControlPoint(xPos, yPos, exclude);

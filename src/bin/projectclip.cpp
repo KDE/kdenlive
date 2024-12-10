@@ -3149,3 +3149,9 @@ bool ProjectClip::hasAlpha()
     }
     return false;
 }
+
+void ProjectClip::exportFrames(const QDir folder)
+{
+    QStringList args = {QStringLiteral("-y"), QStringLiteral("-i"), clipUrl(), folder.absoluteFilePath(QStringLiteral("%04d.jpg"))};
+    m_exportProcess.startDetached(KdenliveSettings::ffmpegpath(), args);
+}

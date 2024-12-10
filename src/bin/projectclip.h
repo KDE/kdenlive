@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QFuture>
 #include <QMutex>
+#include <QProcess>
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QUuid>
@@ -308,6 +309,8 @@ public:
     virtual size_t sequenceFrameDuration(const QUuid &);
     /** @brief returns true if an avformat producer has an alpha channel */
     bool hasAlpha();
+    /** @brief Export video as jpg frames for analysis */
+    void exportFrames(const QDir folder);
 
 protected:
     friend class ClipModel;
@@ -389,6 +392,7 @@ private:
     QByteArray m_thumbXml;
     const QString geometryWithOffset(const QString &data, int offset);
     QMap <QString, QByteArray> m_audioLevels;
+    QProcess m_exportProcess;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
     bool m_resetTimelineOccurences;
 

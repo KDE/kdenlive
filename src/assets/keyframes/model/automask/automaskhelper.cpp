@@ -6,45 +6,144 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
 #include "automaskhelper.hpp"
-#include "assets/keyframes/model/keyframemodellist.hpp"
-#include "assets/model/assetparametermodel.hpp"
+#include "bin/projectclip.h"
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "monitor/monitorproxy.h"
 
 #include <QProcess>
 #include <QSize>
 #include <QtConcurrent>
 #include <utility>
 
-AutomaskHelper::AutomaskHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
-    : KeyframeMonitorHelper(monitor, std::move(model), std::move(index), parent)
+AutomaskHelper::AutomaskHelper(Monitor *monitor, std::shared_ptr<ProjectClip> clip, QObject *parent)
+    : QObject(parent)
+    , m_monitor(monitor)
+    , m_clip(clip)
 {
     connect(m_monitor, &Monitor::addMonitorControlPoint, this, &AutomaskHelper::addMonitorControlPoint, Qt::UniqueConnection);
+    // connect(this, &AutomaskHelper::previewImageReady, this, &AutomaskHelper::generateMask, Qt::QueuedConnection);
 }
 
 void AutomaskHelper::addMonitorControlPoint(int xPos, int yPos, bool exclude)
 {
     const QPoint p(xPos, yPos);
+    m_lastPos = m_monitor->position();
+    qDebug() << "================\n\nADDING MONITOR POINT: " << m_lastPos << " = " << p << "\n\n==================";
+    QList<QPoint> pointsList;
     if (exclude) {
-        if (!m_excludePoints.contains(p)) {
-            m_excludePoints.append(p);
+        if (m_excludePoints.contains(m_lastPos)) {
+            pointsList = m_excludePoints.value(m_lastPos);
+            if (pointsList.contains(p)) {
+                // Already in
+                return;
+            }
         }
+        pointsList.append(p);
+        m_excludePoints.insert(m_lastPos, pointsList);
     } else {
-        if (!m_includePoints.contains(p)) {
-            m_includePoints.append(p);
+        if (m_includePoints.contains(m_lastPos)) {
+            pointsList = m_includePoints.value(m_lastPos);
+            if (pointsList.contains(p)) {
+                // Already in
+                return;
+            }
         }
+        pointsList.append(p);
+        m_includePoints.insert(m_lastPos, pointsList);
     }
-    QtConcurrent::run(&AutomaskHelper::generateImage, this, m_includePoints, m_excludePoints);
+    QVariantList points;
+    QVariantList pointsTypes;
+    const QSize frameSize = m_clip->frameSize();
+    pointsList = m_includePoints.value(m_lastPos);
+    for (auto &p : pointsList) {
+        points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
+        pointsTypes << 1;
+    }
+    pointsList = m_excludePoints.value(m_lastPos);
+    for (auto &p : pointsList) {
+        points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
+        pointsTypes << 0;
+    }
+    qDebug() << "===== ADDED CONTROL POINT; TOTAL: " << "EXCLUDING: " << exclude << ", " << points.size() << ", CENTERS: " << pointsTypes;
+    m_monitor->setUpEffectGeometry(QRect(), points, pointsTypes);
+    QtConcurrent::run(&AutomaskHelper::generateImage, this);
 }
 
-void AutomaskHelper::generateImage(const QList<QPoint> includes, const QList<QPoint> excludes)
+void AutomaskHelper::generateImage()
 {
     QProcess scriptJob;
-    QStringList args = {QStringLiteral("/home/seven/git/sam2/venv/test-sam.py")};
-    scriptJob.start(KdenliveSettings::pythonPath(), args);
+    QStringList pointsList;
+    QStringList labelsList;
+    if (m_includePoints.contains(m_lastPos)) {
+        const QList<QPoint> points = m_includePoints.value(m_lastPos);
+        for (auto &p : points) {
+            pointsList << QString::number(p.x());
+            pointsList << QString::number(p.y());
+            labelsList << QStringLiteral("1");
+        }
+    }
+    if (m_excludePoints.contains(m_lastPos)) {
+        const QList<QPoint> points = m_excludePoints.value(m_lastPos);
+        for (auto &p : points) {
+            pointsList << QString::number(p.x());
+            pointsList << QString::number(p.y());
+            labelsList << QStringLiteral("0");
+        }
+    }
+    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"),
+                        QStringLiteral("-P"),
+                        pointsList.join(QLatin1Char(',')),
+                        QStringLiteral("-L"),
+                        labelsList.join(QLatin1Char(',')),
+                        QStringLiteral("preview")};
+    qDebug() << "---- STARTING IMAGE GENERATION: " << args;
+    const QString exec("/home/six/git/sam2/venv/bin/python3");
+    scriptJob.start(exec, args);
     scriptJob.waitForFinished(-1);
-    Q_EMIT previewImageReady();
+    Q_EMIT m_monitor->getControllerProxy()->previewOverlayChanged();
+}
+
+void AutomaskHelper::generatePreview()
+{
+    QtConcurrent::run(&AutomaskHelper::doGeneratePreview, this);
+}
+
+void AutomaskHelper::doGeneratePreview()
+{
+    QProcess scriptJob;
+    QStringList pointsList;
+    QStringList labelsList;
+    if (m_includePoints.contains(m_lastPos)) {
+        const QList<QPoint> points = m_includePoints.value(m_lastPos);
+        for (auto &p : points) {
+            pointsList << QString::number(p.x());
+            pointsList << QString::number(p.y());
+            labelsList << QStringLiteral("1");
+        }
+    }
+    if (m_excludePoints.contains(m_lastPos)) {
+        const QList<QPoint> points = m_excludePoints.value(m_lastPos);
+        for (auto &p : points) {
+            pointsList << QString::number(p.x());
+            pointsList << QString::number(p.y());
+            labelsList << QStringLiteral("0");
+        }
+    }
+    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"),
+                        QStringLiteral("-P"),
+                        pointsList.join(QLatin1Char(',')),
+                        QStringLiteral("-L"),
+                        labelsList.join(QLatin1Char(',')),
+                        QStringLiteral("-O"),
+                        QStringLiteral("/tmp/out_dir"),
+                        QStringLiteral("render")};
+    qDebug() << "---- STARTING IMAGE GENERATION: " << args;
+    const QString exec("/home/six/git/sam2/venv/bin/python3");
+    qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
+    scriptJob.start(exec, args);
+    scriptJob.waitForFinished(-1);
 }
 
 void AutomaskHelper::slotUpdateFromMonitorData(const QVariantList &v)
@@ -56,8 +155,8 @@ void AutomaskHelper::slotUpdateFromMonitorData(const QVariantList &v)
         QPointF pt = point.toPointF();
         double x = (pt.x() / frameSize.width() + 1) / 3;
         double y = (pt.y() / frameSize.height() + 1) / 3;
-        Q_EMIT updateKeyframeData(m_indexes.at(ix), x);
-        Q_EMIT updateKeyframeData(m_indexes.at(ix + 1), y);
+        // Q_EMIT updateKeyframeData(m_indexes.at(ix), x);
+        // Q_EMIT updateKeyframeData(m_indexes.at(ix + 1), y);
         ix += 2;
     }
 }
@@ -66,7 +165,7 @@ void AutomaskHelper::refreshParams(int pos)
 {
     QVariantList points{QPointF(), QPointF(), QPointF(), QPointF()};
     QSize frameSize = pCore->getCurrentFrameSize();
-    for (const auto &ix : std::as_const(m_indexes)) {
+    /*for (const auto &ix : std::as_const(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::KeyframeParam) {
             continue;
@@ -105,7 +204,7 @@ void AutomaskHelper::refreshParams(int pos)
         default:
             break;
         }
-    }
+    }*/
     if (m_monitor) {
         m_monitor->setUpEffectGeometry(QRect(), points);
     }

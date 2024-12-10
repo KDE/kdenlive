@@ -8,6 +8,7 @@ import torch
 import matplotlib.pyplot as plt
 import cv2
 import sys
+import argparse
 from PIL import Image
 
 def process_csv(csv_string, resize):
@@ -26,17 +27,25 @@ def process_csv(csv_string, resize):
     return np_array
 
 if __name__ == "__main__":
-    if len(sys.argv) < 4:
-        print("Usage: point_coordinates '200,250,300,255' labels '1,1' preview")
+    parser = argparse.ArgumentParser("SAM Object Mask Creator")
+    parser.add_argument("-F", "--frame", help="Frame position for the points", type=int, default=0)
+    parser.add_argument("-P", "--point_coordinates", help="Points coordinates, like '200,250,300,255'", required=True)
+    parser.add_argument("-L", "--labels", help="Points labels, 1 for include, 0 for exclude, like '1,0'", required=True)
+    parser.add_argument("-I", "--inputFolder", help="folder where input jpg files are stored", default="/tmp/src-frames")
+    parser.add_argument("-O", "--output", help="path for rendered jpg image for preview of folder for rendering", default="/tmp/preview.png")
+    parser.add_argument("mode", help="Operation mode (preview, render)", default="preview")
+    args = parser.parse_args()
+    if args.point_coordinates == None or args.labels == None:
+        config = vars(args)
+        print(config)
         sys.exit()
-    else:
-        csv_data = sys.argv[1]
-        points = process_csv(csv_data, True)
-        csv_data2 = sys.argv[2]
-        labels = process_csv(csv_data2, False)
-        preview = False
-        if sys.argv[3] == 'preview':
-            preview = True
+
+    points = process_csv(args.point_coordinates, True)
+    labels = process_csv(args.labels, False)
+    frame = args.frame
+    preview = args.mode == "preview"
+    output_frame = args.output
+    inputFolder = args.inputFolder
 
 # select the device for computation
 if torch.cuda.is_available():
@@ -61,14 +70,21 @@ elif device.type == "mps":
         "See e.g. https://github.com/pytorch/pytorch/issues/84936 for a discussion."
     )
 
-from sam2.build_sam import build_sam2_video_predictor
+from sam2.build_sam import build_sam2, build_sam2_video_predictor
+from sam2.sam2_image_predictor import SAM2ImagePredictor
 
-sam2_checkpoint = "./sam2.1_hiera_tiny.pt"
+scriptFolder = os.path.dirname(os.path.abspath(__file__))
+print("RESULTING CURRENT SCRIPT FOLDER: ", scriptFolder)
+sam2_checkpoint = os.path.join(scriptFolder, "sam2.1_hiera_tiny.pt")
 model_cfg = "configs/sam2.1/sam2.1_hiera_t.yaml"
 
 print(os.getcwd())
 
-predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device)
+if preview:
+    sam2_model = build_sam2(model_cfg, sam2_checkpoint, device=device)
+    predictor = SAM2ImagePredictor(sam2_model)
+else:
+    predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device)
 
 def show_mask(mask, ax, obj_id=None, random_color=False):
     if random_color:
@@ -102,13 +118,10 @@ def show_box(box, ax):
     w, h = box[2] - box[0], box[3] - box[1]
     ax.add_patch(plt.Rectangle((x0, y0), w, h, edgecolor='green', facecolor=(0, 0, 0, 0), lw=2))
 
-# `video_dir` a directory of JPEG frames with filenames like `<frame_index>.jpg`
-video_dir = "./videos/bedroom"
-
 # scan all the JPEG frame names in this directory
 frame_names = [
-    p for p in os.listdir(video_dir)
-    if os.path.splitext(p)[-1] in [".jpg", ".jpeg", ".JPG", ".JPEG"]
+    p for p in os.listdir(inputFolder)
+    if os.path.splitext(p)[-1] in [".jpg"]
 ]
 frame_names.sort(key=lambda p: int(os.path.splitext(p)[0]))
 
@@ -118,12 +131,25 @@ frame_names.sort(key=lambda p: int(os.path.splitext(p)[0]))
 #plt.title(f"frame {frame_idx}")
 #plt.imshow(Image.open(os.path.join(video_dir, frame_names[frame_idx])))
 
-
-print(f"Init predictor...")
-inference_state = predictor.init_state(video_path=video_dir)
-
-ann_frame_idx = 0  # the frame index we interact with
 ann_obj_id = 1  # give a unique id to each object we interact with (it can be any integers)
+
+if preview:
+    print(f"Init predictor on image: ", os.path.join(inputFolder, frame_names[0]))
+    image = Image.open(os.path.join(inputFolder, frame_names[0]))
+    image = np.array(image.convert("RGB"))
+    predictor.set_image(image)
+    masks, scores, logits = predictor.predict(
+        point_coords=points,
+        point_labels=labels,
+        multimask_output=False)
+    print(f"Saving preview image as: ", output_frame)
+    #mask_image =  mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
+    #save_mask((logits[0] > 0.0), output_frame, ann_obj_id)
+    save_mask((masks[0]), output_frame, ann_obj_id)
+    sys.exit()
+else:
+    inference_state = predictor.init_state(video_path=inputFolder)
+
 
 print(f"Adding points...")
 # Let's add a positive click at (x, y) = (210, 350) to get started
@@ -135,7 +161,7 @@ labels = np.array([1], np.int32)
 
 _, out_obj_ids, out_mask_logits = predictor.add_new_points_or_box(
     inference_state=inference_state,
-    frame_idx=ann_frame_idx,
+    frame_idx=frame,
     obj_id=ann_obj_id,
     points=points,
     labels=labels,
@@ -145,13 +171,9 @@ print(f"Adding points...DONE")
 
 # show the results on the current (interacted) frame
 # plt.figure(figsize=(9, 6))
-# plt.title(f"frame {ann_frame_idx}")
-# plt.imshow(Image.open(os.path.join(video_dir, frame_names[ann_frame_idx])))
+# plt.title(f"frame {frame}")
+# plt.imshow(Image.open(os.path.join(inputFolder, frame_names[frame])))
 #show_points(points, labels, plt.gca())
-if preview:
-    filename = '/tmp/preview.png'
-    save_mask((out_mask_logits[0] > 0.0).cpu().numpy(), filename, obj_id=out_obj_ids[0])
-    sys.exit()
 
 # run propagation throughout the video and collect the results in a dict
 video_segments = {}  # video_segments contains the per-frame segmentation results
@@ -160,17 +182,17 @@ for out_frame_idx, out_obj_ids, out_mask_logits in predictor.propagate_in_video(
         out_obj_id: (out_mask_logits[i] > 0.0).cpu().numpy()
         for i, out_obj_id in enumerate(out_obj_ids)
     }
-
+print(f"Rendering all frames...")
 # render the segmentation results every few frames
 vis_frame_stride = 1
 plt.close("all")
 for out_frame_idx in range(0, len(frame_names), vis_frame_stride):
     #plt.figure(figsize=(6, 4))
     #plt.title(f"frame {out_frame_idx}")
-    #plt.imshow(Image.open(os.path.join(video_dir, frame_names[out_frame_idx])))
+    #plt.imshow(Image.open(os.path.join(inputFolder, frame_names[out_frame_idx])))
     for out_obj_id, out_mask in video_segments[out_frame_idx].items():
         #show_mask(out_mask, plt.gca(), obj_id=out_obj_id)
-        filename = 'color_img-' + '{:05d}'.format(out_frame_idx) + '.png'
+        filename = output_frame + '/color_img-' + '{:05d}'.format(out_frame_idx) + '.png'
         save_mask(out_mask, filename, obj_id=out_obj_id)
     #plt.show()
 

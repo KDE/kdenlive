@@ -54,6 +54,8 @@ Item {
     property int mouseRulerPos: 0
     property double frameSize: 10
     property double timeScale: 1
+    property var centerPoints: []
+    property var centerPointsTypes: []
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
     property color thumbColor2: controller.thumbColor2
@@ -61,7 +63,12 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
+    property int overlayMargin: 0
+
+    function updatePoints(types, points) {
+        root.centerPointsTypes = types
+        root.centerPoints = points
+    }
 
     function updateClickCapture() {
         root.captureRightClick = false
@@ -78,16 +85,7 @@ Item {
     }
 
     signal addControlPoint(real x, real y, bool exclude)
-
-    function updateScrolling()
-    {
-        if (thumbMouseArea.pressed) {
-            var pos = Math.max(thumbMouseArea.mouseX, 0)
-            pos += audioThumb.width/root.zoomFactor * root.zoomStart
-            controller.setPosition(Math.min(pos / root.timeScale, root.duration));
-            
-        }
-    }
+    signal generatePreview()
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
@@ -95,36 +93,13 @@ Item {
     onWidthChanged: {
         clipMonitorRuler.updateRuler()
     }
-    onClipNameChanged: {
-        // Animate clip name
-        labelContainer.opacity = 1
-        contextMenu.opacity = 1
-        if (!clipNameLabel.hovered) {
-            showAnimate.restart()
-        }
-
-        // adjust monitor image size if audio thumb is displayed
-        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
-            controller.rulerHeight = audioThumb.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
-        }
-    }
     
     onZoomOffsetChanged: {
-        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
-            controller.rulerHeight = audioThumb.height + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
-        }
+        controller.rulerHeight = root.zoomOffset
     }
     
     onHeightChanged: {
-        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
-            controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight)/ 6) + root.zoomOffset
-        } else {
-            controller.rulerHeight = root.zoomOffset
-        }
+        controller.rulerHeight = root.zoomOffset
     }
 
     function updatePalette() {
@@ -138,49 +113,6 @@ Item {
             controller.overlayType = controller.overlayType + 1;
         }
         root.overlayType = controller.overlayType
-    }
-
-    MouseArea {
-        id: barOverArea
-        hoverEnabled: true
-        // Enable to block hide menu event
-        acceptedButtons: contextMenu.visible ? Qt.LeftButton : Qt.NoButton
-        anchors.fill: parent
-        onPositionChanged: mouse => {
-            if (mouse.modifiers & Qt.ShiftModifier) {
-                var pos = Math.max(mouseX, 0)
-                pos += width/root.zoomFactor * root.zoomStart
-                controller.setPosition(Math.min(pos / root.timeScale, root.duration));
-            }
-        }
-        onWheel: wheel => {
-            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
-        }
-        onEntered: {
-            // Show clip name
-            if (labelContainer.opacity == 0) {
-                labelContainer.opacity = 1
-                contextMenu.opacity = 1
-                if (!clipNameLabel.hovered) {
-                    showAnimate.restart()
-                }
-            }
-            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
-        }
-        onExited: {
-            controller.setWidgetKeyBinding();
-        }
-    }
-
-    SceneToolBar {
-        id: sceneToolBar
-        anchors {
-            right: parent.right
-            top: parent.top
-            topMargin: 4
-            rightMargin: 4
-            leftMargin: 4
-        }
     }
 
     Item {
@@ -214,19 +146,79 @@ Item {
                     }
                 }
             }
-            MouseArea { //Drop area for effects
-                id: effectArea
+            MouseArea {
+                hoverEnabled: true
                 anchors.fill: frame
+                property bool shiftClick: false
                 property real xPos: 0
                 property real yPos: 0
+                onPressed: mouse => {
+                    shiftClick = mouse.modifiers & Qt.ShiftModifier
+                    root.captureRightClick
+                }
+                onReleased: {
+                    root.captureRightClick = false
+                }
                 onClicked: mouse => {
                     if (mouse.button == Qt.LeftButton) {
                         xPos = mouse.x / frame.width
-                        yPos = mouse.y / frame.width
-                        addControlPoint(xPos, yPos, mouse.modifiers & Qt.ShiftModifier == false)
+                        yPos = mouse.y / frame.height
+                        addControlPoint(xPos, yPos, shiftClick)
+                        generateLabel.visible = true
                     }
                 }
             }
+            Image {
+                id: maskPreview
+                anchors.fill: frame
+                source: controller.previewOverlay
+                asynchronous: true
+                onSourceChanged: {
+                    generateLabel.visible = false
+                }
+                Repeater {
+                    model: root.centerPoints.length
+                    delegate:
+                    Rectangle {
+                        required property int index
+                        x: root.centerPoints[index].x * frame.width
+                        y: root.centerPoints[index].y * frame.height
+                        //x: 10 + 30 * index
+                        //y: 10
+                        opacity: 0.3
+                        color: root.centerPointsTypes[index] == 1 ? "green" : "red"
+                        height: 10
+                        width: 10
+                        radius: 180
+                        border.width: 1
+                        border.color: "black"
+                    }
+                }
+            }
+            Label {
+                id: generateLabel
+                anchors.top: frame.top
+                anchors.left: frame.left
+                anchors.leftMargin: 10
+                anchors.topMargin: 10
+                padding: 5
+                text: i18n("Generating mask")
+                visible: false
+                background: Rectangle {
+                    color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.7)
+                    radius: 5
+                }
+            }
+        }
+    }
+    MaskToolBar {
+        id: sceneToolBar
+        anchors {
+            right: parent.right
+            top: parent.top
+            topMargin: 4
+            rightMargin: 4
+            leftMargin: 4
         }
     }
     MonitorRuler {
@@ -245,7 +237,7 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 1
                 property point bd: controller.clipBoundary(model.index)
-                x: bd.x * root.timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                x: bd.x * root.timeScale - (frame.width/root.zoomFactor * root.zoomStart)
                 width: bd.y * root.timeScale
                 height: 2
                 color: 'goldenrod'

@@ -59,7 +59,7 @@ MouseArea {
                 onClicked: controller.triggerAction('monitor_fullscreen')
             }
             MonitorToolButton {
-                objectName: "switchOverlay"
+                objectName: "switchGrid"
                 iconName: "snap"
                 toolTipText: i18n("Show Grid")
                 checkable: true
