@@ -83,6 +83,14 @@
    bitrates="30000,1000" defaultbitrate="6000"
    audiobitrates="256,64" defaultaudiobitrate="160"
    args="f=mp4 vcodec=hevc_nvenc vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
+  <profile name="VideoToolBox H264 ABR" extension="mp4"
+   bitrates="30000,1000" defaultbitrate="6000"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=mp4 vcodec=h264_videotoolbox pix_fmt=yuv420p vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
+   <profile name="VideoToolBox H265 ABR" extension="mp4"
+   bitrates="30000,1000" defaultbitrate="6000"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=mp4 vcodec=hevc_videotoolbox pix_fmt=yuv420p vb=%bitrate+'k' acodec=aac ab=%audiobitrate+'k'"/>
   <profile name="VAAPI Intel H264" extension="mp4"
    args="f=mp4 vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k acodec=aac ab=192k"/>
   <profile name="VAAPI AMD H264" extension="mp4"
