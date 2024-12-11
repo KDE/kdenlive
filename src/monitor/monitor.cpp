@@ -30,7 +30,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "openglvideowidget.h"
 #endif
 
-#include "assets/keyframes/model/automask/automaskhelper.hpp"
 #include "bin/model/markersortmodel.h"
 #include "monitormanager.h"
 #include "monitorproxy.h"
@@ -196,7 +195,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addTimelineEffect, this, &Monitor::addTimelineEffect);
 
-    m_qmlManager = new QmlManager(m_glMonitor);
+    m_qmlManager = new QmlManager(m_glMonitor, this);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(this, &Monitor::blockSceneChange, m_qmlManager, &QmlManager::blockSceneChange);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged, Qt::QueuedConnection);
@@ -296,8 +295,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 m_controller->checkClipBounds();
             }
         });
-
-        connect(m_qmlManager, &QmlManager::addControlPoint, this, &Monitor::addControlPoint, Qt::QueuedConnection);
 
         m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
         m_toolbar->addSeparator();
@@ -1872,10 +1869,6 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     }
     disconnect(this, &Monitor::seekPosition, this, &Monitor::seekRemap);
     m_controller = controller;
-    if (m_controller) {
-        AutomaskHelper *am = new AutomaskHelper(this, m_controller, this);
-        connect(m_qmlManager, &QmlManager::generatePreview, am, &AutomaskHelper::generatePreview, Qt::QueuedConnection);
-    }
     m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
@@ -2978,17 +2971,21 @@ bool Monitor::isDirty() const
     return m_dirty;
 }
 
-void Monitor::addControlPoint(double x, double y, bool exclude)
+void Monitor::addControlPoint(double x, double y, bool extend, bool exclude)
 {
     // Ensure source frame were extracted
     qDebug() << ":::::: EXPORTING CURRENT FRAMES....";
-    QDir dir(QStringLiteral("/tmp/src-frames"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
-        m_controller->exportFrames(dir);
-    }
     QSize fSize = m_controller->frameSize();
     int xPos = qRound(x * fSize.width());
     int yPos = qRound(y * fSize.height());
-    Q_EMIT addMonitorControlPoint(xPos, yPos, exclude);
+    int pos = position();
+    QDir dir(QStringLiteral("/tmp/src-frames"));
+    if (!dir.exists()) {
+        dir.mkpath(QStringLiteral("."));
+        connect(m_controller.get(), &ProjectClip::firstFrameExported, this,
+                [this, pos, xPos, yPos, fSize, extend, exclude]() { Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude); });
+        m_controller->exportFrames(dir);
+    } else {
+        Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude);
+    }
 }

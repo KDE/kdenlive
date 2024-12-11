@@ -61,6 +61,7 @@ class Monitor : public AbstractMonitor
 
 public:
     friend class MonitorManager;
+    friend class MaskManager;
 
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     ~Monitor() override;
@@ -240,7 +241,6 @@ private:
     QMetaObject::Connection m_captureConnection;
 
     void adjustScrollBars(float horizontal, float vertical);
-    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());
     void updateQmlDisplay(int currentOverlay);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
@@ -251,6 +251,9 @@ private:
     QAction *m_markOut;
     QUuid m_displayedUuid;
     bool m_dirty{false};
+
+protected:
+    void loadQmlScene(MonitorSceneType type, const QVariant &sceneData = QVariant());
 
 private Q_SLOTS:
     void slotSetThumbFrame();
@@ -287,7 +290,7 @@ private Q_SLOTS:
     void checkDrops();
     /** @brief En/Disable the show record timecode feature in clip monitor */
     void slotSwitchRecTimecode(bool enable);
-    void addControlPoint(double x, double y, bool exclude);
+    void addControlPoint(double x, double y, bool extend, bool exclude);
 
 public Q_SLOTS:
     void updateTimelineProducer();
@@ -400,5 +403,6 @@ Q_SIGNALS:
     void autoKeyframeChanged();
     void zoneDurationChanged();
     void blockSceneChange(bool);
-    void addMonitorControlPoint(int xPos, int yPos, bool exclude);
+    void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
+    void generatePreview();
 };

@@ -24,6 +24,7 @@ class AssetParameterView;
 class EffectStackModel;
 class EffectStackView;
 class TransitionStackView;
+class MaskManager;
 class MixStackView;
 class QLabel;
 
@@ -81,11 +82,13 @@ protected:
     TransitionStackView *m_transitionWidget;
     MixStackView *m_mixWidget;
     EffectStackView *m_effectStackWidget;
+    MaskManager *m_maskManager;
 
 private:
     QAction *m_compositionHelpLink;
     QMenu *m_applyEffectGroups;
     QAction *m_saveEffectStack;
+    QAction *m_showMaskPanel;
     QComboBox *m_switchCompoButton;
     QAction *m_titleAction;
     QAction *m_switchAction;
@@ -106,6 +109,8 @@ private Q_SLOTS:
     void scrollTo(QRect rect);
     /** Check if view needs to be scrolled on drag move */
     void checkDragScroll();
+    /** Show/hide mask panel */
+    void slotShowMaskPanel();
 
 Q_SIGNALS:
     void doSplitEffect(bool);

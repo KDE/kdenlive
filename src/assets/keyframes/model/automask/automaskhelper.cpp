@@ -12,24 +12,22 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "monitor/monitor.h"
 #include "monitor/monitorproxy.h"
 
+#include <QDateTime>
 #include <QProcess>
 #include <QSize>
 #include <QtConcurrent>
 #include <utility>
 
-AutomaskHelper::AutomaskHelper(Monitor *monitor, std::shared_ptr<ProjectClip> clip, QObject *parent)
+AutomaskHelper::AutomaskHelper(QObject *parent)
     : QObject(parent)
-    , m_monitor(monitor)
-    , m_clip(clip)
 {
-    connect(m_monitor, &Monitor::addMonitorControlPoint, this, &AutomaskHelper::addMonitorControlPoint, Qt::UniqueConnection);
     // connect(this, &AutomaskHelper::previewImageReady, this, &AutomaskHelper::generateMask, Qt::QueuedConnection);
 }
 
-void AutomaskHelper::addMonitorControlPoint(int xPos, int yPos, bool exclude)
+void AutomaskHelper::addMonitorControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
 {
     const QPoint p(xPos, yPos);
-    m_lastPos = m_monitor->position();
+    m_lastPos = position;
     qDebug() << "================\n\nADDING MONITOR POINT: " << m_lastPos << " = " << p << "\n\n==================";
     QList<QPoint> pointsList;
     if (exclude) {
@@ -43,11 +41,16 @@ void AutomaskHelper::addMonitorControlPoint(int xPos, int yPos, bool exclude)
         pointsList.append(p);
         m_excludePoints.insert(m_lastPos, pointsList);
     } else {
-        if (m_includePoints.contains(m_lastPos)) {
-            pointsList = m_includePoints.value(m_lastPos);
-            if (pointsList.contains(p)) {
-                // Already in
-                return;
+        if (!extend) {
+            m_includePoints.clear();
+            m_excludePoints.clear();
+        } else {
+            if (m_includePoints.contains(m_lastPos)) {
+                pointsList = m_includePoints.value(m_lastPos);
+                if (pointsList.contains(p)) {
+                    // Already in
+                    return;
+                }
             }
         }
         pointsList.append(p);
@@ -55,7 +58,6 @@ void AutomaskHelper::addMonitorControlPoint(int xPos, int yPos, bool exclude)
     }
     QVariantList points;
     QVariantList pointsTypes;
-    const QSize frameSize = m_clip->frameSize();
     pointsList = m_includePoints.value(m_lastPos);
     for (auto &p : pointsList) {
         points << QPointF(double(p.x()) / frameSize.width(), double(p.y()) / frameSize.height());
@@ -67,7 +69,7 @@ void AutomaskHelper::addMonitorControlPoint(int xPos, int yPos, bool exclude)
         pointsTypes << 0;
     }
     qDebug() << "===== ADDED CONTROL POINT; TOTAL: " << "EXCLUDING: " << exclude << ", " << points.size() << ", CENTERS: " << pointsTypes;
-    m_monitor->setUpEffectGeometry(QRect(), points, pointsTypes);
+    pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes);
     QtConcurrent::run(&AutomaskHelper::generateImage, this);
 }
 
@@ -102,7 +104,11 @@ void AutomaskHelper::generateImage()
     const QString exec("/home/six/git/sam2/venv/bin/python3");
     scriptJob.start(exec, args);
     scriptJob.waitForFinished(-1);
-    Q_EMIT m_monitor->getControllerProxy()->previewOverlayChanged();
+    QUrl url = QUrl::fromLocalFile(QStringLiteral("/tmp/preview.png"));
+    url.setQuery(QStringLiteral("pos=%1&ctrl=%2").arg(m_lastPos).arg(QDateTime::currentSecsSinceEpoch()));
+    qDebug() << "---- IMAGE GENERATION DONE; RESULTING URL: " << url;
+    pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
+    Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
 }
 
 void AutomaskHelper::generatePreview()
@@ -144,68 +150,29 @@ void AutomaskHelper::doGeneratePreview()
     qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
     scriptJob.start(exec, args);
     scriptJob.waitForFinished(-1);
+    m_mode = AutomaskHelper::PREVIEWMODE;
+    // Now convert frames to video
+    // ffmpeg -framerate 25 -pattern_type glob -i '*.png' -c:v ffv1 -pix_fmt yuva420p output.mkv
+    args = {QStringLiteral("-framerate"),
+            QString::number(pCore->getCurrentFps()),
+            QStringLiteral("-pattern_type"),
+            QStringLiteral("glob"),
+            QStringLiteral("-i"),
+            QStringLiteral("/tmp/out_dir/*.png"),
+            QStringLiteral("-c:v"),
+            QStringLiteral("ffv1"),
+            QStringLiteral("-pix_fmt"),
+            QStringLiteral("yuva420p"),
+            QStringLiteral("/tmp/output.mkv")};
+    scriptJob.start(KdenliveSettings::ffmpegpath(), args);
+    scriptJob.waitForFinished(-1);
 }
 
-void AutomaskHelper::slotUpdateFromMonitorData(const QVariantList &v)
+void AutomaskHelper::monitorSeek(int pos)
 {
-    const QVariantList points = QVariant(v).toList();
-    QSize frameSize = pCore->getCurrentFrameSize();
-    int ix = 0;
-    for (const auto &point : points) {
-        QPointF pt = point.toPointF();
-        double x = (pt.x() / frameSize.width() + 1) / 3;
-        double y = (pt.y() / frameSize.height() + 1) / 3;
-        // Q_EMIT updateKeyframeData(m_indexes.at(ix), x);
-        // Q_EMIT updateKeyframeData(m_indexes.at(ix + 1), y);
-        ix += 2;
-    }
-}
-
-void AutomaskHelper::refreshParams(int pos)
-{
-    QVariantList points{QPointF(), QPointF(), QPointF(), QPointF()};
-    QSize frameSize = pCore->getCurrentFrameSize();
-    /*for (const auto &ix : std::as_const(m_indexes)) {
-        auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
-        if (type != ParamType::KeyframeParam) {
-            continue;
-        }
-        int paramName = m_model->data(ix, AssetParameterModel::NameRole).toInt();
-        if (paramName > 7) {
-            continue;
-        }
-        double value = m_model->getKeyframeModel()->getInterpolatedValue(pos, ix).toDouble();
-        value = ((3 * value) - 1) * (paramName % 2 == 0 ? frameSize.width() : frameSize.height());
-        switch (paramName) {
-        case 0:
-            points[0] = QPointF(value, points.at(0).toPointF().y());
-            break;
-        case 1:
-            points[0] = QPointF(points.at(0).toPointF().x(), value);
-            break;
-        case 2:
-            points[1] = QPointF(value, points.at(1).toPointF().y());
-            break;
-        case 3:
-            points[1] = QPointF(points.at(1).toPointF().x(), value);
-            break;
-        case 4:
-            points[2] = QPointF(value, points.at(2).toPointF().y());
-            break;
-        case 5:
-            points[2] = QPointF(points.at(2).toPointF().x(), value);
-            break;
-        case 6:
-            points[3] = QPointF(value, points.at(3).toPointF().y());
-            break;
-        case 7:
-            points[3] = QPointF(points.at(3).toPointF().x(), value);
-            break;
-        default:
-            break;
-        }
-    }*/
-    if (m_monitor) {
-        m_monitor->setUpEffectGeometry(QRect(), points);
+    if (m_mode == AutomaskHelper::PREVIEWMODE) {
+        pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay =
+            QUrl::fromLocalFile(QStringLiteral("/tmp/out_dir/color_img-%1.png").arg(pos, 5, 10, QLatin1Char('0')));
+        Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
     }
 }

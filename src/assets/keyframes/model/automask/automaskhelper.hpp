@@ -20,18 +20,18 @@ class AutomaskHelper : public QObject
     Q_OBJECT
 
 public:
+    enum MonitorMode { INSERTPOINTSMODE, PREVIEWMODE };
     /** @brief Construct a keyframe list bound to the given effect
        @param init_value is the value taken by the param at time 0.
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit AutomaskHelper(Monitor *monitor, std::shared_ptr<ProjectClip> clip, QObject *parent = nullptr);
-    /** @brief Send data update to the monitor
-     */
-    void refreshParams(int pos);
+    explicit AutomaskHelper(QObject *parent = nullptr);
 
 public Q_SLOTS:
     void generatePreview();
+    void monitorSeek(int pos);
+    void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
 
 private:
     Monitor *m_monitor;
@@ -39,10 +39,9 @@ private:
     int m_lastPos{0};
     QMap<int, QList<QPoint>> m_includePoints;
     QMap<int, QList<QPoint>> m_excludePoints;
+    MonitorMode m_mode{INSERTPOINTSMODE};
 
 private Q_SLOTS:
-    void slotUpdateFromMonitorData(const QVariantList &v);
-    void addMonitorControlPoint(int xPos, int yPos, bool exclude);
     void generateImage();
     void doGeneratePreview();
 };

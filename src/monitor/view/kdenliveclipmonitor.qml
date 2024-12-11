@@ -54,8 +54,6 @@ Item {
     property int mouseRulerPos: 0
     property double frameSize: 10
     property double timeScale: 1
-    property var centerPoints: []
-    property var centerPointsTypes: []
     property int overlayType: controller.overlayType
     property color thumbColor1: controller.thumbColor1
     property color thumbColor2: controller.thumbColor2
@@ -63,12 +61,7 @@ Item {
     property bool isClipMonitor: true
     property int dragType: 0
     property string baseThumbPath
-    property int overlayMargin: 0
-
-    function updatePoints(types, points) {
-        root.centerPointsTypes = types
-        root.centerPoints = points
-    }
+    property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
 
     function updateClickCapture() {
         root.captureRightClick = false
@@ -84,8 +77,18 @@ Item {
         interval: 3000; running: false;
     }
 
-    signal addControlPoint(real x, real y, bool exclude)
-    signal generatePreview()
+    signal editCurrentMarker()
+    signal endDrag()
+
+    function updateScrolling()
+    {
+        if (thumbMouseArea.pressed) {
+            var pos = Math.max(thumbMouseArea.mouseX, 0)
+            pos += audioThumb.width/root.zoomFactor * root.zoomStart
+            controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+            
+        }
+    }
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
@@ -93,13 +96,36 @@ Item {
     onWidthChanged: {
         clipMonitorRuler.updateRuler()
     }
+    onClipNameChanged: {
+        // Animate clip name
+        labelContainer.opacity = 1
+        contextMenu.opacity = 1
+        if (!clipNameLabel.hovered) {
+            showAnimate.restart()
+        }
+
+        // adjust monitor image size if audio thumb is displayed
+        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        } else {
+            controller.rulerHeight = root.zoomOffset
+        }
+    }
     
     onZoomOffsetChanged: {
-        controller.rulerHeight = root.zoomOffset
+        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        } else {
+            controller.rulerHeight = root.zoomOffset
+        }
     }
     
     onHeightChanged: {
-        controller.rulerHeight = root.zoomOffset
+        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+            controller.rulerHeight = (audioThumb.isAudioClip ? (root.height - controller.rulerHeight) : (root.height - controller.rulerHeight)/ 6) + root.zoomOffset
+        } else {
+            controller.rulerHeight = root.zoomOffset
+        }
     }
 
     function updatePalette() {
@@ -113,6 +139,49 @@ Item {
             controller.overlayType = controller.overlayType + 1;
         }
         root.overlayType = controller.overlayType
+    }
+
+    MouseArea {
+        id: barOverArea
+        hoverEnabled: true
+        // Enable to block hide menu event
+        acceptedButtons: contextMenu.visible ? Qt.LeftButton : Qt.NoButton
+        anchors.fill: parent
+        onPositionChanged: mouse => {
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                var pos = Math.max(mouseX, 0)
+                pos += width/root.zoomFactor * root.zoomStart
+                controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+            }
+        }
+        onWheel: wheel => {
+            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+        }
+        onEntered: {
+            // Show clip name
+            if (labelContainer.opacity == 0) {
+                labelContainer.opacity = 1
+                contextMenu.opacity = 1
+                if (!clipNameLabel.hovered) {
+                    showAnimate.restart()
+                }
+            }
+            controller.setWidgetKeyBinding(xi18nc("@info:whatsthis", "<shortcut>Click</shortcut> to play, <shortcut>Double click</shortcut> for fullscreen, <shortcut>Hover right</shortcut> for toolbar, <shortcut>Wheel</shortcut> or <shortcut>arrows</shortcut> to seek, <shortcut>Ctrl wheel</shortcut> to zoom"));
+        }
+        onExited: {
+            controller.setWidgetKeyBinding();
+        }
+    }
+
+    SceneToolBar {
+        id: sceneToolBar
+        anchors {
+            right: parent.right
+            top: parent.top
+            topMargin: 4
+            rightMargin: 4
+            leftMargin: 4
+        }
     }
 
     Item {
@@ -146,79 +215,584 @@ Item {
                     }
                 }
             }
-            MouseArea {
-                hoverEnabled: true
-                anchors.fill: frame
-                property bool shiftClick: false
-                property real xPos: 0
-                property real yPos: 0
-                onPressed: mouse => {
-                    shiftClick = mouse.modifiers & Qt.ShiftModifier
-                    root.captureRightClick
+        }
+        DropArea { //Drop area for effects
+            id: effectArea
+            anchors.fill: parent
+            keys: 'kdenlive/effect'
+            property string droppedData
+            property string droppedDataSource
+            onEntered: drag => {
+                drag.acceptProposedAction()
+                droppedData = drag.getDataAsString('kdenlive/effect')
+                droppedDataSource = drag.getDataAsString('kdenlive/effectsource')
+            }
+            onDropped: {
+                controller.addEffect(droppedData, droppedDataSource)
+                droppedData = ""
+                droppedDataSource = ""
+            }
+        }
+        Item {
+            id: monitorOverlay
+            anchors.fill: parent
+
+            Item {
+                id: audioThumb
+                property bool stateVisible: (root.permanentAudiothumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
+                property bool isAudioClip: controller.clipType == ProducerType.Audio
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
-                onReleased: {
-                    root.captureRightClick = false
+                height: isAudioClip ? parent.height : parent.height / 6
+                //font.pixelSize * 3
+                width: parent.width
+                visible: (root.permanentAudiothumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV || controller.clipHasAV)
+                Label {
+                    id: clipStreamLabel
+                    font: fixedFont
+                    anchors {
+                        bottom: audioThumb.isAudioClip ? parent.bottom : parent.top
+                        horizontalCenter: parent.horizontalCenter
+                    }
+                    color: "white"
+                    text: controller.clipStream
+                    background: Rectangle {
+                        color: "#222277"
+                    }
+                    visible: text != ""
+                    padding :4
                 }
-                onClicked: mouse => {
-                    if (mouse.button == Qt.LeftButton) {
-                        xPos = mouse.x / frame.width
-                        yPos = mouse.y / frame.height
-                        addControlPoint(xPos, yPos, shiftClick)
-                        generateLabel.visible = true
+                onStateVisibleChanged: {
+                    // adjust monitor image size
+                    if (stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+                        controller.rulerHeight = audioThumb.height + root.zoomOffset
+                    } else {
+                        controller.rulerHeight = root.zoomOffset
+                    }
+                }
+
+                states: [
+                    State { when: audioThumb.stateVisible || audioThumb.isAudioClip;
+                        PropertyChanges {   target: audioThumb; opacity: 1.0    } },
+                    State { when: !audioThumb.stateVisible && !audioThumb.isAudioClip;
+                        PropertyChanges {   target: audioThumb; opacity: 0.0    } }
+                ]
+                transitions: [ Transition {
+                    NumberAnimation { property: "opacity"; duration: audioThumb.isAudioClip ? 0 : 500}
+                } ]
+                Rectangle {
+                    color: "black"
+                    opacity: audioThumb.isAudioClip || root.permanentAudiothumb ? 1 : 0.6
+                    anchors.fill: parent
+                }
+                Rectangle {
+                    color: "yellow"
+                    opacity: 0.3
+                    height: parent.height
+                    x: controller.zoneIn * timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                    width: (controller.zoneOut - controller.zoneIn) * timeScale
+                    visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
+                }
+                Repeater {
+                    id: streamThumb
+                    model: controller.audioStreams.length
+                    onCountChanged: {
+                        thumbTimer.start()
+                    }
+                    property double streamHeight: audioThumb.height / streamThumb.count
+                    Item {
+                        anchors.fill: parent
+                        TimelineWaveform {
+                            anchors.right: parent.right
+                            anchors.left: parent.left
+                            height: streamThumb.streamHeight
+                            property int aChannels: controller.audioChannels[model.index]
+                            y: model.index * height
+                            channels: aChannels
+                            binId: controller.clipId
+                            audioStream: controller.audioStreams[model.index]
+                            isFirstChunk: false
+                            format: controller.audioThumbFormat
+                            normalize: controller.audioThumbNormalize
+                            scaleFactor: audioThumb.width / (root.duration - 1) / root.zoomFactor
+                            waveInPoint: (root.duration - 1) * root.zoomStart * aChannels
+                            waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * aChannels
+                            fillColor1: root.thumbColor1
+                            fillColor2: root.thumbColor2
+                        }
+                        Rectangle {
+                            width: parent.width
+                            y: (model.index + 1) * streamThumb.streamHeight
+                            height: 1
+                            visible: streamThumb.count > 1 && model.index < streamThumb.count - 1
+                            color: 'yellow'
+                        }
+                    }
+                }
+                Rectangle {
+                    color: "red"
+                    width: 1
+                    height: parent.height
+                    x: controller.position * timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                }
+                MouseArea {
+                    id: thumbMouseArea
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton
+                    hoverEnabled: true
+                    propagateComposedEvents: true
+                    onEntered: {
+                        // Show clip name
+                        if (labelContainer.opacity == 0) {
+                            labelContainer.opacity = 1
+                            contextMenu.opacity = 1
+                            if (!clipNameLabel.hovered) {
+                                showAnimate.restart()
+                            }
+                        }
+                    }
+                    onPressed: {
+                        if (audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
+                            mouse.accepted = false
+                            return
+                        }
+                        var pos = Math.max(mouseX, 0)
+                        pos += audioThumb.width/root.zoomFactor * root.zoomStart
+                        controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+                    }
+                    onPositionChanged: mouse => {
+                        if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
+                            mouse.accepted = false
+                            return
+                        }
+                        if (mouse.modifiers & Qt.ShiftModifier || pressed) {
+                            var pos = Math.max(mouseX, 0)
+                            pos += audioThumb.width/root.zoomFactor * root.zoomStart
+                            controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+                        }
+                    }
+                    onWheel: wheel => {
+                        if (wheel.modifiers & Qt.ControlModifier) {
+                            if (wheel.angleDelta.y < 0) {
+                                // zoom out
+                                clipMonitorRuler.zoomOutRuler(wheel.x)
+                            } else {
+                                // zoom in
+                                clipMonitorRuler.zoomInRuler(wheel.x)
+                            }
+                        } else {
+                            wheel.accepted = false
+                        }
+                        
+                    }
+                    Rectangle {
+                        id: audioSeekZone
+                        width: parent.width
+                        height: parent.height / 6
+                        anchors.centerIn: parent
+                        anchors.verticalCenterOffset: audioThumb.isAudioClip ? parent.height * 5 / 12 : 0
+                        visible: audioThumb.isAudioClip && thumbMouseArea.containsMouse && thumbMouseArea.mouseY > y
+                        color: 'yellow'
+                        opacity: 0.5
+                        Rectangle {
+                            width: parent.width
+                            height: 1
+                            color: '#000'
+                            anchors.top: parent.top
+                        }
+                        // frame ticks
+                        Repeater {
+                            id: rulerAudioTicks
+                            model: parent.width / root.frameSize + 2
+                            Rectangle {
+                                x: index * root.frameSize - (clipMonitorRuler.rulerZoomOffset % root.frameSize)
+                                anchors.top: audioSeekZone.top
+                                height: (index % 5) ? audioSeekZone.height / 6 : audioSeekZone.height / 3
+                                width: 1
+                                color: '#000'
+                                opacity: 0.8
+                            }
+                        }
                     }
                 }
             }
-            Image {
-                id: maskPreview
-                anchors.fill: frame
-                source: controller.previewOverlay
-                asynchronous: true
-                onSourceChanged: {
-                    generateLabel.visible = false
-                }
-                Repeater {
-                    model: root.centerPoints.length
-                    delegate:
-                    Rectangle {
-                        required property int index
-                        x: root.centerPoints[index].x * frame.width
-                        y: root.centerPoints[index].y * frame.height
-                        //x: 10 + 30 * index
-                        //y: 10
-                        opacity: 0.3
-                        color: root.centerPointsTypes[index] == 1 ? "green" : "red"
-                        height: 10
-                        width: 10
-                        radius: 180
-                        border.width: 1
-                        border.color: "black"
+            Menu {
+                id: contextMenu
+                Instantiator {
+                    model: controller.lastClips
+                    MenuItem {
+                        text: modelData
+                        font: fixedFont
+                        onTriggered: {
+                            controller.selectClip(index)
+                            //showAnimate.restart()
+                        }
                     }
+                    // Update model when needed
+                    onObjectAdded: (index, object) => contextMenu.insertItem(index, object)
+                    onObjectRemoved: (index, object) => contextMenu.removeItem(object)
+                }
+            }
+            Rectangle {
+                id: labelContainer
+                width: childrenRect.width
+                height: childrenRect.height
+                anchors {
+                    top: parent.top
+                    horizontalCenter: parent.horizontalCenter
+                }
+                color: clipNameLabel.hovered || contextMenu.visible ? "#CC222277" : "#88222277"
+                border.color: clipNameLabel.hovered ? "#000000" : "transparent"
+                border.width: 1
+                radius: 2
+                visible: clipName != ""
+                ToolButton {
+                    id: clipNameLabel
+                    hoverEnabled: true
+                    icon.name: controller.lastClips.length > 1 ? "arrow-down" : ""
+                    text: clipName
+                    enabled: labelContainer.opacity > 0.5
+                    onTextChanged: {
+                        if (thumbTimer.running) {
+                            thumbTimer.stop()
+                        }
+                        thumbTimer.start()
+                    }
+                    bottomPadding: 0
+                    topPadding: 0
+                    topInset: 0
+                    bottomInset: 0
+                    SequentialAnimation {
+                        id: showAnimate
+                        running: false
+                        NumberAnimation { target: labelContainer; duration: 3000 }
+                        onStarted: {
+                            contextMenu.opacity = 1
+                        }
+                        onFinished: {
+                            if (contextMenu.visible) {
+                                contextMenu.close()
+                            }
+                            fadeAnimate.start()
+                        }
+                    }
+                    ParallelAnimation {
+                        id: fadeAnimate
+                        running: false
+                        NumberAnimation { target: labelContainer; property: "opacity"; to: 0; duration: 1000 }
+                    }
+                    onClicked: {
+                        if (controller.lastClips.length > 1) {
+                            if (contextMenu.visible) {
+                                contextMenu.close()
+                            } else {
+                                contextMenu.popup()
+                            }
+                        }
+                    }
+                    onHoveredChanged: {
+                        if (hovered) {
+                            showAnimate.stop()
+                            opacity = 1
+                        } else {
+                            if (!contextMenu.visible) {
+                                showAnimate.restart()
+                            }
+                        }
+                    }
+                }
+            }
+
+            Label {
+                id: timecode
+                font.family: fontMetrics.font.family
+                font.pointSize: 1.5 * fontMetrics.font.pointSize
+                objectName: "timecode"
+                color: "#ffffff"
+                padding: 2
+                background: Rectangle {
+                    color: "#66000000"
+                }
+                text: controller.timecode
+                visible: root.showTimecode
+                anchors {
+                    right: parent.right
+                    bottom: parent.bottom
+                    bottomMargin: overlayMargin
                 }
             }
             Label {
-                id: generateLabel
-                anchors.top: frame.top
-                anchors.left: frame.left
-                anchors.leftMargin: 10
-                anchors.topMargin: 10
-                padding: 5
-                text: i18n("Generating mask")
-                visible: false
+                id: fpsdropped
+                font.family: fontMetrics.font.family
+                font.pointSize: 1.5 * fontMetrics.font.pointSize
+                objectName: "fpsdropped"
+                color: "#ffffff"
+                padding: 2
                 background: Rectangle {
-                    color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.7)
-                    radius: 5
+                    color: root.dropped ? "#99ff0000" : "#66004400"
+                }
+                text: i18n("%1fps", root.fps)
+                visible: root.showFps
+                anchors {
+                    right: timecode.visible ? timecode.left : parent.right
+                    bottom: parent.bottom
+                    bottomMargin: overlayMargin
+                }
+            }
+            Label {
+                id: labelSpeed
+                font: fixedFont
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                }
+                visible: Math.abs(controller.speed) > 1
+                text: "x" + controller.speed
+                color: "white"
+                background: Rectangle {
+                    color: "darkgreen"
+                }
+                padding: 5
+                horizontalAlignment: TextInput.AlignHCenter
+            }
+            Label {
+                id: inPoint
+                font: fixedFont
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                    bottomMargin: overlayMargin
+                }
+                visible: root.showMarkers && controller.position == controller.zoneIn && root.duration > 0
+                text: controller.zoneIn == controller.zoneOut ? i18n("In/Out Point") : i18n("In Point")
+                color: "white"
+                background: Rectangle {
+                    color: "#228b22"
+                }
+                padding:4
+                horizontalAlignment: TextInput.AlignHCenter
+                MouseArea {
+                    id: inPointArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
+            }
+            Label {
+                id: outPoint
+                font: fixedFont
+                anchors {
+                    left: inPoint.visible ? inPoint.right : parent.left
+                    bottom: parent.bottom
+                    bottomMargin: overlayMargin
+                }
+                visible: root.showMarkers && controller.position == controller.zoneOut && controller.zoneOut > controller.zoneIn
+                text: i18n("Out Point")
+                color: "white"
+                background: Rectangle {
+                    color: "#770000"
+                }
+                padding: 4
+                horizontalAlignment: TextInput.AlignHCenter
+                MouseArea {
+                    id: outPointArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                }
+            }
+            TextField {
+                id: marker
+                font: fixedFont
+                objectName: "markertext"
+                activeFocusOnPress: true
+                text: controller.markerComment
+                onEditingFinished: {
+                    root.markerText = marker.displayText
+                    marker.focus = false
+                    root.editCurrentMarker()
+                }
+                anchors {
+                    left: outPoint.visible ? outPoint.right : inPoint.visible ? inPoint.right : parent.left
+                    bottom: parent.bottom
+                    bottomMargin: overlayMargin
+                }
+                visible: root.showMarkers && text != ""
+                height: inPoint.height
+                width: fontMetrics.boundingRect(displayText).width + 10
+                horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
+                background: Rectangle {
+                    color: controller.markerColor
+                }
+                color: "#000"
+                padding: 0
+                maximumLength: 20
+            }
+        }
+
+        Rectangle {
+            // Audio or video only drag zone
+            id: dragZone
+            property string uuid
+            x: 2
+            y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
+            width: childrenRect.width
+            height: childrenRect.height
+            color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
+            radius: 4
+            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || marker.hovered || inPointArea.containsMouse || outPointArea.containsMouse || dragAudioArea.pressed || dragVideoArea.pressed
+                      || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
+            visible: controller.clipHasAV
+            onOpacityChanged: {
+                if (opacity == 1) {
+                    videoDragButton.x = 0
+                    videoDragButton.y = 0
+                    audioDragButton.x = videoDragButton.x + videoDragButton.width
+                    audioDragButton.y = 0
+                }
+            }
+            Row {
+                id: dragRow
+                ToolButton {
+                    id: videoDragButton
+                    icon.name: "kdenlive-show-video"
+                    opacity: dragAudioArea.pressed ? 0 : 1
+                    focusPolicy: Qt.NoFocus
+                    Drag.active: dragVideoArea.drag.active
+                    Drag.dragType: Drag.Automatic
+                    Drag.mimeData: {
+                        "text/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "text/dragid" : dragZone.uuid
+                    }
+                    Drag.onDragStarted: {
+                        dragZone.uuid = controller.getUuid()
+                    }
+                    Drag.onDragFinished: dropAction => {
+                        root.endDrag()
+                        root.captureRightClick = false
+                    }
+                    MouseArea {
+                        id: dragVideoArea
+                        hoverEnabled: true
+                        anchors.fill: videoDragButton
+                        cursorShape: Qt.PointingHand
+                        drag.target: videoDragButton
+                        onPressed: mouse => {
+                            root.captureRightClick = true
+                            mouse.accepted = true
+                        }
+                        onReleased: mouse => {
+                            mouse.accepted = true
+                            root.captureRightClick = false
+                        }
+                    }
+                }
+                ToolButton {
+                    id: audioDragButton
+                    opacity: dragVideoArea.pressed ? 0 : 1
+                    icon.name: "audio-volume-medium"
+                    focusPolicy: Qt.NoFocus
+                    Drag.active: dragAudioArea.drag.active
+                    Drag.dragType: Drag.Automatic
+                    Drag.mimeData: {
+                        "text/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1),
+                        "text/dragid" : dragZone.uuid
+                    }
+                    Drag.onDragStarted: {
+                        dragZone.uuid = controller.getUuid()
+                    }
+                    Drag.onDragFinished: {
+                        root.endDrag()
+                        root.captureRightClick = false
+                    }
+                    MouseArea {
+                        id: dragAudioArea
+                        hoverEnabled: true
+                        anchors.fill: audioDragButton
+                        cursorShape: Qt.PointingHand
+                        drag.target: audioDragButton
+                        onPressed: mouse => {
+                            root.captureRightClick = true
+                            mouse.accepted = true
+                        }
+                        onReleased: mouse => {
+                            mouse.accepted = true
+                            root.captureRightClick = false
+                        }
+                    }
                 }
             }
         }
     }
-    MaskToolBar {
-        id: sceneToolBar
-        anchors {
-            right: parent.right
-            top: parent.top
-            topMargin: 4
-            rightMargin: 4
-            leftMargin: 4
+    Item {
+        id: clipJobInfo
+        x: sceneToolBar.visible && sceneToolBar.rightSide == false ? sceneToolBar.width + 10 : 10
+        y: 10
+        width: parent.width - 20
+        height: childrenRect.height
+        visible: root.showClipJobs && controller.clipId > 0
+        ColumnLayout {
+            Repeater {
+                model: controller.runningJobs
+                delegate: Rectangle {
+                    id: jobContainer
+                    property var uuid: controller.jobsUuids[model.index]
+                    width: childrenRect.width + 4
+                    Layout.fillWidth: true
+                    height: jobLabel.height + progressBar.height + 4
+                    color: "#80333333"
+                    radius: 5
+                    MouseArea {
+                        id: jobsArea
+                        hoverEnabled: true
+                        anchors.fill: parent
+                    }
+                    Row {
+                        id: labelRow
+                        MonitorToolButton {
+                            id: iconButton
+                            iconName: "window-close"
+                            anchors.leftMargin: 4
+                            height: jobLabel.height
+                            width: height
+                            toolTipText: i18n("Terminate Job")
+                            onClicked: controller.terminateJob(uuid)
+                        }
+                        Text {
+                            id: jobLabel
+                            horizontalAlignment: Text.AlignLeft
+                            anchors.leftMargin: 4
+                            padding: 2
+                            text: modelData
+                            font.pointSize: fontMetrics.font.pointSize
+                            elide: Text.ElideMiddle
+                            color: 'white'
+                        }
+                    }
+                    Rectangle {
+                        id: progressBar
+                        anchors.top: labelRow.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.leftMargin: 4
+                        anchors.rightMargin: 4
+                        height: 6
+                        radius: 2
+                        color: "#33ffffff"
+                        border {
+                            color: "#99000000"
+                            width: 1
+                        }
+                        Rectangle {
+                            anchors.fill: parent
+                            anchors.margins: 1
+                            color: 'steelblue'
+                            anchors.rightMargin: (parent.width - 2) * (100 - controller.jobsProgress[model.index]) / 100
+                        }
+                    }
+                }
+            }
         }
     }
     MonitorRuler {
@@ -237,7 +811,7 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 1
                 property point bd: controller.clipBoundary(model.index)
-                x: bd.x * root.timeScale - (frame.width/root.zoomFactor * root.zoomStart)
+                x: bd.x * root.timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
                 width: bd.y * root.timeScale
                 height: 2
                 color: 'goldenrod'

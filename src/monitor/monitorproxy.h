@@ -21,6 +21,8 @@ class TimecodeDisplay;
  */
 class MonitorProxy : public QObject
 {
+    friend class AutomaskHelper;
+
     Q_OBJECT
     // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
     Q_PROPERTY(int position MEMBER m_position WRITE setPosition NOTIFY positionChanged)
@@ -56,7 +58,7 @@ class MonitorProxy : public QObject
     /** @brief Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(QString clipName MEMBER m_clipName NOTIFY clipNameChanged)
-    Q_PROPERTY(QUrl previewOverlay READ previewOverlay NOTIFY previewOverlayChanged)
+    Q_PROPERTY(QUrl previewOverlay MEMBER m_previewOverlay NOTIFY previewOverlayChanged)
     Q_PROPERTY(QString clipStream MEMBER m_clipStream NOTIFY clipStreamChanged)
     /** @brief Contains the name of clip currently displayed in monitor
      * */
@@ -117,7 +119,6 @@ public:
     Q_INVOKABLE bool seekOnDrop() const;
     Q_INVOKABLE void addEffect(const QString &effectData, const QString &effectSource);
     Q_INVOKABLE void terminateJob(const QString &uuid);
-    Q_INVOKABLE QUrl previewOverlay();
     QPoint profile();
     QImage extractFrame(const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString &clipName);
@@ -222,8 +223,10 @@ private:
     QStringList m_jobsUuids;
     QVector<std::pair<int, QString>> m_lastClipsIds;
     QStringList m_lastClips;
-    QUrl m_previewOverlay;
     bool m_switchFlag{false};
+
+protected:
+    QUrl m_previewOverlay;
 
 public Q_SLOTS:
     void updateClipBounds(const QVector <QPoint>&bounds);
