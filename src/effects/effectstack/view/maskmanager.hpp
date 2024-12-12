@@ -14,14 +14,7 @@
 #include <QWidget>
 #include <memory>
 
-class QVBoxLayout;
-class EffectStackModel;
-class EffectItemModel;
-class AssetIconProvider;
-class BuiltStack;
-class EffectStackFilter;
-class AssetPanel;
-class QPushButton;
+class ProjectClip;
 class AutomaskHelper;
 
 class MaskManager : public QWidget, public Ui::MaskManage_UI
@@ -35,9 +28,12 @@ public:
 
 private Q_SLOTS:
     void initMaskMode();
+    void generatePreview();
+    void loadMasks();
 
 private:
     ObjectId m_owner{KdenliveObjectType::NoItem, {}};
     AutomaskHelper *m_maskHelper;
     bool m_connected{false};
+    std::shared_ptr<ProjectClip> getOwnerClip();
 };

@@ -311,6 +311,8 @@ public:
     bool hasAlpha();
     /** @brief Export video as jpg frames for analysis */
     void exportFrames(const QDir folder);
+    /** @brief Get a list of masks */
+    QMap<QString, QString> masks() const;
 
 protected:
     friend class ClipModel;
@@ -388,12 +390,15 @@ public Q_SLOTS:
     void checkProxy(bool rebuildProxy = false);
     /** @brief Check if the extracted frame exists. */
     void checkForExtractedFrame();
+    /** @brief Add a mask to this clip. */
+    void addMask(const QString &maskName, const QString &maskPath, int in, int out);
 
 private:
     QMutex m_producerMutex;
     QByteArray m_thumbXml;
     const QString geometryWithOffset(const QString &data, int offset);
     QMap <QString, QByteArray> m_audioLevels;
+    QMap<QString, QString> m_masks;
     QProcess m_exportProcess;
     /** @brief If true, all timeline occurrences of this clip will be replaced from a fresh producer on reload. */
     bool m_resetTimelineOccurences;
@@ -422,4 +427,5 @@ Q_SIGNALS:
     void boundsChanged(QVector <QPoint>bounds);
     void registeredClipChanged();
     void firstFrameExported();
+    void masksUpdated();
 };

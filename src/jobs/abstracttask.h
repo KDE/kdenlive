@@ -32,7 +32,8 @@ public:
         LOADJOB = 8,
         AUDIOTHUMBJOB = 9,
         SPEEDJOB = 10,
-        CACHEJOB = 11
+        CACHEJOB = 11,
+        MASKJOB = 12
     };
     AbstractTask(const ObjectId &owner, JOBTYPE type, QObject* object);
     ~AbstractTask() override;

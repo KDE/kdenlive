@@ -1327,7 +1327,7 @@ QString Core::getProjectCaptureFolderName()
     return QString();
 }
 
-QString Core::getTimelineClipBinId(ObjectId id)
+const QString Core::getTimelineClipBinId(ObjectId id)
 {
     if (!m_guiConstructed) {
         return QString();

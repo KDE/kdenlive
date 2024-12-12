@@ -3173,3 +3173,14 @@ void ProjectClip::checkForExtractedFrame()
         m_exportFramesTimer.stop();
     }
 }
+
+void ProjectClip::addMask(const QString &maskName, const QString &maskPath, int in, int out)
+{
+    m_masks.insert(maskName, maskPath);
+    Q_EMIT masksUpdated();
+}
+
+QMap<QString, QString> ProjectClip::masks() const
+{
+    return m_masks;
+}

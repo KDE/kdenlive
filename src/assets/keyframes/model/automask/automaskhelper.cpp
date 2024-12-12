@@ -8,6 +8,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "automaskhelper.hpp"
 #include "bin/projectclip.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
+#include "jobs/masktask.h"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/monitorproxy.h"
@@ -94,12 +96,20 @@ void AutomaskHelper::generateImage()
             labelsList << QStringLiteral("0");
         }
     }
+    bool ok;
+    QDir maskSrcFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
+    if (!ok) {
+        return;
+    }
     QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"),
+                        QStringLiteral("-I"),
+                        maskSrcFolder.absolutePath(),
                         QStringLiteral("-P"),
-                        pointsList.join(QLatin1Char(',')),
+                        QStringLiteral("%1=%2").arg(m_lastPos).arg(pointsList.join(QLatin1Char(','))),
                         QStringLiteral("-L"),
-                        labelsList.join(QLatin1Char(',')),
-                        QStringLiteral("preview")};
+                        QStringLiteral("%1=%2").arg(m_lastPos).arg(labelsList.join(QLatin1Char(','))),
+                        QStringLiteral("-F"),
+                        QString::number(m_lastPos)};
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
     const QString exec("/home/six/git/sam2/venv/bin/python3");
     scriptJob.start(exec, args);
@@ -111,12 +121,101 @@ void AutomaskHelper::generateImage()
     Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
 }
 
-void AutomaskHelper::generatePreview()
+void AutomaskHelper::generatePreview(const QString &binId, int in, int out, const QString &maskName, const QString &fileName)
 {
-    QtConcurrent::run(&AutomaskHelper::doGeneratePreview, this);
+    // Generate params
+    QMap<int, QString> maskParams;
+    bool ok;
+    QDir maskSrcFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
+    if (!ok) {
+        return;
+    }
+    maskParams.insert(MaskTask::INPUTFOLDER, maskSrcFolder.absolutePath());
+    QString outFolder = QStringLiteral("output-frames");
+    if (maskSrcFolder.cd(outFolder)) {
+        if (maskSrcFolder.dirName() == outFolder) {
+            maskSrcFolder.removeRecursively();
+        }
+    }
+    maskSrcFolder.mkpath(outFolder);
+    if (!maskSrcFolder.cd(outFolder)) {
+        return;
+    }
+    maskParams.insert(MaskTask::OUTPUTFOLDER, maskSrcFolder.absolutePath());
+    maskParams.insert(MaskTask::OUTPUTFILE, fileName);
+    maskParams.insert(MaskTask::NAME, maskName);
+    QList<int> frames = m_includePoints.keys();
+    QList<int> keys = m_excludePoints.keys();
+    for (auto &k : keys) {
+        if (!frames.contains(k)) {
+            frames << k;
+        }
+    }
+    keys = m_boxes.keys();
+    for (auto &k : keys) {
+        if (!frames.contains(k)) {
+            frames << k;
+        }
+    }
+    // Generate points strings
+    QStringList fullPointsList;
+    QStringList fullLabelsList;
+    QStringList fullBoxList;
+    for (auto &f : frames) {
+        QStringList pointsList;
+        QStringList labelsList;
+        QStringList boxList;
+        if (m_includePoints.contains(f)) {
+            const QList<QPoint> points = m_includePoints.value(f);
+            for (auto &p : points) {
+                pointsList << QString::number(p.x());
+                pointsList << QString::number(p.y());
+                labelsList << QStringLiteral("1");
+            }
+        }
+        if (m_excludePoints.contains(f)) {
+            const QList<QPoint> points = m_excludePoints.value(f);
+            for (auto &p : points) {
+                pointsList << QString::number(p.x());
+                pointsList << QString::number(p.y());
+                labelsList << QStringLiteral("0");
+            }
+        }
+        if (m_boxes.contains(f)) {
+            const QList<QRect> rects = m_boxes.value(f);
+            for (auto &r : rects) {
+                boxList << QString::number(r.x());
+                boxList << QString::number(r.y());
+                boxList << QString::number(r.width());
+                boxList << QString::number(r.height());
+            }
+        }
+        if (!pointsList.isEmpty()) {
+            QString pointsValue = QStringLiteral("%1=").arg(f);
+            QString labelsValue = pointsValue;
+            pointsValue.append(pointsList.join(QLatin1Char(',')));
+            labelsValue.append(labelsList.join(QLatin1Char(',')));
+            fullPointsList << pointsValue;
+            fullLabelsList << labelsValue;
+        }
+        if (!boxList.isEmpty()) {
+            QString boxValue = QStringLiteral("%1=").arg(f);
+            ;
+            boxValue.append(boxList.join(QLatin1Char(',')));
+            fullBoxList << boxValue;
+        }
+    }
+    if (!fullPointsList.isEmpty()) {
+        maskParams.insert(MaskTask::POINTS, fullPointsList.join(QLatin1Char(';')));
+        maskParams.insert(MaskTask::LABELS, fullLabelsList.join(QLatin1Char(';')));
+    }
+    if (!fullBoxList.isEmpty()) {
+        maskParams.insert(MaskTask::BOX, fullBoxList.join(QLatin1Char(';')));
+    }
+    MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, in, out, this);
 }
 
-void AutomaskHelper::doGeneratePreview()
+/*void AutomaskHelper::doGeneratePreview()
 {
     QProcess scriptJob;
     QStringList pointsList;
@@ -137,14 +236,22 @@ void AutomaskHelper::doGeneratePreview()
             labelsList << QStringLiteral("0");
         }
     }
+    bool ok;
+    QDir maskSrcFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
+    if (!ok) {
+        return;
+    }
+    QDir maskDstFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
+
     QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"),
+                        QStringLiteral("-I"),
+                        maskSrcFolder.absolutePath(),
                         QStringLiteral("-P"),
-                        pointsList.join(QLatin1Char(',')),
+                        QStringLiteral("%1=%2").arg(m_lastPos).arg(pointsList.join(QLatin1Char(','))),
                         QStringLiteral("-L"),
-                        labelsList.join(QLatin1Char(',')),
+                        QStringLiteral("%1=%2").arg(m_lastPos).arg(labelsList.join(QLatin1Char(','))),
                         QStringLiteral("-O"),
-                        QStringLiteral("/tmp/out_dir"),
-                        QStringLiteral("render")};
+                        QStringLiteral("/tmp/out_dir")};
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
     const QString exec("/home/six/git/sam2/venv/bin/python3");
     qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
@@ -166,7 +273,7 @@ void AutomaskHelper::doGeneratePreview()
             QStringLiteral("/tmp/output.mkv")};
     scriptJob.start(KdenliveSettings::ffmpegpath(), args);
     scriptJob.waitForFinished(-1);
-}
+}*/
 
 void AutomaskHelper::monitorSeek(int pos)
 {

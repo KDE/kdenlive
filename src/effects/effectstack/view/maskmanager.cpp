@@ -6,7 +6,10 @@
 #include "maskmanager.hpp"
 #include "assets/assetpanel.hpp"
 #include "assets/keyframes/model/automask/automaskhelper.hpp"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "monitor/monitor.h"
@@ -48,27 +51,64 @@ void MaskManager::initMaskMode()
     if (!m_connected) {
         Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
         Q_ASSERT(clipMon != nullptr);
-        connect(clipMon, &Monitor::generatePreview, m_maskHelper, &AutomaskHelper::generatePreview, Qt::QueuedConnection);
+        connect(clipMon, &Monitor::generatePreview, this, &MaskManager::generatePreview, Qt::QueuedConnection);
         connect(clipMon, &Monitor::addMonitorControlPoint, m_maskHelper, &AutomaskHelper::addMonitorControlPoint, Qt::UniqueConnection);
         m_connected = true;
     }
+    std::shared_ptr<ProjectClip> clip = getOwnerClip();
+    if (!clip) {
+        return;
+    }
+    if (m_owner.type == KdenliveObjectType::TimelineClip) {
+        pCore->window()->slotClipInProjectTree();
+    } else {
+        pCore->getMonitor(Kdenlive::ClipMonitor)->slotActivateMonitor();
+    }
+    bool ok;
+    QDir maskFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
+    if (!ok) {
+        return;
+    }
+    if (!maskFolder.isEmpty()) {
+        if (maskFolder.dirName() == QLatin1String("source-frames")) {
+            maskFolder.removeRecursively();
+            maskFolder.mkpath(QStringLiteral("."));
+        }
+    }
+    clip->exportFrames(maskFolder);
+    pCore->getMonitor(Kdenlive::ClipMonitor)->loadQmlScene(MonitorSceneAutoMask);
+}
+
+std::shared_ptr<ProjectClip> MaskManager::getOwnerClip()
+{
+    QString binId;
     switch (m_owner.type) {
     case KdenliveObjectType::TimelineClip: {
-        pCore->window()->slotClipInProjectTree();
+        binId = pCore->getTimelineClipBinId(m_owner);
         break;
     }
     case KdenliveObjectType::BinClip: {
-        pCore->getMonitor(Kdenlive::ClipMonitor)->slotActivateMonitor();
+        binId = QString::number(m_owner.itemId);
         break;
     }
     default:
         break;
     }
-    pCore->getMonitor(Kdenlive::ClipMonitor)->loadQmlScene(MonitorSceneAutoMask);
+    if (binId.isEmpty()) {
+        return nullptr;
+    }
+    return pCore->projectItemModel()->getClipByBinID(binId);
 }
 
 void MaskManager::setOwner(ObjectId owner)
 {
+    // Disconnect previous clip
+    if (m_owner.type != KdenliveObjectType::NoItem) {
+        std::shared_ptr<ProjectClip> clip = getOwnerClip();
+        if (clip) {
+            disconnect(clip.get(), &ProjectClip::masksUpdated, this, &MaskManager::loadMasks);
+        }
+    }
     m_owner = owner;
     // Clean up tmp folder
     QDir srcFramesFolder(QStringLiteral("/tmp/src-frames"));
@@ -87,5 +127,51 @@ void MaskManager::setOwner(ObjectId owner)
     if (m_owner.type != KdenliveObjectType::NoItem) {
         connect(pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy(), &MonitorProxy::positionChanged, m_maskHelper, &AutomaskHelper::monitorSeek,
                 Qt::UniqueConnection);
+        loadMasks();
+    }
+}
+
+void MaskManager::generatePreview()
+{
+    bool ok;
+    const QString maskName =
+        QInputDialog::getText(this, i18nc("@title:window", "Enter Mask Name"), i18n("Enter the name of this mask:"), QLineEdit::Normal, QString(), &ok);
+    if (!ok) return;
+
+    std::shared_ptr<ProjectClip> clip = getOwnerClip();
+    if (!clip) {
+        return;
+    }
+
+    QDir maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
+    if (!ok) {
+        return;
+    }
+    int in = 0;
+    int out = 0;
+    const QString outputFile = maskFolder.absoluteFilePath(QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(in).arg(out));
+    qDebug() << "--- READY TO GENERATE MASK: " << outputFile;
+    // TODO: handle clip zone
+    m_maskHelper->generatePreview(clip->clipId(), in, out, maskName, outputFile);
+}
+
+void MaskManager::loadMasks()
+{
+    maskTree->clear();
+    std::shared_ptr<ProjectClip> clip = getOwnerClip();
+    if (!clip) {
+        return;
+    }
+    connect(clip.get(), &ProjectClip::masksUpdated, this, &MaskManager::loadMasks, Qt::UniqueConnection);
+    QMap<QString, QString> masks = clip->masks();
+    QMapIterator<QString, QString> i(masks);
+    while (i.hasNext()) {
+        i.next();
+        QTreeWidgetItem *item = new QTreeWidgetItem(maskTree, {i.key(), QStringLiteral("0-0")});
+        item->setData(0, Qt::UserRole, i.value());
+        QString thumbFile = i.value().section(QLatin1Char('.'), 0, -2);
+        thumbFile.append(QStringLiteral(".png"));
+        QIcon icon(thumbFile);
+        item->setIcon(0, icon);
     }
 }

@@ -13,37 +13,47 @@ from PIL import Image
 
 def process_csv(csv_string, resize):
     # Convert the CSV string back to a NumPy array
-    np_array = np.fromstring(csv_string, dtype=int, sep=',')
+    resulting_array = {}
+    vals_list = csv_string.split(';')
+    for vals in vals_list:
+        frame,csv_data = vals.split("=")
+        np_array = np.fromstring(csv_data, dtype=int, sep=',')
 
-    # Reshape the array if necessary (e.g., if it was a 2D array)
-    if resize:
-        cols = int((np.shape(np_array)[0])/2)
-        print("Resize Array, COLS:")
-        print(cols)
-        np_array = np_array.reshape(cols, 2)
+        # Reshape the array if necessary (e.g., if it was a 2D array)
+        if resize > 1:
+            cols = int((np.shape(np_array)[0])/resize)
+            print("Resize Array, COLS:")
+            print(cols)
+            np_array = np_array.reshape(cols, resize)
+        resulting_array[int(frame)] = np_array
 
     print("NumPy Array:")
-    print(np_array)
-    return np_array
+    print(resulting_array)
+    return resulting_array
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("SAM Object Mask Creator")
-    parser.add_argument("-F", "--frame", help="Frame position for the points", type=int, default=0)
-    parser.add_argument("-P", "--point_coordinates", help="Points coordinates, like '200,250,300,255'", required=True)
-    parser.add_argument("-L", "--labels", help="Points labels, 1 for include, 0 for exclude, like '1,0'", required=True)
+    parser.add_argument("-P", "--point_coordinates", help="Points coordinates with frame, like '0=200,250,300,255;100=10,50' for 2 points at frame 0 and one at frame 100")
+    parser.add_argument("-F", "--preview_frame", help="The frame index for preview", default=-1)
+    parser.add_argument("-L", "--labels", help="Points labels, 1 for include, 0 for exclude, like '0=1,0;100=1' for frame 0 and 100")
+    parser.add_argument("-B", "--box_coordinates", help="Box coordinates with frame, like '0=10,20,150,255'")
     parser.add_argument("-I", "--inputFolder", help="folder where input jpg files are stored", default="/tmp/src-frames")
     parser.add_argument("-O", "--output", help="path for rendered jpg image for preview of folder for rendering", default="/tmp/preview.png")
-    parser.add_argument("mode", help="Operation mode (preview, render)", default="preview")
     args = parser.parse_args()
-    if args.point_coordinates == None or args.labels == None:
+    if (args.point_coordinates == None or args.labels == None) and args.box_coordinates == None:
         config = vars(args)
         print(config)
         sys.exit()
 
-    points = process_csv(args.point_coordinates, True)
-    labels = process_csv(args.labels, False)
-    frame = args.frame
-    preview = args.mode == "preview"
+    box = {}
+    points = {}
+    labels = {}
+    if args.point_coordinates != None:
+        points = process_csv(args.point_coordinates, 2)
+        labels = process_csv(args.labels, 1)
+    if args.box_coordinates != None:
+        box = process_csv(args.box_coordinates, 4)
+    preview_frame = int(args.preview_frame)
     output_frame = args.output
     inputFolder = args.inputFolder
 
@@ -80,7 +90,7 @@ model_cfg = "configs/sam2.1/sam2.1_hiera_t.yaml"
 
 print(os.getcwd())
 
-if preview:
+if preview_frame > -1:
     sam2_model = build_sam2(model_cfg, sam2_checkpoint, device=device)
     predictor = SAM2ImagePredictor(sam2_model)
 else:
@@ -133,15 +143,18 @@ frame_names.sort(key=lambda p: int(os.path.splitext(p)[0]))
 
 ann_obj_id = 1  # give a unique id to each object we interact with (it can be any integers)
 
-if preview:
-    print(f"Init predictor on image: ", os.path.join(inputFolder, frame_names[0]))
-    image = Image.open(os.path.join(inputFolder, frame_names[0]))
+if preview_frame > -1:
+    print(f"Init predictor on image: ", os.path.join(inputFolder, frame_names[preview_frame]))
+    image = Image.open(os.path.join(inputFolder, frame_names[preview_frame]))
     image = np.array(image.convert("RGB"))
     predictor.set_image(image)
+    #mask_input = logits[np.argmax(scores), :, :]
     masks, scores, logits = predictor.predict(
-        point_coords=points,
-        point_labels=labels,
+        point_coords=None if not points else points[preview_frame],
+        point_labels=None if not labels else labels[preview_frame],
+        box=None if not box else box[preview_frame],
         multimask_output=False)
+
     print(f"Saving preview image as: ", output_frame)
     #mask_image =  mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
     #save_mask((logits[0] > 0.0), output_frame, ann_obj_id)
@@ -154,18 +167,24 @@ else:
 print(f"Adding points...")
 # Let's add a positive click at (x, y) = (210, 350) to get started
 #points = np.array([[423, 556], [250, 220]], dtype=np.float32)
-points = np.array([[423, 556]], dtype=np.float32)
 # for labels, `1` means positive click and `0` means negative click
 #labels = np.array([1, 1], np.int32)
-labels = np.array([1], np.int32)
 
-_, out_obj_ids, out_mask_logits = predictor.add_new_points_or_box(
-    inference_state=inference_state,
-    frame_idx=frame,
-    obj_id=ann_obj_id,
-    points=points,
-    labels=labels,
-)
+first_list = list(points.keys())
+in_first = set(first_list)
+in_second = set(box.keys())
+in_second_but_not_in_first = in_second - in_first
+result = first_list + list(in_second_but_not_in_first)
+
+for frame in result:
+    _, _, out_mask_logits = predictor.add_new_points_or_box(
+        inference_state=inference_state,
+        frame_idx=frame,
+        obj_id=ann_obj_id,
+        box=None if not box else box[frame],
+        points=None if not points else points[frame],
+        labels=None if not labels else labels[frame]
+    )
 
 print(f"Adding points...DONE")
 

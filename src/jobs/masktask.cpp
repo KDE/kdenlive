@@ -1,0 +1,155 @@
+/*
+SPDX-FileCopyrightText: 2024 Jean-Baptiste Mardelle <jb@kdenlive.org>
+This file is part of Kdenlive. See www.kdenlive.org.
+
+SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
+*/
+
+#include "masktask.h"
+#include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
+#include "core.h"
+#include "kdenlivesettings.h"
+
+#include <KLocalizedString>
+#include <QFile>
+#include <QImage>
+#include <QString>
+
+MaskTask::MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, int in, int out, QObject *object)
+    : AbstractTask(owner, AbstractTask::MASKJOB, object)
+    , m_properties(maskProperties)
+    , m_in(in)
+    , m_out(out)
+{
+    m_description = i18n("Mask creation");
+}
+
+MaskTask::~MaskTask() {}
+
+void MaskTask::start(const ObjectId &owner, QMap<int, QString> maskProperties, int in, int out, QObject *object)
+{
+    MaskTask *task = new MaskTask(owner, maskProperties, in, out, object);
+    pCore->taskManager.startTask(owner.itemId, task);
+}
+
+void MaskTask::generateMask()
+{
+    // Ensure we have the source frames
+    QDir srcFolder(m_properties.value(MaskTask::INPUTFOLDER));
+    if (!srcFolder.exists() || srcFolder.isEmpty()) {
+        m_errorMessage = i18n("Nos source frames to process");
+        return;
+    }
+    const QString outFile = m_properties.value(MaskTask::OUTPUTFILE);
+    const QString outFramesFolder = m_properties.value(MaskTask::OUTPUTFOLDER);
+    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"), QStringLiteral("-I"), m_properties.value(MaskTask::INPUTFOLDER),
+                        QStringLiteral("-O"), outFramesFolder};
+    if (!m_properties.value(MaskTask::POINTS).isEmpty()) {
+        args << QStringLiteral("-P") << m_properties.value(MaskTask::POINTS) << QStringLiteral("-L") << m_properties.value(MaskTask::LABELS);
+    }
+    if (!m_properties.value(MaskTask::BOX).isEmpty()) {
+        args << QStringLiteral("-B") << m_properties.value(MaskTask::BOX);
+    }
+    qDebug() << "---- STARTING IMAGE GENERATION: " << args;
+    const QString exec("/home/six/git/sam2/venv/bin/python3");
+    qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
+    QObject::connect(this, &AbstractTask::jobCanceled, &m_scriptJob, &QProcess::kill, Qt::DirectConnection);
+    QObject::connect(&m_scriptJob, &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);
+    m_scriptJob.start(exec, args);
+    m_scriptJob.waitForFinished(-1);
+    m_isFfmpegJob = true;
+    // Now convert frames to video
+    // ffmpeg -framerate 25 -pattern_type glob -i '*.png' -c:v ffv1 -pix_fmt yuva420p output.mkv
+    args = {QStringLiteral("-framerate"),
+            QString::number(pCore->getCurrentFps()),
+            QStringLiteral("-pattern_type"),
+            QStringLiteral("glob"),
+            QStringLiteral("-i"),
+            QStringLiteral("%1/*.png").arg(outFramesFolder),
+            QStringLiteral("-c:v"),
+            QStringLiteral("ffv1"),
+            QStringLiteral("-pix_fmt"),
+            QStringLiteral("yuva420p"),
+            outFile};
+    m_scriptJob.start(KdenliveSettings::ffmpegpath(), args);
+    m_scriptJob.waitForFinished(-1);
+    // Save thumbnail
+    QDir framesFolder(outFramesFolder);
+    const QString firstFrame = QStringLiteral("00000.png");
+    if (framesFolder.exists(firstFrame)) {
+        QImage img(framesFolder.absoluteFilePath(firstFrame));
+        QString thumbFile = outFile.section(QLatin1Char('.'), 0, -2);
+        thumbFile.append(QStringLiteral(".png"));
+        img = img.scaledToHeight(80);
+        img.save(thumbFile);
+    }
+    if (!m_isCanceled.loadAcquire()) {
+        const QString maskName = m_properties.value(MaskTask::NAME);
+        auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
+        QMetaObject::invokeMethod(binClip.get(), "addMask", Qt::QueuedConnection, Q_ARG(QString, maskName), Q_ARG(QString, outFile), Q_ARG(int, m_in),
+                                  Q_ARG(int, m_out));
+    }
+}
+
+void MaskTask::run()
+{
+    AbstractTaskDone whenFinished(m_owner.itemId, this);
+    if (m_isCanceled || pCore->taskManager.isBlocked()) {
+        return;
+    }
+    QMutexLocker lock(&m_runMutex);
+    generateMask();
+    return;
+}
+
+void MaskTask::processLogInfo()
+{
+    const QString buffer = QString::fromUtf8(m_scriptJob.readAllStandardError());
+    m_logDetails.append(buffer);
+    if (m_isFfmpegJob) {
+        // Parse FFmpeg output
+        if (m_jobDuration == 0) {
+            if (buffer.contains(QLatin1String("Duration:"))) {
+                QString data = buffer.section(QStringLiteral("Duration:"), 1, 1).section(QLatin1Char(','), 0, 0).simplified();
+                if (!data.isEmpty()) {
+                    QStringList numbers = data.split(QLatin1Char(':'));
+                    if (numbers.size() < 3) {
+                        return;
+                    }
+                    m_jobDuration = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toInt();
+                }
+            }
+        } else if (buffer.contains(QLatin1String("time="))) {
+            int progress = 0;
+            QString time = buffer.section(QStringLiteral("time="), 1, 1).simplified().section(QLatin1Char(' '), 0, 0);
+            if (!time.isEmpty()) {
+                QStringList numbers = time.split(QLatin1Char(':'));
+                if (numbers.size() < 3) {
+                    progress = time.toInt();
+                    if (progress == 0) {
+                        return;
+                    }
+                } else {
+                    progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + qRound(numbers.at(2).toDouble());
+                }
+            }
+            int val = 100 * progress / m_jobDuration;
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
+            // Q_EMIT jobProgress(int(100.0 * progress / m_jobDuration));
+        }
+    } else {
+        // Parse SAM2 output
+        if (buffer.contains(QLatin1String("percentage:"))) {
+            int val = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+            if (m_progress != val) {
+                m_progress = val;
+                QMetaObject::invokeMethod(m_object, "updateJobProgress");
+            }
+            // Q_EMIT jobProgress(progress);
+        }
+    }
+}
