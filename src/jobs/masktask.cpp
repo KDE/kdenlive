@@ -61,7 +61,8 @@ void MaskTask::generateMask()
     m_isFfmpegJob = true;
     // Now convert frames to video
     // ffmpeg -framerate 25 -pattern_type glob -i '*.png' -c:v ffv1 -pix_fmt yuva420p output.mkv
-    args = {QStringLiteral("-framerate"),
+    args = {QStringLiteral("-y"),
+            QStringLiteral("-framerate"),
             QString::number(pCore->getCurrentFps()),
             QStringLiteral("-pattern_type"),
             QStringLiteral("glob"),
