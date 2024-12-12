@@ -41,6 +41,10 @@ MaskManager::MaskManager(QWidget *parent)
     setupUi(this);
     connect(buttonAdd, &QPushButton::clicked, this, &MaskManager::initMaskMode);
     m_maskHelper = new AutomaskHelper(this);
+    maskTree->setRootIsDecorated(false);
+    maskTree->setAlternatingRowColors(true);
+    maskTree->setAllColumnsShowFocus(true);
+    maskTree->setIconSize(QSize(80, 60));
 }
 
 MaskManager::~MaskManager() {}

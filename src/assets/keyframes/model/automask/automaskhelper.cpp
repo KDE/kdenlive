@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "automaskhelper.hpp"
 #include "bin/projectclip.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "jobs/masktask.h"
@@ -213,7 +214,10 @@ void AutomaskHelper::generatePreview(const QString &binId, int in, int out, cons
     if (!fullBoxList.isEmpty()) {
         maskParams.insert(MaskTask::BOX, fullBoxList.join(QLatin1Char(';')));
     }
-    MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, in, out, this);
+    std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
+    if (clip) {
+        MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, in, out, clip.get());
+    }
 }
 
 /*void AutomaskHelper::doGeneratePreview()

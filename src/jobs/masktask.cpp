@@ -84,6 +84,7 @@ void MaskTask::generateMask()
         img = img.scaledToHeight(80);
         img.save(thumbFile);
     }
+    m_progress = 100;
     if (!m_isCanceled.loadAcquire()) {
         const QString maskName = m_properties.value(MaskTask::NAME);
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
@@ -99,6 +100,7 @@ void MaskTask::run()
         return;
     }
     QMutexLocker lock(&m_runMutex);
+    m_running = true;
     generateMask();
     return;
 }
@@ -107,6 +109,7 @@ void MaskTask::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_scriptJob.readAllStandardError());
     m_logDetails.append(buffer);
+    qDebug() << "=== GOT BUFFER OUTPUT: " << buffer << "\n________________";
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
@@ -139,17 +142,18 @@ void MaskTask::processLogInfo()
                 m_progress = val;
                 QMetaObject::invokeMethod(m_object, "updateJobProgress");
             }
-            // Q_EMIT jobProgress(int(100.0 * progress / m_jobDuration));
         }
     } else {
         // Parse SAM2 output
         if (buffer.contains(QLatin1String("%|"))) {
-            int val = buffer.section(QStringLiteral("%|"), 0).simplified().section(QLatin1Char(' '), -1).toInt();
+            int val = buffer.section(QStringLiteral("%|"), 0, 0).simplified().section(QLatin1Char(' '), -1).toInt();
             if (m_progress != val) {
                 m_progress = val;
+                qDebug() << "::: MASK PROGRESS: " << val;
                 QMetaObject::invokeMethod(m_object, "updateJobProgress");
             }
-            // Q_EMIT jobProgress(progress);
+        } else {
+            qDebug() << ":::: DOES NOT CONTAIN STRING...";
         }
     }
 }
