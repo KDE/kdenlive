@@ -132,9 +132,10 @@ void AutomaskHelper::generatePreview(const QString &binId, int in, int out, cons
     }
     maskParams.insert(MaskTask::INPUTFOLDER, maskSrcFolder.absolutePath());
     QString outFolder = QStringLiteral("output-frames");
-    if (maskSrcFolder.cd(outFolder)) {
-        if (maskSrcFolder.dirName() == outFolder) {
-            maskSrcFolder.removeRecursively();
+    if (maskSrcFolder.exists(outFolder)) {
+        QDir toRemove(maskSrcFolder.absoluteFilePath(outFolder));
+        if (toRemove.dirName() == outFolder) {
+            toRemove.removeRecursively();
         }
     }
     maskSrcFolder.mkpath(outFolder);

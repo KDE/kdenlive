@@ -211,7 +211,7 @@ for out_frame_idx in range(0, len(frame_names), vis_frame_stride):
     #plt.imshow(Image.open(os.path.join(inputFolder, frame_names[out_frame_idx])))
     for out_obj_id, out_mask in video_segments[out_frame_idx].items():
         #show_mask(out_mask, plt.gca(), obj_id=out_obj_id)
-        filename = output_frame + '/color_img-' + '{:05d}'.format(out_frame_idx) + '.png'
+        filename = output_frame + '/{:05d}'.format(out_frame_idx) + '.png'
         save_mask(out_mask, filename, obj_id=out_obj_id)
     #plt.show()
 

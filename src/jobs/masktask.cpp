@@ -143,8 +143,8 @@ void MaskTask::processLogInfo()
         }
     } else {
         // Parse SAM2 output
-        if (buffer.contains(QLatin1String("percentage:"))) {
-            int val = buffer.section(QStringLiteral("percentage:"), 1).simplified().section(QLatin1Char(' '), 0, 0).toInt();
+        if (buffer.contains(QLatin1String("%|"))) {
+            int val = buffer.section(QStringLiteral("%|"), 0).simplified().section(QLatin1Char(' '), -1).toInt();
             if (m_progress != val) {
                 m_progress = val;
                 QMetaObject::invokeMethod(m_object, "updateJobProgress");
