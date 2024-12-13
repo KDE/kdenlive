@@ -35,7 +35,7 @@ SpeechToTextVosk::SpeechToTextVosk(QObject *parent)
     addScript(QStringLiteral("vosk/speechtotext.py"));
 }
 
-const QString SpeechToTextVosk::modelFolder(bool)
+const QString SpeechToTextVosk::modelFolder(bool, bool)
 {
     QString modelDirectory = KdenliveSettings::vosk_folder_path();
     if (modelDirectory.isEmpty()) {

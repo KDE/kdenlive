@@ -21,7 +21,7 @@ public:
     QString subtitleScript() override;
     QString speechScript() override;
     void buildWhisperDeps(bool enableSeamless);
-    const QString modelFolder(bool mainFolder = true) override;
+    const QString modelFolder(bool mainFolder = true, bool create = false) override;
     const QStringList getInstalledModels() override;
     bool installNewModel(const QString &modelName = QString()) override;
     QMap<QString, QString> speechLanguages() override;
