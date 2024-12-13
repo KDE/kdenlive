@@ -229,7 +229,7 @@ Item {
                 anchors.centerIn: frame
                 padding: 5
                 text: i18n("Click on an object to start a mask")
-                visible: root.centerPoints.length == 0 && !frameArea.containsMouse
+                visible: root.centerPoints.length == 0 && !frameArea.containsMouse && !generateLabel.visible
                 background: Rectangle {
                     color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.7)
                     radius: 5

@@ -40,7 +40,20 @@ MaskManager::MaskManager(QWidget *parent)
 {
     setupUi(this);
     connect(buttonAdd, &QPushButton::clicked, this, &MaskManager::initMaskMode);
-    connect(buttonPreview, &QPushButton::clicked, this, &MaskManager::previewMask);
+    connect(buttonPreview, &QPushButton::toggled, this, &MaskManager::previewMask);
+    connect(invertPreview, &QCheckBox::toggled, this, &MaskManager::updateMaskProperties);
+    connect(opacity, &QSlider::valueChanged, this, &MaskManager::updateMaskProperties);
+    connect(maskColor, &KColorButton::changed, this, &MaskManager::updateMaskProperties);
+    connect(maskTree, &QTreeWidget::itemDoubleClicked, this, [this]() { previewMask(true); });
+    connect(maskTree, &QTreeWidget::currentItemChanged, this, [this]() {
+        QTreeWidgetItem *item = maskTree->currentItem();
+        if (item) {
+            QIcon icon = item->icon(0);
+            thumbPreview->setPixmap(icon.pixmap(thumbPreview->width(), thumbPreview->height()));
+        } else {
+            thumbPreview->setPixmap(QPixmap());
+        }
+    });
     m_maskHelper = new AutomaskHelper(this);
     maskTree->setRootIsDecorated(false);
     maskTree->setAlternatingRowColors(true);
@@ -70,31 +83,35 @@ void MaskManager::initMaskMode()
         pCore->getMonitor(Kdenlive::ClipMonitor)->slotActivateMonitor();
     }
     bool ok;
-    m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
+    QDir srcMaskFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
     if (!ok) {
         return;
     }
-    if (!m_maskFolder.isEmpty()) {
-        if (m_maskFolder.dirName() == QLatin1String("source-frames")) {
-            m_maskFolder.removeRecursively();
-            m_maskFolder.mkpath(QStringLiteral("."));
+    m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
+    if (!srcMaskFolder.isEmpty()) {
+        if (srcMaskFolder.dirName() == QLatin1String("source-frames")) {
+            srcMaskFolder.removeRecursively();
+            srcMaskFolder.mkpath(QStringLiteral("."));
         }
     }
     m_zone = QPoint(pCore->getMonitor(Kdenlive::ClipMonitor)->getZoneStart(), pCore->getMonitor(Kdenlive::ClipMonitor)->getZoneEnd());
-    clip->exportFrames(m_maskFolder, m_zone.x(), m_zone.y());
+    clip->exportFrames(srcMaskFolder, m_zone.x(), m_zone.y());
     pCore->getMonitor(Kdenlive::ClipMonitor)->loadQmlScene(MonitorSceneAutoMask);
 }
 
 void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
 {
     if (position < m_zone.x()) {
+        qDebug() << "/// POSITION OUTSIDE ZONE!!!";
     }
     position -= m_zone.x();
-    if (!QFile::exists(m_maskFolder.absoluteFilePath(QStringLiteral("%05d.jpg").arg(position)))) {
+    if (!QFile::exists(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/%1.jpg").arg(position, 5, 10, QLatin1Char('0'))))) {
         // Frame has not been extracted
+        qDebug() << "/// FILE FOR FRAME: " << position << " DOES NOT EXIST:" << m_maskFolder.absoluteFilePath(QStringLiteral("%05d.jpg").arg(position));
         return;
     }
-    m_maskHelper->addMonitorControlPoint(position, frameSize, xPos, yPos, extend, exclude);
+    m_maskHelper->addMonitorControlPoint(m_maskFolder.absoluteFilePath(QStringLiteral("source-frames/preview.png")), position, frameSize, xPos, yPos, extend,
+                                         exclude);
 }
 
 std::shared_ptr<ProjectClip> MaskManager::getOwnerClip()
@@ -133,10 +150,8 @@ void MaskManager::setOwner(ObjectId owner)
     if (srcFramesFolder.exists()) {
         srcFramesFolder.removeRecursively();
     }
-    QFile preview(QStringLiteral("/tmp/preview.png"));
-    if (preview.exists()) {
-        preview.remove();
-    }
+    m_maskFolder.remove(QStringLiteral("preview.png"));
+
     QDir dstFramesFolder(QStringLiteral("/tmp/out_dir"));
     if (dstFramesFolder.exists()) {
         dstFramesFolder.removeRecursively();
@@ -176,9 +191,11 @@ void MaskManager::loadMasks()
     QMapIterator<int, MaskInfo> i(masks);
     while (i.hasNext()) {
         i.next();
-        QTreeWidgetItem *item = new QTreeWidgetItem(maskTree, {i.value().maskName, QStringLiteral("%1 - %2").arg(i.value().in).arg(i.value().in)});
+        QTreeWidgetItem *item = new QTreeWidgetItem(maskTree, {i.value().maskName, QStringLiteral("%1 - %2").arg(i.value().in).arg(i.value().out)});
         QString maskFile = i.value().maskFile;
         item->setData(0, Qt::UserRole, maskFile);
+        item->setData(0, Qt::UserRole + 1, i.value().in);
+        item->setData(0, Qt::UserRole + 2, i.value().out);
         QString thumbFile = maskFile.section(QLatin1Char('.'), 0, -2);
         thumbFile.append(QStringLiteral(".png"));
         QIcon icon(thumbFile);
@@ -186,14 +203,19 @@ void MaskManager::loadMasks()
     }
 }
 
-void MaskManager::previewMask()
+void MaskManager::previewMask(bool show)
 {
-    std::shared_ptr<ProjectClip> clip = getOwnerClip();
-    if (!clip) {
-        return;
+    if (show) {
+        const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
+        int in = maskTree->currentItem()->data(0, Qt::UserRole + 1).toInt();
+        int out = maskTree->currentItem()->data(0, Qt::UserRole + 2).toInt();
+        pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out);
+    } else {
+        pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
-    const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
-    int in = maskTree->currentItem()->data(0, Qt::UserRole + 1).toInt();
-    int out = maskTree->currentItem()->data(0, Qt::UserRole + 2).toInt();
-    pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out);
+}
+
+void MaskManager::updateMaskProperties()
+{
+    pCore->getMonitor(Kdenlive::ClipMonitor)->updatePreviewMask(invertPreview->isChecked(), opacity->value(), maskColor->color());
 }

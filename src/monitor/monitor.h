@@ -167,6 +167,10 @@ public:
     bool isDirty() const;
     /** @brief Display a  mask as overlay to the clip */
     void previewMask(const QString &maskFile, int in, int out);
+    /** @brief Stop displaying a  mask as overlay to the clip */
+    void abortPreviewMask();
+    /** @brief Update the preview mask properties */
+    void updatePreviewMask(bool invert, int opacity, const QColor &color);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -200,6 +204,9 @@ private:
     QUuid m_activeSequence;
 
     std::shared_ptr<Mlt::Filter> m_splitEffect;
+    std::unique_ptr<Mlt::Transition> m_maskOpacity;
+    std::shared_ptr<Mlt::Filter> m_maskColor;
+    std::shared_ptr<Mlt::Filter> m_maskInvert;
     std::shared_ptr<Mlt::Producer> m_splitProducer;
     std::shared_ptr<MarkerListModel> m_markerModel{nullptr};
     int m_length;

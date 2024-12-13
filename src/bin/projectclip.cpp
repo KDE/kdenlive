@@ -3164,6 +3164,7 @@ void ProjectClip::exportFrames(const QDir folder, int in, int out)
     if (out > 0) {
         args << QStringLiteral("-t") << QString::number((outPos - inPos).seconds());
     }
+    args << QStringLiteral("-start_number") << QStringLiteral("0");
     args << folder.absoluteFilePath(QStringLiteral("%05d.jpg"));
     // TODO Inform monitor when all frames are exported
     // connect(&m_exportProcess, &QProcess::finished, this, [this]() { m_exportFramesTimer.stop(); });

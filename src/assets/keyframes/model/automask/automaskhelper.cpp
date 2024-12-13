@@ -26,7 +26,7 @@ AutomaskHelper::AutomaskHelper(QObject *parent)
 {
 }
 
-void AutomaskHelper::addMonitorControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
+void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
 {
     const QPoint p(xPos, yPos);
     m_lastPos = position;
@@ -72,10 +72,10 @@ void AutomaskHelper::addMonitorControlPoint(int position, QSize frameSize, int x
     }
     qDebug() << "===== ADDED CONTROL POINT; TOTAL: " << "EXCLUDING: " << exclude << ", " << points.size() << ", CENTERS: " << pointsTypes;
     pCore->getMonitor(Kdenlive::ClipMonitor)->setUpEffectGeometry(QRect(), points, pointsTypes);
-    QtConcurrent::run(&AutomaskHelper::generateImage, this);
+    QtConcurrent::run(&AutomaskHelper::generateImage, this, previewFile);
 }
 
-void AutomaskHelper::generateImage()
+void AutomaskHelper::generateImage(const QString &previewFile)
 {
     QProcess scriptJob;
     QStringList pointsList;
@@ -101,7 +101,7 @@ void AutomaskHelper::generateImage()
     if (!ok) {
         return;
     }
-    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"),
+    QStringList args = {QStringLiteral("/home/seven/git/sam2/venv/sam-objectmask.py"),
                         QStringLiteral("-I"),
                         maskSrcFolder.absolutePath(),
                         QStringLiteral("-P"),
@@ -109,12 +109,14 @@ void AutomaskHelper::generateImage()
                         QStringLiteral("-L"),
                         QStringLiteral("%1=%2").arg(m_lastPos).arg(labelsList.join(QLatin1Char(','))),
                         QStringLiteral("-F"),
-                        QString::number(m_lastPos)};
+                        QString::number(m_lastPos),
+                        QStringLiteral("-O"),
+                        previewFile};
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
-    const QString exec("/home/six/git/sam2/venv/bin/python3");
+    const QString exec("/home/seven/git/sam2/venv/bin/python3");
     scriptJob.start(exec, args);
     scriptJob.waitForFinished(-1);
-    QUrl url = QUrl::fromLocalFile(QStringLiteral("/tmp/preview.png"));
+    QUrl url = QUrl::fromLocalFile(previewFile);
     url.setQuery(QStringLiteral("pos=%1&ctrl=%2").arg(m_lastPos).arg(QDateTime::currentSecsSinceEpoch()));
     qDebug() << "---- IMAGE GENERATION DONE; RESULTING URL: " << url;
     pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay = url;
@@ -227,7 +229,7 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
 
 void AutomaskHelper::monitorSeek(int pos)
 {
-    pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay =
+    /*pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay =
         QUrl::fromLocalFile(QStringLiteral("/tmp/out_dir/color_img-%1.png").arg(pos, 5, 10, QLatin1Char('0')));
-    Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
+    Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();*/
 }

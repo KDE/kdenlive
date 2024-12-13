@@ -31,7 +31,7 @@ public:
 public Q_SLOTS:
     void generateMask(const QString &binId, const QString &maskName, const QPoint &zone);
     void monitorSeek(int pos);
-    void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
+    void addMonitorControlPoint(const QString &previewFile, int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
 
 private:
     Monitor *m_monitor;
@@ -42,5 +42,5 @@ private:
     QMap<int, QList<QRect>> m_boxes;
 
 private Q_SLOTS:
-    void generateImage();
+    void generateImage(const QString &previewFile);
 };

@@ -794,7 +794,7 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (KdenliveSettings::monitor_background() != "black") {
         Mlt::Tractor trac(pCore->getProjectProfile());
         QString color = QStringLiteral("color:%1").arg(KdenliveSettings::monitor_background());
-        std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(*trac.profile(), color.toUtf8().constData()));
+        std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), color.toUtf8().constData()));
         int maxLength = m_controller->sequenceFrameDuration(m_activeSequence);
         bg->set("length", maxLength);
         bg->set("out", maxLength - 1);
@@ -2980,4 +2980,54 @@ void Monitor::addControlPoint(double x, double y, bool extend, bool exclude)
     Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude);
 }
 
-void Monitor::previewMask(const QString &maskFile, int in, int out) {}
+void Monitor::previewMask(const QString &maskFile, int in, int out)
+{
+    Mlt::Tractor trac(pCore->getProjectProfile());
+    Mlt::Playlist maskPlaylist(pCore->getProjectProfile());
+    QString color = QStringLiteral("avformat:%1").arg(maskFile);
+    std::shared_ptr<Mlt::Producer> bg(new Mlt::Producer(pCore->getProjectProfile(), color.toUtf8().constData()));
+    m_maskInvert.reset(new Mlt::Filter(pCore->getProjectProfile(), "frei0r.alpha0ps"));
+    if (m_maskInvert != nullptr && m_maskInvert->is_valid()) {
+        m_maskInvert->set("5", 1); // 5 is the Invert parameter
+        m_maskInvert->set("disable", 1);
+    }
+    m_maskColor.reset(new Mlt::Filter(pCore->getProjectProfile(), "frei0r.tint0r"));
+    if (m_maskColor != nullptr && m_maskColor->is_valid()) {
+        m_maskColor->set("0", "#ff0000");
+        m_maskColor->set("1", "#ff0000");
+        m_maskColor->set("2", 1);
+    }
+    bg->attach(*m_maskInvert.get());
+    bg->attach(*m_maskColor.get());
+    maskPlaylist.insert_at(in, bg.get(), 1);
+    trac.set_track(*m_controller->sequenceProducer(m_activeSequence).get(), 0);
+    trac.set_track(maskPlaylist, 1);
+    QString composite = TransitionsRepository::get()->getCompositingTransition();
+    m_maskOpacity = TransitionsRepository::get()->getTransition(composite);
+    m_maskOpacity->set_in_and_out(in, out);
+    m_maskOpacity->set_tracks(0, 1);
+    trac.plant_transition(*m_maskOpacity.get(), 0, 1);
+    int pos = position();
+    if (pos < in || (out > 0 && pos > out)) {
+        pos = in;
+    }
+    m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
+}
+
+void Monitor::abortPreviewMask()
+{
+    m_maskOpacity.reset();
+    m_maskColor.reset();
+    m_maskInvert.reset();
+    buildBackgroundedProducer(position());
+}
+
+void Monitor::updatePreviewMask(bool invert, int opacity, const QColor &color)
+{
+    m_maskInvert->set("disable", invert ? 0 : 1);
+    const QString opacityString = QStringLiteral("0=0 0 100% 100% %1").arg(opacity / 100.);
+    m_maskOpacity->set("rect", opacityString.toUtf8().constData());
+    m_maskColor->set("0", color.name().toUtf8().constData());
+    m_maskColor->set("1", color.name().toUtf8().constData());
+    refreshMonitor();
+}
