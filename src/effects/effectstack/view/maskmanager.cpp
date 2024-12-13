@@ -206,10 +206,12 @@ void MaskManager::loadMasks()
 void MaskManager::previewMask(bool show)
 {
     if (show) {
+        buttonPreview->setChecked(true);
         const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
         int in = maskTree->currentItem()->data(0, Qt::UserRole + 1).toInt();
         int out = maskTree->currentItem()->data(0, Qt::UserRole + 2).toInt();
         pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out);
+        updateMaskProperties();
     } else {
         pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
     }
