@@ -165,6 +165,8 @@ public:
     void markDirty(const QUuid uuid);
     /** @brief If true, the monitor will need a refresh on next activation */
     bool isDirty() const;
+    /** @brief Display a  mask as overlay to the clip */
+    void previewMask(const QString &maskFile, int in, int out);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

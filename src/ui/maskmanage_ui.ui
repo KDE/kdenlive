@@ -18,6 +18,20 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1">
+    <widget class="QPushButton" name="buttonAdd">
+     <property name="text">
+      <string>Create Mask</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPushButton" name="buttonPreview">
+     <property name="text">
+      <string>Preview Mask</string>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="1">
     <widget class="QPushButton" name="buttonDelete">
      <property name="text">
@@ -50,20 +64,6 @@
        <string>Zone</string>
       </property>
      </column>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QPushButton" name="buttonAdd">
-     <property name="text">
-      <string>Create Mask</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>Preview Mask</string>
-     </property>
     </widget>
    </item>
   </layout>

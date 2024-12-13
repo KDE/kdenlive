@@ -3175,26 +3175,26 @@ void ProjectClip::checkForExtractedFrame()
     }
 }
 
-void ProjectClip::addMask(const QString &maskName, const QString &maskPath, int in, int out)
+void ProjectClip::addMask(MaskInfo mask)
 {
-    m_masks.insert(maskName, maskPath);
+    m_masks.insert(m_masks.size() + 1, mask);
     Q_EMIT masksUpdated();
     QJsonArray list;
-    QMapIterator<QString, QString> i(m_masks);
+    QMapIterator<int, MaskInfo> i(m_masks);
     while (i.hasNext()) {
         i.next();
         QJsonObject currentMask;
-        currentMask.insert(QLatin1String("name"), QJsonValue(maskName));
-        currentMask.insert(QLatin1String("file"), QJsonValue(maskPath));
-        currentMask.insert(QLatin1String("in"), QJsonValue(in));
-        currentMask.insert(QLatin1String("out"), QJsonValue(out));
+        currentMask.insert(QLatin1String("name"), QJsonValue(mask.maskName));
+        currentMask.insert(QLatin1String("file"), QJsonValue(mask.maskFile));
+        currentMask.insert(QLatin1String("in"), QJsonValue(mask.in));
+        currentMask.insert(QLatin1String("out"), QJsonValue(mask.out));
         list.push_back(currentMask);
     }
     QJsonDocument json(list);
     setProducerProperty(QStringLiteral("kdenlive:masks"), QString::fromUtf8(json.toJson()));
 }
 
-QMap<QString, QString> ProjectClip::masks() const
+QMap<int, MaskInfo> ProjectClip::masks() const
 {
     return m_masks;
 }
@@ -3210,6 +3210,7 @@ void ProjectClip::loadMasks(const QString &maskData)
         return;
     }
     auto list = json.array();
+    int ix = 0;
     for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid mask data";
@@ -3220,7 +3221,13 @@ void ProjectClip::loadMasks(const QString &maskData)
             qDebug() << "Warning : Skipping invalid mask data (does not contain name)";
             continue;
         }
-        m_masks.insert(entryObj[QLatin1String("name")].toString(), entryObj[QLatin1String("file")].toString());
+        MaskInfo mask;
+        mask.maskName = entryObj[QLatin1String("name")].toString();
+        mask.maskFile = entryObj[QLatin1String("file")].toString();
+        mask.in = entryObj[QLatin1String("in")].toInt();
+        mask.out = entryObj[QLatin1String("out")].toInt();
+        m_masks.insert(ix, mask);
+        ix++;
     }
     Q_EMIT masksUpdated();
 }

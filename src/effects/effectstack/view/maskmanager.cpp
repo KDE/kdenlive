@@ -40,6 +40,7 @@ MaskManager::MaskManager(QWidget *parent)
 {
     setupUi(this);
     connect(buttonAdd, &QPushButton::clicked, this, &MaskManager::initMaskMode);
+    connect(buttonPreview, &QPushButton::clicked, this, &MaskManager::previewMask);
     m_maskHelper = new AutomaskHelper(this);
     maskTree->setRootIsDecorated(false);
     maskTree->setAlternatingRowColors(true);
@@ -167,15 +168,28 @@ void MaskManager::loadMasks()
         return;
     }
     connect(clip.get(), &ProjectClip::masksUpdated, this, &MaskManager::loadMasks, Qt::UniqueConnection);
-    QMap<QString, QString> masks = clip->masks();
-    QMapIterator<QString, QString> i(masks);
+    QMap<int, MaskInfo> masks = clip->masks();
+    QMapIterator<int, MaskInfo> i(masks);
     while (i.hasNext()) {
         i.next();
-        QTreeWidgetItem *item = new QTreeWidgetItem(maskTree, {i.key(), QStringLiteral("0-0")});
-        item->setData(0, Qt::UserRole, i.value());
-        QString thumbFile = i.value().section(QLatin1Char('.'), 0, -2);
+        QTreeWidgetItem *item = new QTreeWidgetItem(maskTree, {i.value().maskName, QStringLiteral("%1 - %2").arg(i.value().in).arg(i.value().in)});
+        QString maskFile = i.value().maskFile;
+        item->setData(0, Qt::UserRole, maskFile);
+        QString thumbFile = maskFile.section(QLatin1Char('.'), 0, -2);
         thumbFile.append(QStringLiteral(".png"));
         QIcon icon(thumbFile);
         item->setIcon(0, icon);
     }
+}
+
+void MaskManager::previewMask()
+{
+    std::shared_ptr<ProjectClip> clip = getOwnerClip();
+    if (!clip) {
+        return;
+    }
+    const QString maskFile = maskTree->currentItem()->data(0, Qt::UserRole).toString();
+    int in = maskTree->currentItem()->data(0, Qt::UserRole + 1).toInt();
+    int out = maskTree->currentItem()->data(0, Qt::UserRole + 2).toInt();
+    pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(maskFile, in, out);
 }

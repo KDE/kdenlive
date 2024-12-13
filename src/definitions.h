@@ -299,6 +299,17 @@ struct requestClipInfo
     bool operator==(const requestClipInfo &a) const { return clipId == a.clipId; }
 };
 
+struct MaskInfo
+{
+    QString maskName;
+    QString maskFile;
+    int in;
+    int out;
+    QMap<int, QString> includePoints;
+    QMap<int, QString> excludePoints;
+    QMap<int, QString> boxes;
+};
+
 struct SequenceInfo
 {
     QString sequenceName;

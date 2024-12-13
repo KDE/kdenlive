@@ -2989,3 +2989,5 @@ void Monitor::addControlPoint(double x, double y, bool extend, bool exclude)
         Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude);
     }
 }
+
+void Monitor::previewMask(const QString &maskFile, int in, int out) {}

@@ -220,66 +220,6 @@ void AutomaskHelper::generatePreview(const QString &binId, int in, int out, cons
     }
 }
 
-/*void AutomaskHelper::doGeneratePreview()
-{
-    QProcess scriptJob;
-    QStringList pointsList;
-    QStringList labelsList;
-    if (m_includePoints.contains(m_lastPos)) {
-        const QList<QPoint> points = m_includePoints.value(m_lastPos);
-        for (auto &p : points) {
-            pointsList << QString::number(p.x());
-            pointsList << QString::number(p.y());
-            labelsList << QStringLiteral("1");
-        }
-    }
-    if (m_excludePoints.contains(m_lastPos)) {
-        const QList<QPoint> points = m_excludePoints.value(m_lastPos);
-        for (auto &p : points) {
-            pointsList << QString::number(p.x());
-            pointsList << QString::number(p.y());
-            labelsList << QStringLiteral("0");
-        }
-    }
-    bool ok;
-    QDir maskSrcFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
-    if (!ok) {
-        return;
-    }
-    QDir maskDstFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
-
-    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"),
-                        QStringLiteral("-I"),
-                        maskSrcFolder.absolutePath(),
-                        QStringLiteral("-P"),
-                        QStringLiteral("%1=%2").arg(m_lastPos).arg(pointsList.join(QLatin1Char(','))),
-                        QStringLiteral("-L"),
-                        QStringLiteral("%1=%2").arg(m_lastPos).arg(labelsList.join(QLatin1Char(','))),
-                        QStringLiteral("-O"),
-                        QStringLiteral("/tmp/out_dir")};
-    qDebug() << "---- STARTING IMAGE GENERATION: " << args;
-    const QString exec("/home/six/git/sam2/venv/bin/python3");
-    qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
-    scriptJob.start(exec, args);
-    scriptJob.waitForFinished(-1);
-    m_mode = AutomaskHelper::PREVIEWMODE;
-    // Now convert frames to video
-    // ffmpeg -framerate 25 -pattern_type glob -i '*.png' -c:v ffv1 -pix_fmt yuva420p output.mkv
-    args = {QStringLiteral("-framerate"),
-            QString::number(pCore->getCurrentFps()),
-            QStringLiteral("-pattern_type"),
-            QStringLiteral("glob"),
-            QStringLiteral("-i"),
-            QStringLiteral("/tmp/out_dir/*.png"),
-            QStringLiteral("-c:v"),
-            QStringLiteral("ffv1"),
-            QStringLiteral("-pix_fmt"),
-            QStringLiteral("yuva420p"),
-            QStringLiteral("/tmp/output.mkv")};
-    scriptJob.start(KdenliveSettings::ffmpegpath(), args);
-    scriptJob.waitForFinished(-1);
-}*/
-
 void AutomaskHelper::monitorSeek(int pos)
 {
     if (m_mode == AutomaskHelper::PREVIEWMODE) {

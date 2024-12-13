@@ -12,6 +12,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 
 #include <KLocalizedString>
+#include <KMessageWidget>
 #include <QFile>
 #include <QImage>
 #include <QString>
@@ -75,6 +76,12 @@ void MaskTask::generateMask()
             outFile};
     m_scriptJob.start(KdenliveSettings::ffmpegpath(), args);
     m_scriptJob.waitForFinished(-1);
+    if (!QFile::exists(outFile)) {
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection,
+                                  Q_ARG(QString, m_errorMessage.isEmpty() ? i18n("Failed to render mask %1", outFile) : m_errorMessage),
+                                  Q_ARG(int, int(KMessageWidget::Warning)));
+        return;
+    }
     // Save thumbnail
     QDir framesFolder(outFramesFolder);
     const QString firstFrame = QStringLiteral("00000.png");
@@ -87,10 +94,13 @@ void MaskTask::generateMask()
     }
     m_progress = 100;
     if (!m_isCanceled.loadAcquire()) {
-        const QString maskName = m_properties.value(MaskTask::NAME);
         auto binClip = pCore->projectItemModel()->getClipByBinID(QString::number(m_owner.itemId));
-        QMetaObject::invokeMethod(binClip.get(), "addMask", Qt::QueuedConnection, Q_ARG(QString, maskName), Q_ARG(QString, outFile), Q_ARG(int, m_in),
-                                  Q_ARG(int, m_out));
+        MaskInfo mask;
+        mask.maskName = m_properties.value(MaskTask::NAME);
+        mask.maskFile = outFile;
+        mask.in = m_in;
+        mask.out = m_out;
+        QMetaObject::invokeMethod(binClip.get(), "addMask", Qt::QueuedConnection, Q_ARG(MaskInfo, mask));
     }
 }
 

@@ -28,6 +28,7 @@ public:
 
 private Q_SLOTS:
     void initMaskMode();
+    void previewMask();
     void generatePreview();
     void loadMasks();
 
