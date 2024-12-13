@@ -31,8 +31,8 @@ OtioImport::OtioImport(QObject *parent)
 void OtioImport::slotImport()
 {
     // Get the file name.
-    const QString importFile =
-        QFileDialog::getOpenFileName(pCore->window(), i18n("OpenTimelineIO Import"), pCore->currentDoc()->projectDataFolder(), i18n("*.otio"));
+    const QString importFile = QFileDialog::getOpenFileName(pCore->window(), i18n("OpenTimelineIO Import"), pCore->currentDoc()->projectDataFolder(),
+                                                            QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
     if (importFile.isNull() || !QFile::exists(importFile)) {
         // TODO: Error handling?
         return;
