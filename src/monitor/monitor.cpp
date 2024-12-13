@@ -2973,21 +2973,11 @@ bool Monitor::isDirty() const
 
 void Monitor::addControlPoint(double x, double y, bool extend, bool exclude)
 {
-    // Ensure source frame were extracted
-    qDebug() << ":::::: EXPORTING CURRENT FRAMES....";
     QSize fSize = m_controller->frameSize();
     int xPos = qRound(x * fSize.width());
     int yPos = qRound(y * fSize.height());
     int pos = position();
-    QDir dir(QStringLiteral("/tmp/src-frames"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
-        connect(m_controller.get(), &ProjectClip::firstFrameExported, this,
-                [this, pos, xPos, yPos, fSize, extend, exclude]() { Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude); });
-        m_controller->exportFrames(dir);
-    } else {
-        Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude);
-    }
+    Q_EMIT addMonitorControlPoint(pos, fSize, xPos, yPos, extend, exclude);
 }
 
 void Monitor::previewMask(const QString &maskFile, int in, int out) {}

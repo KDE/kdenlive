@@ -8,6 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #pragma once
 
 #include <QObject>
+#include <QPoint>
 #include <QVariant>
 
 #include <memory>
@@ -20,7 +21,6 @@ class AutomaskHelper : public QObject
     Q_OBJECT
 
 public:
-    enum MonitorMode { INSERTPOINTSMODE, PREVIEWMODE };
     /** @brief Construct a keyframe list bound to the given effect
        @param init_value is the value taken by the param at time 0.
        @param model is the asset this parameter belong to
@@ -29,7 +29,7 @@ public:
     explicit AutomaskHelper(QObject *parent = nullptr);
 
 public Q_SLOTS:
-    void generatePreview(const QString &binId, int in, int out, const QString &maskName, const QString &fileName);
+    void generateMask(const QString &binId, const QString &maskName, const QPoint &zone);
     void monitorSeek(int pos);
     void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
 
@@ -40,7 +40,6 @@ private:
     QMap<int, QList<QPoint>> m_includePoints;
     QMap<int, QList<QPoint>> m_excludePoints;
     QMap<int, QList<QRect>> m_boxes;
-    MonitorMode m_mode{INSERTPOINTSMODE};
 
 private Q_SLOTS:
     void generateImage();

@@ -24,7 +24,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 AutomaskHelper::AutomaskHelper(QObject *parent)
     : QObject(parent)
 {
-    // connect(this, &AutomaskHelper::previewImageReady, this, &AutomaskHelper::generateMask, Qt::QueuedConnection);
 }
 
 void AutomaskHelper::addMonitorControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
@@ -122,7 +121,7 @@ void AutomaskHelper::generateImage()
     Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
 }
 
-void AutomaskHelper::generatePreview(const QString &binId, int in, int out, const QString &maskName, const QString &fileName)
+void AutomaskHelper::generateMask(const QString &binId, const QString &maskName, const QPoint &zone)
 {
     // Generate params
     QMap<int, QString> maskParams;
@@ -144,7 +143,6 @@ void AutomaskHelper::generatePreview(const QString &binId, int in, int out, cons
         return;
     }
     maskParams.insert(MaskTask::OUTPUTFOLDER, maskSrcFolder.absolutePath());
-    maskParams.insert(MaskTask::OUTPUTFILE, fileName);
     maskParams.insert(MaskTask::NAME, maskName);
     QList<int> frames = m_includePoints.keys();
     QList<int> keys = m_excludePoints.keys();
@@ -216,15 +214,20 @@ void AutomaskHelper::generatePreview(const QString &binId, int in, int out, cons
     }
     std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
     if (clip) {
-        MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, in, out, clip.get());
+        bool ok;
+        QDir maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
+        if (!ok) {
+            return;
+        }
+        const QString outputFile = maskFolder.absoluteFilePath(QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(zone.x()).arg(zone.y()));
+        maskParams.insert(MaskTask::OUTPUTFILE, outputFile);
+        MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, zone.x(), zone.y(), clip.get());
     }
 }
 
 void AutomaskHelper::monitorSeek(int pos)
 {
-    if (m_mode == AutomaskHelper::PREVIEWMODE) {
-        pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay =
-            QUrl::fromLocalFile(QStringLiteral("/tmp/out_dir/color_img-%1.png").arg(pos, 5, 10, QLatin1Char('0')));
-        Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
-    }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->m_previewOverlay =
+        QUrl::fromLocalFile(QStringLiteral("/tmp/out_dir/color_img-%1.png").arg(pos, 5, 10, QLatin1Char('0')));
+    Q_EMIT pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy()->previewOverlayChanged();
 }

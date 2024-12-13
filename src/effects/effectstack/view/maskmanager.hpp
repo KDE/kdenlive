@@ -8,6 +8,7 @@
 #include "definitions.h"
 #include "ui_maskmanage_ui.h"
 
+#include <QDir>
 #include <QMutex>
 #include <QReadWriteLock>
 #include <QTimer>
@@ -28,13 +29,16 @@ public:
 
 private Q_SLOTS:
     void initMaskMode();
+    void addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
     void previewMask();
-    void generatePreview();
+    void generateMask();
     void loadMasks();
 
 private:
     ObjectId m_owner{KdenliveObjectType::NoItem, {}};
     AutomaskHelper *m_maskHelper;
+    QPoint m_zone;
+    QDir m_maskFolder;
     bool m_connected{false};
     std::shared_ptr<ProjectClip> getOwnerClip();
 };

@@ -130,10 +130,6 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
             AudioLevelsTask::start(oid, this, false);
         }
     }
-    m_exportFramesTimer.setInterval(1000);
-    m_exportFramesTimer.setSingleShot(false);
-    connect(&m_exportFramesTimer, &QTimer::timeout, this, &ProjectClip::checkForExtractedFrame);
-    connect(&m_exportProcess, &QProcess::finished, this, [this]() { m_exportFramesTimer.stop(); });
 }
 
 // static
@@ -196,10 +192,6 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     m_boundaryTimer.setInterval(500);
     connect(m_markerModel.get(), &MarkerListModel::modelChanged, this,
             [&]() { setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson()); });
-    m_exportFramesTimer.setInterval(1000);
-    m_exportFramesTimer.setSingleShot(false);
-    connect(&m_exportFramesTimer, &QTimer::timeout, this, &ProjectClip::checkForExtractedFrame);
-    connect(&m_exportProcess, &QProcess::finished, this, [this]() { m_exportFramesTimer.stop(); });
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDomElement &description, const QIcon &thumb,
@@ -3159,20 +3151,23 @@ bool ProjectClip::hasAlpha()
     return false;
 }
 
-void ProjectClip::exportFrames(const QDir folder)
+void ProjectClip::exportFrames(const QDir folder, int in, int out)
 {
-    m_exportFramesFolder = folder;
-    m_exportFramesTimer.start();
-    QStringList args = {QStringLiteral("-y"), QStringLiteral("-i"), clipUrl(), folder.absoluteFilePath(QStringLiteral("%05d.jpg"))};
-    m_exportProcess.startDetached(KdenliveSettings::ffmpegpath(), args);
-}
-
-void ProjectClip::checkForExtractedFrame()
-{
-    if (QFile::exists(m_exportFramesFolder.absoluteFilePath(QStringLiteral("00001.jpg")))) {
-        Q_EMIT firstFrameExported();
-        m_exportFramesTimer.stop();
+    GenTime outPos(out, pCore->getCurrentFps());
+    GenTime inPos;
+    QStringList args = {QStringLiteral("-y")};
+    if (in > 0) {
+        inPos = GenTime(in, pCore->getCurrentFps());
+        args << QStringLiteral("-ss") << QString::number(inPos.seconds());
     }
+    args << QStringLiteral("-i") << clipUrl();
+    if (out > 0) {
+        args << QStringLiteral("-t") << QString::number((outPos - inPos).seconds());
+    }
+    args << folder.absoluteFilePath(QStringLiteral("%05d.jpg"));
+    // TODO Inform monitor when all frames are exported
+    // connect(&m_exportProcess, &QProcess::finished, this, [this]() { m_exportFramesTimer.stop(); });
+    m_exportProcess.startDetached(KdenliveSettings::ffmpegpath(), args);
 }
 
 void ProjectClip::addMask(MaskInfo mask)

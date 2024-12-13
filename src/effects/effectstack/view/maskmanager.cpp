@@ -56,8 +56,8 @@ void MaskManager::initMaskMode()
     if (!m_connected) {
         Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
         Q_ASSERT(clipMon != nullptr);
-        connect(clipMon, &Monitor::generatePreview, this, &MaskManager::generatePreview, Qt::QueuedConnection);
-        connect(clipMon, &Monitor::addMonitorControlPoint, m_maskHelper, &AutomaskHelper::addMonitorControlPoint, Qt::UniqueConnection);
+        connect(clipMon, &Monitor::generateMask, this, &MaskManager::generateMask, Qt::QueuedConnection);
+        connect(clipMon, &Monitor::addMonitorControlPoint, this, &MaskManager::addControlPoint, Qt::UniqueConnection);
         m_connected = true;
     }
     std::shared_ptr<ProjectClip> clip = getOwnerClip();
@@ -70,18 +70,31 @@ void MaskManager::initMaskMode()
         pCore->getMonitor(Kdenlive::ClipMonitor)->slotActivateMonitor();
     }
     bool ok;
-    QDir maskFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
+    m_maskFolder = pCore->currentDoc()->getCacheDir(CacheMaskSource, &ok);
     if (!ok) {
         return;
     }
-    if (!maskFolder.isEmpty()) {
-        if (maskFolder.dirName() == QLatin1String("source-frames")) {
-            maskFolder.removeRecursively();
-            maskFolder.mkpath(QStringLiteral("."));
+    if (!m_maskFolder.isEmpty()) {
+        if (m_maskFolder.dirName() == QLatin1String("source-frames")) {
+            m_maskFolder.removeRecursively();
+            m_maskFolder.mkpath(QStringLiteral("."));
         }
     }
-    clip->exportFrames(maskFolder);
+    m_zone = QPoint(pCore->getMonitor(Kdenlive::ClipMonitor)->getZoneStart(), pCore->getMonitor(Kdenlive::ClipMonitor)->getZoneEnd());
+    clip->exportFrames(m_maskFolder, m_zone.x(), m_zone.y());
     pCore->getMonitor(Kdenlive::ClipMonitor)->loadQmlScene(MonitorSceneAutoMask);
+}
+
+void MaskManager::addControlPoint(int position, QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
+{
+    if (position < m_zone.x()) {
+    }
+    position -= m_zone.x();
+    if (!QFile::exists(m_maskFolder.absoluteFilePath(QStringLiteral("%05d.jpg").arg(position)))) {
+        // Frame has not been extracted
+        return;
+    }
+    m_maskHelper->addMonitorControlPoint(position, frameSize, xPos, yPos, extend, exclude);
 }
 
 std::shared_ptr<ProjectClip> MaskManager::getOwnerClip()
@@ -136,7 +149,7 @@ void MaskManager::setOwner(ObjectId owner)
     }
 }
 
-void MaskManager::generatePreview()
+void MaskManager::generateMask()
 {
     bool ok;
     const QString maskName =
@@ -148,16 +161,7 @@ void MaskManager::generatePreview()
         return;
     }
 
-    QDir maskFolder = pCore->currentDoc()->getCacheDir(CacheMask, &ok);
-    if (!ok) {
-        return;
-    }
-    int in = 0;
-    int out = 0;
-    const QString outputFile = maskFolder.absoluteFilePath(QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(in).arg(out));
-    qDebug() << "--- READY TO GENERATE MASK: " << outputFile;
-    // TODO: handle clip zone
-    m_maskHelper->generatePreview(clip->clipId(), in, out, maskName, outputFile);
+    m_maskHelper->generateMask(clip->clipId(), maskName, m_zone);
 }
 
 void MaskManager::loadMasks()

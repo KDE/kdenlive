@@ -85,7 +85,7 @@ Item {
     }
 
     signal addControlPoint(real x, real y, bool extend, bool exclude)
-    signal generatePreview()
+    signal generateMask()
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()

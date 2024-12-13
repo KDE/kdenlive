@@ -51,11 +51,11 @@ MouseArea {
             }
             MonitorToolButton {
                 objectName: "generateFrames"
-                iconName: "view-preview"
-                toolTipText: i18n("Generate Preview Frames")
+                iconName: "media-record"
+                toolTipText: i18n("Generate Mask")
                 checkable: false
                 onClicked: {
-                    root.generatePreview()
+                    root.generateMask()
                 }
             }
             MonitorToolButton {

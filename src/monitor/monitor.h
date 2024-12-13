@@ -406,5 +406,5 @@ Q_SIGNALS:
     void zoneDurationChanged();
     void blockSceneChange(bool);
     void addMonitorControlPoint(int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude);
-    void generatePreview();
+    void generateMask();
 };

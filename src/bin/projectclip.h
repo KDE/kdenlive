@@ -310,7 +310,7 @@ public:
     /** @brief returns true if an avformat producer has an alpha channel */
     bool hasAlpha();
     /** @brief Export video as jpg frames for analysis */
-    void exportFrames(const QDir folder);
+    void exportFrames(const QDir folder, int in, int out);
     /** @brief Get a list of masks */
     QMap<int, MaskInfo> masks() const;
 
@@ -388,8 +388,6 @@ public Q_SLOTS:
     void checkClipBounds();
     /** @brief Check if proxy clip should be build for this clip. */
     void checkProxy(bool rebuildProxy = false);
-    /** @brief Check if the extracted frame exists. */
-    void checkForExtractedFrame();
     /** @brief Add a mask to this clip. */
     void addMask(MaskInfo mask);
 
@@ -408,9 +406,6 @@ private:
 
     // A temporary uuid used to reset thumbnails on producer change
     QUuid m_uuid;
-    QDir m_exportFramesFolder;
-    /** @brief A timer to check when first frame is extracted. */
-    QTimer m_exportFramesTimer;
     /** @brief Update the clip description from the properties. */
     void updateDescription();
     /** @brief Load masks data from clip properties. */
