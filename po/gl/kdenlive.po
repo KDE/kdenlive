@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-10 02:38+0000\n"
-"PO-Revision-Date: 2024-12-12 20:11+0100\n"
+"PO-Revision-Date: 2024-12-13 09:24+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -5248,10 +5248,11 @@ msgstr ""
 "Ten que seleccionar 2 fragmentos (o de substitución e o orixinal) para a "
 "substitución na cronoloxía."
 
+# skip-rule: trasno-insert
 #: src/bin/bin.cpp:1939
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
-msgstr "O fragmento actual <b>%1</b> non está presente na cronoloxía activa."
+msgstr "O fragmento actual <b>%1</b> non está na cronoloxía activa."
 
 #: src/bin/bin.cpp:1944
 #, kde-format
@@ -6000,6 +6001,7 @@ msgstr "Crear un fragmento de presentación"
 msgid "Create title template"
 msgstr "Crear un modelo de título"
 
+# skip-rule: trasno-insert
 #: src/bin/clipcreator.cpp:395
 #, kde-format
 msgid ""
