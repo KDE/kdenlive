@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-08 15:20+0100\n"
+"PO-Revision-Date: 2024-12-12 20:11+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -7077,7 +7077,7 @@ msgstr ""
 #: src/dialogs/customcamcorderdialog.cpp:132
 #, kde-format
 msgid "Preset already exists, enter a new name:"
-msgstr "A predefinición xa existe, use outro nome:"
+msgstr "A predefinición xa existe, escriba outro nome:"
 
 #: src/dialogs/customcamcorderdialog.cpp:158
 #, kde-format
@@ -21968,10 +21968,10 @@ msgid ""
 "ConsumerAvformat/\"><span style=\" text-decoration: underline; color:#2980b9;"
 "\">MLT documentation</span></a> for reference.</p></body></html>"
 msgstr ""
-"<html><head/><body><p>Pode atopar información de referencia na <a href="
-"\"https://www.mltframework.org/plugins/ConsumerAvformat/\"><span style=\" "
-"text-decoration: underline; color:#2980b9;\">documentación de MLT</span></a>."
-"</p></body></html>"
+"<html><head/><body><p>Hai información de referencia na <a href=\"https://www."
+"mltframework.org/plugins/ConsumerAvformat/\"><span style=\" text-decoration: "
+"underline; color:#2980b9;\">documentación de MLT</span></a>.</p></body></"
+"html>"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/editrenderpreset_ui.ui:1072
