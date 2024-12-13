@@ -147,6 +147,7 @@ Item {
                 }
             }
             MouseArea {
+                id: frameArea
                 hoverEnabled: true
                 anchors.fill: frame
                 property bool shiftClick: false
@@ -218,6 +219,17 @@ Item {
                 padding: 5
                 text: i18n("Generating mask")
                 visible: false
+                background: Rectangle {
+                    color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.7)
+                    radius: 5
+                }
+            }
+            Label {
+                id: infoLabel
+                anchors.centerIn: frame
+                padding: 5
+                text: i18n("Click on an object to start a mask")
+                visible: root.centerPoints.length == 0 && !frameArea.containsMouse
                 background: Rectangle {
                     color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.7)
                     radius: 5

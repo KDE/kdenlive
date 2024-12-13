@@ -117,6 +117,7 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
         QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(QString, markers), Q_ARG(bool, true), Q_ARG(bool, false));
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
+    loadMasks(getProducerProperty(QStringLiteral("kdenlive:masks")));
     AbstractProjectItem::setRating(uint(getProducerIntProperty(QStringLiteral("kdenlive:rating"))));
     connectEffectStack();
     if (m_clipType != ClipType::Timeline &&
@@ -3178,9 +3179,48 @@ void ProjectClip::addMask(const QString &maskName, const QString &maskPath, int 
 {
     m_masks.insert(maskName, maskPath);
     Q_EMIT masksUpdated();
+    QJsonArray list;
+    QMapIterator<QString, QString> i(m_masks);
+    while (i.hasNext()) {
+        i.next();
+        QJsonObject currentMask;
+        currentMask.insert(QLatin1String("name"), QJsonValue(maskName));
+        currentMask.insert(QLatin1String("file"), QJsonValue(maskPath));
+        currentMask.insert(QLatin1String("in"), QJsonValue(in));
+        currentMask.insert(QLatin1String("out"), QJsonValue(out));
+        list.push_back(currentMask);
+    }
+    QJsonDocument json(list);
+    setProducerProperty(QStringLiteral("kdenlive:masks"), QString::fromUtf8(json.toJson()));
 }
 
 QMap<QString, QString> ProjectClip::masks() const
 {
     return m_masks;
+}
+
+void ProjectClip::loadMasks(const QString &maskData)
+{
+    if (maskData.isEmpty()) {
+        return;
+    }
+    auto json = QJsonDocument::fromJson(maskData.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Mask data should be an array";
+        return;
+    }
+    auto list = json.array();
+    for (const auto &entry : std::as_const(list)) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid mask data";
+            continue;
+        }
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("name"))) {
+            qDebug() << "Warning : Skipping invalid mask data (does not contain name)";
+            continue;
+        }
+        m_masks.insert(entryObj[QLatin1String("name")].toString(), entryObj[QLatin1String("file")].toString());
+    }
+    Q_EMIT masksUpdated();
 }

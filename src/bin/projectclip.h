@@ -413,6 +413,8 @@ private:
     QTimer m_exportFramesTimer;
     /** @brief Update the clip description from the properties. */
     void updateDescription();
+    /** @brief Load masks data from clip properties. */
+    void loadMasks(const QString &maskData);
 
 Q_SIGNALS:
     void producerChanged(const QString &, Mlt::Producer prod);
