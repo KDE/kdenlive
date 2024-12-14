@@ -25,6 +25,7 @@ option(CRASH_AUTO_TEST "Auto-generate testcases upon some crashes (uses RTTR lib
 option(BUILD_FUZZING "Build fuzzing target" OFF)
 option(BUILD_QCH "Build source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
 add_feature_info(QCH ${BUILD_QCH} "Source code documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
+option(FETCH_OTIO "Use CMake FetchContent to download and build the OpenTimelineIO dependency" ON)
 
 # shall we use DBus?
 # enabled per default on Linux & BSD systems
@@ -58,16 +59,18 @@ endif()
 # Note that this needs to come before the KDECompilerSettings. OTIO is not
 # compatible with the KDE compiler flag "-fno-operator-names".
 #
-# todo: Use CMake's FetchContent to include OpenTimelineIO until a system
+# TODO: Use CMake's FetchContent to include OpenTimelineIO until a system
 # package is available.
-include(FetchContent)
-set(OTIO_SHARED_LIBS OFF)
-FetchContent_Declare(
-    OTIO
-    GIT_REPOSITORY https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git
-    GIT_TAG v0.17.0)
-FetchContent_MakeAvailable(OTIO)
-include_directories(${otio_SOURCE_DIR}/src)
+if (FETCH_OTIO)
+    include(FetchContent)
+    set(OTIO_SHARED_LIBS OFF)
+    FetchContent_Declare(
+        OTIO
+        GIT_REPOSITORY https://github.com/AcademySoftwareFoundation/OpenTimelineIO.git
+        GIT_TAG v0.17.0)
+    FetchContent_MakeAvailable(OTIO)
+    include_directories(${otio_SOURCE_DIR}/src)
+endif()
 
 ## include ECM Modules
 include(KDECompilerSettings NO_POLICY_SCOPE)
