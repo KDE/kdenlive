@@ -65,9 +65,9 @@ elif '--install' in sys.argv and len(sys.argv) > 1:
         for m in missing:
             try:
                 if m.endswith(".txt"):
-                    subprocess.check_call([python, '-m', 'pip', 'install', '-r', m])
+                    subprocess.check_call([python, '-m', 'pip', 'install', '-r', m, '--no-cache-dir'])
                 else:
-                    subprocess.check_call([python, '-m', 'pip', 'install', m])
+                    subprocess.check_call([python, '-m', 'pip', 'install', m, '--no-cache-dir'])
             except:
                 print("failed installing ", m)
 elif '--upgrade' in sys.argv:
