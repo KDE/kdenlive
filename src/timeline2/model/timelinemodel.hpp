@@ -33,6 +33,7 @@ class ProfileModel;
 class MarkerListModel;
 class MarkerSortModel;
 class PreviewManager;
+class OtioImport;
 
 /** @brief This class represents a Timeline object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -107,6 +108,7 @@ public:
     friend class TimeRemap;
     friend struct TimelineFunctions;
     friend class KdenliveTests;
+    friend class OtioImport;
 
     bool isClosed{true};
     Q_PROPERTY(QString visibleSequenceName MEMBER m_visibleSequenceName NOTIFY visibleSequenceNameChanged)

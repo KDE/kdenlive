@@ -14,6 +14,8 @@
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
+#include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 
 #include <KLocalizedString>
@@ -31,114 +33,142 @@ OtioImport::OtioImport(QObject *parent)
 void OtioImport::slotImport()
 {
     // Get the file name.
-    const QString importFile = QFileDialog::getOpenFileName(pCore->window(), i18n("OpenTimelineIO Import"), pCore->currentDoc()->projectDataFolder(),
-                                                            QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project")));
-    if (importFile.isNull() || !QFile::exists(importFile)) {
+    std::shared_ptr<OtioImportData> data = std::make_shared<OtioImportData>();
+    data->otioFile = QFileInfo(QFileDialog::getOpenFileName(pCore->window(), i18n("OpenTimelineIO Import"), pCore->currentDoc()->projectDataFolder(),
+                                                            QStringLiteral("%1 (*.otio)").arg(i18n("OpenTimelineIO Project"))));
+    if (!data->otioFile.exists()) {
         // TODO: Error handling?
         return;
     }
 
     // Open the OTIO timeline.
     OTIO_NS::ErrorStatus otioError;
-    OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline(
-        dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(importFile.toStdString(), &otioError)));
-    if (!otioTimeline || OTIO_NS::is_error(otioError)) {
+    data->otioTimeline = OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline>(
+        dynamic_cast<OTIO_NS::Timeline *>(OTIO_NS::Timeline::from_json_file(data->otioFile.filePath().toStdString(), &otioError)));
+    if (!data->otioTimeline || OTIO_NS::is_error(otioError)) {
         // TODO: Error handling?
         return;
     }
 
-    // Create a timeline model.
-    const QUuid uuid = QUuid::createUuid();
-    std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(uuid, pCore->projectManager()->undoStack());
+    // Find a profile with a frame rate that matches the OTIO timeline.
+    //
+    // TODO: What if we don't find a match?
+    // TODO: How do we also match the resolution?
+    QString profile;
+    auto &profileRepository = ProfileRepository::get();
+    auto profiles = profileRepository->getAllProfiles();
+    for (auto i : profiles) {
+        auto &profileModel = profileRepository->getProfile(i.second);
+        if (profileModel->fps() == data->otioTimeline->duration().rate()) {
+            profile = i.second;
+            break;
+        }
+    }
 
-    // Import the media and timeline.
-    importMedia(otioTimeline);
-    importTimeline(otioTimeline, timeline);
+    // Create a new document.
+    pCore->projectManager()->newFile(profile, false);
+    data->timeline = pCore->currentDoc()->getTimeline(pCore->currentTimelineId());
+    data->oldTracks = data->timeline->getAllTracksIds();
 
-    // TODO: Is this the correct way to add the timeline?
-    pCore->projectManager()->current()->addTimeline(uuid, timeline);
-
-    // TODO: Add the bin clip?
-    QString binId;
-    QDomElement domElement;
-    domElement.setAttribute("type", ClipType::Timeline);
-    pCore->projectItemModel()->requestAddBinClip(binId, domElement, pCore->projectItemModel()->getRootFolder()->clipId());
-
-    // TODO: Set the marker model?
-    std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
-    timeline->setMarkerModel(clip->markerModel());
-
-    // TODO: Open the timeline to the main window?
-    pCore->window()->openTimeline(uuid, -1, QFileInfo(importFile).baseName(), timeline);
-}
-
-void OtioImport::importMedia(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &otioTimeline)
-{
-    // Find all of the OTIO media references and add them
-    // to the bin.
-    m_otioExternalReferencesToBinIds.clear();
-    for (const auto &otioClip : otioTimeline->find_clips()) {
+    // Find all of the OTIO media references and add them to the bin. When
+    // the bin clips are ready, import the timeline.
+    //
+    // TODO: Is the callback passed to ClipCreator::createClipFromFile
+    // guaranteed to be called? Can the callback be called and the bin
+    // clip still not able to be added to the timeline (like a missing
+    // file)?
+    for (const auto &otioClip : data->otioTimeline->find_clips()) {
         if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
-            const QString url = QString::fromStdString(otioExternalReference->target_url());
-            const auto i = m_otioExternalReferencesToBinIds.find(url);
-            if (i == m_otioExternalReferencesToBinIds.end()) {
+            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
+            const auto i = data->otioExternalReferencesToBinIds.find(file);
+            if (i == data->otioExternalReferencesToBinIds.end()) {
                 Fun undo = []() { return true; };
                 Fun redo = []() { return true; };
-                const QString clipId =
-                    ClipCreator::createClipFromFile(url, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo);
-                m_otioExternalReferencesToBinIds[url] = clipId;
+                ++data->waitingBinIds;
+                std::function<void(const QString &)> callback = [this, data](const QString &) {
+                    --data->waitingBinIds;
+                    if (0 == data->waitingBinIds) {
+                        importTimeline(data);
+                    }
+                };
+                const QString binId = ClipCreator::createClipFromFile(file, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(),
+                                                                      undo, redo, callback);
+                data->otioExternalReferencesToBinIds[file] = binId;
             }
         }
     }
 }
 
-void OtioImport::importTimeline(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &otioTimeline, std::shared_ptr<TimelineItemModel> timeline)
+void OtioImport::importTimeline(const std::shared_ptr<OtioImportData> &data)
 {
     // Import the tracks.
     //
     // TODO: Tracks are in reverse order?
-    auto otioChildren = otioTimeline->tracks()->children();
+    auto otioChildren = data->otioTimeline->tracks()->children();
     for (auto i = otioChildren.rbegin(); i != otioChildren.rend(); ++i) {
         if (auto otioTrack = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Track>(*i)) {
             int trackId = 0;
-            timeline->requestTrackInsertion(-1, trackId, QString::fromStdString(otioTrack->name()), OTIO_NS::Track::Kind::audio == otioTrack->kind());
-            importTrack(otioTrack, timeline, trackId);
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            data->timeline->requestTrackInsertion(-1, trackId, QString::fromStdString(otioTrack->name()), OTIO_NS::Track::Kind::audio == otioTrack->kind(),
+                                                  undo, redo);
+            importTrack(data, otioTrack, trackId);
         }
+    }
+    data->timeline->updateDuration();
+
+    // Clean up.
+    for (int id : data->oldTracks) {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        data->timeline->requestTrackDeletion(id, undo, redo);
     }
 }
 
-void OtioImport::importTrack(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &otioTrack, std::shared_ptr<TimelineItemModel> timeline, int trackId)
+void OtioImport::importTrack(const std::shared_ptr<OtioImportData> &data, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &otioTrack, int trackId)
 {
     auto otioChildren = otioTrack->children();
-    for (auto i = otioChildren.rbegin(); i != otioChildren.rend(); ++i) {
+    for (auto i = otioChildren.begin(); i != otioChildren.end(); ++i) {
         if (auto otioClip = OTIO_NS::dynamic_retainer_cast<OTIO_NS::Clip>(*i)) {
-            importClip(otioClip, timeline, trackId);
+            importClip(data, otioClip, trackId);
         }
     }
 }
 
-void OtioImport::importClip(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &otioClip, std::shared_ptr<TimelineItemModel> timeline, int trackId)
+void OtioImport::importClip(const std::shared_ptr<OtioImportData> &data, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &otioClip, int trackId)
 {
-    if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
-        const QString url = QString::fromStdString(otioExternalReference->target_url());
-        const auto i = m_otioExternalReferencesToBinIds.find(url);
-        if (i != m_otioExternalReferencesToBinIds.end()) {
-            // TODO: This gets stuck at:
-            //
-            // QReadWriteLock::lockForRead(class QReadWriteLock * const this) (/usr/include/x86_64-linux-gnu/qt6/QtCore/qreadwritelock.h:68)
-            // QReadLocker::relock(class QReadLocker * const this) (/usr/include/x86_64-linux-gnu/qt6/QtCore/qreadwritelock.h:115)
-            // QReadLocker::QReadLocker(class QReadLocker * const this, class QReadWriteLock * areadWriteLock)
-            // (/usr/include/x86_64-linux-gnu/qt6/QtCore/qreadwritelock.h:134) ClipController::getProducerIntProperty(const class ClipController * const this,
-            // const class QString & name) (kdenlive/src/mltcontroller/clipcontroller.cpp:595) TimelineModel::requestClipInsertion(class TimelineModel * const
-            // this, const class QString & binClipId, int trackId, int position, int & id, bool logUndo, bool refreshView, bool useTargets, Fun & undo, Fun &
-            // redo, const QVector & allowedTracks) (kdenlive/src/timeline2/model/timelinemodel.cpp:2120) TimelineModel::requestClipInsertion(class
-            // TimelineModel * const this, const class QString & binClipId, int trackId, int position, int & id, bool logUndo, bool refreshView, bool
-            // useTargets) (kdenlive/src/timeline2/model/timelinemodel.cpp:1844) OtioImport::importClip(class OtioImport * const this, const struct
-            // opentimelineio::v1_0::SerializableObject::Retainer<opentimelineio::v1_0::Clip> & otioClip, class std::shared_ptr<TimelineItemModel> timeline, int
-            // trackId) (kdenlive/src/otio/otioimport.cpp:133)
-            int position = 0;
-            int clipId = 0;
-            timeline->requestClipInsertion(i.value(), trackId, position, clipId, false, false);
+    const auto otioTrimmedRange = otioClip->trimmed_range_in_parent();
+    if (otioTrimmedRange.has_value()) {
+        if (auto otioExternalReference = dynamic_cast<OTIO_NS::ExternalReference *>(otioClip->media_reference())) {
+            const QString file = resolveFile(QString::fromStdString(otioExternalReference->target_url()), data->otioFile);
+            const auto i = data->otioExternalReferencesToBinIds.find(file);
+            if (i != data->otioExternalReferencesToBinIds.end()) {
+                const OTIO_NS::RationalTime otioTimelineDuration = data->otioTimeline->duration();
+                const int position = otioTrimmedRange.value().start_time().rescaled_to(otioTimelineDuration).round().value();
+                int clipId = -1;
+                Fun undo = []() { return true; };
+                Fun redo = []() { return true; };
+                data->timeline->requestClipInsertion(i.value(), trackId, position, clipId, false, true, true, undo, redo);
+                if (clipId != -1) {
+                    const int duration = otioTrimmedRange.value().duration().rescaled_to(otioTimelineDuration).round().value();
+                    data->timeline->requestItemResize(clipId, duration, true, false, -1, true);
+                    // TODO: What time rate is the slip?
+                    const int slip = otioClip->trimmed_range().start_time().round().value();
+                    data->timeline->requestClipSlip(clipId, -slip, false, true);
+                }
+            }
         }
     }
+}
+
+QString OtioImport::resolveFile(const QString &file, const QFileInfo &timelineFile)
+{
+    // Check whether it is a URL or file name, and if it is
+    // relative to the timeline file.
+    const QUrl url(file);
+    QFileInfo out(url.isValid() ? url.path() : file);
+    if (out.isRelative()) {
+        out = QFileInfo(timelineFile.path(), out.filePath());
+    }
+    return out.filePath();
 }

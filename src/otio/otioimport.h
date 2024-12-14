@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <QFileInfo>
 #include <QMap>
 #include <QObject>
 
@@ -14,7 +15,19 @@
 #include <opentimelineio/timeline.h>
 #include <opentimelineio/track.h>
 
+#include <unordered_set>
+
 class TimelineItemModel;
+
+struct OtioImportData
+{
+    QFileInfo otioFile;
+    OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> otioTimeline;
+    std::shared_ptr<TimelineItemModel> timeline;
+    std::unordered_set<int> oldTracks;
+    QMap<QString, QString> otioExternalReferencesToBinIds;
+    int waitingBinIds = 0;
+};
 
 class OtioImport : public QObject
 {
@@ -27,10 +40,9 @@ public Q_SLOTS:
     void slotImport();
 
 private:
-    void importMedia(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &);
-    void importTimeline(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Timeline> &, std::shared_ptr<TimelineItemModel>);
-    void importTrack(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &, std::shared_ptr<TimelineItemModel>, int trackId);
-    void importClip(const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &, std::shared_ptr<TimelineItemModel>, int trackId);
+    void importTimeline(const std::shared_ptr<OtioImportData> &);
+    void importTrack(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Track> &, int trackId);
+    void importClip(const std::shared_ptr<OtioImportData> &, const OTIO_NS::SerializableObject::Retainer<OTIO_NS::Clip> &, int trackId);
 
-    QMap<QString, QString> m_otioExternalReferencesToBinIds;
+    static QString resolveFile(const QString &, const QFileInfo &timelineFileInfo);
 };
