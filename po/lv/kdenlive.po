@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-10 02:38+0000\n"
+"POT-Creation-Date: 2024-12-14 03:22+0000\n"
 "PO-Revision-Date: 2024-10-14 16:38+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -16889,7 +16889,7 @@ msgstr "Valensiešu"
 msgid "Yiddish"
 msgstr "Jidišs"
 
-#: src/pythoninterfaces/speechtotextwhisper.cpp:240
+#: src/pythoninterfaces/speechtotextwhisper.cpp:246
 #, fuzzy, kde-format
 #| msgid "Whisper"
 msgid "Install Whisper"

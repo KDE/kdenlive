@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-10 02:38+0000\n"
-"PO-Revision-Date: 2024-12-02 16:30+0100\n"
+"POT-Creation-Date: 2024-12-14 03:22+0000\n"
+"PO-Revision-Date: 2024-12-08 17:55+0100\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1127,6 +1127,13 @@ msgid ""
 "device isn't precisely set to correct time. GPS time is always exact and in "
 "UTC. Use positive values if GPS is ahead of video and negative otherwise.]]>"
 msgstr ""
+"<![CDATA[Uno scostamento (in secondi) da aggiungere al file video per farlo "
+"combaciare con la traccia GPS.<br>\n"
+"    \tIl più delle volte sarà necessario almeno per impostare la differenza "
+"di fuso orario tra i due file, più alcuni secondi se il dispositivo di "
+"registrazione video non è impostato esattamente per correggere il tempo. Il "
+"tempo GPS è sempre esatto e in UTC. Usa dei valori positivi se il GPS è in "
+"anticipo rispetto al video, diversamente negativi.]]>"
 
 #: data/effects/gpsgraphic.xml:17 data/effects/gpstext.xml:18
 #, kde-format
@@ -1142,6 +1149,11 @@ msgid ""
 "fields (speed, distance, etc), it also interpolates missing values for heart "
 "rate and altitude.]]>"
 msgstr ""
+"<![CDATA[Quanti punti GPS points per smussare, in modo da eliminare gli "
+"errori del GPS.<br>\n"
+"    \tUn valore di uno non smussa le posizioni, calcola solo i campi "
+"aggiuntivi (velocità, distanza, ecc.), e interpola anche valori mancanti per "
+"la frequenza cardiaca e per l'altitudine.]]>"
 
 #: data/effects/gpsgraphic.xml:22
 #, kde-format
@@ -1156,21 +1168,25 @@ msgid ""
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion "
 "footage.]]>"
 msgstr ""
+"<![CDATA[Se il file video è un time lapse (o una ripresa a rallentatore), "
+"usa questo valore per impostare aumentare o per diminuire la velocità.<br>\n"
+"       Valori campioni: 30 per i time lapse  30x, 0,25 per filmati a "
+"rallentatore 4x.]]>"
 
 #: data/effects/gpsgraphic.xml:27
 #, kde-format
 msgid "GPS location/track,Altitude,Heart rate,Speed"
-msgstr ""
+msgstr "Posizione/Traccia GPS,Altitudine,Frequenza cardiaca,Velocità"
 
 #: data/effects/gpsgraphic.xml:28
 #, kde-format
 msgid "Graph data source"
-msgstr ""
+msgstr "Fonte dati grafico"
 
 #: data/effects/gpsgraphic.xml:29
 #, kde-format
 msgid "What data from the GPS file is used for drawing"
-msgstr ""
+msgstr "Quali dati del GPS vengono usati per tracciare"
 
 #: data/effects/gpsgraphic.xml:32
 #, kde-format
@@ -1178,6 +1194,9 @@ msgid ""
 "Basic 2D map line (for location) or 1D graph per time (others),Zoom in onto "
 "the map/graph centered on current location,Draw speedometer"
 msgstr ""
+"Linea di mappa 2D di base (per la posizione) o grafico 1D per il tempo "
+"(altri),Ingrandisci la mappa/il grafico centrato sulla posizione corrente,"
+"Disegna tachimetro"
 
 #: data/effects/gpsgraphic.xml:41
 #, kde-format
@@ -1201,7 +1220,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:44
 #, no-c-format, kde-format
 msgid "Trim start (%)"
-msgstr ""
+msgstr "Taglia inizio (%)"
 
 #: data/effects/gpsgraphic.xml:46
 #, no-c-format, kde-format
@@ -1212,11 +1231,16 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[ Taglia i dati dall'inizio del file GPS (come percentuale del "
+"totale). <br>\n"
+"    \tNota: sia <em>Ritaglia inizio</em> che <em>Ritaglia fine</em> vengono "
+"calcolate dal file totale, dunque ritagliare il 50% dell'inizio e il 50% "
+"della fine porterà al taglio dell'intero file.]]>"
 
 #: data/effects/gpsgraphic.xml:49
 #, no-c-format, kde-format
 msgid "Trim end (%)"
-msgstr ""
+msgstr "Taglia fine (%)"
 
 #: data/effects/gpsgraphic.xml:51
 #, no-c-format, kde-format
@@ -1227,6 +1251,11 @@ msgid ""
 "the total file, so trimming 50% start and 50% end will result in trimming "
 "the entire file.]]>"
 msgstr ""
+"<![CDATA[Taglia i dati dall'inizio del file GPS (come percentuale del "
+"totale). <br>\n"
+"    \tNota: sia <em>Ritaglia inizio</em> che <em>Ritaglia fine</em> vengono "
+"calcolate dal file totale, dunque ritagliare il 50% dell'inizio e il 50% "
+"della fine porterà al taglio dell'intero file.]]>"
 
 #: data/effects/gpsgraphic.xml:54 data/effects/gpsgraphic.xml:70
 #, kde-format
@@ -1234,10 +1263,9 @@ msgid "Percentage from min..max,Absolute value"
 msgstr "Percentuale da min..max,Valore assoluto"
 
 #: data/effects/gpsgraphic.xml:55
-#, fuzzy, kde-format
-#| msgid "Center horizontally"
+#, kde-format
 msgid "Crop mode horizontal"
-msgstr "Centra orizzontalmente"
+msgstr "Modalità taglio orizzontale"
 
 #: data/effects/gpsgraphic.xml:58
 #, kde-format
@@ -1249,11 +1277,16 @@ msgid ""
 "source type) and time (in milliseconds since epoch) for the rest of the data "
 "source types)]]>"
 msgstr ""
+"<![CDATA[Decide come interpretare i valori <em>Taglia a sinistra</em> e "
+"<em>Taglia a destra</em.<br>\n"
+"    \tNota: per il tipo orizzontale, i valori assoluti sono la longitudine "
+"(per il tipo sorgente della posizione) e tempo (in millisecondi) per il "
+"resto dei tipi di sorgente dati.]]>"
 
 #: data/effects/gpsgraphic.xml:61
 #, kde-format
 msgid "Crop left"
-msgstr "Ritaglia a sinistra"
+msgstr "Taglia a sinistra"
 
 #: data/effects/gpsgraphic.xml:63
 #, no-c-format, kde-format
@@ -1268,11 +1301,21 @@ msgid ""
 "Type</em> is set to <b>Speedometer</b>, all crop left/right values are "
 "ignored.]]>"
 msgstr ""
+"<![CDATA[Ritaglia i dati dal lato sinistro del grafico (di fatto "
+"ingrandito). <br>\n"
+"    \tIl valore è interpretato o come percentuale del totale o come valore "
+"assoluto, a seconda dell'opzione crop_mode_h. Nella modalità percentuale, i "
+"valori non sono ristretti a 0-100 in modo da consentire comportamenti di "
+"«rimpicciolimento» (ossia, il ritaglio di -50 a sinistra aggiungerà una metà "
+"extra della distanza orizzontale totale). I valori oltre 100 (in modalità "
+"percentuale) di fatto non visualizzeranno alcunché. Se <em>Tipo di grafico</"
+"em> è <b>Tachimetro</b>, tutti i valori di ritaglio a sinistra/destra "
+"saranno ignorati.]]>"
 
 #: data/effects/gpsgraphic.xml:66
 #, kde-format
 msgid "Crop right"
-msgstr "Ritaglia a destra"
+msgstr "Taglia a destra"
 
 #: data/effects/gpsgraphic.xml:67
 #, kde-format
@@ -1281,12 +1324,15 @@ msgid ""
 "type is interpreted as an inverse percentage (ie: 100 = do not crop "
 "anything). Values under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Uguale a <em>Taglia a sinistra</em> ma per il lato destro; il tipo "
+"percentuale viene interpretato come percentuale inversa (ossia 100 = non "
+"ritaglia nulla). I valori sotto lo zero di fatto non visualizzeranno "
+"alcunché.]]>"
 
 #: data/effects/gpsgraphic.xml:71
-#, fuzzy, kde-format
-#| msgid "Center vertically"
+#, kde-format
 msgid "Crop mode vertical"
-msgstr "Centra verticalmente"
+msgstr "Modalità taglio verticale"
 
 #: data/effects/gpsgraphic.xml:78
 #, kde-format
@@ -1304,12 +1350,24 @@ msgid ""
 "meters by default\n"
 "but if changing <em>Legend unit</em> to feet it will mean 10 feet).]]>"
 msgstr ""
+"<![CDATA[Decide come interpretare i valori di <em>Taglia in basso</em> e "
+"<em>Taglia in alto</em>.<br/>\n"
+"    \tCon un valore assoluto può ingrandire tra 100 e 150 m di altitudine "
+"per mostrare\n"
+"meglio i piccoli cambiamenti di altitudine tra questi 2 valori.<br/>\n"
+"Nota: nel tipo verticale, i valori assoluti sono gradi di latitudine (per il "
+"tipo di sorgente\n"
+"di posizione) e di altitudine, la frequenza cardiaca, la velocità, per gli "
+"altri interpretati come\n"
+"<em>Unità leggenda</em>ove applicabile (cioè: un valore di 10 per "
+"l'altitudine verrà considerato metri per\n"
+"impostazione predefinita, ma se si cambia <em>Unità leggenda</em> in piedi, "
+"allora sarà 10 piedi).]]>"
 
 #: data/effects/gpsgraphic.xml:81
-#, fuzzy, kde-format
-#| msgid "Top To Bottom"
+#, kde-format
 msgid "Crop bottom"
-msgstr "Dall'alto in basso"
+msgstr "Taglia in basso"
 
 #: data/effects/gpsgraphic.xml:83
 #, no-c-format, kde-format
@@ -1324,12 +1382,21 @@ msgid ""
 "If <em>Graph type</em> is <b>Speedometer</b>, this will set the minimum "
 "needle position which will clamp all values that are lower.]]>"
 msgstr ""
+"<![CDATA[Ritaglia i dati dal lato inferiore del grafico (di fatto "
+"ingrandito). <br>\n"
+"    \t Il valore è interpretato o come percentuale del totale o come valore "
+"assoluto, in base all'opzione crop_mode_v. In modalità percentuale, i valori "
+"non sono ristretti a 0-100 in modo da consentire comportamenti di "
+"«rimpicciolimento» (ossia il ritaglio di -50 bot aggiungerà una metà extra "
+"della distanza verticale totale alla parte inferiore). I valori oltre 100 "
+"(in modalità percentuale) di fatto non visualizzeranno alcunché. Se il "
+"<em>Tipo di grafico</em> è <b>Tachimetro</b> imposterà la posizione minima "
+"della lancetta, che bloccherà tutti i valori inferiori.]]>"
 
 #: data/effects/gpsgraphic.xml:86
-#, fuzzy, kde-format
-#| msgid "Crop left"
+#, kde-format
 msgid "Crop top"
-msgstr "Ritaglia a sinistra"
+msgstr "Taglia in alto"
 
 #: data/effects/gpsgraphic.xml:88
 #, kde-format
@@ -1339,6 +1406,10 @@ msgid ""
 "anything).<br>\n"
 "    \tValues under 0 will effectively not display anything.]]>"
 msgstr ""
+"<![CDATA[Uguale a <em>Taglia in basso</em> ma per il lato superiore; il tipo "
+"percentuale viene interpretato come percentuale inversa (ossia 100 = non "
+"ritaglia nulla). <br>\n"
+"    \tI valori sotto lo zero di fatto non visualizzeranno alcunché.]]>"
 
 #: data/effects/gpsgraphic.xml:91
 #, kde-format
@@ -1412,10 +1483,9 @@ msgid "Sets the color #5 for the graph line"
 msgstr "Imposta il colore numero 5 della linea del grafico"
 
 #: data/effects/gpsgraphic.xml:116
-#, fuzzy, kde-format
-#| msgid "Show more options"
+#, kde-format
 msgid "Show Now dot"
-msgstr "Mostra altre opzioni"
+msgstr "Mostra il punto Adesso"
 
 #: data/effects/gpsgraphic.xml:118
 #, kde-format
@@ -1429,22 +1499,19 @@ msgstr ""
 "    \tSe il tipo di grafico è tachimetro, questo influisce sull'ago.]]>"
 
 #: data/effects/gpsgraphic.xml:121
-#, fuzzy, kde-format
-#| msgid "Border color"
+#, kde-format
 msgid "Now dot color"
-msgstr "Colore del bordo"
+msgstr "Colore del punto Adesso"
 
 #: data/effects/gpsgraphic.xml:122
-#, fuzzy, kde-format
-#| msgid "Set the shape color of the second detected face."
+#, kde-format
 msgid "Sets the color for the Now dot"
-msgstr "Imposta il colore della forma del secondo volto individuato."
+msgstr "Imposta il colore del punto Adesso"
 
 #: data/effects/gpsgraphic.xml:125
-#, fuzzy, kde-format
-#| msgid "Speech to text"
+#, kde-format
 msgid "Show Now text"
-msgstr "Riconoscimento vocale"
+msgstr "Mostra il testo di Adesso"
 
 #: data/effects/gpsgraphic.xml:127
 #, kde-format
@@ -1455,6 +1522,12 @@ msgid ""
 "be used as the current unit (if a valid unit is found ie: kilometers if \"km"
 "\" is found anywhere in the <em>Legend unit</em> string).]]>"
 msgstr ""
+"<![CDATA[Abilitalo per disegnare il valore corrente con grandi lettere in "
+"grassetto bianche su entrambi i lati del rettangolo.<br>\n"
+"    \tI valori <em>Unità leggenda</em> verranno aggiunti alla fine, e "
+"verranno usati come unità corrente (se ne viene trovata una valida, ad "
+"esempio chilometri, se «km» viene trovato nella stringa dell'<em>Unità "
+"leggenda</em>).]]>"
 
 #. i18n: ectx: property (text), widget (QLabel, labelAngle)
 #: data/effects/gpsgraphic.xml:130 data/effects/qtblend.xml:12
@@ -1512,6 +1585,9 @@ msgid ""
 "h,kilometer per hr,mi,mi/h,mile per hr,ft,ft/s,feet per sec,kn,nm/h,knots,"
 "mmin,m/min,ftmin,ft/min"
 msgstr ""
+"m,metri,km,chilometri,mi,miglia,ft,piedi,NM,miglia nautiche,ms,m/s,metri al "
+"sec,km,km/h,chilometri all'ora,mi,mi/h,miglia all'ora,ft,ft/s,piedi al "
+"secondo,nd,NM/h,nodi,mmin,m/min,piedimin,piedi/min"
 
 #: data/effects/gpsgraphic.xml:146
 #, kde-format
@@ -1521,6 +1597,11 @@ msgid ""
 "        Default is meters and km/h respectively. The unit is matched "
 "anywhere in the string so extra spaces can be used to tweak displaying.]]>"
 msgstr ""
+"<![CDATA[Imposta l'unità da utilizzare per la visualizzazione dei valori di "
+"tipo altitudine e velocità.<br>\n"
+"        Per impostazione predefinita sono rispettivamente metri e km/h. "
+"L'unità è associata ovunque nella stringa, quindi possono essere utilizzati "
+"degli spazi aggiuntivi per perfezionare la visualizzazione.]]>"
 
 #: data/effects/gpsgraphic.xml:149
 #, kde-format
@@ -1537,6 +1618,13 @@ msgid ""
 "is 1) and can either be used as a cool effect when zoomed in enough or to "
 "debug unexpected line jumps.]]>"
 msgstr ""
+"<![CDATA[Se abilitao, il grafico verrà disegnato usando dei punti invece "
+"delle linee.<br>\n"
+"    \tTCiò mostrerà, di fatto, i punti dati singoli come influenzati dallo "
+"smussamento (ossia, per i dati di posizione mostrerà ogni punto fisso GPS, "
+"se «smussatura» è impostata 1) e può essere utilizzata sia per creare un "
+"effetto carino quando si ingrandisce a sufficienza, sia per eseguire il "
+"debug di salti di linea inaspettati.]]>"
 
 #: data/effects/gpsgraphic.xml:154
 #, kde-format
@@ -1575,10 +1663,9 @@ msgstr ""
 "traccia GPS.]]>"
 
 #: data/effects/gpsgraphic.xml:164
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Background scale"
-msgstr "Sfondo"
+msgstr "Ridimensiona sfondo"
 
 #: data/effects/gpsgraphic.xml:166
 #, kde-format
@@ -1588,6 +1675,10 @@ msgid ""
 "    \tValues smaller than 100 zoom into the image, values larger than 100 "
 "zoom out. 0 hides it.]]>"
 msgstr ""
+"<![CDATA[Scala l'immagine di sfondo (relativa al centro) per farla "
+"corrispondere alla traccia GPS superiore.<br>\n"
+"    \tValori più piccoli di 100 rimpiccioliscono l'immagine, più grandi di "
+"100 la ingrandiscono, mentre 0 la nasconde]]>"
 
 #: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:366
 #, kde-format
@@ -1610,10 +1701,9 @@ msgid "Date and time of the first valid GPS point."
 msgstr "Data e ora del primo punto GPS valido."
 
 #: data/effects/gpsgraphic.xml:177
-#, fuzzy, kde-format
-#| msgid "Video stream"
+#, kde-format
 msgid "Video start time"
-msgstr "Flusso video"
+msgstr "Ora di inizio video"
 
 #: data/effects/gpsgraphic.xml:178
 #, kde-format
@@ -1621,10 +1711,9 @@ msgid "Date and time of the video file."
 msgstr "Ora e data del file video."
 
 #: data/effects/gpsgraphic.xml:181
-#, fuzzy, kde-format
-#| msgid "Go to Project Start"
+#, kde-format
 msgid "Auto offset start"
-msgstr "Vai all'inizio del progetto"
+msgstr "Scostamento all'avvio automatico"
 
 #: data/effects/gpsgraphic.xml:182
 #, kde-format
@@ -1641,7 +1730,7 @@ msgstr ""
 #: data/effects/gpsgraphic.xml:185
 #, kde-format
 msgid "Auto offset now"
-msgstr ""
+msgstr "Scostamento automatico adesso"
 
 #: data/effects/gpsgraphic.xml:186
 #, kde-format
@@ -17063,7 +17152,7 @@ msgstr "Valenziano"
 msgid "Yiddish"
 msgstr "Yiddish"
 
-#: src/pythoninterfaces/speechtotextwhisper.cpp:240
+#: src/pythoninterfaces/speechtotextwhisper.cpp:246
 #, kde-format
 msgid "Install Whisper"
 msgstr "Installa Whisper"
@@ -21342,7 +21431,7 @@ msgstr "Whisper"
 #: src/ui/configspeech_ui.ui:373
 #, kde-format
 msgid "Seamless"
-msgstr ""
+msgstr "Seamless"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:428
