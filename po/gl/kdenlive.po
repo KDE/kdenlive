@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-07 00:40+0000\n"
-"PO-Revision-Date: 2024-12-13 09:24+0100\n"
+"POT-Creation-Date: 2024-12-14 00:47+0000\n"
+"PO-Revision-Date: 2024-12-13 23:06+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -4121,6 +4121,7 @@ msgstr "Desactiváronse os efectos"
 msgid "Effects enabled"
 msgstr "Activáronse os efectos"
 
+# skip-rule: trasno-search_reverse
 #: src/assets/assetpanel.cpp:120
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
@@ -4997,7 +4998,7 @@ msgstr "Abre a morea de efectos da pista de son."
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens the effect stack for the audio master."
-msgstr "Abre a morea de efectos da pista mestra."
+msgstr "Abre a morea de efectos do son mestre."
 
 #: src/bin/bin.cpp:700 src/bin/bin.cpp:858
 #, kde-format
@@ -6966,8 +6967,8 @@ msgid ""
 "exists, a -0001 pattern will be appended."
 msgstr ""
 "O nome de ficheiro de saída coincidirá co do fragmento orixinal da caixa, "
-"coa extensión cambiada. Engadirase ao final dos argumentos ou inserirase en "
-"lugar de <b>{output}</b> se se atopa. Se o nome de ficheiro de saída xa "
+"coa extensión modificada. Engadirase ao final dos argumentos ou inserirase "
+"en lugar de <b>{output}</b> se se atopa. Se o nome de ficheiro de saída xa "
 "existe, engádese o padrón «-0001» ao final."
 
 #: src/dialogs/clipjobmanager.cpp:54 src/dialogs/clipjobmanager.cpp:63
@@ -9674,6 +9675,7 @@ msgstr ""
 "O cambio de asociacións de tempos non funciona en fragmentos con fotogramas "
 "B."
 
+# skip-rule: trasno-change_reverse
 #: src/dialogs/timeremap.cpp:2080
 #, kde-format
 msgid "Edit Timeremap keyframes"
@@ -14609,6 +14611,7 @@ msgstr "Hiper/Lanczos (mellor)"
 msgid "Progressive playback"
 msgstr "Reprodución progresiva"
 
+# skip-rule: trasno-search_reverse
 #: src/monitor/monitormanager.cpp:630
 #, kde-format
 msgid "Audio Scrubbing"
@@ -16637,7 +16640,7 @@ msgid ""
 "environment variable"
 msgstr ""
 "Non é posíbel atopar python3, instáleo no sistema.\n"
-"Se xa está instalado, asegúrese de que está instalado nun cartafol que está "
+"Se xa está instalado, comprobe que está instalado nun cartafol que está "
 "listado na variábel de contorno PATH."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:209
@@ -16648,7 +16651,7 @@ msgid ""
 "environment variable"
 msgstr ""
 "Non é posíbel atopar pip3, instáleo no sistema.\n"
-"Se xa está instalado, asegúrese de que está instalado nun cartafol que está "
+"Se xa está instalado, comprobe que está instalado nun cartafol que está "
 "listado na variábel de contorno PATH."
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:218
@@ -17165,7 +17168,7 @@ msgid "Yiddish"
 msgstr "Yiddish"
 
 # https://docs.kdenlive.org/en/effects_and_compositions/speech_to_text.html#whisper
-#: src/pythoninterfaces/speechtotextwhisper.cpp:240
+#: src/pythoninterfaces/speechtotextwhisper.cpp:246
 #, kde-format
 msgid "Install Whisper"
 msgstr "Instalar Whisper"
@@ -21489,13 +21492,13 @@ msgstr "Canles de son separadas"
 #: src/ui/configtimeline_ui.ui:59
 #, kde-format
 msgid "Playback and Seeking:"
-msgstr "Reprodución e cambio do punto de reprodución:"
+msgstr "Reprodución e desprazamento:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_pauseonseek)
 #: src/ui/configtimeline_ui.ui:66
 #, kde-format
 msgid "Pause playback when seeking"
-msgstr "Pausar a reprodución ao cambiar o punto de reprodución"
+msgstr "Pausar a reprodución ao desprazar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_jumptostart)
 #: src/ui/configtimeline_ui.ui:73

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-07 00:40+0000\n"
+"POT-Creation-Date: 2024-12-14 00:47+0000\n"
 "PO-Revision-Date: 2024-12-04 23:19+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -17130,7 +17130,7 @@ msgstr "valencijski"
 msgid "Yiddish"
 msgstr "jidiš"
 
-#: src/pythoninterfaces/speechtotextwhisper.cpp:240
+#: src/pythoninterfaces/speechtotextwhisper.cpp:246
 #, kde-format
 msgid "Install Whisper"
 msgstr "Namesti Whisper"
