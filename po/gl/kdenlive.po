@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-14 03:22+0000\n"
-"PO-Revision-Date: 2024-12-13 23:06+0100\n"
+"PO-Revision-Date: 2024-12-14 11:38+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -2823,7 +2823,7 @@ msgstr "Facer que o fragmento se reproduza máis rápido ou máis lento"
 #: data/effects/spot_remover.xml:4
 #, kde-format
 msgid "Spot Remover"
-msgstr "Eliminador de puntos"
+msgstr "Saca puntos"
 
 #: data/effects/spot_remover.xml:5
 #, kde-format
@@ -4089,7 +4089,7 @@ msgstr "Desactiváronse os efectos"
 msgid "Effects enabled"
 msgstr "Activáronse os efectos"
 
-# skip-rule: trasno-search_reverse
+# skip-rule: trasno-search_reverse, trasno-disable
 #: src/assets/assetpanel.cpp:119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
@@ -18742,7 +18742,7 @@ msgstr "Conmutar os efectos da pista"
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
 msgid "Unmute"
-msgstr "Desactivar o silencio"
+msgstr "Activar o son"
 
 #: src/timeline2/view/qml/TrackHead.qml:471
 #, kde-format
