@@ -1192,6 +1192,14 @@ void EffectStackModel::moveEffectByRow(int destRow, int srcRow)
 void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item)
 {
     QWriteLocker locker(&m_lock);
+    if (KdenliveSettings::enableBuiltInEffects()) {
+        auto item = getEffectStackRow(destRow);
+        if (std::static_pointer_cast<EffectItemModel>(item)->isBuiltIn()) {
+            // Don't allow moving before a builtin effect
+            return;
+        }
+    }
+
     int itemId = item->getId();
     Q_ASSERT(m_allItems.count(itemId) > 0);
     int oldRow = item->row();
