@@ -1313,7 +1313,6 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
                 }
             }
             for (const auto &service : m_childServices) {
-                // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting CLONE effect in " << (void *)service.lock().get();
                 effectItem->plantClone(service, target);
             }
         }
