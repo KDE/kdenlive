@@ -120,7 +120,7 @@ void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
                     }
                     int childId = ptr->get_int("_childid");
                     if (childId == 0) {
-                        childId = m_childId++;
+                        childId = ++m_childId;
                         ptr->set("_childid", childId);
                     }
                     m_childEffects.insert(childId, effect);
@@ -142,23 +142,24 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service, int
         std::shared_ptr<EffectItemModel> effect = nullptr;
         bool targetHasAudio = ptr->get_int("set.test_audio") == 0;
         bool targetHasVideo = ptr->get_int("set.test_image") == 0;
+        bool disable = false;
         if (isAudio()) {
             if (!targetHasAudio) {
-                return;
+                disable = true;
             }
         } else if (!targetHasVideo) {
-            return;
+            disable = true;
         }
         if (auto ptr2 = m_model.lock()) {
             effect = EffectItemModel::construct(effectId, ptr2);
             effect->setParameters(getAllParameters(), false);
             // ensure duplicated assets gets disabled if the original is
-            if (m_asset->get_int("disable") == 1) {
+            if (disable || m_asset->get_int("disable") == 1) {
                 effect->filter().set("disable", 1);
             }
             int childId = ptr->get_int("_childid");
             if (childId == 0) {
-                childId = m_childId++;
+                childId = ++m_childId;
                 ptr->set("_childid", childId);
             }
             m_childEffects.insert(childId, effect);
