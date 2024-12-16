@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-14 00:47+0000\n"
+"POT-Creation-Date: 2024-12-16 00:41+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -10468,17 +10468,17 @@ msgstr "Ekspor Efek Kustom"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Beberapa efek favorit Anda tidaklah valid dan telah disingkirkan: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Sembunyikan keyframe"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Show keyframes"
 msgstr "Tampilkan keyframe"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:353
+#: src/effects/effectstack/model/effectitemmodel.cpp:354
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Perbarui zona %1"
@@ -10493,7 +10493,7 @@ msgstr "Salin efek"
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:568
 #: src/effects/effectstack/model/effectstackmodel.cpp:678
-#: src/effects/effectstack/model/effectstackmodel.cpp:1466
+#: src/effects/effectstack/model/effectstackmodel.cpp:1473
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Efek %1 tidak bisa ditambahkan dua kali."
@@ -10511,7 +10511,7 @@ msgstr "Tambahkan efek %1"
 msgid "Effect %1 can only be added to master"
 msgstr "Efek %1 tidak bisa ditambahkan dua kali."
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1221
+#: src/effects/effectstack/model/effectstackmodel.cpp:1229
 #, kde-format
 msgid "Move effect %1"
 msgstr "Pindahkan efek %1"

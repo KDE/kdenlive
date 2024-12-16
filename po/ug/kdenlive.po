@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-14 00:47+0000\n"
+"POT-Creation-Date: 2024-12-16 00:41+0000\n"
 "PO-Revision-Date: 2013-09-08 07:04+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
@@ -10668,19 +10668,19 @@ msgstr "%1 ئۆچۈر"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Hide keyframes"
 msgstr " كاندۇك"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Show keyframes"
 msgstr " كاندۇك"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:353
+#: src/effects/effectstack/model/effectitemmodel.cpp:354
 #, fuzzy, kde-format
 #| msgid " frames"
 msgid "Update zone for %1"
@@ -10697,7 +10697,7 @@ msgstr "ئۈنۈم يوق"
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:568
 #: src/effects/effectstack/model/effectstackmodel.cpp:678
-#: src/effects/effectstack/model/effectstackmodel.cpp:1466
+#: src/effects/effectstack/model/effectstackmodel.cpp:1473
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -10715,7 +10715,7 @@ msgstr "ئۈنۈم يوق"
 msgid "Effect %1 can only be added to master"
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1221
+#: src/effects/effectstack/model/effectstackmodel.cpp:1229
 #, fuzzy, kde-format
 #| msgid "No Effect"
 msgid "Move effect %1"

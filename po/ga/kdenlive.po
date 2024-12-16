@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-14 00:47+0000\n"
+"POT-Creation-Date: 2024-12-16 00:41+0000\n"
 "PO-Revision-Date: 2011-12-28 12:28-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -10811,19 +10811,19 @@ msgstr "Scrios %1"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, fuzzy, kde-format
 #| msgid "Add Markers"
 msgid "Hide keyframes"
 msgstr "Cuir Marcóirí Leis"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Show keyframes"
 msgstr "Bain an comhad"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:353
+#: src/effects/effectstack/model/effectitemmodel.cpp:354
 #, fuzzy, kde-format
 #| msgid "Update profile"
 msgid "Update zone for %1"
@@ -10840,7 +10840,7 @@ msgstr "Sábháil an Mhaisíocht"
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:568
 #: src/effects/effectstack/model/effectstackmodel.cpp:678
-#: src/effects/effectstack/model/effectstackmodel.cpp:1466
+#: src/effects/effectstack/model/effectstackmodel.cpp:1473
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -10858,7 +10858,7 @@ msgstr "Cuir maisíocht nua leis"
 msgid "Effect %1 can only be added to master"
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1221
+#: src/effects/effectstack/model/effectstackmodel.cpp:1229
 #, fuzzy, kde-format
 #| msgid "Reset Effect"
 msgid "Move effect %1"

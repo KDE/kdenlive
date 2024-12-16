@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-14 00:47+0000\n"
+"POT-Creation-Date: 2024-12-16 00:41+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -10311,17 +10311,17 @@ msgstr "导出自定义效果"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "部分常用效果无效，它们已被移除：%1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Hide keyframes"
 msgstr "隐藏关键帧"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Show keyframes"
 msgstr "显示关键帧"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:353
+#: src/effects/effectstack/model/effectitemmodel.cpp:354
 #, kde-format
 msgid "Update zone for %1"
 msgstr "更新 %1 的区段"
@@ -10336,7 +10336,7 @@ msgstr "复制效果"
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:568
 #: src/effects/effectstack/model/effectstackmodel.cpp:678
-#: src/effects/effectstack/model/effectstackmodel.cpp:1466
+#: src/effects/effectstack/model/effectstackmodel.cpp:1473
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 不能被添加两次。"
@@ -10353,7 +10353,7 @@ msgstr "添加效果 %1"
 msgid "Effect %1 can only be added to master"
 msgstr "效果 %1 只能添加到主通道。"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1221
+#: src/effects/effectstack/model/effectstackmodel.cpp:1229
 #, kde-format
 msgid "Move effect %1"
 msgstr "移动效果 %1"
