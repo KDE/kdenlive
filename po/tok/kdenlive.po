@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-14 03:22+0000\n"
+"POT-Creation-Date: 2024-12-16 03:18+0000\n"
 "PO-Revision-Date: 2024-02-02 12:32-0500\n"
 "Last-Translator: Janet Blackquill <uhhadd@gmail.com>\n"
 "Language-Team: Language tok\n"
@@ -9964,17 +9964,17 @@ msgstr ""
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Hide keyframes"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Show keyframes"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:353
+#: src/effects/effectstack/model/effectitemmodel.cpp:354
 #, kde-format
 msgid "Update zone for %1"
 msgstr ""
@@ -9989,7 +9989,7 @@ msgstr ""
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:568
 #: src/effects/effectstack/model/effectstackmodel.cpp:673
-#: src/effects/effectstack/model/effectstackmodel.cpp:1461
+#: src/effects/effectstack/model/effectstackmodel.cpp:1468
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -10001,7 +10001,7 @@ msgstr ""
 msgid "Add effect %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1216
+#: src/effects/effectstack/model/effectstackmodel.cpp:1224
 #, kde-format
 msgid "Move effect %1"
 msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-14 03:22+0000\n"
+"POT-Creation-Date: 2024-12-16 03:18+0000\n"
 "PO-Revision-Date: 2024-12-12 10:50+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -10456,17 +10456,17 @@ msgstr "احذف التّأثير"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "بعض تأثيراتك المفضلة غير صالحة وأزيلت: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Hide keyframes"
 msgstr "أخفِ الأطر الرئيسة"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Show keyframes"
 msgstr "أظهر الأطر الرئيسة"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:353
+#: src/effects/effectstack/model/effectitemmodel.cpp:354
 #, kde-format
 msgid "Update zone for %1"
 msgstr "حدّث منطقة لـ%1"
@@ -10481,7 +10481,7 @@ msgstr "تأثير النسخ"
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:568
 #: src/effects/effectstack/model/effectstackmodel.cpp:673
-#: src/effects/effectstack/model/effectstackmodel.cpp:1461
+#: src/effects/effectstack/model/effectstackmodel.cpp:1468
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "لا يمكن إضافة التأثير %1 مرتين."
@@ -10493,7 +10493,7 @@ msgstr "لا يمكن إضافة التأثير %1 مرتين."
 msgid "Add effect %1"
 msgstr "أضف تأثير %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1216
+#: src/effects/effectstack/model/effectstackmodel.cpp:1224
 #, kde-format
 msgid "Move effect %1"
 msgstr "انقل التّأثير %1"

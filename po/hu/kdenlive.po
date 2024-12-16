@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-14 03:22+0000\n"
+"POT-Creation-Date: 2024-12-16 03:18+0000\n"
 "PO-Revision-Date: 2024-05-28 23:07+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -10858,19 +10858,19 @@ msgstr "Videó effektus hozzáadása"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr ""
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, fuzzy, kde-format
 #| msgid "Hide frame"
 msgid "Hide keyframes"
 msgstr "Képkocka elrejtése"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Show keyframes"
 msgstr "Kulcskép törlése"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:353
+#: src/effects/effectstack/model/effectitemmodel.cpp:354
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update zone for %1"
@@ -10887,7 +10887,7 @@ msgstr "%1 effektus hozzáadása"
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:568
 #: src/effects/effectstack/model/effectstackmodel.cpp:673
-#: src/effects/effectstack/model/effectstackmodel.cpp:1461
+#: src/effects/effectstack/model/effectstackmodel.cpp:1468
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -10899,7 +10899,7 @@ msgstr ""
 msgid "Add effect %1"
 msgstr "%1 effektus hozzáadása"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1216
+#: src/effects/effectstack/model/effectstackmodel.cpp:1224
 #, fuzzy, kde-format
 #| msgid "Move effect"
 msgid "Move effect %1"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-12-14 03:22+0000\n"
-"PO-Revision-Date: 2024-12-14 11:38+0100\n"
+"POT-Creation-Date: 2024-12-16 03:18+0000\n"
+"PO-Revision-Date: 2024-12-16 00:35+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4089,7 +4089,7 @@ msgstr "Desactiváronse os efectos"
 msgid "Effects enabled"
 msgstr "Activáronse os efectos"
 
-# skip-rule: trasno-search_reverse, trasno-disable
+# skip-rule: trasno-search_reverse, trasno-disable, trasno-enable
 #: src/assets/assetpanel.cpp:119
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
@@ -10565,17 +10565,17 @@ msgstr "Exportar un efecto personalizado"
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "Algúns dos seus efectos preferidos son incorrectos e retiráronse: %1"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Hide keyframes"
 msgstr "Agochar os fotogramas clave"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:272
+#: src/effects/effectstack/model/effectitemmodel.cpp:273
 #, kde-format
 msgid "Show keyframes"
 msgstr "Amosar os fotogramas clave"
 
-#: src/effects/effectstack/model/effectitemmodel.cpp:353
+#: src/effects/effectstack/model/effectitemmodel.cpp:354
 #, kde-format
 msgid "Update zone for %1"
 msgstr "Actualizar a zona para %1"
@@ -10590,7 +10590,7 @@ msgstr "Copiar o efecto"
 #: src/effects/effectstack/model/effectstackmodel.cpp:391
 #: src/effects/effectstack/model/effectstackmodel.cpp:568
 #: src/effects/effectstack/model/effectstackmodel.cpp:673
-#: src/effects/effectstack/model/effectstackmodel.cpp:1461
+#: src/effects/effectstack/model/effectstackmodel.cpp:1468
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "O efecto %1 non pode engadirse dúas veces."
@@ -10602,7 +10602,7 @@ msgstr "O efecto %1 non pode engadirse dúas veces."
 msgid "Add effect %1"
 msgstr "Engadir o efecto %1"
 
-#: src/effects/effectstack/model/effectstackmodel.cpp:1216
+#: src/effects/effectstack/model/effectstackmodel.cpp:1224
 #, kde-format
 msgid "Move effect %1"
 msgstr "Mover o efecto %1"
@@ -15601,7 +15601,7 @@ msgstr "Eliminar a guía."
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Delete guide. This will erase all selected guides."
-msgstr "Eliminar a guía. Isto eliminará as guías seleccionadas."
+msgstr "Eliminar a guía. Isto borrará as guías seleccionadas."
 
 #: src/project/dialogs/guideslist.cpp:140
 #, kde-format
@@ -21029,7 +21029,7 @@ msgstr "Isto importará todos os ficheiros no cartafol de nivel superior."
 #: src/ui/configmisc_ui.ui:123
 #, kde-format
 msgid "Disable parameters when the effect is disabled"
-msgstr "Desactivar os parámetros cando se active o efecto"
+msgstr "Desactivar os parámetros cando o efecto está desactivado."
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configmisc_ui.ui:130
