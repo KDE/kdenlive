@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-12-16 03:18+0000\n"
-"PO-Revision-Date: 2024-12-16 00:35+0100\n"
+"PO-Revision-Date: 2024-12-17 22:39+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -5674,7 +5674,7 @@ msgstr "Amosar o rexistro"
 #: src/bin/bin.cpp:3785 src/dialogs/textbasededit.cpp:717
 #, kde-format
 msgid "Detailed log"
-msgstr "Historial detallado"
+msgstr "Rexistro detallado"
 
 #: src/bin/bin.cpp:3845 src/bin/bin.cpp:3878
 #, kde-format
@@ -10922,7 +10922,7 @@ msgstr ""
 #: src/glaxnimatelauncher.cpp:62 src/glaxnimatelauncher.cpp:124
 #, kde-format
 msgid "Failed to launch Glaxnimate application"
-msgstr "Non foi posíbel lanzar a aplicación Glaxnimate"
+msgstr "Non foi posíbel iniciar a aplicación Glaxnimate."
 
 #: src/glaxnimatelauncher.cpp:82
 #, kde-format
@@ -14882,6 +14882,7 @@ msgstr ""
 "Hai que acceder para descargar o elemento.\n"
 "Redirixirase á páxina de acceso."
 
+# skip-rule: trasno-provide
 #: src/onlineresources/resourcewidget.cpp:185
 #, kde-format
 msgid "Media provided by %1"
@@ -23299,7 +23300,7 @@ msgstr "Limpar"
 #: src/ui/renderwidget_ui.ui:1000
 #, kde-format
 msgid "Error Log"
-msgstr "Historial de erros"
+msgstr "Rexistro de erros"
 
 #. i18n: ectx: property (text), widget (QCheckBox, shutdown)
 #: src/ui/renderwidget_ui.ui:1035
