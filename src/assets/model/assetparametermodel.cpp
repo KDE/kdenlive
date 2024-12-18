@@ -5,11 +5,14 @@
 
 #include "assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "bin/projectitemmodel.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include <QDebug>
 #include <QDir>
 #include <QDirIterator>
@@ -826,7 +829,6 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         QString values = element.attribute(QStringLiteral("paramlist"));
         if (values == QLatin1String("%lutPaths")) {
             QString filter = element.attribute(QStringLiteral("filter"));
-            ;
             filter.remove(0, filter.indexOf(QLatin1String("(")) + 1);
             filter.remove(filter.indexOf(QLatin1String(")")) - 1, -1);
             QStringList fileExt = filter.split(QStringLiteral(" "));
@@ -843,6 +845,25 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             }
             if (!results.isEmpty()) {
                 return results.first();
+            }
+            return defaultValue;
+        } else if (values == QLatin1String("%maskPaths")) {
+            // check for Kdenlive project masks
+            QString binId;
+            if (m_ownerId.type == KdenliveObjectType::TimelineClip) {
+                auto tl = pCore->currentDoc()->getTimeline(m_ownerId.uuid);
+                if (tl) {
+                    binId = tl->getClipBinId(m_ownerId.itemId);
+                }
+            } else if (m_ownerId.type == KdenliveObjectType::BinClip) {
+                binId = QString::number(m_ownerId.itemId);
+            }
+            if (binId.isEmpty()) {
+                return defaultValue;
+            }
+            QMap<QString, QString> masks = pCore->projectItemModel()->getClipMasks(binId);
+            if (!masks.isEmpty()) {
+                return masks.value(masks.firstKey());
             }
             return defaultValue;
         }

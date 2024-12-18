@@ -502,6 +502,15 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
     return nullptr;
 }
 
+const QMap<QString, QString> ProjectItemModel::getClipMasks(const QString &binId) const
+{
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
+    if (clip) {
+        return clip->masksUrls();
+    }
+    return {};
+}
+
 const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId, int stream)
 {
     READ_LOCK();

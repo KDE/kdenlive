@@ -313,6 +313,8 @@ public:
     void exportFrames(const QDir folder, int in, int out);
     /** @brief Get a list of masks */
     QMap<int, MaskInfo> masks() const;
+    /** @brief Get a list of masks with only {name, url} */
+    QMap<QString, QString> masksUrls() const;
 
 protected:
     friend class ClipModel;

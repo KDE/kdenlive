@@ -5,10 +5,13 @@
 
 #include "urllistparamwidget.h"
 #include "assets/model/assetparametermodel.hpp"
+#include "bin/projectitemmodel.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include <QDirIterator>
 #include <QFileDialog>
@@ -16,12 +19,12 @@
 
 UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
-    , m_isLumaList(false)
+    , m_listType(OTHERLIST)
 {
     setupUi(this);
 
     // Get data from model
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
+    const QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     const QString configFile = m_model->data(m_index, AssetParameterModel::NewStuffRole).toString();
 
     // setup the comment
@@ -46,7 +49,9 @@ UrlListParamWidget::UrlListParamWidget(std::shared_ptr<AssetParameterModel> mode
         m_knsbutton->hide();
     }
     // setup the name
-    m_isLutList = m_model->getAssetId().startsWith(QLatin1String("avfilter.lut3d"));
+    if (m_model->getAssetId().startsWith(QLatin1String("avfilter.lut3d"))) {
+        m_listType = LUTLIST;
+    }
     UrlListParamWidget::slotRefresh();
 
     // Q_EMIT the signal of the base class when appropriate
@@ -114,12 +119,14 @@ void UrlListParamWidget::slotRefresh()
     QStringList values = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
     QString currentValue = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QString filter = m_model->data(m_index, AssetParameterModel::FilterRole).toString();
+    QMap<QString, QString> listValues;
+    QStringList thumbnailsToBuild;
     filter.remove(0, filter.indexOf("(") + 1);
     filter.remove(filter.indexOf(")") - 1, -1);
     m_fileExt = filter.split(" ");
     if (!values.isEmpty() && values.first() == QLatin1String("%lumaPaths")) {
         // special case: Luma files
-        m_isLumaList = true;
+        m_listType = LUMALIST;
         values.clear();
         names.clear();
         if (pCore->getCurrentFrameSize().width() > 1000) {
@@ -134,26 +141,24 @@ void UrlListParamWidget::slotRefresh()
         } else {
             values = MainWindow::m_lumaFiles.value(QStringLiteral("PAL"));
         }
-        m_list->addItem(i18n("None (Dissolve)"));
-    }
-    if (!values.isEmpty() && values.first() == QLatin1String("%lutPaths")) {
-        // special case: LUT files
-        values.clear();
-        names.clear();
-
-        // check for Kdenlive installed luts files
-        QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
-        for (const QString &folderpath : std::as_const(customLuts)) {
-            QDir dir(folderpath);
-            QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
-            while (it.hasNext()) {
-                values.append(it.next());
+        // Fetch names
+        for (auto &v : values) {
+            QString lumaName = pCore->nameForLumaFile(QFileInfo(v).fileName());
+            if (listValues.contains(lumaName)) {
+                // Duplicate name, add a suffix
+                const QString baseName = lumaName;
+                int i = 2;
+                lumaName = baseName + QStringLiteral(" / %1").arg(i);
+                while (listValues.contains(lumaName)) {
+                    i++;
+                    lumaName = baseName + QStringLiteral(" / %1").arg(i);
+                }
             }
+            listValues.insert(lumaName, v);
         }
-    }
-    // add all matching files in the location of the current item too
-    bool builtIn = false;
-    if (m_isLumaList) {
+        values.clear();
+        m_list->addItem(i18n("None (Dissolve)"));
+        bool builtIn = false;
         QFileInfo info(currentValue);
         // This is an MLT build luma
         QRegularExpression re("^luma[0-2][0-9].pgm$");
@@ -162,78 +167,115 @@ void UrlListParamWidget::slotRefresh()
             currentValue = info.fileName();
             builtIn = true;
         }
-    }
-    if (!currentValue.isEmpty() && !builtIn) {
-        QDir dir = QFileInfo(currentValue).absoluteDir();
-        if (dir.exists()) {
-            QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
-            for (const auto &filename : std::as_const(entrys)) {
-                values.append(dir.filePath(filename));
-            }
-            // make sure the current value is added. If it is a duplicate we remove it later
-            if (QFileInfo::exists(currentValue)) {
-                values << currentValue;
-            }
+        // add all matching files in the location of the current item too
+        if (!currentValue.isEmpty() && !builtIn) {
+            addItemsInSameFolder(currentValue, &listValues);
         }
     }
-
-    values.removeDuplicates();
-
-    // build ui list
-    QMap<QString, QString> entryMap;
-    int ix = 0;
-    // Put all name/value combinations in a map
-    for (const QString &value : std::as_const(values)) {
-        if (m_isLutList) {
-            if (value.toLower().endsWith(QLatin1String(".cube")) && !KdenliveSettings::validated_luts().contains(value)) {
+    if (!values.isEmpty() && values.first() == QLatin1String("%lutPaths")) {
+        // special case: LUT files
+        values.clear();
+        names.clear();
+        m_listType = LUTLIST;
+        // check for Kdenlive installed luts files
+        QStringList customLuts = QStandardPaths::locateAll(QStandardPaths::AppLocalDataLocation, QStringLiteral("luts"), QStandardPaths::LocateDirectory);
+        for (const QString &folderpath : std::as_const(customLuts)) {
+            QDir dir(folderpath);
+            QDirIterator it(dir.absolutePath(), m_fileExt, QDir::Files, QDirIterator::Subdirectories);
+            while (it.hasNext()) {
+                const QString path = it.next();
+                listValues.insert(QFileInfo(path).baseName(), path);
+            }
+        }
+        // add all matching files in the location of the current item too
+        if (!currentValue.isEmpty()) {
+            addItemsInSameFolder(currentValue, &listValues);
+        }
+        // Ensure the lut files are valid
+        QMapIterator<QString, QString> l(listValues);
+        QStringList lutsToRemove;
+        while (l.hasNext()) {
+            l.next();
+            if (l.value().toLower().endsWith(QLatin1String(".cube")) && !KdenliveSettings::validated_luts().contains(l.value())) {
                 // Open LUT file and check validity
-                if (isValidCubeFile(value)) {
-                    entryMap.insert(QFileInfo(value).baseName(), value);
+                if (isValidCubeFile(l.value())) {
                     QStringList validated = KdenliveSettings::validated_luts();
-                    validated << value;
+                    validated << l.value();
                     KdenliveSettings::setValidated_luts(validated);
                 } else {
-                    qDebug() << ":::: FOUND INVALID LUT FILE: " << value;
-                }
-            } else {
-                entryMap.insert(QFileInfo(value).baseName(), value);
-            }
-        } else if (m_isLumaList) {
-            QString lumaName = pCore->nameForLumaFile(QFileInfo(value).fileName());
-            if (entryMap.contains(lumaName)) {
-                // Duplicate name, add a suffix
-                const QString baseName = lumaName;
-                int i = 2;
-                lumaName = baseName + QStringLiteral(" / %1").arg(i);
-                while (entryMap.contains(lumaName)) {
-                    i++;
-                    lumaName = baseName + QStringLiteral(" / %1").arg(i);
+                    qDebug() << ":::: FOUND INVALID LUT FILE: " << l.value();
+                    lutsToRemove << l.key();
                 }
             }
-            entryMap.insert(lumaName, value);
-        } else if (ix < names.count()) {
-            entryMap.insert(names.at(ix), value);
         }
-        ix++;
-    }
-    QMapIterator<QString, QString> i(entryMap);
-    QStringList thumbnailsToBuild;
-    while (i.hasNext()) {
-        i.next();
-        const QString &entry = i.value();
-        m_list->addItem(i.key(), entry);
-        int ix = m_list->findData(entry);
-        // Create thumbnails
-        if (!entry.isEmpty() && (entry.toLower().endsWith(QLatin1String(".png")) || entry.toLower().endsWith(QLatin1String(".pgm")))) {
-            if (MainWindow::m_lumacache.contains(entry)) {
-                m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
-            } else {
-                // render thumbnails in another thread
-                thumbnailsToBuild << entry;
+        while (!lutsToRemove.isEmpty()) {
+            const QString lut = lutsToRemove.takeFirst();
+            listValues.remove(lut);
+        }
+    } else if (!values.isEmpty() && values.first() == QLatin1String("%maskPaths")) {
+        // check for Kdenlive project masks
+        values.clear();
+        names.clear();
+        m_listType = MASKLIST;
+        QString binId;
+        ObjectId owner = m_model->getOwnerId();
+        if (owner.type == KdenliveObjectType::TimelineClip) {
+            auto tl = pCore->currentDoc()->getTimeline(owner.uuid);
+            if (tl) {
+                binId = tl->getClipBinId(owner.itemId);
+            }
+        } else if (owner.type == KdenliveObjectType::BinClip) {
+            binId = QString::number(owner.itemId);
+        }
+        if (!binId.isEmpty()) {
+            listValues = pCore->projectItemModel()->getClipMasks(binId);
+        }
+        // Check that current value is in the list or add a new entry
+        if (!currentValue.isEmpty()) {
+            QFileInfo info(currentValue);
+            QString maskName = listValues.key(currentValue);
+            if (maskName.isEmpty()) {
+                listValues.insert(info.baseName(), currentValue);
             }
         }
     }
-    m_list->addItem(i18n("Custom…"), QStringLiteral("custom_file"));
+
+    if (m_listType == OTHERLIST) {
+        // build ui list
+        QMap<QString, QString> entryMap;
+        int ix = 0;
+        // Put all name/value combinations in a map
+        for (const QString &value : std::as_const(values)) {
+            if (ix < names.count()) {
+                entryMap.insert(names.at(ix), value);
+            }
+            ix++;
+        }
+    } else {
+        QMapIterator<QString, QString> i(listValues);
+        while (i.hasNext()) {
+            i.next();
+            const QString &entry = i.value();
+            m_list->addItem(i.key(), entry);
+            int ix = m_list->findData(entry);
+            // Create thumbnails
+            if (m_listType == LUMALIST) {
+                if (!entry.isEmpty() && (entry.toLower().endsWith(QLatin1String(".png")) || entry.toLower().endsWith(QLatin1String(".pgm")))) {
+                    if (MainWindow::m_lumacache.contains(entry)) {
+                        m_list->setItemIcon(ix, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
+                    } else {
+                        // render thumbnails in another thread
+                        thumbnailsToBuild << entry;
+                    }
+                }
+            } else if (m_listType == MASKLIST) {
+                QString thumbFile = entry.section(QLatin1Char('.'), 0, -2);
+                thumbFile.append(QStringLiteral(".png"));
+                m_list->setItemIcon(ix, QPixmap::fromImage(QImage(thumbFile)));
+            }
+        }
+        m_list->addItem(i18n("Custom…"), QStringLiteral("custom_file"));
+    }
 
     // select current value
     if (!currentValue.isEmpty()) {
@@ -272,6 +314,26 @@ void UrlListParamWidget::buildThumbnails(const QStringList files)
         if (!pix.isNull()) {
             MainWindow::m_lumacache.insert(f, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
             QMetaObject::invokeMethod(this, "updateItemThumb", Q_ARG(QString, f));
+        }
+    }
+}
+
+void UrlListParamWidget::addItemsInSameFolder(const QString currentValue, QMap<QString, QString> *listValues)
+{
+    QDir dir = QFileInfo(currentValue).absoluteDir();
+    if (dir.exists()) {
+        QStringList entrys = dir.entryList(m_fileExt, QDir::Files);
+        for (const auto &filename : std::as_const(entrys)) {
+            const QString path = dir.absoluteFilePath(filename);
+            if (!(*listValues).values().contains(path)) {
+                (*listValues).insert(QFileInfo(filename).baseName(), path);
+            }
+        }
+        // make sure the current value is added. If it is a duplicate we remove it later
+        if (!(*listValues).values().contains(currentValue)) {
+            if (QFileInfo::exists(currentValue)) {
+                (*listValues).insert(QFileInfo(currentValue).baseName(), currentValue);
+            }
         }
     }
 }
@@ -315,7 +377,7 @@ void UrlListParamWidget::openFile()
 
     if (!urlString.isEmpty()) {
         KRecentDirs::add(QStringLiteral(":KdenliveUrlListParamFolder"), QFileInfo(urlString).absolutePath());
-        if (m_isLutList && urlString.toLower().endsWith(QLatin1String(".cube"))) {
+        if (m_listType == LUTLIST && urlString.toLower().endsWith(QLatin1String(".cube"))) {
             if (isValidCubeFile(urlString)) {
                 Q_EMIT valueChanged(m_index, urlString, true);
                 slotRefresh();

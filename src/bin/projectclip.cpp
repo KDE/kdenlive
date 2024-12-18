@@ -3195,6 +3195,17 @@ QMap<int, MaskInfo> ProjectClip::masks() const
     return m_masks;
 }
 
+QMap<QString, QString> ProjectClip::masksUrls() const
+{
+    QMap<QString, QString> urls;
+    QMapIterator<int, MaskInfo> i(m_masks);
+    while (i.hasNext()) {
+        i.next();
+        urls.insert(i.value().maskName, i.value().maskFile);
+    }
+    return urls;
+}
+
 void ProjectClip::loadMasks(const QString &maskData)
 {
     if (maskData.isEmpty()) {
