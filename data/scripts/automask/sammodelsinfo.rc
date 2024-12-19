@@ -1,0 +1,6 @@
+[models]
+# a list of config file = download url
+configs/sam2.1/sam2.1_hiera_t.yaml=https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_tiny.pt
+configs/sam2.1/sam2.1_hiera_s.yaml=https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_small.pt
+configs/sam2.1/sam2.1_hiera_b+.yaml=https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_base_plus.pt
+configs/sam2.1/sam2.1_hiera_l.yaml=https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt

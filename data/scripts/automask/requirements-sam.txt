@@ -1,3 +1,3 @@
-git+https://github.com/facebookresearch/sam2.git
+git+https://github.com/facebookresearch/sam2.git # SAM-2
 matplotlib
 opencv-python

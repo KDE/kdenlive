@@ -14,6 +14,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "monitor/monitorproxy.h"
+#include "pythoninterfaces/saminterface.h"
 
 #include <QDateTime>
 #include <QProcess>
@@ -24,6 +25,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 AutomaskHelper::AutomaskHelper(QObject *parent)
     : QObject(parent)
 {
+    SamInterface sam;
+    m_maskScript = {sam.pythonExecs().first, sam.getScript(QStringLiteral("automask/sam-objectmask.py"))};
 }
 
 void AutomaskHelper::addMonitorControlPoint(const QString &previewFile, int position, const QSize frameSize, int xPos, int yPos, bool extend, bool exclude)
@@ -101,7 +104,8 @@ void AutomaskHelper::generateImage(const QString &previewFile)
     if (!ok) {
         return;
     }
-    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"),
+
+    QStringList args = {m_maskScript.second,
                         QStringLiteral("-I"),
                         maskSrcFolder.absolutePath(),
                         QStringLiteral("-P"),
@@ -111,10 +115,13 @@ void AutomaskHelper::generateImage(const QString &previewFile)
                         QStringLiteral("-F"),
                         QString::number(m_lastPos),
                         QStringLiteral("-O"),
-                        previewFile};
+                        previewFile,
+                        QStringLiteral("-M"),
+                        KdenliveSettings::samModelFile(),
+                        QStringLiteral("-C"),
+                        SamInterface::configForModel()};
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
-    const QString exec("/home/six/git/sam2/venv/bin/python3");
-    scriptJob.start(exec, args);
+    scriptJob.start(m_maskScript.first, args);
     scriptJob.waitForFinished(-1);
     QUrl url = QUrl::fromLocalFile(previewFile);
     url.setQuery(QStringLiteral("pos=%1&ctrl=%2").arg(m_lastPos).arg(QDateTime::currentSecsSinceEpoch()));
@@ -223,7 +230,7 @@ void AutomaskHelper::generateMask(const QString &binId, const QString &maskName,
         }
         const QString outputFile = maskFolder.absoluteFilePath(QStringLiteral("%1-%2-%3.mkv").arg(clip->getControlUuid()).arg(zone.x()).arg(zone.y()));
         maskParams.insert(MaskTask::OUTPUTFILE, outputFile);
-        MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, zone.x(), zone.y(), clip.get());
+        MaskTask::start(ObjectId(KdenliveObjectType::BinClip, binId.toInt(), QUuid()), maskParams, m_maskScript, zone.x(), zone.y(), clip.get());
     }
 }
 

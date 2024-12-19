@@ -39,6 +39,13 @@ MaskManager::MaskManager(QWidget *parent)
     : QWidget(parent)
 {
     setupUi(this);
+    samStatus->hide();
+    samStatus->setText(i18n("Please configure the SAM2 plugin"));
+    samStatus->setMessageType(KMessageWidget::Warning);
+    QAction *ac = new QAction(i18n("Configure"), this);
+    connect(ac, &QAction::triggered, this, [this]() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech, 1); });
+    connect(pCore.get(), &Core::samConfigUpdated, this, &MaskManager::checkModelAvailability);
+    samStatus->addAction(ac);
     connect(buttonAdd, &QPushButton::clicked, this, &MaskManager::initMaskMode);
     connect(buttonPreview, &QPushButton::toggled, this, &MaskManager::previewMask);
     connect(invertPreview, &QCheckBox::toggled, this, &MaskManager::updateMaskProperties);
@@ -59,6 +66,7 @@ MaskManager::MaskManager(QWidget *parent)
     maskTree->setAlternatingRowColors(true);
     maskTree->setAllColumnsShowFocus(true);
     maskTree->setIconSize(QSize(80, 60));
+    checkModelAvailability();
 }
 
 MaskManager::~MaskManager() {}
@@ -220,4 +228,15 @@ void MaskManager::previewMask(bool show)
 void MaskManager::updateMaskProperties()
 {
     pCore->getMonitor(Kdenlive::ClipMonitor)->updatePreviewMask(invertPreview->isChecked(), opacity->value(), maskColor->color());
+}
+
+void MaskManager::checkModelAvailability()
+{
+    if (KdenliveSettings::samModelFile().isEmpty() || !QFile::exists(KdenliveSettings::samModelFile())) {
+        samStatus->show();
+        buttonAdd->setEnabled(false);
+    } else {
+        samStatus->hide();
+        buttonAdd->setEnabled(true);
+    }
 }

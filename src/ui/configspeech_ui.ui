@@ -470,69 +470,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <string>Object Detection</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Model:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="combo_sam_model"/>
-       </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="downloadSamButton">
          <property name="text">
-          <string>Manage models</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <spacer name="horizontalSpacer_7">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>39</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="0" colspan="4">
-        <layout class="QVBoxLayout" name="message_layout_sam">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>10</number>
-         </property>
-        </layout>
-       </item>
-       <item row="2" column="0" colspan="4">
-        <widget class="QPlainTextEdit" name="script_log_sam">
-         <property name="frameShape">
-          <enum>QFrame::Shape::NoFrame</enum>
-         </property>
-         <property name="undoRedoEnabled">
-          <bool>false</bool>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="2">
-        <widget class="QPushButton" name="check_config_sam">
-         <property name="toolTip">
-          <string>Check speech engine installation</string>
-         </property>
-         <property name="text">
-          <string>Check configuration</string>
-         </property>
-         <property name="icon">
-          <iconset theme="view-refresh"/>
+          <string>Download model</string>
          </property>
         </widget>
        </item>
@@ -549,7 +490,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </spacer>
        </item>
-       <item row="3" column="2" colspan="2">
+       <item row="3" column="2" colspan="3">
         <spacer name="horizontalSpacer_8">
          <property name="orientation">
           <enum>Qt::Orientation::Horizontal</enum>
@@ -561,6 +502,72 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QPushButton" name="check_config_sam">
+         <property name="toolTip">
+          <string>Check speech engine installation</string>
+         </property>
+         <property name="text">
+          <string>Check configuration</string>
+         </property>
+         <property name="icon">
+          <iconset theme="view-refresh"/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>39</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="combo_sam_model"/>
+       </item>
+       <item row="1" column="0" colspan="5">
+        <layout class="QVBoxLayout" name="message_layout_sam">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>10</number>
+         </property>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Model:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="5">
+        <widget class="QPlainTextEdit" name="script_sam_log">
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
+         </property>
+         <property name="undoRedoEnabled">
+          <bool>false</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="KContextualHelpButton" name="kcontextualhelpbutton">
+         <property name="contextualHelpText">
+          <string>Object Detection relies on SAM2 - &lt;a href=&quot;https://github.com/facebookresearch/sam2&quot;&gt;https://github.com/facebookresearch/sam2&lt;/a&gt;</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

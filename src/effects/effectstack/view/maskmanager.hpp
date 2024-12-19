@@ -34,6 +34,7 @@ private Q_SLOTS:
     void updateMaskProperties();
     void generateMask();
     void loadMasks();
+    void checkModelAvailability();
 
 private:
     ObjectId m_owner{KdenliveObjectType::NoItem, {}};

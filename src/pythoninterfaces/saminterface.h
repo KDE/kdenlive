@@ -24,6 +24,7 @@ public:
     virtual const QStringList getInstalledModels();
     virtual bool installNewModel(const QString &modelName = QString());
     const QString getVenvPath() override;
+    static const QString configForModel();
 
 protected:
     QString featureName() override;

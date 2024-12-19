@@ -108,6 +108,7 @@ private Q_SLOTS:
     void slotCheckSamConfig();
     /** @brief Display the python job output */
     void showSpeechLog(const QString &jobData);
+    void showSamLog(const QString &jobData);
     /** @brief fill list of connected monitors */
     void fillMonitorData();
     /** @brief Open external proxies config dialog */
@@ -116,6 +117,10 @@ private Q_SLOTS:
     void openBrowserUrl(const QString &url);
     /** @brief A download job is finished  */
     void downloadJobDone(bool success);
+    /** @brief Start downloading a model */
+    void downloadSamModel();
+    /** @brief Refresh the list of available SAM models in combobox */
+    void reloadSamModels();
 
 private:
     KPageWidgetItem *m_pageMisc;

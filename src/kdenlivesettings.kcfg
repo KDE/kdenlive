@@ -1361,8 +1361,8 @@
         </entry>
    </group>
    <group name="sam">
-     <entry name="sam_folder_path" type="String">
-       <label>Custom path for the folder containins the sam models. Uses default XDG location if empty</label>
+     <entry name="samModelFile" type="String">
+       <label>Path for the chosen sam model.</label>
        <default></default>
      </entry>
    </group>

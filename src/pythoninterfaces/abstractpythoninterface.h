@@ -29,7 +29,7 @@ public:
     ~AbstractPythonInterface() override;
     /** @brief Check if python is found and use venv if requested. */
     bool checkPython(bool useVenv, bool calculateSize = false, bool forceInstall = false);
-    bool checkSetup();
+    bool checkSetup(bool requestInstall = false);
     /** @brief Check which versions of the dependencies are installed.
         @param Whether checkVersionsResult() will be emitted once the result is available.
     */
@@ -62,6 +62,8 @@ public:
     void addDependency(const QString &pipname, const QString &purpose, bool optional = false);
     /** @brief Ensure all dependenciew are installed. */
     bool installMissingDependencies();
+    /** @brief Get a script path ba name. */
+    const QString getScript(const QString &scriptName) const;
 
     friend class PythonDependencyMessage;
 
@@ -85,7 +87,7 @@ private:
     bool m_dependenciesChecked;
     QMutex m_versionsMutex;
     const QString locateScript(const QString &script);
-    QString runPackageScript(const QString &mode, bool concurrent = false, bool displayFeedback = true);
+    QString runPackageScript(const QString &mode, bool concurrent = false, bool displayFeedback = true, bool forceInstall = false);
     int versionToInt(const QString &version);
     /** @brief Create a python virtualenv */
     bool setupVenv();

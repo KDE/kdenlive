@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 class Monitor;
 class ProjectClip;
+class SamInterface;
 
 class AutomaskHelper : public QObject
 {
@@ -35,6 +36,7 @@ public Q_SLOTS:
 
 private:
     Monitor *m_monitor;
+    std::pair<QString, QString> m_maskScript;
     std::shared_ptr<ProjectClip> m_clip;
     int m_lastPos{0};
     QMap<int, QList<QPoint>> m_includePoints;

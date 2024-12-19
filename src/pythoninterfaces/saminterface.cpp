@@ -36,17 +36,12 @@ SamInterface::SamInterface(QObject *parent)
 
 const QString SamInterface::modelFolder(bool)
 {
-    QString modelDirectory = KdenliveSettings::sam_folder_path();
-    if (modelDirectory.isEmpty()) {
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
-        const QString modelName = QStringLiteral("sammodels");
-        if (!dir.exists(modelName)) {
-            dir.mkpath(modelName);
-        }
-        modelDirectory = QStandardPaths::locate(QStandardPaths::AppDataLocation, modelName, QStandardPaths::LocateDirectory);
-        KdenliveSettings::setSam_folder_path(modelDirectory);
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    const QString modelName = QStringLiteral("sam2models");
+    if (!dir.exists(modelName)) {
+        dir.mkpath(modelName);
     }
-    return modelDirectory;
+    return QStandardPaths::locate(QStandardPaths::AppDataLocation, modelName, QStandardPaths::LocateDirectory);
 }
 
 const QStringList SamInterface::getInstalledModels()
@@ -59,14 +54,8 @@ const QStringList SamInterface::getInstalledModels()
     QDir modelsFolder(modelDirectory);
     QStringList installedModels;
     QStringList files = modelsFolder.entryList({QStringLiteral("*.pt")}, QDir::Files);
-    QMap<QString, QString> modelsMap;
-    for (auto &m : KdenliveSettings::whisperAvailableModels()) {
-        modelsMap.insert(m.section(QLatin1Char('='), 1), m.section(QLatin1Char('='), 0, 0));
-    }
-    for (int i = 0; i < files.count(); i++) {
-        if (modelsMap.contains(files.at(i))) {
-            installedModels << modelsMap.value(files.at(i));
-        }
+    for (auto &f : files) {
+        installedModels << modelsFolder.absoluteFilePath(f);
     }
     return installedModels;
 }
@@ -98,4 +87,19 @@ QString SamInterface::speechScript()
 const QString SamInterface::getVenvPath()
 {
     return QStringLiteral("venv-sam");
+}
+
+const QString SamInterface::configForModel()
+{
+    KConfig conf(QStringLiteral("sammodelsinfo.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, QStringLiteral("models"));
+    QMap<QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> i(values);
+    while (i.hasNext()) {
+        i.next();
+        if (QFileInfo(i.value()).completeBaseName() == QFileInfo(KdenliveSettings::samModelFile()).completeBaseName()) {
+            return i.key();
+        }
+    }
+    return QString();
 }

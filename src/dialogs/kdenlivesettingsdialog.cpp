@@ -908,6 +908,7 @@ void KdenliveSettingsDialog::showPage(Kdenlive::ConfigPage page, int option)
     case Kdenlive::PageSpeech:
         checkSpeechDependencies();
         setCurrentPage(m_pageSpeech);
+        m_configSpeech.tabWidget->setCurrentIndex(option);
         break;
     default:
         setCurrentPage(m_pageMisc);
@@ -1375,6 +1376,10 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configSpeech.combo_wr_model->currentData().toString() != KdenliveSettings::whisperModel()) {
         KdenliveSettings::setWhisperModel(m_configSpeech.combo_wr_model->currentData().toString());
     }
+    if (m_configSpeech.combo_sam_model->currentData().toString() != KdenliveSettings::samModelFile()) {
+        KdenliveSettings::setSamModelFile(m_configSpeech.combo_sam_model->currentData().toString());
+        Q_EMIT pCore->samConfigUpdated();
+    }
     if (m_configSpeech.combo_wr_device->currentData().toString() != KdenliveSettings::whisperDevice()) {
         KdenliveSettings::setWhisperDevice(m_configSpeech.combo_wr_device->currentData().toString());
     }
@@ -1805,7 +1810,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         m_configEnv.kcfg_usePythonVenv->setChecked(KdenliveSettings::usePythonVenv());
     });
     m_configSpeech.noModelMessage->hide();
-    m_sttWhisper->checkPython(KdenliveSettings::usePythonVenv(), true);
+    m_sttWhisper->checkPython(true, true);
     m_downloadModelAction = new QAction(i18n("Download (1.4Gb)"), this);
     connect(m_downloadModelAction, &QAction::triggered, [this]() {
         disconnect(m_sttWhisper, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSpeechLog);
@@ -1901,7 +1906,7 @@ void KdenliveSettingsDialog::initSpeechPage()
         }
         m_configEnv.pythonSetupMessage->show();
         qApp->processEvents();
-        bool updatePython = m_sttWhisper->checkPython(state == Qt::Checked, true);
+        bool updatePython = m_sttWhisper->checkPython(true, true);
         if (!updatePython) {
             // Setting up venv failed
             m_configEnv.kcfg_usePythonVenv->setChecked(false);
@@ -1934,6 +1939,7 @@ void KdenliveSettingsDialog::initSpeechPage()
     m_configSpeech.combo_wr_device->setPlaceholderText(i18n("Probing..."));
     m_configSpeech.combo_wr_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     m_configSpeech.combo_wr_device->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+
     PythonDependencyMessage *msgWhisper = new PythonDependencyMessage(this, m_sttWhisper);
     m_configSpeech.message_layout_wr->addWidget(msgWhisper);
     QMap<QString, QString> whisperLanguages = m_sttWhisper->speechLanguages();
@@ -2051,12 +2057,23 @@ void KdenliveSettingsDialog::initSpeechPage()
     slotParseVoskDictionaries();
 
     // Sam
-    PythonDependencyMessage *pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, true);
-    m_configEnv.message_layout_sam->addWidget(pythonSamLabel);
+    PythonDependencyMessage *pythonSamLabel = new PythonDependencyMessage(this, m_samInterface, false);
+    m_configSpeech.message_layout_sam->addWidget(pythonSamLabel);
     // Also show VOSK setup messages in the python env page
     connect(m_samInterface, &AbstractPythonInterface::setupMessage,
             [pythonSamLabel](const QString message, int type) { pythonSamLabel->doShowMessage(message, KMessageWidget::MessageType(type)); });
-    m_samInterface->checkPython(KdenliveSettings::usePythonVenv(), true);
+    m_samInterface->checkPython(true, true);
+    connect(m_samInterface, &SpeechToText::installFeedback, this, &KdenliveSettingsDialog::showSamLog, Qt::QueuedConnection);
+    connect(m_samInterface, &SpeechToText::scriptFinished,
+            [pythonSamLabel]() { QMetaObject::invokeMethod(pythonSamLabel, "checkAfterInstall", Qt::QueuedConnection); });
+    m_configSpeech.combo_sam_model->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    connect(m_configSpeech.combo_sam_model, &QComboBox::currentIndexChanged, this, [this]() {
+        bool toDownload = m_configSpeech.combo_sam_model->currentData().toString().startsWith(QLatin1String("https"));
+        m_configSpeech.downloadSamButton->setEnabled(toDownload);
+    });
+    connect(m_configSpeech.downloadSamButton, &QPushButton::clicked, this, &KdenliveSettingsDialog::downloadSamModel);
+    // Fill models list
+    reloadSamModels();
 }
 
 void KdenliveSettingsDialog::downloadJobDone(bool success)
@@ -2098,6 +2115,81 @@ void KdenliveSettingsDialog::reloadWhisperModels()
     m_configSpeech.combo_wr_model->setCurrentIndex(ix);
     checkWhisperFolderSize();
     Q_EMIT pCore->speechModelUpdate(SpeechToTextEngine::EngineWhisper, models);
+}
+
+void KdenliveSettingsDialog::downloadSamModel()
+{
+    const QString url = m_configSpeech.combo_sam_model->currentData().toString();
+    if (!url.startsWith(QLatin1String("https"))) {
+        // TODO: error message
+        return;
+    }
+    const QUrl srcUrl(url);
+    QDir modelFolder(m_samInterface->modelFolder());
+    QUrl saveUrl = QUrl::fromLocalFile(modelFolder.absoluteFilePath(srcUrl.fileName()));
+    m_configSpeech.downloadSamButton->setEnabled(false);
+    KIO::FileCopyJob *getJob = KIO::file_copy(srcUrl, saveUrl, -1, KIO::Overwrite);
+    connect(getJob, &KJob::result, this, &KdenliveSettingsDialog::reloadSamModels);
+    getJob->start();
+}
+
+void KdenliveSettingsDialog::reloadSamModels()
+{
+    m_configSpeech.combo_sam_model->clear();
+    QStringList availableModels;
+    KConfig conf(QStringLiteral("sammodelsinfo.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, QStringLiteral("models"));
+    QMap<QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> i(values);
+    while (i.hasNext()) {
+        i.next();
+        availableModels << i.value();
+    }
+
+    const QStringList models = m_samInterface->getInstalledModels();
+    if (models.isEmpty()) {
+        // Show install button
+        m_configSpeech.noModelMessage->setText(i18n("Install a model - we recommand <b>turbo</b>"));
+        m_configSpeech.noModelMessage->addAction(m_downloadModelAction);
+        m_configSpeech.noModelMessage->show();
+        return;
+    }
+    m_configSpeech.noModelMessage->hide();
+    QIcon okIcon = QIcon::fromTheme(QStringLiteral("dialog-ok-apply"));
+    QIcon downloadIcon = QIcon::fromTheme(QStringLiteral("edit-download"));
+    for (auto &m : models) {
+        if (m.isEmpty()) {
+            continue;
+        }
+        QString modelName = QFileInfo(m).completeBaseName();
+        QString listedModel;
+        for (auto &av : availableModels) {
+            if (QFileInfo(QUrl(av).fileName()).completeBaseName() == modelName) {
+                listedModel = av;
+                break;
+            }
+        }
+        if (!listedModel.isEmpty()) {
+            availableModels.removeAll(listedModel);
+        }
+        modelName[0] = modelName.at(0).toUpper();
+        m_configSpeech.combo_sam_model->addItem(listedModel.isEmpty() ? downloadIcon : okIcon, modelName, m);
+        qDebug() << ":::: LOADED MODEL: " << modelName << " = " << m;
+    }
+    for (auto &m : availableModels) {
+        QString modelName = QFileInfo(QUrl(m).fileName()).completeBaseName();
+        modelName[0] = modelName.at(0).toUpper();
+        m_configSpeech.combo_sam_model->addItem(downloadIcon, modelName, m);
+    }
+    int ix = m_configSpeech.combo_sam_model->findData(KdenliveSettings::samModelFile());
+    qDebug() << "LOOKING FOR MODEL: " << KdenliveSettings::samModelFile() << " / IX: " << ix;
+
+    if (ix == -1) {
+        ix = 0;
+    }
+    m_configSpeech.combo_sam_model->setCurrentIndex(ix);
+    bool toDownload = m_configSpeech.combo_sam_model->currentData().toString().startsWith(QLatin1String("https"));
+    m_configSpeech.downloadSamButton->setEnabled(toDownload);
 }
 
 void KdenliveSettingsDialog::checkWhisperFolderSize()
@@ -2167,6 +2259,13 @@ void KdenliveSettingsDialog::showSpeechLog(const QString &jobData)
     m_configSpeech.script_log->show();
     m_configSpeech.script_log->appendPlainText(jobData);
     m_configSpeech.script_log->ensureCursorVisible();
+}
+
+void KdenliveSettingsDialog::showSamLog(const QString &jobData)
+{
+    m_configSpeech.script_sam_log->show();
+    m_configSpeech.script_sam_log->appendPlainText(jobData);
+    m_configSpeech.script_sam_log->ensureCursorVisible();
 }
 
 void KdenliveSettingsDialog::slotCheckSttConfig()

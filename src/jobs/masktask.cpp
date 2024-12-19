@@ -10,6 +10,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "kdenlivesettings.h"
+#include "pythoninterfaces/saminterface.h"
 
 #include <KLocalizedString>
 #include <KMessageWidget>
@@ -17,9 +18,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QImage>
 #include <QString>
 
-MaskTask::MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, int in, int out, QObject *object)
+MaskTask::MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, std::pair<QString, QString> scriptPath, int in, int out, QObject *object)
     : AbstractTask(owner, AbstractTask::MASKJOB, object)
     , m_properties(maskProperties)
+    , m_scriptPath(scriptPath)
     , m_in(in)
     , m_out(out)
 {
@@ -28,9 +30,9 @@ MaskTask::MaskTask(const ObjectId &owner, QMap<int, QString> maskProperties, int
 
 MaskTask::~MaskTask() {}
 
-void MaskTask::start(const ObjectId &owner, QMap<int, QString> maskProperties, int in, int out, QObject *object)
+void MaskTask::start(const ObjectId &owner, QMap<int, QString> maskProperties, std::pair<QString, QString> scriptPath, int in, int out, QObject *object)
 {
-    MaskTask *task = new MaskTask(owner, maskProperties, in, out, object);
+    MaskTask *task = new MaskTask(owner, maskProperties, scriptPath, in, out, object);
     pCore->taskManager.startTask(owner.itemId, task);
 }
 
@@ -44,8 +46,15 @@ void MaskTask::generateMask()
     }
     const QString outFile = m_properties.value(MaskTask::OUTPUTFILE);
     const QString outFramesFolder = m_properties.value(MaskTask::OUTPUTFOLDER);
-    QStringList args = {QStringLiteral("/home/six/git/sam2/venv/sam-objectmask.py"), QStringLiteral("-I"), m_properties.value(MaskTask::INPUTFOLDER),
-                        QStringLiteral("-O"), outFramesFolder};
+    QStringList args = {m_scriptPath.second,
+                        QStringLiteral("-I"),
+                        m_properties.value(MaskTask::INPUTFOLDER),
+                        QStringLiteral("-O"),
+                        outFramesFolder,
+                        QStringLiteral("-M"),
+                        KdenliveSettings::samModelFile(),
+                        QStringLiteral("-C"),
+                        SamInterface::configForModel()};
     if (!m_properties.value(MaskTask::POINTS).isEmpty()) {
         args << QStringLiteral("-P") << m_properties.value(MaskTask::POINTS) << QStringLiteral("-L") << m_properties.value(MaskTask::LABELS);
     }
@@ -53,11 +62,10 @@ void MaskTask::generateMask()
         args << QStringLiteral("-B") << m_properties.value(MaskTask::BOX);
     }
     qDebug() << "---- STARTING IMAGE GENERATION: " << args;
-    const QString exec("/home/six/git/sam2/venv/bin/python3");
     qDebug() << "//// STARTING PREVIEW GENERATION WITH: " << args;
     QObject::connect(this, &AbstractTask::jobCanceled, &m_scriptJob, &QProcess::kill, Qt::DirectConnection);
     QObject::connect(&m_scriptJob, &QProcess::readyReadStandardError, this, &MaskTask::processLogInfo);
-    m_scriptJob.start(exec, args);
+    m_scriptJob.start(m_scriptPath.first, args);
     m_scriptJob.waitForFinished(-1);
     m_isFfmpegJob = true;
     // Now convert frames to video

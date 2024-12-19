@@ -501,4 +501,6 @@ Q_SIGNALS:
     void saveTimelinePreview(const QString &path);
     /** Enable the built in transform effect for current item */
     void enableBuildInTransform();
+    /** refresh sam config */
+    void samConfigUpdated();
 };

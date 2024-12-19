@@ -41,6 +41,8 @@ if __name__ == "__main__":
     parser.add_argument("-B", "--box_coordinates", help="Box coordinates with frame, like '0=10,20,150,255'")
     parser.add_argument("-I", "--inputFolder", help="folder where input jpg files are stored", default="/tmp/src-frames")
     parser.add_argument("-O", "--output", help="path for rendered jpg image for preview of folder for rendering", default="/tmp/preview.png")
+    parser.add_argument("-M", "--model", help="path for the model")
+    parser.add_argument("-C", "--config", help="config for the model")
     args = parser.parse_args()
     if (args.point_coordinates == None or args.labels == None) and args.box_coordinates == None:
         config = vars(args)
@@ -58,6 +60,8 @@ if __name__ == "__main__":
     preview_frame = int(args.preview_frame)
     output_frame = args.output
     inputFolder = args.inputFolder
+    modelFile = args.model
+    configFile = args.config
 
 # select the device for computation
 if torch.cuda.is_available():
@@ -87,8 +91,9 @@ from sam2.sam2_image_predictor import SAM2ImagePredictor
 
 scriptFolder = os.path.dirname(os.path.abspath(__file__))
 print("RESULTING CURRENT SCRIPT FOLDER: ", scriptFolder)
-sam2_checkpoint = os.path.join(scriptFolder, "sam2.1_hiera_tiny.pt")
-model_cfg = "configs/sam2.1/sam2.1_hiera_t.yaml"
+#sam2_checkpoint = os.path.join(scriptFolder, "sam2.1_hiera_tiny.pt")
+sam2_checkpoint = modelFile
+model_cfg = configFile
 
 print(os.getcwd())
 
@@ -96,7 +101,7 @@ if preview_frame > -1:
     sam2_model = build_sam2(model_cfg, sam2_checkpoint, device=device)
     predictor = SAM2ImagePredictor(sam2_model)
 else:
-    predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device)
+    predictor = build_sam2_video_predictor(model_cfg, sam2_checkpoint, device=device, vos_optimized=True)
 
 def show_mask(mask, ax, obj_id=None, random_color=False):
     if random_color:
