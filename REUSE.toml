@@ -85,7 +85,7 @@ SPDX-FileCopyrightText = "Marco Gittler"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["data/Info.plist", "data/camcorderfilters.rc", "data/clipjobsettings.rc", "data/encodingprofiles.rc", "data/externalproxies.rc", "data/westley.xml"]
+path = ["data/Info.plist", "data/camcorderfilters.rc", "data/clipjobsettings.rc", "data/encodingprofiles.rc", "data/externalproxies.rc", "data/westley.xml", "data/scripts/automask/sammodelsinfo.rc"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Jean-Baptiste Mardelle"
 SPDX-License-Identifier = "CC0-1.0"
