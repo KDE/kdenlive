@@ -2147,13 +2147,6 @@ void KdenliveSettingsDialog::reloadSamModels()
     }
 
     const QStringList models = m_samInterface->getInstalledModels();
-    if (models.isEmpty()) {
-        // Show install button
-        m_configSpeech.noModelMessage->setText(i18n("Install a model - we recommand <b>turbo</b>"));
-        m_configSpeech.noModelMessage->addAction(m_downloadModelAction);
-        m_configSpeech.noModelMessage->show();
-        return;
-    }
     m_configSpeech.noModelMessage->hide();
     QIcon okIcon = QIcon::fromTheme(QStringLiteral("dialog-ok-apply"));
     QIcon downloadIcon = QIcon::fromTheme(QStringLiteral("edit-download"));

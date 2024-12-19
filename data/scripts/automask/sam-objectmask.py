@@ -62,6 +62,7 @@ if __name__ == "__main__":
     inputFolder = args.inputFolder
     modelFile = args.model
     configFile = args.config
+    borders = 0
 
 # select the device for computation
 if torch.cuda.is_available():
@@ -111,7 +112,14 @@ def show_mask(mask, ax, obj_id=None, random_color=False):
         cmap_idx = 0 if obj_id is None else obj_id
         color = np.array([*cmap(cmap_idx)[:3], 0.6])
     h, w = mask.shape[-2:]
+    mask = mask.astype(np.uint8)
     mask_image = mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
+    if borders:
+        import cv2
+        contours, _ = cv2.findContours(mask,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        # Try to smooth contours
+        contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
+        mask_image = cv2.drawContours(mask_image, contours, -1, (1, 1, 1, 0.5), thickness=2)
     ax.imshow(mask_image)
 
 
@@ -120,6 +128,14 @@ def save_mask(mask, filename, obj_id=None):
     color = [255, 255, 255, 255]
     h, w = mask.shape[-2:]
     mask_image = mask.reshape(h, w, 1) * color
+    mask = mask.astype(np.uint8)
+    if borders > 0:
+        import cv2
+        contours, _ = cv2.findContours(mask,cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        # Try to smooth contours
+        contours = [cv2.approxPolyDP(contour, epsilon=0.01, closed=True) for contour in contours]
+        mask_image = cv2.drawContours(mask_image, contours, -1, (200, 0, 0, 100), thickness=borders)
+
     pil_img = Image.fromarray(np.uint8(mask_image))
     pil_img.save(filename)
 
@@ -163,8 +179,6 @@ if preview_frame > -1:
         multimask_output=False)
 
     print(f"Saving preview image as: ", output_frame)
-    #mask_image =  mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
-    #save_mask((logits[0] > 0.0), output_frame, ann_obj_id)
     save_mask((masks[0]), output_frame, ann_obj_id)
     sys.exit()
 else:
